@@ -170,6 +170,7 @@ Headless versions if you want to use components with all your own styles:
 - [kbd](components/kbd): show keyboard shortcuts and key combinations in a styled inline element
 - [label](components/label): a label associated with a form input
 - [listbox](components/listbox): a list of selectable options with keyboard navigation
+- [loading](components/loading): a loading indicator, such as text, or image, or animation
 - [measurement-instance-input](components/measurement-instance-input): an input for entering a measurement value and unit
 - [measurement-instance-view](components/measurement-instance-view): a read-only display of a measurement value and unit
 - [measurement-system-input](components/measurement-system-input): an input for selecting a measurement system

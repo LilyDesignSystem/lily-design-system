@@ -148,6 +148,7 @@
 - kbd = Kbd = show keyboard shortcuts and key combinations in a styled inline element
 - label = Label = a label associated with a form input
 - listbox = Listbox = a list of selectable options with keyboard navigation
+- loading = Loading = a loading indicator, such as text, or image, or animation
 - measurement-instance-input = MeasurementInstanceInput = an input for entering a measurement value and unit
 - measurement-instance-view = MeasurementInstanceView = a read-only display of a measurement value and unit
 - measurement-system-input = MeasurementSystemInput = an input for selecting a measurement system
