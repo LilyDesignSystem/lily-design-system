@@ -1,0 +1,8 @@
+#!/bin/sh
+set -euf
+top="$(git rev-parse --show-toplevel)"
+mono=$(dirname "$top")
+"$mono/lily/bin/list-implementations" | 
+while read x; do 
+      rsync -av "$mono/lily/AGENTS/" "$mono/$x/AGENTS/"
+done
