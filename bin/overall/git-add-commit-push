@@ -4,7 +4,9 @@ top=$(dirname "$(git rev-parse --show-toplevel)")
 
 "$top/lily/bin/overall/list-project-paths" | 
 while read -r path; do
-    echo "$path"
-    cd "$path"
-    git add --all; git commit --message "$1"; git push;
+    (
+        echo "$path"
+        cd "$path"
+        git add --all; git commit --message "$1"; git push;
+    )
 done
