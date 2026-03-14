@@ -183,6 +183,7 @@ Headless versions if you want to use components with all your own styles:
 - [meter](components/meter): a gauge displaying a scalar value within a known range
 - [mockup-browser](components/mockup-browser): a box area that looks like a web browser
 - [mockup-phone](components/mockup-phone): a box area that looks like a mobile phone
+- [mockup-shell](components/mockup-shell): a box area that looks like a terminal shell
 - [month-input](components/month-input): an input for selecting a month and year
 - [navigation-menu](components/navigation-menu): a site-wide navigation menu with links
 - [net-promoter-score-view](components/net-promoter-score-view): a read-only display of a Net Promoter Score
