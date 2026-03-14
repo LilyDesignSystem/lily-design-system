@@ -6,7 +6,7 @@ Maintain the canonical component list, design tokens, and CSS style sheet templa
 
 ## Approach
 
-1. Maintain canonical component list (284 components) in AGENTS.md
+1. Maintain canonical component list (288 components) in AGENTS.md
 2. Maintain CSS style sheet template for component class names
 3. Provide tools for listing, testing, and verifying components
 4. Ensure all subprojects stay in sync with the canonical list
@@ -14,7 +14,7 @@ Maintain the canonical component list, design tokens, and CSS style sheet templa
 
 ## Acceptance Criteria
 
-- [ ] All 284 components documented in canonical list
+- [ ] All 288 components documented in canonical list
 - [ ] CSS style sheet template covers all component class names
 - [ ] Tools (list-components, test-components, test-implementations) work correctly
 - [ ] All subprojects reference the same canonical component list

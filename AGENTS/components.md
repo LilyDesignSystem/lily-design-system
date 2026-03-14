@@ -38,6 +38,14 @@
 - carousel = Carousel = a slideshow for cycling through content items
 - character-counter = CharacterCounter = a counter showing remaining or used characters in a text field
 - character = Character = a single character display element
+- chat-nav = ChatNav = a navigation container for chat information
+- chat-list = ChatList = an ordered list of chat list item components
+- chat-list-item = ChatListItem = one chat list item component, typically containing one chat message component
+- chat-message = ChatMessage = a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.
+- chat-nav = ChatNav = a navigation container for chat messasges
+- chat-list = ChatList = an ordered list of chat list item components
+- chat-list-item = ChatListItem = one chat list item component, typically containing one chat message component.
+- chat-message = ChatMessage = a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.
 - checkbox-input = CheckboxInput = a checkbox input for toggling a boolean value <input type="checkbox">
 - checkbox-group = CheckboxGroup = a group component that manages a collection of checkboxes with shared state
 - check-list = CheckList = an ordered list of check list item components
@@ -346,6 +354,7 @@
 - \*Nav \*List \*ListItem \*Link
   - AccordionNav AccordionList AccordionListItem AccordionLink
   - BreadcrumbNav BreadcrumbList BreadcrumbListItem BreadcrumbLink
+  - ChatNav ChatList ChatListItem
   - ContentsNav ContentsList ContentsListItem ContentsLink
   - PaginationNav PaginationList PaginationListItem PaginationLink
   - TreeNav TreeList TreeListItem TreeLink

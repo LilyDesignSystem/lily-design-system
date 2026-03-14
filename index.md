@@ -64,6 +64,10 @@ Headless versions if you want to use components with all your own styles:
 - [carousel](components/carousel): a slideshow for cycling through content items
 - [character-counter](components/character-counter): a counter showing remaining or used characters in a text field
 - [character](components/character): a single character display element
+- [chat-nav](components/chat-nav): a navigation container for chat information
+- [chat-list](components/chat-list): an ordered list of chat list item components
+- [chat-list-item](components/chat-list-item): one chat list item component, typically containing one chat message component
+- [chat-message](components/chat-message): a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.
 - [checkbox-input](components/checkbox-input): a checkbox input for toggling a boolean value
 - [checkbox-group](components/checkbox-group): a group component that manages a collection of checkboxes with shared state
 - [check-list](components/check-list): an ordered list of check list item components
@@ -347,6 +351,7 @@ Headless versions if you want to use components with all your own styles:
 - \*Nav \*List \*ListItem
   - AccordionNav AccordionList AccordionListItem
   - BreadcrumbNav BreadcrumbList BreadcrumbListItem
+  - ChatNav ChatList ChatListItem
   - ContentsNav ContentsList ContentsListItem
   - PaginationNav PaginationList PaginationListItem
   - TreeNav TreeList TreeListItem
