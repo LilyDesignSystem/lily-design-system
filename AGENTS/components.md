@@ -162,6 +162,7 @@
 - mockup-browser = MockupBrowser = a box area that looks like a web browser
 - mockup-phone = MockupPhone = a box area that looks like a mobile phone
 - mockup-shell = MockupShell = a box area that looks like a terminal shell
+- mockup-window = MockupWindow = a box area that looks like a desktop window
 - month-input = MonthInput = an input for selecting a month and year <input type="month">
 - navigation-menu = NavigationMenu = a site-wide navigation menu with links
 - net-promoter-score-view = NetPromoterScoreView = a read-only display of a Net Promoter Score
