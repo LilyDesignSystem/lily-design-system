@@ -186,6 +186,7 @@ Headless versions if you want to use components with all your own styles:
 - [mockup-browser](components/mockup-browser): a box area that looks like a web browser
 - [mockup-laptop](components/mockup-laptop): a box area that looks like a laptop computer
 - [mockup-phone](components/mockup-phone): a box area that looks like a mobile phone
+- [mockup-tablet-landscape](components/mockup-tablet-landscape): a box area that looks like a tablet computer in landscape mode
 - [mockup-shell](components/mockup-shell): a box area that looks like a terminal shell
 - [mockup-window](components/mockup-window): a box area that looks like a desktop window
 - [month-input](components/month-input): an input for selecting a month and year

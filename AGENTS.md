@@ -219,6 +219,7 @@ Files:
 - mockup-browser = MockupBrowser = a box area that looks like a web browser
 - mockup-laptop = MockupLaptop = a box area that looks like a laptop computer
 - mockup-phone = MockupPhone = a box area that looks like a mobile phone
+- mockup-tablet-landscape = MockupTabletLandscape = a box area that looks like a tablet computer in landscape mode
 - mockup-shell = MockupShell = a box area that looks like a terminal shell
 - mockup-window = MockupWindow = a box area that looks like a desktop window
 - month-input = MonthInput = an input for selecting a month and year <input type="month">
