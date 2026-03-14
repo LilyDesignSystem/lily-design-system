@@ -46,6 +46,7 @@
 - chat-list = ChatList = an ordered list of chat list item components
 - chat-list-item = ChatListItem = one chat list item component, typically containing one chat message component.
 - chat-message = ChatMessage = a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.
+- citation = Citation = a citation acknowledges the relevance of a work of another to the topic of discussion
 - checkbox-input = CheckboxInput = a checkbox input for toggling a boolean value <input type="checkbox">
 - checkbox-group = CheckboxGroup = a group component that manages a collection of checkboxes with shared state
 - check-list = CheckList = an ordered list of check list item components

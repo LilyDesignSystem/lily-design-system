@@ -68,6 +68,7 @@ Headless versions if you want to use components with all your own styles:
 - [chat-list](components/chat-list): an ordered list of chat list item components
 - [chat-list-item](components/chat-list-item): one chat list item component, typically containing one chat message component
 - [chat-message](components/chat-message): a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.
+- [citation](components/citation): a citation acknowledges the relevance of a work of another to the topic of discussion
 - [checkbox-input](components/checkbox-input): a checkbox input for toggling a boolean value
 - [checkbox-group](components/checkbox-group): a group component that manages a collection of checkboxes with shared state
 - [check-list](components/check-list): an ordered list of check list item components
