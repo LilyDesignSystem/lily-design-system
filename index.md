@@ -279,6 +279,7 @@ Headless versions if you want to use components with all your own styles:
 - [timeline-list](components/timeline-list): an ordered list of chronological events or milestones
 - [timeline-list-item](components/timeline-list-item): one event in a timeline list
 - [timer](components/timer): a countdown or elapsed time display
+- [timer-button](components/timer-button): a button with a timer that will automatically click after a given amount of time
 - [toast](components/toast): a brief auto-dismissing notification message
 - [toggle-group](components/toggle-group): a group of toggle buttons for selecting options
 - [toggle-button](components/toggle-button): a button that toggles between pressed and unpressed states

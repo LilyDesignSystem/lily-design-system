@@ -312,6 +312,7 @@ Files:
 - timeline-list = TimelineList = an ordered list of chronological events or milestones
 - timeline-list-item = TimelineListItem = one event in a timeline list
 - timer = Timer = a countdown or elapsed time display
+- timer-button = TimerButton = a button with a timer that will automatically click after a given amount of time
 - toast = Toast = a brief auto-dismissing notification message
 - toggle-group = ToggleGroup = a group of toggle buttons for selecting options
 - toggle-button = ToggleButton = a button that toggles between pressed and unpressed states
