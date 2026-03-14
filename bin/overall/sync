@@ -1,0 +1,8 @@
+#!/bin/sh
+set -euf
+top=$(dirname "$(git rev-parse --show-toplevel)")
+
+"$top/lily/bin/list-implementation-slugs" | 
+while read -r slug; do 
+    rsync -av "$top/lily/AGENTS/" "$top/$slug/AGENTS/"
+done

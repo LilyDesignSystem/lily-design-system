@@ -3,7 +3,7 @@ set -euf
 top="$(git rev-parse --show-toplevel)"
 
 mkdir_with_ai() {
-  dir="$1"
+  # dir="$1"
   mkdir "$1" && cd $_
   touch index.md
   ln -sfn index.md README.md

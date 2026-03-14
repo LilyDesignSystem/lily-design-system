@@ -1,5 +1,0 @@
-#!/bin/sh
-set -euf
-top="$(git rev-parse --show-toplevel)"
-mono=$(dirname "$top")
-find "$mono" -type d -depth 1 -name 'lily-*' -exec basename {} \; | sort

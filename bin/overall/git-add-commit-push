@@ -1,0 +1,9 @@
+#!/bin/sh
+set -euf
+top=$(dirname "$(git rev-parse --show-toplevel)")
+
+"$top/lily/bin/overall/list-project-paths" | 
+while read -r path; do
+    cd "$path"
+    git add --all; git commit --message "$1"; git push;
+done

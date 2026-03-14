@@ -1,8 +1,0 @@
-#!/bin/sh
-set -euf
-top="$(git rev-parse --show-toplevel)"
-mono=$(dirname "$top")
-"$mono/lily/bin/list-implementations" | 
-while read x; do 
-      git add --all; git commit --message "$1"; git push;
-done

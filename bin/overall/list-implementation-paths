@@ -1,0 +1,5 @@
+#!/bin/sh
+set -euf
+top=$(dirname "$(git rev-parse --show-toplevel)")
+
+find "$top" -type d -depth 1 -name 'lily-*' | sort
