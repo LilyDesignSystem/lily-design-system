@@ -2,7 +2,7 @@
 
 ## Done
 
-- [x] Create canonical component list (310 components)
+- [x] Create canonical component list (311 components)
 - [x] Create CSS style sheet template
 - [x] Create tools (list-components, test-components, test-implementations)
 - [x] Create AGENTS.md with component patterns and composition patterns
@@ -16,7 +16,7 @@
 
 ## In Progress
 
-- [ ] Verify all subprojects have all 310 canonical components implemented
+- [ ] Verify all subprojects have all 311 canonical components implemented
 - [ ] Cross-check component names across all subprojects for consistency
 
 ## Backlog

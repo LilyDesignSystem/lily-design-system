@@ -54,6 +54,7 @@
 - clipboard-copy-button = ClipboardCopyButton = a button that copies text to the clipboard
 - collapsible = Collapsible = a container that can be expanded or collapsed
 - code = Code = an inline code span for displaying short code snippets within surrounding text
+- code-block = CodeBlock = a block of formatted code with optional line numbers and line highlighting
 - color-input = ColorInput = an input for selecting a color value <input type="color">
 - color-picker = ColorPicker = a two-dimensional board for picking colors by hue and saturation
 - color-picker-button = ColorPickerButton = a button showing a color swatch in a color picker

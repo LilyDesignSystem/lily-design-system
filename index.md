@@ -76,6 +76,7 @@ Headless versions if you want to use components with all your own styles:
 - [clipboard-copy-button](components/clipboard-copy-button): a button that copies text to the clipboard
 - [collapsible](components/collapsible): a container that can be expanded or collapsed
 - [code](components/code): an inline code span for displaying short code snippets within surrounding text
+- [code-block](components/code-block): a block of formatted code with optional line numbers and line highlighting
 - [color-input](components/color-input): an input for selecting a color value
 - [color-picker](components/color-picker): a two-dimensional board for picking colors by hue and saturation
 - [color-picker-button](components/color-picker-button): a button showing a color swatch in a color picker
