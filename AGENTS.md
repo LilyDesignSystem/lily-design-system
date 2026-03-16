@@ -349,6 +349,8 @@ Files:
 - vital-sign-blood-pressure-diastolic-as-mmhg-input = VitalSignBloodPressureDiastolicAsMmhgInput = number input of one vital sign blood pressure diastolic with integers
 - vital-sign-blood-pressure-systolic-as-mmhg-view = VitalSignBloodPressureSystolicAsMmhgView = number display of one vital sign blood pressure systolic with integers
 - vital-sign-blood-pressure-systolic-as-mmhg-input = VitalSignBloodPressureSystolicAsMmhgInput = number input of one vital sign blood pressure systolic with integers
+- vital-sign-belly-circumference-as-cm-view = VitalSignBellyCircumferenceAsCmView = number display of one vital sign belly circumference in centimetres with integers
+- vital-sign-belly-circumference-as-cm-input = VitalSignBellyCircumferenceAsCmInput = number input of one vital sign belly circumference in centimetres with integers
 - vital-sign-body-fat-as-percentage-view = VitalSignBodyFatAsPercentageView = number display of one vital sign body fat percentage with one decimal point
 - vital-sign-body-fat-as-percentage-input = VitalSignBodyFatAsPercentageInput = number input of one vital sign body fat percentage with one decimal point
 - vital-sign-body-temperature-as-celcius-view = VitalSignBodyTemperatureAsCelciusView = number display of one vital sign body temperature in Celsius degrees with one decimal point

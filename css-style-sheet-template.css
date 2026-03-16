@@ -1068,6 +1068,14 @@
 .vital-sign-blood-pressure-systolic-as-mmhg-input {
 }
 
+/* vital-sign-belly-circumference-as-cm-view: number display of one vital sign belly circumference in centimetres with integers */
+.vital-sign-belly-circumference-as-cm-view {
+}
+
+/* vital-sign-belly-circumference-as-cm-input: number input of one vital sign belly circumference in centimetres with integers */
+.vital-sign-belly-circumference-as-cm-input {
+}
+
 /* vital-sign-body-fat-as-percentage-view: number display of one vital sign body fat percentage with one decimal point */
 .vital-sign-body-fat-as-percentage-view {
 }
