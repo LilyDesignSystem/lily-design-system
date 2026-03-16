@@ -75,7 +75,7 @@ date-field	DateField	a structured field for entering date components
 date-input	DateInput	an input for entering a date value <input type="date">
 date-range	DateRange	a display of a start and end date range
 datetime-local-input	DatetimeLocalInput	an input for entering a date and time without time zone <input type="datetime-local">
-date-and-time-and-now-input	DateAndTimeAndNowInput	an input for entering a date and time and a "now" button <input type="datetime-local"><button>
+date-time-now-input	DateTimeNowInput	an input for entering a date and time and "now" button <input type="date"><input type="time"><button type="button">
 details	Details	a disclosure widget that shows and hides content
 dial	Dial	a rotary dial control for selecting a value
 dial-group	DialGroup	a group of dial components
@@ -190,7 +190,6 @@ panel	Panel	a generic content panel with optional heading
 person	Person	a person component that contains other person-related information
 password-input	PasswordInput	an input for entering a password with obscured text <input type="password">
 password-input-or-text-input-div	PasswordInputOrTextInputDiv	an input for entering a password <input type="password"> or text <input type="text"> with show/hide toggle
-place	Place	a place component that contains other place-related information
 pin-input-div	PinInputDiv	a series of single-digit inputs for entering a PIN or OTP code
 popover	Popover	a floating content box anchored to a trigger element
 popup	Popup	a temporary overlay that appears above page content

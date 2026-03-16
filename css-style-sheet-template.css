@@ -264,6 +264,10 @@
 .date-range {
 }
 
+/* date-time-now-input: an input for entering a date and time and "now" button */
+.date-time-now-input {
+}
+
 /* datetime-local-input: an input for entering a date and time without time zone */
 .datetime-local-input {
 }
