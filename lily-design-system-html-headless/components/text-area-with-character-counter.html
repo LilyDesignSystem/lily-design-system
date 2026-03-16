@@ -1,0 +1,41 @@
+<!-- text-area-with-character-counter.html -->
+<!-- TextAreaWithCharacterCounter component -->
+<!--
+  Description: a multi-line text area with a caption below that is a character counter
+  HTML tag: <div>
+  CSS class: text-area-with-character-counter
+  Keyboard: Standard textarea behavior
+  Accessibility: aria-label, aria-describedby links textarea to counter, aria-live="polite" on counter
+  Usage:
+    <div class="text-area-with-character-counter">
+      <textarea aria-label="Feedback" aria-describedby="counter-1" maxlength="500"></textarea>
+      <span id="counter-1" aria-live="polite">0 of 500 characters</span>
+    </div>
+-->
+
+<div
+  class="text-area-with-character-counter"
+>
+  <!-- Consumer provides content -->
+</div>
+
+<script>
+  // TextAreaWithCharacterCounter behavior
+  (function() {
+    'use strict';
+    document.querySelectorAll('.text-area-with-character-counter').forEach(function(el) {
+      var textarea = el.querySelector('textarea');
+      var counter = el.querySelector('[aria-live]');
+      if (textarea && counter) {
+        var maxLength = parseInt(textarea.getAttribute('maxlength'), 10) || 0;
+        var template = el.getAttribute('data-counter-template') || '{count} of {max} characters';
+        function updateCounter() {
+          var count = textarea.value.length;
+          counter.textContent = template.replace('{count}', count).replace('{max}', maxLength);
+        }
+        textarea.addEventListener('input', updateCounter);
+        updateCounter();
+      }
+    });
+  })();
+</script>

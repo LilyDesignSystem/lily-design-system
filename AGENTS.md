@@ -312,6 +312,7 @@ Files:
 - tel-link = TelLink = a tel hyperlink for a telephone number
 - text-input = TextInput = a single-line text input field <input type="text">
 - text-input-with-search = TextInputWithSearch = a single-line text input field <input type="text"> with search capability
+- text-area-with-character-counter = TextAreaWithCharacterCounter = a multi-line text area with a caption below that is a character counter "[number] of [maximum] characters"
 - textarea = Textarea = a multi-line text input area
 - theme-picker = ThemePicker = a picker for selecting a visual theme
 - theme-picker-button = ThemePickerButton = a picker button for selecting a visual theme

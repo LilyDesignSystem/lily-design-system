@@ -932,6 +932,10 @@
 .text-input-with-search {
 }
 
+/* text-area-with-character-counter: a multi-line text area with character counter */
+.text-area-with-character-counter {
+}
+
 /* textarea: a multi-line text input area */
 .textarea {
 }
