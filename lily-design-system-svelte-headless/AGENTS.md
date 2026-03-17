@@ -126,14 +126,14 @@ Prohibit `@testing-library/jest-dom`. All tests use vitest built-in matchers onl
 ## Setup
 
 ```sh
-npm install --save-dev @sveltejs/vite-plugin-svelte
-npm install --save-dev @sveltejs/adapter-auto
-npm install --save-dev svelte
-npm install --save-dev @vitest/ui
-npm install --save-dev vitest
-npm install --save-dev @testing-library/svelte
-npm install --save-dev @testing-library/user-event
-npm install --save-dev jsdom
+pnpm install --save-dev @sveltejs/vite-plugin-svelte
+pnpm install --save-dev @sveltejs/adapter-auto
+pnpm install --save-dev svelte
+pnpm install --save-dev @vitest/ui
+pnpm install --save-dev vitest
+pnpm install --save-dev @testing-library/svelte
+pnpm install --save-dev @testing-library/user-event
+pnpm install --save-dev jsdom
 ```
 
 ## Template
@@ -169,7 +169,7 @@ npm install --save-dev jsdom
 ## Implementation plan
 
 - Infrastructure prerequisites: Missing svelte dependency, vitest-setup.js, test pipeline verification
-- Verify Test Pipeline: run `npm test` to confirm testing works end-to-end before writing component tests.
+- Verify Test Pipeline: run `pnpm test` to confirm testing works end-to-end before writing component tests.
 - Templates: .svelte, .test.ts, .md
 - Implementation priority: start with infrastructure tasks first, then proceed alphabetically
 - Batch size: Implement as many components as possible per session, until out of tokens

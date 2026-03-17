@@ -15,7 +15,7 @@
     import InformationCallout from "$lib/components/InformationCallout.svelte";
     import WarningCallout from "$lib/components/WarningCallout.svelte";
     import CareCard from "$lib/components/CareCard.svelte";
-    import MedicalRecordRedBox from "$lib/components/MedicalRecordRedBox.svelte";
+    import MedicalBannerBoxForDanger from "$lib/components/MedicalBannerBoxForDanger.svelte";
     import BackLink from "$lib/components/BackLink.svelte";
 </script>
 
@@ -128,13 +128,13 @@
                     </ul>
                 </CareCard>
 
-                <MedicalRecordRedBox label="Critical allergy information">
+                <MedicalBannerBoxForDanger label="Critical allergy information">
                     <h4>Allergies</h4>
                     <p>
                         <strong>Penicillin</strong> — Severe anaphylactic reaction.
                         Do NOT administer.
                     </p>
-                </MedicalRecordRedBox>
+                </MedicalBannerBoxForDanger>
             </section>
 
             <section id="panels">

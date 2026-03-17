@@ -749,10 +749,10 @@ export const components = [
     description: "a read-only display of a measurement unit",
   },
   {
-    slug: "medical-record-red-box",
-    name: "MedicalRecordRedBox",
+    slug: "medical-banner-box-for-danger",
+    name: "MedicalBannerBoxForDanger",
     description:
-      "a red highlighted box for critical medical record information",
+      "a medical record banner box for danger information e.g. reactions, warnings, alarms, etc.",
   },
   {
     slug: "menu",

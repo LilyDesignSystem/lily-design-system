@@ -50,9 +50,7 @@ export const componentDemos: Record<string, string> = {
   'clipboard-copy-button': '<button class="clipboard-copy-button">Copy to clipboard</button>',
   'collapsible': '<div class="collapsible"><button aria-expanded="false">Show more</button><div hidden>Collapsed content</div></div>',
   'code': '<code class="code">const x = 42;</code>',
-  'code-block': '<pre class="code-block"><code>function hello() {
-  return "world";
-}</code></pre>',
+  'code-block': '<pre class="code-block"><code>function hello() { return "world"; }</code></pre>',
   'color-input': '<label class="label" for="demo-input">Label</label><input class="color-input" type="color" id="demo-input" aria-label="ColorInput" />',
   'color-picker': '<div class="color-picker" aria-label="Color picker"><button class="color-picker-button" style="background:#ff0000" aria-label="Red"></button><button class="color-picker-button" style="background:#00ff00" aria-label="Green"></button><button class="color-picker-button" style="background:#0000ff" aria-label="Blue"></button></div>',
   'color-picker-button': '<button class="color-picker-button" style="background:#ff0000" aria-label="Red"></button>',
@@ -161,7 +159,7 @@ export const componentDemos: Record<string, string> = {
   'measurement-system-view': '<span class="measurement-system-view">Metric</span>',
   'measurement-unit-input': '<select class="measurement-unit-input" aria-label="Unit"><option>cm</option><option>m</option><option>km</option></select>',
   'measurement-unit-view': '<span class="measurement-unit-view">cm</span>',
-  'medical-record-red-box': '<div class="medical-record-red-box"><h3>Critical</h3><p>Allergic to penicillin.</p></div>',
+  'medical-banner-box-for-danger': '<div class="medical-banner-box-for-danger" role="region" aria-label="Allergies" data-type="danger"><h3>Critical</h3><p>Allergic to penicillin.</p></div>',
   'menu': '<div class="menu" role="menu"><div class="menu-item" role="menuitem">Action 1</div><div class="menu-item" role="menuitem">Action 2</div></div>',
   'menu-item': '<div class="menu-item" role="menuitem">Action</div>',
   'menu-bar': '<div class="menu-bar" role="menubar"><button class="menu-bar-button" role="menuitem">File</button><button class="menu-bar-button" role="menuitem">Edit</button></div>',

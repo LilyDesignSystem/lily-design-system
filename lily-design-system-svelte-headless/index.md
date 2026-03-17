@@ -446,9 +446,9 @@ A headless Svelte 5 component library with 332 components. All components are he
 Vitest + @testing-library/svelte for component testing. No @testing-library/jest-dom.
 
 ```sh
-npm test          # run all tests
-npm run test:ui   # open vitest UI
-npm run test:watch # watch mode
+pnpm test          # run all tests
+pnpm run test:ui   # open vitest UI
+pnpm run test:watch # watch mode
 ```
 
 ## Accessibility

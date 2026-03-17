@@ -13,11 +13,28 @@
     "vue": "^3.5.13"
   },
   "devDependencies": {
-    "@testing-library/vue": "^8.1.0",
     "@testing-library/user-event": "^14.6.1",
+    "@testing-library/vue": "^8.1.0",
     "@vitejs/plugin-vue": "^5.2.3",
     "jsdom": "^28.0.0",
     "typescript": "^5.7.0",
     "vitest": "^4.0.18"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild"
+    ],
+    "overrides": {
+      "serialize-javascript@<=7.0.2": ">=7.0.3",
+      "svgo@=4.0.0": ">=4.0.1",
+      "tar@<=7.5.9": ">=7.5.10",
+      "tar@<=7.5.10": ">=7.5.11",
+      "devalue@<5.6.4": ">=5.6.4",
+      "unhead@<=2.1.10": ">=2.1.11",
+      "devalue@<=5.6.3": ">=5.6.4",
+      "undici@>=7.0.0 <7.24.0": ">=7.24.0",
+      "undici@>=7.17.0 <7.24.0": ">=7.24.0"
+    }
   }
 }

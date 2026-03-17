@@ -59,7 +59,7 @@ export type * from "@pgds/Button";
 
 ### Stack
 
-- **vitest** (not Jest) — `npm test` runs `vitest run`
+- **vitest** (not Jest) — `pnpm test` runs `vitest run`
 - **@testing-library/react** — render and query
 - **@testing-library/user-event** — user interaction simulation
 - **jsdom** — DOM environment

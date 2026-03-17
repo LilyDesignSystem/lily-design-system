@@ -30,9 +30,9 @@ Vue 3 + Nuxt 3 example application demonstrating all 332 components from the Lil
 
 | Command         | Description              |
 | --------------- | ------------------------ |
-| `npm run dev`   | Start development server |
-| `npm run build` | Build for production     |
-| `npm test`      | Run all 1342 tests       |
+| `pnpm run dev`   | Start development server |
+| `pnpm run build` | Build for production     |
+| `pnpm test`      | Run all 1342 tests       |
 
 ### Project Structure
 

@@ -18,7 +18,7 @@ A headless Vue 3 component library with 332 components. All components are headl
 ### Install
 
 ```bash
-npm install lily-design-system-vue-headless
+pnpm install lily-design-system-vue-headless
 ```
 
 ### Peer Dependencies
@@ -196,9 +196,9 @@ See the [parent project](https://github.com/LilyDesignSystem/lily) for the full 
 Vitest + Vue Testing Library for component testing. No @testing-library/jest-dom.
 
 ```sh
-npm test          # run all tests
-npm run test:ui   # open vitest UI
-npm run test:watch # watch mode
+pnpm test          # run all tests
+pnpm run test:ui   # open vitest UI
+pnpm run test:watch # watch mode
 ```
 
 ## Accessibility

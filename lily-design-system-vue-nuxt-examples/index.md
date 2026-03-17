@@ -15,8 +15,8 @@ Vue 3 + Nuxt 3 example application demonstrating all 332 components from the [Li
 ## Quick Start
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 Open [http://localhost:3320](http://localhost:3320).
@@ -25,10 +25,10 @@ Open [http://localhost:3320](http://localhost:3320).
 
 | Command         | Description              |
 | --------------- | ------------------------ |
-| `npm run dev`   | Start development server |
-| `npm run build` | Build for production     |
-| `npm start`     | Start production server  |
-| `npm test`      | Run all tests            |
+| `pnpm run dev`   | Start development server |
+| `pnpm run build` | Build for production     |
+| `pnpm start`     | Start production server  |
+| `pnpm test`      | Run all tests            |
 
 ## Project Structure
 
@@ -192,9 +192,9 @@ Components are headless (unstyled) by default. Each component renders a semantic
 Tests use **Vitest** with **Vue Testing Library** and **jsdom**. Vitest built-in matchers only (no jest-dom).
 
 ```bash
-npm test                                  # Run all tests
-npx vitest run tests/components/          # Run component tests
-npx vitest run tests/components/Button    # Run a specific test
+pnpm test                                  # Run all tests
+pnpm exec vitest run tests/components/          # Run component tests
+pnpm exec vitest run tests/components/Button    # Run a specific test
 ```
 
 ## Tech Stack

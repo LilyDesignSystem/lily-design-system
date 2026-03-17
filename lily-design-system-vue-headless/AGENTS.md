@@ -69,7 +69,7 @@ Every component's first HTML element sets a class with the kebab-case name:
 
 ### Stack
 
-- **vitest** (not Jest) — `npm test` runs `vitest run`
+- **vitest** (not Jest) — `pnpm test` runs `vitest run`
 - **Vue Testing Library** — render and query
 - **@testing-library/user-event** — user interaction simulation
 - **jsdom** — DOM environment

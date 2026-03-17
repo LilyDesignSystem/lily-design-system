@@ -8,7 +8,7 @@ Implement all headless components using Plain HTML + vanilla JavaScript. Every c
 
 - Framework: Plain HTML + vanilla JavaScript
 - Test framework: WebDriverIO
-- Test command: `npx wdio run wdio.conf.js`
+- Test command: `pnpm exec wdio run wdio.conf.js`
 - Component file extension: .html
 - Component directory: components/
 
@@ -37,7 +37,7 @@ Implement all headless components using Plain HTML + vanilla JavaScript. Every c
 - [x] All 332 components from the canonical list are implemented
 - [x] Each component file follows the architecture in AGENTS.md
 - [ ] Every component has a corresponding test file
-- [ ] All tests pass: `npx wdio run wdio.conf.js`
+- [ ] All tests pass: `pnpm exec wdio run wdio.conf.js`
 - [x] Zero CSS in any component — fully headless
 - [x] WCAG 2.2 AAA compliant (ARIA attributes, keyboard navigation)
 - [x] No hardcoded user-facing strings (internationalization-ready)

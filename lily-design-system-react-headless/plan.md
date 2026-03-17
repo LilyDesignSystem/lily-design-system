@@ -8,7 +8,7 @@ Implement all headless components using React 19 + TypeScript. Every component m
 
 - Framework: React 19 + TypeScript
 - Test framework: Vitest
-- Test command: `npx vitest run`
+- Test command: `pnpm exec vitest run`
 - Component file extension: .tsx
 - Component directory: components/
 
@@ -37,7 +37,7 @@ Implement all headless components using React 19 + TypeScript. Every component m
 - [ ] All 332 components from the canonical list are implemented
 - [x] Each component file follows the architecture in AGENTS.md
 - [ ] Every component has a corresponding test file
-- [ ] All tests pass: `npx vitest run`
+- [ ] All tests pass: `pnpm exec vitest run`
 - [x] Zero CSS in any component — fully headless
 - [x] WCAG 2.2 AAA compliant (ARIA attributes, keyboard navigation)
 - [x] No hardcoded user-facing strings (internationalization-ready)

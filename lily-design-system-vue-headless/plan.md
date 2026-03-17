@@ -8,7 +8,7 @@ Implement all headless components using Vue 3 Composition API + TypeScript. Ever
 
 - Framework: Vue 3 Composition API + TypeScript
 - Test framework: Vitest
-- Test command: `npx vitest run`
+- Test command: `pnpm exec vitest run`
 - Component file extension: .vue
 - Component directory: components/
 
@@ -37,7 +37,7 @@ Implement all headless components using Vue 3 Composition API + TypeScript. Ever
 - [ ] All 332 components from the canonical list are implemented
 - [x] Each component file follows the architecture in AGENTS.md
 - [ ] Every component has a corresponding test file
-- [ ] All tests pass: `npx vitest run`
+- [ ] All tests pass: `pnpm exec vitest run`
 - [x] Zero CSS in any component — fully headless
 - [x] WCAG 2.2 AAA compliant (ARIA attributes, keyboard navigation)
 - [x] No hardcoded user-facing strings (internationalization-ready)

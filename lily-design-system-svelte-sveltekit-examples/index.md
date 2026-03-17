@@ -14,8 +14,8 @@ Svelte 5 + SvelteKit 2 example application demonstrating all 332 components from
 ## Quick Start
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173).
@@ -24,10 +24,10 @@ Open [http://localhost:5173](http://localhost:5173).
 
 | Command           | Description              |
 | ----------------- | ------------------------ |
-| `npm run dev`     | Start development server |
-| `npm run build`   | Build for production     |
-| `npm run preview` | Preview production build |
-| `npm test`        | Run all tests            |
+| `pnpm run dev`     | Start development server |
+| `pnpm run build`   | Build for production     |
+| `pnpm run preview` | Preview production build |
+| `pnpm test`        | Run all tests            |
 
 ## Project Structure
 
@@ -167,8 +167,8 @@ Components are headless (unstyled) by default. Each component renders a semantic
 Tests use **Vitest** with **Svelte Testing Library** and **jsdom**. Vitest built-in matchers only (no jest-dom).
 
 ```bash
-npm test                        # Run all tests
-npx vitest run src/             # Run all tests
+pnpm test                        # Run all tests
+pnpm exec vitest run src/             # Run all tests
 ```
 
 ## Tech Stack

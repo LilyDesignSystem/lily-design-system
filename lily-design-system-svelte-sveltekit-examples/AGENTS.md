@@ -30,7 +30,7 @@ Svelte 5 + SvelteKit 2 example application demonstrating all 332 components from
 
 ### Stack
 
-- **vitest** (not Jest) — `npm test` runs `vitest run`
+- **vitest** (not Jest) — `pnpm test` runs `vitest run`
 - **@testing-library/svelte** — render and query
 - **@testing-library/user-event** — user interaction simulation
 - **jsdom** — DOM environment

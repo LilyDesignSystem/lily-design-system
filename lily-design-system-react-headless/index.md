@@ -20,7 +20,7 @@ A comprehensive headless React component library with 332 accessible, unstyled c
 ### Install
 
 ```bash
-npm install lily-design-system-react-headless
+pnpm install lily-design-system-react-headless
 ```
 
 ### Peer Dependencies
@@ -827,7 +827,7 @@ function CollapsibleContent() {
       <Collapsible summary="Installation steps">
         <ol>
           <li>Clone the repository</li>
-          <li>Run npm install</li>
+          <li>Run pnpm install</li>
           <li>Import components as needed</li>
         </ol>
       </Collapsible>
@@ -1047,30 +1047,30 @@ Many components expose data attributes for CSS-based styling:
 ### Prerequisites
 
 - Node.js 18+
-- npm 9+
+- pnpm 9+
 
 ### Setup
 
 ```bash
 git clone https://github.com/lily/lily-design-system-react-headless.git
 cd lily-design-system-react-headless
-npm install
+pnpm install
 ```
 
 ### Testing
 
 ```bash
 # Run all tests (332 files)
-npm test
+pnpm test
 
 # Run tests in watch mode
-npm run test:watch
+pnpm run test:watch
 
 # Run tests with UI
-npm run test:ui
+pnpm run test:ui
 
 # Run a specific component test
-npx vitest run components/Button.test.tsx
+pnpm exec vitest run components/Button.test.tsx
 ```
 
 ### Tech Stack
