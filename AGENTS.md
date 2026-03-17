@@ -240,6 +240,8 @@ Files:
 - net-promoter-score-picker = NetPromoterScorePicker = a picker for selecting a 0-10 Net Promoter Score
 - net-promoter-score-picker-button = NetPromoterScorePickerButton = a picker button for selecting a 0-10 Net Promoter Score
 - notification = Notification = a brief message about an event or update
+- northern-ireland-health-and-care-number-view = NorthernIrelandHealthAndCareNumberView = a read-only display of Northern Ireland Health and Care (H&C) Number unique national healthcare identifier
+- northern-ireland-health-and-care-number-input = NorthernIrelandHealthAndCareNumberInput = an input for entering a Northern Ireland Health and Care (H&C) Number unique national healthcare identifier
 - number-input = NumberInput = an input for entering a numeric value with validation <input type="number">
 - option = Option = an option element within a select dropdown
 - organization = Organization = an organization component that contains other organization-related information

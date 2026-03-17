@@ -668,6 +668,14 @@
 .notification {
 }
 
+/* northern-ireland-health-and-care-number-view: a read-only display of NI H&C Number */
+.northern-ireland-health-and-care-number-view {
+}
+
+/* northern-ireland-health-and-care-number-input: an input for entering NI H&C Number */
+.northern-ireland-health-and-care-number-input {
+}
+
 /* number-input: an input for entering a numeric value with validation */
 .number-input {
 }
