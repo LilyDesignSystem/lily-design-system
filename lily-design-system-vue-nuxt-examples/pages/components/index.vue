@@ -22,11 +22,11 @@ const filtered = computed(() =>
 
         <p>{{ filtered.length }} components</p>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
-            <article v-for="c in filtered" :key="c.slug" class="card" style="padding: var(--nhs-space-4);">
-                <h3><NuxtLink :to="`/components/${c.slug}`">{{ c.name }}</NuxtLink></h3>
-                <p>{{ c.description }}</p>
-            </article>
-        </div>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+            <li v-for="c in filtered" :key="c.slug" style="border-bottom: 1px solid var(--nhs-color-border, #d8dde0); padding: var(--nhs-space-3) 0;">
+                <NuxtLink :to="`/components/${c.slug}`" style="font-weight: 700;">{{ c.name }}</NuxtLink>
+                <span style="color: var(--nhs-color-secondary, #4c6272); margin-left: 0.5rem;">{{ c.description }}</span>
+            </li>
+        </ul>
     </main>
 </template>

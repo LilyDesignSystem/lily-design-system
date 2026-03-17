@@ -9,15 +9,15 @@
 
 <p>@filtered.Count() components</p>
 
-<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
+<ul style="list-style: none; padding: 0; margin: 0;">
     @foreach (var c in filtered)
     {
-        <article class="card" style="padding: var(--nhs-space-4);">
-            <h3><a href="/components/@c.Slug">@c.Name</a></h3>
-            <p>@c.Description</p>
-        </article>
+        <li style="border-bottom: 1px solid var(--nhs-color-border, #d8dde0); padding: var(--nhs-space-3) 0;">
+            <a href="/components/@c.Slug" style="font-weight: 700;">@c.Name</a>
+            <span style="color: var(--nhs-color-secondary, #4c6272); margin-left: 0.5rem;">@c.Description</span>
+        </li>
     }
-</div>
+</ul>
 
 @code {
     private string search = "";

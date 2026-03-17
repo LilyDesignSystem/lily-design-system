@@ -36,18 +36,14 @@
 
     <p>{filtered.length} components</p>
 
-    <div
-        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;"
-    >
+    <ul style="list-style: none; padding: 0; margin: 0;">
         {#each filtered as component}
-            <article class="card" style="padding: var(--nhs-space-4);">
-                <h3>
-                    <a href="/components/{component.slug}">{component.name}</a>
-                </h3>
-                <p>{component.description}</p>
-            </article>
+            <li style="border-bottom: 1px solid var(--nhs-color-border, #d8dde0); padding: var(--nhs-space-3) 0;">
+                <a href="/components/{component.slug}" style="font-weight: 700;">{component.name}</a>
+                <span style="color: var(--nhs-color-secondary, #4c6272); margin-left: 0.5rem;">{component.description}</span>
+            </li>
         {/each}
-    </div>
+    </ul>
 </main>
 
 <Footer label="Site footer">

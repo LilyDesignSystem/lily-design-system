@@ -74,7 +74,8 @@
       "Bash(echo:*)",
       "Bash(/Users/jph/git/lilydesignsystem/lily-design-system/bin/sync)",
       "Bash(/Users/jph/git/lilydesignsystem/lily-design-system/bin/test 2>&1 | tail -3 && echo \"PASS\")",
-      "Bash(/Users/jph/git/lilydesignsystem/lily-design-system/bin/sync 2>&1 | grep -c \"components.md\" && /Users/jph/git/lilydesignsystem/lily-design-system/bin/test 2>&1 | tail -1 && echo \"PASS\")"
+      "Bash(/Users/jph/git/lilydesignsystem/lily-design-system/bin/sync 2>&1 | grep -c \"components.md\" && /Users/jph/git/lilydesignsystem/lily-design-system/bin/test 2>&1 | tail -1 && echo \"PASS\")",
+      "Bash(sed:*)"
     ]
   }
 }

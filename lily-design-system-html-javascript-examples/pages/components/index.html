@@ -42,12 +42,7 @@
 
             <p id="result-count" aria-live="polite"></p>
 
-            <div
-                id="component-grid"
-                class="card-grid"
-                role="list"
-                aria-label="Component list"
-            ></div>
+            <ul id="component-list" style="list-style: none; padding: 0; margin: 0;"></ul>
         </main>
 
         <footer class="footer" aria-label="Site footer">
@@ -1691,30 +1686,27 @@
                 ];
 
                 var searchInput = document.getElementById("component-search");
-                var grid = document.getElementById("component-grid");
+                var list_el = document.getElementById("component-list");
                 var resultCount = document.getElementById("result-count");
 
                 function renderCards(list) {
-                    grid.innerHTML = "";
+                    list_el.innerHTML = "";
                     for (var i = 0; i < list.length; i++) {
                         var c = list[i];
-                        var card = document.createElement("div");
-                        card.className = "card";
-                        card.setAttribute("role", "listitem");
-                        card.innerHTML =
-                            '<h3><a href="component.html?slug=' +
+                        var li = document.createElement("li");
+                        li.style.borderBottom = "1px solid var(--nhs-color-border, #d8dde0)";
+                        li.style.padding = "var(--nhs-space-3) 0";
+                        li.innerHTML =
+                            '<a href="component.html?slug=' +
                             encodeURIComponent(c.slug) +
-                            '">' +
+                            '" style="font-weight: 700;">' +
                             c.name +
-                            "</a></h3>" +
-                            "<p><code>" +
-                            c.slug +
-                            "</code></p>" +
-                            "<p>" +
+                            "</a>" +
+                            '<span style="color: var(--nhs-color-secondary, #4c6272); margin-left: 0.5rem;">' +
                             c.description.charAt(0).toUpperCase() +
                             c.description.slice(1) +
-                            ".</p>";
-                        grid.appendChild(card);
+                            ".</span>";
+                        list_el.appendChild(li);
                     }
                     resultCount.textContent =
                         list.length +

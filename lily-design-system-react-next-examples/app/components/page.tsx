@@ -6,14 +6,14 @@ export default function ComponentsPage() {
         <main className="page-wrapper">
             <h1>Components</h1>
             <p>284 headless components</p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "1rem" }}>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                 {components.map((c) => (
-                    <article key={c.slug} className="card" style={{ padding: "var(--nhs-space-4)" }}>
-                        <h3><Link href={`/components/${c.slug}`}>{c.name}</Link></h3>
-                        <p>{c.description}</p>
-                    </article>
+                    <li key={c.slug} style={{ borderBottom: "1px solid var(--nhs-color-border, #d8dde0)", padding: "var(--nhs-space-3) 0" }}>
+                        <Link href={`/components/${c.slug}`} style={{ fontWeight: 700 }}>{c.name}</Link>
+                        <span style={{ color: "var(--nhs-color-secondary, #4c6272)", marginLeft: "0.5rem" }}>{c.description}</span>
+                    </li>
                 ))}
-            </div>
+            </ul>
         </main>
     );
 }
