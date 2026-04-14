@@ -43,8 +43,14 @@ A five-star rating picker button is an individual button within a FiveStarRating
 
 ## When to Use
 
-- Use as a child of FiveStarRatingPicker to represent one star level in the rating scale.
-- Avoid using this component outside of a FiveStarRatingPicker context; it relies on the parent for group semantics.
+- Use inside FiveStarRatingPicker to represent one star level in the rating scale.
+- Use when each star needs individual styling, icons, or interactive behavior.
+- Use to provide custom star shapes, colors, or hover effects for each level.
+
+## When Not to Use
+
+- Do not use outside of a FiveStarRatingPicker -- it requires the parent picker for group semantics.
+- Do not use as a standalone toggle button -- use ToggleButton instead.
 
 ## Headless
 

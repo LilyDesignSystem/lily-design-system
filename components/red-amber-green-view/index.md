@@ -21,12 +21,27 @@ The component renders as a `<span>` element with an accessible label, making the
 
 ## Usage
 
+Display RAG status in a project dashboard:
+
 ```html
 <RedAmberGreenView label="Project status" value="green" />
 ```
 
+Display dynamic status in a summary card:
+
 ```html
-<RedAmberGreenView label="Health check" value={status} />
+<SummaryList>
+  <SummaryListItem>
+    <dt>Health check</dt>
+    <dd><RedAmberGreenView label="Health check status" value={status} /></dd>
+  </SummaryListItem>
+</SummaryList>
+```
+
+With data attribute for CSS color coding:
+
+```html
+<RedAmberGreenView label="Compliance status" value="amber" data-value="amber" />
 ```
 
 ## Keyboard Interactions
@@ -39,9 +54,16 @@ None -- this is a passive informational display, not an interactive element.
 
 ## When to Use
 
-- Use RedAmberGreenView to display a RAG status in read-only dashboards, reports, summary cards, or detail views.
-- Use RedAmberGreenView when the status has already been set and only needs to be presented, not edited.
-- Avoid using RedAmberGreenView when users need to change the status; use RedAmberGreenPicker instead.
+- Use to display a red/amber/green status in read-only format in dashboards and reports.
+- Use in summary cards and detail views where the RAG status has already been set.
+- Use when presenting historical or locked status data that should not be edited.
+- Use in tables and lists to show RAG status alongside other data fields.
+
+## When Not to Use
+
+- Do not use when users need to select or change the status -- use [RedAmberGreenPicker](../red-amber-green-picker/) instead.
+- Do not use for five-level status display -- use [RedOrangeYellowGreenBlueView](../red-orange-yellow-green-blue-view/) instead.
+- Do not use for general-purpose text display -- use a `<span>` or [Badge](../badge/) instead.
 
 ## Headless
 

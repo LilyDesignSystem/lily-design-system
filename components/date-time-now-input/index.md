@@ -28,16 +28,22 @@ This component is useful for event logging, timestamping, incident reporting, an
 
 ## Usage
 
-```html
-<DateTimeNowInput label="Event time" />
-```
+Clinical observation timestamp with "Now" button:
 
 ```html
-<DateTimeNowInput label="Incident time" dateValue={date} timeValue={time} nowLabel="Set to now" />
+<DateTimeNowInput label="Observation recorded" dateValue={obsDate} timeValue={obsTime} nowLabel="Record now" required />
 ```
 
+Incident reporting with default labels:
+
 ```html
-<DateTimeNowInput label="Appointment" dateValue={date} timeValue={time} required disabled={isLocked} />
+<DateTimeNowInput label="Incident occurred" dateValue={incidentDate} timeValue={incidentTime} />
+```
+
+Locked timestamp that has already been recorded:
+
+```html
+<DateTimeNowInput label="Administered at" dateValue={adminDate} timeValue={adminTime} disabled={true} />
 ```
 
 ## Keyboard Interactions
@@ -55,11 +61,17 @@ This component is useful for event logging, timestamping, incident reporting, an
 
 ## When to Use
 
-- Use when both a date and a time must be captured and the user frequently needs to record the current moment.
+- Use when users need to enter a date and time with a "Now" button that auto-fills the current date and time.
+- Use in clinical recording where timestamps matter, such as observation times or medication administration.
 - Use for event logging, incident reporting, timestamping, or time tracking interfaces.
-- Avoid when only a date is needed; use DateInput instead.
-- Avoid when only a time is needed; use TimeInput instead.
-- Consider DatetimeLocalInput when a single combined field is preferred and no "Now" button is needed.
+- Use when the user frequently needs to record the current moment quickly.
+- Use for audit trails and activity logs that require precise date-time capture.
+
+## When Not to Use
+
+- Do not use when only a date is needed -- use DateInput instead.
+- Do not use when only a time is needed -- use TimeInput instead.
+- Do not use when a single combined field is preferred and no "Now" button is needed -- use DatetimeLocalInput instead.
 
 ## Headless
 

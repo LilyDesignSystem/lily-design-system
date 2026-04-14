@@ -21,7 +21,16 @@ Use this component to display a patient's waist circumference in medical records
 ## Usage
 
 ```html
-<VitalSignWaistCircumferenceAsCmView value={94} label="94 cm waist circumference" />
+<!-- Display a recorded waist circumference -->
+<VitalSignWaistCircumferenceAsCmView value={94} label="Waist circumference: 94 cm" />
+
+<!-- In a metabolic risk dashboard -->
+<VitalSignWaistCircumferenceAsCmView value={105} label="Waist: 105 cm - very high risk" />
+
+<!-- Alongside other body measurements in a health summary -->
+<VitalSignHeightAsCmView value={175} label="Height: 175 cm" />
+<VitalSignWeightAsKgView value={82} label="Weight: 82 kg" />
+<VitalSignWaistCircumferenceAsCmView value={88} label="Waist: 88 cm" />
 ```
 
 ## Keyboard Interactions
@@ -35,9 +44,16 @@ None. This is a passive, read-only display element.
 
 ## When to Use
 
-- Use to display a waist circumference reading in vital sign summaries, medical records, or health dashboards.
-- Use as the display companion to VitalSignWaistCircumferenceAsCmInput.
-- Avoid using for editable waist circumference values; use VitalSignWaistCircumferenceAsCmInput instead.
+- Use to display a recorded waist circumference value in read-only format.
+- Use in patient dashboards, medical records, or clinical summaries showing body measurements.
+- Use with appropriate ARIA (`role="img"`, `aria-label`) for screen reader accessibility.
+- Use in metabolic risk profiles and obesity screening reports.
+
+## When Not to Use
+
+- Do not use for entering new values -- use VitalSignWaistCircumferenceAsCmInput instead.
+- Do not use for general measurement display -- use MeasurementInstanceView for non-clinical values.
+- Do not use for belly circumference display -- use VitalSignBellyCircumferenceAsCmView instead.
 
 ## Headless
 

@@ -16,13 +16,30 @@ A skeleton is a loading placeholder that indicates content is in the process of 
 
 ## Usage
 
-```html
-<Skeleton />
-```
+Card placeholder with text lines and avatar circle:
 
 ```html
 <Skeleton>
-  <div class="skeleton-line"></div>
+  <div class="skeleton-circle" style="width: 48px; height: 48px;"></div>
+  <div class="skeleton-line" style="width: 60%; height: 16px;"></div>
+  <div class="skeleton-line" style="width: 80%; height: 16px;"></div>
+</Skeleton>
+```
+
+Single-line text placeholder:
+
+```html
+<Skeleton>
+  <div class="skeleton-line" style="width: 100%; height: 14px;"></div>
+</Skeleton>
+```
+
+Image placeholder for a content card:
+
+```html
+<Skeleton>
+  <div class="skeleton-rect" style="width: 100%; height: 200px;"></div>
+  <div class="skeleton-line" style="width: 70%; height: 16px;"></div>
 </Skeleton>
 ```
 
@@ -37,10 +54,18 @@ None -- this component is a passive placeholder hidden from interaction.
 
 ## When to Use
 
-- Use as a placeholder while content is loading to show the approximate layout and reduce perceived wait time.
-- Use to prevent layout shift by reserving space for content that has not yet loaded.
-- Avoid for very fast operations where a skeleton would flash briefly and be distracting; consider no indicator or a simple spinner instead.
-- Consider a ProgressSpinner when the loading state is indeterminate and the content layout is unknown.
+- Use Skeleton as a placeholder while content is loading to show the approximate layout and reduce perceived wait time.
+- Use Skeleton to prevent layout shift by reserving space for content that has not yet loaded.
+- Use Skeleton for card-based layouts where each card can show placeholder shapes matching the expected text, image, and button positions.
+- Use Skeleton when loading lists, tables, or profile views where the structure is known in advance.
+- Use Skeleton for content-heavy pages where maintaining visual layout during loading improves perceived performance.
+
+## When Not to Use
+
+- Do not use Skeleton for error states -- show an error message instead using Alert or ErrorMessage.
+- Do not use Skeleton for known-progress loading where a percentage is available -- use Progress instead.
+- Do not use Skeleton for very fast operations (under 200ms) where a brief flash would be distracting.
+- Do not use Skeleton when the content layout is unknown -- use ProgressSpinner or Loading instead.
 
 ## Headless
 

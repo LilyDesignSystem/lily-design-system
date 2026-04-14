@@ -21,9 +21,10 @@ This component is useful for displaying categories, skills, technologies, or any
 ## Usage
 
 ```html
-<TagGroup label="Technologies">
-  <Tag>Svelte</Tag>
-  <Tag>TypeScript</Tag>
+<TagGroup label="Patient statuses">
+  <Tag label="Status: Verified">Verified</Tag>
+  <Tag label="Status: NHS patient">NHS patient</Tag>
+  <Tag label="Status: Review due">Review due</Tag>
 </TagGroup>
 ```
 
@@ -38,9 +39,15 @@ None -- this component is a passive container. Keyboard behavior depends on the 
 
 ## When to Use
 
-- Use to group related Tag elements that share a common category, such as skills, technologies, article topics, or product attributes.
-- Use when assistive technologies should announce the tags as a related collection.
-- Avoid when tags are unrelated or scattered across different sections; group only semantically related tags.
+- Use to display multiple tags together, such as statuses or categories applied to a single item
+- Use within cards, table rows, or list items where an item has several attributes to show
+- Use to visually group related status indicators with consistent spacing
+
+## When Not to Use
+
+- Do not use for a single tag -- render the Tag component directly
+- Do not use for interactive chip or filter patterns -- use ToggleGroup or SegmentGroup instead
+- Do not use for tag creation and removal -- use TagInput for editable tag lists
 
 ## Headless
 

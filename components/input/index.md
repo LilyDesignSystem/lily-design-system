@@ -24,16 +24,22 @@ The component supports bindable value state, required and disabled attributes, a
 
 ## Usage
 
-```html
-<Input label="Search" value={value} />
-```
+Generic text input for a custom field type:
 
 ```html
-<Input label="Name" value={value} type="text" required />
+<Input label="Reference code" value={refCode} type="text" required placeholder="e.g. ABC-1234" />
 ```
 
+Numeric input for a quantity field:
+
 ```html
-<Input label="Email address" value={value} type="email" required disabled={isSubmitting} />
+<Input label="Quantity" value={qty} type="number" min="1" max="100" required />
+```
+
+Disabled input during form submission:
+
+```html
+<Input label="Account ID" value={accountId} type="text" disabled={isSubmitting} />
 ```
 
 ## Keyboard Interactions
@@ -46,9 +52,15 @@ None -- this component uses the native `<input>` element, which provides built-i
 
 ## When to Use
 
-- Use as the foundational text entry component for forms, supporting text, email, password, number, search, and other HTML input types.
+- Use as a generic HTML input when a more specific input component (TextInput, EmailInput, etc.) is not available.
+- Use as the foundational text entry component for forms, supporting any HTML input type.
 - Use when you need a simple, single-line input with accessible labeling and two-way value binding.
-- Avoid for multi-line text entry; use Textarea instead. Consider specialized inputs (EmailInput, SearchInput, etc.) for type-specific features.
+
+## When Not to Use
+
+- Do not use when a specialised input exists -- prefer TextInput, EmailInput, TelInput, NumberInput, DateInput, or SearchInput instead.
+- Do not use for multi-line text entry -- use Textarea instead.
+- Do not use for file selection -- use FileInput instead.
 
 ## Headless
 

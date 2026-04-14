@@ -24,17 +24,23 @@ Toasts are similar to notifications but are generally more ephemeral and less in
 ## Usage
 
 ```html
-<Toast label="Success">Your changes have been saved.</Toast>
+<Toast label="Success">Patient record saved successfully.</Toast>
 ```
 
 ```html
-<Toast label="Error" urgent>Something went wrong.</Toast>
+<Toast label="Error" urgent>Failed to save changes. Please try again.</Toast>
 ```
 
 ```html
-<Toast label="Info">
-  <p>3 new messages in your inbox.</p>
+<Toast label="Copied">
+  <p>NHS number copied to clipboard.</p>
 </Toast>
+```
+
+```html
+<Sonner label="Notifications">
+  <Toast label="Update">Record updated by Dr Chen at 14:32.</Toast>
+</Sonner>
 ```
 
 ## Keyboard Interactions
@@ -51,10 +57,18 @@ None -- this component is a passive notification container. Toasts are announced
 
 ## When to Use
 
-- Use Toast for brief, transient notifications that confirm actions (e.g., "Saved"), report errors, or provide status updates.
+- Use for brief auto-dismissing notification messages such as "Saved", "Copied", or "Record updated".
 - Use when the message does not require user interaction and can auto-dismiss after a short time.
-- Avoid using Toast for critical messages that require user acknowledgment; use AlertDialog instead.
-- Consider Notification for persistent messages or messages that need to remain visible until manually dismissed.
+- Use for success confirmations, informational updates, and non-critical error feedback.
+- Use inside a Sonner container when managing multiple stacked toast notifications.
+- Use the `urgent` prop sparingly, only for time-sensitive error messages.
+
+## When Not to Use
+
+- Do not use for persistent messages -- use Banner instead.
+- Do not use for form validation errors -- use ErrorSummary instead.
+- Do not use for critical alerts requiring user acknowledgment -- use AlertDialog instead.
+- Do not use for content that users need to reference later -- use Notification or InformationCallout instead.
 
 ## Headless
 

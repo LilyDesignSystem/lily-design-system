@@ -23,19 +23,21 @@ This component uses `role="alert"` to ensure screen readers announce the error s
 ## Usage
 
 ```html
-<ErrorSummary title="There is a problem">
-    <ul>
-        <li><a href="#name">Enter your name</a></li>
-        <li><a href="#email">Enter a valid email address</a></li>
-    </ul>
+<ErrorSummary heading="There is a problem">
+  <ul>
+    <li><a href="#date-of-birth">Enter your date of birth</a></li>
+    <li><a href="#email">Enter an email address in the correct format, like name@example.com</a></li>
+  </ul>
 </ErrorSummary>
 ```
 
 ```html
-<ErrorSummary title="Please fix the following errors">
-    <ul>
-        <li><a href="#password">Password must be at least 8 characters</a></li>
-    </ul>
+<ErrorSummary heading="There is a problem">
+  <ul>
+    <li><a href="#full-name">Enter your full name</a></li>
+    <li><a href="#nhs-number">Enter your NHS number</a></li>
+    <li><a href="#password">Password must be at least 8 characters</a></li>
+  </ul>
 </ErrorSummary>
 ```
 
@@ -52,10 +54,17 @@ This component uses `role="alert"` to ensure screen readers announce the error s
 
 ## When to Use
 
-- Use at the top of a form to display a consolidated list of all validation errors after form submission.
-- Use when errors should link to the specific fields that need correction, following the GOV.UK/NHS England pattern.
-- Avoid for single field-level errors; use ErrorMessage instead.
-- Consider Alert for general informational or warning messages that are not validation errors.
+- Use at the top of a page when a form submission has validation errors, to summarise all errors in one place.
+- Use even when there is only a single error -- users need the summary to understand what went wrong.
+- Use with linked error descriptions that take users directly to the field with the problem.
+- Use alongside individual ErrorMessage components next to each field -- the summary supplements, not replaces, field-level errors.
+- Use the heading "There is a problem" as the default heading text.
+
+## When Not to Use
+
+- Do not use for warnings or informational messages -- use Alert or Banner instead.
+- Do not use before the user has attempted to submit the form -- errors should appear on submission, not while typing.
+- Do not use without individual ErrorMessage components next to each field -- the summary and field-level errors work together.
 
 ## Headless
 

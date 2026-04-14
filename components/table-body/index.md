@@ -39,8 +39,14 @@ No additional ARIA attributes. Body semantics are provided by the `<tbody>` elem
 
 ## When to Use
 
-- Use within a Table to define the body section.
-- Avoid using outside of a table context.
+- Use inside Table to wrap the data rows that contain the main table content
+- Use to separate data rows from header rows (TableHead) and footer rows (TableFoot)
+- Use to enable screen readers to distinguish between header and data sections
+
+## When Not to Use
+
+- Do not use outside of a Table -- use DataTableBody for DataTable or CalendarTableBody for CalendarTable
+- Do not use for header rows -- use TableHead instead
 
 ## Headless
 

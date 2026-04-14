@@ -21,23 +21,27 @@ Use AccordionListItem for each individual collapsible section within an Accordio
 Simple with summary prop:
 
 ```html
-<AccordionListItem summary="Question 1">Answer 1</AccordionListItem>
+<AccordionListItem summary="What is your return policy?">
+  <p>You can return items within 30 days of purchase for a full refund.</p>
+</AccordionListItem>
 ```
 
 With explicit summary and details children:
 
 ```html
 <AccordionListItem>
-  <AccordionSummary>Question 1</AccordionSummary>
-  <AccordionDetails>Answer 1</AccordionDetails>
+  <AccordionSummary>Shipping information</AccordionSummary>
+  <AccordionDetails>
+    <p>Free standard shipping on orders over $50. Express shipping available for $9.99.</p>
+  </AccordionDetails>
 </AccordionListItem>
 ```
 
 With bindable open state:
 
 ```html
-<AccordionListItem summary="Advanced options" open="{showAdvanced}">
-  Advanced settings content
+<AccordionListItem summary="Advanced options" open={showAdvanced}>
+  <p>Configure advanced notification preferences, API access, and data export settings.</p>
 </AccordionListItem>
 ```
 
@@ -77,9 +81,15 @@ FAQ item:
 
 ## When to Use
 
-- Use for individual collapsible sections within an AccordionList, such as FAQ answers, grouped settings, or expandable content panels.
-- Use when you need native disclosure behavior without custom JavaScript.
-- Avoid for top-level page sections that should always be visible -- use headings or Panel instead.
+- Use inside AccordionList to represent one collapsible section with a heading and expandable content.
+- Use when you need native disclosure behavior for individual sections without custom JavaScript.
+- Use for FAQ question/answer pairs, expandable settings groups, or categorised navigation sections.
+
+## When Not to Use
+
+- Do not use outside AccordionList -- it is designed to work within the AccordionNav composition pattern.
+- Do not use for non-collapsible list items -- use ContentsListItem or BreadcrumbListItem instead.
+- Do not use for top-level page sections that should always be visible -- use headings or Panel instead.
 
 ## Headless
 

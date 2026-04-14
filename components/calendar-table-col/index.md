@@ -18,10 +18,19 @@ Use this component within a CalendarTable to define column properties such as wi
 ## Usage
 
 ```html
-<colgroup>
-  <CalendarTableCol />
-  <CalendarTableCol />
-</colgroup>
+<CalendarTable label="April 2026">
+  <colgroup>
+    <CalendarTableCol />
+    <CalendarTableCol />
+    <CalendarTableCol />
+    <CalendarTableCol />
+    <CalendarTableCol />
+    <CalendarTableCol className="weekend" />
+    <CalendarTableCol className="weekend" />
+  </colgroup>
+  <CalendarTableHead>...</CalendarTableHead>
+  <CalendarTableBody>...</CalendarTableBody>
+</CalendarTable>
 ```
 
 ## Keyboard Interactions
@@ -34,8 +43,14 @@ No ARIA attributes. Column elements are structural, not semantic.
 
 ## When to Use
 
-- Use within a CalendarTable `<colgroup>` to define column-level properties.
-- Avoid using outside of a table context.
+- Use inside CalendarTable to provide column-level styling within a `<colgroup>`
+- Use to define consistent column widths across all day columns in the calendar grid
+- Use when weekend columns need distinct styling via column-level classes
+
+## When Not to Use
+
+- Do not use outside CalendarTable -- use TableCol or DataTableCol for other table types
+- Do not use for individual cell styling -- apply classes directly to CalendarTableData instead
 
 ## Headless
 

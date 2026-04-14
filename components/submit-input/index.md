@@ -21,16 +21,27 @@ Submit inputs provide a simple, semantic way to add form submission capability t
 
 ## Usage
 
-```html
-<SubmitInput />
-```
+Form with a descriptive submit label:
 
 ```html
-<SubmitInput value="Send" />
+<Form label="Contact us" onsubmit={handleSubmit}>
+  <Field label="Message" required>
+    <Textarea label="Message" value={message} required />
+  </Field>
+  <SubmitInput value="Send message" />
+</Form>
 ```
+
+Disabled submit until form is valid:
 
 ```html
 <SubmitInput value="Save changes" disabled={!formValid} />
+```
+
+Simple submit with default label:
+
+```html
+<SubmitInput />
 ```
 
 ## Keyboard Interactions
@@ -46,10 +57,15 @@ No additional ARIA attributes are needed. The native `<input type="submit">` ele
 
 ## When to Use
 
-- Use as the primary submission trigger inside HTML forms to trigger built-in browser validation and form submission.
-- Use when you need a simple, semantic submit button without custom children content.
-- Avoid when you need rich content (icons, multiple elements) inside the button; use a Button with `type="submit"` instead.
-- Consider a ResetInput alongside SubmitInput when the form should also offer a reset option.
+- Use as a form-native submit button via `<input type="submit">`.
+- Use when a plain text label is sufficient for the submission action.
+- Use as the primary submission trigger inside HTML forms to trigger built-in browser validation.
+
+## When Not to Use
+
+- Do not use when you need rich content inside the button (icons, multiple elements) -- use Button with `type="submit"` instead.
+- Do not use for non-form actions -- use Button instead.
+- Do not use when the button needs to show a loading spinner or other dynamic content.
 
 ## Headless
 

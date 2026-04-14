@@ -22,12 +22,21 @@ This headless component uses a `<div>` element with `role="alert"` for immediate
 ## Usage
 
 ```html
-<SuperBanner label="System maintenance">
-  Scheduled maintenance will begin at midnight. Save your work.
+<SuperBanner label="System outage">
+  Our payment processing service is currently unavailable. We are working to restore it.
 </SuperBanner>
+```
 
-<SuperBanner dismissable ondismiss={handleDismiss}>
-  A new version is available. Please refresh the page.
+```html
+<SuperBanner label="Scheduled maintenance" dismissable ondismiss={handleDismiss}>
+  Planned maintenance on Saturday 12 April from 02:00 to 06:00 UTC. Save your work before then.
+</SuperBanner>
+```
+
+```html
+<SuperBanner label="Security alert">
+  Your password was changed from a new device. If this was not you,
+  <a href="/account/security">review your account security</a> immediately.
 </SuperBanner>
 ```
 
@@ -44,10 +53,17 @@ This headless component uses a `<div>` element with `role="alert"` for immediate
 
 ## When to Use
 
-- Use for system-wide critical messages such as maintenance, outages, or security alerts.
-- Use when the message must be seen by all users immediately.
-- Avoid for routine notifications -- use Banner or Alert instead.
-- Avoid for form validation -- use ErrorSummary instead.
+- Use to communicate a high-priority state that affects the entire application, such as a system outage or emergency alert
+- Use for global maintenance notices that must be visible on every page
+- Use when the message requires immediate attention and cannot be missed, such as a security incident or data breach notification
+- Use for regulatory or legal notices that must interrupt the user experience until acknowledged
+
+## When Not to Use
+
+- Do not use for page-specific messages -- use Banner instead
+- Do not use for form validation errors -- use ErrorSummary to summarize field errors
+- Do not use for success confirmations -- use Banner with a success variant or Alert
+- Do not use for routine notifications -- use Notification or Toast for transient messages
 
 ## Headless
 

@@ -24,15 +24,19 @@ This component is suitable for any form field requiring free-text entry. It supp
 ## Usage
 
 ```html
-<TextInput label="Full name" value={value} />
-```
+<Field label="What is your full name?">
+  <TextInput label="Full name" autocomplete="name" />
+</Field>
 
-```html
-<TextInput label="Email" value={email} required={true} />
-```
+<Field label="Enter a full postcode in England">
+  <Hint>For example, LS1 1AB</Hint>
+  <TextInput label="Postcode" autocomplete="postal-code" />
+</Field>
 
-```html
-<TextInput label="Notes" value={notes} disabled={true} />
+<Field label="What is your NHS number?">
+  <Hint>This is a 10-digit number, like 485 777 3456</Hint>
+  <TextInput label="NHS number" inputmode="numeric" />
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -45,10 +49,18 @@ None beyond native input behavior -- standard text editing keys (typing, backspa
 
 ## When to Use
 
-- Use for short, single-line text entry such as names, titles, search terms, or other brief textual data in forms.
-- Use when the expected input fits comfortably on one line.
-- Avoid for multi-line text entry; use Textarea instead.
-- Consider a specialized input (EmailInput, TelInput, UrlInput, SearchInput) when the data type has a specific semantic meaning.
+- Use when users need to enter a short, single-line text response such as a name, postcode, or reference number
+- Use with a visible Label positioned above the input -- never rely on placeholder text as a label
+- Use with an appropriate input width that reflects the expected length of the answer
+- Use with `inputmode="numeric"` for fields that expect numbers but are not quantity inputs
+
+## When Not to Use
+
+- Do not use for multi-line responses -- use Textarea instead
+- Do not use for searching with results -- use SearchInput or TextInputWithSearch
+- Do not use for structured date entry -- use DateInput with separate day/month/year fields
+- Do not use for passwords -- use PasswordInput which includes show/hide functionality
+- Do not use for email, URL, or telephone -- use EmailInput, UrlInput, or TelInput for correct keyboard and validation
 
 ## Headless
 

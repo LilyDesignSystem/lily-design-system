@@ -21,17 +21,23 @@ This component is designed to be used as a child element within a Kanban column 
 
 ## Usage
 
+Task card with title and assignee:
+
 ```html
 <KanbanTableData label="Fix login bug">
     <h3>Fix login bug</h3>
     <p>Assigned to Alice</p>
+    <span>High priority</span>
 </KanbanTableData>
 ```
+
+Dynamic task card with data binding:
 
 ```html
 <KanbanTableData label={task.title}>
     <span>{task.title}</span>
     <span>{task.priority}</span>
+    <span>{task.assignee}</span>
 </KanbanTableData>
 ```
 
@@ -46,9 +52,14 @@ This component is designed to be used as a child element within a Kanban column 
 
 ## When to Use
 
-- Use to represent a single work item or task card within a Kanban board column.
+- Use inside KanbanTable to represent a single work item or task card within a board column.
 - Use when each card needs an accessible label and listitem semantics within a list container.
-- Avoid using KanbanTableData outside of a column container with `role="list"`; it relies on that parent context.
+- Use for displaying task summaries including title, assignee, priority, or due date.
+
+## When Not to Use
+
+- Do not use outside of a KanbanTable context -- use TableData or DataTableData for general tables.
+- Do not use for column headings -- use KanbanTableCol instead.
 
 ## Headless
 

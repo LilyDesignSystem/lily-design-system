@@ -19,13 +19,22 @@ This headless component renders a `<div>` with `role="region"` and an accessible
 
 ## Usage
 
+Project file browser with folder navigation:
+
 ```html
 <FileManager label="Project files">
+    <nav aria-label="Folder breadcrumb">
+        <a href="/">Root</a> / <a href="/docs">docs</a>
+    </nav>
     <ul>
-        <li>document.pdf</li>
-        <li>image.png</li>
-        <li>data.csv</li>
+        <li><button>📁 reports/</button></li>
+        <li><button>📄 meeting-notes.pdf</button></li>
+        <li><button>📄 budget.xlsx</button></li>
     </ul>
+    <div>
+        <button>Upload</button>
+        <button>New folder</button>
+    </div>
 </FileManager>
 ```
 
@@ -40,10 +49,15 @@ None built-in -- the consumer should implement keyboard navigation for file sele
 
 ## When to Use
 
-- Use to provide a file browsing and management interface in CMS applications, cloud storage dashboards, or document editors.
+- Use for browsing, navigating, and managing files in a directory structure.
+- Use in CMS applications, cloud storage dashboards, or document editors.
 - Use when users need to navigate folder hierarchies, view file listings, and perform file operations.
-- Avoid for simple single-file selection; use FileInput or FileUpload instead.
-- Consider FileDialog when the file browsing interface should appear as a modal overlay.
+
+## When Not to Use
+
+- Do not use for simple single-file upload -- use FileUpload instead.
+- Do not use for file selection in a modal dialog -- use FileDialog instead.
+- Do not use for a basic file input without browsing -- use FileInput instead.
 
 ## Headless
 

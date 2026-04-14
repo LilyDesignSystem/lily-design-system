@@ -21,11 +21,25 @@ This component manages menu visibility, keyboard navigation, and focus. When ope
 
 ## Usage
 
+Context menu with ContextMenuItem children:
+
 ```html
-<ContextMenu label="Actions" open={open}>
-  <li role="menuitem" tabindex="-1">Cut</li>
-  <li role="menuitem" tabindex="-1">Copy</li>
-  <li role="menuitem" tabindex="-1">Paste</li>
+<ContextMenu label="Text actions" open={isContextMenuOpen}>
+    <ContextMenuItem onclick={() => handleCut()}>Cut</ContextMenuItem>
+    <ContextMenuItem onclick={() => handleCopy()}>Copy</ContextMenuItem>
+    <ContextMenuItem onclick={() => handlePaste()}>Paste</ContextMenuItem>
+</ContextMenu>
+```
+
+Triggered on right-click of a target element:
+
+```html
+<div oncontextmenu={(e) => { e.preventDefault(); isContextMenuOpen = true; }}>
+    Right-click this area for options
+</div>
+<ContextMenu label="Item actions" open={isContextMenuOpen}>
+    <ContextMenuItem onclick={() => handleEdit()}>Edit</ContextMenuItem>
+    <ContextMenuItem onclick={() => handleDelete()}>Delete</ContextMenuItem>
 </ContextMenu>
 ```
 
@@ -44,9 +58,16 @@ This component manages menu visibility, keyboard navigation, and focus. When ope
 
 ## When to Use
 
-- Use a ContextMenu to provide contextual actions triggered by right-click or long-press, such as cut, copy, paste, or custom actions relevant to the selected element.
-- Use a ContextMenu when actions apply to a specific item and displaying them inline would clutter the interface.
-- Avoid using a ContextMenu as the only way to access critical actions; ensure all actions are also available through visible controls.
+- Use for a menu that appears on right-click or long-press.
+- Use for contextual actions on specific items such as cut, copy, paste, or custom actions.
+- Use when actions apply to a specific element and displaying them inline would clutter the interface.
+- Use to provide supplementary actions alongside visible primary controls.
+
+## When Not to Use
+
+- Do not use as the only way to access actions -- ensure alternatives exist for accessibility.
+- Do not use for global menus -- use Menu or DropdownMenu instead.
+- Do not use for navigation links -- use NavigationMenu instead.
 
 ## Headless
 

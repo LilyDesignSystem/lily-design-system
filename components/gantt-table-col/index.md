@@ -20,29 +20,27 @@ This component is designed to be used as a child of a GanttTable component, insi
 ## Usage
 
 ```html
-<GanttTable label="Project timeline">
-    <colgroup>
-        <GanttTableCol style="width: 200px" />
-        <GanttTableCol span="4" style="width: 100px" />
-    </colgroup>
-    <GanttTableHead>
-        <GanttTableRow>
-            <th>Task</th>
-            <th>Week 1</th>
-            <th>Week 2</th>
-            <th>Week 3</th>
-            <th>Week 4</th>
-        </GanttTableRow>
-    </GanttTableHead>
-    <GanttTableBody>
-        <GanttTableRow>
-            <th>Design</th>
-            <GanttTableData>---</GanttTableData>
-            <GanttTableData></GanttTableData>
-            <GanttTableData></GanttTableData>
-            <GanttTableData></GanttTableData>
-        </GanttTableRow>
-    </GanttTableBody>
+<GanttTable label="Q1 2025 schedule">
+  <colgroup>
+    <GanttTableCol style="width: 200px" />
+    <GanttTableCol span="3" style="width: 100px" />
+  </colgroup>
+  <GanttTableHead>
+    <GanttTableRow>
+      <GanttTableCol scope="col">Task</GanttTableCol>
+      <GanttTableCol scope="col">Jan</GanttTableCol>
+      <GanttTableCol scope="col">Feb</GanttTableCol>
+      <GanttTableCol scope="col">Mar</GanttTableCol>
+    </GanttTableRow>
+  </GanttTableHead>
+  <GanttTableBody>
+    <GanttTableRow>
+      <GanttTableCol scope="row">Design phase</GanttTableCol>
+      <GanttTableData active>████</GanttTableData>
+      <GanttTableData></GanttTableData>
+      <GanttTableData></GanttTableData>
+    </GanttTableRow>
+  </GanttTableBody>
 </GanttTable>
 ```
 
@@ -56,9 +54,14 @@ None -- passive structural element with no interactive behavior.
 
 ## When to Use
 
+- Use inside GanttTable to provide column-level `<th>` header cells for task names and time periods.
 - Use inside a `<colgroup>` within a GanttTable to define uniform column widths for time period columns.
 - Use when multiple columns should share the same width or styling without repeating attributes on each cell.
-- Avoid when columns need individual per-cell styling; apply styles directly to GanttTableData cells instead.
+
+## When Not to Use
+
+- Do not use outside of a GanttTable structure -- use TableCol or DataTableCol for general tables.
+- Do not use when columns need individual per-cell styling; apply styles directly to GanttTableData cells instead.
 
 ## Headless
 

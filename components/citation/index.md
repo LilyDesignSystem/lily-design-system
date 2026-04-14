@@ -52,11 +52,17 @@ Citation with a link:
 
 ## When to Use
 
+- Use to acknowledge the relevance of another work, such as a research paper, clinical guideline, or regulatory document.
 - Use for referencing the title of a creative work such as a book, article, paper, film, or website.
 - Use within blockquotes to attribute the source of a quotation.
-- Use in bibliographies and reference lists.
-- Avoid for quoting text content directly -- use `<blockquote>` or `<q>` instead.
-- Avoid for author names alone -- `<cite>` is intended for work titles, not person names.
+- Use in bibliographies, reference lists, and evidence-based content.
+
+## When Not to Use
+
+- Do not use for general hyperlinks -- use ActionLink or a standard anchor element.
+- Do not use for digital object identifiers -- use DigitalObjectIdentifierLink for DOI permanent links.
+- Do not use for quoting text content directly -- use `<blockquote>` or `<q>` instead.
+- Do not use for author names alone -- `<cite>` is intended for work titles, not person names.
 
 ## Headless
 

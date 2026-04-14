@@ -19,9 +19,33 @@ Use ScrollArea when you have content that may overflow its container, such as lo
 
 ## Usage
 
+Chat message history with vertical scroll:
+
 ```html
-<ScrollArea label="Scrollable content">
-  <p>Long content...</p>
+<ScrollArea label="Chat messages" style="max-height: 400px; overflow: auto;">
+  <div class="message">Hello, how can I help?</div>
+  <div class="message">I need to update my address.</div>
+  <!-- more messages -->
+</ScrollArea>
+```
+
+Code block viewer with horizontal and vertical scroll:
+
+```html
+<ScrollArea label="Source code" style="max-height: 300px; overflow: auto;">
+  <pre><code>function greet(name) { return `Hello, ${name}!`; }</code></pre>
+</ScrollArea>
+```
+
+Sidebar navigation with constrained height:
+
+```html
+<ScrollArea label="Navigation links" style="height: 100vh; overflow: auto;">
+  <nav>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/patients">Patients</a>
+    <a href="/settings">Settings</a>
+  </nav>
 </ScrollArea>
 ```
 
@@ -42,7 +66,14 @@ Use ScrollArea when you have content that may overflow its container, such as lo
 
 - Use ScrollArea for content that overflows its container, such as long lists, chat messages, code blocks, or data tables.
 - Use ScrollArea when keyboard users need to scroll through content without a mouse via standard scrolling keys.
-- Avoid using ScrollArea for content that fits within its container; unnecessary scroll regions add complexity for assistive technology users.
+- Use ScrollArea to provide a custom scrollbar appearance consistent with your design system.
+- Use ScrollArea for sidebar navigation panels or log viewers with constrained height.
+- Use ScrollArea for horizontally scrolling content such as image carousels or timeline strips.
+
+## When Not to Use
+
+- Do not use ScrollArea for content that fits within its container -- unnecessary scroll regions add complexity for assistive technology users.
+- Do not use ScrollArea when native page scrolling is sufficient and no custom scrollbar styling is needed.
 
 ## Headless
 

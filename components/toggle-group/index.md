@@ -20,10 +20,22 @@ This component is useful for text formatting toolbars (bold, italic, underline),
 
 ## Usage
 
+Text formatting toolbar with independent toggles:
+
 ```html
 <ToggleGroup label="Text formatting">
-  <button aria-pressed="true">Bold</button>
-  <button aria-pressed="false">Italic</button>
+  <ToggleButton label="Bold" pressed={isBold} />
+  <ToggleButton label="Italic" pressed={isItalic} />
+  <ToggleButton label="Underline" pressed={isUnderline} />
+</ToggleGroup>
+```
+
+View mode selector:
+
+```html
+<ToggleGroup label="View mode">
+  <ToggleButton label="Grid view" pressed={isGrid} />
+  <ToggleButton label="List view" pressed={isList} />
 </ToggleGroup>
 ```
 
@@ -38,9 +50,16 @@ None at the container level. Keyboard behavior depends on the child toggle butto
 
 ## When to Use
 
-- Use ToggleGroup to semantically group related toggle buttons that can be independently toggled on or off (e.g., text formatting: bold, italic, underline).
+- Use to group multiple toggle buttons for selecting one or more options, such as text alignment or view modes.
+- Use for text formatting toolbars where bold, italic, and underline can be independently toggled.
 - Use when multiple toggles share a common purpose and should be perceived as a group by assistive technology.
-- Avoid using ToggleGroup for mutually exclusive options where only one can be active; consider SegmentGroup or RadioGroup instead.
+- Use for filter panels where multiple independent options can be activated simultaneously.
+
+## When Not to Use
+
+- Do not use for mutually exclusive single selection -- use SegmentGroup instead.
+- Do not use for form choices requiring submission -- use RadioGroup or CheckboxGroup instead.
+- Do not use for a single toggle -- render ToggleButton directly without a group wrapper.
 
 ## Headless
 

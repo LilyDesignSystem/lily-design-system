@@ -24,9 +24,23 @@ The component renders as an `<article>` element for standalone content grouping.
 
 ## Usage
 
+Card with linked heading for a condition page:
+
 ```html
-<Card><h3>Title</h3><p>Content</p></Card>
-<Card heading="Product" href="/products/1"><p>Description</p></Card>
+<Card heading="Diabetes" headingLevel={2} href="/conditions/diabetes">
+  <p>Find out about type 1 and type 2 diabetes, including symptoms,
+  diagnosis, and how to manage the condition.</p>
+</Card>
+```
+
+Card with action link for a profile:
+
+```html
+<Card heading="Dr Sarah Mitchell" label="GP profile">
+  <p>General Practitioner</p>
+  <p>Special interests: cardiology, respiratory medicine</p>
+  <ActionLink href="/book/dr-mitchell">Book an appointment</ActionLink>
+</Card>
 ```
 
 ## Keyboard Interactions
@@ -41,10 +55,17 @@ The component renders as an `<article>` element for standalone content grouping.
 
 ## When to Use
 
-- Use a card to group related content such as a product listing, user profile, or article preview into a scannable unit.
-- Use a card when users need to browse and compare multiple items displayed in a grid or list layout.
-- Avoid using a card for single full-width content sections; consider a Panel or section element instead.
-- Consider a CareCard instead when displaying medical guidance with urgency levels.
+- Use to group related content such as a service listing, team member profile, or article preview into a scannable unit.
+- Use when users need to browse and compare multiple items in a grid or list layout.
+- Use when the content is self-contained and makes sense as a standalone summary.
+- Use the `href` prop to make the card heading a link when the card leads to a detail page.
+
+## When Not to Use
+
+- Do not use to highlight content within long-form pages -- use InsetText or WarningCallout instead.
+- Do not use for medical care instructions with urgency levels -- use CareCard instead.
+- Do not use for single full-width content sections -- use Panel or a plain section element.
+- Do not use when content needs to be hidden/revealed -- use Details or Expander instead.
 
 ## Headless
 

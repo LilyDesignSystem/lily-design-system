@@ -21,13 +21,19 @@ This headless component uses an `<a>` element for native link semantics and keyb
 ## Usage
 
 ```html
-<ContentsNav label="On this page">
+<ContentsNav label="Pages in this guide">
   <ContentsList>
-    <ContentsListItem>
-      <ContentsLink href="#introduction" current>Introduction</ContentsLink>
+    <ContentsListItem aria-current="page">
+      What is type 2 diabetes?
     </ContentsListItem>
     <ContentsListItem>
-      <ContentsLink href="#usage">Usage</ContentsLink>
+      <ContentsLink href="/conditions/type-2-diabetes/symptoms">Symptoms</ContentsLink>
+    </ContentsListItem>
+    <ContentsListItem>
+      <ContentsLink href="/conditions/type-2-diabetes/getting-diagnosed">Getting diagnosed</ContentsLink>
+    </ContentsListItem>
+    <ContentsListItem>
+      <ContentsLink href="/conditions/type-2-diabetes/treatment">Treatment</ContentsLink>
     </ContentsListItem>
   </ContentsList>
 </ContentsNav>
@@ -46,9 +52,13 @@ This headless component uses an `<a>` element for native link semantics and keyb
 
 ## When to Use
 
-- Use within a ContentsListItem for page section navigation.
-- Use for tables of contents and page outlines.
-- Avoid for primary site navigation -- use NavigationMenu instead.
+- Use inside ContentsListItem to create a clickable link to a related page in the guide.
+- Use concise, descriptive link text limited to approximately two lines.
+
+## When Not to Use
+
+- Do not use for the current page -- the current page should be plain text, not a link.
+- Do not use outside of ContentsListItem -- use ActionLink or a standard anchor for standalone links.
 
 ## Headless
 

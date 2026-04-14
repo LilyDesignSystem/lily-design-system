@@ -23,19 +23,25 @@ The component manages horizontal focus movement between menu items, with Home an
 
 ## Usage
 
-```html
-<MenuBar label="Main menu">
-    <div role="menuitem" tabindex="-1">File</div>
-    <div role="menuitem" tabindex="-1">Edit</div>
-</MenuBar>
-```
+Desktop-style application menu bar:
 
 ```html
 <MenuBar label="Application menu">
+    <MenuBarButton onclick={() => openSubmenu('file')}>File</MenuBarButton>
+    <MenuBarButton onclick={() => openSubmenu('edit')}>Edit</MenuBarButton>
+    <MenuBarButton onclick={() => openSubmenu('view')}>View</MenuBarButton>
+    <MenuBarButton onclick={() => openSubmenu('help')}>Help</MenuBarButton>
+</MenuBar>
+```
+
+Dynamic menu bar from a configuration list:
+
+```html
+<MenuBar label="Main menu">
     {#each menuItems as item}
-        <div role="menuitem" tabindex="-1" onclick={() => openSubmenu(item)}>
+        <MenuBarButton onclick={() => openSubmenu(item)}>
             {item.label}
-        </div>
+        </MenuBarButton>
     {/each}
 </MenuBar>
 ```
@@ -55,9 +61,16 @@ The component manages horizontal focus movement between menu items, with Home an
 
 ## When to Use
 
-- Use for a horizontal row of top-level menu entries in desktop-style application interfaces, such as File, Edit, View.
+- Use for a horizontal bar of menu triggers, like a desktop application menu bar (File, Edit, View).
 - Use when each entry may open a submenu or trigger an action directly.
-- Avoid using MenuBar for simple navigation links; use NavigationMenu instead for site navigation.
+- Use in desktop-style web applications that mimic native application chrome.
+- Use when horizontal left/right arrow key navigation is needed between top-level menu entries.
+
+## When Not to Use
+
+- Do not use for tab-style navigation -- use TabBar instead.
+- Do not use for tool actions -- use ToolBar instead.
+- Do not use for simple navigation links -- use NavigationMenu instead.
 
 ## Headless
 

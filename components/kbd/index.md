@@ -19,12 +19,40 @@ Use this component to display keyboard shortcuts, key combinations, or individua
 
 ## Usage
 
+Key combination for copy:
+
 ```html
 <Kbd>Ctrl</Kbd> + <Kbd>C</Kbd>
 ```
 
+Inline shortcut reference in help text:
+
 ```html
-Press <Kbd>Enter</Kbd> to submit.
+Press <Kbd>Enter</Kbd> to submit the form.
+```
+
+Menu item with keyboard shortcut:
+
+```html
+<MenuItem>
+  Save
+  <span class="shortcut"><Kbd>Ctrl</Kbd> + <Kbd>S</Kbd></span>
+</MenuItem>
+```
+
+Multi-key shortcut in a keyboard shortcuts panel:
+
+```html
+<SummaryList>
+  <SummaryListItem>
+    <dt>Open command palette</dt>
+    <dd><Kbd>Ctrl</Kbd> + <Kbd>Shift</Kbd> + <Kbd>P</Kbd></dd>
+  </SummaryListItem>
+  <SummaryListItem>
+    <dt>Toggle sidebar</dt>
+    <dd><Kbd>Ctrl</Kbd> + <Kbd>B</Kbd></dd>
+  </SummaryListItem>
+</SummaryList>
 ```
 
 ## Keyboard Interactions
@@ -39,7 +67,14 @@ No ARIA attributes needed. The `<kbd>` element has built-in semantics for keyboa
 
 - Use to display keyboard shortcuts, key combinations, or key references.
 - Use in documentation, help text, tooltips, or command palettes.
-- Avoid using for non-keyboard input; use `<code>` for code snippets instead.
+- Use in application menus where shortcuts are shown alongside menu items.
+- Use in onboarding flows to teach users keyboard shortcuts.
+
+## When Not to Use
+
+- Do not use for code snippets or programming syntax -- use Code or CodeBlock instead.
+- Do not use for general emphasis -- use `<strong>` or `<em>` instead.
+- Do not use for non-keyboard input such as mouse actions or gestures.
 
 ## Headless
 

@@ -48,7 +48,12 @@ This headless component uses the native HTML `<li>` element for inherent list it
 
 - Use inside a ChatList component to represent one chat conversation entry.
 - Use when each conversation needs to be selectable and navigable.
-- Avoid using outside of a ChatList context -- the ChatListItem expects to be part of the ChatNav composition pattern.
+- Use with the `current` prop to mark the currently active conversation.
+
+## When Not to Use
+
+- Do not use outside of a ChatList context -- ChatListItem expects to be part of the ChatNav composition pattern.
+- Do not use for non-chat list items -- use ContentsListItem for page section links or TimelineListItem for events.
 
 ## Headless
 

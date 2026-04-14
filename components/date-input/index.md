@@ -25,15 +25,21 @@ This component is useful in forms where users need to enter a calendar date. The
 ## Usage
 
 ```html
-<DateInput label="Birth date" value={value} />
+<Fieldset legend="What is your date of birth?">
+  <Hint>For example, 15 3 1984</Hint>
+  <DateInput label="Date of birth" autocomplete="bday" />
+</Fieldset>
 ```
 
 ```html
-<DateInput label="Deadline" value={value} min="2024-01-01" max="2024-12-31" />
+<Fieldset legend="When did your symptoms start?">
+  <Hint>For example, 27 11 2024</Hint>
+  <DateInput label="Symptom start date" />
+</Fieldset>
 ```
 
 ```html
-<DateInput label="Start date" value={value} required disabled={isLocked} />
+<DateInput label="Deadline" value={value} min="2024-01-01" max="2024-12-31" required />
 ```
 
 ## Keyboard Interactions
@@ -48,9 +54,17 @@ This component is useful in forms where users need to enter a calendar date. The
 
 ## When to Use
 
-- Use a DateInput for a bare date input with `aria-label` when you need full control over label placement and surrounding layout.
-- Use a DateInput in compact forms or table cells where a full DateField with visible label would take too much space.
-- Avoid using a DateInput without providing an accessible name; always set the `label` prop. Consider a DateField when you need a visible label and error handling built in.
+- Use when asking users for a date they already know, such as their date of birth or a specific appointment date
+- Use within a Fieldset with a legend that poses the date question, such as "What is your date of birth?"
+- Use with Hint to show the expected format, for example "For example, 15 3 1984"
+- Use with autocomplete attributes (bday-day, bday-month, bday-year) for date of birth fields
+
+## When Not to Use
+
+- Do not use when users are unlikely to know the exact date — consider a DateField with flexible input or a CalendarRangePicker
+- Do not use for selecting a date from a constrained range — use CalendarTable or CalendarRangePicker instead
+- Do not use for date-and-time entry — use DateTimeNowInput or separate DateInput and TimeInput fields
+- Do not use a single text field for dates — three separate fields (day, month, year) reduce errors
 
 ## Headless
 

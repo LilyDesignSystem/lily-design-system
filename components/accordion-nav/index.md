@@ -19,11 +19,16 @@ Use AccordionNav as the outermost container for an accordion component. Common s
 ## Usage
 
 ```html
-<AccordionNav label="FAQ">
+<AccordionNav label="Service categories">
   <AccordionList>
-    <AccordionListItem>
-      <AccordionSummary>Question 1</AccordionSummary>
-      <AccordionDetails>Answer 1</AccordionDetails>
+    <AccordionListItem heading="Mental health" expanded>
+      <AccordionLink href="/services/anxiety">Anxiety</AccordionLink>
+      <AccordionLink href="/services/depression">Depression</AccordionLink>
+      <AccordionLink href="/services/stress">Stress management</AccordionLink>
+    </AccordionListItem>
+    <AccordionListItem heading="Physical health">
+      <AccordionLink href="/services/back-pain">Back pain</AccordionLink>
+      <AccordionLink href="/services/headaches">Headaches</AccordionLink>
     </AccordionListItem>
   </AccordionList>
 </AccordionNav>
@@ -64,10 +69,18 @@ None -- this component is a passive container. Keyboard interactions are handled
 - `aria-label` -- provides an accessible name for the region, allowing screen readers to announce it
 ## When to Use
 
-- Use for grouping collapsible content sections such as FAQ pages, settings panels, filter groups, or mobile navigation menus.
-- Use when you need a labeled navigation landmark that wraps accordion items.
-- Avoid for simple show/hide of a single section -- use Details or Collapsible instead.
-- Consider TabBar instead when users need to see content from multiple sections simultaneously.
+- Use as a navigation landmark containing collapsible accordion sections, such as service category menus or grouped resource directories.
+- Use when users need to browse and expand categories of navigation links without leaving the current page.
+- Use with a descriptive `aria-label` to communicate the navigation purpose to screen reader users.
+- Use when the number of navigation links is large enough that showing them all at once would overwhelm the page.
+- Use in mobile navigation patterns where vertical space is limited and sections should be collapsed by default.
+
+## When Not to Use
+
+- Do not use for page content that expands and collapses -- use Details or Expander instead.
+- Do not use for flat, single-level navigation -- use ContentsNav or BreadcrumbNav instead.
+- Do not use for single-level menus triggered by a button -- use NavigationMenu instead.
+- Do not use when users need to compare content across sections simultaneously -- use TabBar instead.
 
 ## Headless
 

@@ -19,20 +19,37 @@ A pagination link is a navigational anchor element representing one page link in
 
 ## Usage
 
+Numbered page links with descriptive `label` props for screen readers:
+
 ```html
 <PaginationNav label="Pagination">
   <PaginationList>
     <PaginationListItem>
-      <PaginationLink href="/page/1" label="Page 1">1</PaginationLink>
+      <PaginationLink href="/results?page=1" label="Page 1">1</PaginationLink>
     </PaginationListItem>
     <PaginationListItem>
-      <PaginationLink href="/page/2" label="Page 2">2</PaginationLink>
+      <PaginationLink href="/results?page=2" label="Page 2" aria-current="page">2</PaginationLink>
     </PaginationListItem>
     <PaginationListItem>
-      <PaginationLink href="/page/3" label="Page 3">3</PaginationLink>
+      <PaginationLink href="/results?page=3" label="Page 3">3</PaginationLink>
     </PaginationListItem>
   </PaginationList>
 </PaginationNav>
+```
+
+Previous/next links with `rel` attributes for a content series:
+
+```html
+<PaginationListItem>
+  <PaginationLink href="/conditions/diabetes/symptoms" rel="prev">
+    Previous: Symptoms
+  </PaginationLink>
+</PaginationListItem>
+<PaginationListItem>
+  <PaginationLink href="/conditions/diabetes/treatment" rel="next">
+    Next: Treatment
+  </PaginationLink>
+</PaginationListItem>
 ```
 
 ## Keyboard Interactions
@@ -47,9 +64,14 @@ A pagination link is a navigational anchor element representing one page link in
 
 ## When to Use
 
-- Use inside a PaginationListItem to provide a navigable link to a specific page in a paginated result set.
-- Use when you want a semantic, accessible pagination link with consistent styling hooks.
-- Avoid for the current page -- use `aria-current="page"` on the link or parent item to indicate the active page.
+- Use inside PaginationListItem to create a clickable link to a page in the series
+- Use with `rel="prev"` or `rel="next"` to indicate the direction for search engines and assistive technologies
+- Use with `aria-current="page"` on the link representing the current page in numbered pagination
+
+## When Not to Use
+
+- Do not use for the current page in content-style pagination -- the current page should be plain text, not a link
+- Do not use outside of PaginationListItem -- use ActionLink or a standard anchor for standalone links
 
 ## Headless
 

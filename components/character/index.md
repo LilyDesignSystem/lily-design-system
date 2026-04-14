@@ -20,10 +20,35 @@ This component is useful for initials, status indicators, rating symbols, decora
 
 ## Usage
 
+Meaningful characters with accessible labels:
+
 ```html
 <Character label="Check mark">✓</Character>
 <Character label="Warning symbol">⚠</Character>
+```
+
+Decorative character hidden from assistive technology:
+
+```html
 <Character decorative>★</Character>
+```
+
+Status indicator in a task list:
+
+```html
+<ul>
+  <li><Character label="Complete">✓</Character> Set up repository</li>
+  <li><Character label="In progress">◐</Character> Write documentation</li>
+  <li><Character label="Not started">○</Character> Add tests</li>
+</ul>
+```
+
+Decorative drop cap at the start of a paragraph:
+
+```html
+<p>
+  <Character decorative class="drop-cap">O</Character>nce upon a time, in a design system far, far away...
+</p>
 ```
 
 ## Keyboard Interactions
@@ -39,9 +64,16 @@ None -- this component is a passive display element.
 
 ## When to Use
 
-- Use a Character component for displaying a single glyph, symbol, or emoji that needs accessible context, such as a checkmark for success or a warning symbol.
-- Use a Character for decorative symbols like stars or flourishes where you want to hide them from assistive technology.
-- Avoid using a Character for multi-character text strings; use a standard `<span>` or text element instead.
+- Use for displaying a single glyph, symbol, or character that needs accessible context, such as a checkmark for success or a warning symbol.
+- Use for decorative symbols like stars or flourishes where you want to hide them from assistive technology.
+- Use for status indicators represented by a single character, such as a bullet or arrow.
+- Use for decorative initial caps or drop caps at the start of a paragraph.
+
+## When Not to Use
+
+- Do not use for emoji -- use Emoji with an accessible name instead.
+- Do not use for icons -- use Icon instead.
+- Do not use for multi-character text strings -- use a standard `<span>` or text element instead.
 
 ## Headless
 

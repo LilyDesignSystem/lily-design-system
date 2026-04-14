@@ -17,11 +17,19 @@ Use ToolBarButton for individual action buttons within a ToolBar. Common scenari
 ## Usage
 
 ```html
-<ToolBarButton>Bold</ToolBarButton>
+<ToolBar label="Text formatting">
+  <ToolBarButton>Bold</ToolBarButton>
+  <ToolBarButton>Italic</ToolBarButton>
+  <ToolBarButton disabled>Strikethrough</ToolBarButton>
+</ToolBar>
 ```
 
 ```html
-<ToolBarButton disabled>Redo</ToolBarButton>
+<ToolBar label="Drawing tools">
+  <ToolBarButton aria-label="Pen tool">Pen</ToolBarButton>
+  <ToolBarButton aria-label="Eraser tool">Eraser</ToolBarButton>
+  <ToolBarButton aria-label="Fill tool" disabled>Fill</ToolBarButton>
+</ToolBar>
 ```
 
 ## Props
@@ -57,9 +65,15 @@ Inside a ToolBar:
 - `disabled` attribute communicates disabled state to assistive technology
 ## When to Use
 
-- Use ToolBarButton for individual action buttons within a ToolBar, such as formatting controls, drawing tools, or media actions.
+- Use inside ToolBar to represent one tool action such as formatting controls, drawing tools, or media actions.
 - Use when you want a consistent button component that integrates with the parent ToolBar's roving focus navigation.
-- Avoid using ToolBarButton outside of a ToolBar parent; use a plain Button instead for standalone actions.
+- Use for icon-only buttons with `aria-label` for accessible labelling.
+
+## When Not to Use
+
+- Do not use outside ToolBar -- use Button for standalone actions.
+- Do not use for task shortcuts -- use TaskBarButton inside a TaskBar instead.
+- Do not use for navigation links -- use ActionLink instead.
 
 ## Headless
 

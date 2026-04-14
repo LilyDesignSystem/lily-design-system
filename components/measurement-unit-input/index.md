@@ -23,9 +23,23 @@ The component uses `aria-label` for accessible labeling in a headless context, a
 
 ## Usage
 
+Unit selection alongside a numeric value input:
+
 ```html
-<MeasurementUnitInput label="Unit" value={value} />
-<MeasurementUnitInput label="Unit of measure" value={value} required />
+<NumberInput label="Weight" value={weightValue} />
+<MeasurementUnitInput label="Weight unit" value={weightUnit} />
+```
+
+Required unit input in a laboratory form:
+
+```html
+<MeasurementUnitInput label="Unit of measure" value={unit} required />
+```
+
+Disabled unit display in a read-only context:
+
+```html
+<MeasurementUnitInput label="Unit" value="kg" disabled />
 ```
 
 ## Keyboard Interactions
@@ -38,9 +52,15 @@ The component uses `aria-label` for accessible labeling in a headless context, a
 
 ## When to Use
 
-- Use when the user needs to enter or select a measurement unit such as "kg", "lb", "cm", or "inch".
+- Use for selecting a specific measurement unit (kg, lbs, cm, inches, etc.).
 - Use in forms where measurement units may vary and the user must specify which unit applies to a value.
-- Consider using a Select or Combobox instead if the valid units are a fixed, known set that benefits from a dropdown.
+- Use alongside MeasurementInstanceInput when value and unit are captured separately.
+
+## When Not to Use
+
+- Do not use for selecting the measurement system -- use MeasurementSystemInput instead.
+- Do not use for display only -- use MeasurementUnitView instead.
+- Do not use when the valid units are a fixed, known set -- consider Select or Combobox instead.
 
 ## Headless
 

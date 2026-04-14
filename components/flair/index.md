@@ -18,12 +18,24 @@ By default the flair is treated as decorative (`aria-hidden="true"`), meaning sc
 
 ## Usage
 
-```html
-<Flair>New</Flair>
-```
+Decorative "New" marker on a content listing:
 
 ```html
-<Flair label="Status: new">New</Flair>
+<h3>Getting started guide <Flair>New</Flair></h3>
+```
+
+Meaningful flair with accessible label for a user role:
+
+```html
+<span>Posted by Alice <Flair label="Role: Moderator">Moderator</Flair></span>
+```
+
+Featured content marker:
+
+```html
+<a href="/articles/best-practices">
+  Best practices for accessible forms <Flair label="Featured article">Featured</Flair>
+</a>
 ```
 
 ## Keyboard Interactions
@@ -37,9 +49,16 @@ None -- this component is a passive inline display element.
 
 ## When to Use
 
-- Use to add visual categorization, status, or emphasis labels inline with content (e.g., "Moderator", "New", "Urgent").
-- Use in forums, dashboards, or social platforms where user roles or content types need quick visual identification.
-- Avoid for critical status information that must be conveyed independently; use Alert or Badge instead.
+- Use for decorative visual emphasis or highlight on text, such as "New", "Featured", or "Popular" markers.
+- Use when the emphasis is supplementary and the surrounding content is understandable without the flair.
+- Use in forums, dashboards, or content listings where user roles or content types need quick visual identification.
+- Use with the `label` prop when the flair conveys meaningful information that screen readers should announce.
+
+## When Not to Use
+
+- Do not use for status indicators that convey critical information -- use Tag instead.
+- Do not use for counts or category labels that update dynamically -- use Badge instead.
+- Do not use for AI transparency indicators -- use AiLabel instead.
 
 ## Headless
 

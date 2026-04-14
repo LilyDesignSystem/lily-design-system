@@ -22,12 +22,22 @@ This headless component uses a `<li>` element containing a checkbox input, provi
 
 ## Usage
 
+Checklist with completed, pending, and disabled items:
+
 ```html
-<CheckList>
-  <CheckListItem checked={true}>Buy groceries</CheckListItem>
-  <CheckListItem>Clean the house</CheckListItem>
-  <CheckListItem disabled>Optional task</CheckListItem>
+<CheckList label="Daily tasks">
+    <CheckListItem checked={true}>Buy groceries</CheckListItem>
+    <CheckListItem>Clean the house</CheckListItem>
+    <CheckListItem disabled>Optional task</CheckListItem>
 </CheckList>
+```
+
+Checklist item with change handler:
+
+```html
+<CheckListItem checked={isComplete} onchange={handleToggle}>
+    Review pull request
+</CheckListItem>
 ```
 
 ## Keyboard Interactions
@@ -44,9 +54,15 @@ This headless component uses a `<li>` element containing a checkbox input, provi
 
 ## When to Use
 
-- Use within a CheckList component for task tracking or progress checklists.
+- Use inside CheckList to represent one checkable item.
 - Use when users need to mark items as complete or incomplete.
-- Avoid for simple informational lists -- use a standard list item instead.
+- Use for task tracking, progress checklists, or completion workflows.
+
+## When Not to Use
+
+- Do not use outside CheckList -- it requires a parent `<ul>` or `<ol>` context.
+- Do not use for form checkboxes in a submission flow -- use CheckboxInput instead.
+- Do not use for non-actionable informational list items -- use a standard `<li>` instead.
 
 ## Headless
 

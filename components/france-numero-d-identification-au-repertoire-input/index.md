@@ -24,7 +24,11 @@ The NIR is a 15-digit number printed on the Carte Vitale. The display format is 
 ## Usage
 
 ```html
-<FranceNumeroDIdentificationAuRepertoireInput label="NIR" value={nir} />
+<Field label="Numéro de Sécurité Sociale" required>
+  <FranceNumeroDIdentificationAuRepertoireInput label="NIR" value={nir} required />
+  <Hint>Format: X XX XX XX XXX XXX XX (15 digits from your Carte Vitale)</Hint>
+  <ErrorMessage>Please enter a valid NIR</ErrorMessage>
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -39,8 +43,15 @@ The NIR is a 15-digit number printed on the Carte Vitale. The display format is 
 
 ## When to Use
 
-- Use for entering a French NIR / Social Security number.
-- Use FranceNumeroDIdentificationAuRepertoireView for read-only display.
+- Use in clinical or administrative forms to collect a French NIR / Social Security number.
+- Use with validation for the NIR identifier format (X XX XX XX XXX XXX XX).
+- Use in patient registration workflows where the NIR is required for healthcare reimbursement in France.
+
+## When Not to Use
+
+- Do not use for displaying read-only identifiers -- use FranceNumeroDIdentificationAuRepertoireView instead.
+- Do not use for general text input -- use TextInput instead.
+- Do not use for other national identifiers -- use the corresponding country-specific input component.
 
 ## Headless
 

@@ -21,10 +21,13 @@ Use RadioGroup when you need a set of mutually exclusive options, such as select
 ## Usage
 
 ```html
-<RadioGroup label="Size">
-  <label><input type="radio" name="size" value="s" /> Small</label>
-  <label><input type="radio" name="size" value="m" /> Medium</label>
-</RadioGroup>
+<Fieldset legend="Do you know your NHS number?">
+  <RadioGroup name="nhs-number-known">
+    <RadioInput label="Yes, I know my NHS number" value="yes" />
+    <RadioInput label="No, I do not know my NHS number" value="no" />
+    <RadioInput label="I am not sure" value="unsure" />
+  </RadioGroup>
+</Fieldset>
 ```
 
 ## Keyboard Interactions
@@ -40,10 +43,16 @@ Use RadioGroup when you need a set of mutually exclusive options, such as select
 
 ## When to Use
 
-- Use RadioGroup when users must select exactly one option from a small set of mutually exclusive choices (e.g., size, shipping method, plan).
-- Use RadioGroup when all options should be visible at once so users can compare them.
-- Avoid using RadioGroup for large option lists; use Select or Combobox instead.
-- Consider CheckboxInput when users can select multiple options.
+- Use to wrap multiple RadioInput components that share a common name and enforce single-selection behaviour
+- Use within a Fieldset so the group has a descriptive legend for accessibility
+- Use when the form needs to track which single option is selected from the set
+- Use when all options should be visible at once so users can compare them
+
+## When Not to Use
+
+- Do not use when users may select more than one option -- use CheckboxGroup with CheckboxInput instead
+- Do not use for visual-only grouping -- use Fieldset alone if no shared selection state is needed
+- Do not use with only one radio -- a single option is not a meaningful choice
 
 ## Headless
 

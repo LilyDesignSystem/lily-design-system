@@ -19,10 +19,40 @@ This headless component uses a `<div>` element with `role="img"` and `aria-label
 
 ## Usage
 
+Basic browser mockup with a screenshot:
+
 ```html
 <MockupBrowser label="Example website homepage">
   <Image src="homepage.png" alt="Homepage screenshot" />
 </MockupBrowser>
+```
+
+Browser mockup with live HTML content for a documentation demo:
+
+```html
+<MockupBrowser label="Login page preview">
+  <div class="demo-page">
+    <h1>Welcome back</h1>
+    <form>
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="you@example.com" />
+      <button type="submit">Sign in</button>
+    </form>
+  </div>
+</MockupBrowser>
+```
+
+Browser mockup in a marketing comparison layout:
+
+```html
+<div class="comparison-grid">
+  <MockupBrowser label="Dashboard before redesign">
+    <Image src="dashboard-before.png" alt="Dashboard before redesign" />
+  </MockupBrowser>
+  <MockupBrowser label="Dashboard after redesign">
+    <Image src="dashboard-after.png" alt="Dashboard after redesign" />
+  </MockupBrowser>
+</div>
 ```
 
 ## Keyboard Interactions
@@ -36,9 +66,17 @@ This headless component uses a `<div>` element with `role="img"` and `aria-label
 
 ## When to Use
 
-- Use to showcase website designs, screenshots, or demos in a browser context.
-- Use in documentation or marketing pages to frame web content.
-- Avoid for functional browser-like interfaces -- use an iframe or web view instead.
+- Use to present website designs, screenshots, or interactive demos within a recognizable browser frame.
+- Use in documentation pages to show how a web application looks in context.
+- Use in marketing or portfolio pages to frame web content professionally.
+- Use in design system showcases to display component examples in a browser context.
+- Use in tutorials or walkthroughs where a browser frame helps orient the reader.
+
+## When Not to Use
+
+- Do not use for functional browser embedding -- use an iframe or web view instead.
+- Do not use for terminal or CLI output -- use MockupShell instead.
+- Do not use for desktop application screenshots -- use MockupWindow instead.
 
 ## Headless
 

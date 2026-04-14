@@ -16,22 +16,26 @@ Use Avatar as the outer container for user avatars. It renders either an AvatarI
 
 ## Usage
 
-With image:
+Avatar with image and initials fallback:
 
 ```html
-<Avatar src="/photo.jpg" alt="Jane Doe" />
+<Avatar src="/photos/sarah-mitchell.jpg" alt="Dr Sarah Mitchell" initials="SM" />
 ```
 
-With initials fallback:
+Avatar with initials only (no photo available):
 
 ```html
-<Avatar initials="JD" alt="Jane Doe" />
+<Avatar alt="Nurse James Lee" initials="JL" />
 ```
 
-With both (image with initials fallback on error):
+Avatar group showing a care team:
 
 ```html
-<Avatar src="/photo.jpg" alt="Jane Doe" initials="JD" />
+<AvatarGroup label="Care team">
+  <Avatar src="/photos/sarah-mitchell.jpg" alt="Dr Sarah Mitchell" initials="SM" />
+  <Avatar alt="Nurse James Lee" initials="JL" />
+  <Avatar alt="Dr Priya Sharma" initials="PS" />
+</AvatarGroup>
 ```
 
 ## Props
@@ -64,9 +68,17 @@ Team member list:
 - `aria-hidden="true"` -- on the inner initials `<span>`, preventing duplicate announcements since the outer element already has `aria-label`
 ## When to Use
 
-- Use for displaying a user's identity in profile headers, comment threads, chat interfaces, account menus, or team member lists.
+- Use to display a user's visual identity, such as a profile photo or initials fallback, in headers, comment threads, chat messages, or contact lists.
 - Use when you need graceful fallback from an image to initials when the photo is unavailable or fails to load.
-- Avoid for decorative images that do not represent a person -- use Image instead.
+- Use with AvatarImage for a photo and AvatarText as a fallback when no image is available.
+- Use in contexts where quick visual identification of people helps users navigate, such as team rosters or conversation threads.
+- Use with the `alt` prop to provide an accessible name for the avatar via `aria-label`.
+
+## When Not to Use
+
+- Do not use for decorative icons or illustrations -- use Icon instead.
+- Do not use for organisation logos or non-person images -- use Image with appropriate alt text.
+- Do not use when only one avatar is shown alongside extended profile information -- use a Person component instead.
 
 ## Headless
 

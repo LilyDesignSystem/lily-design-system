@@ -39,9 +39,14 @@ None -- this component is a passive container. Navigation within the table follo
 
 ## When to Use
 
-- Use a DataTableBody to wrap the main data rows of a DataTable, separating them from header and footer sections.
-- Use a DataTableBody for each logical group of data rows within a table.
-- Avoid using a DataTableBody outside of a DataTable; it requires a parent `<table>` for valid HTML.
+- Use inside DataTable to provide the `<tbody>` body section containing data rows.
+- Use to wrap the main data rows, separating them from header and footer sections.
+- Use for each logical group of data rows within a table.
+
+## When Not to Use
+
+- Do not use outside DataTable -- use TableBody, CalendarTableBody, GanttTableBody, or KanbanTableBody for their respective table types.
+- Do not use for header rows -- use DataTableHead instead.
 
 ## Headless
 

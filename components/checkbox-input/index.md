@@ -25,15 +25,23 @@ This component is ideal when you need a bare checkbox that you will wrap in your
 ## Usage
 
 ```html
-<CheckboxInput label="Accept terms" checked={checked} />
+<Fieldset legend="What symptoms are you experiencing?">
+  <Hint>Select all that apply</Hint>
+  <CheckboxGroup>
+    <CheckboxInput label="Headache" name="symptoms" value="headache" />
+    <CheckboxInput label="Fever" name="symptoms" value="fever" />
+    <CheckboxInput label="Cough" name="symptoms" value="cough" />
+    <CheckboxInput label="Fatigue" name="symptoms" value="fatigue" />
+  </CheckboxGroup>
+</Fieldset>
+```
+
+```html
+<CheckboxInput label="I agree to the terms and conditions" checked={agreed} required name="terms" value="yes" />
 ```
 
 ```html
 <CheckboxInput label="Subscribe to newsletter" checked={subscribed} disabled={!hasEmail} />
-```
-
-```html
-<CheckboxInput label="Required field" checked={checked} required name="agree" value="yes" />
 ```
 
 ## Keyboard Interactions
@@ -47,9 +55,17 @@ This component is ideal when you need a bare checkbox that you will wrap in your
 
 ## When to Use
 
-- Use a CheckboxInput when you need a bare checkbox with custom label placement or integration into a complex form layout.
-- Use a CheckboxInput for boolean toggles such as "Accept terms" or "Subscribe to newsletter."
-- Avoid using a CheckboxInput when you need a visible label wrapper; consider a full Checkbox component with a `<label>` element instead.
+- Use when users need to select one or more options from a list of choices
+- Use to toggle a single boolean option on or off, such as agreeing to terms or opting into communications
+- Use within a Fieldset with a legend that describes the group as a whole
+- Use with Hint text to provide guidance like "Select all options that apply to you"
+
+## When Not to Use
+
+- Do not use when users can only select one option — use RadioInput within a RadioGroup instead
+- Do not use for toggling a visible on/off setting — use SwitchButton for immediate-effect toggles
+- Do not pre-select checkbox options — users may miss questions or submit wrong answers
+- Do not use outside of a CheckboxGroup when managing shared state across multiple checkboxes
 
 ## Headless
 

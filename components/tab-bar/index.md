@@ -27,9 +27,11 @@ Use TabBar when building a tabbed interface where users switch between different
 ## Usage
 
 ```html
-<TabBar label="Settings">
-  <button role="tab" aria-selected="true">General</button>
-  <button role="tab" aria-selected="false">Advanced</button>
+<TabBar label="Medication information">
+  <TabBarButton selected controls="panel-about">About this medicine</TabBarButton>
+  <TabBarButton controls="panel-dosage">Dosage</TabBarButton>
+  <TabBarButton controls="panel-side-effects">Side effects</TabBarButton>
+  <TabBarButton controls="panel-interactions">Interactions</TabBarButton>
 </TabBar>
 ```
 
@@ -50,10 +52,17 @@ Use TabBar when building a tabbed interface where users switch between different
 
 ## When to Use
 
-- Use when users need to switch between different content panels within the same page context, such as settings categories, dashboard views, or content sections.
-- Use when the content sections are related and users benefit from quickly switching between them without page navigation.
-- Avoid when each section is a separate page; use navigation links instead.
-- Consider an AccordionNav when vertical space is limited and multiple sections should be expandable simultaneously.
+- Use to let users navigate between related sections of content without leaving the page
+- Use when content naturally divides into distinct categories that users will access one at a time
+- Use to reduce page length by showing only the relevant section
+- Use when there are 2-6 sections -- enough to justify tabs, few enough to remain scannable
+
+## When Not to Use
+
+- Do not use when users need to compare information across sections -- show all content on one page or use a Table
+- Do not use with only one section -- show the content directly without tabs
+- Do not use for sequential steps or progress -- use TaskList or a multi-page form with BackLink
+- Do not use for navigation between different pages -- use NavigationMenu or BreadcrumbNav instead
 
 ## Headless
 

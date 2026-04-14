@@ -20,9 +20,22 @@ The component supports an optional `aria-label` for additional accessible contex
 
 ## Usage
 
+Display the current measurement system in a settings summary:
+
 ```html
 <MeasurementSystemView value="metric" />
-<MeasurementSystemView value="SI" label="International System" />
+```
+
+Display an abbreviated system with accessible label expansion:
+
+```html
+<MeasurementSystemView value="SI" label="International System of Units" />
+```
+
+Display imperial system in a patient profile:
+
+```html
+<MeasurementSystemView value="imperial" label="Imperial measurement system" />
 ```
 
 ## Keyboard Interactions
@@ -35,9 +48,14 @@ None -- this is a display-only component.
 
 ## When to Use
 
-- Use to display a read-only measurement system name such as "metric", "imperial", or "SI" in detail views or reports.
-- Use when the measurement system should be visible but not editable by the user.
-- Consider using MeasurementSystemInput instead when the user needs to enter or change the measurement system.
+- Use to display the current measurement system in read-only format.
+- Use in detail views, reports, or dashboards where the system should be visible but not editable.
+- Use alongside MeasurementInstanceView and MeasurementUnitView for complete measurement display.
+
+## When Not to Use
+
+- Do not use for selecting a system -- use MeasurementSystemInput instead.
+- Do not use for displaying individual units -- use MeasurementUnitView instead.
 
 ## Headless
 

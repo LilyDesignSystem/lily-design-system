@@ -19,7 +19,11 @@ EspanaTarjetaSanitariaIndividualInput is a headless input for entering a España
 ## Usage
 
 ```html
-<EspanaTarjetaSanitariaIndividualInput label="TSI" value={tsi} />
+<Field label="Tarjeta Sanitaria Individual" required>
+  <EspanaTarjetaSanitariaIndividualInput label="TSI" value={tsi} required />
+  <Hint>Enter your CIP-SNS code from your health card</Hint>
+  <ErrorMessage>Please enter a valid TSI number</ErrorMessage>
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -32,8 +36,15 @@ EspanaTarjetaSanitariaIndividualInput is a headless input for entering a España
 
 ## When to Use
 
-- Use for entering a Spanish TSI / CIP-SNS healthcare identifier.
-- Use EspanaTarjetaSanitariaIndividualView for read-only display.
+- Use in clinical or administrative forms to collect a Spanish TSI / CIP-SNS healthcare identifier.
+- Use with validation for the TSI identifier format.
+- Use in patient registration workflows where the TSI is required for healthcare access in Spain.
+
+## When Not to Use
+
+- Do not use for displaying read-only identifiers -- use EspanaTarjetaSanitariaIndividualView instead.
+- Do not use for general text input -- use TextInput instead.
+- Do not use for other national identifiers -- use the corresponding country-specific input component.
 
 ## Headless
 

@@ -19,15 +19,37 @@ The summary text is always visible and acts as the toggle trigger. The content b
 
 ## Usage
 
+Basic collapsible section:
+
 ```html
 <Collapsible summary="More info">
   <p>Hidden content revealed on expand.</p>
 </Collapsible>
 ```
 
+Programmatically controlled collapsible for advanced settings:
+
 ```html
 <Collapsible summary="Advanced settings" open={showAdvanced}>
-  <p>Advanced configuration options here.</p>
+  <label for="timeout">Timeout (seconds)</label>
+  <NumberInput label="Timeout" id="timeout" value={timeout} min={1} max={300} />
+  <label for="retries">Max retries</label>
+  <NumberInput label="Max retries" id="retries" value={retries} min={0} max={10} />
+</Collapsible>
+```
+
+FAQ page with multiple collapsible sections:
+
+```html
+<h2>Frequently Asked Questions</h2>
+<Collapsible summary="How do I reset my password?">
+  <p>Go to the login page and click "Forgot password". Enter your email address and follow the instructions sent to your inbox.</p>
+</Collapsible>
+<Collapsible summary="Can I change my username?">
+  <p>Yes. Navigate to Settings > Profile and update your display name.</p>
+</Collapsible>
+<Collapsible summary="What payment methods do you accept?">
+  <p>We accept Visa, Mastercard, and bank transfers.</p>
 </Collapsible>
 ```
 
@@ -41,9 +63,16 @@ The summary text is always visible and acts as the toggle trigger. The content b
 
 ## When to Use
 
-- Use a Collapsible to hide secondary content that users may optionally expand, such as advanced settings, additional details, or FAQ answers.
-- Use a Collapsible to reduce visual clutter on content-heavy pages while keeping information accessible.
-- Avoid using a Collapsible for critical content that all users must see; keep essential information visible by default.
+- Use to hide secondary content that users may optionally expand, such as advanced settings, additional details, or FAQ answers.
+- Use to reduce visual clutter on content-heavy pages while keeping information accessible.
+- Use as a programmatically controlled container where open/close state is driven by application logic.
+- Use for progressive disclosure in long forms or configuration panels.
+
+## When Not to Use
+
+- Do not use for user-triggered disclosure with a visible toggle -- use Details or Expander instead.
+- Do not use for navigation hierarchies -- use AccordionNav or TreeNav instead.
+- Do not use for critical content that all users must see -- keep essential information visible by default.
 
 ## Headless
 

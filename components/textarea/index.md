@@ -24,15 +24,15 @@ Unlike a single-line text input, a textarea provides a larger, scrollable text a
 ## Usage
 
 ```html
-<Textarea label="Comments" value={value} rows={5} />
-```
+<Field label="Can you describe how you move about?">
+  <Hint>For example, if you use crutches, sticks, or a walking frame</Hint>
+  <Textarea label="Mobility description" rows={5} />
+</Field>
 
-```html
-<Textarea label="Description" value={description} required />
-```
-
-```html
-<Textarea label="Notes" value={value} disabled={isReadOnly} />
+<Field label="Additional notes for the referral">
+  <Hint>Include any relevant medical history or current medications</Hint>
+  <Textarea label="Referral notes" rows={8} />
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -47,10 +47,17 @@ Unlike a single-line text input, a textarea provides a larger, scrollable text a
 
 ## When to Use
 
-- Use for multi-line text entry such as comments, messages, descriptions, feedback, or code input.
-- Use when the expected input is longer than a single line and benefits from a larger, scrollable text area.
-- Avoid for short, single-line text; use TextInput instead.
-- Consider adding a CharacterCounter alongside the Textarea when there is a maximum length constraint.
+- Use when users need to enter multiple lines of text, such as a description, feedback, or clinical notes
+- Use with a visible Label positioned above the textarea -- never use placeholder text as a substitute
+- Use the `rows` attribute to set the textarea height proportional to the expected amount of text
+- Use with Hint to guide what information to include, such as "Describe your symptoms and when they started"
+
+## When Not to Use
+
+- Do not use for single-line answers like names, phone numbers, or postcodes -- use TextInput instead
+- Do not use when a character limit is needed -- use TextAreaWithCharacterCounter which pairs Textarea with CharacterCounter
+- Do not disable copy and paste -- users must be able to paste text (WCAG 2.2)
+- Do not use without consulting your clinical team if the service involves health information -- users may disclose sensitive health concerns
 
 ## Headless
 

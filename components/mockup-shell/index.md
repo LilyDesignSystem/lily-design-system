@@ -19,9 +19,34 @@ This headless component uses a `<div>` element with `role="img"` and `aria-label
 
 ## Usage
 
+Basic shell mockup with an installation command:
+
 ```html
 <MockupShell label="Terminal showing installation command">
   <code>npm install lily-design-system</code>
+</MockupShell>
+```
+
+Shell mockup with multi-line output:
+
+```html
+<MockupShell label="Terminal showing build output">
+  <pre><code>$ pnpm build
+Building project...
+✓ Compiled 42 components
+✓ Generated type definitions
+✓ Build complete in 3.2s</code></pre>
+</MockupShell>
+```
+
+Shell mockup in a getting-started guide:
+
+```html
+<h3>Step 1: Install dependencies</h3>
+<MockupShell label="Terminal showing project setup commands">
+  <pre><code>$ mkdir my-app && cd my-app
+$ pnpm init
+$ pnpm add lily-design-system</code></pre>
 </MockupShell>
 ```
 
@@ -36,9 +61,16 @@ This headless component uses a `<div>` element with `role="img"` and `aria-label
 
 ## When to Use
 
-- Use to showcase terminal commands, CLI output, or shell interactions.
-- Use in documentation to frame command-line examples.
-- Avoid for functional terminal emulators -- use an actual terminal component instead.
+- Use to showcase terminal commands, CLI output, or shell interactions in a realistic frame.
+- Use in documentation and tutorials to frame command-line installation or setup steps.
+- Use in developer-facing marketing pages to highlight CLI tooling.
+- Use in README previews or onboarding guides to show expected terminal output.
+
+## When Not to Use
+
+- Do not use for code snippets or source code display -- use CodeBlock instead.
+- Do not use for functional terminal emulators -- build a custom interactive terminal instead.
+- Do not use for non-terminal content -- use MockupWindow or MockupBrowser instead.
 
 ## Headless
 

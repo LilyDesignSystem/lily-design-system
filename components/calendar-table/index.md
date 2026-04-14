@@ -20,13 +20,37 @@ This headless component renders a `<table>` element with `role="grid"` and an ac
 ## Usage
 
 ```html
-<CalendarTable label="January 2025">
-    <thead>
-        <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
-    </thead>
-    <tbody>
-        <tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
-    </tbody>
+<CalendarTable label="April 2026">
+  <CalendarTableHead>
+    <CalendarTableRow>
+      <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th>
+    </CalendarTableRow>
+  </CalendarTableHead>
+  <CalendarTableBody>
+    <CalendarTableRow>
+      <CalendarTableData>1</CalendarTableData>
+      <CalendarTableData>2</CalendarTableData>
+      <CalendarTableData>3</CalendarTableData>
+      <CalendarTableData>4</CalendarTableData>
+      <CalendarTableData>5</CalendarTableData>
+      <CalendarTableData>6</CalendarTableData>
+      <CalendarTableData>7</CalendarTableData>
+    </CalendarTableRow>
+    <CalendarTableRow>
+      <CalendarTableData today selected>8</CalendarTableData>
+      <CalendarTableData>9</CalendarTableData>
+      <CalendarTableData>10</CalendarTableData>
+      <CalendarTableData>11</CalendarTableData>
+      <CalendarTableData>12</CalendarTableData>
+      <CalendarTableData>13</CalendarTableData>
+      <CalendarTableData>14</CalendarTableData>
+    </CalendarTableRow>
+  </CalendarTableBody>
+  <CalendarTableFoot>
+    <CalendarTableRow>
+      <td colspan="7">3 events this week</td>
+    </CalendarTableRow>
+  </CalendarTableFoot>
 </CalendarTable>
 ```
 
@@ -41,10 +65,16 @@ None built-in -- the consumer should implement grid keyboard navigation on cells
 
 ## When to Use
 
-- Use for displaying dates in a structured grid layout organized by weeks and days, such as scheduling applications, event planners, and dashboard calendars.
-- Use when users need to view and optionally interact with dates at a glance.
-- Avoid for selecting a date range -- use CalendarRangePicker instead.
-- Consider DateInput instead when you just need a compact date entry field without a visual calendar.
+- Use to display an interactive calendar grid for managing dates, scheduling, and date selection
+- Use when users need to view and interact with dates in a monthly or weekly grid format
+- Use in scheduling applications, event planners, and dashboard calendars where a visual date layout is needed
+- Use as the container for CalendarTableHead, CalendarTableBody, CalendarTableFoot, CalendarTableRow, and CalendarTableData
+
+## When Not to Use
+
+- Do not use for displaying general tabular data -- use Table or DataTable instead
+- Do not use for date range selection without a grid -- use CalendarRangePicker for start-and-end-date picking
+- Do not use for simple date entry where users already know the date -- use DateInput for a compact input field
 
 ## Headless
 

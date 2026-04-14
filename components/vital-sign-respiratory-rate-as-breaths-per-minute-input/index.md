@@ -28,11 +28,16 @@ Use this component in medical forms, health assessments, vital sign entry screen
 ## Usage
 
 ```html
-<VitalSignRespiratoryRateAsBreathsPerMinuteInput label="Respiratory rate (bpm)" value={value} />
-```
+<!-- Basic respiratory rate input -->
+<VitalSignRespiratoryRateAsBreathsPerMinuteInput label="Respiratory rate (breaths/min)" value={16} />
 
-```html
+<!-- Required field in a triage assessment -->
 <VitalSignRespiratoryRateAsBreathsPerMinuteInput label="Breathing rate" value={rate} required />
+
+<!-- In a vital signs group entry -->
+<VitalSignHeartRateAsBeatsPerMinuteInput label="Heart rate (BPM)" value={heartRate} />
+<VitalSignRespiratoryRateAsBreathsPerMinuteInput label="Respiratory rate (breaths/min)" value={respRate} />
+<VitalSignBodyTemperatureAsCelciusInput label="Temperature (°C)" value={temp} />
 ```
 
 ## Keyboard Interactions
@@ -46,9 +51,16 @@ Use this component in medical forms, health assessments, vital sign entry screen
 
 ## When to Use
 
-- Use for form fields that accept a respiratory rate measurement in breaths per minute.
-- Use as the input companion to VitalSignRespiratoryRateAsBreathsPerMinuteView.
-- Consider using NumberInput for generic numeric values that are not specifically respiratory rates.
+- Use in clinical forms to record a patient's respiratory rate measurement in breaths per minute.
+- Use with the default min/max/step constraints (0-100, step 1) for standard integer entry.
+- Use within vital sign entry workflows, triage forms, and patient intake assessments.
+- Use in respiratory monitoring forms and post-operative care assessments.
+
+## When Not to Use
+
+- Do not use for displaying recorded values -- use VitalSignRespiratoryRateAsBreathsPerMinuteView instead.
+- Do not use for general number input -- use NumberInput for non-clinical numeric values.
+- Do not use for measurements outside the vital sign domain -- use MeasurementInstanceInput for generic measurements.
 
 ## Headless
 

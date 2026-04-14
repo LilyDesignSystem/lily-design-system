@@ -22,10 +22,16 @@ The component renders a `<tr>` element and passes through its children, which ar
 ```html
 <GanttTableBody>
   <GanttTableRow>
-    <th>Design</th><td>---</td><td></td><td></td><td></td>
+    <GanttTableCol scope="row">Design phase</GanttTableCol>
+    <GanttTableData active>████</GanttTableData>
+    <GanttTableData active>████</GanttTableData>
+    <GanttTableData></GanttTableData>
   </GanttTableRow>
   <GanttTableRow>
-    <th>Development</th><td></td><td>---</td><td>---</td><td></td>
+    <GanttTableCol scope="row">Development</GanttTableCol>
+    <GanttTableData></GanttTableData>
+    <GanttTableData active>████</GanttTableData>
+    <GanttTableData active>████</GanttTableData>
   </GanttTableRow>
 </GanttTableBody>
 ```
@@ -40,8 +46,14 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 ## When to Use
 
-- Use inside GanttTableHead, GanttTableBody, or GanttTableFoot to represent a single row (task, header, or summary) in the Gantt chart.
-- Avoid using outside of a GanttTable section component.
+- Use inside GanttTable to provide the `<tr>` row element for a task, header, or summary row.
+- Use inside GanttTableHead, GanttTableBody, or GanttTableFoot to represent a single row in the Gantt chart.
+- Use to wrap a task-name cell followed by time-period data cells.
+
+## When Not to Use
+
+- Do not use outside of a GanttTable structure -- use TableRow or DataTableRow for general tables.
+- Do not use for standalone row content outside a table context.
 
 ## Headless
 

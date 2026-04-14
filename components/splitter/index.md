@@ -22,8 +22,24 @@ Use Splitter between two adjacent panels to provide a visual and interactive han
 
 ## Usage
 
+Vertical splitter between a file tree and editor:
+
 ```html
-<Splitter label="Resize panels" orientation="vertical" />
+<div style="display: flex;">
+  <div class="file-tree"><!-- file list --></div>
+  <Splitter label="Resize file tree and editor" orientation="vertical" />
+  <div class="editor"><!-- code editor --></div>
+</div>
+```
+
+Horizontal splitter between a list and detail pane:
+
+```html
+<div style="display: flex; flex-direction: column;">
+  <div class="email-list"><!-- email list --></div>
+  <Splitter label="Resize email list and preview" orientation="horizontal" />
+  <div class="email-preview"><!-- email content --></div>
+</div>
 ```
 
 ## Keyboard Interactions
@@ -44,10 +60,16 @@ Use Splitter between two adjacent panels to provide a visual and interactive han
 
 ## When to Use
 
-- Use between two adjacent panels to provide a draggable handle for resizing, such as in code editors, file managers, or split-view layouts.
-- Use when users need to adjust the relative sizes of adjacent content areas.
-- Avoid when fixed-width panels are more appropriate for the layout.
-- Consider a simple Separator when no resize interaction is needed.
+- Use Splitter between two adjacent panels to provide a draggable handle for resizing, such as in code editors, file managers, or split-view layouts.
+- Use Splitter when users need to adjust the relative sizes of adjacent content areas.
+- Use Splitter for email or messaging interfaces with a list pane and detail pane.
+- Use Splitter in IDE-style layouts separating a file tree from an editor area.
+
+## When Not to Use
+
+- Do not use Splitter for a single resizable container -- use Resizable instead.
+- Do not use Splitter for visual dividers that do not involve resizing -- use Separator instead.
+- Do not use Splitter when fixed-width panels are more appropriate for the layout.
 
 ## Headless
 

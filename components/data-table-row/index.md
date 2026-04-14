@@ -40,9 +40,14 @@ None -- this component is a passive container. Navigation within the table follo
 
 ## When to Use
 
-- Use a DataTableRow for each record or header row within a DataTableHead, DataTableBody, or DataTableFoot section.
-- Use a DataTableRow when you need to spread additional attributes like event handlers or data attributes onto a `<tr>`.
-- Avoid using a DataTableRow outside of a DataTable structure; it requires a parent `<thead>`, `<tbody>`, or `<tfoot>` for valid HTML.
+- Use inside DataTable to provide the `<tr>` row element within DataTableHead, DataTableBody, or DataTableFoot.
+- Use for each record or header row in a data table.
+- Use when you need to spread additional attributes like event handlers or data attributes onto a `<tr>`.
+
+## When Not to Use
+
+- Do not use outside DataTable -- use TableRow, CalendarTableRow, GanttTableRow, or KanbanTableRow for their respective table types.
+- Do not use as a standalone element -- it requires a parent `<thead>`, `<tbody>`, or `<tfoot>` for valid HTML.
 
 ## Headless
 

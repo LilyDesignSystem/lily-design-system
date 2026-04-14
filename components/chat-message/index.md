@@ -20,27 +20,29 @@ This headless component uses the native HTML `<article>` element to represent a 
 
 ## Usage
 
-```html
-<ChatMessage label="Message from Alice at 10:30 AM">
-  <Avatar>
-    <AvatarImage src="alice.jpg" alt="Alice" />
-  </Avatar>
-  <span>Alice</span>
-  <time datetime="2025-01-15T10:30:00">10:30 AM</time>
-  <p>Hello, how can I help you today?</p>
-</ChatMessage>
-```
-
-Within the ChatNav composition:
+A patient messaging conversation in a healthcare portal:
 
 ```html
-<ChatNav label="Chat conversations">
+<ChatNav label="Patient messages">
   <ChatList>
+    <ChatListItem>
+      <ChatMessage label="Message from Dr Sarah Mitchell at 10:30 AM">
+        <Avatar>
+          <AvatarImage src="/photos/sm.jpg" alt="Dr Sarah Mitchell" />
+        </Avatar>
+        <span>Dr Sarah Mitchell</span>
+        <time datetime="2025-03-15T10:30:00">10:30 AM</time>
+        <p>Your blood test results are back. Everything looks normal.</p>
+      </ChatMessage>
+    </ChatListItem>
     <ChatListItem current>
-      <ChatMessage label="Message from Alice at 10:30 AM">
-        <span>Alice</span>
-        <time datetime="2025-01-15T10:30:00">10:30 AM</time>
-        <p>Hello, how can I help you today?</p>
+      <ChatMessage label="Message from Karen Francis at 10:45 AM">
+        <Avatar>
+          <AvatarImage src="/photos/kf.jpg" alt="Karen Francis" />
+        </Avatar>
+        <span>Karen Francis</span>
+        <time datetime="2025-03-15T10:45:00">10:45 AM</time>
+        <p>Thank you, doctor. Should I book a follow-up?</p>
       </ChatMessage>
     </ChatListItem>
   </ChatList>
@@ -60,10 +62,16 @@ Within the ChatNav composition:
 
 ## When to Use
 
-- Use for displaying individual chat messages with author information and timestamps.
+- Use to display one message in a chat conversation, including author avatar, name, timestamp, and message content.
 - Use inside a ChatListItem as part of the ChatNav composition pattern for conversation lists.
 - Use in standalone chat thread views for displaying message history.
-- Avoid for non-conversational content -- use Comment instead for discussion comments and feedback.
+- Use when building real-time or asynchronous messaging interfaces.
+
+## When Not to Use
+
+- Do not use for comments on content such as articles or clinical notes -- use Comment instead.
+- Do not use for system notifications or alerts -- use Alert or Notification.
+- Do not use for log entries or event history -- use TimelineList.
 
 ## Headless
 

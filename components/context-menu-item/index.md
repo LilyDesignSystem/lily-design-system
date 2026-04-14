@@ -19,11 +19,23 @@ This component renders as a div with `role="menuitem"` and `tabindex="-1"`, foll
 
 ## Usage
 
+Context menu items inside a ContextMenu with click handlers:
+
 ```html
-<ContextMenuItem>Cut</ContextMenuItem>
-<ContextMenuItem>Copy</ContextMenuItem>
-<ContextMenuItem>Paste</ContextMenuItem>
-<ContextMenuItem disabled>Delete</ContextMenuItem>
+<ContextMenu label="Text actions" open={open}>
+    <ContextMenuItem onclick={() => handleCut()}>Cut</ContextMenuItem>
+    <ContextMenuItem onclick={() => handleCopy()}>Copy</ContextMenuItem>
+    <ContextMenuItem onclick={() => handlePaste()}>Paste</ContextMenuItem>
+    <ContextMenuItem aria-disabled="true">Delete</ContextMenuItem>
+</ContextMenu>
+```
+
+Context menu item with keyboard shortcut hint:
+
+```html
+<ContextMenuItem aria-keyshortcuts="Control+C" onclick={() => handleCopy()}>
+    Copy
+</ContextMenuItem>
 ```
 
 ## Keyboard Interactions
@@ -40,9 +52,14 @@ This component renders as a div with `role="menuitem"` and `tabindex="-1"`, foll
 
 ## When to Use
 
-- Use a ContextMenuItem for each action or option within a ContextMenu, such as cut, copy, paste, or delete.
-- Use a ContextMenuItem when the action needs keyboard shortcut hints or icon labels alongside the action text.
-- Avoid using a ContextMenuItem outside of a ContextMenu container; it requires a parent with `role="menu"` for proper ARIA semantics.
+- Use inside ContextMenu for one action.
+- Use for each action or option within a context menu, such as cut, copy, paste, or delete.
+- Use when the action needs keyboard shortcut hints or icon labels alongside the action text.
+
+## When Not to Use
+
+- Do not use outside ContextMenu -- it requires a parent with `role="menu"` for proper ARIA semantics.
+- Do not use for regular menu items -- use MenuItem inside Menu instead.
 
 ## Headless
 

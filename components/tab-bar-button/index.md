@@ -32,42 +32,14 @@ tabindex pattern where only the selected tab participates in the tab order.
 
 ## Usage
 
-Basic tab within a tablist:
-
 ```html
-<div role="tablist" aria-label="Main navigation">
-  <TabBarButton
-    selected={activeTabBarButton === "dashboard"}
-    controls="panel-dashboard"
-    onclick={() => activeTabBarButton = "dashboard"}
-  >
-    Dashboard
-  </TabBarButton>
-  <TabBarButton
-    selected={activeTabBarButton === "settings"}
-    controls="panel-settings"
-    onclick={() => activeTabBarButton = "settings"}
-  >
-    Settings
-  </TabBarButton>
-  <TabBarButton
-    selected={activeTabBarButton === "reports"}
-    controls="panel-reports"
-    onclick={() => activeTabBarButton = "reports"}
-  >
-    Reports
-  </TabBarButton>
-</div>
-
-<div id="panel-dashboard" role="tabpanel" hidden={activeTabBarButton !== "dashboard"}>
-  Dashboard content
-</div>
-<div id="panel-settings" role="tabpanel" hidden={activeTabBarButton !== "settings"}>
-  Settings content
-</div>
-<div id="panel-reports" role="tabpanel" hidden={activeTabBarButton !== "reports"}>
-  Reports content
-</div>
+<TabBarButton
+  selected={activeTab === 'overview'}
+  controls="panel-overview"
+  onclick={() => activeTab = 'overview'}
+>
+  Overview
+</TabBarButton>
 ```
 
 ## Keyboard Interactions
@@ -85,9 +57,15 @@ Basic tab within a tablist:
 
 ## When to Use
 
-- Use inside a TabBar to represent a single tab that switches the visible content panel.
-- Use when each tab controls a distinct panel of content within a tabbed interface.
-- Avoid using outside a `role="tablist"` container, as the `role="tab"` semantics require a tablist parent.
+- Use inside TabBar to represent one selectable tab that reveals its associated content panel
+- Use with `selected` state to indicate the currently active tab
+- Use with `aria-controls` to associate the tab with its content panel
+
+## When Not to Use
+
+- Do not use outside of a TabBar -- it has no standalone meaning without a `role="tablist"` parent
+- Do not use for actions that navigate to a different page -- use a link or NavigationMenu
+- Do not use for toggle actions unrelated to content panels -- use ToggleButton or SegmentGroupItem instead
 
 ## Headless
 

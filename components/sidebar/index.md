@@ -19,10 +19,59 @@ Use Sidebar when you need a distinct region alongside main content that assistiv
 
 ## Usage
 
+Sidebar with navigation links:
+
 ```html
 <Sidebar label="Navigation">
-  <nav>...</nav>
+  <nav>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/projects">Projects</a>
+    <a href="/team">Team</a>
+    <a href="/settings">Settings</a>
+  </nav>
 </Sidebar>
+```
+
+Sidebar with filters for a search results page:
+
+```html
+<Sidebar label="Search filters">
+  <form>
+    <fieldset>
+      <legend>Category</legend>
+      <label><input type="checkbox" value="docs" /> Documentation</label>
+      <label><input type="checkbox" value="api" /> API Reference</label>
+      <label><input type="checkbox" value="guides" /> Guides</label>
+    </fieldset>
+    <Separator />
+    <fieldset>
+      <legend>Date range</legend>
+      <label for="from">From</label>
+      <DateInput label="From date" id="from" value={fromDate} />
+      <label for="to">To</label>
+      <DateInput label="To date" id="to" value={toDate} />
+    </fieldset>
+  </form>
+</Sidebar>
+```
+
+Sidebar alongside main content:
+
+```html
+<div class="page-layout">
+  <Sidebar label="Documentation navigation">
+    <TreeNav label="Docs sections">
+      <TreeList>
+        <TreeListItem><TreeLink href="/docs/getting-started">Getting Started</TreeLink></TreeListItem>
+        <TreeListItem><TreeLink href="/docs/components">Components</TreeLink></TreeListItem>
+      </TreeList>
+    </TreeNav>
+  </Sidebar>
+  <main>
+    <h1>Getting Started</h1>
+    <p>...</p>
+  </main>
+</div>
 ```
 
 ## Keyboard Interactions
@@ -36,10 +85,16 @@ None -- this component is a passive container. Keyboard navigation depends on th
 
 ## When to Use
 
-- Use when content is tangentially related to the main content and benefits from being in a distinct, navigable landmark region (e.g., navigation menus, filters, related links).
+- Use for a side panel containing navigation menus, filters, or supplementary content within a page layout.
+- Use when content is tangentially related to the main content and benefits from being in a distinct, navigable landmark region.
 - Use when assistive technology users should be able to jump directly to this supplementary region.
-- Avoid for primary page content; use a `<main>` element instead.
-- Consider a Drawer or Sheet when the side content should be toggled on and off rather than persistently visible.
+- Use for persistent side navigation that remains visible alongside the main content.
+
+## When Not to Use
+
+- Do not use for slide-in overlays -- use Drawer or Sheet instead.
+- Do not use within GrailLayout -- use GrailLayoutLeftAside or GrailLayoutRightAside instead.
+- Do not use for primary page content -- use a `<main>` element instead.
 
 ## Headless
 

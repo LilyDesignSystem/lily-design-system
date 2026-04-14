@@ -22,6 +22,16 @@ A read-only five-star rating display that renders filled and empty star characte
 <FiveStarRatingView value={4} label="4 out of 5 stars" />
 ```
 
+In a product listing:
+
+```html
+<Card>
+    <h3>Wireless Headphones</h3>
+    <FiveStarRatingView value={4} label="Rated 4 out of 5 stars" />
+    <p>Based on 128 reviews</p>
+</Card>
+```
+
 ## Keyboard Interactions
 
 None -- this component is a passive, read-only display.
@@ -36,7 +46,12 @@ None -- this component is a passive, read-only display.
 
 - Use to display a read-only star rating in product listings, review summaries, or user profiles.
 - Use when the rating value should be visible but not editable.
-- Avoid when the user needs to select or change a rating; use FiveStarRatingPicker instead.
+- Use alongside product titles or review headings to show aggregate ratings.
+
+## When Not to Use
+
+- Do not use when the user needs to select or change a rating -- use FiveStarRatingPicker instead.
+- Do not use for satisfaction survey results with face labels -- use FiveFaceRatingView instead.
 
 ## Headless
 

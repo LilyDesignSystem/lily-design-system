@@ -19,7 +19,14 @@ This component is useful for patient monitors, health dashboards, medical record
 ## Usage
 
 ```html
-<VitalSignBellyCircumferenceAsCmView value={90} label="90 cm belly circumference" />
+<!-- Display a recorded belly circumference -->
+<VitalSignBellyCircumferenceAsCmView value={90} label="Belly circumference: 90 cm" />
+
+<!-- In a patient dashboard alongside other vital signs -->
+<VitalSignBellyCircumferenceAsCmView value={102} label="102 cm belly circumference" />
+
+<!-- With custom styling for risk thresholds -->
+<VitalSignBellyCircumferenceAsCmView value={85} label="Belly circumference: 85 cm" class="normal-range" />
 ```
 
 ## Keyboard Interactions
@@ -33,8 +40,16 @@ This component is useful for patient monitors, health dashboards, medical record
 
 ## When to Use
 
-- Use for read-only display of belly circumference values.
-- Use VitalSignBellyCircumferenceAsCmInput for editable entry.
+- Use to display a recorded belly circumference value in read-only format.
+- Use in patient dashboards, medical records, or clinical summaries showing body measurements.
+- Use with appropriate ARIA (`role="img"`, `aria-label`) for screen reader accessibility.
+- Use in health assessment reports and metabolic risk profiles.
+
+## When Not to Use
+
+- Do not use for entering new values -- use VitalSignBellyCircumferenceAsCmInput instead.
+- Do not use for general measurement display -- use MeasurementInstanceView for non-clinical values.
+- Do not use for waist circumference -- use VitalSignWaistCircumferenceAsCmView instead.
 
 ## Headless
 

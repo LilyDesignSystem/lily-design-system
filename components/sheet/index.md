@@ -25,9 +25,28 @@ Use Sheet when you need a temporary panel that slides in from the top, right, bo
 
 ## Usage
 
+Settings panel sliding in from the right:
+
 ```html
-<Sheet label="Settings" open={open} side="right">
-  <p>Sheet content</p>
+<Sheet label="Settings" open={settingsOpen} side="right">
+  <h2>Preferences</h2>
+  <form>
+    <label><input type="checkbox" /> Enable notifications</label>
+    <label><input type="checkbox" /> Dark mode</label>
+  </form>
+  <button onclick={() => (settingsOpen = false)}>Close</button>
+</Sheet>
+```
+
+Mobile action sheet sliding up from the bottom:
+
+```html
+<Sheet label="Share options" open={shareOpen} side="bottom">
+  <ul>
+    <li><button>Copy link</button></li>
+    <li><button>Email</button></li>
+    <li><button>Print</button></li>
+  </ul>
 </Sheet>
 ```
 
@@ -44,10 +63,16 @@ Use Sheet when you need a temporary panel that slides in from the top, right, bo
 
 ## When to Use
 
-- Use when you need a temporary overlay panel that slides in from a screen edge for navigation, settings, filters, or detail views.
+- Use for a panel that slides in from a screen edge as an overlay, commonly from the bottom on mobile.
+- Use when you need a temporary overlay for navigation, settings, filters, or detail views.
 - Use when the content should overlay the page rather than navigate away from it.
-- Avoid for critical confirmations or urgent messages; use AlertDialog instead.
-- Consider a Dialog when the panel does not need to be anchored to a specific screen edge.
+- Use for action sheets on mobile that present a list of options from the bottom.
+
+## When Not to Use
+
+- Do not use for side navigation -- use Drawer or Sidebar instead.
+- Do not use for modal dialogs that should be centered -- use Dialog instead.
+- Do not use for critical confirmations or urgent messages -- use AlertDialog instead.
 
 ## Headless
 

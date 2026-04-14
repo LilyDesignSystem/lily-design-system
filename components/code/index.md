@@ -33,9 +33,15 @@ This headless component uses the native HTML `<code>` element for semantic corre
 
 ## When to Use
 
-- Use for inline code snippets, variable names, file paths, or terminal commands within text.
-- Avoid for multi-line code -- use CodeBlock instead.
-- Avoid for non-code emphasized text -- use standard text formatting instead.
+- Use for short inline code snippets within surrounding text, such as variable names, CSS classes, or HTML elements.
+- Use when displaying file paths, terminal commands, or configuration keys inline.
+- Use to visually distinguish code from prose for improved readability.
+
+## When Not to Use
+
+- Do not use for multi-line code -- use CodeBlock instead.
+- Do not use for non-code emphasis -- use `<strong>` or `<em>` for standard text formatting.
+- Do not use for terminal-style presentation -- use MockupShell for a command-line appearance.
 
 ## Headless
 

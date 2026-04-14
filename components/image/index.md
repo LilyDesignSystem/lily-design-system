@@ -23,14 +23,29 @@ When a caption is provided, the component renders a `<figure>` containing the `<
 ## Usage
 
 ```html
-<!-- Basic image with alt text -->
-<Image src="/photo.jpg" alt="A sunset over the ocean" />
+<Image
+  src="/images/stretch-marks.jpg"
+  alt="Close-up of a person's skin showing pink and silver stretch marks across the abdomen"
+/>
+```
 
-<!-- Image with caption wrapped in figure/figcaption -->
-<Image src="/photo.jpg" alt="A sunset over the ocean" caption="Photo by Jane Doe" />
+```html
+<Figure>
+  <Image
+    src="/images/chickenpox-rash.jpg"
+    alt="Small red spots on a child's chest and arms, typical of chickenpox"
+  />
+  <Caption>Chickenpox starts with small, itchy spots. They can appear anywhere on the body.</Caption>
+</Figure>
+```
 
-<!-- Lazy-loaded image -->
-<Image src="/large-photo.jpg" alt="Landscape" loading="lazy" />
+```html
+<!-- Lazy-loaded image below the fold -->
+<Image
+  src="/images/physiotherapy-exercise.jpg"
+  alt="A person performing a seated hamstring stretch with one leg extended"
+  loading="lazy"
+/>
 ```
 
 ## Keyboard Interactions
@@ -44,9 +59,17 @@ None -- this component is a passive content element. Images are not interactive 
 
 ## When to Use
 
-- Use to display photographs, illustrations, diagrams, or other visual content within an interface.
-- Use with a `caption` prop when the image needs a visible descriptive caption (renders as `<figure>`/`<figcaption>`).
-- Avoid for purely decorative images that add no informational value; use a CSS background image instead.
+- Use when an image meets a genuine user need, such as helping users identify a health condition or understand a procedure
+- Use with descriptive alt text that conveys the same information as the image
+- Use with a caption (via Figure and Caption) to explain what users should conclude from the image
+- Use when users with access needs like dyslexia benefit from visual content alongside text
+
+## When Not to Use
+
+- Do not use decorative images that add no informational value -- they frustrate users, especially on transactional pages; use a CSS background image instead
+- Do not use images containing embedded text -- screen readers cannot read text within images
+- Do not arrange images side-by-side in a gallery layout -- stack vertically so users do not miss content
+- Do not use when the information can be conveyed equally well through text alone
 
 ## Headless
 

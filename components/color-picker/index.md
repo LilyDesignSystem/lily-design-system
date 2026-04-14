@@ -48,9 +48,14 @@ This component is useful for advanced color pickers where the user needs fine-gr
 
 ## When to Use
 
-- Use a ColorPicker when users need fine-grained 2D color selection by saturation and brightness, such as in advanced color editors or design tools.
-- Use a ColorPicker alongside hue and opacity sliders for a complete color selection interface.
-- Avoid using a ColorPicker for simple color choices from a predefined palette; consider ColorPickerButton components instead.
+- Use for a two-dimensional board for picking colours by hue and saturation.
+- Use in design tools, theme editors, or branding configuration where fine-grained colour selection is needed.
+- Use alongside hue and opacity sliders for a complete colour selection interface.
+
+## When Not to Use
+
+- Do not use when the native browser picker is sufficient -- use ColorInput for simple hex colour selection.
+- Do not use for a small set of preset colours -- use a group of ColorPickerButton components instead.
 
 ## Headless
 

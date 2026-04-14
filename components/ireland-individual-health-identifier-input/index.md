@@ -21,7 +21,11 @@ IrelandIndividualHealthIdentifierInput is a headless input for entering an Irela
 ## Usage
 
 ```html
-<IrelandIndividualHealthIdentifierInput label="IHI" value={ihi} />
+<Field label="Individual Health Identifier" required>
+  <IrelandIndividualHealthIdentifierInput label="IHI" value={ihi} required />
+  <Hint>Enter the 10-digit IHI from your HSE records</Hint>
+  <ErrorMessage>Please enter a valid 10-digit IHI</ErrorMessage>
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -35,8 +39,15 @@ IrelandIndividualHealthIdentifierInput is a headless input for entering an Irela
 
 ## When to Use
 
-- Use for entering an Irish IHI.
-- Use IrelandIndividualHealthIdentifierView for read-only display.
+- Use in clinical or administrative forms to collect an Ireland Individual Health Identifier (IHI).
+- Use with validation for the 10-digit IHI format.
+- Use in patient registration workflows where the IHI is required by HSE systems.
+
+## When Not to Use
+
+- Do not use for displaying read-only identifiers -- use IrelandIndividualHealthIdentifierView instead.
+- Do not use for general text input -- use TextInput instead.
+- Do not use for other national identifiers -- use the corresponding country-specific input component.
 
 ## Headless
 

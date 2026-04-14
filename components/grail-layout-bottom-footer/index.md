@@ -13,12 +13,29 @@ GrailLayoutBottomFooter is a headless container for the bottom footer section of
 - `children`: slot (required) -- content to render inside the bottom footer section
 - `...restProps`: unknown -- additional attributes spread onto the `<div>` element
 
+## When to Use
+
+- Use inside GrailLayout as the full-width bottom footer area.
+- Use to contain copyright notices, site-wide links, or legal information.
+- Use when the page layout requires a persistent footer spanning the full width below the sidebar and main content.
+
+## When Not to Use
+
+- Do not use outside GrailLayout -- use Footer for standalone page footers.
+- Do not use for inline content summaries -- use a Panel or Card instead.
+
 ## Usage
 
 ```html
-<GrailLayoutBottomFooter>
-  <footer>Site Footer</footer>
-</GrailLayoutBottomFooter>
+<GrailLayout>
+  <GrailLayoutTopHeader>...</GrailLayoutTopHeader>
+  <GrailLayoutLeftAside>...</GrailLayoutLeftAside>
+  <GrailLayoutCenterMain>...</GrailLayoutCenterMain>
+  <GrailLayoutRightAside>...</GrailLayoutRightAside>
+  <GrailLayoutBottomFooter>
+    <Footer />
+  </GrailLayoutBottomFooter>
+</GrailLayout>
 ```
 
 

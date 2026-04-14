@@ -19,9 +19,38 @@ This headless component uses a `<div>` element with `role="img"` and `aria-label
 
 ## Usage
 
+Basic laptop mockup with a screenshot:
+
 ```html
 <MockupLaptop label="Dashboard application">
   <Image src="dashboard.png" alt="Dashboard screenshot" />
+</MockupLaptop>
+```
+
+Laptop mockup for a product marketing section:
+
+```html
+<section class="hero">
+  <h2>Built for productivity</h2>
+  <MockupLaptop label="Project management application showing task board">
+    <Image src="taskboard.png" alt="Task board with columns for To Do, In Progress, and Done" />
+  </MockupLaptop>
+</section>
+```
+
+Laptop mockup with live embedded content:
+
+```html
+<MockupLaptop label="Spreadsheet editor preview">
+  <DataTable label="Q4 Revenue">
+    <DataTableHead>
+      <DataTableRow><DataTableCol>Month</DataTableCol><DataTableCol>Revenue</DataTableCol></DataTableRow>
+    </DataTableHead>
+    <DataTableBody>
+      <DataTableRow><DataTableData>October</DataTableData><DataTableData>$42,000</DataTableData></DataTableRow>
+      <DataTableRow><DataTableData>November</DataTableData><DataTableData>$48,500</DataTableData></DataTableRow>
+    </DataTableBody>
+  </DataTable>
 </MockupLaptop>
 ```
 
@@ -36,9 +65,16 @@ This headless component uses a `<div>` element with `role="img"` and `aria-label
 
 ## When to Use
 
-- Use to showcase application designs or screenshots in a laptop context.
-- Use in documentation or marketing pages to frame desktop content.
-- Avoid for functional embedded content -- use an iframe instead.
+- Use to display desktop application designs or screenshots in a realistic laptop frame.
+- Use in marketing or portfolio pages to present software products professionally.
+- Use in case studies or presentations to show how an application looks on a laptop.
+- Use in design documentation to demonstrate desktop-specific layouts and interactions.
+
+## When Not to Use
+
+- Do not use for responsive design testing -- use actual responsive design tooling instead.
+- Do not use for web-specific content that needs an address bar -- use MockupBrowser instead.
+- Do not use for mobile content -- use MockupPhone instead.
 
 ## Headless
 

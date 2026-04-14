@@ -33,27 +33,30 @@ consumers to apply their own visual styling.
 
 ## Usage
 
-Basic ROYGB status selection:
+Risk matrix with five-level granularity:
 
 ```html
-<RedOrangeYellowGreenBluePicker label="Risk level" value={level} />
-<p>Current level: {level}</p>
+<Field label="Clinical risk assessment" required>
+  <RedOrangeYellowGreenBluePicker label="Clinical risk level">
+    <RedOrangeYellowGreenBluePickerButton value="red" label="Red - Critical" onclick={handleSelect} />
+    <RedOrangeYellowGreenBluePickerButton value="orange" label="Orange - Serious" onclick={handleSelect} />
+    <RedOrangeYellowGreenBluePickerButton value="yellow" label="Yellow - Caution" selected onclick={handleSelect} />
+    <RedOrangeYellowGreenBluePickerButton value="green" label="Green - Good" onclick={handleSelect} />
+    <RedOrangeYellowGreenBluePickerButton value="blue" label="Blue - Excellent" onclick={handleSelect} />
+  </RedOrangeYellowGreenBluePicker>
+</Field>
 ```
 
-Pre-selected value:
+Detailed project health assessment:
 
 ```html
-<RedOrangeYellowGreenBluePicker label="Alert status" value="green" />
-```
-
-With additional HTML attributes:
-
-```html
-<RedOrangeYellowGreenBluePicker
-  label="Project health"
-  value={level}
-  data-dashboard="main"
-/>
+<RedOrangeYellowGreenBluePicker label="Project health" data-dashboard="main">
+  <RedOrangeYellowGreenBluePickerButton value="red" label="Red - Blocked" onclick={handleSelect} />
+  <RedOrangeYellowGreenBluePickerButton value="orange" label="Orange - Major risks" onclick={handleSelect} />
+  <RedOrangeYellowGreenBluePickerButton value="yellow" label="Yellow - Minor risks" onclick={handleSelect} />
+  <RedOrangeYellowGreenBluePickerButton value="green" label="Green - On track" selected onclick={handleSelect} />
+  <RedOrangeYellowGreenBluePickerButton value="blue" label="Blue - Ahead of schedule" onclick={handleSelect} />
+</RedOrangeYellowGreenBluePicker>
 ```
 
 ## Keyboard Interactions
@@ -68,10 +71,16 @@ With additional HTML attributes:
 
 ## When to Use
 
-- Use RedOrangeYellowGreenBluePicker when a five-level status scale provides more useful granularity than a three-level RAG status.
-- Use RedOrangeYellowGreenBluePicker in risk assessments, health dashboards, and detailed project tracking.
-- Avoid using RedOrangeYellowGreenBluePicker when a simpler three-level scale suffices; use RedAmberGreenPicker instead.
-- Consider RedOrangeYellowGreenBlueView for displaying a previously selected status in read-only contexts.
+- Use for selecting a five-level colour status extending the traditional RAG pattern with additional granularity.
+- Use in risk matrices where distinguishing between critical, serious, and cautionary levels matters.
+- Use in detailed health assessments that need more than three status tiers.
+- Use in project tracking dashboards where five levels capture the full range of progress states.
+
+## When Not to Use
+
+- Do not use for display-only status -- use [RedOrangeYellowGreenBlueView](../red-orange-yellow-green-blue-view/) instead.
+- Do not use when a simpler three-level scale suffices -- use [RedAmberGreenPicker](../red-amber-green-picker/) instead.
+- Do not use for binary on/off states -- use [SwitchButton](../switch-button/) or [CheckboxInput](../checkbox-input/) instead.
 
 ## Headless
 

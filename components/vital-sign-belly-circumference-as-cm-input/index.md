@@ -26,7 +26,14 @@ This component is useful for patient intake forms, health assessments, fitness t
 ## Usage
 
 ```html
-<VitalSignBellyCircumferenceAsCmInput label="Belly circumference (cm)" value={value} />
+<!-- Basic belly circumference input in a clinical form -->
+<VitalSignBellyCircumferenceAsCmInput label="Belly circumference (cm)" value={90} />
+
+<!-- Required field in a patient intake form -->
+<VitalSignBellyCircumferenceAsCmInput label="Belly circumference" value={bellyCircumference} required />
+
+<!-- Within a vital signs group -->
+<VitalSignBellyCircumferenceAsCmInput label="Belly circumference (cm)" value={value} min={30} max={200} />
 ```
 
 ## Keyboard Interactions
@@ -41,8 +48,16 @@ This component is useful for patient intake forms, health assessments, fitness t
 
 ## When to Use
 
-- Use for editable entry of belly circumference values.
-- Use VitalSignBellyCircumferenceAsCmView for read-only display.
+- Use in clinical forms to record a patient's belly circumference measurement in centimetres.
+- Use with the default min/max/step constraints (0-300, step 1) for standard integer centimetre entry.
+- Use within a vital signs group or patient intake workflow where belly circumference needs to be captured.
+- Use in health assessments, fitness trackers, and metabolic risk screening forms.
+
+## When Not to Use
+
+- Do not use for displaying recorded values -- use VitalSignBellyCircumferenceAsCmView instead.
+- Do not use for general number input -- use NumberInput for non-clinical numeric values.
+- Do not use for measurements outside the vital sign domain -- use MeasurementInstanceInput for generic measurements.
 
 ## Headless
 

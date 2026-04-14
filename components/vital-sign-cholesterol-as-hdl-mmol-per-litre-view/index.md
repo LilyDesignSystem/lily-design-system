@@ -21,7 +21,15 @@ Use this component to display a patient's HDL ("good cholesterol") level in medi
 ## Usage
 
 ```html
-<VitalSignCholesterolAsHdlMmolPerLitreView value={1.5} label="1.5 mmol/L HDL cholesterol" />
+<!-- Display a recorded HDL cholesterol value -->
+<VitalSignCholesterolAsHdlMmolPerLitreView value={1.5} label="HDL cholesterol: 1.5 mmol/L" />
+
+<!-- In a lipid panel summary alongside LDL -->
+<VitalSignCholesterolAsHdlMmolPerLitreView value={1.3} label="HDL: 1.3 mmol/L" />
+<VitalSignCholesterolAsLdlMmolPerLitreView value={2.8} label="LDL: 2.8 mmol/L" />
+
+<!-- In a cardiovascular risk dashboard -->
+<VitalSignCholesterolAsHdlMmolPerLitreView value={0.8} label="HDL cholesterol: 0.8 mmol/L - low" />
 ```
 
 ## Keyboard Interactions
@@ -35,9 +43,16 @@ None. This is a passive, read-only display element.
 
 ## When to Use
 
-- Use to display an HDL cholesterol reading in vital sign summaries, medical records, or health dashboards.
-- Use as the display companion to VitalSignCholesterolAsHdlMmolPerLitreInput.
-- Avoid using for editable cholesterol values; use VitalSignCholesterolAsHdlMmolPerLitreInput instead.
+- Use to display a recorded HDL cholesterol value in read-only format.
+- Use in patient dashboards, medical records, or clinical summaries showing lipid panels.
+- Use with appropriate ARIA (`role="img"`, `aria-label`) for screen reader accessibility.
+- Use in cardiovascular risk profiles and health assessment reports.
+
+## When Not to Use
+
+- Do not use for entering new values -- use VitalSignCholesterolAsHdlMmolPerLitreInput instead.
+- Do not use for general measurement display -- use MeasurementInstanceView for non-clinical values.
+- Do not use for LDL cholesterol display -- use VitalSignCholesterolAsLdlMmolPerLitreView instead.
 
 ## Headless
 

@@ -19,8 +19,20 @@ Focus management is delegated to the parent MenuBar, which uses roving tabindex 
 
 ## Usage
 
+Menu bar buttons inside a MenuBar:
+
 ```html
-<MenuBarButton>File</MenuBarButton>
+<MenuBar label="Application menu">
+    <MenuBarButton onclick={() => openFileMenu()}>File</MenuBarButton>
+    <MenuBarButton onclick={() => openEditMenu()}>Edit</MenuBarButton>
+    <MenuBarButton onclick={() => openViewMenu()}>View</MenuBarButton>
+</MenuBar>
+```
+
+Menu bar button with submenu expansion:
+
+```html
+<MenuBarButton aria-haspopup="true" aria-expanded={isFileMenuOpen}>File</MenuBarButton>
 ```
 
 ## Keyboard Interactions
@@ -36,9 +48,15 @@ Focus management is delegated to the parent MenuBar, which uses roving tabindex 
 
 ## When to Use
 
-- Use as an individual entry within a MenuBar for a top-level menu action or submenu trigger.
+- Use inside MenuBar to represent one menu trigger.
 - Use when each item needs `role="menuitem"` semantics and roving tabindex focus management from the parent MenuBar.
-- Avoid using MenuBarButton outside of a MenuBar container; it relies on the parent for keyboard navigation.
+- Use for top-level menu entries like File, Edit, View, or Help.
+
+## When Not to Use
+
+- Do not use outside MenuBar -- it relies on the parent for keyboard navigation.
+- Do not use for tab selection -- use TabBarButton instead.
+- Do not use for toolbar actions -- use ToolBarButton instead.
 
 ## Headless
 

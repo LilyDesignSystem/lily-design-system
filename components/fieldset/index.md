@@ -20,16 +20,26 @@ The component supports a `disabled` prop that disables all child form controls a
 ## Usage
 
 ```html
-<Fieldset legend="Contact info">
-  <label>Email <input type="email" /></label>
-  <label>Phone <input type="tel" /></label>
+<Fieldset legend="What is your address?">
+  <Field label="Address line 1">
+    <TextInput label="Address line 1" autocomplete="address-line1" />
+  </Field>
+  <Field label="Address line 2 (optional)">
+    <TextInput label="Address line 2" autocomplete="address-line2" />
+  </Field>
+  <Field label="Town or city">
+    <TextInput label="Town or city" autocomplete="address-level2" />
+  </Field>
+  <Field label="Postcode">
+    <TextInput label="Postcode" autocomplete="postal-code" />
+  </Field>
 </Fieldset>
 ```
 
 ```html
-<Fieldset legend="Shipping address" disabled={usesBillingAddress}>
-  <label>Street <input type="text" /></label>
-  <label>City <input type="text" /></label>
+<Fieldset legend="What is your date of birth?">
+  <Hint>For example, 15 3 1984</Hint>
+  <DateInput label="Date of birth" />
 </Fieldset>
 ```
 
@@ -43,10 +53,17 @@ None -- this component is a passive container. Keyboard interactions are determi
 
 ## When to Use
 
-- Use to group related form controls under a shared legend, such as address fields, contact information, or payment details.
+- Use to group related form inputs that answer the same question, such as date fields (day, month, year) or address lines.
+- Use with a `<legend>` as the first child element to describe the group -- this is essential for screen reader users.
+- Use when a question on the page applies to multiple inputs that need to be understood as a set.
+- Use with the legend as the page heading (`<h1>` inside `<legend>`) when asking one question per page.
 - Use when the `disabled` attribute should cascade to all child form controls at once.
-- Avoid for a single form field; use Field instead.
-- Consider using Form as the outermost wrapper and Fieldset for logical sub-groups within it.
+
+## When Not to Use
+
+- Do not use to group unrelated inputs -- only inputs that share a common question or purpose belong together.
+- Do not use for a single input that already has its own label -- use Field with Label instead.
+- Do not use for visual-only grouping without semantic meaning -- use a `<div>` or layout component instead.
 
 ## Headless
 

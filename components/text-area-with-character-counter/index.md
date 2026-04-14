@@ -29,13 +29,31 @@ This component is useful for feedback forms, comment fields, bio inputs, and any
 
 ## Usage
 
+Basic feedback field with a 500-character limit:
+
 ```html
 <TextAreaWithCharacterCounter label="Feedback" maxLength={500} />
 ```
 
+Referral notes with hint text, pre-filled value, and visible rows:
+
+```html
+<TextAreaWithCharacterCounter
+  label="Additional notes for the referral"
+  value={referralNotes}
+  maxLength={500}
+  rows={6}
+  placeholder="Include any relevant medical history or current medications"
+/>
+```
+
+User bio with two-way binding:
+
 ```html
 <TextAreaWithCharacterCounter label="Bio" value={bio} maxLength={200} rows={4} placeholder="Tell us about yourself" />
 ```
+
+Internationalized counter text (French):
 
 ```html
 <TextAreaWithCharacterCounter label="Commentaire" maxLength={300} counterTemplate="{count} sur {max} caractères" />
@@ -54,9 +72,17 @@ This component is useful for feedback forms, comment fields, bio inputs, and any
 
 ## When to Use
 
-- Use when a text area has a character limit and users need to see how many characters they have used.
-- Avoid when there is no character limit; use Textarea instead.
-- Consider CharacterCounter as a standalone component when the counter needs to be positioned independently.
+- Use when you need a multi-line text input with a visible character limit indicator.
+- Use for free-text fields where a maximum length is required, such as referral notes, feedback forms, or medical history descriptions.
+- Use when the character count message "[number] of [maximum] characters" provides useful feedback during entry.
+- Use when you want the textarea and counter linked automatically via `aria-describedby` without manual wiring.
+
+## When Not to Use
+
+- Do not use when no character limit is needed — use Textarea on its own.
+- Do not use for single-line inputs — use TextInput instead.
+- Do not use when a word count is more appropriate than a character count — adapt CharacterCounter with word counting logic.
+- Do not use when the counter needs to be positioned independently from the textarea — use CharacterCounter as a standalone component.
 
 ## Headless
 

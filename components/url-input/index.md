@@ -22,12 +22,39 @@ URL inputs are commonly used in profile forms, link submission pages, and any co
 
 ## Usage
 
+Basic website URL input:
+
 ```html
-<UrlInput label="Website URL" value={value} />
+<UrlInput label="Website URL" value={websiteUrl} placeholder="https://example.com" />
 ```
+
+Required portfolio link in a profile form:
 
 ```html
 <UrlInput label="Portfolio link" value={portfolioUrl} required />
+```
+
+Webhook URL configuration field:
+
+```html
+<Field label="Webhook URL" required>
+  <UrlInput label="Webhook URL" value={webhookUrl} required placeholder="https://api.example.com/webhook" />
+  <Hint>We will send POST requests to this URL when events occur.</Hint>
+</Field>
+```
+
+Social media link in a user profile form:
+
+```html
+<Form label="Social links" onsubmit={saveProfile}>
+  <Field label="Personal website">
+    <UrlInput label="Personal website" value={website} placeholder="https://yoursite.com" />
+  </Field>
+  <Field label="LinkedIn profile">
+    <UrlInput label="LinkedIn profile URL" value={linkedin} placeholder="https://linkedin.com/in/username" />
+  </Field>
+  <Button type="submit">Save</Button>
+</Form>
 ```
 
 ## Keyboard Interactions
@@ -40,10 +67,16 @@ None beyond native text input behavior. The `<input type="url">` element support
 
 ## When to Use
 
-- Use UrlInput when users need to enter a web address, such as in profile forms, link submission pages, or configuration settings.
-- Use when built-in browser URL validation (requiring a protocol like `https://`) is appropriate for the use case.
-- Avoid using UrlInput for general text that may contain URLs mixed with other content; use TextInput instead.
-- Consider TextInput with a custom pattern if you need to accept URLs without a protocol prefix.
+- Use when users need to enter a web address, such as in profile forms, link submission pages, or configuration settings.
+- Use when built-in browser URL validation requiring a protocol like `https://` is appropriate.
+- Use for webhook URL configuration, callback URLs, or API endpoint settings.
+- Use for social media profile link fields in user settings.
+
+## When Not to Use
+
+- Do not use for general text that may contain URLs mixed with other content -- use TextInput instead.
+- Do not use for email addresses -- use EmailInput instead.
+- Do not use when you need to accept URLs without a protocol prefix -- use TextInput with a custom pattern instead.
 
 ## Headless
 

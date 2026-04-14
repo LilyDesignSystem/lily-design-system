@@ -22,9 +22,26 @@ This headless table component renders a semantic `<table>` element with an acces
 ## Usage
 
 ```html
-<Table label="User accounts">
-    <thead><tr><th scope="col">Name</th><th scope="col">Email</th></tr></thead>
-    <tbody><tr><td>Alice</td><td>alice@example.com</td></tr></tbody>
+<Table label="Prescription charges">
+  <TableHead>
+    <TableRow>
+      <TableCol scope="col">Item</TableCol>
+      <TableCol scope="col">Current charge</TableCol>
+      <TableCol scope="col">New charge</TableCol>
+    </TableRow>
+  </TableHead>
+  <TableBody>
+    <TableRow>
+      <TableCol scope="row">3-month prepayment certificate</TableCol>
+      <TableData>£31.25</TableData>
+      <TableData>£32.05</TableData>
+    </TableRow>
+    <TableRow>
+      <TableCol scope="row">12-month prepayment certificate</TableCol>
+      <TableData>£111.60</TableData>
+      <TableData>£114.50</TableData>
+    </TableRow>
+  </TableBody>
 </Table>
 ```
 
@@ -40,10 +57,17 @@ This headless table component renders a semantic `<table>` element with an acces
 
 ## When to Use
 
-- Use to display structured tabular data with rows and columns, such as reports, schedules, product lists, or comparison data.
-- Use when users need to scan, compare, or analyze data in a grid format.
-- Avoid for layout purposes; use CSS Grid or Flexbox for page layout instead.
-- Consider a DataTable when you need built-in sorting, filtering, or pagination capabilities.
+- Use to display structured data that benefits from side-by-side comparison in rows and columns
+- Use when users need to scan and locate specific information quickly, such as dosages, charges, or schedules
+- Use with a `<caption>` to describe the table's purpose for screen reader users
+- Use `scope="col"` and `scope="row"` on header cells to associate them with data cells
+
+## When Not to Use
+
+- Do not use for page layout -- use GrailLayout or CSS grid/flexbox
+- Do not use for key-value summary pairs -- use SummaryList instead
+- Do not use for interactive data with sorting, filtering, or pagination -- use DataTable instead
+- Do not use for project scheduling -- use GanttTable for timeline-based data
 
 ## Headless
 

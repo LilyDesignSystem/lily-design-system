@@ -20,12 +20,22 @@ This headless component wraps a native `<input type="time">` element with an acc
 
 ## Usage
 
-```html
-<TimePicker label="Appointment time" value={value} />
-```
+Appointment booking with 15-minute intervals:
 
 ```html
-<TimePicker label="Departure time" value={value} required />
+<TimePickerInput label="Appointment time" value={appointmentTime} step="900" required />
+```
+
+Reservation time selection:
+
+```html
+<TimePickerInput label="Reservation time" value={reservationTime} />
+```
+
+Shift scheduling with constrained hours:
+
+```html
+<TimePickerInput label="Shift start" value={shiftStart} min="06:00" max="22:00" step="1800" required />
 ```
 
 ## Keyboard Interactions
@@ -42,10 +52,15 @@ This headless component wraps a native `<input type="time">` element with an acc
 
 ## When to Use
 
-- Use TimePicker when users need to select a time of day in forms, scheduling tools, or booking systems.
+- Use when users need to select a time from a dropdown list of slots, such as 15-minute or 30-minute intervals.
+- Use for appointment booking, scheduling, or reservation systems where specific time slots are offered.
 - Use when you want a dedicated time selection component that can be styled independently from a plain time input.
-- Avoid using TimePicker for time duration or elapsed time tracking; use a custom duration component instead.
-- Consider TimeInput for a simpler native time field without additional wrapper behavior.
+
+## When Not to Use
+
+- Do not use when any arbitrary time is valid -- use TimeInput instead.
+- Do not use for date selection -- use DateInput or CalendarTable instead.
+- Do not use for time duration or elapsed time tracking; use a custom duration component instead.
 
 ## Headless
 

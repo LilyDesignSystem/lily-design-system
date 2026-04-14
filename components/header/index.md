@@ -20,22 +20,26 @@ The semantic `<header>` element helps assistive technologies identify the header
 ## Usage
 
 ```html
-<Header label="Site header">
-  <h1>My Site</h1>
-</Header>
-```
-
-```html
-<Header>
-  <h1>Page Title</h1>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
+<Header label="Service name">
+  <nav aria-label="Primary navigation">
+    <ul>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/patients" aria-current="page">Patients</a></li>
+      <li><a href="/appointments">Appointments</a></li>
+    </ul>
   </nav>
 </Header>
 ```
 
 ```html
+<!-- Simplified transactional header without navigation -->
+<Header label="Register with a GP">
+  <span>Register with a GP</span>
+</Header>
+```
+
+```html
+<!-- Section header with aria-label to distinguish from page header -->
 <Header label="Article header">
   <h2>Article Title</h2>
   <p>Published on 2024-01-15</p>
@@ -53,9 +57,18 @@ None -- this component is a passive container. Keyboard interactions are determi
 
 ## When to Use
 
-- Use at the top of a page or section for introductory content, branding, navigation links, or search controls.
-- Use when the page needs a `banner` landmark for assistive technology navigation.
-- Avoid nesting a header directly inside another header; use `aria-label` to distinguish section headers from the page header.
+- Use at the top of every page to identify the service and provide consistent site-wide navigation
+- Use to display the service name, logo, and primary navigation links
+- Use a simplified header without navigation or search on transactional pages to keep users focused on their task
+- Use when the page needs a `banner` landmark for assistive technology navigation
+- Use `aria-label` to distinguish section headers from the page header when multiple headers exist on a page
+
+## When Not to Use
+
+- Do not use for page-specific content or actions -- Header is for site-wide identification and navigation only
+- Do not use sticky or fixed positioning -- it can obscure content that has keyboard focus (WCAG 2.2)
+- Do not use as a replacement for NavigationMenu -- Header contains the navigation, but complex menus should use dedicated components
+- Do not nest a header directly inside another header
 
 ## Headless
 

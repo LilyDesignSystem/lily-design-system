@@ -19,10 +19,10 @@ The consumer provides the content through the children slot. The component is in
 ## Usage
 
 ```html
-<DontList>
-  <DontListItem>Skip alt text</DontListItem>
-  <DontListItem>Use only color for meaning</DontListItem>
-  <DontListItem>Remove focus indicators</DontListItem>
+<DontList heading="Don't">
+  <DontListItem>do not burst a blister yourself</DontListItem>
+  <DontListItem>do not peel the skin off a burst blister</DontListItem>
+  <DontListItem>do not pick at the edges of the remaining skin</DontListItem>
 </DontList>
 ```
 
@@ -37,9 +37,14 @@ The consumer provides the content through the children slot. The component is in
 
 ## When to Use
 
-- Use as a child of DontList to represent one discouraged action or practice to avoid.
+- Use inside DontList to represent one discouraged action or practice to avoid.
+- Use with text starting with "do not" to make the prohibition clear.
 - Use when each guidance item needs individual styling or interactive behavior.
-- Avoid using outside of a DontList; it is designed to be placed inside a `<ul>` container.
+
+## When Not to Use
+
+- Do not use outside of DontList -- it has no standalone meaning and requires a parent `<ul>` container.
+- Do not use for encouraged actions -- use DoListItem inside DoList instead.
 
 ## Headless
 

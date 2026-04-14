@@ -21,9 +21,21 @@ This component is useful in clinical interfaces, electronic health records, and 
 ## Usage
 
 ```html
-<MedicalBannerBoxForDanger label="Allergies and reactions">
-  <p>Penicillin - Anaphylaxis</p>
-  <p>Latex - Skin rash</p>
+<MedicalBanner label="Patient summary">
+  <MedicalBannerBox>
+    <strong>Sarah Mitchell</strong> | NHS: 485 777 3456
+  </MedicalBannerBox>
+  <MedicalBannerBoxForDanger label="Allergies and reactions">
+    <p>Penicillin -- Anaphylaxis</p>
+    <p>Latex -- Skin rash</p>
+  </MedicalBannerBoxForDanger>
+</MedicalBanner>
+```
+
+```html
+<MedicalBannerBoxForDanger label="Critical warnings">
+  <p>Fall risk -- High</p>
+  <p>MRSA -- Positive</p>
 </MedicalBannerBoxForDanger>
 ```
 
@@ -38,8 +50,16 @@ This component is useful in clinical interfaces, electronic health records, and 
 
 ## When to Use
 
-- Use for danger-level medical record information such as allergies, adverse reactions, critical warnings, and alarms.
-- Avoid for routine or non-critical information; use MedicalBannerBoxForAdvice instead.
+- Use inside MedicalBanner for danger-level information such as allergies, adverse drug reactions, warnings, or alarms
+- Use to visually distinguish critical safety information from other banner content
+- Use when clinicians need immediate visibility of life-threatening patient data
+- Use for infection control alerts, fall risk warnings, or Do Not Resuscitate indicators
+
+## When Not to Use
+
+- Do not use for general warnings outside a clinical context -- use WarningCallout instead
+- Do not use outside MedicalBanner -- it relies on the parent for landmark and live region semantics
+- Do not use for routine clinical information -- use MedicalBannerBoxForAdvice for contacts, plans, and context
 
 ## Headless
 

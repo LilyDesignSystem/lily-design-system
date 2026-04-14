@@ -20,9 +20,23 @@ The component supports an optional `aria-label` for additional accessible contex
 
 ## Usage
 
+Display a unit alongside a measurement value:
+
 ```html
-<MeasurementUnitView value="kg" />
+<MeasurementInstanceView value="72" />
+<MeasurementUnitView value="kg" label="Kilograms" />
+```
+
+Display an abbreviated unit with accessible label:
+
+```html
 <MeasurementUnitView value="lb" label="Pounds" />
+```
+
+Display a unit in a clinical summary:
+
+```html
+<MeasurementUnitView value="mmHg" label="Millimetres of mercury" />
 ```
 
 ## Keyboard Interactions
@@ -35,9 +49,14 @@ None -- this is a display-only component.
 
 ## When to Use
 
-- Use to display a read-only measurement unit such as "kg", "lb", or "cm" alongside a measurement value.
+- Use to display a measurement unit in read-only format.
+- Use alongside MeasurementInstanceView to show the unit separately from the value.
 - Use in dashboards, reports, or detail views where the unit should be visible but not editable.
-- Consider using MeasurementUnitInput instead when the user needs to enter or change the unit.
+
+## When Not to Use
+
+- Do not use for selecting a unit -- use MeasurementUnitInput instead.
+- Do not use for displaying the measurement system -- use MeasurementSystemView instead.
 
 ## Headless
 

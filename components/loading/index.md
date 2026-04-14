@@ -19,13 +19,27 @@ This headless component uses a `<div>` element with `role="status"` and `aria-li
 
 ## Usage
 
+Page-level loading overlay:
+
 ```html
-<Loading>Loading...</Loading>
-<Loading label="Fetching results" />
-<Loading label="Uploading file">
-  <ProgressSpinner />
-  <span>Uploading...</span>
+<Loading label="Loading dashboard">
+  <span>Loading dashboard...</span>
 </Loading>
+```
+
+Section loading with a spinner and descriptive text:
+
+```html
+<Loading label="Uploading file">
+  <ProgressSpinner label="Uploading" />
+  <span>Uploading report.pdf...</span>
+</Loading>
+```
+
+Simple text-only loading indicator:
+
+```html
+<Loading label="Fetching results">Fetching results...</Loading>
 ```
 
 ## Keyboard Interactions
@@ -40,10 +54,18 @@ This headless component uses a `<div>` element with `role="status"` and `aria-li
 
 ## When to Use
 
-- Use when content is being fetched, computed, or processed.
-- Use to provide feedback during asynchronous operations.
-- Avoid for instant operations that complete without noticeable delay.
-- Consider Skeleton for placeholder loading states that match the content layout.
+- Use Loading as a page-level or section-level indicator when content is being fetched, computed, or processed.
+- Use Loading to provide feedback during asynchronous operations such as API calls or route transitions.
+- Use Loading when the loading indicator needs to contain text, images, or animations as children.
+- Use Loading to wrap a ProgressSpinner with additional context text for larger content areas.
+- Use Loading for full-page overlays while initial data is being retrieved.
+
+## When Not to Use
+
+- Do not use Loading for inline spinners next to a button or field -- use ProgressSpinner instead.
+- Do not use Loading for content placeholders that match the layout shape -- use Skeleton instead.
+- Do not use Loading for instant operations that complete without noticeable delay.
+- Do not use Loading when a progress percentage is available -- use Progress or ProgressCircle instead.
 
 ## Headless
 

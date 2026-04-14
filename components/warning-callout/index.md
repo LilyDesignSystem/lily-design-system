@@ -19,14 +19,18 @@ This headless component renders an `<aside>` element with `role="alert"`, which 
 ## Usage
 
 ```html
-<WarningCallout label="Warning">
-    <p>Your session is about to expire.</p>
+<WarningCallout heading="Important">
+  <p>If you have a peanut allergy, do not take this medicine.
+  Talk to your doctor about alternative treatments.</p>
 </WarningCallout>
 ```
 
 ```html
-<WarningCallout>
-    <p>Unsaved changes will be lost.</p>
+<WarningCallout heading="School, nursery or playgroup">
+  <p>Tell your child's school or nursery if they have been
+  diagnosed with chickenpox. Stay away from school until all
+  the blisters have crusted over, usually 5 days after the
+  spots first appeared.</p>
 </WarningCallout>
 ```
 
@@ -41,10 +45,17 @@ None -- this component is a passive container for alert content.
 
 ## When to Use
 
-- Use WarningCallout to draw attention to important warnings, potential issues, or critical information that could affect the user's experience or actions.
-- Use when the warning content should be immediately announced by screen readers upon appearing.
-- Avoid using WarningCallout for general informational content; use InformationCallout instead.
-- Consider AlertDialog when the warning requires user acknowledgment before proceeding.
+- Use for information that is time-critical and users must not miss
+- Use for content that could significantly impact someone's health if overlooked
+- Use to address common misconceptions or mistakes that could lead to harm
+- Use on content pages where the warning stands out from surrounding body text
+
+## When Not to Use
+
+- Do not use on transactional pages — the pattern is untested in that context
+- Do not use when directing users to contact their GP or seek medical help — use CareCard instead
+- Do not use for information that is not sufficiently important — use InsetText for general callouts
+- Do not use for system-level alerts or error states — use Alert or Banner instead
 
 ## Headless
 

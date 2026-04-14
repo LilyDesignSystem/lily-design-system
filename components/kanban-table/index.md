@@ -19,28 +19,25 @@ This headless component renders a `<div>` with `role="region"` and an accessible
 
 ## Usage
 
+Sprint board with three workflow stages:
+
 ```html
-<Kanban label="Sprint 5 board">
-    <div>
-        <h3>To Do</h3>
-        <ul>
-            <li>Task A</li>
-            <li>Task B</li>
-        </ul>
-    </div>
-    <div>
-        <h3>In Progress</h3>
-        <ul>
-            <li>Task C</li>
-        </ul>
-    </div>
-    <div>
-        <h3>Done</h3>
-        <ul>
-            <li>Task D</li>
-        </ul>
-    </div>
-</Kanban>
+<KanbanTable label="Sprint 5 board">
+    <KanbanTableHead>
+        <KanbanTableRow>
+            <KanbanTableCol>To Do</KanbanTableCol>
+            <KanbanTableCol>In Progress</KanbanTableCol>
+            <KanbanTableCol>Done</KanbanTableCol>
+        </KanbanTableRow>
+    </KanbanTableHead>
+    <KanbanTableBody>
+        <KanbanTableRow>
+            <KanbanTableData label="Fix login bug">Fix login bug</KanbanTableData>
+            <KanbanTableData label="Add dashboard">Add dashboard</KanbanTableData>
+            <KanbanTableData label="Setup CI/CD">Setup CI/CD</KanbanTableData>
+        </KanbanTableRow>
+    </KanbanTableBody>
+</KanbanTable>
 ```
 
 ## Keyboard Interactions
@@ -54,9 +51,16 @@ None built-in -- the consumer should implement keyboard interactions for moving 
 
 ## When to Use
 
-- Use to organize work items into columns representing workflow stages (e.g., "To Do", "In Progress", "Done") in project management or task tracking tools.
+- Use for organising items by status in a board layout, such as project tasks (To Do, In Progress, Done).
 - Use when teams need a visual overview of work status, flow, and bottlenecks.
-- Avoid for simple task lists without workflow stages; use TaskList or CheckList instead.
+- Use in project management tools, agile sprint boards, and task tracking applications.
+- Use when items need to move between workflow stages.
+
+## When Not to Use
+
+- Do not use for general tabular data -- use Table or DataTable instead.
+- Do not use for timeline scheduling -- use GanttTable instead.
+- Do not use for simple task lists without workflow stages -- use TaskList or CheckList instead.
 
 ## Headless
 

@@ -21,7 +21,14 @@ Use this component to display a patient's respiratory rate in medical records, h
 ## Usage
 
 ```html
-<VitalSignRespiratoryRateAsBreathsPerMinuteView value={16} label="16 breaths per minute" />
+<!-- Display a recorded respiratory rate -->
+<VitalSignRespiratoryRateAsBreathsPerMinuteView value={16} label="Respiratory rate: 16 breaths/min" />
+
+<!-- In a patient monitoring dashboard -->
+<VitalSignRespiratoryRateAsBreathsPerMinuteView value={24} label="24 breaths per minute - tachypnea" />
+
+<!-- In a vital signs summary -->
+<VitalSignRespiratoryRateAsBreathsPerMinuteView value={14} label="Respiratory rate: 14 breaths/min - normal" />
 ```
 
 ## Keyboard Interactions
@@ -35,9 +42,16 @@ None. This is a passive, read-only display element.
 
 ## When to Use
 
-- Use to display a respiratory rate reading in vital sign summaries, medical records, or health dashboards.
-- Use as the display companion to VitalSignRespiratoryRateAsBreathsPerMinuteInput.
-- Avoid using for editable respiratory rate values; use VitalSignRespiratoryRateAsBreathsPerMinuteInput instead.
+- Use to display a recorded respiratory rate value in read-only format.
+- Use in patient dashboards, medical records, or clinical summaries showing vital signs.
+- Use with appropriate ARIA (`role="img"`, `aria-label`) for screen reader accessibility.
+- Use in respiratory monitoring displays and post-operative care summaries.
+
+## When Not to Use
+
+- Do not use for entering new values -- use VitalSignRespiratoryRateAsBreathsPerMinuteInput instead.
+- Do not use for general measurement display -- use MeasurementInstanceView for non-clinical values.
+- Do not use for heart rate display -- use VitalSignHeartRateAsBeatsPerMinuteView instead.
 
 ## Headless
 

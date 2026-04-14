@@ -23,9 +23,27 @@ This headless component uses a `<button>` element with an internal slider track,
 
 ## Usage
 
+Slide to confirm account deletion:
+
 ```html
-<SliderButton label="Slide to delete" onconfirm={handleDelete}>
-  Slide to delete
+<SliderButton label="Slide to delete account" onconfirm={handleDeleteAccount}>
+  Slide to delete account
+</SliderButton>
+```
+
+Slide to confirm payment:
+
+```html
+<SliderButton label="Slide to send payment" onconfirm={handleSendPayment}>
+  Slide to send $500.00
+</SliderButton>
+```
+
+Disabled slider button while processing:
+
+```html
+<SliderButton label="Slide to confirm" onconfirm={handleConfirm} disabled={isProcessing}>
+  Slide to confirm
 </SliderButton>
 ```
 
@@ -44,9 +62,15 @@ This headless component uses a `<button>` element with an internal slider track,
 
 ## When to Use
 
-- Use for destructive or irreversible actions that require deliberate confirmation.
-- Use when accidental clicks need to be prevented.
-- Avoid for routine actions -- use a standard Button instead.
+- Use for a slide-to-confirm interaction where users must drag to confirm an irreversible action.
+- Use for destructive actions such as deleting an account, sending a payment, or initiating a transfer.
+- Use when accidental clicks need to be prevented and a standard confirmation dialog is not sufficient.
+
+## When Not to Use
+
+- Do not use for value selection -- use Slider or RangeInput instead.
+- Do not use for simple confirmations -- use AlertDialog instead.
+- Do not use for routine, easily reversible actions -- use a standard Button instead.
 
 ## Headless
 

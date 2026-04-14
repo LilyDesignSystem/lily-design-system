@@ -22,7 +22,20 @@ This component is useful for displaying notices, tips, warnings, beta feature an
 
 ```html
 <InformationCallout label="Note">
-  <p>This feature is in beta.</p>
+  <p>This feature is in beta. Your feedback helps us improve it.</p>
+</InformationCallout>
+```
+
+```html
+<InformationCallout label="Tip">
+  <p>You can press <kbd>Ctrl</kbd> + <kbd>K</kbd> to open the command palette.</p>
+</InformationCallout>
+```
+
+```html
+<InformationCallout label="Important information">
+  <h3>Processing times</h3>
+  <p>Applications submitted after 5pm will be processed on the next working day.</p>
 </InformationCallout>
 ```
 
@@ -37,9 +50,17 @@ None -- this component is a passive container with no interactive behavior.
 
 ## When to Use
 
-- Use to highlight important notices, tips, beta announcements, or supplementary information that should stand out from the main flow.
-- Use when the content is informational rather than an error or warning.
-- Avoid for error messages; use ErrorMessage or ErrorSummary. Avoid for warnings; use WarningCallout instead.
+- Use to highlight informational content that supports the main page content, such as tips, notes, or supplementary guidance
+- Use for beta feature announcements or new functionality notices
+- Use when content is supplementary and should stand out visually from the main flow without conveying urgency
+- Use for regulatory or policy information that users may find helpful but is not critical
+
+## When Not to Use
+
+- Do not use for warnings or critical safety information -- use WarningCallout instead
+- Do not use for time-critical health information -- use CareCard with the appropriate urgency level
+- Do not use for status messages that appear dynamically -- use Alert or Banner
+- Do not use for form validation errors -- use ErrorMessage for individual fields or ErrorSummary for the form
 
 ## Headless
 

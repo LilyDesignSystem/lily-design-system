@@ -20,10 +20,32 @@ A form component wraps a native HTML `<form>` element with accessible labeling, 
 
 ## Usage
 
+Login form with email and password fields:
+
 ```html
-<Form label="Login" onsubmit={handleLogin}>
-  <input name="email" />
-  <button type="submit">Sign in</button>
+<Form label="Sign in" onsubmit={handleLogin}>
+  <Field label="Email" required>
+    <EmailInput label="Email" value={email} required />
+  </Field>
+  <Field label="Password" required>
+    <PasswordInput label="Password" value={password} required />
+  </Field>
+  <Button type="submit">Sign in</Button>
+</Form>
+```
+
+Contact form with reset support:
+
+```html
+<Form label="Contact us" onsubmit={handleSubmit} onreset={handleReset}>
+  <Field label="Name" required>
+    <TextInput label="Name" value={name} required />
+  </Field>
+  <Field label="Message" required>
+    <Textarea label="Message" value={message} required />
+  </Field>
+  <SubmitInput value="Send message" />
+  <ResetInput value="Clear form" />
 </Form>
 ```
 
@@ -37,9 +59,16 @@ None beyond native form behavior -- Enter key submits the form when a text input
 
 ## When to Use
 
-- Use to wrap any collection of form inputs that are submitted together as a unit.
+- Use as the top-level form element for collecting and submitting user data.
+- Use with Field components for structured form layout.
 - Use when you need automatic `preventDefault()` on submit, which is standard in single-page applications.
-- Avoid wrapping unrelated input groups in a single Form; use separate Form components for distinct submission actions.
+- Use to wrap any collection of form inputs that are submitted together as a unit.
+
+## When Not to Use
+
+- Do not use for read-only data display -- use SummaryList instead.
+- Do not use for inline editing -- use EditableForm instead.
+- Do not use to wrap unrelated input groups; use separate Form components for distinct submission actions.
 
 ## Headless
 

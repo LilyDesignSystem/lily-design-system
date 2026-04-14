@@ -27,8 +27,22 @@ This component is useful for displaying disk usage, battery level, password stre
 
 ## Usage
 
+Disk usage gauge with thresholds:
+
 ```html
-<Meter label="Disk space" value={45} max={100} />
+<Meter label="Disk space used" value={72} max={100} low={25} high={75} optimum={50} />
+```
+
+Battery level indicator:
+
+```html
+<Meter label="Battery level" value={35} min={0} max={100} low={20} high={80} optimum={100} />
+```
+
+Password strength meter:
+
+```html
+<Meter label="Password strength" value={3} min={0} max={5} low={1} high={4} optimum={5} />
 ```
 
 ## Keyboard Interactions
@@ -41,9 +55,16 @@ None -- this component is a passive display element with no interactive behavior
 
 ## When to Use
 
-- Use to display a scalar measurement within a known range, such as disk usage, battery level, or password strength.
-- Use when the value has defined minimum and maximum bounds and optionally low, high, and optimum thresholds.
-- Avoid using Meter for progress toward completion; use Progress instead. Meter is for static measurements, not task progress.
+- Use Meter to display a scalar measurement within a known range, such as disk usage, battery level, or password strength.
+- Use Meter when the value has defined minimum and maximum bounds and optionally low, high, and optimum thresholds.
+- Use Meter for compliance scores, performance ratings, or capacity indicators that represent a fixed-point measurement.
+- Use Meter for displaying signal strength, sound volume, or any bounded numeric gauge.
+
+## When Not to Use
+
+- Do not use Meter for task completion or ongoing progress -- use Progress instead.
+- Do not use Meter for indeterminate values where the range is unknown -- the range must be defined.
+- Do not use Meter for interactive controls where the user adjusts the value -- use RangeInput or Slider instead.
 
 ## Headless
 

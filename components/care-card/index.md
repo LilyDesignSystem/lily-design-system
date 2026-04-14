@@ -25,8 +25,29 @@ Each care card has a heading that describes the action and a body containing the
 ## Usage
 
 ```html
-<CareCard type="non-urgent" heading="Speak to a GP if:">
-  <ul><li>you have symptoms</li></ul>
+<CareCard type="non-urgent" heading="See a GP if:">
+  <ul>
+    <li>your symptoms do not improve after 2 weeks</li>
+    <li>you have a high temperature for more than 3 days</li>
+  </ul>
+</CareCard>
+```
+
+```html
+<CareCard type="urgent" heading="Ask for an urgent GP appointment or call 111 if:">
+  <ul>
+    <li>you have difficulty breathing</li>
+    <li>you have chest pain</li>
+  </ul>
+</CareCard>
+```
+
+```html
+<CareCard type="immediate" heading="Call 999 if:">
+  <ul>
+    <li>someone is unconscious</li>
+    <li>someone is having a seizure for the first time</li>
+  </ul>
 </CareCard>
 ```
 
@@ -42,9 +63,18 @@ Each care card has a heading that describes the action and a body containing the
 
 ## When to Use
 
-- Use a care card to communicate healthcare advice at a specific urgency level, such as non-urgent GP visits, urgent A&E attendance, or immediate 999 calls.
-- Use a care card when medical guidance needs to be visually distinct from surrounding content with clear urgency indicators.
-- Avoid using a care card for non-medical alerts or status messages; consider Alert or WarningCallout instead.
+- Use to provide medical care instructions with urgency levels (non-urgent, urgent, emergency)
+- Use when directing users to seek medical help, such as "See a GP" or "Call 999"
+- Use to communicate the appropriate level of medical response for symptoms described on the page
+- Use when medical guidance needs to be visually distinct from surrounding content with clear urgency indicators
+- Use on health information pages where users need actionable next steps based on their symptoms
+
+## When Not to Use
+
+- Do not use for general warnings without medical context -- use WarningCallout instead
+- Do not use for informational callouts or supplementary notes -- use InformationCallout or InsetText
+- Do not use for system alerts or application-level messages -- use Alert or Banner
+- Do not use for patient record banners -- use MedicalBanner with MedicalBannerBoxForDanger
 
 ## Headless
 

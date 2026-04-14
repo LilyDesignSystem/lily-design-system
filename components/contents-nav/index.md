@@ -22,11 +22,22 @@ This component is commonly used at the top of documentation pages, articles, or 
 ## Usage
 
 ```html
-<ContentsList label="Contents">
-    <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#examples">Examples</a></li>
-</ContentsList>
+<ContentsNav label="Pages in this guide">
+  <ContentsList>
+    <ContentsListItem aria-current="page">
+      What is type 2 diabetes?
+    </ContentsListItem>
+    <ContentsListItem>
+      <ContentsLink href="/conditions/type-2-diabetes/symptoms">Symptoms</ContentsLink>
+    </ContentsListItem>
+    <ContentsListItem>
+      <ContentsLink href="/conditions/type-2-diabetes/getting-diagnosed">Getting diagnosed</ContentsLink>
+    </ContentsListItem>
+    <ContentsListItem>
+      <ContentsLink href="/conditions/type-2-diabetes/treatment">Treatment</ContentsLink>
+    </ContentsListItem>
+  </ContentsList>
+</ContentsNav>
 ```
 
 ## Keyboard Interactions
@@ -39,9 +50,16 @@ None -- this component is a passive navigation container. Keyboard navigation is
 
 ## When to Use
 
-- Use a ContentsNav as the navigation landmark wrapper for a table of contents on long documentation pages or articles.
-- Use a ContentsNav to provide a distinct navigation region that screen reader users can quickly jump to via landmark navigation.
-- Avoid using a ContentsNav for general page navigation; use NavigationMenu or BreadcrumbNav instead.
+- Use at the top of a page to help users navigate a small group of related pages, such as pages about a health condition.
+- Use for collections of up to 8 related pages -- the mini-hub pattern pairs this with PaginationNav at the bottom.
+- Use with `aria-label` to describe the navigation purpose, such as "Pages in this guide".
+
+## When Not to Use
+
+- Do not use for unrelated pages that are not part of a cohesive group -- it will confuse users.
+- Do not use for hierarchical site navigation -- use BreadcrumbNav instead.
+- Do not use for in-page section links on a single long page -- use anchor links with a table of contents pattern.
+- Do not use within multi-page forms -- use Button with BackLink for form step navigation.
 
 ## Headless
 

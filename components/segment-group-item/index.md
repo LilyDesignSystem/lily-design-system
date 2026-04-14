@@ -23,13 +23,31 @@ Use SegmentGroupItem inside a SegmentGroup to build custom segmented controls su
 
 ## Usage
 
+View mode toggle showing Grid and List options:
+
 ```html
-<SegmentGroup label="View">
+<SegmentGroup label="View mode">
   <SegmentGroupItem checked={mode === 'grid'} value="grid" onclick={() => mode = 'grid'}>
     Grid
   </SegmentGroupItem>
   <SegmentGroupItem checked={mode === 'list'} value="list" onclick={() => mode = 'list'}>
     List
+  </SegmentGroupItem>
+</SegmentGroup>
+```
+
+Display density selector with a disabled option:
+
+```html
+<SegmentGroup label="Display density">
+  <SegmentGroupItem checked={density === 'compact'} value="compact" onclick={() => density = 'compact'}>
+    Compact
+  </SegmentGroupItem>
+  <SegmentGroupItem checked={density === 'normal'} value="normal" onclick={() => density = 'normal'}>
+    Normal
+  </SegmentGroupItem>
+  <SegmentGroupItem checked={false} value="spacious" disabled>
+    Spacious
   </SegmentGroupItem>
 </SegmentGroup>
 ```
@@ -48,9 +66,15 @@ Use SegmentGroupItem inside a SegmentGroup to build custom segmented controls su
 
 ## When to Use
 
-- Use SegmentGroupItem inside a SegmentGroup to represent one mutually exclusive option in a segmented control.
+- Use SegmentGroupItem inside a SegmentGroup to represent one selectable segment option.
 - Use SegmentGroupItem for custom toggle button UIs such as view mode switches, filter options, or density controls.
-- Avoid using SegmentGroupItem outside of a SegmentGroup; it requires the parent radiogroup context for proper semantics.
+- Use SegmentGroupItem when each option needs a value attribute for programmatic identification.
+
+## When Not to Use
+
+- Do not use SegmentGroupItem outside of a SegmentGroup -- it requires the parent radiogroup context for proper ARIA semantics.
+- Do not use SegmentGroupItem for standalone toggle buttons -- use ToggleButton instead.
+- Do not use SegmentGroupItem for standard radio inputs in a form -- use RadioInput instead.
 
 ## Headless
 

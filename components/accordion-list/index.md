@@ -17,10 +17,17 @@ Use AccordionList as the list container inside an AccordionNav. It holds Accordi
 ## Usage
 
 ```html
-<AccordionNav label="FAQ">
+<AccordionNav label="Service categories">
   <AccordionList>
-    <AccordionListItem summary="Question 1">Answer 1</AccordionListItem>
-    <AccordionListItem summary="Question 2">Answer 2</AccordionListItem>
+    <AccordionListItem heading="Mental health" expanded>
+      <AccordionLink href="/services/anxiety">Anxiety</AccordionLink>
+      <AccordionLink href="/services/depression">Depression</AccordionLink>
+      <AccordionLink href="/services/stress">Stress management</AccordionLink>
+    </AccordionListItem>
+    <AccordionListItem heading="Physical health">
+      <AccordionLink href="/services/back-pain">Back pain</AccordionLink>
+      <AccordionLink href="/services/headaches">Headaches</AccordionLink>
+    </AccordionListItem>
   </AccordionList>
 </AccordionNav>
 ```
@@ -63,9 +70,14 @@ None -- this component is a passive list container. Keyboard interactions are ha
 
 ## When to Use
 
-- Use for grouping multiple collapsible sections such as FAQ lists, settings panels, or stacked content panels.
-- Use when you need an ordered sequence of expandable items within an AccordionNav container.
-- Avoid for a single expandable section -- use a standalone Details or Collapsible component instead.
+- Use inside AccordionNav to provide the ordered list of accordion sections.
+- Use when you need to group multiple collapsible sections such as FAQ lists, settings panels, or navigation categories.
+- Use when the ordered sequence of expandable items matters for user comprehension.
+
+## When Not to Use
+
+- Do not use outside AccordionNav -- use ContentsList or TreeList for other hierarchical lists.
+- Do not use for a single expandable section -- use a standalone Details or Collapsible component instead.
 
 ## Headless
 

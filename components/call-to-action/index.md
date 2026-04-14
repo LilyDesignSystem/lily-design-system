@@ -24,9 +24,34 @@ This component renders as an `<a>` element when an `href` is provided (for navig
 
 ## Usage
 
+Navigation CTA linking to a sign-up page:
+
 ```html
 <CallToAction href="/signup">Sign Up Now</CallToAction>
+```
+
+Action CTA triggering a workflow:
+
+```html
 <CallToAction onclick={handleAction}>Get Started</CallToAction>
+```
+
+Hero section with a primary CTA:
+
+```html
+<Hero>
+  <h1>Build accessible apps faster</h1>
+  <p>Lily Design System provides headless, WCAG AAA-compliant components for every framework.</p>
+  <CallToAction href="/docs/getting-started">Get Started Free</CallToAction>
+</Hero>
+```
+
+CTA with a screen reader label override:
+
+```html
+<CallToAction href="/pricing" label="View pricing plans for Lily Design System">
+  View Pricing
+</CallToAction>
 ```
 
 ## Keyboard Interactions
@@ -43,10 +68,17 @@ This component renders as an `<a>` element when an `href` is provided (for navig
 
 ## When to Use
 
-- Use for the most prominent interactive element on a page that drives user engagement toward a key goal, such as "Sign Up", "Get Started", or "Buy Now".
-- Use when you need dual-mode behavior: an `<a>` for navigation CTAs or a `<button>` for action CTAs, determined automatically by the `href` prop.
-- Avoid for secondary actions or navigation links that do not warrant prominence -- use Button or ActionLink instead.
-- Consider Button instead when the action is not the primary conversion goal on the page.
+- Use to prominently encourage users to take a specific action, such as signing up, starting a service, or downloading an app.
+- Use for the most prominent interactive element on a page that drives user engagement toward a key goal.
+- Use when you need dual-mode behavior: an `<a>` for navigation CTAs or a `<button>` for action CTAs.
+- Use in hero sections, landing pages, or marketing banners to direct the user to the primary conversion goal.
+
+## When Not to Use
+
+- Do not use for routine navigation -- use ActionLink instead.
+- Do not use for form submission -- use Button with `type="submit"` instead.
+- Do not use for secondary or low-priority actions -- use Button instead.
+- Do not use more than one primary CTA per section to avoid diluting focus.
 
 ## Headless
 

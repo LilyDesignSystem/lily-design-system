@@ -20,12 +20,22 @@ The component is useful for contact pages, business listings, user profiles, cus
 
 ## Usage
 
-```html
-<TelLink phone="+1-555-0100" />
-```
+Phone number on a contact page:
 
 ```html
-<TelLink phone="+1-555-0100" label="Call customer support" />
+<TelLink phone="+1-555-0100" label="Call our main office" />
+```
+
+Customer support hotline in a footer:
+
+```html
+<TelLink phone="+44-20-7946-0958" label="Call customer support" />
+```
+
+Simple phone link in a user profile:
+
+```html
+<TelLink phone="+1-555-0199" />
 ```
 
 ## Keyboard Interactions
@@ -38,10 +48,15 @@ None -- this component uses a native `<a>` element, which provides built-in keyb
 
 ## When to Use
 
-- Use to display a phone number as a clickable `tel:` link, enabling one-tap dialing on mobile devices.
-- Use on contact pages, business listings, user profiles, and customer support sections where phone numbers should be actionable.
-- Avoid when the phone number is editable; use TelInput for form entry instead.
-- Consider providing an `aria-label` when the phone number alone does not convey sufficient context.
+- Use to display a telephone number as a tel: hyperlink.
+- Use when users on mobile devices should be able to tap to call.
+- Use on contact pages, business listings, user profiles, and customer support sections.
+
+## When Not to Use
+
+- Do not use for entering a phone number -- use TelInput instead.
+- Do not use for non-phone links -- use ActionLink instead.
+- Do not use when the phone number should be displayed as plain non-interactive text.
 
 ## Headless
 

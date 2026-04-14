@@ -20,14 +20,44 @@ This component sets the CSS `aspect-ratio` property on a wrapper `<div>` element
 
 ## Usage
 
+Widescreen video container:
+
 ```html
 <AspectRatioContainer ratio={16/9}>
-  <video src="video.mp4"></video>
+  <video src="video.mp4" controls></video>
 </AspectRatioContainer>
+```
 
+Square avatar container:
+
+```html
 <AspectRatioContainer ratio={1}>
-  <img src="avatar.jpg" alt="User avatar" />
+  <img src="avatar.jpg" alt="User avatar" style="object-fit: cover; width: 100%; height: 100%;" />
 </AspectRatioContainer>
+```
+
+Embedded map with a 4:3 ratio:
+
+```html
+<AspectRatioContainer ratio={4/3}>
+  <iframe src="https://maps.example.com/embed?q=London" title="Map of London"></iframe>
+</AspectRatioContainer>
+```
+
+Thumbnail grid with consistent proportions:
+
+```html
+<div class="thumbnail-grid">
+  <AspectRatioContainer ratio={3/2}>
+    <Image src="photo-1.jpg" alt="Beach at sunrise" />
+  </AspectRatioContainer>
+  <AspectRatioContainer ratio={3/2}>
+    <Image src="photo-2.jpg" alt="Mountain landscape" />
+  </AspectRatioContainer>
+  <AspectRatioContainer ratio={3/2}>
+    <Image src="photo-3.jpg" alt="City skyline at night" />
+  </AspectRatioContainer>
+</div>
 ```
 
 ## Keyboard Interactions
@@ -41,8 +71,15 @@ This component sets the CSS `aspect-ratio` property on a wrapper `<div>` element
 ## When to Use
 
 - Use for constraining images, videos, maps, or embedded content to a consistent aspect ratio regardless of viewport size.
-- Use when you need responsive media containers that maintain proportional dimensions (e.g., 16:9 for video, 1:1 for avatars).
-- Avoid for text-only content where natural height should determine the layout.
+- Use when you need responsive media containers that maintain proportional dimensions, such as 16:9 for video or 1:1 for avatars.
+- Use for thumbnail grids where all items must have uniform dimensions.
+- Use for embedded maps, iframes, or third-party widgets that need a fixed proportion.
+
+## When Not to Use
+
+- Do not use for text-only content where natural height should determine the layout.
+- Do not use when native image sizing is sufficient -- use Image with intrinsic dimensions instead.
+- Do not use for flexible containers that should adapt height to their content.
 
 ## Headless
 

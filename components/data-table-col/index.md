@@ -45,9 +45,14 @@ None -- this component is a structural column definition and is not interactive.
 
 ## When to Use
 
-- Use a DataTableCol inside a `<colgroup>` to apply consistent widths or styles to entire columns without repeating attributes on every cell.
-- Use a DataTableCol when column sizing needs to be defined declaratively rather than through cell-level styles.
-- Avoid using a DataTableCol when column styling is handled entirely through CSS classes on cells; it adds unnecessary markup.
+- Use inside DataTable to provide the `<col>` column definition within a `<colgroup>`.
+- Use to apply consistent widths or styles to entire columns without repeating attributes on every cell.
+- Use when column sizing needs to be defined declaratively rather than through cell-level styles.
+
+## When Not to Use
+
+- Do not use outside DataTable -- use TableCol, CalendarTableCol, GanttTableCol, or KanbanTableCol for their respective table types.
+- Do not use when column styling is handled entirely through CSS classes on cells -- it adds unnecessary markup.
 
 ## Headless
 

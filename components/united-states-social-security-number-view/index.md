@@ -22,11 +22,12 @@ This component renders the SSN as an inline `<span>` element with an accessible 
 ## Usage
 
 ```html
-<UnitedStatesSocialSecurityNumberView label="SSN" value="123-45-6789" />
-```
-
-```html
-<UnitedStatesSocialSecurityNumberView label="Social Security Number" value={ssn} />
+<SummaryList>
+  <SummaryListItem>
+    <dt>Social Security Number</dt>
+    <dd><UnitedStatesSocialSecurityNumberView label="SSN" value="123-45-6789" /></dd>
+  </SummaryListItem>
+</SummaryList>
 ```
 
 ## Keyboard Interactions
@@ -40,9 +41,15 @@ This component renders the SSN as an inline `<span>` element with an accessible 
 
 ## When to Use
 
-- Use UnitedStatesSocialSecurityNumberView to display an SSN in a read-only context, such as personal records, confirmation screens, or account summaries.
+- Use to display a US Social Security Number in a formatted, read-only view.
+- Use in personal records, confirmation screens, or account summaries to show the SSN.
 - Use when the SSN needs to be visible but not editable.
-- Avoid using this component when users need to enter or edit an SSN; use UnitedStatesSocialSecurityNumberInput instead.
+
+## When Not to Use
+
+- Do not use for entering identifiers -- use UnitedStatesSocialSecurityNumberInput instead.
+- Do not use for editable display -- combine with Editable.
+- Do not use for other national identifiers -- use the corresponding country-specific view component.
 
 ## Headless
 

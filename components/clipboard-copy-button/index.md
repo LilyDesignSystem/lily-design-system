@@ -23,14 +23,43 @@ The component tracks a `copied` state that automatically resets after 2 seconds.
 
 ## Usage
 
+Copy a URL to the clipboard:
+
 ```html
 <ClipboardCopyButton text="https://example.com" label="Copy link" />
 ```
+
+Copy button with custom content and success callback:
 
 ```html
 <ClipboardCopyButton text={code} label="Copy code" onsuccess={handleCopied}>
   Copy to clipboard
 </ClipboardCopyButton>
+```
+
+Copy button next to a reference number:
+
+```html
+<div class="reference-row">
+  <span>Booking ref: <strong>ABC-12345</strong></span>
+  <ClipboardCopyButton text="ABC-12345" label="Copy booking reference" />
+</div>
+```
+
+Copy button alongside an API key:
+
+```html
+<Field label="API Key">
+  <div class="input-with-copy">
+    <TextInput label="API Key" value={apiKey} disabled />
+    <ClipboardCopyButton
+      text={apiKey}
+      label="Copy API key"
+      onsuccess={() => toast('API key copied')}
+      onerror={(err) => toast('Copy failed: ' + err)}
+    />
+  </div>
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -44,9 +73,17 @@ The component tracks a `copied` state that automatically resets after 2 seconds.
 
 ## When to Use
 
-- Use a ClipboardCopyButton next to text content that users frequently need to copy, such as URLs, code snippets, or API keys.
-- Use a ClipboardCopyButton when a one-click copy action improves user efficiency over manual text selection.
-- Avoid using a ClipboardCopyButton for content that is rarely copied or where selection-based copying is sufficient.
+- Use next to text content that users frequently need to copy, such as URLs, code snippets, or API keys.
+- Use when a one-click copy action improves user efficiency over manual text selection.
+- Use alongside reference numbers, tracking codes, or identifiers that users need to paste elsewhere.
+- Use in code documentation to let users quickly copy example commands or snippets.
+- Use next to share links or invite URLs.
+
+## When Not to Use
+
+- Do not use for general-purpose buttons -- use Button instead.
+- Do not use when the text is already easily selectable and rarely needs copying.
+- Do not use for large blocks of text -- provide a download link instead.
 
 ## Headless
 

@@ -21,11 +21,17 @@ Breadcrumb trails help users understand where they are in the site structure and
 
 ```html
 <BreadcrumbNav label="Breadcrumb">
-    <BreadcrumbList>
-        <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
-        <BreadcrumbListItem><a href="/products">Products</a></BreadcrumbListItem>
-        <BreadcrumbListItem current>Widget</BreadcrumbListItem>
-    </BreadcrumbList>
+  <BreadcrumbList>
+    <BreadcrumbListItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbListItem>
+    <BreadcrumbListItem>
+      <BreadcrumbLink href="/health-a-z">Health A to Z</BreadcrumbLink>
+    </BreadcrumbListItem>
+    <BreadcrumbListItem aria-current="page">
+      Diabetes
+    </BreadcrumbListItem>
+  </BreadcrumbList>
 </BreadcrumbNav>
 ```
 
@@ -42,9 +48,13 @@ Breadcrumb trails help users understand where they are in the site structure and
 
 ## When to Use
 
-- Use as the list container inside a BreadcrumbNav to hold the ordered sequence of breadcrumb trail items.
-- Use when you need semantic `<ol>` structure to convey the hierarchical order of the breadcrumb trail.
-- Avoid using outside of a BreadcrumbNav parent -- the parent provides the required `<nav>` landmark and accessible label.
+- Use inside BreadcrumbNav to provide the ordered list of ancestor pages
+- Use as a semantic `<ol>` to convey hierarchical order to assistive technologies
+
+## When Not to Use
+
+- Do not use outside of a BreadcrumbNav container -- it requires the nav landmark for accessibility
+- Do not use for non-hierarchical lists -- use ContentsList or CheckList instead
 
 ## Headless
 
@@ -80,8 +90,15 @@ BreadcrumbList follows the Nav / List / ListItem composition pattern:
 ```html
 <BreadcrumbNav label="Breadcrumb">
   <BreadcrumbList>
-    <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
-    <BreadcrumbListItem current>Products</BreadcrumbListItem>
+    <BreadcrumbListItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbListItem>
+    <BreadcrumbListItem>
+      <BreadcrumbLink href="/health-a-z">Health A to Z</BreadcrumbLink>
+    </BreadcrumbListItem>
+    <BreadcrumbListItem aria-current="page">
+      Diabetes
+    </BreadcrumbListItem>
   </BreadcrumbList>
 </BreadcrumbNav>
 ```

@@ -20,16 +20,29 @@ Properly associated labels are essential for form usability. When a user clicks 
 
 ## Usage
 
-```html
-<!-- Label linked to a form control by ID -->
-<Label for="email">Email address</Label>
-<input id="email" type="email" />
+Label linked to a form control by ID:
 
-<!-- Label wrapping a form control (no for attribute needed) -->
+```html
+<Label for="patient-name">Patient name</Label>
+<input id="patient-name" type="text" />
+```
+
+Label wrapping a checkbox (no `for` attribute needed):
+
+```html
 <Label>
-  Email address
-  <input type="email" />
+  <input type="checkbox" /> I agree to the terms and conditions
 </Label>
+```
+
+Label for a select dropdown:
+
+```html
+<Label for="country-select">Country</Label>
+<select id="country-select">
+  <option>United Kingdom</option>
+  <option>Ireland</option>
+</select>
 ```
 
 ## Keyboard Interactions
@@ -43,9 +56,16 @@ None -- this component is a passive form label. Clicking the label focuses or ac
 
 ## When to Use
 
-- Use to provide a visible, accessible name for a form control such as an input, checkbox, or radio button.
+- Use to associate descriptive text with a form input via the `for` attribute.
+- Use on every visible form field to provide a visible, accessible name.
 - Use when you need click-to-focus behavior so clicking the label text activates the associated control.
-- Avoid omitting labels for form fields; every interactive form control should have a visible label for usability and accessibility.
+- Use when building custom form layouts outside of the Field component.
+
+## When Not to Use
+
+- Do not use as a substitute for Hint -- labels name the field, hints explain how to fill it.
+- Do not use for non-form text -- use a heading or paragraph instead.
+- Do not use when the Field component already provides label rendering.
 
 ## Headless
 

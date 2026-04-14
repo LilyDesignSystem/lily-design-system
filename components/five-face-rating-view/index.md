@@ -20,7 +20,18 @@ A read-only five-face rating display that shows a text label corresponding to a 
 ## Usage
 
 ```html
-<FiveFaceRatingView value={4} label="Good rating" />
+<FiveFaceRatingView value={4} label="Patient satisfaction: Good" />
+```
+
+In a feedback summary:
+
+```html
+<SummaryList label="Survey results">
+    <SummaryListItem>
+        <dt>Satisfaction</dt>
+        <dd><FiveFaceRatingView value={3} label="Satisfaction rating: Okay" /></dd>
+    </SummaryListItem>
+</SummaryList>
 ```
 
 ## Keyboard Interactions
@@ -34,9 +45,14 @@ None -- this component is a passive, read-only display.
 
 ## When to Use
 
-- Use to display a previously submitted satisfaction rating as a text label (e.g., in review summaries, dashboards, or feedback lists).
+- Use to display a previously submitted satisfaction rating as a text label in review summaries, dashboards, or feedback lists.
 - Use when the rating should be read-only and not editable by the user.
-- Avoid when the user needs to select or change a rating; use FiveFaceRatingPicker instead.
+- Use in patient feedback reports or satisfaction survey results.
+
+## When Not to Use
+
+- Do not use when the user needs to select or change a rating -- use FiveFaceRatingPicker instead.
+- Do not use for star-based display -- use FiveStarRatingView instead.
 
 ## Headless
 

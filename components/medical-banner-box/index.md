@@ -24,10 +24,24 @@ This component is useful for structuring medical banner content into a horizonta
 ```html
 <MedicalBanner label="Patient summary">
   <MedicalBannerBox>
-    <span>Patient: John Smith</span>
+    <strong>John Smith</strong>
     <span>DOB: 15/03/1985</span>
     <span>NHS: 123 456 7890</span>
+    <span>Ward: Cardiology B</span>
   </MedicalBannerBox>
+</MedicalBanner>
+```
+
+```html
+<MedicalBanner label="Patient record">
+  <MedicalBannerBox>
+    <strong>Emma Taylor</strong>
+    <span>IHI: 9012 3456 7890 1234</span>
+    <span>DOB: 22/07/1972</span>
+  </MedicalBannerBox>
+  <MedicalBannerBoxForDanger label="Allergies">
+    Penicillin -- Anaphylaxis
+  </MedicalBannerBoxForDanger>
 </MedicalBanner>
 ```
 
@@ -54,8 +68,16 @@ MedicalBanner
 
 ## When to Use
 
-- Use inside a MedicalBanner when you need to arrange medical content horizontally.
-- Avoid using outside of a MedicalBanner; use BannerBox for generic banners.
+- Use inside MedicalBanner to arrange medical information horizontally using flexbox
+- Use to display patient demographics, identifiers, and summary data in a single row
+- Use to group related clinical details such as name, date of birth, and NHS number side by side
+- Use when the MedicalBanner needs a consistent horizontal layout for its primary content
+
+## When Not to Use
+
+- Do not use outside MedicalBanner -- use BannerBox for standard banners instead
+- Do not use for danger-level information such as allergies -- use MedicalBannerBoxForDanger
+- Do not use for advice-level information such as care contacts -- use MedicalBannerBoxForAdvice
 
 ## Headless
 

@@ -22,8 +22,11 @@ Back links are especially important in mobile and multi-step interfaces, helping
 ## Usage
 
 ```html
-<BackLink href="/previous-page">Back to previous page</BackLink>
-<BackLink href="/dashboard" label="Return to dashboard">Back</BackLink>
+<BackLink href="/registration/step-2">Back</BackLink>
+
+<BackLink href="/application/personal-details" label="Back to personal details">
+  Back
+</BackLink>
 ```
 
 ## Keyboard Interactions
@@ -38,10 +41,16 @@ Back links are especially important in mobile and multi-step interfaces, helping
 
 ## When to Use
 
-- Use at the top of a page or multi-step flow to provide a clear "back" navigation action, especially in mobile and wizard-style interfaces.
-- Use when users need an explicit way to return to the previous page without relying on the browser back button.
-- Avoid for general page navigation -- use standard links or NavigationMenu instead.
-- Consider BreadcrumbNav instead when the user needs to see and navigate the full hierarchy.
+- Use on question pages and transactional service pages to help users navigate back to the previous step.
+- Use in multi-page forms where users may need to review or change earlier answers.
+- Use when the user's journey is linear and going back makes contextual sense.
+
+## When Not to Use
+
+- Do not use on content pages such as health information articles -- there is no transaction to go back in.
+- Do not use alongside BreadcrumbNav -- choose one navigation pattern, not both.
+- Do not use when the previous page is not meaningful in context -- consider BreadcrumbNav for hierarchical navigation instead.
+- Do not use for general "return to homepage" actions -- use a standard link or BreadcrumbNav.
 
 ## Headless
 

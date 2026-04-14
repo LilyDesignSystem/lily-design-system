@@ -24,16 +24,22 @@ This component is useful in upload forms, profile editors, document management i
 
 ## Usage
 
-```html
-<FileInput label="Upload photo" accept="image/*" />
-```
+Document attachment allowing multiple files:
 
 ```html
-<FileInput label="Attach documents" accept=".pdf,.doc,.docx" multiple={true} />
+<FileInput label="Attach supporting documents" accept=".pdf,.doc,.docx" multiple={true} required />
 ```
 
+Single file upload for a form submission:
+
 ```html
-<FileInput label="Profile picture" accept="image/png,image/jpeg" required={true} />
+<FileInput label="Upload signed consent form" accept=".pdf" required />
+```
+
+Optional photo upload:
+
+```html
+<FileInput label="Upload photo" accept="image/png,image/jpeg" />
 ```
 
 ## Keyboard Interactions
@@ -46,10 +52,16 @@ None beyond native input behavior -- **Enter** or **Space** opens the file picke
 
 ## When to Use
 
-- Use when users need to select one or more files from their device, such as in upload forms, profile editors, or document attachments.
+- Use for a native HTML file input element when the simplest file selection is needed.
+- Use when users need to select one or more files from their device.
 - Use when the native file picker is sufficient and a drag-and-drop area is not needed.
-- Avoid when you need a styled upload button with status feedback; use FileUpload instead.
-- Consider ImageFileInput when the upload is specifically for image files with preview support.
+- Use in upload forms, profile editors, or document attachment fields.
+
+## When Not to Use
+
+- Do not use when drag-and-drop is needed -- use FileUpload instead.
+- Do not use for image selection with preview -- use ImageFileInput instead.
+- Do not use when you need a styled upload button with status feedback -- use FileUpload instead.
 
 ## Headless
 

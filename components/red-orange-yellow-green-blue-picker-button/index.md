@@ -24,14 +24,42 @@ The five levels provide a more granular status scale than the traditional three-
 
 ## Usage
 
+Five-level risk assessment picker:
+
 ```html
 <RedOrangeYellowGreenBluePicker label="Risk assessment">
-    <RedOrangeYellowGreenBluePickerButton value="red" label="Red - Critical" onclick={handleClick} />
-    <RedOrangeYellowGreenBluePickerButton value="orange" label="Orange - Serious" onclick={handleClick} />
-    <RedOrangeYellowGreenBluePickerButton value="yellow" label="Yellow - Caution" selected onclick={handleClick} />
-    <RedOrangeYellowGreenBluePickerButton value="green" label="Green - Good" onclick={handleClick} />
-    <RedOrangeYellowGreenBluePickerButton value="blue" label="Blue - Excellent" onclick={handleClick} />
+  <RedOrangeYellowGreenBluePickerButton value="red" label="Red - Critical" onclick={handleSelect} />
+  <RedOrangeYellowGreenBluePickerButton value="orange" label="Orange - Serious" onclick={handleSelect} />
+  <RedOrangeYellowGreenBluePickerButton value="yellow" label="Yellow - Caution" selected onclick={handleSelect} />
+  <RedOrangeYellowGreenBluePickerButton value="green" label="Green - Good" onclick={handleSelect} />
+  <RedOrangeYellowGreenBluePickerButton value="blue" label="Blue - Excellent" onclick={handleSelect} />
 </RedOrangeYellowGreenBluePicker>
+```
+
+Individual button with custom data attribute:
+
+```html
+<RedOrangeYellowGreenBluePickerButton
+  value="orange"
+  label="Orange - Significant risk"
+  selected
+  data-severity="high"
+  onclick={handleSelect}
+/>
+```
+
+Inside a form field for patient triage:
+
+```html
+<Field label="Triage level" required>
+  <RedOrangeYellowGreenBluePicker label="Patient triage level">
+    <RedOrangeYellowGreenBluePickerButton value="red" label="Red - Emergency" onclick={handleSelect} />
+    <RedOrangeYellowGreenBluePickerButton value="orange" label="Orange - Urgent" onclick={handleSelect} />
+    <RedOrangeYellowGreenBluePickerButton value="yellow" label="Yellow - Standard" selected onclick={handleSelect} />
+    <RedOrangeYellowGreenBluePickerButton value="green" label="Green - Minor" onclick={handleSelect} />
+    <RedOrangeYellowGreenBluePickerButton value="blue" label="Blue - Routine" onclick={handleSelect} />
+  </RedOrangeYellowGreenBluePicker>
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -47,9 +75,15 @@ The five levels provide a more granular status scale than the traditional three-
 
 ## When to Use
 
-- Use RedOrangeYellowGreenBluePickerButton inside a RedOrangeYellowGreenBluePicker to represent one of five status levels.
-- Use RedOrangeYellowGreenBluePickerButton when you need a button-based five-level status picker instead of a select dropdown.
-- Avoid using RedOrangeYellowGreenBluePickerButton outside of a RedOrangeYellowGreenBluePicker container.
+- Use inside a RedOrangeYellowGreenBluePicker to represent one selectable five-level status option.
+- Use when you need a button-based five-level status picker instead of a select dropdown.
+- Use to provide individually styled buttons for each of the five colour-coded levels.
+
+## When Not to Use
+
+- Do not use outside of a RedOrangeYellowGreenBluePicker container -- the button relies on the picker for grouping and context.
+- Do not use for standalone toggle actions -- use [ToggleButton](../toggle-button/) instead.
+- Do not use for standalone option selection -- use [RadioInput](../radio-input/) instead.
 
 ## Headless
 

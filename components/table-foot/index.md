@@ -39,8 +39,14 @@ No additional ARIA attributes. Footer semantics are provided by the `<tfoot>` el
 
 ## When to Use
 
-- Use within a Table to define the footer section for totals or summaries.
-- Avoid using outside of a table context.
+- Use inside Table to wrap footer rows containing totals or summary information
+- Use when a table needs aggregate data such as sums, averages, or counts at the bottom
+- Use to provide a visually distinct footer section that screen readers can navigate to
+
+## When Not to Use
+
+- Do not use outside of a Table -- use DataTableFoot for DataTable or CalendarTableFoot for CalendarTable
+- Do not use for column headings -- use TableHead instead
 
 ## Headless
 

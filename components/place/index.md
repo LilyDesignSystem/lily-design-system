@@ -19,10 +19,20 @@ This headless component uses an `<article>` element for self-contained place con
 ## Usage
 
 ```html
-<Place label="Central Park, New York">
-  <h3>Central Park</h3>
-  <address>New York, NY 10024</address>
-  <p>A large public park in the heart of Manhattan.</p>
+<Place label="Riverside Clinic, 42 Thames Road, London">
+  <h3>Riverside Clinic</h3>
+  <address>42 Thames Road, London SE1 7PB</address>
+  <p>Walk-in clinic open Monday to Friday, 08:00 to 18:00.</p>
+  <TelLink href="tel:+442079876543">020 7987 6543</TelLink>
+  <Image src="/maps/riverside-clinic.png" label="Map showing Riverside Clinic location" />
+</Place>
+```
+
+```html
+<Place label="Conference Room B, Level 3">
+  <h3>Conference Room B</h3>
+  <p>Level 3, East Wing</p>
+  <p>Capacity: 20 people. Equipped with video conferencing.</p>
 </Place>
 ```
 
@@ -37,8 +47,16 @@ This headless component uses an `<article>` element for self-contained place con
 
 ## When to Use
 
-- Use for displaying place profiles, location details, or venue information.
-- Avoid for simple address text -- use an `<address>` element instead.
+- Use to display place information such as a clinic address, hospital location, or service area.
+- Use when structured place data (name, address, description) needs semantic grouping.
+- Use for venue listings, location directories, or geographic references.
+- Use in combination with Image for maps or photos, and TelLink for contact numbers.
+
+## When Not to Use
+
+- Do not use for organisations -- use Organization instead.
+- Do not use for events at a location -- use Event instead.
+- Do not use for simple inline addresses -- use a plain `<address>` element instead.
 
 ## Headless
 

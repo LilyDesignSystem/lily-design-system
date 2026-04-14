@@ -18,10 +18,41 @@ The component serves as a semantic container that consumers populate with their 
 
 ## Usage
 
+Basic signature pad with a canvas:
+
 ```html
 <SignaturePad label="Sign to accept terms">
   <canvas width="400" height="200"></canvas>
 </SignaturePad>
+```
+
+Signature pad in a consent form:
+
+```html
+<Form label="Patient consent" onsubmit={handleConsent}>
+  <p>I consent to the proposed treatment plan as described above.</p>
+  <Field label="Patient signature" required>
+    <SignaturePad label="Patient signature">
+      <canvas width="500" height="200" id="patient-sig"></canvas>
+    </SignaturePad>
+  </Field>
+  <Field label="Date">
+    <DateInput label="Date of signature" value={signatureDate} required />
+  </Field>
+  <div class="actions">
+    <Button type="button" onclick={clearSignature}>Clear signature</Button>
+    <Button type="submit">Submit consent</Button>
+  </div>
+</Form>
+```
+
+Signature pad for a delivery confirmation:
+
+```html
+<SignaturePad label="Recipient signature for parcel delivery">
+  <canvas width="400" height="150" id="delivery-sig"></canvas>
+</SignaturePad>
+<p>By signing, you confirm receipt of the package.</p>
 ```
 
 ## Keyboard Interactions
@@ -37,8 +68,14 @@ None -- this component is a passive container. Pointer-based interactions are ha
 
 - Use when capturing a handwritten signature is required, such as for contracts, consent forms, delivery confirmations, or legal documents.
 - Use when a pen-on-paper signing experience is needed in a digital interface.
-- Avoid when a typed name or checkbox acknowledgment would suffice for the use case.
-- Consider providing a text-based alternative for users who cannot use pointer-based input.
+- Use in clinical workflows where patient or clinician signatures are legally required.
+- Use for parcel delivery confirmations where proof of receipt is needed.
+
+## When Not to Use
+
+- Do not use when a checkbox agreement is sufficient -- use CheckboxInput for simple consent.
+- Do not use for drawing or annotation -- build a custom canvas instead.
+- Do not use when a typed name input would meet the legal requirement -- use TextInput instead.
 
 ## Headless
 

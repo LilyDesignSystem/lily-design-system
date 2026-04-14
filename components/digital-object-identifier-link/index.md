@@ -56,11 +56,16 @@ DOI link opening in a new tab:
 
 ## When to Use
 
+- Use to create a permanent hyperlink for a Digital Object Identifier (DOI) to an electronic source.
 - Use for linking to academic papers, journal articles, datasets, and other digital objects identified by a DOI.
 - Use in bibliographies, reference lists, and citation sections.
-- Use when providing persistent, permanent links to electronic sources.
-- Avoid for general-purpose hyperlinks -- use ActionLink or a standard `<a>` element instead.
-- Avoid for non-DOI permanent identifiers -- use a standard link with the appropriate resolver.
+- Use in academic, research, or clinical evidence contexts.
+
+## When Not to Use
+
+- Do not use for non-DOI links -- use Citation for general references or ActionLink for navigation.
+- Do not use for general-purpose hyperlinks -- use ActionLink or a standard `<a>` element instead.
+- Do not use for non-DOI permanent identifiers -- use a standard link with the appropriate resolver.
 
 ## Headless
 

@@ -27,7 +27,15 @@ Use this component in health record forms, wellness tracking interfaces, or any 
 ## Usage
 
 ```html
-<VitalSignSleepScoreAs0To100Input label="Sleep score" value={score} />
+<!-- Basic sleep score input -->
+<VitalSignSleepScoreAs0To100Input label="Sleep score (0-100)" value={82} />
+
+<!-- In a wellness tracking form -->
+<VitalSignSleepScoreAs0To100Input label="Sleep score" value={score} required />
+
+<!-- Alongside total sleep time for a complete sleep assessment -->
+<VitalSignSleepScoreAs0To100Input label="Sleep score" value={sleepScore} />
+<VitalSignTotalSleepTimeAsMinPerDayInput label="Total sleep time (min)" value={sleepMinutes} />
 ```
 
 ## Keyboard Interactions
@@ -40,8 +48,16 @@ Standard number input keyboard interactions provided natively by `<input type="n
 
 ## When to Use
 
-- Use for entering sleep score values in health record forms.
-- For read-only display, use VitalSignSleepScoreAs0To100View instead.
+- Use in clinical forms to record a patient's sleep score measurement (0-100 range).
+- Use with the default min/max/step constraints (0-100, step 1) for standard integer entry.
+- Use within wellness tracking workflows and sleep quality assessments.
+- Use alongside VitalSignTotalSleepTimeAsMinPerDayInput for comprehensive sleep evaluation.
+
+## When Not to Use
+
+- Do not use for displaying recorded values -- use VitalSignSleepScoreAs0To100View instead.
+- Do not use for general number input -- use NumberInput for non-clinical numeric values.
+- Do not use for total sleep duration -- use VitalSignTotalSleepTimeAsMinPerDayInput instead.
 
 ## Headless
 

@@ -27,8 +27,37 @@ This component is useful for quantity selectors, age inputs, price fields, confi
 
 ## Usage
 
+Basic quantity input with range constraints:
+
 ```html
-<NumberInput label="Quantity" value={value} min={0} max={100} step={1} />
+<NumberInput label="Quantity" value={quantity} min={0} max={100} step={1} />
+```
+
+Age input in a registration form:
+
+```html
+<Field label="Age" required>
+  <NumberInput label="Age" value={age} min={0} max={150} step={1} required />
+</Field>
+```
+
+Number input for a configuration setting:
+
+```html
+<Field label="Session timeout (minutes)">
+  <NumberInput label="Session timeout in minutes" value={timeout} min={1} max={120} step={5} />
+</Field>
+```
+
+Number input in a product order form:
+
+```html
+<Form label="Add to basket" onsubmit={addToBasket}>
+  <Field label="Quantity">
+    <NumberInput label="Quantity" value={qty} min={1} max={10} step={1} />
+  </Field>
+  <Button type="submit">Add to basket</Button>
+</Form>
 ```
 
 ## Keyboard Interactions
@@ -41,9 +70,16 @@ None at the component level. Keyboard behavior is handled natively by the browse
 
 ## When to Use
 
-- Use for form fields that accept numeric values, such as quantity selectors, age inputs, or price fields.
+- Use for form fields that accept numeric values, such as quantity selectors, age inputs, or configuration values.
 - Use when you need browser-built-in validation, increment/decrement controls, and numeric virtual keyboards on mobile.
-- Consider using TextInput with a pattern attribute instead if you need to accept formatted numbers like "1,000" or phone numbers.
+- Use for settings or preferences that require a bounded numeric range with step increments.
+- Use for measurement inputs where the unit is displayed separately.
+
+## When Not to Use
+
+- Do not use for phone numbers -- use TelInput instead.
+- Do not use for codes or reference numbers -- use TextInput with `inputmode="numeric"` instead.
+- Do not use for currency values -- use CurrencyInput instead.
 
 ## Headless
 

@@ -35,9 +35,15 @@ No additional ARIA attributes. Cell semantics are provided by the `<td>` element
 
 ## When to Use
 
-- Use within TableRow to define data cells.
-- Use `<th>` directly for header cells instead.
-- Avoid using outside of a table row context.
+- Use inside TableRow to represent one data cell containing values, text, or other content
+- Use right-alignment for numeric data to aid comparison across rows
+- Use to display individual pieces of data within a structured table
+
+## When Not to Use
+
+- Do not use for header cells -- use TableCol with an appropriate `scope` attribute
+- Do not leave cells empty -- use "No data" or "Not applicable" with secondary text colour
+- Do not use outside of a Table -- use DataTableData for DataTable or CalendarTableData for CalendarTable
 
 ## Headless
 

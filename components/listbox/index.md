@@ -21,25 +21,40 @@ The component manages focus movement between options via arrow keys, with Home a
 
 ## Usage
 
+Priority level selector:
+
 ```html
-<Listbox label="Fruits">
-    <div role="option" tabindex="-1">Apple</div>
-    <div role="option" tabindex="-1">Banana</div>
+<Listbox label="Select priority">
+    <div role="option" tabindex="-1" aria-selected="true">High</div>
+    <div role="option" tabindex="-1" aria-selected="false">Medium</div>
+    <div role="option" tabindex="-1" aria-selected="false">Low</div>
 </Listbox>
 ```
 
+Department filter in a settings panel:
+
 ```html
-<Listbox label="Select a color">
-    {#each colors as color}
+<Listbox label="Filter by department">
+    {#each departments as dept}
         <div
             role="option"
             tabindex="-1"
-            aria-selected={selected === color}
-            onclick={() => selected = color}
+            aria-selected={selectedDept === dept}
+            onclick={() => selectedDept = dept}
         >
-            {color}
+            {dept}
         </div>
     {/each}
+</Listbox>
+```
+
+Theme selection with visible options:
+
+```html
+<Listbox label="Choose a theme">
+    <div role="option" tabindex="-1" aria-selected="false">Light</div>
+    <div role="option" tabindex="-1" aria-selected="false">Dark</div>
+    <div role="option" tabindex="-1" aria-selected="true">System</div>
 </Listbox>
 ```
 
@@ -58,9 +73,16 @@ The component manages focus movement between options via arrow keys, with Home a
 
 ## When to Use
 
-- Use when users need to select one or more items from a visible list of options, such as filter panels or settings.
-- Use instead of a `<select>` when all options should be visible simultaneously without opening a dropdown.
-- Consider using a Select or Combobox instead when space is limited or when the option list is very long.
+- Use Listbox when users need to select one or more items from a visible list of options, such as filter panels or settings.
+- Use Listbox instead of a Select when all options should be visible simultaneously without opening a dropdown.
+- Use Listbox for preference or settings panels where the user chooses from a short to medium list.
+- Use Listbox for multi-select interfaces where users need to see all available options at once.
+
+## When Not to Use
+
+- Do not use Listbox for dropdown selection where space is limited -- use Select or Combobox instead.
+- Do not use Listbox for checkable items with independent on/off states -- use CheckboxGroup instead.
+- Do not use Listbox for very long option lists that benefit from type-ahead filtering -- use Combobox instead.
 
 ## Headless
 

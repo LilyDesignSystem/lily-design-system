@@ -25,11 +25,22 @@ Use this component in login forms, registration forms, account settings, or any 
 ## Usage
 
 ```html
-<PasswordInput label="Password" value={value} />
-```
+<Field label="Create a password">
+  <Hint>Must be at least 12 characters</Hint>
+  <PasswordInput
+    label="Create a password"
+    autocomplete="new-password"
+    spellcheck="false"
+  />
+</Field>
 
-```html
-<PasswordInput label="New password" autocomplete="new-password" required />
+<Field label="Password">
+  <PasswordInput
+    label="Password"
+    autocomplete="current-password"
+    spellcheck="false"
+  />
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -42,9 +53,16 @@ Standard text input keyboard interactions provided natively by `<input type="pas
 
 ## When to Use
 
-- Use for simple password entry fields in login and registration forms.
-- Use when you do not need a show/hide toggle; for that, use PasswordInputOrTextInputDiv instead.
-- Avoid using for non-sensitive text fields; use TextInput instead.
+- Use whenever you need users to create a new password or enter an existing password
+- Use with `autocomplete="new-password"` for password creation and `autocomplete="current-password"` for sign-in
+- Use with the show/hide toggle so users can verify their password before submitting
+- Use with `spellcheck="false"` and `autocapitalize="off"` to prevent spell-jacking and unwanted capitalisation
+
+## When Not to Use
+
+- Do not use for MFA codes, one-time passwords, or PINs -- use PinInputDiv or TextInput instead
+- Do not use for security question answers or other sensitive non-password fields -- use TextInput
+- Do not use when you need a combined show/hide toggle with a confirmation field -- use PasswordInputOrTextInputDiv
 
 ## Headless
 

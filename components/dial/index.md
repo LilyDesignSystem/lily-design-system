@@ -58,10 +58,16 @@ The component renders as a `div` with `role="slider"` and full keyboard navigati
 
 ## When to Use
 
-- Use for fine-grained numeric adjustment in control panels, audio interfaces, or configuration screens where a knob metaphor is intuitive.
-- Use when the value range is bounded and continuous, such as volume, brightness, or angle controls.
-- Avoid for simple value selection where a standard RangeInput (slider) would be clearer and more familiar.
-- Consider NumberInput instead when users need to type an exact value rather than drag or use arrow keys.
+- Use for a rotary control for selecting a value, such as a timer, temperature, or volume knob.
+- Use for fine-grained numeric adjustment in control panels, audio interfaces, or configuration screens.
+- Use when the knob metaphor is intuitive, such as physical device simulators or audio mixing applications.
+- Use when the value range is bounded and continuous.
+
+## When Not to Use
+
+- Do not use when a linear slider is more intuitive -- use Slider instead.
+- Do not use for angle-specific input in degrees -- use AngleSliderRangeInput instead.
+- Do not use when users need to type an exact value -- use NumberInput instead.
 
 ## Headless
 

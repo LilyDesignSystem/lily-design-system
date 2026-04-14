@@ -23,7 +23,16 @@ The component uses a roving tabindex pattern where the selected cell has `tabind
 ## Usage
 
 ```html
-<CalendarTableData selected today>15</CalendarTableData>
+<CalendarTableRow>
+  <CalendarTableData>7</CalendarTableData>
+  <CalendarTableData today selected>8</CalendarTableData>
+  <CalendarTableData>9</CalendarTableData>
+</CalendarTableRow>
+```
+
+```html
+<!-- A disabled day outside the current month -->
+<CalendarTableData aria-disabled="true">31</CalendarTableData>
 ```
 
 ## Keyboard Interactions
@@ -39,9 +48,14 @@ The component uses a roving tabindex pattern where the selected cell has `tabind
 
 ## When to Use
 
-- Use for individual day cells within a CalendarTableRow inside a CalendarTable grid.
-- Use when each cell needs selection state (`aria-selected`) and today indication (`aria-current="date"`) with roving tabindex.
-- Avoid using outside of a CalendarTable structure -- the parent grid provides required keyboard navigation context.
+- Use inside CalendarTable to provide the `<td>` for each day cell in the calendar grid
+- Use when each cell needs selection state via `aria-selected` and today indication via `aria-current="date"`
+- Use with roving tabindex to enable keyboard focus management across the calendar grid
+
+## When Not to Use
+
+- Do not use outside CalendarTable -- use TableData or DataTableData for other table types
+- Do not use for column header cells -- use `<th>` elements inside CalendarTableHead instead
 
 ## Headless
 

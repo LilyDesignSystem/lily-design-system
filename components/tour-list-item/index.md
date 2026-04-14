@@ -19,10 +19,17 @@ Use TourListItem for each individual step in a TourGuideList walkthrough. Common
 ## Usage
 
 ```html
-<TourListItem label="Welcome" current={step === 0} stepNumber={1} totalSteps={3}>
-  <p>Welcome to the app!</p>
-  <button onclick={() => step++}>Next</button>
-</TourListItem>
+<TourList label="Feature tour" active={showTour}>
+  <TourListItem label="Search patients" current={step === 0} stepNumber={1} totalSteps={2}>
+    <p>Type a patient name or NHS number into the search bar to find their record.</p>
+    <button onclick={() => step++}>Next</button>
+  </TourListItem>
+  <TourListItem label="View results" current={step === 1} stepNumber={2} totalSteps={2}>
+    <p>Click a result to open the full patient record.</p>
+    <button onclick={() => step--}>Back</button>
+    <button onclick={() => showTour = false}>Done</button>
+  </TourListItem>
+</TourList>
 ```
 
 ## Props
@@ -72,9 +79,14 @@ Multi-step tour:
 - `hidden` -- hides inactive steps from visual rendering
 ## When to Use
 
-- Use TourListItem for each individual step within a TourGuideList guided tour.
+- Use inside TourList to represent one step in the guided tour.
 - Use when each step needs independent visibility control and step progress information.
-- Avoid using TourListItem outside of a TourGuideList parent; it relies on the parent dialog for modal behavior and Escape key handling.
+- Use with `stepNumber` and `totalSteps` props for accessible progress labels.
+
+## When Not to Use
+
+- Do not use outside TourList -- use TimelineListItem or ContentsListItem for other list patterns.
+- Do not use for static content sections -- use AccordionListItem or ContentsListItem instead.
 
 ## Headless
 

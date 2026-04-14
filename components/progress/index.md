@@ -21,16 +21,28 @@ The component supports both determinate progress (with a known value and maximum
 
 ## Usage
 
-```html
-<Progress label="Upload progress" value={50} max={100} />
-```
+File upload with real-time percentage:
 
 ```html
-<Progress label="Loading" />
+<Progress label="Uploading report.pdf" value={73} max={100} />
 ```
 
+Multi-step onboarding wizard:
+
 ```html
-<Progress label="Installation" value={3} max={5} />
+<Progress label="Onboarding progress" value={2} max={5} />
+```
+
+Indeterminate loading while fetching data:
+
+```html
+<Progress label="Loading patient records" />
+```
+
+Download progress with byte-based maximum:
+
+```html
+<Progress label="Downloading update" value={450} max={1024} />
 ```
 
 ## Keyboard Interactions
@@ -44,10 +56,18 @@ None -- this component is a passive display element that does not accept user in
 
 ## When to Use
 
-- Use Progress for determinate tasks where completion percentage is known, such as file uploads, form submissions, or installation steps.
+- Use Progress to show a horizontal bar indicating file upload completion percentage.
+- Use Progress for multi-step form or wizard progress, such as "Step 3 of 5".
+- Use Progress to indicate download or installation progress with a known total size.
 - Use Progress without a `value` prop for indeterminate loading states where duration is unknown.
-- Avoid using Progress for static measurements or known quantities; use Meter instead.
-- Consider ProgressCircle or ProgressSpinner for alternative visual representations of progress.
+- Use Progress for background processing tasks where the server reports a completion percentage.
+
+## When Not to Use
+
+- Do not use Progress for indeterminate loading when the duration is unknown and no percentage is available -- use ProgressSpinner instead.
+- Do not use Progress for scalar gauges such as disk usage or battery level -- use Meter instead.
+- Do not use Progress when a circular indicator better fits the layout, such as dashboard widgets -- use ProgressCircle instead.
+- Do not use Progress for page-level loading overlays -- use Loading instead.
 
 ## Headless
 

@@ -29,16 +29,36 @@ Use CurrencyInput for payment forms, price fields, budget inputs, and any form f
 
 ## Usage
 
+Basic USD price input:
+
 ```html
 <CurrencyInput label="Price" value={amount} currencyCode="USD" />
 ```
 
+EUR budget input with min/max constraints:
+
 ```html
-<CurrencyInput label="Budget" value={budget} currencyCode="EUR" min={0} max={10000} />
+<CurrencyInput label="Annual budget" value={budget} currencyCode="EUR" min={0} max={10000} />
 ```
+
+JPY total input (no decimal places):
 
 ```html
 <CurrencyInput label="Total" value={total} currencyCode="JPY" required />
+```
+
+Currency input in a payment form:
+
+```html
+<Form label="Payment details" onsubmit={handlePayment}>
+  <Field label="Payment amount" required>
+    <CurrencyInput label="Payment amount" value={paymentAmount} currencyCode="GBP" min={1} required />
+  </Field>
+  <Field label="Tip (optional)">
+    <CurrencyInput label="Tip amount" value={tipAmount} currencyCode="GBP" min={0} />
+  </Field>
+  <Button type="submit">Pay now</Button>
+</Form>
 ```
 
 ## Keyboard Interactions
@@ -54,7 +74,14 @@ None at the component level. Keyboard behavior is handled natively by the browse
 
 - Use for form fields that accept monetary values, such as prices, budgets, payment amounts, or salary fields.
 - Use when you need locale-aware currency formatting with proper symbols and separators.
-- Consider using NumberInput instead when the field accepts plain numbers without currency formatting.
+- Use in checkout flows, invoicing forms, or financial dashboards where currency context matters.
+- Use when the ISO 4217 currency code needs to be associated with the input value.
+
+## When Not to Use
+
+- Do not use for non-currency numbers -- use NumberInput instead.
+- Do not use for displaying formatted amounts in read-only context -- format the text inline instead.
+- Do not use for entering quantities or measurements -- use NumberInput or MeasurementInstanceInput instead.
 
 ## Headless
 

@@ -24,17 +24,23 @@ The component manages the input value and dropdown open state as bindable props,
 
 ## Usage
 
+Country selector with type-ahead filtering:
+
 ```html
-<Combobox label="Search" value={value} open={open}>
-    <div role="option" tabindex="-1">Option 1</div>
+<Combobox label="Select country" value={country} open={countryOpen}>
+    <div role="option" tabindex="-1" onclick={() => { country = 'United Kingdom'; countryOpen = false; }}>United Kingdom</div>
+    <div role="option" tabindex="-1" onclick={() => { country = 'United States'; countryOpen = false; }}>United States</div>
+    <div role="option" tabindex="-1" onclick={() => { country = 'France'; countryOpen = false; }}>France</div>
 </Combobox>
 ```
 
+Medication picker with dynamic filtering:
+
 ```html
-<Combobox label="Select a fruit" value={value} open={open}>
-    {#each filtered as option}
-        <div role="option" tabindex="-1" onclick={() => { value = option; open = false; }}>
-            {option}
+<Combobox label="Search medications" value={medQuery} open={medOpen}>
+    {#each filteredMedications as med}
+        <div role="option" tabindex="-1" onclick={() => { medQuery = med.name; medOpen = false; }}>
+            {med.name} ({med.dosage})
         </div>
     {/each}
 </Combobox>
@@ -55,9 +61,17 @@ The component manages the input value and dropdown open state as bindable props,
 
 ## When to Use
 
-- Use a Combobox when users need to filter and select from a large set of options by typing, such as search fields, address inputs, or tag selectors.
-- Use a Combobox when the option list is too long for a standard select dropdown and users benefit from type-ahead filtering.
-- Avoid using a Combobox for short option lists (fewer than 10 items); consider a Select or RadioGroup instead.
+- Use Combobox when users need to filter and select from a large set of options by typing, such as search fields, address inputs, or tag selectors.
+- Use Combobox when the option list is too long for a standard select dropdown and users benefit from type-ahead filtering.
+- Use Combobox for autocomplete fields where the user types partial text and selects from matching suggestions.
+- Use Combobox for medication or diagnosis pickers in healthcare applications where the option list may contain hundreds of entries.
+
+## When Not to Use
+
+- Do not use Combobox for short option lists (under 7 items) -- use RadioGroup or Select instead.
+- Do not use Combobox for free-text entry without a predefined list of options -- use TextInput instead.
+- Do not use Combobox for command palettes or action launchers -- use Command instead.
+- Do not use Combobox for visible option lists that do not need a text filter -- use Listbox instead.
 
 ## Headless
 

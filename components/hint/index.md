@@ -19,13 +19,24 @@ This component is designed to work alongside form inputs where the consumer link
 ## Usage
 
 ```html
-<Hint id="email-hint">Enter your work email</Hint>
-<input aria-describedby="email-hint" />
+<Field label="What is your NHS number?">
+  <Hint id="nhs-number-hint">This is a 10-digit number, like 485 777 3456. You can find it on any letter the NHS has sent you.</Hint>
+  <TextInput label="NHS number" inputmode="numeric" aria-describedby="nhs-number-hint" />
+</Field>
 ```
 
 ```html
-<Hint id="password-hint">Must be at least 8 characters</Hint>
-<input type="password" aria-describedby="password-hint" />
+<Field label="Email address">
+  <Hint id="email-hint">We will only use this to send you a confirmation</Hint>
+  <EmailInput label="Email address" aria-describedby="email-hint" />
+</Field>
+```
+
+```html
+<Field label="Date of birth">
+  <Hint id="dob-hint">For example, 15 3 1984</Hint>
+  <DateInput label="Date of birth" aria-describedby="dob-hint" />
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -38,9 +49,18 @@ None -- this component is a passive text element. It is announced by screen read
 
 ## When to Use
 
-- Use to provide contextual guidance near a form input, such as expected format, examples, or character limits.
-- Use when the hint text should be announced by screen readers when the associated input receives focus.
-- Avoid for error messages; use ErrorMessage instead. Avoid for lengthy instructions; use InformationCallout instead.
+- Use to help the majority of users understand how to answer a form question
+- Use to show the expected format of an answer, such as "For example, 15 3 1984" or "Like name@example.com"
+- Use to explain where users can find the information being asked for
+- Use as a single short phrase or sentence -- keep it concise because screen readers read the entire hint aloud
+
+## When Not to Use
+
+- Do not use for long, detailed explanations -- screen readers read the entire hint aloud, which frustrates users; use InformationCallout instead
+- Do not include links inside hint text -- screen readers do not announce that hint text contains a link
+- Do not include interactive elements like Details inside hint text -- users in screen reader form mode cannot interact with them
+- Do not use as a substitute for a clear Label -- the label should make the question understandable on its own
+- Do not use for error messages -- use ErrorMessage instead
 
 ## Headless
 

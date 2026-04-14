@@ -14,16 +14,20 @@ Use AvatarText inside an Avatar to show initials when a photo is unavailable. Th
 
 ## Usage
 
+Initials fallback inside an Avatar:
+
 ```html
-<Avatar alt="Jane Doe">
-  <AvatarText>JD</AvatarText>
+<Avatar alt="Dr Sarah Mitchell">
+  <AvatarText>SM</AvatarText>
 </Avatar>
 ```
 
-Standalone:
+Single-character initial for compact display:
 
 ```html
-<AvatarText aria-hidden="true">JD</AvatarText>
+<Avatar alt="Bob">
+  <AvatarText>B</AvatarText>
+</Avatar>
 ```
 
 ## Props
@@ -57,9 +61,15 @@ Various initials:
 - When used standalone, ensure the text is accessible or the parent provides an accessible label
 ## When to Use
 
-- Use inside an Avatar component as a fallback when no profile photo is available or the image fails to load.
+- Use inside Avatar as a text fallback (typically initials) when no AvatarImage is available or the image fails to load.
 - Use when you need to display user initials or short identifying text within an avatar frame.
-- Avoid using standalone without an Avatar parent unless you provide your own accessible label and container styling.
+- Use to maintain visual consistency across avatars even when some users have no photo.
+
+## When Not to Use
+
+- Do not use outside Avatar -- it has no standalone semantic meaning without the parent container.
+- Do not use when an image is available -- prefer AvatarImage for stronger visual recognition.
+- Do not use for long text -- limit to 1-2 characters for legibility at small avatar sizes.
 
 ## Headless
 

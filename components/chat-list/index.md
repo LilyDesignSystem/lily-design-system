@@ -46,7 +46,12 @@ This headless component uses the native HTML `<ol>` element for inherent ordered
 
 - Use inside a ChatNav component to display an ordered list of chat conversations.
 - Use when chat entries have a meaningful order (e.g., most recent first, or chronological).
-- Avoid using outside of a ChatNav context -- the ChatList expects to be part of the ChatNav composition pattern.
+- Use when each entry in the list wraps a ChatListItem containing a ChatMessage.
+
+## When Not to Use
+
+- Do not use outside of a ChatNav context -- ChatList expects to be part of the ChatNav composition pattern.
+- Do not use for non-chat ordered lists -- use ContentsList for page sections or TimelineList for chronological events.
 
 ## Headless
 

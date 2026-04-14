@@ -15,26 +15,27 @@ Use TreeListItem for individual entries within a TreeList. Common scenarios incl
 ## Usage
 
 ```html
-<TreeList label="File browser">
-  <TreeListItem tabindex="0">Documents</TreeListItem>
-  <TreeListItem tabindex="-1">Photos</TreeListItem>
-  <TreeListItem tabindex="-1">Music</TreeListItem>
-</TreeList>
-```
-
-With expandable items:
-
-```html
-<TreeList label="File browser">
-  <TreeListItem tabindex="0" aria-expanded="true">
-    Documents
-    <ul role="group">
-      <TreeListItem tabindex="-1">Resume.pdf</TreeListItem>
-      <TreeListItem tabindex="-1">Cover Letter.docx</TreeListItem>
-    </ul>
-  </TreeListItem>
-  <TreeListItem tabindex="-1">Photos</TreeListItem>
-</TreeList>
+<TreeNav label="Clinical navigation">
+  <TreeList label="Departments">
+    <TreeListItem tabindex="0" aria-expanded="true">
+      Cardiology
+      <ul role="group">
+        <TreeListItem tabindex="-1">
+          <TreeLink href="/cardiology/outpatients">Outpatients</TreeLink>
+        </TreeListItem>
+        <TreeListItem tabindex="-1">
+          <TreeLink href="/cardiology/inpatients">Inpatients</TreeLink>
+        </TreeListItem>
+      </ul>
+    </TreeListItem>
+    <TreeListItem tabindex="-1" aria-expanded="false">
+      Oncology
+    </TreeListItem>
+    <TreeListItem tabindex="-1">
+      <TreeLink href="/radiology">Radiology</TreeLink>
+    </TreeListItem>
+  </TreeList>
+</TreeNav>
 ```
 
 ## Props
@@ -77,9 +78,15 @@ Navigation tree:
 - `aria-selected` -- indicates whether the item is selected (optional)
 ## When to Use
 
-- Use TreeListItem for individual entries within a TreeList hierarchy, such as file names, navigation links, or category labels.
+- Use inside TreeList to represent one item that may contain nested TreeList children.
 - Use for both expandable branch nodes (with `aria-expanded`) and leaf nodes.
-- Avoid using TreeListItem outside of a TreeList parent; it relies on the parent for keyboard navigation and tree semantics.
+- Use with TreeLink inside the item for navigable leaf nodes.
+
+## When Not to Use
+
+- Do not use outside TreeList -- it relies on the parent for keyboard navigation and tree semantics.
+- Do not use for flat list items -- use ContentsListItem or AccordionListItem instead.
+- Do not use for standalone expandable content -- use Collapsible or Details instead.
 
 ## Headless
 

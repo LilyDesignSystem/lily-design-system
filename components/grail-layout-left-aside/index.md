@@ -13,12 +13,34 @@ GrailLayoutLeftAside is a headless container for the left aside section of a Gra
 - `children`: slot (required) -- content to render inside the left aside
 - `...restProps`: unknown -- additional attributes spread onto the `<div>` element
 
+## When to Use
+
+- Use inside GrailLayout as the left sidebar for navigation or supplementary content.
+- Use to contain a TreeNav, AccordionNav, or other navigation components.
+- Use when the page layout needs a persistent left-hand panel for wayfinding.
+
+## When Not to Use
+
+- Do not use outside GrailLayout -- use Sidebar for standalone side panels.
+- Do not use for right-hand supplementary content -- use GrailLayoutRightAside instead.
+
 ## Usage
 
 ```html
-<GrailLayoutLeftAside>
-  <aside>Navigation menu</aside>
-</GrailLayoutLeftAside>
+<GrailLayout>
+  <GrailLayoutTopHeader>...</GrailLayoutTopHeader>
+  <GrailLayoutLeftAside>
+    <TreeNav label="Sections">
+      <TreeList>
+        <TreeListItem><TreeLink href="/patients">Patients</TreeLink></TreeListItem>
+        <TreeListItem><TreeLink href="/appointments">Appointments</TreeLink></TreeListItem>
+      </TreeList>
+    </TreeNav>
+  </GrailLayoutLeftAside>
+  <GrailLayoutCenterMain>...</GrailLayoutCenterMain>
+  <GrailLayoutRightAside>...</GrailLayoutRightAside>
+  <GrailLayoutBottomFooter>...</GrailLayoutBottomFooter>
+</GrailLayout>
 ```
 
 

@@ -21,7 +21,15 @@ Use this component to display a patient's weight in medical records, health dash
 ## Usage
 
 ```html
-<VitalSignWeightAsKgView value={75} label="75 kg weight" />
+<!-- Display a recorded weight -->
+<VitalSignWeightAsKgView value={75} label="Weight: 75 kg" />
+
+<!-- In a patient record alongside height -->
+<VitalSignHeightAsCmView value={175} label="Height: 175 cm" />
+<VitalSignWeightAsKgView value={72} label="Weight: 72 kg" />
+
+<!-- In a pediatric growth summary -->
+<VitalSignWeightAsKgView value={32} label="Weight: 32 kg - 50th percentile" />
 ```
 
 ## Keyboard Interactions
@@ -35,9 +43,16 @@ None. This is a passive, read-only display element.
 
 ## When to Use
 
-- Use to display a weight reading in vital sign summaries, medical records, or health dashboards.
-- Use as the display companion to VitalSignWeightAsKgInput.
-- Avoid using for editable weight values; use VitalSignWeightAsKgInput instead.
+- Use to display a recorded weight value in read-only format.
+- Use in patient dashboards, medical records, or clinical summaries showing body measurements.
+- Use with appropriate ARIA (`role="img"`, `aria-label`) for screen reader accessibility.
+- Use alongside VitalSignHeightAsCmView for BMI context in health profiles.
+
+## When Not to Use
+
+- Do not use for entering new values -- use VitalSignWeightAsKgInput instead.
+- Do not use for general measurement display -- use MeasurementInstanceView for non-clinical values.
+- Do not use for body fat percentage display -- use VitalSignBodyFatAsPercentageView instead.
 
 ## Headless
 

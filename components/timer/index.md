@@ -27,19 +27,19 @@ through the children slot.
 ## Usage
 
 ```html
-<Timer label="Countdown">05:30</Timer>
+<Timer label="Session timeout" datetime="PT5M30S">05:30</Timer>
 ```
 
-With dynamic elapsed time:
-
 ```html
-<Timer label="Elapsed time">{formatted}</Timer>
+<Timer label="Exam time remaining" datetime="PT45M00S">45:00</Timer>
 ```
 
-With machine-readable datetime attribute:
+```html
+<Timer label="Elapsed consultation time">{formatMinutesSeconds(elapsed)}</Timer>
+```
 
 ```html
-<Timer label="Session timeout" datetime="PT5M30S">5:30</Timer>
+<Timer label="Cooking timer" datetime="PT12M15S">12:15</Timer>
 ```
 
 ## Keyboard Interactions
@@ -54,10 +54,16 @@ With machine-readable datetime attribute:
 
 ## When to Use
 
-- Use Timer to display a countdown or elapsed time that updates live, such as session timeouts, exam limits, or cooking timers.
+- Use for countdown or elapsed time display, such as session timeout, exam timer, or cooking timer.
 - Use when screen readers need to be informed of time changes via a live region.
-- Avoid using Timer for static time displays; use a plain `<time>` element instead.
-- Consider using a progress bar or meter when the time remaining is better represented as a proportion of a total.
+- Use with the `datetime` attribute for machine-readable ISO 8601 durations.
+- Use when the displayed time updates dynamically via consumer-managed intervals.
+
+## When Not to Use
+
+- Do not use for static time display -- show the time as plain text or a `<time>` element.
+- Do not use for auto-triggering actions on countdown -- use TimerButton instead.
+- Do not use when time remaining is better shown as a proportion -- use Progress or Meter instead.
 
 ## Headless
 

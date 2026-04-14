@@ -19,8 +19,31 @@ This headless component renders a `<div>` with `role="application"` and an acces
 ## Usage
 
 ```html
-<CalendarRangePicker label="Select travel dates">
-    <!-- calendar grid with date cells -->
+<CalendarRangePicker label="Select holiday dates">
+  <CalendarTable label="April 2026">
+    <CalendarTableHead>
+      <CalendarTableRow>
+        <th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th>
+      </CalendarTableRow>
+    </CalendarTableHead>
+    <CalendarTableBody>
+      <CalendarTableRow>
+        <CalendarTableData selected>6</CalendarTableData>
+        <CalendarTableData selected>7</CalendarTableData>
+        <CalendarTableData selected>8</CalendarTableData>
+        <CalendarTableData selected>9</CalendarTableData>
+        <CalendarTableData selected>10</CalendarTableData>
+        <CalendarTableData>11</CalendarTableData>
+        <CalendarTableData>12</CalendarTableData>
+      </CalendarTableRow>
+    </CalendarTableBody>
+  </CalendarTable>
+</CalendarRangePicker>
+```
+
+```html
+<CalendarRangePicker label="Select reporting period">
+  <!-- consumer renders two side-by-side month grids with range highlighting -->
 </CalendarRangePicker>
 ```
 
@@ -35,10 +58,16 @@ None built-in -- the consumer should implement date cell navigation (arrow keys)
 
 ## When to Use
 
-- Use for selecting a contiguous date range in booking systems, travel planners, analytics dashboards, and reporting tools.
-- Use when users need to visually pick both a start date and end date on a calendar grid.
-- Avoid for selecting a single date -- use a date input or CalendarTable with cell selection instead.
-- Consider DateInput with two fields instead when a compact, non-visual date range entry is acceptable.
+- Use for selecting a start and end date visually on a calendar grid
+- Use when the date range is relative or the user needs visual context of the dates, such as booking systems, travel planners, or analytics dashboards
+- Use when users benefit from seeing the span of selected days highlighted across the calendar
+- Use when the interaction requires richer keyboard navigation than a simple date input
+
+## When Not to Use
+
+- Do not use when users know exact dates -- use two DateInput fields instead for a compact entry
+- Do not use for single date selection -- use CalendarTable or DateInput
+- Do not use when screen space is very limited -- use DateInput with a popover calendar instead
 
 ## Headless
 

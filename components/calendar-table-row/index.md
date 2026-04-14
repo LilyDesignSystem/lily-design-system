@@ -22,10 +22,22 @@ The component renders a `<tr>` element and passes through its children, which ar
 ```html
 <CalendarTableBody>
   <CalendarTableRow>
-    <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
+    <CalendarTableData>1</CalendarTableData>
+    <CalendarTableData>2</CalendarTableData>
+    <CalendarTableData>3</CalendarTableData>
+    <CalendarTableData>4</CalendarTableData>
+    <CalendarTableData>5</CalendarTableData>
+    <CalendarTableData>6</CalendarTableData>
+    <CalendarTableData>7</CalendarTableData>
   </CalendarTableRow>
   <CalendarTableRow>
-    <td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td>
+    <CalendarTableData today selected>8</CalendarTableData>
+    <CalendarTableData>9</CalendarTableData>
+    <CalendarTableData>10</CalendarTableData>
+    <CalendarTableData>11</CalendarTableData>
+    <CalendarTableData>12</CalendarTableData>
+    <CalendarTableData>13</CalendarTableData>
+    <CalendarTableData>14</CalendarTableData>
   </CalendarTableRow>
 </CalendarTableBody>
 ```
@@ -40,9 +52,14 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 ## When to Use
 
-- Use for each row within a CalendarTable section (head, body, or foot), where each row typically represents one week.
-- Use when you need a `<tr>` container for day cells or header cells in the calendar grid.
-- Avoid using outside of a CalendarTable structure -- the parent sections provide required grouping semantics.
+- Use inside CalendarTable to provide the `<tr>` for each row of the calendar grid
+- Use within CalendarTableHead, CalendarTableBody, or CalendarTableFoot to represent one week or one header row
+- Use when you need a row container for CalendarTableData day cells or `<th>` header cells
+
+## When Not to Use
+
+- Do not use outside CalendarTable -- use TableRow or DataTableRow for other table types
+- Do not use for non-table layouts -- use a `<div>` with flexbox or grid styles instead
 
 ## Headless
 

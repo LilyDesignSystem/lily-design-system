@@ -20,9 +20,22 @@ The component supports an optional `aria-label` for additional accessible contex
 
 ## Usage
 
+Display a patient weight reading:
+
 ```html
-<MeasurementInstanceView value="72 kg" />
+<MeasurementInstanceView value="72 kg" label="Patient weight" />
+```
+
+Display a body temperature in a clinical summary:
+
+```html
 <MeasurementInstanceView value="98.6 F" label="Body temperature" />
+```
+
+Display a blood pressure reading:
+
+```html
+<MeasurementInstanceView value="120/80 mmHg" label="Blood pressure" />
 ```
 
 ## Keyboard Interactions
@@ -35,9 +48,14 @@ None -- this is a display-only component.
 
 ## When to Use
 
-- Use to display a read-only measurement value such as "72 kg", "98.6 F", or "120/80 mmHg" in dashboards, reports, or detail views.
-- Use when the measurement should be visible but not editable by the user.
-- Consider using MeasurementInstanceInput instead when the user needs to enter or modify the measurement value.
+- Use to display a measurement value and unit in read-only format.
+- Use in dashboards, reports, or detail views where the measurement should be visible but not editable.
+- Use when displaying recorded values such as "72 kg", "98.6 F", or "120/80 mmHg".
+
+## When Not to Use
+
+- Do not use for entering measurements -- use MeasurementInstanceInput instead.
+- Do not use for vital sign-specific displays -- use the corresponding VitalSign*View component instead.
 
 ## Headless
 

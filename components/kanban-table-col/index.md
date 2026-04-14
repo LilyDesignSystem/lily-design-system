@@ -17,11 +17,22 @@ Use this component within a KanbanTable to define column properties such as widt
 
 ## Usage
 
+Column group defining three equal-width status columns:
+
 ```html
-<colgroup>
-  <KanbanTableCol />
-  <KanbanTableCol />
-</colgroup>
+<KanbanTable label="Sprint board">
+    <colgroup>
+        <KanbanTableCol class="todo-column" />
+        <KanbanTableCol class="in-progress-column" />
+        <KanbanTableCol class="done-column" />
+    </colgroup>
+    <KanbanTableHead>
+        ...
+    </KanbanTableHead>
+    <KanbanTableBody>
+        ...
+    </KanbanTableBody>
+</KanbanTable>
 ```
 
 ## Keyboard Interactions
@@ -34,8 +45,14 @@ No ARIA attributes. Column elements are structural, not semantic.
 
 ## When to Use
 
-- Use within a KanbanTable `<colgroup>` to define column-level properties.
-- Avoid using outside of a table context.
+- Use inside KanbanTable to define column-level properties such as width or class.
+- Use within a `<colgroup>` to apply consistent styling across status columns.
+- Use to set uniform widths for workflow stage columns.
+
+## When Not to Use
+
+- Do not use outside of a KanbanTable context -- use TableCol or DataTableCol for general tables.
+- Do not use for row-level content -- use KanbanTableRow and KanbanTableData instead.
 
 ## Headless
 

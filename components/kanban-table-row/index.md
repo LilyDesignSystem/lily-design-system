@@ -18,12 +18,15 @@ Use this component within KanbanTableHead, KanbanTableBody, or KanbanTableFoot t
 
 ## Usage
 
+Row of kanban items across status columns:
+
 ```html
 <KanbanTableBody>
-  <KanbanTableRow>
-    <KanbanTableData>Task 1</KanbanTableData>
-    <KanbanTableData>Task 2</KanbanTableData>
-  </KanbanTableRow>
+    <KanbanTableRow>
+        <KanbanTableData label="Fix login bug">Fix login bug</KanbanTableData>
+        <KanbanTableData label="Add dashboard">Add dashboard</KanbanTableData>
+        <KanbanTableData label="Setup CI/CD">Setup CI/CD</KanbanTableData>
+    </KanbanTableRow>
 </KanbanTableBody>
 ```
 
@@ -37,8 +40,14 @@ No additional ARIA attributes. Row semantics are provided by the `<tr>` element.
 
 ## When to Use
 
-- Use within KanbanTableHead, KanbanTableBody, or KanbanTableFoot.
-- Avoid using outside of a KanbanTable context.
+- Use inside KanbanTableHead, KanbanTableBody, or KanbanTableFoot to define a row of kanban items.
+- Use to group KanbanTableData cells that represent items across status columns.
+- Use for each horizontal row of content in the kanban board.
+
+## When Not to Use
+
+- Do not use outside of a KanbanTable context -- use TableRow or DataTableRow for general tables.
+- Do not use for column headings directly -- place heading content inside KanbanTableCol within the row.
 
 ## Headless
 

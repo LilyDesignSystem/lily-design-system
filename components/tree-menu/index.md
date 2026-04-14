@@ -21,10 +21,32 @@ This headless component renders a `<ul>` with `role="tree"` and provides keyboar
 ## Usage
 
 ```html
-<TreeMenu label="Navigation">
-    <li role="treeitem" tabindex="-1">Home</li>
-    <li role="treeitem" tabindex="-1">About</li>
-    <li role="treeitem" tabindex="-1">Contact</li>
+<TreeMenu label="File actions">
+  <li role="treeitem" tabindex="0" aria-expanded="true">
+    File
+    <ul role="group">
+      <li role="treeitem" tabindex="-1">New</li>
+      <li role="treeitem" tabindex="-1">Open</li>
+      <li role="treeitem" tabindex="-1">Save</li>
+    </ul>
+  </li>
+  <li role="treeitem" tabindex="-1" aria-expanded="false">
+    Edit
+  </li>
+  <li role="treeitem" tabindex="-1">Help</li>
+</TreeMenu>
+```
+
+```html
+<TreeMenu label="Category browser">
+  <li role="treeitem" tabindex="0" aria-expanded="true">
+    Cardiology
+    <ul role="group">
+      <li role="treeitem" tabindex="-1">Heart Failure</li>
+      <li role="treeitem" tabindex="-1">Arrhythmia</li>
+    </ul>
+  </li>
+  <li role="treeitem" tabindex="-1">Oncology</li>
 </TreeMenu>
 ```
 
@@ -43,10 +65,16 @@ This headless component renders a `<ul>` with `role="tree"` and provides keyboar
 
 ## When to Use
 
-- Use TreeMenu to display hierarchical or nested navigation options with expandable and collapsible nodes, such as file directories, category browsers, or multi-level menus.
+- Use for a hierarchical tree menu with expandable branches for browsing nested action options.
 - Use when the data has a natural tree structure with parent-child relationships.
-- Avoid using TreeMenu for flat lists without hierarchy; use a simple list or menu instead.
-- Consider TreeNav instead when the tree is used as a site navigation landmark (TreeNav wraps a tree in a `<nav>` element).
+- Use for file directories, category browsers, or multi-level action menus.
+- Use when the tree is not a site navigation landmark (no `<nav>` element needed).
+
+## When Not to Use
+
+- Do not use for flat action menus -- use Menu instead.
+- Do not use for navigation landmarks -- use TreeNav instead (which wraps a tree in a `<nav>` element).
+- Do not use for flat lists without hierarchy -- use a simple list or Menu instead.
 
 ## Headless
 

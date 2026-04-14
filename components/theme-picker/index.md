@@ -20,10 +20,38 @@ This component is useful for settings pages, preference panels, or any interface
 
 ## Usage
 
+Basic light/dark theme selection using radio buttons:
+
 ```html
 <ThemePicker label="Theme">
-  <label><input type="radio" name="theme" value="light" /> Light</label>
+  <label><input type="radio" name="theme" value="light" checked /> Light</label>
   <label><input type="radio" name="theme" value="dark" /> Dark</label>
+</ThemePicker>
+```
+
+Settings page with multiple themes using ThemePickerButton:
+
+```html
+<ThemePicker label="Choose theme">
+  <ThemePickerButton pressed={theme === 'light'} label="Light theme" onclick={() => setTheme('light')}>
+    Light
+  </ThemePickerButton>
+  <ThemePickerButton pressed={theme === 'dark'} label="Dark theme" onclick={() => setTheme('dark')}>
+    Dark
+  </ThemePickerButton>
+  <ThemePickerButton pressed={theme === 'high-contrast'} label="High contrast theme" onclick={() => setTheme('high-contrast')}>
+    High Contrast
+  </ThemePickerButton>
+</ThemePicker>
+```
+
+With system preference option:
+
+```html
+<ThemePicker label="Appearance">
+  <label><input type="radio" name="appearance" value="system" checked /> System</label>
+  <label><input type="radio" name="appearance" value="light" /> Light</label>
+  <label><input type="radio" name="appearance" value="dark" /> Dark</label>
 </ThemePicker>
 ```
 
@@ -38,10 +66,18 @@ None at the container level. Keyboard behavior is handled natively by the `<inpu
 
 ## When to Use
 
-- Use ThemePicker when users need to choose between a set of theme options presented as radio buttons (e.g., light, dark, system).
-- Use when you want a radiogroup-based selection rather than a dropdown.
-- Avoid using ThemePicker for a single toggle between two modes; consider SwitchButton or ToggleButton instead.
-- Consider ThemeSelect instead when screen space is limited and a dropdown is preferable.
+- Use for selecting a visual theme such as light, dark, or high-contrast mode.
+- Use in settings pages or preference panels where all theme options should be visible at once.
+- Use when a radiogroup-based selection provides better discoverability than a dropdown.
+- Use when you want to show visual previews or swatches alongside each theme option.
+- Use when there are two to five theme options that fit comfortably in the layout.
+
+## When Not to Use
+
+- Do not use for display-only theme information -- use [ThemeView](../theme-view/) instead.
+- Do not use when a compact dropdown is preferred -- use [ThemeSelect](../theme-select/) instead.
+- Do not use for a simple binary light/dark toggle -- use [SwitchButton](../switch-button/) or [ToggleButton](../toggle-button/) instead.
+- Do not use for non-theme selections -- use [RadioGroup](../radio-group/) or [SegmentGroup](../segment-group/) instead.
 
 ## Headless
 

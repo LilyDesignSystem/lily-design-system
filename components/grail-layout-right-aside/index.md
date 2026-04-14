@@ -13,12 +13,33 @@ GrailLayoutRightAside is a headless container for the right aside section of a G
 - `children`: slot (required) -- content to render inside the right aside
 - `...restProps`: unknown -- additional attributes spread onto the `<div>` element
 
+## When to Use
+
+- Use inside GrailLayout as the right sidebar for supplementary content, related links, or contextual information.
+- Use for quick links, help panels, or contextual widgets alongside the main content.
+- Use when the page layout needs a secondary panel on the right-hand side.
+
+## When Not to Use
+
+- Do not use outside GrailLayout -- use Sidebar for standalone side panels.
+- Do not use for primary navigation -- use GrailLayoutLeftAside instead.
+
 ## Usage
 
 ```html
-<GrailLayoutRightAside>
-  <aside>Supplementary content</aside>
-</GrailLayoutRightAside>
+<GrailLayout>
+  <GrailLayoutTopHeader>...</GrailLayoutTopHeader>
+  <GrailLayoutLeftAside>...</GrailLayoutLeftAside>
+  <GrailLayoutCenterMain>...</GrailLayoutCenterMain>
+  <GrailLayoutRightAside>
+    <h2>Quick links</h2>
+    <ul>
+      <li><a href="/help">Help</a></li>
+      <li><a href="/settings">Settings</a></li>
+    </ul>
+  </GrailLayoutRightAside>
+  <GrailLayoutBottomFooter>...</GrailLayoutBottomFooter>
+</GrailLayout>
 ```
 
 

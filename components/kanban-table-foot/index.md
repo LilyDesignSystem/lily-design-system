@@ -17,6 +17,8 @@ A Kanban table foot provides an optional footer area for a Kanban board, typical
 
 ## Usage
 
+Kanban board footer with item count and action button:
+
 ```html
 <KanbanTable label="Sprint board">
     <KanbanTableHead>
@@ -26,8 +28,11 @@ A Kanban table foot provides an optional footer area for a Kanban board, typical
         ...
     </KanbanTableBody>
     <KanbanTableFoot>
-        <button>Add column</button>
-        <span>12 items total</span>
+        <KanbanTableRow>
+            <KanbanTableData>3 items</KanbanTableData>
+            <KanbanTableData>5 items</KanbanTableData>
+            <KanbanTableData>4 items</KanbanTableData>
+        </KanbanTableRow>
     </KanbanTableFoot>
 </KanbanTable>
 ```
@@ -43,9 +48,14 @@ None -- passive container. Keyboard interaction depends on interactive elements 
 
 ## When to Use
 
-- Use to provide a footer area for a Kanban board with summary information, item counts, or board-level actions.
+- Use inside KanbanTable to provide a footer area with summary information, item counts, or board-level actions.
 - Use when the board needs persistent controls such as "Add column" or aggregate status indicators.
-- Avoid using KanbanTableFoot when the board does not require footer-level information; it is optional.
+- Use for displaying total counts or completion metrics below the board.
+
+## When Not to Use
+
+- Do not use outside of a KanbanTable parent -- use TableFoot or DataTableFoot for general tables.
+- Do not use when the board does not require footer-level information -- this component is optional.
 
 ## Headless
 

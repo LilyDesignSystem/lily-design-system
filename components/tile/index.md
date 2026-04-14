@@ -22,17 +22,50 @@ This headless component uses a `<div>` element with appropriate ARIA attributes 
 
 ## Usage
 
+Static informational tile:
+
 ```html
 <Tile label="Analytics dashboard">
   <Icon name="chart" />
   <h3>Analytics</h3>
   <p>View your site analytics and metrics.</p>
 </Tile>
+```
 
-<Tile interactive onclick={handleSelect} label="Select plan">
+Interactive tile for selecting a pricing plan:
+
+```html
+<Tile interactive onclick={handleSelect} label="Select Pro plan">
   <h3>Pro Plan</h3>
   <p>$29/month</p>
+  <ul>
+    <li>Unlimited projects</li>
+    <li>Priority support</li>
+    <li>Custom domains</li>
+  </ul>
 </Tile>
+```
+
+Dashboard grid with multiple tiles:
+
+```html
+<div class="dashboard-grid">
+  <Tile interactive onclick={() => navigateTo('/patients')} label="View patients">
+    <Icon name="people" />
+    <h3>Patients</h3>
+    <p>1,247 registered</p>
+  </Tile>
+  <Tile interactive onclick={() => navigateTo('/appointments')} label="View appointments">
+    <Icon name="calendar" />
+    <h3>Appointments</h3>
+    <p>23 today</p>
+  </Tile>
+  <Tile interactive onclick={() => navigateTo('/reports')} label="View reports">
+    <Icon name="document" />
+    <h3>Reports</h3>
+    <p>5 pending review</p>
+  </Tile>
+</div>
 ```
 
 ## Keyboard Interactions
@@ -51,8 +84,15 @@ This headless component uses a `<div>` element with appropriate ARIA attributes 
 
 - Use for dashboard widgets, option grids, or navigation cards.
 - Use when content needs to be presented as a cohesive, selectable unit.
-- Avoid for simple content grouping -- use Card or Panel instead.
-- Avoid for navigation links -- use ActionLink or Card with a link instead.
+- Use as a clickable container presenting related content in a structured format.
+- Use in selection interfaces where users choose from a set of options.
+- Use for feature or plan selection grids where each option is a distinct unit.
+
+## When Not to Use
+
+- Do not use for non-clickable content grouping -- use Card or Panel instead.
+- Do not use for navigation menus -- use NavigationMenu instead.
+- Do not use for simple text links -- use ActionLink instead.
 
 ## Headless
 

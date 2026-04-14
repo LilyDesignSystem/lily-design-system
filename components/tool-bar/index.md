@@ -23,9 +23,20 @@ The component queries focusable children via `button`, `[role='button']`, and `[
 ## Usage
 
 ```html
-<ToolBar label="Editor tools">
-  <button>Bold</button>
-  <button>Italic</button>
+<ToolBar label="Text formatting">
+  <ToolBarButton>Bold</ToolBarButton>
+  <ToolBarButton>Italic</ToolBarButton>
+  <ToolBarButton>Underline</ToolBarButton>
+  <ToolBarButton disabled>Strikethrough</ToolBarButton>
+</ToolBar>
+```
+
+```html
+<ToolBar label="Image editing controls">
+  <ToolBarButton aria-label="Crop">Crop</ToolBarButton>
+  <ToolBarButton aria-label="Rotate left">Rotate</ToolBarButton>
+  <ToolBarButton aria-label="Zoom in">Zoom In</ToolBarButton>
+  <ToolBarButton aria-label="Zoom out">Zoom Out</ToolBarButton>
 </ToolBar>
 ```
 
@@ -44,10 +55,18 @@ The component queries focusable children via `button`, `[role='button']`, and `[
 
 ## When to Use
 
-- Use ToolBar when you have a horizontal row of action buttons or controls that benefit from roving focus keyboard navigation (e.g., text editor formatting, drawing tools, media controls).
+- Use for a horizontal bar of tool actions, such as formatting buttons in a text editor or actions on a selected item.
+- Use when you have a row of action buttons that benefit from roving focus keyboard navigation.
 - Use when you want users to Tab into the toolbar once, arrow between items, and Tab out.
-- Avoid using ToolBar for navigation links; use a NavBar or MenuBar instead.
-- Consider a simple button group when there are only two or three actions that do not need roving focus.
+- Use for drawing tools, media controls, image editing, or code editor actions.
+- Use with ToolBarButton children for consistent button semantics within the bar.
+
+## When Not to Use
+
+- Do not use for navigation -- use TabBar or MenuBar instead.
+- Do not use for task shortcuts -- use TaskBar instead.
+- Do not use when there are only two or three actions that do not need roving focus -- use a simple button group.
+- Do not use for dropdown-style menus -- use Menu or DropdownMenu instead.
 
 ## Headless
 

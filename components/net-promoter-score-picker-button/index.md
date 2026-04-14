@@ -49,9 +49,14 @@ A Net Promoter Score picker button is an individual button within a NetPromoterS
 
 ## When to Use
 
-- Use as an individual score button within a NetPromoterScorePicker to represent one value on the 0-10 NPS scale.
+- Use inside NetPromoterScorePicker to represent one value on the 0-10 NPS scale.
 - Use when each score option needs `aria-pressed` toggle semantics and an accessible label.
-- Avoid using NetPromoterScorePickerButton outside of a NetPromoterScorePicker; it is designed for that specific context.
+- Use to provide custom styling for Detractor (0-6), Passive (7-8), and Promoter (9-10) ranges.
+
+## When Not to Use
+
+- Do not use outside of a NetPromoterScorePicker -- it requires the parent picker for group semantics.
+- Do not use as a standalone toggle button -- use ToggleButton instead.
 
 ## Headless
 

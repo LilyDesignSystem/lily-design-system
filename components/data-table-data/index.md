@@ -37,9 +37,14 @@ None -- this component is a passive container. Navigation within the table follo
 
 ## When to Use
 
-- Use a DataTableData for each data cell within a DataTableRow, representing a single field value in a record.
-- Use a DataTableData when you need to spread additional attributes like `colspan`, `rowspan`, or `headers` onto a `<td>`.
-- Avoid using a DataTableData for header cells; use a `<th>` element with `scope` instead.
+- Use inside DataTable to provide the `<td>` data cell within a DataTableRow.
+- Use for each field value in a record row.
+- Use when you need to spread additional attributes like `colspan`, `rowspan`, or `headers` onto a `<td>`.
+
+## When Not to Use
+
+- Do not use outside DataTable -- use TableData, CalendarTableData, GanttTableData, or KanbanTableData for their respective table types.
+- Do not use for header cells -- use a `<th>` element with `scope` instead.
 
 ## Headless
 

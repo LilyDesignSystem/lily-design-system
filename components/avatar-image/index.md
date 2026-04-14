@@ -14,16 +14,20 @@ Use AvatarImage inside an Avatar to display a user's photo. The parent Avatar ty
 
 ## Usage
 
+Inside an Avatar with initials fallback:
+
 ```html
-<Avatar alt="Jane Doe" initials="JD">
-  <AvatarImage src="/photo.jpg" alt="Jane Doe" />
+<Avatar alt="Dr Sarah Mitchell" initials="SM">
+  <AvatarImage src="/photos/sarah-mitchell.jpg" alt="Dr Sarah Mitchell" />
 </Avatar>
 ```
 
-Standalone:
+In a team member list:
 
 ```html
-<AvatarImage src="/team/alice.jpg" alt="Alice Smith" />
+<Avatar alt="Nurse James Lee" initials="JL">
+  <AvatarImage src="/photos/james-lee.jpg" alt="Nurse James Lee" />
+</Avatar>
 ```
 
 ## Props
@@ -52,9 +56,15 @@ With custom sizing:
 - When inside an Avatar, the parent's `aria-label` provides the primary accessible name
 ## When to Use
 
-- Use inside an Avatar component to display a user's profile photo when an image source is available.
-- Use when you need an `<img>` element with proper `alt` text for accessible avatar display.
-- Avoid using standalone without an Avatar parent unless you handle the accessible label and fallback behavior yourself.
+- Use inside Avatar to display a user's profile photo or image when a valid source is available.
+- Use when the avatar should show a recognisable photo rather than initials for stronger visual identification.
+- Use with a meaningful `alt` attribute so the image is accessible to screen readers.
+
+## When Not to Use
+
+- Do not use outside Avatar for general-purpose images -- use Image instead.
+- Do not use without an `alt` attribute -- the image must have accessible alternative text.
+- Do not use when no image is available -- let Avatar fall back to AvatarText with initials.
 
 ## Headless
 

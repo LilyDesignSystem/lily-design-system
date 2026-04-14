@@ -36,8 +36,14 @@ No ARIA attributes. Column elements are structural, not semantic.
 
 ## When to Use
 
-- Use within a Table `<colgroup>` to define column-level properties.
-- Avoid using outside of a table context.
+- Use inside TableRow within TableHead as a `<th>` column header with appropriate `scope` attribute
+- Use inside TableRow within TableBody as a `<th>` row header with `scope="row"`
+- Use within a Table `<colgroup>` to define column-level properties such as width or class
+
+## When Not to Use
+
+- Do not use for data cells -- use TableData for `<td>` elements
+- Do not use outside of a Table -- use DataTableCol for DataTable or CalendarTableCol for CalendarTable
 
 ## Headless
 

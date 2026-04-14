@@ -28,11 +28,15 @@ Use this component in medical forms, health assessments, fitness tracking screen
 ## Usage
 
 ```html
-<VitalSignHeartRateVariabilityInput label="Heart rate variability (ms)" value={value} />
-```
+<!-- Basic HRV input -->
+<VitalSignHeartRateVariabilityInput label="Heart rate variability (ms)" value={45} />
 
-```html
+<!-- In a wellness tracking form -->
 <VitalSignHeartRateVariabilityInput label="HRV" value={hrv} required />
+
+<!-- In a recovery assessment alongside heart rate -->
+<VitalSignHeartRateAsBeatsPerMinuteInput label="Heart rate (BPM)" value={heartRate} />
+<VitalSignHeartRateVariabilityInput label="HRV (ms)" value={hrvValue} />
 ```
 
 ## Keyboard Interactions
@@ -46,9 +50,16 @@ Use this component in medical forms, health assessments, fitness tracking screen
 
 ## When to Use
 
-- Use for form fields that accept a heart rate variability measurement in milliseconds.
-- Use as the input companion to VitalSignHeartRateVariabilityView.
-- Consider using NumberInput for generic numeric values that are not specifically HRV.
+- Use in clinical forms to record a patient's heart rate variability measurement in milliseconds.
+- Use with the default min/max/step constraints (0-500, step 1) for standard integer millisecond entry.
+- Use within wellness tracking workflows and autonomic nervous system assessments.
+- Use in stress monitoring, recovery tracking, and fitness evaluation forms.
+
+## When Not to Use
+
+- Do not use for displaying recorded values -- use VitalSignHeartRateVariabilityView instead.
+- Do not use for general number input -- use NumberInput for non-clinical numeric values.
+- Do not use for heart rate in BPM -- use VitalSignHeartRateAsBeatsPerMinuteInput instead.
 
 ## Headless
 

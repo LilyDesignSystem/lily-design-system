@@ -23,11 +23,17 @@ This headless component renders as a `<span>` element with an accessible label, 
 ## Usage
 
 ```html
-<NetPromotorScoreRatingView label="NPS Score" value="8" />
+<NetPromoterScoreView label="NPS Score" value="8" />
 ```
 
+In an analytics dashboard:
+
 ```html
-<NetPromotorScoreRatingView label="Customer rating" value={score} />
+<Card>
+    <h3>Customer Loyalty</h3>
+    <NetPromoterScoreView label="Latest NPS score" value="9" />
+    <Badge>Promoter</Badge>
+</Card>
 ```
 
 ## Keyboard Interactions
@@ -42,7 +48,12 @@ This headless component renders as a `<span>` element with an accessible label, 
 
 - Use to display a previously captured NPS score in dashboards, reports, or detail views.
 - Use when the score should be visible but not editable by the user.
-- Consider using NetPromoterScorePicker instead when the user needs to select or change the score.
+- Use in analytics dashboards to show individual respondent scores with color-coded Detractor/Passive/Promoter styling.
+
+## When Not to Use
+
+- Do not use when the user needs to select or change the score -- use NetPromoterScorePicker instead.
+- Do not use for star-based display -- use FiveStarRatingView instead.
 
 ## Headless
 

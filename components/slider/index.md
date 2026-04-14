@@ -22,8 +22,23 @@ This headless component wraps a native `<input type="range">` element with confi
 
 ## Usage
 
+Volume control with step increments:
+
 ```html
-<Slider label="Volume" value={value} min={0} max={100} step={5} />
+<Slider label="Volume" value={volume} min={0} max={100} step={5} />
+```
+
+Brightness adjustment with displayed value:
+
+```html
+<Slider label="Brightness" value={brightness} min={0} max={100} />
+<p>Brightness: {brightness}%</p>
+```
+
+Price range filter:
+
+```html
+<Slider label="Maximum price" value={maxPrice} min={0} max={500} step={10} />
 ```
 
 ## Keyboard Interactions
@@ -43,10 +58,16 @@ This headless component wraps a native `<input type="range">` element with confi
 
 ## When to Use
 
-- Use when users need to select a numeric value within a defined range by dragging a handle, such as volume, brightness, or price filters.
+- Use for selecting a value along a continuous track, such as volume, brightness, or a numeric range.
 - Use when approximate value selection is acceptable and a visual track provides helpful context.
-- Avoid when precise numeric entry is needed; use a NumberInput instead.
-- Consider a RangeInput when you need to select a range with two handles (min and max).
+- Use for adjusting settings like zoom level, playback speed, or opacity.
+- Use when the full range should be visually represented to help users gauge their selection.
+
+## When Not to Use
+
+- Do not use when exact numeric input is needed -- use NumberInput instead.
+- Do not use for confirming an action by sliding -- use SliderButton instead.
+- Do not use for angle-specific selection in degrees -- use AngleSliderRangeInput instead.
 
 ## Headless
 

@@ -19,9 +19,23 @@ A floating panel is a container that overlays page content, typically used for t
 
 ## Usage
 
+Chat widget floating above page content:
+
 ```html
-<FloatingPanel open={showPanel} label="Options">
-  <p>Panel content</p>
+<button onclick={() => (chatOpen = !chatOpen)}>Chat</button>
+<FloatingPanel open={chatOpen} label="Live chat">
+  <h3>Support chat</h3>
+  <div class="messages">...</div>
+  <input type="text" placeholder="Type a message..." />
+</FloatingPanel>
+```
+
+Help panel triggered by a button:
+
+```html
+<FloatingPanel open={showHelp} label="Help">
+  <h3>Need assistance?</h3>
+  <p>Contact support at help@example.com</p>
 </FloatingPanel>
 ```
 
@@ -36,9 +50,15 @@ None -- this component is a passive container. Consumers should implement focus 
 
 ## When to Use
 
+- Use for a panel that floats above page content, such as a chat widget or help panel.
 - Use for tooltips, popovers, dropdown menus, or contextual UI that overlays page content.
 - Use when content should be conditionally visible based on a toggle or trigger interaction.
-- Avoid for persistent content that should always be visible; use Panel or Card instead.
+
+## When Not to Use
+
+- Do not use for modal overlays that block interaction with the rest of the page -- use Dialog instead.
+- Do not use for slide-in panels -- use Drawer or Sheet instead.
+- Do not use for persistent content that should always be visible -- use Panel or Card instead.
 
 ## Headless
 

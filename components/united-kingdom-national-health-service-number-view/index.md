@@ -22,11 +22,12 @@ This component renders the NHS number as an inline `<span>` element with an acce
 ## Usage
 
 ```html
-<UnitedKingdomNationalHealthServiceNumberView label="NHS Number" value="123 456 7890" />
-```
-
-```html
-<UnitedKingdomNationalHealthServiceNumberView label="Patient NHS Number" value={nhsNumber} />
+<SummaryList>
+  <SummaryListItem>
+    <dt>NHS Number</dt>
+    <dd><UnitedKingdomNationalHealthServiceNumberView label="NHS Number" value="123 456 7890" /></dd>
+  </SummaryListItem>
+</SummaryList>
 ```
 
 ## Keyboard Interactions
@@ -40,9 +41,16 @@ This component renders the NHS number as an inline `<span>` element with an acce
 
 ## When to Use
 
-- Use UnitedKingdomNationalHealthServiceNumberView to display an NHS number in a read-only context, such as patient records, summaries, or confirmation screens.
+- Use to display a UK NHS number in a formatted, read-only view.
+- Use in patient banners, summary lists, or medical records to show the NHS number.
+- Use in confirmation screens after identifier entry.
 - Use when the NHS number needs to be visible but not editable.
-- Avoid using this component when users need to enter or edit an NHS number; use UnitedKingdomNationalHealthServiceNumberInput instead.
+
+## When Not to Use
+
+- Do not use for entering identifiers -- use UnitedKingdomNationalHealthServiceNumberInput instead.
+- Do not use for editable display -- combine with Editable.
+- Do not use for Northern Ireland H&C numbers -- use NorthernIrelandHealthAndCareNumberView instead.
 
 ## Headless
 

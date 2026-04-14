@@ -39,9 +39,15 @@ This headless component uses an `<article>` element for self-contained content s
 
 ## When to Use
 
-- Use for user-generated discussion threads, reviews, and feedback.
-- Use when displaying attributed content with author and timestamp metadata.
-- Avoid for system-generated messages -- use Notification or Alert instead.
+- Use to display user discussions and feedback on content, such as clinical notes, patient feedback, or article comments.
+- Use when each comment includes author, timestamp, and content.
+- Use for threaded reply structures via recursive composition of nested Comment components.
+
+## When Not to Use
+
+- Do not use for real-time chat messages -- use ChatMessage instead.
+- Do not use for system log entries or event history -- use TimelineList.
+- Do not use for system-generated messages or alerts -- use Notification or Alert.
 
 ## Headless
 

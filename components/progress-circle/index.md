@@ -21,9 +21,27 @@ A progress circle indicates completion status using a `<div>` with ARIA Progress
 
 ## Usage
 
+Dashboard widget showing project completion:
+
 ```html
-<ProgressCircle label="Upload" value={75}>
+<ProgressCircle label="Project completion" value={75} max={100}>
   <span>75%</span>
+</ProgressCircle>
+```
+
+Profile completion indicator:
+
+```html
+<ProgressCircle label="Profile completion" value={4} min={0} max={6}>
+  <span>4 of 6</span>
+</ProgressCircle>
+```
+
+File upload card with circular indicator:
+
+```html
+<ProgressCircle label="Uploading document" value={42}>
+  <span>42%</span>
 </ProgressCircle>
 ```
 
@@ -41,10 +59,16 @@ None -- this component is a passive, read-only display.
 
 ## When to Use
 
-- Use ProgressCircle for compact progress displays in dashboards, widgets, and cards where a radial indicator fits the layout.
-- Use ProgressCircle when you want to show a percentage inside the indicator via the children slot.
-- Avoid using ProgressCircle for indeterminate loading; use ProgressSpinner instead.
-- Consider Progress for standard linear progress bar layouts.
+- Use ProgressCircle for compact progress displays in dashboards and widget cards where a radial indicator fits the layout.
+- Use ProgressCircle when you want to show a percentage value inside the indicator via the children slot.
+- Use ProgressCircle for upload or processing progress in space-constrained areas such as file cards or notification badges.
+- Use ProgressCircle for profile completion indicators or skill ratings in user interfaces.
+
+## When Not to Use
+
+- Do not use ProgressCircle for indeterminate loading when no percentage is available -- use ProgressSpinner instead.
+- Do not use ProgressCircle for standard linear progress bars such as form wizards or file downloads -- use Progress instead.
+- Do not use ProgressCircle for static scalar measurements like disk usage or battery level -- use Meter instead.
 
 ## Headless
 

@@ -17,7 +17,12 @@ NorthernIrelandHealthAndCareNumberView is a read-only display of a Northern Irel
 ## Usage
 
 ```html
-<NorthernIrelandHealthAndCareNumberView label="H&C Number" value="320 000 0001" />
+<SummaryList>
+  <SummaryListItem>
+    <dt>Health and Care Number</dt>
+    <dd><NorthernIrelandHealthAndCareNumberView label="H&C Number" value="320 000 0001" /></dd>
+  </SummaryListItem>
+</SummaryList>
 ```
 
 ## Keyboard Interactions
@@ -30,8 +35,15 @@ NorthernIrelandHealthAndCareNumberView is a read-only display of a Northern Irel
 
 ## When to Use
 
-- Use for read-only display of a Northern Ireland H&C Number.
-- Use NorthernIrelandHealthAndCareNumberInput for editable entry.
+- Use to display a Northern Ireland Health and Care (H&C) Number in a formatted, read-only view.
+- Use in patient banners, summary lists, or medical records to show the H&C Number.
+- Use in confirmation screens after identifier entry.
+
+## When Not to Use
+
+- Do not use for entering identifiers -- use NorthernIrelandHealthAndCareNumberInput instead.
+- Do not use for editable display -- combine with Editable.
+- Do not use for UK NHS numbers -- use UnitedKingdomNationalHealthServiceNumberView instead.
 
 ## Headless
 

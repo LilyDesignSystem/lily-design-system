@@ -20,8 +20,33 @@ This component is commonly paired with ThemePicker in an Input/View pattern. Whi
 
 ## Usage
 
+Display the current theme in a settings summary:
+
 ```html
 <ThemeView label="Current theme" value="dark" />
+```
+
+In a summary list alongside other preferences:
+
+```html
+<SummaryList>
+  <SummaryListItem>
+    <dt>Theme</dt>
+    <dd><ThemeView label="Current theme" value={currentTheme} /></dd>
+  </SummaryListItem>
+  <SummaryListItem>
+    <dt>Language</dt>
+    <dd>English</dd>
+  </SummaryListItem>
+</SummaryList>
+```
+
+In a status bar showing the active theme:
+
+```html
+<footer>
+  <ThemeView label="Active theme" value={theme} data-theme={theme} />
+</footer>
 ```
 
 ## Keyboard Interactions
@@ -34,9 +59,15 @@ None -- this component is a passive display element with no interactive behavior
 
 ## When to Use
 
-- Use ThemeView to display the currently active theme name in a read-only context, such as a settings summary, status bar, or confirmation screen.
-- Use when users need to see which theme is active without being able to change it directly.
-- Avoid using ThemeView when users need to change the theme; use ThemePicker or ThemeSelect instead.
+- Use to display the current theme in read-only format in settings summaries and status bars.
+- Use in confirmation screens where the user has just selected a theme and needs to see it confirmed.
+- Use when displaying the active theme alongside other user preferences.
+- Use in admin panels to show the theme assigned to a user or organisation.
+
+## When Not to Use
+
+- Do not use when users need to select or change the theme -- use [ThemePicker](../theme-picker/) or [ThemeSelect](../theme-select/) instead.
+- Do not use for general-purpose text display -- use a `<span>` or [Badge](../badge/) instead.
 
 ## Headless
 

@@ -19,12 +19,19 @@ This headless component renders a `<div>` with `role="grid"` and an accessible l
 
 ## Usage
 
+Emoji picker for a messaging interface:
+
 ```html
 <EmojiCharacterPicker label="Choose an emoji">
-    <div role="row">
-        <button role="gridcell">😀</button>
-        <button role="gridcell">😂</button>
-        <button role="gridcell">😍</button>
+    <div role="row" aria-label="Smileys">
+        <button role="gridcell" aria-label="Grinning face">😀</button>
+        <button role="gridcell" aria-label="Face with tears of joy">😂</button>
+        <button role="gridcell" aria-label="Smiling face with heart-eyes">😍</button>
+    </div>
+    <div role="row" aria-label="Gestures">
+        <button role="gridcell" aria-label="Thumbs up">👍</button>
+        <button role="gridcell" aria-label="Clapping hands">👏</button>
+        <button role="gridcell" aria-label="Waving hand">👋</button>
     </div>
 </EmojiCharacterPicker>
 ```
@@ -40,10 +47,15 @@ None built-in -- the consumer should implement grid keyboard navigation on cells
 
 ## When to Use
 
-- Use in messaging apps, comment systems, or rich text editors where users need to browse and select emoji characters.
+- Use for browsing and selecting emoji characters, such as in a messaging or reactions interface.
+- Use in messaging apps, comment systems, or rich text editors.
 - Use when a structured grid of emoji organized by category provides a better experience than typing emoji names.
-- Avoid for simple inline emoji display; use the Emoji component instead.
-- Consider a text-based emoji search input when the full grid picker is too heavy for the interface.
+
+## When Not to Use
+
+- Do not use for displaying a single emoji -- use Emoji instead.
+- Do not use for non-emoji icon selection -- use a custom picker or Icon component.
+- Do not use when a text-based emoji search input would be lighter and more appropriate for the interface.
 
 ## Headless
 

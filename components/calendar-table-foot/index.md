@@ -20,13 +20,25 @@ The component renders a `<tfoot>` element and passes through its children, which
 ## Usage
 
 ```html
-<CalendarTable label="January 2025">
+<CalendarTable label="April 2026">
   <CalendarTableHead>...</CalendarTableHead>
   <CalendarTableBody>...</CalendarTableBody>
   <CalendarTableFoot>
-    <tr><td colspan="7">5 events this month</td></tr>
+    <CalendarTableRow>
+      <td colspan="7">5 events this month</td>
+    </CalendarTableRow>
   </CalendarTableFoot>
 </CalendarTable>
+```
+
+```html
+<CalendarTableFoot>
+  <CalendarTableRow>
+    <td colspan="3"><button type="button">Previous month</button></td>
+    <td>April 2026</td>
+    <td colspan="3"><button type="button">Next month</button></td>
+  </CalendarTableRow>
+</CalendarTableFoot>
 ```
 
 ## Keyboard Interactions
@@ -39,9 +51,14 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 ## When to Use
 
-- Use as the footer section of a CalendarTable to display supplementary information such as event counts, summary data, or navigation controls.
-- Use when you need to separate footer content from the main calendar body.
-- Avoid using outside of a CalendarTable parent -- the parent provides the required `<table>` structure.
+- Use inside CalendarTable to provide the `<tfoot>` for the calendar grid
+- Use to display supplementary information such as event counts, week totals, or month navigation controls
+- Use when you need to separate summary content from the main calendar body
+
+## When Not to Use
+
+- Do not use outside CalendarTable -- use TableFoot or DataTableFoot for other table types
+- Do not use for day-of-week labels -- use CalendarTableHead for column headers
 
 ## Headless
 

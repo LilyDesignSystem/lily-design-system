@@ -19,10 +19,33 @@ Use TreeList when you need a hierarchical list with keyboard navigation. Common 
 ## Usage
 
 ```html
-<TreeList label="File browser">
-  <TreeListItem tabindex="0">Documents</TreeListItem>
-  <TreeListItem tabindex="-1">Photos</TreeListItem>
-</TreeList>
+<TreeNav label="Documentation">
+  <TreeList label="Docs sections">
+    <TreeListItem tabindex="0" aria-expanded="true">
+      Getting Started
+      <ul role="group">
+        <TreeListItem tabindex="-1">Installation</TreeListItem>
+        <TreeListItem tabindex="-1">Quick Start</TreeListItem>
+      </ul>
+    </TreeListItem>
+    <TreeListItem tabindex="-1">API Reference</TreeListItem>
+  </TreeList>
+</TreeNav>
+```
+
+```html
+<TreeNav label="File browser">
+  <TreeList label="Project files">
+    <TreeListItem tabindex="0" aria-expanded="true">
+      src
+      <ul role="group">
+        <TreeListItem tabindex="-1">index.ts</TreeListItem>
+        <TreeListItem tabindex="-1">app.svelte</TreeListItem>
+      </ul>
+    </TreeListItem>
+    <TreeListItem tabindex="-1">package.json</TreeListItem>
+  </TreeList>
+</TreeNav>
 ```
 
 ## Props
@@ -64,9 +87,15 @@ File browser with nesting:
 
 ## When to Use
 
-- Use TreeList as the tree container inside a TreeNav navigation landmark, providing `role="tree"` and keyboard navigation for hierarchical items.
+- Use inside TreeNav to provide the hierarchical list structure with `role="tree"` semantics.
 - Use when you need arrow key navigation between tree items with wrapping behavior.
-- Avoid using TreeList without a parent TreeNav when the tree serves as site navigation; the `<nav>` landmark is important for accessibility.
+- Use with TreeListItem children that have `role="treeitem"` and `tabindex` attributes.
+
+## When Not to Use
+
+- Do not use outside TreeNav when the tree serves as site navigation -- the `<nav>` landmark is important for accessibility.
+- Do not use for flat ordered lists -- use ContentsList instead.
+- Do not use for action menus -- use TreeMenu or Menu instead.
 
 ## Headless
 

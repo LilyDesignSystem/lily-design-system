@@ -28,11 +28,15 @@ Use this component in medical forms, health assessments, fitness tracking screen
 ## Usage
 
 ```html
-<VitalSignVO2MaxMlPerKgPerMinuteInput label="VO2 max (ml/kg/min)" value={value} />
-```
+<!-- Basic VO2 max input -->
+<VitalSignVO2MaxMlPerKgPerMinuteInput label="VO2 max (ml/kg/min)" value={42} />
 
-```html
+<!-- In a fitness evaluation form -->
 <VitalSignVO2MaxMlPerKgPerMinuteInput label="VO2 max" value={vo2max} required />
+
+<!-- In a cardiovascular fitness assessment -->
+<VitalSignHeartRateAsBeatsPerMinuteInput label="Resting heart rate (BPM)" value={restingHR} />
+<VitalSignVO2MaxMlPerKgPerMinuteInput label="VO2 max (ml/kg/min)" value={vo2Value} />
 ```
 
 ## Keyboard Interactions
@@ -46,9 +50,16 @@ Use this component in medical forms, health assessments, fitness tracking screen
 
 ## When to Use
 
-- Use for form fields that accept a VO2 max measurement in ml/kg/min.
-- Use as the input companion to VitalSignVO2MaxMlPerKgPerMinuteView.
-- Consider using NumberInput for generic numeric values that are not specifically VO2 max.
+- Use in clinical forms to record a patient's VO2 max measurement in ml/kg/min.
+- Use with the default min/max/step constraints (0-100, step 1) for standard integer entry.
+- Use within fitness evaluation workflows and cardiovascular fitness assessments.
+- Use in sports medicine forms and exercise capacity testing.
+
+## When Not to Use
+
+- Do not use for displaying recorded values -- use VitalSignVo2MaxAsMlPerKgPerMinuteView instead.
+- Do not use for general number input -- use NumberInput for non-clinical numeric values.
+- Do not use for measurements outside the vital sign domain -- use MeasurementInstanceInput for generic measurements.
 
 ## Headless
 

@@ -21,7 +21,11 @@ NorthernIrelandHealthAndCareNumberInput is a headless input for entering a North
 ## Usage
 
 ```html
-<NorthernIrelandHealthAndCareNumberInput label="H&C Number" value={hcNumber} />
+<Field label="Health and Care Number" required>
+  <NorthernIrelandHealthAndCareNumberInput label="H&C Number" value={hcNumber} required />
+  <Hint>Format: XXX XXX XXXX (10 digits from your H&C card)</Hint>
+  <ErrorMessage>Please enter a valid H&C Number</ErrorMessage>
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -35,8 +39,15 @@ NorthernIrelandHealthAndCareNumberInput is a headless input for entering a North
 
 ## When to Use
 
-- Use for entering a Northern Ireland H&C Number.
-- Use NorthernIrelandHealthAndCareNumberView for read-only display.
+- Use in clinical or administrative forms to collect a Northern Ireland Health and Care (H&C) Number.
+- Use with validation for the 10-digit H&C Number format (XXX XXX XXXX).
+- Use in patient registration workflows where the H&C Number is required by HSC Northern Ireland.
+
+## When Not to Use
+
+- Do not use for displaying read-only identifiers -- use NorthernIrelandHealthAndCareNumberView instead.
+- Do not use for general text input -- use TextInput instead.
+- Do not use for UK NHS numbers -- use UnitedKingdomNationalHealthServiceNumberInput instead.
 
 ## Headless
 

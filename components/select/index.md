@@ -24,26 +24,25 @@ The consumer provides `<option>` elements as children, giving full control over 
 ## Usage
 
 ```html
-<Select label="Country" value={value}>
-  <option value="us">United States</option>
-  <option value="uk">United Kingdom</option>
-</Select>
-```
+<Field label="Sort by">
+  <Select label="Sort by">
+    <Option value="recently-published" selected>Recently published</Option>
+    <Option value="recently-updated">Recently updated</Option>
+    <Option value="most-views">Most views</Option>
+  </Select>
+</Field>
 
-```html
-<Select label="Priority" value={priority} required>
-  <option value="">Select priority...</option>
-  <option value="low">Low</option>
-  <option value="medium">Medium</option>
-  <option value="high">High</option>
-</Select>
-```
-
-```html
-<Select label="Status" value={value} disabled={isReadOnly}>
-  <option value="active">Active</option>
-  <option value="inactive">Inactive</option>
-</Select>
+<Field label="Choose your region">
+  <Hint>This can be different to what you selected before</Hint>
+  <Select label="Choose your region">
+    <Option value="">Choose region</Option>
+    <Option value="east">East of England</Option>
+    <Option value="london">London</Option>
+    <Option value="midlands">Midlands</Option>
+    <Option value="northwest">North West</Option>
+    <Option value="southeast">South East</Option>
+  </Select>
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -62,10 +61,17 @@ The consumer provides `<option>` elements as children, giving full control over 
 
 ## When to Use
 
-- Use Select for choosing one option from a predefined list, such as country, category, or status fields in forms.
-- Use Select when the list of options is moderate in length (roughly 5-15 items) and does not require filtering.
-- Avoid using Select for very short lists (2-3 options); use RadioGroup instead to show all options at once.
-- Consider Combobox or SelectWithExtras when users need to search or filter a large option list.
+- Use as a last resort when RadioGroup is not practical due to a very long list of options
+- Use for settings where a sensible default can be pre-selected, such as a sort order or display preference
+- Use when screen space is limited and a compact dropdown is needed
+- Use with a descriptive label and optional Hint to help users understand the available choices
+
+## When Not to Use
+
+- Do not use when there are fewer than 7 options -- use RadioGroup with RadioInput instead, which is easier to use
+- Do not use the multiple selection attribute -- use CheckboxGroup with CheckboxInput for multi-select
+- Do not pre-select an option for question-based inputs -- this can bias user responses
+- Do not use when users need to search or filter options -- use Combobox or SelectWithExtras instead
 
 ## Headless
 

@@ -27,14 +27,22 @@ This component is useful for patient alerts, clinical notifications, medical rec
 ## Usage
 
 ```html
-<MedicalBanner label="Patient alerts">
-  Critical medical information here.
+<MedicalBanner label="Patient summary">
+  <MedicalBannerBox>
+    <strong>Sarah Mitchell</strong> | NHS: 485 777 3456 | DOB: 15/03/1984
+  </MedicalBannerBox>
+  <MedicalBannerBoxForDanger label="Allergies and reactions">
+    Allergies: Penicillin, Latex
+  </MedicalBannerBoxForDanger>
+  <MedicalBannerBoxForAdvice label="Care team">
+    GP: Dr James Lee | Next appointment: 22 April 2025
+  </MedicalBannerBoxForAdvice>
 </MedicalBanner>
 ```
 
 ```html
 <MedicalBanner label="Clinical notice" type="warning" dismissible closeLabel="Dismiss">
-  Patient has pending lab results.
+  Patient has pending lab results requiring urgent review.
 </MedicalBanner>
 ```
 
@@ -65,9 +73,17 @@ MedicalBanner can contain MedicalBannerBox for horizontal layout:
 
 ## When to Use
 
-- Use for medical information displays at the top of clinical pages.
-- Use when medical context needs to be conveyed to assistive technologies via `data-context="medical"`.
-- Avoid for non-medical banners; use Banner instead.
+- Use at the top of a clinical page to display critical patient identification and medical summary information
+- Use in electronic health record systems where clinicians need quick access to patient context
+- Use to present patient demographics, identifiers, and key clinical data in a persistent banner
+- Use when medical context needs to be conveyed to assistive technologies via `data-context="medical"`
+- Use as the parent container for MedicalBannerBox, MedicalBannerBoxForDanger, and MedicalBannerBoxForAdvice
+
+## When Not to Use
+
+- Do not use for non-medical applications -- use Banner instead
+- Do not use for alerts or warnings about clinical conditions -- use Alert, WarningCallout, or CareCard
+- Do not use for transient clinical notifications -- use Notification or Toast
 
 ## Headless
 

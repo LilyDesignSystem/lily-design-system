@@ -30,30 +30,34 @@ accessibility and keyboard support. It supports toggle button semantics via the
 
 ## Usage
 
-Basic action button:
+Submit button for saving progress:
 
 ```html
-<Button onclick={handleClick}>Click me</Button>
+<Button type="submit">Save and continue</Button>
 ```
 
-Submit button in a form:
+Action button with disabled state:
 
 ```html
-<form>
-  <Button type="submit" disabled={isSubmitting}>Submit</Button>
-</form>
+<Button onclick={handleSave} disabled={isSaving}>
+  Save your progress
+</Button>
 ```
 
 Toggle button with pressed state:
 
 ```html
-<Button pressed={isBold} onclick={() => isBold = !isBold}>Bold</Button>
+<Button pressed={isBold} onclick={() => isBold = !isBold}>
+  Bold
+</Button>
 ```
 
 With accessible label override:
 
 ```html
-<Button label="Close dialog" onclick={handleClose}>X</Button>
+<Button label="Close notification" onclick={handleDismiss}>
+  ✕
+</Button>
 ```
 
 ## Keyboard Interactions
@@ -72,10 +76,18 @@ With accessible label override:
 
 ## When to Use
 
-- Use for triggering actions such as form submission, dialog opening, state changes, or toggling features.
+- Use for triggering actions such as form submission, saving progress, opening a dialog, or confirming a choice.
+- Use a single primary button per page to give users a clear next step.
+- Use when the action changes state or submits data -- buttons signal "do something", not "go somewhere".
+- Use the toggle button pattern (with `pressed` prop) for features like bold/italic formatting toggles.
 - Use when you need rich content inside the button (icons, formatted text) via children slots.
-- Avoid for navigation between pages -- use a link (`<a>`) or ActionLink instead.
-- Consider ButtonInput instead when you need an `<input type="button">` for form-native semantics with plain text labels.
+
+## When Not to Use
+
+- Do not use for navigation between pages -- use ActionLink or a standard anchor link instead.
+- Do not use for linking to external websites -- use a standard anchor link.
+- Do not use multiple primary buttons on one page -- use one primary and secondary Button variants.
+- Do not use when you need a form-native `<input type="button">` -- use ButtonInput instead.
 
 ## Headless
 

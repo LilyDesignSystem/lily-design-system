@@ -19,27 +19,25 @@ Use TourList when you need to walk users through a sequence of steps in a modal 
 ## Usage
 
 ```html
-<TourList label="Getting started" active={active}>
-  <p>Welcome to the app!</p>
-</TourList>
-```
-
-```html
-<TourList label="Feature tour" active={showTour}>
-  <TourListItem label="Welcome" current={step === 0} stepNumber={1} totalSteps={3}>
-    <p>Welcome to the app!</p>
-    <button onclick={() => step++}>Next</button>
-  </TourListItem>
-  <TourListItem label="Features" current={step === 1} stepNumber={2} totalSteps={3}>
-    <p>Here are the features.</p>
-    <button onclick={() => step--}>Back</button>
-    <button onclick={() => step++}>Next</button>
-  </TourListItem>
-  <TourListItem label="Finish" current={step === 2} stepNumber={3} totalSteps={3}>
-    <p>You're all set!</p>
-    <button onclick={() => showTour = false}>Done</button>
-  </TourListItem>
-</TourList>
+<Tour label="Onboarding">
+  <TourList label="Getting started guide" active={showTour}>
+    <TourListItem label="Dashboard overview" current={step === 0} stepNumber={1} totalSteps={3}>
+      <p>This is your dashboard. It shows recent activity and key metrics.</p>
+      <button onclick={() => step++}>Next</button>
+      <button onclick={() => showTour = false}>Skip</button>
+    </TourListItem>
+    <TourListItem label="Navigation" current={step === 1} stepNumber={2} totalSteps={3}>
+      <p>Use the sidebar to navigate between patients, appointments, and reports.</p>
+      <button onclick={() => step--}>Back</button>
+      <button onclick={() => step++}>Next</button>
+    </TourListItem>
+    <TourListItem label="Quick actions" current={step === 2} stepNumber={3} totalSteps={3}>
+      <p>Use the task bar at the top for common actions like booking appointments.</p>
+      <button onclick={() => step--}>Back</button>
+      <button onclick={() => showTour = false}>Finish</button>
+    </TourListItem>
+  </TourList>
+</Tour>
 ```
 
 ## Props
@@ -82,10 +80,15 @@ With step management:
 - `tabindex="-1"` -- allows the dialog element to receive focus for keyboard event handling
 ## When to Use
 
-- Use TourList to walk users through a step-by-step onboarding flow, feature discovery tour, or contextual help walkthrough.
+- Use inside Tour to provide the ordered list of tour steps.
 - Use when guidance needs to appear as a modal overlay that focuses user attention on one step at a time.
-- Avoid using TourList for simple tooltips or hints; use Tooltip or InformationCallout instead.
-- Consider a non-modal approach if users need to interact with the page while reading instructions.
+- Use with TourListItem children to define each individual step with progress information.
+
+## When Not to Use
+
+- Do not use outside Tour -- use ContentsList or TimelineList for other ordered lists.
+- Do not use for simple tooltips or hints -- use Tooltip or InformationCallout instead.
+- Do not use when users need to interact with the page while reading instructions -- consider a non-modal approach.
 
 ## Headless
 

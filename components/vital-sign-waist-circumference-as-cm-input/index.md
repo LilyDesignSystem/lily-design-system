@@ -28,7 +28,16 @@ Use this component in medical forms, health assessments, and wellness applicatio
 ## Usage
 
 ```html
-<VitalSignWaistCircumferenceAsCmInput label="Waist circumference (cm)" value={value} />
+<!-- Basic waist circumference input -->
+<VitalSignWaistCircumferenceAsCmInput label="Waist circumference (cm)" value={94} />
+
+<!-- Required field in a metabolic risk assessment -->
+<VitalSignWaistCircumferenceAsCmInput label="Waist circumference" value={waist} required />
+
+<!-- Alongside other body measurements -->
+<VitalSignHeightAsCmInput label="Height (cm)" value={height} />
+<VitalSignWeightAsKgInput label="Weight (kg)" value={weight} />
+<VitalSignWaistCircumferenceAsCmInput label="Waist circumference (cm)" value={waistCirc} />
 ```
 
 ## Keyboard Interactions
@@ -42,9 +51,16 @@ Use this component in medical forms, health assessments, and wellness applicatio
 
 ## When to Use
 
-- Use for form fields that accept a waist circumference measurement in centimetres.
-- Use as the input companion to VitalSignWaistCircumferenceAsCmView.
-- Consider using NumberInput for generic numeric values that are not specifically waist circumference.
+- Use in clinical forms to record a patient's waist circumference measurement in centimetres.
+- Use with the default min/max/step constraints (0-300, step 1) for standard integer centimetre entry.
+- Use within metabolic risk assessment workflows and body composition evaluations.
+- Use in obesity screening forms and cardiovascular risk assessments.
+
+## When Not to Use
+
+- Do not use for displaying recorded values -- use VitalSignWaistCircumferenceAsCmView instead.
+- Do not use for general number input -- use NumberInput for non-clinical numeric values.
+- Do not use for belly circumference -- use VitalSignBellyCircumferenceAsCmInput instead.
 
 ## Headless
 

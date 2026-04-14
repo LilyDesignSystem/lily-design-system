@@ -22,6 +22,8 @@ This component is useful for user profile previews, link previews, contextual he
 
 ## Usage
 
+Basic hover card with a trigger button:
+
 ```html
 <button
   onmouseenter={() => open = true}
@@ -36,6 +38,47 @@ This component is useful for user profile previews, link previews, contextual he
 </HoverCard>
 ```
 
+User profile preview on a username link:
+
+```html
+<a
+  href="/users/jdoe"
+  onmouseenter={() => profileOpen = true}
+  onmouseleave={() => profileOpen = false}
+  onfocus={() => profileOpen = true}
+  onblur={() => profileOpen = false}
+>
+  @jdoe
+</a>
+<HoverCard label="Profile preview for jdoe" open={profileOpen}>
+  <Avatar label="Jane Doe">
+    <AvatarImage src="/avatars/jdoe.jpg" alt="Jane Doe" />
+  </Avatar>
+  <strong>Jane Doe</strong>
+  <p>Software Engineer at Acme Corp</p>
+  <p>12 projects &middot; 48 contributions</p>
+</HoverCard>
+```
+
+Link preview hover card:
+
+```html
+<a
+  href="https://example.com/article"
+  onmouseenter={() => linkPreviewOpen = true}
+  onmouseleave={() => linkPreviewOpen = false}
+  onfocus={() => linkPreviewOpen = true}
+  onblur={() => linkPreviewOpen = false}
+>
+  Understanding Accessibility
+</a>
+<HoverCard label="Article preview" open={linkPreviewOpen}>
+  <Image src="/thumbnails/a11y.jpg" alt="Accessibility article thumbnail" />
+  <strong>Understanding Accessibility</strong>
+  <p>A practical guide to building inclusive web applications.</p>
+</HoverCard>
+```
+
 ## Keyboard Interactions
 
 None at the component level. The consumer manages focus-based visibility on the trigger element.
@@ -47,9 +90,17 @@ None at the component level. The consumer manages focus-based visibility on the 
 
 ## When to Use
 
-- Use for user profile previews, link previews, contextual help, or supplementary information triggered by hover or focus.
+- Use for user profile previews triggered by hovering over a username or avatar.
+- Use for link previews that show a summary of the destination page.
+- Use for contextual help or supplementary information triggered by hover or focus.
 - Use when the content is supplementary and does not require user interaction to dismiss.
-- Avoid for content that requires user interaction (buttons, forms); use Popover or Dialog instead.
+
+## When Not to Use
+
+- Do not use for content that requires user interaction such as buttons or forms -- use Popover instead.
+- Do not use for simple text descriptions -- use Tooltip instead.
+- Do not use as the only way to access content -- hover is not available on touch devices.
+- Do not use for essential information the user must see -- place it inline instead.
 
 ## Headless
 

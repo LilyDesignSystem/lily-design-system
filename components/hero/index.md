@@ -27,6 +27,23 @@ This headless component uses a `<section>` element with an `aria-label` to creat
 </Hero>
 ```
 
+```html
+<Hero label="Register for a GP">
+  <h1>Register with a GP surgery</h1>
+  <p>Everyone in England can register with a GP surgery. It is free to register.</p>
+  <ActionLink href="/register">Register now</ActionLink>
+</Hero>
+```
+
+```html
+<Hero label="Lily Design System">
+  <h1>Lily Design System</h1>
+  <p>Headless, accessible components for healthcare and government services.</p>
+  <Button>View components</Button>
+  <Button>Read the docs</Button>
+</Hero>
+```
+
 ## Keyboard Interactions
 
 - None at the section level -- interactive children handle their own keyboard interactions
@@ -38,9 +55,16 @@ This headless component uses a `<section>` element with an `aria-label` to creat
 
 ## When to Use
 
-- Use for prominent introductory content at the top of a page.
-- Use when you need a large visual area with a title, description, and optional CTA.
-- Avoid for repeated content sections -- use Card or Panel instead.
+- Use at the top of a landing page to introduce the service with a prominent heading, description, and optional background image
+- Use when you need a large visual introduction that sets the context for the page
+- Use on marketing or public-facing pages where a strong first impression matters
+- Use to combine a headline, supporting text, and a primary call-to-action in a single prominent section
+
+## When Not to Use
+
+- Do not use on transactional pages -- keep forms focused without large visual elements
+- Do not use multiple heroes on one page -- use Card or Panel for secondary content blocks
+- Do not use for repeated content sections within a page -- use Card, Tile, or Panel instead
 
 ## Headless
 

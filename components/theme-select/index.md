@@ -18,20 +18,40 @@ Use ThemeSelect when you need a dropdown for switching visual themes. Common sce
 
 ## Usage
 
+Basic light/dark theme dropdown:
+
 ```html
-<ThemeSelect label="Theme" value={value}>
-  <option value="light">Light</option>
-  <option value="dark">Dark</option>
+<ThemeSelect label="Theme" value={theme}>
+  <ThemeSelectOption value="light">Light</ThemeSelectOption>
+  <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
 </ThemeSelect>
 ```
 
+Extended theme options with system default:
+
 ```html
 <ThemeSelect label="Color scheme" value={theme}>
-  <option value="light">Light</option>
-  <option value="dark">Dark</option>
-  <option value="high-contrast">High Contrast</option>
-  <option value="system">System Default</option>
+  <ThemeSelectOption value="system">System Default</ThemeSelectOption>
+  <ThemeSelectOption value="light">Light</ThemeSelectOption>
+  <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
+  <ThemeSelectOption value="high-contrast">High Contrast</ThemeSelectOption>
 </ThemeSelect>
+```
+
+In a settings form:
+
+```html
+<Form label="Preferences" onSubmit={handleSubmit}>
+  <Field label="Theme">
+    <ThemeSelect label="Theme" value={theme}>
+      <ThemeSelectOption value="" disabled>Choose a theme...</ThemeSelectOption>
+      <ThemeSelectOption value="light">Light</ThemeSelectOption>
+      <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
+      <ThemeSelectOption value="high-contrast">High Contrast</ThemeSelectOption>
+    </ThemeSelect>
+  </Field>
+  <Button type="submit">Save</Button>
+</Form>
 ```
 
 ## Props
@@ -66,10 +86,16 @@ With theme application:
 - `aria-label={label}` -- provides an accessible name for the theme select since there is no visible `<label>` element
 ## When to Use
 
-- Use ThemeSelect when users need to choose a theme from a compact dropdown, especially when there are more than two or three options.
-- Use when screen space is limited and a dropdown is preferable to radio buttons.
-- Avoid using ThemeSelect for a simple binary light/dark toggle; consider SwitchButton or ToggleButton instead.
-- Consider ThemePicker instead when you want all options visible at once as radio buttons.
+- Use for selecting a visual theme from a dropdown when space is limited.
+- Use as a compact alternative to ThemePicker when there are many theme options.
+- Use in navigation bars, toolbars, or sidebars where a dropdown fits the layout better than radio buttons.
+- Use when theme options do not need visual previews or swatches.
+
+## When Not to Use
+
+- Do not use when visual preview of themes is important -- use [ThemePicker](../theme-picker/) with swatches instead.
+- Do not use for non-theme selections -- use [Select](../select/) with custom options instead.
+- Do not use for a simple binary light/dark toggle -- use [SwitchButton](../switch-button/) or [ToggleButton](../toggle-button/) instead.
 
 ## Headless
 

@@ -19,11 +19,24 @@ This headless component uses a `<div>` element with `role="group"` and an `aria-
 
 ## Usage
 
+Care team avatar group:
+
 ```html
-<AvatarGroup label="Team members">
-  <Avatar>AB</Avatar>
-  <Avatar>CD</Avatar>
-  <Avatar>EF</Avatar>
+<AvatarGroup label="Care team">
+  <Avatar src="/photos/sarah-mitchell.jpg" alt="Dr Sarah Mitchell" initials="SM" />
+  <Avatar alt="Nurse James Lee" initials="JL" />
+  <Avatar alt="Dr Priya Sharma" initials="PS" />
+</AvatarGroup>
+```
+
+Conversation participants:
+
+```html
+<AvatarGroup label="Participants in this thread">
+  <Avatar alt="Alice Chen" initials="AC" />
+  <Avatar alt="Bob Rivera" initials="BR" />
+  <Avatar alt="Carol Okonkwo" initials="CO" />
+  <Avatar alt="David Park" initials="DP" />
 </AvatarGroup>
 ```
 
@@ -38,9 +51,15 @@ This headless component uses a `<div>` element with `role="group"` and an `aria-
 
 ## When to Use
 
-- Use to display multiple avatars representing users, participants, or contributors.
-- Use when space is limited and a compact representation of multiple people is needed.
-- Avoid when each avatar needs independent interactive behavior -- use a list instead.
+- Use to display a stacked group of avatars, such as showing team members or participants in a conversation.
+- Use when the overlapping visual treatment communicates that multiple people are involved in a shared context.
+- Use when space is limited and a compact representation of multiple people is needed, such as in a card header or toolbar.
+
+## When Not to Use
+
+- Do not use for a single avatar -- render Avatar directly.
+- Do not use when each person needs their own detail space or interactive actions -- use a list of Person components instead.
+- Do not use when the exact identity of each person matters more than the group -- consider a full member list instead.
 
 ## Headless
 

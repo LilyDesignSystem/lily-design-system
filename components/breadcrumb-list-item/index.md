@@ -20,8 +20,19 @@ Typically, each breadcrumb list item contains a link for navigable ancestor page
 ## Usage
 
 ```html
-<BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
-<BreadcrumbListItem current>About</BreadcrumbListItem>
+<BreadcrumbNav label="Breadcrumb">
+  <BreadcrumbList>
+    <BreadcrumbListItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbListItem>
+    <BreadcrumbListItem>
+      <BreadcrumbLink href="/health-a-z">Health A to Z</BreadcrumbLink>
+    </BreadcrumbListItem>
+    <BreadcrumbListItem aria-current="page">
+      Diabetes
+    </BreadcrumbListItem>
+  </BreadcrumbList>
+</BreadcrumbNav>
 ```
 
 ## Keyboard Interactions
@@ -35,9 +46,13 @@ None directly -- keyboard interaction is handled by the contained links.
 
 ## When to Use
 
-- Use for each individual step in a breadcrumb navigation trail, placed inside a BreadcrumbList.
-- Use with the `current` prop on the final item to indicate the user's current page location.
-- Avoid using outside of a BreadcrumbList parent -- the parent provides the required `<ol>` list structure.
+- Use inside BreadcrumbList to represent one level in the breadcrumb trail
+- Use with `aria-current="page"` on the last item to indicate the current page
+
+## When Not to Use
+
+- Do not use outside of BreadcrumbList -- it has no standalone meaning
+- Do not include the current page as a link -- the H1 heading already communicates the current page
 
 ## Headless
 
@@ -71,8 +86,15 @@ BreadcrumbListItem follows the Nav / List / ListItem composition pattern:
 ```html
 <BreadcrumbNav label="Breadcrumb">
   <BreadcrumbList>
-    <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
-    <BreadcrumbListItem current>About</BreadcrumbListItem>
+    <BreadcrumbListItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbListItem>
+    <BreadcrumbListItem>
+      <BreadcrumbLink href="/health-a-z">Health A to Z</BreadcrumbLink>
+    </BreadcrumbListItem>
+    <BreadcrumbListItem aria-current="page">
+      Diabetes
+    </BreadcrumbListItem>
   </BreadcrumbList>
 </BreadcrumbNav>
 ```

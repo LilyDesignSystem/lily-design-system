@@ -21,13 +21,28 @@ This component is useful in applications that need custom file operation interfa
 
 ## Usage
 
+File open dialog with a file list and actions:
+
 ```html
-<FileDialog label="Open file" open={open}>
+<FileDialog label="Open file" open={fileDialogOpen}>
+  <h2>Select a file</h2>
   <ul>
-    <li>document.txt</li>
-    <li>image.png</li>
+    <li><button onclick={() => selectFile('report.pdf')}>report.pdf</button></li>
+    <li><button onclick={() => selectFile('data.csv')}>data.csv</button></li>
+    <li><button onclick={() => selectFile('photo.jpg')}>photo.jpg</button></li>
   </ul>
-  <button onclick={() => open = false}>Cancel</button>
+  <button onclick={() => (fileDialogOpen = false)}>Cancel</button>
+</FileDialog>
+```
+
+Save-as dialog:
+
+```html
+<FileDialog label="Save as" open={saveDialogOpen}>
+  <label for="filename">File name</label>
+  <input id="filename" type="text" value={fileName} />
+  <button onclick={saveFile}>Save</button>
+  <button onclick={() => (saveDialogOpen = false)}>Cancel</button>
 </FileDialog>
 ```
 
@@ -42,10 +57,16 @@ This component is useful in applications that need custom file operation interfa
 
 ## When to Use
 
-- Use for custom file operation interfaces such as open, save, or browse dialogs in file managers, document editors, or CMS applications.
+- Use for a dialog interface for browsing and selecting files.
+- Use for custom file operation interfaces such as open, save, or browse dialogs.
+- Use in file managers, document editors, or CMS applications.
 - Use when you need more control over the file selection UI than the native file picker provides.
-- Avoid for simple file selection; use FileInput or FileUpload instead.
-- Consider Dialog instead when the modal content is not file-specific.
+
+## When Not to Use
+
+- Do not use for simple file uploads -- use FileUpload instead.
+- Do not use for file management and browsing within a page section -- use FileManager instead.
+- Do not use when the modal content is not file-specific -- use Dialog instead.
 
 ## Headless
 

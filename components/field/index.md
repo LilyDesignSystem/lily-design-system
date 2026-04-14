@@ -25,15 +25,27 @@ The component auto-generates IDs for linking the label to its input and for asso
 
 ## Usage
 
+Text input with description hint:
+
 ```html
-<Field label="Name" description="Enter full name">
-  <input id="name-input" />
+<Field label="Full name" description="Enter your first and last name" required>
+  <TextInput label="Full name" value={fullName} required />
 </Field>
 ```
 
+Email field with validation error:
+
 ```html
-<Field label="Email" required error="Email is required">
-  <input id="email-input" type="email" />
+<Field label="Email address" required error={emailError}>
+  <EmailInput label="Email address" value={email} required />
+</Field>
+```
+
+Optional field with helper text:
+
+```html
+<Field label="Notes" description="Any additional information (optional)">
+  <Textarea label="Notes" value={notes} />
 </Field>
 ```
 
@@ -50,10 +62,16 @@ None -- this component is a passive container. Clicking the label focuses the as
 
 ## When to Use
 
-- Use to wrap any form control (text input, select, textarea, checkbox) with its label, description, and error message.
+- Use to wrap a form input with its label, hint text, and error message.
+- Use as the standard pattern for every form input inside a Form.
 - Use when you need automatic ID generation and proper `<label for>` linking without manual wiring.
-- Avoid when a form control already has its own label mechanism built in.
-- Consider Fieldset when grouping multiple related fields together under a shared legend.
+- Use with any input type: text inputs, selects, textareas, checkboxes, and more.
+
+## When Not to Use
+
+- Do not use for groups of related inputs -- use Fieldset with a legend instead.
+- Do not use for standalone labels without inputs.
+- Do not use when a form control already has its own integrated label mechanism (such as DateField).
 
 ## Headless
 

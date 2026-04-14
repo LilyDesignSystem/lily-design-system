@@ -24,7 +24,17 @@ A file upload component provides a button-triggered file picker for uploading fi
 ## Usage
 
 ```html
-<FileUpload label="Upload files" accept=".pdf" onchange={handleFiles} />
+<Field label="Upload a scan of your referral letter">
+  <Hint>The file must be a JPG, PNG, or PDF and be smaller than 5MB</Hint>
+  <FileUpload label="Upload files" accept=".jpg,.png,.pdf" onchange={handleFiles} />
+</Field>
+```
+
+```html
+<Field label="Upload your test results" error="true">
+  <ErrorMessage>The selected file must be smaller than 5MB</ErrorMessage>
+  <FileUpload label="Upload files" accept=".jpg,.png,.pdf" onchange={handleFiles} />
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -38,10 +48,18 @@ None beyond native button behavior -- Tab to focus the button, Enter or Space to
 
 ## When to Use
 
-- Use when you want a styled button-triggered file picker with a live status region announcing selected file count.
+- Use when file upload is critical to delivering your service, such as uploading medical documents, photos, or identification.
+- Use with clear guidance about accepted file types and maximum file size.
+- Use with descriptive error messages that tell users exactly what went wrong and how to fix it.
+- Use drag-and-drop alongside the file input button for an enhanced experience where supported.
 - Use when a more polished upload experience is needed compared to a raw FileInput.
-- Avoid when a simple native file input is sufficient; use FileInput instead.
-- Consider a drag-and-drop area pattern when users should be able to drop files directly onto the page.
+
+## When Not to Use
+
+- Do not use when the information could be collected through form fields instead -- text input is simpler and more accessible.
+- Do not use for image selection with preview -- use ImageFileInput which provides a preview before upload.
+- Do not use for browsing and managing existing files -- use FileManager or FileDialog for that purpose.
+- Do not use without specifying accepted file types -- users need to know what formats are allowed.
 
 ## Headless
 

@@ -17,8 +17,16 @@ An email link displays an email as a clickable mailto link. When clicked, it ope
 
 ## Usage
 
+Email link on a contact page:
+
 ```html
-<EmailAddressView email="alice@example.com" />
+<EmailLink email="support@example.com" label="Email our support team" />
+```
+
+Email link in a user profile card:
+
+```html
+<EmailLink email="alice@example.com" />
 ```
 
 ## Keyboard Interactions
@@ -31,10 +39,15 @@ None -- this is a standard `<a>` link; keyboard behavior (Tab to focus, Enter to
 
 ## When to Use
 
-- Use to display an email address as a clickable mailto link in profiles, contact pages, or user cards.
-- Use when clicking the email should open the user's default email client.
-- Avoid when the email address needs to be editable; use EmailInput instead.
-- Consider plain text display when the email should not be interactive.
+- Use to display an email address as a mailto: hyperlink.
+- Use when users should be able to click to open their email client.
+- Use on contact pages, user profiles, business listings, and support sections.
+
+## When Not to Use
+
+- Do not use for entering an email address -- use EmailInput instead.
+- Do not use for non-email links -- use ActionLink instead.
+- Do not use when the email should be displayed as plain non-interactive text.
 
 ## Headless
 

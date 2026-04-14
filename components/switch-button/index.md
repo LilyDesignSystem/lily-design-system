@@ -22,12 +22,22 @@ Switch inputs are commonly used for settings, preferences, and feature toggles w
 
 ## Usage
 
+Notification toggle in a settings panel:
+
 ```html
-<SwitchButton label="Enable notifications" checked={checked} />
+<SwitchButton label="Enable notifications" checked={notificationsEnabled} />
 ```
+
+Dark mode toggle with disabled state when locked by admin:
 
 ```html
 <SwitchButton label="Dark mode" checked={darkMode} disabled={locked} />
+```
+
+Feature flag toggle in a dashboard:
+
+```html
+<SwitchButton label="Enable beta features" checked={betaEnabled} />
 ```
 
 ## Keyboard Interactions
@@ -43,10 +53,18 @@ Switch inputs are commonly used for settings, preferences, and feature toggles w
 
 ## When to Use
 
-- Use for binary settings that take immediate effect, such as enabling/disabling notifications, toggling dark mode, or turning features on and off.
+- Use for binary settings that take immediate effect, such as enabling or disabling notifications.
+- Use for toggling features on and off, such as dark mode, Wi-Fi, or Bluetooth.
 - Use when the on/off semantic is more appropriate than a checked/unchecked semantic.
-- Avoid when the change requires form submission to take effect; use a CheckboxInput instead.
-- Consider a CheckboxInput when the control is part of a group of related options in a form.
+- Use when a single control needs to toggle a preference without a separate save action.
+- Use in settings panels, preference screens, and feature flag dashboards.
+
+## When Not to Use
+
+- Do not use for form selections that require submission to take effect -- use CheckboxInput instead.
+- Do not use for choosing between two distinct options -- use RadioGroup instead.
+- Do not use when the control is part of a group of related options in a form -- use CheckboxGroup instead.
+- Do not use for toggling a button's pressed state in a toolbar -- use ToggleButton instead.
 
 ## Headless
 

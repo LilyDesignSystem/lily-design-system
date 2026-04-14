@@ -26,11 +26,35 @@ Use SelectWithExtras when you need a native select dropdown with additional visu
 
 ## Usage
 
+Country selector with a flag icon before the select:
+
 ```html
-<SelectWithExtras label="Country" value={value}>
-  <span>Flag:</span>
-  <option value="us">USA</option>
+<SelectWithExtras label="Country" value={country}>
+  {#snippet before()}<span class="flag-icon">🏳</span>{/snippet}
+  <option value="us">United States</option>
   <option value="uk">United Kingdom</option>
+  <option value="fr">France</option>
+</SelectWithExtras>
+```
+
+Currency selector with symbol after the select:
+
+```html
+<SelectWithExtras label="Currency" value={currency}>
+  <option value="GBP">British Pound</option>
+  <option value="USD">US Dollar</option>
+  <option value="EUR">Euro</option>
+  {#snippet after()}<span class="currency-symbol">£</span>{/snippet}
+</SelectWithExtras>
+```
+
+Unit selector with a label before:
+
+```html
+<SelectWithExtras label="Measurement unit" value={unit}>
+  {#snippet before()}<span>Unit:</span>{/snippet}
+  <option value="kg">Kilograms</option>
+  <option value="lb">Pounds</option>
 </SelectWithExtras>
 ```
 
@@ -47,10 +71,16 @@ Use SelectWithExtras when you need a native select dropdown with additional visu
 
 ## When to Use
 
-- Use when a native select dropdown needs supplementary visual context such as icons, flags, or unit labels alongside the options.
-- Use when you want to preserve full native select behavior (keyboard navigation, form submission, screen reader support) while adding decorative or informational elements.
-- Avoid when the extra content is interactive; use a Combobox instead for searchable or filterable dropdowns.
-- Consider a plain Select component when no additional visual context is needed.
+- Use SelectWithExtras when a native select dropdown needs supplementary visual context such as icons, flags, or unit labels alongside the options.
+- Use SelectWithExtras to preserve full native select behavior (keyboard navigation, form submission, screen reader support) while adding decorative elements.
+- Use SelectWithExtras for country selectors with flag icons, currency selectors with symbols, or unit selectors with labels.
+- Use SelectWithExtras when the before/after content is purely decorative or informational.
+
+## When Not to Use
+
+- Do not use SelectWithExtras when a native Select without extra visual context is sufficient.
+- Do not use SelectWithExtras for free-text search or filterable dropdowns -- use Combobox instead.
+- Do not use SelectWithExtras when the before/after content is interactive -- interactive elements in these slots can confuse keyboard navigation.
 
 ## Headless
 

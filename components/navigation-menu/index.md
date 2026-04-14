@@ -20,12 +20,20 @@ This component is suitable for primary navigation bars, sidebar navigation, foot
 
 ## Usage
 
+Primary site navigation with main section links:
+
 ```html
 <NavigationMenu label="Main navigation">
-    <a href="/">Home</a>
-    <a href="/about">About</a>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/products">Products</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+    </ul>
 </NavigationMenu>
 ```
+
+Footer navigation with legal and support links:
 
 ```html
 <NavigationMenu label="Footer navigation">
@@ -33,6 +41,18 @@ This component is suitable for primary navigation bars, sidebar navigation, foot
         <li><a href="/privacy">Privacy Policy</a></li>
         <li><a href="/terms">Terms of Service</a></li>
         <li><a href="/contact">Contact Us</a></li>
+    </ul>
+</NavigationMenu>
+```
+
+Sidebar section navigation:
+
+```html
+<NavigationMenu label="Documentation sections">
+    <ul>
+        <li><a href="/docs/getting-started">Getting Started</a></li>
+        <li><a href="/docs/components">Components</a></li>
+        <li><a href="/docs/api">API Reference</a></li>
     </ul>
 </NavigationMenu>
 ```
@@ -48,9 +68,17 @@ None -- this component is a passive container. Navigation links inside use stand
 
 ## When to Use
 
-- Use to wrap a group of navigation links as a semantic `<nav>` landmark for site-wide, section-level, or footer navigation.
+- Use for site-wide navigation with links to main sections.
+- Use as the primary navigation component wrapping a group of navigation links.
 - Use when screen reader users need to quickly locate and jump to a navigation region via landmark navigation.
-- Avoid using NavigationMenu for action menus or command palettes; use Menu or Command instead.
+- Use for footer navigation, sidebar navigation, or breadcrumb wrappers.
+- Use when a semantic `<nav>` landmark is needed to group related links.
+
+## When Not to Use
+
+- Do not use for action menus -- use Menu or DropdownMenu instead.
+- Do not use for hierarchical tree navigation -- use TreeNav instead.
+- Do not use for command palettes -- use Command instead.
 
 ## Headless
 

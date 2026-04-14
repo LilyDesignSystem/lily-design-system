@@ -28,11 +28,14 @@ Use this component in medical forms, health assessments, fitness tracking screen
 ## Usage
 
 ```html
-<VitalSignBodyFatAsPercentageInput label="Body fat percentage" value={value} />
-```
+<!-- Basic body fat percentage input -->
+<VitalSignBodyFatAsPercentageInput label="Body fat percentage" value={22.5} />
 
-```html
+<!-- Required field in a health assessment -->
 <VitalSignBodyFatAsPercentageInput label="Body fat (%)" value={bfp} required />
+
+<!-- In a fitness evaluation form with custom range -->
+<VitalSignBodyFatAsPercentageInput label="Body fat percentage" value={bodyFat} min={2} max={60} />
 ```
 
 ## Keyboard Interactions
@@ -46,9 +49,16 @@ Use this component in medical forms, health assessments, fitness tracking screen
 
 ## When to Use
 
-- Use for form fields that accept a body fat percentage measurement.
-- Use as the input companion to VitalSignBodyFatAsPercentageView.
-- Consider using NumberInput for generic numeric values that are not specifically body fat percentages.
+- Use in clinical forms to record a patient's body fat percentage measurement.
+- Use with the default min/max/step constraints (0-100, step 0.1) for one-decimal-place percentage entry.
+- Use within health assessments, fitness evaluations, and body composition tracking workflows.
+- Use in metabolic risk screening and obesity management forms.
+
+## When Not to Use
+
+- Do not use for displaying recorded values -- use VitalSignBodyFatAsPercentageView instead.
+- Do not use for general number input -- use NumberInput for non-clinical numeric values.
+- Do not use for measurements outside the vital sign domain -- use MeasurementInstanceInput for generic measurements.
 
 ## Headless
 

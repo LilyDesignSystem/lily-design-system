@@ -22,30 +22,47 @@ The `<nav>` element provides the navigation landmark, while the nested TreeList 
 ## Usage
 
 ```html
-<TreeNav label="Documentation">
-    <TreeList label="Docs tree">
-        <TreeListItem tabindex="0" aria-expanded="true">
-            Getting Started
-            <ul role="group">
-                <TreeListItem tabindex="-1">Installation</TreeListItem>
-                <TreeListItem tabindex="-1">Quick Start</TreeListItem>
-            </ul>
+<TreeNav label="Documentation sidebar">
+  <TreeList label="Docs sections">
+    <TreeListItem tabindex="0" aria-expanded="true">
+      <TreeLink href="/docs/getting-started">Getting Started</TreeLink>
+      <ul role="group">
+        <TreeListItem tabindex="-1">
+          <TreeLink href="/docs/installation">Installation</TreeLink>
         </TreeListItem>
-        <TreeListItem tabindex="-1" aria-expanded="false">
-            Components
+        <TreeListItem tabindex="-1">
+          <TreeLink href="/docs/quick-start">Quick Start</TreeLink>
         </TreeListItem>
-        <TreeListItem tabindex="-1">API Reference</TreeListItem>
-    </TreeList>
+      </ul>
+    </TreeListItem>
+    <TreeListItem tabindex="-1" aria-expanded="false">
+      <TreeLink href="/docs/components">Components</TreeLink>
+    </TreeListItem>
+    <TreeListItem tabindex="-1">
+      <TreeLink href="/docs/api">API Reference</TreeLink>
+    </TreeListItem>
+  </TreeList>
 </TreeNav>
 ```
 
 ```html
-<TreeNav label="File browser">
-    <TreeList label="Project files">
-        <TreeListItem tabindex="0">src</TreeListItem>
-        <TreeListItem tabindex="-1">docs</TreeListItem>
-        <TreeListItem tabindex="-1">package.json</TreeListItem>
-    </TreeList>
+<TreeNav label="Clinical menu">
+  <TreeList label="Clinical areas">
+    <TreeListItem tabindex="0" aria-expanded="true">
+      Cardiology
+      <ul role="group">
+        <TreeListItem tabindex="-1">
+          <TreeLink href="/clinical/cardiology/outpatients">Outpatients</TreeLink>
+        </TreeListItem>
+        <TreeListItem tabindex="-1">
+          <TreeLink href="/clinical/cardiology/inpatients">Inpatients</TreeLink>
+        </TreeListItem>
+      </ul>
+    </TreeListItem>
+    <TreeListItem tabindex="-1" aria-expanded="false">
+      Oncology
+    </TreeListItem>
+  </TreeList>
 </TreeNav>
 ```
 
@@ -65,10 +82,18 @@ The `<nav>` element provides the navigation landmark, while the nested TreeList 
 
 ## When to Use
 
-- Use TreeNav for hierarchical site navigation with expandable branches, such as documentation sidebars, file browsers, or category navigation.
+- Use for hierarchical navigation with expandable branches, such as file systems, documentation, or org charts.
+- Use when content has a deep nested structure that benefits from expand/collapse interactions.
 - Use when the tree structure serves as a navigation landmark that screen readers should identify.
-- Avoid using TreeNav for non-navigation hierarchical displays; use TreeMenu instead.
-- Consider a flat NavigationMenu when the hierarchy is only one level deep.
+- Use with TreeList and TreeListItem children to form the tree hierarchy.
+- Use with TreeLink for navigable leaf nodes that link to pages.
+
+## When Not to Use
+
+- Do not use for flat navigation -- use ContentsNav or NavigationMenu instead.
+- Do not use for accordion content display -- use AccordionNav instead.
+- Do not use for non-navigation hierarchical action menus -- use TreeMenu instead.
+- Do not use when the hierarchy is only one level deep -- use NavigationMenu instead.
 
 ## Headless
 

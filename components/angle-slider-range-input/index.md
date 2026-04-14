@@ -90,9 +90,15 @@ Within a form:
 
 ## When to Use
 
-- Use for selecting an angular value such as rotation controls, compass direction selectors, gradient angle pickers, or tilt adjustments.
+- Use for selecting an angle in degrees, such as rotation, compass direction, or gradient angle.
 - Use when you need a slider with degree-specific semantics and screen reader value text (e.g., "90 degrees").
-- Avoid for general numeric input without angular meaning -- use RangeInput or NumberInput instead.
+- Use for tilt adjustments, CSS gradient angle pickers, or image rotation controls.
+
+## When Not to Use
+
+- Do not use for linear value ranges -- use RangeInput or Slider instead.
+- Do not use for rotary value selection without degree semantics -- use Dial instead.
+- Do not use for general numeric input without angular meaning -- use NumberInput instead.
 
 ## Headless
 

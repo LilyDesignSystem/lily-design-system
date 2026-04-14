@@ -23,14 +23,26 @@ The component uses `role="status"` with `aria-live="polite"` for standard notifi
 ## Usage
 
 ```html
-<!-- Non-urgent notification (polite) -->
-<Notification label="Success">Your changes have been saved.</Notification>
+<!-- Non-urgent notification for new messages -->
+<Notification label="New messages">
+  You have 3 unread messages
+</Notification>
 
-<!-- Urgent notification (assertive) -->
-<Notification label="Error" urgent>Something went wrong. Please try again.</Notification>
+<!-- Non-urgent success notification -->
+<Notification label="Success">
+  Your changes have been saved.
+</Notification>
 
-<!-- Notification without explicit label -->
-<Notification>3 new messages</Notification>
+<!-- Urgent session expiry warning -->
+<Notification label="Session warning" urgent>
+  Your session will expire in 5 minutes.
+  <a href="/session/extend">Extend session</a>.
+</Notification>
+
+<!-- Urgent error notification -->
+<Notification label="Error" urgent>
+  Something went wrong. Please try again.
+</Notification>
 ```
 
 ## Keyboard Interactions
@@ -47,9 +59,17 @@ None -- this component is a passive announcement container. Notifications are an
 
 ## When to Use
 
-- Use to announce events, updates, or action results to users, such as "Changes saved" or "New message received".
-- Use with `urgent` for critical messages that must immediately interrupt the user, such as errors or security alerts.
-- Avoid overusing urgent notifications; frequent assertive announcements degrade the screen reader experience.
+- Use to inform users about events or updates that occurred outside their current context, such as a new message or status change
+- Use for brief, time-sensitive messages that appear temporarily and auto-dismiss
+- Use when the notification does not require immediate user action -- it is informational only
+- Use with `urgent` for critical messages that must immediately interrupt the user, such as errors or security alerts
+
+## When Not to Use
+
+- Do not use for page-level status messages -- use Banner for persistent service-wide information
+- Do not use for form validation errors -- use ErrorMessage and ErrorSummary instead
+- Do not use for critical warnings that must not be missed -- use Alert or AlertDialog for urgent messages requiring acknowledgment
+- Do not use for success confirmations on form completion -- use Banner with success variant or Panel instead
 
 ## Headless
 

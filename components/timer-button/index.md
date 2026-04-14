@@ -26,11 +26,19 @@ This headless component uses a `<button>` element with a visible countdown timer
 
 ```html
 <TimerButton duration={10} label="Undo delete" onclick={handleUndo}>
-  Undo (10s remaining)
+  Undo deletion (10s remaining)
 </TimerButton>
+```
 
+```html
 <TimerButton duration={5} label="Auto-advance to next step" onclick={handleNext}>
-  Next step in 5s
+  Continuing to next step in 5s...
+</TimerButton>
+```
+
+```html
+<TimerButton duration={15} label="Auto-submit form" onclick={handleSubmit}>
+  Form will submit automatically in 15s
 </TimerButton>
 ```
 
@@ -49,9 +57,16 @@ This headless component uses a `<button>` element with a visible countdown timer
 
 ## When to Use
 
+- Use for a button that automatically triggers after a countdown, such as auto-redirect or auto-submit after review.
 - Use for undo-with-timeout patterns where an action auto-confirms after a delay.
 - Use for auto-advancing wizards or slideshow controls.
-- Avoid for critical actions without an undo mechanism -- use SliderButton or AlertDialog instead.
+- Use when users should have the option to click immediately or wait for the timer.
+
+## When Not to Use
+
+- Do not use for countdown display only -- use Timer instead.
+- Do not use for immediate actions without a delay -- use Button instead.
+- Do not use for critical destructive actions without an undo mechanism -- use SliderButton or AlertDialog instead.
 
 ## Headless
 

@@ -20,15 +20,17 @@ Contents list items are used as children of ordered or unordered lists within a 
 ## Usage
 
 ```html
-<ContentsListItem><a href="#section-1">Introduction</a></ContentsListItem>
-<ContentsListItem><a href="#section-2">Methods</a></ContentsListItem>
-<ContentsListItem>
-  <a href="#section-3">Results</a>
-  <ul>
-    <ContentsListItem><a href="#section-3a">Data</a></ContentsListItem>
-    <ContentsListItem><a href="#section-3b">Analysis</a></ContentsListItem>
-  </ul>
-</ContentsListItem>
+<ContentsList>
+  <ContentsListItem aria-current="page">
+    What is type 2 diabetes?
+  </ContentsListItem>
+  <ContentsListItem>
+    <ContentsLink href="/conditions/type-2-diabetes/symptoms">Symptoms</ContentsLink>
+  </ContentsListItem>
+  <ContentsListItem>
+    <ContentsLink href="/conditions/type-2-diabetes/getting-diagnosed">Getting diagnosed</ContentsLink>
+  </ContentsListItem>
+</ContentsList>
 ```
 
 ## Keyboard Interactions
@@ -42,9 +44,13 @@ Contents list items are used as children of ordered or unordered lists within a 
 
 ## When to Use
 
-- Use a ContentsListItem for each entry in a table of contents or section navigation list.
-- Use a ContentsListItem with nested lists to represent hierarchical document structures with subsections.
-- Avoid using a ContentsListItem outside of a ContentsList or `<ol>`/`<ul>` parent; it requires a list container for valid HTML.
+- Use inside ContentsList to represent one page in the contents navigation.
+- Use with `aria-current="page"` on the item representing the current page.
+
+## When Not to Use
+
+- Do not use outside of ContentsList -- it has no standalone meaning.
+- Do not render the current page as a link -- display it as plain text with `aria-current="page"`.
 
 ## Headless
 

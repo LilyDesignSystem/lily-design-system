@@ -18,8 +18,24 @@ A progress spinner indicates an ongoing loading or processing state where the co
 
 ## Usage
 
+Inline spinner while fetching search results:
+
 ```html
-<ProgressSpinner label="Loading data" />
+<ProgressSpinner label="Searching patients" />
+```
+
+Spinner with visible loading text:
+
+```html
+<ProgressSpinner label="Saving changes">
+  <span>Saving...</span>
+</ProgressSpinner>
+```
+
+Spinner inside a button area during form submission:
+
+```html
+<ProgressSpinner label="Submitting form" />
 ```
 
 ## Keyboard Interactions
@@ -35,8 +51,15 @@ None -- this component is a passive, read-only status indicator.
 ## When to Use
 
 - Use ProgressSpinner for indeterminate loading states where the completion time is unknown, such as data fetching or background processing.
-- Use ProgressSpinner when you need a compact, inline loading indicator that announces its state to screen readers.
-- Avoid using ProgressSpinner when completion percentage is known; use Progress or ProgressCircle instead.
+- Use ProgressSpinner as a compact, inline loading indicator next to a button or field while an async action completes.
+- Use ProgressSpinner when submitting a form and waiting for a server response.
+- Use ProgressSpinner inside a table cell or card to indicate that a single item is refreshing.
+
+## When Not to Use
+
+- Do not use ProgressSpinner when the completion percentage is known -- use Progress or ProgressCircle instead.
+- Do not use ProgressSpinner for page-level or section-level loading overlays -- use Loading instead.
+- Do not use ProgressSpinner for content placeholders that should match the layout shape -- use Skeleton instead.
 
 ## Headless
 

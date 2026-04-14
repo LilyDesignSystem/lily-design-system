@@ -32,25 +32,11 @@ states, and provides accessible labeling for screen readers.
 ## Usage
 
 ```html
-<UnitedStatesSocialSecurityNumberInput label="Social Security Number" />
-```
-
-With two-way binding:
-
-```html
-<UnitedStatesSocialSecurityNumberInput label="SSN" value={ssn} />
-```
-
-Required field in a form:
-
-```html
-<UnitedStatesSocialSecurityNumberInput label="Social Security Number" required />
-```
-
-Disabled state:
-
-```html
-<UnitedStatesSocialSecurityNumberInput label="Social Security Number" disabled />
+<Field label="Social Security Number" required>
+  <UnitedStatesSocialSecurityNumberInput label="SSN" value={ssn} required />
+  <Hint>Format: XXX-XX-XXXX</Hint>
+  <ErrorMessage>Please enter a valid Social Security Number</ErrorMessage>
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -66,10 +52,16 @@ Disabled state:
 
 ## When to Use
 
-- Use UnitedStatesSocialSecurityNumberInput when a form requires entry of a US Social Security Number in the standard XXX-XX-XXXX format.
+- Use in forms to collect a US Social Security Number in the standard XXX-XX-XXXX format.
+- Use with validation for the 9-digit SSN format.
 - Use in tax forms, government applications, financial services, or any system that processes SSNs.
-- Avoid using a generic text input for SSNs; this component provides pattern validation, numeric keyboard hints, and disabled autocomplete for security.
-- Consider UnitedStatesSocialSecurityNumberView for displaying an existing SSN in a read-only context.
+- Use when pattern validation, numeric keyboard hints, and disabled autocomplete are needed for SSN security.
+
+## When Not to Use
+
+- Do not use for displaying read-only identifiers -- use UnitedStatesSocialSecurityNumberView instead.
+- Do not use for general text input -- use TextInput instead.
+- Do not use for other national identifiers -- use the corresponding country-specific input component.
 
 ## Headless
 

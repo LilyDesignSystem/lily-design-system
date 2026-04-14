@@ -28,12 +28,36 @@ This component is useful for search bars, filter inputs, lookup fields, and any 
 
 ## Usage
 
-```html
-<TextInputWithSearch label="Site search" onsearch={handleSearch} />
-```
+Patient lookup with custom labels:
 
 ```html
-<TextInputWithSearch label="Patient lookup" inputLabel="Patient name" searchLabel="Find" value={query} onsearch={handleSearch} placeholder="Enter patient name" />
+<TextInputWithSearch
+  label="Patient lookup"
+  inputLabel="Patient name"
+  searchLabel="Find"
+  value={query}
+  onsearch={handlePatientSearch}
+  placeholder="Enter patient name or ID"
+/>
+```
+
+Address lookup triggering an external API:
+
+```html
+<TextInputWithSearch
+  label="Address search"
+  inputLabel="Postcode or street"
+  searchLabel="Look up"
+  value={address}
+  onsearch={handleAddressLookup}
+  placeholder="e.g. SW1A 1AA"
+/>
+```
+
+Site-wide search bar with button:
+
+```html
+<TextInputWithSearch label="Site search" onsearch={handleSiteSearch} placeholder="Search..." />
 ```
 
 ## Keyboard Interactions
@@ -51,10 +75,16 @@ This component is useful for search bars, filter inputs, lookup fields, and any 
 
 ## When to Use
 
-- Use when a text input needs an explicit search action button.
-- Use for search bars, filter inputs, and lookup fields.
-- Avoid when a simple text input without a search action is sufficient; use TextInput instead.
-- Consider SearchInput for a native `<input type="search">` without a button.
+- Use TextInputWithSearch for a text input with an integrated search action button, such as address lookup or patient search.
+- Use TextInputWithSearch for search bars where users explicitly trigger a query by clicking a button or pressing Enter.
+- Use TextInputWithSearch for lookup fields where the search action calls an external service.
+- Use TextInputWithSearch when the search action has visible side effects, such as navigating to a results page.
+
+## When Not to Use
+
+- Do not use TextInputWithSearch for simple search fields without a button -- use SearchInput instead.
+- Do not use TextInputWithSearch for filtering within a fixed list of options -- use Combobox instead.
+- Do not use TextInputWithSearch for general text entry without search functionality -- use TextInput instead.
 
 ## Headless
 

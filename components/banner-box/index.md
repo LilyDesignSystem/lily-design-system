@@ -21,19 +21,29 @@ This component is useful for structuring banner content into a horizontal row, a
 ## Usage
 
 ```html
-<Banner>
+<Banner label="Site notice" type="info">
   <BannerBox>
-    <span>Important announcement here.</span>
-    <button>Learn more</button>
+    <span>We are upgrading our servers on Saturday 12 April from 02:00 to 06:00.</span>
+    <a href="/status">Check status</a>
   </BannerBox>
 </Banner>
 ```
 
 ```html
-<Banner type="warning" dismissible closeLabel="Dismiss">
+<Banner label="Session warning" type="warning" dismissible closeLabel="Dismiss">
   <BannerBox>
-    <span>Your session will expire soon.</span>
-    <button>Extend session</button>
+    <span>Your session will expire in 5 minutes.</span>
+    <button type="button">Extend session</button>
+  </BannerBox>
+</Banner>
+```
+
+```html
+<Banner label="Cookie consent" type="info">
+  <BannerBox>
+    <p>We use cookies to improve your experience.</p>
+    <button type="button">Accept</button>
+    <button type="button">Reject</button>
   </BannerBox>
 </Banner>
 ```
@@ -60,8 +70,17 @@ Banner
 
 ## When to Use
 
-- Use inside a Banner when you need to arrange banner content horizontally (e.g., message text alongside action buttons).
-- Avoid using outside of a Banner; use a generic layout container instead.
+- Use inside a Banner to create a horizontal flexbox container for banner content
+- Use to arrange banner text and action buttons side by side in a single row
+- Use to group an icon, a message, and a dismiss or action button within a Banner
+- Use when the Banner needs a consistent horizontal layout across different banner types
+- Use to separate content zones within a Banner, such as left-aligned text and right-aligned controls
+
+## When Not to Use
+
+- Do not use outside a Banner -- use a standard `<div>` or layout component for non-banner horizontal layouts
+- Do not use for medical banners -- use MedicalBannerBox inside MedicalBanner instead
+- Do not use for vertical stacking of banner content -- apply column-direction styles directly to the Banner or use multiple BannerBox elements
 
 ## Headless
 

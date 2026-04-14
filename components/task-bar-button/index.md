@@ -21,7 +21,18 @@ The component uses `<button type="button">` to avoid unintended form submissions
 ## Usage
 
 ```html
-<TaskBarItem>New Task</TaskBarItem>
+<TaskBar label="Document actions">
+  <TaskBarButton>New</TaskBarButton>
+  <TaskBarButton>Save</TaskBarButton>
+  <TaskBarButton disabled>Delete</TaskBarButton>
+</TaskBar>
+```
+
+```html
+<TaskBar label="Patient actions">
+  <TaskBarButton onclick={handleReferral}>New Referral</TaskBarButton>
+  <TaskBarButton onclick={handleAppointment}>Book Appointment</TaskBarButton>
+</TaskBar>
 ```
 
 ## Keyboard Interactions
@@ -37,9 +48,15 @@ The component uses `<button type="button">` to avoid unintended form submissions
 
 ## When to Use
 
-- Use inside a TaskBar to represent a single action button such as "New", "Open", "Save", or other task-specific operations.
+- Use inside TaskBar to represent one task shortcut or quick action.
+- Use for individual action buttons such as "New", "Open", "Save", or domain-specific operations.
 - Use when a button should be grouped within a toolbar context for proper assistive technology announcements.
-- Avoid using outside a TaskBar; use a standalone Button component for general-purpose actions.
+
+## When Not to Use
+
+- Do not use outside TaskBar -- use Button for standalone actions.
+- Do not use for navigation links -- use ActionLink instead.
+- Do not use for toggle actions -- use ToggleButton instead.
 
 ## Headless
 

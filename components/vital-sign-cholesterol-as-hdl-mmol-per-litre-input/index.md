@@ -28,7 +28,15 @@ Use this component in medical forms, health assessments, and wellness applicatio
 ## Usage
 
 ```html
-<VitalSignCholesterolAsHdlMmolPerLitreInput label="HDL cholesterol (mmol/L)" value={value} />
+<!-- Basic HDL cholesterol input -->
+<VitalSignCholesterolAsHdlMmolPerLitreInput label="HDL cholesterol (mmol/L)" value={1.5} />
+
+<!-- In a lipid panel form alongside LDL -->
+<VitalSignCholesterolAsHdlMmolPerLitreInput label="HDL cholesterol (mmol/L)" value={hdl} required />
+<VitalSignCholesterolAsLdlMmolPerLitreInput label="LDL cholesterol (mmol/L)" value={ldl} required />
+
+<!-- In a cardiovascular risk assessment -->
+<VitalSignCholesterolAsHdlMmolPerLitreInput label="HDL (good cholesterol)" value={hdlValue} />
 ```
 
 ## Keyboard Interactions
@@ -42,9 +50,16 @@ Use this component in medical forms, health assessments, and wellness applicatio
 
 ## When to Use
 
-- Use for form fields that accept an HDL cholesterol measurement in mmol/L.
-- Use as the input companion to VitalSignCholesterolAsHdlMmolPerLitreView.
-- Consider using NumberInput for generic numeric values that are not specifically cholesterol.
+- Use in clinical forms to record a patient's HDL cholesterol measurement in mmol/L.
+- Use with the default min/max/step constraints (0-10, step 0.1) for one-decimal-place entry.
+- Use within lipid panel entry workflows and cardiovascular risk assessments.
+- Use paired with VitalSignCholesterolAsLdlMmolPerLitreInput for complete cholesterol profiling.
+
+## When Not to Use
+
+- Do not use for displaying recorded values -- use VitalSignCholesterolAsHdlMmolPerLitreView instead.
+- Do not use for general number input -- use NumberInput for non-clinical numeric values.
+- Do not use for LDL cholesterol -- use VitalSignCholesterolAsLdlMmolPerLitreInput instead.
 
 ## Headless
 

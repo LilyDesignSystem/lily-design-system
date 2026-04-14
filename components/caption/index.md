@@ -18,9 +18,39 @@ This headless component lets consumers control all visual presentation while ens
 
 ## Usage
 
+Caption inside a figure with an image:
+
 ```html
-<Caption>Photo of a sunset over the ocean.</Caption>
-<Caption id="chart-caption">Figure 1: Revenue growth over time.</Caption>
+<Figure label="Sunset photograph">
+  <Image src="sunset.jpg" alt="Sunset over the ocean with orange and purple sky" />
+  <Caption>Photo of a sunset over the ocean.</Caption>
+</Figure>
+```
+
+Caption with a numbered figure reference:
+
+```html
+<Figure label="Revenue growth chart">
+  <svg><!-- chart SVG --></svg>
+  <Caption id="chart-caption">Figure 1: Revenue growth over time, 2023-2025.</Caption>
+</Figure>
+```
+
+Caption inside a figure with a data table:
+
+```html
+<Figure label="Patient demographics summary">
+  <DataTable label="Patient demographics">
+    <DataTableHead>
+      <DataTableRow><DataTableCol>Age Group</DataTableCol><DataTableCol>Count</DataTableCol></DataTableRow>
+    </DataTableHead>
+    <DataTableBody>
+      <DataTableRow><DataTableData>18-30</DataTableData><DataTableData>142</DataTableData></DataTableRow>
+      <DataTableRow><DataTableData>31-50</DataTableData><DataTableData>287</DataTableData></DataTableRow>
+    </DataTableBody>
+  </DataTable>
+  <Caption>Table 1: Patient demographics by age group.</Caption>
+</Figure>
 ```
 
 ## Keyboard Interactions
@@ -33,10 +63,15 @@ None -- this component is a passive container for descriptive text.
 
 ## When to Use
 
-- Use for providing descriptive text alongside images, videos, charts, or other media elements within a `<figure>` parent.
-- Use when you need a semantic association between media content and its explanatory caption.
-- Avoid for standalone text that is not associated with a figure or media element -- use a paragraph or heading instead.
-- Consider using `aria-describedby` to link the caption to other elements when used outside a `<figure>`.
+- Use inside a Figure element to provide a descriptive caption for images, videos, charts, or other media.
+- Use to explain what the figure or table shows, such as "Figure 1: Revenue by quarter".
+- Use when you need a semantic association between media content and its explanatory text.
+
+## When Not to Use
+
+- Do not use outside a Figure or Table element -- the semantic association requires a parent container.
+- Do not use for headings -- use heading elements (`<h1>` through `<h6>`) instead.
+- Do not use for standalone descriptive text -- use a paragraph element instead.
 
 ## Headless
 

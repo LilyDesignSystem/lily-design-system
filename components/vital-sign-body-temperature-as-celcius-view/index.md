@@ -21,7 +21,14 @@ Use this component to display a patient's body temperature in medical records, h
 ## Usage
 
 ```html
-<VitalSignBodyTemperatureAsCelciusView value={37.0} label="37.0 degrees Celsius" />
+<!-- Display a recorded body temperature -->
+<VitalSignBodyTemperatureAsCelciusView value={37.0} label="Body temperature: 37.0 °C" />
+
+<!-- In a patient monitoring dashboard -->
+<VitalSignBodyTemperatureAsCelciusView value={38.5} label="38.5 degrees Celsius - fever" />
+
+<!-- In a vital signs summary -->
+<VitalSignBodyTemperatureAsCelciusView value={36.4} label="Temperature: 36.4 °C - normal" />
 ```
 
 ## Keyboard Interactions
@@ -35,9 +42,16 @@ None. This is a passive, read-only display element.
 
 ## When to Use
 
-- Use to display a body temperature reading in vital sign summaries, medical records, or health dashboards.
-- Use as the display companion to VitalSignBodyTemperatureAsCelciusInput.
-- Avoid using for editable temperature values; use VitalSignBodyTemperatureAsCelciusInput instead.
+- Use to display a recorded body temperature value in read-only format.
+- Use in patient dashboards, medical records, or clinical summaries showing vital signs.
+- Use with appropriate ARIA (`role="img"`, `aria-label`) for screen reader accessibility.
+- Use in fever monitoring displays and post-operative recovery tracking.
+
+## When Not to Use
+
+- Do not use for entering new values -- use VitalSignBodyTemperatureAsCelciusInput instead.
+- Do not use for general measurement display -- use MeasurementInstanceView for non-clinical values.
+- Do not use for ambient temperature display -- this component is specifically for body temperature.
 
 ## Headless
 

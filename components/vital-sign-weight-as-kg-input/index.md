@@ -28,7 +28,15 @@ Use this component in medical forms, health assessments, and wellness applicatio
 ## Usage
 
 ```html
-<VitalSignWeightAsKgInput label="Weight (kg)" value={value} />
+<!-- Basic weight input in a clinical form -->
+<VitalSignWeightAsKgInput label="Weight (kg)" value={75} />
+
+<!-- Required field in a patient intake form -->
+<VitalSignWeightAsKgInput label="Weight" value={weight} required />
+
+<!-- Alongside height for BMI calculation -->
+<VitalSignHeightAsCmInput label="Height (cm)" value={height} required />
+<VitalSignWeightAsKgInput label="Weight (kg)" value={weight} required />
 ```
 
 ## Keyboard Interactions
@@ -42,9 +50,16 @@ Use this component in medical forms, health assessments, and wellness applicatio
 
 ## When to Use
 
-- Use for form fields that accept a weight measurement in kilograms.
-- Use as the input companion to VitalSignWeightAsKgView.
-- Consider using NumberInput for generic numeric values that are not specifically weight.
+- Use in clinical forms to record a patient's weight measurement in kilograms.
+- Use with the default min/max/step constraints (0-500, step 1) for standard integer kilogram entry.
+- Use within patient intake workflows, medication dosage calculations, and BMI assessments.
+- Use alongside VitalSignHeightAsCmInput for body composition evaluations.
+
+## When Not to Use
+
+- Do not use for displaying recorded values -- use VitalSignWeightAsKgView instead.
+- Do not use for general number input -- use NumberInput for non-clinical numeric values.
+- Do not use for measurements outside the vital sign domain -- use MeasurementInstanceInput for generic measurements.
 
 ## Headless
 

@@ -20,9 +20,14 @@ The component renders a `<thead>` element and passes through its children, which
 ## Usage
 
 ```html
-<GanttTable label="Project Alpha timeline">
+<GanttTable label="Q1 2025 schedule">
   <GanttTableHead>
-    <tr><th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th><th>Week 4</th></tr>
+    <GanttTableRow>
+      <GanttTableCol scope="col">Task</GanttTableCol>
+      <GanttTableCol scope="col">Jan</GanttTableCol>
+      <GanttTableCol scope="col">Feb</GanttTableCol>
+      <GanttTableCol scope="col">Mar</GanttTableCol>
+    </GanttTableRow>
   </GanttTableHead>
   <GanttTableBody>...</GanttTableBody>
 </GanttTable>
@@ -38,8 +43,14 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 ## When to Use
 
-- Use as the header section of a GanttTable to label the task-name column and time period columns (e.g., weeks, months, sprints).
-- Avoid using outside of a GanttTable structure; this component depends on the parent table grid context.
+- Use inside GanttTable to provide the `<thead>` header section.
+- Use to label the task-name column and time period columns (e.g., weeks, months, sprints).
+- Use when the Gantt chart needs clearly labelled column headers for accessibility.
+
+## When Not to Use
+
+- Do not use outside of a GanttTable structure -- use TableHead or DataTableHead for general tables.
+- Do not use for body or footer rows -- use GanttTableBody or GanttTableFoot instead.
 
 ## Headless
 

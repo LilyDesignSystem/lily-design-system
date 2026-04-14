@@ -22,15 +22,34 @@ The `side` prop indicates which edge the drawer enters from via a `data-side` at
 
 ## Usage
 
+Mobile navigation drawer sliding in from the left:
+
 ```html
-<Drawer label="Navigation" open={open} side="left">
-  <nav>...</nav>
+<button onclick={() => (navOpen = true)}>Menu</button>
+<Drawer label="Main navigation" open={navOpen} side="left">
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/services">Services</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </nav>
+  <button onclick={() => (navOpen = false)}>Close</button>
 </Drawer>
 ```
 
+Filter panel sliding in from the right:
+
 ```html
-<Drawer label="Filters" open={showFilters} side="right">
-  <form>...</form>
+<Drawer label="Search filters" open={showFilters} side="right">
+  <form>
+    <fieldset>
+      <legend>Date range</legend>
+      <input type="date" name="from" />
+      <input type="date" name="to" />
+    </fieldset>
+    <button type="submit">Apply filters</button>
+  </form>
 </Drawer>
 ```
 
@@ -47,10 +66,17 @@ The `side` prop indicates which edge the drawer enters from via a `data-side` at
 
 ## When to Use
 
-- Use for navigation menus, filters, or supplementary content that should slide in from a screen edge without replacing the main view.
+- Use for a panel that slides in from the edge of the screen to show secondary content or navigation without leaving the page.
+- Use for navigation menus, filters, or supplementary content that should overlay the main view temporarily.
 - Use when the content is contextual and temporary, not a primary destination.
-- Avoid for critical actions that require a centered modal; use Dialog instead.
-- Consider Sheet instead when the overlay should behave more like a bottom sheet on mobile devices.
+- Use for responsive layouts where side navigation collapses into a drawer on smaller screens.
+
+## When Not to Use
+
+- Do not use for modal confirmations or urgent messages -- use Dialog or AlertDialog instead.
+- Do not use for tooltip-style content -- use Popover instead.
+- Do not use when the overlay should behave like a bottom sheet on mobile devices -- use Sheet instead.
+- Do not use for persistent side navigation that should always be visible -- use Sidebar instead.
 
 ## Headless
 

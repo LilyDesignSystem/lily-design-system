@@ -25,12 +25,22 @@ This headless component toggles between a display state (`<span role="button">`)
 
 ## Usage
 
-```html
-<Editable label="Name" value={value} />
-```
+Inline-editable project name:
 
 ```html
-<Editable label="Title" value={value} editing={editing} />
+<Editable label="Project name" value={projectName} />
+```
+
+Editable status text with controlled edit state:
+
+```html
+<Editable label="Status" value={statusText} editing={isEditing} />
+```
+
+Disabled editable field for read-only users:
+
+```html
+<Editable label="Owner" value={ownerName} disabled={!canEdit} />
 ```
 
 ## Keyboard Interactions
@@ -52,10 +62,17 @@ In edit mode:
 
 ## When to Use
 
-- Use for inline text editing where users can click or activate a value to edit it in place, such as renaming items, updating profile fields, or quick edits in tables.
+- Use for inline text that toggles between view and edit modes on click.
+- Use for quick edits like renaming items, updating status text, or correcting short fields.
 - Use when navigating to a separate edit page would be disruptive to the workflow.
-- Avoid for multi-field forms; use EditableForm or a standard Form instead.
-- Consider TextInput instead when the field is always in edit mode and does not toggle.
+- Use in data tables or lists where individual values need in-place editing.
+
+## When Not to Use
+
+- Do not use for complex forms with multiple fields -- use Form with Field components instead.
+- Do not use for multi-line editing -- use Textarea instead.
+- Do not use when the field should always be in edit mode -- use TextInput instead.
+- Do not use when form submission semantics are needed -- use EditableForm instead.
 
 ## Headless
 

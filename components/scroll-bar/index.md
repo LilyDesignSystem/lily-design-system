@@ -23,16 +23,26 @@ This component renders the structural markup and ARIA attributes for a custom sc
 
 ## Usage
 
-```html
-<!-- Vertical scrollbar -->
-<ScrollBar orientation="vertical" label="Page scroll">
-  <div><!-- thumb element --></div>
-</ScrollBar>
+Vertical scrollbar inside a chat message area:
 
-<!-- Horizontal scrollbar -->
-<ScrollBar orientation="horizontal" label="Timeline scroll">
-  <div><!-- thumb element --></div>
-</ScrollBar>
+```html
+<ScrollArea label="Chat messages" style="max-height: 400px; overflow: auto;">
+  <div class="messages"><!-- chat messages --></div>
+  <ScrollBar orientation="vertical" label="Chat scroll">
+    <div class="scroll-thumb"></div>
+  </ScrollBar>
+</ScrollArea>
+```
+
+Horizontal scrollbar for a timeline strip:
+
+```html
+<ScrollArea label="Project timeline" style="overflow-x: auto;">
+  <div class="timeline"><!-- timeline content --></div>
+  <ScrollBar orientation="horizontal" label="Timeline scroll">
+    <div class="scroll-thumb"></div>
+  </ScrollBar>
+</ScrollArea>
 ```
 
 ## Keyboard Interactions
@@ -57,9 +67,14 @@ Note: The consumer is responsible for implementing keyboard event handlers that 
 
 ## When to Use
 
-- Use ScrollBar when you need a custom-styled scrollbar that matches your design system, replacing or augmenting native scrollbars.
-- Use ScrollBar inside a ScrollArea to provide a visually consistent scroll indicator with full ARIA semantics.
-- Avoid using ScrollBar when native scrollbars are sufficient; custom scrollbars add implementation complexity.
+- Use ScrollBar as a custom-styled scrollbar element within a ScrollArea container.
+- Use ScrollBar when the native scrollbar appearance does not match your design system and you need visual consistency.
+- Use ScrollBar to provide a scrollbar with full ARIA semantics for assistive technology users.
+
+## When Not to Use
+
+- Do not use ScrollBar outside of a ScrollArea -- it requires the scroll container context for proper functionality.
+- Do not use ScrollBar when native scrollbars are sufficient -- custom scrollbars add implementation complexity for drag handling and position synchronization.
 
 ## Headless
 

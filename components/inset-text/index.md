@@ -20,12 +20,22 @@ The component renders its content within a semantic container that screen reader
 ## Usage
 
 ```html
-<InsetText>It can take up to 8 weeks to process.</InsetText>
+<InsetText>
+  <p>You can report any suspected side effect using the
+  <a href="https://yellowcard.mhra.gov.uk/">Yellow Card safety scheme</a>.</p>
+</InsetText>
 ```
 
 ```html
 <InsetText>
-    <p>You must apply before the deadline. Late applications will not be accepted.</p>
+  <p>If you are registered with a GP surgery, you can get an
+  NHS number by calling or visiting them.</p>
+</InsetText>
+```
+
+```html
+<InsetText>
+  <p>It can take up to 8 weeks to process your application.</p>
 </InsetText>
 ```
 
@@ -39,9 +49,17 @@ None -- this component is a passive container with no interactive behavior.
 
 ## When to Use
 
-- Use to highlight supplementary information, processing times, eligibility criteria, or important notices that need to stand out without using an alert.
-- Use in government or institutional interfaces where the inset text pattern is a recognized convention.
-- Avoid for critical warnings or errors; use WarningCallout or Alert instead. Avoid for general emphasis; use InformationCallout for tips and notes.
+- Use to help users identify and understand important content that needs to stand out from the rest of the page
+- Use on content pages to highlight key information without the visual weight of a WarningCallout
+- Use sparingly -- its effectiveness depends on it being distinct from surrounding content
+
+## When Not to Use
+
+- Do not use on transactional pages -- the pattern is untested in that context
+- Do not use when directing users to contact their GP or seek medical help -- use CareCard instead
+- Do not use for time-critical or health-impacting information -- use WarningCallout instead
+- Do not use for system-level status messages -- use Alert or Banner instead
+- Do not overuse on a single page -- if everything is highlighted, nothing stands out
 
 ## Headless
 

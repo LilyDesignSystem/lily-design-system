@@ -22,19 +22,19 @@ The native `<details>` element provides built-in accessibility support without r
 ## Usage
 
 ```html
-<Details summary="More information">
-  <p>Additional details shown when expanded.</p>
+<Details summary="Why are we asking about your ethnicity?">
+  <p>We ask about ethnicity to help ensure services are meeting the
+  needs of all communities. This information is optional and will
+  not affect your care.</p>
 </Details>
 ```
 
 ```html
-<Details summary="Advanced options" open={showAdvanced}>
-  <p>Configure advanced settings here.</p>
+<Details summary="How to find your NHS number">
+  <p>Your NHS number is a 10-digit number, like 485 777 3456.</p>
+  <p>You can find it on any letter the NHS has sent you, on a
+  prescription, or by logging in to your GP surgery's online services.</p>
 </Details>
-
-{#if showAdvanced}
-  <p>Advanced options are currently visible.</p>
-{/if}
 ```
 
 ## Keyboard Interactions
@@ -49,10 +49,17 @@ The native `<details>` element provides built-in accessibility support without r
 
 ## When to Use
 
-- Use for progressive disclosure of supplementary content, such as FAQs, additional explanations, or advanced options.
-- Use when content should be hidden by default but available on demand without navigating to another page.
-- Avoid for critical information that users must see; do not hide essential content behind a disclosure toggle.
-- Consider Expander instead when you need full control over the toggle button behavior beyond native `<details>`.
+- Use to make a page easier to scan by hiding supplementary information that only some users need
+- Use to provide contextual help within forms, such as "Why are we asking this question?"
+- Use when the summary text clearly indicates what information is hidden beneath
+- Use for secondary guidance that supports but is not essential to the main content
+
+## When Not to Use
+
+- Do not use to hide information that the majority of users need — keep essential content visible
+- Do not use when the hidden content is critical for task completion — it may be missed
+- Do not use when you need more visual prominence for the expandable content — use Expander instead
+- Do not use in transactional forms where users may fear clicking will lose their progress — consider showing the information inline
 
 ## Headless
 

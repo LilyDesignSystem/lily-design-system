@@ -22,13 +22,27 @@ This headless component renders a `<fieldset>` containing two native `<input typ
 
 ## Usage
 
+Hotel booking date range:
+
 ```html
 <DateRange
-    label="Trip dates"
-    startLabel="Departure"
-    endLabel="Return"
-    start={start}
-    end={end}
+    label="Stay dates"
+    startLabel="Check-in"
+    endLabel="Check-out"
+    start={checkIn}
+    end={checkOut}
+/>
+```
+
+Report filter with date range:
+
+```html
+<DateRange
+    label="Report period"
+    startLabel="From date"
+    endLabel="To date"
+    start={reportStart}
+    end={reportEnd}
 />
 ```
 
@@ -48,10 +62,16 @@ This headless component renders a `<fieldset>` containing two native `<input typ
 
 ## When to Use
 
-- Use when users need to specify a start and end date together, such as booking forms, reporting filters, or scheduling tools.
+- Use to display a formatted start and end date range.
+- Use for showing booking periods, appointment windows, or report date ranges.
 - Use when the two dates are semantically paired and should be grouped under a single label.
-- Avoid when only a single date is needed; use DateInput instead.
-- Consider CalendarRangePicker instead when users benefit from a visual calendar for selecting the range.
+- Use in search filters, scheduling tools, and leave request forms where a time span is required.
+
+## When Not to Use
+
+- Do not use for selecting a date range visually on a calendar -- use CalendarRangePicker instead.
+- Do not use for a single date -- use DateInput or ReviewDate instead.
+- Do not use when start and end dates are unrelated and belong to separate form sections.
 
 ## Headless
 

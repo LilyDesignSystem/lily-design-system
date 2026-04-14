@@ -21,7 +21,15 @@ Use this component to display a patient's diastolic blood pressure in medical re
 ## Usage
 
 ```html
-<VitalSignBloodPressureDiastolicAsMmhgView value={80} label="80 mmHg diastolic" />
+<!-- Display a recorded diastolic blood pressure -->
+<VitalSignBloodPressureDiastolicAsMmhgView value={80} label="Diastolic blood pressure: 80 mmHg" />
+
+<!-- Paired with systolic in a patient summary -->
+<VitalSignBloodPressureSystolicAsMmhgView value={120} label="Systolic: 120 mmHg" />
+<VitalSignBloodPressureDiastolicAsMmhgView value={80} label="Diastolic: 80 mmHg" />
+
+<!-- In a vital signs dashboard with color-coded ranges -->
+<VitalSignBloodPressureDiastolicAsMmhgView value={92} label="92 mmHg diastolic - Stage 2 hypertension" />
 ```
 
 ## Keyboard Interactions
@@ -35,9 +43,16 @@ None. This is a passive, read-only display element.
 
 ## When to Use
 
-- Use to display a diastolic blood pressure reading in vital sign summaries, medical records, or health dashboards.
-- Use as the display companion to VitalSignBloodPressureDiastolicAsMmhgInput.
-- Avoid using for editable blood pressure values; use VitalSignBloodPressureDiastolicAsMmhgInput instead.
+- Use to display a recorded diastolic blood pressure value in read-only format.
+- Use in patient dashboards, medical records, or clinical summaries alongside systolic readings.
+- Use with appropriate ARIA (`role="img"`, `aria-label`) for screen reader accessibility.
+- Use in hypertension monitoring displays and cardiovascular risk profiles.
+
+## When Not to Use
+
+- Do not use for entering new values -- use VitalSignBloodPressureDiastolicAsMmhgInput instead.
+- Do not use for general measurement display -- use MeasurementInstanceView for non-clinical values.
+- Do not use for systolic blood pressure display -- use VitalSignBloodPressureSystolicAsMmhgView instead.
 
 ## Headless
 

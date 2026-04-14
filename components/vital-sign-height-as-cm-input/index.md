@@ -28,7 +28,15 @@ Use this component in medical forms, health assessments, and wellness applicatio
 ## Usage
 
 ```html
-<VitalSignHeightAsCmInput label="Height (cm)" value={value} />
+<!-- Basic height input in a clinical form -->
+<VitalSignHeightAsCmInput label="Height (cm)" value={175} />
+
+<!-- Required field in a patient intake form -->
+<VitalSignHeightAsCmInput label="Height" value={height} required />
+
+<!-- Alongside weight for BMI calculation -->
+<VitalSignHeightAsCmInput label="Height (cm)" value={height} required />
+<VitalSignWeightAsKgInput label="Weight (kg)" value={weight} required />
 ```
 
 ## Keyboard Interactions
@@ -42,9 +50,16 @@ Use this component in medical forms, health assessments, and wellness applicatio
 
 ## When to Use
 
-- Use for form fields that accept a height measurement in centimetres.
-- Use as the input companion to VitalSignHeightAsCmView.
-- Consider using NumberInput for generic numeric values that are not specifically height.
+- Use in clinical forms to record a patient's height measurement in centimetres.
+- Use with the default min/max/step constraints (0-300, step 1) for standard integer centimetre entry.
+- Use within patient intake workflows, growth monitoring, and BMI calculation forms.
+- Use alongside VitalSignWeightAsKgInput for body composition assessments.
+
+## When Not to Use
+
+- Do not use for displaying recorded values -- use VitalSignHeightAsCmView instead.
+- Do not use for general number input -- use NumberInput for non-clinical numeric values.
+- Do not use for measurements outside the vital sign domain -- use MeasurementInstanceInput for generic measurements.
 
 ## Headless
 

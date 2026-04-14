@@ -18,7 +18,12 @@ IrelandIndividualHealthIdentifierView is a read-only display of an Ireland Indiv
 ## Usage
 
 ```html
-<IrelandIndividualHealthIdentifierView label="IHI" value="1234567890" />
+<SummaryList>
+  <SummaryListItem>
+    <dt>Individual Health Identifier</dt>
+    <dd><IrelandIndividualHealthIdentifierView label="IHI" value="1234567890" /></dd>
+  </SummaryListItem>
+</SummaryList>
 ```
 
 ## Keyboard Interactions
@@ -31,8 +36,15 @@ IrelandIndividualHealthIdentifierView is a read-only display of an Ireland Indiv
 
 ## When to Use
 
-- Use for read-only display of an Irish IHI.
-- Use IrelandIndividualHealthIdentifierInput for editable entry.
+- Use to display an Ireland Individual Health Identifier (IHI) in a formatted, read-only view.
+- Use in patient banners, summary lists, or medical records to show the IHI.
+- Use in confirmation screens after identifier entry.
+
+## When Not to Use
+
+- Do not use for entering identifiers -- use IrelandIndividualHealthIdentifierInput instead.
+- Do not use for editable display -- combine with Editable.
+- Do not use for other national identifiers -- use the corresponding country-specific view component.
 
 ## Headless
 

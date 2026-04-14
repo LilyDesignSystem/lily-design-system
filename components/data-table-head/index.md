@@ -38,9 +38,14 @@ None -- this component is a passive container. Navigation within the table follo
 
 ## When to Use
 
-- Use a DataTableHead to wrap the header row(s) of a DataTable, providing column labels that describe the data below.
-- Use a DataTableHead to enable sticky header behavior in scrollable tables.
-- Avoid using a DataTableHead outside of a DataTable; it requires a parent `<table>` for valid HTML structure.
+- Use inside DataTable to provide the `<thead>` header section with column labels.
+- Use to wrap one or more rows of `<th>` elements that describe the data columns below.
+- Use to enable sticky header behaviour in scrollable tables.
+
+## When Not to Use
+
+- Do not use outside DataTable -- use TableHead, CalendarTableHead, GanttTableHead, or KanbanTableHead for their respective table types.
+- Do not use for footer summary rows -- use DataTableFoot instead.
 
 ## Headless
 

@@ -22,12 +22,25 @@ The component is similar to Popover but is designed as a general-purpose overlay
 
 ## Usage
 
+Quick action overlay:
+
 ```html
-<button onclick={() => showPopup = !showPopup}>Open popup</button>
-<Popup label="Confirmation" open={showPopup}>
-  <p>Are you sure you want to proceed?</p>
-  <button onclick={() => showPopup = false}>Yes</button>
-  <button onclick={() => showPopup = false}>No</button>
+<button onclick={() => showPopup = !showPopup}>Sort results</button>
+<Popup label="Sort options" open={showPopup}>
+  <button onclick={() => { sortBy('date'); showPopup = false; }}>Date</button>
+  <button onclick={() => { sortBy('name'); showPopup = false; }}>Name</button>
+  <button onclick={() => { sortBy('relevance'); showPopup = false; }}>Relevance</button>
+</Popup>
+```
+
+Inline editing overlay:
+
+```html
+<button onclick={() => showEdit = true}>Edit note</button>
+<Popup label="Edit note" open={showEdit}>
+  <textarea>{noteText}</textarea>
+  <button onclick={() => { saveNote(); showEdit = false; }}>Save</button>
+  <button onclick={() => showEdit = false}>Cancel</button>
 </Popup>
 ```
 
@@ -43,10 +56,16 @@ The component is similar to Popover but is designed as a general-purpose overlay
 
 ## When to Use
 
-- Use Popup for temporary overlays that prompt user actions, such as confirmations, quick forms, or contextual options.
-- Use Popup when the overlay should appear above page content without a full-page modal backdrop.
-- Avoid using Popup for permanent content sections; use Panel or Card instead.
-- Consider Dialog when you need a full modal with backdrop dimming and focus lock.
+- Use for temporary overlay content that appears above the page, such as dropdown panels, contextual options, or quick action forms.
+- Use when the overlay does not require focus trapping or a modal backdrop -- it should allow background interaction.
+- Use when a lightweight overlay is more appropriate than a full Dialog, such as for filter panels or inline editing.
+
+## When Not to Use
+
+- Do not use for modal interactions requiring focus trapping -- use Dialog or AlertDialog instead.
+- Do not use for hover-triggered content -- use HoverCard or Tooltip instead.
+- Do not use for persistent side panels -- use Drawer or Sheet instead.
+- Do not use for permanent content sections -- use Panel or Card instead.
 
 ## Headless
 

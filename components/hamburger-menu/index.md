@@ -23,23 +23,28 @@ When activated, the button toggles the visibility of a navigation region contain
 
 ## Usage
 
+Mobile navigation with site links:
+
 ```html
-<HamburgerMenu label="Main menu" open={open}>
-  <nav>
+<HamburgerMenu label="Main menu" open={menuOpen}>
     <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/about">About</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
     </ul>
-  </nav>
 </HamburgerMenu>
 ```
 
+Dashboard navigation hidden behind hamburger toggle:
+
 ```html
-<HamburgerMenu open={menuOpen}>
-  <ul>
-    <li><a href="/dashboard">Dashboard</a></li>
-    <li><a href="/settings">Settings</a></li>
-  </ul>
+<HamburgerMenu label="Dashboard menu" open={navOpen}>
+    <ul>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/reports">Reports</a></li>
+        <li><a href="/settings">Settings</a></li>
+        <li><a href="/logout">Log out</a></li>
+    </ul>
 </HamburgerMenu>
 ```
 
@@ -59,9 +64,16 @@ When activated, the button toggles the visibility of a navigation region contain
 
 ## When to Use
 
-- Use on mobile layouts and compact interfaces to hide primary navigation behind a toggle control.
+- Use as a toggle button that opens mobile navigation.
 - Use when screen space is limited and the navigation panel should be hidden by default.
-- Avoid on desktop layouts where there is sufficient space to display navigation links permanently. Consider NavigationMenu instead.
+- Use on mobile layouts and compact interfaces to conserve screen space.
+- Use for responsive designs where navigation collapses at smaller breakpoints.
+
+## When Not to Use
+
+- Do not use on desktop where there is space for full navigation -- use NavigationMenu or Header with navigation instead.
+- Do not use for action menus -- use DropdownMenu or Menu instead.
+- Do not use for content disclosure -- use Collapsible or Details instead.
 
 ## Headless
 

@@ -21,17 +21,26 @@ This component renders a semantically labeled unordered list with `role="list"` 
 ## Usage
 
 ```html
-<DoList>
-    <li>Write clear labels</li>
-    <li>Use semantic HTML</li>
+<DoList heading="Do">
+  <DoListItem>cover blisters that are likely to burst with a soft plaster or dressing</DoListItem>
+  <DoListItem>wash your hands before touching a burst blister</DoListItem>
+  <DoListItem>allow the fluid in a burst blister to drain before covering it with a plaster or dressing</DoListItem>
+</DoList>
+```
+
+```html
+<DoList heading="Do">
+  <DoListItem>take paracetamol or ibuprofen to ease pain or discomfort</DoListItem>
+  <DoListItem>drink plenty of fluids to avoid dehydration</DoListItem>
+  <DoListItem>rest and let your body recover</DoListItem>
 </DoList>
 ```
 
 ```html
 <DoList label="Recommended">
-    <li>Provide alt text for images</li>
-    <li>Use sufficient color contrast</li>
-    <li>Test with keyboard navigation</li>
+  <DoListItem>Provide alt text for images</DoListItem>
+  <DoListItem>Use sufficient color contrast</DoListItem>
+  <DoListItem>Test with keyboard navigation</DoListItem>
 </DoList>
 ```
 
@@ -46,9 +55,18 @@ None -- this component is a passive container for list items.
 
 ## When to Use
 
-- Use in design system documentation and guidelines to present recommended actions or best practices.
-- Use alongside DontList to create clear do/don't guidance patterns.
-- Avoid for general-purpose lists; use a standard `<ul>` or CheckList instead.
+- Use to give users a clear list of encouraged actions, such as self-care advice or best practices.
+- Use alongside DontList to present contrasting do and don't guidance on the same topic.
+- Use when there are 2 or more recommended actions to list -- the list format reinforces the pattern.
+- Use with lowercase text that describes each action directly, without prefixing items with "do".
+- Use before any corresponding DontList -- dos come before don'ts.
+
+## When Not to Use
+
+- Do not use with only 1 item -- use InsetText for a single piece of guidance or WarningCallout for important advice.
+- Do not use for step-by-step instructions -- use a numbered list or TaskList instead.
+- Do not use inside other interactive patterns like CareCard -- keep do lists in their own section.
+- Do not use for general-purpose lists -- use a standard `<ul>` or CheckList instead.
 
 ## Headless
 

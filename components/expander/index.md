@@ -24,8 +24,17 @@ This component is useful for progressive disclosure patterns such as FAQ section
 ## Usage
 
 ```html
-<Expander label="Show details" expanded={expanded}>
-  <p>Details here...</p>
+<Expander summary="How to get your medical records">
+  <p>You can see your GP records by:</p>
+  <ul>
+    <li>asking for them at your GP surgery</li>
+    <li>going online to see them if you have signed up for GP online services</li>
+  </ul>
+</Expander>
+
+<Expander summary="How to measure your blood glucose levels">
+  <p>Testing your blood glucose levels involves a simple finger prick test
+  using a blood glucose monitor.</p>
 </Expander>
 ```
 
@@ -50,10 +59,18 @@ This component is useful for progressive disclosure patterns such as FAQ section
 
 ## When to Use
 
-- Use for progressive disclosure patterns such as FAQ sections, collapsible panels, or settings groups.
+- Use to break complex, information-dense pages into expandable sections that users can open on demand.
+- Use when the expandable content is relevant to a wide audience, not just a niche group.
+- Use when multiple expanders on one page help users find the specific topic they need.
+- Use only after testing whether the content works without an expander -- consider simplifying, splitting, or restructuring first.
 - Use when you need full control over the toggle button behavior and styling beyond what native `<details>` provides.
-- Avoid for content that should always be visible; do not hide essential information behind an expander.
-- Consider Details instead when native `<details>`/`<summary>` behavior is sufficient and you want a lighter implementation.
+
+## When Not to Use
+
+- Do not use when only some users need the information -- use Details for supplementary content aimed at a subset of users.
+- Do not use for help text within forms -- use Hint or Details instead.
+- Do not use on pages with other interactive elements like form inputs -- expanders may distract from the primary task.
+- Do not use inside other patterns such as CareCard or WarningCallout.
 
 ## Headless
 

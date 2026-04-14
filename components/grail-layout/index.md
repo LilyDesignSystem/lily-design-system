@@ -20,11 +20,23 @@ Use GrailLayout as the outermost wrapper for pages that need a header, two sideb
 
 ```html
 <GrailLayout>
-  <GrailLayoutTopHeader>Header</GrailLayoutTopHeader>
-  <GrailLayoutLeftAside>Left aside</GrailLayoutLeftAside>
-  <GrailLayoutCenterMain>Main content</GrailLayoutCenterMain>
-  <GrailLayoutRightAside>Right aside</GrailLayoutRightAside>
-  <GrailLayoutBottomFooter>Footer</GrailLayoutBottomFooter>
+  <GrailLayoutTopHeader>
+    <Header label="Clinical Portal" />
+  </GrailLayoutTopHeader>
+  <GrailLayoutLeftAside>
+    <TreeNav label="Sections">...</TreeNav>
+  </GrailLayoutLeftAside>
+  <GrailLayoutCenterMain>
+    <h1>Patient Dashboard</h1>
+    <p>Main content area</p>
+  </GrailLayoutCenterMain>
+  <GrailLayoutRightAside>
+    <h2>Quick links</h2>
+    <ul><li><a href="/help">Help</a></li></ul>
+  </GrailLayoutRightAside>
+  <GrailLayoutBottomFooter>
+    <Footer />
+  </GrailLayoutBottomFooter>
 </GrailLayout>
 ```
 
@@ -38,9 +50,16 @@ No explicit ARIA attributes. Consumers should use semantic landmark elements wit
 
 ## When to Use
 
-- Use GrailLayout for full-page layouts that need a header, footer, and two sidebars flanking the main content.
-- Use GrailLayout for dashboard pages, admin panels, or documentation sites with navigation sidebars.
-- Avoid using GrailLayout for simple single-column layouts; use a simpler container instead.
+- Use for a responsive page structure with header, left sidebar, center main content, right sidebar, and footer.
+- Use as the primary layout for content-heavy applications such as dashboards, admin panels, or documentation sites.
+- Use when the page needs two sidebars flanking the main content area.
+- Use for clinical portals or case management tools where navigation and contextual information surround the primary content.
+
+## When Not to Use
+
+- Do not use for simple single-column pages -- use a plain `<main>` element instead.
+- Do not use for transactional forms -- keep the layout simple with no sidebars.
+- Do not use for landing pages or marketing pages where a full-bleed layout is more appropriate.
 
 ## Headless
 

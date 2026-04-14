@@ -21,7 +21,15 @@ Use this component to display a patient's VO2 max in medical records, health das
 ## Usage
 
 ```html
-<VitalSignVO2MaxMlPerKgPerMinuteView value={42} label="42 ml/kg/min VO2 max" />
+<!-- Display a recorded VO2 max value -->
+<VitalSignVo2MaxAsMlPerKgPerMinuteView value={42} label="VO2 max: 42 ml/kg/min" />
+
+<!-- In a fitness dashboard -->
+<VitalSignVo2MaxAsMlPerKgPerMinuteView value={55} label="VO2 max: 55 ml/kg/min - excellent" />
+
+<!-- In a cardiovascular fitness summary -->
+<VitalSignHeartRateAsBeatsPerMinuteView value={58} label="Resting heart rate: 58 BPM" />
+<VitalSignVo2MaxAsMlPerKgPerMinuteView value={48} label="VO2 max: 48 ml/kg/min - good" />
 ```
 
 ## Keyboard Interactions
@@ -35,9 +43,16 @@ None. This is a passive, read-only display element.
 
 ## When to Use
 
-- Use to display a VO2 max reading in vital sign summaries, medical records, fitness dashboards, or health assessments.
-- Use as the display companion to VitalSignVO2MaxMlPerKgPerMinuteInput.
-- Avoid using for editable VO2 max values; use VitalSignVO2MaxMlPerKgPerMinuteInput instead.
+- Use to display a recorded VO2 max value in read-only format.
+- Use in patient dashboards, medical records, or clinical summaries showing cardiovascular fitness.
+- Use with appropriate ARIA (`role="img"`, `aria-label`) for screen reader accessibility.
+- Use in fitness tracking displays and sports medicine summaries.
+
+## When Not to Use
+
+- Do not use for entering new values -- use VitalSignVo2MaxAsMlPerKgPerMinuteInput instead.
+- Do not use for general measurement display -- use MeasurementInstanceView for non-clinical values.
+- Do not use for heart rate display -- use VitalSignHeartRateAsBeatsPerMinuteView instead.
 
 ## Headless
 

@@ -21,7 +21,14 @@ Use this component to display a patient's body fat percentage in medical records
 ## Usage
 
 ```html
-<VitalSignBodyFatAsPercentageView value={22.5} label="22.5 percent body fat" />
+<!-- Display a recorded body fat percentage -->
+<VitalSignBodyFatAsPercentageView value={22.5} label="Body fat: 22.5%" />
+
+<!-- In a fitness dashboard -->
+<VitalSignBodyFatAsPercentageView value={18.3} label="18.3 percent body fat - athlete range" />
+
+<!-- In a health assessment report -->
+<VitalSignBodyFatAsPercentageView value={30.0} label="Body fat percentage: 30.0%" class="borderline-range" />
 ```
 
 ## Keyboard Interactions
@@ -35,9 +42,16 @@ None. This is a passive, read-only display element.
 
 ## When to Use
 
-- Use to display a body fat percentage reading in vital sign summaries, medical records, fitness dashboards, or health assessments.
-- Use as the display companion to VitalSignBodyFatAsPercentageInput.
-- Avoid using for editable body fat values; use VitalSignBodyFatAsPercentageInput instead.
+- Use to display a recorded body fat percentage value in read-only format.
+- Use in patient dashboards, medical records, or clinical summaries showing body composition.
+- Use with appropriate ARIA (`role="img"`, `aria-label`) for screen reader accessibility.
+- Use in fitness tracking displays and metabolic health profiles.
+
+## When Not to Use
+
+- Do not use for entering new values -- use VitalSignBodyFatAsPercentageInput instead.
+- Do not use for general measurement display -- use MeasurementInstanceView for non-clinical values.
+- Do not use for weight display -- use VitalSignWeightAsKgView instead.
 
 ## Headless
 

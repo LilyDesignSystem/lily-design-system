@@ -35,9 +35,14 @@ None -- keyboard behavior is provided by the browser-native color input.
 
 ## When to Use
 
-- Use a ColorInput when users need to select a color value using the browser's native color picker, such as in theme editors or settings panels.
-- Use a ColorInput for simple hex color selection where a full custom color picker is unnecessary.
-- Avoid using a ColorInput when you need fine-grained 2D color selection; consider a ColorPicker component instead.
+- Use when users need to select a colour value using the native browser colour picker.
+- Use for theme customisation, settings panels, or design tool configuration.
+- Use for simple hex colour selection where a full custom picker is unnecessary.
+
+## When Not to Use
+
+- Do not use when you need a custom colour palette -- use ColorPicker for a two-dimensional saturation and brightness board.
+- Do not use for preset colour choices -- use RadioGroup or SegmentGroup with colour swatches, or a group of ColorPickerButton components.
 
 ## Headless
 

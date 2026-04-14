@@ -20,11 +20,27 @@ The component renders a `<tbody>` element and passes through its children, which
 ## Usage
 
 ```html
-<CalendarTable label="January 2025">
+<CalendarTable label="April 2026">
   <CalendarTableHead>...</CalendarTableHead>
   <CalendarTableBody>
-    <tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
-    <tr><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td></tr>
+    <CalendarTableRow>
+      <CalendarTableData>1</CalendarTableData>
+      <CalendarTableData>2</CalendarTableData>
+      <CalendarTableData>3</CalendarTableData>
+      <CalendarTableData>4</CalendarTableData>
+      <CalendarTableData>5</CalendarTableData>
+      <CalendarTableData>6</CalendarTableData>
+      <CalendarTableData>7</CalendarTableData>
+    </CalendarTableRow>
+    <CalendarTableRow>
+      <CalendarTableData today>8</CalendarTableData>
+      <CalendarTableData>9</CalendarTableData>
+      <CalendarTableData>10</CalendarTableData>
+      <CalendarTableData>11</CalendarTableData>
+      <CalendarTableData>12</CalendarTableData>
+      <CalendarTableData>13</CalendarTableData>
+      <CalendarTableData>14</CalendarTableData>
+    </CalendarTableRow>
   </CalendarTableBody>
 </CalendarTable>
 ```
@@ -39,9 +55,14 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 ## When to Use
 
-- Use as the main content section of a CalendarTable to wrap the rows that contain day cells.
-- Use when each row represents a week and each cell represents a day in the calendar grid.
-- Avoid using outside of a CalendarTable parent -- the parent provides the required `<table>` and `role="grid"` structure.
+- Use inside CalendarTable to provide the `<tbody>` for the calendar grid
+- Use to group the week rows containing day cells in the main calendar area
+- Use when each row represents one week and each cell represents one day
+
+## When Not to Use
+
+- Do not use outside CalendarTable -- use TableBody or DataTableBody for other table types
+- Do not use for header rows -- use CalendarTableHead for day-of-week labels
 
 ## Headless
 

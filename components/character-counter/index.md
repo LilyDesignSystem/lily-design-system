@@ -21,8 +21,22 @@ The component uses `role="status"` with `aria-live="polite"` so screen readers a
 
 ## Usage
 
+Basic counter linked to a textarea:
+
 ```html
-<CharacterCounter count={text.length} max={280} label="Characters" />
+<CharacterCounter count={text.length} max={280} label="Characters remaining" />
+```
+
+Counter with threshold display (consumer shows/hides based on data attributes):
+
+```html
+<CharacterCounter count={referralNotes.length} max={500} label="Referral note characters" />
+```
+
+Counter without a maximum, showing only the current count:
+
+```html
+<CharacterCounter count={message.length} label="Message length" />
 ```
 
 ## Keyboard Interactions
@@ -37,9 +51,18 @@ None -- this component is a passive status display.
 
 ## When to Use
 
-- Use a character counter alongside text inputs that have a maximum length, such as tweets, SMS fields, or bio descriptions.
-- Use a character counter when users need real-time feedback on how much input space remains.
-- Avoid using a character counter for inputs without meaningful length constraints; it adds unnecessary cognitive load.
+- Use when there is a clear reason for limiting the number of characters, such as a database field constraint or regulatory requirement.
+- Use when evidence shows users regularly enter more text than needed for the purpose of the field.
+- Use to help users understand how much text they can still enter, with a dynamic count that updates as they type.
+- Use with a threshold setting so the counter only appears after users have entered a significant portion of the limit, reducing visual noise.
+- Use alongside text inputs that have a maximum length, such as referral notes, feedback fields, SMS messages, or bio descriptions.
+
+## When Not to Use
+
+- Do not use if the character limit could be increased or removed — relax backend constraints instead of restricting users.
+- Do not use without first testing whether your service works without a character limit.
+- Do not use for short fields like names or postcodes — use TextInput with an appropriate width instead.
+- Do not use as a standalone component — pair it with Textarea inside TextAreaWithCharacterCounter for a complete user experience.
 
 ## Headless
 

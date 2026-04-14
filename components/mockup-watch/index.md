@@ -18,10 +18,36 @@ This headless component uses a `<div>` element with `role="img"` and `aria-label
 
 ## Usage
 
+Basic watch mockup with a screenshot:
+
 ```html
 <MockupWatch label="Fitness tracking app">
   <Image src="fitness-watch.png" alt="Fitness app on watch" />
 </MockupWatch>
+```
+
+Watch mockup showing a notification preview:
+
+```html
+<MockupWatch label="Watch notification for incoming message">
+  <div class="notification-preview">
+    <strong>New message</strong>
+    <p>Hey, are you free for lunch?</p>
+  </div>
+</MockupWatch>
+```
+
+Watch mockup in a multi-device showcase:
+
+```html
+<div class="device-family">
+  <MockupWatch label="Heart rate on watch">
+    <Image src="heart-rate-watch.png" alt="Heart rate display on watch" />
+  </MockupWatch>
+  <MockupPhone label="Heart rate history on phone">
+    <Image src="heart-rate-phone.png" alt="Heart rate history chart on phone" />
+  </MockupPhone>
+</div>
 ```
 
 ## Keyboard Interactions
@@ -35,9 +61,16 @@ This headless component uses a `<div>` element with `role="img"` and `aria-label
 
 ## When to Use
 
-- Use to showcase watch app designs or notifications.
+- Use to showcase smart watch app designs, notifications, or glanceable interfaces.
 - Use in documentation or marketing pages to frame wearable content.
-- Avoid for functional embedded content -- use appropriate components instead.
+- Use in health and fitness app demos where the watch form factor is important.
+- Use in design system showcases to demonstrate watch-optimized micro-interactions.
+
+## When Not to Use
+
+- Do not use for phone-sized content -- use MockupPhone instead.
+- Do not use for non-wearable content that needs more screen space -- use MockupPhone or MockupTabletPortrait instead.
+- Do not use for functional embedded content -- use appropriate interactive components instead.
 
 ## Headless
 

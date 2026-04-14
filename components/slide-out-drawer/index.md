@@ -74,10 +74,15 @@ Settings panel:
 
 ## When to Use
 
-- Use for menus, filters, settings, or secondary content that should slide in from the side without navigating away from the current page.
+- Use for a drawer that specifically slides out from the side of the page.
+- Use for menus, filters, settings, or secondary content that should slide in from the side without navigating away.
 - Use on mobile and responsive layouts to conserve screen space by hiding infrequently used options.
-- Avoid for primary content or critical actions that users should see without extra interaction.
-- Consider a Sheet when you need the panel to appear from any edge (top, right, bottom, left), not just left or right.
+
+## When Not to Use
+
+- Do not use when a standard Drawer with multi-directional support is sufficient -- use Drawer instead.
+- Do not use for bottom sheets on mobile -- use Sheet instead.
+- Do not use for primary content or critical actions that users should see without extra interaction -- use Dialog or AlertDialog instead.
 
 ## Headless
 

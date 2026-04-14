@@ -21,7 +21,11 @@ Action links are useful when you want to draw attention to a key navigational st
 ## Usage
 
 ```html
-<ActionLink href="/next-step">Continue to next step</ActionLink>
+<ActionLink href="/find-a-gp">Find a GP near you</ActionLink>
+
+<ActionLink href="/book-appointment" label="Book a vaccination appointment at your local pharmacy">
+  Book a vaccination appointment
+</ActionLink>
 ```
 
 ## Keyboard Interactions
@@ -36,10 +40,17 @@ Action links are useful when you want to draw attention to a key navigational st
 
 ## When to Use
 
-- Use for prominent navigational actions that need visual emphasis, such as "Continue to next step", "Find a service near you", or "Start your application".
-- Use when you want to distinguish a key navigation action from standard inline text links.
-- Avoid for triggering non-navigation actions like form submission or state changes -- use Button instead.
-- Consider BackLink instead when the action is specifically returning to a previous page.
+- Use to signpost the start of a digital service or key navigational step, such as "Find a GP near you" or "Book an appointment".
+- Use on content-heavy pages where a key action needs visual emphasis beyond a standard inline link.
+- Use when the link represents a significant next step in the user's journey, not routine navigation.
+- Use within text blocks or care cards to draw attention to an actionable pathway.
+
+## When Not to Use
+
+- Do not use within forms -- use Button for form actions and submissions.
+- Do not use for general page-to-page navigation -- use a standard anchor link or BreadcrumbNav instead.
+- Do not use when emphasis is not needed -- use InsetText for highlighted content without an action.
+- Do not use for returning to a previous page -- use BackLink instead.
 
 ## Headless
 

@@ -21,9 +21,30 @@ Use Resizable when you need a panel, pane, or content area that users can resize
 
 ## Usage
 
+Resizable code editor panel:
+
 ```html
-<Resizable label="Resizable panel" direction="both">
-  <p>Content</p>
+<Resizable label="Code editor" direction="both">
+  <pre><code>const x = 42;</code></pre>
+</Resizable>
+```
+
+Horizontally resizable sidebar:
+
+```html
+<Resizable label="Sidebar navigation" direction="horizontal">
+  <nav>
+    <a href="/dashboard">Dashboard</a>
+    <a href="/settings">Settings</a>
+  </nav>
+</Resizable>
+```
+
+Vertically resizable preview area:
+
+```html
+<Resizable label="Document preview" direction="vertical">
+  <iframe src="/preview" title="Document preview"></iframe>
 </Resizable>
 ```
 
@@ -40,8 +61,14 @@ None -- this component is a passive container. The consumer is responsible for i
 
 - Use Resizable for adjustable panels such as code editors, sidebars, or preview areas where users benefit from controlling the content size.
 - Use Resizable when layout flexibility is important and content may need more or less space depending on the task.
-- Avoid using Resizable for fixed-layout content that should not change size.
-- Consider Splitter when resizing involves two adjacent panels that share available space.
+- Use Resizable for dashboard widgets that users can expand or shrink to prioritize information.
+- Use Resizable for image or document preview panes that benefit from manual sizing.
+
+## When Not to Use
+
+- Do not use Resizable for fixed-layout content that should not change size.
+- Do not use Resizable for splitting two adjacent panels that share available space -- use Splitter instead.
+- Do not use Resizable for simple visual dividers between sections -- use Separator instead.
 
 ## Headless
 

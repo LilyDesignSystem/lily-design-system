@@ -26,17 +26,20 @@ This component is useful in custom-designed radio groups, card selection interfa
 ## Usage
 
 ```html
-<RadioInput label="Option A" name="choice" value="a" />
-```
+<Fieldset legend="Are you 18 or over?">
+  <RadioGroup name="age-check">
+    <RadioInput label="Yes" value="yes" />
+    <RadioInput label="No" value="no" />
+  </RadioGroup>
+</Fieldset>
 
-```html
-<RadioInput label="Small" name="size" value="small" checked={true} />
-<RadioInput label="Medium" name="size" value="medium" />
-<RadioInput label="Large" name="size" value="large" />
-```
-
-```html
-<RadioInput label="Unavailable option" name="plan" value="enterprise" disabled={true} />
+<Fieldset legend="How would you like to receive your results?">
+  <RadioGroup name="results-preference">
+    <RadioInput label="Email" value="email" hint="We will send results within 24 hours" />
+    <RadioInput label="Post" value="post" hint="Results will arrive within 7 working days" />
+    <RadioInput label="I do not want my results" value="none" />
+  </RadioGroup>
+</Fieldset>
 ```
 
 ## Keyboard Interactions
@@ -54,9 +57,17 @@ Native radio input keyboard behavior is handled by the browser:
 
 ## When to Use
 
-- Use RadioInput inside a RadioGroup when you need custom radio button layouts where the radio and its label are independently positioned or styled.
-- Use RadioInput for card-selection interfaces, segmented controls, or any design that wraps radio buttons in non-standard visual containers.
-- Avoid using RadioInput outside of a group context; always pair with RadioGroup or a native fieldset for proper semantics.
+- Use when users can only select one option from a list of mutually exclusive choices
+- Use within a RadioGroup inside a Fieldset with a legend that poses the question
+- Use with a "None of these" or "I do not know" option when it is valid for users to decline all options
+- Use with Hint on individual radio items when extra context helps users choose
+
+## When Not to Use
+
+- Do not use when users need to select more than one option -- use CheckboxInput within a CheckboxGroup instead
+- Do not pre-select a radio option -- users may miss the question or submit the wrong answer
+- Do not use for toggling a single setting on or off -- use SwitchButton for immediate-effect toggles
+- Do not use for long lists of options -- use Select or Combobox when the list exceeds 6-8 items
 
 ## Headless
 

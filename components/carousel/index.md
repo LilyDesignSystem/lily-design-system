@@ -21,18 +21,40 @@ The consumer is responsible for providing the slide content as children and impl
 ## Usage
 
 ```html
-<Carousel label="Photo gallery">
-    <div role="group" aria-label="Slide 1">...</div>
+<Carousel label="Customer testimonials">
+  <div role="group" aria-roledescription="slide" aria-label="Slide 1 of 3">
+    <blockquote>
+      <p>"The service transformed how we manage patient records."</p>
+      <cite>Dr Sarah Mitchell, GP</cite>
+    </blockquote>
+  </div>
+  <div role="group" aria-roledescription="slide" aria-label="Slide 2 of 3">
+    <blockquote>
+      <p>"Setup took less than a day and the team was incredibly helpful."</p>
+      <cite>James O'Brien, Practice Manager</cite>
+    </blockquote>
+  </div>
+  <div role="group" aria-roledescription="slide" aria-label="Slide 3 of 3">
+    <blockquote>
+      <p>"We reduced administrative time by 40% in the first month."</p>
+      <cite>Nurse Karen Phillips</cite>
+    </blockquote>
+  </div>
 </Carousel>
 ```
 
 ```html
-<Carousel label="Featured products">
-    {#each slides as slide, i}
-        <div role="group" aria-roledescription="slide" aria-label="Slide {i + 1} of {slides.length}">
-            {slide.content}
-        </div>
-    {/each}
+<Carousel label="Featured articles">
+  <div role="group" aria-roledescription="slide" aria-label="Slide 1 of 2">
+    <Image src="/images/article-1.jpg" alt="Accessible design patterns" />
+    <h3>Building Accessible Forms</h3>
+    <p>Learn how to create forms that work for everyone.</p>
+  </div>
+  <div role="group" aria-roledescription="slide" aria-label="Slide 2 of 2">
+    <Image src="/images/article-2.jpg" alt="Component composition" />
+    <h3>Component Composition Patterns</h3>
+    <p>How to combine headless components for complex UIs.</p>
+  </div>
 </Carousel>
 ```
 
@@ -48,10 +70,17 @@ None -- this component is a passive container. The consumer should implement key
 
 ## When to Use
 
-- Use a carousel for cycling through a set of related content items such as image galleries, product showcases, or testimonials.
-- Use a carousel when horizontal space is limited and users benefit from browsing items one at a time.
-- Avoid using a carousel for critical content that all users must see; important information may be missed in later slides.
-- Consider a static grid or list layout instead when users need to compare all items simultaneously.
+- Use for cycling through a set of related content items, such as testimonials, featured articles, or image galleries
+- Use when screen space is limited and content can be browsed sequentially
+- Use for showcasing a curated set of promotions, portfolio pieces, or product highlights
+- Use when the content items are of equal importance and none is critical on its own
+
+## When Not to Use
+
+- Do not use for critical content that users must not miss -- carousels are often ignored or skipped
+- Do not use when all items need to be visible simultaneously -- use a grid of Cards instead
+- Do not use for navigation -- use TabBar or ContentsNav for switching between content panels
+- Do not use for a single content item -- use Hero or Card instead
 
 ## Headless
 

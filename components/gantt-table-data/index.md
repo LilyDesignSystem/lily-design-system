@@ -18,18 +18,18 @@ A Gantt table data cell represents a single time period cell within a task row o
 
 ```html
 <GanttTableBody>
-    <GanttTableRow>
-        <th>Design</th>
-        <GanttTableData class="bar">---</GanttTableData>
-        <GanttTableData></GanttTableData>
-        <GanttTableData></GanttTableData>
-    </GanttTableRow>
-    <GanttTableRow>
-        <th>Development</th>
-        <GanttTableData></GanttTableData>
-        <GanttTableData class="bar">---</GanttTableData>
-        <GanttTableData class="bar">---</GanttTableData>
-    </GanttTableRow>
+  <GanttTableRow>
+    <GanttTableCol scope="row">Design phase</GanttTableCol>
+    <GanttTableData active aria-label="Design phase: Jan, in progress">████</GanttTableData>
+    <GanttTableData active aria-label="Design phase: Feb, in progress">████</GanttTableData>
+    <GanttTableData aria-label="Design phase: Mar, not scheduled"></GanttTableData>
+  </GanttTableRow>
+  <GanttTableRow>
+    <GanttTableCol scope="row">Development</GanttTableCol>
+    <GanttTableData aria-label="Development: Jan, not scheduled"></GanttTableData>
+    <GanttTableData active aria-label="Development: Feb, in progress">████</GanttTableData>
+    <GanttTableData active aria-label="Development: Mar, in progress">████</GanttTableData>
+  </GanttTableRow>
 </GanttTableBody>
 ```
 
@@ -44,8 +44,14 @@ None built-in -- the consumer should implement grid keyboard navigation on cells
 
 ## When to Use
 
+- Use inside GanttTable to provide the `<td>` data cell for a time period.
 - Use inside a GanttTableRow to represent a single time period cell containing a bar segment, milestone marker, or empty space.
-- Avoid using outside of a GanttTableRow within a GanttTable structure.
+- Use to render visual bar segments, progress indicators, or milestone markers within the Gantt chart grid.
+
+## When Not to Use
+
+- Do not use outside of a GanttTable structure -- use TableData or DataTableData for general tables.
+- Do not use for header cells -- use GanttTableCol instead.
 
 ## Headless
 

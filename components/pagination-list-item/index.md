@@ -17,8 +17,22 @@ Consumers are responsible for adding `aria-current="page"` on the active page li
 
 ## Usage
 
+A pagination list item containing a PaginationLink for a numbered page:
+
 ```html
-<PaginationListItem><a href="/page/1">1</a></PaginationListItem>
+<PaginationListItem>
+  <PaginationLink href="/results?page=3" label="Page 3">3</PaginationLink>
+</PaginationListItem>
+```
+
+A pagination list item for a previous/next navigation link:
+
+```html
+<PaginationListItem>
+  <PaginationLink href="/conditions/diabetes/symptoms" rel="prev">
+    Previous: Symptoms
+  </PaginationLink>
+</PaginationListItem>
 ```
 
 ## Keyboard Interactions
@@ -32,9 +46,14 @@ None directly -- keyboard interaction is handled by the contained links or butto
 
 ## When to Use
 
-- Use as an individual page entry within a PaginationList, containing a page link, previous/next control, or ellipsis.
-- Use when each pagination item needs semantic `<li>` structure within the parent `<ul>`.
-- Avoid using PaginationListItem outside of a PaginationList; it relies on the parent list structure.
+- Use inside PaginationList to represent one page link in the pagination sequence
+- Use for both previous/next links and numbered page links
+- Use when each pagination item needs semantic `<li>` structure within the parent list
+
+## When Not to Use
+
+- Do not use outside of PaginationList -- it has no standalone meaning without the parent list structure
+- Do not use for non-pagination list items -- use ContentsListItem or BreadcrumbListItem for other navigation patterns
 
 ## Headless
 

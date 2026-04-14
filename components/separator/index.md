@@ -19,19 +19,49 @@ Separators help organize content into logical groups and improve visual hierarch
 
 ## Usage
 
-```html
-<Separator />
-```
-
-```html
-<Separator label="Section break" />
-```
+Simple separator between content sections:
 
 ```html
 <h2>Introduction</h2>
-<p>...</p>
+<p>Welcome to the design system documentation.</p>
+<Separator />
+<h2>Getting Started</h2>
+<p>Follow these steps to set up your project.</p>
+```
+
+Labelled separator for screen reader context:
+
+```html
 <Separator label="End of introduction" />
-<h2>Details</h2>
+```
+
+Separator between menu item groups:
+
+```html
+<Menu label="File actions">
+  <MenuItem>New</MenuItem>
+  <MenuItem>Open</MenuItem>
+  <MenuItem>Save</MenuItem>
+  <Separator label="Destructive actions" />
+  <MenuItem>Delete</MenuItem>
+  <MenuItem>Archive</MenuItem>
+</Menu>
+```
+
+Separator dividing sidebar sections:
+
+```html
+<Sidebar label="Settings navigation">
+  <nav>
+    <a href="/settings/profile">Profile</a>
+    <a href="/settings/account">Account</a>
+  </nav>
+  <Separator />
+  <nav>
+    <a href="/settings/billing">Billing</a>
+    <a href="/settings/invoices">Invoices</a>
+  </nav>
+</Sidebar>
 ```
 
 ## Keyboard Interactions
@@ -47,8 +77,14 @@ None -- this component is a passive container. The `<hr>` element is not focusab
 
 - Use to visually and semantically divide distinct sections of content, such as between page sections, form groups, or menu item groups.
 - Use when you need assistive technologies to announce a content boundary.
-- Avoid using purely for decorative spacing; use CSS margin or padding instead.
-- Consider using a heading element instead if the separation also introduces a new topic.
+- Use between groups of related items in a menu or list.
+- Use to divide a sidebar into logical sections.
+
+## When Not to Use
+
+- Do not use purely for decorative spacing -- use CSS margins or padding instead.
+- Do not use between every element -- only where semantic separation is meaningful.
+- Do not use when a heading element would better introduce the new section.
 
 ## Headless
 

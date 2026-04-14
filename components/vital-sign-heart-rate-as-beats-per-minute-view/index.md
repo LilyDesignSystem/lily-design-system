@@ -21,7 +21,14 @@ Use this component to display a patient's heart rate in medical records, health 
 ## Usage
 
 ```html
-<VitalSignHeartRateAsBeatsPerMinuteView value={72} label="72 beats per minute" />
+<!-- Display a recorded heart rate -->
+<VitalSignHeartRateAsBeatsPerMinuteView value={72} label="Heart rate: 72 BPM" />
+
+<!-- In a patient monitoring dashboard -->
+<VitalSignHeartRateAsBeatsPerMinuteView value={105} label="105 beats per minute - tachycardia" />
+
+<!-- In a vital signs summary -->
+<VitalSignHeartRateAsBeatsPerMinuteView value={68} label="Resting heart rate: 68 BPM - normal" />
 ```
 
 ## Keyboard Interactions
@@ -35,9 +42,16 @@ None. This is a passive, read-only display element.
 
 ## When to Use
 
-- Use to display a heart rate reading in vital sign summaries, medical records, or health dashboards.
-- Use as the display companion to VitalSignHeartRateAsBeatsPerMinuteInput.
-- Avoid using for editable heart rate values; use VitalSignHeartRateAsBeatsPerMinuteInput instead.
+- Use to display a recorded heart rate value in read-only format.
+- Use in patient dashboards, medical records, or clinical summaries showing vital signs.
+- Use with appropriate ARIA (`role="img"`, `aria-label`) for screen reader accessibility.
+- Use in cardiac monitoring displays and fitness tracking summaries.
+
+## When Not to Use
+
+- Do not use for entering new values -- use VitalSignHeartRateAsBeatsPerMinuteInput instead.
+- Do not use for general measurement display -- use MeasurementInstanceView for non-clinical values.
+- Do not use for heart rate variability display -- use VitalSignHeartRateVariabilityView instead.
 
 ## Headless
 

@@ -42,22 +42,30 @@ Basic 4-digit PIN input:
 <p>Entered PIN: {pin}</p>
 ```
 
-6-digit verification code:
+6-digit verification code for two-factor authentication:
 
 ```html
 <PinInput label="Verification Code" length={6} value={code} />
 ```
 
-Disabled state:
+PIN input in a login verification form:
 
 ```html
-<PinInput label="Locked PIN" disabled />
+<Form label="Verify your identity" onsubmit={handleVerify}>
+  <p>Enter the 6-digit code sent to your phone.</p>
+  <Field label="Verification code">
+    <PinInput label="Verification code" length={6} value={verificationCode} />
+  </Field>
+  <Button type="submit">Verify</Button>
+  <ActionLink href="/resend">Resend code</ActionLink>
+</Form>
 ```
 
-With additional HTML attributes:
+Disabled state while verifying:
 
 ```html
-<PinInput label="OTP" value={otp} data-form="login" />
+<PinInput label="Verifying code" length={6} value={code} disabled />
+<Loading>Verifying...</Loading>
 ```
 
 ## Keyboard Interactions
@@ -76,10 +84,16 @@ With additional HTML attributes:
 
 ## When to Use
 
-- Use PinInput for two-factor authentication, SMS verification codes, and OTP entry flows.
-- Use PinInput when you need a segmented input that clearly communicates the expected code length.
-- Avoid using PinInput for general numeric entry; use NumberInput or TextInput instead.
-- Consider PasswordInput if the code should be masked for security.
+- Use for two-factor authentication, SMS verification codes, and OTP entry flows.
+- Use when you need a segmented input that clearly communicates the expected code length.
+- Use for MFA flows where the user enters a time-based code from an authenticator app.
+- Use for account verification during sign-up or password reset.
+
+## When Not to Use
+
+- Do not use for passwords -- use PasswordInput instead.
+- Do not use for general numeric entry -- use NumberInput instead.
+- Do not use for reference numbers or codes longer than 8 digits -- use TextInput with `inputmode="numeric"` instead.
 
 ## Headless
 

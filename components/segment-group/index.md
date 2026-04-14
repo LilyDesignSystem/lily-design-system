@@ -20,10 +20,22 @@ Use SegmentGroup when you need a set of visually distinct toggle buttons where o
 
 ## Usage
 
+View mode toggle between Grid and List:
+
 ```html
-<SegmentGroup label="View">
-  <button role="radio" aria-checked="true">Grid</button>
-  <button role="radio" aria-checked="false">List</button>
+<SegmentGroup label="View mode">
+  <SegmentGroupItem checked={mode === 'grid'} value="grid" onclick={() => mode = 'grid'}>Grid</SegmentGroupItem>
+  <SegmentGroupItem checked={mode === 'list'} value="list" onclick={() => mode = 'list'}>List</SegmentGroupItem>
+</SegmentGroup>
+```
+
+Task status filter:
+
+```html
+<SegmentGroup label="Task filter">
+  <SegmentGroupItem checked={filter === 'all'} value="all" onclick={() => filter = 'all'}>All</SegmentGroupItem>
+  <SegmentGroupItem checked={filter === 'active'} value="active" onclick={() => filter = 'active'}>Active</SegmentGroupItem>
+  <SegmentGroupItem checked={filter === 'completed'} value="completed" onclick={() => filter = 'completed'}>Completed</SegmentGroupItem>
 </SegmentGroup>
 ```
 
@@ -40,10 +52,16 @@ Use SegmentGroup when you need a set of visually distinct toggle buttons where o
 
 ## When to Use
 
-- Use SegmentGroup for visually distinct toggle controls where only one option can be active, such as view mode switches (grid/list), filter toggles, or display density controls.
+- Use SegmentGroup for mutually exclusive single-select options displayed as connected segments, such as view mode toggles (List/Grid).
+- Use SegmentGroup for filter toggles like "All / Active / Completed" in a task manager.
+- Use SegmentGroup for display density controls such as "Compact / Normal / Spacious".
 - Use SegmentGroup when you want a custom segmented control appearance beyond standard radio buttons.
-- Avoid using SegmentGroup for non-mutually-exclusive options; use ToggleGroup or CheckboxInput instead.
-- Consider RadioGroup when standard radio button appearance is acceptable.
+
+## When Not to Use
+
+- Do not use SegmentGroup for multi-select options -- use ToggleGroup instead.
+- Do not use SegmentGroup for form choices that require submission with standard form semantics -- use RadioGroup instead.
+- Do not use SegmentGroup for navigation between pages -- use TabBar instead.
 
 ## Headless
 

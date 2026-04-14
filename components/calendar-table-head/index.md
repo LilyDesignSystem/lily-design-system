@@ -20,9 +20,17 @@ The component renders a `<thead>` element and passes through its children, which
 ## Usage
 
 ```html
-<CalendarTable label="January 2025">
+<CalendarTable label="April 2026">
   <CalendarTableHead>
-    <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+    <CalendarTableRow>
+      <th><abbr title="Monday">Mon</abbr></th>
+      <th><abbr title="Tuesday">Tue</abbr></th>
+      <th><abbr title="Wednesday">Wed</abbr></th>
+      <th><abbr title="Thursday">Thu</abbr></th>
+      <th><abbr title="Friday">Fri</abbr></th>
+      <th><abbr title="Saturday">Sat</abbr></th>
+      <th><abbr title="Sunday">Sun</abbr></th>
+    </CalendarTableRow>
   </CalendarTableHead>
   <CalendarTableBody>...</CalendarTableBody>
 </CalendarTable>
@@ -38,9 +46,14 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 ## When to Use
 
-- Use as the header section of a CalendarTable to display day-of-week column labels (e.g., Sun, Mon, Tue).
-- Use when you need to provide semantic column headers for the calendar grid.
-- Avoid using outside of a CalendarTable parent -- the parent provides the required `<table>` and `role="grid"` structure.
+- Use inside CalendarTable to provide the `<thead>` for the calendar grid
+- Use to display day-of-week column labels such as Mon, Tue, Wed
+- Use when you need semantic column headers so screen readers announce day names as users navigate cells
+
+## When Not to Use
+
+- Do not use outside CalendarTable -- use TableHead or DataTableHead for other table types
+- Do not use for calendar body rows -- use CalendarTableBody for the main date grid
 
 ## Headless
 

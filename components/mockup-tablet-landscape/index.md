@@ -19,10 +19,39 @@ This headless component uses a `<div>` element with `role="img"` and `aria-label
 
 ## Usage
 
+Basic tablet landscape mockup:
+
 ```html
 <MockupTabletLandscape label="App in landscape mode">
   <Image src="app-landscape.png" alt="App screenshot in landscape" />
 </MockupTabletLandscape>
+```
+
+Tablet mockup for a video player demo:
+
+```html
+<MockupTabletLandscape label="Video streaming app in landscape mode">
+  <div class="video-player-demo">
+    <Image src="video-player.png" alt="Video player showing nature documentary" />
+    <div class="controls">
+      <button>Play</button>
+      <progress value="35" max="100"></progress>
+    </div>
+  </div>
+</MockupTabletLandscape>
+```
+
+Tablet mockup in a device comparison layout:
+
+```html
+<div class="device-showcase">
+  <MockupPhone label="Mobile view of the calendar app">
+    <Image src="calendar-phone.png" alt="Calendar app on phone" />
+  </MockupPhone>
+  <MockupTabletLandscape label="Tablet landscape view of the calendar app">
+    <Image src="calendar-tablet.png" alt="Calendar app on tablet in landscape" />
+  </MockupTabletLandscape>
+</div>
 ```
 
 ## Keyboard Interactions
@@ -38,7 +67,14 @@ This headless component uses a `<div>` element with `role="img"` and `aria-label
 
 - Use to showcase tablet-optimized designs in landscape orientation.
 - Use in documentation or marketing pages to frame tablet content.
-- Consider MockupTabletPortrait for portrait-oriented tablet content.
+- Use for displaying video players, dashboards, or wide-format layouts in a tablet context.
+- Use in education or enterprise app demos where landscape is the primary orientation.
+
+## When Not to Use
+
+- Do not use for portrait-oriented tablet content -- use MockupTabletPortrait instead.
+- Do not use for phone-sized content -- use MockupPhone instead.
+- Do not use for desktop or browser content -- use MockupLaptop or MockupBrowser instead.
 
 ## Headless
 

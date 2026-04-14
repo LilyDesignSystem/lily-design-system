@@ -28,11 +28,14 @@ Use this component in medical forms, health assessments, vital sign entry screen
 ## Usage
 
 ```html
-<VitalSignHeartRateAsBeatsPerMinuteInput label="Heart rate (BPM)" value={value} />
-```
+<!-- Basic heart rate input in a clinical form -->
+<VitalSignHeartRateAsBeatsPerMinuteInput label="Heart rate (BPM)" value={72} />
 
-```html
+<!-- Required field in a triage assessment -->
 <VitalSignHeartRateAsBeatsPerMinuteInput label="Resting heart rate" value={rate} required />
+
+<!-- In a vital signs group entry -->
+<VitalSignHeartRateAsBeatsPerMinuteInput label="Heart rate" value={heartRate} disabled={isReadOnly} />
 ```
 
 ## Keyboard Interactions
@@ -46,9 +49,18 @@ Use this component in medical forms, health assessments, vital sign entry screen
 
 ## When to Use
 
-- Use for form fields that accept a heart rate measurement in beats per minute.
-- Use as the input companion to VitalSignHeartRateAsBeatsPerMinuteView.
-- Consider using NumberInput for generic numeric values that are not specifically heart rates.
+- Use in clinical forms to record a patient's heart rate measurement in beats per minute.
+- Use with the default min/max/step constraints (0-300, step 1) for standard integer BPM entry.
+- Use within vital sign entry workflows, triage forms, and patient intake assessments.
+- Use in cardiac monitoring forms and fitness evaluation screens.
+- Use alongside other vital sign inputs for comprehensive patient assessment.
+
+## When Not to Use
+
+- Do not use for displaying recorded values -- use VitalSignHeartRateAsBeatsPerMinuteView instead.
+- Do not use for general number input -- use NumberInput for non-clinical numeric values.
+- Do not use for measurements outside the vital sign domain -- use MeasurementInstanceInput for generic measurements.
+- Do not use for heart rate variability -- use VitalSignHeartRateVariabilityInput instead.
 
 ## Headless
 

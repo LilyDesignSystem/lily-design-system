@@ -22,11 +22,19 @@ This headless component renders a `<div>` with `role="status"` and `aria-live="p
 ## Usage
 
 ```html
-<BeachBall label="Loading content" />
+<BeachBall label="Loading your dashboard" />
 ```
 
 ```html
-<BeachBall label="Processing request" active={isLoading} />
+<BeachBall label="Processing payment" active={isProcessing} />
+```
+
+```html
+<!-- Conditional loading with a fallback message -->
+<BeachBall label="Fetching search results" active={isSearching} />
+{#if !isSearching}
+  <p>Showing {results.length} results</p>
+{/if}
 ```
 
 ## Keyboard Interactions
@@ -42,10 +50,16 @@ This headless component renders a `<div>` with `role="status"` and `aria-live="p
 
 ## When to Use
 
-- Use as a loading or waiting indicator when a process is in progress and the user should wait, such as during page loads, data fetching, or background processing.
-- Use when you want a whimsical, macOS-inspired loading indicator as an alternative to a standard spinner.
-- Avoid for progress that has a known completion percentage -- use Progress or ProgressCircle instead.
-- Consider Skeleton instead when you want placeholder content that matches the layout being loaded.
+- Use as a decorative animated loading indicator for playful or celebratory UI moments
+- Use when you want a whimsical, macOS-inspired waiting indicator as an alternative to a standard spinner
+- Use during page loads, data fetching, or background processing where the duration is indeterminate
+
+## When Not to Use
+
+- Do not use on clinical or transactional pages -- decorative animations are distracting in serious contexts
+- Do not use for progress that has a known completion percentage -- use Progress or ProgressCircle instead
+- Do not use when placeholder content is more appropriate -- use Skeleton for layout-matching loading states
+- Do not use without a `prefers-reduced-motion` media query -- respect user motion preferences by pausing or hiding the animation
 
 ## Headless
 

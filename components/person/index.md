@@ -19,10 +19,22 @@ This headless component uses an `<article>` element for self-contained person co
 ## Usage
 
 ```html
-<Person label="Jane Doe, Senior Developer">
-  <Avatar>JD</Avatar>
-  <h3>Jane Doe</h3>
-  <p>Senior Developer</p>
+<Person label="Dr Sarah Chen, Consultant Cardiologist">
+  <AvatarImage src="/photos/sarah-chen.jpg" label="Dr Sarah Chen" />
+  <h3>Dr Sarah Chen</h3>
+  <p>Consultant Cardiologist</p>
+  <p>Cardiology Department, St James's Hospital</p>
+  <EmailLink href="mailto:s.chen@stjames.nhs.uk">s.chen@stjames.nhs.uk</EmailLink>
+  <TelLink href="tel:+442071234567">020 7123 4567</TelLink>
+</Person>
+```
+
+```html
+<Person label="Alex Morgan, Software Engineer">
+  <AvatarText>AM</AvatarText>
+  <h3>Alex Morgan</h3>
+  <p>Software Engineer</p>
+  <p>Building accessible design systems and component libraries.</p>
 </Person>
 ```
 
@@ -37,8 +49,18 @@ This headless component uses an `<article>` element for self-contained person co
 
 ## When to Use
 
-- Use for displaying person profiles, team members, or directory entries.
-- Avoid for simple text content -- use a paragraph or Card instead.
+- Use to display person-related information such as a patient, clinician, or contact.
+- Use when structured person data (name, role, contact details) needs semantic grouping.
+- Use for team member listings, staff directories, or user profile cards.
+- Use when a person's information should be self-contained and reusable across contexts.
+- Use in combination with Avatar, EmailLink, and TelLink for rich person displays.
+
+## When Not to Use
+
+- Do not use for simple avatar display -- use Avatar instead.
+- Do not use for organisations -- use Organization instead.
+- Do not use for plain text mentions of a person's name -- use a paragraph or inline text.
+- Do not use for user authentication status -- use a dedicated auth indicator.
 
 ## Headless
 

@@ -20,15 +20,16 @@ An accordion link is a navigational anchor element representing one link within 
 ## Usage
 
 ```html
-<AccordionNav label="Navigation">
+<AccordionNav label="Service categories">
   <AccordionList>
-    <AccordionListItem summary="Products">
-      <AccordionLink href="/products/widgets">Widgets</AccordionLink>
-      <AccordionLink href="/products/gadgets">Gadgets</AccordionLink>
+    <AccordionListItem heading="Mental health" expanded>
+      <AccordionLink href="/services/anxiety">Anxiety</AccordionLink>
+      <AccordionLink href="/services/depression">Depression</AccordionLink>
+      <AccordionLink href="/services/stress">Stress management</AccordionLink>
     </AccordionListItem>
-    <AccordionListItem summary="Services">
-      <AccordionLink href="/services/consulting">Consulting</AccordionLink>
-      <AccordionLink href="/services/support">Support</AccordionLink>
+    <AccordionListItem heading="Physical health">
+      <AccordionLink href="/services/back-pain">Back pain</AccordionLink>
+      <AccordionLink href="/services/headaches" label="Headaches and migraines">Headaches</AccordionLink>
     </AccordionListItem>
   </AccordionList>
 </AccordionNav>
@@ -46,9 +47,15 @@ An accordion link is a navigational anchor element representing one link within 
 
 ## When to Use
 
-- Use inside an AccordionListItem to provide navigable links within expandable accordion sections.
+- Use inside AccordionListItem to create a clickable navigation link within an accordion section.
 - Use when accordion sections contain links to other pages or resources.
-- Avoid for non-navigational content within accordions -- use plain text or other elements instead.
+- Use with the `label` prop to provide additional context for screen readers when the visible link text is ambiguous.
+
+## When Not to Use
+
+- Do not use outside AccordionListItem -- use ActionLink or ContentsLink for standalone navigation links.
+- Do not use for non-navigational content within accordions -- use plain text or other elements instead.
+- Do not use for action triggers that do not navigate -- use Button instead.
 
 ## Headless
 

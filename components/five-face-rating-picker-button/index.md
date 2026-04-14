@@ -43,9 +43,14 @@ A five-face rating picker button is an individual button within a FiveFaceRating
 
 ## When to Use
 
-- Use as a child of FiveFaceRatingPicker to represent one satisfaction level in a 1-5 face rating scale.
+- Use inside FiveFaceRatingPicker to represent one satisfaction level in a 1-5 face rating scale.
 - Use when each face rating option needs individual styling, icons, or interactive behavior.
-- Avoid using outside of a FiveFaceRatingPicker; it is designed to work within the picker container.
+- Use to provide custom face illustrations or emoji for each satisfaction level.
+
+## When Not to Use
+
+- Do not use outside of a FiveFaceRatingPicker -- it requires the parent picker for group semantics.
+- Do not use as a standalone toggle button -- use ToggleButton instead.
 
 ## Headless
 

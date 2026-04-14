@@ -19,9 +19,21 @@ This headless component uses an `<article>` element for self-contained organizat
 ## Usage
 
 ```html
-<Organization label="Acme Corporation">
-  <h3>Acme Corporation</h3>
-  <p>Leading provider of innovative solutions.</p>
+<Organization label="St James's Hospital, Cardiology Department">
+  <Image src="/logos/stjames.png" label="St James's Hospital logo" />
+  <h3>St James's Hospital</h3>
+  <p>Cardiology Department</p>
+  <address>Beckett Way, Leeds LS9 7TF</address>
+  <TelLink href="tel:+441234567890">0123 456 7890</TelLink>
+  <EmailLink href="mailto:info@stjames.nhs.uk">info@stjames.nhs.uk</EmailLink>
+</Organization>
+```
+
+```html
+<Organization label="Acme Software Ltd">
+  <h3>Acme Software Ltd</h3>
+  <p>Enterprise solutions for healthcare integration and interoperability.</p>
+  <a href="https://acme.example.com">acme.example.com</a>
 </Organization>
 ```
 
@@ -36,8 +48,16 @@ This headless component uses an `<article>` element for self-contained organizat
 
 ## When to Use
 
-- Use for displaying organization profiles, directory entries, or company information.
-- Avoid for simple text content -- use a paragraph or Card instead.
+- Use to display organisation information such as a hospital, clinic, department, or company.
+- Use when structured organisation data (name, logo, contact details) needs semantic grouping.
+- Use for provider directories, partner listings, or department profiles.
+- Use in combination with Image, EmailLink, and TelLink for rich organisation displays.
+
+## When Not to Use
+
+- Do not use for people -- use Person instead.
+- Do not use for locations without organisation context -- use Place instead.
+- Do not use for plain text mentions of an organisation name -- use a paragraph or inline text.
 
 ## Headless
 

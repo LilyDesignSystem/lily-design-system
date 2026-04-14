@@ -37,8 +37,14 @@ No additional ARIA attributes. Row semantics are provided by the `<tr>` element.
 
 ## When to Use
 
-- Use within TableHead, TableBody, or TableFoot.
-- Avoid using outside of a table context.
+- Use inside TableHead, TableBody, or TableFoot to represent one row of data
+- Use to group TableCol (header) and TableData (data) cells into a logical row
+- Use inside TableHead for column header rows and inside TableBody for data rows
+
+## When Not to Use
+
+- Do not use outside of a Table -- use DataTableRow for DataTable or CalendarTableRow for CalendarTable
+- Do not use as a standalone element -- it must be a child of TableHead, TableBody, or TableFoot
 
 ## Headless
 

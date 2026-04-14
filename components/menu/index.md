@@ -22,20 +22,34 @@ The component manages vertical focus movement between menu items via arrow keys,
 
 ## Usage
 
+Actions menu with MenuItem children:
+
 ```html
 <Menu label="Actions">
-    <div role="menuitem" tabindex="-1">Cut</div>
-    <div role="menuitem" tabindex="-1">Copy</div>
+    <MenuItem onclick={() => handleCut()}>Cut</MenuItem>
+    <MenuItem onclick={() => handleCopy()}>Copy</MenuItem>
+    <MenuItem onclick={() => handlePaste()}>Paste</MenuItem>
 </Menu>
 ```
+
+Dynamic actions menu from a list:
 
 ```html
 <Menu label="File actions">
     {#each actions as action}
-        <div role="menuitem" tabindex="-1" onclick={() => handleAction(action)}>
+        <MenuItem onclick={() => handleAction(action)}>
             {action.label}
-        </div>
+        </MenuItem>
     {/each}
+</Menu>
+```
+
+Menu with a disabled item:
+
+```html
+<Menu label="Edit">
+    <MenuItem onclick={() => handleUndo()}>Undo</MenuItem>
+    <MenuItem aria-disabled="true">Redo</MenuItem>
 </Menu>
 ```
 
@@ -54,9 +68,16 @@ The component manages vertical focus movement between menu items via arrow keys,
 
 ## When to Use
 
-- Use to present a list of actions or commands triggered by a button, such as context menus or action dropdowns.
+- Use for a list of actions or options triggered by a button, such as an actions menu on a record.
 - Use when each item is a discrete action (e.g., Cut, Copy, Paste) rather than a selectable option.
-- Consider using Listbox instead when the purpose is selecting one or more options from a list.
+- Use for action menus on table rows, card components, or toolbar overflow buttons.
+- Use when the menu needs vertical arrow key navigation with wrapping.
+
+## When Not to Use
+
+- Do not use for site navigation -- use NavigationMenu instead.
+- Do not use for right-click menus -- use ContextMenu instead.
+- Do not use for selecting one or more options from a list -- use Listbox instead.
 
 ## Headless
 

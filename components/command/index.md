@@ -23,10 +23,24 @@ The component renders a search region containing a text input and a listbox for 
 
 ## Usage
 
+Application command palette triggered by Ctrl+K:
+
 ```html
-<Command label="Command palette" placeholder="Search commands..." value={query}>
-    {#each filteredCommands as cmd}
-        <div role="option">{cmd.name}</div>
+<Command label="Command palette" placeholder="Type a command..." value={query}>
+    <div role="option" tabindex="-1" onclick={() => navigate('/dashboard')}>Go to Dashboard</div>
+    <div role="option" tabindex="-1" onclick={() => navigate('/settings')}>Open Settings</div>
+    <div role="option" tabindex="-1" onclick={() => toggleTheme()}>Toggle Dark Mode</div>
+</Command>
+```
+
+Admin panel action launcher with dynamic filtering:
+
+```html
+<Command label="Actions" placeholder="Search actions..." value={actionQuery}>
+    {#each filteredActions as action}
+        <div role="option" tabindex="-1" onclick={() => action.execute()}>
+            {action.name} <kbd>{action.shortcut}</kbd>
+        </div>
     {/each}
 </Command>
 ```
@@ -45,9 +59,16 @@ The component renders a search region containing a text input and a listbox for 
 
 ## When to Use
 
-- Use a Command palette for quick-access search interfaces such as Ctrl+K action launchers, searchable menus, or command-driven navigation.
-- Use a Command when users need to search and execute actions from a large set without navigating through menus.
-- Avoid using a Command for simple search fields without an action list; consider a SearchInput instead.
+- Use Command for quick-access search interfaces such as Ctrl+K action launchers or searchable menus.
+- Use Command when users need to search and execute actions from a large set without navigating through menus.
+- Use Command for keyboard-driven navigation where users can jump to pages, run actions, or switch contexts.
+- Use Command in developer tools, admin panels, or productivity applications where power users expect a command palette.
+
+## When Not to Use
+
+- Do not use Command for site search or content search -- use SearchInput instead.
+- Do not use Command for form input with a dropdown list of options -- use Combobox instead.
+- Do not use Command for navigation menus that should always be visible -- use NavigationMenu instead.
 
 ## Headless
 

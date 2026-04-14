@@ -38,9 +38,15 @@ None -- this component is a passive container. Keyboard behavior is determined b
 
 ## When to Use
 
-- Use a DataFilterForm to wrap filter controls that narrow down a dataset, such as search criteria, category selectors, or date range pickers.
-- Use a DataFilterForm when filters should be submitted together as a group, with client-side or AJAX-based filtering rather than a full page reload.
-- Avoid using a DataFilterForm for single-input search fields; consider a SearchInput instead.
+- Use alongside DataTable to let users filter data by criteria such as date range, status, or category.
+- Use when the dataset is large enough that filtering significantly improves findability.
+- Use when filters should be submitted together as a group, with client-side or AJAX-based filtering rather than a full page reload.
+
+## When Not to Use
+
+- Do not use for search across the entire site -- use SearchInput instead.
+- Do not use for small datasets that fit on one page without filtering.
+- Do not use for single-input search fields -- use SearchInput for a simpler pattern.
 
 ## Headless
 

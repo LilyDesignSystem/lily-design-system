@@ -19,10 +19,10 @@ The consumer provides the content through the children slot. The component is in
 ## Usage
 
 ```html
-<DoList>
-  <DoListItem>Write clear labels</DoListItem>
-  <DoListItem>Use semantic HTML</DoListItem>
-  <DoListItem>Provide alt text for images</DoListItem>
+<DoList heading="Do">
+  <DoListItem>cover blisters that are likely to burst with a soft plaster or dressing</DoListItem>
+  <DoListItem>wash your hands before touching a burst blister</DoListItem>
+  <DoListItem>allow the fluid in a burst blister to drain before covering it with a plaster or dressing</DoListItem>
 </DoList>
 ```
 
@@ -37,9 +37,14 @@ The consumer provides the content through the children slot. The component is in
 
 ## When to Use
 
-- Use as a child of DoList to represent one recommended action or best practice.
+- Use inside DoList to represent one encouraged action or best practice.
+- Use with lowercase text that describes the action directly, without prefixing with "do".
 - Use when each guidance item needs individual styling or interactive behavior.
-- Avoid using outside of a DoList; it is designed to be placed inside a `<ul>` container.
+
+## When Not to Use
+
+- Do not use outside of DoList -- it has no standalone meaning and requires a parent `<ul>` container.
+- Do not use for discouraged actions -- use DontListItem inside DontList instead.
 
 ## Headless
 

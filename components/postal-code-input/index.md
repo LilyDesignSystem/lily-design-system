@@ -24,16 +24,39 @@ This component is useful in address forms, checkout flows, shipping calculators,
 
 ## Usage
 
-```html
-<PostalCodeInput label="Postal code" value={value} />
-```
+Basic postal code input:
 
 ```html
-<PostalCodeInput label="ZIP code" value={zipCode} required={true} />
+<PostalCodeInput label="Postal code" value={postalCode} />
 ```
+
+Required ZIP code input for a US address form:
+
+```html
+<PostalCodeInput label="ZIP code" value={zipCode} required placeholder="90210" />
+```
+
+UK postcode input with placeholder format hint:
 
 ```html
 <PostalCodeInput label="Postcode" value={postcode} placeholder="SW1A 1AA" />
+```
+
+Postal code input within an address form:
+
+```html
+<Form label="Shipping address" onsubmit={handleSubmit}>
+  <Field label="Street address" required>
+    <TextInput label="Street address" value={street} required />
+  </Field>
+  <Field label="City" required>
+    <TextInput label="City" value={city} required />
+  </Field>
+  <Field label="Postcode" required>
+    <PostalCodeInput label="Postcode" value={postcode} required placeholder="SW1A 1AA" />
+  </Field>
+  <Button type="submit">Save address</Button>
+</Form>
 ```
 
 ## Keyboard Interactions
@@ -46,9 +69,16 @@ None beyond native input behavior -- standard text editing keys (typing, backspa
 
 ## When to Use
 
-- Use PostalCodeInput in address forms, checkout flows, and shipping calculators where users need to enter a postal or ZIP code.
-- Use PostalCodeInput when you want browser autofill support via `autocomplete="postal-code"`.
-- Avoid using PostalCodeInput for general text or numeric fields; use TextInput or NumberInput instead.
+- Use in address forms, checkout flows, and shipping calculators where users need to enter a postal or ZIP code.
+- Use when you want browser autofill support via `autocomplete="postal-code"`.
+- Use in registration forms or location-based search interfaces that require postal code entry.
+- Use for delivery address entry where postal code validation is important.
+
+## When Not to Use
+
+- Do not use for displaying a postal code in read-only format -- use PostalCodeView instead.
+- Do not use for general text or numeric input -- use TextInput or NumberInput instead.
+- Do not use for full address entry -- combine with other address fields in a form.
 
 ## Headless
 

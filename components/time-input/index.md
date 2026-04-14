@@ -24,16 +24,23 @@ This component is useful for scheduling interfaces, appointment forms, event pla
 
 ## Usage
 
-```html
-<TimeInput label="Start time" value={value} />
-```
+Appointment scheduling with business hours constraint:
 
 ```html
-<TimeInput label="Meeting time" value={meetingTime} required={true} />
+<TimeInput label="Appointment time" value={appointmentTime} min="09:00" max="17:00" required />
 ```
 
+Shift start and end times:
+
 ```html
-<TimeInput label="Deadline" value={deadline} min="09:00" max="17:00" />
+<TimeInput label="Shift start" value={shiftStart} required />
+<TimeInput label="Shift end" value={shiftEnd} required />
+```
+
+Medication schedule entry:
+
+```html
+<TimeInput label="Take medication at" value={medTime} />
 ```
 
 ## Keyboard Interactions
@@ -46,10 +53,16 @@ None beyond native input behavior -- the browser's built-in time picker handles 
 
 ## When to Use
 
-- Use TimeInput when users need to enter a specific time value in a form, such as scheduling, appointments, or deadlines.
+- Use for entering a time value using the native browser time picker.
+- Use for appointment times, medication schedules, or shift start and end times.
 - Use for straightforward time-of-day entry where the native browser time picker is sufficient.
-- Avoid using TimeInput for time duration or elapsed time; consider a custom duration input instead.
-- Consider TimePicker when you need additional time selection features beyond the native input.
+- Use when any arbitrary time value should be accepted.
+
+## When Not to Use
+
+- Do not use when a dropdown of predefined time slots is better -- use TimePickerInput instead.
+- Do not use for combined date-and-time entry -- use DateTimeNowInput or DatetimeLocalInput instead.
+- Do not use for time duration or elapsed time; consider a custom duration input instead.
 
 ## Headless
 

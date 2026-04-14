@@ -14,8 +14,31 @@ Use ThemeSelectOption for individual theme choices within a ThemeSelect dropdown
 
 ## Usage
 
+Basic theme options inside a ThemeSelect:
+
 ```html
-<ThemeSelect label="Theme" value={value}>
+<ThemeSelect label="Theme" value={theme}>
+  <ThemeSelectOption value="light">Light</ThemeSelectOption>
+  <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
+</ThemeSelect>
+```
+
+With a disabled placeholder option:
+
+```html
+<ThemeSelect label="Theme" value={theme}>
+  <ThemeSelectOption value="" disabled>Choose a theme...</ThemeSelectOption>
+  <ThemeSelectOption value="light">Light</ThemeSelectOption>
+  <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
+  <ThemeSelectOption value="high-contrast">High Contrast</ThemeSelectOption>
+</ThemeSelect>
+```
+
+With system default as the first selectable option:
+
+```html
+<ThemeSelect label="Appearance" value={theme}>
+  <ThemeSelectOption value="system">System Default</ThemeSelectOption>
   <ThemeSelectOption value="light">Light</ThemeSelectOption>
   <ThemeSelectOption value="dark">Dark</ThemeSelectOption>
 </ThemeSelect>
@@ -54,9 +77,14 @@ With disabled option:
 - `disabled` attribute communicates disabled state to assistive technology
 ## When to Use
 
-- Use ThemeSelectOption for individual theme choices inside a ThemeSelect dropdown.
-- Use when you want a dedicated component per option rather than plain `<option>` elements, for consistency or added logic.
-- Avoid using ThemeSelectOption outside of a ThemeSelect parent; it renders a native `<option>` element that requires a `<select>` context.
+- Use inside a ThemeSelect to represent one selectable theme option.
+- Use when you want a dedicated component per option rather than plain `<option>` elements for consistency.
+- Use when each theme option may need additional props such as `disabled` for placeholder options.
+
+## When Not to Use
+
+- Do not use outside of a ThemeSelect -- it renders a native `<option>` that requires a `<select>` context.
+- Do not use for standard non-theme Select dropdowns -- use [Option](../option/) instead.
 
 ## Headless
 

@@ -39,9 +39,14 @@ None -- this component is a passive container. Navigation within the table follo
 
 ## When to Use
 
-- Use a DataTableFoot to display summary rows such as totals, averages, or aggregate data at the bottom of a DataTable.
-- Use a DataTableFoot when the table needs a persistent footer that remains visible during scrolling in fixed-header table layouts.
-- Avoid using a DataTableFoot when there is no summary or aggregate data to display; not every table needs a footer.
+- Use inside DataTable to provide the `<tfoot>` footer section with summary or aggregate rows.
+- Use to display totals, averages, or aggregate data at the bottom of a DataTable.
+- Use when the table needs a persistent footer visible during scrolling in fixed-header layouts.
+
+## When Not to Use
+
+- Do not use outside DataTable -- use TableFoot, CalendarTableFoot, GanttTableFoot, or KanbanTableFoot for their respective table types.
+- Do not use when there is no summary or aggregate data to display -- not every table needs a footer.
 
 ## Headless
 

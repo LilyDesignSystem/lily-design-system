@@ -18,9 +18,13 @@ This component renders as a semantic `<aside>` element with `role="note"`, givin
 
 ## Usage
 
+Simple footnote with a source reference:
+
 ```html
 <Footnote id="fn1">Source: Example et al., 2024</Footnote>
 ```
+
+Footnote linked from main content via superscript:
 
 ```html
 <!-- In-page link from main content to footnote -->
@@ -29,6 +33,22 @@ This component renders as a semantic `<aside>` element with `role="note"`, givin
 <!-- Footnote at the bottom of the page or section -->
 <Footnote id="fn1">
   <a href="#ref1">1.</a> Example, A. (2024). <em>Research Title</em>. Journal Name.
+</Footnote>
+```
+
+Multiple footnotes in a clinical guideline:
+
+```html
+<p>Blood pressure should be measured at every visit.<a href="#fn1"><sup>1</sup></a>
+   Patients with readings above 140/90 mmHg require follow-up.<a href="#fn2"><sup>2</sup></a></p>
+
+<Separator label="Footnotes" />
+
+<Footnote id="fn1">
+  <a href="#ref1">1.</a> NICE Guideline NG136: Hypertension in adults, 2019.
+</Footnote>
+<Footnote id="fn2">
+  <a href="#ref2">2.</a> WHO Technical Report on Cardiovascular Disease Prevention, 2023.
 </Footnote>
 ```
 
@@ -45,7 +65,14 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 - Use for citations, source references, or supplementary clarifications in articles, academic content, or legal documents.
 - Use when the additional information should not interrupt the main content flow.
-- Avoid for critical information the user must read; use InformationCallout or Alert instead.
+- Use in clinical guidelines, research papers, or policy documents to reference supporting evidence.
+- Use for legal disclaimers or terms that need to be associated with specific claims in the text.
+
+## When Not to Use
+
+- Do not use for inline citations or bibliographic references -- use Citation instead.
+- Do not use for general informational callouts -- use InsetText or InformationCallout instead.
+- Do not use for critical information the user must read -- use Alert instead.
 
 ## Headless
 

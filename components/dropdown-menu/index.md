@@ -25,18 +25,25 @@ The component manages its own focus lifecycle: when the menu opens, focus moves 
 
 ## Usage
 
+"More actions" dropdown on a card component:
+
 ```html
-<DropdownMenu label="Options" open={open}>
-  <li role="menuitem" tabindex="-1">Edit</li>
-  <li role="menuitem" tabindex="-1">Duplicate</li>
-  <li role="menuitem" tabindex="-1">Delete</li>
+<DropdownMenu label="More actions" open={menuOpen}>
+    <MenuItem onclick={() => handleEdit()}>Edit</MenuItem>
+    <MenuItem onclick={() => handleDuplicate()}>Duplicate</MenuItem>
+    <MenuItem onclick={() => handleDelete()}>Delete</MenuItem>
 </DropdownMenu>
 ```
 
+Settings dropdown with dynamic items:
+
 ```html
-<DropdownMenu label="Actions" open={menuOpen}>
-  <li role="menuitem" tabindex="-1" onclick={() => handleAction('edit')}>Edit</li>
-  <li role="menuitem" tabindex="-1" onclick={() => handleAction('delete')}>Delete</li>
+<DropdownMenu label="Settings" open={settingsOpen}>
+    {#each settingsOptions as option}
+        <MenuItem onclick={() => handleOption(option)}>
+            {option.label}
+        </MenuItem>
+    {/each}
 </DropdownMenu>
 ```
 
@@ -59,10 +66,16 @@ The component manages its own focus lifecycle: when the menu opens, focus moves 
 
 ## When to Use
 
-- Use to present a list of actions or options triggered by a button, such as settings menus, action menus, or context-sensitive options.
-- Use when screen space is limited and a persistent menu would be visually overwhelming.
-- Avoid for navigation links; use NavigationMenu or a Nav component instead.
-- Consider ContextMenu when the menu should appear on right-click rather than a button trigger.
+- Use for a menu that opens below a trigger button, such as a "More actions" button.
+- Use to present a list of actions or options when screen space is limited.
+- Use for settings menus, action menus, or context-sensitive options on cards and rows.
+- Use when the menu should appear on click rather than right-click.
+
+## When Not to Use
+
+- Do not use for form selections -- use Select or Combobox instead.
+- Do not use for navigation -- use NavigationMenu instead.
+- Do not use when the menu should appear on right-click -- use ContextMenu instead.
 
 ## Headless
 

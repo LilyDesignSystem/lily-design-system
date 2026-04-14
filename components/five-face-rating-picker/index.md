@@ -23,7 +23,19 @@ A five-face rating input allows users to select a rating from 1 to 5 using label
 ## Usage
 
 ```html
-<FiveFaceRatingInput label="How was your experience?" value={value} />
+<FiveFaceRatingPicker label="How was your experience?" value={rating}>
+    <FiveFaceRatingPickerButton value="1" label="Very bad" onclick={handleClick} />
+    <FiveFaceRatingPickerButton value="2" label="Bad" onclick={handleClick} />
+    <FiveFaceRatingPickerButton value="3" label="Okay" onclick={handleClick} />
+    <FiveFaceRatingPickerButton value="4" label="Good" onclick={handleClick} />
+    <FiveFaceRatingPickerButton value="5" label="Very good" onclick={handleClick} />
+</FiveFaceRatingPicker>
+```
+
+With custom labels for internationalization:
+
+```html
+<FiveFaceRatingPicker label="Wie war Ihre Erfahrung?" value={rating} labels={["Sehr schlecht", "Schlecht", "Okay", "Gut", "Sehr gut"]} />
 ```
 
 ## Keyboard Interactions
@@ -42,10 +54,18 @@ Standard radio group keyboard behavior provided by the browser:
 
 ## When to Use
 
-- Use in satisfaction surveys, feedback forms, or experience ratings where face-based labels are more intuitive than numeric or star scales.
-- Use when you need a 1-5 rating with descriptive face labels like "Very bad" through "Very good".
-- Avoid for generic numeric ratings; use FiveStarRatingPicker or a RangeInput instead.
-- Consider NetPromoterScorePicker for a 0-10 scale survey question.
+- Use in satisfaction surveys to collect feedback using face-based labels that are more intuitive than numeric scales.
+- Use in patient experience questionnaires where expressive face icons communicate sentiment clearly.
+- Use when you need a 1-5 rating with descriptive labels like "Very bad" through "Very good".
+- Use in post-interaction feedback forms such as support ticket follow-ups or appointment reviews.
+- Use when the audience includes users who may find faces more accessible than stars or numbers.
+
+## When Not to Use
+
+- Do not use for display-only ratings -- use FiveFaceRatingView instead.
+- Do not use for generic product or service reviews where stars are the expected convention -- use FiveStarRatingPicker.
+- Do not use for 0-10 scale survey questions -- use NetPromoterScorePicker.
+- Do not use for traffic-light status indicators -- use RedAmberGreenPicker.
 
 ## Headless
 

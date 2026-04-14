@@ -18,31 +18,41 @@ Use TimelineList when you need to present a sequence of events or milestones in 
 
 ## Usage
 
+Project milestones with TimelineListItem children:
+
 ```html
 <TimelineList label="Project milestones">
-  <li>Project kickoff - Jan 2024</li>
-  <li>Alpha release - Mar 2024</li>
-  <li>Beta release - Jun 2024</li>
-  <li>General availability - Sep 2024</li>
+    <TimelineListItem>
+        <time datetime="2024-01">January 2024</time>
+        <p>Project kickoff</p>
+    </TimelineListItem>
+    <TimelineListItem>
+        <time datetime="2024-03">March 2024</time>
+        <p>Alpha release</p>
+    </TimelineListItem>
+    <TimelineListItem>
+        <time datetime="2024-09">September 2024</time>
+        <p>General availability</p>
+    </TimelineListItem>
 </TimelineList>
 ```
 
-With semantic `<time>` elements:
+Order tracking with semantic `<time>` elements:
 
 ```html
 <TimelineList label="Order history">
-  <li>
-    <time datetime="2024-01-15">January 15, 2024</time>
-    <p>Order placed</p>
-  </li>
-  <li>
-    <time datetime="2024-01-16">January 16, 2024</time>
-    <p>Order shipped</p>
-  </li>
-  <li>
-    <time datetime="2024-01-19">January 19, 2024</time>
-    <p>Order delivered</p>
-  </li>
+    <TimelineListItem>
+        <time datetime="2024-01-15">January 15, 2024</time>
+        <p>Order placed</p>
+    </TimelineListItem>
+    <TimelineListItem>
+        <time datetime="2024-01-16">January 16, 2024</time>
+        <p>Order shipped</p>
+    </TimelineListItem>
+    <TimelineListItem>
+        <time datetime="2024-01-19">January 19, 2024</time>
+        <p>Order delivered</p>
+    </TimelineListItem>
 </TimelineList>
 ```
 
@@ -83,10 +93,16 @@ Activity feed:
 - Consumers should use `<time>` elements with `datetime` attributes for machine-readable dates within items
 ## When to Use
 
-- Use TimelineList to present a sequence of events or milestones in chronological order, such as project history, order tracking, or activity feeds.
+- Use to display chronological events or milestones, such as patient history, order tracking, or project progress.
 - Use when the ordering of items conveys meaningful progression over time.
-- Avoid using TimelineList for unordered or non-chronological content; use a plain list instead.
-- Consider a simple list when items lack timestamps or chronological significance.
+- Use for activity feeds, user journey maps, or historical overviews.
+- Use when each item has a timestamp or date that reinforces the chronological sequence.
+
+## When Not to Use
+
+- Do not use for task completion tracking -- use TaskList instead.
+- Do not use for navigation -- use ContentsNav instead.
+- Do not use for unordered or non-chronological content -- use a plain list instead.
 
 ## Headless
 

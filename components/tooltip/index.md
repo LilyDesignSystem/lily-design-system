@@ -22,20 +22,48 @@ Tooltips are used to clarify the function or meaning of an element without clutt
 
 ## Usage
 
-```html
-<button aria-describedby="tip"
-  onmouseenter={() => showTip = true}
-  onmouseleave={() => showTip = false}
-  onfocusin={() => showTip = true}
-  onfocusout={() => showTip = false}
->
-  Hover me
-</button>
-<Tooltip id="tip" label="Additional info" visible={showTip} />
-```
+Tooltip on an icon button:
 
 ```html
-<Tooltip id="help-tip" label="Click to submit your form" visible={true} />
+<button aria-describedby="save-tip"
+  onmouseenter={() => showSaveTip = true}
+  onmouseleave={() => showSaveTip = false}
+  onfocusin={() => showSaveTip = true}
+  onfocusout={() => showSaveTip = false}
+>
+  <Icon name="save" />
+  <ScreenReaderSpan>Save document</ScreenReaderSpan>
+</button>
+<Tooltip id="save-tip" label="Save document" visible={showSaveTip} />
+```
+
+Tooltip explaining an abbreviation:
+
+```html
+<span aria-describedby="a11y-tip"
+  onmouseenter={() => showA11yTip = true}
+  onmouseleave={() => showA11yTip = false}
+  onfocusin={() => showA11yTip = true}
+  onfocusout={() => showA11yTip = false}
+  tabindex="0"
+>
+  WCAG
+</span>
+<Tooltip id="a11y-tip" label="Web Content Accessibility Guidelines" visible={showA11yTip} />
+```
+
+Tooltip for a toolbar action:
+
+```html
+<button aria-describedby="delete-tip"
+  onmouseenter={() => showDeleteTip = true}
+  onmouseleave={() => showDeleteTip = false}
+  onfocusin={() => showDeleteTip = true}
+  onfocusout={() => showDeleteTip = false}
+>
+  <Icon name="trash" />
+</button>
+<Tooltip id="delete-tip" label="Delete selected items" visible={showDeleteTip} />
 ```
 
 ## Keyboard Interactions
@@ -50,10 +78,18 @@ Tooltips are used to clarify the function or meaning of an element without clutt
 
 ## When to Use
 
-- Use Tooltip to provide brief, supplementary descriptions for UI elements on hover or focus (e.g., icon button labels, abbreviation explanations).
+- Use Tooltip to provide brief, supplementary descriptions for UI elements on hover or focus, such as explaining an icon button's purpose.
+- Use to clarify abbreviations, technical terms, or truncated text.
 - Use when the information is helpful but not essential for completing a task.
-- Avoid using Tooltip for critical information that users must see; use inline text or an alert instead.
-- Consider using a Popover when the supplementary content includes interactive elements, links, or rich formatting.
+- Use for labelling icon-only buttons where a visible label would not fit.
+- Use for showing full text when content is truncated with ellipsis.
+
+## When Not to Use
+
+- Do not use for critical information that users must see -- use inline text or Alert instead.
+- Do not use for interactive content such as links, buttons, or forms -- use Popover instead.
+- Do not use for long text -- keep tooltip content to one short sentence.
+- Do not use for rich content previews -- use HoverCard instead.
 
 ## Headless
 

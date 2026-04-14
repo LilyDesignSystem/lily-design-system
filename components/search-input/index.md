@@ -22,12 +22,22 @@ Search inputs are commonly used for site-wide search bars, filtering lists, and 
 
 ## Usage
 
-```html
-<SearchInput label="Search" value={value} />
-```
+Site-wide search bar:
 
 ```html
-<SearchInput label="Filter products" value={query} required />
+<SearchInput label="Search the site" value={query} placeholder="Search..." />
+```
+
+Filtering a product list:
+
+```html
+<SearchInput label="Filter products" value={productFilter} required />
+```
+
+Table search within an admin panel:
+
+```html
+<SearchInput label="Search patients" value={patientSearch} placeholder="Name or ID..." />
 ```
 
 ## Keyboard Interactions
@@ -43,10 +53,16 @@ Note: keyboard interactions are provided natively by the `<input type="search">`
 
 ## When to Use
 
-- Use SearchInput for site-wide search bars, list filtering, and any interface where users need to enter a search query.
+- Use SearchInput for site-wide search bars where users enter free-text queries.
+- Use SearchInput for section-level filtering, such as searching within a table or list.
 - Use SearchInput to benefit from browser-native search behaviors such as the Escape-to-clear shortcut and search-optimized mobile keyboards.
-- Avoid using SearchInput for general text entry; use TextInput instead.
-- Consider Combobox when search results should appear as a filterable dropdown list.
+- Use SearchInput when a simple search field without a dedicated action button is sufficient.
+
+## When Not to Use
+
+- Do not use SearchInput for filtering within a visible dropdown list -- use Combobox instead.
+- Do not use SearchInput for general text entry -- use TextInput instead.
+- Do not use SearchInput when an explicit search button is needed alongside the input -- use TextInputWithSearch instead.
 
 ## Headless
 

@@ -25,13 +25,19 @@ This component is useful in form contexts where the native input semantics are p
 
 ## Usage
 
-```html
-<ButtonInput value="Click me" onclick={handleClick} />
-```
+Action button with a descriptive label:
 
 ```html
-<ButtonInput value="Submit" disabled />
+<ButtonInput value="Calculate total" onclick={handleCalculate} />
 ```
+
+Disabled button with conditional state:
+
+```html
+<ButtonInput value="Reset filters" onclick={handleReset} disabled={!hasFilters} />
+```
+
+Named button with accessible label override:
 
 ```html
 <ButtonInput value="Save" name="action" label="Save changes" />
@@ -51,10 +57,15 @@ This component is useful in form contexts where the native input semantics are p
 
 ## When to Use
 
-- Use when you need a form-native `<input type="button">` element with plain text labels in contexts that expect `<input>` elements.
-- Use when the button label is simple text with no need for rich content (icons, formatted text).
-- Avoid when you need rich content inside the button -- use Button instead, which supports children slots.
-- Consider SubmitInput or ResetInput for form submission or reset actions.
+- Use when you need a form-native `<input type="button">` element for plain text button labels.
+- Use in contexts where form semantics require an input element rather than a button element.
+- Use when no rich content (icons, formatted text) is needed inside the button.
+
+## When Not to Use
+
+- Do not use when you need icons, images, or formatted content inside the button -- use Button instead, which supports child elements.
+- Do not use for navigation -- use ActionLink or BackLink.
+- Do not use for form submission -- use SubmitInput or `<Button type="submit">`.
 
 ## Headless
 

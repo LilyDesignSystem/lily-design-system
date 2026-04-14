@@ -26,9 +26,11 @@ A breadcrumb link is a navigational anchor element representing one step in a br
       <BreadcrumbLink href="/">Home</BreadcrumbLink>
     </BreadcrumbListItem>
     <BreadcrumbListItem>
-      <BreadcrumbLink href="/products">Products</BreadcrumbLink>
+      <BreadcrumbLink href="/health-a-z">Health A to Z</BreadcrumbLink>
     </BreadcrumbListItem>
-    <BreadcrumbListItem current>Widget</BreadcrumbListItem>
+    <BreadcrumbListItem aria-current="page">
+      Diabetes
+    </BreadcrumbListItem>
   </BreadcrumbList>
 </BreadcrumbNav>
 ```
@@ -45,9 +47,13 @@ A breadcrumb link is a navigational anchor element representing one step in a br
 
 ## When to Use
 
-- Use inside a BreadcrumbListItem to provide a navigable link to an ancestor page in the breadcrumb trail.
-- Use when you want a semantic, accessible breadcrumb link with consistent styling hooks.
-- Avoid for the current page item in the trail -- use plain text with the `current` prop on BreadcrumbListItem instead.
+- Use inside BreadcrumbListItem to create a clickable link to an ancestor page
+- Use to provide navigation to parent or grandparent pages in the site hierarchy
+
+## When Not to Use
+
+- Do not use for the current page -- the current page should not be a link in the breadcrumb trail
+- Do not use outside of BreadcrumbListItem -- use ActionLink or a standard anchor for standalone links
 
 ## Headless
 
@@ -84,7 +90,12 @@ BreadcrumbLink follows the Nav / List / ListItem composition pattern:
     <BreadcrumbListItem>
       <BreadcrumbLink href="/">Home</BreadcrumbLink>
     </BreadcrumbListItem>
-    <BreadcrumbListItem current>About</BreadcrumbListItem>
+    <BreadcrumbListItem>
+      <BreadcrumbLink href="/health-a-z">Health A to Z</BreadcrumbLink>
+    </BreadcrumbListItem>
+    <BreadcrumbListItem aria-current="page">
+      Diabetes
+    </BreadcrumbListItem>
   </BreadcrumbList>
 </BreadcrumbNav>
 ```

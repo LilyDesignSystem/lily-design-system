@@ -21,8 +21,16 @@ An email input wraps a native `<input type="email">` with accessible labeling. A
 
 ## Usage
 
+Contact form email field:
+
 ```html
-<EmailInput label="Your email" value={value} />
+<EmailInput label="Email address" value={email} required />
+```
+
+Registration form with disabled state during submission:
+
+```html
+<EmailInput label="Work email" value={workEmail} required disabled={isSubmitting} />
 ```
 
 ## Keyboard Interactions
@@ -35,10 +43,16 @@ None -- keyboard behavior is provided by the browser-native email input.
 
 ## When to Use
 
-- Use when collecting an email address in a form with a minimal, straightforward API.
+- Use for entering an email address with the correct mobile keyboard and browser validation.
+- Use with `autocomplete="email"` for faster form completion.
 - Use when browser-native email validation is sufficient for your needs.
-- Avoid when you need placeholder text or autocomplete support; consider a more feature-rich email input variant.
-- Consider EmailLink for displaying an email address as a clickable mailto link.
+- Use in contact forms, registration flows, and profile editors.
+
+## When Not to Use
+
+- Do not use for general text input -- use TextInput instead.
+- Do not use for displaying an email as a clickable link -- use EmailLink instead.
+- Do not use when you need placeholder text or autocomplete support; consider a more feature-rich email input variant.
 
 ## Headless
 

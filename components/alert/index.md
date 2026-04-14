@@ -34,26 +34,34 @@ emphasis without assuming a heading level.
 
 ## Usage
 
+Session expiry warning:
+
 ```html
-<Alert>Something happened.</Alert>
+<Alert type="warning" heading="Session expiring">
+  Your session will expire in 5 minutes. Save your work to avoid losing changes.
+</Alert>
 ```
 
-With heading and error type:
+Form submission confirmation:
 
 ```html
-<Alert type="error" heading="Error">Something went wrong. Please try again.</Alert>
+<Alert type="success" heading="Appointment confirmed">
+  Your appointment for 14 March 2026 at 10:00 has been booked successfully.
+</Alert>
 ```
 
-Success notification:
+Error feedback after a failed action:
 
 ```html
-<Alert type="success" heading="Saved">Your changes have been saved successfully.</Alert>
+<Alert type="error" heading="Payment failed">
+  We could not process your payment. Check your card details and try again.
+</Alert>
 ```
 
-Polite status message using role="status":
+Polite status update using `role="status"`:
 
 ```html
-<Alert role="status">Loading complete.</Alert>
+<Alert role="status">3 of 12 records loaded.</Alert>
 ```
 
 ## Keyboard Interactions
@@ -68,10 +76,18 @@ Polite status message using role="status":
 
 ## When to Use
 
-- Use for displaying important feedback messages such as form validation errors, success confirmations, warnings, or system status updates.
-- Use when the message should be announced immediately to screen reader users via a live region.
-- Avoid for persistent page-level announcements -- use Banner instead.
-- Consider AlertDialog instead when the message requires user acknowledgment before continuing.
+- Use for important status messages that need to be announced to screen readers via `role="alert"`, such as form submission confirmations or system status changes.
+- Use for time-sensitive information such as session expiry warnings or connectivity status updates.
+- Use when the message does not require user interaction -- it is informational only and dismisses itself or persists passively.
+- Use `role="status"` with `aria-live="polite"` for lower-priority updates that should not interrupt the user's current task.
+- Use the `type` prop to communicate severity (info, success, warning, error) through `data-type` for consumer styling.
+
+## When Not to Use
+
+- Do not use for messages requiring user acknowledgment before continuing -- use AlertDialog instead.
+- Do not use for page-level service announcements or banners that span the full width -- use Banner instead.
+- Do not use for inline form field validation errors -- use ErrorMessage and ErrorSummary instead.
+- Do not use for persistent warnings within content pages -- use WarningCallout instead.
 
 ## Headless
 

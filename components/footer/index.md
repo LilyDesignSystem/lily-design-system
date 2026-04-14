@@ -18,17 +18,17 @@ The component uses the native `<footer>` element, which is automatically recogni
 ## Usage
 
 ```html
-<Footer label="Site footer">
-  <p>Copyright 2024</p>
-</Footer>
-```
-
-```html
 <Footer>
-  <nav aria-label="Footer navigation">
-    <a href="/privacy">Privacy</a>
-    <a href="/terms">Terms</a>
+  <nav aria-label="Support links">
+    <ul>
+      <li><a href="/accessibility">Accessibility statement</a></li>
+      <li><a href="/contact">Contact us</a></li>
+      <li><a href="/cookies">Cookies</a></li>
+      <li><a href="/privacy">Privacy policy</a></li>
+      <li><a href="/terms">Terms and conditions</a></li>
+    </ul>
   </nav>
+  <p>&copy; NHS England</p>
 </Footer>
 ```
 
@@ -43,9 +43,16 @@ None -- this component is a passive container. Keyboard interactions are determi
 
 ## When to Use
 
-- Use at the bottom of a page or section for secondary navigation, legal information, copyright, or contact details.
-- Use when the page needs a `contentinfo` landmark for assistive technology navigation.
-- Avoid nesting a footer directly inside another footer; use `aria-label` to distinguish section footers from the page footer.
+- Use at the bottom of every page of your website or service to provide essential meta-navigation.
+- Use to include links to: accessibility statement, contact details, cookies policy, privacy policy, and terms and conditions.
+- Use to display copyright or organisational information.
+- Use with a consistent set of links across all pages so users always know where to find help.
+
+## When Not to Use
+
+- Do not use within a mobile app -- use the app's native navigation patterns instead.
+- Do not use for primary navigation -- use Header or NavigationMenu for main site navigation.
+- Do not use for page-specific actions -- Footer is for site-wide meta links only.
 
 ## Headless
 

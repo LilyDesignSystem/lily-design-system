@@ -24,12 +24,38 @@ Red indicates a critical problem needing immediate attention, amber signals caut
 
 ## Usage
 
+Basic RAG picker with one button selected:
+
 ```html
 <RedAmberGreenPicker label="Project status">
-    <RedAmberGreenPickerButton value="red" label="Red - Critical" onclick={handleClick} />
-    <RedAmberGreenPickerButton value="amber" label="Amber - Caution" selected onclick={handleClick} />
-    <RedAmberGreenPickerButton value="green" label="Green - On track" onclick={handleClick} />
+  <RedAmberGreenPickerButton value="red" label="Red - Critical" onclick={handleSelect} />
+  <RedAmberGreenPickerButton value="amber" label="Amber - Caution" selected onclick={handleSelect} />
+  <RedAmberGreenPickerButton value="green" label="Green - On track" onclick={handleSelect} />
 </RedAmberGreenPicker>
+```
+
+With custom data attributes for CSS targeting:
+
+```html
+<RedAmberGreenPickerButton
+  value="red"
+  label="Red - Immediate action required"
+  selected
+  data-severity="high"
+  onclick={handleSelect}
+/>
+```
+
+Inside a form field for risk assessment:
+
+```html
+<Field label="Delivery risk" required>
+  <RedAmberGreenPicker label="Delivery risk level">
+    <RedAmberGreenPickerButton value="red" label="Red - Blocked" onclick={handleSelect} />
+    <RedAmberGreenPickerButton value="amber" label="Amber - At risk" onclick={handleSelect} />
+    <RedAmberGreenPickerButton value="green" label="Green - On track" selected onclick={handleSelect} />
+  </RedAmberGreenPicker>
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -45,9 +71,15 @@ Red indicates a critical problem needing immediate attention, amber signals caut
 
 ## When to Use
 
-- Use RedAmberGreenPickerButton inside a RedAmberGreenPicker to represent one traffic-light status option (red, amber, or green).
-- Use RedAmberGreenPickerButton when you need a button-based RAG picker instead of a select dropdown.
-- Avoid using RedAmberGreenPickerButton outside of a RedAmberGreenPicker container.
+- Use inside a RedAmberGreenPicker to represent one selectable traffic-light status option.
+- Use when you need a button-based RAG picker instead of a select dropdown.
+- Use to provide a visually distinct, individually styled button for each RAG level.
+
+## When Not to Use
+
+- Do not use outside of a RedAmberGreenPicker container -- the button relies on the picker for grouping and context.
+- Do not use for standalone toggle actions -- use [ToggleButton](../toggle-button/) instead.
+- Do not use for standalone option selection -- use [RadioInput](../radio-input/) instead.
 
 ## Headless
 

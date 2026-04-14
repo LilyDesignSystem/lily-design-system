@@ -24,12 +24,22 @@ Range inputs are commonly used for volume controls, brightness settings, price f
 
 ## Usage
 
-```html
-<RangeInput label="Volume" value={value} min={0} max={100} />
-```
+Volume control:
 
 ```html
-<RangeInput label="Price range" value={price} min={10} max={500} step={10} />
+<RangeInput label="Volume" value={volume} min={0} max={100} />
+```
+
+Price filter with step increments:
+
+```html
+<RangeInput label="Maximum price" value={maxPrice} min={10} max={500} step={10} />
+```
+
+Satisfaction rating from 1 to 10:
+
+```html
+<RangeInput label="Satisfaction" value={satisfaction} min={1} max={10} step={1} />
 ```
 
 ## Keyboard Interactions
@@ -49,10 +59,16 @@ Note: keyboard interactions are provided natively by the `<input type="range">` 
 
 ## When to Use
 
-- Use RangeInput for selecting a value from a continuous numeric spectrum, such as volume, brightness, price filters, or zoom levels.
-- Use RangeInput when an approximate value selection is acceptable and the full range should be visually represented.
-- Avoid using RangeInput when an exact value is needed; use NumberInput instead.
-- Consider using two RangeInputs or a dedicated range slider for selecting a min/max range.
+- Use for selecting a value within a defined range using a native HTML range slider.
+- Use for approximate value selection like satisfaction ratings, volume, brightness, or price filters.
+- Use when the full range should be visually represented and an approximate value is acceptable.
+- Use for zoom levels, opacity controls, or any bounded numeric spectrum.
+
+## When Not to Use
+
+- Do not use when exact numbers matter -- use NumberInput instead.
+- Do not use for angle selection in degrees -- use AngleSliderRangeInput instead.
+- Do not use for a custom slider with non-native styling needs -- use Slider instead.
 
 ## Headless
 

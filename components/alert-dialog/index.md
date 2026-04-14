@@ -33,26 +33,39 @@ critical error messages that require acknowledgment.
 
 ## Usage
 
-Basic confirmation dialog:
+Destructive action confirmation:
 
 ```html
-<button onclick={() => showDialog = true}>Delete item</button>
+<button onclick={() => showDialog = true}>Remove patient record</button>
 
 <AlertDialog
   open={showDialog}
-  title="Confirm Deletion"
-  description="Are you sure you want to delete this item? This action cannot be undone."
+  title="Remove patient record"
+  description="This will permanently delete the patient record and all associated notes. This action cannot be undone."
 >
-  <button onclick={handleConfirm}>Yes, delete</button>
+  <button onclick={handleConfirm}>Yes, remove record</button>
   <button onclick={handleCancel}>Cancel</button>
 </AlertDialog>
 ```
 
-Simple acknowledgment dialog without description:
+Unsaved changes warning:
 
 ```html
-<AlertDialog open={showAlert} title="Session Expired">
-  <button onclick={() => showAlert = false}>OK</button>
+<AlertDialog
+  open={showUnsaved}
+  title="Unsaved changes"
+  description="You have unsaved changes that will be lost if you leave this page."
+>
+  <button onclick={handleDiscard}>Discard changes</button>
+  <button onclick={handleStay}>Stay on page</button>
+</AlertDialog>
+```
+
+Simple acknowledgment without description:
+
+```html
+<AlertDialog open={showExpired} title="Session expired">
+  <button onclick={() => showExpired = false}>OK</button>
 </AlertDialog>
 ```
 
@@ -70,10 +83,16 @@ Simple acknowledgment dialog without description:
 
 ## When to Use
 
-- Use for critical confirmations that require user acknowledgment, such as confirming a destructive action ("Delete this item?"), warning about unsaved changes, or displaying errors that block further interaction.
-- Use when the dialog content demands immediate attention and must be addressed before the user can continue.
-- Avoid for non-urgent informational messages -- use Alert or Dialog instead.
-- Consider Dialog instead when the content is interactive but does not require urgent acknowledgment.
+- Use for urgent messages that require user acknowledgment before they can continue, such as "Are you sure you want to delete this record?"
+- Use for destructive action confirmations where the consequence is irreversible or significant.
+- Use when the dialog must trap focus and block interaction with the rest of the page until the user responds.
+- Use when the ARIA `alertdialog` role is needed to signal critical content to assistive technologies.
+
+## When Not to Use
+
+- Do not use for informational messages that do not need acknowledgment -- use Alert or Banner instead.
+- Do not use for complex forms or multi-step workflows -- use Dialog instead.
+- Do not use for non-modal overlays or contextual content -- use Popover or HoverCard instead.
 
 ## Headless
 

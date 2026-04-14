@@ -24,16 +24,22 @@ This component is useful for scheduling interfaces, event creation forms, appoin
 
 ## Usage
 
-```html
-<DatetimeLocalInput label="Event start" value={value} />
-```
+Scheduling an event with constrained date-time range:
 
 ```html
-<DatetimeLocalInput label="Appointment" value={value} min="2024-01-01T08:00" max="2024-12-31T18:00" />
+<DatetimeLocalInput label="Meeting start" value={meetingStart} min="2026-01-01T08:00" max="2026-12-31T18:00" required />
 ```
 
+Booking an appointment:
+
 ```html
-<DatetimeLocalInput label="Departure time" value={value} required disabled={isLocked} />
+<DatetimeLocalInput label="Appointment date and time" value={appointmentDatetime} required />
+```
+
+Read-only locked departure time:
+
+```html
+<DatetimeLocalInput label="Departure" value={departure} disabled={true} />
 ```
 
 ## Keyboard Interactions
@@ -48,10 +54,17 @@ This component is useful for scheduling interfaces, event creation forms, appoin
 
 ## When to Use
 
-- Use when both a date and a time must be captured in a single field, such as scheduling events, booking appointments, or setting deadlines.
+- Use for entering a combined date and time without timezone in a single field.
+- Use when the browser's native datetime-local picker is appropriate.
+- Use for scheduling events, booking appointments, or setting deadlines.
 - Use when the time zone is not relevant or is handled separately.
-- Avoid when only a date is needed; use DateInput instead.
-- Consider separate DateInput and TimeInput components when the date and time should be independently editable.
+
+## When Not to Use
+
+- Do not use when you need a "Now" shortcut button -- use DateTimeNowInput instead.
+- Do not use when day, month, and year need separate fields -- use DateField instead.
+- Do not use when only a date is needed -- use DateInput instead.
+- Do not use when only a time is needed -- use TimeInput instead.
 
 ## Headless
 

@@ -20,16 +20,24 @@ Use AiLabel wherever AI is generating, modifying, or enhancing content to reinfo
 
 ## Usage
 
+Inline AI indicator within text:
+
 ```html
-<AiLabel />
+<p>This summary was created by <AiLabel /> based on your uploaded documents.</p>
 ```
+
+Custom label with explainability context:
 
 ```html
 <AiLabel text="AI generated" label="AI generated content" />
 ```
 
+Wrapped in a button as an explainability trigger:
+
 ```html
-<p>This summary was created by <AiLabel /> based on your documents.</p>
+<button onclick={showExplainability}>
+  <AiLabel text="AI assisted" label="AI assisted diagnosis -- click for details" />
+</button>
 ```
 
 ## Keyboard Interactions
@@ -42,10 +50,17 @@ None at the component level. When used as an explainability trigger, the consume
 
 ## When to Use
 
-- Use AiLabel to indicate content that has been generated, modified, or enhanced by AI.
-- Use AiLabel as the first layer of AI explainability, providing a quick visual cue before deeper explanation.
-- Use AiLabel inline with text, inside form fields, or alongside any AI-generated output.
-- Avoid hiding AiLabel or making it conditional; always disclose AI involvement to maintain trust and transparency.
+- Use to indicate that content was generated or assisted by artificial intelligence.
+- Use as a pathway to AI explainability, linking to or triggering information about how the AI was used.
+- Use when transparency about AI involvement is required by policy, regulation, or user trust expectations.
+- Use inline with text, inside form fields, or alongside data visualisations to mark AI-generated output.
+- Use as the first layer of AI explainability -- wrap in a button and attach a Popover for deeper explanation.
+
+## When Not to Use
+
+- Do not use for general status indicators -- use Tag or Badge instead.
+- Do not use for content authored entirely by humans -- the label would be misleading.
+- Do not use without an explainability pathway -- the label alone is insufficient for meaningful transparency.
 
 ## Headless
 

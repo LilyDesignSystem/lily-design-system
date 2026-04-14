@@ -23,9 +23,22 @@ The component uses `aria-label` for accessible labeling in a headless context, a
 
 ## Usage
 
+Weight measurement in a patient record form:
+
 ```html
-<MeasurementInstanceInput label="Weight" value={value} />
-<MeasurementInstanceInput label="Temperature" value={value} required />
+<MeasurementInstanceInput label="Weight" value={weight} required />
+```
+
+Temperature measurement with disabled state:
+
+```html
+<MeasurementInstanceInput label="Body temperature" value={temperature} disabled={isReadOnly} />
+```
+
+Dosage entry in a pharmacy application:
+
+```html
+<MeasurementInstanceInput label="Dosage" value={dosage} />
 ```
 
 ## Keyboard Interactions
@@ -38,9 +51,15 @@ The component uses `aria-label` for accessible labeling in a headless context, a
 
 ## When to Use
 
-- Use when the user needs to enter a specific measurement value with its unit, such as "72 kg" or "98.6 F".
+- Use for entering a measurement value and unit together, such as "5 kg" or "120 cm".
 - Use in medical, scientific, or engineering forms where recording measurement instances is required.
-- Consider using MeasurementUnitInput and a NumberInput separately if the value and unit should be captured in distinct fields.
+- Use when the value and unit should be captured as a single text entry.
+
+## When Not to Use
+
+- Do not use for vital sign-specific measurements -- use the corresponding VitalSign*Input component instead.
+- Do not use for display only -- use MeasurementInstanceView instead.
+- Do not use when the value and unit should be captured in distinct fields -- use MeasurementUnitInput alongside NumberInput instead.
 
 ## Headless
 

@@ -21,16 +21,26 @@ Panels are commonly used in dashboards, settings pages, sidebars, and multi-sect
 ## Usage
 
 ```html
-<!-- Basic panel with labeled region -->
-<Panel label="Settings">
-  <p>Adjust your preferences below.</p>
+<!-- Confirmation panel on a transaction completion page -->
+<Panel label="Application complete">
+  <h1>Application complete</h1>
+  <p>We have sent you a confirmation email to sarah.mitchell@example.com</p>
+  <p>Your reference number is <strong>HDJ2123F</strong></p>
 </Panel>
 
-<!-- Multiple panels on a page -->
+<!-- Appointment confirmation panel -->
+<Panel label="Appointment booked">
+  <h1>Appointment booked</h1>
+  <p>Your appointment is on 15 March 2025 at 10:30am at City Road Medical Centre.</p>
+</Panel>
+
+<!-- Multiple panels grouping settings sections -->
 <Panel label="Account information">
+  <h2>Account information</h2>
   <p>Name, email, and profile details.</p>
 </Panel>
 <Panel label="Notification preferences">
+  <h2>Notification preferences</h2>
   <p>Choose how you want to be notified.</p>
 </Panel>
 ```
@@ -46,10 +56,17 @@ None -- this component is a passive container. Screen reader users can navigate 
 
 ## When to Use
 
-- Use Panel to group related content into a labeled section on dashboards, settings pages, or multi-section layouts.
-- Use Panel when you need screen reader users to navigate between distinct content regions via landmark navigation.
-- Avoid using Panel for purely decorative grouping; use a plain `<div>` if no landmark semantics are needed.
-- Consider Card instead when the grouped content needs a visual container with header, body, and footer areas.
+- Use on confirmation pages to tell users they have successfully completed a transaction
+- Use to display a brief confirmation heading like "Application complete" with optional supporting text such as a reference number
+- Use to group related content into a labeled section on dashboards, settings pages, or multi-section layouts
+- Use when screen reader users need to navigate between distinct content regions via landmark navigation
+
+## When Not to Use
+
+- Do not use to highlight important information within body content -- use InsetText, WarningCallout, or CareCard instead
+- Do not use for error states or validation messages -- use ErrorSummary and ErrorMessage instead
+- Do not use for notifications or status updates -- use Banner or Notification instead
+- Do not use for grouping content that needs a visual container with header, body, and footer areas -- use Card instead
 
 ## Headless
 

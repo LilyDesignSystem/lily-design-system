@@ -21,17 +21,25 @@ This component renders a semantically labeled unordered list with `role="list"` 
 ## Usage
 
 ```html
-<DontList>
-    <li>Skip alt text</li>
-    <li>Use only color for meaning</li>
+<DontList heading="Don't">
+  <DontListItem>do not burst a blister yourself</DontListItem>
+  <DontListItem>do not peel the skin off a burst blister</DontListItem>
+  <DontListItem>do not pick at the edges of the remaining skin</DontListItem>
+</DontList>
+```
+
+```html
+<DontList heading="Don't">
+  <DontListItem>do not take aspirin for children under 16</DontListItem>
+  <DontListItem>do not give more than the recommended dose</DontListItem>
 </DontList>
 ```
 
 ```html
 <DontList label="Avoid">
-    <li>Hard-code user-facing strings</li>
-    <li>Rely on placeholder text as labels</li>
-    <li>Remove focus indicators</li>
+  <DontListItem>Hard-code user-facing strings</DontListItem>
+  <DontListItem>Rely on placeholder text as labels</DontListItem>
+  <DontListItem>Remove focus indicators</DontListItem>
 </DontList>
 ```
 
@@ -46,9 +54,18 @@ None -- this component is a passive container for list items.
 
 ## When to Use
 
-- Use in design system documentation and guidelines to present discouraged actions or anti-patterns.
-- Use alongside DoList to create clear do/don't guidance patterns.
-- Avoid for general-purpose lists; use a standard `<ul>` or CheckList instead.
+- Use to give users a clear list of discouraged actions or things to avoid.
+- Use alongside DoList to present contrasting do and don't guidance on the same topic.
+- Use when there are 2 or more actions to discourage -- the list format reinforces the warning.
+- Use with text starting with "do not" to make each prohibition clear.
+- Use after any corresponding DoList -- dos come before don'ts.
+
+## When Not to Use
+
+- Do not use with only 1 item -- use WarningCallout for a single important warning or InsetText for general guidance.
+- Do not use for critical safety warnings that could impact health -- use WarningCallout or CareCard instead.
+- Do not use inside other interactive patterns like CareCard -- keep don't lists in their own section.
+- Do not use for general-purpose lists -- use a standard `<ul>` or CheckList instead.
 
 ## Headless
 

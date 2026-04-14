@@ -23,9 +23,22 @@ The component uses `aria-label` for accessible labeling in a headless context, a
 
 ## Usage
 
+Measurement system selection in a user preferences form:
+
 ```html
-<MeasurementSystemInput label="Measurement system" value={value} />
-<MeasurementSystemInput label="System" value={value} required />
+<MeasurementSystemInput label="Measurement system" value={system} />
+```
+
+Required measurement system in a clinical configuration:
+
+```html
+<MeasurementSystemInput label="System" value={system} required />
+```
+
+Disabled system input showing the current setting:
+
+```html
+<MeasurementSystemInput label="Measurement system" value="metric" disabled />
 ```
 
 ## Keyboard Interactions
@@ -38,9 +51,15 @@ The component uses `aria-label` for accessible labeling in a headless context, a
 
 ## When to Use
 
-- Use when the user needs to specify which measurement system applies, such as "metric", "imperial", or "SI".
+- Use for selecting a measurement system (metric, imperial, etc.).
 - Use in settings or configuration forms where measurement system selection affects how values are interpreted.
-- Consider using a Select or RadioGroup instead if the valid options are a fixed, known set.
+- Use when the set of valid systems may vary or is not fully known at design time.
+
+## When Not to Use
+
+- Do not use for selecting individual units -- use MeasurementUnitInput instead.
+- Do not use for display only -- use MeasurementSystemView instead.
+- Do not use when the valid options are a fixed, known set -- consider Select or RadioGroup instead.
 
 ## Headless
 

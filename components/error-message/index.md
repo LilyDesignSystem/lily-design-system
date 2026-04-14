@@ -18,13 +18,18 @@ The component renders a `<p>` element with `role="alert"`, making it an assertiv
 ## Usage
 
 ```html
-<ErrorMessage>Password is required</ErrorMessage>
+<Field label="Date of birth" error="true">
+  <Hint>For example, 15 3 1984</Hint>
+  <ErrorMessage>Enter your date of birth</ErrorMessage>
+  <DateInput label="Date of birth" aria-invalid="true" />
+</Field>
 ```
 
 ```html
-{#if error}
-  <ErrorMessage>{error}</ErrorMessage>
-{/if}
+<Field label="Email address" error="true">
+  <ErrorMessage>Enter an email address in the correct format, like name@example.com</ErrorMessage>
+  <EmailInput label="Email address" aria-invalid="true" value={email} />
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -37,10 +42,17 @@ None -- this component is a passive container for displaying error text.
 
 ## When to Use
 
-- Use to display a single validation error or system error message associated with a form field or action.
-- Use when the error needs to be announced immediately to screen readers without requiring user focus.
-- Avoid for summarizing multiple errors; use ErrorSummary instead.
-- Consider Alert for general status messages that are not field-specific errors.
+- Use when a form field has a validation error and the user needs to correct their input
+- Use to explain clearly what went wrong and how to fix it, in plain language
+- Use after the user submits the form — not while they are still typing or navigating fields
+- Use alongside ErrorSummary at the top of the page to link users to each error
+
+## When Not to Use
+
+- Do not show error messages when the user focuses a field, while they are typing, or when they leave a field — wait for form submission
+- Do not use for eligibility or permission errors — take the user to a separate page explaining why and what to do next
+- Do not use in place of Hint — preventive guidance should appear before errors occur
+- Do not clear the user's input when showing the error — preserve what they entered (WCAG 2.2)
 
 ## Headless
 

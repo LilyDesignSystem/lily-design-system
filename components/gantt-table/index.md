@@ -20,15 +20,30 @@ This headless component renders a `<table>` element with `role="grid"` and an ac
 ## Usage
 
 ```html
-<GanttChart label="Project Alpha timeline">
-    <thead>
-        <tr><th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th></tr>
-    </thead>
-    <tbody>
-        <tr><th>Design</th><td>---</td><td></td><td></td></tr>
-        <tr><th>Development</th><td></td><td>---</td><td>---</td></tr>
-    </tbody>
-</GanttChart>
+<GanttTable caption="Project timeline" label="Q1 2025 schedule">
+  <GanttTableHead>
+    <GanttTableRow>
+      <GanttTableCol scope="col">Task</GanttTableCol>
+      <GanttTableCol scope="col">Jan</GanttTableCol>
+      <GanttTableCol scope="col">Feb</GanttTableCol>
+      <GanttTableCol scope="col">Mar</GanttTableCol>
+    </GanttTableRow>
+  </GanttTableHead>
+  <GanttTableBody>
+    <GanttTableRow>
+      <GanttTableCol scope="row">Design phase</GanttTableCol>
+      <GanttTableData active>████</GanttTableData>
+      <GanttTableData active>████</GanttTableData>
+      <GanttTableData></GanttTableData>
+    </GanttTableRow>
+    <GanttTableRow>
+      <GanttTableCol scope="row">Development</GanttTableCol>
+      <GanttTableData></GanttTableData>
+      <GanttTableData active>████</GanttTableData>
+      <GanttTableData active>████</GanttTableData>
+    </GanttTableRow>
+  </GanttTableBody>
+</GanttTable>
 ```
 
 ## Keyboard Interactions
@@ -42,9 +57,18 @@ None built-in -- the consumer should implement grid keyboard navigation on cells
 
 ## When to Use
 
-- Use to visualize project schedules, task durations, and timeline dependencies in project management tools.
-- Use when users need to see task overlap, sequencing, and milestones at a glance.
-- Avoid for simple task lists without time dimensions; use DataTable or TaskList instead.
+- Use for schedule and timeline visualisation in project management tools.
+- Use when tasks need to be displayed against a time axis showing durations, overlaps, and dependencies.
+- Use when users need to see milestones and sequencing at a glance.
+- Use in resource planning applications to show allocation across time periods.
+- Use in sprint or release planning to communicate delivery timelines.
+
+## When Not to Use
+
+- Do not use for general tabular data without a time axis -- use Table or DataTable instead.
+- Do not use for status boards or workflow columns -- use KanbanTable instead.
+- Do not use for simple task lists without time dimensions -- use TaskList instead.
+- Do not use for calendar date picking -- use CalendarTable instead.
 
 ## Headless
 

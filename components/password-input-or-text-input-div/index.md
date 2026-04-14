@@ -28,7 +28,26 @@ This component is useful for login forms, registration forms, account settings, 
 ## Usage
 
 ```html
-<PasswordInputOrTextInputDiv label="Password" value="{value}" />
+<Field label="Password">
+  <PasswordInputOrTextInputDiv label="Password" value={value} />
+</Field>
+
+<Field label="Create a password">
+  <Hint>Must be at least 12 characters</Hint>
+  <PasswordInputOrTextInputDiv
+    label="Create a password"
+    toggleLabel="Show password"
+    value={value}
+  />
+</Field>
+
+<Field label="Confirm password">
+  <PasswordInputOrTextInputDiv
+    label="Confirm password"
+    toggleLabel="Show password"
+    value={confirmValue}
+  />
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -43,9 +62,16 @@ This component is useful for login forms, registration forms, account settings, 
 
 ## When to Use
 
-- Use PasswordInputOrTextInputDiv for login forms, registration flows, and account settings where users enter a password.
-- Use PasswordInputOrTextInputDiv when you want a show/hide toggle so users can verify their password entry.
-- Avoid using PasswordInputOrTextInputDiv for non-sensitive text fields; use TextInput instead.
+- Use when you need a password field with an explicit show/hide toggle button that switches the input type between password and text
+- Use when the toggle behaviour needs to be visible as a button alongside the input
+- Use for login forms, registration flows, and account settings where users benefit from verifying their password entry
+- Use when you want the consumer to have full control over the toggle button styling and positioning
+
+## When Not to Use
+
+- Do not use when a standard PasswordInput with built-in show/hide is sufficient
+- Do not use for non-password fields -- use TextInput for plain text or PinInputDiv for codes
+- Do not use for MFA codes, one-time passwords, or PINs -- use PinInputDiv instead
 
 ## Headless
 

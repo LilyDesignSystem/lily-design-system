@@ -28,11 +28,15 @@ Use this component in medical forms, health assessments, vital sign entry screen
 ## Usage
 
 ```html
-<VitalSignBloodPressureDiastolicAsMmhgInput label="Diastolic blood pressure (mmHg)" value={value} />
-```
+<!-- Basic diastolic blood pressure input -->
+<VitalSignBloodPressureDiastolicAsMmhgInput label="Diastolic blood pressure (mmHg)" value={80} />
 
-```html
-<VitalSignBloodPressureDiastolicAsMmhgInput label="Diastolic BP" value={diastolic} required />
+<!-- Paired with systolic in a blood pressure form -->
+<VitalSignBloodPressureSystolicAsMmhgInput label="Systolic blood pressure (mmHg)" value={120} />
+<VitalSignBloodPressureDiastolicAsMmhgInput label="Diastolic blood pressure (mmHg)" value={80} required />
+
+<!-- In a vital signs assessment with validation -->
+<VitalSignBloodPressureDiastolicAsMmhgInput label="Diastolic BP" value={diastolic} required disabled={isReadOnly} />
 ```
 
 ## Keyboard Interactions
@@ -46,9 +50,18 @@ Use this component in medical forms, health assessments, vital sign entry screen
 
 ## When to Use
 
-- Use for form fields that accept a diastolic blood pressure measurement in mmHg.
-- Use as the input companion to VitalSignBloodPressureDiastolicAsMmhgView.
-- Consider using NumberInput for generic numeric values that are not specifically blood pressure.
+- Use in clinical forms to record a patient's diastolic blood pressure measurement in mmHg.
+- Use paired with VitalSignBloodPressureSystolicAsMmhgInput for complete blood pressure entry.
+- Use with the default min/max/step constraints (0-200, step 1) for standard integer mmHg entry.
+- Use within vital sign entry workflows, triage forms, and patient intake assessments.
+- Use in hypertension screening and cardiovascular risk assessment forms.
+
+## When Not to Use
+
+- Do not use for displaying recorded values -- use VitalSignBloodPressureDiastolicAsMmhgView instead.
+- Do not use for general number input -- use NumberInput for non-clinical numeric values.
+- Do not use for measurements outside the vital sign domain -- use MeasurementInstanceInput for generic measurements.
+- Do not use for systolic blood pressure -- use VitalSignBloodPressureSystolicAsMmhgInput instead.
 
 ## Headless
 

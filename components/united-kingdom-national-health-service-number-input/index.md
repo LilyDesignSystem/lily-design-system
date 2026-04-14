@@ -32,25 +32,11 @@ accessible labeling for screen readers.
 ## Usage
 
 ```html
-<UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" />
-```
-
-With two-way binding:
-
-```html
-<UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" value={nhsNumber} />
-```
-
-Required field in a form:
-
-```html
-<UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" required />
-```
-
-Disabled state:
-
-```html
-<UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" disabled />
+<Field label="NHS Number" required>
+  <UnitedKingdomNationalHealthServiceNumberInput label="NHS Number" value={nhsNumber} required />
+  <Hint>Format: XXX XXX XXXX (10 digits from your NHS records)</Hint>
+  <ErrorMessage>Please enter a valid NHS number</ErrorMessage>
+</Field>
 ```
 
 ## Keyboard Interactions
@@ -66,10 +52,16 @@ Disabled state:
 
 ## When to Use
 
-- Use UnitedKingdomNationalHealthServiceNumberInput when a form requires entry of a UK NHS patient identifier in the standard XXX XXX XXXX format.
-- Use in healthcare applications, patient registration forms, or any system that processes NHS numbers.
-- Avoid using a generic text input for NHS numbers; this component provides pattern validation and numeric keyboard hints.
-- Consider UnitedKingdomNationalHealthServiceNumberView for displaying an existing NHS number in a read-only context.
+- Use in clinical or administrative forms to collect a UK NHS patient identifier in the standard XXX XXX XXXX format.
+- Use with validation for the 10-digit NHS number format.
+- Use in patient registration forms, healthcare applications, or any system that processes NHS numbers.
+- Use when pattern validation and numeric keyboard hints are needed for the NHS number format.
+
+## When Not to Use
+
+- Do not use for displaying read-only identifiers -- use UnitedKingdomNationalHealthServiceNumberView instead.
+- Do not use for general text input -- use TextInput instead.
+- Do not use for Northern Ireland H&C numbers -- use NorthernIrelandHealthAndCareNumberInput instead.
 
 ## Headless
 

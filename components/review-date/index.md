@@ -22,11 +22,21 @@ The component is commonly used in dashboards, compliance tracking, audit logs, a
 ## Usage
 
 ```html
-<ReviewDate label="Next review" datetime="2025-06-15">June 15, 2025</ReviewDate>
-```
+<!-- Display last reviewed and next review dates at the bottom of a content page -->
+<p>
+  Page last reviewed:
+  <ReviewDate label="Last reviewed" datetime="2025-03-15">15 March 2025</ReviewDate>
+</p>
+<p>
+  Next review due:
+  <ReviewDate label="Next review due" datetime="2028-03-15">15 March 2028</ReviewDate>
+</p>
 
-```html
-<ReviewDate label="Last audit" datetime={isoDate}>{formattedDate}</ReviewDate>
+<!-- Single review date in a compliance dashboard -->
+<ReviewDate label="Last audit" datetime="2025-01-08">8 January 2025</ReviewDate>
+
+<!-- Dynamic date with locale-formatted display text -->
+<ReviewDate label="Next review" datetime={isoDate}>{formattedDate}</ReviewDate>
 ```
 
 ## Keyboard Interactions
@@ -40,9 +50,16 @@ None -- this is an informational display, not interactive.
 
 ## When to Use
 
-- Use ReviewDate in compliance tracking, audit logs, and scheduling interfaces where a review or check-in date needs to be displayed with machine-readable precision.
-- Use ReviewDate when both human-readable display text and ISO 8601 machine-readable dates are needed.
-- Avoid using ReviewDate for general text display; use a plain `<time>` or `<span>` if semantic date parsing is not needed.
+- Use on content pages to reassure users that the information has been recently reviewed and is up to date
+- Use when user research shows that knowing the review date increases trust in the content
+- Use at the bottom of the page as low-priority supplementary information
+- Use to display both the last reviewed date and the next review due date
+
+## When Not to Use
+
+- Do not use on transactional pages -- review dates are not meaningful in form-based journeys
+- Do not use when only part of a page has changed -- the review date should reflect a full page review
+- Do not use for real-time or frequently changing content -- the static date pattern does not suit dynamic data
 
 ## Headless
 

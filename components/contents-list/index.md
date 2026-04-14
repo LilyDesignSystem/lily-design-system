@@ -22,11 +22,19 @@ This component is commonly used at the top of documentation pages, articles, or 
 ## Usage
 
 ```html
-<ContentsList label="Contents">
-    <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#examples">Examples</a></li>
-</ContentsList>
+<ContentsNav label="Pages in this guide">
+  <ContentsList>
+    <ContentsListItem aria-current="page">
+      What is type 2 diabetes?
+    </ContentsListItem>
+    <ContentsListItem>
+      <ContentsLink href="/conditions/type-2-diabetes/symptoms">Symptoms</ContentsLink>
+    </ContentsListItem>
+    <ContentsListItem>
+      <ContentsLink href="/conditions/type-2-diabetes/getting-diagnosed">Getting diagnosed</ContentsLink>
+    </ContentsListItem>
+  </ContentsList>
+</ContentsNav>
 ```
 
 ## Keyboard Interactions
@@ -39,9 +47,13 @@ None -- this component is a passive navigation container. Keyboard navigation is
 
 ## When to Use
 
-- Use a ContentsList at the top of long pages to provide a table of contents with ordered links to page sections.
-- Use a ContentsList on documentation pages, articles, or multi-section forms to improve navigation and content discoverability.
-- Avoid using a ContentsList on short pages with fewer than three sections; the overhead adds no value.
+- Use inside ContentsNav to provide the ordered list of related page links.
+- Use as a semantic `<ol>` to convey the sequence of pages to assistive technologies.
+
+## When Not to Use
+
+- Do not use outside of a ContentsNav container -- it requires the nav landmark for accessibility.
+- Do not use for unordered collections -- use a standard `<ul>` or CheckList instead.
 
 ## Headless
 

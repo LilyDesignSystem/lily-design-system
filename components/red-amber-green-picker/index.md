@@ -30,27 +30,39 @@ allowing consumers to apply their own visual styling.
 
 ## Usage
 
-Basic RAG status selection:
+Risk assessment in a project dashboard:
 
 ```html
-<RedAmberGreenPicker label="Project status" value={status} />
-<p>Current status: {status}</p>
+<form>
+  <fieldset>
+    <legend>Sprint 14 Status</legend>
+    <RedAmberGreenPicker label="Overall sprint health">
+      <RedAmberGreenPickerButton value="red" label="Red - Critical" onclick={handleSelect} />
+      <RedAmberGreenPickerButton value="amber" label="Amber - At risk" selected onclick={handleSelect} />
+      <RedAmberGreenPickerButton value="green" label="Green - On track" onclick={handleSelect} />
+    </RedAmberGreenPicker>
+  </fieldset>
+</form>
 ```
 
-Pre-selected value:
+Compliance tracking with pre-selected status:
 
 ```html
-<RedAmberGreenPicker label="Health check" value="green" />
+<RedAmberGreenPicker label="GDPR compliance status">
+  <RedAmberGreenPickerButton value="red" label="Red - Non-compliant" onclick={handleSelect} />
+  <RedAmberGreenPickerButton value="amber" label="Amber - Partial" onclick={handleSelect} />
+  <RedAmberGreenPickerButton value="green" label="Green - Compliant" selected onclick={handleSelect} />
+</RedAmberGreenPicker>
 ```
 
-With additional HTML attributes:
+Health dashboard with data attributes:
 
 ```html
-<RedAmberGreenPicker
-  label="Sprint status"
-  value={status}
-  data-project="alpha"
-/>
+<RedAmberGreenPicker label="Patient alert level" data-patient-id="P-1042">
+  <RedAmberGreenPickerButton value="red" label="Red - Immediate attention" onclick={handleSelect} />
+  <RedAmberGreenPickerButton value="amber" label="Amber - Monitor closely" selected onclick={handleSelect} />
+  <RedAmberGreenPickerButton value="green" label="Green - Stable" onclick={handleSelect} />
+</RedAmberGreenPicker>
 ```
 
 ## Keyboard Interactions
@@ -65,10 +77,18 @@ With additional HTML attributes:
 
 ## When to Use
 
-- Use RedAmberGreenPicker in dashboards, project trackers, and reporting tools where users need to set a traffic-light status.
-- Use RedAmberGreenPicker when a simple three-level severity or health indicator is sufficient.
-- Avoid using RedAmberGreenPicker when more granularity is needed; use RedOrangeYellowGreenBluePicker for five-level status.
-- Consider RedAmberGreenView for displaying a previously selected RAG status in read-only contexts.
+- Use for selecting a traffic-light status (red/amber/green) in risk assessments and project trackers.
+- Use in compliance tracking dashboards where items need a three-level severity rating.
+- Use in health dashboards where a simple status indicator captures the current state.
+- Use when a three-level severity or progress indicator is sufficient for the use case.
+- Use when users need to set or change a RAG status interactively.
+
+## When Not to Use
+
+- Do not use for display-only status -- use [RedAmberGreenView](../red-amber-green-view/) instead.
+- Do not use when five-level granularity is needed -- use [RedOrangeYellowGreenBluePicker](../red-orange-yellow-green-blue-picker/) instead.
+- Do not use for binary on/off states -- use [SwitchButton](../switch-button/) or [CheckboxInput](../checkbox-input/) instead.
+- Do not use for free-form status text -- use [Select](../select/) with custom options instead.
 
 ## Headless
 

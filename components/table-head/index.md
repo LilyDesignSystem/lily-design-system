@@ -39,8 +39,14 @@ No additional ARIA attributes. Header semantics are provided by the `<thead>` el
 
 ## When to Use
 
-- Use within a Table to define the header section.
-- Avoid using outside of a table context.
+- Use inside Table to wrap the header row(s) that label each column
+- Use to group `<th>` cells with `scope="col"` that define column headings
+- Use to provide a visually distinct header section that screen readers can navigate to
+
+## When Not to Use
+
+- Do not use outside of a Table -- use DataTableHead for DataTable or CalendarTableHead for CalendarTable
+- Do not use for footer summary rows -- use TableFoot instead
 
 ## Headless
 

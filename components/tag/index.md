@@ -21,15 +21,19 @@ Tags help users quickly scan and identify relevant information, and are presente
 ## Usage
 
 ```html
-<Tag label="Category">Design</Tag>
+<Tag label="Status: Completed">Completed</Tag>
 ```
 
 ```html
-<Tag label="Status">Active</Tag>
+<Tag label="Status: Overdue">Overdue</Tag>
 ```
 
 ```html
-<Tag label="Priority: High">High</Tag>
+<Tag label="Status: Active">Active</Tag>
+```
+
+```html
+<Tag label="Status: Inactive">Inactive</Tag>
 ```
 
 ## Keyboard Interactions
@@ -43,10 +47,17 @@ Tags help users quickly scan and identify relevant information, and are presente
 
 ## When to Use
 
-- Use to label, categorize, or indicate the status of content items, such as article categories, product attributes, or workflow states.
-- Use when short keyword labels help users quickly scan and identify relevant information.
-- Avoid for interactive filtering; use a ToggleButton or CheckboxInput inside a filter group instead.
-- Consider a Badge when displaying a numeric count rather than a text label.
+- Use when it is useful for users to know the status of an item, such as "Completed", "Active", or "Urgent"
+- Use when items can have more than one status and users need to distinguish between them at a glance
+- Use adjective-based labels (e.g. "Active", "Overdue") to avoid implying the tag is interactive
+- Use within task lists, tables, or summary cards to communicate progress or state
+
+## When Not to Use
+
+- Do not use as interactive elements -- tags are read-only status indicators, not buttons or links
+- Do not use when a single status is always the same for every item -- there is nothing to distinguish
+- Do not use for categorisation or filtering labels -- use Badge instead for labelling and categorising
+- Do not use too many statuses -- keep the number minimal so users can remember their meaning
 
 ## Headless
 

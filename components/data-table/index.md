@@ -20,17 +20,29 @@ The component supports two labelling strategies: a visible `<caption>` element f
 
 ## Usage
 
-```html
-<DataTable caption="User accounts">
-  <thead><tr><th scope="col">Name</th><th scope="col">Email</th></tr></thead>
-  <tbody><tr><td>Alice</td><td>alice@example.com</td></tr></tbody>
-</DataTable>
-```
+A patient appointments table with sortable columns and status tags:
 
 ```html
-<DataTable label="Sales data">
-  <thead><tr><th scope="col">Month</th><th scope="col">Revenue</th></tr></thead>
-  <tbody><tr><td>January</td><td>$10,000</td></tr></tbody>
+<DataTable caption="Patient appointments" label="Upcoming appointments">
+  <DataTableHead>
+    <DataTableRow>
+      <DataTableCol scope="col" sortable>Patient name</DataTableCol>
+      <DataTableCol scope="col" sortable>Date</DataTableCol>
+      <DataTableCol scope="col">Status</DataTableCol>
+    </DataTableRow>
+  </DataTableHead>
+  <DataTableBody>
+    <DataTableRow>
+      <DataTableData>Karen Francis</DataTableData>
+      <DataTableData>15 March 2025</DataTableData>
+      <DataTableData><Tag variant="success">Confirmed</Tag></DataTableData>
+    </DataTableRow>
+    <DataTableRow>
+      <DataTableData>James Lee</DataTableData>
+      <DataTableData>22 March 2025</DataTableData>
+      <DataTableData><Tag variant="warning">Pending</Tag></DataTableData>
+    </DataTableRow>
+  </DataTableBody>
 </DataTable>
 ```
 
@@ -45,9 +57,17 @@ None -- this component is a passive container. Navigation within the table follo
 
 ## When to Use
 
-- Use a DataTable to display structured tabular data that users need to scan, compare, or analyze, such as user lists, financial reports, or inventory records.
-- Use a DataTable when data has clear column headers and row relationships that benefit from a grid format.
-- Avoid using a DataTable for layout purposes; use CSS grid or flexbox instead. Consider a card-based layout for small datasets on mobile.
+- Use for interactive tabular data that supports sorting, filtering, or pagination.
+- Use when users need to work with large datasets, such as patient lists, appointment schedules, or test results.
+- Use when data has clear column headers and row relationships that benefit from a grid format.
+- Use with DataFilterForm to provide client-side or AJAX-based filtering of the dataset.
+
+## When Not to Use
+
+- Do not use for simple static content -- use Table instead.
+- Do not use for scheduling visualisation -- use GanttTable.
+- Do not use for status boards -- use KanbanTable.
+- Do not use for layout purposes -- use CSS grid or flexbox instead.
 
 ## Headless
 

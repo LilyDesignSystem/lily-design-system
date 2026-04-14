@@ -20,12 +20,21 @@ The component renders a `<tbody>` element and passes through its children, which
 ## Usage
 
 ```html
-<GanttTable label="Project Alpha timeline">
+<GanttTable label="Q1 2025 schedule">
   <GanttTableHead>...</GanttTableHead>
   <GanttTableBody>
-    <tr><th>Design</th><td>---</td><td></td><td></td><td></td></tr>
-    <tr><th>Development</th><td></td><td>---</td><td>---</td><td></td></tr>
-    <tr><th>Testing</th><td></td><td></td><td></td><td>---</td></tr>
+    <GanttTableRow>
+      <GanttTableCol scope="row">Design phase</GanttTableCol>
+      <GanttTableData active>████</GanttTableData>
+      <GanttTableData active>████</GanttTableData>
+      <GanttTableData></GanttTableData>
+    </GanttTableRow>
+    <GanttTableRow>
+      <GanttTableCol scope="row">Development</GanttTableCol>
+      <GanttTableData></GanttTableData>
+      <GanttTableData active>████</GanttTableData>
+      <GanttTableData active>████</GanttTableData>
+    </GanttTableRow>
   </GanttTableBody>
 </GanttTable>
 ```
@@ -40,8 +49,14 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 ## When to Use
 
-- Use as the main content section of a GanttTable to contain task rows and their timeline data.
-- Avoid using outside of a GanttTable structure; this component depends on the parent table grid context.
+- Use inside GanttTable to provide the `<tbody>` body section containing task rows.
+- Use to group all task rows and their timeline data cells.
+- Use when the Gantt chart has one or more tasks to display against a time axis.
+
+## When Not to Use
+
+- Do not use outside of a GanttTable structure -- use TableBody or DataTableBody for general tables.
+- Do not use for header or footer rows -- use GanttTableHead or GanttTableFoot instead.
 
 ## Headless
 

@@ -23,12 +23,22 @@ Week inputs are useful for scheduling applications, time tracking systems, repor
 
 ## Usage
 
-```html
-<WeekInput label="Select week" value={value} />
-```
+Sprint planning week selection:
 
 ```html
-<WeekInput label="Report week" value={selectedWeek} required />
+<WeekInput label="Sprint week" value={sprintWeek} required />
+```
+
+Payroll period with constrained range:
+
+```html
+<WeekInput label="Payroll week" value={payrollWeek} min="2026-W01" max="2026-W52" required />
+```
+
+Weekly report filter:
+
+```html
+<WeekInput label="Report week" value={reportWeek} />
 ```
 
 ## Keyboard Interactions
@@ -47,10 +57,15 @@ Note: keyboard interactions depend on the browser's native week picker implement
 
 ## When to Use
 
-- Use WeekInput when users need to select a specific week of the year, such as for scheduling, time tracking, or weekly reporting.
+- Use for selecting a specific week and year, such as weekly schedules or reporting.
 - Use when data is organized by week rather than by specific date.
-- Avoid using WeekInput when users need to select a specific date; use DateInput instead.
-- Consider a custom week picker if consistent cross-browser behavior is required, since native `<input type="week">` support varies.
+- Use for time tracking, sprint planning, or payroll period selection.
+
+## When Not to Use
+
+- Do not use when a full date is needed -- use DateInput instead.
+- Do not use when a month is needed -- use MonthInput instead.
+- Do not use when consistent cross-browser behavior is critical without a fallback, since native `<input type="week">` support varies.
 
 ## Headless
 

@@ -29,32 +29,23 @@ Menu items should be placed within a container with `role="menu"` or
 
 ## Usage
 
-```html
-<div role="menu">
-  <MenuItem>New File</MenuItem>
-  <MenuItem>Open File</MenuItem>
-  <MenuItem>Save</MenuItem>
-  <MenuItem>Exit</MenuItem>
-</div>
-```
-
-With click handlers:
+Menu items inside a Menu component with click handlers:
 
 ```html
-<div role="menu">
-  <MenuItem onclick={() => handleNew()}>New File</MenuItem>
-  <MenuItem onclick={() => handleOpen()}>Open File</MenuItem>
-  <MenuItem onclick={() => handleSave()}>Save</MenuItem>
-</div>
+<Menu label="File">
+    <MenuItem onclick={() => handleNew()}>New File</MenuItem>
+    <MenuItem onclick={() => handleOpen()}>Open File</MenuItem>
+    <MenuItem onclick={() => handleSave()}>Save</MenuItem>
+</Menu>
 ```
 
-Disabled menu item:
+Disabled menu item for an unavailable action:
 
 ```html
 <MenuItem aria-disabled="true">Paste</MenuItem>
 ```
 
-Submenu trigger:
+Submenu trigger with expansion state:
 
 ```html
 <MenuItem aria-haspopup="true" aria-expanded={submenuOpen}>Recent Files</MenuItem>
@@ -76,9 +67,15 @@ Submenu trigger:
 
 ## When to Use
 
-- Use as an individual action or option within a Menu or ContextMenu.
+- Use inside Menu to represent one actionable item.
 - Use when each item needs `role="menuitem"` semantics with roving tabindex focus management from the parent menu.
-- Avoid using MenuItem outside of a `role="menu"` or `role="menubar"` container; it relies on the parent for keyboard navigation.
+- Use for actions like Cut, Copy, Paste, Delete, or custom operations.
+
+## When Not to Use
+
+- Do not use outside Menu -- it relies on the parent for keyboard navigation.
+- Do not use for navigation links -- use links within NavigationMenu instead.
+- Do not use for context menu actions -- use ContextMenuItem instead.
 
 ## Headless
 

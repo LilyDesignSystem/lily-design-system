@@ -22,12 +22,22 @@ The consumer can override the accepted file types, control required/disabled sta
 
 ## Usage
 
-```html
-<ImageFileInput label="Upload profile photo" />
-```
+Profile photo upload:
 
 ```html
-<ImageFileInput label="Upload document scan" accept="image/png, image/jpeg" required />
+<ImageFileInput label="Upload profile photo" accept="image/png, image/jpeg" required />
+```
+
+Medical image attachment:
+
+```html
+<ImageFileInput label="Upload scan image" accept="image/png, image/jpeg, image/dicom" />
+```
+
+ID document scan:
+
+```html
+<ImageFileInput label="Upload ID photo" accept="image/png, image/jpeg" required />
 ```
 
 ## Keyboard Interactions
@@ -40,9 +50,15 @@ None -- this component uses the native `<input type="file">` element, which prov
 
 ## When to Use
 
-- Use for profile photo uploads, gallery image selection, document scanning, or any form requiring image file input.
+- Use for selecting image files with a preview before upload.
+- Use for profile photos, document scans, or medical images.
 - Use when you want to pre-filter the file picker to image files only via `accept="image/*"`.
-- Avoid when users need to upload non-image files; use FileInput instead.
+
+## When Not to Use
+
+- Do not use for non-image files -- use FileUpload or FileInput instead.
+- Do not use without needing an image-specific file picker -- use FileInput instead.
+- Do not use when drag-and-drop is needed -- use FileUpload instead.
 
 ## Headless
 

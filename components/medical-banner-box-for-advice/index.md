@@ -21,9 +21,22 @@ This component is useful in clinical interfaces, electronic health records, and 
 ## Usage
 
 ```html
-<MedicalBannerBoxForAdvice label="Care team contacts">
-  <p>Dr. Smith - GP</p>
-  <p>Nurse Jones - District Nurse</p>
+<MedicalBanner label="Patient summary">
+  <MedicalBannerBox>
+    <strong>Sarah Mitchell</strong> | NHS: 485 777 3456
+  </MedicalBannerBox>
+  <MedicalBannerBoxForAdvice label="Care team contacts">
+    <p>GP: Dr James Lee</p>
+    <p>District Nurse: Nurse Jones</p>
+    <p>Next appointment: 22 April 2025</p>
+  </MedicalBannerBoxForAdvice>
+</MedicalBanner>
+```
+
+```html
+<MedicalBannerBoxForAdvice label="Discharge plan">
+  <p>Target discharge: 15 April 2025</p>
+  <p>Follow-up: Outpatient cardiology in 2 weeks</p>
 </MedicalBannerBoxForAdvice>
 ```
 
@@ -38,8 +51,16 @@ This component is useful in clinical interfaces, electronic health records, and 
 
 ## When to Use
 
-- Use for advice-level medical record information such as contacts, care plans, context notes, and routine clinical data.
-- Avoid for danger-level information such as allergies and warnings; use MedicalBannerBoxForDanger instead.
+- Use inside MedicalBanner for advice-level information such as care contacts, clinical context, and care plans
+- Use to display the patient's GP, key worker, next appointment, or care pathway
+- Use when clinicians need quick reference to routine supporting information alongside the patient banner
+- Use for displaying treatment goals, discharge plans, or referral information
+
+## When Not to Use
+
+- Do not use for danger-level information such as allergies or adverse reactions -- use MedicalBannerBoxForDanger
+- Do not use outside MedicalBanner -- it relies on the parent for landmark and live region semantics
+- Do not use for system-level alerts or warnings -- use Alert or WarningCallout
 
 ## Headless
 

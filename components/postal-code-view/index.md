@@ -19,16 +19,41 @@ This component pairs with PostalCodeInput to form an Input/View pattern: PostalC
 
 ## Usage
 
+US ZIP code display:
+
 ```html
 <PostalCodeView text="90210" />
 ```
+
+UK postcode display:
 
 ```html
 <PostalCodeView text="SW1A 1AA" />
 ```
 
+Postal code inline in an address summary:
+
 ```html
 <p>Your postal code: <PostalCodeView text={postalCode} /></p>
+```
+
+Address confirmation with postal code view:
+
+```html
+<SummaryList>
+  <SummaryListItem>
+    <dt>Street</dt>
+    <dd>10 Downing Street</dd>
+  </SummaryListItem>
+  <SummaryListItem>
+    <dt>City</dt>
+    <dd>London</dd>
+  </SummaryListItem>
+  <SummaryListItem>
+    <dt>Postcode</dt>
+    <dd><PostalCodeView text="SW1A 2AA" /></dd>
+  </SummaryListItem>
+</SummaryList>
 ```
 
 ## Keyboard Interactions
@@ -41,9 +66,14 @@ No ARIA attributes are needed. The `<span>` renders inline text content that is 
 
 ## When to Use
 
-- Use PostalCodeView to display a postal or ZIP code in read-only contexts such as address summaries, confirmation pages, and shipping details.
-- Use PostalCodeView when the postal code should be visible but not editable.
-- Avoid using PostalCodeView when the user needs to edit the value; use PostalCodeInput instead.
+- Use to display a postal or ZIP code in read-only contexts such as address summaries, confirmation pages, and shipping details.
+- Use when the postal code should be visible but not editable.
+- Use in order confirmations, delivery tracking pages, or patient address displays.
+
+## When Not to Use
+
+- Do not use when the user needs to edit the postal code -- use PostalCodeInput instead.
+- Do not use for general text display -- use a plain `<span>` element instead.
 
 ## Headless
 

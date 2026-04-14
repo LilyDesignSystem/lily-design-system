@@ -23,12 +23,22 @@ The component supports two-way data binding through a bindable `value` prop, all
 
 ## Usage
 
-```html
-<TelInput label="Phone number" value={value} />
-```
+Contact form phone number:
 
 ```html
-<TelInput label="Mobile" value={value} required />
+<TelInput label="Phone number" value={phone} required placeholder="+1-555-0100" />
+```
+
+Emergency contact with pattern validation:
+
+```html
+<TelInput label="Emergency contact number" value={emergencyPhone} required pattern="[+][0-9\-]+" />
+```
+
+Optional mobile number:
+
+```html
+<TelInput label="Mobile number" value={mobile} />
 ```
 
 ## Keyboard Interactions
@@ -42,10 +52,16 @@ The component supports two-way data binding through a bindable `value` prop, all
 
 ## When to Use
 
-- Use in forms where users need to enter a telephone number, such as contact forms, registration flows, or profile editors.
+- Use for entering a telephone number with the correct mobile keyboard.
+- Use with appropriate autocomplete attributes for faster form completion.
+- Use in contact forms, registration flows, and profile editors.
 - Use when browser autofill for phone numbers (`autocomplete="tel"`) is beneficial.
-- Avoid when you need formatted phone display; use TelLink for read-only phone number presentation.
-- Consider pairing with a country code selector for international phone number entry.
+
+## When Not to Use
+
+- Do not use for general numeric input -- use NumberInput instead.
+- Do not use for displaying a phone number as a clickable link -- use TelLink instead.
+- Do not use when you need formatted phone display without an input field.
 
 ## Headless
 

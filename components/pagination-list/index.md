@@ -21,21 +21,28 @@ This component is commonly used in search results, product listings, and data ta
 
 ## Usage
 
-```html
-<PaginationList label="Pagination">
-  <li><a href="/page/1">1</a></li>
-  <li><a href="/page/2" aria-current="page">2</a></li>
-  <li><a href="/page/3">3</a></li>
-</PaginationList>
+Numbered pagination list with previous/next controls for search results:
 
-<!-- With previous/next controls -->
-<PaginationList label="Search results pages">
-  <li><a href="/page/1">Previous</a></li>
-  <li><a href="/page/1">1</a></li>
-  <li><a href="/page/2" aria-current="page">2</a></li>
-  <li><a href="/page/3">3</a></li>
-  <li><a href="/page/3">Next</a></li>
-</PaginationList>
+```html
+<PaginationNav label="Search results pages">
+  <PaginationList>
+    <PaginationListItem>
+      <PaginationLink href="/results?page=1" rel="prev">Previous</PaginationLink>
+    </PaginationListItem>
+    <PaginationListItem>
+      <PaginationLink href="/results?page=1" label="Page 1">1</PaginationLink>
+    </PaginationListItem>
+    <PaginationListItem>
+      <PaginationLink href="/results?page=2" label="Page 2" aria-current="page">2</PaginationLink>
+    </PaginationListItem>
+    <PaginationListItem>
+      <PaginationLink href="/results?page=3" label="Page 3">3</PaginationLink>
+    </PaginationListItem>
+    <PaginationListItem>
+      <PaginationLink href="/results?page=3" rel="next">Next</PaginationLink>
+    </PaginationListItem>
+  </PaginationList>
+</PaginationNav>
 ```
 
 ## Keyboard Interactions
@@ -50,9 +57,14 @@ This component is commonly used in search results, product listings, and data ta
 
 ## When to Use
 
-- Use to provide page navigation for large data sets such as search results, product listings, or data tables.
-- Use when you need a semantic `<nav>` and `<ul>` structure for pagination links with an accessible label.
-- Consider using infinite scrolling or "Load more" patterns instead when pagination would interrupt the user's browsing flow.
+- Use inside PaginationNav to contain the ordered list of pagination links
+- Use as a semantic list to convey the sequence of pages to assistive technologies
+- Use when paginating large data sets such as search results, product listings, or data tables
+
+## When Not to Use
+
+- Do not use outside of a PaginationNav container -- it requires the nav landmark for accessibility
+- Do not use for general lists of links -- use ContentsList or a standard list instead
 
 ## Headless
 

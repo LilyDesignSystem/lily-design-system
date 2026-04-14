@@ -18,7 +18,12 @@ EspanaTarjetaSanitariaIndividualView is a read-only display of a España Tarjeta
 ## Usage
 
 ```html
-<EspanaTarjetaSanitariaIndividualView label="TSI" value="BBBB12345678" />
+<SummaryList>
+  <SummaryListItem>
+    <dt>Tarjeta Sanitaria Individual</dt>
+    <dd><EspanaTarjetaSanitariaIndividualView label="TSI" value="BBBB12345678" /></dd>
+  </SummaryListItem>
+</SummaryList>
 ```
 
 ## Keyboard Interactions
@@ -31,8 +36,15 @@ EspanaTarjetaSanitariaIndividualView is a read-only display of a España Tarjeta
 
 ## When to Use
 
-- Use for read-only display of a Spanish TSI / CIP-SNS healthcare identifier.
-- Use EspanaTarjetaSanitariaIndividualInput for editable entry.
+- Use to display a Spanish TSI / CIP-SNS healthcare identifier in a formatted, read-only view.
+- Use in patient banners, summary lists, or medical records to show the TSI.
+- Use in confirmation screens after identifier entry.
+
+## When Not to Use
+
+- Do not use for entering identifiers -- use EspanaTarjetaSanitariaIndividualInput instead.
+- Do not use for editable display -- combine with Editable.
+- Do not use for other national identifiers -- use the corresponding country-specific view component.
 
 ## Headless
 

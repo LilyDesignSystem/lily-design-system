@@ -20,11 +20,16 @@ The component renders a `<tfoot>` element and passes through its children, which
 ## Usage
 
 ```html
-<GanttTable label="Project Alpha timeline">
+<GanttTable label="Q1 2025 schedule">
   <GanttTableHead>...</GanttTableHead>
   <GanttTableBody>...</GanttTableBody>
   <GanttTableFoot>
-    <tr><th>Milestone</th><td></td><td></td><td></td><td>Launch</td></tr>
+    <GanttTableRow>
+      <GanttTableCol scope="row">Milestone</GanttTableCol>
+      <GanttTableData></GanttTableData>
+      <GanttTableData></GanttTableData>
+      <GanttTableData>Launch</GanttTableData>
+    </GanttTableRow>
   </GanttTableFoot>
 </GanttTable>
 ```
@@ -39,8 +44,15 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 ## When to Use
 
-- Use as the footer section of a GanttTable to display milestone summaries, totals, or project-level notes.
-- Avoid when the Gantt chart has no summary data; the footer section is optional.
+- Use inside GanttTable to provide the `<tfoot>` footer section.
+- Use to display milestone summaries, totals, or project-level notes beneath the task rows.
+- Use when the Gantt chart needs aggregate information such as delivery dates or completion percentages.
+
+## When Not to Use
+
+- Do not use outside of a GanttTable structure -- use TableFoot or DataTableFoot for general tables.
+- Do not use for header rows -- use GanttTableHead instead.
+- Do not use when the Gantt chart has no summary data; the footer section is optional.
 
 ## Headless
 

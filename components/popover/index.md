@@ -22,11 +22,41 @@ Unlike tooltips, popovers can contain rich interactive content such as text, for
 
 ## Usage
 
+Basic popover with a toggle trigger:
+
 ```html
 <button onclick={() => showPopover = !showPopover}>Toggle info</button>
 <Popover label="Additional information" open={showPopover}>
   <p>Here is some contextual information.</p>
   <button onclick={() => showPopover = false}>Close</button>
+</Popover>
+```
+
+Popover with an inline edit form:
+
+```html
+<button onclick={() => editOpen = !editOpen}>Edit name</button>
+<Popover label="Edit display name" open={editOpen}>
+  <form onsubmit={(e) => { e.preventDefault(); saveName(); editOpen = false; }}>
+    <label for="display-name">Display name</label>
+    <input type="text" id="display-name" value={name} />
+    <button type="submit">Save</button>
+    <button type="button" onclick={() => editOpen = false}>Cancel</button>
+  </form>
+</Popover>
+```
+
+Popover for a filter panel:
+
+```html
+<button onclick={() => filterOpen = !filterOpen}>Filter results</button>
+<Popover label="Filter options" open={filterOpen}>
+  <fieldset>
+    <legend>Status</legend>
+    <label><input type="checkbox" value="active" /> Active</label>
+    <label><input type="checkbox" value="archived" /> Archived</label>
+  </fieldset>
+  <button onclick={() => { applyFilters(); filterOpen = false; }}>Apply</button>
 </Popover>
 ```
 
@@ -44,8 +74,16 @@ Unlike tooltips, popovers can contain rich interactive content such as text, for
 
 - Use Popover to display rich interactive content like forms, menus, or detailed information near a trigger element.
 - Use Popover when the overlay content needs to persist until the user explicitly dismisses it.
-- Avoid using Popover for simple descriptive text; use Tooltip instead.
-- Consider Dialog or AlertDialog when the content requires a full modal with backdrop overlay.
+- Use Popover for inline editing interfaces, such as editing a profile field without leaving the page.
+- Use Popover for filter panels or mini-forms that relate to a specific trigger element.
+- Use Popover for contextual actions that need more space than a menu item label.
+
+## When Not to Use
+
+- Do not use for simple descriptive text on hover or focus -- use Tooltip instead.
+- Do not use for content requiring a full modal with backdrop overlay -- use Dialog or AlertDialog instead.
+- Do not use for preview content triggered by hover -- use HoverCard instead.
+- Do not use for navigation menus -- use DropdownMenu or NavigationMenu instead.
 
 ## Headless
 

@@ -25,20 +25,31 @@ This component uses the native `<dialog>` HTML element with conditional renderin
 
 ## Usage
 
-```html
-<button onclick={() => showDialog = true}>Open Dialog</button>
+Modal dialog with a form:
 
-<Dialog label="Confirm action" open={showDialog}>
-  <p>Are you sure you want to proceed?</p>
-  <button onclick={() => showDialog = false}>Cancel</button>
-  <button onclick={() => { handleConfirm(); showDialog = false; }}>Confirm</button>
+```html
+<button onclick={() => showDialog = true}>Edit profile</button>
+
+<Dialog label="Edit profile" open={showDialog}>
+  <form>
+    <label for="display-name">Display name</label>
+    <input id="display-name" type="text" value={displayName} />
+
+    <label for="bio">Bio</label>
+    <textarea id="bio">{bio}</textarea>
+
+    <button type="button" onclick={() => showDialog = false}>Cancel</button>
+    <button type="submit">Save</button>
+  </form>
 </Dialog>
 ```
 
+Non-modal dialog for supplementary information:
+
 ```html
-<!-- Non-modal dialog -->
-<Dialog label="Notification" open={showNotice} modal={false}>
-  <p>Your file has been saved.</p>
+<Dialog label="Release notes" open={showNotes} modal={false}>
+  <p>Version 2.4 includes performance improvements and accessibility fixes.</p>
+  <button onclick={() => showNotes = false}>Close</button>
 </Dialog>
 ```
 
@@ -55,10 +66,17 @@ This component uses the native `<dialog>` HTML element with conditional renderin
 
 ## When to Use
 
-- Use for confirmations, alerts, forms, or focused interactions that require the user's immediate attention.
-- Use modal dialogs when background interaction must be blocked; use non-modal dialogs for supplementary information.
-- Avoid for simple notifications or status messages; use Toast or Alert instead.
-- Consider Drawer or Sheet instead when the content is a side panel or supplementary view rather than a focused prompt.
+- Use for modal or non-modal dialogs that present forms, detailed content, or multi-step workflows.
+- Use when users need to complete a focused task without leaving the current page context, such as editing a profile or configuring settings.
+- Use with `aria-label` to provide an accessible name and with `aria-modal` for modal focus trapping.
+- Use the `modal` prop set to `false` for supplementary information that does not require blocking background interaction.
+
+## When Not to Use
+
+- Do not use for simple yes/no confirmations -- use AlertDialog for acknowledgment-style interactions.
+- Do not use for brief tooltip-style information -- use Tooltip or Popover instead.
+- Do not use when the content could be shown inline without an overlay -- avoid unnecessary modals.
+- Do not use for persistent side panels -- use Drawer or Sheet instead.
 
 ## Headless
 

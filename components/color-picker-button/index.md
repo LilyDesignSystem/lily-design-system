@@ -48,9 +48,14 @@ This component is useful in color palette UIs, theme builders, product customiza
 
 ## When to Use
 
-- Use a ColorPickerButton to present a selectable color swatch within a palette of predefined color options.
-- Use ColorPickerButton components in product customization forms, theme builders, or any interface where users choose from a fixed set of colors.
-- Avoid using a ColorPickerButton for free-form color selection; use a ColorPicker for 2D saturation/brightness picking or a ColorInput for hex entry.
+- Use inside ColorPicker to represent one selectable colour swatch.
+- Use in product customisation forms, theme builders, or palette UIs where users choose from a fixed set of colours.
+- Use when each colour option needs an accessible label and pressed/selected state.
+
+## When Not to Use
+
+- Do not use outside a colour picker context -- use SegmentGroupItem or RadioInput for non-colour selections.
+- Do not use for free-form colour selection -- use ColorPicker for 2D saturation/brightness picking or ColorInput for hex entry.
 
 ## Headless
 

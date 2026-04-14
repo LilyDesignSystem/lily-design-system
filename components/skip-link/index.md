@@ -22,12 +22,28 @@ Use SkipLink as the very first focusable element on a page. When a keyboard user
 
 ## Usage
 
-```html
-<SkipLink />
-```
+Default skip link as the first element in the page, targeting a `<main id="content">` element:
 
 ```html
-<SkipLink href="#main" label="Skip to main content" />
+<SkipLink />
+
+<!-- Later in the page -->
+<main id="content">
+  <h1>Page title</h1>
+  ...
+</main>
+```
+
+Custom skip link targeting a specific main content area with a custom label:
+
+```html
+<SkipLink href="#maincontent" label="Skip to main content" />
+
+<!-- Later in the page -->
+<main id="maincontent" tabindex="-1">
+  <h1>Search results</h1>
+  ...
+</main>
 ```
 
 ## Keyboard Interactions
@@ -42,9 +58,15 @@ Use SkipLink as the very first focusable element on a page. When a keyboard user
 
 ## When to Use
 
-- Use as the very first focusable element on every page to allow keyboard users to bypass repetitive navigation and jump directly to main content.
-- Use on pages with significant repeated content before the main area (navigation bars, headers, sidebars).
-- Avoid omitting skip links; they are a WCAG 2.1 Level A requirement for bypass blocks.
+- Use on every page of your service as the very first focusable element in the DOM
+- Use to allow keyboard and screen reader users to skip repetitive navigation and jump directly to the main content
+- Use with a target anchor like `#maincontent` on the main content area
+- Use on pages with significant repeated content before the main area (navigation bars, headers, sidebars)
+
+## When Not to Use
+
+- There are no situations where SkipLink should be omitted -- it is required for accessibility on every page (WCAG 2.1 Level A)
+- Do not make the skip link permanently visible -- it should only appear when it receives keyboard focus
 
 ## Headless
 

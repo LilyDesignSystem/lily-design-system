@@ -41,9 +41,14 @@ None -- this is a passive informational display, not an interactive element.
 
 ## When to Use
 
-- Use inside a SummaryList to present a single key-value pair with proper description list semantics.
-- Use when each term-description pair needs individual styling or attribute targeting via the `<div>` wrapper.
-- Avoid using outside of a SummaryList `<dl>` container, as the `<dt>`/`<dd>` elements require a description list parent.
+- Use inside a SummaryList to represent one key-value pair with proper description list semantics
+- Use with an action link when users need to change their answer, including visually hidden context text for screen readers
+- Use when each term-description pair needs individual styling or attribute targeting via the `<div>` wrapper
+
+## When Not to Use
+
+- Do not use outside of a SummaryList `<dl>` container -- it has no standalone meaning as the `<dt>`/`<dd>` elements require a description list parent
+- Do not use for table rows -- use TableRow with TableData instead
 
 ## Headless
 

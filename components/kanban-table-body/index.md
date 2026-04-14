@@ -17,29 +17,27 @@ A Kanban table body provides the main content area of a Kanban board, containing
 
 ## Usage
 
+Kanban board body with task cards across workflow stages:
+
 ```html
 <KanbanTable label="Sprint board">
     <KanbanTableHead>
         ...
     </KanbanTableHead>
     <KanbanTableBody>
-        <div role="list" aria-label="To Do">
+        <KanbanTableRow>
             <KanbanTableData label="Fix login bug">
                 <h4>Fix login bug</h4>
                 <p>Assigned to Alice</p>
             </KanbanTableData>
-        </div>
-        <div role="list" aria-label="In Progress">
             <KanbanTableData label="Add dashboard">
                 <h4>Add dashboard</h4>
                 <p>Assigned to Bob</p>
             </KanbanTableData>
-        </div>
-        <div role="list" aria-label="Done">
             <KanbanTableData label="Setup CI/CD">
                 <h4>Setup CI/CD</h4>
             </KanbanTableData>
-        </div>
+        </KanbanTableRow>
     </KanbanTableBody>
 </KanbanTable>
 ```
@@ -56,9 +54,14 @@ None -- passive container. Keyboard interaction depends on interactive elements 
 
 ## When to Use
 
-- Use to wrap the main content area of a Kanban board, containing columns and their card items.
+- Use inside KanbanTable to wrap the main content area containing columns and card items.
 - Use when you need a structural container to separate board content from the header and footer areas.
-- Avoid using KanbanTableBody outside of a KanbanTable parent; it depends on the board context.
+- Use to hold the column containers that contain KanbanTableData card items.
+
+## When Not to Use
+
+- Do not use outside of a KanbanTable parent -- use TableBody or DataTableBody for general tables.
+- Do not use for header content -- use KanbanTableHead instead.
 
 ## Headless
 

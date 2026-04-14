@@ -49,10 +49,16 @@ ChatNav is a compound component. It provides the parent container structure (a `
 
 ## When to Use
 
-- Use for displaying a navigable list of chat conversations in messaging applications, customer support interfaces, or collaborative platforms.
-- Use when users need to browse and select between multiple chat conversations.
-- Avoid for displaying a single chat thread -- use ChatMessage directly instead.
-- Consider ContentsNav instead when navigating page sections rather than chat conversations.
+- Use as a navigation landmark for chat conversations in messaging applications, customer support interfaces, or collaborative platforms.
+- Use when users need to browse and select between multiple chat threads.
+- Use when conversations should be listed in a navigable, ordered structure with `aria-current` support.
+- Use when the chat interface needs a semantic `<nav>` landmark for screen reader users.
+
+## When Not to Use
+
+- Do not use for non-chat navigation -- use ContentsNav for page sections or TreeNav for hierarchical navigation.
+- Do not use for a single conversation thread -- render ChatList directly without the `<nav>` wrapper.
+- Do not use for displaying system notifications -- use Alert or Notification instead.
 
 ## Headless
 

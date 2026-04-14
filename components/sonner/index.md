@@ -22,7 +22,15 @@ Unlike modal dialogs that interrupt workflow, toast notifications communicate fe
 
 ```html
 <Sonner label="Notifications">
-    <div role="status">File saved successfully.</div>
+  <Toast label="Success">Patient record saved successfully.</Toast>
+</Sonner>
+```
+
+```html
+<Sonner label="System notifications">
+  <Toast label="Saved">Changes saved.</Toast>
+  <Toast label="Synced">Data synchronised with server.</Toast>
+  <Toast label="Warning" urgent>Session expires in 2 minutes.</Toast>
 </Sonner>
 ```
 
@@ -38,10 +46,17 @@ None built-in -- the consumer should implement keyboard interactions for dismiss
 
 ## When to Use
 
-- Use as the designated notification region where Toast components appear to provide brief, non-intrusive status messages.
-- Use for success confirmations, error alerts, progress updates, and system messages that do not require user interaction.
-- Avoid for critical messages that require acknowledgment; use AlertDialog instead.
-- Consider a Banner for persistent page-level messages that should not auto-dismiss.
+- Use as a toast notification manager to queue and display multiple toast messages.
+- Use when your application needs stacked toast management with a designated notification region.
+- Use to provide a single `aria-live` region that announces new Toast children to screen readers.
+- Use for success confirmations, error alerts, progress updates, and system messages.
+- Use one Sonner per page, positioned consistently (e.g., bottom-right).
+
+## When Not to Use
+
+- Do not use for a single standalone toast -- use Toast directly without a Sonner wrapper.
+- Do not use for persistent notifications -- use Banner instead.
+- Do not use for critical messages requiring acknowledgment -- use AlertDialog instead.
 
 ## Headless
 

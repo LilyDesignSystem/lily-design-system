@@ -22,10 +22,13 @@ This component renders as a semantic `<dl>` (description list) element with an a
 ## Usage
 
 ```html
-<SummaryList label="Order summary">
-    <dt>Product</dt><dd>Widget</dd>
-    <dt>Quantity</dt><dd>3</dd>
-    <dt>Total</dt><dd>$29.97</dd>
+<SummaryList label="Personal details">
+  <SummaryListItem term="Name">Karen Francis</SummaryListItem>
+  <SummaryListItem term="Date of birth">15 March 1984</SummaryListItem>
+  <SummaryListItem term="Contact information">
+    73 Roman Road<br />Leeds<br />LS2 5ZN
+  </SummaryListItem>
+  <SummaryListItem term="Email">karen.francis@example.com</SummaryListItem>
 </SummaryList>
 ```
 
@@ -39,10 +42,16 @@ None -- this is a passive informational display, not an interactive element.
 
 ## When to Use
 
-- Use to display key-value pairs in a structured, scannable format such as order summaries, account details, form review pages, or configuration settings.
-- Use when information is best presented as labeled terms with corresponding descriptions.
-- Avoid for tabular data with multiple columns; use a Table component instead.
-- Consider a Card when the information needs grouped visual containment beyond a flat list.
+- Use to display pairs of related information as key-value entries, such as a patient's name, date of birth, and contact details
+- Use to summarise a user's answers at the end of a form in a "check your answers" pattern
+- Use with action links (like "Change") that include visually hidden text for screen reader context
+- Use when information is best presented as labeled terms with corresponding descriptions in a `<dl>` element
+
+## When Not to Use
+
+- Do not use for tabular data with multiple columns -- use Table or DataTable instead
+- Do not use for simple lists without key-value pairs -- use a standard `<ul>` or `<ol>`
+- Do not use for task tracking -- use TaskList instead
 
 ## Headless
 

@@ -21,9 +21,20 @@ Task bars are commonly used to provide quick access to frequently performed acti
 ## Usage
 
 ```html
-<TaskBar label="Tasks">
-  <button>New</button>
-  <button>Open</button>
+<TaskBar label="Document actions">
+  <TaskBarButton>New</TaskBarButton>
+  <TaskBarButton>Open</TaskBarButton>
+  <TaskBarButton>Save</TaskBarButton>
+  <TaskBarButton>Print</TaskBarButton>
+</TaskBar>
+```
+
+```html
+<TaskBar label="Patient record shortcuts">
+  <TaskBarButton>New Referral</TaskBarButton>
+  <TaskBarButton>Book Appointment</TaskBarButton>
+  <TaskBarButton>Request Test</TaskBarButton>
+  <TaskBarButton disabled>Discharge</TaskBarButton>
 </TaskBar>
 ```
 
@@ -38,10 +49,18 @@ Task bars are commonly used to provide quick access to frequently performed acti
 
 ## When to Use
 
-- Use to group frequently performed task actions (e.g., "New", "Open", "Save") in a toolbar-style container for quick access.
+- Use for a horizontal bar of task shortcuts or quick actions such as "New", "Open", "Save".
+- Use for application-level quick access to frequently performed operations.
 - Use when related action buttons should be semantically grouped as a toolbar for assistive technologies.
-- Avoid for navigation links; use a NavigationMenu or MenuBar instead.
-- Consider a ToolBar when the actions are general-purpose editing tools rather than task-specific operations.
+- Use when task actions are domain-specific operations (e.g., patient workflows, document management).
+- Use with TaskBarButton children to provide consistent button styling within the bar.
+
+## When Not to Use
+
+- Do not use for primary navigation -- use NavigationMenu instead.
+- Do not use for tool actions such as text formatting -- use ToolBar instead.
+- Do not use for tab-based content switching -- use TabBar instead.
+- Do not use for a single action -- use Button instead.
 
 ## Headless
 

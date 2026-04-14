@@ -65,9 +65,14 @@ Consumer CSS example using `data-completed`:
 
 ## When to Use
 
-- Use inside a TaskList to represent a single task with optional completion state tracking.
-- Use when individual tasks need a `data-completed` attribute for CSS-driven visual state changes.
-- Avoid using outside a TaskList `<ul>` container, as the `<li>` element requires a list parent.
+- Use inside a TaskList to represent one task with its status and optional hint
+- Use with an `href` to link to the task page when the task can be started
+- Use when individual tasks need a `data-completed` attribute for CSS-driven visual state changes
+
+## When Not to Use
+
+- Do not use outside of a TaskList -- it has no standalone meaning as the `<li>` element requires a list parent
+- Do not use for simple checkbox items without linked tasks -- use CheckListItem instead
 
 ## Headless
 

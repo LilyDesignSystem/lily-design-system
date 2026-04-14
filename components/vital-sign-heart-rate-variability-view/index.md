@@ -21,7 +21,15 @@ Use this component to display a patient's heart rate variability in medical reco
 ## Usage
 
 ```html
-<VitalSignHeartRateVariabilityView value={45} label="45 milliseconds HRV" />
+<!-- Display a recorded HRV value -->
+<VitalSignHeartRateVariabilityView value={45} label="Heart rate variability: 45 ms" />
+
+<!-- In a wellness dashboard -->
+<VitalSignHeartRateVariabilityView value={68} label="HRV: 68 ms - above your average" />
+
+<!-- Alongside heart rate in a recovery summary -->
+<VitalSignHeartRateAsBeatsPerMinuteView value={62} label="Heart rate: 62 BPM" />
+<VitalSignHeartRateVariabilityView value={52} label="HRV: 52 ms" />
 ```
 
 ## Keyboard Interactions
@@ -35,9 +43,16 @@ None. This is a passive, read-only display element.
 
 ## When to Use
 
-- Use to display a heart rate variability reading in vital sign summaries, medical records, fitness dashboards, or health assessments.
-- Use as the display companion to VitalSignHeartRateVariabilityInput.
-- Avoid using for editable HRV values; use VitalSignHeartRateVariabilityInput instead.
+- Use to display a recorded heart rate variability value in read-only format.
+- Use in patient dashboards, medical records, or clinical summaries showing autonomic health.
+- Use with appropriate ARIA (`role="img"`, `aria-label`) for screen reader accessibility.
+- Use in wellness tracking displays, stress monitoring, and recovery summaries.
+
+## When Not to Use
+
+- Do not use for entering new values -- use VitalSignHeartRateVariabilityInput instead.
+- Do not use for general measurement display -- use MeasurementInstanceView for non-clinical values.
+- Do not use for heart rate display -- use VitalSignHeartRateAsBeatsPerMinuteView instead.
 
 ## Headless
 

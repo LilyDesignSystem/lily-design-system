@@ -17,18 +17,16 @@ A Kanban table head provides a header row for a Kanban board, containing column 
 
 ## Usage
 
+Kanban board header with three workflow stages:
+
 ```html
 <KanbanTable label="Sprint board">
     <KanbanTableHead>
-        <div>
-            <h3>To Do</h3>
-        </div>
-        <div>
-            <h3>In Progress</h3>
-        </div>
-        <div>
-            <h3>Done</h3>
-        </div>
+        <KanbanTableRow>
+            <KanbanTableCol>To Do</KanbanTableCol>
+            <KanbanTableCol>In Progress</KanbanTableCol>
+            <KanbanTableCol>Done</KanbanTableCol>
+        </KanbanTableRow>
     </KanbanTableHead>
     <KanbanTableBody>
         ...
@@ -47,9 +45,14 @@ None -- passive container for heading elements. Keyboard interaction depends on 
 
 ## When to Use
 
-- Use to provide column headings that label each workflow stage in a Kanban board.
+- Use inside KanbanTable to provide column headings that label each workflow stage.
 - Use when users need clear, visible labels for board columns such as "To Do", "In Progress", "Done".
-- Avoid using KanbanTableHead outside of a KanbanTable parent; it depends on the board context.
+- Use to establish the visual and semantic structure for the columns below it.
+
+## When Not to Use
+
+- Do not use outside of a KanbanTable parent -- use TableHead or DataTableHead for general tables.
+- Do not use for footer summaries -- use KanbanTableFoot instead.
 
 ## Headless
 

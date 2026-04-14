@@ -13,12 +13,30 @@ GrailLayoutCenterMain is a headless container for the center main content sectio
 - `children`: slot (required) -- content to render inside the center main section
 - `...restProps`: unknown -- additional attributes spread onto the `<div>` element
 
+## When to Use
+
+- Use inside GrailLayout as the primary content area.
+- Use to hold the main page content that is flanked by the left and right aside sections.
+- Use for the central focus of the page such as patient records, dashboards, or article content.
+
+## When Not to Use
+
+- Do not use outside GrailLayout -- use a `<main>` element directly.
+- Do not use for sidebar content -- use GrailLayoutLeftAside or GrailLayoutRightAside instead.
+
 ## Usage
 
 ```html
-<GrailLayoutCenterMain>
-  <main>Primary content</main>
-</GrailLayoutCenterMain>
+<GrailLayout>
+  <GrailLayoutTopHeader>...</GrailLayoutTopHeader>
+  <GrailLayoutLeftAside>...</GrailLayoutLeftAside>
+  <GrailLayoutCenterMain>
+    <h1>Patient Dashboard</h1>
+    <p>Main content area with patient records, charts, and clinical notes.</p>
+  </GrailLayoutCenterMain>
+  <GrailLayoutRightAside>...</GrailLayoutRightAside>
+  <GrailLayoutBottomFooter>...</GrailLayoutBottomFooter>
+</GrailLayout>
 ```
 
 

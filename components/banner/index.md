@@ -28,12 +28,20 @@ Banners may be persistent or dismissible, depending on the message's importance.
 ## Usage
 
 ```html
-<Banner>Important announcement here.</Banner>
-```
+<!-- Information banner for a service-wide delay -->
+<Banner type="info">
+  <p>You have 7 days left to send your application.
+  <a href="/applications">View application</a>.</p>
+</Banner>
 
-```html
-<Banner type="warning" dismissible closeLabel="Dismiss" onclose={handleDismiss}>
-    Your session will expire soon.
+<!-- Success banner confirming a completed action -->
+<Banner type="success">
+  <p>Patient record for Sarah Mitchell has been updated.</p>
+</Banner>
+
+<!-- Dismissible warning banner with callback -->
+<Banner type="warning" dismissible closeLabel="Dismiss warning" onclose={handleDismiss}>
+  <p>Planned maintenance is scheduled for Saturday 12 April from 09:00 to 13:00.</p>
 </Banner>
 ```
 
@@ -50,10 +58,17 @@ Banners may be persistent or dismissible, depending on the message's importance.
 
 ## When to Use
 
-- Use for persistent, page-level messages such as announcements, cookie consent notices, system alerts, or promotional messages that span the full width of the interface.
-- Use when a dismissible message needs to remain visible until the user explicitly closes it.
-- Avoid for inline feedback tied to a specific form field or action -- use Alert instead.
-- Consider Toast or Notification instead for brief, auto-dismissing messages.
+- Use to communicate important information that is not directly related to the current page content, such as service-wide delays or planned maintenance
+- Use to show a success confirmation after a user completes an action, such as saving or updating a record
+- Use sparingly -- evidence shows users often miss banners when overused
+- Use at most one banner per page, positioned at the top of the main content area below breadcrumbs and before the h1 heading
+
+## When Not to Use
+
+- Do not use for information directly relevant to the current page task -- use InsetText or WarningCallout instead
+- Do not use for form validation errors -- use ErrorMessage and ErrorSummary instead
+- Do not use simultaneously with ErrorSummary on the same page
+- Do not use for critical health warnings -- use WarningCallout or CareCard instead
 
 ## Headless
 

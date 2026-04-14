@@ -18,10 +18,35 @@ This headless component uses a `<div>` element with `role="img"` and `aria-label
 
 ## Usage
 
+Basic window mockup with a screenshot:
+
 ```html
 <MockupWindow label="Application settings panel">
   <Image src="settings.png" alt="Settings panel screenshot" />
 </MockupWindow>
+```
+
+Window mockup for a text editor preview:
+
+```html
+<MockupWindow label="Code editor showing HTML file">
+  <CodeBlock language="html">
+    &lt;h1&gt;Hello, world!&lt;/h1&gt;
+  </CodeBlock>
+</MockupWindow>
+```
+
+Window mockup in a feature comparison:
+
+```html
+<div class="feature-grid">
+  <MockupWindow label="File manager showing grid view">
+    <Image src="file-manager-grid.png" alt="File manager in grid view" />
+  </MockupWindow>
+  <MockupWindow label="File manager showing list view">
+    <Image src="file-manager-list.png" alt="File manager in list view" />
+  </MockupWindow>
+</div>
 ```
 
 ## Keyboard Interactions
@@ -35,8 +60,16 @@ This headless component uses a `<div>` element with `role="img"` and `aria-label
 
 ## When to Use
 
-- Use to showcase desktop application designs or screenshots.
-- Consider MockupBrowser for web-specific content that needs an address bar.
+- Use to showcase desktop application designs, dialogs, or native software screenshots.
+- Use in documentation to frame desktop-specific UI examples such as settings panels or editors.
+- Use in marketing pages for native desktop applications.
+- Use when the content represents a generic window without browser-specific chrome.
+
+## When Not to Use
+
+- Do not use for web-specific content that needs an address bar -- use MockupBrowser instead.
+- Do not use for terminal or CLI output -- use MockupShell instead.
+- Do not use for mobile content -- use MockupPhone instead.
 
 ## Headless
 

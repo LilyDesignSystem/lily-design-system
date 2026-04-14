@@ -18,12 +18,25 @@ The component renders a `<ul>` with `role="list"` and delegates item rendering t
 
 ## Usage
 
+Onboarding checklist with CheckListItem children:
+
 ```html
-<Checklist label="Onboarding tasks">
-  <li><input type="checkbox" /> Create account</li>
-  <li><input type="checkbox" /> Set up profile</li>
-  <li><input type="checkbox" /> Invite team members</li>
-</Checklist>
+<CheckList label="Onboarding tasks">
+    <CheckListItem checked={accountCreated}>Create account</CheckListItem>
+    <CheckListItem checked={profileSetUp}>Set up profile</CheckListItem>
+    <CheckListItem>Invite team members</CheckListItem>
+</CheckList>
+```
+
+Packing list with completed and pending items:
+
+```html
+<CheckList label="Packing list">
+    <CheckListItem checked={true}>Passport</CheckListItem>
+    <CheckListItem checked={true}>Boarding pass</CheckListItem>
+    <CheckListItem>Charger</CheckListItem>
+    <CheckListItem>Headphones</CheckListItem>
+</CheckList>
 ```
 
 ## Keyboard Interactions
@@ -37,9 +50,16 @@ None -- this component is a passive container. Keyboard interactions are determi
 
 ## When to Use
 
-- Use a CheckList for tracking tasks, options, or steps that users can mark as completed, such as to-do lists or onboarding flows.
-- Use a CheckList when users need to see progress through a series of actionable items.
-- Avoid using a CheckList for non-actionable informational lists; consider a standard `<ul>` or ContentsList instead.
+- Use for a list of items with checkboxes for tracking completion.
+- Use for simple checklists without linked task pages, such as to-do lists or onboarding flows.
+- Use when users need to see progress through a series of actionable items.
+- Use for packing lists, grocery lists, or pre-flight safety checks.
+
+## When Not to Use
+
+- Do not use for complex multi-session task tracking -- use TaskList instead.
+- Do not use for boolean form selections that require submission -- use CheckboxGroup instead.
+- Do not use for non-actionable informational lists -- use a standard `<ul>` or ContentsList instead.
 
 ## Headless
 

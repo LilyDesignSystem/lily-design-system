@@ -16,12 +16,22 @@ Use ToggleButton when you need a binary on/off control with button semantics. Co
 
 ## Usage
 
+Bold formatting toggle in a text editor toolbar:
+
 ```html
-<ToggleButton label="Dark mode" pressed={pressed} />
+<ToggleButton label="Bold" pressed={isBold} />
 ```
+
+Mute control in a media player:
 
 ```html
 <ToggleButton label="Mute audio" pressed={muted} disabled={locked} />
+```
+
+Favourite toggle on a content card:
+
+```html
+<ToggleButton label="Favourite" pressed={isFavourited} />
 ```
 
 ## Props
@@ -53,10 +63,17 @@ Feature flag control:
 - `aria-label={label}` -- provides the accessible name for the toggle control
 ## When to Use
 
-- Use ToggleButton for binary on/off controls with button semantics, such as dark mode, mute, or feature flags.
+- Use for a button that toggles between pressed and unpressed states, such as bold or italic formatting.
+- Use for mute/unmute or play/pause controls in media applications.
 - Use when "pressed/unpressed" better describes the interaction than "checked/unchecked".
-- Avoid using ToggleButton for form fields where a checkbox is more appropriate; use CheckboxInput instead.
-- Consider SwitchButton when the visual metaphor of a sliding switch is more intuitive for the use case.
+- Use inside a ToggleGroup for related multi-toggle options like text alignment or view modes.
+- Use for toolbar actions where the button state needs to persist visually.
+
+## When Not to Use
+
+- Do not use for on/off settings with immediate effect -- use SwitchButton instead.
+- Do not use for navigation actions -- use ActionLink instead.
+- Do not use for form fields where a checkbox is more appropriate -- use CheckboxInput instead.
 
 ## Headless
 

@@ -23,17 +23,20 @@ Use CheckboxGroup when you need multiple checkboxes that share a logical relatio
 ## Usage
 
 ```html
-<CheckboxGroup label="Features">
-  <label><input type="checkbox" name="features" value="wifi" /> Wi-Fi</label>
-  <label><input type="checkbox" name="features" value="bluetooth" /> Bluetooth</label>
-  <label><input type="checkbox" name="features" value="gps" /> GPS</label>
-</CheckboxGroup>
+<Fieldset legend="How would you like to be contacted?">
+  <Hint>Select all that apply</Hint>
+  <CheckboxGroup name="contact-methods">
+    <CheckboxInput label="Email" value="email" />
+    <CheckboxInput label="Phone" value="phone" />
+    <CheckboxInput label="Text message" value="sms" />
+  </CheckboxGroup>
+</Fieldset>
 ```
 
 ```html
 <CheckboxGroup label="Toppings" disabled>
-  <label><input type="checkbox" name="toppings" value="cheese" /> Cheese</label>
-  <label><input type="checkbox" name="toppings" value="peppers" /> Peppers</label>
+  <CheckboxInput label="Cheese" name="toppings" value="cheese" />
+  <CheckboxInput label="Peppers" name="toppings" value="peppers" />
 </CheckboxGroup>
 ```
 
@@ -50,11 +53,15 @@ Use CheckboxGroup when you need multiple checkboxes that share a logical relatio
 
 ## When to Use
 
-- Use CheckboxGroup when users can select multiple options from a related set of choices (e.g., features, categories, preferences).
-- Use CheckboxGroup when options should be visible at once so users can compare them.
-- Use CheckboxGroup with a "Select all" checkbox when the list of options is long and users may want to quickly select or deselect all items.
-- Avoid using CheckboxGroup for mutually exclusive choices; use RadioGroup instead.
-- Consider using a multi-select Listbox when the number of options is very large.
+- Use to wrap multiple CheckboxInput components that share a common name and manage collective state
+- Use within a Fieldset so the group has a descriptive legend for accessibility
+- Use when the form needs to track which checkboxes are selected as a set
+
+## When Not to Use
+
+- Do not use for a single standalone checkbox — render CheckboxInput directly
+- Do not use when only one option can be selected — use RadioGroup with RadioInput instead
+- Do not use for visual-only grouping without shared state — use a Fieldset alone
 
 ## Headless
 

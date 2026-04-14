@@ -21,10 +21,27 @@ The component renders as a `<span>` with `role="status"`, creating an ARIA live 
 
 ## Usage
 
+Unread message count on a navigation link:
+
 ```html
-<Badge>New</Badge>
-<Badge label="3 unread messages">3</Badge>
-<Badge type="warning">Alert</Badge>
+<a href="/messages">
+  Messages <Badge label="12 unread messages">12</Badge>
+</a>
+```
+
+Notification count on an icon button:
+
+```html
+<button aria-label="Notifications">
+  <Icon name="bell" />
+  <Badge label="3 new notifications">3</Badge>
+</button>
+```
+
+Warning status badge:
+
+```html
+<Badge type="warning" label="2 items require attention">2</Badge>
 ```
 
 ## Keyboard Interactions
@@ -38,10 +55,18 @@ The component renders as a `<span>` with `role="status"`, creating an ARIA live 
 
 ## When to Use
 
-- Use for notification counts, status labels, or category indicators attached to icons, buttons, or list items.
-- Use when dynamic content changes need to be announced to screen readers via a live region.
-- Avoid for long text content -- use Alert or Banner instead.
-- Consider Tag instead when displaying static categorization labels that do not change dynamically.
+- Use for small counts, categories, or labels attached to another element, such as unread message counts or notification indicators.
+- Use when the badge value is supplementary and the parent element is understandable without it.
+- Use when dynamic content changes need to be announced to screen readers via the `role="status"` live region.
+- Use with the `label` prop to provide expanded context for screen readers when the visible text alone is insufficient.
+- Use the `type` prop to communicate semantic meaning (info, success, warning, error) through `data-type` for consumer styling.
+
+## When Not to Use
+
+- Do not use for status indicators that are the primary content -- use Tag for labels like "Active" or "Completed".
+- Do not use for prominent call-to-action labels -- use CallToAction instead.
+- Do not use for decorative emphasis -- use Flair instead.
+- Do not use for long text content -- use Alert or Banner instead.
 
 ## Headless
 

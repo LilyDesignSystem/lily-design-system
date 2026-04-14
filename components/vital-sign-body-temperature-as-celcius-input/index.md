@@ -28,11 +28,14 @@ Use this component in medical forms, health assessments, vital sign entry screen
 ## Usage
 
 ```html
-<VitalSignBodyTemperatureAsCelciusInput label="Body temperature (°C)" value={value} />
-```
+<!-- Basic temperature input in a clinical form -->
+<VitalSignBodyTemperatureAsCelciusInput label="Body temperature (°C)" value={37.2} />
 
-```html
+<!-- Required field in a triage assessment -->
 <VitalSignBodyTemperatureAsCelciusInput label="Patient temperature" value={temp} required />
+
+<!-- In a vital signs group entry -->
+<VitalSignBodyTemperatureAsCelciusInput label="Temperature (°C)" value={temperature} min={34} max={42} />
 ```
 
 ## Keyboard Interactions
@@ -46,9 +49,16 @@ Use this component in medical forms, health assessments, vital sign entry screen
 
 ## When to Use
 
-- Use for form fields that accept a body temperature measurement in degrees Celsius.
-- Use as the input companion to VitalSignBodyTemperatureAsCelciusView.
-- Consider using NumberInput for generic numeric values that are not specifically body temperatures.
+- Use in clinical forms to record a patient's body temperature measurement in degrees Celsius.
+- Use with the default min/max/step constraints (30-45, step 0.1) for one-decimal-place Celsius entry.
+- Use within vital sign entry workflows, triage forms, and fever screening assessments.
+- Use in patient intake forms and post-operative monitoring.
+
+## When Not to Use
+
+- Do not use for displaying recorded values -- use VitalSignBodyTemperatureAsCelciusView instead.
+- Do not use for general number input -- use NumberInput for non-clinical numeric values.
+- Do not use for measurements outside the vital sign domain -- use MeasurementInstanceInput for generic measurements.
 
 ## Headless
 

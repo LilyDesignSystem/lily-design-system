@@ -22,11 +22,19 @@ BreadcrumbNav is typically a compound component. It provides the parent containe
 ## Usage
 
 ```html
-<BreadcrumbList label="Breadcrumb">
-  <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
-  <BreadcrumbListItem><a href="/products">Products</a></BreadcrumbListItem>
-  <BreadcrumbListItem current>Widget</BreadcrumbListItem>
-</BreadcrumbList>
+<BreadcrumbNav label="Breadcrumb">
+  <BreadcrumbList>
+    <BreadcrumbListItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbListItem>
+    <BreadcrumbListItem>
+      <BreadcrumbLink href="/health-a-z">Health A to Z</BreadcrumbLink>
+    </BreadcrumbListItem>
+    <BreadcrumbListItem aria-current="page">
+      Diabetes
+    </BreadcrumbListItem>
+  </BreadcrumbList>
+</BreadcrumbNav>
 ```
 
 ## Keyboard Interactions
@@ -43,10 +51,15 @@ BreadcrumbNav is typically a compound component. It provides the parent containe
 
 ## When to Use
 
-- Use for displaying the user's current location within a hierarchical site structure, such as e-commerce catalogs, documentation sites, and content management systems.
-- Use when users need to quickly navigate back to ancestor pages in a deep hierarchy.
-- Avoid for linear step-by-step flows -- use a stepper or progress indicator instead.
-- Consider BackLink instead when a simple "back to previous page" link is sufficient.
+- Use on content pages with a defined hierarchy to show users where they are in the site structure
+- Use to let users navigate back or up a level when they cannot find what they need on the current page
+- Use on information-heavy sites where users may arrive via search and need orientation
+
+## When Not to Use
+
+- Do not use in transactional journeys or multi-step forms -- breadcrumbs interfere with task completion; use BackLink instead
+- Do not use alongside BackLink -- choose one navigation pattern
+- Do not use on flat sites with no meaningful hierarchy -- use ContentsNav for in-page navigation instead
 
 ## Headless
 
@@ -79,9 +92,15 @@ BreadcrumbNav follows the Nav / List / ListItem composition pattern:
 ```html
 <BreadcrumbNav label="Breadcrumb">
   <BreadcrumbList>
-    <BreadcrumbListItem><a href="/">Home</a></BreadcrumbListItem>
-    <BreadcrumbListItem><a href="/products">Products</a></BreadcrumbListItem>
-    <BreadcrumbListItem current>Widget</BreadcrumbListItem>
+    <BreadcrumbListItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbListItem>
+    <BreadcrumbListItem>
+      <BreadcrumbLink href="/health-a-z">Health A to Z</BreadcrumbLink>
+    </BreadcrumbListItem>
+    <BreadcrumbListItem aria-current="page">
+      Diabetes
+    </BreadcrumbListItem>
   </BreadcrumbList>
 </BreadcrumbNav>
 ```

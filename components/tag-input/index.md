@@ -23,8 +23,52 @@ This component is commonly used alongside TagGroup to build tag management inter
 
 ## Usage
 
+Basic tag input:
+
 ```html
-<TagInput label="Add tag" value={value} onadd={(tag) => tags.push(tag)} />
+<TagInput label="Add tag" value={tagText} onadd={(tag) => tags.push(tag)} />
+```
+
+Tag input paired with a TagGroup for skills on a profile:
+
+```html
+<Field label="Skills">
+  <TagGroup>
+    {#each skills as skill}
+      <Tag>{skill}</Tag>
+    {/each}
+  </TagGroup>
+  <TagInput
+    label="Add a skill"
+    value={newSkill}
+    onadd={(skill) => { skills = [...skills, skill]; }}
+    placeholder="Type a skill and press Enter"
+  />
+</Field>
+```
+
+Tag input in a blog post editor for categories:
+
+```html
+<Form label="Post settings" onsubmit={savePost}>
+  <Field label="Title" required>
+    <TextInput label="Post title" value={title} required />
+  </Field>
+  <Field label="Tags">
+    <TagGroup>
+      {#each postTags as tag}
+        <Tag>{tag} <button onclick={() => removeTag(tag)} aria-label="Remove {tag}">x</button></Tag>
+      {/each}
+    </TagGroup>
+    <TagInput
+      label="Add a tag"
+      value={newTag}
+      onadd={(tag) => { postTags = [...postTags, tag]; }}
+      placeholder="e.g. accessibility, design"
+    />
+  </Field>
+  <Button type="submit">Publish</Button>
+</Form>
 ```
 
 ## Keyboard Interactions
@@ -39,8 +83,14 @@ This component is commonly used alongside TagGroup to build tag management inter
 
 - Use alongside a TagGroup to build tag management interfaces where users add tags by typing and pressing Enter.
 - Use for adding keywords, labels, skills, or categories to items such as articles, profiles, or issue trackers.
-- Avoid when users should only select from a predefined set of options; use a Combobox or Select instead.
-- Consider a Combobox when autocomplete suggestions should appear as the user types.
+- Use in content management systems for tagging posts, pages, or media assets.
+- Use in issue trackers or project boards for adding labels to work items.
+
+## When Not to Use
+
+- Do not use for read-only tag display -- use TagGroup instead.
+- Do not use for predefined selections only -- use CheckboxGroup, Combobox, or Select instead.
+- Do not use when autocomplete suggestions should appear as the user types -- use Combobox instead.
 
 ## Headless
 

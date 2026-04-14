@@ -56,8 +56,13 @@ Phone mockup with live content:
 - Use for showcasing mobile app designs, screenshots, or responsive layouts within a phone-shaped frame.
 - Use in design documentation, marketing pages, or portfolio sites to present mobile content.
 - Use in component libraries to demonstrate mobile-specific components.
-- Avoid for functional phone emulation -- this is a visual presentation component only.
-- Consider MockupBrowser, MockupLaptop, or MockupTabletPortrait for other device mockup needs.
+- Use in app store listing previews or promotional materials.
+
+## When Not to Use
+
+- Do not use for functional mobile previews -- test on real devices or browser device emulation instead.
+- Do not use for tablet content -- use MockupTabletPortrait or MockupTabletLandscape instead.
+- Do not use for desktop or browser content -- use MockupLaptop or MockupBrowser instead.
 
 ## Headless
 

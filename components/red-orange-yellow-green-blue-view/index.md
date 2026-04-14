@@ -22,12 +22,27 @@ The component renders as a `<span>` element with an accessible label, making the
 
 ## Usage
 
+Display a five-level status in a report:
+
 ```html
 <RedOrangeYellowGreenBlueView label="Risk level" value="yellow" />
 ```
 
+Display dynamic status in a summary list:
+
 ```html
-<RedOrangeYellowGreenBlueView label="Alert status" value={level} />
+<SummaryList>
+  <SummaryListItem>
+    <dt>Alert status</dt>
+    <dd><RedOrangeYellowGreenBlueView label="Alert status" value={level} /></dd>
+  </SummaryListItem>
+</SummaryList>
+```
+
+With data attribute for CSS colour coding:
+
+```html
+<RedOrangeYellowGreenBlueView label="Patient triage" value="orange" data-value="orange" />
 ```
 
 ## Keyboard Interactions
@@ -40,9 +55,16 @@ None -- this is a passive informational display, not an interactive element.
 
 ## When to Use
 
-- Use RedOrangeYellowGreenBlueView to display a five-level color-coded status in read-only dashboards, reports, or detail views.
-- Use RedOrangeYellowGreenBlueView when the status has already been captured and only needs to be displayed.
-- Avoid using RedOrangeYellowGreenBlueView when users need to change the status; use RedOrangeYellowGreenBluePicker instead.
+- Use to display a five-level colour status in read-only format in dashboards and reports.
+- Use in summary cards and detail views where the ROYGB status has already been captured.
+- Use when presenting historical or locked status data that should not be edited.
+- Use in tables and lists to show five-level status alongside other data fields.
+
+## When Not to Use
+
+- Do not use when users need to select or change the status -- use [RedOrangeYellowGreenBluePicker](../red-orange-yellow-green-blue-picker/) instead.
+- Do not use for three-level status display -- use [RedAmberGreenView](../red-amber-green-view/) instead.
+- Do not use for general-purpose text display -- use a `<span>` or [Badge](../badge/) instead.
 
 ## Headless
 

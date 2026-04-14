@@ -22,11 +22,23 @@ Use this component as the outer wrapper for guided tours, onboarding flows, feat
 ## Usage
 
 ```html
-<Tour label="Getting started guide">
-  <TourList>
-    <TourListItem>Welcome to the app</TourListItem>
-    <TourListItem>Create your first project</TourListItem>
-    <TourListItem>Invite your team</TourListItem>
+<Tour label="Patient record system walkthrough">
+  <TourList label="Getting started" active={showTour}>
+    <TourListItem label="Welcome" current={step === 0} stepNumber={1} totalSteps={3}>
+      <p>Welcome to the patient record system. This tour will show you the key features.</p>
+      <Button onclick={() => step++}>Next</Button>
+      <Button onclick={() => showTour = false}>Skip tour</Button>
+    </TourListItem>
+    <TourListItem label="Search patients" current={step === 1} stepNumber={2} totalSteps={3}>
+      <p>Use the search bar to find patients by name, NHS number, or date of birth.</p>
+      <Button onclick={() => step--}>Back</Button>
+      <Button onclick={() => step++}>Next</Button>
+    </TourListItem>
+    <TourListItem label="View record" current={step === 2} stepNumber={3} totalSteps={3}>
+      <p>Click a patient name to open their full record, including demographics and appointments.</p>
+      <Button onclick={() => step--}>Back</Button>
+      <Button onclick={() => showTour = false}>Finish</Button>
+    </TourListItem>
   </TourList>
 </Tour>
 ```
@@ -41,9 +53,17 @@ Standard keyboard interactions provided by child components. The Tour container 
 
 ## When to Use
 
-- Use as the wrapper for guided tours, onboarding flows, or feature walkthroughs.
+- Use for guided walkthroughs for onboarding, feature discovery, or demonstration paths.
+- Use when new users need step-by-step introduction to an interface.
 - Use with TourList and TourListItem children to define the tour steps.
-- Avoid using for simple ordered lists; use CheckList or TaskList instead.
+- Use for first-time user experiences, new feature announcements, or contextual help.
+- Use when guidance needs a structured, sequential format with progress indicators.
+
+## When Not to Use
+
+- Do not use for sequential task completion -- use TaskList instead.
+- Do not use for page navigation or table of contents -- use ContentsNav instead.
+- Do not use for simple ordered lists -- use CheckList instead.
 
 ## Headless
 

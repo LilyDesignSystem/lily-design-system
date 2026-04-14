@@ -27,31 +27,30 @@ styling.
 
 ## Usage
 
-Basic NPS rating input:
+NPS survey question with endpoint labels:
 
 ```html
-<NetPromotorScoreRatingInput label="How likely are you to recommend us?" value={score} />
+<p>How likely are you to recommend us to a friend or colleague?</p>
+<NetPromoterScorePicker label="How likely are you to recommend us?" value={score}>
+    <NetPromoterScorePickerButton value="0" label="0 - Not at all likely" onclick={handleClick} />
+    <NetPromoterScorePickerButton value="1" label="1" onclick={handleClick} />
+    <NetPromoterScorePickerButton value="2" label="2" onclick={handleClick} />
+    <NetPromoterScorePickerButton value="3" label="3" onclick={handleClick} />
+    <NetPromoterScorePickerButton value="4" label="4" onclick={handleClick} />
+    <NetPromoterScorePickerButton value="5" label="5" onclick={handleClick} />
+    <NetPromoterScorePickerButton value="6" label="6" onclick={handleClick} />
+    <NetPromoterScorePickerButton value="7" label="7" onclick={handleClick} />
+    <NetPromoterScorePickerButton value="8" label="8" onclick={handleClick} />
+    <NetPromoterScorePickerButton value="9" label="9" onclick={handleClick} />
+    <NetPromoterScorePickerButton value="10" label="10 - Extremely likely" onclick={handleClick} />
+</NetPromoterScorePicker>
 <p>Selected score: {score}</p>
 ```
 
 With a custom radio group name:
 
 ```html
-<NetPromotorScoreRatingInput
-  label="Rate our service"
-  value={score}
-  name="service-nps"
-/>
-```
-
-With additional HTML attributes:
-
-```html
-<NetPromotorScoreRatingInput
-  label="Customer satisfaction"
-  value={score}
-  data-section="feedback"
-/>
+<NetPromoterScorePicker label="Rate our service" value={score} name="service-nps" />
 ```
 
 ## Keyboard Interactions
@@ -69,8 +68,16 @@ With additional HTML attributes:
 ## When to Use
 
 - Use to collect a Net Promoter Score (0-10) from users in feedback forms, surveys, or satisfaction questionnaires.
-- Use when you need a standardized NPS input with radio group semantics and keyboard navigation.
-- Avoid using for general numeric ratings that are not on the NPS 0-10 scale; consider FiveStarRatingPicker or a custom range instead.
+- Use when you need a standardized NPS input asking "How likely are you to recommend..." on a 0-10 scale.
+- Use in customer loyalty surveys where Detractor/Passive/Promoter classification is needed.
+- Use when the NPS metric will be reported and benchmarked against industry standards.
+
+## When Not to Use
+
+- Do not use for display-only NPS scores -- use NetPromoterScoreView instead.
+- Do not use for general 1-5 numeric ratings -- use FiveStarRatingPicker.
+- Do not use for satisfaction surveys with face labels -- use FiveFaceRatingPicker.
+- Do not use for status indicators -- use RedAmberGreenPicker.
 
 ## Headless
 

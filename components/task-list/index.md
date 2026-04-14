@@ -32,32 +32,20 @@ task items as `<li>` children through the children slot.
 ## Usage
 
 ```html
-<TaskList label="Today's tasks">
-  <li>Review pull requests</li>
-  <li>Update documentation</li>
-  <li>Deploy to staging</li>
-</TaskList>
-```
-
-With checkboxes for completable tasks:
-
-```html
-<TaskList label="Onboarding checklist">
-  <li>
-    <label>
-      <input type="checkbox" /> Create account
-    </label>
-  </li>
-  <li>
-    <label>
-      <input type="checkbox" /> Set up profile
-    </label>
-  </li>
-  <li>
-    <label>
-      <input type="checkbox" /> Complete tutorial
-    </label>
-  </li>
+<TaskList label="Your health assessment">
+  <TaskListItem href="/your-health/exercise" status="completed">
+    Exercise
+  </TaskListItem>
+  <TaskListItem href="/your-health/diet" status="incomplete">
+    Diet and nutrition
+  </TaskListItem>
+  <TaskListItem href="/your-health/family-history" status="incomplete"
+    hint="Details of your parents, brothers and sisters">
+    Family health history
+  </TaskListItem>
+  <TaskListItem status="cannot-start-yet">
+    Blood test
+  </TaskListItem>
 </TaskList>
 ```
 
@@ -74,10 +62,17 @@ With checkboxes for completable tasks:
 
 ## When to Use
 
-- Use to display a series of tasks, actions, or to-dos that users can track and complete, such as project checklists, onboarding steps, or daily task lists.
-- Use when tasks benefit from being presented in a scannable list with optional completion tracking.
-- Avoid for ordered step-by-step instructions where sequence matters; consider a Timeline or numbered list instead.
-- Consider a CheckList when every item is a simple checkbox without additional task metadata.
+- Use to show all the tasks a user needs to complete for a lengthy or complex service
+- Use when users need to complete tasks across multiple sessions and track their progress
+- Use when users should be free to choose the order in which they complete tasks
+- Use with status indicators (Completed, Incomplete, Cannot start yet) so users can plan their time
+
+## When Not to Use
+
+- Do not use when the service can be simplified to fewer steps -- simplify before reaching for a task list
+- Do not use to display a user's submitted answers -- use SummaryList for the "check your answers" pattern
+- Do not use for sequential wizard-style forms -- use multi-page forms with Button and BackLink
+- Do not use for simple checklists without linked tasks -- use CheckList instead
 
 ## Headless
 

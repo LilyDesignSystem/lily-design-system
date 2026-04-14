@@ -21,7 +21,24 @@ A five-star rating input allows users to select a rating from 1 to 5 stars using
 ## Usage
 
 ```html
-<FiveStarRatingInput label="Rate this" value={value} />
+<FiveStarRatingPicker label="Rate this product" value={rating}>
+    <FiveStarRatingPickerButton value="1" label="1 star" onclick={handleClick} />
+    <FiveStarRatingPickerButton value="2" label="2 stars" onclick={handleClick} />
+    <FiveStarRatingPickerButton value="3" label="3 stars" selected onclick={handleClick} />
+    <FiveStarRatingPickerButton value="4" label="4 stars" onclick={handleClick} />
+    <FiveStarRatingPickerButton value="5" label="5 stars" onclick={handleClick} />
+</FiveStarRatingPicker>
+```
+
+In a review form:
+
+```html
+<Form label="Write a review" onSubmit={handleSubmit}>
+    <Field label="Your rating" required>
+        <FiveStarRatingPicker label="Your rating" value={rating} name="rating" />
+    </Field>
+    <Button type="submit">Submit Review</Button>
+</Form>
 ```
 
 ## Keyboard Interactions
@@ -42,7 +59,15 @@ Standard radio group keyboard behavior provided by the browser:
 
 - Use for product reviews, content ratings, or feedback forms where users select a 1-5 star rating.
 - Use when you need a familiar, universally understood rating input pattern.
-- Avoid for non-numeric scales or satisfaction surveys where face-based ratings (FiveFaceRatingPicker) may be more expressive.
+- Use in e-commerce product pages, app store listings, or restaurant review forms.
+- Use when the rating will be aggregated and displayed as an average star score.
+
+## When Not to Use
+
+- Do not use for display-only star ratings -- use FiveStarRatingView instead.
+- Do not use for satisfaction surveys where face-based labels are more expressive -- use FiveFaceRatingPicker.
+- Do not use for 0-10 scale surveys -- use NetPromoterScorePicker.
+- Do not use for status indicators -- use RedAmberGreenPicker or RedOrangeYellowGreenBluePicker.
 
 ## Headless
 

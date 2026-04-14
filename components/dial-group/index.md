@@ -19,11 +19,22 @@ This headless component uses a `<div>` element with `role="group"` and an `aria-
 
 ## Usage
 
+Audio mixer with volume, bass, and treble controls:
+
 ```html
 <DialGroup label="Audio controls">
-  <Dial label="Volume" value={75} />
-  <Dial label="Bass" value={50} />
-  <Dial label="Treble" value={60} />
+  <Dial label="Volume" value={volume} min={0} max={100} />
+  <Dial label="Bass" value={bass} min={0} max={100} />
+  <Dial label="Treble" value={treble} min={0} max={100} />
+</DialGroup>
+```
+
+HVAC control panel:
+
+```html
+<DialGroup label="Climate controls">
+  <Dial label="Temperature" value={temperature} min={16} max={30} step={0.5} />
+  <Dial label="Fan speed" value={fanSpeed} min={1} max={5} />
 </DialGroup>
 ```
 
@@ -38,9 +49,14 @@ This headless component uses a `<div>` element with `role="group"` and an `aria-
 
 ## When to Use
 
-- Use to group related dial controls that share a common purpose.
-- Use when multiple dials need to be visually and semantically associated.
-- Avoid for a single dial -- use Dial directly without a group wrapper.
+- Use to group multiple dial controls together, such as an audio mixer or multi-parameter control panel.
+- Use when multiple dials share a common purpose and should be perceived as a group by assistive technology.
+- Use for equalizer interfaces, multi-channel audio controls, or multi-axis configuration panels.
+
+## When Not to Use
+
+- Do not use for a single dial -- render Dial directly without a group wrapper.
+- Do not use for linear slider groups -- use multiple Slider components instead.
 
 ## Headless
 

@@ -20,16 +20,21 @@ A tree link is a navigational anchor element representing one link in a tree nav
 ## Usage
 
 ```html
-<TreeNav label="Site navigation">
+<TreeNav label="Documentation sidebar">
   <TreeList label="Pages">
-    <TreeListItem tabindex="0">
-      <TreeLink href="/products">Products</TreeLink>
+    <TreeListItem tabindex="0" aria-expanded="true">
+      <TreeLink href="/docs/components">Components</TreeLink>
+      <ul role="group">
+        <TreeListItem tabindex="-1">
+          <TreeLink href="/docs/components/button">Button</TreeLink>
+        </TreeListItem>
+        <TreeListItem tabindex="-1">
+          <TreeLink href="/docs/components/dialog">Dialog</TreeLink>
+        </TreeListItem>
+      </ul>
     </TreeListItem>
     <TreeListItem tabindex="-1">
-      <TreeLink href="/services">Services</TreeLink>
-    </TreeListItem>
-    <TreeListItem tabindex="-1">
-      <TreeLink href="/about">About</TreeLink>
+      <TreeLink href="/docs/api" label="API reference documentation">API Reference</TreeLink>
     </TreeListItem>
   </TreeList>
 </TreeNav>
@@ -47,9 +52,15 @@ A tree link is a navigational anchor element representing one link in a tree nav
 
 ## When to Use
 
-- Use inside a TreeListItem to provide a navigable link within a tree navigation structure.
+- Use inside TreeListItem to create a navigation link within the tree.
 - Use when tree items need to navigate to pages rather than just expand/collapse subtrees.
-- Avoid for tree items that only toggle expand/collapse -- use button-based controls instead.
+- Use the `label` prop for descriptive screen reader text when the visible text needs additional context.
+
+## When Not to Use
+
+- Do not use outside TreeListItem -- use ActionLink or ContentsLink for standalone links.
+- Do not use for tree items that only toggle expand/collapse -- use button-based controls instead.
+- Do not use for non-hierarchical navigation links -- use BreadcrumbLink or PaginationLink instead.
 
 ## Headless
 

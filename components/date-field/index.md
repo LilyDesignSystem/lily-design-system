@@ -24,16 +24,22 @@ This component is ideal for forms that require date input with validation feedba
 
 ## Usage
 
-```html
-<DateField label="Start date" value={value} />
-```
+Basic date field for a registration form:
 
 ```html
-<DateField label="End date" value={value} error="Required" required />
+<DateField label="Date of birth" value={dateOfBirth} description="Enter as day, month, year" required />
 ```
 
+Date field with validation error:
+
 ```html
-<DateField label="Birthday" value={value} description="Format: YYYY-MM-DD" />
+<DateField label="Appointment date" value={appointmentDate} error="Date must be in the future" required />
+```
+
+Optional date field with helper text:
+
+```html
+<DateField label="Preferred start date" value={startDate} description="Leave blank if flexible" />
 ```
 
 ## Keyboard Interactions
@@ -50,9 +56,17 @@ None beyond native `<input type="date">` keyboard behavior, which varies by brow
 
 ## When to Use
 
-- Use a DateField for form date inputs that need a visible label, optional description, and validation error display in a single integrated component.
-- Use a DateField when you want built-in ARIA linking between the label, input, description, and error message without manual ID management.
-- Avoid using a DateField when you need a bare date input with custom label placement; consider a DateInput instead.
+- Use for structured date entry with separate fields for day, month, and year.
+- Use when more control over individual date parts is needed than a plain DateInput provides.
+- Use when you want built-in ARIA linking between the label, input, description, and error message without manual ID management.
+- Use for forms that require date input with validation feedback, description text, and error display in a single integrated component.
+- Use when accessibility-compliant date entry is essential, such as in healthcare or government forms.
+
+## When Not to Use
+
+- Do not use for known exact dates where a simple DateInput is sufficient.
+- Do not use for calendar-based date selection -- use CalendarTable or CalendarRangePicker instead.
+- Do not use when you need a bare date input with custom label placement; use DateInput instead.
 
 ## Headless
 

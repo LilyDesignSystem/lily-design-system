@@ -18,25 +18,40 @@ A pagination nav is a navigation container for page navigation links, allowing u
 
 ## Usage
 
+Previous/next style pagination for a series of related content pages, such as a multi-page health condition guide:
+
 ```html
 <PaginationNav label="Pagination">
-    <PaginationList>
-        <PaginationListItem><a href="/page/1">Previous</a></PaginationListItem>
-        <PaginationListItem><a href="/page/1">1</a></PaginationListItem>
-        <PaginationListItem><a href="/page/2" aria-current="page">2</a></PaginationListItem>
-        <PaginationListItem><a href="/page/3">3</a></PaginationListItem>
-        <PaginationListItem><a href="/page/3">Next</a></PaginationListItem>
-    </PaginationList>
+  <PaginationList>
+    <PaginationListItem>
+      <PaginationLink href="/conditions/diabetes/symptoms" rel="prev">
+        Previous: Symptoms
+      </PaginationLink>
+    </PaginationListItem>
+    <PaginationListItem>
+      <PaginationLink href="/conditions/diabetes/treatment" rel="next">
+        Next: Treatment
+      </PaginationLink>
+    </PaginationListItem>
+  </PaginationList>
 </PaginationNav>
 ```
 
+Numbered pagination for search results, with `aria-current="page"` on the active page:
+
 ```html
 <PaginationNav label="Search results pages">
-    <PaginationList>
-        <PaginationListItem><a href="/results?page=1">1</a></PaginationListItem>
-        <PaginationListItem><a href="/results?page=2" aria-current="page">2</a></PaginationListItem>
-        <PaginationListItem><a href="/results?page=3">3</a></PaginationListItem>
-    </PaginationList>
+  <PaginationList>
+    <PaginationListItem>
+      <PaginationLink href="/results?page=1" label="Page 1">1</PaginationLink>
+    </PaginationListItem>
+    <PaginationListItem>
+      <PaginationLink href="/results?page=2" label="Page 2" aria-current="page">2</PaginationLink>
+    </PaginationListItem>
+    <PaginationListItem>
+      <PaginationLink href="/results?page=3" label="Page 3">3</PaginationLink>
+    </PaginationListItem>
+  </PaginationList>
 </PaginationNav>
 ```
 
@@ -52,9 +67,17 @@ A pagination nav is a navigation container for page navigation links, allowing u
 
 ## When to Use
 
-- Use as the outermost container for pagination controls, providing a navigation landmark for page links.
-- Use when you need to distinguish the pagination region from other `<nav>` elements on the page with a descriptive label.
-- Avoid using PaginationNav without child PaginationList and PaginationListItem components; it is a structural wrapper.
+- Use at the bottom of a page when content is split across multiple related pages to help users navigate forwards and backwards
+- Use when showing all content on a single page would make it too long to load or read
+- Use with ContentsNav at the top of the page as a mini-hub navigation pattern
+- Use instead of infinite scroll, which creates problems for keyboard users
+
+## When Not to Use
+
+- Do not use for unrelated pages that are not part of a grouped series -- use standard navigation links instead
+- Do not use for navigating through multi-page forms -- use Button ("Continue") with BackLink instead
+- Do not use when there is only one page of content -- omit pagination entirely
+- Do not use for in-page section navigation -- use ContentsNav instead
 
 ## Headless
 

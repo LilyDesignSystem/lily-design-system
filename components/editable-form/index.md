@@ -23,18 +23,25 @@ The form is only rendered when the `editing` prop is true. Submitting the form a
 
 ## Usage
 
+Inline profile editor with save and cancel:
+
 ```html
-<EditableForm label="Edit profile" editing={editing} onsubmit={save}>
-  <input name="name" value={name} />
+<button onclick={() => (editing = true)}>Edit profile</button>
+<EditableForm label="Edit profile" editing={editing} onsubmit={saveProfile} oncancel={revertProfile}>
+  <Field label="Full name">
+    <TextInput label="Full name" value={fullName} />
+  </Field>
   <button type="submit">Save</button>
+  <button type="button" onclick={() => (editing = false)}>Cancel</button>
 </EditableForm>
 ```
 
+Renaming an item inline:
+
 ```html
-<EditableForm label="Rename item" editing={editing} onsubmit={rename} oncancel={revert}>
+<EditableForm label="Rename item" editing={renaming} onsubmit={rename} oncancel={revert}>
   <input name="title" value={title} />
   <button type="submit">OK</button>
-  <button type="button" onclick={() => editing = false}>Cancel</button>
 </EditableForm>
 ```
 
@@ -49,10 +56,15 @@ The form is only rendered when the `editing` prop is true. Submitting the form a
 
 ## When to Use
 
-- Use when inline editing requires form submission semantics, such as updating a record, renaming an item, or modifying settings in place.
-- Use when you need submit and cancel lifecycle callbacks with proper `<form>` behavior.
-- Avoid for simple single-field inline edits; use Editable instead.
-- Consider a full-page Form when the editing involves many fields or complex validation.
+- Use to wrap inline editing with form semantics for submission and validation.
+- Use when inline editing requires submit and cancel lifecycle callbacks with proper `<form>` behavior.
+- Use for updating a record, renaming an item, or modifying settings in place.
+
+## When Not to Use
+
+- Do not use for standard page forms -- use Form instead.
+- Do not use for single-field inline edits without submission semantics -- use Editable alone.
+- Do not use when the editing involves many fields or complex validation -- use a full-page Form instead.
 
 ## Headless
 

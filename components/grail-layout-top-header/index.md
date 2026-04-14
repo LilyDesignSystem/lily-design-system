@@ -13,12 +13,29 @@ GrailLayoutTopHeader is a headless container for the top header section of a Gra
 - `children`: slot (required) -- content to render inside the top header section
 - `...restProps`: unknown -- additional attributes spread onto the `<div>` element
 
+## When to Use
+
+- Use inside GrailLayout as the full-width top header area.
+- Use to contain site branding, top navigation, or a banner bar.
+- Use when the page layout requires a persistent header spanning the full width above the sidebar and main content.
+
+## When Not to Use
+
+- Do not use outside GrailLayout -- use Header for standalone page headers.
+- Do not use for inline section headings -- use a semantic `<h1>`-`<h6>` element instead.
+
 ## Usage
 
 ```html
-<GrailLayoutTopHeader>
-  <header>Site Header</header>
-</GrailLayoutTopHeader>
+<GrailLayout>
+  <GrailLayoutTopHeader>
+    <Header label="Clinical Portal" />
+  </GrailLayoutTopHeader>
+  <GrailLayoutLeftAside>...</GrailLayoutLeftAside>
+  <GrailLayoutCenterMain>...</GrailLayoutCenterMain>
+  <GrailLayoutRightAside>...</GrailLayoutRightAside>
+  <GrailLayoutBottomFooter>...</GrailLayoutBottomFooter>
+</GrailLayout>
 ```
 
 

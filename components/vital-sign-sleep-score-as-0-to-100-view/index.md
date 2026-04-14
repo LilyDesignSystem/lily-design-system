@@ -21,7 +21,15 @@ Use this component to display a recorded sleep score value in health dashboards,
 ## Usage
 
 ```html
-<VitalSignSleepScoreAs0To100View label="Sleep score" value={82} />
+<!-- Display a recorded sleep score -->
+<VitalSignSleepScoreAs0To100View label="Sleep score: 82 out of 100" value={82} />
+
+<!-- In a wellness dashboard -->
+<VitalSignSleepScoreAs0To100View label="Sleep score: 45 - poor" value={45} />
+
+<!-- Alongside total sleep time in a summary -->
+<VitalSignSleepScoreAs0To100View label="Sleep score: 88" value={88} />
+<VitalSignTotalSleepTimeAsMinPerDayView label="Total sleep: 480 min" value={480} />
 ```
 
 ## Keyboard Interactions
@@ -35,9 +43,16 @@ None. This is a read-only display element.
 
 ## When to Use
 
-- Use to display a recorded sleep score in a read-only context.
-- Use in health dashboards, patient summaries, or wellness reports.
-- For editable entry, use VitalSignSleepScoreAs0To100Input instead.
+- Use to display a recorded sleep score value in read-only format.
+- Use in patient dashboards, medical records, or wellness summaries showing sleep quality.
+- Use with appropriate ARIA (`role="img"`, `aria-label`) for screen reader accessibility.
+- Use alongside VitalSignTotalSleepTimeAsMinPerDayView for comprehensive sleep reporting.
+
+## When Not to Use
+
+- Do not use for entering new values -- use VitalSignSleepScoreAs0To100Input instead.
+- Do not use for general measurement display -- use MeasurementInstanceView for non-clinical values.
+- Do not use for total sleep duration display -- use VitalSignTotalSleepTimeAsMinPerDayView instead.
 
 ## Headless
 

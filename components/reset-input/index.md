@@ -20,16 +20,25 @@ Reset inputs are useful in forms where users may want to clear all entered data 
 
 ## Usage
 
+Form with submit and reset actions:
+
+```html
+<Form label="Registration" onsubmit={handleSubmit}>
+  <Field label="Name" required>
+    <TextInput label="Name" value={name} required />
+  </Field>
+  <Field label="Email" required>
+    <EmailInput label="Email" value={email} required />
+  </Field>
+  <SubmitInput value="Register" />
+  <ResetInput value="Clear form" disabled={!formDirty} />
+</Form>
+```
+
+Simple reset with default label:
+
 ```html
 <ResetInput />
-```
-
-```html
-<ResetInput value="Clear form" />
-```
-
-```html
-<ResetInput value="Start over" disabled={!formDirty} />
 ```
 
 ## Keyboard Interactions
@@ -45,10 +54,15 @@ No additional ARIA attributes are needed. The native `<input type="reset">` elem
 
 ## When to Use
 
-- Use ResetInput in forms where users may want to clear all entered data and restore fields to their initial values.
-- Use ResetInput alongside SubmitInput to provide a complete set of form actions.
-- Avoid using ResetInput on forms with many fields or long workflows, as accidental resets can frustrate users.
-- Consider a confirmation dialog before resetting if the form contains significant user input.
+- Use to provide a form reset button that clears all fields to their default values.
+- Use sparingly and only when users genuinely need to start over.
+- Use alongside SubmitInput to provide a complete set of form actions.
+
+## When Not to Use
+
+- Do not use as the primary action -- users rarely need to reset; use Button with `type="submit"` for the main action.
+- Do not use when data loss would be harmful -- consider a confirmation step via AlertDialog first.
+- Do not use on forms with many fields or long workflows, as accidental resets can frustrate users.
 
 ## Headless
 

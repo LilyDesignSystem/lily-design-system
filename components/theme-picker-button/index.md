@@ -22,6 +22,8 @@ This headless component uses a `<button>` element with `aria-pressed` to indicat
 
 ## Usage
 
+Basic theme picker with light and dark options:
+
 ```html
 <ThemePicker label="Choose theme">
   <ThemePickerButton pressed={theme === 'light'} label="Light theme" onclick={() => setTheme('light')}>
@@ -29,6 +31,22 @@ This headless component uses a `<button>` element with `aria-pressed` to indicat
   </ThemePickerButton>
   <ThemePickerButton pressed={theme === 'dark'} label="Dark theme" onclick={() => setTheme('dark')}>
     Dark
+  </ThemePickerButton>
+</ThemePicker>
+```
+
+With high-contrast option and visual swatches:
+
+```html
+<ThemePicker label="Appearance">
+  <ThemePickerButton pressed={theme === 'light'} label="Light theme" onclick={() => setTheme('light')}>
+    <span class="swatch swatch-light"></span> Light
+  </ThemePickerButton>
+  <ThemePickerButton pressed={theme === 'dark'} label="Dark theme" onclick={() => setTheme('dark')}>
+    <span class="swatch swatch-dark"></span> Dark
+  </ThemePickerButton>
+  <ThemePickerButton pressed={theme === 'high-contrast'} label="High contrast theme" onclick={() => setTheme('high-contrast')}>
+    <span class="swatch swatch-high-contrast"></span> High Contrast
   </ThemePickerButton>
 </ThemePicker>
 ```
@@ -48,8 +66,15 @@ This headless component uses a `<button>` element with `aria-pressed` to indicat
 
 ## When to Use
 
-- Use within a ThemePicker component for selecting visual themes.
-- Avoid as a standalone component -- always use within a ThemePicker.
+- Use inside a ThemePicker to represent one selectable theme option.
+- Use when you want button-based theme selection with visual previews or swatches.
+- Use when each theme option needs custom content such as icons or colour samples.
+
+## When Not to Use
+
+- Do not use outside of a ThemePicker -- the button relies on the picker for grouping and context.
+- Do not use for non-theme selections -- use [SegmentGroupItem](../segment-group-item/) instead.
+- Do not use for standalone toggle actions -- use [ToggleButton](../toggle-button/) instead.
 
 ## Headless
 

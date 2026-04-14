@@ -16,26 +16,28 @@ Use TimelineListItem for individual entries within a TimelineList. Common scenar
 
 ## Usage
 
-```html
-<TimelineList label="Project milestones">
-  <TimelineListItem>Project kickoff - Jan 2024</TimelineListItem>
-  <TimelineListItem>Alpha release - Mar 2024</TimelineListItem>
-</TimelineList>
-```
-
-With semantic `<time>` elements:
+Timeline entry with semantic time element:
 
 ```html
 <TimelineList label="Order history">
-  <TimelineListItem>
-    <time datetime="2024-01-15">January 15, 2024</time>
-    <p>Order placed</p>
-  </TimelineListItem>
-  <TimelineListItem>
-    <time datetime="2024-01-16">January 16, 2024</time>
-    <p>Order shipped</p>
-  </TimelineListItem>
+    <TimelineListItem>
+        <time datetime="2024-01-15">January 15, 2024</time>
+        <p>Order placed</p>
+    </TimelineListItem>
+    <TimelineListItem>
+        <time datetime="2024-01-16">January 16, 2024</time>
+        <p>Order shipped</p>
+    </TimelineListItem>
 </TimelineList>
+```
+
+Timeline entry with status data attribute for conditional styling:
+
+```html
+<TimelineListItem data-status="completed">
+    <time datetime="2024-03-01T10:30">10:30 AM</time>
+    <p>User completed onboarding</p>
+</TimelineListItem>
 ```
 
 ## Props
@@ -67,9 +69,15 @@ Activity feed item:
 - Consumers should use `<time>` elements with `datetime` attributes for machine-readable dates
 ## When to Use
 
-- Use TimelineListItem for each individual event or milestone within a TimelineList.
+- Use inside TimelineList to represent one event or milestone with a date and description.
 - Use when each entry represents a distinct point in time with a timestamp and description.
-- Avoid using TimelineListItem outside of a TimelineList parent; it renders an `<li>` that requires an `<ol>` context.
+- Use for individual project milestones, order status updates, or activity feed entries.
+
+## When Not to Use
+
+- Do not use outside TimelineList -- it renders an `<li>` that requires an `<ol>` context.
+- Do not use for chat messages -- use ChatMessage instead.
+- Do not use for task items with checkboxes -- use CheckListItem or TaskListItem instead.
 
 ## Headless
 

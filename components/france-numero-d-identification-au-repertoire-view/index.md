@@ -20,7 +20,12 @@ The NIR (also known as the Social Security number) is a 15-digit number printed 
 ## Usage
 
 ```html
-<FranceNumeroDIdentificationAuRepertoireView label="NIR" value="1 85 05 75 012 345 67" />
+<SummaryList>
+  <SummaryListItem>
+    <dt>Numéro de Sécurité Sociale</dt>
+    <dd><FranceNumeroDIdentificationAuRepertoireView label="NIR" value="1 85 05 75 012 345 67" /></dd>
+  </SummaryListItem>
+</SummaryList>
 ```
 
 ## Keyboard Interactions
@@ -33,8 +38,15 @@ The NIR (also known as the Social Security number) is a 15-digit number printed 
 
 ## When to Use
 
-- Use for read-only display of a French NIR / Social Security number.
-- Use FranceNumeroDIdentificationAuRepertoireInput for editable entry.
+- Use to display a French NIR / Social Security number in a formatted, read-only view.
+- Use in patient banners, summary lists, or medical records to show the NIR.
+- Use in confirmation screens after identifier entry.
+
+## When Not to Use
+
+- Do not use for entering identifiers -- use FranceNumeroDIdentificationAuRepertoireInput instead.
+- Do not use for editable display -- combine with Editable.
+- Do not use for other national identifiers -- use the corresponding country-specific view component.
 
 ## Headless
 

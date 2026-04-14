@@ -23,8 +23,22 @@ This component is useful for date-related forms where the user needs to select a
 
 ## Usage
 
+Credit card expiry month:
+
 ```html
-<MonthInput label="Start month" value={value} />
+<MonthInput label="Card expiry" value={expiryMonth} required />
+```
+
+Reporting period selection with constraints:
+
+```html
+<MonthInput label="Report month" value={reportMonth} min="2025-01" max="2026-12" />
+```
+
+Billing cycle start:
+
+```html
+<MonthInput label="Billing start month" value={billingMonth} />
 ```
 
 ## Keyboard Interactions
@@ -37,9 +51,15 @@ None at the component level. Keyboard behavior is handled natively by the browse
 
 ## When to Use
 
-- Use when the user needs to select a specific month and year, such as for credit card expiration, billing periods, or report dates.
+- Use for selecting a month and year, such as credit card expiry or reporting period.
 - Use when day-level precision is not needed and month granularity is sufficient.
-- Consider using DateInput instead when a full date (year, month, day) is required.
+- Use for billing cycles, subscription renewal dates, or financial reporting periods.
+
+## When Not to Use
+
+- Do not use when a full date is needed -- use DateInput instead.
+- Do not use when a week is needed -- use WeekInput instead.
+- Do not use when day-level precision is required -- use DateInput or DateField instead.
 
 ## Headless
 
