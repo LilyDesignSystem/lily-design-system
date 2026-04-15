@@ -46,7 +46,7 @@ function analyzeComponent(filePath) {
   }
 
   // Detect required label (no default value)
-  const labelRequired = /label,/.test(src) || /label\s*:\s*string/.test(src);
+  const labelRequired = /\blabel[,\s]/.test(src) && /label\??\s*:\s*string/.test(src);
 
   return {
     hasChildren,
@@ -97,24 +97,33 @@ function generateStory(componentName, storyPrefix, props) {
     args.title = pascalToTitle(componentName);
   }
 
-  const argsStr = Object.keys(args).length > 0
-    ? `\n  args={${JSON.stringify(args).replace(/"/g, "'")}}\n`
+  const hasArgs = Object.keys(args).length > 0;
+  const argsLine = hasArgs
+    ? `  args={${JSON.stringify(args).replace(/"/g, "'")}}`
     : '';
 
   if (props.hasChildren) {
-    // Component needs children content
     const childContent = getDefaultChildContent(componentName);
     lines.push(`<Story`);
     lines.push(`  name="Default"`);
-    lines.push(`  tags={['autodocs', '!dev']}${argsStr ? argsStr : ''}`);
+    if (hasArgs) {
+      lines.push(`  tags={['autodocs', '!dev']}`);
+      lines.push(argsLine);
+    } else {
+      lines.push(`  tags={['autodocs', '!dev']}`);
+    }
     lines.push(`>`);
     lines.push(`  ${childContent}`);
     lines.push(`</Story>`);
   } else {
-    // Self-closing component (inputs, etc.)
     lines.push(`<Story`);
     lines.push(`  name="Default"`);
-    lines.push(`  tags={['autodocs', '!dev']}${argsStr ? argsStr : ''}`);
+    if (hasArgs) {
+      lines.push(`  tags={['autodocs', '!dev']}`);
+      lines.push(argsLine);
+    } else {
+      lines.push(`  tags={['autodocs', '!dev']}`);
+    }
     lines.push(`/>`);
   }
 
