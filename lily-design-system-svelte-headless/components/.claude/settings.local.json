@@ -43,7 +43,9 @@
       "Bash(echo \"=== Testing HTML tag pattern claims ===\" echo \"\" echo \"CLAUDE.md claims ''''List suffix = <ol> tag''''\" grep \"^<\" /Users/jph/git/lilydesignsystem/lily-plus-svelte/components/DoList.svelte)",
       "Bash(head -1 __NEW_LINE_93f93054735fc978__ echo \"\" echo \"CLAUDE.md claims ''''Nav suffix = <nav> tag''''\" grep \"^<\" /Users/jph/git/lilydesignsystem/lily-plus-svelte/components/BreadcrumbNav.svelte)",
       "Bash(head -1 __NEW_LINE_93f93054735fc978__ echo \"\" echo \"CLAUDE.md claims ''''Button suffix = <button> tag''''\" grep \"^<\" /Users/jph/git/lilydesignsystem/lily-plus-svelte/components/MenuBarButton.svelte)",
-      "Bash(head -1 __NEW_LINE_93f93054735fc978__ echo \"\" echo \"CLAUDE.md claims ''''Picker suffix = <div> tag''''\" grep \"^<\" /Users/jph/git/lilydesignsystem/lily-plus-svelte/components/ColorPicker.svelte)"
+      "Bash(head -1 __NEW_LINE_93f93054735fc978__ echo \"\" echo \"CLAUDE.md claims ''''Picker suffix = <div> tag''''\" grep \"^<\" /Users/jph/git/lilydesignsystem/lily-plus-svelte/components/ColorPicker.svelte)",
+      "Bash(ls /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-svelte-headless/components/)",
+      "Read(//tmp/**)"
     ]
   }
 }
