@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-svelte-sveltekit-examples/**)",
+      "Bash(node /tmp/gen-component-index.mjs)"
+    ]
+  }
+}
