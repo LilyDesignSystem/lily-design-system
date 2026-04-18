@@ -1,0 +1,30 @@
+---
+layout: layouts/component-demo.njk
+title: Warning Callout
+description: a callout box highlighting a warning message
+nhsuk: https://service-manual.nhs.uk/design-system/components/warning-callout
+---
+
+{% from "components/warning-callout/macro.njk" import warningCallout %}
+
+<h2>Default</h2>
+{{ warningCallout({
+  heading: "School absences",
+  text: "Contact your GP surgery if you think your child has measles."
+}) }}
+
+<h2>With HTML content</h2>
+{% call warningCallout({ heading: "Important" }) %}
+<p>Only take this medicine if your doctor has prescribed it for you.</p>
+<ul>
+  <li>Follow the instructions on the label.</li>
+  <li>Do not exceed the recommended dose.</li>
+</ul>
+{% endcall %}
+
+<h2>With heading level 2</h2>
+{{ warningCallout({
+  heading: "Do not drive",
+  headingLevel: 2,
+  text: "Do not drive for 24 hours after taking this medicine."
+}) }}

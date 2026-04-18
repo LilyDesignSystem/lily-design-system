@@ -1,0 +1,20 @@
+---
+layout: layouts/component-demo.njk
+title: Inset Text
+description: indented text to distinguish it from surrounding content
+nhsuk: https://service-manual.nhs.uk/design-system/components/inset-text
+---
+
+{% from "components/inset-text/macro.njk" import insetText %}
+
+<h2>Default</h2>
+{{ insetText({
+  text: "You can report any suspected side effect to the Yellow Card scheme.",
+  screenReaderPrefix: "Information:"
+}) }}
+
+<h2>With HTML content</h2>
+{% call insetText({ screenReaderPrefix: "Information:" }) %}
+  <p>Only take this medicine if your doctor has prescribed it for you.</p>
+  <p>Follow the directions on the label.</p>
+{% endcall %}

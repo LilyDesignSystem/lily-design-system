@@ -1,0 +1,38 @@
+{#
+  Alert macro — a status message for important information or feedback.
+
+  HTML tag: <div>
+  CSS class: alert
+  ARIA role: "alert" (assertive) by default; caller may override via
+    params.role to "status" for polite announcements.
+  Accessibility: params.label sets aria-label to give the alert an
+    accessible name; params.role changes the live-region behaviour.
+
+  Params:
+    text        string   Plain text content (escaped).
+    html        string   Raw HTML content (rendered via `| safe`).
+    role        string   ARIA role. Default "alert".
+                         Valid: "alert", "status", "log".
+    label       string   Accessible name (aria-label).
+    id          string   Element id.
+    classes     string   Consumer-provided extra CSS classes.
+    attributes  object   Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/alert/macro.njk" import alert %}
+    {{ alert({ text: "Saved", role: "status", label: "Save confirmation" }) }}
+#}
+{%- macro alert(params) -%}
+<div
+  class="alert{% if params.classes %} {{ params.classes }}{% endif %}"
+  role="{{ params.role | default('alert') }}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

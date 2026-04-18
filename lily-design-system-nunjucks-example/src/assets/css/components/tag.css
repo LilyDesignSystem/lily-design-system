@@ -1,0 +1,36 @@
+.tag {
+  display: inline-block;
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-2);
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+  font-size: var(--nhsuk-font-size-16);
+  font-weight: var(--nhsuk-font-weight-bold);
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.tag.tag-grey {
+  background: var(--nhsuk-mid-grey);
+}
+
+.tag.tag-green {
+  background: var(--nhsuk-green);
+}
+
+.tag.tag-red {
+  background: var(--nhsuk-red);
+}
+
+.tag.tag-yellow {
+  background: var(--nhsuk-warm-yellow);
+  color: var(--nhsuk-black);
+}
+
+.tag.tag-white {
+  background: var(--nhsuk-white);
+  color: var(--nhsuk-blue);
+  border: 2px solid var(--nhsuk-blue);
+  padding: calc(var(--nhsuk-spacing-1) - 2px) calc(var(--nhsuk-spacing-2) - 2px);
+}

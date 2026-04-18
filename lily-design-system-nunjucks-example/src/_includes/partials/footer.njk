@@ -1,0 +1,12 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="width-container site-footer-inner">
+    <nav aria-label="Footer">
+      <ul class="site-footer-links">
+        {% for item in site.footerLinks %}
+        <li><a href="{{ item.href }}">{{ item.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+    <p class="site-footer-copy">{{ site.name }}</p>
+  </div>
+</footer>

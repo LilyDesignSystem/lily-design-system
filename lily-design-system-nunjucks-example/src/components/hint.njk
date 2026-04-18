@@ -1,0 +1,41 @@
+---
+layout: layouts/component-demo.njk
+title: Hint
+description: hint text providing guidance for a form field
+nhsuk: https://service-manual.nhs.uk/design-system/components/hint
+---
+
+{% from "components/hint/macro.njk" import hint %}
+
+<h2>Default</h2>
+<p>Hint text is rendered with an <code>id</code> so the associated
+  form field can reference it via <code>aria-describedby</code>.</p>
+
+<div>
+  <label for="nhs-number">NHS number</label>
+  {{ hint({
+    id: "nhs-number-hint",
+    text: "It is a 10-digit number, for example 485 777 3456."
+  }) }}
+  <input id="nhs-number"
+         type="text"
+         aria-describedby="nhs-number-hint"
+         inputmode="numeric"
+         autocomplete="off">
+</div>
+
+<h2>With HTML content</h2>
+<div>
+  <label for="date-of-birth">Date of birth</label>
+  {{ hint({
+    id: "dob-hint",
+    html: "For example, <strong>27 3 1970</strong>."
+  }) }}
+  <input id="date-of-birth"
+         type="text"
+         aria-describedby="dob-hint">
+</div>
+
+<h2>Accessibility</h2>
+<p>Always link the hint to its field with <code>aria-describedby</code>
+  so screen readers announce the guidance alongside the field label.</p>

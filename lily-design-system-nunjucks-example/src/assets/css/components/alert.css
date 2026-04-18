@@ -1,0 +1,19 @@
+.alert {
+  padding: var(--nhsuk-spacing-3);
+  border-left: 10px solid var(--nhsuk-blue);
+  background: var(--nhsuk-pale-grey);
+  color: var(--nhsuk-black);
+  margin-bottom: var(--nhsuk-spacing-4);
+}
+
+.alert.alert-success {
+  border-left-color: var(--nhsuk-green);
+}
+
+.alert.alert-warning {
+  border-left-color: var(--nhsuk-warm-yellow);
+}
+
+.alert.alert-error {
+  border-left-color: var(--nhsuk-red);
+}

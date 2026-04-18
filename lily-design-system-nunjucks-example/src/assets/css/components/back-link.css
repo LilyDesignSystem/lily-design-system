@@ -1,0 +1,31 @@
+.back-link {
+  display: inline-block;
+  padding-left: 1.25rem;
+  position: relative;
+  color: var(--nhsuk-black);
+  text-decoration: none;
+  font-size: var(--nhsuk-font-size-16);
+  line-height: 1.5;
+}
+
+.back-link::before {
+  content: "";
+  position: absolute;
+  left: 0.25rem;
+  top: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+.back-link:hover {
+  color: var(--nhsuk-dark-blue);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+.back-link:visited {
+  color: var(--nhsuk-black);
+}

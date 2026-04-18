@@ -1,6 +1,6 @@
 ## Svelte 5 + SvelteKit 2
 
-## Architecture
+### Architecture
 
 - Svelte 5
 - SvelteKit 2
@@ -11,7 +11,7 @@
 - pnpm NOT npm
 - [Storybook](https://storybook.js.org/)
 
-## Component conventions
+### Component conventions
 
 - Props use Svelte 5 `$props()` rune with TypeScript types
 - Two-way binding uses `$bindable()`
@@ -19,19 +19,17 @@
 - Local state uses `$state()`
 - Children slots use `Snippet` type with `{@render children()}`
 - All styling is scoped within component `<style>` blocks
-- NHS color palette: primary #005eb8, dark #003087, danger #d4351c, background #f0f4f5, border #d8dde0, focus #ffeb3b
 - All `{#each}` blocks must have a key expression
+- Color palette comes from `AGENTS/theme.md`
 
-## Testing
-
-### Stack
+### Testing stack
 
 - **vitest** (not Jest) — `npm test` runs `vitest run`
 - **@testing-library/svelte** — render and query
 - **@testing-library/user-event** — user interaction simulation
 - **jsdom** — DOM environment
 
-### Matcher Rules (CRITICAL)
+### Testing matcher rules (CRITICAL)
 
 Vitest built-in matchers ONLY. Never use jest-dom matchers:
 
@@ -51,7 +49,7 @@ expect(el).toHaveTextContent("hello");
 expect(button).toBeDisabled();
 ```
 
-## Quick Start
+### Quick start
 
 ```sh
 pnpm install
@@ -60,12 +58,12 @@ pnpm run dev
 
 Open [http://localhost:5173](http://localhost:5173).
 
-## Scripts
+### Scripts
 
-| Command            | Description                     |
-| ------------------ | ------------------------------- |
-| `pnpm run dev`     | Start development server        |
-| `pnpm run build`   | Build for production            |
-| `pnpm run preview` | Preview production build        |
-| `pnpm test`        | Run all tests                   |
-| `pnp audit --fix`  | Audit dependencies and fix them |
+| Command             | Description                     |
+| ------------------- | ------------------------------- |
+| `pnpm run dev`      | Start development server        |
+| `pnpm run build`    | Build for production            |
+| `pnpm run preview`  | Preview production build        |
+| `pnpm test`         | Run all tests                   |
+| `pnpm audit --fix`  | Audit dependencies and fix them |

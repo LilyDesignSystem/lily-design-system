@@ -1,0 +1,26 @@
+---
+layout: layouts/component-demo.njk
+title: Action Link
+description: a hyperlink styled as an action trigger
+nhsuk: https://service-manual.nhs.uk/design-system/components/action-link
+---
+
+{% from "components/action-link/macro.njk" import actionLink %}
+
+<h2>Default</h2>
+{{ actionLink({
+  href: "/nhs-number/",
+  text: "Find your NHS number"
+}) }}
+
+<h2>Booking action</h2>
+{{ actionLink({
+  href: "/book/",
+  text: "Book a coronavirus vaccination"
+}) }}
+
+<h2>With HTML content</h2>
+{{ actionLink({
+  href: "/results/",
+  html: "<strong>Get</strong> your test results"
+}) }}

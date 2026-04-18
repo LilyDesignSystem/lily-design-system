@@ -1,0 +1,37 @@
+{#
+  BackLink macro — a navigation link to return to a previous page.
+
+  HTML tag: <a>
+  CSS class: back-link
+  Accessibility: a plain hyperlink; params.label overrides the
+    accessible name when the link text alone is ambiguous.
+
+  Params:
+    href        string   Target URL. Default "#".
+    text        string   Plain text content (escaped).
+                         Default "Back".
+    html        string   Raw HTML content (rendered via `| safe`).
+    label       string   Accessible name (aria-label).
+    id          string   Element id.
+    classes     string   Consumer-provided extra CSS classes.
+    attributes  object   Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/back-link/macro.njk" import backLink %}
+    {{ backLink({ href: "/services/", text: "Back to services" }) }}
+#}
+{%- macro backLink(params) -%}
+<a
+  class="back-link{% if params.classes %} {{ params.classes }}{% endif %}"
+  href="{{ params.href | default('#') }}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- else -%}Back
+  {%- endif -%}
+</a>
+{%- endmacro -%}

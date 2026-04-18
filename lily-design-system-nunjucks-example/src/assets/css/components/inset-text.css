@@ -1,0 +1,17 @@
+.inset-text {
+  padding: var(--nhsuk-spacing-3) var(--nhsuk-spacing-4);
+  border-left: 10px solid var(--nhsuk-mid-grey);
+  margin-bottom: var(--nhsuk-spacing-4);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

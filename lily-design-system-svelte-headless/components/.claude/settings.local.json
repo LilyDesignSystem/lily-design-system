@@ -46,7 +46,8 @@
       "Bash(head -1 __NEW_LINE_93f93054735fc978__ echo \"\" echo \"CLAUDE.md claims ''''Picker suffix = <div> tag''''\" grep \"^<\" /Users/jph/git/lilydesignsystem/lily-plus-svelte/components/ColorPicker.svelte)",
       "Bash(ls /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-svelte-headless/components/)",
       "Read(//tmp/**)",
-      "Bash(split -l 32 /tmp/components.txt /tmp/batch-)"
+      "Bash(split -l 32 /tmp/components.txt /tmp/batch-)",
+      "Bash([ -f \"$d/index.md\" ])"
     ]
   }
 }

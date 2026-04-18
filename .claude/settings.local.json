@@ -89,7 +89,9 @@
       "Bash(cd:*)",
       "WebFetch(domain:mozilla.github.io)",
       "Bash(pnpm install *)",
-      "Bash(pnpm test *)"
+      "Bash(pnpm test *)",
+      "Bash([ -d \"/Users/jph/git/lilydesignsystem/lily-design-system/components/$comp\" ])",
+      "Bash(pnpm build *)"
     ]
   }
 }

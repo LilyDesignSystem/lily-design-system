@@ -1,0 +1,32 @@
+.badge {
+  display: inline-block;
+  padding: 0 var(--nhsuk-spacing-2);
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+  font-size: var(--nhsuk-font-size-14);
+  font-weight: var(--nhsuk-font-weight-bold);
+  line-height: 1.75;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.badge.badge-grey {
+  background: var(--nhsuk-mid-grey);
+  color: var(--nhsuk-white);
+}
+
+.badge.badge-red {
+  background: var(--nhsuk-red);
+  color: var(--nhsuk-white);
+}
+
+.badge.badge-green {
+  background: var(--nhsuk-green);
+  color: var(--nhsuk-white);
+}
+
+.badge.badge-yellow {
+  background: var(--nhsuk-warm-yellow);
+  color: var(--nhsuk-black);
+}

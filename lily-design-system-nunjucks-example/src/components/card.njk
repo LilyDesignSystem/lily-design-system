@@ -1,0 +1,33 @@
+---
+layout: layouts/component-demo.njk
+title: Card
+description: a grouped content container with header, body, and footer areas
+nhsuk: https://service-manual.nhs.uk/design-system/components/card
+---
+
+{% from "components/card/macro.njk" import card %}
+
+<h2>Default</h2>
+{% call card({ labelledBy: "card-urgent-title" }) %}
+<h3 id="card-urgent-title"><a href="#">Urgent and emergency care</a></h3>
+<p>Information about urgent care, accident and emergency services,
+  and NHS 111.</p>
+{% endcall %}
+
+<h2>Feature</h2>
+{% call card({ labelledBy: "card-feature-title", classes: "card-feature" }) %}
+<h3 id="card-feature-title">NHS 111</h3>
+<p>Dial 111 for medical help and advice when it is not an emergency.</p>
+{% endcall %}
+
+<h2>Primary</h2>
+{% call card({ labelledBy: "card-primary-title", classes: "card-primary" }) %}
+<h3 id="card-primary-title"><a href="#">Coronavirus (COVID-19)</a></h3>
+<p>Latest government guidance and NHS health information.</p>
+{% endcall %}
+
+<h2>With aria-label instead of heading</h2>
+{{ card({
+  text: "A short card with no visible heading.",
+  label: "Short note"
+}) }}

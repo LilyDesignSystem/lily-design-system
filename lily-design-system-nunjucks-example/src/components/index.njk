@@ -1,0 +1,24 @@
+---
+layout: layouts/page.njk
+title: Components
+description: All Lily Design System components, rendered via Nunjucks macros and styled in NHS UK visual tokens.
+---
+
+{% if components | length == 0 %}
+<p>
+  No components are implemented yet in the headless Nunjucks project.
+  See
+  <a href="https://github.com/lilydesignsystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless">
+  lily-design-system-nunjucks-headless</a> to add one.
+</p>
+{% else %}
+<p>
+  {{ components | length }} component{% if components | length != 1 %}s{% endif %} currently implemented.
+</p>
+
+<ul>
+  {% for c in components %}
+  <li><a href="/components/{{ c.kebab }}/">{{ c.title }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}

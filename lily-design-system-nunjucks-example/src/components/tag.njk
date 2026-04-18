@@ -1,0 +1,26 @@
+---
+layout: layouts/component-demo.njk
+title: Tag
+description: a keyword label for categorizing content
+nhsuk: https://service-manual.nhs.uk/design-system/components/tag
+---
+
+{% from "components/tag/macro.njk" import tag %}
+
+<h2>Default</h2>
+<p>{{ tag({ text: "Active" }) }}</p>
+
+<h2>Colour variants</h2>
+<p>
+  {{ tag({ text: "Active" }) }}
+  {{ tag({ text: "Inactive", classes: "tag-grey" }) }}
+  {{ tag({ text: "Available", classes: "tag-green" }) }}
+  {{ tag({ text: "Unavailable", classes: "tag-red" }) }}
+  {{ tag({ text: "Pending", classes: "tag-yellow" }) }}
+  {{ tag({ text: "Outlined", classes: "tag-white" }) }}
+</p>
+
+<h2>With accessible label</h2>
+<p>
+  Status: {{ tag({ text: "✓", classes: "tag-green", label: "Passing" }) }}
+</p>

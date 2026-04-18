@@ -1,0 +1,43 @@
+---
+layout: layouts/component-demo.njk
+title: Button
+description: a generic clickable button element
+nhsuk: https://service-manual.nhs.uk/design-system/components/buttons
+---
+
+{% from "components/button/macro.njk" import button %}
+
+<h2>Default</h2>
+<p>The default button uses the Lily <code>button</code> class, styled as an NHS UK primary action.</p>
+{{ button({ text: "Save", type: "button" }) }}
+
+<h2>Submit</h2>
+{{ button({ text: "Continue", type: "submit", label: "Continue to next step" }) }}
+
+<h2>Secondary</h2>
+{{ button({ text: "Cancel", classes: "button-secondary" }) }}
+
+<h2>Reverse</h2>
+<div style="background: var(--nhsuk-blue); padding: var(--nhsuk-spacing-3);">
+  {{ button({ text: "Learn more", classes: "button-reverse" }) }}
+</div>
+
+<h2>Warning</h2>
+{{ button({ text: "Delete account", classes: "button-warning" }) }}
+
+<h2>Disabled</h2>
+{{ button({ text: "Unavailable", disabled: true }) }}
+
+<h2>With extra attributes</h2>
+{{ button({
+  text: "Track",
+  attributes: { "data-analytics": "track-button", "data-id": "42" }
+}) }}
+
+<h2>With HTML content</h2>
+{{ button({ html: "<strong>Bold</strong> and <em>italic</em>" }) }}
+
+<h2>Code</h2>
+<pre><code>{% raw %}{% from "components/button/macro.njk" import button %}
+
+{{ button({ text: "Save", type: "submit" }) }}{% endraw %}</code></pre>

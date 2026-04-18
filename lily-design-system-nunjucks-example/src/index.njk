@@ -1,0 +1,27 @@
+---
+layout: layouts/page.njk
+title: Home
+description: Lily Design System components rendered via Nunjucks and styled to match NHS UK.
+---
+
+{% from "components/button/macro.njk" import button %}
+
+<p>
+  This site demonstrates every Lily Design System component rendered
+  through the
+  <a href="https://github.com/lilydesignsystem/lily-design-system/tree/main/lily-design-system-nunjucks-headless">
+  headless Nunjucks macros</a>
+  and dressed in the <a href="https://service-manual.nhs.uk/design-system">
+  NHS UK Design System</a>'s visual language.
+</p>
+
+<p>
+  The components themselves are unstyled; the CSS here targets the
+  Lily kebab-case class names (<code>.button</code>,
+  <code>.breadcrumb-nav</code>, …) and applies NHS UK colour,
+  typography, spacing, and focus-state tokens.
+</p>
+
+<p>
+  {{ button({ text: "Browse components", attributes: { "onclick": "location.href='/components/'" } }) }}
+</p>

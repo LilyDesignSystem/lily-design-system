@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Back Link
+description: a navigation link to return to a previous page
+nhsuk: https://service-manual.nhs.uk/design-system/components/back-link
+---
+
+{% from "components/back-link/macro.njk" import backLink %}
+
+<h2>Default</h2>
+{{ backLink({ href: "/" }) }}
+
+<h2>Custom text</h2>
+{{ backLink({ href: "/services/", text: "Back to services" }) }}
+
+<h2>With accessible label</h2>
+{{ backLink({
+  href: "/gp/",
+  text: "Back",
+  label: "Back to GP services"
+}) }}

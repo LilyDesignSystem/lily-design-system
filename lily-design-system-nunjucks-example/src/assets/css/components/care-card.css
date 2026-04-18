@@ -1,0 +1,44 @@
+.care-card {
+  margin-bottom: var(--nhsuk-spacing-4);
+}
+
+.care-card-heading {
+  display: block;
+  padding: var(--nhsuk-spacing-3) var(--nhsuk-spacing-4);
+  margin: 0;
+  color: var(--nhsuk-white);
+  font-size: var(--nhsuk-font-size-22);
+  font-weight: var(--nhsuk-font-weight-bold);
+}
+
+.care-card-body {
+  padding: var(--nhsuk-spacing-3) var(--nhsuk-spacing-4);
+  background: var(--nhsuk-pale-grey);
+  border: 1px solid var(--nhsuk-light-grey);
+  border-top: 0;
+}
+
+.care-card-body > :first-child {
+  margin-top: 0;
+}
+
+.care-card-body > :last-child {
+  margin-bottom: 0;
+}
+
+.care-card[data-urgency="non-urgent"] .care-card-heading {
+  background: var(--nhsuk-blue);
+}
+
+.care-card[data-urgency="urgent"] .care-card-heading {
+  background: var(--nhsuk-warm-yellow);
+  color: var(--nhsuk-black);
+}
+
+.care-card[data-urgency="emergency"] .care-card-heading {
+  background: var(--nhsuk-red);
+}
+
+.care-card[data-urgency="emergency"] .care-card-body {
+  border-top: 2px solid var(--nhsuk-red);
+}

@@ -1,0 +1,35 @@
+{#
+  Tag macro — a keyword label for categorizing content.
+
+  HTML tag: <strong>
+  CSS class: tag
+  Accessibility: rendered as <strong> so assistive tech conveys the
+    tag as strongly-emphasised text. Use params.label only when the
+    tag text alone is ambiguous.
+
+  Params:
+    text        string   Plain text content (escaped).
+    html        string   Raw HTML content (rendered via `| safe`).
+    label       string   Accessible name (aria-label).
+    id          string   Element id.
+    classes     string   Consumer-provided extra CSS classes
+                         (e.g. tag-grey, tag-red, tag-green).
+    attributes  object   Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/tag/macro.njk" import tag %}
+    {{ tag({ text: "Active" }) }}
+#}
+{%- macro tag(params) -%}
+<strong
+  class="tag{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</strong>
+{%- endmacro -%}

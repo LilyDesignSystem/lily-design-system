@@ -1,0 +1,33 @@
+---
+layout: layouts/component-demo.njk
+title: Skip Link
+description: a hidden link for keyboard users to skip to main content
+nhsuk: https://service-manual.nhs.uk/design-system/components/skip-link
+---
+
+{% from "components/skip-link/macro.njk" import skipLink %}
+
+<h2>Default</h2>
+<p>The skip link is visually hidden until it receives keyboard focus. Press
+  <kbd>Tab</kbd> when the page loads to see it appear at the top-left corner.
+  Every page on this site already includes the skip link in the base layout.</p>
+
+<p>The markup produced by the macro:</p>
+
+<pre><code>{% raw %}{% from "components/skip-link/macro.njk" import skipLink %}
+{{ skipLink() }}{% endraw %}</code></pre>
+
+<p>Produces:</p>
+
+<pre><code>&lt;a class="skip-link" href="#main-content"&gt;Skip to main content&lt;/a&gt;</code></pre>
+
+<h2>Custom target and text</h2>
+
+<pre><code>{% raw %}{{ skipLink({ href: "#content", text: "Jump to content" }) }}{% endraw %}</code></pre>
+
+<p>Inline demo (tab through to reveal):</p>
+
+<div style="position: relative; border: 1px dashed var(--nhsuk-mid-grey); padding: var(--nhsuk-spacing-4);">
+  {{ skipLink({ href: "#content", text: "Jump to content" }) }}
+  <p>Tab here to see the skip link appear above.</p>
+</div>

@@ -1,0 +1,24 @@
+---
+layout: layouts/component-demo.njk
+title: Badge
+description: a small label for counts, statuses, or categories
+---
+
+{% from "components/badge/macro.njk" import badge %}
+
+<h2>Default</h2>
+<p>{{ badge({ text: "New" }) }} A new feature has arrived.</p>
+
+<h2>Colour variants</h2>
+<p>
+  {{ badge({ text: "Draft", classes: "badge-grey" }) }}
+  {{ badge({ text: "Published", classes: "badge-green" }) }}
+  {{ badge({ text: "Error", classes: "badge-red" }) }}
+  {{ badge({ text: "Pending", classes: "badge-yellow" }) }}
+</p>
+
+<h2>With accessible label</h2>
+<p>Inbox {{ badge({ text: "5", label: "5 unread messages" }) }}</p>
+
+<h2>With HTML content</h2>
+<p>{{ badge({ html: "<strong>Beta</strong>" }) }}</p>

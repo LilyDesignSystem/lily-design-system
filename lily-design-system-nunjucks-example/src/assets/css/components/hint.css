@@ -1,0 +1,5 @@
+.hint {
+  color: var(--nhsuk-dark-grey);
+  font-size: var(--nhsuk-font-size-19);
+  margin-bottom: var(--nhsuk-spacing-3);
+}

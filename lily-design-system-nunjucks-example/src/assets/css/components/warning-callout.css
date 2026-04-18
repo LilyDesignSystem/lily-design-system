@@ -1,0 +1,23 @@
+.warning-callout {
+  position: relative;
+  padding: var(--nhsuk-spacing-3) var(--nhsuk-spacing-4);
+  background: var(--nhsuk-pale-grey);
+  border-top: 4px solid var(--nhsuk-warm-yellow);
+  margin-bottom: var(--nhsuk-spacing-4);
+}
+
+.warning-callout-label {
+  display: inline-block;
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);
+  background: var(--nhsuk-warm-yellow);
+  color: var(--nhsuk-black);
+  font-size: var(--nhsuk-font-size-22);
+  margin-top: calc(-1 * var(--nhsuk-spacing-3) - 4px);
+  margin-bottom: var(--nhsuk-spacing-3);
+  margin-left: calc(-1 * var(--nhsuk-spacing-4));
+  border-bottom: 4px solid var(--nhsuk-warm-yellow);
+}
+
+.warning-callout > :last-child {
+  margin-bottom: 0;
+}

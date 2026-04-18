@@ -1,0 +1,5 @@
+:root {
+  --nhsuk-focus-outline-width: 4px;
+  --nhsuk-focus-outline-color: var(--nhsuk-yellow);
+  --nhsuk-focus-shadow-color: var(--nhsuk-black);
+}

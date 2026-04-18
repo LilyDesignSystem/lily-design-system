@@ -1,0 +1,7 @@
+:root {
+  --nhsuk-bp-mobile: 320px;
+  --nhsuk-bp-tablet: 641px;
+  --nhsuk-bp-desktop: 769px;
+  --nhsuk-bp-large-desktop: 990px;
+  --nhsuk-bp-xl-desktop: 1280px;
+}

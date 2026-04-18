@@ -1,0 +1,36 @@
+---
+layout: layouts/component-demo.njk
+title: Alert
+description: a status message for important information or feedback
+nhsuk: https://service-manual.nhs.uk/design-system/components/notification-banners
+---
+
+{% from "components/alert/macro.njk" import alert %}
+
+<h2>Default (role="alert")</h2>
+{{ alert({ text: "Your appointment has been cancelled." }) }}
+
+<h2>Success (role="status")</h2>
+{{ alert({
+  text: "Your details have been saved.",
+  role: "status",
+  classes: "alert-success"
+}) }}
+
+<h2>Warning</h2>
+{{ alert({
+  html: "<strong>Warning:</strong> This action cannot be undone.",
+  classes: "alert-warning"
+}) }}
+
+<h2>Error</h2>
+{{ alert({
+  text: "Please correct the errors before submitting.",
+  classes: "alert-error"
+}) }}
+
+<h2>With caller block</h2>
+{% call alert({ role: "status" }) %}
+  <p>You have <strong>3 unread messages</strong>.</p>
+  <p><a href="#">Go to inbox</a></p>
+{% endcall %}

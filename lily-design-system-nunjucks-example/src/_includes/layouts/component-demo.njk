@@ -1,0 +1,38 @@
+{% extends "layouts/base.njk" %}
+
+{% block breadcrumb %}
+<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+  <ol class="breadcrumb-list">
+    <li class="breadcrumb-list-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-list-item"><a href="/components/">Components</a></li>
+    <li class="breadcrumb-list-item" aria-current="page">{{ title }}</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="component-demo">
+  <header class="component-demo-header">
+    <h1>{{ title }}</h1>
+    {% if description %}<p class="lead">{{ description }}</p>{% endif %}
+  </header>
+
+  <section class="component-demo-examples">
+    {{ content | safe }}
+  </section>
+
+  {% if accessibility %}
+  <section class="component-demo-accessibility">
+    <h2>Accessibility</h2>
+    {{ accessibility | safe }}
+  </section>
+  {% endif %}
+
+  {% if nhsuk %}
+  <section class="component-demo-references">
+    <h2>NHS UK reference</h2>
+    <p><a href="{{ nhsuk }}">{{ nhsuk }}</a></p>
+  </section>
+  {% endif %}
+</article>
+{% endblock %}

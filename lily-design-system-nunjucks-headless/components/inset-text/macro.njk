@@ -1,0 +1,41 @@
+{#
+  InsetText macro — indented text to distinguish it from surrounding content.
+
+  HTML tag: <div>
+  CSS class: inset-text
+  Accessibility: params.label sets aria-label; a hidden visually-
+    hidden preamble may be added via params.screenReaderPrefix so
+    screen readers can announce the inset's purpose (e.g.
+    "Information:").
+
+  Params:
+    text                  string   Plain text content (escaped).
+    html                  string   Raw HTML content (rendered via `| safe`).
+    label                 string   Accessible name (aria-label).
+    screenReaderPrefix    string   Visually-hidden prefix announced
+                                   before the inset content.
+    id                    string   Element id.
+    classes               string   Consumer-provided extra CSS classes.
+    attributes            object   Extra HTML attributes.
+
+  Usage:
+    {% from "components/inset-text/macro.njk" import insetText %}
+    {{ insetText({
+      text: "Tell your GP if you feel unwell.",
+      screenReaderPrefix: "Information:"
+    }) }}
+#}
+{%- macro insetText(params) -%}
+<div
+  class="inset-text{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.screenReaderPrefix %}<span class="visually-hidden">{{ params.screenReaderPrefix }} </span>{% endif -%}
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

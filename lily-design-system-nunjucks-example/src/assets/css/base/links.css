@@ -1,0 +1,18 @@
+a {
+  color: var(--nhsuk-bright-blue);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.1em;
+}
+
+a:visited {
+  color: var(--nhsuk-purple);
+}
+
+a:hover {
+  color: var(--nhsuk-dark-blue);
+  text-decoration-thickness: 3px;
+}
+
+a:active {
+  color: var(--nhsuk-black);
+}

@@ -1,0 +1,19 @@
+body {
+  background: var(--nhsuk-white);
+  color: var(--nhsuk-black);
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+  line-height: var(--nhsuk-line-height-body);
+  display: flex;
+  flex-direction: column;
+}
+
+.main-wrapper {
+  flex: 1;
+  padding-top: var(--nhsuk-spacing-5);
+  padding-bottom: var(--nhsuk-spacing-7);
+}
+
+.main-wrapper:focus {
+  outline: none;
+}

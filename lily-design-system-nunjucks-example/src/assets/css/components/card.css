@@ -1,0 +1,29 @@
+.card {
+  padding: var(--nhsuk-spacing-4);
+  background: var(--nhsuk-white);
+  border: 1px solid var(--nhsuk-light-grey);
+  border-bottom: 4px solid var(--nhsuk-light-grey);
+  margin-bottom: var(--nhsuk-spacing-4);
+}
+
+.card.card-feature {
+  border-top: 10px solid var(--nhsuk-blue);
+}
+
+.card.card-primary {
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+  border-color: var(--nhsuk-dark-blue);
+}
+
+.card.card-primary a {
+  color: var(--nhsuk-white);
+}
+
+.card > :first-child {
+  margin-top: 0;
+}
+
+.card > :last-child {
+  margin-bottom: 0;
+}

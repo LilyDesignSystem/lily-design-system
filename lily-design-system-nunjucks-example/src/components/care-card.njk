@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: Care Card
+description: a medical care instruction card with urgency levels
+nhsuk: https://service-manual.nhs.uk/design-system/components/care-cards
+---
+
+{% from "components/care-card/macro.njk" import careCard %}
+
+<h2>Non-urgent advice</h2>
+{{ careCard({
+  urgency: "non-urgent",
+  heading: "Speak to a GP if:",
+  screenReaderPrefix: "Non-urgent advice:",
+  html: "<ul><li>you think you have a chest infection</li><li>your cough has lasted more than 3 weeks</li></ul>"
+}) }}
+
+<h2>Urgent advice</h2>
+{{ careCard({
+  urgency: "urgent",
+  heading: "Ask for an urgent GP appointment if:",
+  screenReaderPrefix: "Urgent advice:",
+  html: "<ul><li>your symptoms get suddenly worse</li><li>you have a high temperature</li></ul>"
+}) }}
+
+<h2>Emergency advice</h2>
+{{ careCard({
+  urgency: "emergency",
+  heading: "Call 999 if:",
+  screenReaderPrefix: "Immediate action required:",
+  html: "<ul><li>you or someone else has symptoms of a stroke</li><li>someone is having a seizure for the first time</li></ul>"
+}) }}

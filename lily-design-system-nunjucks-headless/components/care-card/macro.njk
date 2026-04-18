@@ -1,0 +1,64 @@
+{#
+  CareCard macro — a medical care instruction card with urgency levels.
+
+  HTML tag: <div role="note">
+  CSS class: care-card
+  Data attribute: data-urgency on the root; one of
+    "non-urgent" | "urgent" | "emergency". Default "non-urgent".
+  Accessibility:
+    - role="note" marks the callout as ancillary content.
+    - A visually-hidden prefix announces the urgency level to screen
+      readers (e.g. "Urgent advice:").
+    - params.label overrides the accessible name when necessary.
+
+  Params:
+    urgency            string  "non-urgent" | "urgent" | "emergency".
+                               Default "non-urgent".
+    heading            string  Visible heading text.
+    headingLevel       number  Heading level 2–6. Default 3.
+    screenReaderPrefix string  Visually-hidden prefix before heading.
+                               Defaults based on urgency.
+    text               string  Plain text content below the heading.
+    html               string  Raw HTML content below the heading.
+    label              string  Accessible name (aria-label).
+    id                 string  Element id.
+    classes            string  Consumer-provided extra CSS classes.
+    attributes         object  Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/care-card/macro.njk" import careCard %}
+    {{ careCard({
+      urgency: "urgent",
+      heading: "Ask for an urgent GP appointment",
+      screenReaderPrefix: "Urgent advice:",
+      text: "You need an appointment within 24 hours."
+    }) }}
+#}
+{%- macro careCard(params) -%}
+{%- set urgency = params.urgency | default("non-urgent") -%}
+{%- set level = params.headingLevel | default(3) -%}
+<div
+  class="care-card{% if params.classes %} {{ params.classes }}{% endif %}"
+  role="note"
+  data-urgency="{{ urgency }}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.heading %}
+  <h{{ level }} class="care-card-heading">
+    {%- if params.screenReaderPrefix %}<span class="visually-hidden">{{ params.screenReaderPrefix }} </span>{% endif -%}
+    {{ params.heading }}
+  </h{{ level }}>
+  {%- endif %}
+  <div class="care-card-body">
+    {%- if params.html %}
+    {{ params.html | safe }}
+    {%- elif params.text %}
+    <p>{{ params.text }}</p>
+    {%- elif caller %}
+    {{ caller() }}
+    {%- endif %}
+  </div>
+</div>
+{%- endmacro -%}

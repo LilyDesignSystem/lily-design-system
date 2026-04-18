@@ -1,0 +1,40 @@
+---
+layout: layouts/component-demo.njk
+title: Details
+description: a disclosure widget that shows and hides content
+nhsuk: https://service-manual.nhs.uk/design-system/components/details
+---
+
+{% from "components/details/macro.njk" import details %}
+
+<h2>Default (closed)</h2>
+{{ details({
+  summary: "Where can I find my NHS number?",
+  html: "<p>Your NHS number is on any letter from the NHS, such as your
+    medical card, prescriptions, or test results. If you cannot find it,
+    your GP surgery can tell you your NHS number.</p>"
+}) }}
+
+<h2>Open by default</h2>
+{{ details({
+  summary: "What is an NHS number?",
+  open: true,
+  text: "It is a 10-digit number that uniquely identifies you in the NHS."
+}) }}
+
+<h2>With list content</h2>
+{% call details({ summary: "When should I dial 999?" }) %}
+<ul>
+  <li>signs of a heart attack or stroke</li>
+  <li>serious bleeding that will not stop</li>
+  <li>severe difficulty breathing</li>
+  <li>severe burns or scalds</li>
+</ul>
+{% endcall %}
+
+<h2>Accessibility</h2>
+<p>The component uses the native <code>&lt;details&gt;</code> and
+  <code>&lt;summary&gt;</code> elements, which provide keyboard support
+  (<kbd>Tab</kbd> to focus, <kbd>Enter</kbd> or <kbd>Space</kbd> to toggle)
+  and expose the expanded/collapsed state to assistive tech for free.
+  No JavaScript is required.</p>

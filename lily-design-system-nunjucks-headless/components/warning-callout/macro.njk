@@ -1,0 +1,48 @@
+{#
+  WarningCallout macro — a callout box highlighting a warning message.
+
+  HTML tag: <div role="note">
+  CSS class: warning-callout
+  Accessibility: role="note" (ancillary information); params.heading
+    becomes the visible heading; params.label can override the
+    accessible name.
+
+  Params:
+    heading       string   Visible heading text. Rendered in an <h3>
+                           inside the callout.
+    headingLevel  number   Heading level 2–6. Default 3.
+    text          string   Plain text content below the heading.
+    html          string   Raw HTML content below the heading.
+    label         string   Accessible name (aria-label).
+    id            string   Element id.
+    classes       string   Consumer-provided extra CSS classes.
+    attributes    object   Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/warning-callout/macro.njk" import warningCallout %}
+    {{ warningCallout({
+      heading: "School absences",
+      text: "Call 111 if you are unable to return to school."
+    }) }}
+#}
+{%- macro warningCallout(params) -%}
+{%- set level = params.headingLevel | default(3) -%}
+<div
+  class="warning-callout{% if params.classes %} {{ params.classes }}{% endif %}"
+  role="note"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.heading %}
+  <h{{ level }} class="warning-callout-label">{{ params.heading }}</h{{ level }}>
+  {%- endif %}
+  {%- if params.html %}
+  {{ params.html | safe }}
+  {%- elif params.text %}
+  <p>{{ params.text }}</p>
+  {%- elif caller %}
+  {{ caller() }}
+  {%- endif %}
+</div>
+{%- endmacro -%}

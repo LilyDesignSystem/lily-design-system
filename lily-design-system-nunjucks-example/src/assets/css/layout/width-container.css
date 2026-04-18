@@ -1,0 +1,14 @@
+.width-container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--nhsuk-spacing-3);
+  padding-right: var(--nhsuk-spacing-3);
+}
+
+@media (min-width: 769px) {
+  .width-container {
+    padding-left: var(--nhsuk-spacing-5);
+    padding-right: var(--nhsuk-spacing-5);
+  }
+}

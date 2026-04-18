@@ -1,0 +1,15 @@
+<header class="site-header" role="banner">
+  <div class="width-container site-header-inner">
+    <a class="site-header-logo" href="/" aria-label="{{ site.name }} home">
+      <strong>{{ site.shortName }}</strong>
+      <span class="site-header-tagline">Nunjucks example</span>
+    </a>
+    <nav class="site-header-nav" aria-label="Primary">
+      <ul>
+        {% for item in site.nav %}
+        <li><a href="{{ item.href }}">{{ item.label }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+</header>
