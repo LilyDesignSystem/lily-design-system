@@ -86,7 +86,10 @@
       "Bash(do)",
       "Read(//Users/jph/git/lilydesignsystem/lily-design-system/components/**)",
       "Bash(done)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "WebFetch(domain:mozilla.github.io)",
+      "Bash(pnpm install *)",
+      "Bash(pnpm test *)"
     ]
   }
 }
