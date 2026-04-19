@@ -1,4 +1,4 @@
-# Theme design principle rules
+## Theme design principle rules
 
 Color palette:
 

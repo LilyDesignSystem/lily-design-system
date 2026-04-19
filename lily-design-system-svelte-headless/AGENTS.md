@@ -5,6 +5,7 @@
 @AGENTS/accessibility.md
 @AGENTS/internationalization.md
 @AGENTS/headless.md
+@AGENTS/sveltekit.md
 
 ## Metadata
 

@@ -1,6 +1,6 @@
 # Lily Design System - React Headless
 
-A headless React component library with 332 accessible, unstyled components. Based on the Lily Design System canonical component list.
+A headless React component library with accessible, unstyled components. Based on the Lily Design System canonical component list in `AGENTS/components.md`.
 
 @AGENTS/lily.md
 @AGENTS/components.md

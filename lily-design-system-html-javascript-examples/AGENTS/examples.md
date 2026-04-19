@@ -5,7 +5,7 @@ All components are styled.
 - Examples provide all CSS
 - Examples provide all user-facing text via parameters (i18n-ready)
 - Examples may provide CSS classes beyond the base class name + consumer CssClass
-- Eaxmples provide visual styling, stylesheets, inline styles, colors, sizes, spacing, visual treatment
+- Examples provide visual styling, stylesheets, inline styles, colors, sizes, spacing, visual treatment
 
 The subproject must have web routes:
 

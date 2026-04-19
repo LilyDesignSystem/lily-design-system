@@ -16,7 +16,7 @@
 
 ## Project Overview
 
-A headless Vue 3 component library with 332 accessible, unstyled components.
+A headless Vue 3 component library with accessible, unstyled components. Based on the Lily Design System canonical component list in `AGENTS/components.md`.
 
 ## IMPORTANT Architecture
 

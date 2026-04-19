@@ -5,6 +5,7 @@
 @AGENTS/accessibility.md
 @AGENTS/internationalization.md
 @AGENTS/examples.md
+@AGENTS/sveltekit.md
 
 ## Metadata
 
@@ -16,7 +17,7 @@
 
 ## Overview
 
-Svelte 5 + SvelteKit 2 example application demonstrating all 332 components from the Lily Design System headless component library, styled with NHS UK design system colors, typography, spacing, and focus states.
+Svelte 5 + SvelteKit 2 example application demonstrating the Lily Design System headless component library, styled with NHS UK design system colors, typography, spacing, and focus states.
 
 ## IMPORTANT Architecture
 

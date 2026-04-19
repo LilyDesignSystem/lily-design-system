@@ -16,7 +16,7 @@
 
 ## Overview
 
-React 19 + Next.js 15 example application demonstrating all 332 components from the Lily Design System headless component library, styled with NHS UK design system colors, typography, spacing, and focus states.
+React 19 + Next.js 15 example application demonstrating the Lily Design System headless component library, styled with NHS UK design system colors, typography, spacing, and focus states.
 
 ## Architecture
 

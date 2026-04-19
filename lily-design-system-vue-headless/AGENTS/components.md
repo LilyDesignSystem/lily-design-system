@@ -1,15 +1,16 @@
 ## Components
 
-- accordion-nav = AccordionNav = an accordion navigation area for collapsible accordion information
-- accordion-list = AccordionList = an accordion ordered list of list item components
-- accordion-list-item = AccordionListItem = an accordion list item component
-- accordion-link = AccordionLink = an accordion link
+- accordion-nav = AccordionNav = a navigation container for collapsible accordion information
+- accordion-list = AccordionList = an ordered list of accordion list item components
+- accordion-list-item = AccordionListItem = one accordion list item component
+- accordion-link = AccordionLink = one accordion link in the trail
 - action-link = ActionLink = a hyperlink styled as an action trigger
 - ai-label = AiLabel = an indicator of AI instances that is a pathway to AI explainability
 - alert-dialog = AlertDialog = a modal dialog for urgent messages requiring user acknowledgment
 - alert = Alert = a status message for important information or feedback
 - angle-slider-range-input = AngleSliderRangeInput = a range input for selecting an angle in degrees
 - aspect-ratio-container = AspectRatioContainer = a container that maintains a fixed aspect ratio
+- article-layout = ArticleLayout = a top-level article wrapper that sets CSS custom properties for content column widths
 - avatar = Avatar = an avatar indicator that shows an avatar image or avatar text
 - avatar-image = AvatarImage = an avatar indicator inside image such as a user photo
 - avatar-group = AvatarGroup = a group of avatar components
@@ -19,12 +20,14 @@
 - banner = Banner = a prominent message bar across the top of a page
 - banner-box = BannerBox = a banner box that is inside a banner component, using flexbox horizontal
 - beach-ball = BeachBall = a decorative animated beach ball element
+- body-text = BodyText = a rendered text block within a content width container
 - breadcrumb-nav = BreadcrumbNav = a navigation container for breadcrumb trail links
-- breadcrumb-list = BreadcrumbList = an ordered list of breadcrumb list items
-- breadcrumb-list-item = BreadcrumbListItem = one breadcrumb list item in the trail
+- breadcrumb-list = BreadcrumbList = an ordered list of breadcrumb navigation items
+- breadcrumb-list-item = BreadcrumbListItem = one breadcrumb navigation link in the trail
 - breadcrumb-link = BreadcrumbLink = one breadcrumb link in the trail
 - button = Button = a generic clickable button element
 - button-input = ButtonInput = an input element of type button for form actions <input type="button">
+- byline = Byline = an author attribution with publish and update timestamps
 - calendar-table = CalendarTable = a calendar table interactive grid for managing dates, days, etc. <table>
 - calendar-table-head = CalendarTableHead = a calendar table interactive grid thead for managing dates, days, etc. <thead>
 - calendar-table-body = CalendarTableBody = a calendar table interactive grid tbody for managing dates, days, etc. <tbody>
@@ -59,10 +62,11 @@
 - comment = Comment = a comment displays user discussions and user feedback
 - combobox = Combobox = a text input combined with a dropdown list for filtering options
 - command = Command = a command palette for searching and executing actions
-- contents-nav = ContentsNav = a contents navigation area
-- contents-list = ContentsList = an contents ordered list of contents list item components
-- contents-list-item = ContentsListItem = one contents list item
-- contents-link = ContentsLink = one table of contents link
+- contents-nav = ContentsNav = a navigation landmark for a list of contents
+- contents-list = ContentsList = an ordered list of contents list item components
+- contents-list-item = ContentsListItem = one contents list item component linking to a page section
+- contents-link = ContentsLink = one contents link, such as to a page or page section
+- content-block = ContentBlock = a content width constraint container with named column widths
 - context-menu = ContextMenu = a menu that appears on right-click or long-press
 - context-menu-item = ContextMenuItem = one item in a context menu
 - currency-input = CurrencyInput = a locale-aware currency input with automatic formatting, symbols, separators
@@ -97,17 +101,19 @@
 - email-input = EmailInput = an input for entering an email address <input type="email">
 - emoji-character-picker = EmojiCharacterPicker = a picker for browsing and selecting emoji characters
 - emoji = Emoji = a single emoji character with accessible name
+- end-notes = EndNotes = a section of titled endnote items at the end of an article
 - error-message = ErrorMessage = an error message associated with a form field
 - event = Event = an event component that contains other event-related information
 - error-summary = ErrorSummary = a summary of all validation errors on a form
-- espana-tarjeta-sanitaria-individual-input = EspanaTarjetaSanitariaIndividualInput = an input for entering a España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
 - espana-tarjeta-sanitaria-individual-view = EspanaTarjetaSanitariaIndividualView = a read-only display of a España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
+- espana-tarjeta-sanitaria-individual-input = EspanaTarjetaSanitariaIndividualInput = an input for entering a España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
 - expander = Expander = a control that expands to reveal more content
 - field = Field = a form field wrapper with label, input, and error message
 - fieldset = Fieldset = a group of related form fields with a legend
+- feature-photo = FeaturePhoto = a responsive photo with lazy loading and alt text validation
 - figure = Figure = a self-contained figure with optional caption
-- france-numero-d-identification-au-repertoire-input = FranceNumeroDIdentificationAuRepertoireInput = an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - france-numero-d-identification-au-repertoire-view = FranceNumeroDIdentificationAuRepertoireView = a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
+- france-numero-d-identification-au-repertoire-input = FranceNumeroDIdentificationAuRepertoireInput = an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - file-dialog = FileDialog = a dialog for browsing and selecting files
 - file-input = FileInput = an input for selecting files from the file system <input type="file">
 - file-manager = FileManager = a file browser for navigating and managing files
@@ -123,6 +129,7 @@
 - footer = Footer = a page or section footer area
 - footnote = Footnote = a footnote reference and content element
 - form = Form = a form element for collecting and submitting user data
+- framer = Framer = a container for framed content display with decorative border
 - gantt-table = GanttTable = a Gantt chart table interactive grid for planning schedule visualization <table>
 - gantt-table-head = GanttTableHead = a Gantt chart table interactive grid thead for planning schedule visualization <thead>
 - gantt-table-body = GanttTableBody = a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
@@ -136,12 +143,16 @@
 - grail-layout-center-main = GrailLayoutCenterMain = grail layout center main content with <main> tag
 - grail-layout-right-aside = GrailLayoutRightAside = grail layout right aside sidebar with <aside> tag
 - grail-layout-bottom-footer = GrailLayoutBottomFooter = grail layout bottom footer full width with <footer> tag
+- graphic-block = GraphicBlock = a wrapper for charts and graphics with title, description, notes, and ARIA description
 - hamburger-menu = HamburgerMenu = a toggle button that opens a mobile navigation menu
 - header = Header = a page or section header area
+- headline = Headline = a page headline with heading, subtitle, and byline area
 - hero = Hero = a large box or image with a title and description
+- hero-headline = HeroHeadline = a full-bleed hero section with headline overlaid on media
 - hidden-input = HiddenInput = a hidden input for including data in form submission <input type="hidden">
 - hint = Hint = hint text providing guidance for a form field
 - hover-card = HoverCard = a card that appears on hover over a trigger element
+- horizontal-scroller = HorizontalScroller = a horizontally scrollable content container
 - icon = Icon = a container for displaying an icon
 - image-file-input = ImageFileInput = an input for selecting image files with preview
 - image = Image = an image element with alt text
@@ -197,15 +208,17 @@
 - option = Option = an option element within a select dropdown
 - organization = Organization = an organization component that contains other organization-related information
 - pagination-nav = PaginationNav = an ordered list of page navigation links
-- pagination-list = PaginationList = an ordered list of pagination list items
-- pagination-list-item = PaginationListItem = one pagination list item in the trail
+- pagination-list = PaginationList = an ordered list of page navigation links
+- pagination-list-item = PaginationListItem = one page link in a pagination list
 - pagination-link = PaginationLink = one pagination link in the trail
+- padding-reset = PaddingReset = a container that resets padding inside fluid-width containers
 - panel = Panel = a generic content panel with optional heading
 - person = Person = a person component that contains other person-related information
 - password-input = PasswordInput = an input for entering a password with obscured text <input type="password">
 - password-input-or-text-input-div = PasswordInputOrTextInputDiv = an input for entering a password <input type="password"> or text <input type="text"> with show/hide toggle
 - place = Place = a place component that contains other place-related information
 - pin-input-div = PinInputDiv = a series of single-digit inputs for entering a PIN or OTP code
+- photo-pack = PhotoPack = a collection of photos displayed together as a group
 - popover = Popover = a floating content box anchored to a trigger element
 - popup = Popup = a temporary overlay that appears above page content
 - postal-code-input = PostalCodeInput = an input for entering a postal or ZIP code
@@ -229,6 +242,9 @@
 - screen-reader-span = ScreenReaderSpan = a visually hidden span of text intended for screen readers to provide more descriptive labels
 - scroll-area = ScrollArea = a scrollable container with custom scrollbar support
 - scroll-bar = ScrollBar = a custom scrollbar element
+- scroller = Scroller = a scrollytelling container with step-based foreground and background composition
+- scroller-base = ScrollerBase = a low-level scroll position tracking primitive for scrollytelling
+- scroller-video = ScrollerVideo = a video-driven scrollytelling component with frame-by-frame scrubbing
 - search-input = SearchInput = an input for entering a search query <input type="search">
 - segment-group = SegmentGroup = a group of mutually exclusive segment options
 - segment-group-item = SegmentGroupItem = one selectable segment in a segment group
@@ -271,10 +287,11 @@
 - tel-link = TelLink = a tel hyperlink for a telephone number
 - text-input = TextInput = a single-line text input field <input type="text">
 - text-input-with-search = TextInputWithSearch = a single-line text input field <input type="text"> with search capability
-- textarea = Textarea = a multi-line text input area
 - text-area-with-character-counter = TextAreaWithCharacterCounter = a multi-line text area with a caption below that is a character counter "[number] of [maximum] characters"
+- textarea = Textarea = a multi-line text input area
 - theme-picker = ThemePicker = a picker for selecting a visual theme
 - theme-picker-button = ThemePickerButton = a picker button for selecting a visual theme
+- theme-provider = ThemeProvider = a container that applies CSS custom properties from a theme object to its children
 - theme-select = ThemeSelect = a select dropdown for choosing a theme
 - theme-select-option = ThemeSelectOption = one option in a theme select dropdown
 - theme-view = ThemeView = a read-only display of the current theme
@@ -283,6 +300,7 @@
 - timeline-list = TimelineList = an ordered list of chronological events or milestones
 - timeline-list-item = TimelineListItem = one event in a timeline list
 - tile = Tile = a grouping container that presents related content in a structured format, often as a single clickable area
+- tile-map = TileMap = a tile cartogram map with configurable layers for geographic data visualization
 - timer = Timer = a countdown or elapsed time display
 - timer-button = TimerButton = a button with a timer that will automatically click after a given amount of time
 - toast = Toast = a brief auto-dismissing notification message
@@ -298,16 +316,20 @@
 - tree-nav = TreeNav = a hierarchical navigation with expandable branches
 - tree-list = TreeList = a hierarchical list with nested expandable items
 - tree-list-item = TreeListItem = one item in a tree navigation list
-- tree-link = TreeLink one link in the tree
+- tree-link = TreeLink = one tree link in the trail
 - united-kingdom-national-health-service-number-input = UnitedKingdomNationalHealthServiceNumberInput = an input for entering a UK NHS number
 - united-kingdom-national-health-service-number-view = UnitedKingdomNationalHealthServiceNumberView = a read-only display of a UK NHS number
 - united-states-social-security-number-input = UnitedStatesSocialSecurityNumberInput = an input for entering a US Social Security number
 - united-states-social-security-number-view = UnitedStatesSocialSecurityNumberView = a read-only display of a US Social Security number
 - url-input = UrlInput = an input for entering a URL <input type="url">
+- video-player = VideoPlayer = a video player with play-in-view behavior and custom controls
+- visible = Visible = an IntersectionObserver wrapper that exposes element visibility state
 - vital-sign-blood-pressure-diastolic-as-mmhg-view = VitalSignBloodPressureDiastolicAsMmhgView = number display of one vital sign blood pressure diastolic with integers
 - vital-sign-blood-pressure-diastolic-as-mmhg-input = VitalSignBloodPressureDiastolicAsMmhgInput = number input of one vital sign blood pressure diastolic with integers
 - vital-sign-blood-pressure-systolic-as-mmhg-view = VitalSignBloodPressureSystolicAsMmhgView = number display of one vital sign blood pressure systolic with integers
 - vital-sign-blood-pressure-systolic-as-mmhg-input = VitalSignBloodPressureSystolicAsMmhgInput = number input of one vital sign blood pressure systolic with integers
+- vital-sign-belly-circumference-as-cm-view = VitalSignBellyCircumferenceAsCmView = number display of one vital sign belly circumference in centimetres with integers
+- vital-sign-belly-circumference-as-cm-input = VitalSignBellyCircumferenceAsCmInput = number input of one vital sign belly circumference in centimetres with integers
 - vital-sign-body-fat-as-percentage-view = VitalSignBodyFatAsPercentageView = number display of one vital sign body fat percentage with one decimal point
 - vital-sign-body-fat-as-percentage-input = VitalSignBodyFatAsPercentageInput = number input of one vital sign body fat percentage with one decimal point
 - vital-sign-body-temperature-as-celcius-view = VitalSignBodyTemperatureAsCelciusView = number display of one vital sign body temperature in Celsius degrees with one decimal point
@@ -332,8 +354,6 @@
 - vital-sign-vo2-max-as-ml-per-kg-per-minute-input = VitalSignVo2MaxAsMlPerKgPerMinuteInput = number input of one vital sign VO2 max in millilitres per kilogram per minute with integers
 - vital-sign-waist-circumference-as-cm-view = VitalSignWaistCircumferenceAsCmView = number display of one vital sign waist circumference in centimetres with integers
 - vital-sign-waist-circumference-as-cm-input = VitalSignWaistCircumferenceAsCmInput = number input of one vital sign waist circumference in centimetres with integers
-- vital-sign-belly-circumference-as-cm-view = VitalSignBellyCircumferenceAsCmView = number display of one vital sign belly circumference in centimetres with integers
-- vital-sign-belly-circumference-as-cm-input = VitalSignBellyCircumferenceAsCmInput = number input of one vital sign belly circumference in centimetres with integers
 - vital-sign-weight-as-kg-view = VitalSignWeightAsKgView = number display of one vital sign weight in kilograms with integers
 - vital-sign-weight-as-kg-input = VitalSignWeightAsKgInput = number input of one vital sign weight in kilograms with integers
 - warning-callout = WarningCallout = a callout box highlighting a warning message
@@ -374,10 +394,6 @@
 | table-col  | `<th>`       | DataTableCol                                     |
 | table-data | `<td>`       | DataTableData                                    |
 
-## Components for semantic concepts
-
-These components represent semantic concepts and contain related information: Event, Organization, Person, Place. See the main component list above for full details.
-
 ## Component name patterns
 
 - \*Bar \*BarButton
@@ -396,13 +412,13 @@ These components represent semantic concepts and contain related information: Ev
   - DontList DontListItem
   - PaginationList PaginationListItem
   - SummaryList SummaryListItem
-- \*Nav \*List \*ListItem \*Link
-  - AccordionNav AccordionList AccordionListItem AccordionLink
-  - BreadcrumbNav BreadcrumbList BreadcrumbListItem BreadcrumbLink
+- \*Nav \*List \*ListItem
+  - AccordionNav AccordionList AccordionListItem
+  - BreadcrumbNav BreadcrumbList BreadcrumbListItem
   - ChatNav ChatList ChatListItem
-  - ContentsNav ContentsList ContentsListItem ContentsLink
-  - PaginationNav PaginationList PaginationListItem PaginationLink
-  - TreeNav TreeList TreeListItem TreeLink
+  - ContentsNav ContentsList ContentsListItem
+  - PaginationNav PaginationList PaginationListItem
+  - TreeNav TreeList TreeListItem
 - \*Select \*SelectOption
   - ThemeSelect ThemeSelectOption
 - \*Menu \*MenuItem
@@ -425,7 +441,7 @@ These components represent semantic concepts and contain related information: Ev
   - GanttTable GanttTableHead GanttTableBody GanttTableFoot GanttTableCol GanttTableRow GanttTableData
   - KanbanTable KanbanTableHead KanbanTableBody KanbanTableFoot KanbanTableCol KanbanTableRow KanbanTableData
 
-## Component Composition Patterns
+## Component composition patterns
 
 ### Form pattern: Form → Field → Input
 
@@ -439,6 +455,18 @@ These components represent semantic concepts and contain related information: Ev
   </ErrorSummary>
   <Button type="submit">Submit</Button>
 </Form>
+```
+
+### Grail layout pattern: GrailLayout → GrailLayoutTop, GrailLayoutLeft, GrailLayoutCenter, GrailLayoutRight, GrailLayoutBottom
+
+```tsx
+<GrailLayout>
+  <GrailLayoutTopHeader>…</GrailLayoutTopHeader>
+  <GrailLayoutLeftAside>…</GrailLayoutLeftAside>
+  <GrailLayoutCenterMain>…</GrailLayoutCenterMain>
+  <GrailLayoutRightAside>…</GrailLayoutRightAside>
+  <GrailLayoutBottomFooter>…</GrailLayoutBottomFooter>
+</GrailLayout>
 ```
 
 ### Navigation pattern: Nav → List → ListItem
@@ -460,12 +488,12 @@ These components represent semantic concepts and contain related information: Ev
 <DataTable label="Users">
   <DataTableHead>
     <DataTableRow>
-      <DataTableCol>Column Name</DataTableCol>
+      <th>Name</th>
     </DataTableRow>
   </DataTableHead>
   <DataTableBody>
     <DataTableRow>
-      <DataTableData>Data Cell</DataTableData>
+      <DataTableData>Item</DataTableData>
     </DataTableRow>
   </DataTableBody>
 </DataTable>
@@ -475,21 +503,11 @@ These components represent semantic concepts and contain related information: Ev
 
 ```tsx
 <VitalSignGroupView>
-  <VitalSignHeartRateAsBeatsPerMinuteView>
-    …
-  </VitalSignHeartRateAsBeatsPerMinuteView>
-  <VitalSignRespiratoryRateAsBreathsPerMinuteView>
-    …
-  </VitalSignRespiratoryRateAsBreathsPerMinuteView>
-  <VitalSignBodyTemperatureAsCelciusView>
-    …
-  </VitalSignBodyTemperatureAsCelciusView>
-  <VitalSignBloodPressureSystolicAsMmhgView>
-    …
-  </VitalSignBloodPressureSystolicAsMmhgView>
-  <VitalSignBloodPressureDiastolicAsMmhgView>
-    …
-  </VitalSignBloodPressureDiastolicAsMmhgView>
+  <VitalSignHeartRateAsBeatsPerMinuteView>…</VitalSignHeartRateAsBeatsPerMinuteView>
+  <VitalSignRespiratoryRateAsBreathsPerMinuteView>…</VitalSignRespiratoryRateAsBreathsPerMinuteView>
+  <VitalSignBodyTemperatureAsCelciusView>…</VitalSignBodyTemperatureAsCelciusView>
+  <VitalSignBloodPressureSystolicAsMmhgView>…</VitalSignBloodPressureSystolicAsMmhgView>
+  <VitalSignBloodPressureDiastolicAsMmhgView>…</VitalSignBloodPressureDiastolicAsMmhgView>
 </VitalSignGroupView>
 ```
 
@@ -497,28 +515,10 @@ These components represent semantic concepts and contain related information: Ev
 
 ```tsx
 <VitalSignGroupInput>
-  <VitalSignHeartRateAsBeatsPerMinuteInput>
-    …
-  </VitalSignHeartRateAsBeatsPerMinuteInput>
-  <VitalSignRespiratoryRateAsBreathsPerMinuteInput>
-    …
-  </VitalSignRespiratoryRateAsBreathsPerMinuteInput>
-  <VitalSignBodyTemperatureAsCelciusInput>
-    …
-  </VitalSignBodyTemperatureAsCelciusInput>
-  <VitalSignBloodPressureSystolicAsMmhgInput>
-    …
-  </VitalSignBloodPressureSystolicAsMmhgInput>
-  <VitalSignBloodPressureDiastolicAsMmhgInput>
-    …
-  </VitalSignBloodPressureDiastolicAsMmhgInput>
+  <VitalSignHeartRateAsBeatsPerMinuteInput>…</VitalSignHeartRateAsBeatsPerMinuteInput>
+  <VitalSignRespiratoryRateAsBreathsPerMinuteInput>…</VitalSignRespiratoryRateAsBreathsPerMinuteInput>
+  <VitalSignBodyTemperatureAsCelciusInput>…</VitalSignBodyTemperatureAsCelciusInput>
+  <VitalSignBloodPressureSystolicAsMmhgInput>…</VitalSignBloodPressureSystolicAsMmhgInput>
+  <VitalSignBloodPressureDiastolicAsMmhgInput>…</VitalSignBloodPressureDiastolicAsMmhgInput>
 </VitalSignGroupInput>
 ```
-
-## Unique national healthcare identifiers
-
-- espana-tarjeta-sanitaria-individual EspanaTarjetaSanitariaIndividual
-- france-numero-d-identification-au-repertoire FranceNumeroDIdentificationAuRepertoire
-- ireland-individual-health-identifier IrelandIndividualHealthIdentifier
-- united-kingdom-national-health-service-number UnitedKingdomNationalHealthServiceNumber
-- united-states-social-security-number UnitedStatesSocialSecurityNumber

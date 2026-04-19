@@ -4,3 +4,4 @@
 @AGENTS/accessibility.md
 @AGENTS/internationalization.md
 @AGENTS/examples.md
+@AGENTS/sveltekit.md

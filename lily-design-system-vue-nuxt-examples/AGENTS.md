@@ -1,6 +1,5 @@
 # Lily Design System - Vue Nuxt Examples
 
-@AGENTS.md
 @AGENTS/lily.md
 @AGENTS/components.md
 @AGENTS/accessibility.md
@@ -17,7 +16,7 @@
 
 ## Overview
 
-Vue 3 + Nuxt 3 example application demonstrating all 332 components from the Lily Design System headless component library, styled with NHS UK design system colors, typography, spacing, and focus states.
+Vue 3 + Nuxt 3 example application demonstrating the Lily Design System headless component library, styled with NHS UK design system colors, typography, spacing, and focus states.
 
 ### Tech Stack
 
