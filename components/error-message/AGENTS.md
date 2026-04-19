@@ -36,4 +36,4 @@
 - Documentation: index.md
 - CSS class: .error-message in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/error-message.html
-- WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/alert/
+- WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/

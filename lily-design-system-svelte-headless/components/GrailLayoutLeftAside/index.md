@@ -4,12 +4,12 @@ A headless structural wrapper for the left aside slot of a `GrailLayout`. It typ
 
 ## What it is
 
-A Svelte 5 component that renders a plain `<div class="grail-layout-left-aside ...">` around the `children` snippet. Note the source renders a `<div>`, not an `<aside>` - add a semantic `<aside>` (or `<nav>`) inside for the appropriate landmark.
+A Svelte 5 component that renders a semantic `<aside class="grail-layout-left-aside ...">` around the `children` snippet, providing the `complementary` landmark.
 
 ## What it does
 
-- Renders `<div class="grail-layout-left-aside ...">` wrapping the `children` snippet.
-- Spreads any additional HTML attributes onto the `<div>`.
+- Renders `<aside class="grail-layout-left-aside ...">` wrapping the `children` snippet.
+- Spreads any additional HTML attributes onto the `<aside>`.
 
 ## When to use it
 
@@ -18,19 +18,18 @@ A Svelte 5 component that renders a plain `<div class="grail-layout-left-aside .
 
 ## When not to use it
 
-- For the `<aside>` or `<nav>` landmark itself. Place the semantic element inside this slot.
 - For a slide-out drawer. Use `Drawer`, `Sheet`, or `SlideOutDrawer`.
 - For a resizable sidebar with a drag handle. Use `Resizable` or `Splitter` with `Sidebar`.
 
 ## How to use it
 
-Place as a direct child of `GrailLayout` and nest a semantic element (`<aside>`, `<nav>`) inside.
+Place as a direct child of `GrailLayout`. The component itself provides the `complementary` landmark via its `<aside>` element. For navigation content, nest a `<nav>` inside.
 
 ## Props
 
 - `class` (string, optional) - CSS class appended after the base `grail-layout-left-aside` class.
 - `children` (Snippet, required) - Content for the left aside slot.
-- `...restProps` - Additional HTML attributes spread onto the `<div>`.
+- `...restProps` - Additional HTML attributes spread onto the `<aside>`.
 
 ## Usage
 
@@ -106,8 +105,8 @@ Place as a direct child of `GrailLayout` and nest a semantic element (`<aside>`,
 
 ## Accessibility
 
-- The rendered element is a `<div>`, not `<aside>`. Add a real `<aside>` or `<nav>` child to produce the `complementary` or `navigation` landmark.
-- Give any `<nav>` or `<aside>` an `aria-label` when multiple navs/asides are on the page.
+- The rendered element is `<aside>`, which exposes the `complementary` landmark.
+- Give the component an `aria-label` (via `restProps`) or any inner `<nav>` an `aria-label` when multiple navs/asides are on the page.
 
 ## Related components
 

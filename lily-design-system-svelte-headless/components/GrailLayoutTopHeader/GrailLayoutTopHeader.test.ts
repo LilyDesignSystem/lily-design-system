@@ -12,9 +12,9 @@ function childSnippet() {
 }
 
 describe("GrailLayoutTopHeader", () => {
-    test("renders a div", () => {
+    test("renders a header", () => {
         render(Subject, { props: { children: childSnippet() } });
-        expect(document.querySelector(".grail-layout-top-header")).toBeTruthy();
+        expect(document.querySelector("header.grail-layout-top-header")).toBeTruthy();
     });
 
     test("renders children", () => {

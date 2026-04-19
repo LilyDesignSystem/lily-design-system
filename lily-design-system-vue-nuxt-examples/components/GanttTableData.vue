@@ -44,7 +44,7 @@
     //   - Children are optional — empty cells represent inactive time periods
     //
     // References:
-    //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/grid/
+    //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 
     withDefaults(defineProps<{
         /** Whether this cell represents an active time period for the task. */

@@ -30,4 +30,4 @@ A single row within a GanttTable grid. Renders as a `<tr>` containing GanttTable
 
 ## References
 
-- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/grid/
+- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

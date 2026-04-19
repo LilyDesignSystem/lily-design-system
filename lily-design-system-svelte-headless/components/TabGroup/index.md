@@ -2,20 +2,9 @@
 
 A headless tab list container with arrow-key navigation over descendant `[role='tab']` elements.
 
-## Source note
-
-As of the current source, `TabGroup.svelte` is effectively a duplicate of `TabBar.svelte`:
-
-- The script's leading comment header is labelled "TabBar component".
-- The rendered root element uses the class `tab-bar` (not `tab-group`), so CSS targeting must use `.tab-bar`.
-- The HTML comment above the markup is `<!-- TabBar.svelte -->`.
-- Behavior is identical to `TabBar`: a `<div role="tablist">` that listens for ArrowLeft/ArrowRight/Home/End and moves focus across descendants with `role="tab"`.
-
-Consumers should treat `TabGroup` and `TabBar` as equivalent tab-list containers until this is deduplicated. The directory/file/import name `TabGroup` is preserved, but most usage and styling should mirror `TabBar`.
-
 ## What it is
 
-A Svelte 5 headless component rendering `<div class="tab-bar ...">` with `role="tablist"`, `aria-label`, and built-in arrow-key navigation.
+A Svelte 5 headless component rendering `<div class="tab-group ...">` with `role="tablist"`, `aria-label`, and built-in arrow-key navigation. Functionally equivalent to `TabBar`; emits its own `tab-group` class so consumers can target either container independently.
 
 ## What it does
 
@@ -31,7 +20,7 @@ A Svelte 5 headless component rendering `<div class="tab-bar ...">` with `role="
 
 ## When to use it
 
-- Tab interfaces where you want a different public name from `TabBar`.
+- Tab interfaces where you want a different public name from `TabBar` (for example, when `tab-bar` styles are reserved for another component).
 - Anywhere `TabBar` would be used; the behavior is the same.
 
 ## When not to use it
@@ -45,11 +34,11 @@ A Svelte 5 headless component rendering `<div class="tab-bar ...">` with `role="
 1. Import `TabGroup` and pair it with `TabBarButton` (or plain `role="tab"` buttons).
 2. Provide a translated `label`.
 3. Manage active-tab state yourself.
-4. Style via the `.tab-bar` class (note: not `.tab-group` - see the Source note above).
+4. Style via the `.tab-group` class.
 
 ## Props
 
-- `class` (string, optional, default `""`) - merged after the `tab-bar` base class.
+- `class` (string, optional, default `""`) - merged after the `tab-group` base class.
 - `label` (string, required) - accessible name via `aria-label`.
 - `children` (Snippet, required) - tab elements.
 - `...restProps` - spread onto the `<div>`.
@@ -124,7 +113,7 @@ Styling against the rendered class:
 
 ```svelte
 <style>
-    .tab-bar { display: flex; gap: 8px; }
+    .tab-group { display: flex; gap: 8px; }
 </style>
 ```
 
@@ -139,6 +128,6 @@ References:
 
 ## Related components
 
-- `TabBar` - functionally identical; `TabGroup` duplicates it in source.
+- `TabBar` - functionally identical sibling that emits the `tab-bar` class instead.
 - `TabBarButton` - intended child.
 - `SegmentGroup` - radio-style alternative.

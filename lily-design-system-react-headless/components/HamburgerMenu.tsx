@@ -57,7 +57,7 @@
 //   - Navigation content is fully removed from DOM when closed via {open && ...}
 //
 // References:
-//   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/disclosure/
+//   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 //   - WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
 
 import React, { useState, useId } from "react";

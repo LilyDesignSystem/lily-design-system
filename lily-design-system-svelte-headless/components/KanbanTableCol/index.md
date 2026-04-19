@@ -1,41 +1,46 @@
 # KanbanTableCol
 
-KanbanTableCol is a headless Svelte 5 component representing a column definition within a `KanbanTable`. It renders a `<col>` element — not a `<th>` — to be used inside a `<colgroup>` for sizing or styling each workflow-stage column. It does not render visible content of its own.
+A column header cell within a `KanbanTable`. Renders a `<th scope="col">` element, intended to live inside a `KanbanTableRow` within `KanbanTableHead`, where it labels a workflow stage column.
 
 ## What it is
 
-A structural wrapper around the native HTML `<col>` element. Despite the suffix `Col`, this component renders `<col>` (a column definition) rather than `<th>` (a column header). Use `<th>` inside `KanbanTableHead` + `KanbanTableRow` when you need visible column headers, and use `KanbanTableCol` inside `<colgroup>` to control column sizing.
+A headless Svelte 5 wrapper around `<th>` with `scope="col"` and optional `colspan` / `rowspan`. It carries the base class `kanban-table-col`.
 
 ## What it does
 
-- Renders a `<col>` element with `class="kanban-table-col"` plus any consumer-provided CSS class.
-- Forwards the optional `span` attribute (or `undefined` when zero/falsy).
-- Spreads `...restProps` onto the `<col>` element.
+- Renders `<th class="kanban-table-col ..." scope="col">`.
+- Applies `colspan` / `rowspan` only when truthy.
+- Accepts an alternative `scope` (e.g. `"colgroup"`).
+- Renders header text via `children`.
+- Spreads `...restProps` onto the `<th>`.
 
 ## When to use it
 
-- Inside a `<colgroup>` within a `KanbanTable` to declare column widths, spans, or consumer CSS hooks.
-- Targeting specific columns with shared styles without touching every cell.
+- For workflow-stage column headers ("To do", "In progress", "Done").
+- For grouped header cells via `colspan` / `rowspan`.
 
 ## When not to use it
 
-- Do not use for visible column headers — use plain `<th scope="col">` inside a `KanbanTableRow` within `KanbanTableHead`.
-- Do not use outside a `<colgroup>` element.
-- Do not try to render text content inside it — `<col>` is a void element.
+- For task data cells — use `KanbanTableData`.
+- For row headers — use a `<th scope="row">` directly inside `KanbanTableRow`.
+- For column-wide styling hooks via `<colgroup>` / `<col>` — write those directly inside `KanbanTable`.
 
 ## How to use it
 
-Place `KanbanTableCol` elements inside a `<colgroup>` inside the `KanbanTable`, one per workflow column.
+Place `KanbanTableCol` elements inside a `KanbanTableRow` within `KanbanTableHead`, one per workflow stage.
 
 ## Props
 
 - `class` (string, optional) — consumer CSS class appended to the base `kanban-table-col` class.
-- `span` (number, optional) — number of columns this `<col>` spans.
-- `...restProps` (unknown) — additional HTML attributes spread onto the `<col>`.
+- `colspan` (number, optional) — number of columns this header spans.
+- `rowspan` (number, optional) — number of rows this header spans.
+- `scope` (`"col" | "row" | "colgroup" | "rowgroup"`, default `"col"`).
+- `children` (Snippet, optional) — header cell content.
+- `...restProps` (unknown) — additional HTML attributes spread onto the `<th>`.
 
 ## Usage
 
-### Column sizing for a three-stage board
+### Three-stage board
 
 ```svelte
 <script lang="ts">
@@ -48,16 +53,11 @@ Place `KanbanTableCol` elements inside a `<colgroup>` inside the `KanbanTable`, 
 </script>
 
 <KanbanTable label="Board">
-    <colgroup>
-        <KanbanTableCol span={1} />
-        <KanbanTableCol span={1} />
-        <KanbanTableCol span={1} />
-    </colgroup>
     <KanbanTableHead>
         <KanbanTableRow>
-            <th>To Do</th>
-            <th>Doing</th>
-            <th>Done</th>
+            <KanbanTableCol>To do</KanbanTableCol>
+            <KanbanTableCol>In progress</KanbanTableCol>
+            <KanbanTableCol>Done</KanbanTableCol>
         </KanbanTableRow>
     </KanbanTableHead>
     <KanbanTableBody>
@@ -73,72 +73,30 @@ Place `KanbanTableCol` elements inside a `<colgroup>` inside the `KanbanTable`, 
 ### Spanning columns
 
 ```svelte
-<script lang="ts">
-    import KanbanTableCol from "./KanbanTableCol.svelte";
-</script>
-
-<table>
-    <colgroup>
-        <KanbanTableCol span={2} class="col-active" />
-        <KanbanTableCol />
-    </colgroup>
-    <!-- rows... -->
-</table>
+<KanbanTableHead>
+    <KanbanTableRow>
+        <KanbanTableCol colspan={2} scope="colgroup">Active</KanbanTableCol>
+        <KanbanTableCol>Done</KanbanTableCol>
+    </KanbanTableRow>
+</KanbanTableHead>
 ```
 
-### Per-column CSS classes
+### With per-column data hooks
 
 ```svelte
-<script lang="ts">
-    import KanbanTableCol from "./KanbanTableCol.svelte";
-</script>
-
-<colgroup>
-    <KanbanTableCol class="col-todo" />
-    <KanbanTableCol class="col-doing" />
-    <KanbanTableCol class="col-done" />
-</colgroup>
-
-<style>
-    :global(col.col-todo) { background: #f9fafb; }
-    :global(col.col-doing) { background: #eff6ff; }
-    :global(col.col-done) { background: #ecfdf5; }
-</style>
-```
-
-### Data-attribute for column theming
-
-```svelte
-<script lang="ts">
-    import KanbanTableCol from "./KanbanTableCol.svelte";
-</script>
-
-<colgroup>
-    <KanbanTableCol data-stage="todo" />
-    <KanbanTableCol data-stage="doing" />
-    <KanbanTableCol data-stage="done" />
-</colgroup>
-```
-
-### No span attribute
-
-```svelte
-<script lang="ts">
-    import KanbanTableCol from "./KanbanTableCol.svelte";
-</script>
-
-<colgroup>
-    <KanbanTableCol />
-    <KanbanTableCol />
-    <KanbanTableCol />
-</colgroup>
+<KanbanTableHead>
+    <KanbanTableRow>
+        <KanbanTableCol data-stage="todo">To do</KanbanTableCol>
+        <KanbanTableCol data-stage="doing">In progress</KanbanTableCol>
+        <KanbanTableCol data-stage="done">Done</KanbanTableCol>
+    </KanbanTableRow>
+</KanbanTableHead>
 ```
 
 ## Accessibility
 
-- `<col>` provides structural column information for a table.
-- Not interactive — no keyboard behaviour.
-- Does not announce itself to screen readers; visible column headers should live inside `KanbanTableHead` using `<th scope="col">`.
+- `<th scope="col">` associates the header with its workflow column for assistive tech.
+- Use `scope="colgroup"` together with `colspan` for grouped column headers.
 
 ## Related components
 

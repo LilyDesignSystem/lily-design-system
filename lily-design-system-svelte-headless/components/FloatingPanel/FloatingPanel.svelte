@@ -43,7 +43,7 @@
     //   - Consumer manages show/hide logic externally
     //
     // References:
-    //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/disclosure/
+    //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
     import type { Snippet } from "svelte";
 

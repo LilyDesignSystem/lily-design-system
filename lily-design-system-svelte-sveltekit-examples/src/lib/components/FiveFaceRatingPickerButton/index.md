@@ -76,4 +76,4 @@ A picker button for selecting a 1-5 satisfaction rating using face labels.
 
 ## References
 
-- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/button/
+- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

@@ -86,5 +86,5 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 
 ## References
 
-- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/grid/
+- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 - HTML `<col>` element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col

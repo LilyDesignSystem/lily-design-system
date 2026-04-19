@@ -62,4 +62,4 @@
 - Documentation: index.md
 - CSS class: .five-face-rating-picker in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/five-face-rating-picker.html
-- WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/radiobutton/
+- WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/

@@ -47,7 +47,7 @@
     //   - Both x and y use defineModel() for two-way binding
     //
     // References:
-    //   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/slider/
+    //   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 
     const props = withDefaults(defineProps<{
         label: string;

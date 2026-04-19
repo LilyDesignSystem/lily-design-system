@@ -42,7 +42,7 @@
 //   - Consumer can use [data-value] CSS selectors for value-based styling
 //
 // References:
-//   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/button/
+//   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 import React from "react";
 

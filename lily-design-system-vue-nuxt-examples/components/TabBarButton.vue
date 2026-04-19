@@ -49,7 +49,7 @@
     //   - Consumers manage selection state and panel visibility
     //
     // References:
-    //   - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/tabs/
+    //   - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
     //   - WAI-ARIA Tab Role: https://www.w3.org/TR/wai-aria-1.2/#tab
 
     withDefaults(defineProps<{

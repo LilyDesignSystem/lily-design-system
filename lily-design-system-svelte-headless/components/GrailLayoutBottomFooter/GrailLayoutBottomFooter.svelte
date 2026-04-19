@@ -8,7 +8,7 @@
     // Props:
     //   className — string, optional. CSS class name.
     //   children — Snippet, required. Content to render inside the bottom footer section.
-    //   ...restProps — additional HTML attributes spread onto the <div>.
+    //   ...restProps — additional HTML attributes spread onto the <footer>.
     //
     // Syntax:
     //   <GrailLayoutBottomFooter>{children}</GrailLayoutBottomFooter>
@@ -32,6 +32,6 @@
 </script>
 
 <!-- GrailLayoutBottomFooter.svelte -->
-<div class={`grail-layout-bottom-footer ${className}`} {...restProps}>
+<footer class={`grail-layout-bottom-footer ${className}`} {...restProps}>
     {@render children()}
-</div>
+</footer>

@@ -82,4 +82,4 @@ A horizontal bar of menu triggers.
 
 ## References
 
-- WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/menubar/
+- WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/

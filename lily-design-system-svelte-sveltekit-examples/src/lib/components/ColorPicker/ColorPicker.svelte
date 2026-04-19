@@ -46,7 +46,7 @@
     //   - Both x and y use $bindable() for two-way binding
     //
     // References:
-    //   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/slider/
+    //   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 
     let {
         class: className = "",

@@ -76,5 +76,5 @@ A table with rows and columns <table>.
 
 ## References
 
-- WAI-ARIA Table Role: https://www.w3.org/WAI/ARIA/apd/patterns/table/
+- WAI-ARIA Table Role: https://www.w3.org/WAI/ARIA/apg/patterns/table/
 - HTML Table Element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table

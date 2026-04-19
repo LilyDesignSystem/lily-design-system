@@ -99,5 +99,5 @@ PaginationNav → PaginationList (nav + ul) → PaginationListItem (li)
 
 ## References
 
-- WAI-ARIA Practices - Pagination: https://www.w3.org/WAI/ARIA/apd/patterns/navigation/
+- WAI-ARIA Practices - Pagination: https://www.w3.org/WAI/ARIA/apg/patterns/navigation/
 - WAI-ARIA navigation role: https://www.w3.org/TR/wai-aria-1.2/#navigation

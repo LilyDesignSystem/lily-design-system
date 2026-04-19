@@ -47,7 +47,8 @@
       "Bash(ls /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-svelte-headless/components/)",
       "Read(//tmp/**)",
       "Bash(split -l 32 /tmp/components.txt /tmp/batch-)",
-      "Bash([ -f \"$d/index.md\" ])"
+      "Bash([ -f \"$d/index.md\" ])",
+      "Bash(pnpm test *)"
     ]
   }
 }

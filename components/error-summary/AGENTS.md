@@ -51,4 +51,4 @@
 - CSS class: .error-summary in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/error-summary.html
 - GOV.UK Error Summary: https://design-system.service.gov.uk/components/error-summary/
-- WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/alert/
+- WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/

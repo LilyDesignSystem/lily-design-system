@@ -49,5 +49,5 @@
 - Documentation: index.md
 - CSS class: .slide-out-drawer in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/slide-out-drawer.html
-- WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/dialog-modal/
+- WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 - WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog

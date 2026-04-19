@@ -107,5 +107,5 @@ The consumer provides all CSS styling. The component renders with a `.carousel` 
 
 ## References
 
-- WAI-ARIA Carousel Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/carousel/
+- WAI-ARIA Carousel Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/carousel/
 - WAI-ARIA Authoring Practices Carousel: https://www.w3.org/WAI/tutorials/carousels/

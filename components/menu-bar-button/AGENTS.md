@@ -51,4 +51,4 @@
 - Documentation: index.md
 - CSS class: .menu-bar-button in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/menu-bar-button.html
-- WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/menubar/
+- WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/

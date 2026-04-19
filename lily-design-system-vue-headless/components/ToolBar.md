@@ -44,4 +44,4 @@ The component queries focusable children via `button`, `[role='button']`, and `[
 
 ## References
 
-- WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/toolbar/
+- WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/

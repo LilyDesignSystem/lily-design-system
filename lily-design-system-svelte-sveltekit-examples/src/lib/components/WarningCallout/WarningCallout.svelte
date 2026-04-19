@@ -44,7 +44,7 @@
     //   - label is optional since alert content itself provides the message
     //
     // References:
-    //   - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/alert/
+    //   - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/
     //   - WAI-ARIA alert role: https://www.w3.org/TR/wai-aria-1.2/#alert
 
     import type { Snippet } from "svelte";

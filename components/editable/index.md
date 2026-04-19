@@ -100,4 +100,4 @@ The consumer provides all CSS styling. The component renders with a `.editable` 
 
 ## References
 
-- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/button/
+- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

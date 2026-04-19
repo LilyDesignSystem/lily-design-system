@@ -43,4 +43,4 @@ This headless component renders a `<ul>` with `role="tree"` and provides keyboar
 
 ## References
 
-- WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/TreeList/
+- WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/TreeList/

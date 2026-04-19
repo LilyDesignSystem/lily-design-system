@@ -9,12 +9,11 @@ A headless Svelte 5 component rendering a `<dialog>` only while `open` is true. 
 ## What it does
 
 - Conditionally renders `<dialog class="alert-dialog {className}" open role="alertdialog" aria-modal="true">` when `open === true`.
-- Always emits `aria-labelledby` pointing to the inner `<p id="alert-dialog-title">` heading.
-- Emits `aria-describedby` pointing to the description paragraph only when `description` is provided.
+- Always emits `aria-labelledby` pointing to the inner title paragraph; the id is generated per instance via `$props.id()` so multiple dialogs in the same document do not collide.
+- Emits `aria-describedby` pointing to the description paragraph only when `description` is provided (also a per-instance id).
 - `open` prop is `$bindable(false)` so consumers can close it via `bind:open`.
 - Renders the title as `<p><strong>{title}</strong></p>` (not a heading element, to leave outline control to the consumer) and the optional description as a `<p>`. Action buttons come from children.
 - Known limitation: the consumer is responsible for focus trapping and Escape-key handling.
-- Known limitation: the inner `titleId` / `descriptionId` are not unique — avoid rendering more than one `AlertDialog` at a time in the same document.
 
 ## When to use it
 

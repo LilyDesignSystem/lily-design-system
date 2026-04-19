@@ -40,5 +40,5 @@ Breadcrumbs help users understand where they are in the site structure and allow
 
 ## References
 
-- WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/breadcrumb/
+- WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/
 - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav

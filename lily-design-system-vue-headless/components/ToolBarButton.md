@@ -42,4 +42,4 @@ The component uses `<button type="button">` to avoid unintended form submissions
 
 ## References
 
-- WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/toolbar/
+- WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/

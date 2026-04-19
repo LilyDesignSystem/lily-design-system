@@ -8,7 +8,7 @@ A headless Svelte 5 input wrapping `<input type="range">`. Category: range input
 
 ## What it does
 
-- Renders `<input type="range" class="angle-slider-rang-input {className}">` (note: the base class in source is `angle-slider-rang-input`, keyed as-is).
+- Renders `<input type="range" class="angle-slider-range-input {className}">`.
 - Exposes `value` via `$bindable(0)`.
 - Sets `min`, `max`, `step`, `disabled`, `name`, `id` from props.
 - Applies ARIA slider semantics: `aria-label`, `aria-valuemin`, `aria-valuemax`, `aria-valuenow`.
@@ -34,7 +34,7 @@ Import `AngleSliderRangeInput` from `./AngleSliderRangeInput.svelte`. Provide `l
 
 ## Props
 
-- `class` — string, default `""`. Appended to `angle-slider-rang-input`.
+- `class` — string, default `""`. Appended to `angle-slider-range-input`.
 - `value` — number, default `0`, bindable. Current angle.
 - `min` — number, default `0`.
 - `max` — number, default `360`.

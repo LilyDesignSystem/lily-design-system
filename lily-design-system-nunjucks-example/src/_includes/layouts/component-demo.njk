@@ -1,13 +1,22 @@
 {% extends "layouts/base.njk" %}
 
 {% block breadcrumb %}
-<nav class="breadcrumb-nav" aria-label="Breadcrumb">
-  <ol class="breadcrumb-list">
-    <li class="breadcrumb-list-item"><a href="/">Home</a></li>
-    <li class="breadcrumb-list-item"><a href="/components/">Components</a></li>
-    <li class="breadcrumb-list-item" aria-current="page">{{ title }}</li>
-  </ol>
-</nav>
+{% from "components/breadcrumb-nav/macro.njk" import breadcrumbNav %}
+{% from "components/breadcrumb-list/macro.njk" import breadcrumbList %}
+{% from "components/breadcrumb-list-item/macro.njk" import breadcrumbListItem %}
+{% from "components/breadcrumb-link/macro.njk" import breadcrumbLink %}
+
+{% call breadcrumbNav() %}
+  {% call breadcrumbList() %}
+    {% call breadcrumbListItem() %}
+      {{ breadcrumbLink({ href: "/", text: "Home" }) }}
+    {% endcall %}
+    {% call breadcrumbListItem() %}
+      {{ breadcrumbLink({ href: "/components/", text: "Components" }) }}
+    {% endcall %}
+    {{ breadcrumbListItem({ text: title, current: true }) }}
+  {% endcall %}
+{% endcall %}
 {% endblock %}
 
 {% block content %}

@@ -54,7 +54,7 @@
 //   - Consumer handles selection state externally
 //
 // References:
-//   - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/listbox/
+//   - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 
 import React, { useRef } from "react";
 

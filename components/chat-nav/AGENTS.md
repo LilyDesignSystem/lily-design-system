@@ -55,4 +55,4 @@
 - Documentation: index.md
 - CSS class: .chat-nav in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/chat-nav.html
-- WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apd/patterns/landmark/
+- WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apg/patterns/landmark/

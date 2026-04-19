@@ -84,4 +84,4 @@ A data table interactive grid for displaying and sorting tabular data <table>.
 
 ## References
 
-- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/grid/
+- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

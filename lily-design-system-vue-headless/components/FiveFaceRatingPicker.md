@@ -59,4 +59,4 @@ Standard radio group keyboard behavior provided by the browser:
 
 ## References
 
-- WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/radiobutton/
+- WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/

@@ -45,7 +45,7 @@
     //   - Do not add focus trapping or Escape handling — consumer responsibility
     //
     // References:
-    //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/dialog/
+    //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog/
     //   - WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
 
     import type { Snippet } from "svelte";

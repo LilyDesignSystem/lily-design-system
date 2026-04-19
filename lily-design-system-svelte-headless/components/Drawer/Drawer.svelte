@@ -49,7 +49,7 @@
     //   - Consumer uses data-side for positioning CSS
     //
     // References:
-    //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/dialog-modal/
+    //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
     import type { Snippet } from "svelte";
 

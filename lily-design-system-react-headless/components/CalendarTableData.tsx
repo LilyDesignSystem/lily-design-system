@@ -40,7 +40,7 @@
 //   - Must be used inside a CalendarTableRow
 //
 // References:
-//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/grid/
+//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 
 import React from "react";
 

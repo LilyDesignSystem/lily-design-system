@@ -47,5 +47,5 @@ The component is similar to Popover but is designed as a general-purpose overlay
 
 ## References
 
-- WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/dialog/
+- WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog/
 - WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog

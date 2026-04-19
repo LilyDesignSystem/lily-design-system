@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./TabBar.svelte";
+import Subject from "./TabGroup.svelte";
 
 function tabsSnippet() {
   return (($anchor: Comment) => {
@@ -17,7 +17,7 @@ function tabsSnippet() {
   }) as any;
 }
 
-describe("TabBar", () => {
+describe("TabGroup", () => {
   test("renders a tablist", () => {
     render(Subject, { props: { label: "Settings", children: tabsSnippet() } });
     expect(screen.getByRole("tablist")).toBeTruthy();

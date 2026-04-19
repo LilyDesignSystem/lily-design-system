@@ -12,9 +12,9 @@ function childSnippet() {
 }
 
 describe("GrailLayoutBottomFooter", () => {
-    test("renders a div", () => {
+    test("renders a footer", () => {
         render(Subject, { props: { children: childSnippet() } });
-        expect(document.querySelector(".grail-layout-bottom-footer")).toBeTruthy();
+        expect(document.querySelector("footer.grail-layout-bottom-footer")).toBeTruthy();
     });
 
     test("renders children", () => {

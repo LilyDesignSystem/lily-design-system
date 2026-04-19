@@ -76,5 +76,5 @@ A picker button for selecting a red/amber/green status.
 
 ## References
 
-- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/button/
+- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system

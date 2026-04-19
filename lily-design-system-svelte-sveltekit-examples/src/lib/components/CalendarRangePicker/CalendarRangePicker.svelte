@@ -44,7 +44,7 @@
     //
     // References:
     //   - WAI-ARIA Application Role: https://www.w3.org/TR/wai-aria-1.2/#application
-    //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/grid/
+    //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 
     import type { Snippet } from "svelte";
 

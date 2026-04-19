@@ -64,4 +64,4 @@
 - Documentation: index.md
 - CSS class: .color-picker in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/color-picker.html
-- WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/slider/
+- WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/

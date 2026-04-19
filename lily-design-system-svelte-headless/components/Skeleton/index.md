@@ -6,13 +6,9 @@ A headless loading placeholder. Hidden from screen readers with `aria-hidden="tr
 
 A Svelte 5 headless primitive rendering a single `<div>` placeholder with `aria-hidden="true"` and `aria-busy="true"`. The consumer supplies any inner shapes (lines, circles, blocks) via the optional `children` snippet.
 
-## Source note
-
-The source component applies the class string `` `skeleteon ${className}` `` - that is a typo (missing letter ordering) preserved in the actual Svelte source file. Consumers writing CSS to target this component must use the selector `.skeleteon` (not `.skeleton`) unless the typo is patched upstream. The component directory, filename, and public name remain `Skeleton`.
-
 ## What it does
 
-- Renders a single `<div class="skeleteon ...">` placeholder.
+- Renders a single `<div class="skeleton ...">` placeholder.
 - Applies `aria-hidden="true"` so the skeleton is not announced.
 - Applies `aria-busy="true"` to signal that content is loading.
 - Renders optional `children` (for example, skeleton line shapes) or an empty `<div>` when none are provided.
@@ -35,11 +31,11 @@ The source component applies the class string `` `skeleteon ${className}` `` - t
 1. Import the component.
 2. Optionally render child shapes inside for row and card-like layouts.
 3. Replace the skeleton with real content once loading completes.
-4. Remember to write CSS against `.skeleteon` (note the source typo above) or patch the source first.
+4. Style via the `.skeleton` class.
 
 ## Props
 
-- `class` (string, optional, default `""`) - merged after the base `skeleteon` class.
+- `class` (string, optional, default `""`) - merged after the base `skeleton` class.
 - `children` (Snippet, optional) - placeholder shapes.
 - `...restProps` - spread onto the `<div>` (for example, `style`, `id`).
 

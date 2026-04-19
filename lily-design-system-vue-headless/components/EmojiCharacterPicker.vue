@@ -47,7 +47,7 @@
     //   - Consumer implements selection behavior and category filtering
     //
     // References:
-    //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/grid/
+    //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
     defineProps<{
         label: string;
     }>();

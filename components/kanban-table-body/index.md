@@ -97,5 +97,5 @@ KanbanTable → KanbanTableHead + KanbanTableBody + KanbanTableFoot
 
 ## References
 
-- WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/listbox/
+- WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region

@@ -95,4 +95,4 @@ The consumer provides all CSS styling. The component renders with a `.progress` 
 ## References
 
 - MDN progress element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress
-- WAI-ARIA Progress role: https://www.w3.org/WAI/ARIA/apd/patterns/meter/
+- WAI-ARIA Progress role: https://www.w3.org/WAI/ARIA/apg/patterns/meter/

@@ -37,4 +37,4 @@ None -- this component is a passive container. Keyboard interactions are determi
 
 ## References
 
-- WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/listbox/
+- WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/

@@ -96,5 +96,5 @@ TabBarButton is designed to be used as a child of TabBar. The TabBar provides th
 
 ## References
 
-- WAI-ARIA TabBarButtons Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/tabs/
+- WAI-ARIA TabBarButtons Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 - WAI-ARIA TabBarButton Role: https://www.w3.org/TR/wai-aria-1.2/#tab

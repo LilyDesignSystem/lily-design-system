@@ -48,4 +48,4 @@ This component is useful for advanced color pickers where the user needs fine-gr
 
 ## References
 
-- WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/slider/
+- WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/

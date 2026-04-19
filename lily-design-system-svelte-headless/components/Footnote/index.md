@@ -4,11 +4,11 @@ A footnote provides supplementary information, citations, or clarifications that
 
 ## What it is
 
-A Svelte 5 component that renders an `<aside>` element with `role="note"` and a required unique `id`. Note that the source sets `class={\`aside ${className}\`}` on the rendered element (not `footnote`); `id` is reused as the `aria-label`.
+A Svelte 5 component that renders an `<aside>` element with `role="note"` and a required unique `id`. The `id` is reused as the `aria-label`.
 
 ## What it does
 
-- Renders `<aside id={id} role="note" aria-label={id} class="aside ...">` wrapping the `children` snippet.
+- Renders `<aside id={id} role="note" aria-label={id} class="footnote ...">` wrapping the `children` snippet.
 - Assigns the consumer-provided `id` as both the element `id` (for in-page links) and `aria-label`.
 - Spreads additional HTML attributes onto the `<aside>`.
 
@@ -31,7 +31,7 @@ Choose a stable unique id (e.g. `fn1`). Place a superscript link in the main con
 
 ## Props
 
-- `class` (string, optional) - CSS class appended after the base `aside` class (note: the source uses `aside`, not `footnote`).
+- `class` (string, optional) - CSS class appended after the base `footnote` class.
 - `id` (string, required) - Unique footnote identifier used for both element `id` and `aria-label`.
 - `children` (Snippet, required) - Footnote content.
 - `...restProps` - Additional HTML attributes spread onto the `<aside>`.

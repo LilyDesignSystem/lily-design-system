@@ -12,9 +12,9 @@ function childSnippet() {
 }
 
 describe("GrailLayoutRightAside", () => {
-    test("renders a div", () => {
+    test("renders an aside", () => {
         render(Subject, { props: { children: childSnippet() } });
-        expect(document.querySelector(".grail-layout-right-aside")).toBeTruthy();
+        expect(document.querySelector("aside.grail-layout-right-aside")).toBeTruthy();
     });
 
     test("renders children", () => {

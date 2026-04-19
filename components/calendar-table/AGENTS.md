@@ -45,4 +45,4 @@
 - Documentation: index.md
 - CSS class: .calendar-table in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/calendar-table.html
-- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/grid/
+- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

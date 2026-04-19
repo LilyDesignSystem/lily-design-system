@@ -1,49 +1,69 @@
 <script lang="ts">
     // DataTableCol component
     //
-    // A column definition within a DataTable, rendered as a <col> element.
-    // Used inside a <colgroup> to define column properties such as span.
-    // Useful for styling entire columns of the data table.
+    // A column header cell within a DataTable, rendered as a <th> element.
+    // Used inside a <DataTableRow> within <DataTableHead> to label the columns
+    // of the data table.
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   span — number, optional. Number of columns this <col> spans.
-    //   ...restProps — additional HTML attributes spread onto the <col>.
+    //   colspan — number, optional. Number of columns this header cell spans.
+    //   rowspan — number, optional. Number of rows this header cell spans.
+    //   scope — "col" | "row" | "colgroup" | "rowgroup", default "col". Header scope.
+    //   children — Snippet, optional. Header cell content.
+    //   ...restProps — additional HTML attributes spread onto the <th>.
     //
     // Syntax:
-    //   <colgroup>
-    //     <DataTableCol />
-    //     <DataTableCol span={3} />
-    //   </colgroup>
+    //   <DataTableHead>
+    //     <DataTableRow>
+    //       <DataTableCol>Name</DataTableCol>
+    //       <DataTableCol>Email</DataTableCol>
+    //     </DataTableRow>
+    //   </DataTableHead>
     //
     // Keyboard:
-    //   None — <col> is not interactive.
+    //   None — <th> is not interactive.
     //
     // Accessibility:
-    //   - <col> provides structural column semantics for the table
+    //   - <th scope="col"> associates the header with its column for assistive tech
     //
     // Claude rules:
     //   - Headless: no CSS, no styles — consumer provides all styling
-    //   - Must be used inside a <colgroup> within a DataTable
-    //   - No internal state — purely a structural element
+    //   - Must be used inside a <tr> within a DataTable
+    //   - All header text is provided by the consumer via children
     //
     // References:
-    //   - HTML col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+    //   - HTML th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th
+
+    import type { Snippet } from "svelte";
 
     let {
         class: className = "",
-        span,
+        colspan,
+        rowspan,
+        scope = "col",
+        children,
         ...restProps
     }: {
-        /** Number of columns this col spans. */
-        span?: number;
+        /** Number of columns this header cell spans. */
+        colspan?: number;
+        /** Number of rows this header cell spans. */
+        rowspan?: number;
+        /** Header scope. */
+        scope?: "col" | "row" | "colgroup" | "rowgroup";
+        /** Header cell content. */
+        children?: Snippet;
         [key: string]: unknown;
     } = $props();
 </script>
 
 <!-- DataTableCol.svelte -->
-<col
+<th
     class={`data-table-col ${className}`}
-    span={span || undefined}
+    {scope}
+    colspan={colspan || undefined}
+    rowspan={rowspan || undefined}
     {...restProps}
-/>
+>
+    {#if children}{@render children()}{/if}
+</th>

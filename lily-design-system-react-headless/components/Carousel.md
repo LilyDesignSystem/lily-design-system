@@ -48,5 +48,5 @@ None -- this component is a passive container. The consumer should implement key
 
 ## References
 
-- WAI-ARIA Carousel Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/carousel/
+- WAI-ARIA Carousel Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/carousel/
 - WAI-ARIA Authoring Practices Carousel: https://www.w3.org/WAI/tutorials/carousels/

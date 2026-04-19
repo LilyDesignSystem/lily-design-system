@@ -7,7 +7,7 @@
     // Props:
     //   className — string, optional. CSS class name.
     //   children — Snippet, required. Content to render inside the left aside.
-    //   ...restProps — additional HTML attributes spread onto the <div>.
+    //   ...restProps — additional HTML attributes spread onto the <aside>.
     //
     // Syntax:
     //   <GrailLayoutLeftAside>{children}</GrailLayoutLeftAside>
@@ -31,6 +31,6 @@
 </script>
 
 <!-- GrailLayoutLeftAside.svelte -->
-<div class={`grail-layout-left-aside ${className}`} {...restProps}>
+<aside class={`grail-layout-left-aside ${className}`} {...restProps}>
     {@render children()}
-</div>
+</aside>

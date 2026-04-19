@@ -7,7 +7,7 @@
     // Props:
     //   className — string, optional. CSS class name.
     //   children — Snippet, required. Content to render inside the center main section.
-    //   ...restProps — additional HTML attributes spread onto the <div>.
+    //   ...restProps — additional HTML attributes spread onto the <main>.
     //
     // Syntax:
     //   <GrailLayoutCenterMain>{children}</GrailLayoutCenterMain>
@@ -31,6 +31,6 @@
 </script>
 
 <!-- GrailLayoutCenterMain.svelte -->
-<div class={`grail-layout-center-main ${className}`} {...restProps}>
+<main class={`grail-layout-center-main ${className}`} {...restProps}>
     {@render children()}
-</div>
+</main>

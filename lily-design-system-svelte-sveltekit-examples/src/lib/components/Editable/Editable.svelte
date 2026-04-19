@@ -45,7 +45,7 @@
     //   - Both value and editing support $bindable() two-way binding
     //
     // References:
-    //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/button/
+    //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
     let {
         class: className = "",

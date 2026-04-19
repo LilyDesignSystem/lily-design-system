@@ -55,4 +55,4 @@
 - CSS class: .alert-dialog in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/alert-dialog.html
 - WAI-ARIA alertdialog role: https://www.w3.org/TR/wai-aria-1.2/#alertdialog
-- WAI-ARIA Alert and Message Dialogs Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/alertdialog/
+- WAI-ARIA Alert and Message Dialogs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/

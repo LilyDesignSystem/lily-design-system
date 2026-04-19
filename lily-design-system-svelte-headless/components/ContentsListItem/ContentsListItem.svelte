@@ -41,7 +41,7 @@
     //   - Compound component: used as a child within ContentsList
     //
     // References:
-    //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/menu/
+    //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
 
     import type { Snippet } from "svelte";
 

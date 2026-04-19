@@ -8,7 +8,7 @@
     // Props:
     //   className — string, optional. CSS class name.
     //   children — Snippet, required. Content to render inside the top header section.
-    //   ...restProps — additional HTML attributes spread onto the <div>.
+    //   ...restProps — additional HTML attributes spread onto the <header>.
     //
     // Syntax:
     //   <GrailLayoutTopHeader>{children}</GrailLayoutTopHeader>
@@ -32,6 +32,6 @@
 </script>
 
 <!-- GrailLayoutTopHeader.svelte -->
-<div class={`grail-layout-top-header ${className}`} {...restProps}>
+<header class={`grail-layout-top-header ${className}`} {...restProps}>
     {@render children()}
-</div>
+</header>

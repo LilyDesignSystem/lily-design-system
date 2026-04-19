@@ -62,7 +62,7 @@
     //
     // References:
     //   - WAI-ARIA alertdialog role: https://www.w3.org/TR/wai-aria-1.2/#alertdialog
-    //   - WAI-ARIA Alert and Message Dialogs Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/alertdialog/
+    //   - WAI-ARIA Alert and Message Dialogs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/
 
     import type { Snippet } from "svelte";
 
@@ -85,9 +85,10 @@
         [key: string]: unknown;
     } = $props();
 
-    // Generate unique IDs for ARIA references
-    let titleId = "alert-dialog-title";
-    let descriptionId = "alert-dialog-description";
+    // Generate unique IDs for ARIA references so multiple instances don't collide
+    let uid = $props.id();
+    let titleId = `alert-dialog-title-${uid}`;
+    let descriptionId = `alert-dialog-description-${uid}`;
 </script>
 
 <!-- AlertDialog.svelte -->

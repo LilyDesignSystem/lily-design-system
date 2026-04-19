@@ -46,7 +46,7 @@
     //   - Both value and editing support defineModel() two-way binding
     //
     // References:
-    //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/button/
+    //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
     import { ref } from "vue";
 

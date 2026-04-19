@@ -63,4 +63,4 @@ A calendar table interactive grid row for managing dates, days, etc. <tr>.
 
 ## References
 
-- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/grid/
+- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

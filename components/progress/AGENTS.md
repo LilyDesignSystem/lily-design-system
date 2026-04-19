@@ -43,4 +43,4 @@
 - CSS class: .progress in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/progress.html
 - MDN progress element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress
-- WAI-ARIA Progress role: https://www.w3.org/WAI/ARIA/apd/patterns/meter/
+- WAI-ARIA Progress role: https://www.w3.org/WAI/ARIA/apg/patterns/meter/

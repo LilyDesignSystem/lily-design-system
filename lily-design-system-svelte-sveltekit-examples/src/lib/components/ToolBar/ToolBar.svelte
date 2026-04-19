@@ -46,7 +46,7 @@
     //   - Arrow keys wrap around at boundaries
     //
     // References:
-    //   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/toolbar/
+    //   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
     import type { Snippet } from "svelte";
 

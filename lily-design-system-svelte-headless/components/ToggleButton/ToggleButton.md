@@ -44,5 +44,5 @@ Toggles are commonly used for settings like dark mode, notifications, or feature
 
 ## References
 
-- WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/switch/
+- WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
 - WAI-ARIA Switch Role: https://www.w3.org/TR/wai-aria-1.2/#switch

@@ -91,4 +91,4 @@ A list of actions or options triggered by a button.
 
 ## References
 
-- WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/menu/
+- WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/

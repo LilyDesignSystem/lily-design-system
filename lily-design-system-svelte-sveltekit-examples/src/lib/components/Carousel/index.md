@@ -81,5 +81,5 @@ A slideshow for cycling through content items.
 
 ## References
 
-- WAI-ARIA Carousel Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/carousel/
+- WAI-ARIA Carousel Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/carousel/
 - WAI-ARIA Authoring Practices Carousel: https://www.w3.org/WAI/tutorials/carousels/

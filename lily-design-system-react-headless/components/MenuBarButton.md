@@ -31,4 +31,4 @@ Focus management is delegated to the parent MenuBar, which uses roving tabindex 
 
 ## References
 
-- WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/menubar/
+- WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/

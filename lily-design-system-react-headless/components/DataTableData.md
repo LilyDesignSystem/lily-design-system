@@ -25,4 +25,4 @@ A single data cell within a DataTableRow. Renders as a `<td>` with `role="gridce
 
 ## References
 
-- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/grid/
+- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

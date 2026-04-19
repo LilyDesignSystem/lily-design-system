@@ -57,4 +57,4 @@
 - Documentation: index.md
 - CSS class: .menu in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/menu.html
-- WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/menu/
+- WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/

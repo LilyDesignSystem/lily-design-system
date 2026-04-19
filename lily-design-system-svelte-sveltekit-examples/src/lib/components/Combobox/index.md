@@ -84,4 +84,4 @@ A text input combined with a dropdown list for filtering options.
 
 ## References
 
-- WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/combobox/
+- WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/

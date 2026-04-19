@@ -34,5 +34,5 @@
 - Documentation: index.md
 - CSS class: .toggle-button in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/toggle-button.html
-- WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/switch/
+- WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
 - WAI-ARIA Switch Role: https://www.w3.org/TR/wai-aria-1.2/#switch

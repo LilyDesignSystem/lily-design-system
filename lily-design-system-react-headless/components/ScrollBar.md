@@ -58,4 +58,4 @@ Note: The consumer is responsible for implementing keyboard event handlers that 
 ## References
 
 - WAI-ARIA scrollbar role: https://www.w3.org/TR/wai-aria-1.2/#scrollbar
-- WAI-ARIA Practices - ScrollBar: https://www.w3.org/WAI/ARIA/apd/patterns/scrollbar/
+- WAI-ARIA Practices - ScrollBar: https://www.w3.org/WAI/ARIA/apg/patterns/scrollbar/

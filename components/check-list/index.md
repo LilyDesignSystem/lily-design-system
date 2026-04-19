@@ -90,4 +90,4 @@ CheckList follows the List/ListItem composition pattern. Use CheckList as the co
 
 ## References
 
-- WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/listbox/
+- WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/

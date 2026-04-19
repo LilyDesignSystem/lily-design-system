@@ -90,6 +90,6 @@ CheckboxGroup is the container for CheckboxInput children. Use `<CheckboxGroup>`
 
 ## References
 
-- WAI-ARIA Checkbox Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/checkbox/
+- WAI-ARIA Checkbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
 - WAI-ARIA Authoring Practices - Checkbox: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/

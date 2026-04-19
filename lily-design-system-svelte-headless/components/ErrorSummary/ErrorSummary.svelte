@@ -55,7 +55,7 @@
     //
     // References:
     //   - GOV.UK Error Summary: https://design-system.service.gov.uk/components/error-summary/
-    //   - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/alert/
+    //   - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/
 
     import type { Snippet } from "svelte";
 

@@ -34,4 +34,4 @@ Compound component: use with MenuBarButton.
 
 ## References
 
-- WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/menubar/
+- WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/

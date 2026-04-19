@@ -66,4 +66,4 @@ CheckListItem is the child component in the CheckList/CheckListItem composition 
 
 ## References
 
-- WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/listbox/
+- WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/

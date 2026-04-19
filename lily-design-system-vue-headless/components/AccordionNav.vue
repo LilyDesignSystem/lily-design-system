@@ -46,7 +46,7 @@
     //   - Headless: no CSS, no styles — consumer provides all styling
     //
     // References:
-    //   - WAI-ARIA Accordion Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/accordion/
+    //   - WAI-ARIA Accordion Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/accordion/
     //   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
 
     defineProps<{

@@ -4,12 +4,12 @@ A headless structural wrapper for the bottom slot of a `GrailLayout`. It spans t
 
 ## What it is
 
-A Svelte 5 component that renders a plain `<div class="grail-layout-bottom-footer ...">` around the `children` snippet. Note the source renders a `<div>`, not a `<footer>` - add a semantic `<footer>` (or the `Footer` component) inside if you need `contentinfo` landmark semantics.
+A Svelte 5 component that renders a semantic `<footer class="grail-layout-bottom-footer ...">` around the `children` snippet, providing the `contentinfo` landmark.
 
 ## What it does
 
-- Renders `<div class="grail-layout-bottom-footer ...">` wrapping the `children` snippet.
-- Spreads any additional HTML attributes onto the `<div>`.
+- Renders `<footer class="grail-layout-bottom-footer ...">` wrapping the `children` snippet.
+- Spreads any additional HTML attributes onto the `<footer>`.
 
 ## When to use it
 
@@ -18,18 +18,17 @@ A Svelte 5 component that renders a plain `<div class="grail-layout-bottom-foote
 
 ## When not to use it
 
-- For the `<footer>` landmark itself. Place `Footer` (or a native `<footer>`) inside this slot.
 - For section-level footers inside articles. Use `Footer` directly where needed.
 
 ## How to use it
 
-Place as a direct child of `GrailLayout`, and nest a semantic `<footer>` (or `Footer` component) inside for accessibility.
+Place as a direct child of `GrailLayout`. The component itself provides the `contentinfo` landmark via its `<footer>` element.
 
 ## Props
 
 - `class` (string, optional) - CSS class appended after the base `grail-layout-bottom-footer` class.
 - `children` (Snippet, required) - Content for the bottom slot.
-- `...restProps` - Additional HTML attributes spread onto the `<div>`.
+- `...restProps` - Additional HTML attributes spread onto the `<footer>`.
 
 ## Usage
 
@@ -104,8 +103,8 @@ Place as a direct child of `GrailLayout`, and nest a semantic `<footer>` (or `Fo
 
 ## Accessibility
 
-- The rendered element is a `<div>`, not `<footer>`. Wrap children in a real `<footer>` (or use `Footer`) to get the `contentinfo` landmark.
-- No ARIA applied by this component.
+- The rendered element is `<footer>`, which exposes the `contentinfo` landmark when used as a top-level child of `<body>` (or the `GrailLayout` root).
+- No additional ARIA applied by this component.
 
 ## Related components
 

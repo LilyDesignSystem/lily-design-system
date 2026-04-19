@@ -4,12 +4,12 @@ A headless structural wrapper for the center main slot of a `GrailLayout`. It ho
 
 ## What it is
 
-A Svelte 5 component that renders a plain `<div class="grail-layout-center-main ...">` around the `children` snippet. Note the source renders a `<div>`, not a `<main>` - add a semantic `<main>` element inside if you need the `main` landmark.
+A Svelte 5 component that renders a semantic `<main class="grail-layout-center-main ...">` around the `children` snippet, providing the `main` landmark.
 
 ## What it does
 
-- Renders `<div class="grail-layout-center-main ...">` wrapping the `children` snippet.
-- Spreads any additional HTML attributes onto the `<div>`.
+- Renders `<main class="grail-layout-center-main ...">` wrapping the `children` snippet.
+- Spreads any additional HTML attributes onto the `<main>`.
 
 ## When to use it
 
@@ -18,18 +18,17 @@ A Svelte 5 component that renders a plain `<div class="grail-layout-center-main 
 
 ## When not to use it
 
-- For the `<main>` landmark itself. Place a native `<main>` element inside this slot.
 - Outside a `GrailLayout`. The layout slot classes are only meaningful paired with the rest of the Grail Layout.
 
 ## How to use it
 
-Place as a direct child of `GrailLayout`, and nest a semantic `<main>` element inside for accessibility.
+Place as a direct child of `GrailLayout`. The component itself provides the `main` landmark via its `<main>` element.
 
 ## Props
 
 - `class` (string, optional) - CSS class appended after the base `grail-layout-center-main` class.
 - `children` (Snippet, required) - Content for the center main slot.
-- `...restProps` - Additional HTML attributes spread onto the `<div>`.
+- `...restProps` - Additional HTML attributes spread onto the `<main>`.
 
 ## Usage
 
@@ -106,9 +105,9 @@ Place as a direct child of `GrailLayout`, and nest a semantic `<main>` element i
 
 ## Accessibility
 
-- The rendered element is a `<div>`, not `<main>`. Add a real `<main>` child to get the `main` landmark.
-- A `SkipLink` should typically target the inner `<main>`'s id.
-- No ARIA applied by this component.
+- The rendered element is `<main>`, which exposes the `main` landmark.
+- A `SkipLink` should typically target this component's `id` (set via `restProps`).
+- No additional ARIA applied by this component.
 
 ## Related components
 

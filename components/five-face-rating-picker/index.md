@@ -97,4 +97,4 @@ FiveFaceRatingPicker composes with FiveFaceRatingPickerButton using the Picker/P
 
 ## References
 
-- WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/radiobutton/
+- WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/

@@ -52,7 +52,7 @@
     //   - No internal state — purely a structural wrapper
     //
     // References:
-    //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/grid/
+    //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 
     withDefaults(defineProps<{
         /** Accessible name describing the kanban board. */

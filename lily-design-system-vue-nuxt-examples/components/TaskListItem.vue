@@ -52,7 +52,7 @@
     //
     // References:
     //   - MDN checkbox input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
-    //   - WAI checkbox pattern: https://www.w3.org/WAI/ARIA/apd/patterns/checkbox/
+    //   - WAI checkbox pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
 
     withDefaults(defineProps<{
         /** The task description text. */

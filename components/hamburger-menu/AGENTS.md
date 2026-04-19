@@ -54,5 +54,5 @@
 - Documentation: index.md
 - CSS class: .hamburger-menu in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/hamburger-menu.html
-- WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/disclosure/
+- WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 - WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/

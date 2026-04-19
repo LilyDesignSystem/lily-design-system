@@ -43,4 +43,4 @@
 - Documentation: index.md
 - CSS class: .breadcrumb-list-item in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/breadcrumb-list-item.html
-- WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/breadcrumb/
+- WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/

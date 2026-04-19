@@ -4,7 +4,7 @@ A headless search field that renders a native `<input type="search">` with an ac
 
 ## What it is
 
-A Svelte 5 headless component wrapping `<input type="search">`. It renders exactly one `<input class="search ...">` (note: the class is `search`, not `search-input`), with `aria-label`, `type="search"`, `bind:value`, `required`, and `disabled`.
+A Svelte 5 headless component wrapping `<input type="search">`. It renders exactly one `<input class="search-input ...">` with `aria-label`, `type="search"`, `bind:value`, `required`, and `disabled`.
 
 ## What it does
 
@@ -35,7 +35,7 @@ A Svelte 5 headless component wrapping `<input type="search">`. It renders exact
 
 ## Props
 
-- `class` (string, optional, default `""`) - merged with the base `search` class.
+- `class` (string, optional, default `""`) - merged with the base `search-input` class.
 - `label` (string, required) - accessible name via `aria-label`.
 - `value` (string, optional, default `""`, bindable) - current search text.
 - `required` (boolean, optional, default `false`).

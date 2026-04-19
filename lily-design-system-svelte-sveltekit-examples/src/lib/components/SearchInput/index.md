@@ -75,4 +75,4 @@ An input for entering a search query <input type="search">.
 ## References
 
 - MDN input type="search": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/search
-- WAI-ARIA Search Role: https://www.w3.org/WAI/ARIA/apd/patterns/search/
+- WAI-ARIA Search Role: https://www.w3.org/WAI/ARIA/apg/patterns/search/

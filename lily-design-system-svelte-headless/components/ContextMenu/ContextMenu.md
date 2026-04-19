@@ -44,4 +44,4 @@ This component manages menu visibility, keyboard navigation, and focus. When ope
 
 ## References
 
-- WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/menu/
+- WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/

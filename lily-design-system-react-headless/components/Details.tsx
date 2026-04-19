@@ -46,7 +46,7 @@
 // References:
 //   - MDN details element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details
 //   - MDN summary element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary
-//   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/disclosure/
+//   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
 import React, { useState } from "react";
 

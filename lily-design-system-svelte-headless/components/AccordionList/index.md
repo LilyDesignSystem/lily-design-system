@@ -1,6 +1,6 @@
 # AccordionList
 
-An ordered-list container for `AccordionListItem` children, placed inside an `AccordionNav`. Renders a semantic `<ol>` with `role="group"` so assistive technologies perceive the enclosed disclosure widgets as a related set. Note that although the AGENTS.md documentation mentions a `<div>`, the source renders an `<ol>`.
+A container for `AccordionListItem` children, placed inside an `AccordionNav`. Renders a `<div>` with `role="group"` so assistive technologies perceive the enclosed disclosure widgets as a related set. (A `<div>` is used rather than `<ol>` because each `AccordionListItem` renders `<details>`, which is not a valid child of `<ol>` / `<ul>`.)
 
 ## What it is
 
@@ -8,10 +8,10 @@ A headless Svelte 5 compound component that groups a set of collapsible items. I
 
 ## What it does
 
-- Renders an `<ol class="accordion-list {className}">`.
+- Renders a `<div class="accordion-list {className}">`.
 - Applies `role="group"` so grouped disclosure widgets are announced together.
 - Maps the optional `label` prop to `aria-label` (emits the attribute only when truthy).
-- Spreads any additional HTML attributes onto the `<ol>` element.
+- Spreads any additional HTML attributes onto the `<div>` element.
 - Renders children, which are expected to be `AccordionListItem` elements.
 
 ## When to use it
@@ -36,7 +36,7 @@ Import `AccordionList` from `./AccordionList.svelte`. Place it inside an `Accord
 - `class` — string, default `""`. CSS class appended to the base `accordion-list` class.
 - `label` — string, default `""`. Optional accessible name applied via `aria-label` when non-empty.
 - `children` — `Snippet`, required. `AccordionListItem` elements.
-- `...restProps` — any additional HTML attributes spread onto the `<ol>`.
+- `...restProps` — any additional HTML attributes spread onto the `<div>`.
 
 ## Usage
 
@@ -116,7 +116,7 @@ Import `AccordionList` from `./AccordionList.svelte`. Place it inside an `Accord
 
 ## Accessibility
 
-- Implicit `list` role from `<ol>` is overridden to `group` so the children are announced as a grouped set.
+- The `<div>` has an explicit `role="group"` so the children are announced as a grouped set.
 - `aria-label` names the group when `label` is provided; omitted otherwise.
 - Keyboard interaction is handled by `AccordionListItem` children (Tab to reach `<summary>`, Enter/Space to toggle).
 - Focus management is native via `<details>/<summary>`.

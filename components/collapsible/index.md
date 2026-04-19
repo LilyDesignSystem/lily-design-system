@@ -98,4 +98,4 @@ The consumer provides all CSS styling. The component renders with a `.collapsibl
 
 ## References
 
-- WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/disclosure/
+- WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/

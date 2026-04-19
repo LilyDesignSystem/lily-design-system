@@ -141,5 +141,5 @@ Import `Button` from `./Button.svelte` and pass children. For toggle buttons, bi
 
 ## References
 
-- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/button/
+- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 - HTML `<button>` element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button

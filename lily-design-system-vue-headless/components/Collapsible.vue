@@ -42,7 +42,7 @@
     //   - The open prop uses defineModel() for two-way binding with v-model:open
     //
     // References:
-    //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/disclosure/
+    //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
     defineProps<{
         /** The clickable summary text */

@@ -50,4 +50,4 @@
 - Documentation: index.md
 - CSS class: .tree-menu in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/tree-menu.html
-- WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/treeview/
+- WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/

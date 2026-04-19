@@ -92,4 +92,4 @@ TaskBar uses the Bar/BarButton composition pattern. Place TaskBarButton componen
 
 ## References
 
-- WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/toolbar/
+- WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/

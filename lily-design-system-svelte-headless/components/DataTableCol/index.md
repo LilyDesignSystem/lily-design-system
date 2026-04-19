@@ -1,40 +1,43 @@
 # DataTableCol
 
-A column definition within a `DataTable`. Renders a `<col>` element, typically inside a `<colgroup>`, with an optional `span` attribute for grouping columns.
-
-Note: the AGENTS description states this maps to `<th>` as "a data table interactive grid column". The actual source emits `<col>` (the HTML column-definition element), which is the correct HTML for styling entire columns. Use `<th scope="col">` inside a `DataTableHead` row for the actual column header cells.
+A column header cell within a `DataTable`. Renders a `<th scope="col">` element, intended to live inside a `DataTableRow` within `DataTableHead`.
 
 ## What it is
 
-DataTableCol outputs `<col class="data-table-col ..." span={span || undefined}>`. It lives inside a `<colgroup>` and affects columns without representing header content.
+DataTableCol outputs `<th class="data-table-col ..." scope="col">`, with optional `colspan` and `rowspan` attributes for header grouping.
 
 ## What it does
 
-- Renders `<col>`.
-- Applies `span` when set; omits when falsy.
-- Spreads `restProps` onto the `<col>`.
+- Renders `<th>` with `scope="col"` by default.
+- Applies `colspan` / `rowspan` when set; omits when falsy.
+- Accepts an alternative `scope` (e.g. `"colgroup"`).
+- Renders header text via `children`.
+- Spreads `restProps` onto the `<th>`.
 
 ## When to use it
 
-- Assigning styles to entire columns via `<colgroup>`/`<col>`.
-- Grouping columns where `span` represents how many data columns a single `<col>` represents.
+- For column header cells in the header row of a data table.
+- For grouped header cells via `colspan` / `rowspan`.
 
 ## When not to use it
 
-- For column header cells — use `<th scope="col">` inside a `DataTableHead` row.
-- For per-cell styling — use classes on `DataTableData`.
+- For per-cell data — use `DataTableData`.
+- For column-wide styling hooks via `<colgroup>` / `<col>` — write those directly inside `DataTable`.
 
 ## How to use it
 
-Place inside `<colgroup>` inside `DataTable`.
+Place inside a `DataTableRow` within `DataTableHead`.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `class` | `string` | `""` | CSS class name appended to the base class. |
-| `span` | `number` | `undefined` | Number of columns this `<col>` spans. |
-| `...restProps` | `unknown` | — | Additional attributes spread onto the `<col>`. |
+| `colspan` | `number` | `undefined` | Number of columns this header cell spans. |
+| `rowspan` | `number` | `undefined` | Number of rows this header cell spans. |
+| `scope` | `"col" \| "row" \| "colgroup" \| "rowgroup"` | `"col"` | Header scope for assistive tech. |
+| `children` | `Snippet` | `undefined` | Header cell content. |
+| `...restProps` | `unknown` | — | Additional attributes spread onto the `<th>`. |
 
 ## Usage
 
@@ -48,16 +51,12 @@ Place inside `<colgroup>` inside `DataTable`.
     import DataTableData from "../DataTableData/DataTableData.svelte";
 </script>
 
-<DataTable label="With colgroup">
-    <colgroup>
-        <DataTableCol />
-        <DataTableCol span={2} />
-    </colgroup>
+<DataTable label="Users">
     <DataTableHead>
         <DataTableRow>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Role</th>
+            <DataTableCol>Name</DataTableCol>
+            <DataTableCol>Email</DataTableCol>
+            <DataTableCol>Role</DataTableCol>
         </DataTableRow>
     </DataTableHead>
     <DataTableBody>
@@ -74,60 +73,29 @@ Place inside `<colgroup>` inside `DataTable`.
 <script lang="ts">
     import DataTable from "../DataTable/DataTable.svelte";
     import DataTableHead from "../DataTableHead/DataTableHead.svelte";
-    import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
     import DataTableCol from "./DataTableCol.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
 </script>
 
-<DataTable label="Single column col">
-    <colgroup>
-        <DataTableCol class="first-col" />
-    </colgroup>
-    <DataTableHead>
-        <DataTableRow><th scope="col">Name</th></DataTableRow>
-    </DataTableHead>
-    <DataTableBody>
-        <DataTableRow><DataTableData>Alice</DataTableData></DataTableRow>
-    </DataTableBody>
-</DataTable>
-```
-
-```svelte
-<script lang="ts">
-    import DataTable from "../DataTable/DataTable.svelte";
-    import DataTableHead from "../DataTableHead/DataTableHead.svelte";
-    import DataTableBody from "../DataTableBody/DataTableBody.svelte";
-    import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableCol from "./DataTableCol.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
-
-    const cols = [1, 2, 3];
-</script>
-
-<DataTable label="Generated colgroup">
-    <colgroup>
-        {#each cols as c (c)}
-            <DataTableCol />
-        {/each}
-    </colgroup>
+<!-- Grouped header spanning multiple columns -->
+<DataTable label="Sales">
     <DataTableHead>
         <DataTableRow>
-            {#each cols as c}<th scope="col">Col {c}</th>{/each}
+            <DataTableCol rowspan={2}>Region</DataTableCol>
+            <DataTableCol colspan={2} scope="colgroup">2025</DataTableCol>
+        </DataTableRow>
+        <DataTableRow>
+            <DataTableCol>Q1</DataTableCol>
+            <DataTableCol>Q2</DataTableCol>
         </DataTableRow>
     </DataTableHead>
-    <DataTableBody>
-        <DataTableRow>
-            {#each cols as c}<DataTableData>{c}</DataTableData>{/each}
-        </DataTableRow>
-    </DataTableBody>
 </DataTable>
 ```
 
 ## Accessibility
 
-- `<col>` has no ARIA impact; it provides only styling/layout hooks.
-- Header semantics live on `<th scope="col">` cells inside `DataTableHead`.
+- `<th scope="col">` associates the header with its column for screen readers.
+- Use `scope="colgroup"` together with `colspan` for grouped column headers.
 
 ## Related components
 

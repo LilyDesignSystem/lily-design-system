@@ -78,4 +78,4 @@ The consumer provides all CSS styling. The component renders with a `.error-mess
 
 ## References
 
-- WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/alert/
+- WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/

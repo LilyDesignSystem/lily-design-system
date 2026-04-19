@@ -28,4 +28,4 @@ A Kanban table data cell is a single cell within a KanbanTableRow, rendered as a
 
 ## References
 
-- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/grid/
+- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

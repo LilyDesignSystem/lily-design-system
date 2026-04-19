@@ -44,7 +44,7 @@
 //   - Both value and editing support controlled two-way binding
 //
 // References:
-//   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/button/
+//   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 import React, { useState } from "react";
 

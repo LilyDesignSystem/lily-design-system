@@ -22,4 +22,4 @@ A Kanban table row is a single row within a KanbanTable grid. Renders as a `<tr>
 
 ## References
 
-- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/grid/
+- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

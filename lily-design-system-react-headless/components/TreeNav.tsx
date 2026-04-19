@@ -45,7 +45,7 @@
 //   - Uses useState() for internal DOM reference
 //
 // References:
-//   - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/TreeList/
+//   - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/TreeList/
 
 import React, { useRef } from "react";
 

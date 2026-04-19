@@ -49,7 +49,7 @@
 //   - Consumer is responsible for filtering options based on value
 //
 // References:
-//   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/combobox/
+//   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
 import React from "react";
 

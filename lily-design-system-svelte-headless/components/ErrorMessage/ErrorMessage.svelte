@@ -38,7 +38,7 @@
     //   - Uses role="alert" for immediate announcement, not aria-live="polite"
     //
     // References:
-    //   - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/alert/
+    //   - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/
 
     import type { Snippet } from "svelte";
 

@@ -52,7 +52,7 @@
     //   - Must be placed inside a Menu or MenuBar container
     //
     // References:
-    //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/menu/
+    //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
     //   - WAI-ARIA menuitem role: https://www.w3.org/TR/wai-aria-1.2/#menuitem
 
     import type { Snippet } from "svelte";

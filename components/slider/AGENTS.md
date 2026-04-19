@@ -51,5 +51,5 @@
 - Documentation: index.md
 - CSS class: .slider in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/slider.html
-- WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/slider/
+- WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 - MDN input type="range": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range

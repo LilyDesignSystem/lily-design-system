@@ -35,4 +35,4 @@ A button representing a single predefined color choice within a ColorPicker. It 
 
 ## References
 
-- [WAI-ARIA Button Pattern](https://www.w3.org/WAI/ARIA/apd/patterns/button/)
+- [WAI-ARIA Button Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/)

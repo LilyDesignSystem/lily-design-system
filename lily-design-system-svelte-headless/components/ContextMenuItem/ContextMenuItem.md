@@ -40,4 +40,4 @@ This component renders as a div with `role="menuitem"` and `tabindex="-1"`, foll
 
 ## References
 
-- WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/menu/
+- WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/

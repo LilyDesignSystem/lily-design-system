@@ -8,7 +8,7 @@ A headless Svelte 5 wrapper intended to host a `CalendarTable` (or similar) with
 
 ## What it does
 
-- Renders `<div class="{className}" role="application" aria-label={label}>`. Note: the source does **not** include a base `calendar-range-picker` class — only the consumer-supplied `className` is applied. This is a source discrepancy from the usual pattern; consumers who want a base class should pass one via `class`.
+- Renders `<div class="calendar-range-picker {className}" role="application" aria-label={label}>`.
 - Applies `role="application"` to signal that the widget manages its own keyboard interactions instead of standard document navigation.
 - Spreads additional HTML attributes onto the `<div>`.
 
@@ -30,7 +30,7 @@ Import `CalendarRangePicker` from `./CalendarRangePicker.svelte`. Pass `label`. 
 
 ## Props
 
-- `class` — string, default `""`. CSS class applied (no base class is added by the component).
+- `class` — string, default `""`. CSS class appended after the base `calendar-range-picker` class.
 - `label` — string, required. Accessible name via `aria-label`.
 - `children` — `Snippet`, required. Calendar grid content.
 - `...restProps` — additional HTML attributes spread onto the `<div>`.
@@ -64,18 +64,6 @@ Import `CalendarRangePicker` from `./CalendarRangePicker.svelte`. Pass `label`. 
       </CalendarTableRow>
     </CalendarTableBody>
   </CalendarTable>
-</CalendarRangePicker>
-```
-
-### With consumer-provided base class
-
-```svelte
-<script lang="ts">
-  import CalendarRangePicker from './CalendarRangePicker.svelte';
-</script>
-
-<CalendarRangePicker class="calendar-range-picker" label="Report date range">
-  <p>Calendar grid here</p>
 </CalendarRangePicker>
 ```
 

@@ -55,5 +55,5 @@
 - Documentation: index.md
 - CSS class: .tab-bar-button in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/tab-bar-button.html
-- WAI-ARIA TabBarButtons Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/tabs/
+- WAI-ARIA TabBarButtons Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 - WAI-ARIA TabBarButton Role: https://www.w3.org/TR/wai-aria-1.2/#tab

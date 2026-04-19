@@ -46,5 +46,5 @@
 - Documentation: index.md
 - CSS class: .kanban-table-body in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/kanban-table-body.html
-- WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/listbox/
+- WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region

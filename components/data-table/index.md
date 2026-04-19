@@ -97,5 +97,5 @@ DataTable follows the Table/Head/Body/Foot/Row/Data composition pattern. Use Dat
 
 ## References
 
-- WAI-ARIA Table Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/table/
+- WAI-ARIA Table Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/table/
 - WAI Tutorial on Tables: https://www.w3.org/WAI/tutorials/tables/

@@ -36,7 +36,7 @@
 //   - Compound component: must be used inside a BreadcrumbList
 //
 // References:
-//   - WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/breadcrumb/
+//   - WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/
 
 import React from "react";
 

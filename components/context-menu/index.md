@@ -99,4 +99,4 @@ ContextMenu follows the Menu/MenuItem composition pattern. Use ContextMenu as th
 
 ## References
 
-- WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/menu/
+- WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/

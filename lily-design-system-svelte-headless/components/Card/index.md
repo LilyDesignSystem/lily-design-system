@@ -6,8 +6,6 @@ A headless card component that groups related content into a self-contained sema
 
 Card is a headless Svelte 5 component that renders an `<article>` element wrapping user-provided content. When a `heading` prop is supplied, Card emits a heading tag matching the chosen `headingLevel` (2-6), optionally wrapped in an `<a>` when `href` is provided. An optional `label` prop applies `aria-label` so the article can be identified as a named landmark.
 
-Note: the source applies a base class of `card-artciel-to-action-button` (note the typo `artciel`) to the article, followed by the consumer's `className`.
-
 ## What it does
 
 - Renders content inside an `<article>` element.

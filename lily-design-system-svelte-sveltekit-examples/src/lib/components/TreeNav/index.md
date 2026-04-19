@@ -78,4 +78,4 @@ A hierarchical navigation with expandable branches.
 
 ## References
 
-- WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/TreeList/
+- WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/TreeList/

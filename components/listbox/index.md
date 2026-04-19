@@ -111,4 +111,4 @@ The consumer provides all CSS styling. The component renders with a `.listbox` c
 
 ## References
 
-- WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/listbox/
+- WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/

@@ -40,7 +40,7 @@
 //   - The open prop uses controlled state via open + onChange
 //
 // References:
-//   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/disclosure/
+//   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
 import React, { useState } from "react";
 

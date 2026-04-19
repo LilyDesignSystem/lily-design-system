@@ -50,7 +50,7 @@
     //   - aria-pressed is only rendered when pressed prop is explicitly provided
     //
     // References:
-    //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/button/
+    //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
     import type { Snippet } from "svelte";
 

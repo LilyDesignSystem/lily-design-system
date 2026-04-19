@@ -80,4 +80,4 @@ A panel that slides in from the edge of the screen.
 
 ## References
 
-- WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/dialog-modal/
+- WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

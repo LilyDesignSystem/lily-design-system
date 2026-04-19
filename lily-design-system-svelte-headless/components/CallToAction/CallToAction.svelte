@@ -46,8 +46,8 @@
     //   - Uses <a> for navigation, <button> for actions — never mix semantics
     //
     // References:
-    //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/button/
-    //   - WAI-ARIA Link Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/link/
+    //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
+    //   - WAI-ARIA Link Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/link/
 
     import type { Snippet } from "svelte";
 

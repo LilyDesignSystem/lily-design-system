@@ -1,105 +1,67 @@
 # CalendarTableCol
 
-A column definition used inside a `<colgroup>` within a `CalendarTable`. **Source discrepancy:** although `AGENTS.md` describes the `-col` suffix as `<th>`, `CalendarTableCol` actually renders a `<col>` element. This component is therefore a column-sizing / styling hook, not a header cell.
+A column header cell within a `CalendarTable`. Renders a `<th scope="col">` element, intended to live inside a `CalendarTableRow` within `CalendarTableHead`.
 
 ## What it is
 
-A headless Svelte 5 structural element rendering `<col>`. Category: calendar grid column-definition primitive.
+A headless Svelte 5 element rendering `<th class="calendar-table-col ..." scope="col">`, with optional `colspan` and `rowspan`. Category: calendar grid column-header primitive.
 
 ## What it does
 
-- Renders `<col class="calendar-table-col {className}" span={span || undefined}>`.
-- Emits the `span` attribute only when a truthy value is provided.
-- Spreads additional HTML attributes onto the `<col>`.
+- Renders `<th>` with `scope="col"` by default.
+- Applies `colspan` / `rowspan` only when truthy.
+- Accepts an alternative `scope` (e.g. `"colgroup"`).
+- Renders header text via `children`.
+- Spreads additional HTML attributes onto the `<th>`.
 
 ## When to use it
 
-- Inside a `<colgroup>` within a `CalendarTable` to style or size one or more columns (e.g. weekends).
-- When CSS needs a `col` hook to target a column.
+- For day-of-week labels and other column headers in a calendar grid.
+- For grouped headers spanning multiple day columns via `colspan`.
 
 ## When not to use it
 
-- As a header cell — use a plain `<th>` inside a `CalendarTableRow` in `CalendarTableHead`. Despite the name, this component is not a header.
 - For data cells — use `CalendarTableData`.
-- For non-calendar tables — use `DataTableCol`, `GanttTableCol`, `KanbanTableCol`, or `TableCol` (those also render `<col>` via the same suffix pattern).
+- For row headers — use a `<th scope="row">` directly inside `CalendarTableRow`.
+- For column-wide styling hooks via `<colgroup>` / `<col>` — write those directly inside `CalendarTable`.
 
 ## How to use it
 
-Import `CalendarTableCol` from `./CalendarTableCol.svelte`. Place inside a `<colgroup>` at the top of a `CalendarTable`, optionally with `span`.
+Import `CalendarTableCol` and place inside a `CalendarTableRow` within `CalendarTableHead`.
 
 ## Props
 
 - `class` — string, default `""`. CSS class appended to `calendar-table-col`.
-- `span` — number, optional. Number of columns this `<col>` covers.
-- `...restProps` — additional HTML attributes spread onto the `<col>`.
+- `colspan` — number, optional. Number of columns this header spans.
+- `rowspan` — number, optional. Number of rows this header spans.
+- `scope` — `"col" | "row" | "colgroup" | "rowgroup"`, default `"col"`.
+- `children` — Snippet, optional. Header cell content.
+- `...restProps` — additional HTML attributes spread onto the `<th>`.
 
 ## Usage
 
-### Weekend vs weekday columns
+### Day-of-week headers
 
 ```svelte
 <script lang="ts">
   import CalendarTable from '../CalendarTable/CalendarTable.svelte';
-  import CalendarTableCol from './CalendarTableCol.svelte';
+  import CalendarTableHead from '../CalendarTableHead/CalendarTableHead.svelte';
   import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
+  import CalendarTableCol from './CalendarTableCol.svelte';
   import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
 </script>
 
 <CalendarTable label="January 2025">
-  <colgroup>
-    <CalendarTableCol class="weekend" />
-    <CalendarTableCol span={5} />
-    <CalendarTableCol class="weekend" />
-  </colgroup>
-  <CalendarTableBody>
-    <CalendarTableRow>
-      {#each [1, 2, 3, 4, 5, 6, 7] as d}
-        <CalendarTableData>{d}</CalendarTableData>
-      {/each}
-    </CalendarTableRow>
-  </CalendarTableBody>
-</CalendarTable>
-```
-
-### Single column span
-
-```svelte
-<colgroup>
-  <CalendarTableCol span={7} />
-</colgroup>
-```
-
-### With data hooks
-
-```svelte
-<colgroup>
-  <CalendarTableCol data-day="sunday" />
-  <CalendarTableCol data-day="monday" />
-</colgroup>
-```
-
-### In a full composition
-
-```svelte
-<script lang="ts">
-  import CalendarTable from '../CalendarTable/CalendarTable.svelte';
-  import CalendarTableCol from './CalendarTableCol.svelte';
-  import CalendarTableHead from '../CalendarTableHead/CalendarTableHead.svelte';
-  import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
-  import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
-</script>
-
-<CalendarTable label="Week schedule">
-  <colgroup>
-    <CalendarTableCol />
-    <CalendarTableCol span={5} />
-    <CalendarTableCol />
-  </colgroup>
   <CalendarTableHead>
     <CalendarTableRow>
-      <th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+      <CalendarTableCol>Sun</CalendarTableCol>
+      <CalendarTableCol>Mon</CalendarTableCol>
+      <CalendarTableCol>Tue</CalendarTableCol>
+      <CalendarTableCol>Wed</CalendarTableCol>
+      <CalendarTableCol>Thu</CalendarTableCol>
+      <CalendarTableCol>Fri</CalendarTableCol>
+      <CalendarTableCol>Sat</CalendarTableCol>
     </CalendarTableRow>
   </CalendarTableHead>
   <CalendarTableBody>
@@ -112,21 +74,23 @@ Import `CalendarTableCol` from `./CalendarTableCol.svelte`. Place inside a `<col
 </CalendarTable>
 ```
 
-### Without span
+### Spanned header
 
 ```svelte
-<colgroup>
-  <CalendarTableCol />
-  <CalendarTableCol />
-</colgroup>
+<CalendarTableHead>
+  <CalendarTableRow>
+    <CalendarTableCol colspan={5} scope="colgroup">Weekdays</CalendarTableCol>
+    <CalendarTableCol colspan={2} scope="colgroup">Weekend</CalendarTableCol>
+  </CalendarTableRow>
+</CalendarTableHead>
 ```
 
 ## Accessibility
 
-- `<col>` provides structural column semantics; not interactive.
-- Screen readers do not read `<col>` content. Any accessible labels should be on `<th>` header cells inside `CalendarTableHead`.
+- `<th scope="col">` associates the header with its column for assistive tech.
+- Use `scope="colgroup"` together with `colspan` for grouped column headers.
 
 ## Related components
 
 - `CalendarTable`, `CalendarTableHead`, `CalendarTableBody`, `CalendarTableFoot`, `CalendarTableRow`, `CalendarTableData`.
-- `DataTableCol`, `GanttTableCol`, `KanbanTableCol`, `TableCol` — sibling `<col>` equivalents in other tables.
+- `DataTableCol`, `GanttTableCol`, `KanbanTableCol`, `TableCol` — sibling header-cell components in other tables.

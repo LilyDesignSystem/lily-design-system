@@ -47,7 +47,7 @@
     //
     // References:
     //   - MDN progress element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress
-    //   - WAI-ARIA progressbar role: https://www.w3.org/WAI/ARIA/apd/patterns/meter/
+    //   - WAI-ARIA progressbar role: https://www.w3.org/WAI/ARIA/apg/patterns/meter/
 
     let {
         class: className = "",

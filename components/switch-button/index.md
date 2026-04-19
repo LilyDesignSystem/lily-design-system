@@ -92,5 +92,5 @@ The consumer provides all CSS styling. The component renders with a `.switch-but
 
 ## References
 
-- WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/switch/
+- WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
 - WAI-ARIA Switch Role: https://www.w3.org/TR/wai-aria-1.2/#switch

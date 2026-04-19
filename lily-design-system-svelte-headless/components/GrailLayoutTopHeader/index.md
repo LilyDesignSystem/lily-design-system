@@ -4,12 +4,12 @@ A headless structural wrapper for the top slot of a `GrailLayout`. It spans the 
 
 ## What it is
 
-A Svelte 5 component that renders a plain `<div class="grail-layout-top-header ...">` around the `children` snippet. Note the source renders a `<div>`, not a `<header>` - add a semantic `<header>` (or the `Header` component) inside for the `banner` landmark.
+A Svelte 5 component that renders a semantic `<header class="grail-layout-top-header ...">` around the `children` snippet, providing the `banner` landmark.
 
 ## What it does
 
-- Renders `<div class="grail-layout-top-header ...">` wrapping the `children` snippet.
-- Spreads any additional HTML attributes onto the `<div>`.
+- Renders `<header class="grail-layout-top-header ...">` wrapping the `children` snippet.
+- Spreads any additional HTML attributes onto the `<header>`.
 
 ## When to use it
 
@@ -18,19 +18,18 @@ A Svelte 5 component that renders a plain `<div class="grail-layout-top-header .
 
 ## When not to use it
 
-- For the `<header>` landmark itself. Place `Header` (or a native `<header>`) inside this slot.
 - For a banner-style announcement. Use `Banner` or `SuperBanner`.
 - For article or section headers. Use `Header` directly.
 
 ## How to use it
 
-Place as a direct child of `GrailLayout` and nest a semantic `<header>` (or the `Header` component) inside for the `banner` landmark.
+Place as a direct child of `GrailLayout`. The component itself provides the `banner` landmark via its `<header>` element.
 
 ## Props
 
 - `class` (string, optional) - CSS class appended after the base `grail-layout-top-header` class.
 - `children` (Snippet, required) - Content for the top header slot.
-- `...restProps` - Additional HTML attributes spread onto the `<div>`.
+- `...restProps` - Additional HTML attributes spread onto the `<header>`.
 
 ## Usage
 
@@ -111,7 +110,7 @@ Place as a direct child of `GrailLayout` and nest a semantic `<header>` (or the 
 
 ## Accessibility
 
-- The rendered element is a `<div>`, not `<header>`. Add a real `<header>` child to produce the `banner` landmark (when appropriate).
+- The rendered element is a `<header>`, which exposes the `banner` landmark when used as a top-level child of `<body>` (or the `GrailLayout` root).
 - Use `aria-label` on the `<header>` or on inner `<nav>` elements to disambiguate when multiple exist.
 
 ## Related components

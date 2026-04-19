@@ -94,5 +94,5 @@ The consumer provides all CSS styling. The component renders with a `.table` cla
 
 ## References
 
-- WAI-ARIA Table Role: https://www.w3.org/WAI/ARIA/apd/patterns/table/
+- WAI-ARIA Table Role: https://www.w3.org/WAI/ARIA/apg/patterns/table/
 - HTML Table Element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table

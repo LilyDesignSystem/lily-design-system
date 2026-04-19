@@ -27,4 +27,4 @@ A single row within a CalendarTable grid. Renders as a `<tr>`, containing Calend
 
 ## References
 
-- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/grid/
+- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

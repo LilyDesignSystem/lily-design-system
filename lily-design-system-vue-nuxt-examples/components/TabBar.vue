@@ -50,7 +50,7 @@
     //   - Arrow keys wrap around at boundaries
     //
     // References:
-    //   - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/tabs/
+    //   - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 
     import { ref } from "vue";
 

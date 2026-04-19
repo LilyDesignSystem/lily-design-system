@@ -45,7 +45,7 @@
     //   - Uses defineModel() on open for two-way state binding
     //
     // References:
-    //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/dialog-modal/
+    //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
     //   - MDN dialog element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
     const props = defineProps<{
         label: string;

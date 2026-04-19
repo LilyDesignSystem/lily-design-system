@@ -60,4 +60,4 @@ const filtered = useMemo(() => options.filter(o => o.toLowerCase().includes(valu
 
 ## References
 
-- WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/combobox/
+- WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/

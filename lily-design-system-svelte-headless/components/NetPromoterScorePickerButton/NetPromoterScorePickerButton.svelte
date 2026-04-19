@@ -42,7 +42,7 @@
     //   - Consumer can use [data-value] CSS selectors for score-based styling
     //
     // References:
-    //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/button/
+    //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
     //   - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score
 
     let {

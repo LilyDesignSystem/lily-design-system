@@ -76,5 +76,5 @@ DataTableRow is part of the DataTable composition pattern. It sits inside DataTa
 
 ## References
 
-- WAI-ARIA Table Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/table/
+- WAI-ARIA Table Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/table/
 - WAI Tutorial on Tables: https://www.w3.org/WAI/tutorials/tables/

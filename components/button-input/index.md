@@ -93,4 +93,4 @@ The consumer provides all CSS styling. The component renders with a `.button-inp
 ## References
 
 - MDN input type="button": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/button
-- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/button/
+- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

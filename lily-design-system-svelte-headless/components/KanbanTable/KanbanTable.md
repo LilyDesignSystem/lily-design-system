@@ -36,4 +36,4 @@ Compound component: use with KanbanTableHead, KanbanTableBody, KanbanTableFoot, 
 
 ## References
 
-- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/grid/
+- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

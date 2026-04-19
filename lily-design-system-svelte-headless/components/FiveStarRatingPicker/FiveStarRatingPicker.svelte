@@ -45,7 +45,7 @@
     //   - Value 0 means no selection; valid ratings are 1-5
     //
     // References:
-    //   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/radiobutton/
+    //   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/
 
     let {
         class: className = "",

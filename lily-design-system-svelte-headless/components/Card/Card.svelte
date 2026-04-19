@@ -68,7 +68,7 @@
 
 <!-- Card.svelte -->
 <article
-    class={`card-artciel-to-action-button ${className}`}
+    class={`card ${className}`}
     aria-label={label}
     {...restProps}
 >

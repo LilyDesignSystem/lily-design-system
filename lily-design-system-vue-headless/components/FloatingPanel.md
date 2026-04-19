@@ -36,4 +36,4 @@ None -- this component is a passive container. Consumers should implement focus 
 
 ## References
 
-- WAI-ARIA Practices - Disclosure Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/disclosure/
+- WAI-ARIA Practices - Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/

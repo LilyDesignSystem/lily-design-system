@@ -43,7 +43,7 @@
     //   - Compound component: parent container for CheckListItem children
     //
     // References:
-    //   - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/listbox/
+    //   - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 
     withDefaults(defineProps<{
         label?: string;

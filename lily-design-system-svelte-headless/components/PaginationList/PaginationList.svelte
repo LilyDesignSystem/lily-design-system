@@ -51,7 +51,7 @@
     //
     // References:
     //   - WAI-ARIA navigation role: https://www.w3.org/TR/wai-aria-1.2/#navigation
-    //   - WAI-ARIA Practices - Navigation: https://www.w3.org/WAI/ARIA/apd/patterns/navigation/
+    //   - WAI-ARIA Practices - Navigation: https://www.w3.org/WAI/ARIA/apg/patterns/navigation/
 
     import type { Snippet } from "svelte";
 

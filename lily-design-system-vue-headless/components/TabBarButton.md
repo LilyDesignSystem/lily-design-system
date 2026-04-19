@@ -42,4 +42,4 @@ Compound component: must be placed inside a TabBar container with `role="tablist
 
 ## References
 
-- WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/tabs/
+- WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/

@@ -129,4 +129,4 @@ AccordionListItem follows the Nav / List / ListItem composition pattern:
 ## References
 
 - HTML details element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details
-- WAI-ARIA Accordion Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/accordion/
+- WAI-ARIA Accordion Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/accordion/

@@ -73,5 +73,5 @@ DataTableData is the leaf component in the DataTable composition pattern. It sit
 
 ## References
 
-- WAI-ARIA Table Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/table/
+- WAI-ARIA Table Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/table/
 - WAI Tutorial on Tables: https://www.w3.org/WAI/tutorials/tables/

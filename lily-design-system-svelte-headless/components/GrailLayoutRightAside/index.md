@@ -4,12 +4,12 @@ A headless structural wrapper for the right aside slot of a `GrailLayout`. It ty
 
 ## What it is
 
-A Svelte 5 component that renders a plain `<div class="grail-layout-right-aside ...">` around the `children` snippet. Note the source renders a `<div>`, not an `<aside>` - add a semantic `<aside>` inside for the appropriate landmark.
+A Svelte 5 component that renders a semantic `<aside class="grail-layout-right-aside ...">` around the `children` snippet, providing the `complementary` landmark.
 
 ## What it does
 
-- Renders `<div class="grail-layout-right-aside ...">` wrapping the `children` snippet.
-- Spreads any additional HTML attributes onto the `<div>`.
+- Renders `<aside class="grail-layout-right-aside ...">` wrapping the `children` snippet.
+- Spreads any additional HTML attributes onto the `<aside>`.
 
 ## When to use it
 
@@ -18,19 +18,18 @@ A Svelte 5 component that renders a plain `<div class="grail-layout-right-aside 
 
 ## When not to use it
 
-- For the `<aside>` landmark itself. Place a native `<aside>` inside this slot.
 - For a floating panel overlay. Use `FloatingPanel`, `Popover`, or `Sheet`.
 - For a primary navigation sidebar. Use `GrailLayoutLeftAside` or `Sidebar`.
 
 ## How to use it
 
-Place as a direct child of `GrailLayout` and nest a semantic `<aside>` element inside.
+Place as a direct child of `GrailLayout`. The component itself provides the `complementary` landmark via its `<aside>` element.
 
 ## Props
 
 - `class` (string, optional) - CSS class appended after the base `grail-layout-right-aside` class.
 - `children` (Snippet, required) - Content for the right aside slot.
-- `...restProps` - Additional HTML attributes spread onto the `<div>`.
+- `...restProps` - Additional HTML attributes spread onto the `<aside>`.
 
 ## Usage
 
@@ -108,8 +107,8 @@ Place as a direct child of `GrailLayout` and nest a semantic `<aside>` element i
 
 ## Accessibility
 
-- The rendered element is a `<div>`, not `<aside>`. Add a real `<aside>` child to produce the `complementary` landmark.
-- Label any `<aside>` with `aria-label` when multiple asides exist on the page.
+- The rendered element is `<aside>`, which exposes the `complementary` landmark.
+- Label the component with `aria-label` (via `restProps`) when multiple asides exist on the page.
 
 ## Related components
 

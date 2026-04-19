@@ -77,4 +77,4 @@ An inline-editable text element that toggles between view and edit modes.
 
 ## References
 
-- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/button/
+- WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

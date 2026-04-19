@@ -12,9 +12,9 @@ function childSnippet() {
 }
 
 describe("GrailLayoutCenterMain", () => {
-    test("renders a div", () => {
+    test("renders a main", () => {
         render(Subject, { props: { children: childSnippet() } });
-        expect(document.querySelector(".grail-layout-center-main")).toBeTruthy();
+        expect(document.querySelector("main.grail-layout-center-main")).toBeTruthy();
     });
 
     test("renders children", () => {

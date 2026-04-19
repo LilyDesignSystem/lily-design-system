@@ -94,5 +94,5 @@ The consumer provides all CSS styling. The component renders with a `.slider` cl
 
 ## References
 
-- WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/slider/
+- WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 - MDN input type="range": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range

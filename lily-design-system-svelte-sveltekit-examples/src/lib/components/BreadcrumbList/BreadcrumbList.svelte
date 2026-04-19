@@ -43,7 +43,7 @@
     //   - Separator characters between items are the consumer's responsibility
     //
     // References:
-    //   - WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apd/patterns/breadcrumb/
+    //   - WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/
 
     import type { Snippet } from "svelte";
 
