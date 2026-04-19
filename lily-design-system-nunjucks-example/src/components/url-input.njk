@@ -1,0 +1,25 @@
+---
+layout: layouts/component-demo.njk
+title: URL Input
+description: an input for entering a URL
+---
+
+{% from "components/url-input/macro.njk" import urlInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "website", text: "Website" }) }}
+  {{ hint({
+    id: "website-hint",
+    text: "Include https:// at the start."
+  }) }}
+  {{ urlInput({
+    id: "website",
+    autocomplete: "url",
+    describedBy: "website-hint",
+    placeholder: "https://example.com"
+  }) }}
+{% endcall %}

@@ -1,0 +1,30 @@
+.submit-input {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--nhsuk-spacing-2) var(--nhsuk-spacing-4);
+  min-height: 2.75rem;
+  background: var(--nhsuk-green);
+  color: var(--nhsuk-white);
+  border: 2px solid transparent;
+  border-bottom: 4px solid #00401e;
+  border-radius: 4px;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+  font-weight: var(--nhsuk-font-weight-bold);
+  cursor: pointer;
+}
+
+.submit-input:hover {
+  background: #00662f;
+}
+
+.submit-input:active {
+  background: #00401e;
+  transform: translateY(1px);
+}
+
+.submit-input[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

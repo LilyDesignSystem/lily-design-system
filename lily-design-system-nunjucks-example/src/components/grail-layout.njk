@@ -1,0 +1,76 @@
+---
+layout: layouts/component-demo.njk
+title: Grail Layout
+description: a responsive web design structure with header, left aside, center main, right aside, footer
+---
+
+{% from "components/grail-layout/macro.njk" import grailLayout %}
+{% from "components/grail-layout-top-header/macro.njk" import grailLayoutTopHeader %}
+{% from "components/grail-layout-left-aside/macro.njk" import grailLayoutLeftAside %}
+{% from "components/grail-layout-center-main/macro.njk" import grailLayoutCenterMain %}
+{% from "components/grail-layout-right-aside/macro.njk" import grailLayoutRightAside %}
+{% from "components/grail-layout-bottom-footer/macro.njk" import grailLayoutBottomFooter %}
+
+<h2>Composed layout</h2>
+<p>The grail layout stacks on mobile and switches to a five-region
+  grid (header / left / main / right / footer) at 769px and above.
+  Try resizing the viewport.</p>
+
+<div style="border: 2px solid var(--nhsuk-light-grey); overflow: hidden; resize: both;">
+{% call grailLayout({ attributes: { style: "min-height: 24rem" } }) %}
+
+  {% call grailLayoutTopHeader({ label: "Demo header" }) %}
+    <strong>Lily clinic</strong>
+  {% endcall %}
+
+  {% call grailLayoutLeftAside({ label: "Primary navigation" }) %}
+    <nav aria-label="Primary">
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Appointments</a></li>
+        <li><a href="#">Medications</a></li>
+        <li><a href="#">Records</a></li>
+      </ul>
+    </nav>
+  {% endcall %}
+
+  {% call grailLayoutCenterMain({ id: "demo-main-content" }) %}
+    <h3>Welcome, Jane</h3>
+    <p>You have 2 upcoming appointments and 1 action required.</p>
+    <p>This is the main content region. The right aside holds related
+      or supplementary information.</p>
+  {% endcall %}
+
+  {% call grailLayoutRightAside({ label: "Related information" }) %}
+    <h4>Useful links</h4>
+    <ul style="list-style: none; padding: 0;">
+      <li><a href="#">Book an appointment</a></li>
+      <li><a href="#">Request a prescription</a></li>
+      <li><a href="#">Contact your GP</a></li>
+    </ul>
+  {% endcall %}
+
+  {% call grailLayoutBottomFooter({ label: "Site footer" }) %}
+    <small>Demo footer — © Lily clinic 2026</small>
+  {% endcall %}
+
+{% endcall %}
+</div>
+
+<h2>Region semantics</h2>
+<ul>
+  <li><code>grail-layout</code> — generic <code>&lt;div&gt;</code>
+    wrapper using CSS Grid</li>
+  <li><code>grail-layout-top-header</code> —
+    <code>&lt;header&gt;</code> (banner landmark)</li>
+  <li><code>grail-layout-left-aside</code> —
+    <code>&lt;aside&gt;</code> (complementary landmark)</li>
+  <li><code>grail-layout-center-main</code> —
+    <code>&lt;main&gt;</code> (main landmark)</li>
+  <li><code>grail-layout-right-aside</code> —
+    <code>&lt;aside&gt;</code> (complementary landmark — give each
+    aside a distinct <code>label</code> so assistive tech can tell
+    them apart)</li>
+  <li><code>grail-layout-bottom-footer</code> —
+    <code>&lt;footer&gt;</code> (contentinfo landmark)</li>
+</ul>

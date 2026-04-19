@@ -1,0 +1,10 @@
+.grail-layout-bottom-footer {
+  grid-area: footer;
+  padding: var(--nhsuk-spacing-4);
+  background: var(--nhsuk-black);
+  color: var(--nhsuk-white);
+}
+
+.grail-layout-bottom-footer a {
+  color: var(--nhsuk-white);
+}

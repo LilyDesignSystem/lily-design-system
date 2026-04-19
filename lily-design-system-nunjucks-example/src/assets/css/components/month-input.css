@@ -1,0 +1,14 @@
+.month-input {
+  display: block;
+  width: 100%;
+  max-width: 12rem;
+  padding: var(--nhsuk-spacing-2);
+  border: 2px solid var(--nhsuk-black);
+  background: var(--nhsuk-white);
+  color: var(--nhsuk-black);
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+  line-height: 1.25;
+}
+
+.month-input[aria-invalid="true"] { border-color: var(--nhsuk-red); }

@@ -1,0 +1,36 @@
+---
+layout: layouts/component-demo.njk
+title: Notification
+description: a brief message about an event or update
+nhsuk: https://service-manual.nhs.uk/design-system/components/notification-banners
+---
+
+{% from "components/notification/macro.njk" import notification %}
+
+<h2>Default (important)</h2>
+{{ notification({
+  id: "nb-1",
+  heading: "Important",
+  html: "<p>You can no longer book a coronavirus (COVID-19) vaccine through this service. <a href=\"#\">Find other ways to book</a>.</p>"
+}) }}
+
+<h2>Success variant</h2>
+{{ notification({
+  id: "nb-2",
+  heading: "Success",
+  variant: "success",
+  text: "Your appointment has been booked."
+}) }}
+
+<h2>Without heading (status)</h2>
+{{ notification({
+  text: "Your changes have been saved."
+}) }}
+
+<h2>Custom role (alert)</h2>
+{{ notification({
+  id: "nb-3",
+  heading: "Service down",
+  role: "alert",
+  text: "Online booking is unavailable. Call 111 for urgent help."
+}) }}

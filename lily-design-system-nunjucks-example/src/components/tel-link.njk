@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: Tel Link
+description: "a tel: hyperlink for a telephone number"
+---
+
+{% from "components/tel-link/macro.njk" import telLink %}
+
+<h2>Common NHS numbers</h2>
+<ul>
+  <li>NHS 111: {{ telLink({ number: "111" }) }}</li>
+  <li>Emergency: {{ telLink({ number: "999", label: "Call 999 for emergency services" }) }}</li>
+  <li>NHS GP appointment line: {{ telLink({ number: "0300 123 4567" }) }}</li>
+</ul>
+
+<h2>With custom visible text</h2>
+<p>{{ telLink({
+  number: "0300 123 4567",
+  text: "Call the surgery"
+}) }}</p>
+
+<h2>International format</h2>
+<p>{{ telLink({
+  number: "+44 20 7946 0958",
+  text: "Call (London)"
+}) }}</p>
+
+<h2>Accessibility</h2>
+<p>The macro normalises the <code>href</code> to a dialable form
+  (stripping spaces, hyphens, and parentheses), while the visible
+  text preserves the formatting you supplied — so the link looks
+  right and the dial still works.</p>

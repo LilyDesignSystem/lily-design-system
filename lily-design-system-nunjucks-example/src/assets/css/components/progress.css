@@ -1,0 +1,29 @@
+.progress {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  max-width: 40rem;
+  height: 0.75rem;
+  border: 0;
+  background: var(--nhsuk-pale-grey);
+  overflow: hidden;
+  color: var(--nhsuk-blue);
+}
+
+.progress::-webkit-progress-bar {
+  background: var(--nhsuk-pale-grey);
+}
+
+.progress::-webkit-progress-value {
+  background: var(--nhsuk-blue);
+  transition: width 0.25s ease-out;
+}
+
+.progress::-moz-progress-bar {
+  background: var(--nhsuk-blue);
+}
+
+.progress:indeterminate::-webkit-progress-value {
+  background: var(--nhsuk-blue);
+}

@@ -1,0 +1,22 @@
+---
+layout: layouts/component-demo.njk
+title: Button Input
+description: an input element of type button for form actions
+---
+
+{% from "components/button-input/macro.njk" import buttonInput %}
+
+<h2>Default</h2>
+<p>{{ buttonInput({ value: "Clear form", attributes: { onclick: "event.preventDefault()" } }) }}</p>
+
+<h2>Disabled</h2>
+<p>{{ buttonInput({ value: "Unavailable", disabled: true }) }}</p>
+
+<h2>With icon-only label</h2>
+<p>{{ buttonInput({ value: "×", label: "Close dialog" }) }}</p>
+
+<h2>When to use</h2>
+<p>Prefer the <a href="/components/button/"><code>Button</code></a>
+  component (a real <code>&lt;button&gt;</code> element) for most
+  cases. <code>ButtonInput</code> is here for parity with legacy
+  forms that historically expected <code>&lt;input type="button"&gt;</code>.</p>

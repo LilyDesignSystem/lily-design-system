@@ -1,0 +1,6 @@
+.summary-list {
+  margin: 0 0 var(--nhsuk-spacing-4) 0;
+  padding: 0;
+  border-bottom: 1px solid var(--nhsuk-light-grey);
+  font-size: var(--nhsuk-font-size-19);
+}

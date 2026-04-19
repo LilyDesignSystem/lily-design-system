@@ -1,0 +1,13 @@
+.breadcrumb-link {
+  color: var(--nhsuk-bright-blue);
+  text-decoration-thickness: 1px;
+}
+
+.breadcrumb-link:hover {
+  color: var(--nhsuk-dark-blue);
+  text-decoration-thickness: 3px;
+}
+
+.breadcrumb-link:visited {
+  color: var(--nhsuk-purple);
+}

@@ -1,0 +1,39 @@
+---
+layout: layouts/component-demo.njk
+title: UK NHS Number Input
+description: an input for entering a UK NHS number
+---
+
+{% from "components/united-kingdom-national-health-service-number-input/macro.njk" import unitedKingdomNationalHealthServiceNumberInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "nhs", text: "NHS number" }) }}
+  {{ hint({
+    id: "nhs-hint",
+    text: "It is a 10-digit number on any letter from the NHS."
+  }) }}
+  {{ unitedKingdomNationalHealthServiceNumberInput({
+    id: "nhs",
+    describedBy: "nhs-hint"
+  }) }}
+{% endcall %}
+
+<h2>Pre-filled (grouped format accepted)</h2>
+{% call field() %}
+  {{ label({ for: "nhs2", text: "NHS number" }) }}
+  {{ unitedKingdomNationalHealthServiceNumberInput({
+    id: "nhs2",
+    value: "485 777 3456"
+  }) }}
+{% endcall %}
+
+<h2>Accessibility note</h2>
+<p>The macro sets <code>inputmode="numeric"</code> so mobile devices
+  show the numeric keypad, <code>autocomplete="off"</code> because
+  browsers have no standardised token for medical-record numbers,
+  and <code>spellcheck="false"</code> to suppress irrelevant spell
+  check highlighting.</p>

@@ -1,0 +1,57 @@
+---
+layout: layouts/component-demo.njk
+title: Checkbox Input
+description: a checkbox input for toggling a boolean value
+nhsuk: https://service-manual.nhs.uk/design-system/components/checkboxes
+---
+
+{% from "components/checkbox-input/macro.njk" import checkboxInput %}
+{% from "components/label/macro.njk" import label %}
+
+<h2>Single checkbox (terms acceptance)</h2>
+<p>
+  {{ checkboxInput({ id: "terms", name: "terms", value: "yes" }) }}
+  {{ label({ for: "terms", text: "I accept the terms and conditions" }) }}
+</p>
+
+<h2>Checked by default</h2>
+<p>
+  {{ checkboxInput({
+    id: "marketing",
+    name: "marketing",
+    value: "yes",
+    checked: true
+  }) }}
+  {{ label({
+    for: "marketing",
+    text: "Email me appointment reminders"
+  }) }}
+</p>
+
+<h2>Disabled</h2>
+<p>
+  {{ checkboxInput({
+    id: "unavailable",
+    name: "unavailable",
+    value: "yes",
+    disabled: true
+  }) }}
+  {{ label({
+    for: "unavailable",
+    text: "Offline option (temporarily unavailable)"
+  }) }}
+</p>
+
+<h2>Indeterminate (tri-state)</h2>
+<p>The <code>indeterminate</code> param sets
+  <code>data-indeterminate="true"</code> on the element so consumer
+  JavaScript can hydrate the native <code>indeterminate</code>
+  property on load.</p>
+<p>
+  {{ checkboxInput({
+    id: "all",
+    name: "all",
+    indeterminate: true
+  }) }}
+  {{ label({ for: "all", text: "Select all (partial)" }) }}
+</p>

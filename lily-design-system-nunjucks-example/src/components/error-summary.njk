@@ -1,0 +1,34 @@
+---
+layout: layouts/component-demo.njk
+title: Error Summary
+description: a summary of all validation errors on a form
+nhsuk: https://service-manual.nhs.uk/design-system/components/error-summary
+---
+
+{% from "components/error-summary/macro.njk" import errorSummary %}
+
+<h2>Default</h2>
+{{ errorSummary({
+  errors: [
+    { text: "Enter your full name", href: "#name" },
+    { text: "Enter a valid NHS number", href: "#nhs-number" },
+    { text: "Enter your date of birth", href: "#dob" }
+  ]
+}) }}
+
+<h2>With description</h2>
+{{ errorSummary({
+  title: "There is a problem with your answers",
+  description: "Check each field below and try again.",
+  errors: [
+    { text: "Email address must contain an @ sign", href: "#email" },
+    { text: "Password must be at least 8 characters", href: "#password" }
+  ]
+}) }}
+
+<h2>Single error</h2>
+{{ errorSummary({
+  errors: [
+    { text: "Accept the terms before continuing", href: "#terms" }
+  ]
+}) }}

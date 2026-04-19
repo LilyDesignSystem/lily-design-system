@@ -1,0 +1,23 @@
+.information-callout {
+  position: relative;
+  padding: var(--nhsuk-spacing-3) var(--nhsuk-spacing-4);
+  background: var(--nhsuk-pale-grey);
+  border-top: 4px solid var(--nhsuk-blue);
+  margin-bottom: var(--nhsuk-spacing-4);
+}
+
+.information-callout-label {
+  display: inline-block;
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+  font-size: var(--nhsuk-font-size-22);
+  margin-top: calc(-1 * var(--nhsuk-spacing-3) - 4px);
+  margin-bottom: var(--nhsuk-spacing-3);
+  margin-left: calc(-1 * var(--nhsuk-spacing-4));
+  border-bottom: 4px solid var(--nhsuk-blue);
+}
+
+.information-callout > :last-child {
+  margin-bottom: 0;
+}

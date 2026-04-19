@@ -1,0 +1,33 @@
+---
+layout: layouts/component-demo.njk
+title: Email Link
+description: a mailto hyperlink for an email address
+---
+
+{% from "components/email-link/macro.njk" import emailLink %}
+
+<h2>Default — address as text</h2>
+<p>{{ emailLink({ address: "help@example.com" }) }}</p>
+
+<h2>Custom visible text</h2>
+<p>{{ emailLink({
+  address: "support@nhs.uk",
+  text: "Email the NHS support team"
+}) }}</p>
+
+<h2>Pre-filled subject and body</h2>
+<p>{{ emailLink({
+  address: "gp@example.com",
+  subject: "NHS number enquiry",
+  body: "Hello,\n\nI would like to check my NHS number.\n\nThank you.",
+  text: "Email the GP"
+}) }}</p>
+
+<h2>With CC and BCC</h2>
+<p>{{ emailLink({
+  address: "records@nhs.uk",
+  cc: "supervisor@nhs.uk",
+  bcc: "audit@nhs.uk",
+  subject: "Record update request",
+  text: "Email records team"
+}) }}</p>

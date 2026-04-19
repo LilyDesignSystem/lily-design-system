@@ -1,0 +1,10 @@
+.grail-layout-top-header {
+  grid-area: header;
+  padding: var(--nhsuk-spacing-3) var(--nhsuk-spacing-4);
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+}
+
+.grail-layout-top-header a {
+  color: var(--nhsuk-white);
+}

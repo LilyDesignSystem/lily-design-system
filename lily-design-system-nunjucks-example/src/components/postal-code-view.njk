@@ -1,0 +1,20 @@
+---
+layout: layouts/component-demo.njk
+title: Postal Code View
+description: a read-only display of a postal or ZIP code
+---
+
+{% from "components/postal-code-view/macro.njk" import postalCodeView %}
+
+<h2>UK postcode</h2>
+<p>{{ postalCodeView({ value: "SW1A 1AA", label: "Postcode" }) }}</p>
+
+<h2>US ZIP code</h2>
+<p>{{ postalCodeView({ value: "90210", label: "ZIP code" }) }}</p>
+
+<h2>Canadian postcode</h2>
+<p>{{ postalCodeView({ value: "K1A 0B1", label: "Postal code" }) }}</p>
+
+<h2>Accessibility</h2>
+<p>Always set <code>label</code> when the value appears outside an
+  address block so assistive tech announces its meaning.</p>

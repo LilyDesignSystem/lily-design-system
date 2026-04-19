@@ -1,0 +1,42 @@
+---
+layout: layouts/component-demo.njk
+title: Radio Group
+description: a group of radio buttons for selecting one option
+---
+
+{% from "components/radio-group/macro.njk" import radioGroup %}
+{% from "components/radio-input/macro.njk" import radioInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/fieldset/macro.njk" import fieldset %}
+{% from "components/hint/macro.njk" import hint %}
+
+<h2>Inside a Fieldset (preferred when a legend is visible)</h2>
+{% call fieldset({ legend: "Where do you live?" }) %}
+  {% call radioGroup({ label: "Where do you live?" }) %}
+    {{ radioInput({ id: "w-eng", name: "where", value: "england" }) }}
+    {{ label({ for: "w-eng", text: "England" }) }}
+    {{ radioInput({ id: "w-sco", name: "where", value: "scotland" }) }}
+    {{ label({ for: "w-sco", text: "Scotland" }) }}
+    {{ radioInput({ id: "w-wal", name: "where", value: "wales" }) }}
+    {{ label({ for: "w-wal", text: "Wales" }) }}
+    {{ radioInput({ id: "w-ni", name: "where", value: "ni" }) }}
+    {{ label({ for: "w-ni", text: "Northern Ireland" }) }}
+  {% endcall %}
+{% endcall %}
+
+<h2>Stand-alone with hint</h2>
+{% call radioGroup({
+  label: "Preferred appointment time",
+  describedBy: "appt-hint"
+}) %}
+  {{ hint({
+    id: "appt-hint",
+    text: "Times are shown in your local time zone."
+  }) }}
+  {{ radioInput({ id: "t-morning", name: "appt", value: "morning" }) }}
+  {{ label({ for: "t-morning", text: "Morning (8am – 12pm)" }) }}
+  {{ radioInput({ id: "t-afternoon", name: "appt", value: "afternoon" }) }}
+  {{ label({ for: "t-afternoon", text: "Afternoon (12pm – 5pm)" }) }}
+  {{ radioInput({ id: "t-evening", name: "appt", value: "evening" }) }}
+  {{ label({ for: "t-evening", text: "Evening (5pm – 8pm)" }) }}
+{% endcall %}

@@ -1,0 +1,28 @@
+.form {
+  max-width: 40rem;
+}
+
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="tel"],
+.form input[type="url"],
+.form input[type="password"],
+.form input[type="search"],
+.form input[type="number"],
+.form textarea,
+.form select {
+  display: block;
+  width: 100%;
+  padding: var(--nhsuk-spacing-2);
+  border: 2px solid var(--nhsuk-black);
+  background: var(--nhsuk-white);
+  color: var(--nhsuk-black);
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+  line-height: 1.25;
+  margin-bottom: var(--nhsuk-spacing-3);
+}
+
+.form textarea {
+  min-height: 8rem;
+}

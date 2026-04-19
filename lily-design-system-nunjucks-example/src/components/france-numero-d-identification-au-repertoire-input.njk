@@ -1,0 +1,35 @@
+---
+layout: layouts/component-demo.njk
+title: France NIR Input
+description: an input for entering a France numéro d'identification au répertoire
+---
+
+{% from "components/france-numero-d-identification-au-repertoire-input/macro.njk" import franceNumeroDIdentificationAuRepertoireInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "nir", text: "Numéro INSEE" }) }}
+  {{ hint({
+    id: "nir-hint",
+    text: "13 chiffres suivis d'une clé de 2 chiffres. Exemple : 1 85 12 78 463 100 38."
+  }) }}
+  {{ franceNumeroDIdentificationAuRepertoireInput({
+    id: "nir",
+    describedBy: "nir-hint"
+  }) }}
+{% endcall %}
+
+<h2>Structure of the NIR</h2>
+<p>The 15 characters encode:</p>
+<ol>
+  <li>1 digit — gender (1 for men, 2 for women)</li>
+  <li>2 digits — year of birth</li>
+  <li>2 digits — month of birth</li>
+  <li>2 digits — department of birth (A or B allowed for Corsica)</li>
+  <li>3 digits — town of birth</li>
+  <li>3 digits — birth sequence number</li>
+  <li>2 digits — modulo-97 control key</li>
+</ol>

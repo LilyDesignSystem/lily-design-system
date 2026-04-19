@@ -1,0 +1,25 @@
+.button-input {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--nhsuk-spacing-2) var(--nhsuk-spacing-4);
+  min-height: 2.75rem;
+  background: var(--nhsuk-pale-grey);
+  color: var(--nhsuk-black);
+  border: 2px solid transparent;
+  border-bottom: 4px solid var(--nhsuk-dark-grey);
+  border-radius: 4px;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+  font-weight: var(--nhsuk-font-weight-bold);
+  cursor: pointer;
+}
+
+.button-input:hover {
+  background: var(--nhsuk-light-grey);
+}
+
+.button-input[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

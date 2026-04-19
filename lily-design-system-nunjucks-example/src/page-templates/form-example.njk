@@ -1,0 +1,123 @@
+---
+layout: layouts/page.njk
+title: Form example
+description: A composed NHS UK-style form using Lily's form primitives.
+---
+
+{% from "components/form/macro.njk" import form %}
+{% from "components/fieldset/macro.njk" import fieldset %}
+{% from "components/field/macro.njk" import field %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/error-message/macro.njk" import errorMessage %}
+{% from "components/error-summary/macro.njk" import errorSummary %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/email-input/macro.njk" import emailInput %}
+{% from "components/textarea/macro.njk" import textarea %}
+{% from "components/button/macro.njk" import button %}
+
+<p class="lead">Register for NHS online services. All fields are required
+unless marked optional.</p>
+
+{{ errorSummary({
+  errors: [
+    { text: "Enter your full name", href: "#name" },
+    { text: "Enter a valid NHS number", href: "#nhs-number" }
+  ]
+}) }}
+
+{% call form({ action: "/register", method: "post", label: "Register" }) %}
+
+  {% call field({ error: "Enter your full name" }) %}
+    {{ label({ for: "name", text: "Full name" }) }}
+    {{ hint({ id: "name-hint", text: "As it appears on your ID." }) }}
+    {{ errorMessage({ id: "name-error", text: "Enter your full name" }) }}
+    {{ textInput({
+      id: "name",
+      autocomplete: "name",
+      describedBy: "name-hint",
+      errormessage: "name-error",
+      invalid: true,
+      required: true
+    }) }}
+  {% endcall %}
+
+  {% call field({ error: "Enter a valid NHS number" }) %}
+    {{ label({ for: "nhs-number", text: "NHS number" }) }}
+    {{ hint({
+      id: "nhs-number-hint",
+      text: "It is a 10-digit number on any letter from the NHS."
+    }) }}
+    {{ errorMessage({
+      id: "nhs-number-error",
+      text: "Enter a valid NHS number"
+    }) }}
+    {{ textInput({
+      id: "nhs-number",
+      describedBy: "nhs-number-hint",
+      errormessage: "nhs-number-error",
+      invalid: true,
+      inputmode: "numeric",
+      required: true
+    }) }}
+  {% endcall %}
+
+  {% call field() %}
+    {{ label({ for: "email", text: "Email address" }) }}
+    {{ hint({
+      id: "email-hint",
+      text: "We will send your verification link here."
+    }) }}
+    {{ emailInput({
+      id: "email",
+      autocomplete: "email",
+      describedBy: "email-hint",
+      required: true
+    }) }}
+  {% endcall %}
+
+  {% call fieldset({ legend: "Address" }) %}
+
+    {% call field() %}
+      {{ label({ for: "line1", text: "Address line 1" }) }}
+      {{ textInput({
+        id: "line1",
+        name: "address-line-1",
+        autocomplete: "address-line1"
+      }) }}
+    {% endcall %}
+
+    {% call field() %}
+      {{ label({ for: "line2", text: "Address line 2 (optional)" }) }}
+      {{ textInput({
+        id: "line2",
+        name: "address-line-2",
+        autocomplete: "address-line2"
+      }) }}
+    {% endcall %}
+
+    {% call field() %}
+      {{ label({ for: "postcode", text: "Postcode" }) }}
+      {{ textInput({
+        id: "postcode",
+        name: "postcode",
+        autocomplete: "postal-code",
+        classes: "text-input-postcode"
+      }) }}
+    {% endcall %}
+
+  {% endcall %}
+
+  {% call field() %}
+    {{ label({ for: "notes", text: "Anything else we should know? (optional)" }) }}
+    {{ textarea({
+      id: "notes",
+      name: "notes",
+      rows: 5,
+      maxlength: 500
+    }) }}
+  {% endcall %}
+
+  {{ button({ text: "Continue", type: "submit" }) }}
+
+{% endcall %}

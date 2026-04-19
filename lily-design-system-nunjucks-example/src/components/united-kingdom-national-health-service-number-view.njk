@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: UK NHS Number View
+description: a read-only display of a UK NHS number
+---
+
+{% from "components/united-kingdom-national-health-service-number-view/macro.njk" import unitedKingdomNationalHealthServiceNumberView %}
+
+<h2>Automatic grouping</h2>
+<p>When the value is exactly 10 digits (with or without spaces or
+  hyphens), the macro groups it as <code>XXX XXX XXXX</code>.</p>
+
+<dl>
+  <dt>Raw 10 digits</dt>
+  <dd>{{ unitedKingdomNationalHealthServiceNumberView({ value: "4857773456", label: "NHS number" }) }}</dd>
+  <dt>With embedded spaces</dt>
+  <dd>{{ unitedKingdomNationalHealthServiceNumberView({ value: "485 777 3456", label: "NHS number" }) }}</dd>
+  <dt>With embedded hyphens</dt>
+  <dd>{{ unitedKingdomNationalHealthServiceNumberView({ value: "485-777-3456", label: "NHS number" }) }}</dd>
+</dl>
+
+<h2>Non-matching values render as-is</h2>
+<p>A value that is not exactly 10 digits is rendered unchanged:</p>
+<p>{{ unitedKingdomNationalHealthServiceNumberView({ value: "not set" }) }}</p>
+
+<h2>Accessibility</h2>
+<p>An NHS number on its own is ambiguous to screen readers; always
+  set <code>label</code> or place the view under a clear heading so
+  assistive tech announces the value's purpose.</p>

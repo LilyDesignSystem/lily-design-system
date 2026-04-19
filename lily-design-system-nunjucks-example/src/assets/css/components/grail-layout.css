@@ -1,0 +1,22 @@
+.grail-layout {
+  display: grid;
+  grid-template:
+    "header" auto
+    "left" auto
+    "main" 1fr
+    "right" auto
+    "footer" auto
+    / 1fr;
+  gap: var(--nhsuk-spacing-3);
+  min-height: 100vh;
+}
+
+@media (min-width: 769px) {
+  .grail-layout {
+    grid-template:
+      "header header header" auto
+      "left main right" 1fr
+      "footer footer footer" auto
+      / 16rem 1fr 16rem;
+  }
+}

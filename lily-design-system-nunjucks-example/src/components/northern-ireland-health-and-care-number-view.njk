@@ -1,0 +1,18 @@
+---
+layout: layouts/component-demo.njk
+title: Northern Ireland H&C Number View
+description: a read-only display of a Northern Ireland Health and Care Number
+---
+
+{% from "components/northern-ireland-health-and-care-number-view/macro.njk" import northernIrelandHealthAndCareNumberView %}
+
+<h2>Automatic grouping</h2>
+<p>A 10-digit value is grouped as <code>XXX XXX XXXX</code> —
+  the same format as the NHS number used elsewhere in the UK.</p>
+
+<dl>
+  <dt>Raw 10 digits</dt>
+  <dd>{{ northernIrelandHealthAndCareNumberView({ value: "4857773456", label: "H&C number" }) }}</dd>
+  <dt>With hyphens</dt>
+  <dd>{{ northernIrelandHealthAndCareNumberView({ value: "485-777-3456", label: "H&C number" }) }}</dd>
+</dl>

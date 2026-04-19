@@ -1,0 +1,40 @@
+---
+layout: layouts/component-demo.njk
+title: Postal Code Input
+description: an input for entering a postal or ZIP code
+---
+
+{% from "components/postal-code-input/macro.njk" import postalCodeInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default (generic)</h2>
+{% call field() %}
+  {{ label({ for: "pc1", text: "Postcode" }) }}
+  {{ postalCodeInput({ id: "pc1" }) }}
+{% endcall %}
+
+<h2>UK-specific pattern</h2>
+{% call field() %}
+  {{ label({ for: "pc2", text: "UK postcode" }) }}
+  {{ hint({
+    id: "pc2-hint",
+    text: "For example, SW1A 1AA."
+  }) }}
+  {{ postalCodeInput({
+    id: "pc2",
+    describedBy: "pc2-hint",
+    pattern: "[A-Za-z]{1,2}[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}",
+    value: "SW1A 1AA"
+  }) }}
+{% endcall %}
+
+<h2>Shipping address</h2>
+{% call field() %}
+  {{ label({ for: "pc3", text: "Delivery postcode" }) }}
+  {{ postalCodeInput({
+    id: "pc3",
+    autocomplete: "shipping postal-code"
+  }) }}
+{% endcall %}

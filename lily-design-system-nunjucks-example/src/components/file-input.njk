@@ -1,0 +1,46 @@
+---
+layout: layouts/component-demo.njk
+title: File Input
+description: an input for selecting files from the file system
+---
+
+{% from "components/file-input/macro.njk" import fileInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "upload", text: "Upload a file" }) }}
+  {{ fileInput({ id: "upload" }) }}
+{% endcall %}
+
+<h2>Photo from the camera</h2>
+{% call field() %}
+  {{ label({ for: "photo", text: "Take a photo of your prescription" }) }}
+  {{ hint({
+    id: "photo-hint",
+    text: "Use the rear camera. JPEG or PNG."
+  }) }}
+  {{ fileInput({
+    id: "photo",
+    describedBy: "photo-hint",
+    accept: "image/jpeg,image/png",
+    capture: "environment"
+  }) }}
+{% endcall %}
+
+<h2>Multiple documents</h2>
+{% call field() %}
+  {{ label({ for: "docs", text: "Upload supporting documents" }) }}
+  {{ hint({
+    id: "docs-hint",
+    text: "PDF or Word documents only."
+  }) }}
+  {{ fileInput({
+    id: "docs",
+    describedBy: "docs-hint",
+    accept: ".pdf,.doc,.docx,application/pdf,application/msword",
+    multiple: true
+  }) }}
+{% endcall %}

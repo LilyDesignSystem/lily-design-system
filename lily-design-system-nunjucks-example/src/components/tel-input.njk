@@ -1,0 +1,25 @@
+---
+layout: layouts/component-demo.njk
+title: Tel Input
+description: an input for entering a telephone number
+---
+
+{% from "components/tel-input/macro.njk" import telInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "phone", text: "UK mobile number" }) }}
+  {{ hint({
+    id: "phone-hint",
+    text: "For international numbers include the country code."
+  }) }}
+  {{ telInput({
+    id: "phone",
+    autocomplete: "tel",
+    inputmode: "tel",
+    describedBy: "phone-hint"
+  }) }}
+{% endcall %}

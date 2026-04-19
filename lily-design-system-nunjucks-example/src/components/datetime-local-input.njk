@@ -1,0 +1,31 @@
+---
+layout: layouts/component-demo.njk
+title: Datetime Local Input
+description: an input for entering a date and time without time zone
+---
+
+{% from "components/datetime-local-input/macro.njk" import datetimeLocalInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Appointment booking</h2>
+{% call field() %}
+  {{ label({ for: "appt", text: "Preferred date and time" }) }}
+  {{ hint({
+    id: "appt-hint",
+    text: "Choose a slot between 9am and 5pm, weekdays only."
+  }) }}
+  {{ datetimeLocalInput({
+    id: "appt",
+    describedBy: "appt-hint",
+    min: "2026-04-20T09:00",
+    max: "2026-07-31T17:00",
+    step: 900,
+    value: "2026-04-27T09:30"
+  }) }}
+{% endcall %}
+
+<p>The value format is <code>YYYY-MM-DDTHH:MM</code> without
+  time-zone offset. If your application is multi-zone, store the
+  submitted value with an explicit time zone at the server.</p>

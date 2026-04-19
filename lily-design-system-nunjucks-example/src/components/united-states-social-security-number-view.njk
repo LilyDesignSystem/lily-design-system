@@ -1,0 +1,24 @@
+---
+layout: layouts/component-demo.njk
+title: US SSN View
+description: a read-only display of a US Social Security number
+---
+
+{% from "components/united-states-social-security-number-view/macro.njk" import unitedStatesSocialSecurityNumberView %}
+
+<h2>Automatic grouping</h2>
+<p>A 9-digit value (with or without spaces or hyphens) is grouped as
+  <code>XXX-XX-XXXX</code>.</p>
+
+<dl>
+  <dt>Raw 9 digits</dt>
+  <dd>{{ unitedStatesSocialSecurityNumberView({ value: "123456789", label: "SSN" }) }}</dd>
+  <dt>With hyphens</dt>
+  <dd>{{ unitedStatesSocialSecurityNumberView({ value: "123-45-6789", label: "SSN" }) }}</dd>
+</dl>
+
+<h2>Masked last-4 pattern</h2>
+<p>Consumers commonly mask the leading digits before rendering.
+  Values that are not exactly 9 digits render as-is, preserving
+  whatever mask characters the consumer supplied:</p>
+<p>{{ unitedStatesSocialSecurityNumberView({ value: "XXX-XX-6789", label: "SSN (last 4)" }) }}</p>

@@ -1,0 +1,39 @@
+---
+layout: layouts/component-demo.njk
+title: Range Input
+description: a slider input for selecting a value within a range
+---
+
+{% from "components/range-input/macro.njk" import rangeInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default — pain scale 0 to 10</h2>
+{% call field() %}
+  {{ label({ for: "pain", text: "How bad is your pain?" }) }}
+  {{ hint({
+    id: "pain-hint",
+    text: "0 means no pain. 10 means the worst pain you can imagine."
+  }) }}
+  {{ rangeInput({
+    id: "pain",
+    describedBy: "pain-hint",
+    min: 0,
+    max: 10,
+    step: 1,
+    value: 3,
+    list: "pain-ticks"
+  }) }}
+  <datalist id="pain-ticks">
+    <option value="0"></option>
+    <option value="5"></option>
+    <option value="10"></option>
+  </datalist>
+{% endcall %}
+
+<h2>Volume</h2>
+{% call field() %}
+  {{ label({ for: "vol", text: "Volume" }) }}
+  {{ rangeInput({ id: "vol", min: 0, max: 100, value: 75 }) }}
+{% endcall %}

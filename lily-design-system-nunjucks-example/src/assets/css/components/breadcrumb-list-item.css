@@ -1,0 +1,15 @@
+.breadcrumb-list-item {
+  display: flex;
+  align-items: baseline;
+}
+
+.breadcrumb-list-item + .breadcrumb-list-item::before {
+  content: "›";
+  margin-right: var(--nhsuk-spacing-3);
+  color: var(--nhsuk-mid-grey);
+}
+
+.breadcrumb-list-item[aria-current="page"] {
+  color: var(--nhsuk-black);
+  font-weight: var(--nhsuk-font-weight-bold);
+}

@@ -1,0 +1,20 @@
+.fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0 0 var(--nhsuk-spacing-4) 0;
+  min-width: 0;
+}
+
+.fieldset-legend {
+  color: var(--nhsuk-black);
+  font-size: var(--nhsuk-font-size-22);
+  font-weight: var(--nhsuk-font-weight-bold);
+  padding: 0;
+  margin-bottom: var(--nhsuk-spacing-2);
+}
+
+.fieldset-heading {
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+}

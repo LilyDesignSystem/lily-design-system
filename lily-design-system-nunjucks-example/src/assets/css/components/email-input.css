@@ -1,0 +1,22 @@
+.email-input {
+  display: block;
+  width: 100%;
+  padding: var(--nhsuk-spacing-2);
+  border: 2px solid var(--nhsuk-black);
+  background: var(--nhsuk-white);
+  color: var(--nhsuk-black);
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+  line-height: 1.25;
+  max-width: 40rem;
+}
+
+.email-input[aria-invalid="true"] {
+  border-color: var(--nhsuk-red);
+}
+
+.email-input[disabled] {
+  background: var(--nhsuk-pale-grey);
+  color: var(--nhsuk-dark-grey);
+  cursor: not-allowed;
+}

@@ -1,0 +1,31 @@
+---
+layout: layouts/component-demo.njk
+title: Search Input
+description: an input for entering a search query
+---
+
+{% from "components/search-input/macro.njk" import searchInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/button/macro.njk" import button %}
+{% from "components/form/macro.njk" import form %}
+
+<h2>Default</h2>
+{% call form({ action: "/search", method: "get", label: "Search" }) %}
+  {{ label({ for: "q", text: "Search NHS.UK" }) }}
+  {{ searchInput({
+    id: "q",
+    name: "q",
+    placeholder: "e.g. flu symptoms"
+  }) }}
+  {{ button({ text: "Search", type: "submit" }) }}
+{% endcall %}
+
+<h2>With current query</h2>
+{% call form({ action: "/search", method: "get", label: "Search results" }) %}
+  {{ label({ for: "q2", text: "Search" }) }}
+  {{ searchInput({
+    id: "q2",
+    name: "q",
+    value: "measles vaccine"
+  }) }}
+{% endcall %}

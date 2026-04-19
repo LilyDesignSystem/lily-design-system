@@ -1,0 +1,34 @@
+---
+layout: layouts/component-demo.njk
+title: Hidden Input
+description: a hidden input for including data in form submission
+---
+
+{% from "components/hidden-input/macro.njk" import hiddenInput %}
+{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/button/macro.njk" import button %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Session round-trip</h2>
+<p>Hidden inputs carry server-side state across a form submission
+  without exposing it to the user. Typical uses: CSRF tokens,
+  pagination cursors, selected-item ids.</p>
+
+{% call form({ action: "/apply/step/2", label: "Application step" }) %}
+  {{ hiddenInput({ name: "csrf_token", value: "demo-csrf-abc123" }) }}
+  {{ hiddenInput({ name: "application_id", value: "A-2026-0042" }) }}
+
+  {% call field() %}
+    {{ label({ for: "phone", text: "Phone number" }) }}
+    {{ textInput({ id: "phone", name: "phone", inputmode: "tel" }) }}
+  {% endcall %}
+
+  {{ button({ text: "Continue", type: "submit" }) }}
+{% endcall %}
+
+<h2>Accessibility</h2>
+<p>Hidden inputs are not exposed to assistive tech at all. Do not
+  put content in <code>params.value</code> that a user would need to
+  read — this is for server-round-trip data only.</p>

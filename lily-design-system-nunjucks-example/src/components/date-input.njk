@@ -1,0 +1,46 @@
+---
+layout: layouts/component-demo.njk
+title: Date Input
+description: an input for entering a date value
+---
+
+{% from "components/date-input/macro.njk" import dateInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "dob", text: "Date of birth" }) }}
+  {{ dateInput({ id: "dob", max: "2026-04-19" }) }}
+{% endcall %}
+
+<h2>With range limits</h2>
+{% call field() %}
+  {{ label({ for: "appt", text: "Preferred appointment date" }) }}
+  {{ hint({
+    id: "appt-hint",
+    text: "Next 90 days only."
+  }) }}
+  {{ dateInput({
+    id: "appt",
+    describedBy: "appt-hint",
+    min: "2026-04-19",
+    max: "2026-07-18"
+  }) }}
+{% endcall %}
+
+<h2>Pre-filled</h2>
+{% call field() %}
+  {{ label({ for: "dob2", text: "Date of birth" }) }}
+  {{ dateInput({
+    id: "dob2",
+    value: "1985-04-27"
+  }) }}
+{% endcall %}
+
+<h2>Accessibility note</h2>
+<p>The native <code>&lt;input type="date"&gt;</code> always submits
+  an ISO 8601 value (YYYY-MM-DD) regardless of the user's locale.
+  For structured day / month / year triples with no native picker,
+  prefer <code>DateField</code>.</p>

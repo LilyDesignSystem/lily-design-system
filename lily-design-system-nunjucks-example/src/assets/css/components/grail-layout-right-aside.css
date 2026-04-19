@@ -1,0 +1,6 @@
+.grail-layout-right-aside {
+  grid-area: right;
+  padding: var(--nhsuk-spacing-3);
+  background: var(--nhsuk-pale-grey);
+  border-left: 1px solid var(--nhsuk-light-grey);
+}

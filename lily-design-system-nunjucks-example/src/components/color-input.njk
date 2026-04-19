@@ -1,0 +1,40 @@
+---
+layout: layouts/component-demo.njk
+title: Color Input
+description: an input for selecting a color value
+---
+
+{% from "components/color-input/macro.njk" import colorInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "brand", text: "Brand colour" }) }}
+  {{ colorInput({ id: "brand", value: "#005eb8" }) }}
+{% endcall %}
+
+<h2>With a datalist of preset colours</h2>
+{% call field() %}
+  {{ label({ for: "pal", text: "Theme accent" }) }}
+  {{ hint({
+    id: "pal-hint",
+    text: "Choose from the NHS palette or pick a custom colour."
+  }) }}
+  {{ colorInput({
+    id: "pal",
+    value: "#41b6e6",
+    list: "nhs-palette",
+    describedBy: "pal-hint"
+  }) }}
+{% endcall %}
+
+<datalist id="nhs-palette">
+  <option value="#005eb8">NHS Blue</option>
+  <option value="#003087">Dark Blue</option>
+  <option value="#41b6e6">Light Blue</option>
+  <option value="#007f3b">Green</option>
+  <option value="#d5281b">Red</option>
+  <option value="#ffb81c">Warm Yellow</option>
+</datalist>

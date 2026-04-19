@@ -1,0 +1,10 @@
+.email-link {
+  color: var(--nhsuk-bright-blue);
+  text-decoration-thickness: 1px;
+  word-break: break-all;
+}
+
+.email-link:hover {
+  color: var(--nhsuk-dark-blue);
+  text-decoration-thickness: 3px;
+}

@@ -1,0 +1,35 @@
+---
+layout: layouts/component-demo.njk
+title: Reset Input
+description: a button input that resets a form to default values
+---
+
+{% from "components/reset-input/macro.njk" import resetInput %}
+{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/submit-input/macro.njk" import submitInput %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+<p>{{ resetInput({}) }}</p>
+
+<h2>Custom label</h2>
+<p>{{ resetInput({ value: "Start over" }) }}</p>
+
+<h2>Composed with a form</h2>
+{% call form({ action: "/prefs", label: "Preferences" }) %}
+  {% call field() %}
+    {{ label({ for: "pref-name", text: "Display name" }) }}
+    {{ textInput({ id: "pref-name", name: "name", value: "Jane" }) }}
+  {% endcall %}
+  <p>
+    {{ submitInput({ value: "Save preferences" }) }}
+    {{ resetInput({ value: "Reset to defaults" }) }}
+  </p>
+{% endcall %}
+
+<h2>When to avoid</h2>
+<p>Reset buttons often surprise users by wiping form state without
+  warning. Prefer a dedicated <a href="/components/button/">
+  <code>Button</code></a> with explicit behaviour when possible.</p>

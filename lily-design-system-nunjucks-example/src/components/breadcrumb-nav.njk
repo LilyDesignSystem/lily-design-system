@@ -1,0 +1,39 @@
+---
+layout: layouts/component-demo.njk
+title: Breadcrumb Nav
+description: a navigation container for breadcrumb trail links
+nhsuk: https://service-manual.nhs.uk/design-system/components/breadcrumbs
+---
+
+{% from "components/breadcrumb-nav/macro.njk" import breadcrumbNav %}
+{% from "components/breadcrumb-list/macro.njk" import breadcrumbList %}
+{% from "components/breadcrumb-list-item/macro.njk" import breadcrumbListItem %}
+{% from "components/breadcrumb-link/macro.njk" import breadcrumbLink %}
+
+<h2>Default</h2>
+<p>The breadcrumb family composes four macros: <code>BreadcrumbNav</code>,
+  <code>BreadcrumbList</code>, <code>BreadcrumbListItem</code>, and
+  <code>BreadcrumbLink</code>. Mark the current page by passing
+  <code>current: true</code> to its list item.</p>
+
+{% call breadcrumbNav() %}
+  {% call breadcrumbList() %}
+    {% call breadcrumbListItem() %}
+      {{ breadcrumbLink({ href: "/", text: "Home" }) }}
+    {% endcall %}
+    {% call breadcrumbListItem() %}
+      {{ breadcrumbLink({ href: "/health-a-z/", text: "Health A to Z" }) }}
+    {% endcall %}
+    {{ breadcrumbListItem({ text: "Flu", current: true }) }}
+  {% endcall %}
+{% endcall %}
+
+<h2>With custom aria-label</h2>
+{% call breadcrumbNav({ label: "You are here" }) %}
+  {% call breadcrumbList() %}
+    {% call breadcrumbListItem() %}
+      {{ breadcrumbLink({ href: "/", text: "NHS home" }) }}
+    {% endcall %}
+    {{ breadcrumbListItem({ text: "Services", current: true }) }}
+  {% endcall %}
+{% endcall %}

@@ -1,0 +1,36 @@
+---
+layout: layouts/component-demo.njk
+title: Error Message
+description: an error message associated with a form field
+nhsuk: https://service-manual.nhs.uk/design-system/components/error-message
+---
+
+{% from "components/label/macro.njk" import label %}
+{% from "components/error-message/macro.njk" import errorMessage %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+<p>A visually-hidden "Error:" prefix is announced to screen readers
+  before the error text.</p>
+{{ errorMessage({
+  id: "nhs-number-error",
+  text: "Enter your NHS number"
+}) }}
+
+<h2>With custom screen-reader prefix</h2>
+{{ errorMessage({
+  id: "name-error",
+  text: "Full name must include a first name and a last name",
+  visuallyHiddenText: "Validation problem:"
+}) }}
+
+<h2>Composed inside a field</h2>
+{% call field({ error: "Enter your NHS number" }) %}
+  {{ label({ for: "nhs-nbr-1", text: "NHS number" }) }}
+  {{ errorMessage({ id: "nhs-nbr-1-error", text: "Enter your NHS number" }) }}
+  <input id="nhs-nbr-1"
+         type="text"
+         aria-invalid="true"
+         aria-errormessage="nhs-nbr-1-error"
+         class="form">
+{% endcall %}

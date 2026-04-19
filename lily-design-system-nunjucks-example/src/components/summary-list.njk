@@ -1,0 +1,48 @@
+---
+layout: layouts/component-demo.njk
+title: Summary List
+description: an ordered list of key-value summary pairs
+nhsuk: https://service-manual.nhs.uk/design-system/components/summary-list
+---
+
+{% from "components/summary-list/macro.njk" import summaryList %}
+{% from "components/summary-list-item/macro.njk" import summaryListItem %}
+
+<h2>Check your answers</h2>
+<p>The summary-list is the NHS UK "check your answers" pattern.
+  Each row shows a key/value pair with optional action links.</p>
+
+{% call summaryList({ label: "Your details" }) %}
+  {{ summaryListItem({
+    key: "Full name",
+    value: "Jane Smith",
+    actions: [
+      { text: "Change", href: "/change/name", visuallyHiddenText: "full name" }
+    ]
+  }) }}
+  {{ summaryListItem({
+    key: "Date of birth",
+    value: "27 April 1985",
+    actions: [
+      { text: "Change", href: "/change/dob", visuallyHiddenText: "date of birth" }
+    ]
+  }) }}
+  {{ summaryListItem({
+    key: "Address",
+    valueHtml: "12 High Street<br>Manchester<br>M1 4AE",
+    actions: [
+      { text: "Change", href: "/change/address", visuallyHiddenText: "address" }
+    ]
+  }) }}
+  {{ summaryListItem({
+    key: "NHS number",
+    value: "485 777 3456"
+  }) }}
+{% endcall %}
+
+<h2>Without actions</h2>
+{% call summaryList() %}
+  {{ summaryListItem({ key: "Height", value: "168 cm" }) }}
+  {{ summaryListItem({ key: "Weight", value: "62 kg" }) }}
+  {{ summaryListItem({ key: "Blood pressure", value: "118 / 76 mmHg" }) }}
+{% endcall %}

@@ -1,0 +1,31 @@
+---
+layout: layouts/component-demo.njk
+title: Do List
+description: a guideline list of encouraged do-list-item components
+nhsuk: https://service-manual.nhs.uk/design-system/components/do-and-dont-lists
+---
+
+{% from "components/do-list/macro.njk" import doList %}
+{% from "components/do-list-item/macro.njk" import doListItem %}
+{% from "components/dont-list/macro.njk" import dontList %}
+{% from "components/dont-list-item/macro.njk" import dontListItem %}
+
+<h2>Do and don't advice</h2>
+<p>The NHS UK "Do and Don't" pattern pairs a <code>DoList</code>
+  with a <code>DontList</code>. Green ticks mark encouraged
+  practice; red crosses mark discouraged practice.</p>
+
+<h3>Do</h3>
+{% call doList({ labelledBy: "do-h" }) %}
+  {{ doListItem({ text: "wash your hands for at least 20 seconds" }) }}
+  {{ doListItem({ text: "use soap and warm water where possible" }) }}
+  {{ doListItem({ text: "cover coughs and sneezes with a tissue" }) }}
+  {{ doListItem({ text: "stay at home if you feel unwell" }) }}
+{% endcall %}
+
+<h3>Don't</h3>
+{% call dontList({ labelledBy: "dont-h" }) %}
+  {{ dontListItem({ text: "touch your eyes, nose, or mouth with unwashed hands" }) }}
+  {{ dontListItem({ text: "share towels or personal items" }) }}
+  {{ dontListItem({ text: "take antibiotics for a cold" }) }}
+{% endcall %}

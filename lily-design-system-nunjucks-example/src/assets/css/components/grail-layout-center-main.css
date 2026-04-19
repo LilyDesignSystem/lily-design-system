@@ -1,0 +1,9 @@
+.grail-layout-center-main {
+  grid-area: main;
+  padding: var(--nhsuk-spacing-4);
+  background: var(--nhsuk-white);
+}
+
+.grail-layout-center-main:focus {
+  outline: none;
+}

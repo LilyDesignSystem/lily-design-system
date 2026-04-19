@@ -1,0 +1,14 @@
+.field {
+  margin-bottom: var(--nhsuk-spacing-4);
+}
+
+.field[data-state="invalid"] {
+  padding-left: var(--nhsuk-spacing-3);
+  border-left: 4px solid var(--nhsuk-red);
+}
+
+.field[data-state="invalid"] input,
+.field[data-state="invalid"] textarea,
+.field[data-state="invalid"] select {
+  border-color: var(--nhsuk-red);
+}

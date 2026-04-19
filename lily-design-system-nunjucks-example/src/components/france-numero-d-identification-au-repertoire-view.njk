@@ -1,0 +1,18 @@
+---
+layout: layouts/component-demo.njk
+title: France NIR View
+description: a read-only display of a France numéro d'identification au répertoire
+---
+
+{% from "components/france-numero-d-identification-au-repertoire-view/macro.njk" import franceNumeroDIdentificationAuRepertoireView %}
+
+<h2>Automatic grouping</h2>
+<p>A 15-character value (digits or digits with A/B for Corsica) is
+  grouped as <code>G YY MM CC VVV SSS KK</code>.</p>
+
+<dl>
+  <dt>Raw 15 digits</dt>
+  <dd>{{ franceNumeroDIdentificationAuRepertoireView({ value: "185127846310038", label: "Numéro INSEE" }) }}</dd>
+  <dt>Already grouped</dt>
+  <dd>{{ franceNumeroDIdentificationAuRepertoireView({ value: "1 85 12 78 463 100 38", label: "Numéro INSEE" }) }}</dd>
+</dl>

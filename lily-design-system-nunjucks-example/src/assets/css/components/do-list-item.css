@@ -1,0 +1,22 @@
+.do-list-item {
+  position: relative;
+  padding-left: 2.25rem;
+  margin-bottom: var(--nhsuk-spacing-2);
+  line-height: 1.5;
+}
+
+.do-list-item::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--nhsuk-green);
+  font-size: var(--nhsuk-font-size-22);
+  font-weight: var(--nhsuk-font-weight-bold);
+  line-height: 1;
+}

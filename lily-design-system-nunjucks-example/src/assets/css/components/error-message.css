@@ -1,0 +1,6 @@
+.error-message {
+  display: block;
+  color: var(--nhsuk-red);
+  font-weight: var(--nhsuk-font-weight-bold);
+  margin-bottom: var(--nhsuk-spacing-2);
+}

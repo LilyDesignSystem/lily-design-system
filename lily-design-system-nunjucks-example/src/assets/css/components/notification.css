@@ -1,0 +1,47 @@
+.notification {
+  background: var(--nhsuk-black);
+  color: var(--nhsuk-white);
+  border-bottom: 10px solid var(--nhsuk-blue);
+  margin-bottom: var(--nhsuk-spacing-4);
+}
+
+.notification[data-variant="success"] {
+  border-bottom-color: var(--nhsuk-green);
+}
+
+.notification-header {
+  padding: var(--nhsuk-spacing-3) var(--nhsuk-spacing-4);
+  background: var(--nhsuk-blue);
+}
+
+.notification[data-variant="success"] .notification-header {
+  background: var(--nhsuk-green);
+}
+
+.notification-title {
+  margin: 0;
+  color: var(--nhsuk-white);
+  font-size: var(--nhsuk-font-size-22);
+  line-height: 1.25;
+}
+
+.notification-content {
+  padding: var(--nhsuk-spacing-3) var(--nhsuk-spacing-4);
+}
+
+.notification-content > :first-child {
+  margin-top: 0;
+}
+
+.notification-content > :last-child {
+  margin-bottom: 0;
+}
+
+.notification-content a {
+  color: var(--nhsuk-white);
+  text-decoration-thickness: 2px;
+}
+
+.notification-content a:hover {
+  text-decoration-thickness: 4px;
+}

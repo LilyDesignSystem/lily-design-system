@@ -1,0 +1,25 @@
+---
+layout: layouts/component-demo.njk
+title: Option
+description: an option element within a select dropdown
+---
+
+{% from "components/option/macro.njk" import option %}
+{% from "components/select/macro.njk" import select %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Standalone Option macros</h2>
+<p>Use Option macros via a Select caller block when you need
+  fine-grained control or computed logic per option.</p>
+
+{% call field() %}
+  {{ label({ for: "drink", text: "Drink" }) }}
+  {% call select({ id: "drink" }) %}
+    {{ option({ value: "", text: "Choose a drink", disabled: true }) }}
+    {{ option({ value: "tea", text: "Tea" }) }}
+    {{ option({ value: "coffee", text: "Coffee", selected: true }) }}
+    {{ option({ value: "water", text: "Water" }) }}
+    {{ option({ value: "none", text: "No thanks" }) }}
+  {% endcall %}
+{% endcall %}

@@ -1,0 +1,26 @@
+---
+layout: layouts/component-demo.njk
+title: Month Input
+description: an input for selecting a month and year
+---
+
+{% from "components/month-input/macro.njk" import monthInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "exp", text: "Card expiry month" }) }}
+  {{ monthInput({
+    id: "exp",
+    name: "expiry",
+    min: "2026-04",
+    max: "2036-12"
+  }) }}
+{% endcall %}
+
+<h2>Pre-filled</h2>
+{% call field() %}
+  {{ label({ for: "m2", text: "Month of last review" }) }}
+  {{ monthInput({ id: "m2", value: "2026-03" }) }}
+{% endcall %}

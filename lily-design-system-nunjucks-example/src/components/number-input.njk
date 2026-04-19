@@ -1,0 +1,44 @@
+---
+layout: layouts/component-demo.njk
+title: Number Input
+description: an input for entering a numeric value with validation
+---
+
+{% from "components/number-input/macro.njk" import numberInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "age", text: "Age in years" }) }}
+  {{ numberInput({
+    id: "age",
+    min: 0,
+    max: 120,
+    step: 1,
+    inputmode: "numeric"
+  }) }}
+{% endcall %}
+
+<h2>Decimal values</h2>
+{% call field() %}
+  {{ label({ for: "weight", text: "Weight in kilograms" }) }}
+  {{ hint({
+    id: "weight-hint",
+    text: "Enter up to one decimal place."
+  }) }}
+  {{ numberInput({
+    id: "weight",
+    min: 0,
+    step: 0.1,
+    describedBy: "weight-hint",
+    inputmode: "decimal"
+  }) }}
+{% endcall %}
+
+<h2>Accessibility note</h2>
+<p>For free-form numeric identifiers (NHS number, phone digits, postal
+  code), prefer a <code>TextInput</code> with
+  <code>inputmode="numeric"</code> — <code>NumberInput</code> is for
+  values with genuine arithmetic semantics.</p>

@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: Fieldset
+description: a group of related form fields with a legend
+nhsuk: https://service-manual.nhs.uk/design-system/components/fieldset
+---
+
+{% from "components/fieldset/macro.njk" import fieldset %}
+
+<h2>Default</h2>
+{% call fieldset({ legend: "What is your home address?" }) %}
+  <div>
+    <label for="line1" class="label">Address line 1</label>
+    <input id="line1" type="text" class="form">
+  </div>
+  <div>
+    <label for="line2" class="label">Address line 2 (optional)</label>
+    <input id="line2" type="text" class="form">
+  </div>
+  <div>
+    <label for="postcode" class="label">Postcode</label>
+    <input id="postcode" type="text" class="form">
+  </div>
+{% endcall %}
+
+<h2>As page heading</h2>
+{% call fieldset({ legend: "Contact details", isPageHeading: true }) %}
+  <p>Enter at least one way for us to reach you.</p>
+{% endcall %}

@@ -1,0 +1,31 @@
+---
+layout: layouts/component-demo.njk
+title: Email Input
+description: an input for entering an email address
+---
+
+{% from "components/email-input/macro.njk" import emailInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "email", text: "Email address" }) }}
+  {{ hint({
+    id: "email-hint",
+    text: "We will send your verification link here."
+  }) }}
+  {{ emailInput({
+    id: "email",
+    autocomplete: "email",
+    describedBy: "email-hint",
+    required: true
+  }) }}
+{% endcall %}
+
+<h2>Allow multiple addresses</h2>
+{% call field() %}
+  {{ label({ for: "cc", text: "CC (comma-separated)" }) }}
+  {{ emailInput({ id: "cc", multiple: true }) }}
+{% endcall %}

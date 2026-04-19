@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: Northern Ireland H&C Number Input
+description: an input for entering a Northern Ireland Health and Care Number
+---
+
+{% from "components/northern-ireland-health-and-care-number-input/macro.njk" import northernIrelandHealthAndCareNumberInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "hc", text: "Health and Care (H&C) number" }) }}
+  {{ hint({
+    id: "hc-hint",
+    text: "Ten digits, for example 485 777 3456."
+  }) }}
+  {{ northernIrelandHealthAndCareNumberInput({
+    id: "hc",
+    describedBy: "hc-hint"
+  }) }}
+{% endcall %}

@@ -1,0 +1,39 @@
+---
+layout: layouts/component-demo.njk
+title: Checkbox Group
+description: a group component that manages a collection of checkboxes
+---
+
+{% from "components/checkbox-group/macro.njk" import checkboxGroup %}
+{% from "components/checkbox-input/macro.njk" import checkboxInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/fieldset/macro.njk" import fieldset %}
+{% from "components/hint/macro.njk" import hint %}
+
+<h2>Inside a Fieldset</h2>
+{% call fieldset({
+  legend: "Which conditions do you have?"
+}) %}
+  {% call checkboxGroup({ label: "Conditions" }) %}
+    {{ checkboxInput({ id: "c-asthma", name: "conditions", value: "asthma" }) }}
+    {{ label({ for: "c-asthma", text: "Asthma" }) }}
+    {{ checkboxInput({ id: "c-diabetes", name: "conditions", value: "diabetes" }) }}
+    {{ label({ for: "c-diabetes", text: "Diabetes" }) }}
+    {{ checkboxInput({ id: "c-hypertension", name: "conditions", value: "hypertension" }) }}
+    {{ label({ for: "c-hypertension", text: "High blood pressure" }) }}
+  {% endcall %}
+{% endcall %}
+
+<h2>With hint describing the group</h2>
+{% call checkboxGroup({
+  label: "Preferred reminder channels",
+  describedBy: "ch-hint"
+}) %}
+  {{ hint({ id: "ch-hint", text: "Select all that apply." }) }}
+  {{ checkboxInput({ id: "ch-email", name: "ch", value: "email", checked: true }) }}
+  {{ label({ for: "ch-email", text: "Email" }) }}
+  {{ checkboxInput({ id: "ch-sms", name: "ch", value: "sms" }) }}
+  {{ label({ for: "ch-sms", text: "Text message" }) }}
+  {{ checkboxInput({ id: "ch-post", name: "ch", value: "post" }) }}
+  {{ label({ for: "ch-post", text: "Post" }) }}
+{% endcall %}

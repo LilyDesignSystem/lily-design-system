@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: Pagination Link
+description: one pagination link in the trail
+---
+
+{% from "components/pagination-link/macro.njk" import paginationLink %}
+
+<h2>Page number</h2>
+<p>{{ paginationLink({ href: "?page=4", text: "4" }) }}</p>
+
+<h2>Current page</h2>
+<p>{{ paginationLink({ href: "?page=2", text: "2", current: true }) }}</p>
+
+<h2>Previous / next</h2>
+<p>
+  {{ paginationLink({
+    href: "?page=1",
+    text: "Previous",
+    direction: "previous",
+    hiddenLabel: "page 1"
+  }) }}
+  {{ paginationLink({
+    href: "?page=3",
+    text: "Next",
+    direction: "next",
+    hiddenLabel: "page 3"
+  }) }}
+</p>
+
+<p>See the <a href="/components/pagination-nav/">PaginationNav
+  demo</a> for the composed example.</p>

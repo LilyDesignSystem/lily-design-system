@@ -1,0 +1,7 @@
+.table-foot {
+  border-top: 2px solid var(--nhsuk-black);
+}
+
+.table-foot .table-data {
+  font-weight: var(--nhsuk-font-weight-bold);
+}

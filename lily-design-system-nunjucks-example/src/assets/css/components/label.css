@@ -1,0 +1,18 @@
+.label {
+  display: block;
+  color: var(--nhsuk-black);
+  font-size: var(--nhsuk-font-size-19);
+  font-weight: var(--nhsuk-font-weight-bold);
+  line-height: 1.25;
+  margin-bottom: var(--nhsuk-spacing-2);
+}
+
+.label-heading {
+  margin: 0 0 var(--nhsuk-spacing-2) 0;
+}
+
+.label-heading .label {
+  display: inline-block;
+  font-size: inherit;
+  font-weight: inherit;
+}

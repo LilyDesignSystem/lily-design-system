@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: US SSN Input
+description: an input for entering a US Social Security number
+---
+
+{% from "components/united-states-social-security-number-input/macro.njk" import unitedStatesSocialSecurityNumberInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "ssn", text: "Social Security number" }) }}
+  {{ hint({
+    id: "ssn-hint",
+    text: "Nine digits, for example 123-45-6789."
+  }) }}
+  {{ unitedStatesSocialSecurityNumberInput({
+    id: "ssn",
+    describedBy: "ssn-hint"
+  }) }}
+{% endcall %}

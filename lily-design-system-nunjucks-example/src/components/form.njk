@@ -1,0 +1,26 @@
+---
+layout: layouts/component-demo.njk
+title: Form
+description: a form element for collecting and submitting user data
+---
+
+{% from "components/form/macro.njk" import form %}
+{% from "components/button/macro.njk" import button %}
+
+<h2>Default</h2>
+{% call form({ action: "/submit", method: "post", label: "Contact" }) %}
+  <label for="contact-email" class="label">Email address</label>
+  <input id="contact-email" type="email" class="form">
+  {{ button({ text: "Submit", type: "submit" }) }}
+{% endcall %}
+
+<h2>With search</h2>
+{% call form({ action: "/search", method: "get", label: "Search" }) %}
+  <label for="search-q" class="label">Search</label>
+  <input id="search-q" name="q" type="search" class="form">
+  {{ button({ text: "Search", type: "submit" }) }}
+{% endcall %}
+
+<p>See also the
+  <a href="/page-templates/form-example/">composed form page template</a>
+  for a realistic NHS UK-style multi-field form.</p>

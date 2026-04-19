@@ -1,0 +1,36 @@
+---
+layout: layouts/component-demo.njk
+title: Label
+description: a label associated with a form input
+nhsuk: https://service-manual.nhs.uk/design-system/components/label
+---
+
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+
+<h2>Default</h2>
+<div>
+  {{ label({ for: "fullname", text: "Full name" }) }}
+  <input id="fullname" type="text" class="form">
+</div>
+
+<h2>As page heading</h2>
+<p>When the label is the page's primary question, set
+  <code>isPageHeading: true</code> so it is also rendered as an
+  <code>&lt;h1&gt;</code>.</p>
+
+<div>
+  {{ label({
+    for: "nhs-number",
+    text: "What is your NHS number?",
+    isPageHeading: true
+  }) }}
+  {{ hint({
+    id: "nhs-number-hint",
+    text: "It is a 10-digit number."
+  }) }}
+  <input id="nhs-number"
+         type="text"
+         aria-describedby="nhs-number-hint"
+         class="form">
+</div>

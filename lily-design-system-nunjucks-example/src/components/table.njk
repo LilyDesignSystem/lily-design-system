@@ -1,0 +1,112 @@
+---
+layout: layouts/component-demo.njk
+title: Table
+description: a table with rows and columns
+nhsuk: https://service-manual.nhs.uk/design-system/components/table
+---
+
+{% from "components/table/macro.njk" import table %}
+{% from "components/table-head/macro.njk" import tableHead %}
+{% from "components/table-body/macro.njk" import tableBody %}
+{% from "components/table-foot/macro.njk" import tableFoot %}
+{% from "components/table-row/macro.njk" import tableRow %}
+{% from "components/table-col/macro.njk" import tableCol %}
+{% from "components/table-data/macro.njk" import tableData %}
+
+<h2>Default — appointment list</h2>
+{% call table({ caption: "Your upcoming appointments" }) %}
+  {% call tableHead() %}
+    {% call tableRow() %}
+      {{ tableCol({ text: "Date" }) }}
+      {{ tableCol({ text: "Clinician" }) }}
+      {{ tableCol({ text: "Type" }) }}
+      {{ tableCol({ text: "Location" }) }}
+    {% endcall %}
+  {% endcall %}
+  {% call tableBody() %}
+    {% call tableRow() %}
+      {{ tableData({ text: "27 April 2026, 9:30am" }) }}
+      {{ tableData({ text: "Dr Patel" }) }}
+      {{ tableData({ text: "GP review" }) }}
+      {{ tableData({ text: "High Street Surgery" }) }}
+    {% endcall %}
+    {% call tableRow() %}
+      {{ tableData({ text: "4 May 2026, 2:15pm" }) }}
+      {{ tableData({ text: "Nurse Ahmed" }) }}
+      {{ tableData({ text: "Blood test" }) }}
+      {{ tableData({ text: "Main Clinic" }) }}
+    {% endcall %}
+    {% call tableRow() %}
+      {{ tableData({ text: "19 May 2026, 11:00am" }) }}
+      {{ tableData({ text: "Dr Smith" }) }}
+      {{ tableData({ text: "Follow-up" }) }}
+      {{ tableData({ text: "High Street Surgery" }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}
+
+<h2>Numeric columns — vital signs</h2>
+{% call table({ caption: "Recent vital sign measurements" }) %}
+  {% call tableHead() %}
+    {% call tableRow() %}
+      {{ tableCol({ text: "Date" }) }}
+      {{ tableCol({ text: "Heart rate (bpm)", classes: "table-col-numeric" }) }}
+      {{ tableCol({ text: "Systolic (mmHg)", classes: "table-col-numeric" }) }}
+      {{ tableCol({ text: "Diastolic (mmHg)", classes: "table-col-numeric" }) }}
+    {% endcall %}
+  {% endcall %}
+  {% call tableBody() %}
+    {% call tableRow() %}
+      {{ tableData({ text: "12 Apr" }) }}
+      {{ tableData({ text: "72", classes: "table-data-numeric" }) }}
+      {{ tableData({ text: "118", classes: "table-data-numeric" }) }}
+      {{ tableData({ text: "76", classes: "table-data-numeric" }) }}
+    {% endcall %}
+    {% call tableRow() %}
+      {{ tableData({ text: "19 Apr" }) }}
+      {{ tableData({ text: "68", classes: "table-data-numeric" }) }}
+      {{ tableData({ text: "120", classes: "table-data-numeric" }) }}
+      {{ tableData({ text: "78", classes: "table-data-numeric" }) }}
+    {% endcall %}
+    {% call tableRow() %}
+      {{ tableData({ text: "26 Apr" }) }}
+      {{ tableData({ text: "70", classes: "table-data-numeric" }) }}
+      {{ tableData({ text: "116", classes: "table-data-numeric" }) }}
+      {{ tableData({ text: "74", classes: "table-data-numeric" }) }}
+    {% endcall %}
+  {% endcall %}
+  {% call tableFoot() %}
+    {% call tableRow() %}
+      {{ tableCol({ text: "Average", scope: "row" }) }}
+      {{ tableData({ text: "70", classes: "table-data-numeric" }) }}
+      {{ tableData({ text: "118", classes: "table-data-numeric" }) }}
+      {{ tableData({ text: "76", classes: "table-data-numeric" }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}
+
+<h2>Row headers</h2>
+<p>Use <code>TableCol</code> with <code>scope="row"</code> to mark a
+  row header, so screen readers announce it together with each data
+  cell in the row.</p>
+{% call table({ caption: "Dosage schedule" }) %}
+  {% call tableHead() %}
+    {% call tableRow() %}
+      {{ tableCol({ text: "Day" }) }}
+      {{ tableCol({ text: "Morning" }) }}
+      {{ tableCol({ text: "Evening" }) }}
+    {% endcall %}
+  {% endcall %}
+  {% call tableBody() %}
+    {% call tableRow() %}
+      {{ tableCol({ text: "Monday", scope: "row" }) }}
+      {{ tableData({ text: "1 tablet" }) }}
+      {{ tableData({ text: "1 tablet" }) }}
+    {% endcall %}
+    {% call tableRow() %}
+      {{ tableCol({ text: "Tuesday", scope: "row" }) }}
+      {{ tableData({ text: "1 tablet" }) }}
+      {{ tableData({ text: "2 tablets" }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}

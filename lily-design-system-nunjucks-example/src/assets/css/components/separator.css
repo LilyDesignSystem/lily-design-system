@@ -1,0 +1,19 @@
+.separator {
+  border: 0;
+  margin: var(--nhsuk-spacing-5) 0;
+  color: var(--nhsuk-light-grey);
+  background: var(--nhsuk-light-grey);
+}
+
+.separator[data-orientation="horizontal"] {
+  height: 1px;
+  width: 100%;
+}
+
+.separator[data-orientation="vertical"] {
+  width: 1px;
+  height: auto;
+  min-height: 1.5rem;
+  margin: 0 var(--nhsuk-spacing-3);
+  align-self: stretch;
+}

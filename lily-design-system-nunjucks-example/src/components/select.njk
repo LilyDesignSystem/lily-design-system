@@ -1,0 +1,70 @@
+---
+layout: layouts/component-demo.njk
+title: Select
+description: a dropdown select element for choosing one option
+nhsuk: https://service-manual.nhs.uk/design-system/components/select
+---
+
+{% from "components/select/macro.njk" import select %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Options array</h2>
+{% call field() %}
+  {{ label({ for: "country", text: "Country" }) }}
+  {{ select({
+    id: "country",
+    value: "gb",
+    options: [
+      { value: "", text: "Choose a country", disabled: true },
+      { value: "gb", text: "United Kingdom" },
+      { value: "ie", text: "Ireland" },
+      { value: "fr", text: "France" },
+      { value: "es", text: "España" }
+    ]
+  }) }}
+{% endcall %}
+
+<h2>With hint</h2>
+{% call field() %}
+  {{ label({ for: "lang", text: "Preferred language" }) }}
+  {{ hint({ id: "lang-hint", text: "Written communications will use this language." }) }}
+  {{ select({
+    id: "lang",
+    describedBy: "lang-hint",
+    options: [
+      { value: "en", text: "English", selected: true },
+      { value: "cy", text: "Cymraeg" },
+      { value: "ga", text: "Gaeilge" }
+    ]
+  }) }}
+{% endcall %}
+
+<h2>Multiple</h2>
+{% call field() %}
+  {{ label({ for: "prefs", text: "Preferred contact methods (hold Ctrl to select multiple)" }) }}
+  {{ select({
+    id: "prefs",
+    multiple: true,
+    size: 4,
+    options: [
+      { value: "email", text: "Email" },
+      { value: "sms", text: "SMS" },
+      { value: "post", text: "Post" },
+      { value: "phone", text: "Phone" }
+    ]
+  }) }}
+{% endcall %}
+
+<h2>With Option macros via caller</h2>
+{% from "components/option/macro.njk" import option %}
+{% call field() %}
+  {{ label({ for: "role", text: "Role" }) }}
+  {% call select({ id: "role" }) %}
+    {{ option({ value: "", text: "Choose…", disabled: true }) }}
+    {{ option({ value: "gp", text: "GP" }) }}
+    {{ option({ value: "nurse", text: "Nurse" }) }}
+    {{ option({ value: "pharmacist", text: "Pharmacist", selected: true }) }}
+  {% endcall %}
+{% endcall %}

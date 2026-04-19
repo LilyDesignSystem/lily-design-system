@@ -1,0 +1,40 @@
+---
+layout: layouts/component-demo.njk
+title: Submit Input
+description: a button input that submits a form
+---
+
+{% from "components/submit-input/macro.njk" import submitInput %}
+{% from "components/form/macro.njk" import form %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+<p>{{ submitInput({}) }}</p>
+
+<h2>Custom label</h2>
+<p>{{ submitInput({ value: "Save and continue" }) }}</p>
+
+<h2>Save draft (formaction override)</h2>
+<p>A single form can submit to different endpoints using
+  <code>formaction</code>:</p>
+
+{% call form({ action: "/apply/submit", label: "Application" }) %}
+  {% call field() %}
+    {{ label({ for: "app-name", text: "Your name" }) }}
+    {{ textInput({ id: "app-name", name: "name" }) }}
+  {% endcall %}
+  <p>
+    {{ submitInput({
+      value: "Save draft",
+      formaction: "/apply/draft"
+    }) }}
+    {{ submitInput({ value: "Submit application" }) }}
+  </p>
+{% endcall %}
+
+<h2>When to use</h2>
+<p>Prefer the <a href="/components/button/"><code>Button</code></a>
+  with <code>type="submit"</code> for most cases.
+  <code>SubmitInput</code> is here for parity with legacy forms.</p>

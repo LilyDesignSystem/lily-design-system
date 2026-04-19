@@ -1,0 +1,33 @@
+---
+layout: layouts/component-demo.njk
+title: Time Input
+description: an input for entering a time value
+---
+
+{% from "components/time-input/macro.njk" import timeInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "t1", text: "Preferred appointment time" }) }}
+  {{ timeInput({ id: "t1" }) }}
+{% endcall %}
+
+<h2>With opening hours</h2>
+{% call field() %}
+  {{ label({ for: "t2", text: "Choose a time" }) }}
+  {{ hint({
+    id: "t2-hint",
+    text: "The surgery is open 9am to 5pm, weekdays only."
+  }) }}
+  {{ timeInput({
+    id: "t2",
+    describedBy: "t2-hint",
+    min: "09:00",
+    max: "17:00",
+    step: 900,
+    value: "10:30"
+  }) }}
+{% endcall %}

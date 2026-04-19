@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: Information Callout
+description: a callout box highlighting informational content
+---
+
+{% from "components/information-callout/macro.njk" import informationCallout %}
+
+<h2>Default</h2>
+{{ informationCallout({
+  heading: "Useful information",
+  text: "Appointments are available Monday to Friday, 9am to 5pm."
+}) }}
+
+<h2>With HTML content</h2>
+{% call informationCallout({ heading: "Booking options" }) %}
+<ul>
+  <li>book online through the NHS App</li>
+  <li>call the surgery reception</li>
+  <li>use the NHS 111 service</li>
+</ul>
+{% endcall %}
+
+<h2>With heading level 2</h2>
+{{ informationCallout({
+  heading: "Getting started",
+  headingLevel: 2,
+  text: "Register with a GP surgery before you need an appointment."
+}) }}

@@ -1,0 +1,43 @@
+---
+layout: layouts/component-demo.njk
+title: Task List
+description: an ordered list of task list items
+nhsuk: https://service-manual.nhs.uk/design-system/components/task-list
+---
+
+{% from "components/task-list/macro.njk" import taskList %}
+{% from "components/task-list-item/macro.njk" import taskListItem %}
+
+<h2>Application progress</h2>
+<p>The task-list shows a user where they are in a multi-step flow.
+  Each item has a link to the step and a status tag.</p>
+
+{% call taskList({ label: "Application progress" }) %}
+  {{ taskListItem({
+    id: "t-personal",
+    title: "Personal details",
+    href: "/apply/personal",
+    status: "completed",
+    statusText: "Completed"
+  }) }}
+  {{ taskListItem({
+    id: "t-medical",
+    title: "Medical history",
+    href: "/apply/medical",
+    status: "in-progress",
+    statusText: "In progress"
+  }) }}
+  {{ taskListItem({
+    id: "t-gp",
+    title: "Register with a GP",
+    href: "/apply/gp",
+    status: "not-started",
+    statusText: "Not started"
+  }) }}
+  {{ taskListItem({
+    id: "t-review",
+    title: "Review and submit",
+    status: "cannot-start-yet",
+    statusText: "Cannot start yet"
+  }) }}
+{% endcall %}

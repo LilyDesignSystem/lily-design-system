@@ -1,0 +1,66 @@
+---
+layout: layouts/component-demo.njk
+title: Pagination Nav
+description: a navigation container for page navigation links
+nhsuk: https://service-manual.nhs.uk/design-system/components/pagination
+---
+
+{% from "components/pagination-nav/macro.njk" import paginationNav %}
+{% from "components/pagination-list/macro.njk" import paginationList %}
+{% from "components/pagination-list-item/macro.njk" import paginationListItem %}
+{% from "components/pagination-link/macro.njk" import paginationLink %}
+
+<h2>Default</h2>
+<p>The pagination family composes four macros:
+  <code>PaginationNav</code>, <code>PaginationList</code>,
+  <code>PaginationListItem</code>, and <code>PaginationLink</code>.
+  Mark the current page with <code>current: true</code> on its link.
+  Use <code>ellipsis: true</code> on a list item to render a gap.</p>
+
+{% call paginationNav() %}
+  {% call paginationList() %}
+    {% call paginationListItem() %}
+      {{ paginationLink({
+        href: "?page=1",
+        text: "Previous",
+        direction: "previous",
+        hiddenLabel: "page 1"
+      }) }}
+    {% endcall %}
+    {% call paginationListItem() %}{{ paginationLink({ href: "?page=1", text: "1" }) }}{% endcall %}
+    {% call paginationListItem() %}{{ paginationLink({ href: "?page=2", text: "2", current: true }) }}{% endcall %}
+    {% call paginationListItem() %}{{ paginationLink({ href: "?page=3", text: "3" }) }}{% endcall %}
+    {{ paginationListItem({ ellipsis: true }) }}
+    {% call paginationListItem() %}{{ paginationLink({ href: "?page=9", text: "9" }) }}{% endcall %}
+    {% call paginationListItem() %}
+      {{ paginationLink({
+        href: "?page=3",
+        text: "Next",
+        direction: "next",
+        hiddenLabel: "page 3"
+      }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}
+
+<h2>Previous / Next only</h2>
+{% call paginationNav({ label: "Article pages" }) %}
+  {% call paginationList() %}
+    {% call paginationListItem() %}
+      {{ paginationLink({
+        href: "/articles/flu",
+        text: "Flu",
+        direction: "previous",
+        hiddenLabel: "previous article"
+      }) }}
+    {% endcall %}
+    {% call paginationListItem() %}
+      {{ paginationLink({
+        href: "/articles/measles",
+        text: "Measles",
+        direction: "next",
+        hiddenLabel: "next article"
+      }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}

@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: Separator
+description: a horizontal or vertical divider between content sections
+---
+
+{% from "components/separator/macro.njk" import separator %}
+
+<h2>Horizontal (default)</h2>
+<p>A horizontal separator renders an <code>&lt;hr&gt;</code>, which
+  assistive tech announces as a thematic break.</p>
+
+<p>Above</p>
+{{ separator() }}
+<p>Below</p>
+
+<h2>Vertical</h2>
+<p>A vertical separator renders
+  <code>&lt;div role="separator" aria-orientation="vertical"&gt;</code>
+  for screen readers.</p>
+
+<div style="display: flex; align-items: center; gap: var(--nhsuk-spacing-3);">
+  <span>Left</span>
+  {{ separator({ orientation: "vertical", label: "Divider" }) }}
+  <span>Right</span>
+</div>
+
+<h2>With accessible label</h2>
+{{ separator({ label: "End of section 1" }) }}

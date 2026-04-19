@@ -1,0 +1,22 @@
+---
+layout: layouts/component-demo.njk
+title: Breadcrumb Link
+description: one breadcrumb link in the trail
+---
+
+{% from "components/breadcrumb-link/macro.njk" import breadcrumbLink %}
+
+<h2>Default</h2>
+<p>{{ breadcrumbLink({ href: "/health-a-z/", text: "Health A to Z" }) }}</p>
+
+<h2>With accessible label</h2>
+<p>
+  {{ breadcrumbLink({
+    href: "/",
+    text: "Home",
+    label: "NHS home"
+  }) }}
+</p>
+
+<p>See the <a href="/components/breadcrumb-nav/">BreadcrumbNav demo</a>
+  for the full composition.</p>

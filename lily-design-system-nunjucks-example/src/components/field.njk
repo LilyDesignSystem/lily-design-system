@@ -1,0 +1,36 @@
+---
+layout: layouts/component-demo.njk
+title: Field
+description: a form field wrapper with label, input, and error message
+---
+
+{% from "components/field/macro.njk" import field %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/error-message/macro.njk" import errorMessage %}
+
+<h2>Valid state</h2>
+{% call field() %}
+  {{ label({ for: "fullname-2", text: "Full name" }) }}
+  {{ hint({ id: "fullname-2-hint", text: "As it appears on your passport." }) }}
+  <input id="fullname-2"
+         type="text"
+         aria-describedby="fullname-2-hint"
+         class="form">
+{% endcall %}
+
+<h2>Invalid state</h2>
+<p>Passing <code>error</code> flips <code>data-state</code> to
+  <code>invalid</code>, which consumer CSS uses to render the red
+  left-border treatment.</p>
+{% call field({ error: "Enter your date of birth" }) %}
+  {{ label({ for: "dob", text: "Date of birth" }) }}
+  {{ hint({ id: "dob-hint", text: "For example, 27 3 1970." }) }}
+  {{ errorMessage({ id: "dob-error", text: "Enter your date of birth" }) }}
+  <input id="dob"
+         type="text"
+         aria-invalid="true"
+         aria-describedby="dob-hint"
+         aria-errormessage="dob-error"
+         class="form">
+{% endcall %}

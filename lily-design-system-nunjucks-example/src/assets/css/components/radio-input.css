@@ -1,0 +1,26 @@
+.radio-input {
+  accent-color: var(--nhsuk-blue);
+  transform: scale(1.5);
+  transform-origin: center;
+  cursor: pointer;
+  margin-right: var(--nhsuk-spacing-2);
+  vertical-align: middle;
+}
+
+.radio-input[disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.radio-input + .label {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: var(--nhsuk-font-weight-normal);
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.radio-input[disabled] + .label {
+  color: var(--nhsuk-dark-grey);
+  cursor: not-allowed;
+}

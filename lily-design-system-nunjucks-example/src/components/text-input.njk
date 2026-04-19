@@ -1,0 +1,54 @@
+---
+layout: layouts/component-demo.njk
+title: Text Input
+description: a single-line text input field
+nhsuk: https://service-manual.nhs.uk/design-system/components/text-input
+---
+
+{% from "components/text-input/macro.njk" import textInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/error-message/macro.njk" import errorMessage %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "name", text: "Full name" }) }}
+  {{ textInput({ id: "name", autocomplete: "name" }) }}
+{% endcall %}
+
+<h2>With hint and value</h2>
+{% call field() %}
+  {{ label({ for: "city", text: "City" }) }}
+  {{ hint({ id: "city-hint", text: "For example, Manchester." }) }}
+  {{ textInput({
+    id: "city",
+    value: "Manchester",
+    describedBy: "city-hint"
+  }) }}
+{% endcall %}
+
+<h2>Required and disabled</h2>
+{% call field() %}
+  {{ label({ for: "req", text: "Required name" }) }}
+  {{ textInput({ id: "req", required: true }) }}
+{% endcall %}
+
+{% call field() %}
+  {{ label({ for: "dis", text: "Readonly name" }) }}
+  {{ textInput({ id: "dis", value: "Jane", disabled: true }) }}
+{% endcall %}
+
+<h2>Invalid</h2>
+{% call field({ error: "Enter your NHS number" }) %}
+  {{ label({ for: "nhs", text: "NHS number" }) }}
+  {{ hint({ id: "nhs-hint", text: "It is a 10-digit number." }) }}
+  {{ errorMessage({ id: "nhs-error", text: "Enter your NHS number" }) }}
+  {{ textInput({
+    id: "nhs",
+    describedBy: "nhs-hint",
+    errormessage: "nhs-error",
+    invalid: true,
+    inputmode: "numeric"
+  }) }}
+{% endcall %}

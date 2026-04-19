@@ -1,0 +1,24 @@
+---
+layout: layouts/component-demo.njk
+title: Week Input
+description: an input for selecting a week and year
+---
+
+{% from "components/week-input/macro.njk" import weekInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "w", text: "Reporting week" }) }}
+  {{ hint({
+    id: "w-hint",
+    text: "Value is ISO-8601 (YYYY-Www)."
+  }) }}
+  {{ weekInput({
+    id: "w",
+    describedBy: "w-hint",
+    value: "2026-W17"
+  }) }}
+{% endcall %}

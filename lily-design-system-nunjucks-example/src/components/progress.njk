@@ -1,0 +1,35 @@
+---
+layout: layouts/component-demo.njk
+title: Progress
+description: a horizontal progress bar showing completion
+---
+
+{% from "components/progress/macro.njk" import progress %}
+
+<h2>Determinate</h2>
+<p>The <code>&lt;progress&gt;</code> element exposes
+  <code>role="progressbar"</code> and its value natively, so no
+  extra ARIA is needed when value and max are set.</p>
+
+<p>40% complete:</p>
+{{ progress({ value: 40, max: 100, label: "Upload progress" }) }}
+
+<p>75% complete:</p>
+{{ progress({ value: 75, max: 100, label: "Download progress" }) }}
+
+<h2>Custom max</h2>
+<p>Step 3 of 5:</p>
+{{ progress({ value: 3, max: 5, label: "Application progress" }) }}
+
+<h2>Indeterminate</h2>
+<p>Omit <code>value</code> to show an indeterminate state (browser-
+  drawn barber-pole stripes).</p>
+{{ progress({ label: "Loading" }) }}
+
+<h2>Linked heading</h2>
+<h3 id="deploy-title">Deployment progress</h3>
+{{ progress({
+  value: 90,
+  max: 100,
+  labelledBy: "deploy-title"
+}) }}

@@ -1,0 +1,38 @@
+---
+layout: layouts/component-demo.njk
+title: Radio Input
+description: a single radio button input
+nhsuk: https://service-manual.nhs.uk/design-system/components/radios
+---
+
+{% from "components/radio-input/macro.njk" import radioInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/fieldset/macro.njk" import fieldset %}
+
+<h2>Single radio (unusual; prefer a group)</h2>
+<p>
+  {{ radioInput({ id: "solo", name: "solo", value: "yes" }) }}
+  {{ label({ for: "solo", text: "Yes" }) }}
+</p>
+
+<h2>Two radios — native keyboard grouping</h2>
+<p>Radio inputs with the same <code>name</code> attribute form a
+  keyboard group automatically. Use arrow keys to move between
+  options.</p>
+
+{% call fieldset({ legend: "Did you understand?" }) %}
+  {{ radioInput({ id: "u-yes", name: "understood", value: "yes", checked: true }) }}
+  {{ label({ for: "u-yes", text: "Yes" }) }}
+  {{ radioInput({ id: "u-no", name: "understood", value: "no" }) }}
+  {{ label({ for: "u-no", text: "No" }) }}
+{% endcall %}
+
+<h2>Disabled option</h2>
+{% call fieldset({ legend: "Preferred contact method" }) %}
+  {{ radioInput({ id: "cm-email", name: "contact", value: "email" }) }}
+  {{ label({ for: "cm-email", text: "Email" }) }}
+  {{ radioInput({ id: "cm-phone", name: "contact", value: "phone" }) }}
+  {{ label({ for: "cm-phone", text: "Phone" }) }}
+  {{ radioInput({ id: "cm-post", name: "contact", value: "post", disabled: true }) }}
+  {{ label({ for: "cm-post", text: "Post (temporarily unavailable)" }) }}
+{% endcall %}

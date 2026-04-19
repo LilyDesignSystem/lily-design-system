@@ -1,0 +1,18 @@
+.textarea {
+  display: block;
+  width: 100%;
+  max-width: 40rem;
+  min-height: 8rem;
+  padding: var(--nhsuk-spacing-2);
+  border: 2px solid var(--nhsuk-black);
+  background: var(--nhsuk-white);
+  color: var(--nhsuk-black);
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.textarea[aria-invalid="true"] {
+  border-color: var(--nhsuk-red);
+}
