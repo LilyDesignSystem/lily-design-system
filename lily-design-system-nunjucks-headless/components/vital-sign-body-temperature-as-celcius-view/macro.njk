@@ -1,0 +1,28 @@
+{#
+  VitalSignBodyTemperatureAsCelciusView macro — a read-only display
+    of body temperature in Celsius degrees, with one decimal place.
+
+  HTML tag: <span>
+  CSS class: vital-sign-body-temperature-as-celcius-view
+  Accessibility: the unit is wrapped in <abbr title="degrees
+    Celsius"> so assistive tech can expand "°C".
+
+  Params:
+    value       number|string
+    label       string
+    id          string
+    classes     string
+    attributes  object
+
+  Usage:
+    {% from "components/vital-sign-body-temperature-as-celcius-view/macro.njk" import vitalSignBodyTemperatureAsCelciusView %}
+    {{ vitalSignBodyTemperatureAsCelciusView({ value: "37.0" }) }}
+#}
+{%- macro vitalSignBodyTemperatureAsCelciusView(params) -%}
+<span
+  class="vital-sign-body-temperature-as-celcius-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+><span class="vital-sign-value">{{ params.value | default('') }}</span><abbr class="vital-sign-unit" title="degrees Celsius">°C</abbr></span>
+{%- endmacro -%}

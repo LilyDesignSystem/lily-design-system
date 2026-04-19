@@ -1,0 +1,49 @@
+{#
+  Skeleton macro — a placeholder loading animation for content.
+
+  HTML tag: <div>
+  CSS class: skeleton
+  Data attribute: data-shape on the root; one of
+    "line" (default) | "block" | "circle" | "text-line". Controls
+    the CSS shape; consumers add variants by extending with
+    `classes`.
+  Accessibility:
+    - aria-hidden="true" because the skeleton is purely visual;
+      the actual loading state should be announced by a paired
+      Loading element.
+
+  Params:
+    shape       string   "line" | "block" | "circle" | "text-line".
+                         Default "line".
+    width       string   CSS length for width (e.g. "60%", "3rem").
+    height      string   CSS length for height.
+    count       number   Render N skeletons (useful for multi-line
+                         text placeholders).
+    id          string
+    classes     string
+    attributes  object
+
+  Usage:
+    {% from "components/skeleton/macro.njk" import skeleton %}
+    {{ skeleton({ shape: "text-line", width: "80%" }) }}
+    {{ skeleton({ shape: "circle", width: "3rem", height: "3rem" }) }}
+#}
+{%- macro skeleton(params) -%}
+{%- set p = params | default({}) -%}
+{%- set shape = p.shape | default("line") -%}
+{%- set count = p.count | default(1) -%}
+{%- set styleParts = [] -%}
+{%- if p.width %}{%- set styleParts = (styleParts.push('--skeleton-width:' + p.width), styleParts) -%}{%- endif -%}
+{%- if p.height %}{%- set styleParts = (styleParts.push('--skeleton-height:' + p.height), styleParts) -%}{%- endif -%}
+{%- set style = styleParts | join('; ') -%}
+{%- for _ in range(0, count) -%}
+<div
+  class="skeleton{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-shape="{{ shape }}"
+  aria-hidden="true"
+  {%- if style %} style="{{ style }}"{% endif %}
+  {%- if p.id and loop.first %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+></div>
+{%- endfor -%}
+{%- endmacro -%}

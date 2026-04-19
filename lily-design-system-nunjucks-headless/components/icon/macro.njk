@@ -1,0 +1,46 @@
+{#
+  Icon macro — a container for displaying an icon.
+
+  HTML tag: <span>
+  CSS class: icon
+  Accessibility:
+    - When the icon is decorative, set params.decorative to true
+      (the macro emits aria-hidden="true").
+    - When the icon is meaningful, set params.label so screen
+      readers announce it (the macro adds role="img" so the
+      aria-label is honoured).
+
+  Params:
+    label        string   Accessible name (aria-label). Implies
+                          role="img".
+    decorative   boolean  If true, aria-hidden="true" is set and
+                          params.label is ignored.
+    html         string   Raw HTML (typically an <svg>).
+    id           string
+    classes      string
+    attributes   object
+
+  Body content: the actual icon content (svg, img, char) via caller().
+
+  Usage:
+    {% from "components/icon/macro.njk" import icon %}
+
+    Decorative:
+    {% call icon({ decorative: true }) %}<svg …></svg>{% endcall %}
+
+    Meaningful:
+    {% call icon({ label: "Warning" }) %}<svg …></svg>{% endcall %}
+#}
+{%- macro icon(params) -%}
+<span
+  class="icon{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.decorative %} aria-hidden="true"
+  {%- elif params.label %} role="img" aria-label="{{ params.label }}"{% endif %}
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</span>
+{%- endmacro -%}

@@ -1,0 +1,41 @@
+{#
+  VitalSignBodyTemperatureAsCelciusInput macro — a number input for
+    body temperature in Celsius degrees, with one decimal place.
+
+  HTML tag: <input type="number">
+  CSS class: vital-sign-body-temperature-as-celcius-input
+  Clinical range: defaults to 30.0–45.0°C (covers severe hypothermia
+    to hyperthermia). Step is 0.1 so entries match clinical precision.
+  Accessibility: inputmode="decimal" hints the decimal keypad on
+    mobile.
+
+  Params:
+    id, name, value, label, describedBy, errormessage, invalid,
+    required, disabled, readonly, min (default 30), max (default 45),
+    step (default 0.1), classes, attributes.
+
+  Usage:
+    {% from "components/vital-sign-body-temperature-as-celcius-input/macro.njk" import vitalSignBodyTemperatureAsCelciusInput %}
+    {{ vitalSignBodyTemperatureAsCelciusInput({ id: "temp" }) }}
+#}
+{%- macro vitalSignBodyTemperatureAsCelciusInput(params) -%}
+<input
+  class="vital-sign-body-temperature-as-celcius-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="number"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  min="{{ params.min | default(30) }}"
+  max="{{ params.max | default(45) }}"
+  step="{{ params.step | default(0.1) }}"
+  inputmode="decimal"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

@@ -1,0 +1,39 @@
+{#
+  VitalSignBloodPressureSystolicAsMmhgInput macro — a number input for
+    systolic blood pressure in millimetres of mercury.
+
+  HTML tag: <input type="number">
+  CSS class: vital-sign-blood-pressure-systolic-as-mmhg-input
+  Clinical range: defaults to 50–250 mmHg.
+  Accessibility: inputmode="numeric".
+
+  Params:
+    id, name, value, label, describedBy, errormessage, invalid,
+    required, disabled, readonly, min (default 50), max (default 250),
+    step (default 1), classes, attributes.
+
+  Usage:
+    {% from "components/vital-sign-blood-pressure-systolic-as-mmhg-input/macro.njk" import vitalSignBloodPressureSystolicAsMmhgInput %}
+    {{ vitalSignBloodPressureSystolicAsMmhgInput({ id: "systolic" }) }}
+#}
+{%- macro vitalSignBloodPressureSystolicAsMmhgInput(params) -%}
+<input
+  class="vital-sign-blood-pressure-systolic-as-mmhg-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="number"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  min="{{ params.min | default(50) }}"
+  max="{{ params.max | default(250) }}"
+  step="{{ params.step | default(1) }}"
+  inputmode="numeric"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

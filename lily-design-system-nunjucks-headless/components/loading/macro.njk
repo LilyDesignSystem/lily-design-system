@@ -1,0 +1,46 @@
+{#
+  Loading macro — a loading indicator (text or animation).
+
+  HTML tag: <div>
+  CSS class: loading
+  Accessibility:
+    - role="status" announces non-critical progress updates
+      politely.
+    - For results-in-progress where the wait is expected, aria-live
+      and aria-busy together help assistive tech.
+    - params.label becomes aria-label when no visible text is shown.
+
+  Params:
+    text        string   Visible text (e.g. "Loading…").
+    html        string   Raw HTML (e.g. spinner SVG inside text).
+    label       string   Accessible name (aria-label) when the
+                         visible indicator is purely visual.
+    polite      boolean  Use aria-live="polite" (default) when
+                         true; otherwise omit aria-live.
+    id          string
+    classes     string
+    attributes  object
+
+  Body content: optional visual via caller() (e.g. an SVG spinner).
+
+  Usage:
+    {% from "components/loading/macro.njk" import loading %}
+    {{ loading({ text: "Loading appointments…" }) }}
+#}
+{%- macro loading(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="loading{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="status"
+  {%- if p.polite or p.polite is not defined %} aria-live="polite"{% endif %}
+  aria-busy="true"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}
