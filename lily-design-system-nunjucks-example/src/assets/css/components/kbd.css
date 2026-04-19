@@ -1,0 +1,14 @@
+.kbd {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  background: var(--nhsuk-pale-grey);
+  color: var(--nhsuk-black);
+  border: 1px solid var(--nhsuk-mid-grey);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  font-family: Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.875em;
+  line-height: 1.25;
+  min-width: 1.5rem;
+  text-align: center;
+}

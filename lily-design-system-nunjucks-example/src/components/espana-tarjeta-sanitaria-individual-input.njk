@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: España TSI Input
+description: an input for entering a Tarjeta Sanitaria Individual (TSI) code
+---
+
+{% from "components/espana-tarjeta-sanitaria-individual-input/macro.njk" import espanaTarjetaSanitariaIndividualInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Por defecto</h2>
+{% call field() %}
+  {{ label({ for: "tsi", text: "Tarjeta Sanitaria Individual" }) }}
+  {{ hint({
+    id: "tsi-hint",
+    text: "Código alfanumérico. El formato depende de la comunidad autónoma."
+  }) }}
+  {{ espanaTarjetaSanitariaIndividualInput({
+    id: "tsi",
+    describedBy: "tsi-hint"
+  }) }}
+{% endcall %}
+
+<h2>Format varies by region</h2>
+<p>Each autonomous community issues its TSI with a different
+  format. The input accepts up to 20 alphanumeric characters and
+  does not impose auto-grouping — consumers apply region-specific
+  validation as needed.</p>

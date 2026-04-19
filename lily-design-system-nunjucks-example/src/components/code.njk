@@ -1,0 +1,22 @@
+---
+layout: layouts/component-demo.njk
+title: Code
+description: an inline code span for displaying short code snippets within surrounding text
+---
+
+{% from "components/code/macro.njk" import code %}
+
+<h2>Default</h2>
+<p>Add {{ code({ text: 'autocomplete="email"' }) }} to the input so
+  browsers can fill in the email address.</p>
+
+<p>The NHS number is stored as a string, not a
+  {{ code({ text: "BIGINT" }) }}.</p>
+
+<h2>Escapes special characters</h2>
+<p>{{ code({ text: "<script>alert('xss')</script>" }) }} renders as
+  text, not as an actual script.</p>
+
+<h2>With HTML content</h2>
+<p>Use {{ code({ html: "<strong>const</strong> nhs = readNhsNumber()" }) }}
+  to highlight a keyword.</p>

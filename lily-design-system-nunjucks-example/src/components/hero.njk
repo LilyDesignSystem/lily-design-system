@@ -1,0 +1,39 @@
+---
+layout: layouts/component-demo.njk
+title: Hero
+description: a large box or image with a title and description
+---
+
+{% from "components/hero/macro.njk" import hero %}
+{% from "components/action-link/macro.njk" import actionLink %}
+
+<h2>Default</h2>
+{{ hero({
+  id: "hero-1",
+  heading: "Your NHS health records",
+  description: "Book appointments, order prescriptions, and review your history in one place."
+}) }}
+
+<h2>With a call to action (via caller)</h2>
+{% call hero({
+  id: "hero-2",
+  heading: "Coronavirus (COVID-19) vaccination",
+  description: "Find out when and where to get your next dose."
+}) %}
+  {{ actionLink({
+    href: "/book",
+    text: "Book your vaccination"
+  }) }}
+{% endcall %}
+
+<h2>Custom heading level</h2>
+<p>When the hero appears below the page's primary <code>h1</code>,
+  use <code>headingLevel: 2</code> to keep the heading outline
+  correct:</p>
+
+{{ hero({
+  id: "hero-3",
+  heading: "About this service",
+  headingLevel: 2,
+  description: "An introduction below the page headline."
+}) }}

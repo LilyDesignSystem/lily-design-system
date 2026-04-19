@@ -1,0 +1,20 @@
+.code-block {
+  display: block;
+  padding: var(--nhsuk-spacing-3);
+  background: var(--nhsuk-black);
+  color: var(--nhsuk-white);
+  font-family: Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: var(--nhsuk-font-size-16);
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 0 0 var(--nhsuk-spacing-4) 0;
+  border-radius: 4px;
+}
+
+.code-block code {
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  padding: 0;
+}

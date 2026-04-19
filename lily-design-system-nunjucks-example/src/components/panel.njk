@@ -1,0 +1,37 @@
+---
+layout: layouts/component-demo.njk
+title: Panel
+description: a generic content panel with optional heading
+---
+
+{% from "components/panel/macro.njk" import panel %}
+
+<h2>With heading</h2>
+{{ panel({
+  id: "contact-panel",
+  heading: "Contact your GP surgery",
+  html: "<p>Email <a href=\"#\">support@example.com</a> or call 0300 123 4567.</p>"
+}) }}
+
+<h2>Custom heading level</h2>
+{{ panel({
+  id: "hours-panel",
+  heading: "Opening hours",
+  headingLevel: 3,
+  text: "Monday to Friday, 9am to 5pm."
+}) }}
+
+<h2>Without heading (aria-label)</h2>
+{{ panel({
+  label: "Quick summary",
+  text: "You have 2 upcoming appointments."
+}) }}
+
+<h2>Composed content</h2>
+{% call panel({ id: "compose-panel", heading: "What you will need" }) %}
+<ul>
+  <li>Your NHS number</li>
+  <li>Proof of identity</li>
+  <li>Your GP surgery's name</li>
+</ul>
+{% endcall %}

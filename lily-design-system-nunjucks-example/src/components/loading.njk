@@ -1,0 +1,27 @@
+---
+layout: layouts/component-demo.njk
+title: Loading
+description: a loading indicator (text or animation)
+---
+
+{% from "components/loading/macro.njk" import loading %}
+
+<h2>Default</h2>
+{{ loading({ text: "Loading appointments…" }) }}
+
+<h2>Polite live region</h2>
+<p>The default role is <code>status</code> with
+  <code>aria-live="polite"</code> and
+  <code>aria-busy="true"</code>, so assistive tech announces the
+  update without interrupting the user.</p>
+
+{{ loading({ text: "Fetching results…" }) }}
+
+<h2>Without live region</h2>
+{{ loading({ text: "Loading…", polite: false }) }}
+
+<h2>Icon-only with aria-label</h2>
+{{ loading({
+  label: "Loading",
+  html: ""
+}) }}

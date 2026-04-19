@@ -1,0 +1,31 @@
+.hero {
+  padding: var(--nhsuk-spacing-6) var(--nhsuk-spacing-4);
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+  margin-bottom: var(--nhsuk-spacing-5);
+}
+
+.hero-inner {
+  max-width: 40rem;
+}
+
+.hero-heading {
+  margin: 0 0 var(--nhsuk-spacing-3) 0;
+  color: var(--nhsuk-white);
+  font-size: var(--nhsuk-font-size-48);
+  line-height: 1.1;
+}
+
+.hero-description {
+  margin: 0 0 var(--nhsuk-spacing-4) 0;
+  color: var(--nhsuk-white);
+  font-size: var(--nhsuk-font-size-22);
+}
+
+.hero-extras {
+  margin-top: var(--nhsuk-spacing-4);
+}
+
+.hero-extras a {
+  color: var(--nhsuk-white);
+}

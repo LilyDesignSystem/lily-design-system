@@ -1,0 +1,27 @@
+---
+layout: layouts/component-demo.njk
+title: Code Block
+description: a block of formatted code with optional line numbers and line highlighting
+---
+
+{% from "components/code-block/macro.njk" import codeBlock %}
+
+<h2>Default</h2>
+{{ codeBlock({
+  text: "const nhs = readNhsNumber();\nconsole.log(nhs);"
+}) }}
+
+<h2>With language class</h2>
+<p>The <code>language</code> param emits
+  <code>class="language-js"</code> on the inner <code>&lt;code&gt;</code>,
+  matching Prism and highlight.js conventions.</p>
+{{ codeBlock({
+  language: "js",
+  label: "JavaScript example",
+  text: "function validateNhs(nhs) {\n  return /^[0-9]{10}$/.test(nhs);\n}"
+}) }}
+
+<h2>Escapes special characters</h2>
+{{ codeBlock({
+  text: "<script>alert('xss')</script>"
+}) }}

@@ -1,0 +1,38 @@
+---
+layout: layouts/component-demo.njk
+title: Skeleton
+description: a placeholder loading animation for content
+---
+
+{% from "components/skeleton/macro.njk" import skeleton %}
+{% from "components/loading/macro.njk" import loading %}
+
+<h2>Text lines</h2>
+{{ skeleton({ shape: "text-line", width: "80%" }) }}
+{{ skeleton({ shape: "text-line", width: "65%" }) }}
+{{ skeleton({ shape: "text-line", width: "75%" }) }}
+
+<h2>Multiple lines via count</h2>
+{{ skeleton({ shape: "text-line", width: "90%", count: 4 }) }}
+
+<h2>Circle (avatar) + text</h2>
+<div style="display: flex; align-items: center; gap: var(--nhsuk-spacing-3);">
+  {{ skeleton({ shape: "circle", width: "3rem", height: "3rem" }) }}
+  <div style="flex: 1;">
+    {{ skeleton({ shape: "text-line", width: "60%" }) }}
+    {{ skeleton({ shape: "text-line", width: "40%" }) }}
+  </div>
+</div>
+
+<h2>Block</h2>
+{{ skeleton({ shape: "block", height: "6rem" }) }}
+
+<h2>Pair with Loading for screen readers</h2>
+<p>The skeleton is <code>aria-hidden="true"</code> because it is
+  purely visual. Pair with a <code>Loading</code> element to
+  announce progress to assistive tech:</p>
+
+<div>
+  {{ loading({ label: "Loading article", text: "Loading article…" }) }}
+</div>
+{{ skeleton({ shape: "text-line", width: "90%", count: 3 }) }}

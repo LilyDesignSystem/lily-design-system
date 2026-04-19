@@ -1,0 +1,27 @@
+.loading {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nhsuk-spacing-2);
+  color: var(--nhsuk-dark-grey);
+  font-size: var(--nhsuk-font-size-19);
+}
+
+.loading::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--nhsuk-light-grey);
+  border-top-color: var(--nhsuk-blue);
+  border-radius: 50%;
+  animation: loading-spin 1s linear infinite;
+}
+
+@keyframes loading-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading::before {
+    animation-duration: 2s;
+  }
+}

@@ -1,0 +1,20 @@
+---
+layout: layouts/component-demo.njk
+title: España TSI View
+description: a read-only display of a Tarjeta Sanitaria Individual (TSI) code
+---
+
+{% from "components/espana-tarjeta-sanitaria-individual-view/macro.njk" import espanaTarjetaSanitariaIndividualView %}
+
+<h2>Por defecto</h2>
+<p>Because the TSI format varies by autonomous community, the view
+  renders the value as-is. Apply community-specific grouping
+  before passing the value when required.</p>
+
+<dl>
+  <dt>Ejemplo</dt>
+  <dd>{{ espanaTarjetaSanitariaIndividualView({
+    value: "BBBB090810C003",
+    label: "Tarjeta Sanitaria Individual"
+  }) }}</dd>
+</dl>

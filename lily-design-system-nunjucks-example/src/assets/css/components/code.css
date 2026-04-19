@@ -1,0 +1,8 @@
+.code {
+  padding: 0.1rem 0.25rem;
+  background: var(--nhsuk-pale-grey);
+  color: var(--nhsuk-black);
+  font-family: Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.9em;
+  border-radius: 2px;
+}

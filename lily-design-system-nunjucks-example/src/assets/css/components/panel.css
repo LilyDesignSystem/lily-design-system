@@ -1,0 +1,17 @@
+.panel {
+  padding: var(--nhsuk-spacing-4);
+  background: var(--nhsuk-pale-grey);
+  border: 1px solid var(--nhsuk-light-grey);
+  margin-bottom: var(--nhsuk-spacing-4);
+}
+
+.panel-header {
+  margin-bottom: var(--nhsuk-spacing-3);
+}
+
+.panel-heading {
+  margin: 0;
+}
+
+.panel-body > :first-child { margin-top: 0; }
+.panel-body > :last-child { margin-bottom: 0; }

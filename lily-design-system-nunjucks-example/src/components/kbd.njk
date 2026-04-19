@@ -1,0 +1,27 @@
+---
+layout: layouts/component-demo.njk
+title: Kbd
+description: show keyboard shortcuts and key combinations
+---
+
+{% from "components/kbd/macro.njk" import kbd %}
+
+<h2>Default</h2>
+<p>Press {{ kbd({ text: "Esc", label: "Escape" }) }} to close the
+  dialog.</p>
+
+<p>Press {{ kbd({ text: "Ctrl" }) }} + {{ kbd({ text: "S" }) }} to
+  save.</p>
+
+<h2>Mac modifiers with accessible labels</h2>
+<p>Press
+  {{ kbd({ text: "⌘", label: "Command" }) }} +
+  {{ kbd({ text: "⇧", label: "Shift" }) }} +
+  {{ kbd({ text: "P" }) }}
+  to open the command palette.</p>
+
+<h2>Arrow keys</h2>
+<p>Use
+  {{ kbd({ text: "↑", label: "Up arrow" }) }}
+  {{ kbd({ text: "↓", label: "Down arrow" }) }}
+  to move between options.</p>

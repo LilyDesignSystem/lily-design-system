@@ -1,0 +1,32 @@
+.skeleton {
+  display: block;
+  width: var(--skeleton-width, 100%);
+  height: var(--skeleton-height, 1rem);
+  background: linear-gradient(
+    90deg,
+    var(--nhsuk-pale-grey) 0%,
+    var(--nhsuk-light-grey) 50%,
+    var(--nhsuk-pale-grey) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  margin-bottom: var(--nhsuk-spacing-2);
+}
+
+.skeleton[data-shape="line"] { height: 1rem; }
+.skeleton[data-shape="text-line"] { height: 1.25rem; }
+.skeleton[data-shape="block"] { height: var(--skeleton-height, 8rem); }
+.skeleton[data-shape="circle"] {
+  width: var(--skeleton-width, 3rem);
+  height: var(--skeleton-height, 3rem);
+  border-radius: 50%;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+}

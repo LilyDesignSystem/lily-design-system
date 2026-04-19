@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: Ireland IHI Input
+description: an input for entering an Ireland Individual Health Identifier
+---
+
+{% from "components/ireland-individual-health-identifier-input/macro.njk" import irelandIndividualHealthIdentifierInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "ihi", text: "Individual Health Identifier (IHI)" }) }}
+  {{ hint({
+    id: "ihi-hint",
+    text: "Seven digits, for example 1234 567."
+  }) }}
+  {{ irelandIndividualHealthIdentifierInput({
+    id: "ihi",
+    describedBy: "ihi-hint"
+  }) }}
+{% endcall %}

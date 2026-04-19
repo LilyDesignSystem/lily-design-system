@@ -1,0 +1,34 @@
+---
+layout: layouts/component-demo.njk
+title: Icon
+description: a container for displaying an icon
+---
+
+{% from "components/icon/macro.njk" import icon %}
+
+<h2>Decorative icon (ignored by screen readers)</h2>
+<p>
+  {% call icon({ decorative: true }) %}
+    <svg viewBox="0 0 16 16" width="16" height="16"><path d="M8 1l2.47 4.7L16 6.65l-4 3.9.94 5.45L8 13.4l-4.94 2.6L4 10.55 0 6.65l5.53-.95z" fill="currentColor"/></svg>
+  {% endcall %}
+  A star rating
+</p>
+
+<h2>Meaningful icon (announces the aria-label)</h2>
+<p>
+  {% call icon({ label: "Warning" }) %}
+    <svg viewBox="0 0 16 16" width="16" height="16"><path d="M1 14l7-12 7 12zm7-4v-4M8 12v-.01" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+  {% endcall %}
+  Unsaved changes — save before leaving.
+</p>
+
+<h2>Inline with text</h2>
+<p>
+  {% call icon({ decorative: true }) %}📞{% endcall %}
+  Call NHS 111
+</p>
+
+<p>
+  {% call icon({ decorative: true }) %}✉️{% endcall %}
+  Email the help desk
+</p>
