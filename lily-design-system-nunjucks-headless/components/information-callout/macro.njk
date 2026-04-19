@@ -1,0 +1,47 @@
+{#
+  InformationCallout macro — a callout box highlighting informational content.
+
+  HTML tag: <div role="note">
+  CSS class: information-callout
+  Accessibility: role="note" marks the callout as ancillary content.
+    params.heading becomes a visible heading; params.label overrides
+    the accessible name.
+
+  Params:
+    heading       string   Visible heading text.
+    headingLevel  number   Heading level 2–6. Default 3.
+    text          string   Plain text content below the heading.
+    html          string   Raw HTML content below the heading.
+    label         string   Accessible name (aria-label).
+    id            string   Element id.
+    classes       string   Consumer-provided extra CSS classes.
+    attributes    object   Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/information-callout/macro.njk" import informationCallout %}
+    {{ informationCallout({
+      heading: "Useful information",
+      text: "Booking is open Monday to Friday."
+    }) }}
+#}
+{%- macro informationCallout(params) -%}
+{%- set level = params.headingLevel | default(3) -%}
+<div
+  class="information-callout{% if params.classes %} {{ params.classes }}{% endif %}"
+  role="note"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.heading %}
+  <h{{ level }} class="information-callout-label">{{ params.heading }}</h{{ level }}>
+  {%- endif %}
+  {%- if params.html %}
+  {{ params.html | safe }}
+  {%- elif params.text %}
+  <p>{{ params.text }}</p>
+  {%- elif caller %}
+  {{ caller() }}
+  {%- endif %}
+</div>
+{%- endmacro -%}

@@ -1,0 +1,47 @@
+{#
+  Separator macro — a horizontal or vertical divider between content sections.
+
+  HTML tag: <hr> (horizontal) or <div role="separator"> (vertical).
+  CSS class: separator
+  Data attribute: data-orientation on the root; "horizontal" (default)
+    or "vertical". Screen readers announce <hr> as a thematic break.
+  Accessibility:
+    - Horizontal separators are semantic via <hr>.
+    - Vertical separators are not a native HTML element, so we emit
+      <div role="separator" aria-orientation="vertical">.
+
+  Params:
+    orientation  string   "horizontal" (default) | "vertical".
+    label        string   Accessible name (aria-label).
+    id           string   Element id.
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/separator/macro.njk" import separator %}
+    {{ separator() }}
+    {{ separator({ orientation: "vertical", label: "Divider" }) }}
+#}
+{%- macro separator(params) -%}
+{%- set p = params | default({}) -%}
+{%- set orientation = p.orientation | default("horizontal") -%}
+{%- if orientation == "vertical" -%}
+<div
+  class="separator{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="separator"
+  aria-orientation="vertical"
+  data-orientation="vertical"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+></div>
+{%- else -%}
+<hr
+  class="separator{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-orientation="horizontal"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endif -%}
+{%- endmacro -%}

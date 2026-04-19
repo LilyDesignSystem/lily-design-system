@@ -1,0 +1,41 @@
+{#
+  DontList macro — a guideline list of discouraged dont-list-item components.
+
+  HTML tag: <ul>
+  CSS class: dont-list
+  Semantics note: pair with a DoList for NHS.UK's "Do and Don't"
+    pattern. Use <ul> because items are peer recommendations, not
+    ordered steps.
+
+  Params:
+    label       string   Accessible name (aria-label).
+    labelledBy  string   aria-labelledby target (preferred).
+    id          string   Element id.
+    classes     string   Consumer-provided extra CSS classes.
+    attributes  object   Extra HTML attributes as key/value pairs.
+
+  Body content: DontListItem children via caller().
+
+  Usage:
+    {% from "components/dont-list/macro.njk" import dontList %}
+    {% from "components/dont-list-item/macro.njk" import dontListItem %}
+
+    {% call dontList({ label: "Don't" }) %}
+      {{ dontListItem({ text: "touch your eyes, nose, or mouth" }) }}
+      {{ dontListItem({ text: "share towels or personal items" }) }}
+    {% endcall %}
+#}
+{%- macro dontList(params) -%}
+{%- set p = params | default({}) -%}
+<ul
+  class="dont-list{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
+  {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</ul>
+{%- endmacro -%}

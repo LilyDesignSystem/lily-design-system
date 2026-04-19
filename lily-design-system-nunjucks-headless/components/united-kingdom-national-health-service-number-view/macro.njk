@@ -1,0 +1,42 @@
+{#
+  UnitedKingdomNationalHealthServiceNumberView macro — a read-only
+    display of a UK NHS number.
+
+  HTML tag: <span>
+  CSS class: united-kingdom-national-health-service-number-view
+  Formatting: when params.value is exactly 10 digits with no
+    whitespace, the macro groups them as "XXX XXX XXXX" for
+    readability. Any other value is rendered as-is.
+  Accessibility:
+    - An NHS number is a bare identifier; screen readers benefit
+      from an accessible name clarifying its meaning. Set
+      params.label (aria-label) or use a visible heading nearby.
+
+  Params:
+    value       string   Raw or formatted NHS number.
+    label       string   Accessible name (aria-label).
+    id          string   Element id.
+    classes     string   Consumer-provided extra CSS classes.
+    attributes  object   Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/united-kingdom-national-health-service-number-view/macro.njk" import nhsNumberView %}
+    {{ nhsNumberView({ value: "4857773456", label: "NHS number" }) }}
+#}
+{%- macro unitedKingdomNationalHealthServiceNumberView(params) -%}
+{%- set raw = params.value | default("") -%}
+{%- set stripped = raw | replace(" ", "") | replace("-", "") -%}
+{%- set isTenDigits = (stripped | length) == 10 and stripped.match("^[0-9]{10}$") -%}
+<span
+  class="united-kingdom-national-health-service-number-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if isTenDigits -%}
+    {{ stripped.slice(0, 3) }} {{ stripped.slice(3, 6) }} {{ stripped.slice(6, 10) }}
+  {%- else -%}
+    {{ raw }}
+  {%- endif -%}
+</span>
+{%- endmacro -%}

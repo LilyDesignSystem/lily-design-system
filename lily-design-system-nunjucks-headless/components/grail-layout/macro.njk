@@ -1,0 +1,45 @@
+{#
+  GrailLayout macro — a responsive web design structure with header,
+    left aside, center main, right aside, and footer regions.
+
+  HTML tag: <div>
+  CSS class: grail-layout
+  Accessibility: the layout container itself is a generic grouping;
+    the five slots carry the landmark roles (<header>, <aside>,
+    <main>, <aside>, <footer>).
+
+  Params:
+    id          string
+    classes     string
+    attributes  object
+
+  Body content: the five GrailLayout* slot macros via caller().
+
+  Usage:
+    {% from "components/grail-layout/macro.njk" import grailLayout %}
+    {% from "components/grail-layout-top-header/macro.njk" import grailLayoutTopHeader %}
+    {% from "components/grail-layout-left-aside/macro.njk" import grailLayoutLeftAside %}
+    {% from "components/grail-layout-center-main/macro.njk" import grailLayoutCenterMain %}
+    {% from "components/grail-layout-right-aside/macro.njk" import grailLayoutRightAside %}
+    {% from "components/grail-layout-bottom-footer/macro.njk" import grailLayoutBottomFooter %}
+
+    {% call grailLayout() %}
+      {% call grailLayoutTopHeader() %}…{% endcall %}
+      {% call grailLayoutLeftAside() %}…{% endcall %}
+      {% call grailLayoutCenterMain() %}…{% endcall %}
+      {% call grailLayoutRightAside() %}…{% endcall %}
+      {% call grailLayoutBottomFooter() %}…{% endcall %}
+    {% endcall %}
+#}
+{%- macro grailLayout(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="grail-layout{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

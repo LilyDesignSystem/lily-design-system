@@ -1,0 +1,52 @@
+{#
+  RangeInput macro — a slider input for selecting a value within a range.
+
+  HTML tag: <input type="range">
+  CSS class: range-input
+  Accessibility: browser-native slider with role="slider" implicit.
+    Ensure params.label or a linked <label> names the slider so
+    assistive tech can announce the purpose.
+
+  Params:
+    id            string   Element id. Required.
+    name          string
+    value         number   Current value.
+    min           number   Default 0.
+    max           number   Default 100.
+    step          number   Default 1.
+    list          string   Id of a <datalist> for tick marks.
+    label         string
+    describedBy   string
+    errormessage  string
+    invalid       boolean
+    disabled      boolean
+    orient        string   Non-standard; some browsers support
+                           "vertical" / "horizontal" to orient the
+                           slider. Use with care.
+    classes       string
+    attributes    object
+
+  Usage:
+    {% from "components/range-input/macro.njk" import rangeInput %}
+    {{ rangeInput({ id: "volume", min: 0, max: 100, value: 50 }) }}
+#}
+{%- macro rangeInput(params) -%}
+<input
+  class="range-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="range"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  {%- if params.value is defined %} value="{{ params.value }}"{% endif %}
+  {%- if params.min is defined %} min="{{ params.min }}"{% endif %}
+  {%- if params.max is defined %} max="{{ params.max }}"{% endif %}
+  {%- if params.step is defined %} step="{{ params.step }}"{% endif %}
+  {%- if params.list %} list="{{ params.list }}"{% endif %}
+  {%- if params.orient %} orient="{{ params.orient }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

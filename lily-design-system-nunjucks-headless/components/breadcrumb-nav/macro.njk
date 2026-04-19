@@ -1,0 +1,47 @@
+{#
+  BreadcrumbNav macro — a navigation container for breadcrumb trail links.
+
+  HTML tag: <nav>
+  CSS class: breadcrumb-nav
+  Accessibility:
+    - role="navigation" is implicit on <nav>.
+    - params.label becomes aria-label. The default is "Breadcrumb".
+
+  Params:
+    label       string   Accessible name. Default "Breadcrumb".
+    labelledBy  string   Id of an element that names this nav.
+                         Use instead of `label` if a heading is visible.
+    id          string   Element id.
+    classes     string   Consumer-provided extra CSS classes.
+    attributes  object   Extra HTML attributes as key/value pairs.
+
+  Body content: typically a BreadcrumbList, passed via caller().
+
+  Usage:
+    {% from "components/breadcrumb-nav/macro.njk" import breadcrumbNav %}
+    {% from "components/breadcrumb-list/macro.njk" import breadcrumbList %}
+    {% from "components/breadcrumb-list-item/macro.njk" import breadcrumbListItem %}
+    {% from "components/breadcrumb-link/macro.njk" import breadcrumbLink %}
+
+    {% call breadcrumbNav() %}
+      {% call breadcrumbList() %}
+        {% call breadcrumbListItem() %}
+          {{ breadcrumbLink({ href: "/", text: "Home" }) }}
+        {% endcall %}
+        {% call breadcrumbListItem({ current: true }) %}Today{% endcall %}
+      {% endcall %}
+    {% endcall %}
+#}
+{%- macro breadcrumbNav(params) -%}
+{%- set p = params | default({}) -%}
+<nav
+  class="breadcrumb-nav{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% else %} aria-label="{{ p.label | default('Breadcrumb') }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</nav>
+{%- endmacro -%}

@@ -1,0 +1,52 @@
+{#
+  EmailLink macro — a mailto hyperlink for an email address.
+
+  HTML tag: <a>
+  CSS class: email-link
+  Accessibility: the visible text defaults to the address itself so
+    screen readers announce a usable value. Override via
+    params.text when a friendly label is preferred.
+
+  Params:
+    address     string   Email address. Required.
+    text        string   Visible text. Defaults to address.
+    html        string   Raw HTML content (rendered via `| safe`).
+    subject     string   Default email subject.
+    cc          string   Comma-separated CC addresses.
+    bcc         string   Comma-separated BCC addresses.
+    body        string   Default body.
+    label       string   aria-label override.
+    id          string
+    classes     string
+    attributes  object
+
+  Usage:
+    {% from "components/email-link/macro.njk" import emailLink %}
+    {{ emailLink({ address: "help@example.com" }) }}
+    {{ emailLink({
+      address: "support@example.com",
+      subject: "NHS number enquiry",
+      text: "Email the support team"
+    }) }}
+#}
+{%- macro emailLink(params) -%}
+{%- set qs = [] -%}
+{%- if params.subject %}{%- set qs = (qs.push('subject=' + params.subject | urlencode), qs) -%}{%- endif -%}
+{%- if params.cc %}{%- set qs = (qs.push('cc=' + params.cc | urlencode), qs) -%}{%- endif -%}
+{%- if params.bcc %}{%- set qs = (qs.push('bcc=' + params.bcc | urlencode), qs) -%}{%- endif -%}
+{%- if params.body %}{%- set qs = (qs.push('body=' + params.body | urlencode), qs) -%}{%- endif -%}
+{%- set query = qs | join('&') -%}
+<a
+  class="email-link{% if params.classes %} {{ params.classes }}{% endif %}"
+  href="mailto:{{ params.address }}{% if query %}?{{ query }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- else -%}{{ params.address }}
+  {%- endif -%}
+</a>
+{%- endmacro -%}

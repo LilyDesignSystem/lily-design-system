@@ -1,0 +1,69 @@
+{#
+  Notification macro — a brief message about an event or update.
+
+  HTML tag: <div>
+  CSS class: notification
+  Data attribute: data-variant on the root; one of
+    "default" | "success". Default "default".
+  Accessibility:
+    - For important standing messages, a labelled region is
+      appropriate (role="region", aria-labelledby).
+    - For messages requiring immediate attention (success after
+      form submit, an update the user did not initiate),
+      role="alert" or role="status" may be more appropriate.
+    - params.role overrides the default behaviour; the default
+      depends on whether a heading is present:
+        heading present: role="region" + aria-labelledby
+        no heading:      role="status"
+
+  Params:
+    variant       string   "default" | "success". Default "default".
+    role          string   Override ARIA role.
+    heading       string   Visible heading text. Rendered inside
+                           <div class="notification-header">.
+    headingLevel  number   Heading level 2–6. Default 3.
+    headingId     string   Id of the heading. Defaults to one
+                           derived from params.id when supplied.
+    text          string   Plain text content.
+    html          string   Raw HTML content.
+    label         string   Accessible name (aria-label). Used when
+                           no heading is provided.
+    id            string   Element id.
+    classes       string   Consumer-provided extra CSS classes.
+    attributes    object   Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/notification/macro.njk" import notification %}
+    {{ notification({
+      heading: "Important",
+      text: "Face coverings are no longer required."
+    }) }}
+#}
+{%- macro notification(params) -%}
+{%- set variant = params.variant | default("default") -%}
+{%- set level = params.headingLevel | default(3) -%}
+{%- set headingId = params.headingId or (params.id ~ "-title" if params.id else "notification-title") -%}
+{%- set defaultRole = "region" if params.heading else "status" -%}
+{%- set role = params.role | default(defaultRole) -%}
+<div
+  class="notification{% if params.classes %} {{ params.classes }}{% endif %}"
+  role="{{ role }}"
+  data-variant="{{ variant }}"
+  {%- if params.heading %} aria-labelledby="{{ headingId }}"
+  {%- elif params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.heading %}
+  <div class="notification-header">
+    <h{{ level }} id="{{ headingId }}" class="notification-title">{{ params.heading }}</h{{ level }}>
+  </div>
+  {%- endif %}
+  <div class="notification-content">
+    {%- if params.html -%}{{ params.html | safe }}
+    {%- elif params.text -%}<p>{{ params.text }}</p>
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </div>
+</div>
+{%- endmacro -%}

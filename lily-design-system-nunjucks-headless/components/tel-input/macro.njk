@@ -1,0 +1,39 @@
+{#
+  TelInput macro — an input for entering a telephone number.
+
+  HTML tag: <input type="tel">
+  CSS class: tel-input
+  Accessibility: see TextInput.
+
+  Params (same shared set as TextInput):
+    id, name, value, label, describedBy, errormessage, invalid,
+    required, disabled, readonly, placeholder, autocomplete,
+    pattern, minlength, maxlength, inputmode, classes, attributes.
+
+  Usage:
+    {% from "components/tel-input/macro.njk" import telInput %}
+    {{ telInput({ id: "phone", autocomplete: "tel", inputmode: "tel" }) }}
+#}
+{%- macro telInput(params) -%}
+<input
+  class="tel-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="tel"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.placeholder %} placeholder="{{ params.placeholder }}"{% endif %}
+  {%- if params.autocomplete %} autocomplete="{{ params.autocomplete }}"{% endif %}
+  {%- if params.pattern %} pattern="{{ params.pattern }}"{% endif %}
+  {%- if params.minlength %} minlength="{{ params.minlength }}"{% endif %}
+  {%- if params.maxlength %} maxlength="{{ params.maxlength }}"{% endif %}
+  {%- if params.inputmode %} inputmode="{{ params.inputmode }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

@@ -1,0 +1,52 @@
+{#
+  Fieldset macro — a group of related form fields with a legend.
+
+  HTML tag: <fieldset>
+  CSS class: fieldset
+  Accessibility: the <legend> names the group. When the group
+    represents the entire page's primary question, setting
+    isPageHeading true wraps the legend content in an <h1>.
+
+  Params:
+    legend         string   Legend text (escaped).
+    legendHtml     string   Legend raw HTML (rendered via `| safe`).
+    isPageHeading  boolean  If true, the legend's content is also
+                            rendered as the page <h1>.
+    describedBy    string   Id(s) of elements that describe the
+                            group — e.g. hint and error-message.
+                            Space-separated when there are several.
+    disabled       boolean  Disable all controls in the group.
+    id             string   Element id.
+    classes        string   Consumer-provided extra CSS classes.
+    attributes     object   Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/fieldset/macro.njk" import fieldset %}
+    {% call fieldset({ legend: "What is your address?" }) %}
+      … fields …
+    {% endcall %}
+#}
+{%- macro fieldset(params) -%}
+<fieldset
+  class="fieldset{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <legend class="fieldset-legend">
+    {%- if params.isPageHeading -%}
+    <h1 class="fieldset-heading">
+      {%- if params.legendHtml -%}{{ params.legendHtml | safe }}
+      {%- else -%}{{ params.legend }}
+      {%- endif -%}
+    </h1>
+    {%- else -%}
+      {%- if params.legendHtml -%}{{ params.legendHtml | safe }}
+      {%- else -%}{{ params.legend }}
+      {%- endif -%}
+    {%- endif -%}
+  </legend>
+  {%- if caller -%}{{ caller() }}{%- endif -%}
+</fieldset>
+{%- endmacro -%}

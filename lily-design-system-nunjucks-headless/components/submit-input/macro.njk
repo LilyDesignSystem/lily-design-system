@@ -1,0 +1,43 @@
+{#
+  SubmitInput macro — a button input that submits a form.
+
+  HTML tag: <input type="submit">
+  CSS class: submit-input
+  Note: prefer the <button type="submit"> element (Lily's Button
+    macro) for most cases. Use SubmitInput when you need the
+    input-element variant.
+  Accessibility: the visible label is the value attribute.
+
+  Params:
+    id            string   Element id.
+    name          string
+    value         string   Visible label text. Default "Submit".
+    disabled      boolean
+    label         string   aria-label override.
+    formaction    string   Override the form's action attribute.
+    formmethod    string   Override the form's method attribute.
+    formnovalidate boolean
+    formtarget    string
+    classes       string
+    attributes    object
+
+  Usage:
+    {% from "components/submit-input/macro.njk" import submitInput %}
+    {{ submitInput({ value: "Save and continue" }) }}
+#}
+{%- macro submitInput(params) -%}
+<input
+  class="submit-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="submit"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.name %} name="{{ params.name }}"{% endif %}
+  value="{{ params.value | default('Submit') }}"
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.formaction %} formaction="{{ params.formaction }}"{% endif %}
+  {%- if params.formmethod %} formmethod="{{ params.formmethod }}"{% endif %}
+  {%- if params.formnovalidate %} formnovalidate{% endif %}
+  {%- if params.formtarget %} formtarget="{{ params.formtarget }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

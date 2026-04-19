@@ -1,0 +1,38 @@
+{#
+  DatetimeLocalInput macro — an input for entering a date and time without time zone.
+
+  HTML tag: <input type="datetime-local">
+  CSS class: datetime-local-input
+  Accessibility: browser-native. See TextInput.
+  Format: value is YYYY-MM-DDTHH:MM (e.g. "2026-04-27T09:30").
+
+  Params:
+    id, name, value, min, max, step,
+    label, describedBy, errormessage, invalid,
+    required, disabled, readonly, autocomplete, classes, attributes.
+
+  Usage:
+    {% from "components/datetime-local-input/macro.njk" import datetimeLocalInput %}
+    {{ datetimeLocalInput({ id: "appt", value: "2026-04-27T09:30" }) }}
+#}
+{%- macro datetimeLocalInput(params) -%}
+<input
+  class="datetime-local-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="datetime-local"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  {%- if params.min %} min="{{ params.min }}"{% endif %}
+  {%- if params.max %} max="{{ params.max }}"{% endif %}
+  {%- if params.step %} step="{{ params.step }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.autocomplete %} autocomplete="{{ params.autocomplete }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

@@ -1,0 +1,33 @@
+{#
+  GrailLayoutTopHeader macro — full-width header region of a grail layout.
+
+  HTML tag: <header>
+  CSS class: grail-layout-top-header
+  Accessibility: <header> exposes the banner landmark when it is a
+    direct child of <body>. Inside a layout wrapper it is treated
+    as a generic header; assistive tech still benefits from the
+    semantic element for reading order.
+
+  Params:
+    label       string   Accessible name (aria-label) when needed.
+    labelledBy  string
+    id          string
+    classes     string
+    attributes  object
+
+  Body content: site branding, primary nav, etc. via caller().
+#}
+{%- macro grailLayoutTopHeader(params) -%}
+{%- set p = params | default({}) -%}
+<header
+  class="grail-layout-top-header{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
+  {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</header>
+{%- endmacro -%}

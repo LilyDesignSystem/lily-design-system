@@ -1,0 +1,50 @@
+{#
+  CheckboxInput macro — a checkbox input for toggling a boolean value.
+
+  HTML tag: <input type="checkbox">
+  CSS class: checkbox-input
+  Accessibility:
+    - Pair with a <label for="..."> that names the option.
+    - Inside a CheckboxGroup or Fieldset when multiple checkboxes
+      belong to the same logical question.
+
+  Params:
+    id            string   Element id. Required.
+    name          string   Name attribute.
+    value         string   Submitted value when checked.
+    checked       boolean  Whether the checkbox is initially checked.
+    required      boolean
+    disabled      boolean
+    indeterminate boolean  Purely a visual hint for consumer JS; the
+                           element attribute is toggled at runtime.
+                           When true, the macro emits
+                           data-indeterminate="true" so CSS/JS can
+                           hydrate the native property.
+    label         string   Accessible name (aria-label).
+    describedBy   string   aria-describedby id list.
+    classes       string   Consumer-provided extra CSS classes.
+    attributes    object   Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/checkbox-input/macro.njk" import checkboxInput %}
+    {% from "components/label/macro.njk" import label %}
+
+    {{ checkboxInput({ id: "terms", name: "terms", value: "yes" }) }}
+    {{ label({ for: "terms", text: "I accept the terms" }) }}
+#}
+{%- macro checkboxInput(params) -%}
+<input
+  class="checkbox-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="checkbox"
+  id="{{ params.id }}"
+  {%- if params.name %} name="{{ params.name }}"{% endif %}
+  {%- if params.value is defined %} value="{{ params.value }}"{% endif %}
+  {%- if params.checked %} checked{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.indeterminate %} data-indeterminate="true"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

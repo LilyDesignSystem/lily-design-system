@@ -1,0 +1,65 @@
+{#
+  ErrorSummary macro — a summary of all validation errors on a form.
+
+  HTML tag: <div>
+  CSS class: error-summary
+  Accessibility:
+    - role="alert" announces the summary to assistive tech when it
+      appears after the form fails validation.
+    - tabindex="-1" allows server-side code to set focus on the
+      summary after page load so keyboard users land on it.
+    - Each error links to the offending field by id.
+
+  Params:
+    title        string  Summary heading. Default "There is a problem".
+    titleId      string  Id of the heading; used in aria-labelledby.
+                         Default "error-summary-title".
+    description  string  Optional paragraph below the heading.
+    errors       array   Array of { text, href } describing each
+                         error; rendered as an <ul> of links. If
+                         omitted, caller() content is used instead.
+    id           string  Element id.
+    classes      string  Consumer-provided extra CSS classes.
+    attributes   object  Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/error-summary/macro.njk" import errorSummary %}
+    {{ errorSummary({
+      title: "There is a problem",
+      errors: [
+        { text: "Enter your full name", href: "#name" },
+        { text: "Enter a valid NHS number", href: "#nhs-number" }
+      ]
+    }) }}
+#}
+{%- macro errorSummary(params) -%}
+{%- set titleId = params.titleId | default("error-summary-title") -%}
+<div
+  class="error-summary{% if params.classes %} {{ params.classes }}{% endif %}"
+  role="alert"
+  tabindex="-1"
+  aria-labelledby="{{ titleId }}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <h2 class="error-summary-title" id="{{ titleId }}">{{ params.title | default("There is a problem") }}</h2>
+  <div class="error-summary-body">
+    {%- if params.description %}
+    <p>{{ params.description }}</p>
+    {%- endif %}
+    {%- if params.errors and params.errors | length %}
+    <ul class="error-summary-list">
+      {%- for err in params.errors %}
+      <li>
+        {%- if err.href -%}<a href="{{ err.href }}">{{ err.text }}</a>
+        {%- else -%}{{ err.text }}
+        {%- endif -%}
+      </li>
+      {%- endfor %}
+    </ul>
+    {%- elif caller %}
+    {{ caller() }}
+    {%- endif %}
+  </div>
+</div>
+{%- endmacro -%}

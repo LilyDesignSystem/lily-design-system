@@ -1,0 +1,37 @@
+{#
+  TableData macro — a table data cell.
+
+  HTML tag: <td>
+  CSS class: table-data
+  Accessibility: for a complex cell whose relationship is not
+    implicit, point aria-describedby (via params.attributes) at one
+    or more <th> ids.
+
+  Params:
+    text        string   Plain text content (escaped).
+    html        string   Raw HTML content (rendered via `| safe`).
+    colspan     number
+    rowspan     number
+    headers     string   Space-separated id list of header cells
+                         (via <td headers="...">), for complex tables.
+    id          string   Element id.
+    classes     string   Consumer-provided extra CSS classes.
+    attributes  object   Extra HTML attributes as key/value pairs.
+
+  Usage: see Table.
+#}
+{%- macro tableData(params) -%}
+<td
+  class="table-data{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.colspan %} colspan="{{ params.colspan }}"{% endif %}
+  {%- if params.rowspan %} rowspan="{{ params.rowspan }}"{% endif %}
+  {%- if params.headers %} headers="{{ params.headers }}"{% endif %}
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</td>
+{%- endmacro -%}

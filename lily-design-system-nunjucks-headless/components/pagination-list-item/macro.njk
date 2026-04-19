@@ -1,0 +1,49 @@
+{#
+  PaginationListItem macro — one page link in a pagination list.
+
+  HTML tag: <li>
+  CSS class: pagination-list-item
+  Data attribute: data-variant on the root. When params.ellipsis is
+    true, data-variant="ellipsis" and the item renders a <span>
+    (non-interactive) instead of containing a link.
+  Accessibility:
+    - Ellipsis items are marked aria-hidden="true" because the gap
+      they represent is also conveyed by the non-consecutive page
+      numbers that bracket them.
+
+  Params:
+    text        string   Plain text content (used for ellipsis).
+    html        string   Raw HTML content.
+    ellipsis    boolean  If true, render as a non-interactive
+                         ellipsis marker. Default false.
+    id          string   Element id.
+    classes     string   Consumer-provided extra CSS classes.
+    attributes  object   Extra HTML attributes as key/value pairs.
+
+  Body content: a PaginationLink or other content via caller().
+
+  Usage: see PaginationNav.
+#}
+{%- macro paginationListItem(params) -%}
+{%- set p = params | default({}) -%}
+<li
+  class="pagination-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.ellipsis %} data-variant="ellipsis" aria-hidden="true"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.ellipsis -%}
+    <span class="pagination-list-item-ellipsis">
+      {%- if p.html -%}{{ p.html | safe }}
+      {%- elif p.text -%}{{ p.text }}
+      {%- else -%}…
+      {%- endif -%}
+    </span>
+  {%- else -%}
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif p.text -%}{{ p.text }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  {%- endif -%}
+</li>
+{%- endmacro -%}

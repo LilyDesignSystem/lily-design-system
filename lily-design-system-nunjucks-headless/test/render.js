@@ -28,7 +28,14 @@ export function render(componentName, params = {}, callerContent = null) {
     : `{% from "${importPath}" import ${macro} %}`
       + `{% call ${macro}(params) %}${callerContent}{% endcall %}`;
   const html = env.renderString(src, { params });
-  const dom = new JSDOM(html);
+  // jsdom follows HTML parsing rules that drop table-part elements
+  // (thead/tbody/tfoot/tr/th/td) unless they sit inside a <table>.
+  // Auto-wrap so tests can query the rendered element.
+  let domSource = html;
+  if (/^\s*<(thead|tbody|tfoot|tr|th|td)\b/i.test(html)) {
+    domSource = `<table>${html}</table>`;
+  }
+  const dom = new JSDOM(domSource);
   return { html, document: dom.window.document };
 }
 

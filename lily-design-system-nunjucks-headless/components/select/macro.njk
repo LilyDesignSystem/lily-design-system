@@ -1,0 +1,71 @@
+{#
+  Select macro — a dropdown select element for choosing one option.
+
+  HTML tag: <select>
+  CSS class: select
+  Accessibility: pair with a <label for="..."> via the select's id.
+
+  Params:
+    id            string   Element id. Required.
+    name          string   Name attribute. Defaults to id.
+    value         string   Convenience. If set, any option whose
+                           `value` equals this is rendered with the
+                           selected attribute (unless the option
+                           explicitly sets selected).
+    options       array    Array of option descriptors:
+                             { value, text, html, selected, disabled }
+                           If omitted, caller() content is used.
+    multiple      boolean  Allow selecting multiple options.
+    size          number   Number of visible options.
+    required      boolean
+    disabled      boolean
+    label         string   Accessible name (aria-label). Use only
+                           when no <label for="..."> is associated.
+    describedBy   string   aria-describedby id list.
+    errormessage  string   aria-errormessage id.
+    invalid       boolean  Sets aria-invalid="true" when truthy.
+    classes       string   Consumer-provided extra CSS classes.
+    attributes    object   Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/select/macro.njk" import select %}
+    {{ select({
+      id: "country",
+      value: "gb",
+      options: [
+        { value: "", text: "Choose a country", disabled: true },
+        { value: "gb", text: "United Kingdom" },
+        { value: "ie", text: "Ireland" }
+      ]
+    }) }}
+#}
+{%- macro select(params) -%}
+<select
+  class="select{% if params.classes %} {{ params.classes }}{% endif %}"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  {%- if params.multiple %} multiple{% endif %}
+  {%- if params.size %} size="{{ params.size }}"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.options -%}
+    {%- for opt in params.options -%}
+      <option value="{{ opt.value }}"
+        {%- if opt.selected or (params.value is defined and params.value == opt.value) %} selected{% endif %}
+        {%- if opt.disabled %} disabled{% endif %}
+      >
+        {%- if opt.html -%}{{ opt.html | safe }}
+        {%- else -%}{{ opt.text }}
+        {%- endif -%}
+      </option>
+    {%- endfor -%}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</select>
+{%- endmacro -%}

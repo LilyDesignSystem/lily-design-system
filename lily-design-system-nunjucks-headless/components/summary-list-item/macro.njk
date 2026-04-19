@@ -1,0 +1,59 @@
+{#
+  SummaryListItem macro — one key-value pair in a summary list.
+
+  HTML tag: <div> (valid grouping element inside <dl> in HTML5)
+  CSS class: summary-list-item
+  Emits: <dt class="summary-list-item-key"> and
+    <dd class="summary-list-item-value">, plus an optional
+    <dd class="summary-list-item-actions"> holding action links
+    (e.g. "Change", "Remove").
+
+  Params:
+    key        string   The term text (dt).
+    keyHtml    string   Raw HTML for the term (overrides key).
+    value      string   The description text (dd).
+    valueHtml  string   Raw HTML for the description (overrides value).
+    actions    array    Array of { text, href, label, visuallyHiddenText }
+                        rendered as links inside an actions <dd>.
+                        Each action's aria-label defaults to
+                        "{action.text} {visuallyHiddenText}" so
+                        screen readers can disambiguate repeated
+                        action labels (e.g. multiple "Change" links).
+    id         string   Element id.
+    classes    string   Consumer-provided extra CSS classes.
+    attributes object   Extra HTML attributes as key/value pairs.
+
+  Usage: see SummaryList.
+#}
+{%- macro summaryListItem(params) -%}
+<div
+  class="summary-list-item{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <dt class="summary-list-item-key">
+    {%- if params.keyHtml -%}{{ params.keyHtml | safe }}
+    {%- else -%}{{ params.key }}
+    {%- endif -%}
+  </dt>
+  <dd class="summary-list-item-value">
+    {%- if params.valueHtml -%}{{ params.valueHtml | safe }}
+    {%- else -%}{{ params.value }}
+    {%- endif -%}
+  </dd>
+  {%- if params.actions and params.actions | length %}
+  <dd class="summary-list-item-actions">
+    {%- for action in params.actions -%}
+      <a href="{{ action.href | default('#') }}"
+        {%- if action.visuallyHiddenText %} aria-label="{{ action.text }} {{ action.visuallyHiddenText }}"
+        {%- elif action.label %} aria-label="{{ action.label }}"{% endif -%}
+      >
+        {{ action.text }}
+        {%- if action.visuallyHiddenText %}<span class="visually-hidden"> {{ action.visuallyHiddenText }}</span>{% endif -%}
+      </a>
+      {%- if not loop.last %} <span aria-hidden="true">·</span> {% endif -%}
+    {%- endfor -%}
+  </dd>
+  {%- endif %}
+</div>
+{%- endmacro -%}

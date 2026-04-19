@@ -1,0 +1,42 @@
+{#
+  Field macro — a form field wrapper with label, input, and error message.
+
+  HTML tag: <div>
+  CSS class: field
+  Data attribute: data-state on the root; one of
+    "valid" | "invalid". Default "valid". Flips to "invalid" when
+    params.error is truthy so consumer CSS can highlight the group.
+  Accessibility: the field wrapper itself is not a landmark. It
+    groups a Label, optional Hint, input, and optional ErrorMessage
+    so that consumers can style the state with a single data-state
+    selector.
+
+  Params:
+    error       boolean  or string. If truthy, data-state="invalid".
+    id          string   Element id.
+    classes     string   Consumer-provided extra CSS classes.
+    attributes  object   Extra HTML attributes as key/value pairs.
+
+  Body content: label + hint + input + error-message via caller().
+
+  Usage:
+    {% from "components/field/macro.njk" import field %}
+    {% call field({ error: errors.name }) %}
+      {{ label({ for: "name", text: "Full name" }) }}
+      <input id="name" class="text-input" type="text">
+      {% if errors.name %}{{ errorMessage({ text: errors.name }) }}{% endif %}
+    {% endcall %}
+#}
+{%- macro field(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="field{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-state="{{ 'invalid' if p.error else 'valid' }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

@@ -1,0 +1,52 @@
+{#
+  RadioGroup macro — a group of radio buttons for selecting one option.
+
+  HTML tag: <div role="radiogroup">
+  CSS class: radio-group
+  Accessibility:
+    - role="radiogroup" groups the radios for assistive tech.
+    - params.label or params.labelledBy gives the group its
+      accessible name. Prefer labelledBy when a visible heading or
+      <legend> (via Fieldset) already names the group.
+    - describedBy links hints/error messages at group level.
+
+  Params:
+    label        string   Accessible name (aria-label).
+    labelledBy   string   Id(s) naming the group (preferred).
+    describedBy  string   aria-describedby id list.
+    required     boolean  Sets aria-required on the group.
+    id           string   Element id.
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes as key/value pairs.
+
+  Body content: radio/label pairs via caller().
+
+  Usage:
+    {% from "components/radio-group/macro.njk" import radioGroup %}
+    {% from "components/radio-input/macro.njk" import radioInput %}
+    {% from "components/label/macro.njk" import label %}
+
+    {% call radioGroup({ label: "Where do you live?" }) %}
+      {{ radioInput({ id: "w-eng", name: "where", value: "england" }) }}
+      {{ label({ for: "w-eng", text: "England" }) }}
+      {{ radioInput({ id: "w-sco", name: "where", value: "scotland" }) }}
+      {{ label({ for: "w-sco", text: "Scotland" }) }}
+    {% endcall %}
+#}
+{%- macro radioGroup(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="radio-group{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="radiogroup"
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
+  {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.describedBy %} aria-describedby="{{ p.describedBy }}"{% endif %}
+  {%- if p.required %} aria-required="true"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

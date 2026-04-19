@@ -1,0 +1,47 @@
+{#
+  FileInput macro — an input for selecting files from the file system.
+
+  HTML tag: <input type="file">
+  CSS class: file-input
+  Accessibility: browser-native file picker. Pair with a
+    <label for="..."> or params.label.
+
+  Params:
+    id            string   Element id. Required.
+    name          string
+    accept        string   Accepted MIME types / extensions
+                           (e.g. "image/*", ".pdf,.docx").
+    multiple      boolean  Allow multiple files.
+    capture       string   On mobile: "user" (front camera) or
+                           "environment" (rear camera).
+    label         string   Accessible name (aria-label).
+    describedBy   string
+    errormessage  string
+    invalid       boolean
+    required      boolean
+    disabled      boolean
+    classes       string
+    attributes    object
+
+  Usage:
+    {% from "components/file-input/macro.njk" import fileInput %}
+    {{ fileInput({ id: "photo", accept: "image/*", capture: "environment" }) }}
+#}
+{%- macro fileInput(params) -%}
+<input
+  class="file-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="file"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  {%- if params.accept %} accept="{{ params.accept }}"{% endif %}
+  {%- if params.multiple %} multiple{% endif %}
+  {%- if params.capture %} capture="{{ params.capture }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

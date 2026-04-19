@@ -1,0 +1,41 @@
+{#
+  UnitedStatesSocialSecurityNumberView macro — a read-only display
+    of a US Social Security number.
+
+  HTML tag: <span>
+  CSS class: united-states-social-security-number-view
+  Formatting: when params.value reduces to exactly 9 digits, the
+    macro groups them as "XXX-XX-XXXX" for readability. Any other
+    value is rendered as-is.
+  Security: avoid displaying full SSNs on the page when a masked
+    form (last-4) is sufficient. Consumers are responsible for
+    applying masking before passing the value.
+
+  Params:
+    value       string
+    label       string
+    id          string
+    classes     string
+    attributes  object
+
+  Usage:
+    {% from "components/united-states-social-security-number-view/macro.njk" import unitedStatesSocialSecurityNumberView %}
+    {{ unitedStatesSocialSecurityNumberView({ value: "123456789", label: "SSN" }) }}
+#}
+{%- macro unitedStatesSocialSecurityNumberView(params) -%}
+{%- set raw = params.value | default("") -%}
+{%- set stripped = raw | replace(" ", "") | replace("-", "") -%}
+{%- set isNineDigits = (stripped | length) == 9 and stripped.match("^[0-9]{9}$") -%}
+<span
+  class="united-states-social-security-number-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if isNineDigits -%}
+    {{ stripped.slice(0, 3) }}-{{ stripped.slice(3, 5) }}-{{ stripped.slice(5, 9) }}
+  {%- else -%}
+    {{ raw }}
+  {%- endif -%}
+</span>
+{%- endmacro -%}

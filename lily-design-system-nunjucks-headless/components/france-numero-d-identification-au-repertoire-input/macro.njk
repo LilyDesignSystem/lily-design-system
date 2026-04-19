@@ -1,0 +1,47 @@
+{#
+  FranceNumeroDIdentificationAuRepertoireInput macro — an input for
+    entering a France numéro d'identification au répertoire (NIR),
+    also known as the French social security number.
+
+  HTML tag: <input type="text">
+  CSS class: france-numero-d-identification-au-repertoire-input
+  Format: thirteen digits plus a two-digit control key = fifteen
+    characters total, canonically grouped as
+      "G YY MM CC VVV SSS KK"
+    where G is gender (1 or 2), YY is birth year, MM is birth
+    month, CC is département (two digits for 01–95 or three for
+    some overseas), VVV is commune, SSS is sequence, KK is the
+    modulo-97 control key.
+  Accessibility: inputmode="numeric", autocomplete="off",
+    spellcheck suppressed.
+
+  Params:
+    id, name, value, label, describedBy, errormessage, invalid,
+    required, disabled, readonly, classes, attributes.
+
+  Usage:
+    {% from "components/france-numero-d-identification-au-repertoire-input/macro.njk" import franceNumeroDIdentificationAuRepertoireInput %}
+    {{ franceNumeroDIdentificationAuRepertoireInput({ id: "nir" }) }}
+#}
+{%- macro franceNumeroDIdentificationAuRepertoireInput(params) -%}
+<input
+  class="france-numero-d-identification-au-repertoire-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="text"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  inputmode="numeric"
+  pattern="[0-9A-B ]{15,21}"
+  maxlength="21"
+  autocomplete="off"
+  spellcheck="false"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

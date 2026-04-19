@@ -1,0 +1,32 @@
+{#
+  GrailLayoutBottomFooter macro — full-width footer region of a grail layout.
+
+  HTML tag: <footer>
+  CSS class: grail-layout-bottom-footer
+  Accessibility: <footer> exposes the contentinfo landmark when it
+    is a direct child of <body>. Inside a layout wrapper it is
+    treated as a generic footer.
+
+  Params:
+    label       string
+    labelledBy  string
+    id          string
+    classes     string
+    attributes  object
+
+  Body content: copyright, secondary navigation, etc. via caller().
+#}
+{%- macro grailLayoutBottomFooter(params) -%}
+{%- set p = params | default({}) -%}
+<footer
+  class="grail-layout-bottom-footer{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
+  {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</footer>
+{%- endmacro -%}

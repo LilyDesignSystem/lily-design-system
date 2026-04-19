@@ -1,0 +1,52 @@
+{#
+  PaginationNav macro — a navigation container for page navigation links.
+
+  HTML tag: <nav>
+  CSS class: pagination-nav
+  Accessibility:
+    - role="navigation" is implicit on <nav>.
+    - params.label becomes aria-label. The default is "Pagination",
+      so assistive tech distinguishes this nav from page navigation.
+
+  Params:
+    label        string   Accessible name. Default "Pagination".
+    labelledBy   string   aria-labelledby target (preferred).
+    id           string   Element id.
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes as key/value pairs.
+
+  Body content: PaginationList via caller().
+
+  Usage:
+    {% from "components/pagination-nav/macro.njk" import paginationNav %}
+    {% from "components/pagination-list/macro.njk" import paginationList %}
+    {% from "components/pagination-list-item/macro.njk" import paginationListItem %}
+    {% from "components/pagination-link/macro.njk" import paginationLink %}
+
+    {% call paginationNav() %}
+      {% call paginationList() %}
+        {% call paginationListItem() %}
+          {{ paginationLink({ href: "?page=1", text: "Previous", direction: "previous" }) }}
+        {% endcall %}
+        {% call paginationListItem() %}{{ paginationLink({ href: "?page=1", text: "1" }) }}{% endcall %}
+        {% call paginationListItem() %}{{ paginationLink({ href: "?page=2", text: "2", current: true }) }}{% endcall %}
+        {% call paginationListItem() %}
+          {{ paginationLink({ href: "?page=3", text: "Next", direction: "next" }) }}
+        {% endcall %}
+      {% endcall %}
+    {% endcall %}
+#}
+{%- macro paginationNav(params) -%}
+{%- set p = params | default({}) -%}
+<nav
+  class="pagination-nav{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
+  {%- else %} aria-label="{{ p.label | default('Pagination') }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</nav>
+{%- endmacro -%}

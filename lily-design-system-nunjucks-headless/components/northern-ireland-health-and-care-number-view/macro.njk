@@ -1,0 +1,33 @@
+{#
+  NorthernIrelandHealthAndCareNumberView macro — a read-only display
+    of a Northern Ireland Health and Care (H&C) Number.
+
+  HTML tag: <span>
+  CSS class: northern-ireland-health-and-care-number-view
+  Formatting: when params.value reduces to exactly 10 digits, the
+    macro groups them as "XXX XXX XXXX".
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/northern-ireland-health-and-care-number-view/macro.njk" import northernIrelandHealthAndCareNumberView %}
+    {{ northernIrelandHealthAndCareNumberView({ value: "4857773456", label: "H&C number" }) }}
+#}
+{%- macro northernIrelandHealthAndCareNumberView(params) -%}
+{%- set raw = params.value | default("") -%}
+{%- set stripped = raw | replace(" ", "") | replace("-", "") -%}
+{%- set isTenDigits = (stripped | length) == 10 and stripped.match("^[0-9]{10}$") -%}
+<span
+  class="northern-ireland-health-and-care-number-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if isTenDigits -%}
+    {{ stripped.slice(0, 3) }} {{ stripped.slice(3, 6) }} {{ stripped.slice(6, 10) }}
+  {%- else -%}
+    {{ raw }}
+  {%- endif -%}
+</span>
+{%- endmacro -%}

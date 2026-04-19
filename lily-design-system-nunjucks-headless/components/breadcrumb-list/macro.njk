@@ -1,0 +1,29 @@
+{#
+  BreadcrumbList macro — an ordered list of breadcrumb navigation items.
+
+  HTML tag: <ol>
+  CSS class: breadcrumb-list
+  Accessibility: an ordered list expresses the hierarchical order of
+    ancestor pages to assistive tech.
+
+  Params:
+    id          string   Element id.
+    classes     string   Consumer-provided extra CSS classes.
+    attributes  object   Extra HTML attributes as key/value pairs.
+
+  Body content: BreadcrumbListItem children via caller().
+
+  Usage: see BreadcrumbNav.
+#}
+{%- macro breadcrumbList(params) -%}
+{%- set p = params | default({}) -%}
+<ol
+  class="breadcrumb-list{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</ol>
+{%- endmacro -%}

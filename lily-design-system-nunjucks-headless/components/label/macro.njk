@@ -1,0 +1,43 @@
+{#
+  Label macro — a label associated with a form input.
+
+  HTML tag: <label>
+  CSS class: label
+  Accessibility: <label for="..."> links the label to its input by id
+    so screen readers announce the label when the input is focused.
+
+  Params:
+    for         string   Id of the associated input. Strongly
+                         recommended unless the input is nested
+                         inside the label.
+    text        string   Plain text content (escaped).
+    html        string   Raw HTML content (rendered via `| safe`).
+    isPageHeading boolean If true, the label is also the page
+                         heading and is wrapped in an <h1>.
+    id          string   Element id.
+    classes     string   Consumer-provided extra CSS classes.
+    attributes  object   Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/label/macro.njk" import label %}
+    {{ label({ for: "name", text: "Full name" }) }}
+#}
+{%- macro label(params) -%}
+{%- if params.isPageHeading -%}
+<h1 class="label-heading">
+{%- endif -%}
+<label
+  class="label{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.for %} for="{{ params.for }}"{% endif %}
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</label>
+{%- if params.isPageHeading -%}
+</h1>
+{%- endif -%}
+{%- endmacro -%}

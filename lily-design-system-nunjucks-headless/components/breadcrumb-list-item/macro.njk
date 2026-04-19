@@ -1,0 +1,36 @@
+{#
+  BreadcrumbListItem macro — one breadcrumb navigation link in the trail.
+
+  HTML tag: <li>
+  CSS class: breadcrumb-list-item
+  Accessibility: when params.current is true, aria-current="page" is
+    set so screen readers announce the current page.
+
+  Params:
+    current     boolean  Whether this item represents the current
+                         page. Sets aria-current="page".
+    text        string   Plain text content (escaped). Commonly used
+                         only for the current item.
+    html        string   Raw HTML content (rendered via `| safe`).
+    id          string   Element id.
+    classes     string   Consumer-provided extra CSS classes.
+    attributes  object   Extra HTML attributes as key/value pairs.
+
+  Body content: typically a BreadcrumbLink, via caller().
+
+  Usage: see BreadcrumbNav.
+#}
+{%- macro breadcrumbListItem(params) -%}
+{%- set p = params | default({}) -%}
+<li
+  class="breadcrumb-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.current %} aria-current="page"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</li>
+{%- endmacro -%}

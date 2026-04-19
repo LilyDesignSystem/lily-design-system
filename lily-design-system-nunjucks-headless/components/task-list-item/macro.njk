@@ -1,0 +1,57 @@
+{#
+  TaskListItem macro — one task item with a link and a status.
+
+  HTML tag: <li>
+  CSS class: task-list-item
+  Data attribute: data-status on the root; one of
+    "completed" | "in-progress" | "not-started" |
+    "cannot-start-yet". Default "not-started".
+  Accessibility:
+    - When href is present, the title is rendered as a link whose
+      accessible description (via aria-describedby) points to the
+      inline status <strong>. Screen readers read the status with
+      the link name.
+    - When href is absent (e.g. cannot-start-yet), the title is
+      rendered as plain text.
+    - params.id is required when params.statusText is set so the
+      aria-describedby relationship has a stable target id.
+
+  Params:
+    title       string   The task title. Required.
+    href        string   Link target. Omit for non-clickable items.
+    status      string   "completed" | "in-progress" | "not-started"
+                         | "cannot-start-yet". Default "not-started".
+    statusText  string   The human-readable status label.
+    id          string   Element id. Required when statusText is set
+                         so the accessible aria-describedby target
+                         is stable.
+    classes     string   Consumer-provided extra CSS classes.
+    attributes  object   Extra HTML attributes as key/value pairs.
+
+  Usage: see TaskList.
+#}
+{%- macro taskListItem(params) -%}
+{%- set status = params.status | default("not-started") -%}
+{%- set statusId = (params.id ~ "-status") if params.id else "" -%}
+<li
+  class="task-list-item{% if params.classes %} {{ params.classes }}{% endif %}"
+  data-status="{{ status }}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <span class="task-list-item-title">
+    {%- if params.href -%}
+      <a href="{{ params.href }}"
+        {%- if params.statusText and statusId %} aria-describedby="{{ statusId }}"{% endif -%}
+      >{{ params.title }}</a>
+    {%- else -%}
+      {{ params.title }}
+    {%- endif -%}
+  </span>
+  {%- if params.statusText %}
+  <strong class="task-list-item-status" data-status="{{ status }}"
+    {%- if statusId %} id="{{ statusId }}"{% endif -%}
+  >{{ params.statusText }}</strong>
+  {%- endif %}
+</li>
+{%- endmacro -%}
