@@ -1,0 +1,38 @@
+{#
+  Kbd macro — show keyboard shortcuts and key combinations.
+
+  HTML tag: <kbd>
+  CSS class: kbd
+  Accessibility: the <kbd> element carries the semantic meaning of
+    "user input keyboard entry"; screen readers may announce it in
+    a shortcut context. Compose multiple keys inside a parent kbd
+    (e.g. a chord) or simply place them adjacent with "+" text.
+
+  Params:
+    text        string   Plain text content (escaped).
+    html        string   Raw HTML content (rendered via `| safe`).
+    label       string   Accessible name (aria-label) — use when
+                         the text symbol alone is ambiguous (e.g.
+                         "⌘" for "Command").
+    id          string
+    classes     string
+    attributes  object
+
+  Usage:
+    {% from "components/kbd/macro.njk" import kbd %}
+    Press {{ kbd({ text: "Esc", label: "Escape" }) }} to close.
+    Press {{ kbd({ text: "Ctrl" }) }}+{{ kbd({ text: "S" }) }} to save.
+#}
+{%- macro kbd(params) -%}
+<kbd
+  class="kbd{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</kbd>
+{%- endmacro -%}

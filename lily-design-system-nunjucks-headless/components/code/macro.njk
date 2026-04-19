@@ -1,0 +1,33 @@
+{#
+  Code macro — an inline code span for displaying short code
+    snippets within surrounding text.
+
+  HTML tag: <code>
+  CSS class: code
+  Accessibility: <code> carries semantic meaning of "computer
+    code"; useful for screen readers that support code navigation
+    shortcuts.
+
+  Params:
+    text        string   Plain text content (escaped).
+    html        string   Raw HTML content (rendered via `| safe`).
+    id          string
+    classes     string
+    attributes  object
+
+  Usage:
+    {% from "components/code/macro.njk" import code %}
+    Add {{ code({ text: "autocomplete=\"email\"" }) }} to the input.
+#}
+{%- macro code(params) -%}
+<code
+  class="code{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</code>
+{%- endmacro -%}
