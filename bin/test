@@ -59,23 +59,25 @@ test_implementations_that_use_our_preferred_javascript_typescript_vite_pnpm() {
     "$top/bin/list-implementations" | grep \(react-next-examples\|svelte-sveltekit-examples\|vue-nuxt-examples\) |
     while read -r implementation; do
         dir="$top/$implementation"
-        file_exists_or_err "$dir/package.json"
-        file_exists_or_err "$dir/pnpm-lock.yaml"
-        file_exists_or_err "$dir/tsconfig.json"
-        file_exists_or_err "$dir/vite.config.ts"
-        file_exists_or_err "$dir/vitest-setup.js"
+        file_not_empty_or_err "$dir/package.json"
+        file_not_empty_or_err "$dir/pnpm-lock.yaml"
+        file_not_empty_or_err "$dir/tsconfig.json"
+        file_not_empty_or_err "$dir/vite.config.ts"
+        file_not_empty_or_err "$dir/vitest-setup.js"
     done
 }
 
-test_implementations_that_use_sveltekit_examples() {
-    "$top/bin/list-implementations" | grep svelte-sveltekit-examples |
+test_implementations_svelte() {
+    "$top/bin/list-implementations" | grep svelte- |
     while read -r implementation; do
         "$top/bin/list-components-as-title-case" | 
         while read -r component; do
             dir="$top/$implementation/src/lib/components/$component"
-            file_exists_or_err "$dir/index.md"
-            file_exists_or_err "$dir/$component.svelte"
-            file_exists_or_err "$dir/$component.stories.svelte"
+            file_not_empty_or_err "$dir/index.md"
+            file_not_empty_or_err "$dir/$component.svelte"
+            file_not_empty_or_err "$dir/$component.stories.svelte"
+            file_not_empty_or_err "$dir/$component.test.ts"
+            rm -f "$dir/$component.md"
         done
     done
 }
@@ -86,8 +88,20 @@ test_implementation_nunjucks_headless() {
         "$top/bin/list-components-as-kebab-case" | 
         while read -r component; do
             dir="$top/$implementation/components/$component"
-            file_exists_or_err "$dir/macro.njk"
-            file_exists_or_err "$dir/macro.test.jsindex.md"
+            file_not_empty_or_err "$dir/macro.njk"
+            file_not_empty_or_err "$dir/macro.test.js"
+            file_not_empty_or_err "$dir/index.md"
+        done
+    done
+}
+
+test_implementation_nunjucks_example() {
+    "$top/bin/list-implementations" | grep nunjucks-example |
+    while read -r implementation; do
+        "$top/bin/list-components-as-kebab-case" | 
+        while read -r component; do
+            dir="$top/$implementation/components"
+            file_not_empty_or_err "$dir/$component.njk"
         done
     done
 }
@@ -96,4 +110,6 @@ test_repository
 test_components
 test_implementations
 test_implementations_that_use_our_preferred_javascript_typescript_vite_pnpm
-test_implementations_that_use_sveltekit_examples
+test_implementations_svelte
+test_implementation_nunjucks_headless
+test_implementation_nunjucks_example
