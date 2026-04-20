@@ -1,25 +1,30 @@
 # GanttTableCol
 
-A column definition within a GanttTable, rendered as a `<col>` element. Used inside a `<colgroup>` to define column properties such as span. Useful for styling entire columns of the Gantt grid (e.g. weekends, milestones, or specific time periods).
+A column header cell within a GanttTable, rendered as a `<th scope="col">` element. Intended to live inside a GanttTableRow within GanttTableHead, where it labels a time-period column.
 
 ## Props
 
-- `span`: number (optional) -- number of columns this `<col>` spans
-- `...restProps`: unknown -- additional attributes spread onto the `<col>`
+- `colspan`: number (optional) -- number of columns this header cell spans
+- `rowspan`: number (optional) -- number of rows this header cell spans
+- `scope`: `"col" | "row" | "colgroup" | "rowgroup"` (default `"col"`)
+- default slot -- header cell content
+- `...restProps`: unknown -- additional attributes spread onto the `<th>`
 
 ## Usage
 
-```svelte
+```vue
 <GanttTable label="Project timeline">
-  <colgroup>
-    <GanttTableCol />
-    <GanttTableCol span={5} />
-    <GanttTableCol />
-  </colgroup>
+  <GanttTableHead>
+    <GanttTableRow>
+      <GanttTableCol>Task</GanttTableCol>
+      <GanttTableCol>W1</GanttTableCol>
+      <GanttTableCol>W2</GanttTableCol>
+    </GanttTableRow>
+  </GanttTableHead>
   ...
 </GanttTable>
 ```
 
 ## References
 
-- HTML col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+- HTML th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th

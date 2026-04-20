@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-    // TabBar component
+    // TabGroup component
     //
     // A headless tab list container that provides the ARIA tablist role and
     // built-in keyboard navigation for tabbed interfaces. It manages arrow key
@@ -15,14 +15,14 @@
     //   ...restProps — additional HTML attributes spread onto the <div>.
     //
     // Syntax:
-    //   <TabBar label="Settings">...</TabBar>
+    //   <TabGroup label="Settings">...</TabGroup>
     //
     // Examples:
     //   <!-- Tab list with manual tab buttons -->
-    //   <TabBar label="Settings">
+    //   <TabGroup label="Settings">
     //     <button role="tab" aria-selected="true">General</button>
     //     <button role="tab" aria-selected="false">Advanced</button>
-    //   </TabBar>
+    //   </TabGroup>
     //
     // Keyboard:
     //   - ArrowRight: moves focus to the next tab (wraps to first)
@@ -95,9 +95,9 @@
 </script>
 
 <template>
-    <!-- TabBar.vue -->
+    <!-- TabGroup.vue -->
     <div
-        class="tab-bar"
+        class="tab-group"
         role="tablist"
         :aria-label="label"
         ref="tablistRef"

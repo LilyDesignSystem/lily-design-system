@@ -21,29 +21,25 @@ function pagesSnippet() {
 }
 
 describe("PaginationList", () => {
-    test("renders a navigation", () => {
-        render(Subject, { props: { label: "Pagination", children: pagesSnippet() } });
-        expect(screen.getByRole("navigation")).toBeTruthy();
+    test("renders an ordered list", () => {
+        render(Subject, { props: { children: pagesSnippet() } });
+        const list = screen.getByRole("list");
+        expect(list.tagName).toBe("OL");
     });
 
-    test("has aria-label", () => {
+    test("has aria-label when provided", () => {
         render(Subject, { props: { label: "Pages", children: pagesSnippet() } });
         expect(screen.getByLabelText("Pages")).toBeTruthy();
     });
 
-    test("contains a list", () => {
-        render(Subject, { props: { label: "Pagination", children: pagesSnippet() } });
-        expect(screen.getByRole("list")).toBeTruthy();
-    });
-
     test("renders children links", () => {
-        render(Subject, { props: { label: "Pagination", children: pagesSnippet() } });
+        render(Subject, { props: { children: pagesSnippet() } });
         expect(screen.getByText("1")).toBeTruthy();
         expect(screen.getByText("2")).toBeTruthy();
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "P", "data-testid": "pg", children: pagesSnippet() } });
+        render(Subject, { props: { "data-testid": "pg", children: pagesSnippet() } });
         expect(screen.getByTestId("pg")).toBeTruthy();
     });
 });

@@ -25,8 +25,8 @@ describe("ImageInput", () => {
     test("supports width and height", () => {
         render(Subject, { props: { src: "/test.png", alt: "Submit", width: 100, height: 40 } });
         const input = screen.getByRole("button", { name: "Submit" }) as HTMLInputElement;
-        expect(input.width).toBe(100);
-        expect(input.height).toBe(40);
+        expect(input.getAttribute("width")).toBe("100");
+        expect(input.getAttribute("height")).toBe("40");
     });
 
     test("supports disabled", () => {

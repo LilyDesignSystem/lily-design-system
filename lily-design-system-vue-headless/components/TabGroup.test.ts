@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/vue";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./TabBar.vue";
+import Subject from "./TabGroup.vue";
 
 
-describe("TabBar", () => {
+describe("TabGroup", () => {
   test("renders a tablist", () => {
     render(Subject, { props: { label: "Settings" }, slots: { default: "<button role='tab'>General</button><button role='tab'>Advanced</button>" } });
     expect(screen.getByRole("tablist")).toBeTruthy();

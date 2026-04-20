@@ -77,7 +77,7 @@
 <!-- CallToAction.svelte -->
 {#if href}
     <a
-        class={`call-to-action-link ${className}`}
+        class={`call-to-action ${className}`}
         {href}
         aria-label={label}
         {...restProps}
@@ -86,7 +86,7 @@
     </a>
 {:else}
     <button
-        class={`call-to-action-button ${className}`}
+        class={`call-to-action ${className}`}
         type="button"
         {disabled}
         aria-label={label}

@@ -220,7 +220,7 @@ Import the compound components, compose them with a `KanbanTableHead` for the wo
 - `KanbanTableBody` — the `<tbody>` section for task rows.
 - `KanbanTableFoot` — the `<tfoot>` section for totals or actions.
 - `KanbanTableRow` — a `<tr>` row within Head/Body/Foot.
-- `KanbanTableCol` — a `<col>` element inside `<colgroup>` for column sizing.
+- `KanbanTableCol` — a `<th scope="col">` column header cell inside `<thead><tr>`.
 - `KanbanTableData` — a `<td>` cell with `role="gridcell"` and roving tabindex.
 - `DataTable` — for displaying tabular data.
 - `GanttTable` — for schedule visualization.

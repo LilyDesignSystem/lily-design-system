@@ -1,33 +1,35 @@
 # Kanban Table Col
 
-KanbanTableCol is a headless component that renders a `<col>` element within a kanban board table column group. It applies column-level attributes and styling hooks for kanban status columns.
-
-Use this component within a KanbanTable to define column properties such as width or class for individual status columns.
+KanbanTableCol is a headless component that renders a `<th scope="col">` element — a column header cell — intended to live inside a KanbanTableRow within KanbanTableHead, where it labels a workflow stage column (e.g. "To do", "In progress", "Done").
 
 ## Implementation Notes
 
-- Renders a `<col>` element for column-level styling within a `<colgroup>`
-- Accepts `className` for CSS class targeting
-- Spreads `restProps` onto the `<col>` element for consumer customization
+- Renders a `<th>` element with `scope="col"` by default
+- Accepts optional `colspan` / `rowspan` for grouped header cells
+- Accepts an alternative `scope` (e.g. `"colgroup"` for grouped headers)
+- Renders header text via children
+- Spreads `restProps` onto the `<th>` element
 
 ## Props
 
-- `className`: string (default: `""`) -- CSS class name for the column
-- `...restProps`: unknown -- additional attributes spread onto the `<col>` element
+- `colspan`: number (optional) -- number of columns this header cell spans
+- `rowspan`: number (optional) -- number of rows this header cell spans
+- `scope`: `"col" | "row" | "colgroup" | "rowgroup"` (default: `"col"`) -- header scope
+- `children`: optional -- header cell content
+- `...restProps`: unknown -- additional attributes spread onto the `<th>` element
 
 ## Usage
 
-Column group defining three equal-width status columns:
+Three workflow stage column headers:
 
 ```html
 <KanbanTable label="Sprint board">
-    <colgroup>
-        <KanbanTableCol class="todo-column" />
-        <KanbanTableCol class="in-progress-column" />
-        <KanbanTableCol class="done-column" />
-    </colgroup>
     <KanbanTableHead>
-        ...
+        <KanbanTableRow>
+            <KanbanTableCol>To do</KanbanTableCol>
+            <KanbanTableCol>In progress</KanbanTableCol>
+            <KanbanTableCol>Done</KanbanTableCol>
+        </KanbanTableRow>
     </KanbanTableHead>
     <KanbanTableBody>
         ...
@@ -37,26 +39,26 @@ Column group defining three equal-width status columns:
 
 ## Keyboard Interactions
 
-None. Column elements are not interactive.
+None. Header cells are not interactive.
 
 ## ARIA
 
-No ARIA attributes. Column elements are structural, not semantic.
+`scope="col"` associates the header with its workflow column for assistive technologies. Use `scope="colgroup"` together with `colspan` for grouped column headers (e.g. "Active" spanning To-Do + In-Progress).
 
 ## When to Use
 
-- Use inside KanbanTable to define column-level properties such as width or class.
-- Use within a `<colgroup>` to apply consistent styling across status columns.
-- Use to set uniform widths for workflow stage columns.
+- For workflow stage column headers in a kanban board
+- For grouped header cells via `colspan` / `rowspan`
 
 ## When Not to Use
 
-- Do not use outside of a KanbanTable context -- use TableCol or DataTableCol for general tables.
-- Do not use for row-level content -- use KanbanTableRow and KanbanTableData instead.
+- Do not use outside KanbanTable -- use TableCol or DataTableCol for other table types
+- Do not use for task data cells -- use KanbanTableData
+- Do not use for column-wide styling hooks via `<colgroup>` / `<col>` -- write those directly inside KanbanTable
 
 ## Headless
 
-This headless component renders a `<col>` element. The consumer provides all visual styling including column widths and backgrounds.
+This headless component renders a `<th>` element. The consumer provides all visual styling.
 
 ## Styles
 
@@ -64,18 +66,20 @@ The consumer provides all CSS styling. The component renders with a `.kanban-tab
 
 ## Testing
 
-- Verify the component renders a `<col>` element
+- Verify the component renders a `<th>` element
+- Verify `scope="col"` is the default
+- Verify `colspan` / `rowspan` are applied when set
 - Verify pass-through attributes are applied
 
 ## Advice
 
-- **Designers**: Use column definitions to set consistent widths across status columns (e.g., To Do, In Progress, Done).
-- **Developers**: Place KanbanTableCol elements inside a `<colgroup>` within KanbanTable.
+- **Designers**: Use clear, short stage names (e.g. "To do", "In progress", "Done").
+- **Developers**: Place KanbanTableCol elements inside a KanbanTableRow within KanbanTableHead.
 
 ## Composition
 
-KanbanTableCol is a child of KanbanTable, following the Table pattern: KanbanTable > KanbanTableHead/KanbanTableBody/KanbanTableFoot > KanbanTableRow > KanbanTableData.
+KanbanTableCol is part of the KanbanTable composition pattern: KanbanTable > KanbanTableHead > KanbanTableRow > KanbanTableCol.
 
 ## References
 
-- MDN col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+- MDN th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th

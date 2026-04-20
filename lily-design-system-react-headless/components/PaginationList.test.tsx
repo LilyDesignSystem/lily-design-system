@@ -12,29 +12,25 @@ const pageItems = (
 );
 
 describe("PaginationList", () => {
-    test("renders a navigation", () => {
-        render(<Subject label="Pagination">{pageItems}</Subject>);
-        expect(screen.getByRole("navigation")).toBeTruthy();
+    test("renders an ordered list", () => {
+        render(<Subject>{pageItems}</Subject>);
+        const list = screen.getByRole("list");
+        expect(list.tagName).toBe("OL");
     });
 
-    test("has aria-label", () => {
+    test("has aria-label when provided", () => {
         render(<Subject label="Pages">{pageItems}</Subject>);
         expect(screen.getByLabelText("Pages")).toBeTruthy();
     });
 
-    test("contains a list", () => {
-        render(<Subject label="Pagination">{pageItems}</Subject>);
-        expect(screen.getByRole("list")).toBeTruthy();
-    });
-
     test("renders children links", () => {
-        render(<Subject label="Pagination">{pageItems}</Subject>);
+        render(<Subject>{pageItems}</Subject>);
         expect(screen.getByText("1")).toBeTruthy();
         expect(screen.getByText("2")).toBeTruthy();
     });
 
     test("passes through attributes", () => {
-        render(<Subject label="P" data-testid="pg">{pageItems}</Subject>);
+        render(<Subject data-testid="pg">{pageItems}</Subject>);
         expect(screen.getByTestId("pg")).toBeTruthy();
     });
 });

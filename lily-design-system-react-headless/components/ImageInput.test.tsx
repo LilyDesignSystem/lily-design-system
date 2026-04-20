@@ -25,13 +25,13 @@ describe("ImageInput", () => {
     test("supports width", () => {
         render(<Subject src="/test.png" alt="Submit" width={100} />);
         const input = screen.getByRole("button", { name: "Submit" }) as HTMLInputElement;
-        expect(input.width).toBe(100);
+        expect(input.getAttribute("width")).toBe("100");
     });
 
     test("supports height", () => {
         render(<Subject src="/test.png" alt="Submit" height={40} />);
         const input = screen.getByRole("button", { name: "Submit" }) as HTMLInputElement;
-        expect(input.height).toBe(40);
+        expect(input.getAttribute("height")).toBe("40");
     });
 
     test("supports disabled", () => {

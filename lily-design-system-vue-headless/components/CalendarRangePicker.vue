@@ -54,8 +54,9 @@
 </script>
 
 <template>
+    <!-- CalendarRangePicker.vue -->
     <div
-        class=""
+        class="calendar-range-picker"
         role="application"
         :aria-label="label"
     >

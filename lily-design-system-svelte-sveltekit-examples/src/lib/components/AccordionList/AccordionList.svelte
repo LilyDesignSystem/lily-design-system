@@ -10,6 +10,9 @@
     //   children — Snippet, required. AccordionListItem elements.
     //   ...restProps — additional HTML attributes spread onto the <div>.
     //
+    // Note: Renders a <div> (not <ol>) because AccordionListItem renders <details>,
+    // and <details> is not a valid child of <ol>/<ul>.
+    //
     // Syntax:
     //   <AccordionNav>
     //     <AccordionList>
@@ -61,11 +64,11 @@
 </script>
 
 <!-- AccordionList.svelte -->
-<ol
+<div
     class={`accordion-list ${className}`}
     role="group"
     aria-label={label || undefined}
     {...restProps}
 >
     {@render children()}
-</ol>
+</div>

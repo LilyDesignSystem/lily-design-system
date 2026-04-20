@@ -79,7 +79,8 @@
         [key: string]: unknown;
     } = $props();
 
-    const generatedId = `field-${Math.random().toString(36).slice(2, 9)}`;
+    const uid = $props.id();
+    const generatedId = `field-${uid}`;
     let fieldId = $derived(inputId ?? generatedId);
     let descId = $derived(`${fieldId}-desc`);
     let errorId = $derived(`${fieldId}-error`);

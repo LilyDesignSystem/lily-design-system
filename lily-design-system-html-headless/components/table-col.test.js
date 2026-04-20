@@ -8,16 +8,16 @@ describe('TableCol', function() {
     await browser.url('file://' + path.resolve(__dirname, 'table-col.html'));
   });
 
-  it('should render the div element with correct class', async function() {
-    const el = await $('div.table-col');
+  it('should render the th element with correct class', async function() {
+    const el = await $('th.table-col');
     await expect(el).toExist();
     const className = await el.getAttribute('class');
     expect(className).toContain('table-col');
   });
 
-  it('should have an aria-label attribute', async function() {
-    const el = await $('div.table-col');
-    const label = await el.getAttribute('aria-label');
-    expect(label).not.toBeNull();
+  it('should have scope="col"', async function() {
+    const el = await $('th.table-col');
+    const scope = await el.getAttribute('scope');
+    expect(scope).toBe('col');
   });
 });

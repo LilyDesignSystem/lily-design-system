@@ -5,9 +5,9 @@ import Subject from "./TreeNav.vue";
 
 
 describe("TreeNav", () => {
-  test("renders a tree", () => {
+  test("renders a navigation landmark", () => {
     render(Subject, { props: { label: "Nav" }, slots: { default: "<li role='treeitem' tabindex='-1'>Home</li><li role='treeitem' tabindex='-1'>About</li>" } });
-    expect(screen.getByRole("tree")).toBeTruthy();
+    expect(screen.getByRole("navigation")).toBeTruthy();
   });
 
   test("has aria-label", () => {

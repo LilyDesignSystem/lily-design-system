@@ -57,7 +57,7 @@
     } = $props();
 </script>
 
-<!-- ContentsListItem: a list item for use in a contents or navigation list -->
-<li {...restProps}>
+<!-- ContentsListItem.svelte -->
+<li class={`contents-list-item ${className}`} {...restProps}>
     {@render children()}
 </li>

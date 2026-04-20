@@ -51,6 +51,8 @@
     // References:
     //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
+    import { useId } from "vue";
+
     defineProps<{
         /** Button label / accessible name. */
         label: string;
@@ -58,7 +60,7 @@
 
     const expanded = defineModel<boolean>("expanded", { default: false });
 
-    const contentId = `expander-${Math.random().toString(36).slice(2, 9)}`;
+    const contentId = `expander-${useId()}`;
 
 </script>
 

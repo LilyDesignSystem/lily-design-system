@@ -50,7 +50,7 @@
     //   - ARIA Error Handling: https://www.w3.org/WAI/WCAG22/Techniques/aria/ARIA21
     //   - WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/
 
-    import { computed } from "vue";
+    import { computed, useId } from "vue";
 
     const props = withDefaults(defineProps<{
         /** Visible label for the date field. */
@@ -87,7 +87,7 @@
         `${inputId.value}-error`,
     );
 
-    const generatedId = `date-field-${Math.random().toString(36).slice(2, 9)}`;
+    const generatedId = `date-field-${useId()}`;
 
 </script>
 

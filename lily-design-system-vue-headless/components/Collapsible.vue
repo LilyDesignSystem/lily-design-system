@@ -54,11 +54,12 @@
 </script>
 
 <template>
+    <!-- Collapsible.vue -->
     <details
-        class="collapsable-details"
+        class="collapsible"
         :open="open"
     >
-        <summary class="collapsable-summary">{{ summary }}</summary>
+        <summary>{{ summary }}</summary>
         <slot />
     </details>
 </template>

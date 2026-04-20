@@ -1,24 +1,29 @@
 # DataTableCol
 
-A column definition within a DataTable, rendered as a `<col>` element. Used inside a `<colgroup>` to define column properties such as span. Useful for styling entire columns of the data table.
+A column header cell within a DataTable, rendered as a `<th scope="col">` element. Intended to live inside a DataTableRow within DataTableHead, where it labels a column.
 
 ## Props
 
-- `span`: number (optional) -- number of columns this `<col>` spans
-- `...restProps`: unknown -- additional attributes spread onto the `<col>`
+- `colspan`: number (optional) -- number of columns this header cell spans
+- `rowspan`: number (optional) -- number of rows this header cell spans
+- `scope`: `"col" | "row" | "colgroup" | "rowgroup"` (default `"col"`)
+- default slot -- header cell content
+- `...restProps`: unknown -- additional attributes spread onto the `<th>`
 
 ## Usage
 
-```svelte
+```vue
 <DataTable label="Users">
-  <colgroup>
-    <DataTableCol />
-    <DataTableCol span={3} />
-  </colgroup>
+  <DataTableHead>
+    <DataTableRow>
+      <DataTableCol>Name</DataTableCol>
+      <DataTableCol>Email</DataTableCol>
+    </DataTableRow>
+  </DataTableHead>
   ...
 </DataTable>
 ```
 
 ## References
 
-- HTML col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+- HTML th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th

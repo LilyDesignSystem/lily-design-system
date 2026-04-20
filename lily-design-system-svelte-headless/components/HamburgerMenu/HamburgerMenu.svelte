@@ -76,7 +76,8 @@
         [key: string]: unknown;
     } = $props();
 
-    const menuId = `hamburger-${Math.random().toString(36).slice(2, 9)}`;
+    const uid = $props.id();
+    const menuId = `hamburger-${uid}`;
 </script>
 
 <!-- HamburgerMenu.svelte -->
@@ -94,12 +95,11 @@
         {label}
     </button>
     {#if open}
-        <div
+        <nav
             id={menuId}
-            role="navigation"
             aria-label={label}
         >
             {@render children()}
-        </div>
+        </nav>
     {/if}
 </div>

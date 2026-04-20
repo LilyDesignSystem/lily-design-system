@@ -1,25 +1,30 @@
 # KanbanTableCol
 
-A Kanban table column definition, rendered as a `<col>` element. Used inside a `<colgroup>` to define column properties for each workflow stage.
+A column header cell within a KanbanTable, rendered as a `<th scope="col">` element. Intended to live inside a KanbanTableRow within KanbanTableHead, where it labels a workflow stage column.
 
 ## Props
 
-- `span`: number (optional) -- number of columns this col element spans
-- `...restProps`: unknown -- additional attributes spread onto the `<col>`
+- `colspan`: number (optional) -- number of columns this header cell spans
+- `rowspan`: number (optional) -- number of rows this header cell spans
+- `scope`: `"col" | "row" | "colgroup" | "rowgroup"` (default `"col"`)
+- default slot -- header cell content
+- `...restProps`: unknown -- additional attributes spread onto the `<th>`
 
 ## Usage
 
-```svelte
+```vue
 <KanbanTable label="Board">
-  <colgroup>
-    <KanbanTableCol span={1} />
-    <KanbanTableCol span={1} />
-    <KanbanTableCol span={1} />
-  </colgroup>
+  <KanbanTableHead>
+    <KanbanTableRow>
+      <KanbanTableCol>To do</KanbanTableCol>
+      <KanbanTableCol>In progress</KanbanTableCol>
+      <KanbanTableCol>Done</KanbanTableCol>
+    </KanbanTableRow>
+  </KanbanTableHead>
   ...
 </KanbanTable>
 ```
 
 ## References
 
-- HTML col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+- HTML th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th

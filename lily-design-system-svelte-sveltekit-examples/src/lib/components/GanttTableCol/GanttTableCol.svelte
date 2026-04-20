@@ -1,51 +1,69 @@
 <script lang="ts">
     // GanttTableCol component
     //
-    // A column definition within a GanttTable, rendered as a <col> element.
-    // Used inside a <colgroup> to define column properties such as span.
-    // Useful for styling entire columns of the Gantt grid (e.g. weekends,
-    // milestones, or specific time periods).
+    // A column header cell within a GanttTable, rendered as a <th> element.
+    // Used inside a <GanttTableRow> within <GanttTableHead> to label the time
+    // period columns of the Gantt grid (days, weeks, milestones, etc.).
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   span — number, optional. Number of columns this <col> spans.
-    //   ...restProps — additional HTML attributes spread onto the <col>.
+    //   colspan — number, optional. Number of columns this header cell spans.
+    //   rowspan — number, optional. Number of rows this header cell spans.
+    //   scope — "col" | "row" | "colgroup" | "rowgroup", default "col". Header scope.
+    //   children — Snippet, optional. Header cell content.
+    //   ...restProps — additional HTML attributes spread onto the <th>.
     //
     // Syntax:
-    //   <colgroup>
-    //     <GanttTableCol />
-    //     <GanttTableCol span={5} />
-    //     <GanttTableCol />
-    //   </colgroup>
+    //   <GanttTableHead>
+    //     <GanttTableRow>
+    //       <GanttTableCol>Week 1</GanttTableCol>
+    //       <GanttTableCol>Week 2</GanttTableCol>
+    //     </GanttTableRow>
+    //   </GanttTableHead>
     //
     // Keyboard:
-    //   None — <col> is not interactive.
+    //   None — <th> is not interactive.
     //
     // Accessibility:
-    //   - <col> provides structural column semantics for the table
+    //   - <th scope="col"> associates the header with its column for assistive tech
     //
     // Claude rules:
     //   - Headless: no CSS, no styles — consumer provides all styling
-    //   - Must be used inside a <colgroup> within a GanttTable
-    //   - No internal state — purely a structural element
+    //   - Must be used inside a <tr> within a GanttTable
+    //   - All header text is provided by the consumer via children
     //
     // References:
-    //   - HTML col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+    //   - HTML th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th
+
+    import type { Snippet } from "svelte";
 
     let {
         class: className = "",
-        span,
+        colspan,
+        rowspan,
+        scope = "col",
+        children,
         ...restProps
     }: {
-        /** Number of columns this col spans. */
-        span?: number;
+        /** Number of columns this header cell spans. */
+        colspan?: number;
+        /** Number of rows this header cell spans. */
+        rowspan?: number;
+        /** Header scope. */
+        scope?: "col" | "row" | "colgroup" | "rowgroup";
+        /** Header cell content. */
+        children?: Snippet;
         [key: string]: unknown;
     } = $props();
 </script>
 
 <!-- GanttTableCol.svelte -->
-<col
+<th
     class={`gantt-table-col ${className}`}
-    span={span || undefined}
+    {scope}
+    colspan={colspan || undefined}
+    rowspan={rowspan || undefined}
     {...restProps}
-/>
+>
+    {#if children}{@render children()}{/if}
+</th>

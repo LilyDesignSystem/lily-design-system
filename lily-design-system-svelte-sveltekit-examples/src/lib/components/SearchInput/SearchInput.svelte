@@ -67,7 +67,7 @@
 
 <!-- SearchInput.svelte -->
 <input
-    class={`search ${className}`}
+    class={`search-input ${className}`}
     type="search"
     aria-label={label}
     bind:value

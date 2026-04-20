@@ -2,19 +2,21 @@
 <!-- Footnote component -->
 <!--
   Description: a footnote reference and content element
-  HTML tag: <span>
+  HTML tag: <aside>
   CSS class: footnote
   Keyboard: None (passive element)
-  Accessibility: aria-label for accessible name
+  Accessibility: role="note" + aria-label; id used for in-page linking
   Usage:
-    <span class="footnote" aria-label="Example">
+    <aside class="footnote" id="fn1" role="note" aria-label="Example">
       ...
-    </span>
+    </aside>
 -->
 
-<span
+<aside
   class="footnote"
+  id=""
+  role="note"
   aria-label=""
 >
-  <!-- Consumer provides text content -->
-</span>
+  <!-- Consumer provides footnote content -->
+</aside>

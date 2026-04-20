@@ -62,6 +62,8 @@
     //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
     //   - WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
 
+    import { useId } from "vue";
+
     withDefaults(defineProps<{
         label?: string;
     }>(), {
@@ -70,7 +72,7 @@
 
     const open = defineModel<boolean>("open", { default: false });
 
-    const menuId = `hamburger-${Math.random().toString(36).slice(2, 9)}`;
+    const menuId = `hamburger-${useId()}`;
 
 </script>
 
@@ -88,12 +90,11 @@
         >
             {{ label }}
         </button>
-                <div v-if="open"
+                <nav v-if="open"
                 :id="menuId"
-                role="navigation"
                 :aria-label="label"
             >
                 <slot />
-            </div>
+            </nav>
     </div>
 </template>

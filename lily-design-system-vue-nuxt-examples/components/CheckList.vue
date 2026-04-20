@@ -56,6 +56,7 @@
 <template>
     <!-- CheckList.vue -->
     <ol
+        class="check-list"
         role="list"
         :aria-label="label"
     >

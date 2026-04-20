@@ -48,7 +48,7 @@
 //   - ARIA Error Handling: https://www.w3.org/WAI/WCAG22/Techniques/aria/ARIA21
 //   - WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/
 
-import React from "react";
+import React, { useId } from "react";
 
 export interface DateFieldProps {
     className?: string;
@@ -83,7 +83,7 @@ export default function DateField({
     onChange,
     ...restProps
 }: DateFieldProps) {
-    const generatedId = `date-field-${Math.random().toString(36).slice(2, 9)}`;
+    const generatedId = `date-field-${useId()}`;
     const inputId = id ?? generatedId;
     const descriptionId = `${inputId}-desc`;
     const errorId = `${inputId}-error`;

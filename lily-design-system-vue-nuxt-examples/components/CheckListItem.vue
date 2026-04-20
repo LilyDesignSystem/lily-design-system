@@ -56,7 +56,7 @@
 
 <template>
     <!-- CheckListItem.vue -->
-    <li>
+    <li class="check-list-item">
         <label>
             <input
                 type="checkbox"

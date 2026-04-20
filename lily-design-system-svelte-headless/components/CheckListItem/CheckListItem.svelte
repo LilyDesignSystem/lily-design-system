@@ -61,7 +61,7 @@
 </script>
 
 <!-- CheckListItem.svelte -->
-<li {...restProps}>
+<li class={`check-list-item ${className}`} {...restProps}>
     <label>
         <input
             type="checkbox"

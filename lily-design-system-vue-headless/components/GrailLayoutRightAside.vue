@@ -11,7 +11,7 @@
 
 <template>
     <!-- GrailLayoutRightAside.vue -->
-    <div class="grail-layout-right-aside">
+    <aside class="grail-layout-right-aside">
         <slot />
-    </div>
+    </aside>
 </template>

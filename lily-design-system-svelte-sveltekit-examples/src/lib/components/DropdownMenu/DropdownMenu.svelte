@@ -137,7 +137,7 @@
 
 <!-- DropdownMenu.svelte -->
 <div
-    class={`do-list-item ${className}`}
+    class={`dropdown-menu ${className}`}
     {...restProps}
 >
     <button

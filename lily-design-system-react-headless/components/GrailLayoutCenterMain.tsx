@@ -41,11 +41,11 @@ export default function GrailLayoutCenterMain({
     ...restProps
 }: GrailLayoutCenterMainProps) {
     return (
-        <div
+        <main
         className={`grail-layout-center-main ${className}`}
         {...restProps}
         >
         {children}
-        </div>
+        </main>
     );
 }

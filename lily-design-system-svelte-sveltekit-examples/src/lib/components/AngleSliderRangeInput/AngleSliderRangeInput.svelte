@@ -104,7 +104,7 @@
 
 <!-- AngleSliderRangeInput.svelte -->
 <input
-    class={`angle-slider-rang-input ${className}`}
+    class={`angle-slider-range-input ${className}`}
     type="range"
     bind:value
     {min}

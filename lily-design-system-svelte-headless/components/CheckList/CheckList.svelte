@@ -60,6 +60,7 @@
 
 <!-- CheckList.svelte -->
 <ol
+    class={`check-list ${className}`}
     role="list"
     aria-label={label}
     {...restProps}

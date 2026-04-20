@@ -9,19 +9,19 @@
 // Props:
 //   className — string, optional. CSS class name.
 //   label — string, required. The tooltip text content.
-//   visible — boolean, default false. Bindable boolean controlling visibility.
+//   visible — boolean, default false. Controls visibility; consumer manages via trigger events.
 //   id — string, default undefined. Optional id for aria-describedby linking to trigger element.
 //   ...restProps — additional HTML attributes spread onto the tooltip <div>.
 //
 // Syntax:
-//   <Tooltip id="tip" label="Additional info" visible={showTip} onChange={setShowTip} />
+//   <Tooltip id="tip" label="Additional info" visible={showTip} />
 //
 // Examples:
 //
 //   <button aria-describedby="tip"
 //     onMouseEnter={() => setShowTip(true)}
 //     onMouseLeave={() => setShowTip(false)}>Hover me</button>
-//   <Tooltip id="tip" label="Additional info" visible={showTip} onChange={setShowTip} />
+//   <Tooltip id="tip" label="Additional info" visible={showTip} />
 //
 // Keyboard:
 //   - Escape: consumer should hide the tooltip (not built into the component)
@@ -51,12 +51,10 @@ export interface TooltipProps {
     className?: string;
     /** Tooltip text content. */
     label: string;
-    /** Whether the tooltip is visible. Bindable. */
+    /** Whether the tooltip is visible. Consumer controls via trigger events. */
     visible?: boolean;
     /** Optional id for aria-describedby linking. */
     id?: string;
-    /** Callback when visible changes. */
-    onChange?: (value: boolean) => void;
     [key: string]: unknown;
 }
 
@@ -65,7 +63,6 @@ export default function Tooltip({
     label,
     visible = false,
     id = undefined,
-    onChange,
     ...restProps
 }: TooltipProps) {
     return (

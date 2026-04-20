@@ -64,13 +64,13 @@ export default function DoList({
     ...restProps
 }: DoListProps) {
     return (
-        <ol
+        <ul
         className={`do-list ${className}`}
         role="list"
         aria-label={label}
         {...restProps}
         >
         {children}
-        </ol>
+        </ul>
     );
 }

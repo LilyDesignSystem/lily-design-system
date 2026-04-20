@@ -70,7 +70,7 @@ export default function Card({
 
     return (
         <article
-            className={`card-artciel-to-action-button ${className}`}
+            className={`card ${className}`}
             aria-label={label}
             {...restProps}
         >

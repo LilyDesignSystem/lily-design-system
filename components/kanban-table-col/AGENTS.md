@@ -16,14 +16,24 @@
 
 ## Key Behaviors
 
-- Renders a `<col>` element for column-level styling within a `<colgroup>`
-- Accepts `className` for CSS class targeting
-- Spreads `restProps` onto the `<col>` element for consumer customization
+- Renders a `<th>` element with `scope="col"` by default
+- Intended to live inside a KanbanTableRow within KanbanTableHead, where it labels a workflow stage column
+- Accepts optional `colspan` / `rowspan` for grouped header cells
+- Accepts an alternative `scope` (e.g. `"colgroup"` for grouped headers)
+- Renders header text via children
+- Spreads `restProps` onto the `<th>` element
+
+## ARIA
+
+- `scope="col"` associates the header with its workflow column for assistive technologies
 
 ## Props
 
-- `className`: string (default: `""`) -- CSS class name for the column
-- `...restProps`: unknown -- additional attributes spread onto the `<col>` element
+- `colspan`: number (optional) -- number of columns this header cell spans
+- `rowspan`: number (optional) -- number of rows this header cell spans
+- `scope`: `"col" | "row" | "colgroup" | "rowgroup"` (default: `"col"`) -- header scope
+- `children`: optional -- header cell content
+- `...restProps`: unknown -- additional attributes spread onto the `<th>` element
 
 ## Acceptance Criteria
 
@@ -36,4 +46,4 @@
 - Documentation: index.md
 - CSS class: .kanban-table-col in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/kanban-table-col.html
-- MDN col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+- MDN th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th

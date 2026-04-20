@@ -68,7 +68,8 @@
         [key: string]: unknown;
     } = $props();
 
-    const contentId = `expander-${Math.random().toString(36).slice(2, 9)}`;
+    const uid = $props.id();
+    const contentId = `expander-${uid}`;
 </script>
 
 <div

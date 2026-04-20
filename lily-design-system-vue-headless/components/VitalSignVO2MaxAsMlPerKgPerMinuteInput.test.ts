@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/vue";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./VitalSignVO2MaxAsMlPerKgPerMinuteInput.vue";
+import Subject from "./VitalSignVo2MaxAsMlPerKgPerMinuteInput.vue";
 
-describe("VitalSignVO2MaxAsMlPerKgPerMinuteInput", () => {
+describe("VitalSignVo2MaxAsMlPerKgPerMinuteInput", () => {
     test("renders a number input", () => {
         render(Subject, { props: { label: "VO2 max" } });
         expect((screen.getByLabelText("VO2 max") as HTMLInputElement).type).toBe("number");

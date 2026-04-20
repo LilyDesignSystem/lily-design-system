@@ -4,14 +4,14 @@ import { describe, expect, test } from "vitest";
 import Subject from "./TreeNav";
 
 describe("TreeNav", () => {
-  test("renders a tree", () => {
+  test("renders a navigation landmark", () => {
     render(
       <Subject label="Nav">
         <li role="treeitem" tabIndex={-1}>Home</li>
         <li role="treeitem" tabIndex={-1}>About</li>
       </Subject>
     );
-    expect(screen.getByRole("tree")).toBeTruthy();
+    expect(screen.getByRole("navigation")).toBeTruthy();
   });
 
   test("has aria-label", () => {

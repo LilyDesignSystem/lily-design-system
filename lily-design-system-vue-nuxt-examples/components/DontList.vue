@@ -59,11 +59,11 @@
 
 <template>
     <!-- DontList.vue -->
-    <ol
+    <ul
         class="dont-list"
         role="list"
         :aria-label="label"
     >
         <slot />
-    </ol>
+    </ul>
 </template>

@@ -3,4 +3,4 @@ set -euf
 
 top="$(git rev-parse --show-toplevel)"
 
-awk -F\t '{print $1}' "$top/components.csv"
+awk -F'\t' '{print $1}' "$top/components.tsv"

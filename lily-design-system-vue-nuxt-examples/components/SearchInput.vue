@@ -65,7 +65,7 @@
 <template>
     <!-- SearchInput.vue -->
     <input
-        class="search"
+        class="search-input"
         type="search"
         :aria-label="label"
         v-model="modelValue"

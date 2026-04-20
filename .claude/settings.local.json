@@ -91,7 +91,11 @@
       "Bash(pnpm install *)",
       "Bash(pnpm test *)",
       "Bash([ -d \"/Users/jph/git/lilydesignsystem/lily-design-system/components/$comp\" ])",
-      "Bash(pnpm build *)"
+      "Bash(pnpm build *)",
+      "Bash(python3 /tmp/gen_final_45.py)",
+      "Bash(python3 *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }

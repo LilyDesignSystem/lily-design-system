@@ -12,7 +12,7 @@
 
 <template>
     <!-- GrailLayoutBottomFooter.vue -->
-    <div class="grail-layout-bottom-footer">
+    <footer class="grail-layout-bottom-footer">
         <slot />
-    </div>
+    </footer>
 </template>

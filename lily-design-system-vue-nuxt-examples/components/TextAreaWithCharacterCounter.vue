@@ -37,7 +37,7 @@
     // Claude rules:
     //   - Headless: no CSS, no styles — consumer provides all styling
 
-    import { computed } from "vue";
+    import { computed, useId } from "vue";
 
     const props = withDefaults(defineProps<{
         label: string;
@@ -57,7 +57,7 @@
 
     const modelValue = defineModel<string>({ default: "" });
 
-    const counterId = `counter-${Math.random().toString(36).slice(2, 9)}`;
+    const counterId = `counter-${useId()}`;
 
     const counterText = computed(() =>
         props.counterTemplate

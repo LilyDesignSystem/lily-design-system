@@ -57,7 +57,7 @@
 <template>
     <!-- Footnote.vue -->
     <aside
-        class="aside"
+        class="footnote"
         :id="id"
         role="note"
         :aria-label="id"

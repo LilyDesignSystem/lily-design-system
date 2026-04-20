@@ -48,7 +48,17 @@
       "Read(//tmp/**)",
       "Bash(split -l 32 /tmp/components.txt /tmp/batch-)",
       "Bash([ -f \"$d/index.md\" ])",
-      "Bash(pnpm test *)"
+      "Bash(pnpm test *)",
+      "Bash([ -f \"$SRC/$c/$c.svelte\" ])",
+      "Bash([ -d \"$DST/$c\" ])",
+      "Bash(cp /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-svelte-headless/components/__TRACKED_VAR__/__TRACKED_VAR__.svelte /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-svelte-sveltekit-examples/src/lib/components/__TRACKED_VAR__/__TRACKED_VAR__.svelte)",
+      "Bash([ -f \"$SRC/$c.vue\" ])",
+      "Bash([ -f \"$DST/$c.vue\" ])",
+      "Bash(cp /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-vue-headless/components/__TRACKED_VAR__.vue /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-vue-nuxt-examples/components/__TRACKED_VAR__.vue)",
+      "Bash([ -f \"$SRC/$c.test.ts\" ])",
+      "Bash([ -f \"$DST/$c.test.ts\" ])",
+      "Bash(cp /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-vue-headless/components/__TRACKED_VAR__.test.ts /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-vue-nuxt-examples/tests/components/__TRACKED_VAR__.test.ts)",
+      "Bash(python3)"
     ]
   }
 }

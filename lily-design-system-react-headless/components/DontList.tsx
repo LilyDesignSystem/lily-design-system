@@ -64,13 +64,13 @@ export default function DontList({
     ...restProps
 }: DontListProps) {
     return (
-        <ol
+        <ul
         className={`dont-list ${className}`}
         role="list"
         aria-label={label}
         {...restProps}
         >
         {children}
-        </ol>
+        </ul>
     );
 }

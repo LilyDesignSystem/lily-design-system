@@ -1,54 +1,71 @@
 // CalendarTableCol component
 //
-// A column definition within a CalendarTable, rendered as a <col> element.
-// Used inside a <colgroup> to define column properties such as span.
-// Useful for styling entire columns of the calendar grid (e.g. weekends).
+// A column header cell within a CalendarTable, rendered as a <th> element.
+// Used inside a <CalendarTableRow> within <CalendarTableHead> to label the
+// columns of the calendar grid (e.g. day-of-week labels).
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   span — number, optional. Number of columns this <col> spans.
-//   ...restProps — additional HTML attributes spread onto the <col>.
+//   colSpan — number, optional. Number of columns this header cell spans.
+//   rowSpan — number, optional. Number of rows this header cell spans.
+//   scope — "col" | "row" | "colgroup" | "rowgroup", default "col". Header scope.
+//   children — ReactNode, optional. Header cell content.
+//   ...restProps — additional HTML attributes spread onto the <th>.
 //
 // Syntax:
-//   <colgroup>
-//     <CalendarTableCol />
-//     <CalendarTableCol span={5} />
-//     <CalendarTableCol />
-//   </colgroup>
+//   <CalendarTableHead>
+//     <CalendarTableRow>
+//       <CalendarTableCol>Mon</CalendarTableCol>
+//       <CalendarTableCol>Tue</CalendarTableCol>
+//     </CalendarTableRow>
+//   </CalendarTableHead>
 //
 // Keyboard:
-//   None — <col> is not interactive.
+//   None — <th> is not interactive.
 //
 // Accessibility:
-//   - <col> provides structural column semantics for the table
+//   - <th scope="col"> associates the header with its column for assistive tech
 //
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
-//   - Must be used inside a <colgroup> within a CalendarTable
-//   - No internal state — purely a structural element
+//   - Must be used inside a <tr> within a CalendarTable
+//   - All header text is provided by the consumer via children
 //
 // References:
-//   - HTML col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+//   - HTML th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th
 
 import React from "react";
 
 export interface CalendarTableColProps {
     className?: string;
-    /** Number of columns this col spans. */
-    span?: number;
+    /** Number of columns this header cell spans. */
+    colSpan?: number;
+    /** Number of rows this header cell spans. */
+    rowSpan?: number;
+    /** Header scope. */
+    scope?: "col" | "row" | "colgroup" | "rowgroup";
+    /** Header cell content. */
+    children?: React.ReactNode;
     [key: string]: unknown;
 }
 
 export default function CalendarTableCol({
     className = "",
-    span,
+    colSpan,
+    rowSpan,
+    scope = "col",
+    children,
     ...restProps
 }: CalendarTableColProps) {
     return (
-        <col
+        <th
         className={`calendar-table-col ${className}`}
-        span={span || undefined}
+        scope={scope}
+        colSpan={colSpan || undefined}
+        rowSpan={rowSpan || undefined}
         {...restProps}
-        />
+        >
+        {children}
+        </th>
     );
 }

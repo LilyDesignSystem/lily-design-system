@@ -1,20 +1,22 @@
 <!-- table-col.html -->
 <!-- TableCol component -->
 <!--
-  Description: a table column header
-  HTML tag: <div>
+  Description: a table column header cell
+  HTML tag: <th>
   CSS class: table-col
   Keyboard: None (passive element)
-  Accessibility: aria-label for accessible name
+  Accessibility: scope="col" associates the header with its column
   Usage:
-    <div class="table-col" aria-label="Example">
-      ...
-    </div>
+    <thead>
+      <tr>
+        <th class="table-col" scope="col">Name</th>
+      </tr>
+    </thead>
 -->
 
-<div
+<th
   class="table-col"
-  aria-label=""
+  scope="col"
 >
-  <!-- Consumer provides content -->
-</div>
+  <!-- Consumer provides header text -->
+</th>

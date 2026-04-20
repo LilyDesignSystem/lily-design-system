@@ -5,29 +5,25 @@ import Subject from "./PaginationList.vue";
 
 
 describe("PaginationList", () => {
-    test("renders a navigation", () => {
-        render(Subject, { props: { label: "Pagination" }, slots: { default: "<a>1</a><a>2</a>" } });
-        expect(screen.getByRole("navigation")).toBeTruthy();
+    test("renders an ordered list", () => {
+        render(Subject, { slots: { default: "<a>1</a><a>2</a>" } });
+        const list = screen.getByRole("list");
+        expect(list.tagName).toBe("OL");
     });
 
-    test("has aria-label", () => {
+    test("has aria-label when provided", () => {
         render(Subject, { props: { label: "Pages" }, slots: { default: "<a>1</a><a>2</a>" } });
         expect(screen.getByLabelText("Pages")).toBeTruthy();
     });
 
-    test("contains a list", () => {
-        render(Subject, { props: { label: "Pagination" }, slots: { default: "<a>1</a><a>2</a>" } });
-        expect(screen.getByRole("list")).toBeTruthy();
-    });
-
     test("renders children links", () => {
-        render(Subject, { props: { label: "Pagination" }, slots: { default: "<a>1</a><a>2</a>" } });
+        render(Subject, { slots: { default: "<a>1</a><a>2</a>" } });
         expect(screen.getByText("1")).toBeTruthy();
         expect(screen.getByText("2")).toBeTruthy();
     });
 
     test("passes through attributes", () => {
-        render(Subject, { props: { label: "P", "data-testid": "pg" }, slots: { default: "<a>1</a><a>2</a>" } });
+        render(Subject, { props: { "data-testid": "pg" }, slots: { default: "<a>1</a><a>2</a>" } });
         expect(screen.getByTestId("pg")).toBeTruthy();
     });
 });

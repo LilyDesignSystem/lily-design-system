@@ -61,13 +61,13 @@ export default function AccordionList({
     ...restProps
 }: AccordionListProps) {
     return (
-        <ol
+        <div
         className={`accordion-list ${className}`}
         role="group"
         aria-label={label || undefined}
         {...restProps}
         >
         {children}
-        </ol>
+        </div>
     );
 }

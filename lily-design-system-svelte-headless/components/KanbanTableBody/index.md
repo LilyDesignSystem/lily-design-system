@@ -178,4 +178,4 @@ Place `KanbanTableBody` inside a `KanbanTable` and nest `KanbanTableRow` childre
 - `KanbanTableFoot` — the `<tfoot>` section for summary cells.
 - `KanbanTableRow` — a `<tr>` row inside body/head/foot.
 - `KanbanTableData` — a `<td role="gridcell">` data cell.
-- `KanbanTableCol` — a `<col>` element inside `<colgroup>` for column sizing.
+- `KanbanTableCol` — a `<th scope="col">` column header cell inside `<thead><tr>`.

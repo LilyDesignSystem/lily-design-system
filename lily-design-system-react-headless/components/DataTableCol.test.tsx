@@ -3,39 +3,43 @@ import { render } from "@testing-library/react";
 
 import Subject from "./DataTableCol";
 
-function renderInColgroup(props: Record<string, unknown> = {}) {
+function renderInRow(props: Record<string, unknown> = {}) {
     return render(
         <table>
-            <colgroup>
-                <Subject {...props} />
-            </colgroup>
+            <thead><tr><Subject {...props} /></tr></thead>
             <tbody><tr><td>cell</td></tr></tbody>
         </table>
     );
 }
 
 describe("DataTableCol", () => {
-    test("renders a col element", () => {
-        renderInColgroup();
-        const col = document.querySelector("col");
-        expect(col).toBeTruthy();
+    test("renders a th element", () => {
+        renderInRow();
+        const th = document.querySelector("th");
+        expect(th).toBeTruthy();
     });
 
-    test("supports span attribute", () => {
-        renderInColgroup({ span: 3 });
-        const col = document.querySelector("col");
-        expect(col?.getAttribute("span")).toBe("3");
+    test("defaults scope to col", () => {
+        renderInRow();
+        const th = document.querySelector("th");
+        expect(th?.getAttribute("scope")).toBe("col");
     });
 
-    test("has no span by default", () => {
-        renderInColgroup();
-        const col = document.querySelector("col");
-        expect(col?.getAttribute("span")).toBeNull();
+    test("supports colSpan attribute", () => {
+        renderInRow({ colSpan: 3 });
+        const th = document.querySelector("th");
+        expect(th?.getAttribute("colspan")).toBe("3");
+    });
+
+    test("has no colspan by default", () => {
+        renderInRow();
+        const th = document.querySelector("th");
+        expect(th?.getAttribute("colspan")).toBeNull();
     });
 
     test("passes through attributes", () => {
-        renderInColgroup({ "data-testid": "col" });
-        const col = document.querySelector("col");
-        expect(col?.getAttribute("data-testid")).toBe("col");
+        renderInRow({ "data-testid": "th" });
+        const th = document.querySelector("th");
+        expect(th?.getAttribute("data-testid")).toBe("th");
     });
 });

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-    // VitalSignVO2MaxAsMlPerKgPerMinuteInput component
+    // VitalSignVo2MaxAsMlPerKgPerMinuteInput component
     //
     // A headless numeric input for entering a VO2 max value in ml/kg/min.
     // Wraps a native <input type="number"> element with accessible labelling
@@ -19,14 +19,14 @@
     //   ...restProps — additional HTML attributes spread onto the <input>.
     //
     // Syntax:
-    //   <VitalSignVO2MaxAsMlPerKgPerMinuteInput label="VO2 max" v-model />
+    //   <VitalSignVo2MaxAsMlPerKgPerMinuteInput label="VO2 max" v-model />
     //
     // Examples:
     //   <!-- VO2 max input with defaults -->
-    //   <VitalSignVO2MaxAsMlPerKgPerMinuteInput label="VO2 max (ml/kg/min)" v-model />
+    //   <VitalSignVo2MaxAsMlPerKgPerMinuteInput label="VO2 max (ml/kg/min)" v-model />
     //
     //   <!-- Required VO2 max input -->
-    //   <VitalSignVO2MaxAsMlPerKgPerMinuteInput label="VO2 max" v-model required />
+    //   <VitalSignVo2MaxAsMlPerKgPerMinuteInput label="VO2 max" v-model required />
     //
     // Keyboard:
     //   - Up Arrow: increment value by step (native browser behavior)
@@ -70,7 +70,7 @@
 </script>
 
 <template>
-    <!-- VitalSignVO2MaxAsMlPerKgPerMinuteInput.vue -->
+    <!-- VitalSignVo2MaxAsMlPerKgPerMinuteInput.vue -->
     <input
         class="vital-sign-vo2-max-as-ml-per-kg-per-minute-input"
         type="number"

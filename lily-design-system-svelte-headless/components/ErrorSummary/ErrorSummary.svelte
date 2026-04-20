@@ -72,7 +72,8 @@
         [key: string]: unknown;
     } = $props();
 
-    const titleId = `error-summary-${Math.random().toString(36).slice(2, 9)}`;
+    const uid = $props.id();
+    const titleId = `error-summary-${uid}`;
 </script>
 
 <div

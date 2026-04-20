@@ -6,8 +6,11 @@
   CSS class: alert-dialog
   Keyboard: Tab to cycle focus within dialog, Escape to close
   Accessibility: role="alertdialog", Implicit dialog role, aria-label for accessible name, aria-modal for modal behavior
+  Note: when rendering multiple instances on the same page, give each <dialog>
+        a unique id (and unique ids on the inner title/description elements
+        if you reference them with aria-labelledby/aria-describedby).
   Usage:
-    <dialog class="alert-dialog" role="alertdialog" aria-label="Example">
+    <dialog id="alert-dialog-1" class="alert-dialog" role="alertdialog" aria-label="Example">
       ...
     </dialog>
 -->

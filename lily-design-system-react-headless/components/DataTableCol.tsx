@@ -1,53 +1,56 @@
 // DataTableCol component
 //
-// A column definition within a DataTable, rendered as a <col> element.
-// Used inside a <colgroup> to define column properties such as span.
-// Useful for styling entire columns of the data table.
+// A column header cell within a DataTable, rendered as a <th> element.
+// Used inside a <DataTableRow> within <DataTableHead> to label the columns
+// of the data table.
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   span — number, optional. Number of columns this <col> spans.
-//   ...restProps — additional HTML attributes spread onto the <col>.
-//
-// Syntax:
-//   <colgroup>
-//     <DataTableCol />
-//     <DataTableCol span={3} />
-//   </colgroup>
-//
-// Keyboard:
-//   None — <col> is not interactive.
-//
-// Accessibility:
-//   - <col> provides structural column semantics for the table
+//   colSpan — number, optional. Number of columns this header cell spans.
+//   rowSpan — number, optional. Number of rows this header cell spans.
+//   scope — "col" | "row" | "colgroup" | "rowgroup", default "col". Header scope.
+//   children — ReactNode, optional. Header cell content.
+//   ...restProps — additional HTML attributes spread onto the <th>.
 //
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
-//   - Must be used inside a <colgroup> within a DataTable
-//   - No internal state — purely a structural element
+//   - Must be used inside a <tr> within a DataTable
 //
 // References:
-//   - HTML col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+//   - HTML th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th
 
 import React from "react";
 
 export interface DataTableColProps {
     className?: string;
-    /** Number of columns this col spans. */
-    span?: number;
+    /** Number of columns this header cell spans. */
+    colSpan?: number;
+    /** Number of rows this header cell spans. */
+    rowSpan?: number;
+    /** Header scope. */
+    scope?: "col" | "row" | "colgroup" | "rowgroup";
+    /** Header cell content. */
+    children?: React.ReactNode;
     [key: string]: unknown;
 }
 
 export default function DataTableCol({
     className = "",
-    span,
+    colSpan,
+    rowSpan,
+    scope = "col",
+    children,
     ...restProps
 }: DataTableColProps) {
     return (
-        <col
+        <th
         className={`data-table-col ${className}`}
-        span={span || undefined}
+        scope={scope}
+        colSpan={colSpan || undefined}
+        rowSpan={rowSpan || undefined}
         {...restProps}
-        />
+        >
+        {children}
+        </th>
     );
 }

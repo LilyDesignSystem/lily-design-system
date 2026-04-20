@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./VitalSignVO2MaxMlPerKgPerMinuteInput";
+import Subject from "./VitalSignVo2MaxAsMlPerKgPerMinuteInput";
 
-describe("VitalSignVO2MaxMlPerKgPerMinuteInput", () => {
+describe("VitalSignVo2MaxAsMlPerKgPerMinuteInput", () => {
     test("renders input with type number", () => {
         render(<Subject label="VO2 max" />);
         expect((screen.getByLabelText("VO2 max") as HTMLInputElement).type).toBe("number");

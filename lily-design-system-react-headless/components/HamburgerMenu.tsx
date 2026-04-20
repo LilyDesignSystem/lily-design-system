@@ -104,13 +104,12 @@ export default function HamburgerMenu({
         {label}
         </button>
         {open && (
-        <div
+        <nav
         id={menuId}
-        role="navigation"
         aria-label={label}
         >
         {children}
-        </div>
+        </nav>
         )}
         </div>
     );

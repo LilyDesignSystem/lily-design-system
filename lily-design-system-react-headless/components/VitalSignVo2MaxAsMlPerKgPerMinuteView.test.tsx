@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./VitalSignVO2MaxMlPerKgPerMinuteView";
+import Subject from "./VitalSignVo2MaxAsMlPerKgPerMinuteView";
 
-describe("VitalSignVO2MaxMlPerKgPerMinuteView", () => {
+describe("VitalSignVo2MaxAsMlPerKgPerMinuteView", () => {
     test("renders span with img role", () => {
         render(<Subject value={42} label="42 ml/kg/min VO2 max" />);
         expect(screen.getByRole("img")).toBeTruthy();

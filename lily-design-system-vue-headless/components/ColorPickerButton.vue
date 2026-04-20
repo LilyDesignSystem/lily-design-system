@@ -65,7 +65,7 @@
         :aria-label="label"
         :aria-pressed="selected"
         :disabled="disabled"
-        style::background-color="color"
+        :style="{ backgroundColor: color }"
         :data-color="color"
     ></button>
 </template>

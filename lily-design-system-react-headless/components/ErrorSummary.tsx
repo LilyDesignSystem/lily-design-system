@@ -56,7 +56,7 @@
 //   - GOV.UK Error Summary: https://design-system.service.gov.uk/components/error-summary/
 //   - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/
 
-import React from "react";
+import React, { useId } from "react";
 
 export interface ErrorSummaryProps {
     className?: string;
@@ -73,7 +73,7 @@ export default function ErrorSummary({
     children,
     ...restProps
 }: ErrorSummaryProps) {
-    const titleId = `error-summary-${Math.random().toString(36).slice(2, 9)}`;
+    const titleId = `error-summary-${useId()}`;
 
     return (
         <div

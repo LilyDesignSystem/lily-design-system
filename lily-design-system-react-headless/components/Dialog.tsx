@@ -52,7 +52,7 @@
 //   - MDN dialog element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
 //   - WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export interface DialogProps {
     className?: string;
@@ -79,6 +79,9 @@ export default function Dialog({
     ...restProps
 }: DialogProps) {
     const [open, setOpen] = useState(openProp);
+
+    // Sync internal state when the prop changes externally.
+    useEffect(() => { setOpen(openProp); }, [openProp]);
 
     function handleKeyDown(event: React.KeyboardEvent) {
         if (event.key === "Escape") {

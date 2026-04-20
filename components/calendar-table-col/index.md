@@ -1,60 +1,64 @@
 # Calendar Table Col
 
-CalendarTableCol is a headless component that renders a `<col>` element within a calendar table column group. It applies column-level attributes and styling hooks for calendar grid columns.
-
-Use this component within a CalendarTable to define column properties such as width or class for individual day columns.
+CalendarTableCol is a headless component that renders a `<th scope="col">` element — a column header cell — intended to live inside a CalendarTableRow within CalendarTableHead. Use it to label day-of-week or other column headers in a calendar grid.
 
 ## Implementation Notes
 
-- Renders a `<col>` element for column-level styling within a `<colgroup>`
-- Accepts `className` for CSS class targeting
-- Spreads `restProps` onto the `<col>` element for consumer customization
+- Renders a `<th>` element with `scope="col"` by default
+- Accepts optional `colspan` / `rowspan` for grouped header cells
+- Accepts an alternative `scope` (e.g. `"colgroup"` for grouped headers)
+- Renders header text via children
+- Spreads `restProps` onto the `<th>` element
 
 ## Props
 
-- `className`: string (default: `""`) -- CSS class name for the column
-- `...restProps`: unknown -- additional attributes spread onto the `<col>` element
+- `colspan`: number (optional) -- number of columns this header cell spans
+- `rowspan`: number (optional) -- number of rows this header cell spans
+- `scope`: `"col" | "row" | "colgroup" | "rowgroup"` (default: `"col"`) -- header scope
+- `children`: optional -- header cell content
+- `...restProps`: unknown -- additional attributes spread onto the `<th>` element
 
 ## Usage
 
 ```html
 <CalendarTable label="April 2026">
-  <colgroup>
-    <CalendarTableCol />
-    <CalendarTableCol />
-    <CalendarTableCol />
-    <CalendarTableCol />
-    <CalendarTableCol />
-    <CalendarTableCol className="weekend" />
-    <CalendarTableCol className="weekend" />
-  </colgroup>
-  <CalendarTableHead>...</CalendarTableHead>
+  <CalendarTableHead>
+    <CalendarTableRow>
+      <CalendarTableCol>Sun</CalendarTableCol>
+      <CalendarTableCol>Mon</CalendarTableCol>
+      <CalendarTableCol>Tue</CalendarTableCol>
+      <CalendarTableCol>Wed</CalendarTableCol>
+      <CalendarTableCol>Thu</CalendarTableCol>
+      <CalendarTableCol>Fri</CalendarTableCol>
+      <CalendarTableCol>Sat</CalendarTableCol>
+    </CalendarTableRow>
+  </CalendarTableHead>
   <CalendarTableBody>...</CalendarTableBody>
 </CalendarTable>
 ```
 
 ## Keyboard Interactions
 
-None. Column elements are not interactive.
+None. Header cells are not interactive.
 
 ## ARIA
 
-No ARIA attributes. Column elements are structural, not semantic.
+`scope="col"` associates the header with its column for assistive technologies. Use `scope="colgroup"` together with `colspan` for grouped column headers (e.g. "Weekdays" / "Weekend").
 
 ## When to Use
 
-- Use inside CalendarTable to provide column-level styling within a `<colgroup>`
-- Use to define consistent column widths across all day columns in the calendar grid
-- Use when weekend columns need distinct styling via column-level classes
+- For day-of-week labels and other column headers in a calendar grid
+- For grouped header cells via `colspan` / `rowspan`
 
 ## When Not to Use
 
 - Do not use outside CalendarTable -- use TableCol or DataTableCol for other table types
-- Do not use for individual cell styling -- apply classes directly to CalendarTableData instead
+- Do not use for date data cells -- use CalendarTableData
+- Do not use for column-wide styling hooks via `<colgroup>` / `<col>` -- write those directly inside CalendarTable
 
 ## Headless
 
-This headless component renders a `<col>` element. The consumer provides all visual styling including column widths and backgrounds.
+This headless component renders a `<th>` element. The consumer provides all visual styling.
 
 ## Styles
 
@@ -62,18 +66,20 @@ The consumer provides all CSS styling. The component renders with a `.calendar-t
 
 ## Testing
 
-- Verify the component renders a `<col>` element
+- Verify the component renders a `<th>` element
+- Verify `scope="col"` is the default
+- Verify `colspan` / `rowspan` are applied when set
 - Verify pass-through attributes are applied
 
 ## Advice
 
-- **Designers**: Use column definitions to set consistent widths across day columns.
-- **Developers**: Place CalendarTableCol elements inside a `<colgroup>` within CalendarTable.
+- **Designers**: Keep header labels short and consistent (e.g. three-letter day abbreviations).
+- **Developers**: Place CalendarTableCol elements inside a CalendarTableRow within CalendarTableHead.
 
 ## Composition
 
-CalendarTableCol is a child of CalendarTable, following the Table pattern: CalendarTable > CalendarTableHead/CalendarTableBody/CalendarTableFoot > CalendarTableRow > CalendarTableData.
+CalendarTableCol is part of the CalendarTable composition pattern: CalendarTable > CalendarTableHead > CalendarTableRow > CalendarTableCol.
 
 ## References
 
-- MDN col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+- MDN th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th

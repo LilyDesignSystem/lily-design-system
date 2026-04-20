@@ -1,41 +1,38 @@
 # Gantt Table Col
 
-A Gantt table column defines column-level properties for a Gantt chart table, such as width and styling for individual time period columns. It renders as a `<col>` element inside a `<colgroup>`, allowing consumers to apply uniform styling to all cells within a given column without repeating attributes on each cell. This is particularly useful in Gantt charts where time period columns (e.g., days, weeks, sprints) often share consistent widths.
-
-This component is designed to be used as a child of a GanttTable component, inside a `<colgroup>` element. Each GanttTableCol instance corresponds to one column in the Gantt chart grid.
+A Gantt table col is a column header cell in a GanttTable. It renders a `<th scope="col">` element and is intended to live inside a GanttTableRow within GanttTableHead, where it labels a time-period column (day, week, month, milestone, etc.).
 
 ## Implementation Notes
 
-- Renders as a `<col>` element for use inside a `<colgroup>` within a GanttTable
-- Used to define column-level properties such as width, span, and CSS class for time period columns
-- The `span` attribute allows a single `<col>` to apply properties across multiple consecutive columns
-- Spreads `...restProps` onto the `<col>` element for consumer customization
-- No children -- `<col>` is a void element
+- Renders as a `<th>` element with `scope="col"` by default
+- Accepts optional `colspan` / `rowspan` for grouped header cells
+- Accepts an alternative `scope` (e.g. `"colgroup"` for grouped headers)
+- Renders header text via children
+- Spreads `restProps` onto the `<th>` element
 
 ## Props
 
-- `span`: number (default: 1) -- number of consecutive columns this element spans
-- `...restProps`: any -- additional HTML attributes spread onto the `<col>` element
+- `colspan`: number (optional) -- number of columns this header cell spans
+- `rowspan`: number (optional) -- number of rows this header cell spans
+- `scope`: `"col" | "row" | "colgroup" | "rowgroup"` (default: `"col"`) -- header scope
+- `children`: optional -- header cell content
+- `...restProps`: any -- additional HTML attributes spread onto the `<th>` element
 
 ## Usage
 
 ```html
-<GanttTable label="Q1 2025 schedule">
-  <colgroup>
-    <GanttTableCol style="width: 200px" />
-    <GanttTableCol span="3" style="width: 100px" />
-  </colgroup>
+<GanttTable label="Q1 2026 schedule">
   <GanttTableHead>
     <GanttTableRow>
-      <GanttTableCol scope="col">Task</GanttTableCol>
-      <GanttTableCol scope="col">Jan</GanttTableCol>
-      <GanttTableCol scope="col">Feb</GanttTableCol>
-      <GanttTableCol scope="col">Mar</GanttTableCol>
+      <GanttTableCol>Task</GanttTableCol>
+      <GanttTableCol>Jan</GanttTableCol>
+      <GanttTableCol>Feb</GanttTableCol>
+      <GanttTableCol>Mar</GanttTableCol>
     </GanttTableRow>
   </GanttTableHead>
   <GanttTableBody>
     <GanttTableRow>
-      <GanttTableCol scope="row">Design phase</GanttTableCol>
+      <th scope="row">Design phase</th>
       <GanttTableData active>████</GanttTableData>
       <GanttTableData></GanttTableData>
       <GanttTableData></GanttTableData>
@@ -46,45 +43,45 @@ This component is designed to be used as a child of a GanttTable component, insi
 
 ## Keyboard Interactions
 
-None -- passive structural element with no interactive behavior.
+None -- header cells are not interactive.
 
 ## ARIA
 
-- No explicit ARIA roles or attributes -- the `<col>` element is a structural table component that does not appear in the accessibility tree
+- `scope="col"` associates the header with its column for assistive technologies
+- Use `scope="colgroup"` together with `colspan` for grouped column headers (e.g. quarter spanning three months)
 
 ## When to Use
 
-- Use inside GanttTable to provide column-level `<th>` header cells for task names and time periods.
-- Use inside a `<colgroup>` within a GanttTable to define uniform column widths for time period columns.
-- Use when multiple columns should share the same width or styling without repeating attributes on each cell.
+- For time-period column headers (days, weeks, months, milestones)
+- For grouped headers (e.g. a quarter row above month columns) via `colspan`
 
 ## When Not to Use
 
-- Do not use outside of a GanttTable structure -- use TableCol or DataTableCol for general tables.
-- Do not use when columns need individual per-cell styling; apply styles directly to GanttTableData cells instead.
+- Do not use outside GanttTable -- use TableCol or DataTableCol for other table types
+- Do not use for task data cells -- use GanttTableData
+- Do not use for column-wide styling hooks via `<colgroup>` / `<col>` -- write those directly inside GanttTable
 
 ## Headless
 
-This headless component provides a `<col>` element for column-level property definitions within a Gantt chart grid. The consumer provides all visual styling including column widths, background colors, and borders.
-
+This headless component provides a `<th>` element for time-period column headers in a Gantt chart grid. The consumer provides all visual styling.
 
 ## Styles
 
 The consumer provides all CSS styling. The component renders with a `.gantt-table-col` class for targeting. No default styles are included — this is a fully headless component.
 
-
 ## Testing
 
-
 - Verify the component renders a `<th>` element with class `gantt-table-col`
+- Verify `scope="col"` is the default
+- Verify `colspan` / `rowspan` are applied when set
 - Verify pass-through attributes are applied
 
 ## Advice
 
-- **Designers**: Use consistent column widths for time period columns to create a uniform grid. The task-name column is typically wider than time period columns.
-- **Developers**: Use the `span` attribute to apply a single `<col>` across multiple consecutive columns that share the same width.
+- **Designers**: Use consistent column widths for time-period columns to create a uniform grid.
+- **Developers**: Place GanttTableCol elements inside a GanttTableRow within GanttTableHead.
 
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
-- HTML `<col>` element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+- MDN th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th

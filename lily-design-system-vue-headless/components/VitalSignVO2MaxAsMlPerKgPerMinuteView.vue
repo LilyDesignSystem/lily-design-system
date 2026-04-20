@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-    // VitalSignVO2MaxAsMlPerKgPerMinuteView component
+    // VitalSignVo2MaxAsMlPerKgPerMinuteView component
     //
     // A read-only display of a VO2 max value in ml/kg/min.
     // Used to present vital sign data in patient dashboards, health records,
@@ -13,14 +13,14 @@
     //   ...restProps — additional HTML attributes spread onto the outer span.
     //
     // Syntax:
-    //   <VitalSignVO2MaxAsMlPerKgPerMinuteView :value="42" label="42 ml/kg/min VO2 max" />
+    //   <VitalSignVo2MaxAsMlPerKgPerMinuteView :value="42" label="42 ml/kg/min VO2 max" />
     //
     // Examples:
     //   <!-- Display a normal VO2 max -->
-    //   <VitalSignVO2MaxAsMlPerKgPerMinuteView :value="42" label="42 ml/kg/min VO2 max" />
+    //   <VitalSignVo2MaxAsMlPerKgPerMinuteView :value="42" label="42 ml/kg/min VO2 max" />
     //
     //   <!-- Display a high VO2 max -->
-    //   <VitalSignVO2MaxAsMlPerKgPerMinuteView :value="60" label="60 ml/kg/min VO2 max" />
+    //   <VitalSignVo2MaxAsMlPerKgPerMinuteView :value="60" label="60 ml/kg/min VO2 max" />
     //
     // Keyboard:
     //   - None — this is a passive, read-only display element
@@ -51,7 +51,7 @@
 </script>
 
 <template>
-    <!-- VitalSignVO2MaxAsMlPerKgPerMinuteView.vue -->
+    <!-- VitalSignVo2MaxAsMlPerKgPerMinuteView.vue -->
     <span
         class="vital-sign-vo2-max-as-ml-per-kg-per-minute-view"
         role="img"

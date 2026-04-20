@@ -10,7 +10,7 @@ const tabChildren = (
   </>
 );
 
-describe("TabBar", () => {
+describe("TabGroup", () => {
   test("renders a tablist", () => {
     render(<Subject label="Settings">{tabChildren}</Subject>);
     expect(screen.getByRole("tablist")).toBeTruthy();

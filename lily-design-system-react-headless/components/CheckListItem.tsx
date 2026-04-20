@@ -61,7 +61,7 @@ export default function CheckListItem({
     ...restProps
 }: CheckListItemProps) {
     return (
-        <li {...restProps}>
+        <li className={`check-list-item ${className}`} {...restProps}>
         <label>
         <input
         type="checkbox"

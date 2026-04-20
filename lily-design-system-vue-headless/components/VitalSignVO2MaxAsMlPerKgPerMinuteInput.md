@@ -1,6 +1,6 @@
-# VitalSignVO2MaxAsMlPerKgPerMinuteInput
+# VitalSignVo2MaxAsMlPerKgPerMinuteInput
 
-VitalSignVO2MaxAsMlPerKgPerMinuteInput is a headless component that wraps a native `<input type="number">` element for entering a VO2 max value in ml/kg/min. It provides accessible labelling and sensible default constraints (0-100 ml/kg/min) with a bindable numeric value for two-way data flow.
+VitalSignVo2MaxAsMlPerKgPerMinuteInput is a headless component that wraps a native `<input type="number">` element for entering a VO2 max value in ml/kg/min. It provides accessible labelling and sensible default constraints (0-100 ml/kg/min) with a bindable numeric value for two-way data flow.
 
 This component is useful for medical forms, fitness assessments, cardiorespiratory monitoring applications, and any context where VO2 max data needs to be entered.
 
@@ -27,7 +27,7 @@ This component is useful for medical forms, fitness assessments, cardiorespirato
 ## Usage
 
 ```vue
-<VitalSignVO2MaxAsMlPerKgPerMinuteInput label="VO2 max (ml/kg/min)" v-model="vo2max" />
+<VitalSignVo2MaxAsMlPerKgPerMinuteInput label="VO2 max (ml/kg/min)" v-model="vo2max" />
 ```
 
 ## Keyboard Interactions

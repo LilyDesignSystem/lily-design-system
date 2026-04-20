@@ -75,12 +75,12 @@ export default function Collapsible({
 
     return (
         <details
-        className={`collapsable-details ${className}`}
+        className={`collapsible ${className}`}
         open={open}
         onToggle={handleToggle}
         {...restProps}
         >
-        <summary className="collapsable-summary">{summary}</summary>
+        <summary>{summary}</summary>
         {children}
         </details>
     );

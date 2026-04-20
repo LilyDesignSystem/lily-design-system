@@ -72,7 +72,7 @@ export default function SearchInput({
 }: SearchInputProps) {
     return (
         <input
-        className={`search ${className}`}
+        className={`search-input ${className}`}
         type="search"
         aria-label={label}
         value={value} onChange={(e) => onChange?.(e.target.value)}

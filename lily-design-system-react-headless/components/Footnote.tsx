@@ -64,7 +64,7 @@ export default function Footnote({
 }: FootnoteProps) {
     return (
         <aside
-        className={`aside ${className}`}
+        className={`footnote ${className}`}
         id={id}
         role="note"
         aria-label={id}

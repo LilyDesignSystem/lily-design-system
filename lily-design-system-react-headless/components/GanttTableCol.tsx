@@ -1,55 +1,56 @@
 // GanttTableCol component
 //
-// A column definition within a GanttTable, rendered as a <col> element.
-// Used inside a <colgroup> to define column properties such as span.
-// Useful for styling entire columns of the Gantt grid (e.g. weekends,
-// milestones, or specific time periods).
+// A column header cell within a GanttTable, rendered as a <th> element.
+// Used inside a <GanttTableRow> within <GanttTableHead> to label the time
+// period columns of the Gantt grid.
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   span — number, optional. Number of columns this <col> spans.
-//   ...restProps — additional HTML attributes spread onto the <col>.
-//
-// Syntax:
-//   <colgroup>
-//     <GanttTableCol />
-//     <GanttTableCol span={5} />
-//     <GanttTableCol />
-//   </colgroup>
-//
-// Keyboard:
-//   None — <col> is not interactive.
-//
-// Accessibility:
-//   - <col> provides structural column semantics for the table
+//   colSpan — number, optional. Number of columns this header cell spans.
+//   rowSpan — number, optional. Number of rows this header cell spans.
+//   scope — "col" | "row" | "colgroup" | "rowgroup", default "col". Header scope.
+//   children — ReactNode, optional. Header cell content.
+//   ...restProps — additional HTML attributes spread onto the <th>.
 //
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
-//   - Must be used inside a <colgroup> within a GanttTable
-//   - No internal state — purely a structural element
+//   - Must be used inside a <tr> within a GanttTable
 //
 // References:
-//   - HTML col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+//   - HTML th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th
 
 import React from "react";
 
 export interface GanttTableColProps {
     className?: string;
-    /** Number of columns this col spans. */
-    span?: number;
+    /** Number of columns this header cell spans. */
+    colSpan?: number;
+    /** Number of rows this header cell spans. */
+    rowSpan?: number;
+    /** Header scope. */
+    scope?: "col" | "row" | "colgroup" | "rowgroup";
+    /** Header cell content. */
+    children?: React.ReactNode;
     [key: string]: unknown;
 }
 
 export default function GanttTableCol({
     className = "",
-    span,
+    colSpan,
+    rowSpan,
+    scope = "col",
+    children,
     ...restProps
 }: GanttTableColProps) {
     return (
-        <col
+        <th
         className={`gantt-table-col ${className}`}
-        span={span || undefined}
+        scope={scope}
+        colSpan={colSpan || undefined}
+        rowSpan={rowSpan || undefined}
         {...restProps}
-        />
+        >
+        {children}
+        </th>
     );
 }

@@ -25,13 +25,13 @@ describe("ImageInput", () => {
     test("supports width", () => {
         render(Subject, { props: { src: "/test.png", alt: "Submit", width: 100 } });
         const input = screen.getByRole("button", { name: "Submit" }) as HTMLInputElement;
-        expect(input.width).toBe(100);
+        expect(input.getAttribute("width")).toBe("100");
     });
 
     test("supports height", () => {
         render(Subject, { props: { src: "/test.png", alt: "Submit", height: 50 } });
         const input = screen.getByRole("button", { name: "Submit" }) as HTMLInputElement;
-        expect(input.height).toBe(50);
+        expect(input.getAttribute("height")).toBe("50");
     });
 
     test("supports disabled", () => {

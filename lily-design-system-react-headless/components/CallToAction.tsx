@@ -77,14 +77,14 @@ export default function CallToAction({
     return (
         <>
         {href ? (<><a
-        className={`call-to-action-link ${className}`}
+        className={`call-to-action ${className}`}
         href={href}
         aria-label={label}
         {...restProps}
         >
         {children}
         </a></>) : (<><button
-        className={`call-to-action-button ${className}`}
+        className={`call-to-action ${className}`}
         type="button"
         disabled={disabled}
         aria-label={label}

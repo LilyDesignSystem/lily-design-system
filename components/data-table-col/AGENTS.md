@@ -16,22 +16,25 @@
 
 ## Key Behaviors
 
-- Renders as a `<col>` element for defining column properties in a data table
-- Should be placed inside a `<colgroup>` element within the DataTable
-- The `span` prop allows a single `<col>` to apply to multiple consecutive columns
-- Useful for applying consistent widths, styles, or classes to entire columns
-- Spreads `restProps` onto the `<col>` element for consumer customization
-- No internal state -- purely a structural element
-- This is a void element and does not accept children
+- Renders as a `<th>` element with `scope="col"` by default
+- Intended to live inside a DataTableRow within DataTableHead, where it labels a column
+- Accepts optional `colspan` / `rowspan` for grouped header cells
+- Accepts an alternative `scope` (e.g. `"colgroup"` for grouped headers)
+- Renders header text via children
+- Spreads `restProps` onto the `<th>` element
 
 ## ARIA
 
-- No implicit ARIA role -- `<col>` is a structural element used for column styling and does not convey semantics to assistive technologies
+- `scope="col"` associates the header with its column for assistive technologies
+- Use `scope="colgroup"` together with `colspan` for grouped column headers
 
 ## Props
 
-- `span`: number (default: 1) -- the number of consecutive columns this element spans
-- `...restProps`: Any additional HTML attributes passed to the `<col>` element
+- `colspan`: number (optional) -- number of columns this header cell spans
+- `rowspan`: number (optional) -- number of rows this header cell spans
+- `scope`: `"col" | "row" | "colgroup" | "rowgroup"` (default: `"col"`) -- header scope
+- `children`: optional -- header cell content
+- `...restProps`: Any additional HTML attributes passed to the `<th>` element
 
 ## Acceptance Criteria
 

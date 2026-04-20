@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./TreeNav.svelte";
 
-function treeItemsSnippet() {
+function childSnippet() {
   return (($anchor: Comment) => {
     const li1 = document.createElement("li");
     li1.setAttribute("role", "treeitem");
@@ -18,26 +18,26 @@ function treeItemsSnippet() {
 }
 
 describe("TreeNav", () => {
-  test("renders a tree", () => {
-    render(Subject, { props: { label: "Nav", children: treeItemsSnippet() } });
-    expect(screen.getByRole("tree")).toBeTruthy();
+  test("renders a navigation landmark", () => {
+    render(Subject, { props: { label: "Nav", children: childSnippet() } });
+    expect(screen.getByRole("navigation")).toBeTruthy();
   });
 
   test("has aria-label", () => {
     render(Subject, {
-      props: { label: "Navigation", children: treeItemsSnippet() },
+      props: { label: "Navigation", children: childSnippet() },
     });
     expect(screen.getByLabelText("Navigation")).toBeTruthy();
   });
 
-  test("renders treeitem children", () => {
-    render(Subject, { props: { label: "Nav", children: treeItemsSnippet() } });
+  test("renders children", () => {
+    render(Subject, { props: { label: "Nav", children: childSnippet() } });
     expect(screen.getAllByRole("treeitem").length).toBe(2);
   });
 
   test("passes through attributes", () => {
     render(Subject, {
-      props: { label: "N", "data-testid": "tm", children: treeItemsSnippet() },
+      props: { label: "N", "data-testid": "tm", children: childSnippet() },
     });
     expect(screen.getByTestId("tm")).toBeTruthy();
   });

@@ -2,48 +2,47 @@
 
     // GanttTableCol component
     //
-    // A column definition within a GanttTable, rendered as a <col> element.
-    // Used inside a <colgroup> to define column properties such as span.
-    // Useful for styling entire columns of the Gantt grid (e.g. weekends,
-    // milestones, or specific time periods).
+    // A column header cell within a GanttTable, rendered as a <th> element.
+    // Used inside a <GanttTableRow> within <GanttTableHead> to label time
+    // period columns of the Gantt grid.
     //
     // Props:
-    //   className — string, optional. CSS class name.
-    //   span — number, optional. Number of columns this <col> spans.
-    //   ...restProps — additional HTML attributes spread onto the <col>.
-    //
-    // Syntax:
-    //   <colgroup>
-    //     <GanttTableCol />
-    //     <GanttTableCol span={5} />
-    //     <GanttTableCol />
-    //   </colgroup>
-    //
-    // Keyboard:
-    //   None — <col> is not interactive.
+    //   colspan — number, optional. Number of columns this header cell spans.
+    //   rowspan — number, optional. Number of rows this header cell spans.
+    //   scope — "col" | "row" | "colgroup" | "rowgroup", default "col". Header scope.
+    //   default slot — header cell content.
     //
     // Accessibility:
-    //   - <col> provides structural column semantics for the table
+    //   - <th scope="col"> associates the header with its column for assistive tech
     //
     // Claude rules:
     //   - Headless: no CSS, no styles — consumer provides all styling
-    //   - Must be used inside a <colgroup> within a GanttTable
-    //   - No internal state — purely a structural element
+    //   - Must be used inside a <tr> within a GanttTable
     //
     // References:
-    //   - HTML col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+    //   - HTML th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th
 
-    defineProps<{
-        /** Number of columns this col spans. */
-        span: number;
-    }>();
+    withDefaults(defineProps<{
+        /** Number of columns this header cell spans. */
+        colspan?: number;
+        /** Number of rows this header cell spans. */
+        rowspan?: number;
+        /** Header scope. */
+        scope?: "col" | "row" | "colgroup" | "rowgroup";
+    }>(), {
+        scope: "col",
+    });
 
 </script>
 
 <template>
     <!-- GanttTableCol.vue -->
-    <col
+    <th
         class="gantt-table-col"
-        :span="span || undefined"
-    />
+        :scope="scope"
+        :colspan="colspan || undefined"
+        :rowspan="rowspan || undefined"
+    >
+        <slot />
+    </th>
 </template>

@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/vue";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./VitalSignVO2MaxAsMlPerKgPerMinuteView.vue";
+import Subject from "./VitalSignVo2MaxAsMlPerKgPerMinuteView.vue";
 
-describe("VitalSignVO2MaxAsMlPerKgPerMinuteView", () => {
+describe("VitalSignVo2MaxAsMlPerKgPerMinuteView", () => {
     test("renders span with img role", () => {
         render(Subject, { props: { value: 42, label: "42 ml/kg/min VO2 max" } });
         expect(screen.getByRole("img", { name: "42 ml/kg/min VO2 max" })).toBeTruthy();

@@ -64,11 +64,11 @@
 </script>
 
 <!-- DontList.svelte -->
-<ol
+<ul
     class={`dont-list ${className}`}
     role="list"
     aria-label={label}
     {...restProps}
 >
     {@render children()}
-</ol>
+</ul>

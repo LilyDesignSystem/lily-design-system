@@ -47,8 +47,8 @@
 </script>
 
 <template>
-    <!-- ContentsListItem: a list item for use in a contents or navigation list -->
-    <li>
+    <!-- ContentsListItem.vue -->
+    <li class="contents-list-item">
         <slot />
     </li>
 </template>

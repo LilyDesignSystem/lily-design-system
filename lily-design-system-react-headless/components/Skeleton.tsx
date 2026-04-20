@@ -59,7 +59,7 @@ export default function Skeleton({
 }: SkeletonProps) {
     return (
         <div
-        className={`skeleteon ${className}`}
+        className={`skeleton ${className}`}
         aria-hidden="true"
         aria-busy="true"
         {...restProps}

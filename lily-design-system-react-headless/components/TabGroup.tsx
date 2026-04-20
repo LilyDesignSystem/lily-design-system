@@ -1,10 +1,13 @@
-// TabBar component
+// TabGroup component
 //
 // A headless tab list container that provides the ARIA tablist role and
 // built-in keyboard navigation for tabbed interfaces. It manages arrow key
 // navigation between tab elements, allowing users to cycle through tabs
 // with Left/Right arrow keys and jump to first/last with Home/End keys.
 // The consumer provides tab buttons as children and manages selection state.
+//
+// Functionally equivalent to TabGroup; emits its own `tab-group` class so
+// consumers can target either container independently.
 //
 // Props:
 //   className — string, optional. CSS class name.
@@ -13,14 +16,14 @@
 //   ...restProps — additional HTML attributes spread onto the <div>.
 //
 // Syntax:
-//   <TabBar label="Settings">...</TabBar>
+//   <TabGroup label="Settings">...</TabGroup>
 //
 // Examples:
 //   
-//   <TabBar label="Settings">
+//   <TabGroup label="Settings">
 //     <button role="tab" aria-selected="true">General</button>
 //     <button role="tab" aria-selected="false">Advanced</button>
-//   </TabBar>
+//   </TabGroup>
 //
 // Keyboard:
 //   - ArrowRight: moves focus to the next tab (wraps to first)
@@ -102,7 +105,7 @@ export default function TabGroup({
 
     return (
         <div
-        className={`tab-bar ${className}`}
+        className={`tab-group ${className}`}
         role="tablist"
         aria-label={label}
         ref={tablistRef}

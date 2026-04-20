@@ -56,11 +56,11 @@
 
 <template>
     <!-- AccordionList.vue -->
-    <ol
+    <div
         class="accordion-list"
         role="group"
         :aria-label="label || undefined"
     >
         <slot />
-    </ol>
+    </div>
 </template>

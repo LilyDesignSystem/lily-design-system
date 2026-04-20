@@ -62,11 +62,12 @@
     } = $props();
 </script>
 
+<!-- Collapsible.svelte -->
 <details
-    class={`collapsable-details ${className}`}
+    class={`collapsible ${className}`}
     bind:open
     {...restProps}
 >
-    <summary class="collapsable-summary">{summary}</summary>
+    <summary>{summary}</summary>
     {@render children()}
 </details>

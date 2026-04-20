@@ -42,7 +42,7 @@
 //   - WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
 //   - WAI-ARIA Switch Role: https://www.w3.org/TR/wai-aria-1.2/#switch
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export interface SwitchButtonProps {
     className?: string;
@@ -67,11 +67,14 @@ export default function SwitchButton({
 }: SwitchButtonProps) {
     const [checked, setChecked] = useState(checkedProp);
 
+    // Sync internal state when the prop changes externally.
+    useEffect(() => { setChecked(checkedProp); }, [checkedProp]);
+
     function toggle() {
         if (!disabled) {
-            const newChecked = !checked;
-            setChecked(newChecked);
-            onChange?.(newChecked);
+            const next = !checked;
+            setChecked(next);
+            onChange?.(next);
         }
     }
 

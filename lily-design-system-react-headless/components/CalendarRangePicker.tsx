@@ -62,7 +62,7 @@ export default function CalendarRangePicker({
 }: CalendarRangePickerProps) {
     return (
         <div
-        className={`${className}`}
+        className={`calendar-range-picker ${className}`}
         role="application"
         aria-label={label}
         {...restProps}

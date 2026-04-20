@@ -59,7 +59,7 @@
 
 <!-- Skeleton.svelte -->
 <div
-    class={`skeleteon ${className}`}
+    class={`skeleton ${className}`}
     aria-hidden="true"
     aria-busy="true"
     {...restProps}

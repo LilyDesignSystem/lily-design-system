@@ -10,8 +10,8 @@ test("no initial greeting", (): void => {
   const button: HTMLElement = screen.getByRole("button", { name: "Greet" });
   const greeting: HTMLElement | null = screen.queryByText(/hello/iu);
 
-  expect(button).toBeInTheDocument();
-  expect(greeting).not.toBeInTheDocument();
+  expect(button).toBeTruthy();
+  expect(greeting).toBeNull();
 });
 
 test("greeting appears on click", async (): Promise<void> => {
@@ -22,5 +22,5 @@ test("greeting appears on click", async (): Promise<void> => {
   await user.click(button);
   const greeting: HTMLElement = screen.getByText(/hello world/iu);
 
-  expect(greeting).toBeInTheDocument();
+  expect(greeting).toBeTruthy();
 });

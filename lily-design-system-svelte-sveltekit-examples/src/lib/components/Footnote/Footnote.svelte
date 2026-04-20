@@ -64,7 +64,7 @@
 
 <!-- Footnote.svelte -->
 <aside
-    class={`aside ${className}`}
+    class={`footnote ${className}`}
     {id}
     role="note"
     aria-label={id}

@@ -68,14 +68,14 @@
 <template>
     <!-- CallToAction.vue -->
         <a v-if="href"
-            class="call-to-action-link"
+            class="call-to-action"
             :href="href"
             :aria-label="label"
         >
             <slot />
         </a>
         <button v-else
-            class="call-to-action-button"
+            class="call-to-action"
             type="button"
             :disabled="disabled"
             :aria-label="label"

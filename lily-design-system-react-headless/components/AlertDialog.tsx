@@ -63,7 +63,7 @@
 //   - WAI-ARIA alertdialog role: https://www.w3.org/TR/wai-aria-1.2/#alertdialog
 //   - WAI-ARIA Alert and Message Dialogs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/
 
-import React from "react";
+import React, { useId } from "react";
 
 export interface AlertDialogProps {
     className?: string;
@@ -89,9 +89,9 @@ export default function AlertDialog({
     children,
     ...restProps
 }: AlertDialogProps) {
-    const generatedId = "alert-dialog-" + Math.random().toString(36).slice(2, 9);
-    const titleId = generatedId + "-title";
-    const descriptionId = generatedId + "-desc";
+    const uid = useId();
+    const titleId = `alert-dialog-title-${uid}`;
+    const descriptionId = `alert-dialog-description-${uid}`;
 
     return (
         <>

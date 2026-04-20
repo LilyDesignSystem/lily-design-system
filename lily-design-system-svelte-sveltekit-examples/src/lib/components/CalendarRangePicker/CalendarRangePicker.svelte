@@ -60,8 +60,9 @@
     } = $props();
 </script>
 
+<!-- CalendarRangePicker.svelte -->
 <div
-    class={`${className}`}
+    class={`calendar-range-picker ${className}`}
     role="application"
     aria-label={label}
     {...restProps}

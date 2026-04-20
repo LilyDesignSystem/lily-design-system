@@ -60,6 +60,7 @@ export default function CheckList({
 }: CheckListProps) {
     return (
         <ol
+        className={`check-list ${className}`}
         role="list"
         aria-label={label}
         {...restProps}

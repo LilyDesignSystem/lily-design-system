@@ -12,7 +12,7 @@
 
 <template>
     <!-- GrailLayoutTopHeader.vue -->
-    <div class="grail-layout-top-header">
+    <header class="grail-layout-top-header">
         <slot />
-    </div>
+    </header>
 </template>

@@ -64,11 +64,11 @@
 </script>
 
 <!-- DoList.svelte -->
-<ol
+<ul
     class={`do-list ${className}`}
     role="list"
     aria-label={label}
     {...restProps}
 >
     {@render children()}
-</ol>
+</ul>

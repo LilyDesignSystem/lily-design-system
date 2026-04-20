@@ -51,7 +51,7 @@
 // References:
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
-import React from "react";
+import React, { useId } from "react";
 
 export interface ComboboxProps {
     className?: string;
@@ -80,7 +80,7 @@ export default function Combobox({
     children,
     ...restProps
 }: ComboboxProps) {
-    const listboxId = `combobox-listbox-${Math.random().toString(36).slice(2, 9)}`;
+    const listboxId = `combobox-listbox-${useId()}`;
 
     function handleKeyDown(event: React.KeyboardEvent) {
         if (event.key === "Escape") {

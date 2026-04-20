@@ -78,7 +78,8 @@
     } = $props();
 
     // Generate a stable id for linking label/input/description/error.
-    const generatedId = `date-field-${Math.random().toString(36).slice(2, 9)}`;
+    const uid = $props.id();
+    const generatedId = `date-field-${uid}`;
     let inputId = $derived(id ?? generatedId);
     let descriptionId = $derived(`${inputId}-desc`);
     let errorId = $derived(`${inputId}-error`);

@@ -53,6 +53,8 @@
     // References:
     //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
+    import { useId } from "vue";
+
     const props = defineProps<{
         /** Accessible label. */
         label: string;
@@ -62,7 +64,7 @@
 
     const open = defineModel<boolean>("open", { default: false });
 
-    const listboxId = `combobox-${Math.random().toString(36).slice(2, 9)}`;
+    const listboxId = `combobox-${useId()}`;
 
     function onkeydown(event: KeyboardEvent) {
         if (event.key === "Escape") {

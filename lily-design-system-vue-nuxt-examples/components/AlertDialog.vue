@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+    import { useId } from "vue";
+
     // AlertDialog component
     //
     // A headless modal alert dialog for critical interactions that require user
@@ -76,9 +78,9 @@
 
     const open = defineModel<boolean>("open", { default: false });
 
-    const titleId = "alert-dialog-title";
-
-    const descriptionId = "alert-dialog-description";
+    const uid = useId();
+    const titleId = `alert-dialog-title-${uid}`;
+    const descriptionId = `alert-dialog-description-${uid}`;
 
 </script>
 

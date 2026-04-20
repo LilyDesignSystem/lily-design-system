@@ -51,7 +51,7 @@
 //   - WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/
 //   - WAI-ARIA Error Handling: https://www.w3.org/WAI/WCAG22/Techniques/aria/ARIA21
 
-import React from "react";
+import React, { useId } from "react";
 
 export interface FieldProps {
     className?: string;
@@ -80,7 +80,7 @@ export default function Field({
     children,
     ...restProps
 }: FieldProps) {
-    const generatedId = `field-${Math.random().toString(36).slice(2, 9)}`;
+    const generatedId = `field-${useId()}`;
     const fieldId = inputId ?? generatedId;
     const descId = `${fieldId}-desc`;
     const errorId = `${fieldId}-error`;

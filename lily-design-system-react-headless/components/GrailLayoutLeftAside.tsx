@@ -41,11 +41,11 @@ export default function GrailLayoutLeftAside({
     ...restProps
 }: GrailLayoutLeftAsideProps) {
     return (
-        <div
+        <aside
         className={`grail-layout-left-aside ${className}`}
         {...restProps}
         >
         {children}
-        </div>
+        </aside>
     );
 }

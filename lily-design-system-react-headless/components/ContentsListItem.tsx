@@ -59,7 +59,7 @@ export default function ContentsListItem({
 }: ContentsListItemProps) {
     return (
         
-        <li {...restProps}>
+        <li className={`contents-list-item ${className}`} {...restProps}>
         {children}
         </li>
     );

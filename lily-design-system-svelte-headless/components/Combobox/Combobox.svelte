@@ -54,7 +54,8 @@
 
     import type { Snippet } from "svelte";
 
-    const listboxId = `combobox-listbox-${Math.random().toString(36).slice(2, 9)}`;
+    const uid = $props.id();
+    const listboxId = `combobox-listbox-${uid}`;
 
     let {
         class: className = "",

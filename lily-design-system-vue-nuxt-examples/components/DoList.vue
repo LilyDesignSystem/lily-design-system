@@ -59,11 +59,11 @@
 
 <template>
     <!-- DoList.vue -->
-    <ol
+    <ul
         class="do-list"
         role="list"
         :aria-label="label"
     >
         <slot />
-    </ol>
+    </ul>
 </template>

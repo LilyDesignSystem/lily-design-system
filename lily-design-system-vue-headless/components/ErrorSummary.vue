@@ -58,12 +58,14 @@
     //   - GOV.UK Error Summary: https://design-system.service.gov.uk/components/error-summary/
     //   - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/
 
+    import { useId } from "vue";
+
     defineProps<{
         /** Heading for the error summary. */
         title: string;
     }>();
 
-    const titleId = `error-summary-${Math.random().toString(36).slice(2, 9)}`;
+    const titleId = `error-summary-${useId()}`;
 
 </script>
 

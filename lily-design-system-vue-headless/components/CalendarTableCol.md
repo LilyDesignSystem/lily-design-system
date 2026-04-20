@@ -1,25 +1,29 @@
 # CalendarTableCol
 
-A column definition within a CalendarTable, rendered as a `<col>` element. Used inside a `<colgroup>` to define column properties such as span. Useful for styling entire columns of the calendar grid (e.g. weekends).
+A column header cell within a CalendarTable, rendered as a `<th scope="col">` element. Intended to live inside a CalendarTableRow within CalendarTableHead, where it labels day-of-week or other calendar-grid columns.
 
 ## Props
 
-- `span`: number (optional) -- number of columns this `<col>` spans
-- `...restProps`: unknown -- additional attributes spread onto the `<col>`
+- `colspan`: number (optional) -- number of columns this header cell spans
+- `rowspan`: number (optional) -- number of rows this header cell spans
+- `scope`: `"col" | "row" | "colgroup" | "rowgroup"` (default `"col"`)
+- default slot -- header cell content
+- `...restProps`: unknown -- additional attributes spread onto the `<th>`
 
 ## Usage
 
-```svelte
+```vue
 <CalendarTable label="January 2025">
-  <colgroup>
-    <CalendarTableCol />
-    <CalendarTableCol span={5} />
-    <CalendarTableCol />
-  </colgroup>
+  <CalendarTableHead>
+    <CalendarTableRow>
+      <CalendarTableCol>Sun</CalendarTableCol>
+      <CalendarTableCol>Mon</CalendarTableCol>
+    </CalendarTableRow>
+  </CalendarTableHead>
   ...
 </CalendarTable>
 ```
 
 ## References
 
-- HTML col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+- HTML th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th

@@ -1,6 +1,6 @@
-# VitalSignVO2MaxAsMlPerKgPerMinuteView
+# VitalSignVo2MaxAsMlPerKgPerMinuteView
 
-VitalSignVO2MaxAsMlPerKgPerMinuteView is a headless component that displays a read-only VO2 max value in ml/kg/min. It renders a `<span>` element with `role="img"` and an accessible label for screen readers.
+VitalSignVo2MaxAsMlPerKgPerMinuteView is a headless component that displays a read-only VO2 max value in ml/kg/min. It renders a `<span>` element with `role="img"` and an accessible label for screen readers.
 
 This component is useful for patient dashboards, health records, fitness tracking interfaces, cardiorespiratory assessments, and any context where VO2 max data needs to be displayed as a read-only value.
 
@@ -20,7 +20,7 @@ This component is useful for patient dashboards, health records, fitness trackin
 ## Usage
 
 ```vue
-<VitalSignVO2MaxAsMlPerKgPerMinuteView :value="42" label="42 ml/kg/min VO2 max" />
+<VitalSignVo2MaxAsMlPerKgPerMinuteView :value="42" label="42 ml/kg/min VO2 max" />
 ```
 
 ## Keyboard Interactions

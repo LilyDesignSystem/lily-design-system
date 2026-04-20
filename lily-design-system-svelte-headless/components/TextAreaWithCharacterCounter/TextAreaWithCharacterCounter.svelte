@@ -64,7 +64,8 @@
         [key: string]: unknown;
     } = $props();
 
-    const counterId = `counter-${Math.random().toString(36).slice(2, 9)}`;
+    const uid = $props.id();
+    const counterId = `counter-${uid}`;
 
     let counterText = $derived(
         counterTemplate.replace("{count}", String(value.length)).replace("{max}", String(maxLength))

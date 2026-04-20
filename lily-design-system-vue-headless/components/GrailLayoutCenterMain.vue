@@ -11,7 +11,7 @@
 
 <template>
     <!-- GrailLayoutCenterMain.vue -->
-    <div class="grail-layout-center-main">
+    <main class="grail-layout-center-main">
         <slot />
-    </div>
+    </main>
 </template>

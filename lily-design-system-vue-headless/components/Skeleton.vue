@@ -50,7 +50,7 @@
 <template>
     <!-- Skeleton.vue -->
     <div
-        class="skeleteon"
+        class="skeleton"
         aria-hidden="true"
         aria-busy="true"
     >
