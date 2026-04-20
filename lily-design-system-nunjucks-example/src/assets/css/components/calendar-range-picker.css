@@ -1,0 +1,18 @@
+.calendar-range-picker {
+  display: inline-flex;
+  gap: var(--nhsuk-spacing-2);
+  flex-wrap: wrap;
+  align-items: center;
+}
+.calendar-range-picker-start-label,
+.calendar-range-picker-end-label {
+  font-weight: var(--nhsuk-font-weight-bold);
+}
+.calendar-range-picker-start,
+.calendar-range-picker-end {
+  padding: var(--nhsuk-spacing-1);
+  border: 2px solid var(--nhsuk-black);
+  border-radius: 3px;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+}

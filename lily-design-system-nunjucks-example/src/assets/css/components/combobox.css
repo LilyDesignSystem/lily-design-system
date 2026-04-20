@@ -1,0 +1,23 @@
+.combobox { position: relative; display: inline-block; width: 20rem; max-width: 100%; }
+.combobox-input {
+  width: 100%;
+  padding: var(--nhsuk-spacing-1);
+  border: 2px solid var(--nhsuk-black);
+  border-radius: 3px;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+}
+.combobox-listbox {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--nhsuk-white);
+  border: 1px solid var(--nhsuk-mid-grey);
+  border-radius: 0 0 3px 3px;
+  max-height: 14rem;
+  overflow-y: auto;
+}

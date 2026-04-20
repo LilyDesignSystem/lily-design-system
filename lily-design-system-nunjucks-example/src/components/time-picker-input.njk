@@ -1,0 +1,15 @@
+---
+layout: layouts/component-demo.njk
+title: Time Picker Input
+description: an input with a dropdown for picking a time
+---
+
+{% from "components/time-picker-input/macro.njk" import timePickerInput %}
+
+<p><label for="apt-time">Appointment time</label></p>
+{{ timePickerInput({
+  id: "apt-time",
+  name: "aptTime",
+  value: "09:30",
+  options: ["09:00", "09:15", "09:30", "09:45", "10:00"]
+}) }}

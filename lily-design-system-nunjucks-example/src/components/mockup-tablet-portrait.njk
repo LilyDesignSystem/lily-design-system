@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Mockup Tablet Portrait
+description: a box area that looks like a tablet computer in portrait mode
+---
+
+{% from "components/mockup-tablet-portrait/macro.njk" import mockupTabletPortrait %}
+
+{% call mockupTabletPortrait() %}
+  <h3>Portrait tablet</h3>
+  <p>3:4 aspect ratio.</p>
+{% endcall %}

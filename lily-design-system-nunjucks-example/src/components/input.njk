@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Input
+description: a generic HTML input element
+---
+
+{% from "components/input/macro.njk" import input %}
+
+<p><label for="name">Full name</label></p>
+{{ input({ id: "name", name: "name", label: "Full name" }) }}
+
+<p><label for="email">Email</label></p>
+{{ input({ id: "email", name: "email", type: "email", label: "Email" }) }}

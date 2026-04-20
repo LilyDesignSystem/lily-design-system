@@ -1,0 +1,37 @@
+{#
+  TimelineListItem macro — one event in a timeline list.
+
+  HTML tag: <li>
+  CSS class: timeline-list-item
+
+  Params:
+    time        string   ISO datetime (e.g. "2026-04-20").
+    timeText    string   Human-readable date.
+    heading     string   Short event title.
+    text        string   Description body.
+    html        string   Raw HTML body.
+    id          string
+    classes     string
+    attributes  object
+#}
+{%- macro timelineListItem(params) -%}
+{%- set p = params | default({}) -%}
+<li
+  class="timeline-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.time or p.timeText %}
+  <time class="timeline-list-item-time"{% if p.time %} datetime="{{ p.time }}"{% endif %}>{{ p.timeText | default(p.time) }}</time>
+  {%- endif %}
+  {%- if p.heading %}
+  <h3 class="timeline-list-item-heading">{{ p.heading }}</h3>
+  {%- endif %}
+  <div class="timeline-list-item-body">
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif p.text -%}{{ p.text }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </div>
+</li>
+{%- endmacro -%}

@@ -1,0 +1,31 @@
+{#
+  SliderButton macro — a button with a slider the user must slide to confirm.
+    Useful for confirming destructive or irreversible actions.
+
+  HTML tag: <div> with role="button" wrapping a labelled thumb.
+  CSS class: slider-button
+
+  Params:
+    id, label (default "Slide to confirm"), confirmedLabel (default "Confirmed"),
+    disabled, classes, attributes.
+#}
+{%- macro sliderButton(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="slider-button{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="button"
+  data-module="slider-button"
+  data-confirmed-label="{{ p.confirmedLabel | default('Confirmed') }}"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  aria-valuenow="0"
+  tabindex="0"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.disabled %} aria-disabled="true"{% endif %}
+  aria-label="{{ p.label | default('Slide to confirm') }}"
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <span class="slider-button-thumb" aria-hidden="true"></span>
+  <span class="slider-button-track-label">{{ p.label | default("Slide to confirm") }}</span>
+</div>
+{%- endmacro -%}

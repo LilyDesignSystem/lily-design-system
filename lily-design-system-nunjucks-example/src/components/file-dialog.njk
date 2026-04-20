@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: File Dialog
+description: a dialog for browsing and selecting files
+---
+
+{% from "components/file-dialog/macro.njk" import fileDialog %}
+
+{% call fileDialog({ label: "Select a file", open: true }) %}
+  <h2>Select a file</h2>
+  <ul><li>report.pdf</li><li>scan.jpg</li></ul>
+{% endcall %}

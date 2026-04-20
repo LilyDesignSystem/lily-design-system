@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Carousel
+description: a slideshow for cycling through content items
+---
+
+{% from "components/carousel/macro.njk" import carousel %}
+
+{% call carousel({ label: "Featured articles" }) %}
+  <article class="carousel-slide" style="flex-shrink: 0; width: 16rem; background: var(--nhsuk-pale-grey); padding: 1rem; scroll-snap-align: start;">Slide 1</article>
+  <article class="carousel-slide" style="flex-shrink: 0; width: 16rem; background: var(--nhsuk-pale-grey); padding: 1rem; scroll-snap-align: start;">Slide 2</article>
+  <article class="carousel-slide" style="flex-shrink: 0; width: 16rem; background: var(--nhsuk-pale-grey); padding: 1rem; scroll-snap-align: start;">Slide 3</article>
+{% endcall %}

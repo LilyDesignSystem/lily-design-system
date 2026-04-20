@@ -1,0 +1,26 @@
+---
+layout: layouts/component-demo.njk
+title: Medical Banner Box — Advice
+description: a medical record banner box for advice information
+---
+
+{% from "components/medical-banner-box-for-advice/macro.njk" import medicalBannerBoxForAdvice %}
+
+<h2>Care plan</h2>
+{{ medicalBannerBoxForAdvice({
+  heading: "Care plan",
+  text: "Long-term anti-coagulation therapy since 2024."
+}) }}
+
+<h2>Contacts</h2>
+{% call medicalBannerBoxForAdvice({ heading: "Next of kin" }) %}
+  <p>Sarah Thomas · daughter · 07700 900000</p>
+{% endcall %}
+
+<h2>Plan with list</h2>
+{% call medicalBannerBoxForAdvice({ heading: "Follow-ups due" }) %}
+  <ul style="margin: 0; padding-left: 1.5rem;">
+    <li>Blood pressure check (May 2026)</li>
+    <li>HbA1c (June 2026)</li>
+  </ul>
+{% endcall %}

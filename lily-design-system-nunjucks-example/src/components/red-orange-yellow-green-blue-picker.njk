@@ -1,0 +1,33 @@
+---
+layout: layouts/component-demo.njk
+title: Red Orange Yellow Green Blue Picker
+description: a picker for selecting a five-level colour status
+---
+
+{% from "components/red-orange-yellow-green-blue-picker/macro.njk" import redOrangeYellowGreenBluePicker %}
+{% from "components/red-orange-yellow-green-blue-picker-button/macro.njk" import redOrangeYellowGreenBluePickerButton %}
+
+<h2>Project status</h2>
+{% call redOrangeYellowGreenBluePicker({ label: "Project status" }) %}
+  {{ redOrangeYellowGreenBluePickerButton({ status: "red" }) }}
+  {{ redOrangeYellowGreenBluePickerButton({ status: "orange" }) }}
+  {{ redOrangeYellowGreenBluePickerButton({ status: "yellow", checked: true }) }}
+  {{ redOrangeYellowGreenBluePickerButton({ status: "green" }) }}
+  {{ redOrangeYellowGreenBluePickerButton({ status: "blue" }) }}
+{% endcall %}
+
+<h2>Risk level</h2>
+{% call redOrangeYellowGreenBluePicker({ label: "Risk level" }) %}
+  {{ redOrangeYellowGreenBluePickerButton({ status: "red", text: "Critical" }) }}
+  {{ redOrangeYellowGreenBluePickerButton({ status: "orange", text: "High" }) }}
+  {{ redOrangeYellowGreenBluePickerButton({ status: "yellow", text: "Medium" }) }}
+  {{ redOrangeYellowGreenBluePickerButton({ status: "green", text: "Low" }) }}
+  {{ redOrangeYellowGreenBluePickerButton({ status: "blue", text: "Info" }) }}
+{% endcall %}
+
+<h2>Accessibility</h2>
+<p>The picker is a <code>&lt;div role="radiogroup"&gt;</code> with
+  an <code>aria-label</code>. Each option is a
+  <code>&lt;button role="radio"&gt;</code> carrying
+  <code>aria-checked</code>, <code>tabindex</code> (roving),
+  and <code>data-status</code> for styling.</p>

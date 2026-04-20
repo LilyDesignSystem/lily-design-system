@@ -1,0 +1,16 @@
+---
+layout: layouts/component-demo.njk
+title: Tool Bar
+description: a horizontal bar of tool actions
+---
+
+{% from "components/tool-bar/macro.njk" import toolBar %}
+{% from "components/tool-bar-button/macro.njk" import toolBarButton %}
+
+<h2>Formatting toolbar</h2>
+{% call toolBar({ label: "Text formatting" }) %}
+  {{ toolBarButton({ text: "B", label: "Bold", pressed: true }) }}
+  {{ toolBarButton({ text: "I", label: "Italic", pressed: false }) }}
+  {{ toolBarButton({ text: "U", label: "Underline", pressed: false }) }}
+  {{ toolBarButton({ text: "S", label: "Strikethrough", pressed: false }) }}
+{% endcall %}

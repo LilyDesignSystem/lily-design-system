@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Mockup Window
+description: a box area that looks like a desktop window
+---
+
+{% from "components/mockup-window/macro.njk" import mockupWindow %}
+
+{% call mockupWindow({ title: "Your record" }) %}
+  <h3>Record summary</h3>
+  <p>Patient: Alex Morgan</p>
+{% endcall %}

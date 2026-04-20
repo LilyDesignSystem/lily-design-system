@@ -1,0 +1,36 @@
+{#
+  Person macro — a person component that contains other person-related
+    information (name, role, contact).
+
+  HTML tag: <div>
+  CSS class: person
+  Accessibility: role="group" with an accessible name from the person's
+    name.
+
+  Params:
+    name        string   Person's name (escaped).
+    role        string   Their role or title.
+    label       string   aria-label override.
+    text        string
+    html        string
+    id          string
+    classes     string
+    attributes  object
+#}
+{%- macro person(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="person{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="group"
+  aria-label="{{ p.label | default(p.name) }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.name %}<span class="person-name">{{ p.name }}</span>{% endif %}
+  {%- if p.role %}<span class="person-role">{{ p.role }}</span>{% endif %}
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

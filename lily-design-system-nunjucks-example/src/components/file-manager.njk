@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: File Manager
+description: a file browser for navigating and managing files
+---
+
+{% from "components/file-manager/macro.njk" import fileManager %}
+
+{% call fileManager({ label: "Patient records" }) %}
+  <h2>Records (3)</h2>
+  <ul><li>2026-01-12.pdf</li><li>2026-02-05.pdf</li><li>2026-04-18.pdf</li></ul>
+{% endcall %}

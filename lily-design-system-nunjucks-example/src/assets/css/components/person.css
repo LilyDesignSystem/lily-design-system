@@ -1,0 +1,7 @@
+.person {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nhsuk-spacing-1);
+}
+.person-name { font-weight: var(--nhsuk-font-weight-bold); }
+.person-role { color: var(--nhsuk-secondary-text); font-size: var(--nhsuk-font-size-16); }

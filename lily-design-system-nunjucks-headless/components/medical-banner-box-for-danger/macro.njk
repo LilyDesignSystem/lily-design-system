@@ -1,0 +1,45 @@
+{#
+  MedicalBannerBoxForDanger macro — a medical record banner box for
+    danger information (allergies, reactions, warnings, alarms).
+
+  HTML tag: <div role="alert">
+  CSS class: medical-banner-box-for-danger
+  Data attribute: data-severity="danger" on the root.
+  Accessibility: role="alert" ensures the content is announced by
+    assistive tech. Use sparingly — persistent alerts can be
+    noisy. For one-time alerts prefer the Alert component; use
+    MedicalBannerBoxForDanger for patient-wide safety flags that
+    must be persistently visible (allergies, DNACPR status).
+
+  Params:
+    heading       string   Visible heading (e.g. "Allergies").
+    headingLevel  number   Default 4.
+    text          string
+    html          string
+    label         string
+    id            string
+    classes       string
+    attributes    object
+#}
+{%- macro medicalBannerBoxForDanger(params) -%}
+{%- set level = params.headingLevel | default(4) -%}
+<div
+  class="medical-banner-box-for-danger{% if params.classes %} {{ params.classes }}{% endif %}"
+  role="alert"
+  data-severity="danger"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.heading %}
+  <h{{ level }} class="medical-banner-box-heading">{{ params.heading }}</h{{ level }}>
+  {%- endif %}
+  {%- if params.html %}
+  {{ params.html | safe }}
+  {%- elif params.text %}
+  <p>{{ params.text }}</p>
+  {%- elif caller %}
+  {{ caller() }}
+  {%- endif %}
+</div>
+{%- endmacro -%}

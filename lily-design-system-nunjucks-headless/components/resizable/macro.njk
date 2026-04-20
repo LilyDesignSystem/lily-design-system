@@ -1,0 +1,23 @@
+{#
+  Resizable macro — a container that the user can resize by dragging.
+
+  HTML tag: <div>
+  CSS class: resizable
+
+  Params: label, id, classes, attributes. Caller provides the inner content.
+#}
+{%- macro resizable(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="resizable{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="group"
+  aria-label="{{ p.label | default('Resizable region') }}"
+  data-module="resizable"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

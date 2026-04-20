@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Image
+description: an image element with alt text
+---
+
+{% from "components/image/macro.njk" import image %}
+
+<h2>Meaningful image</h2>
+{{ image({ src: "https://via.placeholder.com/400x200?text=Diagram", alt: "A placeholder diagram", width: 400, height: 200 }) }}
+
+<h2>Decorative image (alt="")</h2>
+{{ image({ src: "https://via.placeholder.com/400x50?text=Banner", alt: "", width: 400, height: 50 }) }}

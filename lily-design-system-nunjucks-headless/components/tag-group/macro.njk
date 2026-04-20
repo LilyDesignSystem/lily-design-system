@@ -1,0 +1,22 @@
+{#
+  TagGroup macro — a group of tag elements.
+
+  HTML tag: <ul role="list">
+  CSS class: tag-group
+
+  Params: label, labelledBy, id, classes, attributes. Caller provides <li>s.
+#}
+{%- macro tagGroup(params) -%}
+{%- set p = params | default({}) -%}
+<ul
+  class="tag-group{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="list"
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</ul>
+{%- endmacro -%}

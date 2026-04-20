@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Progress Spinner
+description: an indeterminate spinning progress indicator
+---
+
+{% from "components/progress-spinner/macro.njk" import progressSpinner %}
+
+<h2>Default</h2>
+<p>{{ progressSpinner({}) }}</p>
+
+<h2>With custom label</h2>
+<p>{{ progressSpinner({ label: "Saving…" }) }}</p>
+
+<p>{{ progressSpinner({ label: "Checking availability…" }) }}</p>
+
+<h2>Accessibility</h2>
+<p>The macro sets
+  <code>role="status" aria-live="polite" aria-busy="true"</code>
+  and always emits an <code>aria-label</code> (default "Loading"),
+  so the spinner is announced when it appears.</p>

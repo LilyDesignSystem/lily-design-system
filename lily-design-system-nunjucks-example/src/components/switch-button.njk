@@ -1,0 +1,36 @@
+---
+layout: layouts/component-demo.njk
+title: Switch Button
+description: a toggle switch for turning a setting on or off
+---
+
+{% from "components/switch-button/macro.njk" import switchButton %}
+
+<h2>Off (default)</h2>
+<p>
+  <label for="sw-1">Email notifications</label>
+  {{ switchButton({ id: "sw-1", label: "Email notifications" }) }}
+</p>
+
+<h2>On</h2>
+<p>
+  <label for="sw-2">SMS reminders</label>
+  {{ switchButton({ id: "sw-2", label: "SMS reminders", checked: true }) }}
+</p>
+
+<h2>Disabled</h2>
+<p>
+  <label for="sw-3">Push notifications</label>
+  {{ switchButton({
+    id: "sw-3",
+    label: "Push notifications",
+    disabled: true
+  }) }}
+</p>
+
+<h2>When to use</h2>
+<p><code>SwitchButton</code> uses <code>role="switch"</code>, which
+  screen readers announce as "switch, on" or "switch, off". Use
+  for explicit on/off settings where the state is the point. For
+  "action in effect" semantics (Bold / Italic / Mute), prefer
+  <a href="/components/toggle-button/"><code>ToggleButton</code></a>.</p>

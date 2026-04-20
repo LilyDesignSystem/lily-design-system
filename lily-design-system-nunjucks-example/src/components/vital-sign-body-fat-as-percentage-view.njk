@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — Body Fat View
+description: number display of body fat percentage (one decimal place)
+---
+
+{% from "components/vital-sign-body-fat-as-percentage-view/macro.njk" import vitalSignBodyFatAsPercentageView %}
+
+<h2>Default</h2>
+<p>{{ vitalSignBodyFatAsPercentageView({
+  value: "22.5",
+  label: "Body fat"
+}) }}</p>
+
+<h2>Accessibility</h2>
+<p>Because the "%" symbol is widely understood by screen readers,
+  the unit is rendered in a plain
+  <code>&lt;span class="vital-sign-unit"&gt;%&lt;/span&gt;</code>
+  rather than an <code>&lt;abbr&gt;</code>. Set
+  <code>params.label</code> to clarify the reading's purpose in
+  contexts where the percent alone is ambiguous.</p>

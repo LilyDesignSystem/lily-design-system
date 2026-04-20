@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Mockup Tablet Landscape
+description: a box area that looks like a tablet computer in landscape mode
+---
+
+{% from "components/mockup-tablet-landscape/macro.njk" import mockupTabletLandscape %}
+
+{% call mockupTabletLandscape() %}
+  <h3>Landscape tablet</h3>
+  <p>4:3 aspect ratio.</p>
+{% endcall %}

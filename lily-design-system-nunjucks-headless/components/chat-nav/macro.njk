@@ -1,0 +1,28 @@
+{#
+  ChatNav macro — a navigation container for chat information.
+
+  HTML tag: <nav>
+  CSS class: chat-nav
+
+  Params:
+    label       string   Accessible name. Default "Chat".
+    labelledBy  string   Id of an element that names this nav.
+    id          string
+    classes     string
+    attributes  object
+
+  Body content: typically a ChatList, passed via caller().
+#}
+{%- macro chatNav(params) -%}
+{%- set p = params | default({}) -%}
+<nav
+  class="chat-nav{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% else %} aria-label="{{ p.label | default('Chat') }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</nav>
+{%- endmacro -%}

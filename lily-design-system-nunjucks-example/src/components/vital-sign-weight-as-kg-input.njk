@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — Weight Input
+description: number input of weight in kilograms
+---
+
+{% from "components/vital-sign-weight-as-kg-input/macro.njk" import vitalSignWeightAsKgInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default (0 – 400 kg, step 0.1)</h2>
+{% call field() %}
+  {{ label({ for: "wt", text: "Weight" }) }}
+  {{ hint({
+    id: "wt-hint",
+    text: "In kilograms, to one decimal place."
+  }) }}
+  {{ vitalSignWeightAsKgInput({
+    id: "wt",
+    describedBy: "wt-hint"
+  }) }}
+{% endcall %}
+
+<h2>Pre-filled</h2>
+{% call field() %}
+  {{ label({ for: "wt-2", text: "Weight" }) }}
+  {{ vitalSignWeightAsKgInput({ id: "wt-2", value: "62.5" }) }}
+{% endcall %}

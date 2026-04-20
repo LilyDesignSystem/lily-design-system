@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Data Filter Form
+description: a form for filtering data by criteria
+---
+
+{% from "components/data-filter-form/macro.njk" import dataFilterForm %}
+
+{% call dataFilterForm({ label: "Filter appointments" }) %}
+  <label>Status <select><option>All</option><option>Upcoming</option><option>Past</option></select></label>
+  <label>Clinician <select><option>All</option><option>Dr Patel</option></select></label>
+  <button type="submit">Apply</button>
+{% endcall %}

@@ -1,0 +1,26 @@
+{#
+  Dial macro — a rotary dial control for selecting a value.
+
+  HTML tag: <input type="range"> styled as a circular dial.
+  CSS class: dial
+
+  Params: id, name, value, min (default 0), max (default 100), step (default 1),
+    label, disabled, required, classes, attributes.
+#}
+{%- macro dial(params) -%}
+{%- set p = params | default({}) -%}
+<input
+  class="dial{% if p.classes %} {{ p.classes }}{% endif %}"
+  type="range"
+  min="{{ p.min | default(0) }}"
+  max="{{ p.max | default(100) }}"
+  step="{{ p.step | default(1) }}"
+  value="{{ p.value | default(0) }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.name %} name="{{ p.name }}"{% endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.disabled %} disabled{% endif %}
+  {%- if p.required %} required{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

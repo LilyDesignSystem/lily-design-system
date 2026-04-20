@@ -1,0 +1,20 @@
+---
+layout: layouts/component-demo.njk
+title: Context Menu
+description: a menu that appears on right-click or long-press
+---
+
+{% from "components/context-menu/macro.njk" import contextMenu %}
+{% from "components/context-menu-item/macro.njk" import contextMenuItem %}
+
+<h2>Open (visible) context menu</h2>
+<p>Consumers control show/hide with JavaScript. The macro emits
+  <code>hidden</code> by default; pass <code>open: true</code>
+  to render it visible (as below).</p>
+
+{% call contextMenu({ label: "Record actions", open: true }) %}
+  {{ contextMenuItem({ text: "Edit", shortcut: "E" }) }}
+  {{ contextMenuItem({ text: "Duplicate", shortcut: "D" }) }}
+  {{ contextMenuItem({ text: "Share…" }) }}
+  {{ contextMenuItem({ text: "Delete", shortcut: "Del", danger: true }) }}
+{% endcall %}

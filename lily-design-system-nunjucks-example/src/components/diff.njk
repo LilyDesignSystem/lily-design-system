@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Diff
+description: a side-by-side comparison of two items
+---
+
+{% from "components/diff/macro.njk" import diff %}
+
+{{ diff({
+  leftHtml: "<p>Before: 75 kg</p>",
+  rightHtml: "<p>After: 72 kg</p>"
+}) }}

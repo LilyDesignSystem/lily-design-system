@@ -1,0 +1,35 @@
+{#
+  Banner macro — a prominent message bar across the top of a page.
+
+  HTML tag: <div role="region">
+  CSS class: banner
+  Accessibility: role="region" marks the banner as a landmark.
+    params.label or labelledBy names the region; without one, it
+    is treated as a generic div.
+
+  Params:
+    label        string   Accessible name (aria-label).
+    labelledBy   string   aria-labelledby target.
+    id           string
+    classes      string
+    attributes   object
+
+  Body content: BannerBox children or arbitrary content via caller().
+#}
+{%- macro banner(params) -%}
+{%- set p = params | default({}) -%}
+{%- set hasName = p.label or p.labelledBy -%}
+<div
+  class="banner{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if hasName %} role="region"
+    {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
+    {%- elif p.label %} aria-label="{{ p.label }}"{% endif -%}
+  {%- endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

@@ -1,0 +1,29 @@
+.red-amber-green-picker-button {
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);
+  background: var(--nhsuk-white);
+  color: var(--nhsuk-black);
+  border: 2px solid var(--nhsuk-mid-grey);
+  border-radius: 3px;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-16);
+  font-weight: var(--nhsuk-font-weight-bold);
+  cursor: pointer;
+  min-width: 4.5rem;
+}
+
+.red-amber-green-picker-button[data-status="red"] { border-color: var(--nhsuk-red); }
+.red-amber-green-picker-button[data-status="amber"] { border-color: var(--nhsuk-warm-yellow); }
+.red-amber-green-picker-button[data-status="green"] { border-color: var(--nhsuk-green); }
+
+.red-amber-green-picker-button[aria-checked="true"][data-status="red"] {
+  background: var(--nhsuk-red);
+  color: var(--nhsuk-white);
+}
+.red-amber-green-picker-button[aria-checked="true"][data-status="amber"] {
+  background: var(--nhsuk-warm-yellow);
+  color: var(--nhsuk-black);
+}
+.red-amber-green-picker-button[aria-checked="true"][data-status="green"] {
+  background: var(--nhsuk-green);
+  color: var(--nhsuk-white);
+}

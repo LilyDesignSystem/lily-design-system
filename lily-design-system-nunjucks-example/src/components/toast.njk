@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Toast
+description: a brief auto-dismissing notification message
+---
+
+{% from "components/toast/macro.njk" import toast %}
+
+{% call toast({ label: "Saved", open: true }) %}Changes saved successfully.{% endcall %}
+{% call toast({ label: "Error", open: true }) %}Could not upload file.{% endcall %}

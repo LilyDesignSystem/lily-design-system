@@ -1,0 +1,36 @@
+{#
+  MedicalBanner macro — a prominent message bar across the top of a
+    page, carrying medical information (patient identity, alerts,
+    allergies, etc.).
+
+  HTML tag: <div role="region">
+  CSS class: medical-banner
+  Accessibility: role="region" with a required accessible name so
+    assistive tech can locate the patient-identity banner. Give a
+    descriptive label (e.g. "Patient banner for Jane Smith").
+
+  Params:
+    label        string   Accessible name (aria-label). Strongly
+                          recommended.
+    labelledBy   string   aria-labelledby target.
+    id           string
+    classes      string
+    attributes   object
+
+  Body content: MedicalBannerBox children via caller().
+#}
+{%- macro medicalBanner(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="medical-banner{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="region"
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
+  {%- else %} aria-label="{{ p.label | default('Patient banner') }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

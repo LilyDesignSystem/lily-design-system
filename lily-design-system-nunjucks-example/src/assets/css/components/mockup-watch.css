@@ -1,0 +1,18 @@
+.mockup-watch {
+  margin: 0;
+  width: 10rem;
+  height: 10rem;
+  border: 10px solid var(--nhsuk-black);
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--nhsuk-black);
+  color: var(--nhsuk-white);
+  position: relative;
+}
+
+.mockup-watch-chrome { height: 0; }
+.mockup-watch-body {
+  padding: var(--nhsuk-spacing-2);
+  height: 100%;
+  box-sizing: border-box;
+}

@@ -1,0 +1,12 @@
+.popover {
+  padding: var(--nhsuk-spacing-3);
+  max-width: 24rem;
+  background: var(--nhsuk-white);
+  color: var(--nhsuk-black);
+  border: 2px solid var(--nhsuk-dark-blue);
+  font-family: var(--nhsuk-font-family);
+  box-shadow: 0 4px 12px rgba(33, 43, 50, 0.15);
+}
+
+.popover > :first-child { margin-top: 0; }
+.popover > :last-child { margin-bottom: 0; }

@@ -1,0 +1,29 @@
+{#
+  MedicalBannerBox macro — a medical banner box inside a
+    medical-banner component.
+
+  HTML tag: <div>
+  CSS class: medical-banner-box
+
+  Params:
+    text        string
+    html        string
+    label       string   Accessible name (aria-label).
+    id          string
+    classes     string
+    attributes  object
+#}
+{%- macro medicalBannerBox(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="medical-banner-box{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

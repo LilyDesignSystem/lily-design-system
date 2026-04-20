@@ -1,0 +1,12 @@
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--nhsuk-white);
+  border: 1px solid var(--nhsuk-mid-grey);
+  border-radius: 6px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  padding: var(--nhsuk-spacing-3);
+}
+.popup[hidden] { display: none; }

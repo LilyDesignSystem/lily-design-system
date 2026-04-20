@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Timer Button
+description: a button with a timer that will auto-click after a given time
+---
+
+{% from "components/timer-button/macro.njk" import timerButton %}
+
+<p>Auto-submits after 30 seconds if not clicked:</p>
+{{ timerButton({ text: "Confirm", duration: 30 }) }}

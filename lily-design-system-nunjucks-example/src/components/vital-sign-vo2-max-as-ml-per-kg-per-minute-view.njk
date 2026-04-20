@@ -1,0 +1,26 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — VO₂ Max View
+description: number display of VO₂ max in millilitres of oxygen per kilogram per minute
+---
+
+{% from "components/vital-sign-vo2-max-as-ml-per-kg-per-minute-view/macro.njk" import vitalSignVo2MaxAsMlPerKgPerMinuteView %}
+
+<h2>Sedentary</h2>
+<p>{{ vitalSignVo2MaxAsMlPerKgPerMinuteView({
+  value: 28,
+  label: "VO₂ max"
+}) }}</p>
+
+<h2>Average</h2>
+<p>{{ vitalSignVo2MaxAsMlPerKgPerMinuteView({
+  value: 42,
+  label: "VO₂ max"
+}) }}</p>
+
+<h2>Elite athlete</h2>
+<p>{{ vitalSignVo2MaxAsMlPerKgPerMinuteView({
+  value: 72,
+  label: "VO₂ max (elite)",
+  classes: "elite"
+}) }}</p>

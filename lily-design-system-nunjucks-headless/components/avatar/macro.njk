@@ -1,0 +1,44 @@
+{#
+  Avatar macro — an avatar indicator showing a user photo or user text
+    (initials, emoji, icon).
+
+  HTML tag: <span>
+  CSS class: avatar
+  Accessibility:
+    - role="img" makes the avatar an image region so screen readers
+      announce params.label instead of traversing children.
+    - Decorative child content (initials, image) stays
+      aria-hidden="true" via the child macros.
+
+  Params:
+    label        string   Accessible name (aria-label). Required
+                          for meaningful avatars.
+    id           string
+    classes      string
+    attributes   object
+
+  Body content: an AvatarImage or AvatarText (or both — image
+    with initials fallback) via caller().
+
+  Usage:
+    {% from "components/avatar/macro.njk" import avatar %}
+    {% from "components/avatar-text/macro.njk" import avatarText %}
+
+    {% call avatar({ label: "Jane Smith" }) %}
+      {{ avatarText({ text: "JS" }) }}
+    {% endcall %}
+#}
+{%- macro avatar(params) -%}
+{%- set p = params | default({}) -%}
+<span
+  class="avatar{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="img"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</span>
+{%- endmacro -%}

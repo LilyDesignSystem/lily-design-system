@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Theme View
+description: a read-only display of the current theme
+---
+
+{% from "components/theme-view/macro.njk" import themeView %}
+
+<h2>Selected themes</h2>
+<p>Light: {{ themeView({ theme: "light", text: "Light" }) }}</p>
+<p>Dark: {{ themeView({ theme: "dark", text: "Dark" }) }}</p>
+<p>System: {{ themeView({ theme: "system", text: "System" }) }}</p>

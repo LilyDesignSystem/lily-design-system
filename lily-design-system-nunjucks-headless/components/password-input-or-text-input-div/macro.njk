@@ -1,0 +1,41 @@
+{#
+  PasswordInputOrTextInputDiv macro — a password input with a show/hide
+    toggle that switches the input between type="password" and type="text".
+
+  HTML tag: <div> wrapping <input> + <button>
+  CSS class: password-input-or-text-input-div
+
+  Params:
+    id (required for labelling), name, value, label,
+    showLabel (default "Show"), hideLabel (default "Hide"),
+    required, disabled, classes, attributes.
+#}
+{%- macro passwordInputOrTextInputDiv(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="password-input-or-text-input-div{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-module="password-input-or-text-input-div"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <input
+    class="password-input-or-text-input-div-input"
+    type="password"
+    {%- if p.id %} id="{{ p.id }}-input"{% endif %}
+    {%- if p.name %} name="{{ p.name }}"{% endif %}
+    value="{{ p.value | default('') }}"
+    {%- if p.required %} required{% endif %}
+    {%- if p.disabled %} disabled{% endif %}
+    {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+    autocomplete="current-password"
+  >
+  <button
+    class="password-input-or-text-input-div-toggle"
+    type="button"
+    data-show-label="{{ p.showLabel | default('Show') }}"
+    data-hide-label="{{ p.hideLabel | default('Hide') }}"
+    aria-pressed="false"
+    {%- if p.disabled %} disabled{% endif %}
+  >{{ p.showLabel | default("Show") }}</button>
+</div>
+{%- endmacro -%}

@@ -1,0 +1,23 @@
+.tool-bar-button {
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-2);
+  background: transparent;
+  border: 0;
+  border-radius: 3px;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-16);
+  cursor: pointer;
+}
+
+.tool-bar-button:hover {
+  background: var(--nhsuk-mid-grey);
+}
+
+.tool-bar-button[aria-pressed="true"] {
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+}
+
+.tool-bar-button:disabled {
+  color: var(--nhsuk-secondary-text);
+  cursor: not-allowed;
+}

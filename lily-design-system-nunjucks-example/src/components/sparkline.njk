@@ -1,0 +1,14 @@
+---
+layout: layouts/component-demo.njk
+title: Sparkline
+description: a small inline chart showing a data trend
+---
+
+{% from "components/sparkline/macro.njk" import sparkline %}
+
+<p>Heart rate trend (last 7 days):
+  {{ sparkline({ values: [72, 70, 74, 71, 73, 75, 72], label: "Heart rate trend (last 7 days)" }) }}
+</p>
+<p>Weight trend (last 30 days):
+  {{ sparkline({ values: [82, 81, 82, 80, 81, 80, 79, 80, 79, 78], label: "Weight trend", width: 120 }) }}
+</p>

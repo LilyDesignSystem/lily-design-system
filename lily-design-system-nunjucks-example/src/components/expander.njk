@@ -1,0 +1,11 @@
+---
+layout: layouts/component-demo.njk
+title: Expander
+description: a control that expands to reveal more content
+---
+
+{% from "components/expander/macro.njk" import expander %}
+
+{% call expander({ summary: "Show more details" }) %}
+  <p>Extra details appear here when expanded.</p>
+{% endcall %}

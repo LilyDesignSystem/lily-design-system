@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Tree Link
+description: one tree link in the trail
+---
+
+{% from "components/tree-link/macro.njk" import treeLink %}
+
+<h2>Default link</h2>
+<p>{{ treeLink({ href: "/services", text: "Services" }) }}</p>
+
+<h2>Current page</h2>
+<p>{{ treeLink({ href: "/current", text: "Current", current: true }) }}</p>

@@ -1,0 +1,13 @@
+.command {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(40rem, 90vw);
+  background: var(--nhsuk-white);
+  border: 1px solid var(--nhsuk-mid-grey);
+  border-radius: 6px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  padding: var(--nhsuk-spacing-3);
+  z-index: 100;
+}

@@ -1,0 +1,8 @@
+.toast {
+  padding: var(--nhsuk-spacing-2) var(--nhsuk-spacing-3);
+  background: var(--nhsuk-black);
+  color: var(--nhsuk-white);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.toast[hidden] { display: none; }

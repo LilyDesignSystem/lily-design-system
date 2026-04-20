@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Screen Reader Span
+description: a visually hidden span of text intended for screen readers
+---
+
+{% from "components/screen-reader-span/macro.njk" import screenReaderSpan %}
+
+<p>Open in new tab {{ screenReaderSpan({ text: " — opens in a new tab" }) }} →</p>
+<p>The text in the screen-reader-span is visually hidden but read by assistive technology.</p>

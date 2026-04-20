@@ -1,0 +1,35 @@
+{#
+  VitalSignWeightAsKgInput macro — a number input for weight in
+    kilograms.
+
+  HTML tag: <input type="number">
+  CSS class: vital-sign-weight-as-kg-input
+  Clinical range: defaults to 0–400 kg (covers neonatal to severe
+    obesity). Step 0.1 for fractional kilograms.
+
+  Params:
+    id, name, value, label, describedBy, errormessage, invalid,
+    required, disabled, readonly, min (0), max (400), step (0.1),
+    classes, attributes.
+#}
+{%- macro vitalSignWeightAsKgInput(params) -%}
+<input
+  class="vital-sign-weight-as-kg-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="number"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  min="{{ params.min | default(0) }}"
+  max="{{ params.max | default(400) }}"
+  step="{{ params.step | default(0.1) }}"
+  inputmode="decimal"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

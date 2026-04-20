@@ -1,0 +1,44 @@
+{#
+  SegmentGroup macro — a group of mutually exclusive segment options.
+
+  HTML tag: <div role="radiogroup">
+  CSS class: segment-group
+  Accessibility:
+    - role="radiogroup" signals mutually-exclusive selection.
+    - Each SegmentGroupItem is a role="radio" with aria-checked.
+    - Arrow keys move focus between items at runtime (consumer
+      JS or roving-tabindex pattern).
+
+  Params:
+    label        string   Accessible name (aria-label).
+    labelledBy   string
+    id           string
+    classes      string
+    attributes   object
+
+  Body content: SegmentGroupItem children via caller().
+
+  Usage:
+    {% from "components/segment-group/macro.njk" import segmentGroup %}
+    {% from "components/segment-group-item/macro.njk" import segmentGroupItem %}
+    {% call segmentGroup({ label: "View" }) %}
+      {{ segmentGroupItem({ text: "Day", checked: true }) }}
+      {{ segmentGroupItem({ text: "Week" }) }}
+      {{ segmentGroupItem({ text: "Month" }) }}
+    {% endcall %}
+#}
+{%- macro segmentGroup(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="segment-group{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="radiogroup"
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
+  {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

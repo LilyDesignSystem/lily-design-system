@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Sonner
+description: a toast notification manager
+---
+
+{% from "components/sonner/macro.njk" import sonner %}
+{% from "components/toast/macro.njk" import toast %}
+
+{% call sonner() %}
+  {% call toast({ label: "Saved", open: true }) %}Appointment saved.{% endcall %}
+  {% call toast({ label: "Error", open: true }) %}Could not upload file.{% endcall %}
+{% endcall %}

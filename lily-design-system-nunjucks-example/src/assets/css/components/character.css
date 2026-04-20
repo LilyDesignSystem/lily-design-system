@@ -1,0 +1,4 @@
+.character {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}

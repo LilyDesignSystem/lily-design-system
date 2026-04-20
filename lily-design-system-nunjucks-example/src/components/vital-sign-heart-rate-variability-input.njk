@@ -1,0 +1,20 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — HRV Input
+description: number input of heart rate variability in milliseconds
+---
+
+{% from "components/vital-sign-heart-rate-variability-input/macro.njk" import vitalSignHeartRateVariabilityInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default (1 – 250 ms)</h2>
+{% call field() %}
+  {{ label({ for: "hrv", text: "Heart rate variability (RMSSD)" }) }}
+  {{ hint({ id: "hrv-hint", text: "In milliseconds." }) }}
+  {{ vitalSignHeartRateVariabilityInput({
+    id: "hrv",
+    describedBy: "hrv-hint"
+  }) }}
+{% endcall %}

@@ -1,0 +1,13 @@
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(24rem, 90vw);
+  background: var(--nhsuk-white);
+  border-left: 1px solid var(--nhsuk-mid-grey);
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.12);
+  padding: var(--nhsuk-spacing-4);
+  z-index: 90;
+}
+.drawer[hidden] { display: none; }

@@ -1,0 +1,14 @@
+.medical-banner-box-for-advice {
+  padding: var(--nhsuk-spacing-2);
+  background: var(--nhsuk-white);
+  border-left: 4px solid var(--nhsuk-blue);
+  font-size: var(--nhsuk-font-size-16);
+}
+
+.medical-banner-box-for-advice .medical-banner-box-heading {
+  margin: 0 0 var(--nhsuk-spacing-1) 0;
+  color: var(--nhsuk-blue);
+  font-size: var(--nhsuk-font-size-16);
+}
+
+.medical-banner-box-for-advice > :last-child { margin-bottom: 0; }

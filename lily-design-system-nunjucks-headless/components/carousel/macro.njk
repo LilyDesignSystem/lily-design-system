@@ -1,0 +1,27 @@
+{#
+  Carousel macro — a slideshow for cycling through content items.
+
+  HTML tag: <section role="region">
+  CSS class: carousel
+  Accessibility: aria-roledescription="carousel". Consumer JS manages slide changes.
+
+  Params: label (required), id, classes, attributes. Caller provides slides.
+#}
+{%- macro carousel(params) -%}
+{%- set p = params | default({}) -%}
+<section
+  class="carousel{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="region"
+  aria-roledescription="carousel"
+  aria-label="{{ p.label | default('Carousel') }}"
+  data-module="carousel"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <div class="carousel-slides">
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </div>
+</section>
+{%- endmacro -%}

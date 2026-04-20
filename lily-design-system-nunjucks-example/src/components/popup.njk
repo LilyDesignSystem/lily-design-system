@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Popup
+description: a temporary overlay that appears above page content
+---
+
+{% from "components/popup/macro.njk" import popup %}
+
+{% call popup({ label: "Popup", open: true }) %}
+  <h3>Hello</h3>
+  <p>This is a popup.</p>
+{% endcall %}

@@ -1,0 +1,26 @@
+{#
+  DigitalObjectIdentifierLink macro — a permanent hyperlink for a
+    Digital Object Identifier (DOI) to an electronic source.
+
+  HTML tag: <a>
+  CSS class: digital-object-identifier-link
+
+  Params:
+    doi         string   The DOI (e.g. "10.1000/xyz123"). Required.
+    base        string   Resolver base URL. Default "https://doi.org/".
+    text        string   Visible text. Default: "doi: {doi}".
+    id          string
+    classes     string
+    attributes  object
+#}
+{%- macro digitalObjectIdentifierLink(params) -%}
+{%- set p = params | default({}) -%}
+{%- set base = p.base | default("https://doi.org/") -%}
+<a
+  class="digital-object-identifier-link{% if p.classes %} {{ p.classes }}{% endif %}"
+  href="{{ base }}{{ p.doi }}"
+  rel="noopener"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ p.text | default("doi: " ~ p.doi) }}</a>
+{%- endmacro -%}

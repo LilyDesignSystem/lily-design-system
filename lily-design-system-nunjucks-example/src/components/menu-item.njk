@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Menu Item
+description: one item in a menu
+---
+
+{% from "components/menu-item/macro.njk" import menuItem %}
+
+<ul class="menu" role="menu" aria-label="Demo">
+  {{ menuItem({ text: "Plain item" }) }}
+  {{ menuItem({ text: "With shortcut", shortcut: "Ctrl+K" }) }}
+  {{ menuItem({ text: "Disabled", disabled: true }) }}
+</ul>

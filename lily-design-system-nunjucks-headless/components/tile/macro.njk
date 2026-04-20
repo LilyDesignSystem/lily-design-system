@@ -1,0 +1,40 @@
+{#
+  Tile macro — a grouping container presenting related content, often as
+    a single clickable area.
+
+  HTML tag: <a> when href is present, else <div>.
+  CSS class: tile
+
+  Params: href, heading, text, html, label, id, classes, attributes.
+#}
+{%- macro tile(params) -%}
+{%- set p = params | default({}) -%}
+{%- if p.href -%}
+<a
+  class="tile{% if p.classes %} {{ p.classes }}{% endif %}"
+  href="{{ p.href }}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.heading %}<h3 class="tile-heading">{{ p.heading }}</h3>{% endif %}
+  {%- if p.text %}<p class="tile-text">{{ p.text }}</p>{% endif %}
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</a>
+{%- else -%}
+<div
+  class="tile{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.heading %}<h3 class="tile-heading">{{ p.heading }}</h3>{% endif %}
+  {%- if p.text %}<p class="tile-text">{{ p.text }}</p>{% endif %}
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endif -%}
+{%- endmacro -%}

@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Menu Bar Button
+description: one item in a menu bar
+---
+
+{% from "components/menu-bar-button/macro.njk" import menuBarButton %}
+
+<div class="menu-bar" role="menubar" aria-label="Demo">
+  {{ menuBarButton({ text: "File" }) }}
+  {{ menuBarButton({ text: "Edit", expanded: true, controls: "edit-menu" }) }}
+  {{ menuBarButton({ text: "Disabled", disabled: true }) }}
+</div>

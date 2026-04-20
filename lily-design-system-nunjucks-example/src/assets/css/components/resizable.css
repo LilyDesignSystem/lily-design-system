@@ -1,0 +1,11 @@
+.resizable {
+  resize: both;
+  overflow: auto;
+  border: 1px solid var(--nhsuk-mid-grey);
+  padding: var(--nhsuk-spacing-3);
+  background: var(--nhsuk-pale-grey);
+  min-width: 10rem;
+  min-height: 5rem;
+  width: 20rem;
+  height: 10rem;
+}

@@ -1,0 +1,15 @@
+---
+layout: layouts/component-demo.njk
+title: Theme Picker
+description: a picker for selecting a visual theme
+---
+
+{% from "components/theme-picker/macro.njk" import themePicker %}
+{% from "components/theme-picker-button/macro.njk" import themePickerButton %}
+
+<h2>Choose a theme</h2>
+{% call themePicker({ label: "Theme" }) %}
+  {{ themePickerButton({ theme: "light", text: "Light" }) }}
+  {{ themePickerButton({ theme: "dark", text: "Dark", checked: true }) }}
+  {{ themePickerButton({ theme: "system", text: "Match system" }) }}
+{% endcall %}

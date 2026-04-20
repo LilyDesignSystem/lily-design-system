@@ -1,0 +1,24 @@
+{#
+  DateTimeNowInput macro — an input for entering a date and time, with a "now" button.
+
+  HTML tag: <div> wrapping <input type="date"> + <input type="time"> + <button>
+  CSS class: date-time-now-input
+
+  Params:
+    id, name (base), date, time, nowLabel (default "Now"), label,
+    disabled, required, classes, attributes.
+#}
+{%- macro dateTimeNowInput(params) -%}
+{%- set p = params | default({}) -%}
+{%- set baseId = p.id | default('') -%}
+{%- set baseName = p.name | default('') -%}
+<div
+  class="date-time-now-input{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if baseId %} id="{{ baseId }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <input class="date-time-now-input-date" type="date" value="{{ p.date | default('') }}" id="{{ baseId }}-date" name="{{ baseName }}-date"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %} aria-label="Date">
+  <input class="date-time-now-input-time" type="time" value="{{ p.time | default('') }}" id="{{ baseId }}-time" name="{{ baseName }}-time"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %} aria-label="Time">
+  <button class="date-time-now-input-now" type="button"{% if p.disabled %} disabled{% endif %} data-date-time-now>{{ p.nowLabel | default("Now") }}</button>
+</div>
+{%- endmacro -%}

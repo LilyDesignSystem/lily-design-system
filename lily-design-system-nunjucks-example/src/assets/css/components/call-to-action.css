@@ -1,0 +1,12 @@
+.call-to-action {
+  padding: var(--nhsuk-spacing-4);
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+  border-radius: 4px;
+  margin-bottom: var(--nhsuk-spacing-4);
+}
+.call-to-action-heading {
+  margin: 0 0 var(--nhsuk-spacing-2);
+  color: inherit;
+}
+.call-to-action-text { margin: 0 0 var(--nhsuk-spacing-3); }

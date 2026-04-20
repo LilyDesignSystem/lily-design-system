@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Five-Face Rating View
+description: a read-only display of a five-face satisfaction rating
+---
+
+{% from "components/five-face-rating-view/macro.njk" import fiveFaceRatingView %}
+
+<h2>Ratings at each value</h2>
+<p>1 — Very unhappy: {{ fiveFaceRatingView({ value: 1 }) }}</p>
+<p>2 — Unhappy: {{ fiveFaceRatingView({ value: 2 }) }}</p>
+<p>3 — Neutral: {{ fiveFaceRatingView({ value: 3 }) }}</p>
+<p>4 — Happy: {{ fiveFaceRatingView({ value: 4 }) }}</p>
+<p>5 — Very happy: {{ fiveFaceRatingView({ value: 5 }) }}</p>
+
+<h2>Accessibility</h2>
+<p>The view has <code>role="img"</code> and a descriptive
+  <code>aria-label</code> such as "Rating: Very happy" so screen
+  readers announce the rating regardless of the visual emoji.</p>

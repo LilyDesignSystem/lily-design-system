@@ -1,0 +1,5 @@
+.sidebar {
+  padding: var(--nhsuk-spacing-3);
+  background: var(--nhsuk-pale-grey);
+  border-right: 1px solid var(--nhsuk-mid-grey);
+}

@@ -1,0 +1,24 @@
+---
+layout: layouts/component-demo.njk
+title: Character
+description: a single character display element
+---
+
+{% from "components/character/macro.njk" import character %}
+
+<h2>Meaningful glyph</h2>
+<p>
+  Currency:
+  {{ character({ text: "€", label: "Euro sign" }) }}
+  {{ character({ text: "£", label: "Pound sign" }) }}
+  {{ character({ text: "$", label: "Dollar sign" }) }}
+</p>
+
+<h2>Decorative glyph</h2>
+<p>
+  Rating:
+  {{ character({ text: "★", decorative: true }) }}
+  {{ character({ text: "★", decorative: true }) }}
+  {{ character({ text: "★", decorative: true }) }}
+  (3 out of 5)
+</p>

@@ -1,0 +1,20 @@
+.tree-list-item {
+  padding: var(--nhsuk-spacing-1) 0;
+}
+
+.tree-list-item[aria-expanded="true"]::before {
+  content: "▾";
+  display: inline-block;
+  width: 1.25em;
+  color: var(--nhsuk-secondary-text);
+}
+.tree-list-item[aria-expanded="false"]::before {
+  content: "▸";
+  display: inline-block;
+  width: 1.25em;
+  color: var(--nhsuk-secondary-text);
+}
+
+.tree-list-item[aria-selected="true"] {
+  background: var(--nhsuk-pale-grey);
+}

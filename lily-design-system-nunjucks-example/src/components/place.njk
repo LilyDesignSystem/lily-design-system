@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Place
+description: a place component
+---
+
+{% from "components/place/macro.njk" import place %}
+
+{{ place({
+  name: "High Street Surgery",
+  address: "1 High Street\nLondon SW1A 1AA"
+}) }}

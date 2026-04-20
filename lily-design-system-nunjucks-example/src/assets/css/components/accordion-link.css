@@ -1,0 +1,17 @@
+.accordion-link {
+  display: inline-block;
+  color: var(--nhsuk-blue);
+  text-decoration: underline;
+  padding: var(--nhsuk-spacing-1) 0;
+}
+
+.accordion-link:hover {
+  color: var(--nhsuk-dark-blue);
+  text-decoration-thickness: 2px;
+}
+
+.accordion-link[aria-current="page"] {
+  font-weight: var(--nhsuk-font-weight-bold);
+  text-decoration: none;
+  color: var(--nhsuk-black);
+}

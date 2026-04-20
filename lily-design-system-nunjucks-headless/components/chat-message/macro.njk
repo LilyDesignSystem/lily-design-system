@@ -1,0 +1,50 @@
+{#
+  ChatMessage macro — one chat conversation message entry and all its
+    metadata: author avatar, author name, time, text.
+
+  HTML tag: <article>
+  CSS class: chat-message
+  Data attribute: data-origin — "self" | "peer" | "system".
+
+  Params:
+    origin       string   "self" | "peer" | "system". Default "peer".
+    author       string   Author name (escaped).
+    avatarHtml   string   Raw HTML for the avatar (e.g. Avatar macro).
+    time         string   ISO timestamp for the message (used in datetime=).
+    timeText     string   Visible time text.
+    text         string   Plain text body (escaped).
+    html         string   Raw HTML body.
+    label        string   Accessible name override.
+    id           string
+    classes      string
+    attributes   object
+#}
+{%- macro chatMessage(params) -%}
+{%- set p = params | default({}) -%}
+{%- set origin = p.origin | default("peer") -%}
+<article
+  class="chat-message{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-origin="{{ origin }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.avatarHtml %}
+  <div class="chat-message-avatar">{{ p.avatarHtml | safe }}</div>
+  {%- endif %}
+  <div class="chat-message-header">
+    {%- if p.author %}
+    <span class="chat-message-author">{{ p.author }}</span>
+    {%- endif %}
+    {%- if p.time or p.timeText %}
+    <time class="chat-message-time"{% if p.time %} datetime="{{ p.time }}"{% endif %}>{{ p.timeText | default(p.time) }}</time>
+    {%- endif %}
+  </div>
+  <div class="chat-message-body">
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif p.text -%}{{ p.text }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </div>
+</article>
+{%- endmacro -%}

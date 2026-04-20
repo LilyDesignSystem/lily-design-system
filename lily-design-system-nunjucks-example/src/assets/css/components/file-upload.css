@@ -1,0 +1,13 @@
+.file-upload {
+  display: block;
+  padding: var(--nhsuk-spacing-4);
+  border: 2px dashed var(--nhsuk-mid-grey);
+  border-radius: 6px;
+  background: var(--nhsuk-pale-grey);
+  text-align: center;
+}
+.file-upload-label {
+  display: block;
+  font-weight: var(--nhsuk-font-weight-bold);
+  margin-bottom: var(--nhsuk-spacing-2);
+}

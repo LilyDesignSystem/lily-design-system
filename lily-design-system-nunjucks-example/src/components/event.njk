@@ -1,0 +1,15 @@
+---
+layout: layouts/component-demo.njk
+title: Event
+description: an event component
+---
+
+{% from "components/event/macro.njk" import event %}
+
+{{ event({
+  title: "GP review",
+  time: "2026-04-27T09:30:00Z",
+  timeText: "27 April 2026, 9:30am",
+  location: "High Street Surgery",
+  text: "Please arrive 10 minutes early."
+}) }}

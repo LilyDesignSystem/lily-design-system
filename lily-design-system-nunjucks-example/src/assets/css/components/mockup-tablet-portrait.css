@@ -1,0 +1,16 @@
+.mockup-tablet-portrait {
+  margin: 0;
+  border: 14px solid var(--nhsuk-black);
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--nhsuk-white);
+  aspect-ratio: 3 / 4;
+  max-width: 20rem;
+}
+
+.mockup-tablet-portrait-chrome { height: 0; }
+.mockup-tablet-portrait-body {
+  padding: var(--nhsuk-spacing-3);
+  height: 100%;
+  box-sizing: border-box;
+}

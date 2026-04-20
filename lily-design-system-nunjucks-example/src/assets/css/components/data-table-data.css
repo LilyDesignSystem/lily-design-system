@@ -1,0 +1,13 @@
+.data-table-data {
+  text-align: left;
+  padding: var(--nhsuk-spacing-2) var(--nhsuk-spacing-3) var(--nhsuk-spacing-2) 0;
+  vertical-align: top;
+}
+
+.table-data-numeric,
+.data-table-data[class*="-numeric"] {
+  text-align: right;
+  padding-left: var(--nhsuk-spacing-3);
+  padding-right: 0;
+  font-variant-numeric: tabular-nums;
+}

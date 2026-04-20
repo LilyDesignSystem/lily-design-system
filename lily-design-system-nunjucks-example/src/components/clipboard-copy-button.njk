@@ -1,0 +1,36 @@
+---
+layout: layouts/component-demo.njk
+title: Clipboard Copy Button
+description: a button that copies text to the clipboard
+---
+
+{% from "components/clipboard-copy-button/macro.njk" import clipboardCopyButton %}
+{% from "components/united-kingdom-national-health-service-number-view/macro.njk" import unitedKingdomNationalHealthServiceNumberView %}
+
+<h2>Copy literal text</h2>
+<p>
+  Your NHS number:
+  {{ unitedKingdomNationalHealthServiceNumberView({ value: "4857773456" }) }}
+  {{ clipboardCopyButton({
+    text: "Copy",
+    clipboardText: "4857773456",
+    label: "Copy NHS number to clipboard"
+  }) }}
+</p>
+
+<h2>Copy from another element</h2>
+<p>
+  <code id="booking-code" class="code">B-2026-0042</code>
+  {{ clipboardCopyButton({
+    text: "Copy booking code",
+    target: "#booking-code",
+    label: "Copy booking code to clipboard"
+  }) }}
+</p>
+
+<h2>Progressive enhancement</h2>
+<p>The macro emits <code>data-module="clipboard-copy-button"</code>
+  so a JavaScript module can hook up <code>navigator.clipboard</code>
+  and announce success to a nearby live region. The button is
+  still valid markup without JS; consumers decide whether to hide
+  it or show a fallback copy target when enhancement fails.</p>

@@ -1,0 +1,25 @@
+.menu-bar-button {
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);
+  background: transparent;
+  border: 0;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+  color: var(--nhsuk-black);
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.menu-bar-button:hover,
+.menu-bar-button[aria-expanded="true"] {
+  background: var(--nhsuk-white);
+}
+
+.menu-bar-button:focus-visible {
+  outline: 3px solid var(--nhsuk-focus-yellow);
+  outline-offset: 2px;
+}
+
+.menu-bar-button:disabled {
+  color: var(--nhsuk-secondary-text);
+  cursor: not-allowed;
+}

@@ -1,0 +1,6 @@
+.tour {
+  background: var(--nhsuk-pale-grey);
+  border-radius: 6px;
+  padding: var(--nhsuk-spacing-3);
+  margin-bottom: var(--nhsuk-spacing-4);
+}

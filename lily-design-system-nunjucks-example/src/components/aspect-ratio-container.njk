@@ -1,0 +1,30 @@
+---
+layout: layouts/component-demo.njk
+title: Aspect Ratio Container
+description: a container that maintains a fixed aspect ratio for its contents
+---
+
+{% from "components/aspect-ratio-container/macro.njk" import aspectRatioContainer %}
+
+<h2>16 / 9 (default, video)</h2>
+{% call aspectRatioContainer() %}
+  <div style="display: grid; place-items: center; background: var(--nhsuk-blue); color: var(--nhsuk-white);">
+    16 / 9
+  </div>
+{% endcall %}
+
+<h2>4 / 3 (classic photo)</h2>
+{% call aspectRatioContainer({ ratio: "4/3" }) %}
+  <div style="display: grid; place-items: center; background: var(--nhsuk-green); color: var(--nhsuk-white);">
+    4 / 3
+  </div>
+{% endcall %}
+
+<h2>1 / 1 (square)</h2>
+<div style="max-width: 12rem;">
+  {% call aspectRatioContainer({ ratio: "1/1" }) %}
+    <div style="display: grid; place-items: center; background: var(--nhsuk-warm-yellow); color: var(--nhsuk-black);">
+      1 / 1
+    </div>
+  {% endcall %}
+</div>

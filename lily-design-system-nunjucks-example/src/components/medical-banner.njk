@@ -1,0 +1,42 @@
+---
+layout: layouts/component-demo.njk
+title: Medical Banner
+description: a prominent message bar carrying medical information
+---
+
+{% from "components/medical-banner/macro.njk" import medicalBanner %}
+{% from "components/medical-banner-box/macro.njk" import medicalBannerBox %}
+{% from "components/medical-banner-box-for-advice/macro.njk" import medicalBannerBoxForAdvice %}
+{% from "components/medical-banner-box-for-danger/macro.njk" import medicalBannerBoxForDanger %}
+{% from "components/united-kingdom-national-health-service-number-view/macro.njk" import unitedKingdomNationalHealthServiceNumberView %}
+
+<h2>Patient identity banner</h2>
+{% call medicalBanner({ label: "Patient banner for Jane Smith" }) %}
+  {% call medicalBannerBox({ label: "Patient name" }) %}
+    <strong>Jane Smith</strong><br>
+    Female · 41y
+  {% endcall %}
+  {% call medicalBannerBox({ label: "Date of birth" }) %}
+    <strong>DOB</strong><br>
+    27 April 1985
+  {% endcall %}
+  {% call medicalBannerBox({ label: "NHS number" }) %}
+    <strong>NHS number</strong><br>
+    {{ unitedKingdomNationalHealthServiceNumberView({ value: "4857773456" }) }}
+  {% endcall %}
+{% endcall %}
+
+<h2>With advice and danger boxes</h2>
+{% call medicalBanner({ label: "Patient banner with alerts" }) %}
+  {% call medicalBannerBox() %}
+    <strong>John Thomas</strong> · Male · 72y
+  {% endcall %}
+  {{ medicalBannerBoxForDanger({
+    heading: "Allergies",
+    text: "Penicillin"
+  }) }}
+  {{ medicalBannerBoxForAdvice({
+    heading: "Care plan",
+    text: "Long-term anti-coagulation therapy"
+  }) }}
+{% endcall %}

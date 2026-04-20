@@ -1,0 +1,9 @@
+---
+layout: layouts/component-demo.njk
+title: Hamburger Menu
+description: a toggle button that opens a mobile navigation menu
+---
+
+{% from "components/hamburger-menu/macro.njk" import hamburgerMenu %}
+
+{{ hamburgerMenu({ controls: "nav", label: "Open menu" }) }}

@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Mockup Laptop
+description: a box area that looks like a laptop computer
+---
+
+{% from "components/mockup-laptop/macro.njk" import mockupLaptop %}
+
+{% call mockupLaptop() %}
+  <h3>Desktop preview</h3>
+  <p>Wide-layout content renders here.</p>
+{% endcall %}

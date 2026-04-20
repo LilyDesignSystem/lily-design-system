@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Currency Input
+description: a locale-aware currency input
+---
+
+{% from "components/currency-input/macro.njk" import currencyInput %}
+
+<p><label for="price">Price</label></p>
+{{ currencyInput({ id: "price", name: "price", value: "12.50", label: "Price in pounds" }) }}

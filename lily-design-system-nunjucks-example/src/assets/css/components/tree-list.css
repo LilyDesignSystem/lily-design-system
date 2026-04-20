@@ -1,0 +1,11 @@
+.tree-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tree-list[role="group"] {
+  padding-left: var(--nhsuk-spacing-4);
+  border-left: 1px solid var(--nhsuk-mid-grey);
+  margin-left: var(--nhsuk-spacing-2);
+}

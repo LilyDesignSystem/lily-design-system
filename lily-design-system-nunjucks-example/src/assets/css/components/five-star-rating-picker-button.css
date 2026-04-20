@@ -1,0 +1,28 @@
+.five-star-rating-picker-button {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  background: transparent;
+  color: var(--nhsuk-light-grey);
+  border: 0;
+  cursor: pointer;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.five-star-rating-picker-button::before {
+  content: "★";
+}
+
+.five-star-rating-picker-button:hover,
+.five-star-rating-picker-button:hover ~ .five-star-rating-picker-button,
+.five-star-rating-picker-button[aria-checked="true"],
+.five-star-rating-picker-button[aria-checked="true"] ~ .five-star-rating-picker-button {
+  color: var(--nhsuk-warm-yellow);
+}
+
+.five-star-rating-picker-button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

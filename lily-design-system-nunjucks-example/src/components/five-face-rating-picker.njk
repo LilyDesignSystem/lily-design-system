@@ -1,0 +1,33 @@
+---
+layout: layouts/component-demo.njk
+title: Five-Face Rating Picker
+description: a picker for selecting a 1-5 satisfaction rating using face labels
+---
+
+{% from "components/five-face-rating-picker/macro.njk" import fiveFaceRatingPicker %}
+{% from "components/five-face-rating-picker-button/macro.njk" import fiveFaceRatingPickerButton %}
+
+<h2>How satisfied were you?</h2>
+{% call fiveFaceRatingPicker({ label: "How satisfied were you with your visit?" }) %}
+  {{ fiveFaceRatingPickerButton({ value: 1 }) }}
+  {{ fiveFaceRatingPickerButton({ value: 2 }) }}
+  {{ fiveFaceRatingPickerButton({ value: 3 }) }}
+  {{ fiveFaceRatingPickerButton({ value: 4, checked: true }) }}
+  {{ fiveFaceRatingPickerButton({ value: 5 }) }}
+{% endcall %}
+
+<h2>Rate your experience</h2>
+{% call fiveFaceRatingPicker({ label: "Rate your experience" }) %}
+  {{ fiveFaceRatingPickerButton({ value: 1 }) }}
+  {{ fiveFaceRatingPickerButton({ value: 2 }) }}
+  {{ fiveFaceRatingPickerButton({ value: 3 }) }}
+  {{ fiveFaceRatingPickerButton({ value: 4 }) }}
+  {{ fiveFaceRatingPickerButton({ value: 5 }) }}
+{% endcall %}
+
+<h2>Accessibility</h2>
+<p>The picker is a <code>&lt;div role="radiogroup"&gt;</code> with
+  an <code>aria-label</code>. Each button inside is a
+  <code>&lt;button role="radio"&gt;</code> that sets
+  <code>aria-checked</code> when selected; unselected buttons
+  render desaturated in the example CSS.</p>

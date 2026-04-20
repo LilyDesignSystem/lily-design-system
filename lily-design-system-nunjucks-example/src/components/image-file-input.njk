@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Image File Input
+description: an input for selecting image files
+---
+
+{% from "components/image-file-input/macro.njk" import imageFileInput %}
+
+<p><label for="avatar">Profile photo</label></p>
+{{ imageFileInput({ id: "avatar", name: "avatar", label: "Profile photo" }) }}

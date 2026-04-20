@@ -1,0 +1,4 @@
+.toggle-group {
+  display: inline-flex;
+  gap: var(--nhsuk-spacing-2);
+}

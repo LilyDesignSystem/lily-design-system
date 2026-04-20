@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Person
+description: a person component
+---
+
+{% from "components/person/macro.njk" import person %}
+
+{{ person({ name: "Dr Priya Patel", role: "General Practitioner" }) }}
+{{ person({ name: "Nurse Ahmed", role: "Practice Nurse" }) }}

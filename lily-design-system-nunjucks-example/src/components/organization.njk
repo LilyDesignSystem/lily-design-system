@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Organization
+description: an organization component
+---
+
+{% from "components/organization/macro.njk" import organization %}
+
+{{ organization({
+  name: "NHS England",
+  description: "Oversees the budget, planning, delivery and day-to-day operation of the commissioning side of the NHS."
+}) }}

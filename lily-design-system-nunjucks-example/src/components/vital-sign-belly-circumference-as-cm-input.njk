@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — Belly Circumference Input (cm)
+description: number input of one vital sign belly circumference in centimetres
+---
+
+{% from "components/vital-sign-belly-circumference-as-cm-input/macro.njk" import vitalSignBellyCircumferenceAsCmInput %}
+
+<p><label for="belly">Belly circumference (cm)</label></p>
+{{ vitalSignBellyCircumferenceAsCmInput({ id: "belly", name: "belly", value: 85 }) }}

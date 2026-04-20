@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — Belly Circumference (cm)
+description: number display of one vital sign belly circumference in centimetres
+---
+
+{% from "components/vital-sign-belly-circumference-as-cm-view/macro.njk" import vitalSignBellyCircumferenceAsCmView %}
+
+<p>Belly circumference: {{ vitalSignBellyCircumferenceAsCmView({ value: 85 }) }}</p>
+<p>Belly circumference: {{ vitalSignBellyCircumferenceAsCmView({ value: 92 }) }}</p>

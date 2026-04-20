@@ -1,0 +1,10 @@
+.carousel {
+  position: relative;
+  overflow: hidden;
+}
+.carousel-slides {
+  display: flex;
+  gap: var(--nhsuk-spacing-3);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}

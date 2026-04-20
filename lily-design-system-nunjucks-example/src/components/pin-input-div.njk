@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Pin Input
+description: a series of single-digit inputs for entering a PIN or OTP code
+---
+
+{% from "components/pin-input-div/macro.njk" import pinInputDiv %}
+
+<h2>Verification code</h2>
+{{ pinInputDiv({ id: "vc", name: "vc", length: 6, label: "6-digit verification code" }) }}
+
+<h2>4-digit PIN</h2>
+{{ pinInputDiv({ id: "pin", name: "pin", length: 4, label: "4-digit PIN" }) }}

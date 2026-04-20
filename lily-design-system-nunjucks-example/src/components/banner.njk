@@ -1,0 +1,27 @@
+---
+layout: layouts/component-demo.njk
+title: Banner
+description: a prominent message bar across the top of a page
+---
+
+{% from "components/banner/macro.njk" import banner %}
+{% from "components/banner-box/macro.njk" import bannerBox %}
+
+<h2>Service availability banner</h2>
+{% call banner({ label: "Service availability banner" }) %}
+  {% call bannerBox() %}
+    <strong>NHS App</strong>
+  {% endcall %}
+  {% call bannerBox() %}
+    Online booking is temporarily unavailable.
+    <a href="#">Check status</a>.
+  {% endcall %}
+{% endcall %}
+
+<h2>Promotional banner</h2>
+{% call banner() %}
+  {% call bannerBox() %}
+    New health checks are now available.
+    <a href="#">Find out more</a>.
+  {% endcall %}
+{% endcall %}

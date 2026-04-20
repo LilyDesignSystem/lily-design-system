@@ -1,0 +1,47 @@
+---
+layout: layouts/component-demo.njk
+title: Popover
+description: a floating content box anchored to a trigger element
+---
+
+{% from "components/popover/macro.njk" import popover %}
+{% from "components/button/macro.njk" import button %}
+
+<h2>Popover via the native Popover API</h2>
+<p>The macro uses the HTML <code>popover</code> attribute; a
+  trigger element declares <code>popovertarget</code> to open it.
+  The browser handles open/close state, including Escape to close
+  and light-dismiss on outside click.</p>
+
+<p>
+  {{ button({
+    text: "Show details",
+    attributes: { popovertarget: "pop-info" }
+  }) }}
+</p>
+
+{% call popover({ id: "pop-info", label: "Details" }) %}
+  <h3 style="margin-top: 0;">About this item</h3>
+  <p>This is additional information anchored to the trigger
+    button above. Press Escape or click outside to close.</p>
+{% endcall %}
+
+<h2>Manual popover</h2>
+<p>A <code>popover="manual"</code> popover only closes when a
+  script explicitly hides it — useful for state-driven UI.</p>
+
+<p>
+  {{ button({
+    text: "Toggle manual popover",
+    attributes: { popovertarget: "pop-manual" }
+  }) }}
+</p>
+
+{% call popover({
+  id: "pop-manual",
+  popover: "manual",
+  label: "Manual popover"
+}) %}
+  <p>I stay open until explicitly closed.</p>
+  <button popovertarget="pop-manual" popovertargetaction="hide" class="button button-secondary">Close</button>
+{% endcall %}

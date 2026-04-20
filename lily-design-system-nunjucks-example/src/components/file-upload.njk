@@ -1,0 +1,9 @@
+---
+layout: layouts/component-demo.njk
+title: File Upload
+description: a drag-and-drop area for uploading files
+---
+
+{% from "components/file-upload/macro.njk" import fileUpload %}
+
+{{ fileUpload({ id: "upload", name: "files", multiple: true, label: "Drop files here, or click to choose" }) }}

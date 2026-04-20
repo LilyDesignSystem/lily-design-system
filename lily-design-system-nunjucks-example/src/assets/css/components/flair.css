@@ -1,0 +1,11 @@
+.flair {
+  display: inline-block;
+  padding: 0 var(--nhsuk-spacing-1);
+  background: var(--nhsuk-warm-yellow);
+  color: var(--nhsuk-black);
+  font-size: var(--nhsuk-font-size-14);
+  font-weight: var(--nhsuk-font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  vertical-align: 0.1em;
+}

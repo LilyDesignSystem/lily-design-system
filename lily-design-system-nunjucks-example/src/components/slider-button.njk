@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Slider Button
+description: a button with a slider that the user needs to slide to confirm
+---
+
+{% from "components/slider-button/macro.njk" import sliderButton %}
+
+<p>Confirm sensitive actions by sliding:</p>
+{{ sliderButton({ label: "Slide to delete", confirmedLabel: "Deleted" }) }}

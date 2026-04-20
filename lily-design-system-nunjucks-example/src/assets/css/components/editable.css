@@ -1,0 +1,11 @@
+.editable {
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 3px;
+  cursor: text;
+}
+.editable:hover { background: var(--nhsuk-pale-grey); }
+.editable[contenteditable="true"] {
+  background: var(--nhsuk-white);
+  outline: 2px solid var(--nhsuk-blue);
+}

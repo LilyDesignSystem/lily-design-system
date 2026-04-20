@@ -1,0 +1,26 @@
+{#
+  ColorPickerButton macro — a button showing a color swatch.
+
+  HTML tag: <button role="radio">
+  CSS class: color-picker-button
+
+  Params: color (hex string, required), label (e.g. "Red"), checked, disabled,
+    id, name, classes, attributes.
+#}
+{%- macro colorPickerButton(params) -%}
+{%- set p = params | default({}) -%}
+<button
+  class="color-picker-button{% if p.classes %} {{ p.classes }}{% endif %}"
+  type="button"
+  role="radio"
+  aria-checked="{{ 'true' if p.checked else 'false' }}"
+  tabindex="{{ '0' if p.checked else '-1' }}"
+  aria-label="{{ p.label | default(p.color) }}"
+  style="background: {{ p.color }}"
+  data-color="{{ p.color }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.name %} name="{{ p.name }}"{% endif %}
+  {%- if p.disabled %} disabled{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+></button>
+{%- endmacro -%}

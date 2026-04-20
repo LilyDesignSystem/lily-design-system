@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: Red Orange Yellow Green Blue View
+description: a read-only display of a five-level colour status
+---
+
+{% from "components/red-orange-yellow-green-blue-view/macro.njk" import redOrangeYellowGreenBlueView %}
+
+<h2>Each status level</h2>
+<p>{{ redOrangeYellowGreenBlueView({ status: "red" }) }}</p>
+<p>{{ redOrangeYellowGreenBlueView({ status: "orange" }) }}</p>
+<p>{{ redOrangeYellowGreenBlueView({ status: "yellow" }) }}</p>
+<p>{{ redOrangeYellowGreenBlueView({ status: "green" }) }}</p>
+<p>{{ redOrangeYellowGreenBlueView({ status: "blue" }) }}</p>
+
+<h2>Unknown status</h2>
+<p>{{ redOrangeYellowGreenBlueView({}) }}</p>
+
+<h2>Custom text</h2>
+<p>{{ redOrangeYellowGreenBlueView({ status: "red", text: "Critical" }) }}</p>
+<p>{{ redOrangeYellowGreenBlueView({ status: "orange", text: "High priority" }) }}</p>
+<p>{{ redOrangeYellowGreenBlueView({ status: "yellow", text: "Caution" }) }}</p>
+<p>{{ redOrangeYellowGreenBlueView({ status: "green", text: "On track" }) }}</p>
+<p>{{ redOrangeYellowGreenBlueView({ status: "blue", text: "Informational" }) }}</p>
+
+<h2>Accessibility</h2>
+<p>Colour alone is never sufficient. The indicator dot is
+  <code>aria-hidden</code> while the visible label (e.g. "Red")
+  is read by assistive technology.</p>

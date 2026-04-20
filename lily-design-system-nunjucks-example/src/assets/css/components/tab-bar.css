@@ -1,0 +1,11 @@
+.tab-bar {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--nhsuk-mid-grey);
+}
+
+.tab-bar[aria-orientation="vertical"] {
+  flex-direction: column;
+  border-bottom: 0;
+  border-right: 2px solid var(--nhsuk-mid-grey);
+}

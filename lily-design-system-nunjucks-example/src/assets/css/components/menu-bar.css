@@ -1,0 +1,7 @@
+.menu-bar {
+  display: flex;
+  gap: var(--nhsuk-spacing-1);
+  background: var(--nhsuk-pale-grey);
+  border-bottom: 1px solid var(--nhsuk-mid-grey);
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-2);
+}

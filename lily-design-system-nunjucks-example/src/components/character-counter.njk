@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Character Counter
+description: a counter showing remaining or used characters
+---
+
+{% from "components/character-counter/macro.njk" import characterCounter %}
+
+<p>{{ characterCounter({ value: 42, maximum: 200 }) }}</p>
+<p>{{ characterCounter({ value: 5 }) }}</p>

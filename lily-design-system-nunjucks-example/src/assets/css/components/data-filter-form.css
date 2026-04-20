@@ -1,0 +1,9 @@
+.data-filter-form {
+  display: flex;
+  gap: var(--nhsuk-spacing-3);
+  flex-wrap: wrap;
+  padding: var(--nhsuk-spacing-3);
+  background: var(--nhsuk-pale-grey);
+  border-radius: 4px;
+  margin-bottom: var(--nhsuk-spacing-3);
+}

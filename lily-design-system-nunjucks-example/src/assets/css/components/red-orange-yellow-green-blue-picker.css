@@ -1,0 +1,5 @@
+.red-orange-yellow-green-blue-picker {
+  display: inline-flex;
+  gap: var(--nhsuk-spacing-2);
+  flex-wrap: wrap;
+}

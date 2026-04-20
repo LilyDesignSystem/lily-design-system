@@ -1,0 +1,28 @@
+{#
+  BeachBall macro — a decorative animated beach ball element.
+
+  HTML tag: <div>
+  CSS class: beach-ball
+  Accessibility: always decorative; aria-hidden="true" is fixed so
+    assistive tech ignores it entirely.
+  Motion: consumer CSS typically animates rotation. Respect
+    prefers-reduced-motion in the consumer stylesheet.
+
+  Params:
+    id          string
+    classes     string
+    attributes  object
+
+  Usage:
+    {% from "components/beach-ball/macro.njk" import beachBall %}
+    {{ beachBall() }}
+#}
+{%- macro beachBall(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="beach-ball{% if p.classes %} {{ p.classes }}{% endif %}"
+  aria-hidden="true"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+></div>
+{%- endmacro -%}

@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Tree Menu
+description: a hierarchical tree menu with expandable branches
+---
+
+{% from "components/tree-menu/macro.njk" import treeMenu %}
+{% from "components/tree-list-item/macro.njk" import treeListItem %}
+{% from "components/tree-list/macro.njk" import treeList %}
+
+<h2>File browser</h2>
+{% call treeMenu({ label: "Files" }) %}
+  {% call treeListItem({ expanded: true }) %}
+    Records
+    {% call treeList({ nested: true }) %}
+      {% call treeListItem() %}2026-01-12 visit notes{% endcall %}
+      {% call treeListItem({ selected: true }) %}2026-04-18 visit notes{% endcall %}
+    {% endcall %}
+  {% endcall %}
+  {% call treeListItem({ expanded: false }) %}Prescriptions{% endcall %}
+{% endcall %}

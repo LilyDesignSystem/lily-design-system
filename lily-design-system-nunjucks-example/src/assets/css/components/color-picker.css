@@ -1,0 +1,8 @@
+.color-picker {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--nhsuk-spacing-1);
+  padding: var(--nhsuk-spacing-1);
+  border: 1px solid var(--nhsuk-mid-grey);
+  border-radius: 4px;
+}

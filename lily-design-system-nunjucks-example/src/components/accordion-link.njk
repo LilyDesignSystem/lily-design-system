@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Accordion Link
+description: one accordion link in the trail
+---
+
+{% from "components/accordion-link/macro.njk" import accordionLink %}
+
+<h2>Standalone links</h2>
+<p>{{ accordionLink({ href: "/a", text: "Page A" }) }}</p>
+<p>{{ accordionLink({ href: "/b", text: "Page B" }) }}</p>
+
+<h2>Current page</h2>
+<p>{{ accordionLink({ href: "/current", text: "Current page", current: true }) }}</p>
+
+<h2>Composed inside an accordion item</h2>
+<p>Accordion links are typically nested inside
+  <a href="/components/accordion-list-item/"><code>AccordionListItem</code></a>
+  content. See the
+  <a href="/components/accordion-nav/">Accordion Nav demo</a>
+  for a composed example.</p>

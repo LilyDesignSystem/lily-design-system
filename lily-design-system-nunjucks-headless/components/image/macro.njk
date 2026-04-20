@@ -1,0 +1,30 @@
+{#
+  Image macro — an image element with alt text.
+
+  HTML tag: <img>
+  CSS class: image
+  Accessibility: alt is required. Pass an empty string for decorative.
+
+  Params:
+    src         string   Image source URL (required).
+    alt         string   Alt text (required — pass "" for decorative).
+    width       number
+    height      number
+    loading     string   "lazy" (default) | "eager".
+    id          string
+    classes     string
+    attributes  object
+#}
+{%- macro image(params) -%}
+{%- set p = params | default({}) -%}
+<img
+  class="image{% if p.classes %} {{ p.classes }}{% endif %}"
+  src="{{ p.src }}"
+  alt="{{ p.alt | default('') }}"
+  loading="{{ p.loading | default('lazy') }}"
+  {%- if p.width %} width="{{ p.width }}"{% endif %}
+  {%- if p.height %} height="{{ p.height }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

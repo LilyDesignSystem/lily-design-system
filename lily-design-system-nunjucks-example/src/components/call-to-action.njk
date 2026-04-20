@@ -1,0 +1,14 @@
+---
+layout: layouts/component-demo.njk
+title: Call to Action
+description: a prominent prompt encouraging user action
+---
+
+{% from "components/call-to-action/macro.njk" import callToAction %}
+
+{% call callToAction({
+  heading: "Book an appointment online",
+  text: "Save time by using our online booking service."
+}) %}
+  <a class="button" href="#">Book now</a>
+{% endcall %}

@@ -1,0 +1,13 @@
+.slide-out-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(20rem, 80vw);
+  background: var(--nhsuk-white);
+  border-right: 1px solid var(--nhsuk-mid-grey);
+  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.12);
+  padding: var(--nhsuk-spacing-4);
+  z-index: 90;
+}
+.slide-out-drawer[hidden] { display: none; }

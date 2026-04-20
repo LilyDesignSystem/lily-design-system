@@ -1,0 +1,9 @@
+---
+layout: layouts/component-demo.njk
+title: Editable
+description: an inline-editable text element
+---
+
+{% from "components/editable/macro.njk" import editable %}
+
+<p>Patient name: {{ editable({ text: "Alex Morgan", label: "Patient name" }) }}</p>

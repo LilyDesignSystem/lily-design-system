@@ -1,0 +1,11 @@
+---
+layout: layouts/component-demo.njk
+title: Collapsible
+description: a container that can be expanded or collapsed
+---
+
+{% from "components/collapsible/macro.njk" import collapsible %}
+
+{% call collapsible({ summary: "About this service" }) %}
+  <p>Content hidden until expanded.</p>
+{% endcall %}

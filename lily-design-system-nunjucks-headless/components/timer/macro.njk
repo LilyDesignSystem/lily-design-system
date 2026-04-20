@@ -1,0 +1,27 @@
+{#
+  Timer macro — a countdown or elapsed-time display.
+
+  HTML tag: <output>
+  CSS class: timer
+  Accessibility: aria-live="polite" so screen readers announce changes
+    without interrupting. Use data-timer-remaining or data-timer-elapsed
+    to let client-side JS update the text.
+
+  Params:
+    id, mode ("countdown" | "elapsed"), start (ISO datetime), duration (seconds),
+    label, classes, attributes. The macro renders the initial text in `text`.
+    text        string  Initial rendered text (e.g. "05:00").
+#}
+{%- macro timer(params) -%}
+{%- set p = params | default({}) -%}
+<output
+  class="timer{% if p.classes %} {{ p.classes }}{% endif %}"
+  aria-live="polite"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  data-mode="{{ p.mode | default('countdown') }}"
+  {%- if p.start %} data-start="{{ p.start }}"{% endif %}
+  {%- if p.duration %} data-duration="{{ p.duration }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ p.text | default('') }}</output>
+{%- endmacro -%}

@@ -1,0 +1,25 @@
+---
+layout: layouts/component-demo.njk
+title: Contents Nav
+description: a navigation landmark for a list of contents
+---
+
+{% from "components/contents-nav/macro.njk" import contentsNav %}
+{% from "components/contents-list/macro.njk" import contentsList %}
+{% from "components/contents-list-item/macro.njk" import contentsListItem %}
+{% from "components/contents-link/macro.njk" import contentsLink %}
+
+<h2>On this page</h2>
+{% call contentsNav({ label: "On this page" }) %}
+  {% call contentsList() %}
+    {% call contentsListItem() %}
+      {{ contentsLink({ href: "#symptoms", text: "Symptoms" }) }}
+    {% endcall %}
+    {% call contentsListItem({ current: true }) %}
+      {{ contentsLink({ href: "#treatment", text: "Treatment", current: true }) }}
+    {% endcall %}
+    {% call contentsListItem() %}
+      {{ contentsLink({ href: "#when-to-get-help", text: "When to get help" }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}

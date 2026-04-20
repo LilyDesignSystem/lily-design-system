@@ -1,0 +1,26 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — Body Temperature View
+description: number display of body temperature in Celsius degrees (one decimal place)
+---
+
+{% from "components/vital-sign-body-temperature-as-celcius-view/macro.njk" import vitalSignBodyTemperatureAsCelciusView %}
+
+<h2>Default</h2>
+<p>{{ vitalSignBodyTemperatureAsCelciusView({
+  value: "37.0",
+  label: "Body temperature"
+}) }}</p>
+
+<h2>Elevated</h2>
+<p>{{ vitalSignBodyTemperatureAsCelciusView({
+  value: "38.9",
+  label: "Body temperature (elevated)",
+  classes: "elevated"
+}) }}</p>
+
+<h2>Accessibility</h2>
+<p>The unit is wrapped in
+  <code>&lt;abbr title="degrees Celsius"&gt;°C&lt;/abbr&gt;</code>
+  so screen readers announce "degrees Celsius" instead of the
+  Unicode symbol alone.</p>

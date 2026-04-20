@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — VO₂ Max Input
+description: number input of VO₂ max in millilitres of oxygen per kilogram per minute
+---
+
+{% from "components/vital-sign-vo2-max-as-ml-per-kg-per-minute-input/macro.njk" import vitalSignVo2MaxAsMlPerKgPerMinuteInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default (5 – 90 ml/kg/min)</h2>
+{% call field() %}
+  {{ label({ for: "vo2", text: "VO₂ max" }) }}
+  {{ hint({
+    id: "vo2-hint",
+    text: "In millilitres of oxygen per kilogram of body weight per minute."
+  }) }}
+  {{ vitalSignVo2MaxAsMlPerKgPerMinuteInput({
+    id: "vo2",
+    describedBy: "vo2-hint"
+  }) }}
+{% endcall %}

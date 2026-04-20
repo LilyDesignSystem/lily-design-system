@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Timer
+description: a countdown or elapsed time display
+---
+
+{% from "components/timer/macro.njk" import timer %}
+
+<h2>Countdown</h2>
+{{ timer({ mode: "countdown", duration: 300, text: "05:00", label: "Time remaining" }) }}
+
+<h2>Elapsed</h2>
+{{ timer({ mode: "elapsed", start: "2026-04-20T09:00:00Z", text: "00:00", label: "Time elapsed" }) }}

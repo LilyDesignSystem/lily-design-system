@@ -1,0 +1,15 @@
+---
+layout: layouts/component-demo.njk
+title: Color Picker
+description: a container for picking colors by swatch
+---
+
+{% from "components/color-picker/macro.njk" import colorPicker %}
+{% from "components/color-picker-button/macro.njk" import colorPickerButton %}
+
+{% call colorPicker({ label: "Theme colour" }) %}
+  {{ colorPickerButton({ color: "#005eb8", label: "NHS Blue", checked: true }) }}
+  {{ colorPickerButton({ color: "#d5281b", label: "NHS Red" }) }}
+  {{ colorPickerButton({ color: "#007f3b", label: "NHS Green" }) }}
+  {{ colorPickerButton({ color: "#ffb81c", label: "NHS Yellow" }) }}
+{% endcall %}

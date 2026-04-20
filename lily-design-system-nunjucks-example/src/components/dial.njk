@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Dial
+description: a rotary dial control for selecting a value
+---
+
+{% from "components/dial/macro.njk" import dial %}
+
+<p><label for="vol">Volume</label></p>
+{{ dial({ id: "vol", name: "vol", value: 50, label: "Volume" }) }}

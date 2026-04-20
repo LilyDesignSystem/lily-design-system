@@ -1,0 +1,14 @@
+.pin-input-div {
+  display: inline-flex;
+  gap: var(--nhsuk-spacing-2);
+}
+.pin-input-div-input {
+  width: 2.5rem;
+  height: 3rem;
+  text-align: center;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-22);
+  font-weight: var(--nhsuk-font-weight-bold);
+  border: 2px solid var(--nhsuk-black);
+  border-radius: 3px;
+}

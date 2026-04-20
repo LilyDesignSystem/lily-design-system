@@ -1,0 +1,35 @@
+{#
+  CharacterCounter macro — a counter showing remaining or used
+    characters in a text field.
+
+  HTML tag: <output aria-live="polite">
+  CSS class: character-counter
+
+  Params:
+    value       number  Current character count. Default 0.
+    maximum     number  Maximum allowed characters (optional).
+    label       string  Custom label, e.g. "characters remaining".
+    for         string  id of the input this counter describes.
+    id          string
+    classes     string
+    attributes  object
+#}
+{%- macro characterCounter(params) -%}
+{%- set p = params | default({}) -%}
+{%- set value = p.value | default(0) -%}
+{%- set text = p.text -%}
+{%- if not text -%}
+  {%- if p.maximum -%}
+    {%- set text = value ~ " of " ~ p.maximum ~ " characters" -%}
+  {%- else -%}
+    {%- set text = value ~ " characters" -%}
+  {%- endif -%}
+{%- endif -%}
+<output
+  class="character-counter{% if p.classes %} {{ p.classes }}{% endif %}"
+  aria-live="polite"
+  {%- if p.for %} for="{{ p.for }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ text }}</output>
+{%- endmacro -%}

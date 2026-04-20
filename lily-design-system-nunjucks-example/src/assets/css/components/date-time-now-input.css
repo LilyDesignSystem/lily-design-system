@@ -1,0 +1,24 @@
+.date-time-now-input {
+  display: inline-flex;
+  gap: var(--nhsuk-spacing-2);
+  align-items: center;
+}
+.date-time-now-input-date,
+.date-time-now-input-time {
+  padding: var(--nhsuk-spacing-1);
+  border: 2px solid var(--nhsuk-black);
+  border-radius: 3px;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+}
+.date-time-now-input-now {
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+  border: 0;
+  border-radius: 3px;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-16);
+  font-weight: var(--nhsuk-font-weight-bold);
+  cursor: pointer;
+}

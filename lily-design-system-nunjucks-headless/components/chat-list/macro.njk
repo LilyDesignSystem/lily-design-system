@@ -1,0 +1,30 @@
+{#
+  ChatList macro — an ordered list of chat list item components.
+
+  HTML tag: <ol>
+  CSS class: chat-list
+  Accessibility: role="log" announces new messages to assistive tech
+    as they arrive.
+
+  Params:
+    live        string   aria-live value. Default "polite".
+    id          string
+    classes     string
+    attributes  object
+
+  Body content: ChatListItem children via caller().
+#}
+{%- macro chatList(params) -%}
+{%- set p = params | default({}) -%}
+<ol
+  class="chat-list{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="log"
+  aria-live="{{ p.live | default('polite') }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</ol>
+{%- endmacro -%}

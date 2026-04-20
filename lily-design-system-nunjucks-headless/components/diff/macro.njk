@@ -1,0 +1,26 @@
+{#
+  Diff macro — a side-by-side comparison of two items.
+
+  HTML tag: <div role="group">
+  CSS class: diff
+
+  Params: label, leftLabel, rightLabel, leftHtml, rightHtml,
+    id, classes, attributes.
+#}
+{%- macro diff(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="diff{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="group"
+  aria-label="{{ p.label | default('Diff') }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <div class="diff-left" aria-label="{{ p.leftLabel | default('Before') }}">
+    {{ p.leftHtml | safe }}
+  </div>
+  <div class="diff-right" aria-label="{{ p.rightLabel | default('After') }}">
+    {{ p.rightHtml | safe }}
+  </div>
+</div>
+{%- endmacro -%}

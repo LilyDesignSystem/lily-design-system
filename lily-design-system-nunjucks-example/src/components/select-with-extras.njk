@@ -1,0 +1,14 @@
+---
+layout: layouts/component-demo.njk
+title: Select With Extras
+description: a select dropdown with additional features
+---
+
+{% from "components/select-with-extras/macro.njk" import selectWithExtras %}
+
+<p><label for="clinician">Clinician</label></p>
+{% call selectWithExtras({ id: "clinician", name: "clinician", label: "Clinician" }) %}
+  <option value="patel">Dr Patel</option>
+  <option value="smith">Dr Smith</option>
+  <option value="ahmed">Nurse Ahmed</option>
+{% endcall %}

@@ -1,0 +1,29 @@
+.toggle-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);
+  background: var(--nhsuk-white);
+  color: var(--nhsuk-black);
+  border: 2px solid var(--nhsuk-black);
+  border-radius: 3px;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+  font-weight: var(--nhsuk-font-weight-bold);
+  cursor: pointer;
+}
+
+.toggle-button:hover {
+  background: var(--nhsuk-pale-grey);
+}
+
+.toggle-button[aria-pressed="true"] {
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+  border-color: var(--nhsuk-dark-blue);
+}
+
+.toggle-button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

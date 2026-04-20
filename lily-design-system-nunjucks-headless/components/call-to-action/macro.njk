@@ -1,0 +1,25 @@
+{#
+  CallToAction macro — a prominent prompt encouraging user action.
+
+  HTML tag: <div role="region">
+  CSS class: call-to-action
+
+  Params: label (required accessible name), heading, text, html,
+    id, classes, attributes. Caller content is placed after heading/text.
+#}
+{%- macro callToAction(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="call-to-action{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="region"
+  aria-label="{{ p.label | default(p.heading | default('Call to action')) }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.heading %}<h2 class="call-to-action-heading">{{ p.heading }}</h2>{% endif %}
+  {%- if p.text %}<p class="call-to-action-text">{{ p.text }}</p>{% endif %}
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Dropdown Menu
+description: a menu that opens below a trigger button
+---
+
+{% from "components/dropdown-menu/macro.njk" import dropdownMenu %}
+
+{% call dropdownMenu({ label: "Actions", open: true }) %}
+  <li><button role="menuitem">Edit</button></li>
+  <li><button role="menuitem">Duplicate</button></li>
+  <li><button role="menuitem">Delete</button></li>
+{% endcall %}

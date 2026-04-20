@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Tab Bar Button
+description: one tab button in a tab group
+---
+
+{% from "components/tab-bar-button/macro.njk" import tabBarButton %}
+
+<div class="tab-bar" role="tablist" aria-label="Demo">
+  {{ tabBarButton({ text: "Selected", selected: true }) }}
+  {{ tabBarButton({ text: "Not selected" }) }}
+  {{ tabBarButton({ text: "Disabled", disabled: true }) }}
+</div>

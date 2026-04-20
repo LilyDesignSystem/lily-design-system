@@ -1,0 +1,14 @@
+.tree-link {
+  color: var(--nhsuk-blue);
+  text-decoration: underline;
+}
+
+.tree-link:hover {
+  color: var(--nhsuk-dark-blue);
+}
+
+.tree-link[aria-current="page"] {
+  color: var(--nhsuk-black);
+  font-weight: var(--nhsuk-font-weight-bold);
+  text-decoration: none;
+}

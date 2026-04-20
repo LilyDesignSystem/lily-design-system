@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Mockup Shell
+description: a box area that looks like a terminal shell
+---
+
+{% from "components/mockup-shell/macro.njk" import mockupShell %}
+
+{% call mockupShell({ title: "~/project" }) %}
+<span>$ pnpm test</span>
+<span>Test files  262 passed (262)</span>
+<span>Tests       1641 passed (1641)</span>
+{% endcall %}

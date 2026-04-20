@@ -1,0 +1,50 @@
+{#
+  Sparkline macro — a small inline chart showing a data trend.
+
+  HTML tag: <svg role="img">
+  CSS class: sparkline
+  Accessibility: role="img" with aria-label describing the trend.
+
+  Params:
+    values      array   Numeric data points (required).
+    width       number  SVG width. Default 80.
+    height      number  SVG height. Default 24.
+    label       string  aria-label (required for meaningful charts).
+    id          string
+    classes     string
+    attributes  object
+#}
+{%- macro sparkline(params) -%}
+{%- set p = params | default({}) -%}
+{%- set values = p.values | default([0]) -%}
+{%- set width = p.width | default(80) -%}
+{%- set height = p.height | default(24) -%}
+{%- set n = values | length -%}
+{%- set maxV = 1 -%}
+{%- set minV = 0 -%}
+{%- for v in values -%}
+  {%- if loop.first or v > maxV -%}{%- set maxV = v -%}{%- endif -%}
+  {%- if loop.first or v < minV -%}{%- set minV = v -%}{%- endif -%}
+{%- endfor -%}
+{%- set span = maxV - minV -%}
+{%- set span = span if span > 0 else 1 -%}
+{%- set points = [] -%}
+{%- for v in values -%}
+  {%- set x = (loop.index0 * width) / (n - 1 if n > 1 else 1) -%}
+  {%- set y = height - ((v - minV) * height) / span -%}
+  {%- set points = points.concat([x ~ "," ~ y]) -%}
+{%- endfor -%}
+<svg
+  class="sparkline{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="img"
+  viewBox="0 0 {{ width }} {{ height }}"
+  width="{{ width }}"
+  height="{{ height }}"
+  aria-label="{{ p.label | default('Trend chart') }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <polyline fill="none" stroke="currentColor" stroke-width="1.5" points="{{ points | join(' ') }}"/>
+</svg>
+{%- endmacro -%}

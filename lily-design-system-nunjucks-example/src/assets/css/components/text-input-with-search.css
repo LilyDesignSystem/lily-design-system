@@ -1,0 +1,24 @@
+.text-input-with-search {
+  display: inline-flex;
+  align-items: stretch;
+}
+.text-input-with-search-input {
+  padding: var(--nhsuk-spacing-1);
+  border: 2px solid var(--nhsuk-black);
+  border-right: 0;
+  border-radius: 3px 0 0 3px;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+  flex: 1;
+  min-width: 12rem;
+}
+.text-input-with-search-button {
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+  border: 2px solid var(--nhsuk-blue);
+  border-radius: 0 3px 3px 0;
+  font-family: var(--nhsuk-font-family);
+  font-weight: var(--nhsuk-font-weight-bold);
+  cursor: pointer;
+}

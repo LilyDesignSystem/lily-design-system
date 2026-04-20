@@ -1,0 +1,18 @@
+.text-area-with-character-counter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nhsuk-spacing-1);
+}
+.text-area-with-character-counter-textarea {
+  padding: var(--nhsuk-spacing-1);
+  border: 2px solid var(--nhsuk-black);
+  border-radius: 3px;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+  width: 100%;
+  resize: vertical;
+}
+.text-area-with-character-counter-counter {
+  font-size: var(--nhsuk-font-size-14);
+  color: var(--nhsuk-secondary-text);
+}

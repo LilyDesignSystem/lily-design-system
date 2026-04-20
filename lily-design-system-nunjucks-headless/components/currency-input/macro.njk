@@ -1,0 +1,33 @@
+{#
+  CurrencyInput macro — a locale-aware currency input.
+
+  HTML tag: <div> wrapping a currency symbol + <input type="text" inputmode="decimal">
+  CSS class: currency-input
+
+  Params:
+    id, name, value, label, currencySymbol (default "£"),
+    required, disabled, invalid, classes, attributes.
+#}
+{%- macro currencyInput(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="currency-input{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+>
+  <span class="currency-input-symbol" aria-hidden="true">{{ p.currencySymbol | default("£") }}</span>
+  <input
+    class="currency-input-value"
+    type="text"
+    inputmode="decimal"
+    pattern="[0-9]*\.?[0-9]*"
+    value="{{ p.value | default('') }}"
+    {%- if p.id %} id="{{ p.id }}-value"{% endif %}
+    {%- if p.name %} name="{{ p.name }}"{% endif %}
+    {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+    {%- if p.required %} required{% endif %}
+    {%- if p.disabled %} disabled{% endif %}
+    {%- if p.invalid %} aria-invalid="true"{% endif %}
+    {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+  >
+</div>
+{%- endmacro -%}

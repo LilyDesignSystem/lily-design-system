@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — Waist Circumference Input
+description: number input of waist circumference in centimetres
+---
+
+{% from "components/vital-sign-waist-circumference-as-cm-input/macro.njk" import vitalSignWaistCircumferenceAsCmInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default (30 – 200 cm)</h2>
+{% call field() %}
+  {{ label({ for: "ws", text: "Waist circumference" }) }}
+  {{ vitalSignWaistCircumferenceAsCmInput({ id: "ws" }) }}
+{% endcall %}
+
+<h2>Pre-filled</h2>
+{% call field() %}
+  {{ label({ for: "ws-2", text: "Waist" }) }}
+  {{ vitalSignWaistCircumferenceAsCmInput({ id: "ws-2", value: 84 }) }}
+{% endcall %}

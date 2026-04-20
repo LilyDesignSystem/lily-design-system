@@ -1,0 +1,25 @@
+.hamburger-menu {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: transparent;
+  border: 2px solid var(--nhsuk-black);
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+}
+.hamburger-menu-icon,
+.hamburger-menu-icon::before,
+.hamburger-menu-icon::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 1.25rem;
+  height: 2px;
+  background: var(--nhsuk-black);
+}
+.hamburger-menu-icon {
+  top: calc(50% - 1px);
+  left: calc(50% - 0.625rem);
+}
+.hamburger-menu-icon::before { top: -6px; }
+.hamburger-menu-icon::after { top: 6px; }

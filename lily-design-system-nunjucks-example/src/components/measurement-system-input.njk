@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Measurement System Input
+description: an input for selecting a measurement system
+---
+
+{% from "components/measurement-system-input/macro.njk" import measurementSystemInput %}
+
+<h2>Choose a measurement system</h2>
+{{ measurementSystemInput({
+  name: "system",
+  value: "metric",
+  label: "Measurement system",
+  systems: [
+    { value: "metric", text: "Metric" },
+    { value: "imperial", text: "Imperial" },
+    { value: "us", text: "US customary" }
+  ]
+}) }}

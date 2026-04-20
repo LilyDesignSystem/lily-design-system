@@ -1,0 +1,29 @@
+.five-star-rating-view {
+  --star-fill: calc(var(--value, 0) / var(--max, 5) * 100%);
+  display: inline-block;
+  font-size: 1.5rem;
+  line-height: 1;
+  position: relative;
+  color: var(--nhsuk-light-grey);
+}
+
+.five-star-rating-view::before {
+  content: "★★★★★";
+  letter-spacing: 0.15em;
+}
+
+.five-star-rating-view::after {
+  content: "★★★★★";
+  letter-spacing: 0.15em;
+  position: absolute;
+  inset: 0;
+  color: var(--nhsuk-warm-yellow);
+  width: var(--star-fill);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.five-star-rating-view[data-value] {
+  --value: attr(data-value type(<number>), 0);
+  --max: attr(data-max type(<number>), 5);
+}

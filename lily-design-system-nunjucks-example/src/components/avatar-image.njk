@@ -1,0 +1,17 @@
+---
+layout: layouts/component-demo.njk
+title: Avatar Image
+description: an avatar inner image (user photo)
+---
+
+{% from "components/avatar-image/macro.njk" import avatarImage %}
+
+<p>An <code>AvatarImage</code> renders an <code>&lt;img&gt;</code>
+  with <code>loading="lazy"</code> and an empty default
+  <code>alt</code> so it composes cleanly inside an
+  <a href="/components/avatar/"><code>Avatar</code></a> (the
+  surrounding avatar carries the accessible name).</p>
+
+<p>See the <a href="/components/avatar/">Avatar demo</a> for a
+  composed example. When used standalone outside an Avatar, pass
+  a meaningful <code>alt</code> via params.</p>

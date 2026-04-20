@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Tile
+description: a grouping container presenting related content
+---
+
+{% from "components/tile/macro.njk" import tile %}
+
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+  {{ tile({ href: "/book", heading: "Book an appointment", text: "Online booking for GP appointments." }) }}
+  {{ tile({ href: "/records", heading: "View your records", text: "Read past appointments and test results." }) }}
+</div>

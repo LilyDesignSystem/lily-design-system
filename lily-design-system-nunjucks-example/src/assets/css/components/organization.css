@@ -1,0 +1,7 @@
+.organization {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nhsuk-spacing-1);
+}
+.organization-name { font-weight: var(--nhsuk-font-weight-bold); }
+.organization-description { color: var(--nhsuk-secondary-text); font-size: var(--nhsuk-font-size-16); }

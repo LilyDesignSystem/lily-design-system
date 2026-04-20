@@ -1,0 +1,21 @@
+.signature-pad {
+  display: inline-block;
+  border: 2px solid var(--nhsuk-black);
+  border-radius: 4px;
+  padding: var(--nhsuk-spacing-2);
+  background: var(--nhsuk-white);
+}
+.signature-pad-canvas {
+  display: block;
+  background: var(--nhsuk-white);
+  border: 1px dashed var(--nhsuk-mid-grey);
+  cursor: crosshair;
+}
+.signature-pad-clear {
+  margin-top: var(--nhsuk-spacing-1);
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-2);
+  background: var(--nhsuk-pale-grey);
+  border: 1px solid var(--nhsuk-mid-grey);
+  border-radius: 3px;
+  cursor: pointer;
+}

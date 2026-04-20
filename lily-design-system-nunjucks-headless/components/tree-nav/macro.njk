@@ -1,0 +1,28 @@
+{#
+  TreeNav macro — a hierarchical navigation with expandable branches.
+
+  HTML tag: <nav>
+  CSS class: tree-nav
+
+  Params:
+    label       string   Accessible name. Default "Tree".
+    labelledBy  string
+    id          string
+    classes     string
+    attributes  object
+
+  Body content: typically a TreeList via caller().
+#}
+{%- macro treeNav(params) -%}
+{%- set p = params | default({}) -%}
+<nav
+  class="tree-nav{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% else %} aria-label="{{ p.label | default('Tree') }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</nav>
+{%- endmacro -%}

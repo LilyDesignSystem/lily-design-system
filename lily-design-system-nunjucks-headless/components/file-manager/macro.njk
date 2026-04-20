@@ -1,0 +1,23 @@
+{#
+  FileManager macro — a file browser for navigating and managing files.
+
+  HTML tag: <section role="region">
+  CSS class: file-manager
+
+  Params: label, id, classes, attributes. Caller provides the interior.
+#}
+{%- macro fileManager(params) -%}
+{%- set p = params | default({}) -%}
+<section
+  class="file-manager{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="region"
+  aria-label="{{ p.label | default('File manager') }}"
+  data-module="file-manager"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</section>
+{%- endmacro -%}

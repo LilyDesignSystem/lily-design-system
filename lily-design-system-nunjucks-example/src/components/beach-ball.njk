@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Beach Ball
+description: a decorative animated beach ball element
+---
+
+{% from "components/beach-ball/macro.njk" import beachBall %}
+
+<h2>Default</h2>
+<p>{{ beachBall() }}</p>
+
+<h2>Motion</h2>
+<p>The beach-ball rotates 360° every 3 seconds. The example CSS
+  honours <code>prefers-reduced-motion</code> and disables the
+  animation when users prefer reduced motion.</p>
+
+<h2>Accessibility</h2>
+<p>The element is always <code>aria-hidden="true"</code> — it is
+  purely decorative and screen readers ignore it entirely.</p>

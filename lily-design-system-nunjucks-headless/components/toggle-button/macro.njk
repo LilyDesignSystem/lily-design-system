@@ -1,0 +1,51 @@
+{#
+  ToggleButton macro — a button that toggles between pressed and
+    unpressed states.
+
+  HTML tag: <button>
+  CSS class: toggle-button
+  Accessibility:
+    - aria-pressed="true" | "false" communicates the two-state
+      toggle behaviour to assistive tech (semantically different
+      from role="switch", which is "on" / "off").
+    - Use for "bold", "italic", "mute audio" style controls —
+      anything where the label names the action and pressed means
+      "currently applied".
+
+  Params:
+    text         string   Visible button label.
+    html         string   Raw HTML label.
+    pressed      boolean  Current pressed state. Default false.
+    disabled     boolean
+    label        string   aria-label override.
+    describedBy  string   aria-describedby id list.
+    id           string
+    name         string
+    value        string
+    type         string   Default "button".
+    classes      string
+    attributes   object
+
+  Usage:
+    {% from "components/toggle-button/macro.njk" import toggleButton %}
+    {{ toggleButton({ text: "Bold", pressed: true }) }}
+#}
+{%- macro toggleButton(params) -%}
+<button
+  class="toggle-button{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="{{ params.type | default('button') }}"
+  aria-pressed="{{ 'true' if params.pressed else 'false' }}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.name %} name="{{ params.name }}"{% endif %}
+  {%- if params.value %} value="{{ params.value }}"{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</button>
+{%- endmacro -%}

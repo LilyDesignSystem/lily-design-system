@@ -1,0 +1,17 @@
+.progress-spinner {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid var(--nhsuk-pale-grey);
+  border-top-color: var(--nhsuk-blue);
+  border-radius: 50%;
+  animation: progress-spinner-spin 0.9s linear infinite;
+}
+
+@keyframes progress-spinner-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-spinner { animation-duration: 3s; }
+}

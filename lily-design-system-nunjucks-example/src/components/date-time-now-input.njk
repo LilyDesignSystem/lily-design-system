@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Date Time Now Input
+description: an input for entering a date and time with a "now" button
+---
+
+{% from "components/date-time-now-input/macro.njk" import dateTimeNowInput %}
+
+<p><label>Appointment start</label></p>
+{{ dateTimeNowInput({ id: "apt", name: "apt", date: "2026-04-20", time: "09:30" }) }}

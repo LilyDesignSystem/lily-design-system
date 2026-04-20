@@ -1,0 +1,37 @@
+{#
+  TagInput macro — an input for adding and removing tags.
+
+  HTML tag: <div> wrapping a list of tag chips + a text input
+  CSS class: tag-input
+
+  Params:
+    id, name, tags (array of strings, current tags),
+    label, placeholder, disabled, classes, attributes.
+#}
+{%- macro tagInput(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="tag-input{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-module="tag-input"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <ul class="tag-input-list" role="list">
+    {%- for t in p.tags | default([]) %}
+    <li class="tag-input-list-item">
+      <span class="tag-input-list-item-text">{{ t }}</span>
+      <button class="tag-input-list-item-remove" type="button" aria-label="Remove tag {{ t }}">×</button>
+      <input type="hidden"{% if p.name %} name="{{ p.name }}[]"{% endif %} value="{{ t }}">
+    </li>
+    {%- endfor %}
+  </ul>
+  <input
+    class="tag-input-field"
+    type="text"
+    {%- if p.id %} id="{{ p.id }}-field"{% endif %}
+    {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+    {%- if p.placeholder %} placeholder="{{ p.placeholder }}"{% endif %}
+    {%- if p.disabled %} disabled{% endif %}
+  >
+</div>
+{%- endmacro -%}

@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Color Picker Button
+description: a button showing a color swatch
+---
+
+{% from "components/color-picker-button/macro.njk" import colorPickerButton %}
+
+<div class="color-picker" role="radiogroup" aria-label="Demo">
+  {{ colorPickerButton({ color: "#005eb8", label: "Blue", checked: true }) }}
+  {{ colorPickerButton({ color: "#d5281b", label: "Red" }) }}
+</div>

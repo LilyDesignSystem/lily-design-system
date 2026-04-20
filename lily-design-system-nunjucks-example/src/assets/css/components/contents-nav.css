@@ -1,0 +1,6 @@
+.contents-nav {
+  display: block;
+  border-left: 4px solid var(--nhsuk-blue);
+  padding-left: var(--nhsuk-spacing-3);
+  margin-bottom: var(--nhsuk-spacing-4);
+}

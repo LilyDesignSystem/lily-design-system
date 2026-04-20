@@ -1,0 +1,15 @@
+.mockup-tablet-landscape {
+  margin: 0;
+  border: 14px solid var(--nhsuk-black);
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--nhsuk-white);
+  aspect-ratio: 4 / 3;
+}
+
+.mockup-tablet-landscape-chrome { height: 0; }
+.mockup-tablet-landscape-body {
+  padding: var(--nhsuk-spacing-3);
+  height: 100%;
+  box-sizing: border-box;
+}

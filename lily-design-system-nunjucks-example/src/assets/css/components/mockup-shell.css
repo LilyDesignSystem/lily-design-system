@@ -1,0 +1,32 @@
+.mockup-shell {
+  margin: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #1e1e1e;
+  color: #e0e0e0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: var(--nhsuk-font-size-14);
+}
+
+.mockup-shell-chrome {
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-2);
+  background: #2a2a2a;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.mockup-shell-chrome::before {
+  content: "●●●";
+  letter-spacing: 3px;
+  color: #555;
+}
+
+.mockup-shell-title {
+  margin-left: var(--nhsuk-spacing-2);
+  font-size: var(--nhsuk-font-size-14);
+  color: #bbb;
+}
+
+.mockup-shell-body {
+  padding: var(--nhsuk-spacing-3);
+  white-space: pre-wrap;
+}

@@ -1,0 +1,39 @@
+{#
+  RedOrangeYellowGreenBluePickerButton macro — one option button
+    inside a RedOrangeYellowGreenBluePicker.
+
+  HTML tag: <button role="radio">
+  CSS class: red-orange-yellow-green-blue-picker-button
+  Data attribute: data-status
+    ("red" | "orange" | "yellow" | "green" | "blue").
+
+  Params:
+    status       string   "red" | "orange" | "yellow" | "green" | "blue". Required.
+    text         string   Visible label. Defaults to the capitalised status.
+    checked      boolean  Current selection state. Default false.
+    disabled     boolean
+    label        string   aria-label override.
+    id           string
+    name         string
+    value        string
+    classes      string
+    attributes   object
+#}
+{%- macro redOrangeYellowGreenBluePickerButton(params) -%}
+{%- set defaultText = { red: "Red", orange: "Orange", yellow: "Yellow", green: "Green", blue: "Blue" } -%}
+{%- set text = params.text | default(defaultText[params.status]) -%}
+<button
+  class="red-orange-yellow-green-blue-picker-button{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="{{ params.type | default('button') }}"
+  role="radio"
+  aria-checked="{{ 'true' if params.checked else 'false' }}"
+  tabindex="{{ '0' if params.checked else '-1' }}"
+  data-status="{{ params.status }}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.name %} name="{{ params.name }}"{% endif %}
+  {%- if params.value %} value="{{ params.value }}"{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ text }}</button>
+{%- endmacro -%}

@@ -1,0 +1,7 @@
+.contents-list-item {
+  display: block;
+}
+
+.contents-list-item[aria-current="location"] {
+  font-weight: var(--nhsuk-font-weight-bold);
+}

@@ -1,0 +1,14 @@
+---
+layout: layouts/component-demo.njk
+title: Tour List
+description: an ordered list of tour guide steps
+---
+
+{% from "components/tour-list/macro.njk" import tourList %}
+{% from "components/tour-list-item/macro.njk" import tourListItem %}
+
+{% call tourList() %}
+  {% call tourListItem() %}Step one.{% endcall %}
+  {% call tourListItem({ current: true }) %}Step two (you are here).{% endcall %}
+  {% call tourListItem() %}Step three.{% endcall %}
+{% endcall %}

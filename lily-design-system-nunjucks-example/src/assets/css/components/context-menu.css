@@ -1,0 +1,10 @@
+.context-menu {
+  list-style: none;
+  margin: 0;
+  padding: var(--nhsuk-spacing-1) 0;
+  background: var(--nhsuk-white);
+  border: 1px solid var(--nhsuk-mid-grey);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  min-width: 12rem;
+}

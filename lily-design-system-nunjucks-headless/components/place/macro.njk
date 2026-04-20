@@ -1,0 +1,33 @@
+{#
+  Place macro — a place component that contains other place-related
+    information (address, coordinates, etc.).
+
+  HTML tag: <address>
+  CSS class: place
+
+  Params:
+    name        string   Place name (escaped).
+    address     string   Postal address (escaped, newlines preserved).
+    text        string   Plain-text body.
+    html        string   Raw HTML body.
+    id          string
+    classes     string
+    attributes  object
+#}
+{%- macro place(params) -%}
+{%- set p = params | default({}) -%}
+<address
+  class="place{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.name %}<span class="place-name">{{ p.name }}</span>{% endif %}
+  {%- if p.address %}
+  <span class="place-address">{{ p.address }}</span>
+  {%- endif %}
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</address>
+{%- endmacro -%}

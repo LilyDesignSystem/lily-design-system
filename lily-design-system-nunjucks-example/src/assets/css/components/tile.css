@@ -1,0 +1,15 @@
+.tile {
+  display: block;
+  padding: var(--nhsuk-spacing-4);
+  background: var(--nhsuk-white);
+  border: 1px solid var(--nhsuk-mid-grey);
+  border-radius: 6px;
+  color: var(--nhsuk-black);
+  text-decoration: none;
+  transition: box-shadow 0.15s;
+}
+a.tile:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.tile-heading { margin: 0 0 var(--nhsuk-spacing-2); color: var(--nhsuk-blue); }
+.tile-text { margin: 0; color: var(--nhsuk-black); }

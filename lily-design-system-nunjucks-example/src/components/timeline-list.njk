@@ -1,0 +1,30 @@
+---
+layout: layouts/component-demo.njk
+title: Timeline List
+description: an ordered list of chronological events or milestones
+---
+
+{% from "components/timeline-list/macro.njk" import timelineList %}
+{% from "components/timeline-list-item/macro.njk" import timelineListItem %}
+
+<h2>Treatment history</h2>
+{% call timelineList({ label: "Treatment history" }) %}
+  {{ timelineListItem({
+    time: "2026-01-12",
+    timeText: "12 January 2026",
+    heading: "Initial consultation",
+    text: "GP review and blood test ordered."
+  }) }}
+  {{ timelineListItem({
+    time: "2026-02-05",
+    timeText: "5 February 2026",
+    heading: "Blood test results",
+    text: "Results discussed — starting low-dose medication."
+  }) }}
+  {{ timelineListItem({
+    time: "2026-04-18",
+    timeText: "18 April 2026",
+    heading: "Follow-up",
+    text: "Symptoms improved. Continue current regimen for 3 months."
+  }) }}
+{% endcall %}

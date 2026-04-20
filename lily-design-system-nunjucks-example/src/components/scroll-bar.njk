@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Scroll Bar
+description: a custom scrollbar element
+---
+
+{% from "components/scroll-bar/macro.njk" import scrollBar %}
+
+<div style="display: flex; gap: 1rem; height: 8rem;">
+  <div style="flex: 1; background: var(--nhsuk-pale-grey);">Content</div>
+  {{ scrollBar({ value: 30, controls: "x" }) }}
+</div>

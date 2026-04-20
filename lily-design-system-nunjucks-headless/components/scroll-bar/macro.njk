@@ -1,0 +1,26 @@
+{#
+  ScrollBar macro — a custom scrollbar element.
+
+  HTML tag: <div role="scrollbar">
+  CSS class: scroll-bar
+
+  Params: orientation (default "vertical"), value (0-100), controls,
+    id, classes, attributes.
+#}
+{%- macro scrollBar(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="scroll-bar{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="scrollbar"
+  aria-orientation="{{ p.orientation | default('vertical') }}"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  aria-valuenow="{{ p.value | default(0) }}"
+  {%- if p.controls %} aria-controls="{{ p.controls }}"{% endif %}
+  tabindex="0"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <div class="scroll-bar-thumb" aria-hidden="true"></div>
+</div>
+{%- endmacro -%}

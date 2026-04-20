@@ -1,0 +1,26 @@
+.task-bar-button {
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);
+  background: var(--nhsuk-white);
+  border: 1px solid var(--nhsuk-mid-grey);
+  border-radius: 3px;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-16);
+  cursor: pointer;
+}
+
+.task-bar-button:hover {
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+  border-color: var(--nhsuk-blue);
+}
+
+.task-bar-button[aria-pressed="true"] {
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+  border-color: var(--nhsuk-blue);
+}
+
+.task-bar-button:disabled {
+  color: var(--nhsuk-secondary-text);
+  cursor: not-allowed;
+}

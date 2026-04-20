@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Signature Pad
+description: a drawing area for capturing a handwritten signature
+---
+
+{% from "components/signature-pad/macro.njk" import signaturePad %}
+
+<p><label>Please sign below</label></p>
+{{ signaturePad({ id: "sig", name: "signature" }) }}

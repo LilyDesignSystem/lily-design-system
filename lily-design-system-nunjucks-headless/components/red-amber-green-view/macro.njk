@@ -1,0 +1,40 @@
+{#
+  RedAmberGreenView macro — a read-only display of a red/amber/green status.
+
+  HTML tag: <span>
+  CSS class: red-amber-green-view
+  Data attribute: data-status on the root; one of
+    "red" | "amber" | "green" | "unknown". Default "unknown".
+  Accessibility:
+    - The colour alone is not enough; the macro emits a
+      screen-reader-only text label alongside the visual status so
+      assistive tech speaks the meaning.
+
+  Params:
+    status      string   "red" | "amber" | "green" | "unknown".
+    text        string   Visible label override. When omitted the
+                         status name (capitalised) is used.
+    label       string   Accessible name (aria-label).
+    id          string
+    classes     string
+    attributes  object
+
+  Usage:
+    {% from "components/red-amber-green-view/macro.njk" import redAmberGreenView %}
+    {{ redAmberGreenView({ status: "amber", text: "Needs attention" }) }}
+#}
+{%- macro redAmberGreenView(params) -%}
+{%- set status = params.status | default("unknown") -%}
+{%- set defaultText = { red: "Red", amber: "Amber", green: "Green", unknown: "Unknown" } -%}
+{%- set text = params.text | default(defaultText[status]) -%}
+<span
+  class="red-amber-green-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  data-status="{{ status }}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <span class="red-amber-green-view-indicator" aria-hidden="true"></span>
+  <span class="red-amber-green-view-text">{{ text }}</span>
+</span>
+{%- endmacro -%}

@@ -1,0 +1,16 @@
+---
+layout: layouts/component-demo.njk
+title: Check List
+description: an ordered list of check list item components
+---
+
+{% from "components/check-list/macro.njk" import checkList %}
+{% from "components/check-list-item/macro.njk" import checkListItem %}
+
+<h2>Appointment preparation</h2>
+{% call checkList({ label: "Things to do before your appointment" }) %}
+  {{ checkListItem({ id: "task-1", label: "Bring a valid ID", checked: true }) }}
+  {{ checkListItem({ id: "task-2", label: "Bring your current medication list" }) }}
+  {{ checkListItem({ id: "task-3", label: "Write down any questions you want to ask" }) }}
+  {{ checkListItem({ id: "task-4", label: "Arrive 10 minutes early", disabled: true }) }}
+{% endcall %}

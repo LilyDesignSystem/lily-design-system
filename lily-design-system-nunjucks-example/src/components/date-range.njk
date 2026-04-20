@@ -1,0 +1,14 @@
+---
+layout: layouts/component-demo.njk
+title: Date Range
+description: a display of a start and end date range
+---
+
+{% from "components/date-range/macro.njk" import dateRange %}
+
+<p>{{ dateRange({
+  start: "2026-04-01",
+  startText: "1 April 2026",
+  end: "2026-04-30",
+  endText: "30 April 2026"
+}) }}</p>

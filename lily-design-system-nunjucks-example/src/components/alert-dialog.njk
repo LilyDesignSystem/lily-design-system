@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: Alert Dialog
+description: a modal dialog for urgent messages requiring user acknowledgment
+---
+
+{% from "components/alert-dialog/macro.njk" import alertDialog %}
+{% from "components/button/macro.njk" import button %}
+
+<h2>Urgent confirmation</h2>
+<p>An alert dialog uses <code>role="alertdialog"</code> so assistive
+  tech treats it as an urgent announcement when opened.</p>
+
+{{ button({
+  text: "Delete patient record",
+  classes: "button-warning",
+  attributes: { onclick: "document.getElementById('delete-alert').showModal()" }
+}) }}
+
+{% call alertDialog({
+  id: "delete-alert",
+  labelledBy: "delete-title",
+  describedBy: "delete-desc"
+}) %}
+  <h2 id="delete-title">Delete patient record?</h2>
+  <p id="delete-desc">This action cannot be undone. The patient
+    record will be permanently removed from the system.</p>
+  <form method="dialog" style="display: flex; gap: var(--nhsuk-spacing-3);">
+    <button value="cancel" class="button button-secondary" autofocus>Cancel</button>
+    <button value="delete" class="button button-warning">Delete</button>
+  </form>
+{% endcall %}

@@ -1,0 +1,39 @@
+.tag-input {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--nhsuk-spacing-1);
+  padding: var(--nhsuk-spacing-1);
+  border: 2px solid var(--nhsuk-black);
+  border-radius: 3px;
+  background: var(--nhsuk-white);
+}
+.tag-input-list {
+  display: contents;
+}
+.tag-input-list-item {
+  display: inline-flex;
+  gap: var(--nhsuk-spacing-1);
+  align-items: center;
+  padding: 2px 8px;
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+  border-radius: 3px;
+  font-size: var(--nhsuk-font-size-14);
+}
+.tag-input-list-item-remove {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.2em;
+}
+.tag-input-field {
+  flex: 1;
+  min-width: 8rem;
+  border: 0;
+  outline: 0;
+  padding: var(--nhsuk-spacing-1);
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+}

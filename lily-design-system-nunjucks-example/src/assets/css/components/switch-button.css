@@ -1,0 +1,43 @@
+.switch-button {
+  position: relative;
+  display: inline-block;
+  width: 3rem;
+  height: 1.5rem;
+  padding: 0;
+  background: var(--nhsuk-mid-grey);
+  border: 2px solid transparent;
+  border-radius: 1rem;
+  cursor: pointer;
+  vertical-align: middle;
+  color: transparent;
+  font-size: 0;
+}
+
+.switch-button::after {
+  content: "";
+  position: absolute;
+  top: 0.1rem;
+  left: 0.1rem;
+  width: 1rem;
+  height: 1rem;
+  background: var(--nhsuk-white);
+  border-radius: 50%;
+  transition: left 0.15s ease-out, background 0.15s ease-out;
+}
+
+.switch-button[aria-checked="true"] {
+  background: var(--nhsuk-green);
+}
+
+.switch-button[aria-checked="true"]::after {
+  left: calc(100% - 1.1rem);
+}
+
+.switch-button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switch-button::after { transition: none; }
+}

@@ -1,0 +1,17 @@
+.contents-link {
+  display: inline-block;
+  color: var(--nhsuk-blue);
+  text-decoration: underline;
+  padding: var(--nhsuk-spacing-1) 0;
+}
+
+.contents-link:hover {
+  color: var(--nhsuk-dark-blue);
+  text-decoration-thickness: 2px;
+}
+
+.contents-link[aria-current="location"] {
+  color: var(--nhsuk-black);
+  font-weight: var(--nhsuk-font-weight-bold);
+  text-decoration: none;
+}

@@ -1,0 +1,8 @@
+.tag-group {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--nhsuk-spacing-1);
+}

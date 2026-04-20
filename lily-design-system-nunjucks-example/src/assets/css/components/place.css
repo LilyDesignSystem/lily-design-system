@@ -1,0 +1,9 @@
+.place {
+  font-style: normal;
+  line-height: 1.5;
+}
+.place-name {
+  display: block;
+  font-weight: var(--nhsuk-font-weight-bold);
+}
+.place-address { display: block; white-space: pre-line; color: var(--nhsuk-secondary-text); }

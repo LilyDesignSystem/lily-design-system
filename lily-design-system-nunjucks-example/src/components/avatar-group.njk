@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Avatar Group
+description: a group of avatar components
+---
+
+{% from "components/avatar-group/macro.njk" import avatarGroup %}
+{% from "components/avatar/macro.njk" import avatar %}
+{% from "components/avatar-text/macro.njk" import avatarText %}
+
+<h2>Care team</h2>
+{% call avatarGroup({ label: "Care team — 3 members" }) %}
+  {% call avatar({ label: "Dr Patel" }) %}{{ avatarText({ text: "DP" }) }}{% endcall %}
+  {% call avatar({ label: "Nurse Ahmed" }) %}{{ avatarText({ text: "NA" }) }}{% endcall %}
+  {% call avatar({ label: "Dr Smith" }) %}{{ avatarText({ text: "DS" }) }}{% endcall %}
+{% endcall %}
+
+<h2>Stacked with overlap</h2>
+<p>The example CSS overlaps group members by −0.5rem per avatar
+  with a 2px white border, so the stack reads as a cohesive
+  collection.</p>

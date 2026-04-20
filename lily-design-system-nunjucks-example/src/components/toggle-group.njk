@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: Toggle Group
+description: a group of toggle buttons for selecting options
+---
+
+{% from "components/toggle-group/macro.njk" import toggleGroup %}
+{% from "components/toggle-button/macro.njk" import toggleButton %}
+
+<h2>Text formatting</h2>
+{% call toggleGroup({ label: "Text formatting" }) %}
+  {{ toggleButton({ text: "B", label: "Bold", pressed: true }) }}
+  {{ toggleButton({ text: "I", label: "Italic" }) }}
+  {{ toggleButton({ text: "U", label: "Underline" }) }}
+{% endcall %}
+
+<h2>Multi-select filter</h2>
+{% call toggleGroup({ label: "Filter by category" }) %}
+  {{ toggleButton({ text: "GP", pressed: true }) }}
+  {{ toggleButton({ text: "Pharmacy", pressed: true }) }}
+  {{ toggleButton({ text: "Hospital" }) }}
+  {{ toggleButton({ text: "Dentist" }) }}
+{% endcall %}

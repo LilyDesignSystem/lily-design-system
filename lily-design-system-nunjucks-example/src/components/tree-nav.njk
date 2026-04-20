@@ -1,0 +1,30 @@
+---
+layout: layouts/component-demo.njk
+title: Tree Nav
+description: a hierarchical navigation with expandable branches
+---
+
+{% from "components/tree-nav/macro.njk" import treeNav %}
+{% from "components/tree-list/macro.njk" import treeList %}
+{% from "components/tree-list-item/macro.njk" import treeListItem %}
+{% from "components/tree-link/macro.njk" import treeLink %}
+
+<h2>Service directory</h2>
+{% call treeNav({ label: "Services" }) %}
+  {% call treeList({ label: "Services" }) %}
+    {% call treeListItem({ expanded: true }) %}
+      {{ treeLink({ href: "/gp", text: "GP services" }) }}
+      {% call treeList({ nested: true }) %}
+        {% call treeListItem() %}
+          {{ treeLink({ href: "/gp/appointments", text: "Book appointment" }) }}
+        {% endcall %}
+        {% call treeListItem({ current: true }) %}
+          {{ treeLink({ href: "/gp/prescriptions", text: "Repeat prescriptions", current: true }) }}
+        {% endcall %}
+      {% endcall %}
+    {% endcall %}
+    {% call treeListItem({ expanded: false }) %}
+      {{ treeLink({ href: "/urgent", text: "Urgent care" }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}

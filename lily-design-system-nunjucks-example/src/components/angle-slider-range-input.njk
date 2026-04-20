@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Angle Slider Range Input
+description: a range input for selecting an angle in degrees
+---
+
+{% from "components/angle-slider-range-input/macro.njk" import angleSliderRangeInput %}
+
+<p><label for="angle">Rotation (degrees)</label></p>
+{{ angleSliderRangeInput({ id: "angle", name: "angle", value: 45, label: "Rotation in degrees" }) }}

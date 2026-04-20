@@ -1,0 +1,8 @@
+.caption {
+  display: block;
+  padding-top: var(--nhsuk-spacing-2);
+  color: var(--nhsuk-dark-grey);
+  font-size: var(--nhsuk-font-size-16);
+  font-style: italic;
+  text-align: left;
+}

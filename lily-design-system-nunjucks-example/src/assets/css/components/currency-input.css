@@ -1,0 +1,25 @@
+.currency-input {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  max-width: 12rem;
+}
+.currency-input-symbol {
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-2);
+  background: var(--nhsuk-pale-grey);
+  border: 2px solid var(--nhsuk-black);
+  border-right: 0;
+  border-radius: 3px 0 0 3px;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+  font-weight: var(--nhsuk-font-weight-bold);
+}
+.currency-input-value {
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-2);
+  border: 2px solid var(--nhsuk-black);
+  border-radius: 0 3px 3px 0;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+  font-variant-numeric: tabular-nums;
+  width: 100%;
+}

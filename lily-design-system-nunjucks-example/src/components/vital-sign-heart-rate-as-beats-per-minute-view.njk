@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — Heart Rate View
+description: number display of heart rate in beats per minute (BPM)
+---
+
+{% from "components/vital-sign-heart-rate-as-beats-per-minute-view/macro.njk" import vitalSignHeartRateAsBeatsPerMinuteView %}
+
+<h2>Default</h2>
+<p>{{ vitalSignHeartRateAsBeatsPerMinuteView({
+  value: 72,
+  label: "Heart rate"
+}) }}</p>
+
+<h2>Out-of-range values</h2>
+<p>The view is visual only; styling a value as abnormal is the
+  consumer's choice. Here we apply a
+  <code>classes: "abnormal"</code> modifier:</p>
+
+<p>{{ vitalSignHeartRateAsBeatsPerMinuteView({
+  value: 118,
+  label: "Heart rate (tachycardia)",
+  classes: "abnormal"
+}) }}</p>
+
+<h2>Accessibility</h2>
+<p>The unit is wrapped in
+  <code>&lt;abbr title="beats per minute"&gt;bpm&lt;/abbr&gt;</code>
+  so screen readers can expand "bpm" into its full form.</p>

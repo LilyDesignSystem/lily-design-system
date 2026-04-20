@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Sheet
+description: a panel that slides in from a screen edge as an overlay
+---
+
+{% from "components/sheet/macro.njk" import sheet %}
+
+{% call sheet({ label: "Quick actions", open: true }) %}
+  <h2>Quick actions</h2>
+  <ul><li>Book appointment</li><li>Refill prescription</li></ul>
+{% endcall %}

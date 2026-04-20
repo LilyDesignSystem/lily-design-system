@@ -1,0 +1,16 @@
+.measurement-instance-view {
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.measurement-instance-view-value {
+  font-weight: var(--nhsuk-font-weight-bold);
+}
+
+.measurement-instance-view-unit {
+  color: var(--nhsuk-secondary-text);
+  text-decoration: none;
+  border-bottom: none;
+}

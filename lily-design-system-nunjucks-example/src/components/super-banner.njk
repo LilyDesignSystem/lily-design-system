@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Super Banner
+description: a super-banner for a high-priority state affecting the whole app
+---
+
+{% from "components/super-banner/macro.njk" import superBanner %}
+
+{{ superBanner({ heading: "Service degraded", text: "Some features are slower than usual." }) }}
+{{ superBanner({ level: "danger", heading: "Outage", text: "Booking is offline. Call your GP directly." }) }}

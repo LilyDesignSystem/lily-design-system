@@ -1,0 +1,23 @@
+{#
+  EditableForm macro — a form wrapper for inline editing of content.
+
+  HTML tag: <form>
+  CSS class: editable-form
+
+  Params: action, method (default "post"), label, id, classes, attributes.
+#}
+{%- macro editableForm(params) -%}
+{%- set p = params | default({}) -%}
+<form
+  class="editable-form{% if p.classes %} {{ p.classes }}{% endif %}"
+  action="{{ p.action | default('#') }}"
+  method="{{ p.method | default('post') }}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</form>
+{%- endmacro -%}

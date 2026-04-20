@@ -1,0 +1,37 @@
+{#
+  AvatarImage macro — an avatar inner image, such as a user photo.
+
+  HTML tag: <img>
+  CSS class: avatar-image
+  Accessibility:
+    - When placed inside an Avatar (which carries role="img" and
+      aria-label), the image itself is decorative — alt defaults
+      to "" to avoid double-announcement.
+    - When used standalone, consumers should pass a meaningful alt.
+
+  Params:
+    src         string   Image URL. Required.
+    alt         string   Alt text. Default "".
+    width       number   Pixel width (display hint).
+    height      number   Pixel height (display hint).
+    loading     string   "lazy" | "eager". Default "lazy".
+    id          string
+    classes     string
+    attributes  object
+
+  Usage:
+    {% from "components/avatar-image/macro.njk" import avatarImage %}
+    {{ avatarImage({ src: "/photos/jane.jpg" }) }}
+#}
+{%- macro avatarImage(params) -%}
+<img
+  class="avatar-image{% if params.classes %} {{ params.classes }}{% endif %}"
+  src="{{ params.src }}"
+  alt="{{ params.alt | default('') }}"
+  loading="{{ params.loading | default('lazy') }}"
+  {%- if params.width %} width="{{ params.width }}"{% endif %}
+  {%- if params.height %} height="{{ params.height }}"{% endif %}
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

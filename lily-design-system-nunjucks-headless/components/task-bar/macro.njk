@@ -1,0 +1,31 @@
+{#
+  TaskBar macro — a horizontal bar of task shortcuts or actions.
+
+  HTML tag: <div role="toolbar">
+  CSS class: task-bar
+
+  Params:
+    label       string   Accessible name. Default "Task bar".
+    labelledBy  string
+    orientation string   "horizontal" (default) | "vertical".
+    id          string
+    classes     string
+    attributes  object
+
+  Body content: TaskBarButton children via caller().
+#}
+{%- macro taskBar(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="task-bar{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="toolbar"
+  aria-orientation="{{ p.orientation | default('horizontal') }}"
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% else %} aria-label="{{ p.label | default('Task bar') }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

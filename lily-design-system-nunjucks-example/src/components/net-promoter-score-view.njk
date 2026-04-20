@@ -1,0 +1,25 @@
+---
+layout: layouts/component-demo.njk
+title: Net Promoter Score View
+description: a read-only display of a Net Promoter Score
+---
+
+{% from "components/net-promoter-score-view/macro.njk" import netPromoterScoreView %}
+
+<h2>Detractors (0–6)</h2>
+<p>0: {{ netPromoterScoreView({ value: 0 }) }}</p>
+<p>3: {{ netPromoterScoreView({ value: 3 }) }}</p>
+<p>6: {{ netPromoterScoreView({ value: 6 }) }}</p>
+
+<h2>Passives (7–8)</h2>
+<p>7: {{ netPromoterScoreView({ value: 7 }) }}</p>
+<p>8: {{ netPromoterScoreView({ value: 8 }) }}</p>
+
+<h2>Promoters (9–10)</h2>
+<p>9: {{ netPromoterScoreView({ value: 9 }) }}</p>
+<p>10: {{ netPromoterScoreView({ value: 10 }) }}</p>
+
+<h2>Accessibility</h2>
+<p>The view has an <code>aria-label</code> that includes the value
+  and category (Detractor, Passive, or Promoter) so screen readers
+  announce the meaning regardless of the visual styling.</p>

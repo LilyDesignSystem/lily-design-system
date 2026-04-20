@@ -1,0 +1,4 @@
+.red-amber-green-picker {
+  display: inline-flex;
+  gap: var(--nhsuk-spacing-2);
+}

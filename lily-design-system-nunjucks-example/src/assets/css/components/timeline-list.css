@@ -1,0 +1,10 @@
+.timeline-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nhsuk-spacing-4);
+  border-left: 3px solid var(--nhsuk-blue);
+  padding-left: var(--nhsuk-spacing-4);
+}

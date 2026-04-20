@@ -1,0 +1,34 @@
+{#
+  TimePickerInput macro — an input with a dropdown for picking a time.
+
+  HTML tag: <input type="time" list="…"> + <datalist>
+  CSS class: time-picker-input
+
+  Params:
+    id, name, value, label, min, max, step, required, disabled,
+    options (array of ISO time strings), classes, attributes.
+#}
+{%- macro timePickerInput(params) -%}
+{%- set p = params | default({}) -%}
+{%- set listId = p.id ~ "-list" if p.id else "" -%}
+<input
+  class="time-picker-input{% if p.classes %} {{ p.classes }}{% endif %}"
+  type="time"
+  value="{{ p.value | default('') }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.name %} name="{{ p.name }}"{% endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.min %} min="{{ p.min }}"{% endif %}
+  {%- if p.max %} max="{{ p.max }}"{% endif %}
+  {%- if p.step %} step="{{ p.step }}"{% endif %}
+  {%- if p.required %} required{% endif %}
+  {%- if p.disabled %} disabled{% endif %}
+  {%- if listId and p.options %} list="{{ listId }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- if listId and p.options %}
+<datalist id="{{ listId }}">
+  {%- for t in p.options %}<option value="{{ t }}">{% endfor %}
+</datalist>
+{%- endif -%}
+{%- endmacro -%}

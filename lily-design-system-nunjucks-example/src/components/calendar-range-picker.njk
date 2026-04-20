@@ -1,0 +1,17 @@
+---
+layout: layouts/component-demo.njk
+title: Calendar Range Picker
+description: a picker for selecting a date range on a calendar
+---
+
+{% from "components/calendar-range-picker/macro.njk" import calendarRangePicker %}
+
+<h2>Appointment date range</h2>
+{{ calendarRangePicker({
+  id: "range",
+  label: "Appointment range",
+  start: "2026-04-20",
+  end: "2026-04-25",
+  startLabel: "From",
+  endLabel: "To"
+}) }}

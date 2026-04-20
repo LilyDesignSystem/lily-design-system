@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Hover Card
+description: a card that appears on hover over a trigger
+---
+
+{% from "components/hover-card/macro.njk" import hoverCard %}
+
+<p>Hover over the link for more info.</p>
+{% call hoverCard({ label: "GP info", open: true }) %}
+  <h3>Dr Priya Patel</h3>
+  <p>GP at High Street Surgery.</p>
+{% endcall %}

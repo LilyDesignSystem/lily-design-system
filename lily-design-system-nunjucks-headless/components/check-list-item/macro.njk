@@ -1,0 +1,44 @@
+{#
+  CheckListItem macro — one check list item component with a checkbox.
+
+  HTML tag: <li>
+  CSS class: check-list-item
+
+  Params:
+    id          string   Element id on the <li>.
+    inputId     string   Element id on the <input>. Default "{id}-input"
+                         when id given, otherwise omitted.
+    name        string   name attribute on the <input>.
+    value       string   value attribute on the <input>. Default "on".
+    checked     boolean  Whether the checkbox is checked.
+    disabled    boolean
+    label       string   Visible label text (escaped).
+    labelHtml   string   Visible label raw HTML.
+    classes     string
+    attributes  object
+#}
+{%- macro checkListItem(params) -%}
+{%- set p = params | default({}) -%}
+{%- set inputId = p.inputId | default((p.id ~ "-input") if p.id else "") -%}
+<li
+  class="check-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <input
+    type="checkbox"
+    class="check-list-item-input"
+    {%- if inputId %} id="{{ inputId }}"{% endif %}
+    {%- if p.name %} name="{{ p.name }}"{% endif %}
+    value="{{ p.value | default('on') }}"
+    {%- if p.checked %} checked{% endif %}
+    {%- if p.disabled %} disabled{% endif %}
+  >
+  <label class="check-list-item-label"{% if inputId %} for="{{ inputId }}"{% endif %}>
+    {%- if p.labelHtml -%}{{ p.labelHtml | safe }}
+    {%- elif p.label -%}{{ p.label }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </label>
+</li>
+{%- endmacro -%}

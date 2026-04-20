@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — Height Input
+description: number input of height in centimetres
+---
+
+{% from "components/vital-sign-height-as-cm-input/macro.njk" import vitalSignHeightAsCmInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default (30 – 250 cm)</h2>
+{% call field() %}
+  {{ label({ for: "ht", text: "Height in centimetres" }) }}
+  {{ vitalSignHeightAsCmInput({ id: "ht" }) }}
+{% endcall %}
+
+<h2>Pre-filled</h2>
+{% call field() %}
+  {{ label({ for: "ht-2", text: "Height" }) }}
+  {{ vitalSignHeightAsCmInput({ id: "ht-2", value: 168 }) }}
+{% endcall %}

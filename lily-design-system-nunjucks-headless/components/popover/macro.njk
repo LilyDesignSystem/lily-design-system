@@ -1,0 +1,45 @@
+{#
+  Popover macro — a floating content box anchored to a trigger element.
+
+  HTML tag: <div>
+  CSS class: popover
+  Popover API: this macro uses the HTML `popover` attribute so the
+    browser manages open/close state. Trigger elements use the
+    `popovertarget` attribute pointing to the popover's id.
+  Accessibility:
+    - The `popover` attribute exposes an implicit dialog-like
+      behaviour; screen readers announce the popover when it opens.
+    - params.label or labelledBy names the popover.
+
+  Params:
+    id             string   Element id. Required so a trigger can
+                            target it via popovertarget="...".
+    popover        string   "auto" (default) | "manual" | "hint".
+    label          string   Accessible name (aria-label).
+    labelledBy     string   aria-labelledby target.
+    classes        string
+    attributes     object
+
+  Body content: heading, body, and close control via caller().
+
+  Usage:
+    {% from "components/popover/macro.njk" import popover %}
+    <button popovertarget="info">Details</button>
+    {% call popover({ id: "info", label: "Details" }) %}
+      <p>More information about this item.</p>
+    {% endcall %}
+#}
+{%- macro popover(params) -%}
+<div
+  class="popover{% if params.classes %} {{ params.classes }}{% endif %}"
+  id="{{ params.id }}"
+  popover="{{ params.popover | default('auto') }}"
+  {%- if params.labelledBy %} aria-labelledby="{{ params.labelledBy }}"
+  {%- elif params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

@@ -1,0 +1,9 @@
+.date-range {
+  display: inline-flex;
+  gap: var(--nhsuk-spacing-1);
+  align-items: baseline;
+  font-variant-numeric: tabular-nums;
+}
+.date-range-separator {
+  color: var(--nhsuk-secondary-text);
+}

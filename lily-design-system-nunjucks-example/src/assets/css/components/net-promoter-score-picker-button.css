@@ -1,0 +1,34 @@
+.net-promoter-score-picker-button {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  background: var(--nhsuk-white);
+  color: var(--nhsuk-black);
+  border: 1px solid var(--nhsuk-mid-grey);
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-19);
+  font-weight: var(--nhsuk-font-weight-bold);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+.net-promoter-score-picker-button[data-category="detractor"]:hover,
+.net-promoter-score-picker-button[data-category="detractor"][aria-checked="true"] {
+  background: var(--nhsuk-red);
+  color: var(--nhsuk-white);
+  border-color: var(--nhsuk-red);
+}
+
+.net-promoter-score-picker-button[data-category="passive"]:hover,
+.net-promoter-score-picker-button[data-category="passive"][aria-checked="true"] {
+  background: var(--nhsuk-warm-yellow);
+  color: var(--nhsuk-black);
+  border-color: var(--nhsuk-warm-yellow);
+}
+
+.net-promoter-score-picker-button[data-category="promoter"]:hover,
+.net-promoter-score-picker-button[data-category="promoter"][aria-checked="true"] {
+  background: var(--nhsuk-green);
+  color: var(--nhsuk-white);
+  border-color: var(--nhsuk-green);
+}

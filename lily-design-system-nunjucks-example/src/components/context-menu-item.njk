@@ -1,0 +1,14 @@
+---
+layout: layouts/component-demo.njk
+title: Context Menu Item
+description: one item in a context menu
+---
+
+{% from "components/context-menu-item/macro.njk" import contextMenuItem %}
+
+<ul class="context-menu" role="menu" aria-label="Demo">
+  {{ contextMenuItem({ text: "Plain item" }) }}
+  {{ contextMenuItem({ text: "With shortcut", shortcut: "Ctrl+C" }) }}
+  {{ contextMenuItem({ text: "Destructive action", danger: true }) }}
+  {{ contextMenuItem({ text: "Disabled", disabled: true }) }}
+</ul>

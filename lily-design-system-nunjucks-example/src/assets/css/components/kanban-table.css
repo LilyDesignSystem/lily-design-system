@@ -1,0 +1,15 @@
+.kanban-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 var(--nhsuk-spacing-4) 0;
+  font-size: var(--nhsuk-font-size-19);
+}
+
+.kanban-table-caption {
+  caption-side: top;
+  text-align: left;
+  color: var(--nhsuk-black);
+  font-size: var(--nhsuk-font-size-22);
+  font-weight: var(--nhsuk-font-weight-bold);
+  padding-bottom: var(--nhsuk-spacing-3);
+}

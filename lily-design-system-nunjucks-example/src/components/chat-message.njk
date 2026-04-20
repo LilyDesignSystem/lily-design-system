@@ -1,0 +1,39 @@
+---
+layout: layouts/component-demo.njk
+title: Chat Message
+description: one chat message
+---
+
+{% from "components/chat-message/macro.njk" import chatMessage %}
+
+<h2>Peer message (default)</h2>
+{{ chatMessage({
+  origin: "peer",
+  author: "Dr Patel",
+  time: "2026-04-20T09:30:00Z",
+  timeText: "9:30am",
+  text: "Good morning. How are you?"
+}) }}
+
+<h2>Self message</h2>
+{{ chatMessage({
+  origin: "self",
+  author: "You",
+  timeText: "9:32am",
+  text: "A bit better — thanks for asking."
+}) }}
+
+<h2>System message</h2>
+{{ chatMessage({
+  origin: "system",
+  timeText: "9:33am",
+  text: "Dr Patel joined the conversation."
+}) }}
+
+<h2>Rich HTML body</h2>
+{{ chatMessage({
+  origin: "peer",
+  author: "Nurse Ahmed",
+  timeText: "9:40am",
+  html: "<p>Your appointment is on <strong>27 April at 9:30am</strong>.</p>"
+}) }}

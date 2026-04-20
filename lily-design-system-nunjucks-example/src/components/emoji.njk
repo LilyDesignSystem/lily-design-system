@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: Emoji
+description: a single emoji character with an accessible name
+---
+
+{% from "components/emoji/macro.njk" import emoji %}
+
+<h2>Meaningful emoji (default)</h2>
+<p>
+  Emergency services:
+  {{ emoji({ text: "🚑", label: "Ambulance" }) }}
+  {{ emoji({ text: "🚒", label: "Fire engine" }) }}
+  {{ emoji({ text: "🚓", label: "Police car" }) }}
+</p>
+
+<h2>Decorative emoji (adjacent to duplicate text)</h2>
+<p>
+  Call NHS 111 {{ emoji({ text: "📞", decorative: true }) }} for non-emergency advice.
+</p>
+<p>
+  Email the clinic {{ emoji({ text: "✉️", decorative: true }) }} at help@example.com.
+</p>

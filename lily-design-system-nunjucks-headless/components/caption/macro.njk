@@ -1,0 +1,42 @@
+{#
+  Caption macro — a caption for a figure (or table).
+
+  HTML tag: <figcaption> by default; switch to <caption> for table
+    captions via params.as = "caption".
+  CSS class: caption
+  Accessibility: the element implicitly names its parent figure or
+    table. For tables, prefer the Table macro's caption param so
+    the <caption> is placed first (which is an HTML requirement).
+
+  Params:
+    as          string   "figcaption" (default) | "caption".
+    text        string   Plain text content (escaped).
+    html        string   Raw HTML content (rendered via `| safe`).
+    label       string   Accessible name (aria-label) when the
+                         visible text is ambiguous.
+    id          string
+    classes     string
+    attributes  object
+
+  Usage:
+    {% from "components/caption/macro.njk" import caption %}
+    <figure>
+      <img src="…" alt="…">
+      {{ caption({ text: "Figure 1 — Measles incidence 2010–2024." }) }}
+    </figure>
+#}
+{%- macro caption(params) -%}
+{%- set p = params | default({}) -%}
+{%- set tag = p.as | default("figcaption") -%}
+<{{ tag }}
+  class="caption{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</{{ tag }}>
+{%- endmacro -%}

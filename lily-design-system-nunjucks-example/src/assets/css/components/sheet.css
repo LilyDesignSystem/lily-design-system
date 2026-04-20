@@ -1,0 +1,14 @@
+.sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 80vh;
+  background: var(--nhsuk-white);
+  border-top: 1px solid var(--nhsuk-mid-grey);
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+  padding: var(--nhsuk-spacing-4);
+  z-index: 90;
+}
+.sheet[hidden] { display: none; }

@@ -1,0 +1,34 @@
+{#
+  VitalSignVo2MaxAsMlPerKgPerMinuteInput macro — a number input for
+    VO2 max in millilitres of oxygen per kilogram per minute.
+
+  HTML tag: <input type="number">
+  CSS class: vital-sign-vo2-max-as-ml-per-kg-per-minute-input
+  Clinical range: defaults to 5–90 ml/kg/min. Integer step.
+
+  Params:
+    id, name, value, label, describedBy, errormessage, invalid,
+    required, disabled, readonly, min (5), max (90), step (1),
+    classes, attributes.
+#}
+{%- macro vitalSignVo2MaxAsMlPerKgPerMinuteInput(params) -%}
+<input
+  class="vital-sign-vo2-max-as-ml-per-kg-per-minute-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="number"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  min="{{ params.min | default(5) }}"
+  max="{{ params.max | default(90) }}"
+  step="{{ params.step | default(1) }}"
+  inputmode="numeric"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

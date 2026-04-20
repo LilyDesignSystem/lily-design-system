@@ -1,0 +1,35 @@
+---
+layout: layouts/component-demo.njk
+title: Tooltip
+description: a small popup showing descriptive text on hover or focus
+---
+
+{% from "components/tooltip/macro.njk" import tooltip %}
+{% from "components/button/macro.njk" import button %}
+
+<h2>Button with tooltip</h2>
+<p>The controlling element references the tooltip's id via
+  <code>aria-describedby</code>. Consumers reveal the tooltip on
+  hover/focus via CSS or a JavaScript module.</p>
+
+<p>
+  {{ button({
+    text: "Save",
+    attributes: {
+      "aria-describedby": "save-tooltip"
+    }
+  }) }}
+  {{ tooltip({
+    id: "save-tooltip",
+    text: "Save the current draft. Press Ctrl+S.",
+    hidden: false
+  }) }}
+</p>
+
+<h2>Hidden by default</h2>
+<p>Without overrides, a tooltip is rendered with the
+  <code>hidden</code> attribute so it does not appear until
+  progressive-enhancement JS toggles it.</p>
+
+{{ tooltip({ id: "t2", text: "Invisible without JS enhancement" }) }}
+<p>(The tooltip above is hidden — view source.)</p>

@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — Body Temperature Input
+description: number input of body temperature in Celsius degrees (one decimal place)
+---
+
+{% from "components/vital-sign-body-temperature-as-celcius-input/macro.njk" import vitalSignBodyTemperatureAsCelciusInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default (30.0 – 45.0 °C, step 0.1)</h2>
+{% call field() %}
+  {{ label({ for: "temp", text: "Body temperature" }) }}
+  {{ hint({
+    id: "temp-hint",
+    text: "In degrees Celsius, to one decimal place."
+  }) }}
+  {{ vitalSignBodyTemperatureAsCelciusInput({
+    id: "temp",
+    describedBy: "temp-hint"
+  }) }}
+{% endcall %}
+
+<h2>Pre-filled</h2>
+{% call field() %}
+  {{ label({ for: "temp-2", text: "Recent measurement" }) }}
+  {{ vitalSignBodyTemperatureAsCelciusInput({
+    id: "temp-2",
+    value: "37.1"
+  }) }}
+{% endcall %}

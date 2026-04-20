@@ -1,0 +1,23 @@
+{#
+  Editable macro — an inline-editable text element that toggles
+    between view and edit modes.
+
+  HTML tag: <span contenteditable="false">
+  CSS class: editable
+
+  Params: text, editing (default false), label, id, classes, attributes.
+#}
+{%- macro editable(params) -%}
+{%- set p = params | default({}) -%}
+<span
+  class="editable{% if p.classes %} {{ p.classes }}{% endif %}"
+  contenteditable="{{ 'true' if p.editing else 'false' }}"
+  data-module="editable"
+  role="textbox"
+  aria-multiline="false"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  tabindex="0"
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ p.text | default('') }}</span>
+{%- endmacro -%}

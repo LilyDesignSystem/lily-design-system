@@ -1,0 +1,11 @@
+---
+layout: layouts/component-demo.njk
+title: Measurement System View
+description: a read-only display of a measurement system
+---
+
+{% from "components/measurement-system-view/macro.njk" import measurementSystemView %}
+
+<p>{{ measurementSystemView({ system: "metric", text: "Metric" }) }}</p>
+<p>{{ measurementSystemView({ system: "imperial", text: "Imperial" }) }}</p>
+<p>{{ measurementSystemView({ system: "us", text: "US customary" }) }}</p>

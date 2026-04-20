@@ -1,0 +1,6 @@
+.footer {
+  padding: var(--nhsuk-spacing-4) 0;
+  background: var(--nhsuk-pale-grey);
+  border-top: 4px solid var(--nhsuk-blue);
+  color: var(--nhsuk-black);
+}

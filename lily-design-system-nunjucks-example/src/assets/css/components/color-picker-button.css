@@ -1,0 +1,13 @@
+.color-picker-button {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+}
+.color-picker-button[aria-checked="true"] {
+  border-color: var(--nhsuk-black);
+  box-shadow: 0 0 0 2px var(--nhsuk-white);
+}
+.color-picker-button:focus-visible { outline: 3px solid var(--nhsuk-focus-yellow); }

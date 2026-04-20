@@ -1,0 +1,20 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — LDL Cholesterol Input
+description: number input of cholesterol LDL (bad cholesterol) in millimoles per litre
+---
+
+{% from "components/vital-sign-cholesterol-as-ldl-mmol-per-litre-input/macro.njk" import vitalSignCholesterolAsLdlMmolPerLitreInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default (0.1 – 10.0 mmol/L, step 0.1)</h2>
+{% call field() %}
+  {{ label({ for: "ldl", text: "LDL cholesterol (bad)" }) }}
+  {{ hint({ id: "ldl-hint", text: "In millimoles per litre." }) }}
+  {{ vitalSignCholesterolAsLdlMmolPerLitreInput({
+    id: "ldl",
+    describedBy: "ldl-hint"
+  }) }}
+{% endcall %}

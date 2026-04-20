@@ -1,0 +1,25 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — Systolic BP View
+description: number display of systolic blood pressure in millimetres of mercury (mmHg)
+---
+
+{% from "components/vital-sign-blood-pressure-systolic-as-mmhg-view/macro.njk" import vitalSignBloodPressureSystolicAsMmhgView %}
+
+<h2>Normal</h2>
+<p>{{ vitalSignBloodPressureSystolicAsMmhgView({
+  value: 118,
+  label: "Systolic BP"
+}) }}</p>
+
+<h2>Elevated</h2>
+<p>{{ vitalSignBloodPressureSystolicAsMmhgView({
+  value: 145,
+  label: "Systolic BP (elevated)",
+  classes: "elevated"
+}) }}</p>
+
+<h2>Accessibility</h2>
+<p>The unit is wrapped in
+  <code>&lt;abbr title="millimetres of mercury"&gt;mmHg&lt;/abbr&gt;</code>
+  so screen readers expand the abbreviation correctly.</p>

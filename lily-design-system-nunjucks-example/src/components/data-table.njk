@@ -1,0 +1,111 @@
+---
+layout: layouts/component-demo.njk
+title: Data Table
+description: a data table interactive grid for displaying and sorting tabular data
+---
+
+{% from "components/data-table/macro.njk" import dataTable %}
+{% from "components/data-table-head/macro.njk" import dataTableHead %}
+{% from "components/data-table-body/macro.njk" import dataTableBody %}
+{% from "components/data-table-foot/macro.njk" import dataTableFoot %}
+{% from "components/data-table-row/macro.njk" import dataTableRow %}
+{% from "components/data-table-col/macro.njk" import dataTableCol %}
+{% from "components/data-table-data/macro.njk" import dataTableData %}
+
+<h2>Default — appointment list</h2>
+{% call dataTable({ caption: "Your upcoming appointments" }) %}
+  {% call dataTableHead() %}
+    {% call dataTableRow() %}
+      {{ dataTableCol({ text: "Date" }) }}
+      {{ dataTableCol({ text: "Clinician" }) }}
+      {{ dataTableCol({ text: "Type" }) }}
+      {{ dataTableCol({ text: "Location" }) }}
+    {% endcall %}
+  {% endcall %}
+  {% call dataTableBody() %}
+    {% call dataTableRow() %}
+      {{ dataTableData({ text: "27 April 2026, 9:30am" }) }}
+      {{ dataTableData({ text: "Dr Patel" }) }}
+      {{ dataTableData({ text: "GP review" }) }}
+      {{ dataTableData({ text: "High Street Surgery" }) }}
+    {% endcall %}
+    {% call dataTableRow() %}
+      {{ dataTableData({ text: "4 May 2026, 2:15pm" }) }}
+      {{ dataTableData({ text: "Nurse Ahmed" }) }}
+      {{ dataTableData({ text: "Blood test" }) }}
+      {{ dataTableData({ text: "Main Clinic" }) }}
+    {% endcall %}
+    {% call dataTableRow() %}
+      {{ dataTableData({ text: "19 May 2026, 11:00am" }) }}
+      {{ dataTableData({ text: "Dr Smith" }) }}
+      {{ dataTableData({ text: "Follow-up" }) }}
+      {{ dataTableData({ text: "High Street Surgery" }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}
+
+<h2>Numeric columns — vital signs</h2>
+{% call dataTable({ caption: "Recent vital sign measurements" }) %}
+  {% call dataTableHead() %}
+    {% call dataTableRow() %}
+      {{ dataTableCol({ text: "Date" }) }}
+      {{ dataTableCol({ text: "Heart rate (bpm)", classes: "data-table-col-numeric" }) }}
+      {{ dataTableCol({ text: "Systolic (mmHg)", classes: "data-table-col-numeric" }) }}
+      {{ dataTableCol({ text: "Diastolic (mmHg)", classes: "data-table-col-numeric" }) }}
+    {% endcall %}
+  {% endcall %}
+  {% call dataTableBody() %}
+    {% call dataTableRow() %}
+      {{ dataTableData({ text: "12 Apr" }) }}
+      {{ dataTableData({ text: "72", classes: "data-table-data-numeric" }) }}
+      {{ dataTableData({ text: "118", classes: "data-table-data-numeric" }) }}
+      {{ dataTableData({ text: "76", classes: "data-table-data-numeric" }) }}
+    {% endcall %}
+    {% call dataTableRow() %}
+      {{ dataTableData({ text: "19 Apr" }) }}
+      {{ dataTableData({ text: "68", classes: "data-table-data-numeric" }) }}
+      {{ dataTableData({ text: "120", classes: "data-table-data-numeric" }) }}
+      {{ dataTableData({ text: "78", classes: "data-table-data-numeric" }) }}
+    {% endcall %}
+    {% call dataTableRow() %}
+      {{ dataTableData({ text: "26 Apr" }) }}
+      {{ dataTableData({ text: "70", classes: "data-table-data-numeric" }) }}
+      {{ dataTableData({ text: "116", classes: "data-table-data-numeric" }) }}
+      {{ dataTableData({ text: "74", classes: "data-table-data-numeric" }) }}
+    {% endcall %}
+  {% endcall %}
+  {% call dataTableFoot() %}
+    {% call dataTableRow() %}
+      {{ dataTableCol({ text: "Average", scope: "row" }) }}
+      {{ dataTableData({ text: "70", classes: "data-table-data-numeric" }) }}
+      {{ dataTableData({ text: "118", classes: "data-table-data-numeric" }) }}
+      {{ dataTableData({ text: "76", classes: "data-table-data-numeric" }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}
+
+<h2>Row headers</h2>
+<p>Use <code>TableCol</code> with <code>scope="row"</code> to mark a
+  row header, so screen readers announce it together with each data
+  cell in the row.</p>
+{% call dataTable({ caption: "Dosage schedule" }) %}
+  {% call dataTableHead() %}
+    {% call dataTableRow() %}
+      {{ dataTableCol({ text: "Day" }) }}
+      {{ dataTableCol({ text: "Morning" }) }}
+      {{ dataTableCol({ text: "Evening" }) }}
+    {% endcall %}
+  {% endcall %}
+  {% call dataTableBody() %}
+    {% call dataTableRow() %}
+      {{ dataTableCol({ text: "Monday", scope: "row" }) }}
+      {{ dataTableData({ text: "1 tablet" }) }}
+      {{ dataTableData({ text: "1 tablet" }) }}
+    {% endcall %}
+    {% call dataTableRow() %}
+      {{ dataTableCol({ text: "Tuesday", scope: "row" }) }}
+      {{ dataTableData({ text: "1 tablet" }) }}
+      {{ dataTableData({ text: "2 tablets" }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}

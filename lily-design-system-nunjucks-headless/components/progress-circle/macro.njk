@@ -1,0 +1,46 @@
+{#
+  ProgressCircle macro — a circular progress indicator.
+
+  HTML tag: <div>
+  CSS class: progress-circle
+  Accessibility:
+    - role="progressbar" plus aria-valuenow / aria-valuemin /
+      aria-valuemax exposes the progress to assistive tech.
+    - When the progress is indeterminate, omit aria-valuenow.
+    - params.label names the purpose of the progress circle.
+
+  Params:
+    value       number   Current progress value (0–max). Omit for
+                         indeterminate state.
+    min         number   Minimum. Default 0.
+    max         number   Maximum. Default 100.
+    label       string   Accessible name (aria-label).
+    labelledBy  string
+    id          string
+    classes     string
+    attributes  object
+
+  Usage:
+    {% from "components/progress-circle/macro.njk" import progressCircle %}
+    {{ progressCircle({ value: 65, label: "Completion" }) }}
+#}
+{%- macro progressCircle(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="progress-circle{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="progressbar"
+  aria-valuemin="{{ p.min | default(0) }}"
+  aria-valuemax="{{ p.max | default(100) }}"
+  {%- if p.value is defined %} aria-valuenow="{{ p.value }}"
+    style="--progress-value: {{ p.value }}; --progress-min: {{ p.min | default(0) }}; --progress-max: {{ p.max | default(100) }};"
+  {%- endif %}
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
+  {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

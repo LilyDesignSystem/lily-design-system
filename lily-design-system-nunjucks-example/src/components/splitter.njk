@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Splitter
+description: a draggable divider for resizing adjacent panels
+---
+
+{% from "components/splitter/macro.njk" import splitter %}
+
+<div style="display: flex; height: 10rem; border: 1px solid var(--nhsuk-mid-grey);">
+  <div style="flex: 1; background: var(--nhsuk-pale-grey); padding: 1rem;">Left</div>
+  {{ splitter({ controls: "right-panel" }) }}
+  <div id="right-panel" style="flex: 1; padding: 1rem;">Right</div>
+</div>

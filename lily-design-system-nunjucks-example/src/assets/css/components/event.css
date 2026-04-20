@@ -1,0 +1,12 @@
+.event {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nhsuk-spacing-1);
+  padding: var(--nhsuk-spacing-3);
+  background: var(--nhsuk-pale-grey);
+  border-left: 4px solid var(--nhsuk-blue);
+  border-radius: 0 4px 4px 0;
+}
+.event-title { margin: 0; font-size: var(--nhsuk-font-size-19); font-weight: var(--nhsuk-font-weight-bold); }
+.event-time { color: var(--nhsuk-secondary-text); font-variant-numeric: tabular-nums; }
+.event-location { color: var(--nhsuk-secondary-text); font-size: var(--nhsuk-font-size-16); }

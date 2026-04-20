@@ -1,0 +1,35 @@
+---
+layout: layouts/component-demo.njk
+title: Caption
+description: a caption for a figure (or table)
+---
+
+{% from "components/caption/macro.njk" import caption %}
+
+<h2>With a figure</h2>
+<figure>
+  <div style="background: var(--nhsuk-pale-grey); padding: var(--nhsuk-spacing-5); text-align: center;">
+    [figure placeholder]
+  </div>
+  {{ caption({
+    text: "Figure 1 — Measles incidence in England, 2010 – 2024."
+  }) }}
+</figure>
+
+<h2>With rich content</h2>
+<figure>
+  <div style="background: var(--nhsuk-pale-grey); padding: var(--nhsuk-spacing-5); text-align: center;">
+    [chart placeholder]
+  </div>
+  {% call caption() %}
+    <strong>Figure 2</strong> — Source: <a href="#">ONS 2024 health dataset</a>.
+  {% endcall %}
+</figure>
+
+<h2>Table caption</h2>
+<p>For tables, prefer the <a href="/components/table/">Table macro</a>'s
+  <code>caption</code> parameter so the <code>&lt;caption&gt;</code>
+  element appears at the top of the table as HTML requires. The
+  standalone Caption macro can emit a <code>&lt;caption&gt;</code>
+  via <code>params.as: "caption"</code> when that composition is
+  unavailable.</p>

@@ -1,0 +1,18 @@
+{#
+  VitalSignWeightAsKgView macro — a read-only display of weight in
+    kilograms.
+
+  HTML tag: <span>
+  CSS class: vital-sign-weight-as-kg-view
+  Accessibility: unit wrapped in <abbr title="kilograms">.
+
+  Params: value, label, id, classes, attributes.
+#}
+{%- macro vitalSignWeightAsKgView(params) -%}
+<span
+  class="vital-sign-weight-as-kg-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+><span class="vital-sign-value">{{ params.value | default('') }}</span>&nbsp;<abbr class="vital-sign-unit" title="kilograms">kg</abbr></span>
+{%- endmacro -%}

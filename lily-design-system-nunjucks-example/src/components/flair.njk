@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Flair
+description: a decorative highlight or emphasis element
+---
+
+{% from "components/flair/macro.njk" import flair %}
+
+<h2>Visible, meaningful flair</h2>
+<p>New feature {{ flair({ text: "NEW", label: "New feature" }) }} available this week.</p>
+
+<h2>Decorative flair</h2>
+<p>Rated {{ flair({ text: "★★★★★", decorative: true }) }} by patients —
+  the star rating is duplicated in the visible "Rated 5 out of 5" copy
+  so the visual is safely decorative.</p>
+
+<h2>With HTML content</h2>
+<p>{{ flair({ html: "<strong>Beta</strong>", label: "Beta feature" }) }}
+  Opening hours page</p>

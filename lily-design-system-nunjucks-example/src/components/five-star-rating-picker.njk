@@ -1,0 +1,33 @@
+---
+layout: layouts/component-demo.njk
+title: Five-Star Rating Picker
+description: a picker for selecting a 1-5 star rating
+---
+
+{% from "components/five-star-rating-picker/macro.njk" import fiveStarRatingPicker %}
+{% from "components/five-star-rating-picker-button/macro.njk" import fiveStarRatingPickerButton %}
+
+<h2>How was your appointment?</h2>
+{% call fiveStarRatingPicker({ label: "How was your appointment?" }) %}
+  {{ fiveStarRatingPickerButton({ value: 5 }) }}
+  {{ fiveStarRatingPickerButton({ value: 4 }) }}
+  {{ fiveStarRatingPickerButton({ value: 3, checked: true }) }}
+  {{ fiveStarRatingPickerButton({ value: 2 }) }}
+  {{ fiveStarRatingPickerButton({ value: 1 }) }}
+{% endcall %}
+
+<h2>Service rating</h2>
+{% call fiveStarRatingPicker({ label: "Rate the service" }) %}
+  {{ fiveStarRatingPickerButton({ value: 5 }) }}
+  {{ fiveStarRatingPickerButton({ value: 4 }) }}
+  {{ fiveStarRatingPickerButton({ value: 3 }) }}
+  {{ fiveStarRatingPickerButton({ value: 2 }) }}
+  {{ fiveStarRatingPickerButton({ value: 1 }) }}
+{% endcall %}
+
+<h2>Layout note</h2>
+<p>The example CSS renders the picker right-to-left so that the
+  CSS sibling selector
+  <code>.five-star-rating-picker-button:hover ~ .five-star-rating-picker-button</code>
+  highlights <em>lower-valued</em> stars when you hover a higher
+  one — a classic CSS-only star-rating pattern without JavaScript.</p>

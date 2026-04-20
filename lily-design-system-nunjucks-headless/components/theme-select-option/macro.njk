@@ -1,0 +1,26 @@
+{#
+  ThemeSelectOption macro — one option in a theme select dropdown.
+
+  HTML tag: <option>
+  CSS class: theme-select-option
+
+  Params:
+    value       string   Option value (required).
+    text        string   Visible text (escaped). Default: value.
+    selected    boolean
+    disabled    boolean
+    id          string
+    classes     string
+    attributes  object
+#}
+{%- macro themeSelectOption(params) -%}
+{%- set p = params | default({}) -%}
+<option
+  class="theme-select-option{% if p.classes %} {{ p.classes }}{% endif %}"
+  value="{{ p.value }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.selected %} selected{% endif %}
+  {%- if p.disabled %} disabled{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ p.text | default(p.value) }}</option>
+{%- endmacro -%}

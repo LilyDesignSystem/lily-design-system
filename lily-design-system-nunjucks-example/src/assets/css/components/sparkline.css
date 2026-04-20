@@ -1,0 +1,5 @@
+.sparkline {
+  display: inline-block;
+  vertical-align: middle;
+  color: var(--nhsuk-blue);
+}

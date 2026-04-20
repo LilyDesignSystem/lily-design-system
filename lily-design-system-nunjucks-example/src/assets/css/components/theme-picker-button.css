@@ -1,0 +1,16 @@
+.theme-picker-button {
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);
+  background: var(--nhsuk-white);
+  border: 2px solid var(--nhsuk-mid-grey);
+  border-radius: 3px;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-16);
+  font-weight: var(--nhsuk-font-weight-bold);
+  cursor: pointer;
+}
+
+.theme-picker-button[aria-checked="true"] {
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+  border-color: var(--nhsuk-blue);
+}

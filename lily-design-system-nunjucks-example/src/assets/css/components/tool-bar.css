@@ -1,0 +1,9 @@
+.tool-bar {
+  display: flex;
+  gap: var(--nhsuk-spacing-1);
+  padding: var(--nhsuk-spacing-1);
+  background: var(--nhsuk-pale-grey);
+  border: 1px solid var(--nhsuk-mid-grey);
+  border-radius: 4px;
+  flex-wrap: wrap;
+}

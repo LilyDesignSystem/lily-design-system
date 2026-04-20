@@ -1,0 +1,9 @@
+---
+layout: layouts/component-demo.njk
+title: Citation
+description: a citation acknowledging the relevance of a work
+---
+
+{% from "components/citation/macro.njk" import citation %}
+
+<p>Following the recommendations in {{ citation({ text: "NICE guideline NG17: Type 1 diabetes in adults" }) }}, adults should have their HbA1c levels measured every 3 to 6 months.</p>

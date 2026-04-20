@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Meter
+description: a gauge displaying a scalar value within a known range
+---
+
+{% from "components/meter/macro.njk" import meter %}
+
+<h2>Disk usage</h2>
+<p>{{ meter({ value: 7, min: 0, max: 10, low: 3, high: 8, optimum: 5, label: "Disk usage: 7 of 10 GB" }) }}</p>
+
+<h2>Score</h2>
+<p>{{ meter({ value: 92, min: 0, max: 100, label: "Score: 92 of 100" }) }}</p>

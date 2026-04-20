@@ -1,0 +1,36 @@
+{#
+  ProgressSpinner macro — an indeterminate spinning progress indicator.
+
+  HTML tag: <div>
+  CSS class: progress-spinner
+  Accessibility:
+    - role="status" + aria-live="polite" announces the visible
+      label when the spinner appears.
+    - aria-busy="true" signals work in progress.
+    - For indeterminate progress only; use Progress or
+      ProgressCircle when a percentage is known.
+
+  Params:
+    label       string   Visible label and aria-label text.
+                         Default "Loading".
+    id          string
+    classes     string
+    attributes  object
+
+  Usage:
+    {% from "components/progress-spinner/macro.njk" import progressSpinner %}
+    {{ progressSpinner({ label: "Saving…" }) }}
+#}
+{%- macro progressSpinner(params) -%}
+{%- set p = params | default({}) -%}
+{%- set label = p.label | default("Loading") -%}
+<div
+  class="progress-spinner{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="status"
+  aria-live="polite"
+  aria-busy="true"
+  aria-label="{{ label }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+></div>
+{%- endmacro -%}

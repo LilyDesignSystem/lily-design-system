@@ -1,0 +1,20 @@
+---
+layout: layouts/component-demo.njk
+title: Tour
+description: a tour guide, such as for sightseeing, or pathways, or demonstrations
+---
+
+{% from "components/tour/macro.njk" import tour %}
+{% from "components/tour-list/macro.njk" import tourList %}
+{% from "components/tour-list-item/macro.njk" import tourListItem %}
+
+<h2>Welcome tour</h2>
+{% call tour({ label: "Welcome tour" }) %}
+  <p>Follow these four steps to get set up.</p>
+  {% call tourList() %}
+    {% call tourListItem() %}Create your account.{% endcall %}
+    {% call tourListItem({ current: true }) %}Add your GP details.{% endcall %}
+    {% call tourListItem() %}Set your notification preferences.{% endcall %}
+    {% call tourListItem() %}Review and finish.{% endcall %}
+  {% endcall %}
+{% endcall %}

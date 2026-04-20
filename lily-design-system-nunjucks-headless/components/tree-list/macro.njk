@@ -1,0 +1,36 @@
+{#
+  TreeList macro — a hierarchical list with nested expandable items.
+
+  HTML tag: <ul role="tree"> on the root, or <ul role="group"> when
+    nested inside another tree item (controlled via params.nested).
+  CSS class: tree-list
+
+  Params:
+    label       string   Accessible name when the root tree is
+                         not wrapped by a TreeNav.
+    labelledBy  string
+    nested      boolean  When true, renders role="group" for inner lists.
+                         Default false.
+    id          string
+    classes     string
+    attributes  object
+
+  Body content: TreeListItem children via caller().
+#}
+{%- macro treeList(params) -%}
+{%- set p = params | default({}) -%}
+<ul
+  class="tree-list{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="{{ 'group' if p.nested else 'tree' }}"
+  {%- if not p.nested %}
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
+  {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</ul>
+{%- endmacro -%}

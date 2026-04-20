@@ -1,0 +1,13 @@
+.file-dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--nhsuk-white);
+  padding: var(--nhsuk-spacing-4);
+  border-radius: 6px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  max-width: 30rem;
+  width: 90vw;
+}
+.file-dialog[hidden] { display: none; }

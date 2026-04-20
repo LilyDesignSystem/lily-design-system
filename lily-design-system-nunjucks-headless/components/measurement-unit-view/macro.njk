@@ -1,0 +1,25 @@
+{#
+  MeasurementUnitView macro — a read-only display of a measurement unit
+    (e.g. "cm", "kg", "lb").
+
+  HTML tag: <abbr>
+  CSS class: measurement-unit-view
+
+  Params:
+    unit        string   Unit symbol (required).
+    unitLabel   string   Long name for the title attribute.
+    label       string   aria-label override.
+    id          string
+    classes     string
+    attributes  object
+#}
+{%- macro measurementUnitView(params) -%}
+{%- set p = params | default({}) -%}
+<abbr
+  class="measurement-unit-view{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.unitLabel %} title="{{ p.unitLabel }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ p.unit }}</abbr>
+{%- endmacro -%}

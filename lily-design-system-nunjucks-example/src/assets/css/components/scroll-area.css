@@ -1,0 +1,6 @@
+.scroll-area {
+  overflow: auto;
+  max-height: 20rem;
+  border: 1px solid var(--nhsuk-mid-grey);
+  padding: var(--nhsuk-spacing-2);
+}

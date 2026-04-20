@@ -1,0 +1,27 @@
+{#
+  SuperBanner macro — a super-banner communicates a high-priority state
+    that affects the whole app/experience.
+
+  HTML tag: <div role="alert">
+  CSS class: super-banner
+
+  Params: label, level (default "warning"), heading, text, html,
+    id, classes, attributes.
+#}
+{%- macro superBanner(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="super-banner{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="alert"
+  data-level="{{ p.level | default('warning') }}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.heading %}<strong class="super-banner-heading">{{ p.heading }}</strong>{% endif %}
+  {%- if p.text %}<span class="super-banner-text">{{ p.text }}</span>{% endif %}
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Figure
+description: a self-contained figure with optional caption
+---
+
+{% from "components/figure/macro.njk" import figure %}
+{% from "components/image/macro.njk" import image %}
+
+{% call figure({ caption: "Figure 1: A placeholder image with caption." }) %}
+  {{ image({ src: "https://via.placeholder.com/400x200?text=Figure", alt: "A placeholder figure", width: 400, height: 200 }) }}
+{% endcall %}

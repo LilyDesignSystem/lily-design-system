@@ -1,0 +1,15 @@
+---
+layout: layouts/component-demo.njk
+title: Check List Item
+description: one check list item component with a checkbox
+---
+
+{% from "components/check-list-item/macro.njk" import checkListItem %}
+
+<h2>States</h2>
+<ul class="check-list">
+  {{ checkListItem({ id: "s1", label: "Unchecked" }) }}
+  {{ checkListItem({ id: "s2", label: "Checked", checked: true }) }}
+  {{ checkListItem({ id: "s3", label: "Disabled", disabled: true }) }}
+  {{ checkListItem({ id: "s4", label: "Disabled and checked", disabled: true, checked: true }) }}
+</ul>

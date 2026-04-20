@@ -1,0 +1,14 @@
+---
+layout: layouts/component-demo.njk
+title: Dial Group
+description: a group of dial components
+---
+
+{% from "components/dial-group/macro.njk" import dialGroup %}
+{% from "components/dial/macro.njk" import dial %}
+
+{% call dialGroup({ label: "Equaliser" }) %}
+  {{ dial({ value: 50, label: "Bass" }) }}
+  {{ dial({ value: 75, label: "Mid" }) }}
+  {{ dial({ value: 40, label: "Treble" }) }}
+{% endcall %}

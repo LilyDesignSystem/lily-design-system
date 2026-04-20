@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Digital Object Identifier Link
+description: a permanent hyperlink for a Digital Object Identifier
+---
+
+{% from "components/digital-object-identifier-link/macro.njk" import digitalObjectIdentifierLink %}
+
+<p>Reference: {{ digitalObjectIdentifierLink({ doi: "10.1038/s41586-021-03819-2" }) }}</p>
+<p>Custom text: {{ digitalObjectIdentifierLink({ doi: "10.1000/xyz", text: "Read the paper" }) }}</p>

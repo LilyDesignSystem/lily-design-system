@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: Avatar Text
+description: an avatar inner text (initials)
+---
+
+{% from "components/avatar-text/macro.njk" import avatarText %}
+{% from "components/avatar/macro.njk" import avatar %}
+
+<h2>Inside an Avatar</h2>
+<p>By default <code>AvatarText</code> is
+  <code>aria-hidden</code> because its parent
+  <a href="/components/avatar/"><code>Avatar</code></a> carries
+  the accessible name. The initials are decorative.</p>
+
+<p>
+  {% call avatar({ label: "Jane Smith" }) %}
+    {{ avatarText({ text: "JS" }) }}
+  {% endcall %}
+  Jane Smith
+</p>
+
+<h2>Standalone with decorative=false</h2>
+<p>Set <code>decorative: false</code> to expose the text, and pass
+  a <code>label</code> to clarify what the initials mean.</p>
+
+<p>
+  {{ avatarText({ text: "JS", decorative: false, label: "Jane Smith's initials" }) }}
+</p>

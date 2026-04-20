@@ -1,0 +1,27 @@
+{#
+  AccordionList macro — an ordered list of accordion list item components.
+
+  HTML tag: <ol>
+  CSS class: accordion-list
+
+  Params:
+    id          string   Element id.
+    classes     string   Consumer-provided extra CSS classes.
+    attributes  object   Extra HTML attributes as key/value pairs.
+
+  Body content: AccordionListItem children via caller().
+
+  Usage: see AccordionNav.
+#}
+{%- macro accordionList(params) -%}
+{%- set p = params | default({}) -%}
+<ol
+  class="accordion-list{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</ol>
+{%- endmacro -%}

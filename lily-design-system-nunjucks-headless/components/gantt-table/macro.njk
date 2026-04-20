@@ -1,0 +1,68 @@
+{#
+  Table macro — a table with rows and columns.
+
+  HTML tag: <table>
+  CSS class: table
+  Accessibility:
+    - Prefer a visible <caption>: pass params.caption or
+      params.captionHtml. The caption is the table's accessible
+      name for screen readers.
+    - If no caption is given, pass params.label to set aria-label.
+    - Use params.labelledBy to point at an existing heading.
+
+  Params:
+    caption       string   Visible caption text (escaped).
+    captionHtml   string   Visible caption raw HTML.
+    label         string   Accessible name (aria-label) when no
+                           caption is given.
+    labelledBy    string   aria-labelledby target.
+    id            string   Element id.
+    classes       string   Consumer-provided extra CSS classes.
+    attributes    object   Extra HTML attributes as key/value pairs.
+
+  Body content: TableHead, TableBody, TableFoot via caller().
+
+  Usage:
+    {% from "components/gantt-table/macro.njk" import ganttTable %}
+    {% from "components/gantt-table-head/macro.njk" import ganttTableHead %}
+    {% from "components/gantt-table-body/macro.njk" import ganttTableBody %}
+    {% from "components/gantt-table-row/macro.njk" import ganttTableRow %}
+    {% from "components/gantt-table-col/macro.njk" import ganttTableCol %}
+    {% from "components/gantt-table-data/macro.njk" import ganttTableData %}
+
+    {% call ganttTable({ caption: "Your appointments" }) %}
+      {% call ganttTableHead() %}
+        {% call ganttTableRow() %}
+          {{ ganttTableCol({ text: "Date" }) }}
+          {{ ganttTableCol({ text: "Type" }) }}
+        {% endcall %}
+      {% endcall %}
+      {% call ganttTableBody() %}
+        {% call ganttTableRow() %}
+          {{ ganttTableData({ text: "27 April" }) }}
+          {{ ganttTableData({ text: "GP review" }) }}
+        {% endcall %}
+      {% endcall %}
+    {% endcall %}
+#}
+{%- macro ganttTable(params) -%}
+{%- set p = params | default({}) -%}
+<table
+  class="gantt-table{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if not p.caption and not p.captionHtml -%}
+    {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
+    {%- elif p.label %} aria-label="{{ p.label }}"{% endif -%}
+  {%- endif -%}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.captionHtml %}
+  <caption class="gantt-table-caption">{{ p.captionHtml | safe }}</caption>
+  {%- elif p.caption %}
+  <caption class="gantt-table-caption">{{ p.caption }}</caption>
+  {%- endif %}
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</table>
+{%- endmacro -%}

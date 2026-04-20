@@ -1,0 +1,14 @@
+---
+layout: layouts/component-demo.njk
+title: Combobox
+description: a text input combined with a dropdown list
+---
+
+{% from "components/combobox/macro.njk" import combobox %}
+
+<p><label for="service">Choose a service</label></p>
+{% call combobox({ id: "service", name: "service", label: "Choose a service", placeholder: "Type to search…" }) %}
+  <li role="option">GP services</li>
+  <li role="option">Urgent care</li>
+  <li role="option">Pharmacy</li>
+{% endcall %}

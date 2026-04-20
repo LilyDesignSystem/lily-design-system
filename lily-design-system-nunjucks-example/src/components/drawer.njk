@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Drawer
+description: a panel that slides in from the edge of the screen
+---
+
+{% from "components/drawer/macro.njk" import drawer %}
+
+{% call drawer({ label: "Filter drawer", open: true }) %}
+  <h2>Filters</h2>
+  <p>Drawer content here. Open via consumer JS.</p>
+{% endcall %}

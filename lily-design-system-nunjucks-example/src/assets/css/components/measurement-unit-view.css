@@ -1,0 +1,6 @@
+.measurement-unit-view {
+  color: var(--nhsuk-secondary-text);
+  text-decoration: none;
+  border-bottom: none;
+  font-variant-numeric: tabular-nums;
+}

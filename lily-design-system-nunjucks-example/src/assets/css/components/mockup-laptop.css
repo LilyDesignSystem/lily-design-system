@@ -1,0 +1,18 @@
+.mockup-laptop {
+  margin: 0;
+  border: 8px solid var(--nhsuk-black);
+  border-bottom-width: 18px;
+  border-radius: 10px 10px 12px 12px;
+  overflow: hidden;
+  background: var(--nhsuk-white);
+  position: relative;
+}
+
+.mockup-laptop-chrome {
+  height: 0;
+}
+
+.mockup-laptop-body {
+  padding: var(--nhsuk-spacing-3);
+  min-height: 12rem;
+}

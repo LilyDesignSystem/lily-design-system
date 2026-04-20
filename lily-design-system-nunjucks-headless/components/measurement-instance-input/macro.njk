@@ -1,0 +1,62 @@
+{#
+  MeasurementInstanceInput macro — an input for entering a measurement
+    value and unit.
+
+  HTML tag: <div> wrapping <input type="number"> + <select>
+  CSS class: measurement-instance-input
+
+  Params:
+    value       number|string  Current numeric value.
+    unit        string         Current unit (select value).
+    units       array          List of {value, text} unit options.
+    name        string         Base name attribute; "-value" and
+                               "-unit" are appended for the two fields.
+    id          string         Base id; "-value" and "-unit" appended.
+    inputLabel  string         aria-label on the number input.
+    selectLabel string         aria-label on the select.
+    min         number
+    max         number
+    step        number
+    required    boolean
+    disabled    boolean
+    invalid     boolean
+    classes     string
+    attributes  object
+#}
+{%- macro measurementInstanceInput(params) -%}
+{%- set p = params | default({}) -%}
+{%- set baseId = p.id | default('') -%}
+{%- set baseName = p.name | default('') -%}
+<div
+  class="measurement-instance-input{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if baseId %} id="{{ baseId }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <input
+    type="number"
+    class="measurement-instance-input-value"
+    {%- if baseId %} id="{{ baseId }}-value"{% endif %}
+    {%- if baseName %} name="{{ baseName }}-value"{% endif %}
+    value="{{ p.value | default('') }}"
+    {%- if p.min != undefined %} min="{{ p.min }}"{% endif %}
+    {%- if p.max != undefined %} max="{{ p.max }}"{% endif %}
+    {%- if p.step != undefined %} step="{{ p.step }}"{% endif %}
+    {%- if p.required %} required{% endif %}
+    {%- if p.disabled %} disabled{% endif %}
+    {%- if p.invalid %} aria-invalid="true"{% endif %}
+    {%- if p.inputLabel %} aria-label="{{ p.inputLabel }}"{% endif %}
+  >
+  <select
+    class="measurement-instance-input-unit"
+    {%- if baseId %} id="{{ baseId }}-unit"{% endif %}
+    {%- if baseName %} name="{{ baseName }}-unit"{% endif %}
+    {%- if p.required %} required{% endif %}
+    {%- if p.disabled %} disabled{% endif %}
+    {%- if p.selectLabel %} aria-label="{{ p.selectLabel }}"{% endif %}
+  >
+    {%- for u in p.units | default([]) %}
+    <option value="{{ u.value }}"{% if u.value == p.unit %} selected{% endif %}>{{ u.text | default(u.value) }}</option>
+    {%- endfor %}
+  </select>
+</div>
+{%- endmacro -%}

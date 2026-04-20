@@ -1,0 +1,42 @@
+---
+layout: layouts/component-demo.njk
+title: Accordion List Item
+description: one accordion list item component
+---
+
+{% from "components/accordion-list/macro.njk" import accordionList %}
+{% from "components/accordion-list-item/macro.njk" import accordionListItem %}
+
+<h2>Closed by default</h2>
+{% call accordionList() %}
+  {% call accordionListItem({ summary: "Click to expand" }) %}
+    <p>Hidden content revealed only when the summary is clicked.</p>
+  {% endcall %}
+{% endcall %}
+
+<h2>Open by default</h2>
+{% call accordionList() %}
+  {% call accordionListItem({ summary: "This section is open", open: true }) %}
+    <p>Content is visible from page load. The user can still collapse it.</p>
+  {% endcall %}
+{% endcall %}
+
+<h2>Mutually exclusive sections (<code>name</code>)</h2>
+<p>When sibling items share the same <code>name</code>, only one can
+  be open at a time — a modern browsers feature.</p>
+{% call accordionList() %}
+  {% call accordionListItem({ summary: "Option A", name: "only-one" }) %}
+    <p>Opening this closes B and C.</p>
+  {% endcall %}
+  {% call accordionListItem({ summary: "Option B", name: "only-one" }) %}
+    <p>Opening this closes A and C.</p>
+  {% endcall %}
+  {% call accordionListItem({ summary: "Option C", name: "only-one" }) %}
+    <p>Opening this closes A and B.</p>
+  {% endcall %}
+{% endcall %}
+
+<h2>Accessibility</h2>
+<p>Uses the native <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code>
+  disclosure pattern. No JavaScript is required for expand/collapse
+  and screen readers announce the state automatically.</p>

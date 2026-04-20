@@ -1,0 +1,30 @@
+---
+layout: layouts/component-demo.njk
+title: Net Promoter Score Picker
+description: a picker for selecting a 0-10 Net Promoter Score
+---
+
+{% from "components/net-promoter-score-picker/macro.njk" import netPromoterScorePicker %}
+{% from "components/net-promoter-score-picker-button/macro.njk" import netPromoterScorePickerButton %}
+
+<h2>How likely are you to recommend us?</h2>
+{% call netPromoterScorePicker({ label: "How likely are you to recommend us to a friend or colleague?" }) %}
+  {% for n in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] %}
+    {{ netPromoterScorePickerButton({ value: n, checked: (n == 8) }) }}
+  {% endfor %}
+{% endcall %}
+
+<h2>Rate this service</h2>
+{% call netPromoterScorePicker({ label: "Rate this service" }) %}
+  {% for n in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] %}
+    {{ netPromoterScorePickerButton({ value: n }) }}
+  {% endfor %}
+{% endcall %}
+
+<h2>Category colours</h2>
+<p>Buttons are styled by <code>data-category</code>:</p>
+<ul>
+  <li><strong>Detractor</strong> (0–6) — red on hover/select.</li>
+  <li><strong>Passive</strong> (7–8) — yellow on hover/select.</li>
+  <li><strong>Promoter</strong> (9–10) — green on hover/select.</li>
+</ul>

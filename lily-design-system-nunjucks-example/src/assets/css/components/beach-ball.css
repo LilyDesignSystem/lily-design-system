@@ -1,0 +1,24 @@
+.beach-ball {
+  display: inline-block;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--nhsuk-red) 0deg 60deg,
+    var(--nhsuk-warm-yellow) 60deg 120deg,
+    var(--nhsuk-green) 120deg 180deg,
+    var(--nhsuk-bright-blue) 180deg 240deg,
+    var(--nhsuk-purple) 240deg 300deg,
+    var(--nhsuk-white) 300deg 360deg
+  );
+  border: 2px solid var(--nhsuk-black);
+  animation: beach-ball-spin 3s linear infinite;
+}
+
+@keyframes beach-ball-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beach-ball { animation: none; }
+}

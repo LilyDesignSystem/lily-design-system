@@ -1,0 +1,22 @@
+---
+layout: layouts/component-demo.njk
+title: Segment Group
+description: a group of mutually exclusive segment options
+---
+
+{% from "components/segment-group/macro.njk" import segmentGroup %}
+{% from "components/segment-group-item/macro.njk" import segmentGroupItem %}
+
+<h2>Calendar view</h2>
+{% call segmentGroup({ label: "Calendar view" }) %}
+  {{ segmentGroupItem({ text: "Day", checked: true }) }}
+  {{ segmentGroupItem({ text: "Week" }) }}
+  {{ segmentGroupItem({ text: "Month" }) }}
+  {{ segmentGroupItem({ text: "Year" }) }}
+{% endcall %}
+
+<h2>Chart scale</h2>
+{% call segmentGroup({ label: "Chart scale" }) %}
+  {{ segmentGroupItem({ text: "Linear", checked: true }) }}
+  {{ segmentGroupItem({ text: "Log" }) }}
+{% endcall %}

@@ -1,0 +1,15 @@
+.medical-banner-box-for-danger {
+  padding: var(--nhsuk-spacing-2);
+  background: var(--nhsuk-white);
+  border-left: 4px solid var(--nhsuk-red);
+  font-size: var(--nhsuk-font-size-16);
+}
+
+.medical-banner-box-for-danger .medical-banner-box-heading {
+  margin: 0 0 var(--nhsuk-spacing-1) 0;
+  color: var(--nhsuk-red);
+  font-size: var(--nhsuk-font-size-16);
+  font-weight: var(--nhsuk-font-weight-bold);
+}
+
+.medical-banner-box-for-danger > :last-child { margin-bottom: 0; }

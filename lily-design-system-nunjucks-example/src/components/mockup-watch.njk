@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Mockup Watch
+description: a box area that looks like a smart watch
+---
+
+{% from "components/mockup-watch/macro.njk" import mockupWatch %}
+
+{% call mockupWatch() %}
+  <p style="font-size: 0.9rem">Heart: 72 bpm</p>
+  <p style="font-size: 0.9rem">Steps: 8,342</p>
+{% endcall %}

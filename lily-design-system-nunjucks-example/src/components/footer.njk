@@ -1,0 +1,11 @@
+---
+layout: layouts/component-demo.njk
+title: Footer
+description: a page or section footer area
+---
+
+{% from "components/footer/macro.njk" import footer %}
+
+{% call footer({ label: "Site footer" }) %}
+  <p>© 2026 Lily Design System. Demo content.</p>
+{% endcall %}

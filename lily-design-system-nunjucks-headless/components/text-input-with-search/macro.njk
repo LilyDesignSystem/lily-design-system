@@ -1,0 +1,31 @@
+{#
+  TextInputWithSearch macro — a single-line text input with a search icon/button.
+
+  HTML tag: <div> wrapping <input type="search"> + <button>
+  CSS class: text-input-with-search
+
+  Params: id, name, value, label, placeholder, searchLabel (default "Search"),
+    required, disabled, classes, attributes.
+#}
+{%- macro textInputWithSearch(params) -%}
+{%- set p = params | default({}) -%}
+{%- set inputId = (p.id | default('text-input-with-search')) ~ "-input" -%}
+<div
+  class="text-input-with-search{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <input
+    class="text-input-with-search-input"
+    type="search"
+    id="{{ inputId }}"
+    value="{{ p.value | default('') }}"
+    {%- if p.name %} name="{{ p.name }}"{% endif %}
+    {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+    {%- if p.placeholder %} placeholder="{{ p.placeholder }}"{% endif %}
+    {%- if p.required %} required{% endif %}
+    {%- if p.disabled %} disabled{% endif %}
+  >
+  <button class="text-input-with-search-button" type="submit"{% if p.disabled %} disabled{% endif %} aria-label="{{ p.searchLabel | default('Search') }}">{{ p.searchLabel | default("Search") }}</button>
+</div>
+{%- endmacro -%}

@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Sidebar
+description: a side panel for navigation or supplementary content
+---
+
+{% from "components/sidebar/macro.njk" import sidebar %}
+
+{% call sidebar({ label: "Section nav" }) %}
+  <h2>In this section</h2>
+  <ul><li><a href="#one">Section one</a></li><li><a href="#two">Section two</a></li></ul>
+{% endcall %}

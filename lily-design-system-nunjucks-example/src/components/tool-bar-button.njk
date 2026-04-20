@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Tool Bar Button
+description: one action button in a tool bar
+---
+
+{% from "components/tool-bar-button/macro.njk" import toolBarButton %}
+
+<div class="tool-bar" role="toolbar" aria-label="Demo">
+  {{ toolBarButton({ text: "Action" }) }}
+  {{ toolBarButton({ text: "Pressed", pressed: true }) }}
+  {{ toolBarButton({ text: "Disabled", disabled: true }) }}
+</div>

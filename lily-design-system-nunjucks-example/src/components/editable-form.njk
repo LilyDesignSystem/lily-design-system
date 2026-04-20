@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Editable Form
+description: a form wrapper for inline editing
+---
+
+{% from "components/editable-form/macro.njk" import editableForm %}
+
+{% call editableForm({ label: "Edit name" }) %}
+  <input type="text" value="Alex Morgan">
+  <button type="submit">Save</button>
+  <button type="reset">Cancel</button>
+{% endcall %}

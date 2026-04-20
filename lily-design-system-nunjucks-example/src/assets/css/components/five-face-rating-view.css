@@ -1,0 +1,11 @@
+.five-face-rating-view {
+  display: inline-block;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.five-face-rating-view[data-value="1"]::before { content: "😖"; }
+.five-face-rating-view[data-value="2"]::before { content: "🙁"; }
+.five-face-rating-view[data-value="3"]::before { content: "😐"; }
+.five-face-rating-view[data-value="4"]::before { content: "🙂"; }
+.five-face-rating-view[data-value="5"]::before { content: "😄"; }

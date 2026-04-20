@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Listbox
+description: a list of selectable options with keyboard navigation
+---
+
+{% from "components/listbox/macro.njk" import listbox %}
+
+{% call listbox({ label: "Choose a clinic" }) %}
+  <li role="option" aria-selected="true">High Street Surgery</li>
+  <li role="option">Main Clinic</li>
+  <li role="option">North Surgery</li>
+{% endcall %}

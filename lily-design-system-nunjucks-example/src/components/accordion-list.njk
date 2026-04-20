@@ -1,0 +1,26 @@
+---
+layout: layouts/component-demo.njk
+title: Accordion List
+description: an ordered list of accordion list item components
+---
+
+{% from "components/accordion-list/macro.njk" import accordionList %}
+{% from "components/accordion-list-item/macro.njk" import accordionListItem %}
+
+<h2>Frequently asked questions</h2>
+{% call accordionList() %}
+  {% call accordionListItem({ summary: "How do I book an appointment?" }) %}
+    <p>Use the online booking system or call reception.</p>
+  {% endcall %}
+  {% call accordionListItem({ summary: "How do I cancel an appointment?" }) %}
+    <p>Give at least 24 hours' notice so the slot can be offered to someone else.</p>
+  {% endcall %}
+  {% call accordionListItem({ summary: "What should I bring?" }) %}
+    <p>Bring ID, your current medication list, and any relevant test results.</p>
+  {% endcall %}
+{% endcall %}
+
+<h2>Accessibility</h2>
+<p>An <code>&lt;ol&gt;</code> expresses the hierarchical order of
+  the sections. Each section is a separate <code>&lt;li&gt;</code>
+  with its own disclosure.</p>

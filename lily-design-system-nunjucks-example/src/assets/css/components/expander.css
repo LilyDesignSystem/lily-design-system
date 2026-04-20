@@ -1,0 +1,7 @@
+.expander { margin-bottom: var(--nhsuk-spacing-3); }
+.expander-summary {
+  cursor: pointer;
+  color: var(--nhsuk-blue);
+  font-weight: var(--nhsuk-font-weight-bold);
+}
+.expander-body { padding-top: var(--nhsuk-spacing-2); }

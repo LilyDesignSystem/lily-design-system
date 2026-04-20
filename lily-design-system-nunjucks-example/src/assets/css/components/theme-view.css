@@ -1,0 +1,9 @@
+.theme-view {
+  display: inline-block;
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-2);
+  background: var(--nhsuk-pale-grey);
+  border-radius: 3px;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-16);
+  font-weight: var(--nhsuk-font-weight-bold);
+}

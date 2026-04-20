@@ -1,0 +1,24 @@
+{#
+  TimerButton macro — a button with a timer that will automatically click
+    after a given amount of time.
+
+  HTML tag: <button>
+  CSS class: timer-button
+
+  Params:
+    id, text, duration (seconds, required), label,
+    disabled, classes, attributes.
+#}
+{%- macro timerButton(params) -%}
+{%- set p = params | default({}) -%}
+<button
+  class="timer-button{% if p.classes %} {{ p.classes }}{% endif %}"
+  type="button"
+  data-module="timer-button"
+  data-duration="{{ p.duration }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.disabled %} disabled{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+><span class="timer-button-text">{{ p.text }}</span> <span class="timer-button-countdown" aria-hidden="true"></span></button>
+{%- endmacro -%}

@@ -1,0 +1,27 @@
+---
+layout: layouts/component-demo.njk
+title: Chat List
+description: an ordered list of chat list item components
+---
+
+{% from "components/chat-list/macro.njk" import chatList %}
+{% from "components/chat-list-item/macro.njk" import chatListItem %}
+{% from "components/chat-message/macro.njk" import chatMessage %}
+
+<h2>Polite live region</h2>
+<p>The list has <code>role="log"</code> and <code>aria-live="polite"</code>
+  so screen readers announce new messages when the user is idle.</p>
+
+{% call chatList() %}
+  {% call chatListItem() %}
+    {{ chatMessage({ origin: "peer", author: "Nurse", text: "Hi there" }) }}
+  {% endcall %}
+  {% call chatListItem() %}
+    {{ chatMessage({ origin: "self", author: "You", text: "Hi" }) }}
+  {% endcall %}
+{% endcall %}
+
+<h2>Assertive live region</h2>
+<p>Use <code>live: "assertive"</code> only for messages that must
+  interrupt the user immediately — for example, a clinician urgently
+  needing acknowledgement. Prefer <code>polite</code> in most cases.</p>

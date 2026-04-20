@@ -1,0 +1,38 @@
+{#
+  Event macro — an event component that contains other event-related
+    information (title, time, location).
+
+  HTML tag: <article>
+  CSS class: event
+
+  Params:
+    title       string
+    time        string   ISO timestamp.
+    timeText    string   Human-readable time.
+    location    string
+    label       string   aria-label override.
+    text        string
+    html        string
+    id          string
+    classes     string
+    attributes  object
+#}
+{%- macro event(params) -%}
+{%- set p = params | default({}) -%}
+<article
+  class="event{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% elif p.title %} aria-label="{{ p.title }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.title %}<h3 class="event-title">{{ p.title }}</h3>{% endif %}
+  {%- if p.time or p.timeText %}
+  <time class="event-time"{% if p.time %} datetime="{{ p.time }}"{% endif %}>{{ p.timeText | default(p.time) }}</time>
+  {%- endif %}
+  {%- if p.location %}<span class="event-location">{{ p.location }}</span>{% endif %}
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</article>
+{%- endmacro -%}

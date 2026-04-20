@@ -1,0 +1,36 @@
+{#
+  ReviewDate macro — a display of a content review date, for example
+    "Page last reviewed: 20 April 2026".
+
+  HTML tag: <p>
+  CSS class: review-date
+
+  Params:
+    reviewedLabel string Default "Page last reviewed".
+    reviewedOn    string ISO date of the last review.
+    reviewedOnText string Human-readable date.
+    nextReviewLabel string Optional. Default "Next review due".
+    nextReviewOn    string ISO date of the next planned review.
+    nextReviewOnText string Human-readable date.
+    id            string
+    classes       string
+    attributes    object
+#}
+{%- macro reviewDate(params) -%}
+{%- set p = params | default({}) -%}
+<p
+  class="review-date{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <span class="review-date-reviewed">
+    {{ p.reviewedLabel | default("Page last reviewed") }}: <time datetime="{{ p.reviewedOn }}">{{ p.reviewedOnText | default(p.reviewedOn) }}</time>
+  </span>
+  {%- if p.nextReviewOn %}
+  <br>
+  <span class="review-date-next">
+    {{ p.nextReviewLabel | default("Next review due") }}: <time datetime="{{ p.nextReviewOn }}">{{ p.nextReviewOnText | default(p.nextReviewOn) }}</time>
+  </span>
+  {%- endif %}
+</p>
+{%- endmacro -%}

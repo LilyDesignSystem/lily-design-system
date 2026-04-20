@@ -1,0 +1,15 @@
+.alert-dialog {
+  padding: var(--nhsuk-spacing-4);
+  max-width: 32rem;
+  border: 4px solid var(--nhsuk-red);
+  background: var(--nhsuk-white);
+  color: var(--nhsuk-black);
+  font-family: var(--nhsuk-font-family);
+}
+
+.alert-dialog::backdrop {
+  background: rgba(213, 40, 27, 0.25);
+}
+
+.alert-dialog > :first-child { margin-top: 0; }
+.alert-dialog > :last-child { margin-bottom: 0; }

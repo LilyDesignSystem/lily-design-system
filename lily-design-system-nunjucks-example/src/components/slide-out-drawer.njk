@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Slide Out Drawer
+description: a drawer that slides out from the side of the page
+---
+
+{% from "components/slide-out-drawer/macro.njk" import slideOutDrawer %}
+
+{% call slideOutDrawer({ label: "Site menu", open: true }) %}
+  <h2>Menu</h2>
+  <ul><li><a href="/">Home</a></li><li><a href="/services">Services</a></li></ul>
+{% endcall %}

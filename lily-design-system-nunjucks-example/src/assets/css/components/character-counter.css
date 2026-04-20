@@ -1,0 +1,6 @@
+.character-counter {
+  display: block;
+  font-size: var(--nhsuk-font-size-14);
+  color: var(--nhsuk-secondary-text);
+  margin-top: var(--nhsuk-spacing-1);
+}

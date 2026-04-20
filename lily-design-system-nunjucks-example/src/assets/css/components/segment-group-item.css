@@ -1,0 +1,26 @@
+.segment-group-item {
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);
+  background: transparent;
+  color: var(--nhsuk-black);
+  border: 0;
+  border-radius: 3px;
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-16);
+  font-weight: var(--nhsuk-font-weight-bold);
+  cursor: pointer;
+}
+
+.segment-group-item:hover {
+  background: var(--nhsuk-light-grey);
+}
+
+.segment-group-item[aria-checked="true"] {
+  background: var(--nhsuk-white);
+  color: var(--nhsuk-blue);
+  box-shadow: 0 1px 2px rgba(33, 43, 50, 0.1);
+}
+
+.segment-group-item[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

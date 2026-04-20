@@ -1,0 +1,20 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — Respiratory Rate View
+description: number display of respiratory rate in breaths per minute
+---
+
+{% from "components/vital-sign-respiratory-rate-as-breaths-per-minute-view/macro.njk" import vitalSignRespiratoryRateAsBreathsPerMinuteView %}
+
+<h2>Default</h2>
+<p>{{ vitalSignRespiratoryRateAsBreathsPerMinuteView({
+  value: 16,
+  label: "Respiratory rate"
+}) }}</p>
+
+<h2>Elevated (tachypnea)</h2>
+<p>{{ vitalSignRespiratoryRateAsBreathsPerMinuteView({
+  value: 24,
+  label: "Respiratory rate (tachypnea)",
+  classes: "elevated"
+}) }}</p>

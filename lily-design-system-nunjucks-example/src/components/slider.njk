@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Slider
+description: a draggable control for selecting a value along a track
+---
+
+{% from "components/slider/macro.njk" import slider %}
+
+<p><label for="vol">Volume</label></p>
+{{ slider({ id: "vol", name: "vol", value: 50, label: "Volume" }) }}
+
+<p><label for="zoom">Zoom (1.0–4.0)</label></p>
+{{ slider({ id: "zoom", name: "zoom", min: 1, max: 4, step: 0.1, value: 2, label: "Zoom level" }) }}

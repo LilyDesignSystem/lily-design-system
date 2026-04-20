@@ -1,0 +1,111 @@
+---
+layout: layouts/component-demo.njk
+title: Kanban Table
+description: a kanban board table interactive grid for organizing items by status
+---
+
+{% from "components/kanban-table/macro.njk" import kanbanTable %}
+{% from "components/kanban-table-head/macro.njk" import kanbanTableHead %}
+{% from "components/kanban-table-body/macro.njk" import kanbanTableBody %}
+{% from "components/kanban-table-foot/macro.njk" import kanbanTableFoot %}
+{% from "components/kanban-table-row/macro.njk" import kanbanTableRow %}
+{% from "components/kanban-table-col/macro.njk" import kanbanTableCol %}
+{% from "components/kanban-table-data/macro.njk" import kanbanTableData %}
+
+<h2>Default — appointment list</h2>
+{% call kanbanTable({ caption: "Your upcoming appointments" }) %}
+  {% call kanbanTableHead() %}
+    {% call kanbanTableRow() %}
+      {{ kanbanTableCol({ text: "Date" }) }}
+      {{ kanbanTableCol({ text: "Clinician" }) }}
+      {{ kanbanTableCol({ text: "Type" }) }}
+      {{ kanbanTableCol({ text: "Location" }) }}
+    {% endcall %}
+  {% endcall %}
+  {% call kanbanTableBody() %}
+    {% call kanbanTableRow() %}
+      {{ kanbanTableData({ text: "27 April 2026, 9:30am" }) }}
+      {{ kanbanTableData({ text: "Dr Patel" }) }}
+      {{ kanbanTableData({ text: "GP review" }) }}
+      {{ kanbanTableData({ text: "High Street Surgery" }) }}
+    {% endcall %}
+    {% call kanbanTableRow() %}
+      {{ kanbanTableData({ text: "4 May 2026, 2:15pm" }) }}
+      {{ kanbanTableData({ text: "Nurse Ahmed" }) }}
+      {{ kanbanTableData({ text: "Blood test" }) }}
+      {{ kanbanTableData({ text: "Main Clinic" }) }}
+    {% endcall %}
+    {% call kanbanTableRow() %}
+      {{ kanbanTableData({ text: "19 May 2026, 11:00am" }) }}
+      {{ kanbanTableData({ text: "Dr Smith" }) }}
+      {{ kanbanTableData({ text: "Follow-up" }) }}
+      {{ kanbanTableData({ text: "High Street Surgery" }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}
+
+<h2>Numeric columns — vital signs</h2>
+{% call kanbanTable({ caption: "Recent vital sign measurements" }) %}
+  {% call kanbanTableHead() %}
+    {% call kanbanTableRow() %}
+      {{ kanbanTableCol({ text: "Date" }) }}
+      {{ kanbanTableCol({ text: "Heart rate (bpm)", classes: "kanban-table-col-numeric" }) }}
+      {{ kanbanTableCol({ text: "Systolic (mmHg)", classes: "kanban-table-col-numeric" }) }}
+      {{ kanbanTableCol({ text: "Diastolic (mmHg)", classes: "kanban-table-col-numeric" }) }}
+    {% endcall %}
+  {% endcall %}
+  {% call kanbanTableBody() %}
+    {% call kanbanTableRow() %}
+      {{ kanbanTableData({ text: "12 Apr" }) }}
+      {{ kanbanTableData({ text: "72", classes: "kanban-table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "118", classes: "kanban-table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "76", classes: "kanban-table-data-numeric" }) }}
+    {% endcall %}
+    {% call kanbanTableRow() %}
+      {{ kanbanTableData({ text: "19 Apr" }) }}
+      {{ kanbanTableData({ text: "68", classes: "kanban-table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "120", classes: "kanban-table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "78", classes: "kanban-table-data-numeric" }) }}
+    {% endcall %}
+    {% call kanbanTableRow() %}
+      {{ kanbanTableData({ text: "26 Apr" }) }}
+      {{ kanbanTableData({ text: "70", classes: "kanban-table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "116", classes: "kanban-table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "74", classes: "kanban-table-data-numeric" }) }}
+    {% endcall %}
+  {% endcall %}
+  {% call kanbanTableFoot() %}
+    {% call kanbanTableRow() %}
+      {{ kanbanTableCol({ text: "Average", scope: "row" }) }}
+      {{ kanbanTableData({ text: "70", classes: "kanban-table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "118", classes: "kanban-table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "76", classes: "kanban-table-data-numeric" }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}
+
+<h2>Row headers</h2>
+<p>Use <code>TableCol</code> with <code>scope="row"</code> to mark a
+  row header, so screen readers announce it together with each data
+  cell in the row.</p>
+{% call kanbanTable({ caption: "Dosage schedule" }) %}
+  {% call kanbanTableHead() %}
+    {% call kanbanTableRow() %}
+      {{ kanbanTableCol({ text: "Day" }) }}
+      {{ kanbanTableCol({ text: "Morning" }) }}
+      {{ kanbanTableCol({ text: "Evening" }) }}
+    {% endcall %}
+  {% endcall %}
+  {% call kanbanTableBody() %}
+    {% call kanbanTableRow() %}
+      {{ kanbanTableCol({ text: "Monday", scope: "row" }) }}
+      {{ kanbanTableData({ text: "1 tablet" }) }}
+      {{ kanbanTableData({ text: "1 tablet" }) }}
+    {% endcall %}
+    {% call kanbanTableRow() %}
+      {{ kanbanTableCol({ text: "Tuesday", scope: "row" }) }}
+      {{ kanbanTableData({ text: "1 tablet" }) }}
+      {{ kanbanTableData({ text: "2 tablets" }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}

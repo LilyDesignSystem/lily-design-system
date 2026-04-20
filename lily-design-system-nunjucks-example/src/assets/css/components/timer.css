@@ -1,0 +1,9 @@
+.timer {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: var(--nhsuk-font-size-22);
+  font-variant-numeric: tabular-nums;
+  background: var(--nhsuk-black);
+  color: var(--nhsuk-white);
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-2);
+  border-radius: 3px;
+}

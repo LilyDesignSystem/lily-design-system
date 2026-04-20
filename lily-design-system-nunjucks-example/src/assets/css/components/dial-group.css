@@ -1,0 +1,5 @@
+.dial-group {
+  display: flex;
+  gap: var(--nhsuk-spacing-3);
+  flex-wrap: wrap;
+}

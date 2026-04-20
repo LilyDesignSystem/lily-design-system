@@ -1,0 +1,20 @@
+---
+layout: layouts/component-demo.njk
+title: Toggle Button
+description: a button that toggles between pressed and unpressed states
+---
+
+{% from "components/toggle-button/macro.njk" import toggleButton %}
+
+<h2>Default (unpressed)</h2>
+<p>{{ toggleButton({ text: "Bold" }) }}</p>
+
+<h2>Pressed</h2>
+<p>{{ toggleButton({ text: "Bold", pressed: true }) }}</p>
+
+<h2>Use aria-pressed, not role=switch</h2>
+<p>Use <code>ToggleButton</code> for "currently-applied formatting"
+  or "action in effect" semantics (Bold, Italic, Mute). For explicit
+  on/off settings, prefer <a href="/components/switch-button/">
+  <code>SwitchButton</code></a> with its
+  <code>role="switch"</code>.</p>

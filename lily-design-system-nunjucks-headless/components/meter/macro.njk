@@ -1,0 +1,34 @@
+{#
+  Meter macro — a gauge displaying a scalar value within a known range.
+
+  HTML tag: <meter>
+  CSS class: meter
+
+  Params:
+    value       number   Current value (required).
+    min         number   Default 0.
+    max         number   Default 100.
+    low         number
+    high        number
+    optimum     number
+    label       string   aria-label.
+    text        string   Fallback text inside meter.
+    id          string
+    classes     string
+    attributes  object
+#}
+{%- macro meter(params) -%}
+{%- set p = params | default({}) -%}
+<meter
+  class="meter{% if p.classes %} {{ p.classes }}{% endif %}"
+  value="{{ p.value }}"
+  min="{{ p.min | default(0) }}"
+  max="{{ p.max | default(100) }}"
+  {%- if p.low != undefined %} low="{{ p.low }}"{% endif %}
+  {%- if p.high != undefined %} high="{{ p.high }}"{% endif %}
+  {%- if p.optimum != undefined %} optimum="{{ p.optimum }}"{% endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ p.text | default(p.value) }}</meter>
+{%- endmacro -%}

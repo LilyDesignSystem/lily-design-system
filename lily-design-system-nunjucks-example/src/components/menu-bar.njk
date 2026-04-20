@@ -1,0 +1,16 @@
+---
+layout: layouts/component-demo.njk
+title: Menu Bar
+description: a horizontal bar of menu triggers
+---
+
+{% from "components/menu-bar/macro.njk" import menuBar %}
+{% from "components/menu-bar-button/macro.njk" import menuBarButton %}
+
+<h2>Application menu bar</h2>
+{% call menuBar({ label: "Application" }) %}
+  {{ menuBarButton({ text: "File", controls: "menu-file" }) }}
+  {{ menuBarButton({ text: "Edit", controls: "menu-edit" }) }}
+  {{ menuBarButton({ text: "View", controls: "menu-view" }) }}
+  {{ menuBarButton({ text: "Help", controls: "menu-help" }) }}
+{% endcall %}

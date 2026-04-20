@@ -1,0 +1,15 @@
+---
+layout: layouts/component-demo.njk
+title: Measurement Instance View
+description: a read-only display of a measurement value and unit
+---
+
+{% from "components/measurement-instance-view/macro.njk" import measurementInstanceView %}
+
+<h2>Weight</h2>
+<p>{{ measurementInstanceView({ value: "75", unit: "kg", unitLabel: "kilograms" }) }}</p>
+<p>{{ measurementInstanceView({ value: "165", unit: "lb", unitLabel: "pounds" }) }}</p>
+
+<h2>Height</h2>
+<p>{{ measurementInstanceView({ value: "178", unit: "cm", unitLabel: "centimetres" }) }}</p>
+<p>{{ measurementInstanceView({ value: "5'10\"", unit: "ft", unitLabel: "feet and inches" }) }}</p>

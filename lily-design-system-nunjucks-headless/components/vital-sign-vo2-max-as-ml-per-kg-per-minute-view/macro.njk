@@ -1,0 +1,19 @@
+{#
+  VitalSignVo2MaxAsMlPerKgPerMinuteView macro — a read-only display of
+    VO2 max in millilitres of oxygen per kilogram per minute.
+
+  HTML tag: <span>
+  CSS class: vital-sign-vo2-max-as-ml-per-kg-per-minute-view
+  Accessibility: unit wrapped in <abbr title="millilitres per
+    kilogram per minute">.
+
+  Params: value, label, id, classes, attributes.
+#}
+{%- macro vitalSignVo2MaxAsMlPerKgPerMinuteView(params) -%}
+<span
+  class="vital-sign-vo2-max-as-ml-per-kg-per-minute-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+><span class="vital-sign-value">{{ params.value | default('') }}</span>&nbsp;<abbr class="vital-sign-unit" title="millilitres per kilogram per minute">ml/kg/min</abbr></span>
+{%- endmacro -%}

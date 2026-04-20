@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: Red/Amber/Green View
+description: a read-only display of a red/amber/green status
+---
+
+{% from "components/red-amber-green-view/macro.njk" import redAmberGreenView %}
+
+<h2>Default</h2>
+<p>{{ redAmberGreenView({ status: "green" }) }}</p>
+<p>{{ redAmberGreenView({ status: "amber" }) }}</p>
+<p>{{ redAmberGreenView({ status: "red" }) }}</p>
+<p>{{ redAmberGreenView({ status: "unknown" }) }}</p>
+
+<h2>Custom text</h2>
+<p>{{ redAmberGreenView({ status: "green", text: "On track" }) }}</p>
+<p>{{ redAmberGreenView({ status: "amber", text: "Needs attention" }) }}</p>
+<p>{{ redAmberGreenView({ status: "red", text: "Urgent action" }) }}</p>
+
+<h2>Accessibility</h2>
+<p>Colour alone is not sufficient for conveying status — the macro
+  always pairs the colour dot with text so assistive tech (and
+  colour-blind users) get the meaning.</p>

@@ -1,0 +1,15 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — Sleep Score Input
+description: number input of a sleep score on a 0 – 100 scale
+---
+
+{% from "components/vital-sign-sleep-score-as-0-to-100-input/macro.njk" import vitalSignSleepScoreAs0To100Input %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default (0 – 100)</h2>
+{% call field() %}
+  {{ label({ for: "score", text: "Last night's sleep score" }) }}
+  {{ vitalSignSleepScoreAs0To100Input({ id: "score" }) }}
+{% endcall %}

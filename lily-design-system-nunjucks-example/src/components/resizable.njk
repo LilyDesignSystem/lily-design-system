@@ -1,0 +1,11 @@
+---
+layout: layouts/component-demo.njk
+title: Resizable
+description: a container the user can resize by dragging
+---
+
+{% from "components/resizable/macro.njk" import resizable %}
+
+{% call resizable({ label: "Notes" }) %}
+  <p>Drag the corner to resize.</p>
+{% endcall %}

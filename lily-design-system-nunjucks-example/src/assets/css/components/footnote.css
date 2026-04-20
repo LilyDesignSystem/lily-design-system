@@ -1,0 +1,17 @@
+.footnote {
+  font-size: 0.75em;
+  line-height: 1;
+  margin: 0 0.1em;
+}
+
+.footnote a {
+  color: var(--nhsuk-bright-blue);
+  text-decoration: none;
+  padding: 0.1em 0.25em;
+  border-radius: 2px;
+}
+
+.footnote a:hover {
+  background: var(--nhsuk-pale-grey);
+  text-decoration: underline;
+}

@@ -1,0 +1,41 @@
+{#
+  Combobox macro — a text input combined with a dropdown list.
+
+  HTML tag: <div> wrapping <input role="combobox">
+  CSS class: combobox
+
+  Params: id, name, value, label, listboxId, expanded, required, disabled,
+    placeholder, classes, attributes. Caller provides the listbox.
+#}
+{%- macro combobox(params) -%}
+{%- set p = params | default({}) -%}
+{%- set inputId = p.id | default('combobox') ~ "-input" -%}
+{%- set listboxId = p.listboxId | default(p.id | default('combobox') ~ "-listbox") -%}
+<div
+  class="combobox{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-module="combobox"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <input
+    class="combobox-input"
+    type="text"
+    role="combobox"
+    id="{{ inputId }}"
+    {%- if p.name %} name="{{ p.name }}"{% endif %}
+    value="{{ p.value | default('') }}"
+    aria-expanded="{{ 'true' if p.expanded else 'false' }}"
+    aria-controls="{{ listboxId }}"
+    aria-autocomplete="list"
+    {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+    {%- if p.placeholder %} placeholder="{{ p.placeholder }}"{% endif %}
+    {%- if p.required %} required{% endif %}
+    {%- if p.disabled %} disabled{% endif %}
+  >
+  <ul class="combobox-listbox" role="listbox" id="{{ listboxId }}"{% if not p.expanded %} hidden{% endif %}>
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </ul>
+</div>
+{%- endmacro -%}

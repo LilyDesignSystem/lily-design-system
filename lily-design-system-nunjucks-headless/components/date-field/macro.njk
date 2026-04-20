@@ -1,0 +1,37 @@
+{#
+  DateField macro — a structured field for entering date components
+    (day, month, year) as three separate inputs in a <fieldset>.
+
+  HTML tag: <fieldset> with three <input type="text">
+  CSS class: date-field
+
+  Params:
+    id, name (base; "-day", "-month", "-year" appended), legend,
+    day, month, year, disabled, required, invalid, classes, attributes.
+#}
+{%- macro dateField(params) -%}
+{%- set p = params | default({}) -%}
+{%- set baseId = p.id | default('') -%}
+{%- set baseName = p.name | default('') -%}
+<fieldset
+  class="date-field{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if baseId %} id="{{ baseId }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.legend %}<legend class="date-field-legend">{{ p.legend }}</legend>{% endif %}
+  <div class="date-field-parts">
+    <div class="date-field-part">
+      <label class="date-field-part-label" for="{{ baseId }}-day">Day</label>
+      <input class="date-field-part-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" id="{{ baseId }}-day" name="{{ baseName }}-day" value="{{ p.day | default('') }}"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %}{% if p.invalid %} aria-invalid="true"{% endif %}>
+    </div>
+    <div class="date-field-part">
+      <label class="date-field-part-label" for="{{ baseId }}-month">Month</label>
+      <input class="date-field-part-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" id="{{ baseId }}-month" name="{{ baseName }}-month" value="{{ p.month | default('') }}"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %}{% if p.invalid %} aria-invalid="true"{% endif %}>
+    </div>
+    <div class="date-field-part">
+      <label class="date-field-part-label" for="{{ baseId }}-year">Year</label>
+      <input class="date-field-part-input date-field-part-input-year" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" id="{{ baseId }}-year" name="{{ baseName }}-year" value="{{ p.year | default('') }}"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %}{% if p.invalid %} aria-invalid="true"{% endif %}>
+    </div>
+  </div>
+</fieldset>
+{%- endmacro -%}

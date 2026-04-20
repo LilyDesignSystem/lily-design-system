@@ -1,0 +1,5 @@
+.banner-box {
+  display: flex;
+  align-items: center;
+  gap: var(--nhsuk-spacing-2);
+}

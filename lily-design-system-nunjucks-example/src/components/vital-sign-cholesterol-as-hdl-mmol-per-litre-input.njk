@@ -1,0 +1,20 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — HDL Cholesterol Input
+description: number input of cholesterol HDL (good cholesterol) in millimoles per litre
+---
+
+{% from "components/vital-sign-cholesterol-as-hdl-mmol-per-litre-input/macro.njk" import vitalSignCholesterolAsHdlMmolPerLitreInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default (0.1 – 5.0 mmol/L, step 0.1)</h2>
+{% call field() %}
+  {{ label({ for: "hdl", text: "HDL cholesterol (good)" }) }}
+  {{ hint({ id: "hdl-hint", text: "In millimoles per litre." }) }}
+  {{ vitalSignCholesterolAsHdlMmolPerLitreInput({
+    id: "hdl",
+    describedBy: "hdl-hint"
+  }) }}
+{% endcall %}

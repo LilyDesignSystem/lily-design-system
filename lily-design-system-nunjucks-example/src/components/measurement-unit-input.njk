@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Measurement Unit Input
+description: an input for selecting a measurement unit
+---
+
+{% from "components/measurement-unit-input/macro.njk" import measurementUnitInput %}
+
+<h2>Weight unit</h2>
+{{ measurementUnitInput({
+  name: "unit",
+  value: "kg",
+  label: "Weight unit",
+  units: [
+    { value: "kg", text: "kilograms" },
+    { value: "lb", text: "pounds" },
+    { value: "st", text: "stone" }
+  ]
+}) }}

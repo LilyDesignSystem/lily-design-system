@@ -1,0 +1,28 @@
+{#
+  SignaturePad macro — a drawing area for capturing a handwritten signature.
+
+  HTML tag: <div> wrapping a <canvas>
+  CSS class: signature-pad
+
+  Params: id, name, width (default 400), height (default 150), label,
+    clearLabel (default "Clear"), classes, attributes.
+#}
+{%- macro signaturePad(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="signature-pad{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-module="signature-pad"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <canvas
+    class="signature-pad-canvas"
+    width="{{ p.width | default(400) }}"
+    height="{{ p.height | default(150) }}"
+    role="img"
+    aria-label="{{ p.label | default('Signature area') }}"
+  ></canvas>
+  <input type="hidden" class="signature-pad-input"{% if p.name %} name="{{ p.name }}"{% endif %}>
+  <button type="button" class="signature-pad-clear">{{ p.clearLabel | default("Clear") }}</button>
+</div>
+{%- endmacro -%}

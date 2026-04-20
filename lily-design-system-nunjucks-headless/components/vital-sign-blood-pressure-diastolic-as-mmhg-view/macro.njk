@@ -1,0 +1,18 @@
+{#
+  VitalSignBloodPressureDiastolicAsMmhgView macro — a read-only display
+    of diastolic blood pressure in mmHg.
+
+  HTML tag: <span>
+  CSS class: vital-sign-blood-pressure-diastolic-as-mmhg-view
+  Accessibility: unit wrapped in <abbr title="millimetres of mercury">.
+
+  Params: value, label, id, classes, attributes.
+#}
+{%- macro vitalSignBloodPressureDiastolicAsMmhgView(params) -%}
+<span
+  class="vital-sign-blood-pressure-diastolic-as-mmhg-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+><span class="vital-sign-value">{{ params.value | default('') }}</span>&nbsp;<abbr class="vital-sign-unit" title="millimetres of mercury">mmHg</abbr></span>
+{%- endmacro -%}

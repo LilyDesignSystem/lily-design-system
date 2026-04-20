@@ -1,0 +1,18 @@
+{#
+  VitalSignBellyCircumferenceAsCmView macro — a read-only display of belly circumference in
+    centimetres.
+
+  HTML tag: <span>
+  CSS class: vital-sign-belly-circumference-as-cm-view
+  Accessibility: unit wrapped in <abbr title="centimetres">.
+
+  Params: value, label, id, classes, attributes.
+#}
+{%- macro vitalSignBellyCircumferenceAsCmView(params) -%}
+<span
+  class="vital-sign-belly-circumference-as-cm-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+><span class="vital-sign-value">{{ params.value | default('') }}</span>&nbsp;<abbr class="vital-sign-unit" title="centimetres">cm</abbr></span>
+{%- endmacro -%}

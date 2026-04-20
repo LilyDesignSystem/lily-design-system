@@ -1,0 +1,40 @@
+---
+layout: layouts/component-demo.njk
+title: Accordion Nav
+description: a navigation container for collapsible accordion information
+---
+
+{% from "components/accordion-nav/macro.njk" import accordionNav %}
+{% from "components/accordion-list/macro.njk" import accordionList %}
+{% from "components/accordion-list-item/macro.njk" import accordionListItem %}
+{% from "components/accordion-link/macro.njk" import accordionLink %}
+
+<h2>Health A to Z navigation</h2>
+{% call accordionNav({ label: "Health A to Z" }) %}
+  {% call accordionList() %}
+    {% call accordionListItem({ summary: "A", open: true }) %}
+      <ul>
+        <li>{{ accordionLink({ href: "#abscess", text: "Abscess" }) }}</li>
+        <li>{{ accordionLink({ href: "#acne", text: "Acne" }) }}</li>
+        <li>{{ accordionLink({ href: "#allergy", text: "Allergies" }) }}</li>
+      </ul>
+    {% endcall %}
+    {% call accordionListItem({ summary: "B" }) %}
+      <ul>
+        <li>{{ accordionLink({ href: "#back-pain", text: "Back pain" }) }}</li>
+        <li>{{ accordionLink({ href: "#blood-pressure", text: "Blood pressure" }) }}</li>
+      </ul>
+    {% endcall %}
+    {% call accordionListItem({ summary: "C" }) %}
+      <ul>
+        <li>{{ accordionLink({ href: "#cold", text: "Cold" }) }}</li>
+        <li>{{ accordionLink({ href: "#cough", text: "Cough" }) }}</li>
+      </ul>
+    {% endcall %}
+  {% endcall %}
+{% endcall %}
+
+<h2>Accessibility</h2>
+<p>The <code>&lt;nav&gt;</code> is labelled via <code>aria-label</code>.
+  Each item uses a native <code>&lt;details&gt;</code> so assistive
+  tech announces the expanded/collapsed state without JavaScript.</p>

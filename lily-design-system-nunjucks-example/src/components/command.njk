@@ -1,0 +1,16 @@
+---
+layout: layouts/component-demo.njk
+title: Command
+description: a command palette for searching and executing actions
+---
+
+{% from "components/command/macro.njk" import command %}
+
+{% call command({ label: "Command palette", open: true }) %}
+  <input type="search" placeholder="Type a command…" style="width: 100%; padding: 0.5rem; margin-bottom: 1rem;">
+  <ul style="list-style: none; padding: 0; margin: 0;">
+    <li style="padding: 0.5rem;">Book appointment</li>
+    <li style="padding: 0.5rem;">Refill prescription</li>
+    <li style="padding: 0.5rem;">Update profile</li>
+  </ul>
+{% endcall %}

@@ -1,0 +1,17 @@
+.medical-banner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--nhsuk-spacing-2);
+  padding: var(--nhsuk-spacing-3) var(--nhsuk-spacing-4);
+  background: var(--nhsuk-pale-grey);
+  border-left: 6px solid var(--nhsuk-blue);
+  margin-bottom: var(--nhsuk-spacing-4);
+  font-family: var(--nhsuk-font-family);
+}
+
+@media (min-width: 769px) {
+  .medical-banner {
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: var(--nhsuk-spacing-4);
+  }
+}

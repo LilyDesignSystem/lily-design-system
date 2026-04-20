@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Header
+description: a page or section header area
+---
+
+{% from "components/header/macro.njk" import header %}
+
+{% call header({ label: "Site header" }) %}
+  <h1>Example site</h1>
+  <p>Page heading content.</p>
+{% endcall %}

@@ -1,0 +1,28 @@
+---
+layout: layouts/component-demo.njk
+title: Avatar
+description: an avatar indicator showing a user photo or user text
+---
+
+{% from "components/avatar/macro.njk" import avatar %}
+{% from "components/avatar-text/macro.njk" import avatarText %}
+
+<h2>Initials</h2>
+<p>
+  {% call avatar({ label: "Jane Smith" }) %}
+    {{ avatarText({ text: "JS" }) }}
+  {% endcall %}
+  {% call avatar({ label: "Kofi Tetteh" }) %}
+    {{ avatarText({ text: "KT" }) }}
+  {% endcall %}
+  {% call avatar({ label: "Priya Patel" }) %}
+    {{ avatarText({ text: "PP" }) }}
+  {% endcall %}
+</p>
+
+<h2>Accessibility</h2>
+<p>The outer <code>Avatar</code> carries <code>role="img"</code> plus
+  an <code>aria-label</code> like "Jane Smith" — so screen readers
+  announce the person, not the letters of the initials. The inner
+  <code>AvatarText</code> is <code>aria-hidden</code> by default so
+  it is not read a second time.</p>

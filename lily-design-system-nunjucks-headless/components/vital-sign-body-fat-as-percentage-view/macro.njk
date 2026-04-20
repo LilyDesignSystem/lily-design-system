@@ -1,0 +1,19 @@
+{#
+  VitalSignBodyFatAsPercentageView macro — a read-only display of
+    body fat as a percentage.
+
+  HTML tag: <span>
+  CSS class: vital-sign-body-fat-as-percentage-view
+  Accessibility: the unit is the percent sign. Because "%" is a
+    widely-understood symbol, it is not wrapped in <abbr>.
+
+  Params: value, label, id, classes, attributes.
+#}
+{%- macro vitalSignBodyFatAsPercentageView(params) -%}
+<span
+  class="vital-sign-body-fat-as-percentage-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+><span class="vital-sign-value">{{ params.value | default('') }}</span><span class="vital-sign-unit">%</span></span>
+{%- endmacro -%}

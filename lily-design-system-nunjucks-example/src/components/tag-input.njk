@@ -1,0 +1,16 @@
+---
+layout: layouts/component-demo.njk
+title: Tag Input
+description: an input for adding and removing tags
+---
+
+{% from "components/tag-input/macro.njk" import tagInput %}
+
+<p><label for="conditions">Conditions</label></p>
+{{ tagInput({
+  id: "conditions",
+  name: "conditions",
+  tags: ["hypertension", "asthma"],
+  label: "Add condition",
+  placeholder: "Add condition…"
+}) }}

@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Contents Link
+description: one contents link, such as to a page or page section
+---
+
+{% from "components/contents-link/macro.njk" import contentsLink %}
+
+<h2>Section links</h2>
+<p>{{ contentsLink({ href: "#intro", text: "Introduction" }) }}</p>
+<p>{{ contentsLink({ href: "#details", text: "Details" }) }}</p>
+<p>{{ contentsLink({ href: "#here", text: "You are here", current: true }) }}</p>

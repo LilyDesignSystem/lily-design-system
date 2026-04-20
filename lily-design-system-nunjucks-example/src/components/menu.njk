@@ -1,0 +1,17 @@
+---
+layout: layouts/component-demo.njk
+title: Menu
+description: a list of actions or options triggered by a button
+---
+
+{% from "components/menu/macro.njk" import menu %}
+{% from "components/menu-item/macro.njk" import menuItem %}
+
+<h2>File menu</h2>
+{% call menu({ label: "File" }) %}
+  {{ menuItem({ text: "New", shortcut: "Ctrl+N" }) }}
+  {{ menuItem({ text: "Open…", shortcut: "Ctrl+O" }) }}
+  {{ menuItem({ text: "Save", shortcut: "Ctrl+S" }) }}
+  {{ menuItem({ text: "Save As…", shortcut: "Shift+Ctrl+S", disabled: true }) }}
+  {{ menuItem({ text: "Close", shortcut: "Ctrl+W" }) }}
+{% endcall %}

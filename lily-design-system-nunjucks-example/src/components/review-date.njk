@@ -1,0 +1,14 @@
+---
+layout: layouts/component-demo.njk
+title: Review Date
+description: a display of a content review date
+---
+
+{% from "components/review-date/macro.njk" import reviewDate %}
+
+{{ reviewDate({
+  reviewedOn: "2026-04-20",
+  reviewedOnText: "20 April 2026",
+  nextReviewOn: "2026-10-20",
+  nextReviewOnText: "20 October 2026"
+}) }}

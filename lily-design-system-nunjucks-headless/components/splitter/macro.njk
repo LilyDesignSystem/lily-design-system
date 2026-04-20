@@ -1,0 +1,20 @@
+{#
+  Splitter macro — a draggable divider for resizing adjacent panels.
+
+  HTML tag: <div role="separator">
+  CSS class: splitter
+
+  Params: orientation (default "vertical"), controls, id, classes, attributes.
+#}
+{%- macro splitter(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="splitter{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="separator"
+  aria-orientation="{{ p.orientation | default('vertical') }}"
+  {%- if p.controls %} aria-controls="{{ p.controls }}"{% endif %}
+  tabindex="0"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+></div>
+{%- endmacro -%}

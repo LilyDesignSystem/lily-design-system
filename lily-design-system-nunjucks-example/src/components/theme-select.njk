@@ -1,0 +1,15 @@
+---
+layout: layouts/component-demo.njk
+title: Theme Select
+description: a select dropdown for choosing a theme
+---
+
+{% from "components/theme-select/macro.njk" import themeSelect %}
+{% from "components/theme-select-option/macro.njk" import themeSelectOption %}
+
+<h2>Select a theme</h2>
+{% call themeSelect({ label: "Theme", name: "theme" }) %}
+  {{ themeSelectOption({ value: "light", text: "Light" }) }}
+  {{ themeSelectOption({ value: "dark", text: "Dark", selected: true }) }}
+  {{ themeSelectOption({ value: "system", text: "Match system" }) }}
+{% endcall %}

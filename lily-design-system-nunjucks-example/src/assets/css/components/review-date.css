@@ -1,0 +1,5 @@
+.review-date {
+  color: var(--nhsuk-secondary-text);
+  font-size: var(--nhsuk-font-size-16);
+  margin-top: var(--nhsuk-spacing-4);
+}

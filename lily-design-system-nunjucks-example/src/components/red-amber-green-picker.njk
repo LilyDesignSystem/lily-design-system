@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: Red/Amber/Green Picker
+description: a picker for selecting a red/amber/green status
+---
+
+{% from "components/red-amber-green-picker/macro.njk" import redAmberGreenPicker %}
+{% from "components/red-amber-green-picker-button/macro.njk" import redAmberGreenPickerButton %}
+
+<h2>Risk rating</h2>
+{% call redAmberGreenPicker({ label: "Risk rating" }) %}
+  {{ redAmberGreenPickerButton({ status: "red" }) }}
+  {{ redAmberGreenPickerButton({ status: "amber", checked: true }) }}
+  {{ redAmberGreenPickerButton({ status: "green" }) }}
+{% endcall %}
+
+<h2>Project status</h2>
+{% call redAmberGreenPicker({ label: "Project status" }) %}
+  {{ redAmberGreenPickerButton({
+    status: "red",
+    text: "Off track"
+  }) }}
+  {{ redAmberGreenPickerButton({
+    status: "amber",
+    text: "At risk",
+    checked: true
+  }) }}
+  {{ redAmberGreenPickerButton({
+    status: "green",
+    text: "On track"
+  }) }}
+{% endcall %}

@@ -1,0 +1,43 @@
+.context-menu-item {
+  display: block;
+}
+
+.context-menu-item-button {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--nhsuk-spacing-3);
+  padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);
+  background: transparent;
+  border: 0;
+  color: var(--nhsuk-black);
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-16);
+  text-align: left;
+  cursor: pointer;
+}
+
+.context-menu-item-button:hover,
+.context-menu-item-button:focus-visible {
+  background: var(--nhsuk-pale-grey);
+  outline: none;
+}
+
+.context-menu-item[data-danger="true"] .context-menu-item-button {
+  color: var(--nhsuk-red);
+}
+
+.context-menu-item-button:disabled {
+  color: var(--nhsuk-secondary-text);
+  cursor: not-allowed;
+}
+
+.context-menu-item-shortcut {
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-14);
+  color: var(--nhsuk-secondary-text);
+  background: transparent;
+  border: 0;
+  padding: 0;
+}

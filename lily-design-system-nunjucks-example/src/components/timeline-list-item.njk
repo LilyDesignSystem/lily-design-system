@@ -1,0 +1,14 @@
+---
+layout: layouts/component-demo.njk
+title: Timeline List Item
+description: one event in a timeline list
+---
+
+{% from "components/timeline-list-item/macro.njk" import timelineListItem %}
+
+{{ timelineListItem({
+  time: "2026-04-20",
+  timeText: "20 April 2026",
+  heading: "Consultation",
+  text: "Routine visit. Blood pressure within normal range."
+}) }}

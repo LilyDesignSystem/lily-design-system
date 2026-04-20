@@ -1,0 +1,6 @@
+.splitter {
+  width: 4px;
+  background: var(--nhsuk-mid-grey);
+  cursor: col-resize;
+}
+.splitter[aria-orientation="horizontal"] { width: auto; height: 4px; cursor: row-resize; }

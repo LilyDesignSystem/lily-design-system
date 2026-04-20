@@ -1,0 +1,32 @@
+.mockup-window {
+  margin: 0;
+  border: 1px solid var(--nhsuk-mid-grey);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--nhsuk-white);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.mockup-window-chrome {
+  display: flex;
+  align-items: center;
+  gap: var(--nhsuk-spacing-2);
+  padding: var(--nhsuk-spacing-2);
+  background: var(--nhsuk-pale-grey);
+  border-bottom: 1px solid var(--nhsuk-mid-grey);
+}
+
+.mockup-window-chrome::before {
+  content: "●●●";
+  letter-spacing: 3px;
+  color: var(--nhsuk-mid-grey);
+}
+
+.mockup-window-title {
+  font-weight: var(--nhsuk-font-weight-bold);
+  font-size: var(--nhsuk-font-size-16);
+}
+
+.mockup-window-body {
+  padding: var(--nhsuk-spacing-3);
+}

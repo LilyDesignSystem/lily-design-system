@@ -1,0 +1,9 @@
+.five-star-rating-picker {
+  display: inline-flex;
+  gap: var(--nhsuk-spacing-1);
+  direction: rtl;
+}
+
+.five-star-rating-picker > * {
+  direction: ltr;
+}

@@ -1,0 +1,39 @@
+---
+layout: layouts/component-demo.njk
+title: Chat Nav
+description: a navigation container for chat information
+---
+
+{% from "components/chat-nav/macro.njk" import chatNav %}
+{% from "components/chat-list/macro.njk" import chatList %}
+{% from "components/chat-list-item/macro.njk" import chatListItem %}
+{% from "components/chat-message/macro.njk" import chatMessage %}
+
+<h2>Patient–clinician chat</h2>
+{% call chatNav({ label: "Chat with Dr Patel" }) %}
+  {% call chatList() %}
+    {% call chatListItem() %}
+      {{ chatMessage({
+        origin: "peer",
+        author: "Dr Patel",
+        timeText: "9:30am",
+        text: "Good morning. How have you been feeling since we last spoke?"
+      }) }}
+    {% endcall %}
+    {% call chatListItem() %}
+      {{ chatMessage({
+        origin: "self",
+        author: "You",
+        timeText: "9:32am",
+        text: "A bit better — the new medication seems to be helping."
+      }) }}
+    {% endcall %}
+    {% call chatListItem() %}
+      {{ chatMessage({
+        origin: "system",
+        timeText: "9:33am",
+        text: "Dr Patel is typing…"
+      }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}

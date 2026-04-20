@@ -1,0 +1,14 @@
+---
+layout: layouts/component-demo.njk
+title: Tag Group
+description: a group of tag elements
+---
+
+{% from "components/tag-group/macro.njk" import tagGroup %}
+{% from "components/tag/macro.njk" import tag %}
+
+{% call tagGroup({ label: "Conditions" }) %}
+  <li>{{ tag({ text: "Hypertension" }) }}</li>
+  <li>{{ tag({ text: "Asthma" }) }}</li>
+  <li>{{ tag({ text: "Allergy" }) }}</li>
+{% endcall %}

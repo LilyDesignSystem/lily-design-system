@@ -1,0 +1,39 @@
+---
+layout: layouts/component-demo.njk
+title: Dialog
+description: a modal or non-modal dialog window
+---
+
+{% from "components/dialog/macro.njk" import dialog %}
+{% from "components/button/macro.njk" import button %}
+
+<h2>Modal dialog</h2>
+<p>Open via <code>.showModal()</code>. The backdrop and Escape key
+  handling come from the native <code>&lt;dialog&gt;</code> element.</p>
+
+{{ button({
+  text: "Open confirm dialog",
+  attributes: { onclick: "document.getElementById('confirm').showModal()" }
+}) }}
+
+{% call dialog({ id: "confirm", labelledBy: "confirm-title" }) %}
+  <h2 id="confirm-title">Confirm deletion</h2>
+  <p>Are you sure you want to delete this record?</p>
+  <form method="dialog" style="display: flex; gap: var(--nhsuk-spacing-3);">
+    <button value="cancel" class="button button-secondary">Cancel</button>
+    <button value="delete" class="button button-warning">Delete</button>
+  </form>
+{% endcall %}
+
+<h2>Non-modal dialog (open on load)</h2>
+<p>The <code>open</code> attribute opens the dialog non-modally
+  during rendering. No backdrop; the page remains interactive.</p>
+
+{% call dialog({
+  id: "info",
+  label: "Information",
+  open: true,
+  classes: "dialog-inline"
+}) %}
+  <p>This is a non-modal dialog rendered inline.</p>
+{% endcall %}

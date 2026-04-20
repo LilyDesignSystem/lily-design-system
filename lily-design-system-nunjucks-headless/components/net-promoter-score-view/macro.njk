@@ -1,0 +1,44 @@
+{#
+  NetPromoterScoreView macro — a read-only display of a Net Promoter
+    Score (0–10).
+
+  HTML tag: <span>
+  CSS class: net-promoter-score-view
+  Data attributes:
+    - data-value: the score 0–10.
+    - data-category: automatic categorisation ("detractor" for 0–6,
+      "passive" for 7–8, "promoter" for 9–10).
+
+  Params:
+    value       number   0–10 score.
+    text        string   Visible override (default: "{value} — {category}").
+    label       string   aria-label override.
+    id          string
+    classes     string
+    attributes  object
+#}
+{%- macro netPromoterScoreView(params) -%}
+{%- set value = params.value | default(0) -%}
+{%- set category = "detractor" -%}
+{%- set categoryText = "Detractor" -%}
+{%- if value >= 9 -%}
+  {%- set category = "promoter" -%}
+  {%- set categoryText = "Promoter" -%}
+{%- elif value >= 7 -%}
+  {%- set category = "passive" -%}
+  {%- set categoryText = "Passive" -%}
+{%- endif -%}
+{%- set text = params.text | default(value ~ " — " ~ categoryText) -%}
+{%- set label = params.label | default("Net Promoter Score: " ~ text) -%}
+<span
+  class="net-promoter-score-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  data-value="{{ value }}"
+  data-category="{{ category }}"
+  aria-label="{{ label }}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <span class="net-promoter-score-view-value">{{ value }}</span>
+  <span class="net-promoter-score-view-category">{{ categoryText }}</span>
+</span>
+{%- endmacro -%}

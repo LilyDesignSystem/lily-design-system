@@ -1,0 +1,6 @@
+.digital-object-identifier-link {
+  color: var(--nhsuk-blue);
+  text-decoration: underline;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.digital-object-identifier-link:hover { color: var(--nhsuk-dark-blue); }

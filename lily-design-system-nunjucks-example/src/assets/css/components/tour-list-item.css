@@ -1,0 +1,8 @@
+.tour-list-item {
+  padding: var(--nhsuk-spacing-1) 0;
+}
+
+.tour-list-item[aria-current="step"] {
+  font-weight: var(--nhsuk-font-weight-bold);
+  color: var(--nhsuk-blue);
+}

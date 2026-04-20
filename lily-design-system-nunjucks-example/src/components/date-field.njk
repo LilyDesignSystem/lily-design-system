@@ -1,0 +1,16 @@
+---
+layout: layouts/component-demo.njk
+title: Date Field
+description: a structured field for entering date components
+---
+
+{% from "components/date-field/macro.njk" import dateField %}
+
+{{ dateField({
+  id: "dob",
+  name: "dob",
+  legend: "Date of birth",
+  day: 20,
+  month: 4,
+  year: 1990
+}) }}

@@ -1,0 +1,16 @@
+---
+layout: layouts/component-demo.njk
+title: Task Bar
+description: a horizontal bar of task shortcuts or actions
+---
+
+{% from "components/task-bar/macro.njk" import taskBar %}
+{% from "components/task-bar-button/macro.njk" import taskBarButton %}
+
+<h2>Record actions</h2>
+{% call taskBar({ label: "Record actions" }) %}
+  {{ taskBarButton({ text: "New record" }) }}
+  {{ taskBarButton({ text: "Export" }) }}
+  {{ taskBarButton({ text: "Print" }) }}
+  {{ taskBarButton({ text: "Disabled", disabled: true }) }}
+{% endcall %}

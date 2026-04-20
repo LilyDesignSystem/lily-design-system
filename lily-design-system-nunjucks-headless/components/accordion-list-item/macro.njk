@@ -1,0 +1,51 @@
+{#
+  AccordionListItem macro — one accordion list item component. Wraps
+    a native <details>/<summary> disclosure inside an <li>, so the
+    section collapses and expands without JavaScript.
+
+  HTML tag: <li> > <details> > <summary>
+  CSS class: accordion-list-item (on the <li>)
+  Accessibility: <details> is a native disclosure widget; assistive
+    tech reads the <summary> as the toggle and announces the
+    expanded/collapsed state.
+
+  Params:
+    summary     string   Plain text for the summary heading (escaped).
+    summaryHtml string   Raw HTML for the summary heading.
+    open        boolean  Whether the section is expanded initially.
+    name        string   `name` attribute on <details> — when shared
+                         across siblings, only one section can be open.
+    id          string   Element id (on the <li>).
+    classes     string   Consumer-provided extra CSS classes.
+    attributes  object   Extra HTML attributes on the <li>.
+
+  Body content: the expandable content, passed via caller().
+
+  Usage: see AccordionNav.
+#}
+{%- macro accordionListItem(params) -%}
+{%- set p = params | default({}) -%}
+<li
+  class="accordion-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <details
+    class="accordion-list-item-details"
+    {%- if p.open %} open{% endif %}
+    {%- if p.name %} name="{{ p.name }}"{% endif %}
+  >
+    <summary class="accordion-list-item-summary">
+      {%- if p.summaryHtml -%}{{ p.summaryHtml | safe }}
+      {%- else -%}{{ p.summary }}
+      {%- endif -%}
+    </summary>
+    <div class="accordion-list-item-body">
+      {%- if p.html -%}{{ p.html | safe }}
+      {%- elif p.text -%}{{ p.text }}
+      {%- elif caller -%}{{ caller() }}
+      {%- endif -%}
+    </div>
+  </details>
+</li>
+{%- endmacro -%}

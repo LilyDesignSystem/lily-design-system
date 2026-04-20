@@ -1,0 +1,33 @@
+---
+layout: layouts/component-demo.njk
+title: Medical Banner Box — Danger
+description: a medical record banner box for danger information (reactions, warnings, alarms)
+---
+
+{% from "components/medical-banner-box-for-danger/macro.njk" import medicalBannerBoxForDanger %}
+
+<h2>Allergies</h2>
+{{ medicalBannerBoxForDanger({
+  heading: "Allergies",
+  text: "Penicillin — rash, hives."
+}) }}
+
+<h2>Do Not Attempt CPR</h2>
+{{ medicalBannerBoxForDanger({
+  heading: "DNACPR",
+  text: "Active since 10 April 2026."
+}) }}
+
+<h2>Multiple alerts</h2>
+{% call medicalBannerBoxForDanger({ heading: "Safety alerts" }) %}
+  <ul style="margin: 0; padding-left: 1.5rem;">
+    <li>Penicillin allergy</li>
+    <li>Fall risk — use bedrails</li>
+    <li>NEWS2 score 5 (12:00)</li>
+  </ul>
+{% endcall %}
+
+<h2>Accessibility</h2>
+<p>The macro sets <code>role="alert"</code> so assistive tech
+  announces the contents when they appear. Use for patient-wide
+  safety flags that must be persistently visible.</p>

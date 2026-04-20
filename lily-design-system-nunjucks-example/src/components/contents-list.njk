@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Contents List
+description: an ordered list of contents list item components
+---
+
+{% from "components/contents-list/macro.njk" import contentsList %}
+{% from "components/contents-list-item/macro.njk" import contentsListItem %}
+{% from "components/contents-link/macro.njk" import contentsLink %}
+
+{% call contentsList() %}
+  {% call contentsListItem() %}
+    {{ contentsLink({ href: "#one", text: "Section one" }) }}
+  {% endcall %}
+  {% call contentsListItem() %}
+    {{ contentsLink({ href: "#two", text: "Section two" }) }}
+  {% endcall %}
+  {% call contentsListItem() %}
+    {{ contentsLink({ href: "#three", text: "Section three" }) }}
+  {% endcall %}
+{% endcall %}

@@ -1,0 +1,30 @@
+{#
+  FiveStarRatingPicker macro — a picker for selecting a 1–5 star rating.
+
+  HTML tag: <div role="radiogroup">
+  CSS class: five-star-rating-picker
+  Accessibility: wraps FiveStarRatingPickerButton children with
+    role="radiogroup" and an accessible name.
+
+  Params:
+    label        string   Accessible name. Default "Rate out of 5".
+    labelledBy   string
+    id           string
+    classes      string
+    attributes   object
+#}
+{%- macro fiveStarRatingPicker(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="five-star-rating-picker{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="radiogroup"
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
+  {%- else %} aria-label="{{ p.label | default('Rate out of 5') }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

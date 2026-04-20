@@ -1,0 +1,27 @@
+.check-list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--nhsuk-spacing-2);
+}
+
+.check-list-item-input {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.check-list-item-label {
+  font-size: var(--nhsuk-font-size-19);
+  cursor: pointer;
+}
+
+.check-list-item-input:checked + .check-list-item-label {
+  text-decoration: line-through;
+  color: var(--nhsuk-secondary-text);
+}
+
+.check-list-item-input:disabled + .check-list-item-label {
+  color: var(--nhsuk-secondary-text);
+  cursor: not-allowed;
+}

@@ -1,0 +1,45 @@
+{#
+  PinInputDiv macro — a series of single-digit inputs for entering a
+    PIN or OTP code.
+
+  HTML tag: <div> wrapping N <input type="text" inputmode="numeric">
+  CSS class: pin-input-div
+
+  Params:
+    id, name (base name; each input appends "-{index}"),
+    length (default 6), value (string of digits),
+    label (legend-like aria-label on the wrapper),
+    required, disabled, classes, attributes.
+#}
+{%- macro pinInputDiv(params) -%}
+{%- set p = params | default({}) -%}
+{%- set length = p.length | default(6) -%}
+{%- set baseId = p.id | default('pin') -%}
+{%- set baseName = p.name | default('') -%}
+{%- set value = p.value | default('') -%}
+<div
+  class="pin-input-div{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="group"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  data-pin-length="{{ length }}"
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- for i in range(0, length) %}
+  <input
+    class="pin-input-div-input"
+    type="text"
+    inputmode="numeric"
+    pattern="[0-9]*"
+    maxlength="1"
+    autocomplete="one-time-code"
+    id="{{ baseId }}-{{ i }}"
+    {%- if baseName %} name="{{ baseName }}-{{ i }}"{% endif %}
+    value="{{ value[i] if i < value | length else '' }}"
+    aria-label="Digit {{ i + 1 }} of {{ length }}"
+    {%- if p.required %} required{% endif %}
+    {%- if p.disabled %} disabled{% endif %}
+  >
+  {%- endfor %}
+</div>
+{%- endmacro -%}

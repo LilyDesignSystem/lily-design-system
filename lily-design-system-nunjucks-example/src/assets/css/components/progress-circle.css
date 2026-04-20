@@ -1,0 +1,44 @@
+.progress-circle {
+  --progress-value: 0;
+  --progress-min: 0;
+  --progress-max: 100;
+  --progress-percent: calc(
+    (var(--progress-value) - var(--progress-min)) /
+    (var(--progress-max) - var(--progress-min)) * 100%
+  );
+  display: inline-block;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background:
+    conic-gradient(
+      var(--nhsuk-blue) 0 var(--progress-percent, 0%),
+      var(--nhsuk-pale-grey) var(--progress-percent, 0%) 100%
+    );
+  position: relative;
+}
+
+.progress-circle::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  background: var(--nhsuk-white);
+  border-radius: 50%;
+}
+
+.progress-circle:not([aria-valuenow]) {
+  background: conic-gradient(
+    var(--nhsuk-blue),
+    var(--nhsuk-pale-grey),
+    var(--nhsuk-blue)
+  );
+  animation: progress-circle-spin 2s linear infinite;
+}
+
+@keyframes progress-circle-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-circle { animation-duration: 5s; }
+}

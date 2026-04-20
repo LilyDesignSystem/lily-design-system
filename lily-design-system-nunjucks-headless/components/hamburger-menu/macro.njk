@@ -1,0 +1,24 @@
+{#
+  HamburgerMenu macro — a toggle button that opens a mobile navigation menu.
+
+  HTML tag: <button>
+  CSS class: hamburger-menu
+
+  Params: label (default "Menu"), controls (id of menu), expanded (default false),
+    id, classes, attributes.
+#}
+{%- macro hamburgerMenu(params) -%}
+{%- set p = params | default({}) -%}
+<button
+  class="hamburger-menu{% if p.classes %} {{ p.classes }}{% endif %}"
+  type="button"
+  aria-label="{{ p.label | default('Menu') }}"
+  aria-expanded="{{ 'true' if p.expanded else 'false' }}"
+  {%- if p.controls %} aria-controls="{{ p.controls }}"{% endif %}
+  data-module="hamburger-menu"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <span class="hamburger-menu-icon" aria-hidden="true"></span>
+</button>
+{%- endmacro -%}

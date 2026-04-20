@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Floating Panel
+description: a panel that floats above page content
+---
+
+{% from "components/floating-panel/macro.njk" import floatingPanel %}
+
+{% call floatingPanel({ label: "Help", open: true }) %}
+  <h3>Need help?</h3>
+  <p>Chat to a nurse advisor.</p>
+{% endcall %}

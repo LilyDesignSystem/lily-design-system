@@ -1,0 +1,111 @@
+---
+layout: layouts/component-demo.njk
+title: Calendar Table
+description: a calendar table interactive grid for managing dates, days, etc.
+---
+
+{% from "components/calendar-table/macro.njk" import calendarTable %}
+{% from "components/calendar-table-head/macro.njk" import calendarTableHead %}
+{% from "components/calendar-table-body/macro.njk" import calendarTableBody %}
+{% from "components/calendar-table-foot/macro.njk" import calendarTableFoot %}
+{% from "components/calendar-table-row/macro.njk" import calendarTableRow %}
+{% from "components/calendar-table-col/macro.njk" import calendarTableCol %}
+{% from "components/calendar-table-data/macro.njk" import calendarTableData %}
+
+<h2>Default — appointment list</h2>
+{% call calendarTable({ caption: "Your upcoming appointments" }) %}
+  {% call calendarTableHead() %}
+    {% call calendarTableRow() %}
+      {{ calendarTableCol({ text: "Date" }) }}
+      {{ calendarTableCol({ text: "Clinician" }) }}
+      {{ calendarTableCol({ text: "Type" }) }}
+      {{ calendarTableCol({ text: "Location" }) }}
+    {% endcall %}
+  {% endcall %}
+  {% call calendarTableBody() %}
+    {% call calendarTableRow() %}
+      {{ calendarTableData({ text: "27 April 2026, 9:30am" }) }}
+      {{ calendarTableData({ text: "Dr Patel" }) }}
+      {{ calendarTableData({ text: "GP review" }) }}
+      {{ calendarTableData({ text: "High Street Surgery" }) }}
+    {% endcall %}
+    {% call calendarTableRow() %}
+      {{ calendarTableData({ text: "4 May 2026, 2:15pm" }) }}
+      {{ calendarTableData({ text: "Nurse Ahmed" }) }}
+      {{ calendarTableData({ text: "Blood test" }) }}
+      {{ calendarTableData({ text: "Main Clinic" }) }}
+    {% endcall %}
+    {% call calendarTableRow() %}
+      {{ calendarTableData({ text: "19 May 2026, 11:00am" }) }}
+      {{ calendarTableData({ text: "Dr Smith" }) }}
+      {{ calendarTableData({ text: "Follow-up" }) }}
+      {{ calendarTableData({ text: "High Street Surgery" }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}
+
+<h2>Numeric columns — vital signs</h2>
+{% call calendarTable({ caption: "Recent vital sign measurements" }) %}
+  {% call calendarTableHead() %}
+    {% call calendarTableRow() %}
+      {{ calendarTableCol({ text: "Date" }) }}
+      {{ calendarTableCol({ text: "Heart rate (bpm)", classes: "calendar-table-col-numeric" }) }}
+      {{ calendarTableCol({ text: "Systolic (mmHg)", classes: "calendar-table-col-numeric" }) }}
+      {{ calendarTableCol({ text: "Diastolic (mmHg)", classes: "calendar-table-col-numeric" }) }}
+    {% endcall %}
+  {% endcall %}
+  {% call calendarTableBody() %}
+    {% call calendarTableRow() %}
+      {{ calendarTableData({ text: "12 Apr" }) }}
+      {{ calendarTableData({ text: "72", classes: "calendar-table-data-numeric" }) }}
+      {{ calendarTableData({ text: "118", classes: "calendar-table-data-numeric" }) }}
+      {{ calendarTableData({ text: "76", classes: "calendar-table-data-numeric" }) }}
+    {% endcall %}
+    {% call calendarTableRow() %}
+      {{ calendarTableData({ text: "19 Apr" }) }}
+      {{ calendarTableData({ text: "68", classes: "calendar-table-data-numeric" }) }}
+      {{ calendarTableData({ text: "120", classes: "calendar-table-data-numeric" }) }}
+      {{ calendarTableData({ text: "78", classes: "calendar-table-data-numeric" }) }}
+    {% endcall %}
+    {% call calendarTableRow() %}
+      {{ calendarTableData({ text: "26 Apr" }) }}
+      {{ calendarTableData({ text: "70", classes: "calendar-table-data-numeric" }) }}
+      {{ calendarTableData({ text: "116", classes: "calendar-table-data-numeric" }) }}
+      {{ calendarTableData({ text: "74", classes: "calendar-table-data-numeric" }) }}
+    {% endcall %}
+  {% endcall %}
+  {% call calendarTableFoot() %}
+    {% call calendarTableRow() %}
+      {{ calendarTableCol({ text: "Average", scope: "row" }) }}
+      {{ calendarTableData({ text: "70", classes: "calendar-table-data-numeric" }) }}
+      {{ calendarTableData({ text: "118", classes: "calendar-table-data-numeric" }) }}
+      {{ calendarTableData({ text: "76", classes: "calendar-table-data-numeric" }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}
+
+<h2>Row headers</h2>
+<p>Use <code>TableCol</code> with <code>scope="row"</code> to mark a
+  row header, so screen readers announce it together with each data
+  cell in the row.</p>
+{% call calendarTable({ caption: "Dosage schedule" }) %}
+  {% call calendarTableHead() %}
+    {% call calendarTableRow() %}
+      {{ calendarTableCol({ text: "Day" }) }}
+      {{ calendarTableCol({ text: "Morning" }) }}
+      {{ calendarTableCol({ text: "Evening" }) }}
+    {% endcall %}
+  {% endcall %}
+  {% call calendarTableBody() %}
+    {% call calendarTableRow() %}
+      {{ calendarTableCol({ text: "Monday", scope: "row" }) }}
+      {{ calendarTableData({ text: "1 tablet" }) }}
+      {{ calendarTableData({ text: "1 tablet" }) }}
+    {% endcall %}
+    {% call calendarTableRow() %}
+      {{ calendarTableCol({ text: "Tuesday", scope: "row" }) }}
+      {{ calendarTableData({ text: "1 tablet" }) }}
+      {{ calendarTableData({ text: "2 tablets" }) }}
+    {% endcall %}
+  {% endcall %}
+{% endcall %}

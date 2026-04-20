@@ -1,0 +1,7 @@
+.qr-code {
+  display: block;
+  image-rendering: pixelated;
+  background: var(--nhsuk-white);
+  padding: var(--nhsuk-spacing-2);
+  border: 1px solid var(--nhsuk-mid-grey);
+}

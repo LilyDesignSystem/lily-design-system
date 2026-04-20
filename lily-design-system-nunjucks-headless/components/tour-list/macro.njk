@@ -1,0 +1,25 @@
+{#
+  TourList macro — an ordered list of tour guide steps.
+
+  HTML tag: <ol>
+  CSS class: tour-list
+
+  Params:
+    id          string
+    classes     string
+    attributes  object
+
+  Body content: TourListItem children via caller().
+#}
+{%- macro tourList(params) -%}
+{%- set p = params | default({}) -%}
+<ol
+  class="tour-list{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</ol>
+{%- endmacro -%}

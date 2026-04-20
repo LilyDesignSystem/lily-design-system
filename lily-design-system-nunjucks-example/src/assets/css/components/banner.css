@@ -1,0 +1,12 @@
+.banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nhsuk-spacing-3);
+  padding: var(--nhsuk-spacing-3) var(--nhsuk-spacing-4);
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+  border-bottom: 4px solid var(--nhsuk-dark-blue);
+}
+
+.banner a { color: var(--nhsuk-white); }

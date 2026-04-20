@@ -1,0 +1,28 @@
+{#
+  FileUpload macro — a drag-and-drop area for uploading files.
+
+  HTML tag: <div> wrapping an <input type="file">
+  CSS class: file-upload
+
+  Params: id, name, accept, multiple, label, disabled, classes, attributes.
+#}
+{%- macro fileUpload(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="file-upload{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-module="file-upload"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <label class="file-upload-label" for="{{ p.id | default('file-upload') }}-input">{{ p.label | default('Drop files here, or choose') }}</label>
+  <input
+    class="file-upload-input"
+    type="file"
+    id="{{ p.id | default('file-upload') }}-input"
+    {%- if p.name %} name="{{ p.name }}"{% endif %}
+    {%- if p.accept %} accept="{{ p.accept }}"{% endif %}
+    {%- if p.multiple %} multiple{% endif %}
+    {%- if p.disabled %} disabled{% endif %}
+  >
+</div>
+{%- endmacro -%}

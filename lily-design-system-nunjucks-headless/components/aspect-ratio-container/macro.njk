@@ -1,0 +1,41 @@
+{#
+  AspectRatioContainer macro — a container that maintains a fixed
+    aspect ratio for its contents.
+
+  HTML tag: <div>
+  CSS class: aspect-ratio-container
+  Data attribute: data-ratio on the root; the CSS uses this via an
+    attribute selector to apply `aspect-ratio: var(--ratio)`, or
+    consumers can supply a custom CSS rule. A CSS custom property
+    `--aspect-ratio` is also emitted via `style=` when params.ratio
+    is set.
+
+  Params:
+    ratio       string   Aspect ratio in CSS form (e.g. "16/9",
+                         "4/3", "1/1"). Default "16/9".
+    id          string
+    classes     string
+    attributes  object
+
+  Body content: the content to constrain via caller().
+
+  Usage:
+    {% from "components/aspect-ratio-container/macro.njk" import aspectRatioContainer %}
+    {% call aspectRatioContainer({ ratio: "16/9" }) %}
+      <img src="…" alt="…">
+    {% endcall %}
+#}
+{%- macro aspectRatioContainer(params) -%}
+{%- set ratio = params.ratio | default("16/9") -%}
+<div
+  class="aspect-ratio-container{% if params.classes %} {{ params.classes }}{% endif %}"
+  data-ratio="{{ ratio }}"
+  style="--aspect-ratio: {{ ratio }};"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

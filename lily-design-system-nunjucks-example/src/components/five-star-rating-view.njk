@@ -1,0 +1,24 @@
+---
+layout: layouts/component-demo.njk
+title: Five-Star Rating View
+description: a read-only display of a five-star rating
+---
+
+{% from "components/five-star-rating-view/macro.njk" import fiveStarRatingView %}
+
+<h2>Ratings at different values</h2>
+<p>0 / 5: {{ fiveStarRatingView({ value: 0 }) }}</p>
+<p>1 / 5: {{ fiveStarRatingView({ value: 1 }) }}</p>
+<p>2 / 5: {{ fiveStarRatingView({ value: 2 }) }}</p>
+<p>3 / 5: {{ fiveStarRatingView({ value: 3 }) }}</p>
+<p>4 / 5: {{ fiveStarRatingView({ value: 4 }) }}</p>
+<p>5 / 5: {{ fiveStarRatingView({ value: 5 }) }}</p>
+
+<h2>Half ratings</h2>
+<p>3.5 / 5: {{ fiveStarRatingView({ value: 3.5 }) }}</p>
+<p>4.2 / 5: {{ fiveStarRatingView({ value: 4.2 }) }}</p>
+
+<h2>Accessibility</h2>
+<p>The view has <code>role="img"</code> and a descriptive
+  <code>aria-label</code> like "Rating: 4 out of 5 stars" so screen
+  readers read the value regardless of the visual stars.</p>

@@ -1,0 +1,45 @@
+{#
+  SegmentGroupItem macro — one selectable segment inside a SegmentGroup.
+
+  HTML tag: <button role="radio">
+  CSS class: segment-group-item
+  Accessibility:
+    - role="radio" + aria-checked encodes the mutually-exclusive
+      semantic.
+    - tabindex is 0 for the currently-selected item, −1 for the
+      others; consumer JS manages roving tabindex on arrow-key nav.
+
+  Params:
+    text         string
+    html         string
+    checked      boolean  Current selection state. Default false.
+    disabled     boolean
+    label        string
+    id           string
+    name         string
+    value        string
+    classes      string
+    attributes   object
+
+  Usage: see SegmentGroup.
+#}
+{%- macro segmentGroupItem(params) -%}
+<button
+  class="segment-group-item{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="{{ params.type | default('button') }}"
+  role="radio"
+  aria-checked="{{ 'true' if params.checked else 'false' }}"
+  tabindex="{{ '0' if params.checked else '-1' }}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.name %} name="{{ params.name }}"{% endif %}
+  {%- if params.value %} value="{{ params.value }}"{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</button>
+{%- endmacro -%}

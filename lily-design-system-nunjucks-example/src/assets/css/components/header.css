@@ -1,0 +1,5 @@
+.header {
+  padding: var(--nhsuk-spacing-3) 0;
+  background: var(--nhsuk-blue);
+  color: var(--nhsuk-white);
+}

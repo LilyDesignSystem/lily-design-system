@@ -1,0 +1,10 @@
+.hover-card {
+  position: absolute;
+  background: var(--nhsuk-white);
+  border: 1px solid var(--nhsuk-mid-grey);
+  border-radius: 4px;
+  padding: var(--nhsuk-spacing-2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 20rem;
+}
+.hover-card[hidden] { display: none; }

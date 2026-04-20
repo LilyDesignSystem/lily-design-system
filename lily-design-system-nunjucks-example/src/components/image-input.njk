@@ -1,0 +1,11 @@
+---
+layout: layouts/component-demo.njk
+title: Image Input
+description: a graphical submit button that displays an image
+---
+
+{% from "components/image-input/macro.njk" import imageInput %}
+
+<form>
+  {{ imageInput({ src: "https://via.placeholder.com/120x40?text=Submit", alt: "Submit", width: 120, height: 40 }) }}
+</form>

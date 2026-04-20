@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: Vital Sign — Total Sleep Time Input
+description: number input of total sleep time in minutes per day
+---
+
+{% from "components/vital-sign-total-sleep-time-as-min-per-day-input/macro.njk" import vitalSignTotalSleepTimeAsMinPerDayInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/hint/macro.njk" import hint %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default (0 – 1440 min)</h2>
+{% call field() %}
+  {{ label({ for: "tst", text: "Total sleep time last night" }) }}
+  {{ hint({
+    id: "tst-hint",
+    text: "In minutes. 450 minutes equals 7.5 hours."
+  }) }}
+  {{ vitalSignTotalSleepTimeAsMinPerDayInput({
+    id: "tst",
+    describedBy: "tst-hint"
+  }) }}
+{% endcall %}

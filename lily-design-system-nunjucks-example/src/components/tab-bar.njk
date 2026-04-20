@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Tab Bar
+description: a group of tabs for switching between content panels
+---
+
+{% from "components/tab-bar/macro.njk" import tabBar %}
+{% from "components/tab-bar-button/macro.njk" import tabBarButton %}
+
+<h2>Horizontal tabs</h2>
+{% call tabBar({ label: "Sections" }) %}
+  {{ tabBarButton({ text: "Overview", selected: true, controls: "panel-overview", id: "tab-overview" }) }}
+  {{ tabBarButton({ text: "Details", controls: "panel-details", id: "tab-details" }) }}
+  {{ tabBarButton({ text: "History", controls: "panel-history", id: "tab-history" }) }}
+{% endcall %}
+
+<div id="panel-overview" role="tabpanel" aria-labelledby="tab-overview">
+  <p>Overview content.</p>
+</div>

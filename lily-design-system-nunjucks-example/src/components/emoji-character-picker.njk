@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Emoji Character Picker
+description: a picker for browsing and selecting emoji
+---
+
+{% from "components/emoji-character-picker/macro.njk" import emojiCharacterPicker %}
+
+{% call emojiCharacterPicker({ label: "Emoji picker", open: true }) %}
+  <button>😀</button><button>😃</button><button>😄</button><button>😁</button>
+  <button>😅</button><button>🙂</button><button>😊</button><button>😇</button>
+{% endcall %}

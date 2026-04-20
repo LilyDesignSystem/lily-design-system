@@ -1,0 +1,31 @@
+{#
+  FiveFaceRatingPicker macro — a picker for selecting a 1–5
+    satisfaction rating using face labels.
+
+  HTML tag: <div role="radiogroup">
+  CSS class: five-face-rating-picker
+  Accessibility: role="radiogroup" with a required accessible name
+    such as "How satisfied were you?".
+
+  Params:
+    label        string   Accessible name. Default "Satisfaction rating".
+    labelledBy   string
+    id           string
+    classes      string
+    attributes   object
+#}
+{%- macro fiveFaceRatingPicker(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="five-face-rating-picker{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="radiogroup"
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
+  {%- else %} aria-label="{{ p.label | default('Satisfaction rating') }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

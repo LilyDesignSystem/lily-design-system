@@ -1,0 +1,29 @@
+.five-face-rating-picker-button {
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.75rem;
+  line-height: 1;
+  filter: grayscale(0.5);
+  transition: filter 0.15s ease-out;
+}
+
+.five-face-rating-picker-button[data-value="1"]::before { content: "😖"; }
+.five-face-rating-picker-button[data-value="2"]::before { content: "🙁"; }
+.five-face-rating-picker-button[data-value="3"]::before { content: "😐"; }
+.five-face-rating-picker-button[data-value="4"]::before { content: "🙂"; }
+.five-face-rating-picker-button[data-value="5"]::before { content: "😄"; }
+
+.five-face-rating-picker-button:hover,
+.five-face-rating-picker-button[aria-checked="true"] {
+  filter: grayscale(0);
+  border-color: var(--nhsuk-blue);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .five-face-rating-picker-button { transition: none; }
+}

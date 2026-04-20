@@ -1,0 +1,6 @@
+.file-manager {
+  display: block;
+  border: 1px solid var(--nhsuk-mid-grey);
+  border-radius: 4px;
+  padding: var(--nhsuk-spacing-3);
+}

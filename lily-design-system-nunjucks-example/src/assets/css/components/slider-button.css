@@ -1,0 +1,31 @@
+.slider-button {
+  position: relative;
+  display: inline-flex;
+  width: 20rem;
+  height: 3rem;
+  background: var(--nhsuk-pale-grey);
+  border: 2px solid var(--nhsuk-black);
+  border-radius: 32px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+}
+.slider-button-track-label {
+  font-family: var(--nhsuk-font-family);
+  font-size: var(--nhsuk-font-size-16);
+  color: var(--nhsuk-black);
+}
+.slider-button-thumb {
+  position: absolute;
+  left: 2px;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--nhsuk-blue);
+  border-radius: 50%;
+}
+.slider-button[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

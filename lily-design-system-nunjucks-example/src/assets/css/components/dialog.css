@@ -1,0 +1,15 @@
+.dialog {
+  padding: var(--nhsuk-spacing-4);
+  max-width: 32rem;
+  border: 4px solid var(--nhsuk-blue);
+  background: var(--nhsuk-white);
+  color: var(--nhsuk-black);
+  font-family: var(--nhsuk-font-family);
+}
+
+.dialog::backdrop {
+  background: rgba(33, 43, 50, 0.5);
+}
+
+.dialog > :first-child { margin-top: 0; }
+.dialog > :last-child { margin-bottom: 0; }

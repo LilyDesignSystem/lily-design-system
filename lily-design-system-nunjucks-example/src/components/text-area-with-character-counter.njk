@@ -1,0 +1,10 @@
+---
+layout: layouts/component-demo.njk
+title: Text Area with Character Counter
+description: a multi-line text area with a live character counter
+---
+
+{% from "components/text-area-with-character-counter/macro.njk" import textAreaWithCharacterCounter %}
+
+<p><label for="msg">Your message (max 200 characters)</label></p>
+{{ textAreaWithCharacterCounter({ id: "msg", name: "msg", maximum: 200, rows: 4 }) }}

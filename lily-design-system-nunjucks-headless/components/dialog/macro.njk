@@ -1,0 +1,59 @@
+{#
+  Dialog macro — a modal or non-modal dialog window.
+
+  HTML tag: <dialog>
+  CSS class: dialog
+  Accessibility:
+    - The native <dialog> element exposes role="dialog" implicitly.
+    - params.label or params.labelledBy names the dialog.
+    - Consumers open a dialog via `el.showModal()` (modal) or
+      `el.show()` (non-modal); the macro itself is markup-only.
+    - Include a visible close control; <dialog> supports the
+      Escape key to close when opened as modal.
+
+  Params:
+    label         string   Accessible name (aria-label).
+    labelledBy    string   aria-labelledby target (preferred when
+                           a visible heading is shown).
+    describedBy   string   aria-describedby target.
+    open          boolean  Render with the `open` attribute set
+                           (opens the dialog in the non-modal state
+                           on page load). For modal, open via JS.
+    id            string
+    classes       string
+    attributes    object
+
+  Body content: heading, body, and close control via caller().
+
+  Usage:
+    {% from "components/dialog/macro.njk" import dialog %}
+
+    {% call dialog({
+      id: "confirm",
+      labelledBy: "confirm-title"
+    }) %}
+      <h2 id="confirm-title">Confirm deletion</h2>
+      <p>Are you sure?</p>
+      <form method="dialog"><button>Cancel</button></form>
+    {% endcall %}
+
+    <script>
+      document.getElementById("confirm").showModal();
+    </script>
+#}
+{%- macro dialog(params) -%}
+{%- set p = params | default({}) -%}
+<dialog
+  class="dialog{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
+  {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.describedBy %} aria-describedby="{{ p.describedBy }}"{% endif %}
+  {%- if p.open %} open{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</dialog>
+{%- endmacro -%}

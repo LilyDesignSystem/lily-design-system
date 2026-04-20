@@ -1,0 +1,11 @@
+---
+layout: layouts/component-demo.njk
+title: Measurement Unit View
+description: a read-only display of a measurement unit
+---
+
+{% from "components/measurement-unit-view/macro.njk" import measurementUnitView %}
+
+<p>Value: 75 {{ measurementUnitView({ unit: "kg", unitLabel: "kilograms" }) }}</p>
+<p>Value: 178 {{ measurementUnitView({ unit: "cm", unitLabel: "centimetres" }) }}</p>
+<p>Value: 98.6 {{ measurementUnitView({ unit: "°F", unitLabel: "degrees Fahrenheit" }) }}</p>
