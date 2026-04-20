@@ -34,44 +34,66 @@ ai_exists_or_err() (
 
 top="$(git rev-parse --show-toplevel)"
 
-## Test repository
-repo_setup_exists_or_err "$top"
-ai_exists_or_err "$top"
+test_repository() {
+    repo_setup_exists_or_err "$top"
+    ai_exists_or_err "$top"
+}
 
-## Test components
-"$top/bin/list-components-as-kebab-case" | 
-while read -r component; do
-    ai_exists_or_err "$top/components/$component"
-done
-
-## Test implementations
-"$top/bin/list-implementations" | 
-while read -r implementation; do
-    dir="$top/$implementation"
-    ai_exists_or_err "$dir"
-    file_exists_or_err "$dir/.git-subtree-push"
-done
-
-## Test implementations that use our preferred JavaScript + TypeScript + Vite + PNPM
-"$top/bin/list-implementations" | grep \(react-next-examples\|svelte-sveltekit-examples\|vue-nuxt-examples\) |
-while read -r implementation; do
-    dir="$top/$implementation"
-    file_exists_or_err "$dir/package.json"
-    file_exists_or_err "$dir/pnpm-lock.yaml"
-    file_exists_or_err "$dir/tsconfig.json"
-    file_exists_or_err "$dir/vite.config.ts"
-    file_exists_or_err "$dir/vitest-setup.js"
-done
-
-## Test implementations that use Svelte SvelteKit examples
-"$top/bin/list-implementations" | grep svelte-sveltekit-examples |
-while read -r implementation; do
-    dir="$top/$implementation"
-    directory_exists_or_err "$dir/src/lib/components"
-    "$top/bin/list-components-as-title-case/$component_title_case" | 
+test_components() {
+    "$top/bin/list-components-as-kebab-case" | 
     while read -r component; do
-        file_exists_or_err "$dir/index.md"
-        file_exists_or_err "$dir/$component_title_case.svelte"
-        file_exists_or_err "$dir/$component_title_case.stories.svelte"
+        ai_exists_or_err "$top/components/$component"
     done
-done
+}
+
+test_implementations() {
+    "$top/bin/list-implementations" | 
+    while read -r implementation; do
+        dir="$top/$implementation"
+        ai_exists_or_err "$dir"
+        file_exists_or_err "$dir/.git-subtree-push"
+    done
+}
+
+test_implementations_that_use_our_preferred_javascript_typescript_vite_pnpm() {
+    "$top/bin/list-implementations" | grep \(react-next-examples\|svelte-sveltekit-examples\|vue-nuxt-examples\) |
+    while read -r implementation; do
+        dir="$top/$implementation"
+        file_exists_or_err "$dir/package.json"
+        file_exists_or_err "$dir/pnpm-lock.yaml"
+        file_exists_or_err "$dir/tsconfig.json"
+        file_exists_or_err "$dir/vite.config.ts"
+        file_exists_or_err "$dir/vitest-setup.js"
+    done
+}
+
+test_implementations_that_use_sveltekit_examples() {
+    "$top/bin/list-implementations" | grep svelte-sveltekit-examples |
+    while read -r implementation; do
+        "$top/bin/list-components-as-title-case" | 
+        while read -r component; do
+            dir="$top/$implementation/src/lib/components/$component"
+            file_exists_or_err "$dir/index.md"
+            file_exists_or_err "$dir/$component.svelte"
+            file_exists_or_err "$dir/$component.stories.svelte"
+        done
+    done
+}
+
+test_implementation_nunjucks_headless() {
+    "$top/bin/list-implementations" | grep nunjucks-headless |
+    while read -r implementation; do
+        "$top/bin/list-components-as-kebab-case" | 
+        while read -r component; do
+            dir="$top/$implementation/components/$component"
+            file_exists_or_err "$dir/macro.njk"
+            file_exists_or_err "$dir/macro.test.jsindex.md"
+        done
+    done
+}
+
+test_repository
+test_components
+test_implementations
+test_implementations_that_use_our_preferred_javascript_typescript_vite_pnpm
+test_implementations_that_use_sveltekit_examples
