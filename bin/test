@@ -70,7 +70,7 @@ test_implementations_that_use_our_preferred_javascript_typescript_vite_pnpm() {
 test_implementations_svelte() {
     "$top/bin/list-implementations" | grep svelte- |
     while read -r implementation; do
-        "$top/bin/list-components-as-title-case" | 
+        "$top/bin/list-components-as-pascal-case" | 
         while read -r component; do
             dir="$top/$implementation/src/lib/components/$component"
             file_not_empty_or_err "$dir/index.md"
