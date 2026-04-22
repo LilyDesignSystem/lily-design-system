@@ -24,7 +24,7 @@
 - [x] Create timeline-and-cards example page
 - [x] Create /components index page listing all components
 - [x] Create /components/{slug} detail pages with live demos
-- [x] Generate component-demos data for 332 components
+- [x] Generate component-demos data for 364 components
 
 ## Backlog
 

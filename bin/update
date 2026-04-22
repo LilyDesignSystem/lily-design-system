@@ -6,7 +6,7 @@ cd "$top"
 
 claude "
 
-use maximum thinking.
+ultrathink.
 
 update, upgrade, fix, harmonize, audit, test. 
 
@@ -30,6 +30,8 @@ Subproject directories:
 - lily-design-system-blazor-web-examples
 - lily-design-system-html-headless
 - lily-design-system-html-javascript-examples
+- lily-design-system-nunjucks-headless
+- lily-design-system-nunjucks-examples
 - lily-design-system-react-headless
 - lily-design-system-react-next-examples
 - lily-design-system-svelte-headless

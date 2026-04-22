@@ -1,10 +1,10 @@
 # Lily Design System - Svelte SvelteKit Examples
 
-Svelte 5 + SvelteKit 2 example application demonstrating all 332 components from the [Lily Design System](https://github.com/LilyDesignSystem/lily) headless component library, styled with [NHS UK design system](https://service-manual.nhs.uk/design-system) colors, typography, spacing, and focus states.
+Svelte 5 + SvelteKit 2 example application demonstrating all 364 components from the [Lily Design System](https://github.com/LilyDesignSystem/lily) headless component library, styled with [NHS UK design system](https://service-manual.nhs.uk/design-system) colors, typography, spacing, and focus states.
 
 ## Features
 
-- 332 headless Svelte 5 components with runes
+- 364 headless Svelte 5 components with runes
 - 13 interactive example pages demonstrating realistic usage patterns
 - NHS UK design system styling via CSS custom properties
 - WCAG 2.2 AAA accessibility compliance
@@ -50,7 +50,7 @@ lily-design-system-svelte-sveltekit-examples/
 │   │   ├── task-management/    # Task list, progress
 │   │   └── timeline-and-cards/ # Timeline, cards, summaries
 │   └── lib/
-│       └── components/         # 332 headless Svelte components
+│       └── components/         # 364 headless Svelte components
 ├── static/
 │   └── css/nhs.css             # NHS UK design tokens & component styles
 ├── package.json
@@ -82,7 +82,7 @@ lily-design-system-svelte-sveltekit-examples/
 | Route                   | Description                                             |
 | ----------------------- | ------------------------------------------------------- |
 | `/`                     | Home page with links to all examples                    |
-| `/components`           | Lists all 332 components with links to individual demos |
+| `/components`           | Lists all 364 components with links to individual demos |
 | `/components/{slug}`    | Demonstrates one component with a live interactive demo |
 | `/contact-form`         | Contact form example page                               |
 | `/dashboard`            | Dashboard example page                                  |
@@ -121,7 +121,7 @@ All visual styling comes from `static/css/nhs.css`, which provides:
 - **Typography**: Frutiger W01 font family with 8-point size scale
 - **Spacing**: 10-point spacing scale (0-9)
 - **Focus states**: Yellow outline (#ffeb3b) with black text for WCAG contrast
-- **Component styles**: All 332 component CSS classes with NHS-appropriate styling
+- **Component styles**: All 364 component CSS classes with NHS-appropriate styling
 
 Components are headless (unstyled) by default. Each component renders a semantic CSS class (e.g., `button`, `alert`, `badge`) that the NHS stylesheet targets.
 
@@ -182,7 +182,7 @@ pnpm exec vitest run src/             # Run all tests
 ## Related Projects
 
 - [Lily Design System](https://github.com/LilyDesignSystem/lily) — Parent project
-- [Svelte Headless](../lily-design-system-svelte-headless/) — 332 headless Svelte components
+- [Svelte Headless](../lily-design-system-svelte-headless/) — 364 headless Svelte components
 - [Blazor Web Examples](../lily-design-system-blazor-web-examples/) — Blazor equivalent
 - [React Next.js Examples](../lily-design-system-react-next-examples/) — React equivalent
 - [Vue Nuxt Examples](../lily-design-system-vue-nuxt-examples/) — Vue equivalent

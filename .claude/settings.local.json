@@ -95,7 +95,15 @@
       "Bash(python3 /tmp/gen_final_45.py)",
       "Bash(python3 *)",
       "Bash(git add *)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(git stash *)",
+      "Bash(bin/test)",
+      "Read(//tmp/**)",
+      "Bash(bin/list-components-as-pascal-case)",
+      "Bash(bin/list-implementations)",
+      "Bash(ls -la src/lib/components)",
+      "Bash(ls -d src/lib)",
+      "Bash(ls -d src)"
     ]
   }
 }

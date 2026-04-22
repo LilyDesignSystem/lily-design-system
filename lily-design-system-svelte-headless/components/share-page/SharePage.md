@@ -1,3 +1,0 @@
-# SharePage
-
-Headless SharePage component.

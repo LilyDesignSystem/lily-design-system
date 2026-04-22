@@ -2,7 +2,7 @@
 
 [CSS style sheet template](css-style-sheet-template.css)
 
-Canonical component list: [components.csv](components.csv)
+Canonical component list: [components.tsv](components.tsv)
 
 ### Subprojects for headless components
 

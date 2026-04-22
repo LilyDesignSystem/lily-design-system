@@ -1,3 +1,0 @@
-# BarChart
-
-Headless BarChart component.

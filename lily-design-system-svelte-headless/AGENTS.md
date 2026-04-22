@@ -6,6 +6,8 @@
 @AGENTS/internationalization.md
 @AGENTS/headless.md
 @AGENTS/sveltekit.md
+@AGENTS/theme.md
+@AGENTS/nhs-uk-design-system-references.md
 
 ## Metadata
 

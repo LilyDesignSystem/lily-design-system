@@ -1,3 +1,0 @@
-# DescriptionListItem
-
-Headless DescriptionListItem component.

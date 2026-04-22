@@ -34,7 +34,7 @@ Implement all headless components using Vue 3 Composition API + TypeScript. Ever
 
 ## Acceptance Criteria
 
-- [ ] All 332 components from the canonical list are implemented
+- [ ] All 364 components from the canonical list are implemented
 - [x] Each component file follows the architecture in AGENTS.md
 - [ ] Every component has a corresponding test file
 - [ ] All tests pass: `pnpm exec vitest run`

@@ -1,3 +1,0 @@
-# SectionListItem
-
-Headless SectionListItem component.

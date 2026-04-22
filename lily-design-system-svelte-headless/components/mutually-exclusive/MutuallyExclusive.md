@@ -1,3 +1,0 @@
-# MutuallyExclusive
-
-Headless MutuallyExclusive component.

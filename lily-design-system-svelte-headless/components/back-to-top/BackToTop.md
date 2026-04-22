@@ -1,3 +1,0 @@
-# BackToTop
-
-Headless BackToTop component.

@@ -1,38 +1,46 @@
-# Lily Design System — Nunjucks Headless — Tasks
+# Lily Design System -- Nunjucks Headless -- Tasks
 
-Reference: [nunjucks-plan.md](nunjucks-plan.md).
+Reference: [plan.md](plan.md).
 
-## Infrastructure
+## Done
 
-- [ ] Create subproject directory `lily-design-system-nunjucks-headless/`
-- [ ] Create `package.json` with `nunjucks`, `vitest`, `jsdom`
-- [ ] Run `pnpm install`
-- [ ] Create `vitest.config.js`
-- [ ] Create `test/render.js` shared render helper (Nunjucks + jsdom)
-- [ ] Create `AGENTS.md` with component architecture + NO list
-- [ ] Create `CLAUDE.md` referencing `AGENTS.md`
-- [ ] Create `index.md` with project overview
-- [ ] Create `README.md` symlink → `index.md`
-- [ ] Create `AGENTS/` directory, copy/symlink shared docs
-      (`components.md`, `accessibility.md`, `internationalization.md`,
-      `headless.md`, `nunjucks.md`)
-- [ ] Add entry to root `AGENTS.md` linking to this subproject
+- [x] Create subproject directory `lily-design-system-nunjucks-headless/`
+- [x] Create `package.json` with `nunjucks`, `vitest`, `jsdom`
+- [x] Run `pnpm install`
+- [x] Create `vitest.config.js`
+- [x] Create `test/render.js` shared render helper (Nunjucks + jsdom)
+- [x] Create `AGENTS.md` with component architecture
+- [x] Create `CLAUDE.md` referencing `AGENTS.md`
+- [x] Create `index.md` with project overview
+- [x] Create `README.md` symlink -> `index.md`
+- [x] Create `AGENTS/` directory with shared docs
+- [x] Add entry to root `AGENTS.md` linking to this subproject
+- [x] Create `.git-subtree-push`
+
+## In Progress
+
+_(nothing currently in progress)_
+
+## Backlog
+
+### Infrastructure
+
 - [ ] Add `lily-design-system-nunjucks-headless` to `bin/list-implementations`
 
-## First-light verification (toolchain smoke test)
+### First-light verification (toolchain smoke test)
 
 - [ ] Implement `components/button/macro.njk`
 - [ ] Implement `components/button/macro.test.js`
 - [ ] Run `pnpm test`; confirm button test passes
 - [ ] Only after green: proceed to bulk authoring
 
-## Component implementation — priority groups
+### Component implementation -- priority groups
 
 Each task below delivers `components/{component}/macro.njk` **and**
 `components/{component}/macro.test.js`. Each component lives in its own
 directory matching the NHS.UK frontend layout.
 
-### a. Static wrappers
+#### a. Static wrappers
 
 - [ ] alert
 - [ ] ai-label
@@ -95,7 +103,7 @@ directory matching the NHS.UK frontend layout.
 - [ ] toast
 - [ ] warning-callout
 
-### b. Form inputs
+#### b. Form inputs
 
 - [ ] angle-slider-range-input
 - [ ] button
@@ -137,7 +145,7 @@ directory matching the NHS.UK frontend layout.
 - [ ] url-input
 - [ ] week-input
 
-### c. Links and views
+#### c. Links and views
 
 - [ ] action-link
 - [ ] back-link
@@ -166,7 +174,7 @@ directory matching the NHS.UK frontend layout.
 - [ ] united-states-social-security-number-input
 - [ ] united-states-social-security-number-view
 
-### d. Vital sign views and inputs (16 pairs = 32 components)
+#### d. Vital sign views and inputs (16 pairs = 32 components)
 
 - [ ] vital-sign-belly-circumference-as-cm-input
 - [ ] vital-sign-belly-circumference-as-cm-view
@@ -201,7 +209,7 @@ directory matching the NHS.UK frontend layout.
 - [ ] vital-sign-weight-as-kg-input
 - [ ] vital-sign-weight-as-kg-view
 
-### e. Table families (5 families × 7 parts = 35 components)
+#### e. Table families (5 families x 7 parts = 35 components)
 
 - [ ] table, table-head, table-body, table-foot, table-col, table-row, table-data
 - [ ] calendar-table, calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-col, calendar-table-row, calendar-table-data
@@ -210,7 +218,7 @@ directory matching the NHS.UK frontend layout.
 - [ ] kanban-table, kanban-table-head, kanban-table-body, kanban-table-foot, kanban-table-col, kanban-table-row, kanban-table-data
 - [ ] calendar-range-picker
 
-### f. Navigation patterns
+#### f. Navigation patterns
 
 - [ ] accordion-nav, accordion-list, accordion-list-item, accordion-link
 - [ ] breadcrumb-nav, breadcrumb-list, breadcrumb-list-item, breadcrumb-link
@@ -222,7 +230,7 @@ directory matching the NHS.UK frontend layout.
 - [ ] tree-nav, tree-list, tree-list-item, tree-link
 - [ ] tree-menu
 
-### g. List patterns
+#### g. List patterns
 
 - [ ] check-list, check-list-item
 - [ ] do-list, do-list-item
@@ -232,14 +240,14 @@ directory matching the NHS.UK frontend layout.
 - [ ] timeline-list, timeline-list-item
 - [ ] tour, tour-list, tour-list-item
 
-### h. Bar patterns
+#### h. Bar patterns
 
 - [ ] menu-bar, menu-bar-button
 - [ ] tab-bar, tab-bar-button
 - [ ] task-bar, task-bar-button
 - [ ] tool-bar, tool-bar-button
 
-### i. Picker patterns
+#### i. Picker patterns
 
 - [ ] color-picker, color-picker-button
 - [ ] emoji-character-picker
@@ -251,7 +259,7 @@ directory matching the NHS.UK frontend layout.
 - [ ] theme-picker, theme-picker-button, theme-select, theme-select-option, theme-view
 - [ ] theme-provider
 
-### j. Form composition
+#### j. Form composition
 
 - [ ] form
 - [ ] field
@@ -264,7 +272,7 @@ directory matching the NHS.UK frontend layout.
 - [ ] editable
 - [ ] editable-form
 
-### k. Overlays and menus
+#### k. Overlays and menus
 
 - [ ] alert-dialog
 - [ ] context-menu, context-menu-item
@@ -284,7 +292,7 @@ directory matching the NHS.UK frontend layout.
 - [ ] sonner
 - [ ] tooltip
 
-### l. Layout
+#### l. Layout
 
 - [ ] article-layout
 - [ ] body-text
@@ -312,7 +320,7 @@ directory matching the NHS.UK frontend layout.
 - [ ] tile
 - [ ] tile-map
 
-### m. Interactive specialty
+#### m. Interactive specialty
 
 - [ ] carousel
 - [ ] clipboard-copy-button
@@ -339,24 +347,20 @@ directory matching the NHS.UK frontend layout.
 - [ ] video-player
 - [ ] visible
 
-## Verification
+### Verification
 
 - [ ] Run `pnpm test` with zero failures
 - [ ] Cross-check delivered components against canonical list in
       `AGENTS/components.md`; no missing, no extras
 - [ ] Grep `components/**/macro.njk` for `<style`, `style=`, `color:`,
-      `px`, `rem`, `Tailwind` → must return zero matches
-- [ ] Grep `components/**/macro.njk` for `<script` → must return zero
+      `px`, `rem`, `Tailwind` -> must return zero matches
+- [ ] Grep `components/**/macro.njk` for `<script` -> must return zero
       matches
 - [ ] Grep `components/**/macro.njk` for hardcoded strings in
-      `aria-label`, `placeholder`, error text → must return zero
+      `aria-label`, `placeholder`, error text -> must return zero
       hardcoded content
 - [ ] Confirm every component directory has both `macro.njk` and
       `macro.test.js`
 - [ ] Confirm every macro root element has
       `class="{component-kebab-case} {{ params.classes | default('') }}"`
 - [ ] Confirm every macro renders `params.attributes`
-
-## Done
-
-_(populated as infrastructure and components ship)_

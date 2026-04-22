@@ -1,3 +1,0 @@
-# StatusTag
-
-Headless StatusTag component.

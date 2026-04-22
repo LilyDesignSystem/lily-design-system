@@ -7,6 +7,8 @@ Blazor Web App examples of the Lily Design System Blazor headless component libr
 @AGENTS/accessibility.md
 @AGENTS/internationalization.md
 @AGENTS/examples.md
+@AGENTS/theme.md
+@AGENTS/nhs-uk-design-system-references.md
 
 ## Metadata
 

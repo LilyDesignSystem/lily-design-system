@@ -7,27 +7,30 @@ err() { >&2 printf %s\\n "Error: ${*}"; }
 
 directory_exists_or_err() { test -d "$1" || err "Directory should exist: $1"; }
 file_exists_or_err() { test -f "$1" || err "File should exist: $1"; }
-file_not_empty_or_err() { file_exists_or_err "$1" && test -s "$1" || err "File should be not empty: $1"; }
+file_size_or_err() { file_exists_or_err "$1" && test -s "$1" || err "File should have size: $1"; }
 symlink_exists_or_err() { test -h "$1" || err "Symlink should exist: $1"; }
+grep_exists_or_err() { grep -q -m 1 "$@" || err "grep should exist: " "$@"; }
+task_exists_or_err() { grep -q -m 1 "^- \[" "$1" || err "task should exist: " "$1"; }
+implemented_or_err() { if (grep -q -m 1 "Not yet implemented\." "$1"); then err "not yet implemented: $1"; else true; fi; }
 
 ## Utilities
 
 repo_setup_exists_or_err() (
     # dir="$1"
-    file_not_empty_or_err "$1/CITATION.cff"
-    file_not_empty_or_err "$1/CODE_OF_CONDUCT.md"
-    file_not_empty_or_err "$1/LICENSE.md"
+    file_size_or_err "$1/CITATION.cff"
+    file_size_or_err "$1/CODE_OF_CONDUCT.md"
+    file_size_or_err "$1/LICENSE.md"
 )
 
 ai_exists_or_err() (
     # dir="$1"
     directory_exists_or_err "$1"
-    file_not_empty_or_err "$1/index.md"
+    file_size_or_err "$1/index.md"
     symlink_exists_or_err "$1/README.md"
-    file_not_empty_or_err "$1/AGENTS.md"
-    file_not_empty_or_err "$1/CLAUDE.md"
-    file_not_empty_or_err "$1/plan.md"
-    file_not_empty_or_err "$1/tasks.md"
+    file_size_or_err "$1/AGENTS.md" && implemented_or_err "$1/AGENTS.md"
+    file_size_or_err "$1/CLAUDE.md"
+    file_size_or_err "$1/plan.md" && implemented_or_err "$1/plan.md"
+    file_size_or_err "$1/tasks.md" && task_exists_or_err "$1/tasks.md" && implemented_or_err "$1/tasks.md"
 )
 
 ## Main
@@ -55,28 +58,28 @@ test_implementations() {
     done
 }
 
-test_implementations_that_use_our_preferred_javascript_typescript_vite_pnpm() {
+test_implementations_with_vite() {
     "$top/bin/list-implementations" | grep \(react-next-examples\|svelte-sveltekit-examples\|vue-nuxt-examples\) |
     while read -r implementation; do
         dir="$top/$implementation"
-        file_not_empty_or_err "$dir/package.json"
-        file_not_empty_or_err "$dir/pnpm-lock.yaml"
-        file_not_empty_or_err "$dir/tsconfig.json"
-        file_not_empty_or_err "$dir/vite.config.ts"
-        file_not_empty_or_err "$dir/vitest-setup.js"
+        file_size_or_err "$dir/package.json"
+        file_size_or_err "$dir/pnpm-lock.yaml"
+        file_size_or_err "$dir/tsconfig.json"
+        file_size_or_err "$dir/vite.config.ts"
+        file_size_or_err "$dir/vitest-setup.js"
     done
 }
 
-test_implementations_svelte() {
+test_implementations_with_svelte() {
     "$top/bin/list-implementations" | grep svelte- |
     while read -r implementation; do
         "$top/bin/list-components-as-pascal-case" | 
         while read -r component; do
             dir="$top/$implementation/src/lib/components/$component"
-            file_not_empty_or_err "$dir/index.md"
-            file_not_empty_or_err "$dir/$component.svelte"
-            file_not_empty_or_err "$dir/$component.stories.svelte"
-            file_not_empty_or_err "$dir/$component.test.ts"
+            file_size_or_err "$dir/index.md"
+            file_size_or_err "$dir/$component.svelte"
+            file_size_or_err "$dir/$component.stories.svelte"
+            file_size_or_err "$dir/$component.test.ts"
             rm -f "$dir/$component.md"
         done
     done
@@ -88,9 +91,9 @@ test_implementation_nunjucks_headless() {
         "$top/bin/list-components-as-kebab-case" | 
         while read -r component; do
             dir="$top/$implementation/components/$component"
-            file_not_empty_or_err "$dir/macro.njk"
-            file_not_empty_or_err "$dir/macro.test.js"
-            file_not_empty_or_err "$dir/index.md"
+            file_size_or_err "$dir/macro.njk"
+            file_size_or_err "$dir/macro.test.js"
+            file_size_or_err "$dir/index.md"
         done
     done
 }
@@ -101,7 +104,7 @@ test_implementation_nunjucks_example() {
         "$top/bin/list-components-as-kebab-case" | 
         while read -r component; do
             dir="$top/$implementation/components"
-            file_not_empty_or_err "$dir/$component.njk"
+            file_size_or_err "$dir/$component.njk"
         done
     done
 }
@@ -109,7 +112,7 @@ test_implementation_nunjucks_example() {
 test_repository
 test_components
 test_implementations
-test_implementations_that_use_our_preferred_javascript_typescript_vite_pnpm
-test_implementations_svelte
+test_implementations_with_vite
+test_implementations_with_svelte
 test_implementation_nunjucks_headless
 test_implementation_nunjucks_example

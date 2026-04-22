@@ -6,7 +6,7 @@ Maintain the canonical component list, design tokens, and CSS style sheet templa
 
 ## Approach
 
-1. Maintain canonical component list (332 components) in AGENTS.md and AGENTS/components.md
+1. Maintain canonical component list (364 components) in AGENTS.md and AGENTS/components.md
 2. Maintain CSS style sheet template for component class names
 3. Provide tools for listing, testing, and verifying components
 4. Ensure all subprojects stay in sync with the canonical list
@@ -50,7 +50,7 @@ Rendering approach per framework:
 
 ## Component Documentation Enhancement Strategy
 
-Enhance all 332 component `index.md` files with NHS-style usage guidance and improved code examples. Uses a two-phase approach: NHS-researched components first to establish quality templates, then original guidance for remaining components.
+Enhance all 364 component `index.md` files with NHS-style usage guidance and improved code examples. Uses a two-phase approach: NHS-researched components first to establish quality templates, then original guidance for remaining components.
 
 ### Phase 1: NHS-researched components (37 components)
 
@@ -176,27 +176,27 @@ For each component `index.md`, update these sections:
 - Always name specific Lily alternatives in "When Not to Use"
 - Code examples use semantic HTML with proper ARIA
 - No hardcoded user-facing strings in examples; use realistic placeholder content
-- Consistent voice across all 332 components
+- Consistent voice across all 364 components
 
 ## Acceptance Criteria
 
-- [x] All 332 components documented in canonical list
+- [x] All 364 components documented in canonical list
 - [x] CSS style sheet template covers all component class names
 - [x] Tools (list-components, test-components, test-implementations) work correctly
 - [x] Component naming patterns documented and consistent
 - [x] Suffix-to-HTML-element mapping documented and accurate
 - [x] Composition patterns documented (Form, Navigation, Table, Grail Layout, VitalSign)
 - [x] All subprojects have required files (index.md, README.md symlink, AGENTS.md, CLAUDE.md, plan.md, tasks.md)
-- [x] All 332 components have directories with documentation
+- [x] All 364 components have directories with documentation
 - [x] All 5 example subprojects have `/components` route listing all components
 - [x] All 5 example subprojects have `/components/{slug}` route with live demo for each component
-- [x] Component data files include `html` demo field for all 332 components
+- [x] Component data files include `html` demo field for all 364 components
 - [x] Each component demo renders actual headless HTML with NHS CSS styling
-- [x] All subprojects harmonized: component count 332, acceptance criteria updated, tasks accurate
+- [x] All subprojects harmonized: component count 364, acceptance criteria updated, tasks accurate
 - [x] All example subprojects reference AGENTS/examples.md for route requirements
 - [x] All 37 NHS-equivalent components enhanced with NHS-researched "When to Use" and "When Not to Use" sections
 - [x] All 37 NHS-equivalent components have improved realistic code examples
 - [x] All 295 remaining components enhanced with original "When to Use" and "When Not to Use" sections
 - [x] All 295 remaining components have improved realistic code examples
-- [x] All 332 components have separate "When to Use" and "When Not to Use" sections (not combined)
+- [x] All 364 components have separate "When to Use" and "When Not to Use" sections (not combined)
 - [x] All "When Not to Use" sections name specific Lily component alternatives

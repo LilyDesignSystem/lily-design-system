@@ -1,3 +1,0 @@
-# AddressInput
-
-Headless AddressInput component.

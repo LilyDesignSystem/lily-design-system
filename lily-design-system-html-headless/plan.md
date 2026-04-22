@@ -34,7 +34,7 @@ Implement all headless components using Plain HTML + vanilla JavaScript. Every c
 
 ## Acceptance Criteria
 
-- [x] All 332 components from the canonical list are implemented
+- [x] All 364 components from the canonical list are implemented
 - [x] Each component file follows the architecture in AGENTS.md
 - [ ] Every component has a corresponding test file
 - [ ] All tests pass: `pnpm exec wdio run wdio.conf.js`

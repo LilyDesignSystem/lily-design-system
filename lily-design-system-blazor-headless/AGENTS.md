@@ -7,6 +7,8 @@ A headless Blazor component library with accessible, unstyled Razor components. 
 @AGENTS/accessibility.md
 @AGENTS/internationalization.md
 @AGENTS/headless.md
+@AGENTS/theme.md
+@AGENTS/nhs-uk-design-system-references.md
 
 ## Quick Reference
 

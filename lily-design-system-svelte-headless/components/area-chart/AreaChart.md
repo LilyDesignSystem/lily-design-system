@@ -1,3 +1,0 @@
-# AreaChart
-
-Headless AreaChart component.

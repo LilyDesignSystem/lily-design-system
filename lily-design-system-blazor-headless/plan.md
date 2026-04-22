@@ -36,7 +36,7 @@ Implement all headless components using Blazor Razor components with .NET 10. Ev
 
 ## Acceptance Criteria
 
-- [ ] All 332 components from the canonical list are implemented
+- [ ] All 364 components from the canonical list are implemented
 - [ ] Each component file follows the architecture in AGENTS.md
 - [ ] Every component has a corresponding test file
 - [ ] All tests pass: `dotnet test`

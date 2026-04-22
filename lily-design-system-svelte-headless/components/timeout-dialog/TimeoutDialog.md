@@ -1,3 +1,0 @@
-# TimeoutDialog
-
-Headless TimeoutDialog component.

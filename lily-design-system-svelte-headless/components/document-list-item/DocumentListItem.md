@@ -1,3 +1,0 @@
-# DocumentListItem
-
-Headless DocumentListItem component.

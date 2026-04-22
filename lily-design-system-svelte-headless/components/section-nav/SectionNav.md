@@ -1,3 +1,0 @@
-# SectionNav
-
-Headless SectionNav component.

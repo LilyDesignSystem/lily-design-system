@@ -22,7 +22,7 @@
 - [x] Implement overlays and menus (dialog, popover, tooltip, etc.)
 - [x] Implement layout components (grail-layout, sidebar, etc.)
 - [x] Implement interactive specialty (combobox, carousel, slider, etc.)
-- [x] Create all 332 HTML component files
+- [x] Create all 364 HTML component files
 
 ## In Progress
 

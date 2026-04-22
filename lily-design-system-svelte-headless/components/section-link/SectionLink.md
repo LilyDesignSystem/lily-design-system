@@ -1,3 +1,0 @@
-# SectionLink
-
-Headless SectionLink component.

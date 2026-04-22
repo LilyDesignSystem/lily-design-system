@@ -7,6 +7,8 @@ A headless React component library with accessible, unstyled components. Based o
 @AGENTS/accessibility.md
 @AGENTS/internationalization.md
 @AGENTS/headless.md
+@AGENTS/theme.md
+@AGENTS/nhs-uk-design-system-references.md
 
 ## Quick Reference
 

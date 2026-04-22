@@ -1,3 +1,0 @@
-# LineChart
-
-Headless LineChart component.

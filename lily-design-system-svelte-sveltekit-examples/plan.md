@@ -35,5 +35,5 @@ Create styled example pages demonstrating component usage with SvelteKit + Svelt
 - [ ] All pages are accessible (WCAG 2.2 AAA)
 - [ ] All tests pass: `npx vitest run`
 - [ ] Responsive layout works on mobile and desktop
-- [x] /components route lists all 332 components
+- [x] /components route lists all 364 components
 - [x] /components/{slug} route demonstrates each component with live demo

@@ -1,3 +1,0 @@
-# PhaseBanner
-
-Headless PhaseBanner component.
