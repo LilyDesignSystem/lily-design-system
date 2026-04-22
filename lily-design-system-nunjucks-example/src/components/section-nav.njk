@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: SectionNav
+description: a navigation container for section links
+---
+
+{% from "components/section-nav/macro.njk" import LSectionNav %}
+
+<h2>Default</h2>
+{{ LSectionNav({ text: "Example SectionNav content" }) }}
+
+<h2>With accessible label</h2>
+{{ LSectionNav({ text: "Example content", label: "SectionNav example" }) }}

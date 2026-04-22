@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: StatusTag
+description: a tag indicating status
+---
+
+{% from "components/status-tag/macro.njk" import LStatusTag %}
+
+<h2>Default</h2>
+{{ LStatusTag({ text: "Example StatusTag content" }) }}
+
+<h2>With accessible label</h2>
+{{ LStatusTag({ text: "Example content", label: "StatusTag example" }) }}

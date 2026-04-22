@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: DescriptionListItem
+description: one key-value pair in a description list
+---
+
+{% from "components/description-list-item/macro.njk" import LDescriptionListItem %}
+
+<h2>Default</h2>
+{{ LDescriptionListItem({ text: "Example DescriptionListItem content" }) }}
+
+<h2>With accessible label</h2>
+{{ LDescriptionListItem({ text: "Example content", label: "DescriptionListItem example" }) }}

@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: TimeoutDialog
+description: a dialog warning about session timeout
+---
+
+{% from "components/timeout-dialog/macro.njk" import LTimeoutDialog %}
+
+<h2>Default</h2>
+{{ LTimeoutDialog({ text: "Example TimeoutDialog content" }) }}
+
+<h2>With accessible label</h2>
+{{ LTimeoutDialog({ text: "Example content", label: "TimeoutDialog example" }) }}

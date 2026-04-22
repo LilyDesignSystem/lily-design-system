@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: SectionList
+description: an ordered list of section links
+---
+
+{% from "components/section-list/macro.njk" import LSectionList %}
+
+<h2>Default</h2>
+{{ LSectionList({ text: "Example SectionList content" }) }}
+
+<h2>With accessible label</h2>
+{{ LSectionList({ text: "Example content", label: "SectionList example" }) }}

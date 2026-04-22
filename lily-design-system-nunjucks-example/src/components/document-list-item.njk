@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: DocumentListItem
+description: one document entry in a document list
+---
+
+{% from "components/document-list-item/macro.njk" import LDocumentListItem %}
+
+<h2>Default</h2>
+{{ LDocumentListItem({ text: "Example DocumentListItem content" }) }}
+
+<h2>With accessible label</h2>
+{{ LDocumentListItem({ text: "Example content", label: "DocumentListItem example" }) }}

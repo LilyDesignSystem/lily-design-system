@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: SectionLink
+description: a navigation link to a section
+---
+
+{% from "components/section-link/macro.njk" import LSectionLink %}
+
+<h2>Default</h2>
+{{ LSectionLink({ text: "Example SectionLink content" }) }}
+
+<h2>With accessible label</h2>
+{{ LSectionLink({ text: "Example content", label: "SectionLink example" }) }}

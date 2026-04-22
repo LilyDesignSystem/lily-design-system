@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Autosuggest
+description: a text input that proposes matching options as users type
+---
+
+{% from "components/autosuggest/macro.njk" import LAutosuggest %}
+
+<h2>Default</h2>
+{{ LAutosuggest({ text: "Example Autosuggest content" }) }}
+
+<h2>With accessible label</h2>
+{{ LAutosuggest({ text: "Example content", label: "Autosuggest example" }) }}

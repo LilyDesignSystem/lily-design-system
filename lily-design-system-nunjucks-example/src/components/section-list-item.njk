@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: SectionListItem
+description: one item in a section list
+---
+
+{% from "components/section-list-item/macro.njk" import LSectionListItem %}
+
+<h2>Default</h2>
+{{ LSectionListItem({ text: "Example SectionListItem content" }) }}
+
+<h2>With accessible label</h2>
+{{ LSectionListItem({ text: "Example content", label: "SectionListItem example" }) }}

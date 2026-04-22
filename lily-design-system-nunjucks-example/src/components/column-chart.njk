@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: ColumnChart
+description: a vertical column chart visualization for displaying data
+---
+
+{% from "components/column-chart/macro.njk" import LColumnChart %}
+
+<h2>Default</h2>
+{{ LColumnChart({ text: "Example ColumnChart content" }) }}
+
+<h2>With accessible label</h2>
+{{ LColumnChart({ text: "Example content", label: "ColumnChart example" }) }}

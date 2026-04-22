@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: ScatterChart
+description: a scatter chart visualization for displaying data correlations
+---
+
+{% from "components/scatter-chart/macro.njk" import LScatterChart %}
+
+<h2>Default</h2>
+{{ LScatterChart({ text: "Example ScatterChart content" }) }}
+
+<h2>With accessible label</h2>
+{{ LScatterChart({ text: "Example content", label: "ScatterChart example" }) }}

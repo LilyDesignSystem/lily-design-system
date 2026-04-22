@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: BarChart
+description: a horizontal bar chart visualization for displaying data
+---
+
+{% from "components/bar-chart/macro.njk" import LBarChart %}
+
+<h2>Default</h2>
+{{ LBarChart({ text: "Example BarChart content" }) }}
+
+<h2>With accessible label</h2>
+{{ LBarChart({ text: "Example content", label: "BarChart example" }) }}

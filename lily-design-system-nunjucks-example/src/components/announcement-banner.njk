@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: AnnouncementBanner
+description: a banner highlighting important messages for all users
+---
+
+{% from "components/announcement-banner/macro.njk" import LAnnouncementBanner %}
+
+<h2>Default</h2>
+{{ LAnnouncementBanner({ text: "Example AnnouncementBanner content" }) }}
+
+<h2>With accessible label</h2>
+{{ LAnnouncementBanner({ text: "Example content", label: "AnnouncementBanner example" }) }}

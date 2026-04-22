@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: LineChart
+description: a line chart visualization for displaying data trends
+---
+
+{% from "components/line-chart/macro.njk" import LLineChart %}
+
+<h2>Default</h2>
+{{ LLineChart({ text: "Example LineChart content" }) }}
+
+<h2>With accessible label</h2>
+{{ LLineChart({ text: "Example content", label: "LineChart example" }) }}

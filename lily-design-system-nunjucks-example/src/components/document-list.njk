@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: DocumentList
+description: a list displaying documents with titles and metadata
+---
+
+{% from "components/document-list/macro.njk" import LDocumentList %}
+
+<h2>Default</h2>
+{{ LDocumentList({ text: "Example DocumentList content" }) }}
+
+<h2>With accessible label</h2>
+{{ LDocumentList({ text: "Example content", label: "DocumentList example" }) }}

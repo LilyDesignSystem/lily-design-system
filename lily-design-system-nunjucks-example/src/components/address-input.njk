@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: AddressInput
+description: an input for searching or manually entering an address
+---
+
+{% from "components/address-input/macro.njk" import LAddressInput %}
+
+<h2>Default</h2>
+{{ LAddressInput({ text: "Example AddressInput content" }) }}
+
+<h2>With accessible label</h2>
+{{ LAddressInput({ text: "Example content", label: "AddressInput example" }) }}
