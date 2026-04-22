@@ -1,0 +1,3 @@
+# ScatterChart
+
+Headless ScatterChart component.

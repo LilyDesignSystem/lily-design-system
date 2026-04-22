@@ -1,0 +1,3 @@
+# SuccessPanel
+
+Headless SuccessPanel component.

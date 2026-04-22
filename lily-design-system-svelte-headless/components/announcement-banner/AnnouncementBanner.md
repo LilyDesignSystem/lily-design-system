@@ -1,0 +1,3 @@
+# AnnouncementBanner
+
+Headless AnnouncementBanner component.

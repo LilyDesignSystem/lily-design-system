@@ -1,0 +1,3 @@
+# ScatterChart Tasks
+
+- [ ] Implement ScatterChart

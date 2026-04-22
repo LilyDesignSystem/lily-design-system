@@ -24,7 +24,7 @@ Canonical component list: [components.csv](components.csv)
 ### Tools
 
 - [list-components-as-kebab-case](bin/list-components-as-kebab-case): List components as kebab case
-- [list-components-as-title-case](bin/list-components-as-title-case): List components as title case
+- [list-components-as-pascal-case](bin/list-components-as-pascal-case): List components as title case
 - [list-implementations](bin/list-implementations): List implementation directories
 - [create-component-directory](bin/create-component-directory): Scaffold one component directory
 - [create-implementation-directory](bin/create-implementation-directory): Scaffold one implementation directory

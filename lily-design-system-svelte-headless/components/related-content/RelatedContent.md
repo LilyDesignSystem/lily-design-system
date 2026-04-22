@@ -1,0 +1,3 @@
+# RelatedContent
+
+Headless RelatedContent component.
