@@ -1,0 +1,14 @@
+---
+layout: layouts/component-demo.njk
+title: Validation List Item
+description: one validation rule in a validation list with a status of pending, passed, or failed
+---
+
+{% from "components/validation-list-item/macro.njk" import validationListItem %}
+
+<h2>Each status, in a list context</h2>
+<ul aria-live="polite" style="list-style: none; padding: 0;">
+  {{ validationListItem({ status: "pending", html: "Pending — not yet evaluated" }) }}
+  {{ validationListItem({ status: "passed", html: "Passed — rule satisfied" }) }}
+  {{ validationListItem({ status: "failed", html: "Failed — rule violated" }) }}
+</ul>

@@ -1,0 +1,37 @@
+---
+layout: layouts/component-demo.njk
+title: Government Banner
+description: a banner identifying a website as belonging to a government, with an expandable details panel
+---
+
+{% from "components/government-banner/macro.njk" import governmentBanner %}
+
+<h2>Closed by default</h2>
+{% call governmentBanner({
+  label: "Official government website",
+  headerText: "An official website of the United Kingdom government",
+  expandLabel: "Here's how you know",
+  expanded: false
+}) %}
+  <div>
+    <h3>Official websites use .gov.uk</h3>
+    <p>A .gov.uk website belongs to an official UK government organisation.</p>
+  </div>
+  <div>
+    <h3>Secure .gov.uk websites use HTTPS</h3>
+    <p>The lock icon means you've safely connected to the .gov.uk website.</p>
+  </div>
+{% endcall %}
+
+<h2>Expanded</h2>
+{% call governmentBanner({
+  label: "Official US government website",
+  headerText: "An official website of the United States government",
+  expandLabel: "Here's how you know",
+  expanded: true
+}) %}
+  <div>
+    <h3>Official websites use .gov</h3>
+    <p>A .gov website belongs to an official US government organization.</p>
+  </div>
+{% endcall %}

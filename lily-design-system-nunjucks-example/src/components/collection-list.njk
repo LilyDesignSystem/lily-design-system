@@ -1,0 +1,24 @@
+---
+layout: layouts/component-demo.njk
+title: Collection List
+description: a compact list of multiple related items such as articles or events
+---
+
+{% from "components/collection-list/macro.njk" import collectionList %}
+{% from "components/collection-list-item/macro.njk" import collectionListItem %}
+
+<h2>Articles</h2>
+{% call collectionList({ label: "Recent articles" }) %}
+  {{ collectionListItem({
+    heading: "Designing for accessibility",
+    href: "/articles/accessibility",
+    meta: "Published 1 April 2026",
+    description: "An overview of WCAG 2.2 AAA practices for product teams."
+  }) }}
+  {{ collectionListItem({
+    heading: "Component-driven design systems",
+    href: "/articles/components",
+    meta: "Published 18 March 2026",
+    description: "How to scope, name, and document reusable components."
+  }) }}
+{% endcall %}

@@ -1,0 +1,22 @@
+---
+layout: layouts/component-demo.njk
+title: Icon List
+description: an ordered list of icon list item components
+---
+
+{% from "components/icon-list/macro.njk" import iconList %}
+{% from "components/icon-list-item/macro.njk" import iconListItem %}
+
+<h2>Steps with check icons</h2>
+{% call iconList({ label: "What you need to know" }) %}
+  {{ iconListItem({ iconHtml: "&check;", html: "Bring a photo ID" }) }}
+  {{ iconListItem({ iconHtml: "&check;", html: "Bring proof of address" }) }}
+  {{ iconListItem({ iconHtml: "&check;", html: "Arrive 15 minutes early" }) }}
+{% endcall %}
+
+<h2>Mixed icons</h2>
+{% call iconList() %}
+  {{ iconListItem({ iconHtml: "&#9733;", html: "Featured items get a star" }) }}
+  {{ iconListItem({ iconHtml: "&#9888;", html: "Warnings use a triangle" }) }}
+  {{ iconListItem({ iconHtml: "&#x2139;", html: "Info uses an i" }) }}
+{% endcall %}

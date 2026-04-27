@@ -1,0 +1,16 @@
+---
+layout: layouts/component-demo.njk
+title: Validation List
+description: a live-feedback list of input validation rules with pending, passed, and failed states
+---
+
+{% from "components/validation-list/macro.njk" import validationList %}
+{% from "components/validation-list-item/macro.njk" import validationListItem %}
+
+<h2>Password rules (live feedback)</h2>
+{% call validationList({ label: "Password requirements" }) %}
+  {{ validationListItem({ status: "passed", html: "At least 8 characters" }) }}
+  {{ validationListItem({ status: "passed", html: "Includes a number" }) }}
+  {{ validationListItem({ status: "failed", html: "Includes an uppercase letter" }) }}
+  {{ validationListItem({ status: "pending", html: "Includes a special character" }) }}
+{% endcall %}

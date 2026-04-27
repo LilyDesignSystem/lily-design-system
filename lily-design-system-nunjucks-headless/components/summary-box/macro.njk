@@ -1,0 +1,50 @@
+{#
+  SummaryBox macro — a boxed callout highlighting key takeaways or
+    next steps from a longer page.
+
+  HTML tag: <aside>
+  CSS class: summary-box
+  Accessibility:
+    - <aside> is a complementary landmark when named.
+    - aria-label defaults to the heading text.
+
+  Params:
+    heading      string   REQUIRED. Box heading text.
+    label        string   Optional aria-label override (defaults to heading).
+    text         string
+    html         string   Raw HTML body content (rendered via `| safe`).
+    id           string
+    classes      string
+    attributes   object
+
+  Body content (caller): the body of the box.
+
+  Usage:
+    {% from "components/summary-box/macro.njk" import summaryBox %}
+    {% call summaryBox({ heading: "Key takeaways" }) %}
+      <ul>
+        <li>First takeaway</li>
+        <li>Second takeaway</li>
+      </ul>
+    {% endcall %}
+#}
+{%- macro summaryBox(params) -%}
+{%- set p = params | default({}) -%}
+{%- set ariaName = p.label if p.label else p.heading -%}
+<aside
+  class="summary-box{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if ariaName %} aria-label="{{ ariaName }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.heading %}
+  <h3 class="summary-box-heading">{{ p.heading }}</h3>
+  {%- endif %}
+  <div class="summary-box-body">
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif p.text -%}{{ p.text }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </div>
+</aside>
+{%- endmacro -%}

@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Button Group
+description: a wrapper that groups related buttons together
+---
+
+{% from "components/button-group/macro.njk" import buttonGroup %}
+{% from "components/button/macro.njk" import button %}
+
+<h2>Default group</h2>
+{% call buttonGroup({ label: "Form actions" }) %}
+  {{ button({ text: "Save", type: "submit" }) }}
+  {{ button({ text: "Cancel" }) }}
+{% endcall %}
+
+<h2>Three related actions</h2>
+{% call buttonGroup({ label: "Document actions" }) %}
+  {{ button({ text: "Edit" }) }}
+  {{ button({ text: "Duplicate" }) }}
+  {{ button({ text: "Delete" }) }}
+{% endcall %}

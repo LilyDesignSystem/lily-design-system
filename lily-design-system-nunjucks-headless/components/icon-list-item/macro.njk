@@ -1,0 +1,40 @@
+{#
+  IconListItem macro — one item in an icon list with a leading icon slot.
+
+  HTML tag: <li>
+  CSS class: icon-list-item
+  Accessibility:
+    - The leading icon span is aria-hidden="true" (decorative).
+    - The accessible content is the item text.
+
+  Params:
+    text         string   Plain text content (escaped).
+    html         string   Raw HTML for the text slot (rendered via `| safe`).
+    iconHtml     string   Raw HTML for the leading icon (rendered via `| safe`).
+    id           string
+    classes      string
+    attributes   object
+
+  Usage:
+    {% from "components/icon-list-item/macro.njk" import iconListItem %}
+    {{ iconListItem({
+      text: "Fast",
+      iconHtml: "<svg viewBox='0 0 24 24'>…</svg>"
+    }) }}
+#}
+{%- macro iconListItem(params) -%}
+{%- set p = params | default({}) -%}
+<li
+  class="icon-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.iconHtml -%}<span class="icon-list-item-icon" aria-hidden="true">{{ p.iconHtml | safe }}</span>{% endif -%}
+  <span class="icon-list-item-text">
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+  </span>
+</li>
+{%- endmacro -%}

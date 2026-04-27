@@ -1,0 +1,14 @@
+---
+layout: layouts/component-demo.njk
+title: Icon List Item
+description: one item in an icon list with a leading icon slot
+---
+
+{% from "components/icon-list-item/macro.njk" import iconListItem %}
+
+<h2>Inside an ordered list</h2>
+<ul style="list-style: none; padding: 0;">
+  {{ iconListItem({ iconHtml: "&check;", html: "<strong>Approved</strong>" }) }}
+  {{ iconListItem({ iconHtml: "&times;", html: "<strong>Rejected</strong>" }) }}
+  {{ iconListItem({ iconHtml: "&hellip;", html: "<strong>Pending</strong>" }) }}
+</ul>

@@ -1,0 +1,24 @@
+---
+layout: layouts/component-demo.njk
+title: Collection List Item
+description: one item in a collection list with optional image, heading, meta, and description
+---
+
+{% from "components/collection-list-item/macro.njk" import collectionListItem %}
+
+<h2>With image, heading, meta, and description</h2>
+<ul>
+  {{ collectionListItem({
+    imageUrl: "https://placehold.co/120x120",
+    imageAlt: "Article thumbnail",
+    heading: "Annual report 2025",
+    href: "/reports/2025",
+    meta: "Published 4 April 2026",
+    description: "Year-in-review of accessibility, design tokens, and component coverage."
+  }) }}
+</ul>
+
+<h2>Heading only</h2>
+<ul>
+  {{ collectionListItem({ heading: "Brief item without description" }) }}
+</ul>

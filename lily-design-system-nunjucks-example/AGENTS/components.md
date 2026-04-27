@@ -27,6 +27,7 @@
 - breadcrumb-list-item = BreadcrumbListItem = one breadcrumb navigation link in the trail
 - breadcrumb-link = BreadcrumbLink = one breadcrumb link in the trail
 - button = Button = a generic clickable button element
+- button-group = ButtonGroup = a wrapper that groups related buttons together
 - button-input = ButtonInput = an input element of type button for form actions <input type="button">
 - byline = Byline = an author attribution with publish and update timestamps
 - calendar-table = CalendarTable = a calendar table interactive grid for managing dates, days, etc. <table>
@@ -59,6 +60,8 @@
 - collapsible = Collapsible = a container that can be expanded or collapsed
 - code = Code = an inline code span for displaying short code snippets within surrounding text
 - code-block = CodeBlock = a block of formatted code with optional line numbers and line highlighting
+- collection-list = CollectionList = a compact list of multiple related items such as articles or events
+- collection-list-item = CollectionListItem = one item in a collection list with optional image, heading, meta, and description
 - color-input = ColorInput = an input for selecting a color value <input type="color">
 - color-picker = ColorPicker = a two-dimensional board for picking colors by hue and saturation
 - color-picker-button = ColorPickerButton = a button showing a color swatch in a color picker
@@ -145,6 +148,8 @@
 - gantt-table-col = GanttTableCol = a Gantt chart table interactive grid column for planning schedule visualization <th>
 - gantt-table-row = GanttTableRow = a Gantt chart table interactive grid row for planning schedule visualization <tr>
 - gantt-table-data = GanttTableData = a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+- government-banner = GovernmentBanner = a banner identifying a website as belonging to a government, with an expandable details panel
+- government-identifier = GovernmentIdentifier = an identifier section with a parent agency logo, agency name, and required government links
 - grail-layout = GrailLayout = a responsive web design structure with header, left aside, center main, right aside, footer
 - grail-layout-top-header = GrailLayoutTopHeader = grail layout top header full width with <header> tag
 - grail-layout-left-aside = GrailLayoutLeftAside = grail layout left aside sidebar with <aside> tag
@@ -164,6 +169,8 @@
 - horizontal-scroller = HorizontalScroller = a horizontally scrollable content container
 - icon = Icon = a container for displaying an icon
 - icon-button = IconButton = a button containing only an icon with a required accessible label
+- icon-list = IconList = an ordered list of icon list item components
+- icon-list-item = IconListItem = one item in an icon list with a leading icon slot
 - image-file-input = ImageFileInput = an input for selecting image files with preview
 - image = Image = an image element with alt text
 - image-input = ImageInput = a graphical submit button that displays an image <input type="image">
@@ -171,6 +178,7 @@
 - information-callout = InformationCallout = a callout box highlighting informational content
 - input = Input = a generic HTML input element
 - input-group = InputGroup = a group wrapping an input with prefix and suffix addons
+- input-with-mask = InputWithMask = an input displaying a format mask placeholder for the user to fill in
 - inset-text = InsetText = indented text to distinguish it from surrounding content
 - ireland-individual-health-identifier-view = IrelandIndividualHealthIdentifierView = a read-only display of Ireland Individual Health Identifier (IHI) unique national healthcare identifier
 - ireland-individual-health-identifier-input = IrelandIndividualHealthIdentifierInput = an input for entering Ireland Individual Health Identifier (IHI) unique national healthcare identifier
@@ -285,6 +293,7 @@
 - step-list-item = StepListItem = one step in a step list with status of waiting, in progress, finished, or error
 - submit-input = SubmitInput = a button input that submits a form <input type="submit">
 - super-banner = SuperBanner = a super-banner communicates a high-priority state that affects an entire app, experience, process, or system
+- summary-box = SummaryBox = a boxed callout highlighting key takeaways or next steps from a longer page
 - summary-list = SummaryList = an ordered list of key-value summary pairs
 - summary-list-item = SummaryListItem = one key-value pair in a summary list
 - switch-button = SwitchButton = a toggle switch for turning a setting on or off
@@ -345,6 +354,8 @@
 - united-states-social-security-number-input = UnitedStatesSocialSecurityNumberInput = an input for entering a US Social Security number
 - united-states-social-security-number-view = UnitedStatesSocialSecurityNumberView = a read-only display of a US Social Security number
 - url-input = UrlInput = an input for entering a URL <input type="url">
+- validation-list = ValidationList = a live-feedback list of input validation rules with pending, passed, and failed states
+- validation-list-item = ValidationListItem = one validation rule in a validation list with a status of pending, passed, or failed
 - video-player = VideoPlayer = a video player with play-in-view behavior and custom controls
 - visible = Visible = an IntersectionObserver wrapper that exposes element visibility state
 - vital-sign-blood-pressure-diastolic-as-mmhg-view = VitalSignBloodPressureDiastolicAsMmhgView = number display of one vital sign blood pressure diastolic with integers

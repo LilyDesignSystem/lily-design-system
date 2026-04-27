@@ -1,0 +1,16 @@
+---
+layout: layouts/component-demo.njk
+title: Input With Mask
+description: an input displaying a format mask placeholder for the user to fill in
+---
+
+{% from "components/input-with-mask/macro.njk" import inputWithMask %}
+
+<h2>Phone number</h2>
+{{ inputWithMask({ label: "Phone number", mask: "(___) ___-____", placeholder: "(123) 456-7890" }) }}
+
+<h2>Date</h2>
+{{ inputWithMask({ label: "Date of birth", mask: "MM/DD/YYYY" }) }}
+
+<h2>Currency</h2>
+{{ inputWithMask({ label: "Donation amount", mask: "$_____.__" }) }}

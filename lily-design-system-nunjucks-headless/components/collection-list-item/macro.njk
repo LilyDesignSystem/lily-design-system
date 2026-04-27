@@ -1,0 +1,61 @@
+{#
+  CollectionListItem macro — one item in a collection list with
+    optional image, heading, meta, and description.
+
+  HTML tag: <li>
+  CSS class: collection-list-item
+
+  Params:
+    heading      string   REQUIRED. Item heading text.
+    meta         string   Optional meta line (date, category, etc.).
+    description  string   Optional body text.
+    imageUrl     string   Optional thumbnail image src.
+    imageAlt     string   Optional thumbnail alt text.
+    href         string   When provided, heading is wrapped in <a>.
+    label        string   Optional aria-label override.
+    text         string   Optional fallback text.
+    html         string   Raw additional HTML appended after defaults.
+    id           string
+    classes      string
+    attributes   object
+
+  Body content (caller): additional content appended after defaults.
+
+  Usage:
+    {% from "components/collection-list-item/macro.njk" import collectionListItem %}
+    {{ collectionListItem({
+      heading: "Article one",
+      href: "/articles/one",
+      meta: "Apr 27, 2026",
+      description: "Lead paragraph"
+    }) }}
+#}
+{%- macro collectionListItem(params) -%}
+{%- set p = params | default({}) -%}
+<li
+  class="collection-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.imageUrl %}
+  <img class="collection-list-item-image" src="{{ p.imageUrl }}" alt="{{ p.imageAlt | default('') }}">
+  {%- endif %}
+  {%- if p.heading %}
+  <h3 class="collection-list-item-heading">
+    {%- if p.href -%}<a href="{{ p.href }}">{{ p.heading }}</a>
+    {%- else -%}{{ p.heading }}
+    {%- endif -%}
+  </h3>
+  {%- endif %}
+  {%- if p.meta %}
+  <p class="collection-list-item-meta">{{ p.meta }}</p>
+  {%- endif %}
+  {%- if p.description %}
+  <p class="collection-list-item-description">{{ p.description }}</p>
+  {%- endif %}
+  {%- if p.html %}{{ p.html | safe }}{% endif %}
+  {%- if not p.heading and p.text %}{{ p.text }}{% endif %}
+  {%- if caller %}{{ caller() }}{% endif %}
+</li>
+{%- endmacro -%}

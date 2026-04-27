@@ -1,0 +1,54 @@
+{#
+  InputWithMask macro — an input displaying a format mask placeholder
+    for the user to fill in.
+
+  HTML tag: <div>
+  CSS class: input-with-mask
+  Accessibility:
+    - The mask display span is aria-hidden (decorative).
+    - The input carries the accessible name via aria-label.
+
+  Params:
+    label        string   REQUIRED. aria-label for the input.
+    mask         string   REQUIRED. Format mask (e.g. "(___) ___-____").
+    value        string   Default "". Input value.
+    placeholder  string   Optional placeholder.
+    name         string
+    inputId      string   id for the inner <input>.
+    disabled     boolean
+    required     boolean
+    text         string
+    html         string
+    id           string   id for the outer <div>.
+    classes      string
+    attributes   object   Rendered on the outer <div>.
+
+  Usage:
+    {% from "components/input-with-mask/macro.njk" import inputWithMask %}
+    {{ inputWithMask({
+      label: "Phone number",
+      mask: "(___) ___-____"
+    }) }}
+#}
+{%- macro inputWithMask(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="input-with-mask{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-mask="{{ p.mask }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <span class="input-with-mask-display" aria-hidden="true">{{ p.mask }}</span>
+  <input
+    class="input-with-mask-control"
+    type="text"
+    {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+    {%- if p.inputId %} id="{{ p.inputId }}"{% endif %}
+    {%- if p.name %} name="{{ p.name }}"{% endif %}
+    value="{{ p.value | default('') }}"
+    {%- if p.placeholder %} placeholder="{{ p.placeholder }}"{% endif %}
+    {%- if p.disabled %} disabled{% endif %}
+    {%- if p.required %} required{% endif %}
+  >
+</div>
+{%- endmacro -%}

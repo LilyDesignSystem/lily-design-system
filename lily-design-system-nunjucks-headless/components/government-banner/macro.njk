@@ -1,0 +1,68 @@
+{#
+  GovernmentBanner macro — a banner identifying a website as
+    belonging to a government, with an expandable details panel.
+
+  HTML tag: <aside>
+  CSS class: government-banner
+  Accessibility:
+    - <aside> with aria-label is a complementary landmark.
+    - The expand button uses aria-expanded + aria-controls.
+    - The details panel is hidden when collapsed.
+
+  Params:
+    label        string   REQUIRED. aria-label for the banner section.
+    headerText   string   REQUIRED. Top headline text.
+    expandLabel  string   REQUIRED. Toggle button text.
+    expanded     boolean  Default false. Whether the details panel is open.
+    panelId      string   Optional. id for the details panel; defaults to
+                          "government-banner-details".
+    text         string
+    html         string   Raw HTML for details body (rendered via `| safe`).
+    id           string
+    classes      string
+    attributes   object
+
+  Body content (caller): details panel content (typically two columns
+  explaining .gov and HTTPS).
+
+  Usage:
+    {% from "components/government-banner/macro.njk" import governmentBanner %}
+    {% call governmentBanner({
+      label: "Official government website",
+      headerText: "An official website of the United States government",
+      expandLabel: "Here's how you know",
+      expanded: false
+    }) %}
+      <p>The .gov means it's official.</p>
+    {% endcall %}
+#}
+{%- macro governmentBanner(params) -%}
+{%- set p = params | default({}) -%}
+{%- set panelId = p.panelId | default("government-banner-details") -%}
+<aside
+  class="government-banner{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <header class="government-banner-header">
+    {%- if p.headerText %}<span class="government-banner-header-text">{{ p.headerText }}</span>{% endif %}
+    <button
+      type="button"
+      class="government-banner-toggle"
+      aria-expanded="{{ 'true' if p.expanded else 'false' }}"
+      aria-controls="{{ panelId }}"
+    >{{ p.expandLabel }}</button>
+  </header>
+  <div
+    class="government-banner-details"
+    id="{{ panelId }}"
+    {%- if not p.expanded %} hidden{% endif %}
+  >
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif p.text -%}{{ p.text }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </div>
+</aside>
+{%- endmacro -%}

@@ -1,0 +1,25 @@
+---
+layout: layouts/component-demo.njk
+title: Summary Box
+description: a boxed callout highlighting key takeaways or next steps from a longer page
+---
+
+{% from "components/summary-box/macro.njk" import summaryBox %}
+
+<h2>Key takeaways</h2>
+{% call summaryBox({ heading: "Key takeaways" }) %}
+  <ul>
+    <li>The deadline for applications is 30 June.</li>
+    <li>You will need to provide proof of address.</li>
+    <li>Decisions are sent within 10 working days.</li>
+  </ul>
+{% endcall %}
+
+<h2>Next steps</h2>
+{% call summaryBox({ heading: "Next steps" }) %}
+  <ol>
+    <li>Read the eligibility criteria.</li>
+    <li>Complete the application form.</li>
+    <li>Submit before 30 June.</li>
+  </ol>
+{% endcall %}

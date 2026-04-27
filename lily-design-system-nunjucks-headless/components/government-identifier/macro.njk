@@ -1,0 +1,73 @@
+{#
+  GovernmentIdentifier macro — an identifier section with a parent
+    agency logo, agency name, and required government links.
+
+  HTML tag: <section>
+  CSS class: government-identifier
+  Accessibility:
+    - <section> with aria-label is a region landmark.
+    - Inner <nav> with aria-label provides a named navigation
+      landmark for required government links.
+
+  Params:
+    label        string   REQUIRED. aria-label for the section and nav.
+    agencyName   string   REQUIRED. Parent agency name.
+    agencyHref   string   Optional. When provided, agency name is wrapped in <a>.
+    logoUrl      string   Optional. Agency logo image src.
+    logoAlt      string   Optional. Logo alt text.
+    description  string   Optional. Agency description text.
+    text         string
+    html         string   Raw HTML for required-links area (rendered via `| safe`).
+    id           string
+    classes      string
+    attributes   object
+
+  Body content (caller): required-links navigation content.
+
+  Usage:
+    {% from "components/government-identifier/macro.njk" import governmentIdentifier %}
+    {% call governmentIdentifier({
+      label: "Agency identifier",
+      agencyName: "U.S. General Services Administration",
+      agencyHref: "https://www.gsa.gov"
+    }) %}
+      <ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/foia">FOIA requests</a></li>
+      </ul>
+    {% endcall %}
+#}
+{%- macro governmentIdentifier(params) -%}
+{%- set p = params | default({}) -%}
+<section
+  class="government-identifier{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <div class="government-identifier-masthead">
+    {%- if p.logoUrl %}
+    <img class="government-identifier-logo" src="{{ p.logoUrl }}" alt="{{ p.logoAlt | default('') }}">
+    {%- endif %}
+    {%- if p.agencyName %}
+    <p class="government-identifier-agency">
+      {%- if p.agencyHref -%}<a href="{{ p.agencyHref }}">{{ p.agencyName }}</a>
+      {%- else -%}<span>{{ p.agencyName }}</span>
+      {%- endif -%}
+    </p>
+    {%- endif %}
+    {%- if p.description %}
+    <p class="government-identifier-description">{{ p.description }}</p>
+    {%- endif %}
+  </div>
+  <nav
+    class="government-identifier-links"
+    {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  >
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif p.text -%}{{ p.text }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </nav>
+</section>
+{%- endmacro -%}

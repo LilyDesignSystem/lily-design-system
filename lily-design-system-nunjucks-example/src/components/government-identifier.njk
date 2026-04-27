@@ -1,0 +1,37 @@
+---
+layout: layouts/component-demo.njk
+title: Government Identifier
+description: an identifier section with a parent agency logo, agency name, and required government links
+---
+
+{% from "components/government-identifier/macro.njk" import governmentIdentifier %}
+
+<h2>Full identifier with logo, agency, and links</h2>
+{% call governmentIdentifier({
+  label: "Agency identifier",
+  agencyName: "Department of Example",
+  agencyHref: "https://example.gov",
+  logoUrl: "https://placehold.co/64x64",
+  logoAlt: "Department of Example seal",
+  description: "An official website of the Department of Example."
+}) %}
+  <ul>
+    <li><a href="/about">About</a></li>
+    <li><a href="/accessibility">Accessibility</a></li>
+    <li><a href="/foia">FOIA requests</a></li>
+    <li><a href="/no-fear-act">No FEAR Act</a></li>
+    <li><a href="/inspector-general">Office of the Inspector General</a></li>
+    <li><a href="/privacy">Privacy policy</a></li>
+  </ul>
+{% endcall %}
+
+<h2>Identifier without logo</h2>
+{% call governmentIdentifier({
+  label: "Department of Health",
+  agencyName: "Department of Health"
+}) %}
+  <ul>
+    <li><a href="/about">About</a></li>
+    <li><a href="/privacy">Privacy</a></li>
+  </ul>
+{% endcall %}
