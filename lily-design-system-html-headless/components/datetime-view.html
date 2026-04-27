@@ -1,0 +1,28 @@
+<!-- datetime-view.html -->
+<!-- DatetimeView component -->
+<!--
+  Description: a read-only display of a formatted date and time
+
+  HTML tag: <time>
+  CSS class: datetime-view
+  Keyboard: None (passive element)
+  Accessibility: implicit <time> semantics; the datetime attribute provides a machine-readable ISO 8601 value; aria-label optional for an override
+
+  Behavior:
+    Renders a semantic <time> element with the datetime attribute set to the
+    consumer-supplied ISO 8601 string. Display text is consumer-supplied
+    (component performs no formatting or localization).
+
+  Usage:
+    <time class="datetime-view" datetime="2026-04-27T09:00:00Z" aria-label="April 27, 2026">
+      27 April 2026, 09:00
+    </time>
+-->
+
+<time
+  class="datetime-view"
+  datetime=""
+  aria-label=""
+>
+  <!-- Consumer provides display text (already formatted/localized) -->
+</time>

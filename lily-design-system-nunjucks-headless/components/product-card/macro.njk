@@ -1,0 +1,57 @@
+{#
+  ProductCard macro — a specialized card for displaying a product
+    with image, title, price, and actions.
+
+  HTML tag: <article>
+  CSS class: product-card
+  Behavior: Renders <article aria-label={label || name}> with an
+    optional <img class="product-card-image">, then a
+    <header class="product-card-header"> containing
+    <h3 class="product-card-name"> and
+    <p class="product-card-price">. Caller / params.html appends
+    further content (description, action buttons, etc.).
+
+  Params:
+    name         string   Product name. Required.
+    price        string   Pre-formatted price text. Required.
+    imageUrl     string   Optional product image src.
+    imageAlt     string   Optional product image alt text.
+    label        string   aria-label override (defaults to name).
+    text         string   Optional plain text body content.
+    html         string   Optional raw HTML body content.
+    id           string
+    classes      string
+    attributes   object
+
+  Usage:
+    {% from "components/product-card/macro.njk" import productCard %}
+    {% call productCard({
+      name: "Wireless Headphones",
+      price: "$199.00",
+      imageUrl: "/images/headphones.jpg",
+      imageAlt: "Black over-ear headphones"
+    }) %}
+      <p>Active noise cancellation, 30-hour battery.</p>
+      <button type="button">Add to cart</button>
+    {% endcall %}
+#}
+{%- macro productCard(params) -%}
+<article
+  class="product-card{% if params.classes %} {{ params.classes }}{% endif %}"
+  aria-label="{{ params.label | default(params.name) }}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.imageUrl -%}
+    <img class="product-card-image" src="{{ params.imageUrl }}" alt="{{ params.imageAlt | default('') }}">
+  {%- endif -%}
+  <header class="product-card-header">
+    {%- if params.name -%}<h3 class="product-card-name">{{ params.name }}</h3>{%- endif -%}
+    {%- if params.price -%}<p class="product-card-price">{{ params.price }}</p>{%- endif -%}
+  </header>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</article>
+{%- endmacro -%}

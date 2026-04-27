@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Container With Fluid Width
+description: a full-width content wrapper with horizontal padding
+---
+
+{% from "components/container-with-fluid-width/macro.njk" import containerWithFluidWidth %}
+
+<h2>Default padding (1rem)</h2>
+{% call containerWithFluidWidth() %}
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 1rem;">
+    Full-width content with default 1rem horizontal padding.
+  </div>
+{% endcall %}
+
+<h2>Larger padding (2rem)</h2>
+{% call containerWithFluidWidth({ paddingInline: "2rem" }) %}
+  <div style="background: var(--nhsuk-green); color: var(--nhsuk-white); padding: 1rem;">
+    Full-width content with 2rem horizontal padding.
+  </div>
+{% endcall %}

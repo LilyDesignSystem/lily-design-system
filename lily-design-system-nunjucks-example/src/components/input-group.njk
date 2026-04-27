@@ -1,0 +1,26 @@
+---
+layout: layouts/component-demo.njk
+title: Input Group
+description: a group wrapping an input with prefix and suffix addons
+---
+
+{% from "components/input-group/macro.njk" import inputGroup %}
+
+<h2>Prefix only (currency)</h2>
+{% call inputGroup({ label: "Amount in pounds", prefixHtml: "<span>£</span>" }) %}
+  <input type="number" name="amount" min="0" step="0.01" />
+{% endcall %}
+
+<h2>Suffix only (units)</h2>
+{% call inputGroup({ label: "Weight", suffixHtml: "<span>kg</span>" }) %}
+  <input type="number" name="weight" min="0" step="0.1" />
+{% endcall %}
+
+<h2>Prefix and suffix (URL)</h2>
+{% call inputGroup({
+  label: "Website URL",
+  prefixHtml: "<span>https://</span>",
+  suffixHtml: "<span>.example.com</span>"
+}) %}
+  <input type="text" name="subdomain" />
+{% endcall %}

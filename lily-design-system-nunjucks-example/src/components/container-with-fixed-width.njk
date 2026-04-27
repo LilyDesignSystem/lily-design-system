@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Container With Fixed Width
+description: a centered content wrapper with a fixed max-width breakpoint
+---
+
+{% from "components/container-with-fixed-width/macro.njk" import containerWithFixedWidth %}
+
+<h2>Default (1200px)</h2>
+{% call containerWithFixedWidth() %}
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 1rem;">
+    Centered content with default 1200px max-width.
+  </div>
+{% endcall %}
+
+<h2>Narrow (40rem)</h2>
+{% call containerWithFixedWidth({ maxWidth: "40rem" }) %}
+  <div style="background: var(--nhsuk-green); color: var(--nhsuk-white); padding: 1rem;">
+    Centered content with 40rem max-width — useful for prose articles.
+  </div>
+{% endcall %}

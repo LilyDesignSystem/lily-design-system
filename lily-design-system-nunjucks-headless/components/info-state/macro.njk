@@ -1,0 +1,56 @@
+{#
+  InfoState macro — a composition of illustration, title,
+    description, and action for empty, error, or info states.
+
+  HTML tag: <section>
+  CSS class: info-state
+  Behavior: Renders <section role="status" aria-label={label || title}
+    data-level={level}> containing illustration (if any),
+    <h2 class="info-state-title">{title}</h2>,
+    <p class="info-state-description">{description}</p> if provided,
+    then action (if any). When the consumer provides `html` or
+    a caller block, that overrides the default composition.
+
+  Params:
+    title         string   Section heading text. Required when not
+                           using html/caller.
+    description   string   Optional body text.
+    level         string   "info" | "empty" | "error" | "success".
+                           Default "info". Sets data-level.
+    illustration  string   Raw HTML for an illustration above the title.
+    action        string   Raw HTML for action(s) below the description.
+    html          string   Raw HTML override for the entire body.
+    label         string   aria-label override (defaults to title).
+    id            string
+    classes       string
+    attributes    object
+
+  Usage:
+    {% from "components/info-state/macro.njk" import infoState %}
+    {{ infoState({
+      level: "empty",
+      title: "No results",
+      description: "Try a different search.",
+      action: '<button>Clear filters</button>'
+    }) }}
+#}
+{%- macro infoState(params) -%}
+{%- set level = params.level | default("info") -%}
+<section
+  class="info-state{% if params.classes %} {{ params.classes }}{% endif %}"
+  role="status"
+  data-level="{{ level }}"
+  aria-label="{{ params.label | default(params.title) }}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- else -%}
+    {%- if params.illustration -%}<div class="info-state-illustration">{{ params.illustration | safe }}</div>{%- endif -%}
+    {%- if params.title -%}<h2 class="info-state-title">{{ params.title }}</h2>{%- endif -%}
+    {%- if params.description -%}<p class="info-state-description">{{ params.description }}</p>{%- endif -%}
+    {%- if params.action -%}<div class="info-state-action">{{ params.action | safe }}</div>{%- endif -%}
+  {%- endif -%}
+</section>
+{%- endmacro -%}

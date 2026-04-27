@@ -1,0 +1,24 @@
+---
+layout: layouts/component-demo.njk
+title: Grid
+description: a CSS grid layout container with configurable columns and gap
+---
+
+{% from "components/grid/macro.njk" import grid %}
+
+<h2>3-column grid</h2>
+{% call grid({ columns: 3 }) %}
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 1rem;">A</div>
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 1rem;">B</div>
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 1rem;">C</div>
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 1rem;">D</div>
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 1rem;">E</div>
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 1rem;">F</div>
+{% endcall %}
+
+<h2>Custom template (auto-fit)</h2>
+{% call grid({ columns: "repeat(auto-fit, minmax(10rem, 1fr))", gap: "1.5rem" }) %}
+  <div style="background: var(--nhsuk-green); color: var(--nhsuk-white); padding: 1rem;">Card 1</div>
+  <div style="background: var(--nhsuk-green); color: var(--nhsuk-white); padding: 1rem;">Card 2</div>
+  <div style="background: var(--nhsuk-green); color: var(--nhsuk-white); padding: 1rem;">Card 3</div>
+{% endcall %}

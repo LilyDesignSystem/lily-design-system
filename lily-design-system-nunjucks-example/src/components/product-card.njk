@@ -1,0 +1,27 @@
+---
+layout: layouts/component-demo.njk
+title: Product Card
+description: a specialized card for displaying a product with image, title, price, and actions
+---
+
+{% from "components/product-card/macro.njk" import productCard %}
+
+<h2>Product with image and price</h2>
+{% call productCard({
+  name: "Cotton T-Shirt",
+  price: "£24.99",
+  imageUrl: "https://placehold.co/400x300",
+  imageAlt: "Plain cotton t-shirt"
+}) %}
+  <p>Soft, breathable, ethically sourced.</p>
+  <button type="button">Add to basket</button>
+{% endcall %}
+
+<h2>Product without image</h2>
+{% call productCard({
+  name: "Annual Subscription",
+  price: "£99.00 / year"
+}) %}
+  <p>Includes priority support and unlimited members.</p>
+  <button type="button">Subscribe</button>
+{% endcall %}

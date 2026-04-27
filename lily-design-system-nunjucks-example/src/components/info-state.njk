@@ -1,0 +1,35 @@
+---
+layout: layouts/component-demo.njk
+title: Info State
+description: a composition of illustration, title, description, and action for empty, error, or info states
+---
+
+{% from "components/info-state/macro.njk" import infoState %}
+
+<h2>Empty state</h2>
+{{ infoState({
+  level: "empty",
+  title: "No results found",
+  description: "Try adjusting your filters or searching for a different term."
+}) }}
+
+<h2>Error state</h2>
+{{ infoState({
+  level: "error",
+  title: "Something went wrong",
+  description: "The server returned an unexpected response. Please try again."
+}) }}
+
+<h2>Success state</h2>
+{{ infoState({
+  level: "success",
+  title: "Profile updated",
+  description: "Your changes have been saved."
+}) }}
+
+<h2>Info state</h2>
+{{ infoState({
+  level: "info",
+  title: "New feature available",
+  description: "You can now group your tasks by project."
+}) }}

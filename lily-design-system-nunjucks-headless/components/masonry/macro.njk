@@ -1,0 +1,45 @@
+{#
+  Masonry macro — a masonry layout container for variable-height
+    items.
+
+  HTML tag: <div>
+  CSS class: masonry
+  Behavior: Uses the CSS columns approach — sets inline style
+    `column-count: {columns}; column-gap: {gap};`. Sets
+    `data-columns` for CSS hooks. Children should use
+    `break-inside: avoid` (consumer CSS) to keep items intact.
+
+  Params:
+    text         string   Plain text content (escaped).
+    html         string   Raw HTML content (rendered via `| safe`).
+    columns      number   Number of columns. Default 3.
+    gap          string   Gap CSS value. Default "1rem".
+    label        string   Optional aria-label.
+    id           string
+    classes      string
+    attributes   object
+
+  Usage:
+    {% from "components/masonry/macro.njk" import masonry %}
+    {% call masonry({ columns: 4, gap: "1.5rem" }) %}
+      <article>One</article>
+      <article>Two</article>
+    {% endcall %}
+#}
+{%- macro masonry(params) -%}
+{%- set columns = params.columns | default(3) -%}
+{%- set gap = params.gap | default("1rem") -%}
+<div
+  class="masonry{% if params.classes %} {{ params.classes }}{% endif %}"
+  data-columns="{{ columns }}"
+  style="column-count: {{ columns }}; column-gap: {{ gap }};"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

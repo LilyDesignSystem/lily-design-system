@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Icon Button
+description: a button containing only an icon with a required accessible label
+---
+
+{% from "components/icon-button/macro.njk" import iconButton %}
+
+<h2>Default (close icon)</h2>
+{{ iconButton({ label: "Close dialog", html: "&times;" }) }}
+
+<h2>Submit icon</h2>
+{{ iconButton({ label: "Submit form", type: "submit", html: "&check;" }) }}
+
+<h2>Disabled</h2>
+{{ iconButton({ label: "Delete item", disabled: true, html: "&#x1F5D1;" }) }}
+
+<h2>Toggle (pressed)</h2>
+{{ iconButton({ label: "Bold", pressed: true, html: "<strong>B</strong>" }) }}

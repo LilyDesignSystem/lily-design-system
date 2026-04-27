@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Flex Stack
+description: a flex layout container for vertical or horizontal stacking with consistent gap
+---
+
+{% from "components/flex-stack/macro.njk" import flexStack %}
+
+<h2>Vertical stack (default)</h2>
+{% call flexStack() %}
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 0.5rem;">Item 1</div>
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 0.5rem;">Item 2</div>
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 0.5rem;">Item 3</div>
+{% endcall %}
+
+<h2>Horizontal stack with 2rem gap</h2>
+{% call flexStack({ direction: "row", gap: "2rem" }) %}
+  <div style="background: var(--nhsuk-green); color: var(--nhsuk-white); padding: 0.5rem;">Left</div>
+  <div style="background: var(--nhsuk-green); color: var(--nhsuk-white); padding: 0.5rem;">Centre</div>
+  <div style="background: var(--nhsuk-green); color: var(--nhsuk-white); padding: 0.5rem;">Right</div>
+{% endcall %}

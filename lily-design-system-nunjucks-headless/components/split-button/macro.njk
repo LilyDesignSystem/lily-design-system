@@ -1,0 +1,93 @@
+{#
+  SplitButton macro — a button with a primary action and a dropdown
+    for related actions.
+
+  HTML tag: <div role="group">
+  CSS class: split-button
+  Behavior: Renders a group containing two buttons:
+    - <button class="split-button-primary"> with primaryLabel text
+    - <button class="split-button-menu-trigger" aria-haspopup="menu"
+      aria-expanded={menuOpen} aria-label={menuLabel}>
+  Plus a menu container <div class="split-button-menu" hidden={!menuOpen}>
+  whose contents are the caller block / params.html (typically a Menu).
+
+  This is a server-side template; click handlers and menu open/close
+  behavior are wired by the consumer.
+
+  Params:
+    label          string   aria-label for the group. Required.
+    primaryLabel   string   Text/label for the primary action button.
+                            Required.
+    primaryHtml    string   Optional raw HTML override for the primary
+                            button content (e.g. icon + text).
+    menuLabel      string   aria-label for the dropdown trigger button.
+                            Required.
+    menuOpen       boolean  Whether the dropdown menu is open.
+                            Default false.
+    disabled       boolean  Disables both buttons.
+    triggerHtml    string   Optional raw HTML for the trigger button
+                            content (e.g. a chevron icon).
+    primaryId      string   id for the primary button.
+    triggerId      string   id for the trigger button.
+    menuId         string   id for the menu container.
+    text           string   Optional text body for the menu container.
+    html           string   Optional raw HTML body for the menu
+                            container.
+    id             string   id for the group root.
+    classes        string
+    attributes     object
+
+  Usage:
+    {% from "components/split-button/macro.njk" import splitButton %}
+    {% call splitButton({
+      label: "Save options",
+      primaryLabel: "Save",
+      menuLabel: "More save options",
+      menuOpen: false
+    }) %}
+      <ul role="menu"><li role="menuitem">Save as…</li></ul>
+    {% endcall %}
+#}
+{%- macro splitButton(params) -%}
+{%- set menuOpen = params.menuOpen | default(false) -%}
+<div
+  class="split-button{% if params.classes %} {{ params.classes }}{% endif %}"
+  role="group"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <button
+    class="split-button-primary"
+    type="button"
+    {%- if params.primaryId %} id="{{ params.primaryId }}"{% endif %}
+    {%- if params.disabled %} disabled{% endif %}
+  >
+    {%- if params.primaryHtml -%}{{ params.primaryHtml | safe }}
+    {%- elif params.primaryLabel -%}{{ params.primaryLabel }}
+    {%- endif -%}
+  </button>
+  <button
+    class="split-button-menu-trigger"
+    type="button"
+    aria-haspopup="menu"
+    aria-expanded="{{ 'true' if menuOpen else 'false' }}"
+    {%- if params.menuLabel %} aria-label="{{ params.menuLabel }}"{% endif %}
+    {%- if params.menuId %} aria-controls="{{ params.menuId }}"{% endif %}
+    {%- if params.triggerId %} id="{{ params.triggerId }}"{% endif %}
+    {%- if params.disabled %} disabled{% endif %}
+  >
+    {%- if params.triggerHtml -%}{{ params.triggerHtml | safe }}{%- endif -%}
+  </button>
+  <div
+    class="split-button-menu"
+    {%- if params.menuId %} id="{{ params.menuId }}"{% endif %}
+    {%- if not menuOpen %} hidden{% endif %}
+  >
+    {%- if params.html -%}{{ params.html | safe }}
+    {%- elif params.text -%}{{ params.text }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </div>
+</div>
+{%- endmacro -%}

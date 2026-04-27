@@ -52,6 +52,7 @@
 - checkbox-group = CheckboxGroup = a group component that manages a collection of checkboxes with shared state
 - check-list = CheckList = an ordered list of check list item components
 - check-list-item = CheckListItem = one check list item component with a checkbox
+- clamp-text = ClampText = a text container that truncates content to a maximum number of lines
 - clipboard-copy-button = ClipboardCopyButton = a button that copies text to the clipboard
 - collapsible = Collapsible = a container that can be expanded or collapsed
 - code = Code = an inline code span for displaying short code snippets within surrounding text
@@ -62,6 +63,8 @@
 - comment = Comment = a comment displays user discussions and user feedback
 - combobox = Combobox = a text input combined with a dropdown list for filtering options
 - command = Command = a command palette for searching and executing actions
+- container-with-fixed-width = ContainerWithFixedWidth = a centered content wrapper with a fixed max-width breakpoint
+- container-with-fluid-width = ContainerWithFluidWidth = a full-width content wrapper with horizontal padding
 - contents-nav = ContentsNav = a navigation landmark for a list of contents
 - contents-list = ContentsList = an ordered list of contents list item components
 - contents-list-item = ContentsListItem = one contents list item component linking to a page section
@@ -83,6 +86,7 @@
 - date-range = DateRange = a display of a start and end date range
 - date-time-now-input = DateTimeNowInput = an input for entering a date and time and "now" button <input type="date"><input type="time"><button type="button">
 - datetime-local-input = DatetimeLocalInput = an input for entering a date and time without time zone <input type="datetime-local">
+- datetime-view = DatetimeView = a read-only display of a formatted date and time
 - details = Details = a disclosure widget that shows and hides content
 - dial = Dial = a rotary dial control for selecting a value
 - dial-group = DialGroup = a group of dial components
@@ -125,6 +129,7 @@
 - five-star-rating-picker = FiveStarRatingPicker = a picker for selecting a 1-5 star rating using radio buttons
 - five-star-rating-picker-button = FiveStarRatingPickerButton = a picker button for selecting a 1-5 star rating using radio buttons
 - flair = Flair = a decorative highlight or emphasis element
+- flex-stack = FlexStack = a flex layout container for vertical or horizontal stacking with consistent gap
 - floating-panel = FloatingPanel = a panel that floats above page content
 - footer = Footer = a page or section footer area
 - footnote = Footnote = a footnote reference and content element
@@ -144,6 +149,7 @@
 - grail-layout-right-aside = GrailLayoutRightAside = grail layout right aside sidebar with <aside> tag
 - grail-layout-bottom-footer = GrailLayoutBottomFooter = grail layout bottom footer full width with <footer> tag
 - graphic-block = GraphicBlock = a wrapper for charts and graphics with title, description, notes, and ARIA description
+- grid = Grid = a CSS grid layout container with configurable columns and gap
 - hamburger-menu = HamburgerMenu = a toggle button that opens a mobile navigation menu
 - header = Header = a page or section header area
 - headline = Headline = a page headline with heading, subtitle, and byline area
@@ -154,11 +160,14 @@
 - hover-card = HoverCard = a card that appears on hover over a trigger element
 - horizontal-scroller = HorizontalScroller = a horizontally scrollable content container
 - icon = Icon = a container for displaying an icon
+- icon-button = IconButton = a button containing only an icon with a required accessible label
 - image-file-input = ImageFileInput = an input for selecting image files with preview
 - image = Image = an image element with alt text
 - image-input = ImageInput = a graphical submit button that displays an image <input type="image">
+- info-state = InfoState = a composition of illustration, title, description, and action for empty, error, or info states
 - information-callout = InformationCallout = a callout box highlighting informational content
 - input = Input = a generic HTML input element
+- input-group = InputGroup = a group wrapping an input with prefix and suffix addons
 - inset-text = InsetText = indented text to distinguish it from surrounding content
 - ireland-individual-health-identifier-view = IrelandIndividualHealthIdentifierView = a read-only display of Ireland Individual Health Identifier (IHI) unique national healthcare identifier
 - ireland-individual-health-identifier-input = IrelandIndividualHealthIdentifierInput = an input for entering Ireland Individual Health Identifier (IHI) unique national healthcare identifier
@@ -173,6 +182,7 @@
 - label = Label = a label associated with a form input
 - listbox = Listbox = a list of selectable options with keyboard navigation
 - loading = Loading = a loading indicator, such as text, or image, or animation
+- masonry = Masonry = a masonry layout container for variable-height items
 - measurement-instance-input = MeasurementInstanceInput = an input for entering a measurement value and unit
 - measurement-instance-view = MeasurementInstanceView = a read-only display of a measurement value and unit
 - measurement-system-input = MeasurementSystemInput = an input for selecting a measurement system
@@ -207,6 +217,7 @@
 - number-input = NumberInput = an input for entering a numeric value with validation <input type="number">
 - option = Option = an option element within a select dropdown
 - organization = Organization = an organization component that contains other organization-related information
+- overlay-container = OverlayContainer = a full-viewport overlay backdrop for modals and sheets
 - pagination-nav = PaginationNav = an ordered list of page navigation links
 - pagination-list = PaginationList = an ordered list of page navigation links
 - pagination-list-item = PaginationListItem = one page link in a pagination list
@@ -225,6 +236,7 @@
 - postal-code-view = PostalCodeView = a read-only display of a postal or ZIP code
 - progress-circle = ProgressCircle = a circular progress indicator
 - progress-spinner = ProgressSpinner = an indeterminate spinning progress indicator
+- product-card = ProductCard = a specialized card for displaying a product with image, title, price, and actions
 - progress = Progress = a horizontal progress bar showing completion
 - qr-code = QrCode = a QR code image generated from text or URL data
 - radio-group = RadioGroup = a group of radio buttons for selecting one option
@@ -261,6 +273,7 @@
 - slider-button = SliderButton = a button with a slider that the user needs to slide to confirm
 - sonner = Sonner = a toast notification manager
 - sparkline = Sparkline = a small inline chart showing a data trend
+- split-button = SplitButton = a button with a primary action and a dropdown for related actions
 - splitter = Splitter = a draggable divider for resizing adjacent panels
 - submit-input = SubmitInput = a button input that submits a form <input type="submit">
 - super-banner = SuperBanner = a super-banner communicates a high-priority state that affects an entire app, experience, process, or system

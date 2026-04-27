@@ -1,0 +1,44 @@
+{#
+  OverlayContainer macro — a full-viewport overlay backdrop for
+    modals and sheets.
+
+  HTML tag: <div>
+  CSS class: overlay-container
+  Behavior: Renders <div role="presentation" data-open={open}
+    aria-hidden={!open}>. When `open` is false, the `hidden`
+    attribute is also rendered so the overlay is removed from the
+    accessibility tree and visual flow.
+
+  Params:
+    text         string   Plain text content (escaped).
+    html         string   Raw HTML content (rendered via `| safe`).
+    open         boolean  Whether the overlay is visible. Default false.
+    label        string   Optional aria-label.
+    id           string
+    classes      string
+    attributes   object
+
+  Usage:
+    {% from "components/overlay-container/macro.njk" import overlayContainer %}
+    {% call overlayContainer({ open: true, label: "Modal backdrop" }) %}
+      <div role="dialog" aria-modal="true">…</div>
+    {% endcall %}
+#}
+{%- macro overlayContainer(params) -%}
+{%- set open = params.open | default(false) -%}
+<div
+  class="overlay-container{% if params.classes %} {{ params.classes }}{% endif %}"
+  role="presentation"
+  data-open="{{ 'true' if open else 'false' }}"
+  aria-hidden="{{ 'false' if open else 'true' }}"
+  {%- if not open %} hidden{% endif %}
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

@@ -1,0 +1,22 @@
+---
+layout: layouts/component-demo.njk
+title: Clamp Text
+description: a text container that truncates content to a maximum number of lines
+---
+
+{% from "components/clamp-text/macro.njk" import clampText %}
+
+<h2>Default (2 lines)</h2>
+{% call clampText() %}
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+{% endcall %}
+
+<h2>3 lines</h2>
+{% call clampText({ lines: 3 }) %}
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+{% endcall %}
+
+<h2>1 line</h2>
+{% call clampText({ lines: 1 }) %}
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+{% endcall %}

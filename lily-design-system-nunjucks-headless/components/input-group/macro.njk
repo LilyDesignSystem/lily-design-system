@@ -1,0 +1,47 @@
+{#
+  InputGroup macro — a group wrapping an input with prefix and
+    suffix addons.
+
+  HTML tag: <div>
+  CSS class: input-group
+  Behavior: Renders <div role="group" aria-label={label}> with an
+    optional <span class="input-group-prefix"> before the input,
+    then the consumer-provided input (caller block or
+    params.html / params.text), then an optional
+    <span class="input-group-suffix"> after the input.
+
+  Params:
+    text         string   Plain text body (escaped). Rare; prefer caller.
+    html         string   Raw HTML body (the input markup).
+    prefix       string   Raw HTML to render before the input.
+    suffix       string   Raw HTML to render after the input.
+    label        string   Optional aria-label for the group.
+    id           string
+    classes      string
+    attributes   object
+
+  Usage:
+    {% from "components/input-group/macro.njk" import inputGroup %}
+    {% call inputGroup({ label: "Price",
+        prefix: "$",
+        suffix: ".00"
+    }) %}
+      <input type="number" id="price">
+    {% endcall %}
+#}
+{%- macro inputGroup(params) -%}
+<div
+  class="input-group{% if params.classes %} {{ params.classes }}{% endif %}"
+  role="group"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.prefix -%}<span class="input-group-prefix">{{ params.prefix | safe }}</span>{%- endif -%}
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+  {%- if params.suffix -%}<span class="input-group-suffix">{{ params.suffix | safe }}</span>{%- endif -%}
+</div>
+{%- endmacro -%}

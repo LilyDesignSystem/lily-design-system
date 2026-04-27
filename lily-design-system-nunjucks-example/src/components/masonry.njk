@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: Masonry
+description: a masonry layout container for variable-height items
+---
+
+{% from "components/masonry/macro.njk" import masonry %}
+
+<h2>3-column masonry</h2>
+{% call masonry({ columns: 3, gap: "1rem" }) %}
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 1rem; break-inside: avoid; margin-bottom: 1rem;">
+    Short item.
+  </div>
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 1rem; break-inside: avoid; margin-bottom: 1rem;">
+    A medium-length item with two lines of text content.
+  </div>
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 1rem; break-inside: avoid; margin-bottom: 1rem;">
+    A longer item that spans several lines, demonstrating how the masonry layout balances columns of variable height as it flows content.
+  </div>
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 1rem; break-inside: avoid; margin-bottom: 1rem;">
+    Another short one.
+  </div>
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 1rem; break-inside: avoid; margin-bottom: 1rem;">
+    A medium item with a few sentences. The masonry layout fills gaps naturally.
+  </div>
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 1rem; break-inside: avoid; margin-bottom: 1rem;">
+    Final.
+  </div>
+{% endcall %}

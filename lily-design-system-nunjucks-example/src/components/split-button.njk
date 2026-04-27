@@ -1,0 +1,48 @@
+---
+layout: layouts/component-demo.njk
+title: Split Button
+description: a button with a primary action and a dropdown for related actions
+---
+
+{% from "components/split-button/macro.njk" import splitButton %}
+
+<h2>Closed menu</h2>
+{% call splitButton({
+  label: "Save options",
+  primaryLabel: "Save",
+  menuLabel: "More save options",
+  menuOpen: false
+}) %}
+  <ul role="menu">
+    <li role="menuitem">Save as draft</li>
+    <li role="menuitem">Save and publish</li>
+    <li role="menuitem">Save a copy</li>
+  </ul>
+{% endcall %}
+
+<h2>Open menu</h2>
+{% call splitButton({
+  label: "Export options",
+  primaryLabel: "Export",
+  menuLabel: "More export formats",
+  menuOpen: true
+}) %}
+  <ul role="menu">
+    <li role="menuitem">Export as CSV</li>
+    <li role="menuitem">Export as JSON</li>
+    <li role="menuitem">Export as PDF</li>
+  </ul>
+{% endcall %}
+
+<h2>Disabled</h2>
+{% call splitButton({
+  label: "Action options",
+  primaryLabel: "Run",
+  menuLabel: "More options",
+  disabled: true
+}) %}
+  <ul role="menu">
+    <li role="menuitem">Run with defaults</li>
+    <li role="menuitem">Run with custom config</li>
+  </ul>
+{% endcall %}

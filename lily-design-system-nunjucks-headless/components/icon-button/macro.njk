@@ -1,0 +1,49 @@
+{#
+  IconButton macro — a button containing only an icon with a
+    required accessible label.
+
+  HTML tag: <button>
+  CSS class: icon-button
+  Accessibility:
+    - `aria-label` is REQUIRED. Icon-only buttons have no visible
+      text, so the consumer MUST supply an accessible name.
+    - When `pressed` is provided, `aria-pressed` is rendered
+      ("true"/"false") for toggle semantics.
+
+  Params:
+    text         string   Optional fallback text (escaped). Usually the
+                          icon glyph is supplied via html or caller.
+    html         string   Raw HTML content (rendered via `| safe`) —
+                          typically an SVG, glyph, or emoji.
+    label        string   REQUIRED. aria-label for the button.
+    type         string   "button" | "submit" | "reset". Default "button".
+    disabled     boolean
+    pressed      boolean  When provided, renders aria-pressed.
+    id           string
+    name         string
+    value        string
+    classes      string
+    attributes   object
+
+  Usage:
+    {% from "components/icon-button/macro.njk" import iconButton %}
+    {{ iconButton({ label: "Close", html: "<svg …/>" }) }}
+#}
+{%- macro iconButton(params) -%}
+<button
+  class="icon-button{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="{{ params.type | default('button') }}"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.pressed != undefined %} aria-pressed="{{ 'true' if params.pressed else 'false' }}"{% endif %}
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.name %} name="{{ params.name }}"{% endif %}
+  {%- if params.value %} value="{{ params.value }}"{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</button>
+{%- endmacro -%}
