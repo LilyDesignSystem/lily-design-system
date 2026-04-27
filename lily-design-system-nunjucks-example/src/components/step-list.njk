@@ -1,0 +1,22 @@
+---
+layout: layouts/component-demo.njk
+title: Step List
+description: an ordered list of step items showing progress through a multi-step process
+---
+
+{% from "components/step-list/macro.njk" import stepList %}
+{% from "components/step-list-item/macro.njk" import stepListItem %}
+
+<h2>Three-step wizard, current step is index 1</h2>
+{% call stepList({ label: "Sign up", current: 1 }) %}
+  {{ stepListItem({ status: "finished", html: "<strong>1. Account</strong><br><span>Create your account</span>" }) }}
+  {{ stepListItem({ status: "in-progress", current: true, html: "<strong>2. Profile</strong><br><span>Add personal details</span>" }) }}
+  {{ stepListItem({ status: "waiting", html: "<strong>3. Confirm</strong><br><span>Review and submit</span>" }) }}
+{% endcall %}
+
+<h2>Error state</h2>
+{% call stepList({ label: "Checkout", current: 1 }) %}
+  {{ stepListItem({ status: "finished", html: "<strong>1. Cart</strong>" }) }}
+  {{ stepListItem({ status: "error", current: true, html: "<strong>2. Payment</strong><br><span>Card declined</span>" }) }}
+  {{ stepListItem({ status: "waiting", html: "<strong>3. Confirmation</strong>" }) }}
+{% endcall %}

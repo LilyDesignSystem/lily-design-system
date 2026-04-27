@@ -1,0 +1,28 @@
+---
+layout: layouts/component-demo.njk
+title: Cascader
+description: a multi-level dropdown for selecting a value from a hierarchy
+---
+
+{% from "components/cascader/macro.njk" import cascader %}
+
+<h2>Closed</h2>
+{% call cascader({ label: "Select region", placeholder: "Choose a region", expanded: false }) %}
+  <ul role="tree">
+    <li role="treeitem">Europe</li>
+    <li role="treeitem">Asia</li>
+  </ul>
+{% endcall %}
+
+<h2>Open</h2>
+{% call cascader({ label: "Select category", value: "Books / Fiction", expanded: true }) %}
+  <ul role="tree">
+    <li role="treeitem" aria-expanded="true">Books
+      <ul role="group">
+        <li role="treeitem" aria-selected="true">Fiction</li>
+        <li role="treeitem">Non-fiction</li>
+      </ul>
+    </li>
+    <li role="treeitem">Music</li>
+  </ul>
+{% endcall %}

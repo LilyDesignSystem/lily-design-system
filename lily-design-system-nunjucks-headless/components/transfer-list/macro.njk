@@ -1,0 +1,66 @@
+{#
+  TransferList macro — a dual list box for moving items between two
+    lists.
+
+  HTML tag: <div> with role="group"
+  CSS class: transfer-list
+  Accessibility:
+    - role="group" on the container with aria-label.
+    - Each list is a <section> with aria-label.
+
+  Params:
+    label        string  REQUIRED. aria-label for the outer group.
+    sourceLabel  string  REQUIRED. aria-label for the source <section>.
+    targetLabel  string  REQUIRED. aria-label for the target <section>.
+    sourceText   string  Plain text content for the source list (escaped).
+    sourceHtml   string  Raw HTML content for the source list
+                          (rendered via `| safe`).
+    targetText   string  Plain text content for the target list (escaped).
+    targetHtml   string  Raw HTML content for the target list
+                          (rendered via `| safe`).
+    actionsHtml  string  Optional raw HTML for action buttons rendered
+                          between the two lists. When omitted, the
+                          actions container is not rendered.
+    classes      string  Consumer-provided extra CSS classes.
+    attributes   object  Extra HTML attributes on the root element.
+
+  Usage:
+    {% from "components/transfer-list/macro.njk" import transferList %}
+    {{ transferList({
+      label: "Members",
+      sourceLabel: "Available",
+      targetLabel: "Selected",
+      sourceHtml: "<ul role='listbox'>…</ul>",
+      targetHtml: "<ul role='listbox'>…</ul>",
+      actionsHtml: "<button>→</button><button>←</button>"
+    }) }}
+#}
+{%- macro transferList(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="transfer-list{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="group"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <section
+    class="transfer-list-source"
+    {%- if p.sourceLabel %} aria-label="{{ p.sourceLabel }}"{% endif %}
+  >
+    {%- if p.sourceHtml -%}{{ p.sourceHtml | safe }}
+    {%- elif p.sourceText -%}{{ p.sourceText }}
+    {%- endif -%}
+  </section>
+  {%- if p.actionsHtml %}
+  <div class="transfer-list-actions">{{ p.actionsHtml | safe }}</div>
+  {%- endif %}
+  <section
+    class="transfer-list-target"
+    {%- if p.targetLabel %} aria-label="{{ p.targetLabel }}"{% endif %}
+  >
+    {%- if p.targetHtml -%}{{ p.targetHtml | safe }}
+    {%- elif p.targetText -%}{{ p.targetText }}
+    {%- endif -%}
+  </section>
+</div>
+{%- endmacro -%}

@@ -1,0 +1,61 @@
+{#
+  FloatButton macro — a floating action button anchored to a viewport
+    corner.
+
+  HTML tag: <button>
+  CSS class: float-button
+  Behavior:
+    - Inline `style="position: fixed; ..."` plus the appropriate
+      corner offsets (default 1rem) is the headless behavior.
+    - `data-position` exposes the corner so consumer CSS can override.
+  Accessibility:
+    - aria-label is REQUIRED for icon-only float buttons.
+
+  Params:
+    label        string   REQUIRED. aria-label for the button.
+    position     string   "top-left" | "top-right" | "bottom-left" |
+                          "bottom-right". Default "bottom-right".
+    type         string   "button" | "submit" | "reset". Default "button".
+    disabled     boolean
+    text         string   Plain text content (escaped).
+    html         string   Raw HTML content (rendered via `| safe`).
+    id           string
+    name         string
+    value        string
+    classes      string
+    attributes   object
+
+  Usage:
+    {% from "components/float-button/macro.njk" import floatButton %}
+    {{ floatButton({ label: "Compose", html: "<svg/>" }) }}
+#}
+{%- macro floatButton(params) -%}
+{%- set p = params | default({}) -%}
+{%- set position = p.position | default("bottom-right") -%}
+{%- if position == "top-left" -%}
+  {%- set offsets = "top: 1rem; left: 1rem;" -%}
+{%- elif position == "top-right" -%}
+  {%- set offsets = "top: 1rem; right: 1rem;" -%}
+{%- elif position == "bottom-left" -%}
+  {%- set offsets = "bottom: 1rem; left: 1rem;" -%}
+{%- else -%}
+  {%- set offsets = "bottom: 1rem; right: 1rem;" -%}
+{%- endif -%}
+<button
+  class="float-button{% if p.classes %} {{ p.classes }}{% endif %}"
+  type="{{ p.type | default('button') }}"
+  data-position="{{ position }}"
+  style="position: fixed; {{ offsets }}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.name %} name="{{ p.name }}"{% endif %}
+  {%- if p.value %} value="{{ p.value }}"{% endif %}
+  {%- if p.disabled %} disabled{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</button>
+{%- endmacro -%}

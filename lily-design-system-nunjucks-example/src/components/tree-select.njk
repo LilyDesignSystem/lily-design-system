@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: Tree Select
+description: a select dropdown showing a tree of hierarchical options
+---
+
+{% from "components/tree-select/macro.njk" import treeSelect %}
+
+<h2>Closed</h2>
+{{ treeSelect({ label: "Department", placeholder: "Choose a department", expanded: false }) }}
+
+<h2>Open with tree</h2>
+{% call treeSelect({ label: "Department", value: "Engineering / Backend", expanded: true }) %}
+  <ul role="tree">
+    <li role="treeitem" aria-expanded="true">Engineering
+      <ul role="group">
+        <li role="treeitem" aria-selected="true">Backend</li>
+        <li role="treeitem">Frontend</li>
+      </ul>
+    </li>
+    <li role="treeitem">Marketing</li>
+  </ul>
+{% endcall %}
+
+<h2>Multi-select</h2>
+{% call treeSelect({ label: "Tags", multiple: true, expanded: true, value: "frontend, design" }) %}
+  <ul role="tree" aria-multiselectable="true">
+    <li role="treeitem" aria-selected="true">frontend</li>
+    <li role="treeitem">backend</li>
+    <li role="treeitem" aria-selected="true">design</li>
+  </ul>
+{% endcall %}

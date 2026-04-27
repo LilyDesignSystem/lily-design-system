@@ -1,0 +1,58 @@
+{#
+  PopconfirmDialog macro — a popover dialog with confirm and cancel
+    buttons.
+
+  HTML tag: <div> with role="alertdialog"
+  CSS class: popconfirm-dialog
+  Accessibility:
+    - role="alertdialog" with aria-modal="false" (popconfirm is a
+      non-modal lightweight confirmation popover, not a modal).
+    - aria-labelledby points to the title element.
+    - aria-describedby points to the description element when present.
+
+  Params:
+    open           boolean  Whether the dialog is open. Default false.
+                            When false, the root element gets `hidden`.
+    title          string   REQUIRED. Heading text.
+    description    string   Optional body text.
+    confirmLabel   string   REQUIRED. Confirm button text.
+    cancelLabel    string   REQUIRED. Cancel button text.
+    id             string   Stable id used to derive aria-labelledby
+                            and aria-describedby ids. Default
+                            "popconfirm-dialog".
+    classes        string   Consumer-provided extra CSS classes.
+    attributes     object   Extra HTML attributes on the root element.
+
+  Usage:
+    {% from "components/popconfirm-dialog/macro.njk" import popconfirmDialog %}
+    {{ popconfirmDialog({
+      open: true,
+      title: "Delete this file?",
+      description: "This action cannot be undone.",
+      confirmLabel: "Delete",
+      cancelLabel: "Cancel"
+    }) }}
+#}
+{%- macro popconfirmDialog(params) -%}
+{%- set p = params | default({}) -%}
+{%- set rootId = p.id | default("popconfirm-dialog") -%}
+{%- set titleId = rootId ~ "-title" -%}
+{%- set descId = rootId ~ "-description" -%}
+<div
+  class="popconfirm-dialog{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="alertdialog"
+  aria-modal="false"
+  id="{{ rootId }}"
+  aria-labelledby="{{ titleId }}"
+  {%- if p.description %} aria-describedby="{{ descId }}"{% endif %}
+  {%- if not p.open %} hidden{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <h2 class="popconfirm-dialog-title" id="{{ titleId }}">{{ p.title }}</h2>
+  {%- if p.description %}
+  <p class="popconfirm-dialog-description" id="{{ descId }}">{{ p.description }}</p>
+  {%- endif %}
+  <button class="popconfirm-dialog-cancel" type="button">{{ p.cancelLabel }}</button>
+  <button class="popconfirm-dialog-confirm" type="button">{{ p.confirmLabel }}</button>
+</div>
+{%- endmacro -%}

@@ -1,0 +1,67 @@
+{#
+  TreeSelect macro — a select dropdown showing a tree of hierarchical
+    options.
+
+  HTML tag: <div> with role="combobox"
+  CSS class: tree-select
+  Accessibility:
+    - role="combobox", aria-haspopup="tree".
+    - aria-expanded reflects the panel state.
+    - aria-multiselectable when `multiple` is true.
+    - aria-label is REQUIRED.
+
+  Params:
+    label        string   REQUIRED. aria-label for the combobox.
+    expanded     boolean  Whether the tree panel is open. Default false.
+    disabled     boolean  Disables the trigger button. Default false.
+    multiple     boolean  When true, sets aria-multiselectable="true".
+                          Default false.
+    placeholder  string   Placeholder text on the trigger button.
+    value        string   Display value (consumer formats label).
+    text         string   Plain text panel content (escaped).
+    html         string   Raw HTML panel content (rendered via `| safe`).
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes on the root element.
+
+  Usage:
+    {% from "components/tree-select/macro.njk" import treeSelect %}
+    {% call treeSelect({
+      label: "Choose category",
+      placeholder: "Select…",
+      multiple: true,
+      expanded: true
+    }) %}
+      <ul role="tree">…</ul>
+    {% endcall %}
+#}
+{%- macro treeSelect(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="tree-select{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="combobox"
+  aria-haspopup="tree"
+  aria-expanded="{{ 'true' if p.expanded else 'false' }}"
+  {%- if p.multiple %} aria-multiselectable="true"{% endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <button
+    class="tree-select-trigger"
+    type="button"
+    {%- if p.disabled %} disabled{% endif %}
+  >
+    {%- if p.value -%}{{ p.value }}
+    {%- elif p.placeholder -%}{{ p.placeholder }}
+    {%- endif -%}
+  </button>
+  <div
+    class="tree-select-panel"
+    {%- if not p.expanded %} hidden{% endif %}
+  >
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif p.text -%}{{ p.text }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </div>
+</div>
+{%- endmacro -%}

@@ -1,0 +1,22 @@
+---
+layout: layouts/component-demo.njk
+title: Mentions Input
+description: a text input with at-mention autocomplete suggestions
+---
+
+{% from "components/mentions-input/macro.njk" import mentionsInput %}
+
+<h2>Closed (no suggestions)</h2>
+{{ mentionsInput({ label: "Comment", placeholder: "Type @ to mention someone", expanded: false }) }}
+
+<h2>Open suggestions panel</h2>
+{% call mentionsInput({ label: "Comment", value: "Thanks @al", expanded: true }) %}
+  <ul role="listbox">
+    <li role="option">@alex</li>
+    <li role="option">@alice</li>
+    <li role="option">@alfred</li>
+  </ul>
+{% endcall %}
+
+<h2>Custom trigger character</h2>
+{{ mentionsInput({ label: "Tag", placeholder: "Use # to add a tag", triggerChar: "#", expanded: false }) }}

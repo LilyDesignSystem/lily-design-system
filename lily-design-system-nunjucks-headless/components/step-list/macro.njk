@@ -1,0 +1,46 @@
+{#
+  StepList macro — an ordered list of step items showing progress
+    through a multi-step process.
+
+  HTML tag: <ol>
+  CSS class: step-list
+  Accessibility:
+    - <ol> provides list semantics natively.
+    - aria-label is optional; supply when the list has no visible
+      heading.
+    - data-current exposes the active step index for consumer CSS.
+
+  Params:
+    label        string   Optional aria-label.
+    current      number   Index of the current step (0-based) for
+                          data-current hook.
+    text         string   Plain text content (escaped). Usually the
+                          children are step-list-item macros.
+    html         string   Raw HTML content (rendered via `| safe`).
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes.
+
+  Usage:
+    {% from "components/step-list/macro.njk" import stepList %}
+    {% from "components/step-list-item/macro.njk" import stepListItem %}
+    {% call stepList({ label: "Checkout progress", current: 1 }) %}
+      {{ stepListItem({ status: "finished", html: "<span>Cart</span>" }) }}
+      {{ stepListItem({ status: "in-progress", current: true,
+                        html: "<span>Shipping</span>" }) }}
+      {{ stepListItem({ status: "waiting", html: "<span>Payment</span>" }) }}
+    {% endcall %}
+#}
+{%- macro stepList(params) -%}
+{%- set p = params | default({}) -%}
+<ol
+  class="step-list{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.current !== undefined and p.current !== null %} data-current="{{ p.current }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</ol>
+{%- endmacro -%}

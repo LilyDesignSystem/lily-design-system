@@ -1,0 +1,68 @@
+{#
+  MentionsInput macro — a text input with at-mention autocomplete
+    suggestions.
+
+  HTML tag: <div> wrapping <input role="combobox"> and a suggestions
+    panel.
+  CSS class: mentions-input
+  Accessibility:
+    - Inner input has role="combobox", aria-haspopup="listbox",
+      aria-autocomplete="list", and aria-expanded reflecting state.
+    - aria-label is REQUIRED (on the inner input).
+
+  Params:
+    label        string   REQUIRED. aria-label for the inner input.
+    value        string   Input value. Default "".
+    triggerChar  string   Character that opens the suggestions panel.
+                          Default "@". Exposed as data-trigger-char.
+    expanded     boolean  Whether the suggestions panel is open.
+                          Default false.
+    placeholder  string   Placeholder text on the input.
+    disabled     boolean  Disables the input.
+    id           string   id for the inner input.
+    name         string   name for the inner input.
+    text         string   Plain text content for the suggestions
+                          panel (escaped).
+    html         string   Raw HTML content for the suggestions panel
+                          (rendered via `| safe`).
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes on the root element.
+
+  Usage:
+    {% from "components/mentions-input/macro.njk" import mentionsInput %}
+    {% call mentionsInput({ label: "Comment", expanded: true }) %}
+      <ul role="listbox">…</ul>
+    {% endcall %}
+#}
+{%- macro mentionsInput(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="mentions-input{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-trigger-char="{{ p.triggerChar | default('@') }}"
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <input
+    class="mentions-input-control"
+    type="text"
+    role="combobox"
+    aria-haspopup="listbox"
+    aria-autocomplete="list"
+    aria-expanded="{{ 'true' if p.expanded else 'false' }}"
+    {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+    value="{{ p.value | default('') }}"
+    {%- if p.id %} id="{{ p.id }}"{% endif %}
+    {%- if p.name %} name="{{ p.name }}"{% endif %}
+    {%- if p.placeholder %} placeholder="{{ p.placeholder }}"{% endif %}
+    {%- if p.disabled %} disabled{% endif %}
+  >
+  <div
+    class="mentions-input-suggestions"
+    {%- if not p.expanded %} hidden{% endif %}
+  >
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif p.text -%}{{ p.text }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </div>
+</div>
+{%- endmacro -%}

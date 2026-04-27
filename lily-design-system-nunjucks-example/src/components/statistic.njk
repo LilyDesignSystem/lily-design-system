@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Statistic
+description: a numeric value display with title, prefix, and suffix
+---
+
+{% from "components/statistic/macro.njk" import statistic %}
+
+<h2>With prefix (currency)</h2>
+{{ statistic({ title: "Revenue", value: "1,234,567", prefixHtml: "<span>£</span>" }) }}
+
+<h2>With suffix (units)</h2>
+{{ statistic({ title: "Active users", value: "8,192", suffixHtml: "<span>users</span>" }) }}
+
+<h2>With both</h2>
+{{ statistic({ title: "Conversion rate", value: "12.4", prefixHtml: "<span>↑</span>", suffixHtml: "<span>%</span>" }) }}
+
+<h2>Plain</h2>
+{{ statistic({ title: "Items in stock", value: "42" }) }}

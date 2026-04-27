@@ -1,0 +1,16 @@
+---
+layout: layouts/component-demo.njk
+title: Float Button
+description: a floating action button anchored to a viewport corner
+---
+
+{% from "components/float-button/macro.njk" import floatButton %}
+
+<h2>Bottom-right (default)</h2>
+{{ floatButton({ label: "Compose new message", html: "&#9998;" }) }}
+
+<h2>Bottom-left</h2>
+{{ floatButton({ label: "Help", position: "bottom-left", html: "?" }) }}
+
+<h2>Top-right disabled</h2>
+{{ floatButton({ label: "Add", position: "top-right", disabled: true, html: "+" }) }}

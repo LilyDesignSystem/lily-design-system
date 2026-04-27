@@ -1,0 +1,22 @@
+---
+layout: layouts/component-demo.njk
+title: Watermark
+description: a decorative repeating overlay text or image marking a page
+---
+
+{% from "components/watermark/macro.njk" import watermark %}
+
+<h2>Text watermark</h2>
+{% call watermark({ text: "CONFIDENTIAL", gap: "120px", rotate: -22 }) %}
+  <div style="background: var(--nhsuk-white); padding: 2rem; min-height: 12rem;">
+    <p>Underlying content. The watermark layer sits beneath this content visually
+    (consumer applies the repeating-pattern CSS via the `data-text` attribute).</p>
+  </div>
+{% endcall %}
+
+<h2>Default rotation and gap</h2>
+{% call watermark({ text: "DRAFT" }) %}
+  <div style="background: var(--nhsuk-white); padding: 2rem;">
+    <p>Default values: gap 100px, rotate -22 degrees.</p>
+  </div>
+{% endcall %}

@@ -5,6 +5,7 @@
 - accordion-list-item = AccordionListItem = one accordion list item component
 - accordion-link = AccordionLink = one accordion link in the trail
 - action-link = ActionLink = a hyperlink styled as an action trigger
+- affix = Affix = a wrapper that pins its content to a viewport position while the page scrolls
 - ai-label = AiLabel = an indicator of AI instances that is a pathway to AI explainability
 - alert-dialog = AlertDialog = a modal dialog for urgent messages requiring user acknowledgment
 - alert = Alert = a status message for important information or feedback
@@ -41,6 +42,7 @@
 - card = Card = a grouped content container with header, body, and footer areas
 - care-card = CareCard = a medical care instruction card with urgency levels
 - carousel = Carousel = a slideshow for cycling through content items
+- cascader = Cascader = a multi-level dropdown for selecting a value from a hierarchy
 - character-counter = CharacterCounter = a counter showing remaining or used characters in a text field
 - character = Character = a single character display element
 - chat-nav = ChatNav = a navigation container for chat information
@@ -130,6 +132,7 @@
 - five-star-rating-picker-button = FiveStarRatingPickerButton = a picker button for selecting a 1-5 star rating using radio buttons
 - flair = Flair = a decorative highlight or emphasis element
 - flex-stack = FlexStack = a flex layout container for vertical or horizontal stacking with consistent gap
+- float-button = FloatButton = a floating action button anchored to a viewport corner
 - floating-panel = FloatingPanel = a panel that floats above page content
 - footer = Footer = a page or section footer area
 - footnote = Footnote = a footnote reference and content element
@@ -197,6 +200,7 @@
 - menu-item = MenuItem = one item in a menu
 - menu-bar = MenuBar = a horizontal bar of menu triggers
 - menu-bar-button = MenuBarButton = one item in a menu bar
+- mentions-input = MentionsInput = a text input with at-mention autocomplete suggestions
 - meter = Meter = a gauge displaying a scalar value within a known range
 - mockup-browser = MockupBrowser = a box area that looks like a web browser
 - mockup-laptop = MockupLaptop = a box area that looks like a laptop computer
@@ -230,6 +234,7 @@
 - place = Place = a place component that contains other place-related information
 - pin-input-div = PinInputDiv = a series of single-digit inputs for entering a PIN or OTP code
 - photo-pack = PhotoPack = a collection of photos displayed together as a group
+- popconfirm-dialog = PopconfirmDialog = a popover dialog with confirm and cancel buttons
 - popover = Popover = a floating content box anchored to a trigger element
 - popup = Popup = a temporary overlay that appears above page content
 - postal-code-input = PostalCodeInput = an input for entering a postal or ZIP code
@@ -275,6 +280,9 @@
 - sparkline = Sparkline = a small inline chart showing a data trend
 - split-button = SplitButton = a button with a primary action and a dropdown for related actions
 - splitter = Splitter = a draggable divider for resizing adjacent panels
+- statistic = Statistic = a numeric value display with title, prefix, and suffix
+- step-list = StepList = an ordered list of step items showing progress through a multi-step process
+- step-list-item = StepListItem = one step in a step list with status of waiting, in progress, finished, or error
 - submit-input = SubmitInput = a button input that submits a form <input type="submit">
 - super-banner = SuperBanner = a super-banner communicates a high-priority state that affects an entire app, experience, process, or system
 - summary-list = SummaryList = an ordered list of key-value summary pairs
@@ -325,11 +333,13 @@
 - tour = Tour = a tour guide, such as for sightseeing, or pathways, or demonstrations, etc.
 - tour-list = TourList = an ordered list of tour guide steps
 - tour-list-item = TourListItem = one step in a tour guide list
+- transfer-list = TransferList = a dual list box for moving items between two lists
 - tree-menu = TreeMenu = a hierarchical tree menu with expandable branches
 - tree-nav = TreeNav = a hierarchical navigation with expandable branches
 - tree-list = TreeList = a hierarchical list with nested expandable items
 - tree-list-item = TreeListItem = one item in a tree navigation list
 - tree-link = TreeLink = one tree link in the trail
+- tree-select = TreeSelect = a select dropdown showing a tree of hierarchical options
 - united-kingdom-national-health-service-number-input = UnitedKingdomNationalHealthServiceNumberInput = an input for entering a UK NHS number
 - united-kingdom-national-health-service-number-view = UnitedKingdomNationalHealthServiceNumberView = a read-only display of a UK NHS number
 - united-states-social-security-number-input = UnitedStatesSocialSecurityNumberInput = an input for entering a US Social Security number
@@ -370,6 +380,7 @@
 - vital-sign-weight-as-kg-view = VitalSignWeightAsKgView = number display of one vital sign weight in kilograms with integers
 - vital-sign-weight-as-kg-input = VitalSignWeightAsKgInput = number input of one vital sign weight in kilograms with integers
 - warning-callout = WarningCallout = a callout box highlighting a warning message
+- watermark = Watermark = a decorative repeating overlay text or image marking a page
 - week-input = WeekInput = an input for selecting a week and year <input type="week">
 
 ## Component patterns for file name and HTML tag

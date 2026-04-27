@@ -1,0 +1,15 @@
+---
+layout: layouts/component-demo.njk
+title: Step List Item
+description: one step in a step list with status of waiting, in progress, finished, or error
+---
+
+{% from "components/step-list-item/macro.njk" import stepListItem %}
+
+<h2>Each status, in a list context</h2>
+<ol style="list-style: none; padding: 0;">
+  {{ stepListItem({ status: "waiting", html: "<strong>Waiting</strong> — not yet started" }) }}
+  {{ stepListItem({ status: "in-progress", current: true, html: "<strong>In progress</strong> — current step" }) }}
+  {{ stepListItem({ status: "finished", html: "<strong>Finished</strong> — completed" }) }}
+  {{ stepListItem({ status: "error", html: "<strong>Error</strong> — needs attention" }) }}
+</ol>

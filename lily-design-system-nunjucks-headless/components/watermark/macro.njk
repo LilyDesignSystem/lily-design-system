@@ -1,0 +1,61 @@
+{#
+  Watermark macro — a decorative repeating overlay text or image
+    marking a page.
+
+  HTML tag: <div>
+  CSS class: watermark
+  Behavior:
+    - Renders a `<div class="watermark">` containing a sibling
+      decorative `<div class="watermark-overlay" aria-hidden="true">`
+      and the page content.
+    - The watermark text/image and gap/rotation are exposed as
+      data-* attributes so consumer CSS can build the actual
+      repeating background pattern.
+  Accessibility:
+    - The overlay carries aria-hidden="true" because the watermark
+      is decorative.
+
+  Params:
+    text         string   Optional watermark text. Exposed as
+                          data-text on the overlay.
+    imageUrl     string   Optional watermark image URL. Exposed as
+                          data-image-url on the overlay.
+    gap          string   Spacing between repeats (CSS length).
+                          Default "100px". Exposed as data-gap.
+    rotate       number   Rotation angle in degrees. Default -22.
+                          Exposed as data-rotate.
+    contentText  string   Plain text content beneath the watermark
+                          (escaped).
+    contentHtml  string   Raw HTML content beneath the watermark
+                          (rendered via `| safe`).
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes on the root element.
+
+  Usage:
+    {% from "components/watermark/macro.njk" import watermark %}
+    {% call watermark({ text: "Confidential", rotate: -22, gap: "120px" }) %}
+      <article>…</article>
+    {% endcall %}
+#}
+{%- macro watermark(params) -%}
+{%- set p = params | default({}) -%}
+{%- set gap = p.gap | default("100px") -%}
+{%- set rotate = p.rotate if (p.rotate !== undefined and p.rotate !== null) else -22 -%}
+<div
+  class="watermark{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-rotate="{{ rotate }}"
+  data-gap="{{ gap }}"
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <div
+    class="watermark-overlay"
+    aria-hidden="true"
+    {%- if p.text %} data-text="{{ p.text }}"{% endif %}
+    {%- if p.imageUrl %} data-image-url="{{ p.imageUrl }}"{% endif %}
+  ></div>
+  {%- if p.contentHtml -%}{{ p.contentHtml | safe }}
+  {%- elif p.contentText -%}{{ p.contentText }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

@@ -1,0 +1,54 @@
+{#
+  Affix macro — a wrapper that pins its content to a viewport
+    position while the page scrolls.
+
+  HTML tag: <div>
+  CSS class: affix
+  Behavior:
+    - Uses inline `style="position: sticky; ..."` to pin the element.
+      This is the headless behavior; consumers may replace it with
+      JS-based sticky logic if needed.
+    - When `offsetTop` is supplied, sticks to the top with `top:Npx`.
+    - When `offsetBottom` is supplied, sticks to the bottom with
+      `bottom:Npx`.
+    - When neither is supplied, defaults to `top: 0`.
+  Accessibility: none — purely structural.
+
+  Params:
+    text          string   Plain text content (escaped).
+    html          string   Raw HTML content (rendered via `| safe`).
+    label         string   Optional aria-label (rare for affix).
+    offsetTop     number   Distance from top edge in px when affixed.
+    offsetBottom  number   Distance from bottom edge in px when affixed.
+    classes       string   Consumer-provided extra CSS classes.
+    attributes    object   Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/affix/macro.njk" import affix %}
+    {% call affix({ offsetTop: 16 }) %}
+      <nav>…</nav>
+    {% endcall %}
+#}
+{%- macro affix(params) -%}
+{%- set p = params | default({}) -%}
+{%- if p.offsetTop !== undefined and p.offsetTop !== null -%}
+  {%- set styleString = "position: sticky; top: " ~ p.offsetTop ~ "px;" -%}
+{%- elif p.offsetBottom !== undefined and p.offsetBottom !== null -%}
+  {%- set styleString = "position: sticky; bottom: " ~ p.offsetBottom ~ "px;" -%}
+{%- else -%}
+  {%- set styleString = "position: sticky; top: 0;" -%}
+{%- endif -%}
+<div
+  class="affix{% if p.classes %} {{ p.classes }}{% endif %}"
+  style="{{ styleString }}"
+  {%- if p.offsetTop !== undefined and p.offsetTop !== null %} data-offset-top="{{ p.offsetTop }}"{% endif %}
+  {%- if p.offsetBottom !== undefined and p.offsetBottom !== null %} data-offset-bottom="{{ p.offsetBottom }}"{% endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

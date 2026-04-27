@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: Popconfirm Dialog
+description: a popover dialog with confirm and cancel buttons
+---
+
+{% from "components/popconfirm-dialog/macro.njk" import popconfirmDialog %}
+
+<h2>Open with description</h2>
+{{ popconfirmDialog({
+  open: true,
+  title: "Delete this item?",
+  description: "This action cannot be undone.",
+  confirmLabel: "Delete",
+  cancelLabel: "Cancel"
+}) }}
+
+<h2>Open without description</h2>
+{{ popconfirmDialog({
+  open: true,
+  title: "Save changes?",
+  confirmLabel: "Save",
+  cancelLabel: "Discard"
+}) }}
+
+<h2>Closed</h2>
+{{ popconfirmDialog({
+  open: false,
+  title: "Closed dialog",
+  confirmLabel: "OK",
+  cancelLabel: "Cancel"
+}) }}

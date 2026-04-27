@@ -1,0 +1,17 @@
+---
+layout: layouts/component-demo.njk
+title: Transfer List
+description: a dual list box for moving items between two lists
+---
+
+{% from "components/transfer-list/macro.njk" import transferList %}
+
+<h2>Source / actions / target</h2>
+{{ transferList({
+  label: "Move teammates",
+  sourceLabel: "Available teammates",
+  targetLabel: "Selected teammates",
+  sourceHtml: "<ul role='listbox'><li role='option'>Alex</li><li role='option'>Brooke</li><li role='option'>Cory</li></ul>",
+  targetHtml: "<ul role='listbox'><li role='option'>Dana</li></ul>",
+  actionsHtml: "<button type='button'>&rarr;</button> <button type='button'>&larr;</button>"
+}) }}

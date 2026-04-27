@@ -1,0 +1,22 @@
+---
+layout: layouts/component-demo.njk
+title: Affix
+description: a wrapper that pins its content to a viewport position while the page scrolls
+---
+
+{% from "components/affix/macro.njk" import affix %}
+
+<h2>Pinned to top (offsetTop: 0)</h2>
+<p>Scroll the page; the bar below sticks to the viewport top.</p>
+{% call affix({ offsetTop: 0 }) %}
+  <div style="background: var(--nhsuk-blue); color: var(--nhsuk-white); padding: 0.5rem;">
+    Sticky toolbar — pinned to top.
+  </div>
+{% endcall %}
+
+<h2>Pinned to bottom (offsetBottom: 0)</h2>
+{% call affix({ offsetBottom: 0 }) %}
+  <div style="background: var(--nhsuk-green); color: var(--nhsuk-white); padding: 0.5rem;">
+    Sticky footer — pinned to bottom.
+  </div>
+{% endcall %}

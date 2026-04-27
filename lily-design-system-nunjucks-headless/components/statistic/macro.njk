@@ -1,0 +1,62 @@
+{#
+  Statistic macro — a numeric value display with title, prefix, and
+    suffix.
+
+  HTML tag: <div> with role="group"
+  CSS class: statistic
+  Accessibility:
+    - role="group" so the title and value are announced as a unit.
+    - aria-label defaults to "{title}: {value}" but consumer can
+      override with `label`.
+
+  Params:
+    title        string   REQUIRED. Statistic label/heading.
+    value        string   REQUIRED. Pre-formatted value text
+                          (consumer formats numbers).
+    prefix       string   Plain text rendered before the value
+                          (escaped).
+    prefixHtml   string   Raw HTML rendered before the value
+                          (rendered via `| safe`). Takes precedence
+                          over prefix.
+    suffix       string   Plain text rendered after the value
+                          (escaped).
+    suffixHtml   string   Raw HTML rendered after the value (rendered
+                          via `| safe`). Takes precedence over suffix.
+    label        string   Optional aria-label override (defaults to
+                          "{title}: {value}").
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes on the root element.
+
+  Usage:
+    {% from "components/statistic/macro.njk" import statistic %}
+    {{ statistic({
+      title: "Active users",
+      value: "1,128",
+      suffix: " users"
+    }) }}
+#}
+{%- macro statistic(params) -%}
+{%- set p = params | default({}) -%}
+{%- set computedLabel = p.label | default(p.title ~ ": " ~ p.value) -%}
+<div
+  class="statistic{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="group"
+  aria-label="{{ computedLabel }}"
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <div class="statistic-title">{{ p.title }}</div>
+  <div class="statistic-value">
+    {%- if p.prefixHtml -%}
+      <span class="statistic-prefix">{{ p.prefixHtml | safe }}</span>
+    {%- elif p.prefix -%}
+      <span class="statistic-prefix">{{ p.prefix }}</span>
+    {%- endif -%}
+    {{ p.value }}
+    {%- if p.suffixHtml -%}
+      <span class="statistic-suffix">{{ p.suffixHtml | safe }}</span>
+    {%- elif p.suffix -%}
+      <span class="statistic-suffix">{{ p.suffix }}</span>
+    {%- endif -%}
+  </div>
+</div>
+{%- endmacro -%}
