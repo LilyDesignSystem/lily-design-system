@@ -1,0 +1,20 @@
+---
+layout: layouts/component-demo.njk
+title: Tab Panel
+description: a content panel associated with a tab in a tab bar
+---
+
+{% from "components/tab-panel/macro.njk" import tabPanel %}
+
+<h2>Selected panel</h2>
+<button id="tab-overview" role="tab" aria-selected="true" aria-controls="panel-overview">Overview</button>
+{% call tabPanel({ label: "Overview", labelledBy: "tab-overview", selected: true }) %}
+  <h3>Overview</h3>
+  <p>Welcome to the overview tab content.</p>
+{% endcall %}
+
+<h2>Hidden panel</h2>
+<button id="tab-details" role="tab" aria-selected="false" aria-controls="panel-details">Details</button>
+{% call tabPanel({ label: "Details", labelledBy: "tab-details", selected: false }) %}
+  <p>This panel is hidden until its tab is selected.</p>
+{% endcall %}

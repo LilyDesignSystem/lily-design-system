@@ -1,0 +1,40 @@
+{#
+  ActionBarButton macro — one action button inside an action bar.
+
+  HTML tag: <button>
+  CSS class: action-bar-button
+
+  Params:
+    label        string   REQUIRED. aria-label for the button.
+    text         string   Plain text content (escaped).
+    html         string   Raw HTML content (rendered via `| safe`).
+    type         string   "button" (default) | "submit" | "reset".
+    disabled     boolean
+    id           string
+    name         string
+    value        string
+    classes      string
+    attributes   object
+
+  Usage:
+    {% from "components/action-bar-button/macro.njk" import actionBarButton %}
+    {{ actionBarButton({ label: "Delete", text: "Delete" }) }}
+#}
+{%- macro actionBarButton(params) -%}
+{%- set p = params | default({}) -%}
+<button
+  class="action-bar-button{% if p.classes %} {{ p.classes }}{% endif %}"
+  type="{{ p.type | default('button') }}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.name %} name="{{ p.name }}"{% endif %}
+  {%- if p.value %} value="{{ p.value }}"{% endif %}
+  {%- if p.disabled %} disabled{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</button>
+{%- endmacro -%}

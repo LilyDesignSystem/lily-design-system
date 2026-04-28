@@ -1,0 +1,45 @@
+{#
+  MenuGroup macro — a labeled section of menu items within a menu.
+
+  HTML tag: <div role="group">
+  CSS class: menu-group
+
+  Params:
+    label        string   REQUIRED. Section heading text. Also used
+                          as the group's aria-label and rendered as
+                          a visible heading marked aria-hidden="true"
+                          to avoid being announced twice.
+    text         string   Plain text content (escaped). Typically
+                          MenuItem children.
+    html         string   Raw HTML content (rendered via `| safe`).
+                          Typically MenuItem children.
+    id           string
+    classes      string
+    attributes   object
+
+  Usage:
+    {% from "components/menu-group/macro.njk" import menuGroup %}
+    {{ menuGroup({
+      label: "View",
+      html: '<div role="menuitem">Zoom in</div>'
+           + '<div role="menuitem">Zoom out</div>'
+    }) }}
+#}
+{%- macro menuGroup(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="menu-group{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="group"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.label %}
+  <div class="menu-group-heading" aria-hidden="true">{{ p.label }}</div>
+  {%- endif %}
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

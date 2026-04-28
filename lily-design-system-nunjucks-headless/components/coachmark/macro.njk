@@ -1,0 +1,69 @@
+{#
+  Coachmark macro — an anchored popover that spotlights and
+  explains a single feature.
+
+  HTML tag: <div role="dialog">
+  CSS class: coachmark
+
+  Accessibility:
+    - role="dialog" with aria-modal="false".
+    - aria-labelledby points at the title element.
+    - aria-describedby points at the description element when one
+      is provided.
+
+  The Nunjucks macro does not generate ids dynamically. The
+  consumer can pass `params.id` for the panel; the title and
+  description ids are derived from it (e.g. "{id}-title",
+  "{id}-description"). When `params.id` is omitted, the title and
+  description ids fall back to "coachmark-title" and
+  "coachmark-description".
+
+  Params:
+    open           boolean  Default false. When false, the dialog
+                            is rendered with the `hidden` attribute.
+    title          string   REQUIRED. Heading text.
+    description    string   Optional body text.
+    dismissLabel   string   REQUIRED. Accessible label for the
+                            dismiss button.
+    id             string   Optional id for the dialog. Used to
+                            derive the title and description ids.
+    titleId        string   Optional explicit id for the title.
+    descriptionId  string   Optional explicit id for the description.
+    classes        string
+    attributes     object
+
+  Usage:
+    {% from "components/coachmark/macro.njk" import coachmark %}
+    {{ coachmark({
+      id: "feature-tip",
+      open: true,
+      title: "New feature",
+      description: "Click here to try it out.",
+      dismissLabel: "Dismiss"
+    }) }}
+#}
+{%- macro coachmark(params) -%}
+{%- set p = params | default({}) -%}
+{%- set baseId = p.id | default('coachmark') -%}
+{%- set titleId = p.titleId | default(baseId + '-title') -%}
+{%- set descriptionId = p.descriptionId | default(baseId + '-description') -%}
+<div
+  class="coachmark{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="{{ titleId }}"
+  {%- if p.description %} aria-describedby="{{ descriptionId }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if not p.open %} hidden{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <h2 class="coachmark-title" id="{{ titleId }}">{{ p.title }}</h2>
+  {%- if p.description %}
+  <p class="coachmark-description" id="{{ descriptionId }}">{{ p.description }}</p>
+  {%- endif %}
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+  <button class="coachmark-dismiss" type="button" aria-label="{{ p.dismissLabel }}">&times;</button>
+</div>
+{%- endmacro -%}

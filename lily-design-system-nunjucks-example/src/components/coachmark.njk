@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: Coachmark
+description: an anchored popover that spotlights and explains a single feature
+---
+
+{% from "components/coachmark/macro.njk" import coachmark %}
+
+<h2>Open with description</h2>
+{{ coachmark({
+  open: true,
+  title: "New: keyboard shortcuts",
+  description: "Press ? at any time to see all keyboard shortcuts available on this page.",
+  dismissLabel: "Dismiss",
+  id: "coach-1"
+}) }}
+
+<h2>Title only</h2>
+{{ coachmark({
+  open: true,
+  title: "Try the new compact view",
+  dismissLabel: "Dismiss",
+  id: "coach-2"
+}) }}
+
+<h2>Closed</h2>
+{{ coachmark({
+  open: false,
+  title: "Hidden",
+  dismissLabel: "Dismiss",
+  id: "coach-3"
+}) }}

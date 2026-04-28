@@ -1,0 +1,18 @@
+---
+layout: layouts/component-demo.njk
+title: Contextual Help
+description: a help button that opens a popover with explanatory content
+---
+
+{% from "components/contextual-help/macro.njk" import contextualHelp %}
+
+<h2>Closed</h2>
+{% call contextualHelp({ label: "What is a date of birth?", expanded: false, id: "help-1" }) %}
+  <p>Your date of birth is the day you were born. We use it to verify your identity.</p>
+{% endcall %}
+
+<h2>Open</h2>
+{% call contextualHelp({ label: "How do I find my NHS number?", expanded: true, id: "help-2" }) %}
+  <p>Your NHS number is on any letter or document the NHS has sent you, or printed
+  on prescriptions.</p>
+{% endcall %}

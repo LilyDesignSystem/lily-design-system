@@ -1,0 +1,66 @@
+{#
+  ActionGroup macro — a group of action buttons that can collapse to
+  an overflow menu when space is constrained.
+
+  HTML tag: <div role="group">
+  CSS class: action-group
+
+  Params:
+    label          string   REQUIRED. aria-label for the group.
+    overflowOpen   boolean  Default false. Whether the overflow menu
+                            is open.
+    overflowLabel  string   Optional aria-label for the overflow
+                            trigger button (e.g. "More actions").
+    overflowHtml   string   Raw HTML content for the overflow menu
+                            (rendered via `| safe`). When provided,
+                            the overflow trigger button and the
+                            overflow panel are both rendered.
+    overflowId     string   Optional id for the overflow panel; the
+                            trigger references it via aria-controls.
+    text           string   Plain text content (escaped).
+    html           string   Raw HTML content (rendered via `| safe`).
+                            Typically the visible action buttons.
+    id             string
+    classes        string
+    attributes     object
+
+  Usage:
+    {% from "components/action-group/macro.njk" import actionGroup %}
+    {{ actionGroup({
+      label: "Document actions",
+      html: '<button>Save</button><button>Print</button>',
+      overflowLabel: "More actions",
+      overflowOpen: false,
+      overflowHtml: '<button>Export</button>'
+    }) }}
+#}
+{%- macro actionGroup(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="action-group{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="group"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+  {%- if p.overflowHtml %}
+  <button
+    class="action-group-overflow-trigger"
+    type="button"
+    aria-haspopup="menu"
+    aria-expanded="{{ 'true' if p.overflowOpen else 'false' }}"
+    {%- if p.overflowLabel %} aria-label="{{ p.overflowLabel }}"{% endif %}
+    {%- if p.overflowId %} aria-controls="{{ p.overflowId }}"{% endif %}
+  >&hellip;</button>
+  <div
+    class="action-group-overflow-menu"
+    {%- if p.overflowId %} id="{{ p.overflowId }}"{% endif %}
+    {%- if not p.overflowOpen %} hidden{% endif %}
+  >{{ p.overflowHtml | safe }}</div>
+  {%- endif %}
+</div>
+{%- endmacro -%}

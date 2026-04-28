@@ -1,0 +1,57 @@
+{#
+  ActionBar macro — a contextual action bar that appears when items
+  are selected, showing the selection count and bulk action buttons.
+
+  HTML tag: <div role="toolbar">
+  CSS class: action-bar
+
+  Params:
+    label                string   REQUIRED. aria-label for the toolbar.
+    selectedCount        number   REQUIRED. Count of currently
+                                  selected items. Rendered as
+                                  data-selected-count.
+    selectedCountLabel   string   REQUIRED. Pre-formatted display of
+                                  the count (e.g. "3 selected").
+                                  Consumer formats per locale.
+    clearSelectionLabel  string   Optional accessible label for the
+                                  clear-selection button. When
+                                  provided a clear button is rendered.
+    text                 string   Plain text content (escaped).
+    html                 string   Raw HTML content (rendered via
+                                  `| safe`). Typically contains
+                                  ActionBarButton elements.
+    classes              string   Consumer-provided extra CSS classes.
+    attributes           object   Extra HTML attributes as key/value.
+
+  Usage:
+    {% from "components/action-bar/macro.njk" import actionBar %}
+    {{ actionBar({
+      label: "Selection actions",
+      selectedCount: 3,
+      selectedCountLabel: "3 selected",
+      clearSelectionLabel: "Clear selection",
+      html: '<button class="action-bar-button">Delete</button>'
+    }) }}
+#}
+{%- macro actionBar(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="action-bar{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="toolbar"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.selectedCount != undefined %} data-selected-count="{{ p.selectedCount }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.selectedCountLabel %}
+  <span class="action-bar-count">{{ p.selectedCountLabel }}</span>
+  {%- endif %}
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+  {%- if p.clearSelectionLabel %}
+  <button class="action-bar-clear" type="button" aria-label="{{ p.clearSelectionLabel }}">&times;</button>
+  {%- endif %}
+</div>
+{%- endmacro -%}

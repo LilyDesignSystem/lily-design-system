@@ -4,6 +4,9 @@
 - accordion-list = AccordionList = an ordered list of accordion list item components
 - accordion-list-item = AccordionListItem = one accordion list item component
 - accordion-link = AccordionLink = one accordion link in the trail
+- action-bar = ActionBar = a contextual action bar that appears when items are selected, showing the selection count and bulk action buttons
+- action-bar-button = ActionBarButton = one action button inside an action bar
+- action-group = ActionGroup = a group of action buttons that can collapse to an overflow menu when space is constrained
 - action-link = ActionLink = a hyperlink styled as an action trigger
 - affix = Affix = a wrapper that pins its content to a viewport position while the page scrolls
 - ai-label = AiLabel = an indicator of AI instances that is a pathway to AI explainability
@@ -59,6 +62,7 @@
 - clipboard-copy-button = ClipboardCopyButton = a button that copies text to the clipboard
 - collapsible = Collapsible = a container that can be expanded or collapsed
 - code = Code = an inline code span for displaying short code snippets within surrounding text
+- coachmark = Coachmark = an anchored popover that spotlights and explains a single feature
 - code-block = CodeBlock = a block of formatted code with optional line numbers and line highlighting
 - collection-list = CollectionList = a compact list of multiple related items such as articles or events
 - collection-list-item = CollectionListItem = one item in a collection list with optional image, heading, meta, and description
@@ -77,6 +81,7 @@
 - content-block = ContentBlock = a content width constraint container with named column widths
 - context-menu = ContextMenu = a menu that appears on right-click or long-press
 - context-menu-item = ContextMenuItem = one item in a context menu
+- contextual-help = ContextualHelp = a help button that opens a popover with explanatory content
 - currency-input = CurrencyInput = a locale-aware currency input with automatic formatting, symbols, separators
 - data-filter-form = DataFilterForm = a form for filtering data by criteria
 - data-table = DataTable = a data table interactive grid for displaying and sorting tabular data <table>
@@ -208,6 +213,7 @@
 - menu-item = MenuItem = one item in a menu
 - menu-bar = MenuBar = a horizontal bar of menu triggers
 - menu-bar-button = MenuBarButton = one item in a menu bar
+- menu-group = MenuGroup = a labeled section of menu items within a menu
 - mentions-input = MentionsInput = a text input with at-mention autocomplete suggestions
 - meter = Meter = a gauge displaying a scalar value within a known range
 - mockup-browser = MockupBrowser = a box area that looks like a web browser
@@ -287,8 +293,10 @@
 - sonner = Sonner = a toast notification manager
 - sparkline = Sparkline = a small inline chart showing a data trend
 - split-button = SplitButton = a button with a primary action and a dropdown for related actions
+- split-view = SplitView = a two-panel resizable layout container with a draggable divider between them
 - splitter = Splitter = a draggable divider for resizing adjacent panels
 - statistic = Statistic = a numeric value display with title, prefix, and suffix
+- status-light = StatusLight = a small colored dot status indicator paired with a status label
 - step-list = StepList = an ordered list of step items showing progress through a multi-step process
 - step-list-item = StepListItem = one step in a step list with status of waiting, in progress, finished, or error
 - submit-input = SubmitInput = a button input that submits a form <input type="submit">
@@ -299,6 +307,7 @@
 - switch-button = SwitchButton = a toggle switch for turning a setting on or off
 - tab-bar = TabBar = a group of tabs for switching between content panels
 - tab-bar-button = TabBarButton = one tab button in a tab group
+- tab-panel = TabPanel = a content panel associated with a tab in a tab bar
 - table = Table = a table with rows and columns <table>
 - table-head = TableHead = a table interactive grid thead <thead>
 - table-body = TableBody = a table interactive grid tbody <tbody>

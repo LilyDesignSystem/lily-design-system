@@ -1,0 +1,57 @@
+{#
+  TabPanel macro — a content panel associated with a tab in a tab
+  bar.
+
+  HTML tag: <div role="tabpanel">
+  CSS class: tab-panel
+
+  Accessibility:
+    - role="tabpanel".
+    - When `labelledBy` is provided, aria-labelledby is rendered
+      and aria-label is omitted.
+    - When `labelledBy` is not provided, aria-label is rendered.
+    - When `selected` is true, the `hidden` attribute is omitted;
+      otherwise it is added so the panel is hidden.
+    - tabindex="0" so the panel is focusable for keyboard users.
+
+  Params:
+    label       string   REQUIRED when labelledBy is not provided.
+                         aria-label for the panel.
+    labelledBy  string   Optional id of the tab button that
+                         controls this panel. Sets aria-labelledby
+                         instead of aria-label when provided.
+    selected    boolean  Default false. Whether the panel is the
+                         currently selected one.
+    id          string
+    text        string
+    html        string
+    classes     string
+    attributes  object
+
+  Usage:
+    {% from "components/tab-panel/macro.njk" import tabPanel %}
+    {{ tabPanel({
+      id: "panel-1",
+      labelledBy: "tab-1",
+      selected: true,
+      html: "<p>Panel one content.</p>"
+    }) }}
+#}
+{%- macro tabPanel(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="tab-panel{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="tabpanel"
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
+  {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  tabindex="0"
+  {%- if not p.selected %} hidden{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

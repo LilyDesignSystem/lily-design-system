@@ -1,0 +1,35 @@
+{#
+  StatusLight macro — a small colored dot status indicator paired
+  with a status label.
+
+  HTML tag: <span role="status">
+  CSS class: status-light
+
+  Params:
+    label    string  REQUIRED. The status text (e.g. "Active",
+                     "Offline"). Forms the accessible content.
+    variant  string  "neutral" (default) | "informative" |
+                     "positive" | "notice" | "negative" | "active" |
+                     "inactive". Rendered as data-variant for
+                     consumer CSS.
+    id          string
+    classes     string
+    attributes  object
+
+  Usage:
+    {% from "components/status-light/macro.njk" import statusLight %}
+    {{ statusLight({ variant: "positive", label: "Active" }) }}
+#}
+{%- macro statusLight(params) -%}
+{%- set p = params | default({}) -%}
+<span
+  class="status-light{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="status"
+  data-variant="{{ p.variant | default('neutral') }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <span class="status-light-dot" aria-hidden="true"></span>
+  <span class="status-light-label">{{ p.label }}</span>
+</span>
+{%- endmacro -%}

@@ -1,0 +1,20 @@
+---
+layout: layouts/component-demo.njk
+title: Action Bar
+description: a contextual action bar that appears when items are selected, showing the selection count and bulk action buttons
+---
+
+{% from "components/action-bar/macro.njk" import actionBar %}
+{% from "components/action-bar-button/macro.njk" import actionBarButton %}
+
+<h2>Three items selected</h2>
+{% call actionBar({
+  label: "Bulk actions",
+  selectedCount: 3,
+  selectedCountLabel: "3 selected",
+  clearSelectionLabel: "Clear selection"
+}) %}
+  {{ actionBarButton({ label: "Delete", text: "Delete" }) }}
+  {{ actionBarButton({ label: "Archive", text: "Archive" }) }}
+  {{ actionBarButton({ label: "Move", text: "Move" }) }}
+{% endcall %}

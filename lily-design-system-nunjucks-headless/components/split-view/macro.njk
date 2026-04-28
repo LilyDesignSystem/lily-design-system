@@ -1,0 +1,61 @@
+{#
+  SplitView macro — a two-panel resizable layout container with a
+  draggable divider between them.
+
+  HTML tag: <div>
+  CSS class: split-view
+
+  Params:
+    label         string   REQUIRED. aria-label for the container.
+    orientation   string   "horizontal" (default) | "vertical".
+                           Rendered as data-orientation and as the
+                           divider's aria-orientation.
+    primaryHtml   string   REQUIRED. Raw HTML for the first panel.
+    secondaryHtml string   REQUIRED. Raw HTML for the second panel.
+    dividerHtml   string   Optional raw HTML for a custom divider.
+                           When omitted, a default
+                           <div role="separator"> is rendered.
+    splitPercent  number   Default 50. Initial split position as a
+                           percentage. Rendered as data-split-percent
+                           and as the divider's aria-valuenow.
+    id            string
+    classes       string
+    attributes    object
+
+  Usage:
+    {% from "components/split-view/macro.njk" import splitView %}
+    {{ splitView({
+      label: "Browser and preview",
+      primaryHtml: "<nav>…</nav>",
+      secondaryHtml: "<article>…</article>",
+      splitPercent: 30
+    }) }}
+#}
+{%- macro splitView(params) -%}
+{%- set p = params | default({}) -%}
+{%- set orientation = p.orientation | default('horizontal') -%}
+{%- set splitPercent = p.splitPercent if p.splitPercent != undefined else 50 -%}
+<div
+  class="split-view{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  data-orientation="{{ orientation }}"
+  data-split-percent="{{ splitPercent }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <section class="split-view-primary">{{ p.primaryHtml | safe }}</section>
+  {%- if p.dividerHtml -%}{{ p.dividerHtml | safe }}
+  {%- else %}
+  <div
+    class="split-view-divider"
+    role="separator"
+    aria-orientation="{{ orientation }}"
+    aria-valuenow="{{ splitPercent }}"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    tabindex="0"
+  ></div>
+  {%- endif %}
+  <section class="split-view-secondary">{{ p.secondaryHtml | safe }}</section>
+</div>
+{%- endmacro -%}

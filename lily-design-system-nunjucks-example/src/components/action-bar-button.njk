@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: Action Bar Button
+description: one action button inside an action bar
+---
+
+{% from "components/action-bar-button/macro.njk" import actionBarButton %}
+
+<h2>Default</h2>
+{{ actionBarButton({ label: "Delete", text: "Delete" }) }}
+
+<h2>Disabled</h2>
+{{ actionBarButton({ label: "Archive", text: "Archive", disabled: true }) }}

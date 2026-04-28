@@ -1,0 +1,73 @@
+{#
+  ContextualHelp macro — a help button that opens a popover with
+  explanatory content.
+
+  HTML tag: <div>
+  CSS class: contextual-help
+
+  The Nunjucks macro does not generate ids dynamically. The
+  consumer can pass `params.id` for the panel; the trigger uses
+  this value as `aria-controls`. When `params.id` is omitted the
+  panel id falls back to "contextual-help-panel".
+
+  Accessibility:
+    - The trigger is <button> with aria-haspopup="dialog",
+      aria-expanded, aria-controls, and an aria-label.
+    - The panel uses role="dialog" and is toggled with the `hidden`
+      attribute based on `expanded`.
+
+  Params:
+    label        string   REQUIRED. aria-label for the help trigger.
+    expanded     boolean  Default false. Whether the popover is open.
+    triggerHtml  string   Optional raw HTML for the trigger button
+                          content (defaults to "?").
+    triggerText  string   Optional escaped text for the trigger
+                          button content (defaults to "?").
+    id           string   Optional id for the panel.
+    text         string   Plain text content (escaped) for the panel.
+    html         string   Raw HTML content for the panel.
+    classes      string
+    attributes   object
+
+  Usage:
+    {% from "components/contextual-help/macro.njk" import contextualHelp %}
+    {{ contextualHelp({
+      id: "field-help",
+      label: "Help",
+      expanded: false,
+      html: "<p>Type your full legal name.</p>"
+    }) }}
+#}
+{%- macro contextualHelp(params) -%}
+{%- set p = params | default({}) -%}
+{%- set panelId = p.id | default('contextual-help-panel') -%}
+<div
+  class="contextual-help{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <button
+    class="contextual-help-trigger"
+    type="button"
+    aria-label="{{ p.label }}"
+    aria-haspopup="dialog"
+    aria-expanded="{{ 'true' if p.expanded else 'false' }}"
+    aria-controls="{{ panelId }}"
+  >
+    {%- if p.triggerHtml -%}{{ p.triggerHtml | safe }}
+    {%- elif p.triggerText -%}{{ p.triggerText }}
+    {%- else -%}?
+    {%- endif -%}
+  </button>
+  <div
+    class="contextual-help-panel"
+    id="{{ panelId }}"
+    role="dialog"
+    {%- if not p.expanded %} hidden{% endif %}
+  >
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif p.text -%}{{ p.text }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </div>
+</div>
+{%- endmacro -%}

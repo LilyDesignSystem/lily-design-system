@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Menu Group
+description: a labeled section of menu items within a menu
+---
+
+{% from "components/menu-group/macro.njk" import menuGroup %}
+
+<h2>Two sections inside a menu</h2>
+<div role="menu" aria-label="File menu">
+  {% call menuGroup({ label: "Recent files" }) %}
+    <div role="menuitem">report-2026.pdf</div>
+    <div role="menuitem">team-photo.jpg</div>
+  {% endcall %}
+  {% call menuGroup({ label: "Pinned files" }) %}
+    <div role="menuitem">handbook.md</div>
+    <div role="menuitem">contacts.csv</div>
+  {% endcall %}
+</div>

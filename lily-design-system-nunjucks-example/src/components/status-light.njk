@@ -1,0 +1,18 @@
+---
+layout: layouts/component-demo.njk
+title: Status Light
+description: a small colored dot status indicator paired with a status label
+---
+
+{% from "components/status-light/macro.njk" import statusLight %}
+
+<h2>Each variant</h2>
+<ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.25rem;">
+  <li>{{ statusLight({ variant: "neutral", label: "Neutral" }) }}</li>
+  <li>{{ statusLight({ variant: "informative", label: "Informative" }) }}</li>
+  <li>{{ statusLight({ variant: "positive", label: "Positive" }) }}</li>
+  <li>{{ statusLight({ variant: "notice", label: "Notice" }) }}</li>
+  <li>{{ statusLight({ variant: "negative", label: "Negative" }) }}</li>
+  <li>{{ statusLight({ variant: "active", label: "Active" }) }}</li>
+  <li>{{ statusLight({ variant: "inactive", label: "Inactive" }) }}</li>
+</ul>

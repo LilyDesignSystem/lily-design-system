@@ -1,0 +1,24 @@
+---
+layout: layouts/component-demo.njk
+title: Split View
+description: a two-panel resizable layout container with a draggable divider between them
+---
+
+{% from "components/split-view/macro.njk" import splitView %}
+
+<h2>Horizontal split (default)</h2>
+{{ splitView({
+  label: "File browser",
+  primaryHtml: "<div style='padding: 1rem; background: var(--nhsuk-blue); color: var(--nhsuk-white); height: 12rem;'>Sidebar — file tree</div>",
+  secondaryHtml: "<div style='padding: 1rem; background: var(--nhsuk-grey-5); height: 12rem;'>Main — file contents</div>",
+  splitPercent: 30
+}) }}
+
+<h2>Vertical split</h2>
+{{ splitView({
+  label: "Editor",
+  orientation: "vertical",
+  primaryHtml: "<div style='padding: 1rem; background: var(--nhsuk-green); color: var(--nhsuk-white); height: 8rem;'>Top — editor</div>",
+  secondaryHtml: "<div style='padding: 1rem; background: var(--nhsuk-grey-5); height: 8rem;'>Bottom — output</div>",
+  splitPercent: 60
+}) }}

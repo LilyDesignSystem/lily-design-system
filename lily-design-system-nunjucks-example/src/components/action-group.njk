@@ -1,0 +1,26 @@
+---
+layout: layouts/component-demo.njk
+title: Action Group
+description: a group of action buttons that can collapse to an overflow menu when space is constrained
+---
+
+{% from "components/action-group/macro.njk" import actionGroup %}
+{% from "components/button/macro.njk" import button %}
+
+<h2>Visible buttons only</h2>
+{% call actionGroup({ label: "Editor actions" }) %}
+  {{ button({ text: "Bold" }) }}
+  {{ button({ text: "Italic" }) }}
+  {{ button({ text: "Underline" }) }}
+{% endcall %}
+
+<h2>With overflow menu</h2>
+{% call actionGroup({
+  label: "Editor actions",
+  overflowLabel: "More actions",
+  overflowOpen: true,
+  overflowHtml: "<ul role='menu'><li role='menuitem'>Strikethrough</li><li role='menuitem'>Subscript</li><li role='menuitem'>Superscript</li></ul>"
+}) %}
+  {{ button({ text: "Bold" }) }}
+  {{ button({ text: "Italic" }) }}
+{% endcall %}
