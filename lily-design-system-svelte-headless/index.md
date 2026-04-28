@@ -1,6 +1,6 @@
 # Lily Design System - Svelte Headless
 
-A headless Svelte 5 component library with 364 components. All components are headless (no built-in styles), fully accessible (WCAG 2.2 AAA), and use Svelte 5 runes.
+A headless Svelte 5 component library with 414 components. All components are headless (no built-in styles), fully accessible (WCAG 2.2 AAA), and use Svelte 5 runes.
 
 ## Components
 

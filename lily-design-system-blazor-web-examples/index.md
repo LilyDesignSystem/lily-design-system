@@ -83,7 +83,7 @@ lily-design-system-blazor-web-examples/
 | Route                   | Description                                             |
 | ----------------------- | ------------------------------------------------------- |
 | `/`                     | Home page with links to all examples                    |
-| `/components`           | Lists all 364 components with links to individual demos |
+| `/components`           | Lists all 414 components with links to individual demos |
 | `/components/{slug}`    | Demonstrates one component with a live interactive demo |
 | `/contact-form`         | Contact form example page                               |
 | `/dashboard`            | Dashboard example page                                  |

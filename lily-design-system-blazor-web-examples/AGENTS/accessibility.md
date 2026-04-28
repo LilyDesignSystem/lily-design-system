@@ -8,12 +8,12 @@
 
 ### Common Patterns
 
-- `<label :for="id">` — link labels to inputs
+- `<label for="id">` — link labels to inputs
 - `aria-labelledby` / `aria-describedby` — link related elements
-- `:aria-invalid` + `:aria-errormessage` — error state
+- `aria-invalid` + `aria-errormessage` — error state
 - `role="alert"` — announce dynamic content
 - `role="group"` with `aria-label` — group related controls
-- Roving tabindex (`:tabindex="selected ? 0 : -1"`) — grid navigation
-- `:aria-pressed` — toggle button state
-- `:aria-expanded` — expandable sections
+- Roving tabindex (`tabindex="0"` / `tabindex="-1"`) — grid navigation
+- `aria-pressed` — toggle button state
+- `aria-expanded` — expandable sections
 - `aria-current` — current item in navigation

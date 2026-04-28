@@ -1,12 +1,12 @@
 # Lily Design System - React Headless
 
-A comprehensive headless React component library with 364 accessible, unstyled components for building design systems. Every component follows WCAG 2.2 AAA guidelines with full ARIA support, keyboard navigation, and internationalization readiness.
+A comprehensive headless React component library with 414 accessible, unstyled components for building design systems. Every component follows WCAG 2.2 AAA guidelines with full ARIA support, keyboard navigation, and internationalization readiness.
 
 **Headless** means zero CSS, zero styles, zero opinions about appearance. You provide all styling. Components provide structure, semantics, accessibility, and behavior.
 
 ## Features
 
-- 364 headless React components
+- 414 headless React components
 - TypeScript with full type definitions
 - WCAG 2.2 AAA accessibility compliance
 - Full keyboard navigation support
@@ -1060,7 +1060,7 @@ pnpm install
 ### Testing
 
 ```bash
-# Run all tests (364 files)
+# Run all tests (414 files)
 pnpm test
 
 # Run tests in watch mode

@@ -35,10 +35,20 @@ Canonical component list: [components.tsv](components.tsv)
 
 ### Inspirations
 
-- [ONSdigital design system](https://github.com/ONSdigital/design-system)
+See [citations.md](citations.md) for the full list of design systems Lily draws from. Short list:
+
+- [NHS UK Design System](https://service-manual.nhs.uk/design-system)
+- [GOV.UK Design System](https://design-system.service.gov.uk/)
+- [ONSdigital Design System](https://github.com/ONSdigital/design-system)
+- [U.S. Web Design System (USWDS)](https://designsystem.digital.gov/)
+- [Mozilla Protocol Design System](https://protocol.mozilla.org/)
+- [Adobe Spectrum](https://spectrum.adobe.com/)
+- [Ant Design](https://ant.design/)
+- [Wonderflow Wanda](https://design.wonderflow.ai/)
+- [Design System AU: Australian Government](https://designsystemau.org/)
 - [DaisyUI](https://daisyui.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
 - [Reuters graphics components](https://github.com/reuters-graphics/graphics-components)
-- [Shadcn](https://ui.shadcn.com/)
 
 ### For each subproject
 

@@ -1,16 +1,16 @@
 # Lily Design System - Vue Nuxt.js Examples
 
-Vue 3 + Nuxt 3 example application demonstrating all 364 components from the [Lily Design System](https://github.com/LilyDesignSystem/lily) headless component library, styled with [NHS UK design system](https://service-manual.nhs.uk/design-system) colors, typography, spacing, and focus states.
+Vue 3 + Nuxt 3 example application demonstrating all 414 components from the [Lily Design System](https://github.com/LilyDesignSystem/lily) headless component library, styled with [NHS UK design system](https://service-manual.nhs.uk/design-system) colors, typography, spacing, and focus states.
 
 ## Features
 
-- 364 headless Vue components with `<script setup lang="ts">` syntax
+- 414 headless Vue components with `<script setup lang="ts">` syntax
 - 13 interactive example pages demonstrating realistic usage patterns
 - NHS UK design system styling via CSS custom properties
 - WCAG 2.2 AAA accessibility compliance
 - Full keyboard navigation and screen reader support
 - Internationalization-ready (no hardcoded strings)
-- 1342 tests across 364 test files
+- 1342 tests across 414 test files
 
 ## Quick Start
 
@@ -36,11 +36,11 @@ Open [http://localhost:3640](http://localhost:3640).
 lily-design-system-vue-nuxt-examples/
 ├── app.vue                     # Root layout
 ├── nuxt.config.ts              # Nuxt configuration (imports NHS CSS)
-├── components/                 # 364 headless Vue components
+├── components/                 # 414 headless Vue components
 │   ├── AccordionNav.vue
 │   ├── Alert.vue
 │   ├── Button.vue
-│   └── ... (364 total)
+│   └── ... (414 total)
 ├── pages/                      # Nuxt pages (example compositions)
 │   ├── index.vue               # Home page with links to all examples
 │   ├── contact-form.vue        # Form validation example
@@ -57,7 +57,7 @@ lily-design-system-vue-nuxt-examples/
 │   └── timeline-and-cards.vue  # Timeline, cards, summaries
 ├── assets/css/
 │   └── nhs.css                 # NHS UK design tokens & component styles
-├── tests/components/           # 364 component test files
+├── tests/components/           # 414 component test files
 ├── package.json
 ├── tsconfig.json
 ├── vitest.config.ts
@@ -86,7 +86,7 @@ lily-design-system-vue-nuxt-examples/
 | Route                   | Description                                             |
 | ----------------------- | ------------------------------------------------------- |
 | `/`                     | Home page with links to all examples                    |
-| `/components`           | Lists all 364 components with links to individual demos |
+| `/components`           | Lists all 414 components with links to individual demos |
 | `/components/{slug}`    | Demonstrates one component with a live interactive demo |
 | `/contact-form`         | Contact form example page                               |
 | `/dashboard`            | Dashboard example page                                  |
@@ -146,7 +146,7 @@ All visual styling comes from `assets/css/nhs.css`, which provides:
 - **Typography**: Frutiger W01 font family with 8-point size scale
 - **Spacing**: 10-point spacing scale (0-9)
 - **Focus states**: Yellow outline (#ffeb3b) with black text for WCAG contrast
-- **Component styles**: All 364 component CSS classes with NHS-appropriate styling
+- **Component styles**: All 414 component CSS classes with NHS-appropriate styling
 
 Components are headless (unstyled) by default. Each component renders a semantic CSS class (e.g., `button`, `alert`, `badge`) that the NHS stylesheet targets.
 
@@ -208,7 +208,7 @@ pnpm exec vitest run tests/components/Button    # Run a specific test
 ## Related Projects
 
 - [Lily Design System](https://github.com/LilyDesignSystem/lily) — Parent project
-- [Vue Headless](../lily-design-system-vue-headless/) — 364 headless Vue components
+- [Vue Headless](../lily-design-system-vue-headless/) — 414 headless Vue components
 - [Blazor Web Examples](../lily-design-system-blazor-web-examples/) — Blazor equivalent
 - [React Next.js Examples](../lily-design-system-react-next-examples/) — React equivalent
 - [Svelte SvelteKit Examples](../lily-design-system-svelte-sveltekit-examples/) — Svelte equivalent

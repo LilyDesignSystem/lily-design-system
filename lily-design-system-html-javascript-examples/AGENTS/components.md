@@ -448,6 +448,7 @@
 ## Component name patterns
 
 - \*Bar \*BarButton
+  - ActionBar ActionBarButton
   - MenuBar MenuBarButton
   - TabBar TabBarButton
   - TaskBar TaskBarButton
@@ -458,11 +459,15 @@
   - Tour TourList TourListItem
 - \*List \*ListItem
   - CheckList CheckListItem
+  - CollectionList CollectionListItem
   - ContentsList ContentsListItem
   - DoList DoListItem
   - DontList DontListItem
+  - IconList IconListItem
   - PaginationList PaginationListItem
+  - StepList StepListItem
   - SummaryList SummaryListItem
+  - ValidationList ValidationListItem
 - \*Nav \*List \*ListItem
   - AccordionNav AccordionList AccordionListItem
   - BreadcrumbNav BreadcrumbList BreadcrumbListItem
@@ -485,6 +490,14 @@
   - NetPromoterScorePicker NetPromoterScorePickerButton
   - RedAmberGreenPicker RedAmberGreenPickerButton
   - RedOrangeYellowGreenBluePicker RedOrangeYellowGreenBluePickerButton
+  - ThemePicker ThemePickerButton
+- \*Input \*View
+  - PostalCodeInput PostalCodeView
+  - MeasurementInstanceInput MeasurementInstanceView
+  - VitalSign\*Input VitalSign\*View (full vital-sign family)
+- ContainerWith\*
+  - ContainerWithFixedWidth
+  - ContainerWithFluidWidth
 - \*Table \*TableHead \*TableBody \*TableFoot \*TableCol \*TableRow \*TableData
   - Table TableHead TableBody TableFoot TableCol TableRow TableData
   - CalendarTable CalendarTableHead CalendarTableBody CalendarTableFoot CalendarTableCol CalendarTableRow CalendarTableData
