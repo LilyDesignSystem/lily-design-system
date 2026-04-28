@@ -1,0 +1,62 @@
+{#
+  FeatureCard macro — a large content card with a prominent image
+    positioned alongside or above the text.
+
+  HTML tag: <article>
+  CSS class: feature-card
+  Accessibility:
+    - <article> provides a labelled region.
+    - The accessible name comes from `params.label`, falling back to
+      `params.heading`.
+
+  Params:
+    heading        string   REQUIRED. Card heading text.
+    imagePosition  string   "start" | "end" | "top". Default "start".
+                            Rendered as data-image-position.
+    imageUrl       string   Image src.
+    imageAlt       string   Image alt text. Use empty string for
+                            purely decorative images.
+    description    string   Body text rendered as a <p>.
+    descriptionHtml string  Raw HTML body content rendered inside the
+                            description block.
+    label          string   aria-label override (defaults to heading).
+    text           string   Plain text trailing content.
+    html           string   Raw HTML trailing content (e.g., CTAs).
+    id             string
+    classes        string
+    attributes     object
+
+  Usage:
+    {% from "components/feature-card/macro.njk" import featureCard %}
+    {% call featureCard({
+      heading: "Privacy by design",
+      imageUrl: "/img/lock.png",
+      imageAlt: "",
+      description: "Your data, your choice.",
+      imagePosition: "start"
+    }) %}
+      <a href="/learn-more">Learn more</a>
+    {% endcall %}
+#}
+{%- macro featureCard(params) -%}
+{%- set imagePosition = params.imagePosition | default("start") -%}
+{%- set ariaLabel = params.label | default(params.heading) -%}
+<article
+  class="feature-card{% if params.classes %} {{ params.classes }}{% endif %}"
+  data-image-position="{{ imagePosition }}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.imageUrl %}<img class="feature-card-image" src="{{ params.imageUrl }}" alt="{{ params.imageAlt | default('') }}">{% endif -%}
+  <header class="feature-card-header">
+    <h3 class="feature-card-heading">{{ params.heading }}</h3>
+  </header>
+  {%- if params.descriptionHtml %}<div class="feature-card-description">{{ params.descriptionHtml | safe }}</div>
+  {%- elif params.description %}<p class="feature-card-description">{{ params.description }}</p>{% endif -%}
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</article>
+{%- endmacro -%}

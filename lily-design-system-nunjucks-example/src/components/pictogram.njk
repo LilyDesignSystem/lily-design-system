@@ -1,0 +1,23 @@
+---
+layout: layouts/component-demo.njk
+title: Pictogram
+description: an icon-based component pairing an icon with a title and description in a centered or side layout
+---
+
+{% from "components/pictogram/macro.njk" import pictogram %}
+
+<h2>Centered layout</h2>
+{{ pictogram({
+  layout: "centered",
+  iconHtml: "<svg width='48' height='48' viewBox='0 0 24 24'><circle cx='12' cy='12' r='10' fill='currentColor'/></svg>",
+  heading: "Privacy first",
+  description: "Your data stays private and protected."
+}) }}
+
+<h2>Side layout</h2>
+{{ pictogram({
+  layout: "side",
+  iconHtml: "<svg width='32' height='32' viewBox='0 0 24 24'><path d='M5 12l4 4 10-10' stroke='currentColor' stroke-width='2' fill='none'/></svg>",
+  heading: "Verified content",
+  description: "Every component meets WCAG 2.2 AAA standards."
+}) }}

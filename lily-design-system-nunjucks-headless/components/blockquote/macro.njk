@@ -1,0 +1,46 @@
+{#
+  Blockquote macro — a block-level quotation with optional source
+    citation.
+
+  HTML tag: <blockquote>
+  CSS class: blockquote
+  Accessibility:
+    - Implicit <blockquote> semantics.
+    - aria-label is optional; consumers may supply one when the quote
+      needs an explicit accessible name distinct from its content.
+
+  Params:
+    text          string   Plain text quote content (escaped).
+    html          string   Raw HTML quote content (rendered via `| safe`).
+    cite          string   URL of the source. Rendered as the `cite`
+                           attribute on the <blockquote>.
+    citationText  string   Visible attribution text rendered inside a
+                           <footer class="blockquote-citation">.
+    label         string   aria-label override.
+    id            string
+    classes       string   Consumer-provided extra CSS classes.
+    attributes    object   Extra HTML attributes as key/value pairs.
+
+  Usage:
+    {% from "components/blockquote/macro.njk" import blockquote %}
+    {{ blockquote({
+      text: "The web is for everyone.",
+      citationText: "— Tim Berners-Lee",
+      cite: "https://example.com/quote"
+    }) }}
+#}
+{%- macro blockquote(params) -%}
+<blockquote
+  class="blockquote{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.cite %} cite="{{ params.cite }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+  {%- if params.citationText %}<footer class="blockquote-citation">{{ params.citationText }}</footer>{% endif -%}
+</blockquote>
+{%- endmacro -%}

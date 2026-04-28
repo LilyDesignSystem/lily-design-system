@@ -1,0 +1,36 @@
+---
+layout: layouts/component-demo.njk
+title: Sticky Promo Banner
+description: a fixed-position promotional banner with a dismiss button
+---
+
+{% from "components/sticky-promo-banner/macro.njk" import stickyPromoBanner %}
+
+<h2>Bottom-positioned banner (default)</h2>
+{% call stickyPromoBanner({
+  label: "Promotional banner",
+  open: true,
+  position: "bottom",
+  dismissLabel: "Dismiss banner"
+}) %}
+  <p><strong>Save 20%</strong> on annual plans — limited time offer.</p>
+{% endcall %}
+
+<h2>Top-positioned banner</h2>
+{% call stickyPromoBanner({
+  label: "Announcement",
+  open: true,
+  position: "top",
+  dismissLabel: "Dismiss"
+}) %}
+  <p>New release: v2.0 is now available.</p>
+{% endcall %}
+
+<h2>Closed</h2>
+{% call stickyPromoBanner({
+  label: "Hidden banner",
+  open: false,
+  dismissLabel: "Dismiss"
+}) %}
+  <p>This banner is closed and not visible.</p>
+{% endcall %}

@@ -1,0 +1,58 @@
+{#
+  DownloadButton macro — a download link styled as a button, with
+    optional file size and format metadata.
+
+  HTML tag: <a> (download links are anchors so consumers can right-
+    click and save the resource).
+  CSS class: download-button
+  Accessibility:
+    - `aria-label` is REQUIRED. The accessible name should describe
+      the download intent and the file (e.g., "Download report PDF").
+    - File size and format are exposed as data attributes for
+      programmatic access; consumers may render visible chips/badges
+      from the same data.
+
+  Params:
+    href         string   REQUIRED. File URL.
+    label        string   REQUIRED. aria-label and default button text.
+    text         string   Plain text content (escaped). Defaults to label.
+    html         string   Raw HTML content (rendered via `| safe`).
+    fileSize     string   Pre-formatted file size (e.g., "2.4 MB").
+    fileFormat   string   File format text (e.g., "PDF").
+    download     string|boolean
+                          Native `download` attribute. When true, the
+                          attribute is rendered with no filename. When
+                          a string, the string is used as the filename.
+    id           string
+    classes      string
+    attributes   object
+
+  Usage:
+    {% from "components/download-button/macro.njk" import downloadButton %}
+    {{ downloadButton({
+      href: "/files/report.pdf",
+      label: "Download annual report (PDF, 2.4 MB)",
+      fileSize: "2.4 MB",
+      fileFormat: "PDF",
+      download: true
+    }) }}
+#}
+{%- macro downloadButton(params) -%}
+<a
+  class="download-button{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.href %} href="{{ params.href }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.fileSize %} data-file-size="{{ params.fileSize }}"{% endif %}
+  {%- if params.fileFormat %} data-file-format="{{ params.fileFormat }}"{% endif %}
+  {%- if params.download === true %} download
+  {%- elif params.download %} download="{{ params.download }}"{% endif %}
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- elif params.label -%}{{ params.label }}
+  {%- endif -%}
+</a>
+{%- endmacro -%}

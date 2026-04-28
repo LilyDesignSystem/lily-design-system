@@ -1,0 +1,94 @@
+{#
+  NewsletterSignup macro — an email subscription form composition with
+    idle, submitting, success, and error states.
+
+  HTML tag: <form>
+  CSS class: newsletter-signup
+  Accessibility:
+    - The form has an aria-label.
+    - The success message uses role="status" + aria-live="polite".
+    - The error message uses role="alert".
+    - Both messages are conditionally `hidden` based on `params.state`.
+
+  Params:
+    label             string   REQUIRED. aria-label for the form.
+    heading           string   Visible heading rendered as <h3>.
+    description       string   Body text below the heading.
+    emailLabel        string   REQUIRED. Visible label for the email input.
+    emailPlaceholder  string   Placeholder for the email input.
+    emailName         string   `name` attribute for the email input.
+                               Defaults to "email".
+    emailId           string   `id` for the email input. Defaults to
+                               `${baseId}-email` so the label `for`
+                               attribute can match.
+    submitLabel       string   REQUIRED. Submit button text.
+    state             string   "idle" | "submitting" | "success" | "error".
+                               Default "idle". Rendered as data-state.
+    successMessage    string   Confirmation when state is "success".
+    errorMessage      string   Error message when state is "error".
+    action            string   form `action` attribute.
+    method            string   form `method` attribute. Defaults to "post".
+    id                string
+    classes           string
+    attributes        object
+
+  Usage:
+    {% from "components/newsletter-signup/macro.njk" import newsletterSignup %}
+    {{ newsletterSignup({
+      label: "Subscribe",
+      heading: "Stay in the loop",
+      description: "Monthly updates, no spam.",
+      emailLabel: "Email address",
+      emailPlaceholder: "you@example.com",
+      submitLabel: "Subscribe",
+      state: "idle"
+    }) }}
+#}
+{%- macro newsletterSignup(params) -%}
+{%- set state = params.state | default("idle") -%}
+{%- set baseId = params.id | default("newsletter-signup") -%}
+{%- set emailId = params.emailId | default(baseId + "-email") -%}
+{%- set emailName = params.emailName | default("email") -%}
+{%- set submitting = state == "submitting" -%}
+<form
+  class="newsletter-signup{% if params.classes %} {{ params.classes }}{% endif %}"
+  data-state="{{ state }}"
+  {%- if params.action %} action="{{ params.action }}"{% endif %}
+  method="{{ params.method | default('post') }}"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.heading or params.description %}
+  <header class="newsletter-signup-header">
+    {%- if params.heading %}<h3 class="newsletter-signup-heading">{{ params.heading }}</h3>{% endif %}
+    {%- if params.description %}<p class="newsletter-signup-description">{{ params.description }}</p>{% endif %}
+  </header>
+  {%- endif %}
+  <label class="newsletter-signup-label" for="{{ emailId }}">{{ params.emailLabel }}</label>
+  <input
+    class="newsletter-signup-input"
+    type="email"
+    id="{{ emailId }}"
+    name="{{ emailName }}"
+    {%- if params.emailPlaceholder %} placeholder="{{ params.emailPlaceholder }}"{% endif %}
+    {%- if submitting %} disabled{% endif %}
+  >
+  <button
+    class="newsletter-signup-submit"
+    type="submit"
+    {%- if submitting %} disabled{% endif %}
+  >{{ params.submitLabel }}</button>
+  <p
+    class="newsletter-signup-success"
+    role="status"
+    aria-live="polite"
+    {%- if state != "success" %} hidden{% endif %}
+  >{% if params.successMessage %}{{ params.successMessage }}{% endif %}</p>
+  <p
+    class="newsletter-signup-error"
+    role="alert"
+    {%- if state != "error" %} hidden{% endif %}
+  >{% if params.errorMessage %}{{ params.errorMessage }}{% endif %}</p>
+</form>
+{%- endmacro -%}

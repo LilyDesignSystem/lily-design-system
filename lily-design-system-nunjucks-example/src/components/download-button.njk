@@ -1,0 +1,25 @@
+---
+layout: layouts/component-demo.njk
+title: Download Button
+description: a download link styled as a button, with optional file size and format metadata
+---
+
+{% from "components/download-button/macro.njk" import downloadButton %}
+
+<h2>PDF download with size</h2>
+{{ downloadButton({
+  href: "/files/report-2026.pdf",
+  label: "Download annual report — PDF, 2.4 MB",
+  fileFormat: "PDF",
+  fileSize: "2.4 MB",
+  download: "report-2026.pdf",
+  text: "Download annual report"
+}) }}
+
+<h2>Bare download link</h2>
+{{ downloadButton({
+  href: "/files/handbook.zip",
+  label: "Download handbook",
+  download: true,
+  text: "Download handbook"
+}) }}

@@ -1,0 +1,38 @@
+---
+layout: layouts/component-demo.njk
+title: Newsletter Signup
+description: an email subscription form composition with idle, submitting, success, and error states
+---
+
+{% from "components/newsletter-signup/macro.njk" import newsletterSignup %}
+
+<h2>Idle state</h2>
+{{ newsletterSignup({
+  label: "Subscribe to our newsletter",
+  heading: "Stay in the loop",
+  description: "Get monthly updates about new components and breaking changes.",
+  emailLabel: "Email address",
+  emailPlaceholder: "you@example.com",
+  submitLabel: "Subscribe",
+  state: "idle"
+}) }}
+
+<h2>Success state</h2>
+{{ newsletterSignup({
+  label: "Subscribe to our newsletter",
+  heading: "Stay in the loop",
+  emailLabel: "Email address",
+  submitLabel: "Subscribe",
+  state: "success",
+  successMessage: "Thanks! Check your inbox to confirm your subscription."
+}) }}
+
+<h2>Error state</h2>
+{{ newsletterSignup({
+  label: "Subscribe to our newsletter",
+  heading: "Stay in the loop",
+  emailLabel: "Email address",
+  submitLabel: "Subscribe",
+  state: "error",
+  errorMessage: "Sorry, something went wrong. Please try again."
+}) }}

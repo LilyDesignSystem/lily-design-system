@@ -24,6 +24,7 @@
 - banner = Banner = a prominent message bar across the top of a page
 - banner-box = BannerBox = a banner box that is inside a banner component, using flexbox horizontal
 - beach-ball = BeachBall = a decorative animated beach ball element
+- blockquote = Blockquote = a block-level quotation with optional source citation
 - body-text = BodyText = a rendered text block within a content width container
 - breadcrumb-nav = BreadcrumbNav = a navigation container for breadcrumb trail links
 - breadcrumb-list = BreadcrumbList = an ordered list of breadcrumb navigation items
@@ -107,6 +108,7 @@
 - do-list-item = DoListItem = an encouraged-practice item in a do-list guideline list
 - dont-list = DontList = a guideline list of discouraged dont-list-item components
 - dont-list-item = DontListItem = a discouraged-practice item in a dont-list guideline list
+- download-button = DownloadButton = a download link styled as a button, with optional file size and format metadata
 - drawer = Drawer = a panel that slides in from the edge of the screen
 - dropdown-menu = DropdownMenu = a menu that opens below a trigger button
 - editable-form = EditableForm = a form wrapper for inline editing of content
@@ -123,6 +125,7 @@
 - espana-tarjeta-sanitaria-individual-input = EspanaTarjetaSanitariaIndividualInput = an input for entering a España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
 - expander = Expander = a control that expands to reveal more content
 - field = Field = a form field wrapper with label, input, and error message
+- feature-card = FeatureCard = a large content card with a prominent image positioned alongside or above the text
 - fieldset = Fieldset = a group of related form fields with a legend
 - feature-photo = FeaturePhoto = a responsive photo with lazy loading and alt text validation
 - figure = Figure = a self-contained figure with optional caption
@@ -227,6 +230,7 @@
 - month-input = MonthInput = an input for selecting a month and year <input type="month">
 - navigation-menu = NavigationMenu = a site-wide navigation menu with links
 - net-promoter-score-view = NetPromoterScoreView = a read-only display of a Net Promoter Score
+- newsletter-signup = NewsletterSignup = an email subscription form composition with idle, submitting, success, and error states
 - net-promoter-score-picker = NetPromoterScorePicker = a picker for selecting a 0-10 Net Promoter Score
 - net-promoter-score-picker-button = NetPromoterScorePickerButton = a picker button for selecting a 0-10 Net Promoter Score
 - notification = Notification = a brief message about an event or update
@@ -248,6 +252,7 @@
 - place = Place = a place component that contains other place-related information
 - pin-input-div = PinInputDiv = a series of single-digit inputs for entering a PIN or OTP code
 - photo-pack = PhotoPack = a collection of photos displayed together as a group
+- pictogram = Pictogram = an icon-based component pairing an icon with a title and description in a centered or side layout
 - popconfirm-dialog = PopconfirmDialog = a popover dialog with confirm and cancel buttons
 - popover = Popover = a floating content box anchored to a trigger element
 - popup = Popup = a temporary overlay that appears above page content
@@ -277,6 +282,7 @@
 - scroller-base = ScrollerBase = a low-level scroll position tracking primitive for scrollytelling
 - scroller-video = ScrollerVideo = a video-driven scrollytelling component with frame-by-frame scrubbing
 - search-input = SearchInput = an input for entering a search query <input type="search">
+- section-heading = SectionHeading = a styled heading introducing a major content section, with optional eyebrow and subtitle
 - segment-group = SegmentGroup = a group of mutually exclusive segment options
 - segment-group-item = SegmentGroupItem = one selectable segment in a segment group
 - select-with-extras = SelectWithExtras = a select dropdown with additional features like search or groups
@@ -297,6 +303,7 @@
 - splitter = Splitter = a draggable divider for resizing adjacent panels
 - statistic = Statistic = a numeric value display with title, prefix, and suffix
 - status-light = StatusLight = a small colored dot status indicator paired with a status label
+- sticky-promo-banner = StickyPromoBanner = a fixed-position promotional banner with a dismiss button
 - step-list = StepList = an ordered list of step items showing progress through a multi-step process
 - step-list-item = StepListItem = one step in a step list with status of waiting, in progress, finished, or error
 - submit-input = SubmitInput = a button input that submits a form <input type="submit">

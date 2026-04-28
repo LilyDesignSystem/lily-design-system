@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Blockquote
+description: a block-level quotation with optional source citation
+---
+
+{% from "components/blockquote/macro.njk" import blockquote %}
+
+<h2>With citation</h2>
+{{ blockquote({
+  cite: "https://example.com/source",
+  citationText: "— Jane Doe, Annual Report 2026",
+  html: "<p>Design is not just what it looks like and feels like. Design is how it works.</p>"
+}) }}
+
+<h2>Without citation</h2>
+{{ blockquote({
+  html: "<p>The best way to predict the future is to invent it.</p>"
+}) }}

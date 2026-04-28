@@ -1,0 +1,27 @@
+---
+layout: layouts/component-demo.njk
+title: Section Heading
+description: a styled heading introducing a major content section, with optional eyebrow and subtitle
+---
+
+{% from "components/section-heading/macro.njk" import sectionHeading %}
+
+<h2>With eyebrow and subtitle</h2>
+{{ sectionHeading({
+  eyebrow: "Section 02",
+  heading: "Component library",
+  subtitle: "Browse our collection of accessible, headless components.",
+  level: 2
+}) }}
+
+<h2>Heading only</h2>
+{{ sectionHeading({
+  heading: "Quick start guide"
+}) }}
+
+<h2>Level 3 with subtitle</h2>
+{{ sectionHeading({
+  heading: "API reference",
+  subtitle: "Detailed prop and event documentation.",
+  level: 3
+}) }}

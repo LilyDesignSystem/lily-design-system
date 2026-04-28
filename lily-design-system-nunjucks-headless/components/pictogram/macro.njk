@@ -1,0 +1,63 @@
+{#
+  Pictogram macro — an icon-based component pairing an icon with a
+    title and description in a centered or side layout.
+
+  HTML tag: <figure>
+  CSS class: pictogram
+  Accessibility:
+    - The icon container is aria-hidden because the figure's
+      accessible name comes from the heading or aria-label.
+    - aria-label is optional; defaults to the heading.
+
+  Params:
+    layout         string   "centered" | "side". Default "centered".
+                            Rendered as data-layout.
+    heading        string   Title text rendered as <h3>.
+    description    string   Body text rendered as <p>.
+    iconHtml       string   Raw HTML icon content (rendered via `| safe`).
+                            Use this for SVGs.
+    iconText       string   Plain text icon content (escaped). Use for
+                            emoji or single glyphs.
+    label          string   aria-label override.
+    text           string   Plain text trailing content (escaped),
+                            overrides description if provided.
+    html           string   Raw HTML trailing content, overrides
+                            description if provided.
+    id             string
+    classes        string
+    attributes     object
+
+  Usage:
+    {% from "components/pictogram/macro.njk" import pictogram %}
+    {{ pictogram({
+      layout: "centered",
+      heading: "Privacy",
+      description: "Your data, your choice.",
+      iconHtml: "<svg viewBox='0 0 24 24'>…</svg>"
+    }) }}
+#}
+{%- macro pictogram(params) -%}
+{%- set layout = params.layout | default("centered") -%}
+{%- set ariaLabel = params.label | default(params.heading) -%}
+<figure
+  class="pictogram{% if params.classes %} {{ params.classes }}{% endif %}"
+  data-layout="{{ layout }}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <div class="pictogram-icon" aria-hidden="true">
+    {%- if params.iconHtml -%}{{ params.iconHtml | safe }}
+    {%- elif params.iconText -%}{{ params.iconText }}
+    {%- endif -%}
+  </div>
+  <figcaption class="pictogram-caption">
+    {%- if params.heading %}<h3 class="pictogram-heading">{{ params.heading }}</h3>{% endif %}
+    {%- if params.html -%}{{ params.html | safe }}
+    {%- elif params.text -%}{{ params.text }}
+    {%- elif caller -%}{{ caller() }}
+    {%- elif params.description %}<p class="pictogram-description">{{ params.description }}</p>
+    {%- endif -%}
+  </figcaption>
+</figure>
+{%- endmacro -%}

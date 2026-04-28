@@ -1,0 +1,38 @@
+---
+layout: layouts/component-demo.njk
+title: Feature Card
+description: a large content card with a prominent image positioned alongside or above the text
+---
+
+{% from "components/feature-card/macro.njk" import featureCard %}
+
+<h2>Image on the start</h2>
+{% call featureCard({
+  heading: "Welcome to the design system",
+  imagePosition: "start",
+  imageUrl: "https://placehold.co/240x160",
+  imageAlt: "Decorative illustration",
+  description: "A unified set of components, patterns, and guidelines for building accessible products."
+}) %}
+  <a href="/get-started">Get started</a>
+{% endcall %}
+
+<h2>Image on top</h2>
+{% call featureCard({
+  heading: "Component library",
+  imagePosition: "top",
+  imageUrl: "https://placehold.co/480x240",
+  imageAlt: "Component library overview",
+  description: "Browse 400+ headless components."
+}) %}
+  <a href="/components">Browse components</a>
+{% endcall %}
+
+<h2>Image at the end</h2>
+{% call featureCard({
+  heading: "Accessibility",
+  imagePosition: "end",
+  imageUrl: "https://placehold.co/240x160",
+  imageAlt: "Accessibility icon",
+  description: "WCAG 2.2 AAA compliance baked in."
+}) %}{% endcall %}
