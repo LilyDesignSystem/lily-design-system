@@ -448,39 +448,6 @@ Write original "When to Use" and "When Not to Use" guidance for all non-NHS comp
 - [x] timer
 - [x] timer-button
 
-#### Vital Signs (32)
-- [x] vital-sign-belly-circumference-as-cm-input
-- [x] vital-sign-belly-circumference-as-cm-view
-- [x] vital-sign-blood-pressure-diastolic-as-mmhg-input
-- [x] vital-sign-blood-pressure-diastolic-as-mmhg-view
-- [x] vital-sign-blood-pressure-systolic-as-mmhg-input
-- [x] vital-sign-blood-pressure-systolic-as-mmhg-view
-- [x] vital-sign-body-fat-as-percentage-input
-- [x] vital-sign-body-fat-as-percentage-view
-- [x] vital-sign-body-temperature-as-celcius-input
-- [x] vital-sign-body-temperature-as-celcius-view
-- [x] vital-sign-cholesterol-as-hdl-mmol-per-litre-input
-- [x] vital-sign-cholesterol-as-hdl-mmol-per-litre-view
-- [x] vital-sign-cholesterol-as-ldl-mmol-per-litre-input
-- [x] vital-sign-cholesterol-as-ldl-mmol-per-litre-view
-- [x] vital-sign-heart-rate-as-beats-per-minute-input
-- [x] vital-sign-heart-rate-as-beats-per-minute-view
-- [x] vital-sign-heart-rate-variability-input
-- [x] vital-sign-heart-rate-variability-view
-- [x] vital-sign-height-as-cm-input
-- [x] vital-sign-height-as-cm-view
-- [x] vital-sign-respiratory-rate-as-breaths-per-minute-input
-- [x] vital-sign-respiratory-rate-as-breaths-per-minute-view
-- [x] vital-sign-sleep-score-as-0-to-100-input
-- [x] vital-sign-sleep-score-as-0-to-100-view
-- [x] vital-sign-total-sleep-time-as-min-per-day-input
-- [x] vital-sign-total-sleep-time-as-min-per-day-view
-- [x] vital-sign-vo2-max-as-ml-per-kg-per-minute-input
-- [x] vital-sign-vo2-max-as-ml-per-kg-per-minute-view
-- [x] vital-sign-waist-circumference-as-cm-input
-- [x] vital-sign-waist-circumference-as-cm-view
-- [x] vital-sign-weight-as-kg-input
-- [x] vital-sign-weight-as-kg-view
 
 ## Backlog
 

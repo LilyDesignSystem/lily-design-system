@@ -103,8 +103,7 @@ lily-design-system-nunjucks-example/
 │   │   │       ├── button.css           # NHS UK button on .button class
 │   │   │       ├── alert.css
 │   │   │       ├── badge.css
-│   │   │       ├── ...                  # one CSS file per component tier
-│   │   │       └── vital-signs.css
+│   │   │       └── ...                  # one CSS file per component tier
 │   │   └── js/
 │   │       ├── main.js
 │   │       └── modules/
@@ -337,7 +336,7 @@ page mockups in NHS UK style:
 - `form-example.njk` — multi-step form using `form`, `field`,
   `fieldset`, `text-input`, `checkbox-group`, `error-summary`, etc.
 - `dashboard-example.njk` — patient dashboard using `medical-banner`,
-  `vital-sign-*-view`, `data-table`, `care-card`, `summary-list`.
+  `data-table`, `care-card`, `summary-list`.
 
 These templates are the proof that the styles compose correctly at
 page scale, not just in isolation.
@@ -446,7 +445,6 @@ page scale, not just in isolation.
    a. Static wrappers
    b. Form inputs
    c. Links and views
-   d. Vital sign views and inputs
    e. Table families
    f. Navigation patterns
    g. List patterns

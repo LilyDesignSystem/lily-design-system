@@ -393,28 +393,6 @@ const INPUT_VIEW_PAIRS = [
   ["red-orange-yellow-green-blue-picker", "red-orange-yellow-green-blue-view"],
 ];
 
-// Vital sign pairs
-const vsNames = [
-  "vital-sign-blood-pressure-diastolic-as-mmhg",
-  "vital-sign-blood-pressure-systolic-as-mmhg",
-  "vital-sign-body-fat-as-percentage",
-  "vital-sign-body-temperature-as-celcius",
-  "vital-sign-cholesterol-as-hdl-mmol-per-litre",
-  "vital-sign-cholesterol-as-ldl-mmol-per-litre",
-  "vital-sign-heart-rate-as-beats-per-minute",
-  "vital-sign-heart-rate-variability",
-  "vital-sign-height-as-cm",
-  "vital-sign-respiratory-rate-as-breaths-per-minute",
-  "vital-sign-sleep-score-as-0-to-100",
-  "vital-sign-total-sleep-time-as-min-per-day",
-  "vital-sign-vo2-max-as-ml-per-kg-per-minute",
-  "vital-sign-waist-circumference-as-cm",
-  "vital-sign-weight-as-kg",
-];
-for (const vs of vsNames) {
-  INPUT_VIEW_PAIRS.push([`${vs}-input`, `${vs}-view`]);
-}
-
 // Build companion lookup
 const COMPANION = {};
 for (const [input, view] of INPUT_VIEW_PAIRS) {

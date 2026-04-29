@@ -19,25 +19,6 @@ const components = csvContent
   })
   .filter(c => c.slug && c.name);
 
-// Vital sign metadata
-const vitalSigns = {
-  'blood-pressure-diastolic-as-mmhg': { label: 'Blood pressure diastolic', value: '80', unit: 'mmHg', step: '1' },
-  'blood-pressure-systolic-as-mmhg': { label: 'Blood pressure systolic', value: '120', unit: 'mmHg', step: '1' },
-  'body-fat-as-percentage': { label: 'Body fat', value: '22.5', unit: '%', step: '0.1' },
-  'body-temperature-as-celcius': { label: 'Body temperature', value: '36.6', unit: '\u00b0C', step: '0.1' },
-  'cholesterol-as-hdl-mmol-per-litre': { label: 'Cholesterol HDL', value: '1.5', unit: 'mmol/L', step: '0.1' },
-  'cholesterol-as-ldl-mmol-per-litre': { label: 'Cholesterol LDL', value: '3.2', unit: 'mmol/L', step: '0.1' },
-  'heart-rate-as-beats-per-minute': { label: 'Heart rate', value: '72', unit: 'BPM', step: '1' },
-  'heart-rate-variability': { label: 'Heart rate variability', value: '45', unit: 'ms', step: '1' },
-  'height-as-cm': { label: 'Height', value: '175', unit: 'cm', step: '1' },
-  'respiratory-rate-as-breaths-per-minute': { label: 'Respiratory rate', value: '16', unit: 'breaths/min', step: '1' },
-  'sleep-score-as-0-to-100': { label: 'Sleep score', value: '82', unit: '', step: '1' },
-  'total-sleep-time-as-min-per-day': { label: 'Total sleep time', value: '480', unit: 'min', step: '1' },
-  'vo2-max-as-ml-per-kg-per-minute': { label: 'VO2 max', value: '45', unit: 'ml/kg/min', step: '1' },
-  'waist-circumference-as-cm': { label: 'Waist circumference', value: '84', unit: 'cm', step: '1' },
-  'weight-as-kg': { label: 'Weight', value: '75', unit: 'kg', step: '1' },
-};
-
 // Input type mapping for *-input slugs
 const inputTypeMap = {
   'text-input': 'text',
@@ -381,17 +362,6 @@ function generateDemo(slug, name, description) {
   // Check explicit demos first
   if (explicitDemos[slug]) {
     return explicitDemos[slug];
-  }
-
-  // Vital signs
-  for (const [key, meta] of Object.entries(vitalSigns)) {
-    if (slug === `vital-sign-${key}-view`) {
-      const displayValue = meta.unit ? `${meta.value} ${meta.unit}` : meta.value;
-      return `<span class="${slug}" role="img" aria-label="${meta.label}: ${meta.value} ${meta.unit}" data-value="${meta.value}">${displayValue}</span>`;
-    }
-    if (slug === `vital-sign-${key}-input`) {
-      return `<label class="label" for="demo-vital">${meta.label}</label><input class="${slug}" type="number" id="demo-vital" value="${meta.value}" step="${meta.step}" min="0" aria-label="${meta.label}" />`;
-    }
   }
 
   // Standard input types

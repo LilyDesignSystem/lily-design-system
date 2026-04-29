@@ -57,7 +57,6 @@ Dosage entry in a pharmacy application:
 
 ## When Not to Use
 
-- Do not use for vital sign-specific measurements -- use the corresponding VitalSign*Input component instead.
 - Do not use for display only -- use MeasurementInstanceView instead.
 - Do not use when the value and unit should be captured in distinct fields -- use MeasurementUnitInput alongside NumberInput instead.
 

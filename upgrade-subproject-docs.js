@@ -157,7 +157,6 @@ Implement all headless components using ${sp.tech}. Every component must be head
    a. Static wrappers (badge, banner, card, panel, alert, etc.)
    b. Form inputs (text-input, email-input, checkbox-input, etc.)
    c. Links and views (action-link, postal-code-view, etc.)
-   d. Vital sign views and inputs (15 pairs)
    e. Table families (table, data-table, calendar-table, etc.)
    f. Navigation patterns (accordion-nav, breadcrumb-nav, etc.)
    g. List patterns (check-list, summary-list, task-list, etc.)
@@ -204,7 +203,6 @@ Create styled example pages demonstrating component usage with ${sp.tech}. Examp
    c. Table page (data-table, calendar-table)
    d. Dialog and overlay page (dialog, popover, tooltip, toast)
    e. Layout page (grail-layout, sidebar, card)
-   f. Medical/vital signs page
    g. Rating and picker page
    h. Additional showcase pages as needed
 3. Import headless components from the corresponding headless library
@@ -250,7 +248,6 @@ Create styled example pages demonstrating component usage with ${sp.tech}. Examp
 
 - [ ] Implement link components (action-link, back-link, skip-link, etc.)
 - [ ] Implement view components (postal-code-view, measurement views, etc.)
-- [ ] Implement vital sign components (15 view + 15 input pairs)
 - [ ] Implement table families (5 families x 7 parts each)
 - [ ] Implement navigation patterns (accordion-nav, breadcrumb-nav, etc.)
 - [ ] Implement list patterns (check-list, summary-list, task-list, etc.)
@@ -288,7 +285,6 @@ Create styled example pages demonstrating component usage with ${sp.tech}. Examp
 - [ ] Create table example page
 - [ ] Create dialog and overlay example page
 - [ ] Create layout example page
-- [ ] Create medical/vital signs example page
 - [ ] Create rating and picker example page
 - [ ] Add tests for each example page
 - [ ] Verify responsive design on mobile and desktop

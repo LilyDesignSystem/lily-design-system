@@ -87,7 +87,6 @@ function getRole(name, tag) {
   if (name === "toggle-group" || name === "segment-group") return "group";
   if (name === "tool-bar") return "toolbar";
   if (name === "search-input") return "searchbox";
-  if (name.endsWith("-view") && name.startsWith("vital-sign-")) return null; // handled in getAttributes
   if (name === "progress-circle" || name === "progress-spinner")
     return "progressbar";
   if (name === "slider" || name === "dial") return "slider";
@@ -579,238 +578,9 @@ const COMPONENTS = [
     "a read-only display of a US Social Security number",
   ],
   ["url-input", "an input for entering a URL"],
-  [
-    "vital-sign-blood-pressure-diastolic-as-mmhg-view",
-    "number display of one vital sign blood pressure diastolic with integers",
-  ],
-  [
-    "vital-sign-blood-pressure-diastolic-as-mmhg-input",
-    "number input of one vital sign blood pressure diastolic with integers",
-  ],
-  [
-    "vital-sign-blood-pressure-systolic-as-mmhg-view",
-    "number display of one vital sign blood pressure systolic with integers",
-  ],
-  [
-    "vital-sign-blood-pressure-systolic-as-mmhg-input",
-    "number input of one vital sign blood pressure systolic with integers",
-  ],
-  [
-    "vital-sign-body-fat-as-percentage-view",
-    "number display of one vital sign body fat percentage with one decimal point",
-  ],
-  [
-    "vital-sign-body-fat-as-percentage-input",
-    "number input of one vital sign body fat percentage with one decimal point",
-  ],
-  [
-    "vital-sign-body-temperature-as-celcius-view",
-    "number display of one vital sign body temperature in Celsius degrees with one decimal point",
-  ],
-  [
-    "vital-sign-body-temperature-as-celcius-input",
-    "number input of one vital sign body temperature in Celsius degrees with one decimal point",
-  ],
-  [
-    "vital-sign-cholesterol-as-hdl-mmol-per-litre-view",
-    "number display of one vital sign cholesterol HDL millimole per litre with one decimal point",
-  ],
-  [
-    "vital-sign-cholesterol-as-hdl-mmol-per-litre-input",
-    "number input of one vital sign cholesterol HDL millimole per litre with one decimal point",
-  ],
-  [
-    "vital-sign-cholesterol-as-ldl-mmol-per-litre-view",
-    "number display of one vital sign cholesterol LDL millimole per litre with one decimal point",
-  ],
-  [
-    "vital-sign-cholesterol-as-ldl-mmol-per-litre-input",
-    "number input of one vital sign cholesterol LDL millimole per litre with one decimal point",
-  ],
-  [
-    "vital-sign-heart-rate-as-beats-per-minute-view",
-    "number display of one vital sign heart rate in beats per minute with integers",
-  ],
-  [
-    "vital-sign-heart-rate-as-beats-per-minute-input",
-    "number input of one vital sign heart rate in beats per minute with integers",
-  ],
-  [
-    "vital-sign-heart-rate-variability-view",
-    "number display of one vital sign heart rate variability with integers",
-  ],
-  [
-    "vital-sign-heart-rate-variability-input",
-    "number input of one vital sign heart rate variability with integers",
-  ],
-  [
-    "vital-sign-height-as-cm-view",
-    "number display of one vital sign height in centimetres with integers",
-  ],
-  [
-    "vital-sign-height-as-cm-input",
-    "number input of one vital sign height in centimetres with integers",
-  ],
-  [
-    "vital-sign-respiratory-rate-as-breaths-per-minute-view",
-    "number display of one vital sign respiratory rate in breaths per minute with integers",
-  ],
-  [
-    "vital-sign-respiratory-rate-as-breaths-per-minute-input",
-    "number input of one vital sign respiratory rate in breaths per minute with integers",
-  ],
-  [
-    "vital-sign-sleep-score-as-0-to-100-view",
-    "number display of one vital sign sleep score with range 0-100",
-  ],
-  [
-    "vital-sign-sleep-score-as-0-to-100-input",
-    "number input of one vital sign sleep score with range 0-100",
-  ],
-  [
-    "vital-sign-total-sleep-time-as-min-per-day-view",
-    "number display of one vital sign total sleep time as minutes per day",
-  ],
-  [
-    "vital-sign-total-sleep-time-as-min-per-day-input",
-    "number input of one vital sign total sleep time as minutes per day",
-  ],
-  [
-    "vital-sign-vo2-max-as-ml-per-kg-per-minute-view",
-    "number display of one vital sign VO2 max in ml per kg per minute with integers",
-  ],
-  [
-    "vital-sign-vo2-max-as-ml-per-kg-per-minute-input",
-    "number input of one vital sign VO2 max in ml per kg per minute with integers",
-  ],
-  [
-    "vital-sign-waist-circumference-as-cm-view",
-    "number display of one vital sign waist circumference in centimetres with integers",
-  ],
-  [
-    "vital-sign-waist-circumference-as-cm-input",
-    "number input of one vital sign waist circumference in centimetres with integers",
-  ],
-  [
-    "vital-sign-weight-as-kg-view",
-    "number display of one vital sign weight in kilograms with integers",
-  ],
-  [
-    "vital-sign-weight-as-kg-input",
-    "number input of one vital sign weight in kilograms with integers",
-  ],
   ["warning-callout", "a callout box highlighting a warning message"],
   ["week-input", "an input for selecting a week and year"],
 ];
-
-// Vital sign metadata for min/max/step
-const VITAL_SIGNS = {
-  "vital-sign-blood-pressure-diastolic-as-mmhg": {
-    min: 20,
-    max: 200,
-    step: 1,
-    unit: "mmHg",
-    label: "Blood Pressure Diastolic",
-  },
-  "vital-sign-blood-pressure-systolic-as-mmhg": {
-    min: 50,
-    max: 300,
-    step: 1,
-    unit: "mmHg",
-    label: "Blood Pressure Systolic",
-  },
-  "vital-sign-body-fat-as-percentage": {
-    min: 0,
-    max: 100,
-    step: 0.1,
-    unit: "%",
-    label: "Body Fat Percentage",
-  },
-  "vital-sign-body-temperature-as-celcius": {
-    min: 30,
-    max: 45,
-    step: 0.1,
-    unit: "°C",
-    label: "Body Temperature",
-  },
-  "vital-sign-cholesterol-as-hdl-mmol-per-litre": {
-    min: 0,
-    max: 10,
-    step: 0.1,
-    unit: "mmol/L",
-    label: "Cholesterol HDL",
-  },
-  "vital-sign-cholesterol-as-ldl-mmol-per-litre": {
-    min: 0,
-    max: 15,
-    step: 0.1,
-    unit: "mmol/L",
-    label: "Cholesterol LDL",
-  },
-  "vital-sign-heart-rate-as-beats-per-minute": {
-    min: 20,
-    max: 300,
-    step: 1,
-    unit: "BPM",
-    label: "Heart Rate",
-  },
-  "vital-sign-heart-rate-variability": {
-    min: 0,
-    max: 300,
-    step: 1,
-    unit: "ms",
-    label: "Heart Rate Variability",
-  },
-  "vital-sign-height-as-cm": {
-    min: 20,
-    max: 300,
-    step: 1,
-    unit: "cm",
-    label: "Height",
-  },
-  "vital-sign-respiratory-rate-as-breaths-per-minute": {
-    min: 0,
-    max: 100,
-    step: 1,
-    unit: "breaths/min",
-    label: "Respiratory Rate",
-  },
-  "vital-sign-sleep-score-as-0-to-100": {
-    min: 0,
-    max: 100,
-    step: 1,
-    unit: "",
-    label: "Sleep Score",
-  },
-  "vital-sign-total-sleep-time-as-min-per-day": {
-    min: 0,
-    max: 1440,
-    step: 1,
-    unit: "min/day",
-    label: "Total Sleep Time",
-  },
-  "vital-sign-vo2-max-as-ml-per-kg-per-minute": {
-    min: 0,
-    max: 100,
-    step: 1,
-    unit: "mL/kg/min",
-    label: "VO2 Max",
-  },
-  "vital-sign-waist-circumference-as-cm": {
-    min: 20,
-    max: 300,
-    step: 1,
-    unit: "cm",
-    label: "Waist Circumference",
-  },
-  "vital-sign-weight-as-kg": {
-    min: 0,
-    max: 700,
-    step: 1,
-    unit: "kg",
-    label: "Weight",
-  },
-};
 
 // Input type mappings
 const INPUT_TYPES = {
@@ -855,16 +625,6 @@ const SELF_CLOSING = new Set(["input", "img"]);
 
 // Generate the inner content for the main element
 function getInnerContent(name, tag, pascal) {
-  // Vital sign view
-  const vsBase = name.replace(/-view$/, "").replace(/-input$/, "");
-  if (name.startsWith("vital-sign-") && name.endsWith("-view")) {
-    const vs = VITAL_SIGNS[vsBase];
-    return `\n  <!-- Display: shows the vital sign value as text content -->\n  <!-- Consumer sets data-value attribute and text content -->`;
-  }
-  if (name.startsWith("vital-sign-") && name.endsWith("-input")) {
-    return ""; // input is self-closing, content is via attributes
-  }
-
   if (SELF_CLOSING.has(tag)) return "";
 
   // Table sub-components - no inner content needed
@@ -1002,28 +762,7 @@ function getAttributes(name, tag, role) {
       attrs.push(`type="${inputType}"`);
     }
 
-    // Vital sign input specifics
-    const vsBase = name.replace(/-input$/, "");
-    if (VITAL_SIGNS[vsBase]) {
-      const vs = VITAL_SIGNS[vsBase];
-      // Remove generic type if present, use number
-      const typeIdx = attrs.findIndex((a) => a.startsWith("type="));
-      if (typeIdx >= 0) attrs.splice(typeIdx, 1);
-      attrs.splice(
-        attrs.indexOf('class="' + name + '"') + 1,
-        0,
-        `type="number"`,
-      );
-      // Remove generic aria-label, replace with specific
-      const labelIdx = attrs.indexOf('aria-label=""');
-      if (labelIdx >= 0) attrs.splice(labelIdx, 1);
-      attrs.push(`min="${vs.min}"`);
-      attrs.push(`max="${vs.max}"`);
-      attrs.push(`step="${vs.step}"`);
-      attrs.push(`aria-label="${vs.label}"`);
-    } else {
-      attrs.push('aria-label=""');
-    }
+    attrs.push('aria-label=""');
 
     if (name === "angle-slider-range-input") {
       attrs.push('min="0"');
@@ -1034,20 +773,6 @@ function getAttributes(name, tag, role) {
     if (name === "hidden-input") {
       // hidden inputs don't need aria-label
       attrs = attrs.filter((a) => a !== 'aria-label=""');
-    }
-  }
-
-  // Vital sign view specifics
-  const vsBase2 = name.replace(/-view$/, "").replace(/-input$/, "");
-  if (name.startsWith("vital-sign-") && name.endsWith("-view")) {
-    const vs = VITAL_SIGNS[vsBase2];
-    if (vs) {
-      // Remove generic aria-label, replace with specific one
-      const labelIdx = attrs.indexOf('aria-label=""');
-      if (labelIdx >= 0) attrs.splice(labelIdx, 1);
-      attrs.push(`role="img"`);
-      attrs.push(`aria-label="${vs.label}"`);
-      attrs.push('data-value=""');
     }
   }
 

@@ -22,7 +22,6 @@ A thin, unstyled `<span>` wrapper that renders a measurement string and optional
 ## When not to use it
 
 - Do not use when the value should be editable — use `MeasurementInstanceInput`.
-- Do not use for known-structure vital signs — use the specific `VitalSign*View` components.
 - Do not use for free-form text unrelated to measurements — use a plain `<span>` or `BodyText`.
 
 ## How to use it
@@ -112,5 +111,4 @@ Import the component, pass the `value` string, and optionally provide a `label` 
 - `MeasurementInstanceInput` — paired input for entering the same measurement.
 - `MeasurementSystemView` / `MeasurementSystemInput` — measurement system.
 - `MeasurementUnitView` / `MeasurementUnitInput` — measurement unit.
-- `VitalSign*View` components — dedicated vital-sign displays.
 - `BodyText` — general text block.

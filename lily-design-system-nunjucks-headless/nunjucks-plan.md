@@ -275,7 +275,6 @@ component in that list, 1:1, with no omissions and no additions.
    a. Static wrappers (badge, banner, card, panel, alert, …)
    b. Form inputs (text-input, email-input, checkbox-input, …)
    c. Links and views (action-link, postal-code-view, …)
-   d. Vital sign views and inputs (16 view/input pairs)
    e. Table families (table, data-table, calendar-table, gantt-table,
       kanban-table — 7 parts each)
    f. Navigation patterns (accordion-nav, breadcrumb-nav, tree-nav, …)

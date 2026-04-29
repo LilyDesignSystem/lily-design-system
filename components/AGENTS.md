@@ -47,16 +47,7 @@ Examples of composition patterns:
 - `*Bar` `*BarButton` (e.g., MenuBar, TabBar, TaskBar, ToolBar)
 - `*Picker` `*PickerButton` (e.g., ColorPicker, FiveStarRatingPicker)
 - `*Menu` `*MenuItem` (e.g., ContextMenu, Menu, TreeMenu)
-- `*Input` `*View` (e.g., VitalSign paired components, PostalCode, Measurement)
-
-## Vital Sign Components
-
-Vital sign components follow the Input/View pattern:
-
-- **View**: `<span>` with `role="img"`, `aria-label`, `data-value`, displays the value as text content
-- **Input**: `<input type="number">` with `aria-label`, bindable value, domain-specific min/max/step defaults
-
-Integer types use `step=1`. Decimal types use `step=0.1` (one decimal point) or `step=0.01` (two decimal places).
+- `*Input` `*View` (e.g., PostalCode, Measurement)
 
 ## File Structure
 

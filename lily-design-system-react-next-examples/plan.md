@@ -20,7 +20,6 @@ Create styled example pages demonstrating component usage with Next.js 15 + Reac
    c. Table page (data-table, calendar-table)
    d. Dialog and overlay page (dialog, popover, tooltip, toast)
    e. Layout page (grail-layout, sidebar, card)
-   f. Medical/vital signs page
    g. Rating and picker page
    h. Additional showcase pages as needed
 3. Import headless components from the corresponding headless library

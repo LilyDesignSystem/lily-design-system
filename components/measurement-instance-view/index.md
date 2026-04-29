@@ -55,7 +55,6 @@ None -- this is a display-only component.
 ## When Not to Use
 
 - Do not use for entering measurements -- use MeasurementInstanceInput instead.
-- Do not use for vital sign-specific displays -- use the corresponding VitalSign*View component instead.
 
 ## Headless
 

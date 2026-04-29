@@ -19,7 +19,6 @@ Implement all headless components as Nunjucks 3.x macros. Every component must b
    a. Static wrappers (Badge, Banner, Card, Panel, Alert, etc.)
    b. Form inputs (TextInput, EmailInput, CheckboxInput, etc.)
    c. Links and views (ActionLink, PostalCodeView, etc.)
-   d. Vital sign views and inputs (16 pairs)
    e. Table families (Table, DataTable, CalendarTable, etc.)
    f. Navigation patterns (AccordionNav, BreadcrumbNav, etc.)
    g. List patterns (CheckList, SummaryList, TaskList, etc.)

@@ -442,26 +442,6 @@ Every component's root element includes a semantic CSS class matching its kebab-
 | MeasurementSystemInput/View                      | Measurement system input/display |
 | MeasurementUnitInput/View                        | Measurement unit input/display   |
 
-### Vital Signs
-
-| Component                                            | Description                            |
-| ---------------------------------------------------- | -------------------------------------- |
-| VitalSignBloodPressureDiastolicAsMmhgView/Input      | Blood pressure diastolic in mmHg       |
-| VitalSignBloodPressureSystolicAsMmhgView/Input       | Blood pressure systolic in mmHg        |
-| VitalSignBodyFatAsPercentageView/Input               | Body fat percentage                    |
-| VitalSignBodyTemperatureAsCelciusView/Input          | Body temperature in Celsius            |
-| VitalSignCholesterolAsHdlMmolPerLitreView/Input      | Cholesterol HDL in mmol/L              |
-| VitalSignCholesterolAsLdlMmolPerLitreView/Input      | Cholesterol LDL in mmol/L              |
-| VitalSignHeartRateAsBeatsPerMinuteView/Input         | Heart rate in BPM                      |
-| VitalSignHeartRateVariabilityView/Input              | Heart rate variability (HRV)           |
-| VitalSignHeightAsCmView/Input                        | Height in centimetres                  |
-| VitalSignRespiratoryRateAsBreathsPerMinuteView/Input | Respiratory rate in breaths per minute |
-| VitalSignSleepScoreAs0To100View/Input                | Sleep score (0-100)                    |
-| VitalSignTotalSleepTimeAsMinPerDayView/Input         | Total sleep time in minutes per day    |
-| VitalSignVo2MaxAsMlPerKgPerMinuteView/Input          | VO2 max in mL/kg/min                   |
-| VitalSignWaistCircumferenceAsCmView/Input            | Waist circumference in centimetres     |
-| VitalSignWeightAsKgView/Input                        | Weight in kilograms                    |
-
 ## Usage Examples
 
 See the `examples/` directory for comprehensive standalone examples:
@@ -957,13 +937,6 @@ Many components form hierarchical families meant to be used together:
   <GrailLayoutRightAside>…</GrailLayoutRightAside>
   <GrailLayoutBottomFooter>…</GrailLayoutBottomFooter>
 </GrailLayout>
-
-// Vital Signs: Group → Individual vital sign views or inputs
-<VitalSignGroupView>
-  <VitalSignHeartRateAsBeatsPerMinuteView>…</VitalSignHeartRateAsBeatsPerMinuteView>
-  <VitalSignBloodPressureSystolicAsMmhgView>…</VitalSignBloodPressureSystolicAsMmhgView>
-  <VitalSignBloodPressureDiastolicAsMmhgView>…</VitalSignBloodPressureDiastolicAsMmhgView>
-</VitalSignGroupView>
 ```
 
 ## Styling Guide

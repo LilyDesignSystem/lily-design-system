@@ -19,7 +19,6 @@ Implement all headless components using Vue 3 Composition API + TypeScript. Ever
    a. Static wrappers (badge, banner, card, panel, alert, etc.)
    b. Form inputs (text-input, email-input, checkbox-input, etc.)
    c. Links and views (action-link, postal-code-view, etc.)
-   d. Vital sign views and inputs (16 pairs)
    e. Table families (table, data-table, calendar-table, etc.)
    f. Navigation patterns (accordion-nav, breadcrumb-nav, etc.)
    g. List patterns (check-list, summary-list, task-list, etc.)

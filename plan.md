@@ -147,7 +147,6 @@ Group by category for consistency:
 | Task & Tool Bar | task-bar, task-bar-button, tool-bar, tool-bar-button | 4 |
 | Toast & Notification | toast, sonner | 2 |
 | Tree | tree-nav, tree-list, tree-list-item, tree-link, tree-menu | 5 |
-| Vital Signs | 32 vital-sign-*-input and vital-sign-*-view components | 32 |
 | Other | beach-ball, clipboard-copy-button, care-card, carousel, comment, timer, timer-button, call-to-action | 8 |
 
 ### Enhancement per component
@@ -185,7 +184,7 @@ For each component `index.md`, update these sections:
 - [x] Tools (list-components, test-components, test-implementations) work correctly
 - [x] Component naming patterns documented and consistent
 - [x] Suffix-to-HTML-element mapping documented and accurate
-- [x] Composition patterns documented (Form, Navigation, Table, Grail Layout, VitalSign)
+- [x] Composition patterns documented (Form, Navigation, Table, Grail Layout)
 - [x] All subprojects have required files (index.md, README.md symlink, AGENTS.md, CLAUDE.md, plan.md, tasks.md)
 - [x] All 364 components have directories with documentation
 - [x] All 5 example subprojects have `/components` route listing all components

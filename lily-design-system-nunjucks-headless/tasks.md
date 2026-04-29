@@ -174,40 +174,7 @@ directory matching the NHS.UK frontend layout.
 - [ ] united-states-social-security-number-input
 - [ ] united-states-social-security-number-view
 
-#### d. Vital sign views and inputs (16 pairs = 32 components)
 
-- [ ] vital-sign-belly-circumference-as-cm-input
-- [ ] vital-sign-belly-circumference-as-cm-view
-- [ ] vital-sign-blood-pressure-diastolic-as-mmhg-input
-- [ ] vital-sign-blood-pressure-diastolic-as-mmhg-view
-- [ ] vital-sign-blood-pressure-systolic-as-mmhg-input
-- [ ] vital-sign-blood-pressure-systolic-as-mmhg-view
-- [ ] vital-sign-body-fat-as-percentage-input
-- [ ] vital-sign-body-fat-as-percentage-view
-- [ ] vital-sign-body-temperature-as-celcius-input
-- [ ] vital-sign-body-temperature-as-celcius-view
-- [ ] vital-sign-cholesterol-as-hdl-mmol-per-litre-input
-- [ ] vital-sign-cholesterol-as-hdl-mmol-per-litre-view
-- [ ] vital-sign-cholesterol-as-ldl-mmol-per-litre-input
-- [ ] vital-sign-cholesterol-as-ldl-mmol-per-litre-view
-- [ ] vital-sign-heart-rate-as-beats-per-minute-input
-- [ ] vital-sign-heart-rate-as-beats-per-minute-view
-- [ ] vital-sign-heart-rate-variability-input
-- [ ] vital-sign-heart-rate-variability-view
-- [ ] vital-sign-height-as-cm-input
-- [ ] vital-sign-height-as-cm-view
-- [ ] vital-sign-respiratory-rate-as-breaths-per-minute-input
-- [ ] vital-sign-respiratory-rate-as-breaths-per-minute-view
-- [ ] vital-sign-sleep-score-as-0-to-100-input
-- [ ] vital-sign-sleep-score-as-0-to-100-view
-- [ ] vital-sign-total-sleep-time-as-min-per-day-input
-- [ ] vital-sign-total-sleep-time-as-min-per-day-view
-- [ ] vital-sign-vo2-max-as-ml-per-kg-per-minute-input
-- [ ] vital-sign-vo2-max-as-ml-per-kg-per-minute-view
-- [ ] vital-sign-waist-circumference-as-cm-input
-- [ ] vital-sign-waist-circumference-as-cm-view
-- [ ] vital-sign-weight-as-kg-input
-- [ ] vital-sign-weight-as-kg-view
 
 #### e. Table families (5 families x 7 parts = 35 components)
 

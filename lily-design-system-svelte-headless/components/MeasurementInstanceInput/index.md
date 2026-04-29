@@ -23,7 +23,6 @@ A thin wrapper around `<input type="text">` that accepts free-form measurement s
 ## When not to use it
 
 - Do not use when you need structured numeric input with a separate unit picker — combine `NumberInput` + `MeasurementUnitInput` / `Select`.
-- Do not use for dedicated vital signs with known units — use the specific `VitalSign*Input` components.
 - Do not use for display — use `MeasurementInstanceView`.
 
 ## How to use it
@@ -117,6 +116,5 @@ Import the component, pass a `label`, and bind the `value`. Validate the format 
 - `MeasurementInstanceView` — paired read-only display of the same measurement instance.
 - `MeasurementSystemInput` / `MeasurementSystemView` — measurement system name input/display.
 - `MeasurementUnitInput` / `MeasurementUnitView` — measurement unit input/display.
-- `VitalSignHeartRateAsBeatsPerMinuteInput`, `VitalSignBodyTemperatureAsCelciusInput`, etc. — dedicated vital-sign inputs.
 - `NumberInput` — numeric-only input without a unit.
 - `CurrencyInput` — locale-aware currency input.
