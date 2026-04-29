@@ -44,42 +44,42 @@ description: a Gantt chart table interactive grid for planning schedule visualiz
   {% endcall %}
 {% endcall %}
 
-<h2>Numeric columns — vital signs</h2>
-{% call ganttTable({ caption: "Recent vital sign measurements" }) %}
+<h2>Numeric columns — weather observations</h2>
+{% call ganttTable({ caption: "Recent weather observations" }) %}
   {% call ganttTableHead() %}
     {% call ganttTableRow() %}
       {{ ganttTableCol({ text: "Date" }) }}
-      {{ ganttTableCol({ text: "Heart rate (bpm)", classes: "gantt-table-col-numeric" }) }}
-      {{ ganttTableCol({ text: "Systolic (mmHg)", classes: "gantt-table-col-numeric" }) }}
-      {{ ganttTableCol({ text: "Diastolic (mmHg)", classes: "gantt-table-col-numeric" }) }}
+      {{ ganttTableCol({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
+      {{ ganttTableCol({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
+      {{ ganttTableCol({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call ganttTableBody() %}
     {% call ganttTableRow() %}
       {{ ganttTableData({ text: "12 Apr" }) }}
-      {{ ganttTableData({ text: "72", classes: "gantt-table-data-numeric" }) }}
-      {{ ganttTableData({ text: "118", classes: "gantt-table-data-numeric" }) }}
-      {{ ganttTableData({ text: "76", classes: "gantt-table-data-numeric" }) }}
+      {{ ganttTableData({ text: "14", classes: "table-data-numeric" }) }}
+      {{ ganttTableData({ text: "3.2", classes: "table-data-numeric" }) }}
+      {{ ganttTableData({ text: "18", classes: "table-data-numeric" }) }}
     {% endcall %}
     {% call ganttTableRow() %}
       {{ ganttTableData({ text: "19 Apr" }) }}
-      {{ ganttTableData({ text: "68", classes: "gantt-table-data-numeric" }) }}
-      {{ ganttTableData({ text: "120", classes: "gantt-table-data-numeric" }) }}
-      {{ ganttTableData({ text: "78", classes: "gantt-table-data-numeric" }) }}
+      {{ ganttTableData({ text: "16", classes: "table-data-numeric" }) }}
+      {{ ganttTableData({ text: "0.0", classes: "table-data-numeric" }) }}
+      {{ ganttTableData({ text: "12", classes: "table-data-numeric" }) }}
     {% endcall %}
     {% call ganttTableRow() %}
       {{ ganttTableData({ text: "26 Apr" }) }}
-      {{ ganttTableData({ text: "70", classes: "gantt-table-data-numeric" }) }}
-      {{ ganttTableData({ text: "116", classes: "gantt-table-data-numeric" }) }}
-      {{ ganttTableData({ text: "74", classes: "gantt-table-data-numeric" }) }}
+      {{ ganttTableData({ text: "15", classes: "table-data-numeric" }) }}
+      {{ ganttTableData({ text: "1.4", classes: "table-data-numeric" }) }}
+      {{ ganttTableData({ text: "20", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call ganttTableFoot() %}
     {% call ganttTableRow() %}
       {{ ganttTableCol({ text: "Average", scope: "row" }) }}
-      {{ ganttTableData({ text: "70", classes: "gantt-table-data-numeric" }) }}
-      {{ ganttTableData({ text: "118", classes: "gantt-table-data-numeric" }) }}
-      {{ ganttTableData({ text: "76", classes: "gantt-table-data-numeric" }) }}
+      {{ ganttTableData({ text: "15", classes: "table-data-numeric" }) }}
+      {{ ganttTableData({ text: "1.5", classes: "table-data-numeric" }) }}
+      {{ ganttTableData({ text: "17", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}

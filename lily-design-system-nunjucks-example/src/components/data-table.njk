@@ -44,42 +44,42 @@ description: a data table interactive grid for displaying and sorting tabular da
   {% endcall %}
 {% endcall %}
 
-<h2>Numeric columns — vital signs</h2>
-{% call dataTable({ caption: "Recent vital sign measurements" }) %}
+<h2>Numeric columns — weather observations</h2>
+{% call dataTable({ caption: "Recent weather observations" }) %}
   {% call dataTableHead() %}
     {% call dataTableRow() %}
       {{ dataTableCol({ text: "Date" }) }}
-      {{ dataTableCol({ text: "Heart rate (bpm)", classes: "data-table-col-numeric" }) }}
-      {{ dataTableCol({ text: "Systolic (mmHg)", classes: "data-table-col-numeric" }) }}
-      {{ dataTableCol({ text: "Diastolic (mmHg)", classes: "data-table-col-numeric" }) }}
+      {{ dataTableCol({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
+      {{ dataTableCol({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
+      {{ dataTableCol({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call dataTableBody() %}
     {% call dataTableRow() %}
       {{ dataTableData({ text: "12 Apr" }) }}
-      {{ dataTableData({ text: "72", classes: "data-table-data-numeric" }) }}
-      {{ dataTableData({ text: "118", classes: "data-table-data-numeric" }) }}
-      {{ dataTableData({ text: "76", classes: "data-table-data-numeric" }) }}
+      {{ dataTableData({ text: "14", classes: "table-data-numeric" }) }}
+      {{ dataTableData({ text: "3.2", classes: "table-data-numeric" }) }}
+      {{ dataTableData({ text: "18", classes: "table-data-numeric" }) }}
     {% endcall %}
     {% call dataTableRow() %}
       {{ dataTableData({ text: "19 Apr" }) }}
-      {{ dataTableData({ text: "68", classes: "data-table-data-numeric" }) }}
-      {{ dataTableData({ text: "120", classes: "data-table-data-numeric" }) }}
-      {{ dataTableData({ text: "78", classes: "data-table-data-numeric" }) }}
+      {{ dataTableData({ text: "16", classes: "table-data-numeric" }) }}
+      {{ dataTableData({ text: "0.0", classes: "table-data-numeric" }) }}
+      {{ dataTableData({ text: "12", classes: "table-data-numeric" }) }}
     {% endcall %}
     {% call dataTableRow() %}
       {{ dataTableData({ text: "26 Apr" }) }}
-      {{ dataTableData({ text: "70", classes: "data-table-data-numeric" }) }}
-      {{ dataTableData({ text: "116", classes: "data-table-data-numeric" }) }}
-      {{ dataTableData({ text: "74", classes: "data-table-data-numeric" }) }}
+      {{ dataTableData({ text: "15", classes: "table-data-numeric" }) }}
+      {{ dataTableData({ text: "1.4", classes: "table-data-numeric" }) }}
+      {{ dataTableData({ text: "20", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call dataTableFoot() %}
     {% call dataTableRow() %}
       {{ dataTableCol({ text: "Average", scope: "row" }) }}
-      {{ dataTableData({ text: "70", classes: "data-table-data-numeric" }) }}
-      {{ dataTableData({ text: "118", classes: "data-table-data-numeric" }) }}
-      {{ dataTableData({ text: "76", classes: "data-table-data-numeric" }) }}
+      {{ dataTableData({ text: "15", classes: "table-data-numeric" }) }}
+      {{ dataTableData({ text: "1.5", classes: "table-data-numeric" }) }}
+      {{ dataTableData({ text: "17", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}

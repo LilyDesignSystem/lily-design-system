@@ -123,8 +123,8 @@ Wrap medical banner content in `MedicalBanner`, nest `MedicalBannerBox` (for lay
     import MedicalBanner from "./MedicalBanner.svelte";
 </script>
 
-<MedicalBanner label="Vitals recorded" type="success">
-    <p>Vital signs submitted at 14:35.</p>
+<MedicalBanner label="Record saved" type="success">
+    <p>Record submitted at 14:35.</p>
 </MedicalBanner>
 ```
 

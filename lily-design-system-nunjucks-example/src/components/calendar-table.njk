@@ -44,42 +44,42 @@ description: a calendar table interactive grid for managing dates, days, etc.
   {% endcall %}
 {% endcall %}
 
-<h2>Numeric columns — vital signs</h2>
-{% call calendarTable({ caption: "Recent vital sign measurements" }) %}
+<h2>Numeric columns — weather observations</h2>
+{% call calendarTable({ caption: "Recent weather observations" }) %}
   {% call calendarTableHead() %}
     {% call calendarTableRow() %}
       {{ calendarTableCol({ text: "Date" }) }}
-      {{ calendarTableCol({ text: "Heart rate (bpm)", classes: "calendar-table-col-numeric" }) }}
-      {{ calendarTableCol({ text: "Systolic (mmHg)", classes: "calendar-table-col-numeric" }) }}
-      {{ calendarTableCol({ text: "Diastolic (mmHg)", classes: "calendar-table-col-numeric" }) }}
+      {{ calendarTableCol({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
+      {{ calendarTableCol({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
+      {{ calendarTableCol({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call calendarTableBody() %}
     {% call calendarTableRow() %}
       {{ calendarTableData({ text: "12 Apr" }) }}
-      {{ calendarTableData({ text: "72", classes: "calendar-table-data-numeric" }) }}
-      {{ calendarTableData({ text: "118", classes: "calendar-table-data-numeric" }) }}
-      {{ calendarTableData({ text: "76", classes: "calendar-table-data-numeric" }) }}
+      {{ calendarTableData({ text: "14", classes: "table-data-numeric" }) }}
+      {{ calendarTableData({ text: "3.2", classes: "table-data-numeric" }) }}
+      {{ calendarTableData({ text: "18", classes: "table-data-numeric" }) }}
     {% endcall %}
     {% call calendarTableRow() %}
       {{ calendarTableData({ text: "19 Apr" }) }}
-      {{ calendarTableData({ text: "68", classes: "calendar-table-data-numeric" }) }}
-      {{ calendarTableData({ text: "120", classes: "calendar-table-data-numeric" }) }}
-      {{ calendarTableData({ text: "78", classes: "calendar-table-data-numeric" }) }}
+      {{ calendarTableData({ text: "16", classes: "table-data-numeric" }) }}
+      {{ calendarTableData({ text: "0.0", classes: "table-data-numeric" }) }}
+      {{ calendarTableData({ text: "12", classes: "table-data-numeric" }) }}
     {% endcall %}
     {% call calendarTableRow() %}
       {{ calendarTableData({ text: "26 Apr" }) }}
-      {{ calendarTableData({ text: "70", classes: "calendar-table-data-numeric" }) }}
-      {{ calendarTableData({ text: "116", classes: "calendar-table-data-numeric" }) }}
-      {{ calendarTableData({ text: "74", classes: "calendar-table-data-numeric" }) }}
+      {{ calendarTableData({ text: "15", classes: "table-data-numeric" }) }}
+      {{ calendarTableData({ text: "1.4", classes: "table-data-numeric" }) }}
+      {{ calendarTableData({ text: "20", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call calendarTableFoot() %}
     {% call calendarTableRow() %}
       {{ calendarTableCol({ text: "Average", scope: "row" }) }}
-      {{ calendarTableData({ text: "70", classes: "calendar-table-data-numeric" }) }}
-      {{ calendarTableData({ text: "118", classes: "calendar-table-data-numeric" }) }}
-      {{ calendarTableData({ text: "76", classes: "calendar-table-data-numeric" }) }}
+      {{ calendarTableData({ text: "15", classes: "table-data-numeric" }) }}
+      {{ calendarTableData({ text: "1.5", classes: "table-data-numeric" }) }}
+      {{ calendarTableData({ text: "17", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}

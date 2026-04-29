@@ -44,42 +44,42 @@ description: a kanban board table interactive grid for organizing items by statu
   {% endcall %}
 {% endcall %}
 
-<h2>Numeric columns — vital signs</h2>
-{% call kanbanTable({ caption: "Recent vital sign measurements" }) %}
+<h2>Numeric columns — weather observations</h2>
+{% call kanbanTable({ caption: "Recent weather observations" }) %}
   {% call kanbanTableHead() %}
     {% call kanbanTableRow() %}
       {{ kanbanTableCol({ text: "Date" }) }}
-      {{ kanbanTableCol({ text: "Heart rate (bpm)", classes: "kanban-table-col-numeric" }) }}
-      {{ kanbanTableCol({ text: "Systolic (mmHg)", classes: "kanban-table-col-numeric" }) }}
-      {{ kanbanTableCol({ text: "Diastolic (mmHg)", classes: "kanban-table-col-numeric" }) }}
+      {{ kanbanTableCol({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
+      {{ kanbanTableCol({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
+      {{ kanbanTableCol({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call kanbanTableBody() %}
     {% call kanbanTableRow() %}
       {{ kanbanTableData({ text: "12 Apr" }) }}
-      {{ kanbanTableData({ text: "72", classes: "kanban-table-data-numeric" }) }}
-      {{ kanbanTableData({ text: "118", classes: "kanban-table-data-numeric" }) }}
-      {{ kanbanTableData({ text: "76", classes: "kanban-table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "14", classes: "table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "3.2", classes: "table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "18", classes: "table-data-numeric" }) }}
     {% endcall %}
     {% call kanbanTableRow() %}
       {{ kanbanTableData({ text: "19 Apr" }) }}
-      {{ kanbanTableData({ text: "68", classes: "kanban-table-data-numeric" }) }}
-      {{ kanbanTableData({ text: "120", classes: "kanban-table-data-numeric" }) }}
-      {{ kanbanTableData({ text: "78", classes: "kanban-table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "16", classes: "table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "0.0", classes: "table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "12", classes: "table-data-numeric" }) }}
     {% endcall %}
     {% call kanbanTableRow() %}
       {{ kanbanTableData({ text: "26 Apr" }) }}
-      {{ kanbanTableData({ text: "70", classes: "kanban-table-data-numeric" }) }}
-      {{ kanbanTableData({ text: "116", classes: "kanban-table-data-numeric" }) }}
-      {{ kanbanTableData({ text: "74", classes: "kanban-table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "15", classes: "table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "1.4", classes: "table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "20", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call kanbanTableFoot() %}
     {% call kanbanTableRow() %}
       {{ kanbanTableCol({ text: "Average", scope: "row" }) }}
-      {{ kanbanTableData({ text: "70", classes: "kanban-table-data-numeric" }) }}
-      {{ kanbanTableData({ text: "118", classes: "kanban-table-data-numeric" }) }}
-      {{ kanbanTableData({ text: "76", classes: "kanban-table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "15", classes: "table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "1.5", classes: "table-data-numeric" }) }}
+      {{ kanbanTableData({ text: "17", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}
