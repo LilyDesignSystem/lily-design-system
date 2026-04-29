@@ -14,7 +14,7 @@
 - **Package**: lily-design-system-svelte-sveltekit-examples
 - **Version**: 0.2.0
 - **Created**: 2026-03-03
-- **License**: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or contact us for more
+- **License**: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
 - **Contact**: Joel Parker Henderson (joel@joelparkerhenderson.com)
 
 ## Overview

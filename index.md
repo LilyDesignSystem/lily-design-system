@@ -485,5 +485,5 @@ Headless versions if you want to use components with all your own styles:
 - Version: 0.2.0
 - Created: 2025-08-09T21:09:52Z
 - Updated: 2026-04-28T00:00:00Z
-- License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or contact us for more
+- License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
 - Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
