@@ -18,7 +18,7 @@ A headless Svelte 5 structural wrapper. Category: calendar grid structural primi
 
 ## When not to use it
 
-- Outside a `CalendarTable` — use `DataTableBody`, `GanttTableBody`, `KanbanTableBody`, or `TableBody` as appropriate.
+- Outside a `CalendarTable` — use `DataTableBody`, `GanttTableTbody`, `KanbanTableBody`, or `TableBody` as appropriate.
 
 ## How to use it
 
@@ -144,4 +144,4 @@ Import `CalendarTableBody` from `./CalendarTableBody.svelte`. Place inside `Cale
 ## Related components
 
 - `CalendarTable`, `CalendarTableHead`, `CalendarTableFoot`, `CalendarTableRow`, `CalendarTableData`, `CalendarTableCol`.
-- `DataTableBody`, `GanttTableBody`, `KanbanTableBody`, `TableBody` — sibling variants.
+- `DataTableBody`, `GanttTableTbody`, `KanbanTableBody`, `TableBody` — sibling variants.

@@ -231,8 +231,8 @@ Every component's root element includes a semantic CSS class matching its kebab-
 | DataTableHead/Body/Foot     | Data table sections                       |
 | DataTableCol/Row/Data       | Data table cells                          |
 | GanttTable                  | Gantt chart schedule table                |
-| GanttTableHead/Body/Foot    | Gantt table sections                      |
-| GanttTableCol/Row/Data      | Gantt table cells                         |
+| GanttTableThead/Body/Foot    | Gantt table sections                      |
+| GanttTableTh/Row/Data      | Gantt table cells                         |
 | KanbanTable                 | Kanban board table                        |
 | KanbanTableHead/Body/Foot   | Kanban table sections                     |
 | KanbanTableCol/Row/Data     | Kanban table cells                        |

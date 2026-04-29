@@ -49,7 +49,7 @@ None -- this component is a header cell and is not interactive.
 
 ## When Not to Use
 
-- Do not use outside DataTable -- use TableCol, CalendarTableCol, GanttTableCol, or KanbanTableCol for their respective table types
+- Do not use outside DataTable -- use TableCol, CalendarTableCol, GanttTableTh, or KanbanTableCol for their respective table types
 - Do not use for data cells -- use DataTableData
 - Do not use for column-wide styling hooks via `<colgroup>` / `<col>` -- write those directly inside DataTable
 

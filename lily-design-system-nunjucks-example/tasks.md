@@ -239,7 +239,7 @@ Each bullet below delivers **both**
 - [ ] table, table-head, table-body, table-foot, table-col, table-row, table-data
 - [ ] calendar-table, calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-col, calendar-table-row, calendar-table-data
 - [ ] data-table, data-table-head, data-table-body, data-table-foot, data-table-col, data-table-row, data-table-data
-- [ ] gantt-table, gantt-table-head, gantt-table-body, gantt-table-foot, gantt-table-col, gantt-table-row, gantt-table-data
+- [ ] gantt-table, gantt-table-thead, gantt-table-tbody, gantt-table-tfoot, gantt-table-th, gantt-table-tr, gantt-table-td
 - [ ] kanban-table, kanban-table-head, kanban-table-body, kanban-table-foot, kanban-table-col, kanban-table-row, kanban-table-data
 - [ ] calendar-range-picker
 

@@ -1,0 +1,7 @@
+.gantt-table-tfoot {
+  border-top: 2px solid var(--nhsuk-black);
+}
+
+.gantt-table-tfoot .gantt-table-td {
+  font-weight: var(--nhsuk-font-weight-bold);
+}

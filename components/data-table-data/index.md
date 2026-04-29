@@ -43,7 +43,7 @@ None -- this component is a passive container. Navigation within the table follo
 
 ## When Not to Use
 
-- Do not use outside DataTable -- use TableData, CalendarTableData, GanttTableData, or KanbanTableData for their respective table types.
+- Do not use outside DataTable -- use TableData, CalendarTableData, GanttTableTd, or KanbanTableData for their respective table types.
 - Do not use for header cells -- use a `<th>` element with `scope` instead.
 
 ## Headless

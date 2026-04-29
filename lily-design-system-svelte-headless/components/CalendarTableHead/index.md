@@ -136,4 +136,4 @@ Import `CalendarTableHead` from `./CalendarTableHead.svelte`. Place at the top o
 ## Related components
 
 - `CalendarTable`, `CalendarTableBody`, `CalendarTableFoot`, `CalendarTableRow`, `CalendarTableData`, `CalendarTableCol`.
-- `DataTableHead`, `GanttTableHead`, `KanbanTableHead`, `TableHead`.
+- `DataTableHead`, `GanttTableThead`, `KanbanTableHead`, `TableHead`.

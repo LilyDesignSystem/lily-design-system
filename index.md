@@ -182,12 +182,12 @@ Headless versions if you want to use components with all your own styles:
 - [france-numero-d-identification-au-repertoire-input](components/france-numero-d-identification-au-repertoire-input): an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - [france-numero-d-identification-au-repertoire-view](components/france-numero-d-identification-au-repertoire-view): a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - [gantt-table](components/gantt-table): a Gantt chart table interactive grid for planning schedule visualization <table>
-- [gantt-table-body](components/gantt-table-body): a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
-- [gantt-table-col](components/gantt-table-col): a Gantt chart table interactive grid column for planning schedule visualization <th>
-- [gantt-table-data](components/gantt-table-data): a Gantt chart table interactive grid data cell for planning schedule visualization <td>
-- [gantt-table-foot](components/gantt-table-foot): a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
-- [gantt-table-head](components/gantt-table-head): a Gantt chart table interactive grid thead for planning schedule visualization <thead>
-- [gantt-table-row](components/gantt-table-row): a Gantt chart table interactive grid row for planning schedule visualization <tr>
+- [gantt-table-tbody](components/gantt-table-tbody): a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
+- [gantt-table-th](components/gantt-table-th): a Gantt chart table interactive grid column for planning schedule visualization <th>
+- [gantt-table-td](components/gantt-table-td): a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+- [gantt-table-tfoot](components/gantt-table-tfoot): a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
+- [gantt-table-thead](components/gantt-table-thead): a Gantt chart table interactive grid thead for planning schedule visualization <thead>
+- [gantt-table-tr](components/gantt-table-tr): a Gantt chart table interactive grid row for planning schedule visualization <tr>
 - [government-banner](components/government-banner): a banner identifying a website as belonging to a government, with an expandable details panel
 - [government-identifier](components/government-identifier): an identifier section with a parent agency logo, agency name, and required government links
 - [grail-layout](components/grail-layout): a responsive web design structure with header, left aside, center main, right aside, footer
@@ -476,7 +476,7 @@ Headless versions if you want to use components with all your own styles:
   - Table TableHead TableBody TableFoot TableCol TableRow TableData
   - CalendarTable CalendarTableHead CalendarTableBody CalendarTableFoot CalendarTableCol CalendarTableRow CalendarTableData
   - DataTable DataTableHead DataTableBody DataTableFoot DataTableCol DataTableRow DataTableData
-  - GanttTable GanttTableHead GanttTableBody GanttTableFoot GanttTableCol GanttTableRow GanttTableData
+  - GanttTable GanttTableThead GanttTableTbody GanttTableTfoot GanttTableTh GanttTableTr GanttTableTd
   - KanbanTable KanbanTableHead KanbanTableBody KanbanTableFoot KanbanTableCol KanbanTableRow KanbanTableData
 
 ## Tracking

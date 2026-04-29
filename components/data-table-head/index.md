@@ -44,7 +44,7 @@ None -- this component is a passive container. Navigation within the table follo
 
 ## When Not to Use
 
-- Do not use outside DataTable -- use TableHead, CalendarTableHead, GanttTableHead, or KanbanTableHead for their respective table types.
+- Do not use outside DataTable -- use TableHead, CalendarTableHead, GanttTableThead, or KanbanTableHead for their respective table types.
 - Do not use for footer summary rows -- use DataTableFoot instead.
 
 ## Headless

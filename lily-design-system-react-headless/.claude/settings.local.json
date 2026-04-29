@@ -49,7 +49,7 @@
       "Bash(ls /Users/jph/git/lilydesignsystem/lily-design-system-react-headless/components/*.test.tsx | wc -l)",
       "Bash(ls /Users/jph/git/lilydesignsystem/lily-design-system-react-headless/components/*.md | wc -l)",
       "Bash(npx vitest run components/Banner.test.tsx components/AlertDialog.test.tsx components/ClipboardCopyButton.test.tsx 2>&1 | tail -15)",
-      "Bash(npx vitest run components/AspectRatioContainer.test.tsx components/Avatar.test.tsx components/AvatarImage.test.tsx components/BreadcrumbList.test.tsx components/CalendarTableData.test.tsx components/DataFilterForm.test.tsx components/DataTableData.test.tsx components/Figure.test.tsx components/GanttTableData.test.tsx components/KanbanTable.test.tsx components/KanbanTableData.test.tsx components/MedicalRecordRedBox.test.tsx components/ScrollBar.test.tsx components/TabGroup.test.tsx components/Tour.test.tsx components/TourList.test.tsx components/TourListItem.test.tsx 2>&1 | tail -25)",
+      "Bash(npx vitest run components/AspectRatioContainer.test.tsx components/Avatar.test.tsx components/AvatarImage.test.tsx components/BreadcrumbList.test.tsx components/CalendarTableData.test.tsx components/DataFilterForm.test.tsx components/DataTableData.test.tsx components/Figure.test.tsx components/GanttTableTd.test.tsx components/KanbanTable.test.tsx components/KanbanTableData.test.tsx components/MedicalRecordRedBox.test.tsx components/ScrollBar.test.tsx components/TabGroup.test.tsx components/Tour.test.tsx components/TourList.test.tsx components/TourListItem.test.tsx 2>&1 | tail -25)",
       "Bash(npx vitest run 2>&1 | grep \"FAIL\" | head -20)",
       "Bash(npx vitest run components/AspectRatioContainer.test.tsx components/Editable.test.tsx 2>&1 | tail -50)",
       "Bash(npx vitest run components/AspectRatioContainer.test.tsx components/Editable.test.tsx 2>&1 | tail -15)",
@@ -63,7 +63,7 @@
       "Bash(npx vitest run 2>&1 | tail -15)",
       "Bash(npx vitest run components/Combobox.test.tsx 2>&1 | tail -10)",
       "Bash(npx vitest run --reporter=dot 2>&1 | tail -5)",
-      "Bash(for f in components/DropdownMenu.test.tsx components/KanbanTableCol.test.tsx components/GanttTableCol.test.tsx components/CalendarTableCol.test.tsx components/DataTableCol.test.tsx components/DataTable.test.tsx components/Form.test.tsx components/PaginationList.test.tsx components/SelectWithExtras.test.tsx components/Select.test.tsx components/ToolBar.test.tsx components/TaskBar.test.tsx components/TabBar.test.tsx components/RadioGroup.test.tsx components/Listbox.test.tsx components/MenuBar.test.tsx components/Menu.test.tsx components/ContextMenu.test.tsx components/CheckListItem.test.tsx; do sed -i '' '/^import React from \"react\";$/d' \"$f\" && echo \"Fixed $f\"; done)"
+      "Bash(for f in components/DropdownMenu.test.tsx components/KanbanTableCol.test.tsx components/GanttTableTh.test.tsx components/CalendarTableCol.test.tsx components/DataTableCol.test.tsx components/DataTable.test.tsx components/Form.test.tsx components/PaginationList.test.tsx components/SelectWithExtras.test.tsx components/Select.test.tsx components/ToolBar.test.tsx components/TaskBar.test.tsx components/TabBar.test.tsx components/RadioGroup.test.tsx components/Listbox.test.tsx components/MenuBar.test.tsx components/Menu.test.tsx components/ContextMenu.test.tsx components/CheckListItem.test.tsx; do sed -i '' '/^import React from \"react\";$/d' \"$f\" && echo \"Fixed $f\"; done)"
     ]
   }
 }

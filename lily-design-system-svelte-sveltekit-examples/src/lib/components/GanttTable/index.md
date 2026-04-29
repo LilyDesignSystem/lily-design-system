@@ -23,19 +23,19 @@ A Gantt chart table interactive grid for planning schedule visualization <table>
 
 ```svelte
 <GanttTable label="Project timeline">
-  <GanttTableHead>
-    <GanttTableRow>
+  <GanttTableThead>
+    <GanttTableTr>
       <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-    </GanttTableRow>
-  </GanttTableHead>
-  <GanttTableBody>
-    <GanttTableRow>
+    </GanttTableTr>
+  </GanttTableThead>
+  <GanttTableTbody>
+    <GanttTableTr>
       <th>Design</th>
-      <GanttTableData active>---</GanttTableData>
-      <GanttTableData />
-      <GanttTableData />
-    </GanttTableRow>
-  </GanttTableBody>
+      <GanttTableTd active>---</GanttTableTd>
+      <GanttTableTd />
+      <GanttTableTd />
+    </GanttTableTr>
+  </GanttTableTbody>
 </GanttTable>
 ```
 
@@ -46,7 +46,7 @@ A Gantt chart table interactive grid for planning schedule visualization <table>
 | `className` | string, optional | CSS class name. |
 | `label` | string, required | Accessible name describing the Gantt table content. |
 | `caption` | string, optional | Visible caption text displayed above the table. |
-| `children` | Snippet, required | GanttTableHead, GanttTableBody, GanttTableFoot elements. |
+| `children` | Snippet, required | GanttTableThead, GanttTableTbody, GanttTableTfoot elements. |
 | `...restProps` | additional HTML attributes spread onto the <table> |  |
 
 ## SvelteKit example
@@ -58,19 +58,19 @@ A Gantt chart table interactive grid for planning schedule visualization <table>
 </script>
 
 <GanttTable label="Project timeline">
-  <GanttTableHead>
-    <GanttTableRow>
+  <GanttTableThead>
+    <GanttTableTr>
       <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-    </GanttTableRow>
-  </GanttTableHead>
-  <GanttTableBody>
-    <GanttTableRow>
+    </GanttTableTr>
+  </GanttTableThead>
+  <GanttTableTbody>
+    <GanttTableTr>
       <th>Design</th>
-      <GanttTableData active>---</GanttTableData>
-      <GanttTableData />
-      <GanttTableData />
-    </GanttTableRow>
-  </GanttTableBody>
+      <GanttTableTd active>---</GanttTableTd>
+      <GanttTableTd />
+      <GanttTableTd />
+    </GanttTableTr>
+  </GanttTableTbody>
 </GanttTable>
 ```
 

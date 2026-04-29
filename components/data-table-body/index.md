@@ -45,7 +45,7 @@ None -- this component is a passive container. Navigation within the table follo
 
 ## When Not to Use
 
-- Do not use outside DataTable -- use TableBody, CalendarTableBody, GanttTableBody, or KanbanTableBody for their respective table types.
+- Do not use outside DataTable -- use TableBody, CalendarTableBody, GanttTableTbody, or KanbanTableBody for their respective table types.
 - Do not use for header rows -- use DataTableHead instead.
 
 ## Headless

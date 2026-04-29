@@ -144,4 +144,4 @@ Import `CalendarTableFoot` from `./CalendarTableFoot.svelte`. Place inside `Cale
 ## Related components
 
 - `CalendarTable`, `CalendarTableHead`, `CalendarTableBody`, `CalendarTableRow`, `CalendarTableData`, `CalendarTableCol`.
-- `DataTableFoot`, `GanttTableFoot`, `KanbanTableFoot`, `TableFoot`.
+- `DataTableFoot`, `GanttTableTfoot`, `KanbanTableFoot`, `TableFoot`.

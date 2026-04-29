@@ -136,4 +136,4 @@ Place `KanbanTableData` elements inside `KanbanTableRow`. Use `active` together 
 - `KanbanTableHead`, `KanbanTableBody`, `KanbanTableFoot` — section wrappers.
 - `KanbanTableRow` — the `<tr>` row that contains `KanbanTableData` cells.
 - `KanbanTableCol` — `<col>` column definitions for `<colgroup>`.
-- `DataTableData`, `CalendarTableData`, `GanttTableData` — equivalent cells for other table types.
+- `DataTableData`, `CalendarTableData`, `GanttTableTd` — equivalent cells for other table types.

@@ -253,12 +253,12 @@ Write original "When to Use" and "When Not to Use" guidance for all non-NHS comp
 
 #### Gantt (7)
 - [x] gantt-table
-- [x] gantt-table-head
-- [x] gantt-table-body
-- [x] gantt-table-foot
-- [x] gantt-table-col
-- [x] gantt-table-row
-- [x] gantt-table-data
+- [x] gantt-table-thead
+- [x] gantt-table-tbody
+- [x] gantt-table-tfoot
+- [x] gantt-table-th
+- [x] gantt-table-tr
+- [x] gantt-table-td
 
 #### Grail Layout (6)
 - [x] grail-layout

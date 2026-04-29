@@ -10,24 +10,24 @@
     //   className — string, optional. CSS class name.
     //   label — string, required. Accessible name describing the Gantt table content.
     //   caption — string, optional. Visible caption text displayed above the table.
-    //   children — Snippet, required. GanttTableHead, GanttTableBody, GanttTableFoot elements.
+    //   children — Snippet, required. GanttTableThead, GanttTableTbody, GanttTableTfoot elements.
     //   ...restProps — additional HTML attributes spread onto the <table>.
     //
     // Syntax:
     //   <GanttTable label="Project timeline">
-    //     <GanttTableHead>
-    //       <GanttTableRow>
+    //     <GanttTableThead>
+    //       <GanttTableTr>
     //         <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-    //       </GanttTableRow>
-    //     </GanttTableHead>
-    //     <GanttTableBody>
-    //       <GanttTableRow>
+    //       </GanttTableTr>
+    //     </GanttTableThead>
+    //     <GanttTableTbody>
+    //       <GanttTableTr>
     //         <th>Design</th>
-    //         <GanttTableData active>---</GanttTableData>
-    //         <GanttTableData />
-    //         <GanttTableData />
-    //       </GanttTableRow>
-    //     </GanttTableBody>
+    //         <GanttTableTd active>---</GanttTableTd>
+    //         <GanttTableTd />
+    //         <GanttTableTd />
+    //       </GanttTableTr>
+    //     </GanttTableTbody>
     //   </GanttTable>
     //
     // Keyboard:
@@ -45,8 +45,8 @@
     //
     // Claude rules:
     //   - Headless: no CSS, no styles — consumer provides all styling
-    //   - Compound component: use with GanttTableHead, GanttTableBody, GanttTableFoot,
-    //     GanttTableRow, GanttTableData, and GanttTableCol
+    //   - Compound component: use with GanttTableThead, GanttTableTbody, GanttTableTfoot,
+    //     GanttTableTr, GanttTableTd, and GanttTableTh
     //
     // References:
     //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
@@ -64,7 +64,7 @@
         label: string;
         /** Visible caption for the table. */
         caption?: string;
-        /** GanttTableHead, GanttTableBody, GanttTableFoot elements. */
+        /** GanttTableThead, GanttTableTbody, GanttTableTfoot elements. */
         children: Snippet;
         [key: string]: unknown;
     } = $props();

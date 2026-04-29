@@ -122,4 +122,4 @@ Nest `KanbanTableRow` inside `KanbanTableHead`, `KanbanTableBody`, or `KanbanTab
 - `KanbanTableHead`, `KanbanTableBody`, `KanbanTableFoot` — section wrappers.
 - `KanbanTableData` — a `<td role="gridcell">` task cell.
 - `KanbanTableCol` — `<col>` column definitions inside `<colgroup>`.
-- `DataTableRow`, `CalendarTableRow`, `GanttTableRow` — equivalent rows for other table types.
+- `DataTableRow`, `CalendarTableRow`, `GanttTableTr` — equivalent rows for other table types.

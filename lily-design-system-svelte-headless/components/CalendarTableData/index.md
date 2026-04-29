@@ -21,7 +21,7 @@ A headless Svelte 5 leaf cell. Category: calendar grid cell primitive, inside a 
 
 ## When not to use it
 
-- Outside a `CalendarTable` — use `DataTableData`, `GanttTableData`, `KanbanTableData`, or `TableData`.
+- Outside a `CalendarTable` — use `DataTableData`, `GanttTableTd`, `KanbanTableData`, or `TableData`.
 - As a header cell — use a plain `<th>` inside `CalendarTableHead`.
 
 ## How to use it
@@ -125,4 +125,4 @@ Import `CalendarTableData` from `./CalendarTableData.svelte`. Pass children for 
 - `CalendarTableRow` — required parent.
 - `CalendarTable` — outer grid.
 - `CalendarTableHead`, `CalendarTableBody`, `CalendarTableFoot`, `CalendarTableCol` — siblings.
-- `DataTableData`, `GanttTableData`, `KanbanTableData`, `TableData` — sibling table variants.
+- `DataTableData`, `GanttTableTd`, `KanbanTableData`, `TableData` — sibling table variants.

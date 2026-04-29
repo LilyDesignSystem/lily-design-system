@@ -2,38 +2,38 @@
 
 An interactive Gantt table that displays project tasks and their timelines as a structured grid widget. Renders a `<table>` element with `role="grid"` and an accessible label. Supports an optional visible caption. Commonly used in project management tools and resource planning applications.
 
-Compound component: use with GanttTableHead, GanttTableBody, GanttTableFoot, GanttTableRow, GanttTableData, and GanttTableCol.
+Compound component: use with GanttTableThead, GanttTableTbody, GanttTableTfoot, GanttTableTr, GanttTableTd, and GanttTableTh.
 
 ## Props
 
 - `label`: string (required) -- accessible name describing the Gantt table content, applied via `aria-label`
 - `caption`: string (optional) -- visible caption text displayed above the table
-- `children`: Snippet (required) -- GanttTableHead, GanttTableBody, GanttTableFoot elements
+- `children`: Snippet (required) -- GanttTableThead, GanttTableTbody, GanttTableTfoot elements
 - `...restProps`: unknown -- additional attributes spread onto the `<table>`
 
 ## Usage
 
 ```svelte
 <GanttTable label="Project Alpha timeline">
-  <GanttTableHead>
-    <GanttTableRow>
+  <GanttTableThead>
+    <GanttTableTr>
       <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-    </GanttTableRow>
-  </GanttTableHead>
-  <GanttTableBody>
-    <GanttTableRow>
+    </GanttTableTr>
+  </GanttTableThead>
+  <GanttTableTbody>
+    <GanttTableTr>
       <th>Design</th>
-      <GanttTableData active>---</GanttTableData>
-      <GanttTableData />
-      <GanttTableData />
-    </GanttTableRow>
-    <GanttTableRow>
+      <GanttTableTd active>---</GanttTableTd>
+      <GanttTableTd />
+      <GanttTableTd />
+    </GanttTableTr>
+    <GanttTableTr>
       <th>Development</th>
-      <GanttTableData />
-      <GanttTableData active>---</GanttTableData>
-      <GanttTableData active>---</GanttTableData>
-    </GanttTableRow>
-  </GanttTableBody>
+      <GanttTableTd />
+      <GanttTableTd active>---</GanttTableTd>
+      <GanttTableTd active>---</GanttTableTd>
+    </GanttTableTr>
+  </GanttTableTbody>
 </GanttTable>
 ```
 

@@ -151,12 +151,12 @@
 - form = Form = a form element for collecting and submitting user data
 - framer = Framer = a container for framed content display with decorative border
 - gantt-table = GanttTable = a Gantt chart table interactive grid for planning schedule visualization <table>
-- gantt-table-head = GanttTableHead = a Gantt chart table interactive grid thead for planning schedule visualization <thead>
-- gantt-table-body = GanttTableBody = a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
-- gantt-table-foot = GanttTableFoot = a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
-- gantt-table-col = GanttTableCol = a Gantt chart table interactive grid column for planning schedule visualization <th>
-- gantt-table-row = GanttTableRow = a Gantt chart table interactive grid row for planning schedule visualization <tr>
-- gantt-table-data = GanttTableData = a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+- gantt-table-thead = GanttTableThead = a Gantt chart table interactive grid thead for planning schedule visualization <thead>
+- gantt-table-tbody = GanttTableTbody = a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
+- gantt-table-tfoot = GanttTableTfoot = a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
+- gantt-table-th = GanttTableTh = a Gantt chart table interactive grid column for planning schedule visualization <th>
+- gantt-table-tr = GanttTableTr = a Gantt chart table interactive grid row for planning schedule visualization <tr>
+- gantt-table-td = GanttTableTd = a Gantt chart table interactive grid data cell for planning schedule visualization <td>
 - government-banner = GovernmentBanner = a banner identifying a website as belonging to a government, with an expandable details panel
 - government-identifier = GovernmentIdentifier = an identifier section with a parent agency logo, agency name, and required government links
 - grail-layout = GrailLayout = a responsive web design structure with header, left aside, center main, right aside, footer
@@ -470,7 +470,7 @@
   - Table TableHead TableBody TableFoot TableCol TableRow TableData
   - CalendarTable CalendarTableHead CalendarTableBody CalendarTableFoot CalendarTableCol CalendarTableRow CalendarTableData
   - DataTable DataTableHead DataTableBody DataTableFoot DataTableCol DataTableRow DataTableData
-  - GanttTable GanttTableHead GanttTableBody GanttTableFoot GanttTableCol GanttTableRow GanttTableData
+  - GanttTable GanttTableThead GanttTableTbody GanttTableTfoot GanttTableTh GanttTableTr GanttTableTd
   - KanbanTable KanbanTableHead KanbanTableBody KanbanTableFoot KanbanTableCol KanbanTableRow KanbanTableData
 
 ## Component composition patterns

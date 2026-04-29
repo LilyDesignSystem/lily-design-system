@@ -46,7 +46,7 @@ None -- this component is a passive container. Navigation within the table follo
 
 ## When Not to Use
 
-- Do not use outside DataTable -- use TableRow, CalendarTableRow, GanttTableRow, or KanbanTableRow for their respective table types.
+- Do not use outside DataTable -- use TableRow, CalendarTableRow, GanttTableTr, or KanbanTableRow for their respective table types.
 - Do not use as a standalone element -- it requires a parent `<thead>`, `<tbody>`, or `<tfoot>` for valid HTML.
 
 ## Headless

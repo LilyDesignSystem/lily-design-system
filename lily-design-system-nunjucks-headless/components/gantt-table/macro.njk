@@ -24,23 +24,23 @@
 
   Usage:
     {% from "components/gantt-table/macro.njk" import ganttTable %}
-    {% from "components/gantt-table-head/macro.njk" import ganttTableHead %}
-    {% from "components/gantt-table-body/macro.njk" import ganttTableBody %}
-    {% from "components/gantt-table-row/macro.njk" import ganttTableRow %}
-    {% from "components/gantt-table-col/macro.njk" import ganttTableCol %}
-    {% from "components/gantt-table-data/macro.njk" import ganttTableData %}
+    {% from "components/gantt-table-thead/macro.njk" import ganttTableThead %}
+    {% from "components/gantt-table-tbody/macro.njk" import ganttTableTbody %}
+    {% from "components/gantt-table-tr/macro.njk" import ganttTableTr %}
+    {% from "components/gantt-table-th/macro.njk" import ganttTableTh %}
+    {% from "components/gantt-table-td/macro.njk" import ganttTableTd %}
 
     {% call ganttTable({ caption: "Your appointments" }) %}
-      {% call ganttTableHead() %}
-        {% call ganttTableRow() %}
-          {{ ganttTableCol({ text: "Date" }) }}
-          {{ ganttTableCol({ text: "Type" }) }}
+      {% call ganttTableThead() %}
+        {% call ganttTableTr() %}
+          {{ ganttTableTh({ text: "Date" }) }}
+          {{ ganttTableTh({ text: "Type" }) }}
         {% endcall %}
       {% endcall %}
-      {% call ganttTableBody() %}
-        {% call ganttTableRow() %}
-          {{ ganttTableData({ text: "27 April" }) }}
-          {{ ganttTableData({ text: "GP review" }) }}
+      {% call ganttTableTbody() %}
+        {% call ganttTableTr() %}
+          {{ ganttTableTd({ text: "27 April" }) }}
+          {{ ganttTableTd({ text: "GP review" }) }}
         {% endcall %}
       {% endcall %}
     {% endcall %}

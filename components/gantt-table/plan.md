@@ -11,7 +11,7 @@ Implement the Gantt Table component: a Gantt chart table interactive grid for pl
 
 ## Dependencies
 
-- Requires children: gantt-table-head, gantt-table-body, gantt-table-foot, gantt-table-col, gantt-table-row, gantt-table-data
+- Requires children: gantt-table-thead, gantt-table-tbody, gantt-table-tfoot, gantt-table-th, gantt-table-tr, gantt-table-td
 
 ## Approach
 

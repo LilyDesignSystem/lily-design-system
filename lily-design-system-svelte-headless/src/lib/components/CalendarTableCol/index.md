@@ -93,4 +93,4 @@ Import `CalendarTableCol` and place inside a `CalendarTableRow` within `Calendar
 ## Related components
 
 - `CalendarTable`, `CalendarTableHead`, `CalendarTableBody`, `CalendarTableFoot`, `CalendarTableRow`, `CalendarTableData`.
-- `DataTableCol`, `GanttTableCol`, `KanbanTableCol`, `TableCol` — sibling header-cell components in other tables.
+- `DataTableCol`, `GanttTableTh`, `KanbanTableCol`, `TableCol` — sibling header-cell components in other tables.
