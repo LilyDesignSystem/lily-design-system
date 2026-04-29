@@ -1303,3 +1303,19 @@
 /* - span suffix = tag: - span suffix = tag */
 .- span suffix = tag {
 }
+
+/* container: a generic block-level content container */
+.container {
+}
+
+/* mockup-phone-landscape: a box area that looks like a mobile phone in landscape orientation */
+.mockup-phone-landscape {
+}
+
+/* go-to-previous-section: a link that takes users to the previous section of the current page */
+.go-to-previous-section {
+}
+
+/* go-to-next-section: a link that takes users to the next section of the current page */
+.go-to-next-section {
+}
