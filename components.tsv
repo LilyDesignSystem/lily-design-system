@@ -1,3 +1,4 @@
+accordion-checkbox	AccordionCheckbox	a checkbox option that reveals an accordion panel when checked
 accordion-link	AccordionLink	an accordion link
 accordion-list	AccordionList	an accordion ordered list of list item components
 accordion-list-item	AccordionListItem	an accordion list item component

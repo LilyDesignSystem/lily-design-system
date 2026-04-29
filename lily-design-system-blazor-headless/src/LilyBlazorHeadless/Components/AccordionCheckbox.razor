@@ -1,0 +1,84 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    AccordionCheckbox component
+
+    A compound disclosure widget that pairs a checkbox option with a
+    revealable panel. The user sees a checkbox option; checking the box
+    reveals an accordion panel of additional content beneath it. Multiple
+    AccordionCheckbox instances stacked vertically form a list of
+    independent toggleable options.
+
+    Parameters:
+        Label — string, required. Checkbox label text.
+        Checked — bool, default false. Whether the checkbox is checked
+                  and the panel is revealed; bindable via @bind-Checked.
+        CheckedChanged — EventCallback<bool>. Fired when Checked changes.
+        Id — string, optional. Base id for the checkbox/panel link;
+             auto-generated if not provided.
+        ChildContent — RenderFragment, required. Content shown when checked.
+        CssClass — string, optional. Extra CSS classes appended to
+                   "accordion-checkbox".
+        AdditionalAttributes — captures unmatched attributes onto the
+                               root <div>.
+
+    Accessibility:
+        - aria-controls on the checkbox references the panel id
+        - aria-expanded on the checkbox reflects the checked state
+        - role="region" + aria-labelledby on the panel
+        - hidden attribute on the panel when unchecked
+
+    Keyboard:
+        - Tab: moves focus onto the checkbox
+        - Space: toggles the checkbox (native), revealing or hiding the panel
+*@
+
+<div class="@($"accordion-checkbox {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <input
+        type="checkbox"
+        class="accordion-checkbox-input"
+        id="@CheckboxId"
+        aria-controls="@PanelId"
+        aria-expanded="@Checked.ToString().ToLowerInvariant()"
+        checked="@Checked"
+        @onchange="HandleChange"
+    />
+    <label class="accordion-checkbox-label" for="@CheckboxId">
+        @Label
+    </label>
+    <div
+        class="accordion-checkbox-panel"
+        id="@PanelId"
+        role="region"
+        aria-labelledby="@CheckboxId"
+        hidden="@(!Checked)"
+    >
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public bool Checked { get; set; }
+    [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
+    [Parameter] public string? Id { get; set; }
+    [Parameter, EditorRequired] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string GeneratedId { get; } = $"accordion-checkbox-{Guid.NewGuid().ToString("N")[..8]}";
+    private string BaseId => Id ?? GeneratedId;
+    private string CheckboxId => $"{BaseId}-checkbox";
+    private string PanelId => $"{BaseId}-panel";
+
+    private async Task HandleChange(ChangeEventArgs e)
+    {
+        var next = e.Value is bool b ? b : false;
+        if (Checked != next)
+        {
+            Checked = next;
+            await CheckedChanged.InvokeAsync(next);
+        }
+    }
+}

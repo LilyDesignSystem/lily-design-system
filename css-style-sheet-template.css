@@ -16,6 +16,22 @@
 .accordion-link {
 }
 
+/* accordion-checkbox: a checkbox option that reveals an accordion panel when checked */
+.accordion-checkbox {
+}
+
+/* accordion-checkbox-input: the checkbox input inside an accordion-checkbox */
+.accordion-checkbox-input {
+}
+
+/* accordion-checkbox-label: the label associated with the accordion-checkbox input */
+.accordion-checkbox-label {
+}
+
+/* accordion-checkbox-panel: the revealable panel inside an accordion-checkbox */
+.accordion-checkbox-panel {
+}
+
 /* action-link: a hyperlink styled as an action trigger */
 .action-link {
 }

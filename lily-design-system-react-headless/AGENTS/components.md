@@ -4,6 +4,7 @@
 - accordion-list = AccordionList = an ordered list of accordion list item components
 - accordion-list-item = AccordionListItem = one accordion list item component
 - accordion-link = AccordionLink = one accordion link in the trail
+- accordion-checkbox = AccordionCheckbox = a checkbox option that reveals an accordion panel when checked
 - action-bar = ActionBar = a contextual action bar that appears when items are selected, showing the selection count and bulk action buttons
 - action-bar-button = ActionBarButton = one action button inside an action bar
 - action-group = ActionGroup = a group of action buttons that can collapse to an overflow menu when space is constrained

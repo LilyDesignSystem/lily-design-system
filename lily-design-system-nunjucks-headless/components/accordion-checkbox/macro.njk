@@ -1,0 +1,75 @@
+{#
+  AccordionCheckbox macro — a checkbox option that reveals an accordion
+  panel when checked.
+
+  HTML tag: <div>
+  CSS class: accordion-checkbox
+  Inner classes:
+    - accordion-checkbox-input  (on the <input type="checkbox">)
+    - accordion-checkbox-label  (on the <label>)
+    - accordion-checkbox-panel  (on the revealable <div>)
+
+  This headless macro emits the static markup. To toggle visibility at
+  runtime, the consumer wires up a tiny JavaScript handler that toggles
+  the panel's `hidden` attribute and the checkbox's `aria-expanded`
+  attribute when the checkbox `change` event fires. Server-side, the
+  `checked` param renders the initial state (panel visible when checked,
+  hidden when not).
+
+  Params:
+    label        string   Required. The checkbox label text.
+    id           string   Required. Base id for the checkbox/panel link.
+                          The checkbox gets `<id>-checkbox`, the panel
+                          gets `<id>-panel`. (Required so the macro is
+                          deterministic; a sibling helper may auto-id.)
+    checked      boolean  Whether the checkbox is initially checked.
+    text         string   Plain text content inside the panel.
+    html         string   Raw HTML content inside the panel
+                          (rendered via `| safe`).
+    classes      string   Consumer-provided extra CSS classes appended
+                          to the root <div>.
+    attributes   object   Extra HTML attributes on the root <div>.
+
+  Usage:
+    {% from "components/accordion-checkbox/macro.njk"
+      import accordionCheckbox %}
+
+    {% call accordionCheckbox({
+      id: "comments",
+      label: "I have additional comments"
+    }) %}
+      <textarea aria-label="Your comments"></textarea>
+    {% endcall %}
+#}
+{%- macro accordionCheckbox(params) -%}
+{%- set checkboxId = params.id ~ "-checkbox" -%}
+{%- set panelId = params.id ~ "-panel" -%}
+<div
+  class="accordion-checkbox{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <input
+    type="checkbox"
+    class="accordion-checkbox-input"
+    id="{{ checkboxId }}"
+    aria-controls="{{ panelId }}"
+    aria-expanded="{{ 'true' if params.checked else 'false' }}"
+    {%- if params.checked %} checked{% endif %}
+  />
+  <label class="accordion-checkbox-label" for="{{ checkboxId }}">
+    {{ params.label }}
+  </label>
+  <div
+    class="accordion-checkbox-panel"
+    id="{{ panelId }}"
+    role="region"
+    aria-labelledby="{{ checkboxId }}"
+    {%- if not params.checked %} hidden{% endif %}
+  >
+    {%- if params.html -%}{{ params.html | safe }}
+    {%- elif params.text -%}<p>{{ params.text }}</p>
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </div>
+</div>
+{%- endmacro -%}
