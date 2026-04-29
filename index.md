@@ -10,7 +10,7 @@ Contact <joel@joelparkerhenderson.com>
 
 Batteries-included web examples that demonstrate components in real apps:
 
-- [HTML JavaScript examples](lily-design-system-html-css-js-examples)
+- [HTML CSS JS examples](lily-design-system-html-css-js-examples)
 - [Svelte SvelteKit examples](lily-design-system-svelte-sveltekit-examples)
 - [React Next.js examples](lily-design-system-react-next-examples)
 - [Vue Nuxt.js examples](lily-design-system-vue-nuxt-examples)
@@ -51,7 +51,7 @@ Headless versions if you want to use components with all your own styles:
 - [avatar-image](components/avatar-image): an avatar indicator inside image such as a user photo
 - [avatar-text](components/avatar-text): an avatar indicator inner text such as a user name
 - [back-link](components/back-link): a navigation link to return to a previous page
-- [back-to-top](components/back-to-top): a link that returns users to the top of a long page
+- [go-to-top](components/go-to-top): a link that returns users to the top of a long page
 - [badge](components/badge): a small label for counts, statuses, or categories
 - [banner](components/banner): a prominent message bar across the top of a page
 - [banner-box](components/banner-box): a banner box that is inside a banner component, using flexbox horizontal
@@ -68,7 +68,7 @@ Headless versions if you want to use components with all your own styles:
 - [calendar-range-picker](components/calendar-range-picker): a picker for selecting a date range on a calendar
 - [calendar-table](components/calendar-table): a calendar table interactive grid for managing dates, days, etc. <table>
 - [calendar-table-body](components/calendar-table-body): a calendar table interactive grid tbody for managing dates, days, etc. <tbody>
-- [calendar-table-col](components/calendar-table-col): a calendar table interactive grid column for managing dates, days, etc. <th>
+- [calendar-table-th](components/calendar-table-th): a calendar table interactive grid column for managing dates, days, etc. <th>
 - [calendar-table-td](components/calendar-table-td): a calendar table interactive grid data cell for managing dates, days, etc. <td>
 - [calendar-table-foot](components/calendar-table-foot): a calendar table interactive grid tfoot for managing dates, days, etc. <tfoot>
 - [calendar-table-head](components/calendar-table-head): a calendar table interactive grid thead for managing dates, days, etc. <thead>
@@ -118,7 +118,7 @@ Headless versions if you want to use components with all your own styles:
 - [data-filter-form](components/data-filter-form): a form for filtering data by criteria
 - [data-table](components/data-table): a data table interactive grid for displaying and sorting tabular data <table>
 - [data-table-body](components/data-table-body): a data table interactive grid tbody for displaying and sorting tabular data <tbody>
-- [data-table-col](components/data-table-col): a data table interactive grid column for displaying and sorting tabular data <th>
+- [data-table-th](components/data-table-th): a data table interactive grid column for displaying and sorting tabular data <th>
 - [data-table-td](components/data-table-td): a data table interactive grid data cell for displaying and sorting tabular data <td>
 - [data-table-foot](components/data-table-foot): a data table interactive grid tfoot for displaying and sorting tabular data <tfoot>
 - [data-table-head](components/data-table-head): a data table interactive grid thead for displaying and sorting tabular data <thead>
@@ -220,7 +220,7 @@ Headless versions if you want to use components with all your own styles:
 - [ireland-individual-health-identifier-view](components/ireland-individual-health-identifier-view): a read-only display of Ireland Individual Health Identifier (IHI) unique national healthcare identifier
 - [kanban-table](components/kanban-table): a kanban board table interactive grid for organizing items by status <table>
 - [kanban-table-body](components/kanban-table-body): a kanban board table interactive grid tbody for organizing items by status <tbody>
-- [kanban-table-col](components/kanban-table-col): a kanban board table interactive grid column for organizing items by status <th>
+- [kanban-table-th](components/kanban-table-th): a kanban board table interactive grid column for organizing items by status <th>
 - [kanban-table-td](components/kanban-table-td): kanban board table interactive grid data cell for organizing items by status <td>
 - [kanban-table-foot](components/kanban-table-foot): a kanban board table interactive grid tfoot for organizing items by status <tfoot>
 - [kanban-table-head](components/kanban-table-head): a kanban board table interactive grid thead for organizing items by status <thead>
@@ -250,7 +250,7 @@ Headless versions if you want to use components with all your own styles:
 - [meter](components/meter): a gauge displaying a scalar value within a known range
 - [mockup-browser](components/mockup-browser): a box area that looks like a web browser
 - [mockup-laptop](components/mockup-laptop): a box area that looks like a laptop computer
-- [mockup-phone](components/mockup-phone): a box area that looks like a mobile phone
+- [mockup-phone-portrait](components/mockup-phone-portrait): a box area that looks like a mobile phone
 - [mockup-shell](components/mockup-shell): a box area that looks like a terminal shell
 - [mockup-tablet-landscape](components/mockup-tablet-landscape): a box area that looks like a tablet computer in landscape mode
 - [mockup-tablet-portrait](components/mockup-tablet-portrait): a box area that looks like a tablet computer in portrait mode
@@ -352,8 +352,8 @@ Headless versions if you want to use components with all your own styles:
 - [tab-panel](components/tab-panel): a content panel associated with a tab in a tab bar
 - [table](components/table): a table with rows and columns <table>
 - [table-body](components/table-body): a table interactive grid tbody <tbody>
-- [table-col](components/table-col): a table interactive grid column <th>
-- [table-data](components/table-data): a table interactive grid data cell <td>
+- [table-th](components/table-th): a table interactive grid column <th>
+- [table-td](components/table-td): a table interactive grid data cell <td>
 - [table-foot](components/table-foot): a table interactive grid tfoot <tfoot>
 - [table-head](components/table-head): a table interactive grid thead <thead>
 - [table-row](components/table-row): a table interactive grid row <tr>
@@ -369,7 +369,7 @@ Headless versions if you want to use components with all your own styles:
 - [text-area-input-with-character-counter](components/text-area-input-with-character-counter): a multi-line text area with a caption below that is a character counter "[number] of [maximum] characters"
 - [text-input](components/text-input): a single-line text input field <input type="text">
 - [text-input-with-search](components/text-input-with-search): a single-line text input field <input type="text"> with search capability
-- [textarea](components/textarea): a multi-line text input area
+- [text-area-input](components/text-area-input): a multi-line text input area
 - [theme-picker](components/theme-picker): a picker for selecting a visual theme
 - [theme-picker-button](components/theme-picker-button): a picker button for selecting a visual theme
 - [theme-select](components/theme-select): a select dropdown for choosing a theme

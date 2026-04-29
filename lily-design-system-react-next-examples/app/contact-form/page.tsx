@@ -5,7 +5,7 @@ import Form from "@pgds/Form";
 import Field from "@pgds/Field";
 import TextInput from "@pgds/TextInput";
 import EmailInput from "@pgds/EmailInput";
-import Textarea from "@pgds/Textarea";
+import TextAreaInput from "@pgds/TextAreaInput";
 import Select from "@pgds/Select";
 import Option from "@pgds/Option";
 import Button from "@pgds/Button";
@@ -103,7 +103,7 @@ export default function ContactFormPage() {
                 </Field>
 
                 <Field label="Message" required error={errors.message}>
-                    <Textarea
+                    <TextAreaInput
                         label="Message"
                         value={data.message}
                         onChange={(value) => setData({ ...data, message: value })}

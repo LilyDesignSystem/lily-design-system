@@ -13,7 +13,7 @@
   args={{ label: 'I have a follow-up question' }}
   tags={['autodocs', '!dev']}
 >
-  <p>Tell us more in the textarea below.</p>
+  <p>Tell us more in the text-area-input below.</p>
   <textarea aria-label="Your question"></textarea>
 </Story>
 

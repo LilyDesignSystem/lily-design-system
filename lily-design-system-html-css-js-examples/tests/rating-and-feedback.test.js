@@ -58,8 +58,8 @@ describe('Rating and Feedback', function() {
     expect(buttons.length).toBe(11);
   });
 
-  it('should render the comments textarea', async function() {
-    const el = await $('textarea.textarea#comments');
+  it('should render the comments text-area-input', async function() {
+    const el = await $('text-area-input.text-area-input#comments');
     await expect(el).toExist();
   });
 

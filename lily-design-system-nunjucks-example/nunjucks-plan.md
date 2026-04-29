@@ -112,7 +112,7 @@ lily-design-system-nunjucks-example/
 │   │           ├── dialog.js            # modal open/close + focus trap
 │   │           ├── tabs.js              # tab-bar panel switching
 │   │           ├── accordion.js         # accordion-list expand
-│   │           └── character-count.js   # textarea counter
+│   │           └── character-count.js   # text-area-input counter
 │   ├── index.njk                        # landing page
 │   ├── components/
 │   │   ├── index.njk                    # component index

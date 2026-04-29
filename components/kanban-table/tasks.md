@@ -13,7 +13,7 @@
 - [ ] Implement child component: kanban-table-head
 - [ ] Implement child component: kanban-table-body
 - [ ] Implement child component: kanban-table-foot
-- [ ] Implement child component: kanban-table-col
+- [ ] Implement child component: kanban-table-th
 - [ ] Implement child component: kanban-table-row
 - [ ] Implement child component: kanban-table-td
 

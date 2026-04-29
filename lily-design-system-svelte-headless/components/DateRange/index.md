@@ -30,7 +30,7 @@ It groups two date inputs semantically under a shared label.
 
 - For a single date — use `DateField` or `DateInput`.
 - For more complex range pickers with a calendar — use `CalendarRangePicker`.
-- For a datetime range — compose `DatetimeLocalInput` manually.
+- For a datetime range — compose `DateTimeLocalInput` manually.
 
 ## How to use it
 

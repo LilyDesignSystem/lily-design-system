@@ -13,7 +13,7 @@ description: A composed NHS UK-style form using Lily's form primitives.
 {% from "components/error-summary/macro.njk" import errorSummary %}
 {% from "components/text-input/macro.njk" import textInput %}
 {% from "components/email-input/macro.njk" import emailInput %}
-{% from "components/textarea/macro.njk" import textarea %}
+{% from "components/text-area-input/macro.njk" import text-area-input %}
 {% from "components/button/macro.njk" import button %}
 
 <p class="lead">Register for NHS online services. All fields are required
@@ -110,7 +110,7 @@ unless marked optional.</p>
 
   {% call field() %}
     {{ label({ for: "notes", text: "Anything else we should know? (optional)" }) }}
-    {{ textarea({
+    {{ text-area-input({
       id: "notes",
       name: "notes",
       rows: 5,

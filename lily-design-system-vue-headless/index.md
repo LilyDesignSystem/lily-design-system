@@ -171,7 +171,7 @@ Component names follow a suffix-based pattern that indicates the root HTML eleme
   - **calendar-table-head**: a calendar table interactive grid thead for managing dates, days, etc.
   - **calendar-table-body**: a calendar table interactive grid tbody for managing dates, days, etc.
   - **calendar-table-foot**: a calendar table interactive grid tfoot for managing dates, days, etc.
-  - **calendar-table-col**: a calendar table interactive grid column for managing dates, days, etc.
+  - **calendar-table-th**: a calendar table interactive grid column for managing dates, days, etc.
   - **calendar-table-row**: a calendar table interactive grid row for managing dates, days, etc.
   - **calendar-table-td**: a calendar table interactive grid data cell for managing dates, days, etc.
 - ...and 200+ more components

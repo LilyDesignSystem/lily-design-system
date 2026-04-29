@@ -132,7 +132,7 @@ export const components = [
       "a calendar table interactive grid tfoot for managing dates, days, etc.",
   },
   {
-    slug: "calendar-table-col",
+    slug: "calendar-table-th",
     name: "CalendarTableTD",
     description:
       "a calendar table interactive grid column for managing dates, days, etc.",
@@ -310,7 +310,7 @@ export const components = [
       "a data table interactive grid tfoot for displaying and sorting tabular data",
   },
   {
-    slug: "data-table-col",
+    slug: "data-table-th",
     name: "DataTableTD",
     description:
       "a data table interactive grid column for displaying and sorting tabular data",
@@ -344,7 +344,7 @@ export const components = [
   },
   {
     slug: "datetime-local-input",
-    name: "DatetimeLocalInput",
+    name: "DateTimeLocalInput",
     description: "an input for entering a date and time without time zone",
   },
   {
@@ -685,7 +685,7 @@ export const components = [
       "a kanban board table interactive grid tfoot for organizing items by status",
   },
   {
-    slug: "kanban-table-col",
+    slug: "kanban-table-th",
     name: "KanbanTableTD",
     description:
       "a kanban board table interactive grid column for organizing items by status",
@@ -1094,7 +1094,7 @@ export const components = [
     description: "a table interactive grid tfoot",
   },
   {
-    slug: "table-col",
+    slug: "table-th",
     name: "TableTD",
     description: "a table interactive grid column",
   },
@@ -1104,7 +1104,7 @@ export const components = [
     description: "a table interactive grid row",
   },
   {
-    slug: "table-data",
+    slug: "table-td",
     name: "TableTD",
     description: "a table interactive grid data cell",
   },
@@ -1159,8 +1159,8 @@ export const components = [
     description: "a single-line text input field",
   },
   {
-    slug: "textarea",
-    name: "Textarea",
+    slug: "text-area-input",
+    name: "TextAreaInput",
     description: "a multi-line text input area",
   },
   {

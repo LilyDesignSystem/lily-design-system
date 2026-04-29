@@ -47,7 +47,7 @@ else
         </Field>
 
         <Field Label="Message" Required="true" Error="@GetError("message")">
-            <Textarea Label="Message" id="message"
+            <TextAreaInput Label="Message" id="message"
                       Value="@data.Message" ValueChanged="v => data.Message = v"
                       Rows="5" Required="true" />
         </Field>

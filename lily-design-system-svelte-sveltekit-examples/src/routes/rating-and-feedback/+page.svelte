@@ -11,7 +11,7 @@
     import RedOrangeYellowGreenBlueView from "$lib/components/RedOrangeYellowGreenBlueView.svelte";
     import Form from "$lib/components/Form.svelte";
     import Field from "$lib/components/Field.svelte";
-    import Textarea from "$lib/components/Textarea.svelte";
+    import TextAreaInput from "$lib/components/TextAreaInput.svelte";
     import Button from "$lib/components/Button.svelte";
     import Card from "$lib/components/Card.svelte";
     import Separator from "$lib/components/Separator.svelte";
@@ -190,7 +190,7 @@
 
             <h2>Additional Comments</h2>
             <Field label="Your comments">
-                <Textarea
+                <TextAreaInput
                     label="Additional feedback"
                     bind:value={feedbackText}
                 />

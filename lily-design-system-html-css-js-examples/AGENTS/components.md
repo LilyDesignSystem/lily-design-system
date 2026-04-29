@@ -39,7 +39,7 @@
 - calendar-table-head = CalendarTableHead = a calendar table interactive grid thead for managing dates, days, etc. <thead>
 - calendar-table-body = CalendarTableBody = a calendar table interactive grid tbody for managing dates, days, etc. <tbody>
 - calendar-table-foot = CalendarTableFoot = a calendar table interactive grid tfoot for managing dates, days, etc. <tfoot>
-- calendar-table-col = CalendarTableTD = a calendar table interactive grid column for managing dates, days, etc. <th>
+- calendar-table-th = CalendarTableTD = a calendar table interactive grid column for managing dates, days, etc. <th>
 - calendar-table-row = CalendarTableRow = a calendar table interactive grid row for managing dates, days, etc. <tr>
 - calendar-table-td = CalendarTableTD = a calendar table interactive grid data cell for managing dates, days, etc. <td>
 - calendar-range-picker = CalendarRangePicker = a picker for selecting a date range on a calendar
@@ -90,14 +90,14 @@
 - data-table-head = DataTableHead = a data table interactive grid thead for displaying and sorting tabular data <thead>
 - data-table-body = DataTableBody = a data table interactive grid tbody for displaying and sorting tabular data <tbody>
 - data-table-foot = DataTableFoot = a data table interactive grid tfoot for displaying and sorting tabular data <tfoot>
-- data-table-col = DataTableTD = a data table interactive grid column for displaying and sorting tabular data <th>
+- data-table-th = DataTableTD = a data table interactive grid column for displaying and sorting tabular data <th>
 - data-table-row = DataTableRow = a data table interactive grid row for displaying and sorting tabular data <tr>
 - data-table-td = DataTableTD = a data table interactive grid data cell for displaying and sorting tabular data <td>
 - date-field = DateField = a structured field for entering date components
 - date-input = DateInput = an input for entering a date value <input type="date">
 - date-range = DateRange = a display of a start and end date range
 - date-time-now-input = DateTimeNowInput = an input for entering a date and time and "now" button <input type="date"><input type="time"><button type="button">
-- datetime-local-input = DatetimeLocalInput = an input for entering a date and time without time zone <input type="datetime-local">
+- datetime-local-input = DateTimeLocalInput = an input for entering a date and time without time zone <input type="datetime-local">
 - datetime-view = DatetimeView = a read-only display of a formatted date and time
 - details = Details = a disclosure widget that shows and hides content
 - dial = Dial = a rotary dial control for selecting a value
@@ -195,7 +195,7 @@
 - kanban-table-head = KanbanTableHead = a kanban board table interactive grid thead for organizing items by status <thead>
 - kanban-table-body = KanbanTableBody = a kanban board table interactive grid tbody for organizing items by status <tbody>
 - kanban-table-foot = KanbanTableFoot = a kanban board table interactive grid tfoot for organizing items by status <tfoot>
-- kanban-table-col = KanbanTableTD = a kanban board table interactive grid column for organizing items by status <th>
+- kanban-table-th = KanbanTableTD = a kanban board table interactive grid column for organizing items by status <th>
 - kanban-table-row = KanbanTableRow = a kanban board table interactive grid row for organizing items by status <tr>
 - kanban-table-td = KanbanTableTD = kanban board table interactive grid data cell for organizing items by status <td>
 - kbd = Kbd = show keyboard shortcuts and key combinations in a styled inline element
@@ -222,7 +222,7 @@
 - meter = Meter = a gauge displaying a scalar value within a known range
 - mockup-browser = MockupBrowser = a box area that looks like a web browser
 - mockup-laptop = MockupLaptop = a box area that looks like a laptop computer
-- mockup-phone = MockupPhone = a box area that looks like a mobile phone
+- mockup-phone-portrait = MockupPhonePortrait = a box area that looks like a mobile phone
 - mockup-tablet-landscape = MockupTabletLandscape = a box area that looks like a tablet computer in landscape mode
 - mockup-tablet-portrait = MockupTabletPortrait = a box area that looks like a tablet computer in portrait mode
 - mockup-shell = MockupShell = a box area that looks like a terminal shell
@@ -320,9 +320,9 @@
 - table-head = TableHead = a table interactive grid thead <thead>
 - table-body = TableBody = a table interactive grid tbody <tbody>
 - table-foot = TableFoot = a table interactive grid tfoot <tfoot>
-- table-col = TableTD = a table interactive grid column <th>
+- table-th = TableTD = a table interactive grid column <th>
 - table-row = TableRow = a table interactive grid row <tr>
-- table-data = TableTD = a table interactive grid data cell <td>
+- table-td = TableTD = a table interactive grid data cell <td>
 - tag-group = TagGroup = a group of tag elements
 - tag = Tag = a keyword label for categorizing content
 - tag-input = TagInput = an input for adding and removing tags
@@ -335,7 +335,7 @@
 - text-input = TextInput = a single-line text input field <input type="text">
 - text-input-with-search = TextInputWithSearch = a single-line text input field <input type="text"> with search capability
 - text-area-input-with-character-counter = TextAreaInputWithCharacterCounter = a multi-line text area with a caption below that is a character counter "[number] of [maximum] characters"
-- textarea = Textarea = a multi-line text input area
+- text-area-input = TextAreaInput = a multi-line text input area
 - theme-picker = ThemePicker = a picker for selecting a visual theme
 - theme-picker-button = ThemePickerButton = a picker button for selecting a visual theme
 - theme-provider = ThemeProvider = a container that applies CSS custom properties from a theme object to its children
@@ -411,8 +411,8 @@
 | table-body | `<tbody>`    | DataTableBody                                    |
 | table-foot | `<tfoot>`    | DataTableFoot                                    |
 | table-row  | `<tr>`       | DataTableRow                                     |
-| table-col  | `<th>`       | DataTableTD                                     |
-| table-data | `<td>`       | DataTableTD                                    |
+| table-th  | `<th>`       | DataTableTD                                     |
+| table-td | `<td>`       | DataTableTD                                    |
 
 ## Component name patterns
 

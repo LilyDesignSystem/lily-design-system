@@ -65,7 +65,7 @@ const subprojects = [
   },
   {
     dir: "lily-design-system-html-css-js-examples",
-    title: "Lily Design System — HTML JavaScript Examples",
+    title: "Lily Design System — HTML CSS JS Examples",
     framework: "HTML",
     tech: "Plain HTML + vanilla JavaScript with simple styling",
     testFramework: "WebDriverIO",

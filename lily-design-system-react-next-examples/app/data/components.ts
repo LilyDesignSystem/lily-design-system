@@ -139,7 +139,7 @@ export const components: Component[] = [
       "a calendar table interactive grid tfoot for managing dates, days, etc. <tfoot>",
   },
   {
-    slug: "calendar-table-col",
+    slug: "calendar-table-th",
     name: "CalendarTableTD",
     description:
       "a calendar table interactive grid column for managing dates, days, etc. <th>",
@@ -318,7 +318,7 @@ export const components: Component[] = [
       "a data table interactive grid tfoot for displaying and sorting tabular data <tfoot>",
   },
   {
-    slug: "data-table-col",
+    slug: "data-table-th",
     name: "DataTableTD",
     description:
       "a data table interactive grid column for displaying and sorting tabular data <th>",
@@ -352,7 +352,7 @@ export const components: Component[] = [
   },
   {
     slug: "datetime-local-input",
-    name: "DatetimeLocalInput",
+    name: "DateTimeLocalInput",
     description:
       'an input for entering a date and time without time zone <input type="datetime-local">',
   },
@@ -697,7 +697,7 @@ export const components: Component[] = [
       "a kanban board table interactive grid tfoot for organizing items by status <tfoot>",
   },
   {
-    slug: "kanban-table-col",
+    slug: "kanban-table-th",
     name: "KanbanTableTD",
     description:
       "a kanban board table interactive grid column for organizing items by status <th>",
@@ -1110,7 +1110,7 @@ export const components: Component[] = [
     description: "a table interactive grid tfoot <tfoot>",
   },
   {
-    slug: "table-col",
+    slug: "table-th",
     name: "TableTD",
     description: "a table interactive grid column <th>",
   },
@@ -1120,7 +1120,7 @@ export const components: Component[] = [
     description: "a table interactive grid row <tr>",
   },
   {
-    slug: "table-data",
+    slug: "table-td",
     name: "TableTD",
     description: "a table interactive grid data cell <td>",
   },
@@ -1175,8 +1175,8 @@ export const components: Component[] = [
     description: 'a single-line text input field <input type="text">',
   },
   {
-    slug: "textarea",
-    name: "Textarea",
+    slug: "text-area-input",
+    name: "TextAreaInput",
     description: "a multi-line text input area",
   },
   {

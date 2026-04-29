@@ -1,9 +1,9 @@
 // datetime-local-input.test.js
-// DatetimeLocalInput component test
+// DateTimeLocalInput component test
 
 const path = require('path');
 
-describe('DatetimeLocalInput', function() {
+describe('DateTimeLocalInput', function() {
   beforeEach(async function() {
     await browser.url('file://' + path.resolve(__dirname, 'datetime-local-input.html'));
   });

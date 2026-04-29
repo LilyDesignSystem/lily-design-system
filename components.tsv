@@ -22,7 +22,7 @@ avatar-group	AvatarGroup	a group of avatar components
 avatar-image	AvatarImage	an avatar indicator inside image such as a user photo
 avatar-text	AvatarText	an avatar indicator inner text such as a user name
 back-link	BackLink	a navigation link to return to a previous page
-back-to-top	BackToTop	a link that returns users to the top of a long page
+go-to-top	GoToTop	a link that returns users to the top of a long page
 badge	Badge	a small label for counts, statuses, or categories
 banner	Banner	a prominent message bar across the top of a page
 banner-box	BannerBox	a banner box that is inside a banner component, using flexbox horizontal
@@ -221,7 +221,7 @@ menu-item	MenuItem	one item in a menu
 meter	Meter	a gauge displaying a scalar value within a known range
 mockup-browser	MockupBrowser	a box area that looks like a web browser
 mockup-laptop	MockupLaptop	a box area that looks like a laptop computer
-mockup-phone	MockupPhone	a box area that looks like a mobile phone
+mockup-phone-portrait	MockupPhonePortrait	a box area that looks like a mobile phone
 mockup-shell	MockupShell	a box area that looks like a terminal shell
 mockup-tablet-landscape	MockupTabletLandscape	a box area that looks like a tablet computer in landscape mode
 mockup-tablet-portrait	MockupTabletPortrait	a box area that looks like a tablet computer in portrait mode
@@ -324,8 +324,8 @@ tab-bar-button	TabBarButton	one tab button in a tab group
 tab-panel	TabPanel	a content panel associated with a tab in a tab bar
 table	Table	a table with rows and columns <table>
 table-body	TableBody	a table interactive grid tbody <tbody>
-table-col	TableTD	a table interactive grid column <th>
-table-data	TableTD	a table interactive grid data cell <td>
+table-th	TableTD	a table interactive grid column <th>
+table-td	TableTD	a table interactive grid data cell <td>
 table-foot	TableFoot	a table interactive grid tfoot <tfoot>
 table-head	TableHead	a table interactive grid thead <thead>
 table-row	TableRow	a table interactive grid row <tr>

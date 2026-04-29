@@ -60,7 +60,7 @@ function handleSubmit() {
                 </Field>
 
                 <Field label="Message" required :error="errors.message">
-                    <Textarea label="Message" v-model="data.message" id="message" :rows="5" required />
+                    <TextAreaInput label="Message" v-model="data.message" id="message" :rows="5" required />
                 </Field>
 
                 <Button type="submit">Send Message</Button>

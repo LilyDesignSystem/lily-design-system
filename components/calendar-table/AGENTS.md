@@ -12,7 +12,7 @@
 ## Composition
 
 - Pattern: Table/Head/Body/Foot/Col/Row/Data
-- Children: calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-col, calendar-table-row, calendar-table-td
+- Children: calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-th, calendar-table-row, calendar-table-td
 
 ## Key Behaviors
 

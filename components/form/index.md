@@ -42,7 +42,7 @@ Contact form with reset support:
     <TextInput label="Name" value={name} required />
   </Field>
   <Field label="Message" required>
-    <Textarea label="Message" value={message} required />
+    <TextAreaInput label="Message" value={message} required />
   </Field>
   <SubmitInput value="Send message" />
   <ResetInput value="Clear form" />

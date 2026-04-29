@@ -70,7 +70,7 @@ In edit mode:
 ## When Not to Use
 
 - Do not use for complex forms with multiple fields -- use Form with Field components instead.
-- Do not use for multi-line editing -- use Textarea instead.
+- Do not use for multi-line editing -- use TextAreaInput instead.
 - Do not use when the field should always be in edit mode -- use TextInput instead.
 - Do not use when form submission semantics are needed -- use EditableForm instead.
 

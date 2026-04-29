@@ -22,7 +22,7 @@ A headless time input rendered as a native `<input type="time">` with `aria-labe
 
 ## When not to use it
 
-- Don't use it for a date and time together — use `DatetimeLocalInput`.
+- Don't use it for a date and time together — use `DateTimeLocalInput`.
 - Don't use it for a date only — use `DateInput`.
 - Don't use it for durations — use `NumberInput` with a unit label.
 - Don't use it for time ranges — combine two `TimeInput` instances or use a range picker.
@@ -104,5 +104,5 @@ Import, bind `value`, and pass a translated `label`. Optionally constrain the al
 
 - `TimePickerInput` — similar but framed as a picker wrapper with separate stories.
 - `DateInput` — date-only input.
-- `DatetimeLocalInput` — combined date + time.
+- `DateTimeLocalInput` — combined date + time.
 - `DateTimeNowInput` — date + time with a "now" button.

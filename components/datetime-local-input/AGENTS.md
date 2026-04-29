@@ -3,7 +3,7 @@
 ## Metadata
 
 - Component: datetime-local-input
-- PascalCase: DatetimeLocalInput
+- PascalCase: DateTimeLocalInput
 - Description: an input for entering a date and time without time zone <input type="datetime-local">
 - HTML tag: <input>
 - CSS class: .datetime-local-input

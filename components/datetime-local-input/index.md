@@ -27,19 +27,19 @@ This component is useful for scheduling interfaces, event creation forms, appoin
 Scheduling an event with constrained date-time range:
 
 ```html
-<DatetimeLocalInput label="Meeting start" value={meetingStart} min="2026-01-01T08:00" max="2026-12-31T18:00" required />
+<DateTimeLocalInput label="Meeting start" value={meetingStart} min="2026-01-01T08:00" max="2026-12-31T18:00" required />
 ```
 
 Booking an appointment:
 
 ```html
-<DatetimeLocalInput label="Appointment date and time" value={appointmentDatetime} required />
+<DateTimeLocalInput label="Appointment date and time" value={appointmentDatetime} required />
 ```
 
 Read-only locked departure time:
 
 ```html
-<DatetimeLocalInput label="Departure" value={departure} disabled={true} />
+<DateTimeLocalInput label="Departure" value={departure} disabled={true} />
 ```
 
 ## Keyboard Interactions

@@ -44,9 +44,9 @@ Watch mockup in a multi-device showcase:
   <MockupWatch label="Heart rate on watch">
     <Image src="heart-rate-watch.png" alt="Heart rate display on watch" />
   </MockupWatch>
-  <MockupPhone label="Heart rate history on phone">
+  <MockupPhonePortrait label="Heart rate history on phone">
     <Image src="heart-rate-phone.png" alt="Heart rate history chart on phone" />
-  </MockupPhone>
+  </MockupPhonePortrait>
 </div>
 ```
 
@@ -68,8 +68,8 @@ Watch mockup in a multi-device showcase:
 
 ## When Not to Use
 
-- Do not use for phone-sized content -- use MockupPhone instead.
-- Do not use for non-wearable content that needs more screen space -- use MockupPhone or MockupTabletPortrait instead.
+- Do not use for phone-sized content -- use MockupPhonePortrait instead.
+- Do not use for non-wearable content that needs more screen space -- use MockupPhonePortrait or MockupTabletPortrait instead.
 - Do not use for functional embedded content -- use appropriate interactive components instead.
 
 ## Headless

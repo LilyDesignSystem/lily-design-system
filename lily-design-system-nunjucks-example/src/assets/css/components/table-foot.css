@@ -2,6 +2,6 @@
   border-top: 2px solid var(--nhsuk-black);
 }
 
-.table-foot .table-data {
+.table-foot .table-td {
   font-weight: var(--nhsuk-font-weight-bold);
 }

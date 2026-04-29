@@ -4,7 +4,7 @@ A headless container for calendar-based date-range selection. Renders a `<div ro
 
 ## What it is
 
-A headless Svelte 5 wrapper intended to host a `CalendarTable` (or similar) with custom selection logic. Category: date-picking primitive alongside `CalendarTable`, `DateInput`, `DateRange`, and `DatetimeLocalInput`.
+A headless Svelte 5 wrapper intended to host a `CalendarTable` (or similar) with custom selection logic. Category: date-picking primitive alongside `CalendarTable`, `DateInput`, `DateRange`, and `DateTimeLocalInput`.
 
 ## What it does
 
@@ -124,5 +124,5 @@ Import `CalendarRangePicker` from `./CalendarRangePicker.svelte`. Pass `label`. 
 ## Related components
 
 - `CalendarTable` + `CalendarTableHead`/`Body`/`Foot`/`Row`/`Data`/`Col` — the grid components.
-- `DateInput`, `DateRange`, `DateField`, `DatetimeLocalInput`, `DateTimeNowInput`, `MonthInput`, `WeekInput` — related date inputs.
+- `DateInput`, `DateRange`, `DateField`, `DateTimeLocalInput`, `DateTimeNowInput`, `MonthInput`, `WeekInput` — related date inputs.
 - `TimePickerInput`, `TimeInput` — time-selection counterparts.

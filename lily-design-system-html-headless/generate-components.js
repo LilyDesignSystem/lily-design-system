@@ -41,7 +41,7 @@ function getTag(name) {
   if (name.endsWith("-select") || name === "select") return "select";
   if (name.endsWith("-progress") || name === "progress") return "progress";
   if (name === "figure") return "figure";
-  if (name === "textarea") return "textarea";
+  if (name === "text-area-input") return "text-area-input";
   if (name === "caption") return "caption";
   if (name === "label") return "label";
   if (
@@ -115,7 +115,7 @@ function getRole(name, tag) {
   if (tag === "progress") return null;
   if (tag === "form") return null;
   if (tag === "select") return null;
-  if (tag === "textarea") return null;
+  if (tag === "text-area-input") return null;
   if (tag === "img") return null;
   return null;
 }
@@ -172,7 +172,7 @@ const COMPONENTS = [
     "a calendar table interactive grid tfoot for managing dates, days, etc.",
   ],
   [
-    "calendar-table-col",
+    "calendar-table-th",
     "a calendar table interactive grid column for managing dates, days, etc.",
   ],
   [
@@ -247,7 +247,7 @@ const COMPONENTS = [
     "a data table interactive grid tfoot for displaying and sorting tabular data",
   ],
   [
-    "data-table-col",
+    "data-table-th",
     "a data table interactive grid column for displaying and sorting tabular data",
   ],
   [
@@ -391,7 +391,7 @@ const COMPONENTS = [
     "a kanban board table interactive grid tfoot for organizing items by status",
   ],
   [
-    "kanban-table-col",
+    "kanban-table-th",
     "a kanban board table interactive grid column for organizing items by status",
   ],
   [
@@ -519,9 +519,9 @@ const COMPONENTS = [
   ["table-head", "a table header section"],
   ["table-body", "a table body section"],
   ["table-foot", "a table footer section"],
-  ["table-col", "a table column header"],
+  ["table-th", "a table column header"],
   ["table-row", "a table row"],
-  ["table-data", "a table data cell"],
+  ["table-td", "a table data cell"],
   ["tag-group", "a group of tag elements"],
   ["tag", "a keyword label for categorizing content"],
   ["tag-input", "an input for adding and removing tags"],
@@ -532,7 +532,7 @@ const COMPONENTS = [
   ["tel-input", "an input for entering a telephone number"],
   ["tel-link", "a tel hyperlink for a telephone number"],
   ["text-input", "a single-line text input field"],
-  ["textarea", "a multi-line text input area"],
+  ["text-area-input", "a multi-line text input area"],
   ["theme-picker", "a picker for selecting a visual theme"],
   ["theme-select", "a select dropdown for choosing a theme"],
   ["theme-select-option", "one option in a theme select dropdown"],
@@ -666,7 +666,7 @@ function getInnerContent(name, tag, pascal) {
     return "\n  <!-- Consumer provides option text -->";
   }
 
-  if (tag === "textarea") {
+  if (tag === "text-area-input") {
     return "";
   }
 
@@ -751,7 +751,7 @@ function getAttributes(name, tag, role) {
     !name.endsWith("-table-body") &&
     !name.endsWith("-table-foot");
 
-  if (needsLabel && tag !== "input" && tag !== "select" && tag !== "textarea") {
+  if (needsLabel && tag !== "input" && tag !== "select" && tag !== "text-area-input") {
     attrs.push('aria-label=""');
   }
 
@@ -846,7 +846,7 @@ function getAttributes(name, tag, role) {
     attrs.push('tabindex="-1"');
   }
 
-  if (name === "textarea") {
+  if (name === "text-area-input") {
     attrs.push('aria-label=""');
   }
 
@@ -1206,7 +1206,7 @@ function getKeyboard(name, tag) {
   if (tag === "button" || name.endsWith("-button"))
     return "Tab to focus, Enter or Space to activate";
   if (tag === "a") return "Tab to focus, Enter to follow link";
-  if (tag === "input" || tag === "select" || tag === "textarea")
+  if (tag === "input" || tag === "select" || tag === "text-area-input")
     return "Tab to focus, standard input keyboard interactions";
   if (name === "dialog" || name === "alert-dialog" || name === "file-dialog")
     return "Tab to cycle focus within dialog, Escape to close";

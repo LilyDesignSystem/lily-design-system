@@ -36,7 +36,7 @@ A form field wrapper with label, input, and error message.
 | `error` | string, default undefined | Error message displayed below the input. |
 | `required` | boolean, default false | Adds a visual asterisk (hidden from screen readers). |
 | `inputId` | string, default undefined | ID of the input to link the label to; auto-generated if omitted. |
-| `children` | Snippet, required | Form control (input, select, textarea, etc.). |
+| `children` | Snippet, required | Form control (input, select, text-area-input, etc.). |
 | `...restProps` | additional HTML attributes spread onto the outer <div> |  |
 
 ## Examples

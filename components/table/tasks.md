@@ -13,9 +13,9 @@
 - [ ] Implement child component: table-head
 - [ ] Implement child component: table-body
 - [ ] Implement child component: table-foot
-- [ ] Implement child component: table-col
+- [ ] Implement child component: table-th
 - [ ] Implement child component: table-row
-- [ ] Implement child component: table-data
+- [ ] Implement child component: table-td
 
 ## Backlog
 

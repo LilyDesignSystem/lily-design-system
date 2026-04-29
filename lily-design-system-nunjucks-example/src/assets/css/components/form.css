@@ -9,7 +9,7 @@
 .form input[type="password"],
 .form input[type="search"],
 .form input[type="number"],
-.form textarea,
+.form text-area-input,
 .form select {
   display: block;
   width: 100%;
@@ -23,6 +23,6 @@
   margin-bottom: var(--nhsuk-spacing-3);
 }
 
-.form textarea {
+.form text-area-input {
   min-height: 8rem;
 }

@@ -27,8 +27,8 @@
     {% from "components/table-head/macro.njk" import TableHead %}
     {% from "components/table-body/macro.njk" import TableBody %}
     {% from "components/table-row/macro.njk" import tableRow %}
-    {% from "components/table-col/macro.njk" import tableCol %}
-    {% from "components/table-data/macro.njk" import TableTD %}
+    {% from "components/table-th/macro.njk" import tableCol %}
+    {% from "components/table-td/macro.njk" import TableTD %}
 
     {% call table({ caption: "Your appointments" }) %}
       {% call TableHead() %}

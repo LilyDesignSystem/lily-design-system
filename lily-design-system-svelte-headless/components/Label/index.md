@@ -17,7 +17,7 @@ A thin wrapper around the native `<label>` element. Clicking the label text focu
 
 - Providing a visible, clickable label for any form control that has an `id`.
 - Wrapping a form control so that clicking anywhere on the label focuses the control.
-- Pairing with `TextInput`, `EmailInput`, `CheckboxInput`, `RadioInput`, `Select`, `Textarea`, etc.
+- Pairing with `TextInput`, `EmailInput`, `CheckboxInput`, `RadioInput`, `Select`, `TextAreaInput`, etc.
 
 ## When not to use it
 
@@ -119,7 +119,7 @@ Either link the label to a control by `for` matching the control's `id`, or wrap
 
 - `TextInput`, `EmailInput`, `PasswordInput`, `NumberInput`, `SearchInput`, `UrlInput`, `TelInput` — form inputs to label.
 - `CheckboxInput`, `RadioInput` — toggle inputs.
-- `Select`, `Textarea` — selection and multi-line inputs.
+- `Select`, `TextAreaInput` — selection and multi-line inputs.
 - `Field` — a form field wrapper that bundles a label, input, hint, and error message.
 - `Fieldset` — a group of related form fields with a legend.
 - `Form` — the form container.

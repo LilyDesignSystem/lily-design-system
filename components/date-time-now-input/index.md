@@ -71,7 +71,7 @@ Locked timestamp that has already been recorded:
 
 - Do not use when only a date is needed -- use DateInput instead.
 - Do not use when only a time is needed -- use TimeInput instead.
-- Do not use when a single combined field is preferred and no "Now" button is needed -- use DatetimeLocalInput instead.
+- Do not use when a single combined field is preferred and no "Now" button is needed -- use DateTimeLocalInput instead.
 
 ## Headless
 

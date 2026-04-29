@@ -60,7 +60,7 @@ lily-design-system-blazor-web-examples/
 | Page         | Route                   | Key Components                                                                         |
 | ------------ | ----------------------- | -------------------------------------------------------------------------------------- |
 | Home         | `/`                     | Links to all examples                                                                  |
-| Contact Form | `/contact-form`         | Form, Field, TextInput, EmailInput, Textarea, Select, Option, Button, ErrorSummary     |
+| Contact Form | `/contact-form`         | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Option, Button, ErrorSummary     |
 | Dashboard    | `/dashboard`            | Card, Progress, ProgressCircle, Badge, Banner, DataTable                               |
 | Dialog Flow  | `/dialog-flow`          | Dialog, AlertDialog, Drawer, Tooltip, Button                                           |
 | File Upload  | `/file-upload-form`     | FileUpload, Progress, Button, Alert, Badge, Form, Field                                |

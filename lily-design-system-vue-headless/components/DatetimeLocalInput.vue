@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-    // DatetimeLocalInput component
+    // DateTimeLocalInput component
     //
     // A headless native datetime-local input wrapping <input type="datetime-local">
     // with accessible labelling via aria-label and a bindable value. The value follows
@@ -19,13 +19,13 @@
     //   ...restProps — additional HTML attributes spread onto the <input>.
     //
     // Syntax:
-    //   <DatetimeLocalInput label="Event start" v-model />
+    //   <DateTimeLocalInput label="Event start" v-model />
     //
     // Examples:
     //   <!-- Datetime input with min/max constraints -->
-    //   <DatetimeLocalInput label="Appointment" v-model min="2024-01-01T08:00" max="2024-12-31T18:00" />
+    //   <DateTimeLocalInput label="Appointment" v-model min="2024-01-01T08:00" max="2024-12-31T18:00" />
     //   <!-- Required and conditionally disabled -->
-    //   <DatetimeLocalInput label="Departure time" v-model required disabled={isLocked} />
+    //   <DateTimeLocalInput label="Departure time" v-model required disabled={isLocked} />
     //
     // Keyboard:
     //   - Tab: Move focus to and from the datetime input (native browser behavior)
@@ -69,7 +69,7 @@
 </script>
 
 <template>
-    <!-- DatetimeLocalInput.vue -->
+    <!-- DateTimeLocalInput.vue -->
     <input
         class="datetime-local-input"
         type="datetime-local"

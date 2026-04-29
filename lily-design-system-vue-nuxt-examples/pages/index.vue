@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const examples = [
-    { href: "/contact-form", title: "Contact Form", description: "Form, Field, TextInput, EmailInput, Textarea, Select, ErrorSummary" },
+    { href: "/contact-form", title: "Contact Form", description: "Form, Field, TextInput, EmailInput, TextAreaInput, Select, ErrorSummary" },
     { href: "/dashboard", title: "Dashboard", description: "Card, Progress, ProgressCircle, Badge, Banner, DataTable" },
     { href: "/dialog-flow", title: "Dialog Flow", description: "Dialog, AlertDialog, Drawer, Popover, Tooltip" },
     { href: "/file-upload-form", title: "File Upload Form", description: "FileUpload, Progress, Badge, Form, Field" },

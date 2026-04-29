@@ -1,0 +1,19 @@
+.mockup-phone-portrait {
+  margin: 0;
+  border: 10px solid var(--nhsuk-black);
+  border-radius: 28px;
+  overflow: hidden;
+  background: var(--nhsuk-white);
+  max-width: 18rem;
+}
+
+.mockup-phone-chrome {
+  height: 14px;
+  background: var(--nhsuk-black);
+  position: relative;
+}
+
+.mockup-phone-body {
+  padding: var(--nhsuk-spacing-3);
+  min-height: 20rem;
+}

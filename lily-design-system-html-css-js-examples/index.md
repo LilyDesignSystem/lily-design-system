@@ -1,4 +1,4 @@
-# Lily Design System — HTML JavaScript Examples
+# Lily Design System — HTML CSS JS Examples
 
 Styled example pages demonstrating headless components with Plain HTML + vanilla JavaScript with simple styling. Examples use NHS UK design system CSS for visual styling on top of headless components.
 

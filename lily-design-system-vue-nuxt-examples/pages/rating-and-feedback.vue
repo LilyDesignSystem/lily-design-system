@@ -52,7 +52,7 @@ function handleSubmit() {
 
                 <section class="section">
                     <h3>Additional comments</h3>
-                    <Textarea label="Comments" v-model="comment" :rows="4" />
+                    <TextAreaInput label="Comments" v-model="comment" :rows="4" />
                 </section>
 
                 <Button type="submit">Submit Feedback</Button>

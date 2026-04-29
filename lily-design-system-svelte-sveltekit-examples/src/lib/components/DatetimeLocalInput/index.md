@@ -1,4 +1,4 @@
-# DatetimeLocalInput
+# DateTimeLocalInput
 
 ## Overview
 
@@ -23,7 +23,7 @@ An input for entering a date and time without time zone <input type="datetime-lo
 ## Usage
 
 ```svelte
-<DatetimeLocalInput label="Event start" bind:value />
+<DateTimeLocalInput label="Event start" bind:value />
 ```
 
 ## Props
@@ -43,9 +43,9 @@ An input for entering a date and time without time zone <input type="datetime-lo
 
 ```svelte
 <!-- Datetime input with min/max constraints -->
-<DatetimeLocalInput label="Appointment" bind:value min="2024-01-01T08:00" max="2024-12-31T18:00" />
+<DateTimeLocalInput label="Appointment" bind:value min="2024-01-01T08:00" max="2024-12-31T18:00" />
 <!-- Required and conditionally disabled -->
-<DatetimeLocalInput label="Departure time" bind:value required disabled={isLocked} />
+<DateTimeLocalInput label="Departure time" bind:value required disabled={isLocked} />
 ```
 
 ## SvelteKit example
@@ -53,10 +53,10 @@ An input for entering a date and time without time zone <input type="datetime-lo
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DatetimeLocalInput from "$lib/components/DatetimeLocalInput/DatetimeLocalInput.svelte";
+  import DateTimeLocalInput from "$lib/components/DateTimeLocalInput/DateTimeLocalInput.svelte";
 </script>
 
-<DatetimeLocalInput label="Event start" bind:value />
+<DateTimeLocalInput label="Event start" bind:value />
 ```
 
 ## Keyboard

@@ -6,7 +6,7 @@ Unlike `details`, which uses a `<summary>` toggle, this component uses a real fo
 
 ## When to use it
 
-- Conditional follow-up questions in a form (e.g., "I have additional comments" → textarea)
+- Conditional follow-up questions in a form (e.g., "I have additional comments" → text-area-input)
 - Opt-in disclosures that hide non-essential detail until requested
 - A vertical list of independent expandable options
 

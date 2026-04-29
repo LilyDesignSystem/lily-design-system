@@ -1,10 +1,10 @@
-# DatetimeLocalInput
+# DateTimeLocalInput
 
 A headless native datetime-local input wrapping `<input type="datetime-local">` that captures both a date and a time (without time zone) in a single form field, using the browser-native picker UI.
 
 ## What it is
 
-`DatetimeLocalInput` is a thin, unstyled Svelte 5 wrapper around the native HTML `<input type="datetime-local">` element. It provides an accessible `aria-label`, a bindable value, and optional `min`/`max` bounds. The component renders a single `<input>` with no surrounding markup, so every aspect of presentation is left to the consumer.
+`DateTimeLocalInput` is a thin, unstyled Svelte 5 wrapper around the native HTML `<input type="datetime-local">` element. It provides an accessible `aria-label`, a bindable value, and optional `min`/`max` bounds. The component renders a single `<input>` with no surrounding markup, so every aspect of presentation is left to the consumer.
 
 The value follows the canonical `YYYY-MM-DDThh:mm` format used by the platform. The browser supplies the calendar and clock pop-up.
 
@@ -33,11 +33,11 @@ Import the component and bind a string value in `YYYY-MM-DDThh:mm` format.
 
 ```svelte
 <script lang="ts">
-    import DatetimeLocalInput from "./DatetimeLocalInput.svelte";
+    import DateTimeLocalInput from "./DateTimeLocalInput.svelte";
     let when = $state("");
 </script>
 
-<DatetimeLocalInput label="Event start" bind:value={when} />
+<DateTimeLocalInput label="Event start" bind:value={when} />
 ```
 
 ## Props
@@ -59,11 +59,11 @@ Import the component and bind a string value in `YYYY-MM-DDThh:mm` format.
 
 ```svelte
 <script lang="ts">
-    import DatetimeLocalInput from "./DatetimeLocalInput.svelte";
+    import DateTimeLocalInput from "./DateTimeLocalInput.svelte";
     let start = $state("");
 </script>
 
-<DatetimeLocalInput label="Event start" bind:value={start} />
+<DateTimeLocalInput label="Event start" bind:value={start} />
 <p>Starts at: {start}</p>
 ```
 
@@ -71,11 +71,11 @@ Import the component and bind a string value in `YYYY-MM-DDThh:mm` format.
 
 ```svelte
 <script lang="ts">
-    import DatetimeLocalInput from "./DatetimeLocalInput.svelte";
+    import DateTimeLocalInput from "./DateTimeLocalInput.svelte";
     let appointment = $state("");
 </script>
 
-<DatetimeLocalInput
+<DateTimeLocalInput
     label="Appointment"
     bind:value={appointment}
     min="2026-01-01T08:00"
@@ -87,12 +87,12 @@ Import the component and bind a string value in `YYYY-MM-DDThh:mm` format.
 
 ```svelte
 <script lang="ts">
-    import DatetimeLocalInput from "./DatetimeLocalInput.svelte";
+    import DateTimeLocalInput from "./DateTimeLocalInput.svelte";
     let departure = $state("");
 </script>
 
 <form>
-    <DatetimeLocalInput label="Departure time" bind:value={departure} required />
+    <DateTimeLocalInput label="Departure time" bind:value={departure} required />
     <button type="submit">Book</button>
 </form>
 ```
@@ -101,18 +101,18 @@ Import the component and bind a string value in `YYYY-MM-DDThh:mm` format.
 
 ```svelte
 <script lang="ts">
-    import DatetimeLocalInput from "./DatetimeLocalInput.svelte";
+    import DateTimeLocalInput from "./DateTimeLocalInput.svelte";
     let meeting = $state("");
     let isLocked = $state(true);
 </script>
 
-<DatetimeLocalInput label="Meeting" bind:value={meeting} disabled={isLocked} />
+<DateTimeLocalInput label="Meeting" bind:value={meeting} disabled={isLocked} />
 ```
 
 ### 5. With name and custom class
 
 ```svelte
-<DatetimeLocalInput
+<DateTimeLocalInput
     label="Deadline"
     bind:value={deadline}
     name="deadline"

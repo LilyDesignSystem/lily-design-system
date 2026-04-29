@@ -11,7 +11,7 @@ Implement the Data Table component: a data table interactive grid for displaying
 
 ## Dependencies
 
-- Requires children: data-table-head, data-table-body, data-table-foot, data-table-col, data-table-row, data-table-td
+- Requires children: data-table-head, data-table-body, data-table-foot, data-table-th, data-table-row, data-table-td
 
 ## Approach
 

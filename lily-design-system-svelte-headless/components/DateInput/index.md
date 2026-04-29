@@ -23,7 +23,7 @@ DateInput renders a bare `<input type="date">` with `aria-label={label}` and `bi
 
 - When you need an integrated label, description, and error — use `DateField`.
 - For a start/end pair — use `DateRange`.
-- For datetime with time zones — see `DatetimeLocalInput` or custom.
+- For datetime with time zones — see `DateTimeLocalInput` or custom.
 
 ## How to use it
 
@@ -102,4 +102,4 @@ Provide `label` (used as `aria-label`). Bind `value` to a `$state` variable.
 
 - `DateField` — date input with label/description/error.
 - `DateRange` — start/end pair.
-- `DatetimeLocalInput`, `MonthInput`, `WeekInput`, `TimeInput` — related input types.
+- `DateTimeLocalInput`, `MonthInput`, `WeekInput`, `TimeInput` — related input types.

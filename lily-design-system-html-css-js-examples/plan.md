@@ -1,4 +1,4 @@
-# Lily Design System — HTML JavaScript Examples — Implementation Plan
+# Lily Design System — HTML CSS JS Examples — Implementation Plan
 
 ## Goal
 

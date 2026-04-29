@@ -16,9 +16,9 @@ describe("table-row", () => {
     const { document } = render(
       "table-row",
       {},
-      '<td class="table-data">x</td>',
+      '<td class="table-td">x</td>',
     );
-    expect(document.querySelector("tr td.table-data").textContent).toBe("x");
+    expect(document.querySelector("tr td.table-td").textContent).toBe("x");
   });
 
   it("renders params.attributes", () => {

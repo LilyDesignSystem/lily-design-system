@@ -66,13 +66,13 @@ lily-design-system-react-next-examples/
 
 | Page         | Route                   | Components Demonstrated                                                             |
 | ------------ | ----------------------- | ----------------------------------------------------------------------------------- |
-| Contact Form | `/contact-form`         | Form, Field, TextInput, EmailInput, Textarea, Select, Option, Button, ErrorSummary  |
+| Contact Form | `/contact-form`         | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Option, Button, ErrorSummary  |
 | Dashboard    | `/dashboard`            | Card, Progress, ProgressCircle, Badge, Banner, DataTable                            |
 | Dialog Flow  | `/dialog-flow`          | Dialog, AlertDialog, Drawer, Button, Popover, Tooltip                               |
 | File Upload  | `/file-upload-form`     | FileUpload, Progress, Button, Alert, Badge, Form, Field                             |
 | Navigation   | `/navigation-and-menus` | NavigationMenu, MenuBar, ToolBar, HamburgerMenu, DropdownMenu, Separator            |
 | Page Layout  | `/page-layout`          | SkipLink, Header, Footer, BreadcrumbNav, Sidebar                                    |
-| Rating       | `/rating-and-feedback`  | FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker, Textarea, Alert |
+| Rating       | `/rating-and-feedback`  | FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker, TextAreaInput, Alert |
 | Search       | `/search-and-filter`    | Combobox, SearchInput, TagInput, TagGroup, Tag, DataTable, Badge                    |
 | Settings     | `/settings-page`        | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Separator, Button, Banner   |
 | Tabs         | `/tabbed-interface`     | TabBar, TabBarButton, AccordionNav, Badge                                           |

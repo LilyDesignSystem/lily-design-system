@@ -24,7 +24,7 @@ The component is fully headless: no styles, no icons, and no classes beyond the 
 
 ## When not to use it
 
-- When a single `<input type="datetime-local">` is sufficient. Use `DatetimeLocalInput` instead.
+- When a single `<input type="datetime-local">` is sufficient. Use `DateTimeLocalInput` instead.
 - When you do not need a "Now" affordance — use a pair of `DateInput` and `TimeInput` directly.
 - When time zone awareness is required; this component captures local values only.
 
@@ -136,6 +136,6 @@ Bind both `dateValue` and `timeValue` and pass localised labels for the group, i
 
 ## Related components
 
-- `DatetimeLocalInput` — single `<input type="datetime-local">` alternative.
+- `DateTimeLocalInput` — single `<input type="datetime-local">` alternative.
 - `DateInput`, `TimeInput` — the underlying pair without a "Now" button.
 - `Form`, `Field` — form composition wrappers.

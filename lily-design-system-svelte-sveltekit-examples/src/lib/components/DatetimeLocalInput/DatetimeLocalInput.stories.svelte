@@ -1,10 +1,10 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import DatetimeLocalInput from './DatetimeLocalInput.svelte';
+  import DateTimeLocalInput from './DateTimeLocalInput.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/DatetimeLocalInput',
-    component: DatetimeLocalInput,
+    title: 'Examples/DateTimeLocalInput',
+    component: DateTimeLocalInput,
   });
 </script>
 

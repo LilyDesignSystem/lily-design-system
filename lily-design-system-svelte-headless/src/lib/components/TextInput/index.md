@@ -26,7 +26,7 @@ A single-line text input rendered as a native `<input type="text">` with `aria-l
 - Don't use it for email — use `EmailInput`.
 - Don't use it for phone numbers — use `TelInput`.
 - Don't use it for URLs — use `UrlInput`.
-- Don't use it for multi-line content — use `Textarea`.
+- Don't use it for multi-line content — use `TextAreaInput`.
 
 ## How to use it
 
@@ -97,7 +97,7 @@ Import and bind `value`. Supply a translated `label`. Extend with placeholder/pa
 
 ## Related components
 
-- `Textarea` — multi-line equivalent.
+- `TextAreaInput` — multi-line equivalent.
 - `TextInputWithSearch` — text input plus a search button.
 - `PasswordInput` / `EmailInput` / `TelInput` / `UrlInput` / `NumberInput` — type-specialized variants.
 - `Field` — wrapper with visible label, hint, and error.

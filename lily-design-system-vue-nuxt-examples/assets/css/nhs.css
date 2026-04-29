@@ -1807,8 +1807,8 @@ article[class*="card"] {
   background-color: var(--nhs-mid-grey);
 }
 
-/* textarea */
-.textarea {
+/* text-area-input */
+.text-area-input {
   display: block;
   width: 100%;
   min-height: 120px;
@@ -1823,7 +1823,7 @@ article[class*="card"] {
   resize: vertical;
 }
 
-.textarea:focus {
+.text-area-input:focus {
   outline: var(--nhs-border-width-thick) solid var(--nhs-focus-color);
   outline-offset: 0;
   border-color: var(--nhs-black);

@@ -40,7 +40,7 @@
 @import url("components/button-input.css");
 @import url("components/calendar-table.css");
 @import url("components/calendar-table-body.css");
-@import url("components/calendar-table-col.css");
+@import url("components/calendar-table-th.css");
 @import url("components/calendar-table-td.css");
 @import url("components/calendar-table-foot.css");
 @import url("components/calendar-table-head.css");
@@ -68,7 +68,7 @@
 @import url("components/contents-nav.css");
 @import url("components/data-table.css");
 @import url("components/data-table-body.css");
-@import url("components/data-table-col.css");
+@import url("components/data-table-th.css");
 @import url("components/data-table-td.css");
 @import url("components/data-table-foot.css");
 @import url("components/data-table-head.css");
@@ -127,7 +127,7 @@
 @import url("components/inset-text.css");
 @import url("components/kanban-table.css");
 @import url("components/kanban-table-body.css");
-@import url("components/kanban-table-col.css");
+@import url("components/kanban-table-th.css");
 @import url("components/kanban-table-td.css");
 @import url("components/kanban-table-foot.css");
 @import url("components/kanban-table-head.css");
@@ -153,7 +153,7 @@
 @import url("components/context-menu-item.css");
 @import url("components/mockup-browser.css");
 @import url("components/mockup-laptop.css");
-@import url("components/mockup-phone.css");
+@import url("components/mockup-phone-portrait.css");
 @import url("components/mockup-shell.css");
 @import url("components/mockup-tablet-landscape.css");
 @import url("components/mockup-tablet-portrait.css");
@@ -209,8 +209,8 @@
 @import url("components/tab-bar-button.css");
 @import url("components/table.css");
 @import url("components/table-body.css");
-@import url("components/table-col.css");
-@import url("components/table-data.css");
+@import url("components/table-th.css");
+@import url("components/table-td.css");
 @import url("components/table-foot.css");
 @import url("components/table-head.css");
 @import url("components/table-row.css");
@@ -222,7 +222,7 @@
 @import url("components/tel-input.css");
 @import url("components/tel-link.css");
 @import url("components/text-input.css");
-@import url("components/textarea.css");
+@import url("components/text-area-input.css");
 @import url("components/theme-picker.css");
 @import url("components/theme-picker-button.css");
 @import url("components/theme-select.css");

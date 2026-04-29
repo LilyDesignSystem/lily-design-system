@@ -1,0 +1,3 @@
+# GoToTop
+
+Headless GoToTop component.

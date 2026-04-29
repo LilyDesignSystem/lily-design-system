@@ -11,7 +11,7 @@ Implement the Table component: a table with rows and columns <table>.
 
 ## Dependencies
 
-- Requires children: table-head, table-body, table-foot, table-col, table-row, table-data
+- Requires children: table-head, table-body, table-foot, table-th, table-row, table-td
 
 ## Approach
 

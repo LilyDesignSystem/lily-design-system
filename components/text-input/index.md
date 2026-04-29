@@ -56,7 +56,7 @@ None beyond native input behavior -- standard text editing keys (typing, backspa
 
 ## When Not to Use
 
-- Do not use for multi-line responses -- use Textarea instead
+- Do not use for multi-line responses -- use TextAreaInput instead
 - Do not use for searching with results -- use SearchInput or TextInputWithSearch
 - Do not use for structured date entry -- use DateInput with separate day/month/year fields
 - Do not use for passwords -- use PasswordInput which includes show/hide functionality

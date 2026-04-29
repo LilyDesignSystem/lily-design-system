@@ -1,5 +1,5 @@
 <script lang="ts">
-    // DatetimeLocalInput component
+    // DateTimeLocalInput component
     //
     // A headless native datetime-local input wrapping <input type="datetime-local">
     // with accessible labelling via aria-label and a bindable value. The value follows
@@ -18,13 +18,13 @@
     //   ...restProps — additional HTML attributes spread onto the <input>.
     //
     // Syntax:
-    //   <DatetimeLocalInput label="Event start" bind:value />
+    //   <DateTimeLocalInput label="Event start" bind:value />
     //
     // Examples:
     //   <!-- Datetime input with min/max constraints -->
-    //   <DatetimeLocalInput label="Appointment" bind:value min="2024-01-01T08:00" max="2024-12-31T18:00" />
+    //   <DateTimeLocalInput label="Appointment" bind:value min="2024-01-01T08:00" max="2024-12-31T18:00" />
     //   <!-- Required and conditionally disabled -->
-    //   <DatetimeLocalInput label="Departure time" bind:value required disabled={isLocked} />
+    //   <DateTimeLocalInput label="Departure time" bind:value required disabled={isLocked} />
     //
     // Keyboard:
     //   - Tab: Move focus to and from the datetime input (native browser behavior)
@@ -71,7 +71,7 @@
     } = $props();
 </script>
 
-<!-- DatetimeLocalInput.svelte -->
+<!-- DateTimeLocalInput.svelte -->
 <input
     class={`datetime-local-input ${className}`}
     type="datetime-local"

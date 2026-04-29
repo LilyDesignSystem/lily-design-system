@@ -1,4 +1,4 @@
-// DatetimeLocalInput component
+// DateTimeLocalInput component
 //
 // A headless native datetime-local input wrapping <input type="datetime-local">
 // with accessible labelling via aria-label and a bindable value. The value follows
@@ -17,13 +17,13 @@
 //   ...restProps — additional HTML attributes spread onto the <input>.
 //
 // Syntax:
-//   <DatetimeLocalInput label="Event start" value={value} onChange={setValue} />
+//   <DateTimeLocalInput label="Event start" value={value} onChange={setValue} />
 //
 // Examples:
 //
-//   <DatetimeLocalInput label="Appointment" value={value} onChange={setValue} min="2024-01-01T08:00" max="2024-12-31T18:00" />
+//   <DateTimeLocalInput label="Appointment" value={value} onChange={setValue} min="2024-01-01T08:00" max="2024-12-31T18:00" />
 //
-//   <DatetimeLocalInput label="Departure time" value={value} onChange={setValue} required disabled={isLocked} />
+//   <DateTimeLocalInput label="Departure time" value={value} onChange={setValue} required disabled={isLocked} />
 //
 // Keyboard:
 //   - Tab: Move focus to and from the datetime input (native browser behavior)
@@ -46,7 +46,7 @@
 
 import React from "react";
 
-export interface DatetimeLocalInputProps {
+export interface DateTimeLocalInputProps {
     className?: string;
     /** Accessible label for the input. */
     label: string;
@@ -65,7 +65,7 @@ export interface DatetimeLocalInputProps {
     [key: string]: unknown;
 }
 
-export default function DatetimeLocalInput({
+export default function DateTimeLocalInput({
     className = "",
     label,
     value = "",
@@ -75,7 +75,7 @@ export default function DatetimeLocalInput({
     disabled = false,
     onChange,
     ...restProps
-}: DatetimeLocalInputProps) {
+}: DateTimeLocalInputProps) {
     return (
         <input
         className={`datetime-local-input ${className}`}

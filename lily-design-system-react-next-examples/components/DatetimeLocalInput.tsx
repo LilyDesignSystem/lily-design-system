@@ -1,2 +1,2 @@
-export { default } from "@pgds/DatetimeLocalInput";
-export type * from "@pgds/DatetimeLocalInput";
+export { default } from "@pgds/DateTimeLocalInput";
+export type * from "@pgds/DateTimeLocalInput";

@@ -140,8 +140,8 @@
 .calendar-table-foot {
 }
 
-/* calendar-table-col: a calendar table interactive grid column for managing dates, days, etc. */
-.calendar-table-col {
+/* calendar-table-th: a calendar table interactive grid column for managing dates, days, etc. */
+.calendar-table-th {
 }
 
 /* calendar-table-row: a calendar table interactive grid row for managing dates, days, etc. */
@@ -276,8 +276,8 @@
 .data-table-foot {
 }
 
-/* data-table-col: a data table interactive grid column for displaying and sorting tabular data */
-.data-table-col {
+/* data-table-th: a data table interactive grid column for displaying and sorting tabular data */
+.data-table-th {
 }
 
 /* data-table-row: a data table interactive grid row for displaying and sorting tabular data */
@@ -624,8 +624,8 @@
 .kanban-table-foot {
 }
 
-/* kanban-table-col: a kanban board table interactive grid column for organizing items by status */
-.kanban-table-col {
+/* kanban-table-th: a kanban board table interactive grid column for organizing items by status */
+.kanban-table-th {
 }
 
 /* kanban-table-row: a kanban board table interactive grid row for organizing items by status */
@@ -992,16 +992,16 @@
 .table-foot {
 }
 
-/* table-col: a table interactive grid column */
-.table-col {
+/* table-th: a table interactive grid column */
+.table-th {
 }
 
 /* table-row: a table interactive grid row */
 .table-row {
 }
 
-/* table-data: a table interactive grid data cell */
-.table-data {
+/* table-td: a table interactive grid data cell */
+.table-td {
 }
 
 /* tag-group: a group of tag elements */
@@ -1052,8 +1052,8 @@
 .text-area-input-with-character-counter {
 }
 
-/* textarea: a multi-line text input area */
-.textarea {
+/* text-area-input: a multi-line text input area */
+.text-area-input {
 }
 
 /* theme-picker: a picker for selecting a visual theme */
@@ -1284,16 +1284,16 @@
 .- table-foot suffix = tag {
 }
 
-/* - table-col suffix = tag: - table-col suffix = tag */
-.- table-col suffix = tag {
+/* - table-th suffix = tag: - table-th suffix = tag */
+.- table-th suffix = tag {
 }
 
 /* - table-row suffix = tag: - table-row suffix = tag */
 .- table-row suffix = tag {
 }
 
-/* - table-data suffix = tag: - table-data suffix = tag */
-.- table-data suffix = tag {
+/* - table-td suffix = tag: - table-td suffix = tag */
+.- table-td suffix = tag {
 }
 
 /* - select suffix = tag: - select suffix = tag */

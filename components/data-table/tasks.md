@@ -13,7 +13,7 @@
 - [ ] Implement child component: data-table-head
 - [ ] Implement child component: data-table-body
 - [ ] Implement child component: data-table-foot
-- [ ] Implement child component: data-table-col
+- [ ] Implement child component: data-table-th
 - [ ] Implement child component: data-table-row
 - [ ] Implement child component: data-table-td
 

@@ -5,7 +5,7 @@ import FiveStarRatingPicker from "@pgds/FiveStarRatingPicker";
 import FiveStarRatingView from "@pgds/FiveStarRatingView";
 import FiveFaceRatingPicker from "@pgds/FiveFaceRatingPicker";
 import NetPromoterScorePicker from "@pgds/NetPromoterScorePicker";
-import Textarea from "@pgds/Textarea";
+import TextAreaInput from "@pgds/TextAreaInput";
 import Button from "@pgds/Button";
 import Alert from "@pgds/Alert";
 import Form from "@pgds/Form";
@@ -78,7 +78,7 @@ export default function RatingAndFeedbackPage() {
 
                 <div>
                     <h3>Additional comments</h3>
-                    <Textarea
+                    <TextAreaInput
                         label="Comments"
                         value={comment}
                         onChange={setComment}

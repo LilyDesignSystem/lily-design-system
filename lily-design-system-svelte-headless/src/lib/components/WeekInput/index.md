@@ -117,7 +117,7 @@ Import the component, bind `value`, and supply an accessible `label`. Wrap in `F
 
 - `DateInput` — single date entry.
 - `MonthInput` — month-and-year entry.
-- `DatetimeLocalInput` — combined date and time entry.
+- `DateTimeLocalInput` — combined date and time entry.
 - `DateRange` / `CalendarRangePicker` — date-range selection.
 - `Field` — wraps the input with a visible label, hint, and error message.
 - `Form` — form element for submission.

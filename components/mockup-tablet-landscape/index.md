@@ -45,9 +45,9 @@ Tablet mockup in a device comparison layout:
 
 ```html
 <div class="device-showcase">
-  <MockupPhone label="Mobile view of the calendar app">
+  <MockupPhonePortrait label="Mobile view of the calendar app">
     <Image src="calendar-phone.png" alt="Calendar app on phone" />
-  </MockupPhone>
+  </MockupPhonePortrait>
   <MockupTabletLandscape label="Tablet landscape view of the calendar app">
     <Image src="calendar-tablet.png" alt="Calendar app on tablet in landscape" />
   </MockupTabletLandscape>
@@ -73,7 +73,7 @@ Tablet mockup in a device comparison layout:
 ## When Not to Use
 
 - Do not use for portrait-oriented tablet content -- use MockupTabletPortrait instead.
-- Do not use for phone-sized content -- use MockupPhone instead.
+- Do not use for phone-sized content -- use MockupPhonePortrait instead.
 - Do not use for desktop or browser content -- use MockupLaptop or MockupBrowser instead.
 
 ## Headless

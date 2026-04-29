@@ -1,6 +1,6 @@
 // Example: Contact form with validation and error summary
 //
-// Demonstrates: Form, Field, TextInput, EmailInput, Textarea, Button,
+// Demonstrates: Form, Field, TextInput, EmailInput, TextAreaInput, Button,
 // ErrorSummary, ErrorMessage, Select, Option
 
 import { useState } from "react";
@@ -8,7 +8,7 @@ import Form from "../components/Form";
 import Field from "../components/Field";
 import TextInput from "../components/TextInput";
 import EmailInput from "../components/EmailInput";
-import Textarea from "../components/Textarea";
+import TextAreaInput from "../components/TextAreaInput";
 import Select from "../components/Select";
 import Option from "../components/Option";
 import Button from "../components/Button";
@@ -102,7 +102,7 @@ export default function ContactForm() {
             </Field>
 
             <Field label="Message" required error={errors.message}>
-                <Textarea
+                <TextAreaInput
                     label="Message"
                     value={data.message}
                     onChange={(value) => setData({ ...data, message: value })}

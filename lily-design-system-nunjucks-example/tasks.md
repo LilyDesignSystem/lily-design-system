@@ -196,7 +196,7 @@ Each bullet below delivers **both**
 - [ ] tel-input
 - [ ] text-input
 - [ ] text-input-with-search
-- [ ] textarea
+- [ ] text-area-input
 - [ ] text-area-input-with-character-counter
 - [ ] time-input
 - [ ] time-picker-input
@@ -236,11 +236,11 @@ Each bullet below delivers **both**
 
 ### e. Table families (5 families × 7 parts = 35 components + 1)
 
-- [ ] table, table-head, table-body, table-foot, table-col, table-row, table-data
-- [ ] calendar-table, calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-col, calendar-table-row, calendar-table-td
-- [ ] data-table, data-table-head, data-table-body, data-table-foot, data-table-col, data-table-row, data-table-td
+- [ ] table, table-head, table-body, table-foot, table-th, table-row, table-td
+- [ ] calendar-table, calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-th, calendar-table-row, calendar-table-td
+- [ ] data-table, data-table-head, data-table-body, data-table-foot, data-table-th, data-table-row, data-table-td
 - [ ] gantt-table, gantt-table-head, gantt-table-body, gantt-table-foot, gantt-table-th, gantt-table-row, gantt-table-td
-- [ ] kanban-table, kanban-table-head, kanban-table-body, kanban-table-foot, kanban-table-col, kanban-table-row, kanban-table-td
+- [ ] kanban-table, kanban-table-head, kanban-table-body, kanban-table-foot, kanban-table-th, kanban-table-row, kanban-table-td
 - [ ] calendar-range-picker
 
 ### f. Navigation patterns
@@ -359,7 +359,7 @@ Each bullet below delivers **both**
 - [ ] feature-photo
 - [ ] listbox
 - [ ] meter
-- [ ] mockup-browser, mockup-laptop, mockup-phone, mockup-shell, mockup-tablet-landscape, mockup-tablet-portrait, mockup-watch, mockup-window
+- [ ] mockup-browser, mockup-laptop, mockup-phone-portrait, mockup-shell, mockup-tablet-landscape, mockup-tablet-portrait, mockup-watch, mockup-window
 - [ ] option
 - [ ] photo-pack
 - [ ] segment-group, segment-group-item
@@ -384,7 +384,7 @@ Each bullet below delivers **both**
       (roving tabindex)
 - [ ] `src/assets/js/modules/accordion.js` — accordion-list expand
       and collapse
-- [ ] `src/assets/js/modules/character-count.js` — textarea
+- [ ] `src/assets/js/modules/character-count.js` — text-area-input
       character counter live update
 - [ ] `src/assets/js/modules/combobox.js` — input + listbox combobox
 - [ ] `src/assets/js/modules/popover.js` — popover show/hide + click

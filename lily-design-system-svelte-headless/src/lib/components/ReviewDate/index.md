@@ -118,7 +118,7 @@ References:
 
 ## Related components
 
-- `DateInput`, `DateField`, `DatetimeLocalInput` - entering date values.
+- `DateInput`, `DateField`, `DateTimeLocalInput` - entering date values.
 - `DateRange` - displaying a start-to-end range.
 - `Byline` - author and timestamp block.
 - `SummaryListItem` - key/value rows that often contain a `ReviewDate`.

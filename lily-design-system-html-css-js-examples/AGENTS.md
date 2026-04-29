@@ -1,4 +1,4 @@
-# Lily Design System - HTML JavaScript Examples
+# Lily Design System - HTML CSS JS Examples
 
 @AGENTS/lily.md
 @AGENTS/components.md
@@ -54,7 +54,7 @@ lily-design-system-html-css-js-examples/
 
 | Page         | Key Components                                                     |
 | ------------ | ------------------------------------------------------------------ |
-| Contact Form | Form, Field, TextInput, EmailInput, Textarea, Select, Button       |
+| Contact Form | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Button       |
 | Dashboard    | Card, Progress, ProgressCircle, Badge, Banner, DataTable           |
 | Dialog Flow  | Dialog, AlertDialog, Drawer, Button, Tooltip                       |
 | File Upload  | FileUpload, Progress, Button, Alert, Badge, Form, Field            |

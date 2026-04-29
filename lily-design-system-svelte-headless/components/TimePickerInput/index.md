@@ -22,7 +22,7 @@ A headless time picker wrapping a native `<input type="time">` for selecting a t
 
 ## When not to use it
 
-- Don't use it when you also need a date — use `DatetimeLocalInput` or `DateTimeNowInput`.
+- Don't use it when you also need a date — use `DateTimeLocalInput` or `DateTimeNowInput`.
 - Don't use it for a date-only input — use `DateInput`.
 - Don't use it for time durations — use `NumberInput` with minute/second labels.
 - Don't use it for countdowns or elapsed time displays — use `Timer`.
@@ -101,5 +101,5 @@ Import, bind `value`, and pass a translated `label`. Use `min`/`max`/`step` via 
 
 - `TimeInput` — an alternative `<input type="time">` wrapper with an equivalent API.
 - `DateInput` — date-only entry.
-- `DatetimeLocalInput` — combined date and time.
+- `DateTimeLocalInput` — combined date and time.
 - `DateTimeNowInput` — combined date + time with a "now" button.

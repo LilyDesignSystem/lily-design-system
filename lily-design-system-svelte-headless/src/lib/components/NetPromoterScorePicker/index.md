@@ -116,7 +116,7 @@ The rendered markup is a `<fieldset role="radiogroup">` containing 11 `<label>` 
 ```svelte
 <script lang="ts">
     import NetPromoterScorePicker from "./NetPromoterScorePicker.svelte";
-    import Textarea from "../Textarea/Textarea.svelte";
+    import TextAreaInput from "../TextAreaInput/TextAreaInput.svelte";
     let score = $state("");
     let feedback = $state("");
 
@@ -131,7 +131,7 @@ The rendered markup is a `<fieldset role="radiogroup">` containing 11 `<label>` 
         label="How likely are you to recommend us?"
         bind:value={score}
     />
-    <Textarea label="Why?" bind:value={feedback} />
+    <TextAreaInput label="Why?" bind:value={feedback} />
     <button type="submit">Submit</button>
 </form>
 ```

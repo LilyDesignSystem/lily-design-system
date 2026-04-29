@@ -11,7 +11,7 @@ Implement the Kanban Table component: a kanban board table interactive grid for 
 
 ## Dependencies
 
-- Requires children: kanban-table-head, kanban-table-body, kanban-table-foot, kanban-table-col, kanban-table-row, kanban-table-td
+- Requires children: kanban-table-head, kanban-table-body, kanban-table-foot, kanban-table-th, kanban-table-row, kanban-table-td
 
 ## Approach
 

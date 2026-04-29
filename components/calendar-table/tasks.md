@@ -13,7 +13,7 @@
 - [ ] Implement child component: calendar-table-head
 - [ ] Implement child component: calendar-table-body
 - [ ] Implement child component: calendar-table-foot
-- [ ] Implement child component: calendar-table-col
+- [ ] Implement child component: calendar-table-th
 - [ ] Implement child component: calendar-table-row
 - [ ] Implement child component: calendar-table-td
 

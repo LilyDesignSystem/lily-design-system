@@ -25,7 +25,7 @@ A thin wrapper around `<input type="month">`. The browser handles the picker UI 
 
 - Do not use for a full date — use `DateInput`.
 - Do not use for a time — use `TimeInput`.
-- Do not use for a date + time — use `DatetimeLocalInput`.
+- Do not use for a date + time — use `DateTimeLocalInput`.
 - Do not use for week selection — use `WeekInput`.
 
 ## How to use it
@@ -124,6 +124,6 @@ Import the component, pass a `label`, and bind the `value` (which will be a `YYY
 - `DateInput` — a full date picker (`<input type="date">`).
 - `WeekInput` — a week + year picker (`<input type="week">`).
 - `TimeInput` — a time picker (`<input type="time">`).
-- `DatetimeLocalInput` — date + time without a timezone.
+- `DateTimeLocalInput` — date + time without a timezone.
 - `DateTimeNowInput` — date + time with a "now" button.
 - `DateRange` — display of a start/end date range.

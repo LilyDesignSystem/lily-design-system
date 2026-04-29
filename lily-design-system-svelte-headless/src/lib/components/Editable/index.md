@@ -23,7 +23,7 @@ An inline-editable text control that toggles between a display `<span role="butt
 ## When not to use it
 
 - When the edit must go through a form with validation and a Save button. Use `EditableForm` or a plain `Form`.
-- For multi-line text. Wrap a `Textarea` inside an `EditableForm` instead.
+- For multi-line text. Wrap a `TextAreaInput` inside an `EditableForm` instead.
 - For selection values. Use `Select`, `Combobox`, or `RadioGroup`.
 
 ## How to use it
@@ -112,5 +112,5 @@ Bind `value` and provide an accessible `label`.
 ## Related components
 
 - `EditableForm` — form-wrapped inline editing with Save/Cancel semantics.
-- `TextInput`, `Textarea` — plain text inputs for explicit forms.
+- `TextInput`, `TextAreaInput` — plain text inputs for explicit forms.
 - `Field` — label + input + error pattern.

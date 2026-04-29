@@ -19,7 +19,7 @@
 - [x] Harmonize component count across plan.md, tasks.md (364)
 - [x] Remove "thing" from semantic concepts section (no component exists)
 - [x] Create 26 missing component directories with documentation
-- [x] Populate 8 empty component files (chat-nav, chat-list, chat-list-item, chat-message, citation, diff, digital-object-identifier-link, mockup-phone)
+- [x] Populate 8 empty component files (chat-nav, chat-list, chat-list-item, chat-message, citation, diff, digital-object-identifier-link, mockup-phone-portrait)
 - [x] Create lily-design-system-blazor-headless subproject files (index.md, README.md, AGENTS.md, CLAUDE.md, plan.md, tasks.md)
 - [x] Deduplicate components.csv (325 → 364)
 - [x] Create generate-component-demos.js script for demo HTML generation
@@ -100,9 +100,9 @@
 - [x] table-head (NHS: Table)
 - [x] table-body (NHS: Table)
 - [x] table-foot (NHS: Table)
-- [x] table-col (NHS: Table)
+- [x] table-th (NHS: Table)
 - [x] table-row (NHS: Table)
-- [x] table-data (NHS: Table)
+- [x] table-td (NHS: Table)
 - [x] tab-bar (NHS: Tabs)
 - [x] tab-bar-button (NHS: Tabs)
 - [x] tag (NHS: Tag)
@@ -110,7 +110,7 @@
 - [x] task-list (NHS: Task list)
 - [x] task-list-item (NHS: Task list)
 - [x] text-input (NHS: Text input)
-- [x] textarea (NHS: Textarea)
+- [x] text-area-input (NHS: TextAreaInput)
 - [x] warning-callout (NHS: Warning callout)
 
 ### Phase 2: Original guidance for remaining components (by category)
@@ -154,7 +154,7 @@ Write original "When to Use" and "When Not to Use" guidance for all non-NHS comp
 - [x] calendar-table-head
 - [x] calendar-table-body
 - [x] calendar-table-foot
-- [x] calendar-table-col
+- [x] calendar-table-th
 - [x] calendar-table-row
 - [x] calendar-table-td
 - [x] calendar-range-picker
@@ -193,7 +193,7 @@ Write original "When to Use" and "When Not to Use" guidance for all non-NHS comp
 - [x] data-table-head
 - [x] data-table-body
 - [x] data-table-foot
-- [x] data-table-col
+- [x] data-table-th
 - [x] data-table-row
 - [x] data-table-td
 - [x] data-filter-form
@@ -298,7 +298,7 @@ Write original "When to Use" and "When Not to Use" guidance for all non-NHS comp
 - [x] kanban-table-head
 - [x] kanban-table-body
 - [x] kanban-table-foot
-- [x] kanban-table-col
+- [x] kanban-table-th
 - [x] kanban-table-row
 - [x] kanban-table-td
 
@@ -330,7 +330,7 @@ Write original "When to Use" and "When Not to Use" guidance for all non-NHS comp
 #### Mockup (8)
 - [x] mockup-browser
 - [x] mockup-laptop
-- [x] mockup-phone
+- [x] mockup-phone-portrait
 - [x] mockup-shell
 - [x] mockup-tablet-landscape
 - [x] mockup-tablet-portrait

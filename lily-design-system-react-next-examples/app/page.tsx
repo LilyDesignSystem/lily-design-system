@@ -5,7 +5,7 @@ const examples = [
     href: "/contact-form",
     title: "Contact Form",
     description:
-      "Form, Field, TextInput, EmailInput, Textarea, Select, ErrorSummary",
+      "Form, Field, TextInput, EmailInput, TextAreaInput, Select, ErrorSummary",
   },
   {
     href: "/dashboard",

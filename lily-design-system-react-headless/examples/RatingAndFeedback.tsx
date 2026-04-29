@@ -1,14 +1,14 @@
 // Example: Rating and feedback collection
 //
 // Demonstrates: FiveStarRatingPicker, FiveStarRatingView, FiveFaceRatingPicker,
-// NetPromoterScorePicker, Textarea, Button, Alert, Form
+// NetPromoterScorePicker, TextAreaInput, Button, Alert, Form
 
 import { useState } from "react";
 import FiveStarRatingPicker from "../components/FiveStarRatingPicker";
 import FiveStarRatingView from "../components/FiveStarRatingView";
 import FiveFaceRatingPicker from "../components/FiveFaceRatingPicker";
 import NetPromoterScorePicker from "../components/NetPromoterScorePicker";
-import Textarea from "../components/Textarea";
+import TextAreaInput from "../components/TextAreaInput";
 import Button from "../components/Button";
 import Alert from "../components/Alert";
 import Form from "../components/Form";
@@ -79,7 +79,7 @@ export default function RatingAndFeedback() {
 
             <div>
                 <h3>Additional comments</h3>
-                <Textarea
+                <TextAreaInput
                     label="Comments"
                     value={comment}
                     onChange={setComment}

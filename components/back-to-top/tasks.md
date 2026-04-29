@@ -1,3 +1,0 @@
-# BackToTop Tasks
-
-- [ ] Implement BackToTop

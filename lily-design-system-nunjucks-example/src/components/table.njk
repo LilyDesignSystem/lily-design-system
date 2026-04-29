@@ -10,8 +10,8 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/table
 {% from "components/table-body/macro.njk" import TableBody %}
 {% from "components/table-foot/macro.njk" import tableFoot %}
 {% from "components/table-row/macro.njk" import tableRow %}
-{% from "components/table-col/macro.njk" import tableCol %}
-{% from "components/table-data/macro.njk" import TableTD %}
+{% from "components/table-th/macro.njk" import tableCol %}
+{% from "components/table-td/macro.njk" import TableTD %}
 
 <h2>Default — appointment list</h2>
 {% call table({ caption: "Your upcoming appointments" }) %}

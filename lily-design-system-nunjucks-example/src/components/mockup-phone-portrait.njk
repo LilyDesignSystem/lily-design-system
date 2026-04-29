@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Mockup Phone
+description: a box area that looks like a mobile phone
+---
+
+{% from "components/mockup-phone-portrait/macro.njk" import mockupPhone %}
+
+{% call mockupPhone() %}
+  <h3>Mobile view</h3>
+  <p>Compact content stacks vertically.</p>
+{% endcall %}

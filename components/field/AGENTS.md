@@ -33,7 +33,7 @@
 - `error`: string (default: undefined) -- error message displayed below the input
 - `required`: boolean (default: false) -- whether the field is required, adds a visual asterisk
 - `inputId`: string (default: undefined) -- ID of the input to link the label to; auto-generated if omitted
-- `children`: slot (required) -- form control (input, select, textarea, etc.)
+- `children`: slot (required) -- form control (input, select, text-area-input, etc.)
 
 ## Acceptance Criteria
 

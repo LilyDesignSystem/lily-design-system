@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./DatetimeLocalInput";
+import Subject from "./DateTimeLocalInput";
 
-describe("DatetimeLocalInput", () => {
+describe("DateTimeLocalInput", () => {
     test("renders a datetime-local input", () => {
         render(<Subject label="Event" />);
         const input = screen.getByLabelText("Event") as HTMLInputElement;

@@ -69,7 +69,7 @@ Window mockup in a feature comparison:
 
 - Do not use for web-specific content that needs an address bar -- use MockupBrowser instead.
 - Do not use for terminal or CLI output -- use MockupShell instead.
-- Do not use for mobile content -- use MockupPhone instead.
+- Do not use for mobile content -- use MockupPhonePortrait instead.
 
 ## Headless
 

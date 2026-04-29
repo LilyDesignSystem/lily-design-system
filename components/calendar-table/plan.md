@@ -11,7 +11,7 @@ Implement the Calendar Table component: a calendar table interactive grid for ma
 
 ## Dependencies
 
-- Requires children: calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-col, calendar-table-row, calendar-table-td
+- Requires children: calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-th, calendar-table-row, calendar-table-td
 
 ## Approach
 

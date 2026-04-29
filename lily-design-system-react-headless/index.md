@@ -171,7 +171,7 @@ Every component's root element includes a semantic CSS class matching its kebab-
 | CurrencyInput               | Locale-aware currency input with automatic formatting                     |
 | DateField                   | Labeled date input with validation                                        |
 | DateInput                   | Date value input                                                          |
-| DatetimeLocalInput          | Date and time input                                                       |
+| DateTimeLocalInput          | Date and time input                                                       |
 | EmailInput                  | Email address input                                                       |
 | Field                       | Form field wrapper with label and error                                   |
 | Fieldset                    | Group of related form fields                                              |
@@ -205,7 +205,7 @@ Every component's root element includes a semantic CSS class matching its kebab-
 | TagInput                    | Input for adding and removing tags                                        |
 | TelInput                    | Telephone number input                                                    |
 | TextInput                   | Single-line text input                                                    |
-| Textarea                    | Multi-line text area                                                      |
+| TextAreaInput                    | Multi-line text area                                                      |
 | ThemePicker                 | Visual theme picker                                                       |
 | ThemeSelect                 | Theme select dropdown                                                     |
 | ThemeSelectOption           | One option in theme select                                                |
@@ -268,7 +268,7 @@ Every component's root element includes a semantic CSS class matching its kebab-
 | Meter                        | Scalar value gauge                                  |
 | MockupBrowser                | Box area that looks like a web browser              |
 | MockupLaptop                 | Box area that looks like a laptop computer          |
-| MockupPhone                  | Box area that looks like a mobile phone             |
+| MockupPhonePortrait                  | Box area that looks like a mobile phone             |
 | MockupTabletLandscape        | Box area that looks like a tablet in landscape mode |
 | MockupTabletPortrait         | Box area that looks like a tablet in portrait mode  |
 | MockupShell                  | Box area that looks like a terminal shell           |
@@ -448,13 +448,13 @@ See the `examples/` directory for comprehensive standalone examples:
 
 | Example                                               | Components Used                                                                                        |
 | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| [ContactForm](examples/ContactForm.tsx)               | Form, Field, TextInput, EmailInput, Textarea, Select, Option, Button, ErrorSummary                     |
+| [ContactForm](examples/ContactForm.tsx)               | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Option, Button, ErrorSummary                     |
 | [SettingsPage](examples/SettingsPage.tsx)             | SwitchButton, RadioGroup, RadioInput, Select, Separator, Fieldset, Button, Banner                      |
 | [Dashboard](examples/Dashboard.tsx)                   | Card, Progress, ProgressCircle, Badge, Banner, DataTable, DataTableHead/Body/Row/Data                  |
 | [PageLayout](examples/PageLayout.tsx)                 | SkipLink, Header, Footer, NavigationMenu, BreadcrumbNav/List/ListItem, Sidebar                         |
 | [TabbedInterface](examples/TabbedInterface.tsx)       | TabBar, TabBarButton, AccordionNav/List/ListItem, Badge                                                |
 | [DialogFlow](examples/DialogFlow.tsx)                 | Dialog, AlertDialog, Drawer, Button, Popover, Tooltip                                                  |
-| [RatingAndFeedback](examples/RatingAndFeedback.tsx)   | FiveStarRatingPicker/View, FiveFaceRatingPicker, NetPromoterScorePicker, Textarea, Alert               |
+| [RatingAndFeedback](examples/RatingAndFeedback.tsx)   | FiveStarRatingPicker/View, FiveFaceRatingPicker, NetPromoterScorePicker, TextAreaInput, Alert               |
 | [FileUploadForm](examples/FileUploadForm.tsx)         | FileUpload, Progress, Button, Alert, Badge, Form, Field                                                |
 | [TaskManagement](examples/TaskManagement.tsx)         | TaskList, TaskListItem, TextInput, CheckboxInput, Button, Badge, Progress                              |
 | [NavigationAndMenus](examples/NavigationAndMenus.tsx) | NavigationMenu, MenuBar, MenuBarButton, ToolBar, ToolBarButton, HamburgerMenu, DropdownMenu, Separator |
@@ -862,7 +862,7 @@ Interactive components follow the controlled component pattern with `value` + `o
 // Text inputs: onChange receives the string value directly
 <TextInput label="Name" value={name} onChange={setName} />
 <EmailInput label="Email" value={email} onChange={setEmail} />
-<Textarea label="Bio" value={bio} onChange={setBio} />
+<TextAreaInput label="Bio" value={bio} onChange={setBio} />
 
 // Numeric inputs: onChange receives a number
 <NumberInput label="Age" value={age} onChange={setAge} />

@@ -192,7 +192,7 @@
     <h3>Character Counter</h3>
     <div style="margin-bottom: var(--nhs-space-4);">
         <textarea
-            class="textarea"
+            class="text-area-input"
             aria-label="Clinical notes"
             bind:value={noteText}
             maxlength="200"

@@ -61,7 +61,7 @@ None beyond native input behavior -- the browser's built-in time picker handles 
 ## When Not to Use
 
 - Do not use when a dropdown of predefined time slots is better -- use TimePickerInput instead.
-- Do not use for combined date-and-time entry -- use DateTimeNowInput or DatetimeLocalInput instead.
+- Do not use for combined date-and-time entry -- use DateTimeNowInput or DateTimeLocalInput instead.
 - Do not use for time duration or elapsed time; consider a custom duration input instead.
 
 ## Headless

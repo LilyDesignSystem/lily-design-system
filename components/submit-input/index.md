@@ -26,7 +26,7 @@ Form with a descriptive submit label:
 ```html
 <Form label="Contact us" onsubmit={handleSubmit}>
   <Field label="Message" required>
-    <Textarea label="Message" value={message} required />
+    <TextAreaInput label="Message" value={message} required />
   </Field>
   <SubmitInput value="Send message" />
 </Form>

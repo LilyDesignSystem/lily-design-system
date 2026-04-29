@@ -4,7 +4,7 @@
     import TextInput from "$lib/components/TextInput.svelte";
     import EmailInput from "$lib/components/EmailInput.svelte";
     import TelInput from "$lib/components/TelInput.svelte";
-    import Textarea from "$lib/components/Textarea.svelte";
+    import TextAreaInput from "$lib/components/TextAreaInput.svelte";
     import Select from "$lib/components/Select.svelte";
     import Option from "$lib/components/Option.svelte";
     import CheckboxInput from "$lib/components/CheckboxInput.svelte";
@@ -131,7 +131,7 @@
             </Field>
 
             <Field label="Message" required error={errors.message}>
-                <Textarea
+                <TextAreaInput
                     label="Your message"
                     bind:value={message}
                     required

@@ -1,0 +1,35 @@
+{#
+  MockupPhonePortrait macro — a box area that looks like a mobile phone.
+
+  HTML tag: <figure>
+  CSS class: mockup-phone-portrait
+  Accessibility: decorative chrome is aria-hidden; the body content
+    is the meaningful part.
+
+  Params:
+    label       string   Optional aria-label on the figure.
+    title       string   Optional title text in the chrome bar.
+    id          string
+    classes     string
+    attributes  object
+
+  Body content: the rendered UI preview, via caller().
+#}
+{%- macro mockupPhone(params) -%}
+{%- set p = params | default({}) -%}
+<figure
+  class="mockup-phone-portrait{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <div class="mockup-phone-chrome" aria-hidden="true">
+    {%- if p.title %}<span class="mockup-phone-title">{{ p.title }}</span>{% endif %}
+  </div>
+  <div class="mockup-phone-body">
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </div>
+</figure>
+{%- endmacro -%}

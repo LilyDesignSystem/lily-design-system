@@ -49,7 +49,7 @@ A headless plain HTML component library with 414 components. All components are 
   - **calendar-table-head**: a calendar table interactive grid thead for managing dates, days, etc.
   - **calendar-table-body**: a calendar table interactive grid tbody for managing dates, days, etc.
   - **calendar-table-foot**: a calendar table interactive grid tfoot for managing dates, days, etc.
-  - **calendar-table-col**: a calendar table interactive grid column for managing dates, days, etc.
+  - **calendar-table-th**: a calendar table interactive grid column for managing dates, days, etc.
   - **calendar-table-row**: a calendar table interactive grid row for managing dates, days, etc.
   - **calendar-table-td**: a calendar table interactive grid data cell for managing dates, days, etc.
 - **calendar-range-picker**: a picker for selecting a date range on a calendar
@@ -93,7 +93,7 @@ A headless plain HTML component library with 414 components. All components are 
   - **data-table-head**: a data table interactive grid thead for displaying and sorting tabular data
   - **data-table-body**: a data table interactive grid tbody for displaying and sorting tabular data
   - **data-table-foot**: a data table interactive grid tfoot for displaying and sorting tabular data
-  - **data-table-col**: a data table interactive grid column for displaying and sorting tabular data
+  - **data-table-th**: a data table interactive grid column for displaying and sorting tabular data
   - **data-table-row**: a data table interactive grid row for displaying and sorting tabular data
   - **data-table-td**: a data table interactive grid data cell for displaying and sorting tabular data
 - **date-field**: a structured field for entering date components
@@ -176,7 +176,7 @@ A headless plain HTML component library with 414 components. All components are 
   - **kanban-table-head**: a kanban board table interactive grid thead for organizing items by status
   - **kanban-table-body**: a kanban board table interactive grid tbody for organizing items by status
   - **kanban-table-foot**: a kanban board table interactive grid tfoot for organizing items by status
-  - **kanban-table-col**: a kanban board table interactive grid column for organizing items by status
+  - **kanban-table-th**: a kanban board table interactive grid column for organizing items by status
   - **kanban-table-row**: a kanban board table interactive grid row for organizing items by status
   - **kanban-table-td**: kanban board table interactive grid data cell for organizing items by status
 - **kbd**: show keyboard shortcuts and key combinations in a styled inline element
@@ -201,7 +201,7 @@ A headless plain HTML component library with 414 components. All components are 
 - **meter**: a gauge displaying a scalar value within a known range
 - **mockup-browser**: a box area that looks like a web browser
 - **mockup-laptop**: a box area that looks like a laptop computer
-- **mockup-phone**: a box area that looks like a mobile phone
+- **mockup-phone-portrait**: a box area that looks like a mobile phone
 - **mockup-tablet-landscape**: a box area that looks like a tablet computer in landscape mode
 - **mockup-tablet-portrait**: a box area that looks like a tablet computer in portrait mode
 - **mockup-shell**: a box area that looks like a terminal shell
@@ -283,9 +283,9 @@ A headless plain HTML component library with 414 components. All components are 
   - **table-head**: a table header section
   - **table-body**: a table body section
   - **table-foot**: a table footer section
-  - **table-col**: a table column
+  - **table-th**: a table column
   - **table-row**: a table row
-  - **table-data**: a table data cell
+  - **table-td**: a table data cell
 - **tag-group**: a group of tag elements
 - **tag**: a keyword label for categorizing content
 - **tag-input**: an input for adding and removing tags
@@ -297,7 +297,7 @@ A headless plain HTML component library with 414 components. All components are 
 - **tel-link**: a tel: hyperlink for a telephone number
 - **text-input**: a single-line text input field
 - **text-input-with-search**: a single-line text input field with search capability
-- **textarea**: a multi-line text input area
+- **text-area-input**: a multi-line text input area
 - **text-area-input-with-character-counter**: a multi-line text area with character counter
 - **theme-picker**: a picker for selecting a visual theme
 - **theme-picker-button**: a picker button for selecting a visual theme
@@ -374,9 +374,9 @@ A headless plain HTML component library with 414 components. All components are 
 | table-head | `<thead>`    |
 | table-body | `<tbody>`    |
 | table-foot | `<tfoot>`    |
-| table-col  | `<th>`       |
+| table-th  | `<th>`       |
 | table-row  | `<tr>`       |
-| table-data | `<td>`       |
+| table-td | `<td>`       |
 | select     | `<select>`   |
 | span       | `<span>`     |
 

@@ -59,7 +59,7 @@ None -- this component uses the native `<input>` element, which provides built-i
 ## When Not to Use
 
 - Do not use when a specialised input exists -- prefer TextInput, EmailInput, TelInput, NumberInput, DateInput, or SearchInput instead.
-- Do not use for multi-line text entry -- use Textarea instead.
+- Do not use for multi-line text entry -- use TextAreaInput instead.
 - Do not use for file selection -- use FileInput instead.
 
 ## Headless

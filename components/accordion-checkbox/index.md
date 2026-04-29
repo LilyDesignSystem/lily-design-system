@@ -25,7 +25,7 @@ Unlike `Details`, which uses a `<summary>` toggle, this component uses a real fo
 
 ```html
 <AccordionCheckbox label="I have a follow-up question">
-  <p>Tell us more in the textarea below.</p>
+  <p>Tell us more in the text-area-input below.</p>
   <textarea aria-label="Your question"></textarea>
 </AccordionCheckbox>
 ```
@@ -56,7 +56,7 @@ Unlike `Details`, which uses a `<summary>` toggle, this component uses a real fo
 ## When to Use
 
 - Use when an option introduces follow-up content the user only needs to see if they opt in
-- Use for conditional sections of forms (for example, "I have additional comments" → textarea)
+- Use for conditional sections of forms (for example, "I have additional comments" → text-area-input)
 - Use when stacking several independent opt-in disclosures vertically as a list
 - Use when the trigger should be a real form control, so the value is part of form submission
 

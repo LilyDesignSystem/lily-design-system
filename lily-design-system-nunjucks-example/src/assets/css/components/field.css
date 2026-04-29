@@ -8,7 +8,7 @@
 }
 
 .field[data-state="invalid"] input,
-.field[data-state="invalid"] textarea,
+.field[data-state="invalid"] text-area-input,
 .field[data-state="invalid"] select {
   border-color: var(--nhsuk-red);
 }

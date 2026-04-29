@@ -44,9 +44,9 @@ Tablet portrait mockup in a responsive design showcase:
 
 ```html
 <div class="responsive-showcase">
-  <MockupPhone label="Mobile view of the news feed">
+  <MockupPhonePortrait label="Mobile view of the news feed">
     <Image src="news-phone.png" alt="News feed on phone" />
-  </MockupPhone>
+  </MockupPhonePortrait>
   <MockupTabletPortrait label="Tablet portrait view of the news feed">
     <Image src="news-tablet.png" alt="News feed on tablet in portrait" />
   </MockupTabletPortrait>
@@ -72,7 +72,7 @@ Tablet portrait mockup in a responsive design showcase:
 ## When Not to Use
 
 - Do not use for landscape-oriented tablet content -- use MockupTabletLandscape instead.
-- Do not use for phone-sized content -- use MockupPhone instead.
+- Do not use for phone-sized content -- use MockupPhonePortrait instead.
 - Do not use for desktop or browser content -- use MockupLaptop or MockupBrowser instead.
 
 ## Headless

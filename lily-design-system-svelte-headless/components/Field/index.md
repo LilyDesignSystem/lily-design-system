@@ -17,7 +17,7 @@ A form field wrapper that pairs a visible label with a form control, optional de
 
 ## When to use it
 
-- Wrapping any form control (text input, select, checkbox, textarea, date input, custom widget).
+- Wrapping any form control (text input, select, checkbox, text-area-input, date input, custom widget).
 - When you want a canonical label/description/error layout with accessible IDs wired up.
 - Within a broader `Form` composition.
 
@@ -102,9 +102,9 @@ Place an input inside `Field`. Supply the input's `id` so the `<label for>` bind
 
 ```svelte
 <Field label="Notes">
-    <Textarea label="Notes" bind:value={notes} />
+    <TextAreaInput label="Notes" bind:value={notes} />
 </Field>
-<!-- Field auto-generates fieldId and sets <label for>; the textarea is focused via <label> click. -->
+<!-- Field auto-generates fieldId and sets <label for>; the text-area-input is focused via <label> click. -->
 ```
 
 ## Accessibility

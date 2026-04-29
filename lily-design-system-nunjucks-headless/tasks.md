@@ -138,7 +138,7 @@ directory matching the NHS.UK frontend layout.
 - [ ] tel-input
 - [ ] text-input
 - [ ] text-input-with-search
-- [ ] textarea
+- [ ] text-area-input
 - [ ] text-area-input-with-character-counter
 - [ ] time-input
 - [ ] time-picker-input
@@ -178,11 +178,11 @@ directory matching the NHS.UK frontend layout.
 
 #### e. Table families (5 families x 7 parts = 35 components)
 
-- [ ] table, table-head, table-body, table-foot, table-col, table-row, table-data
-- [ ] calendar-table, calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-col, calendar-table-row, calendar-table-td
-- [ ] data-table, data-table-head, data-table-body, data-table-foot, data-table-col, data-table-row, data-table-td
+- [ ] table, table-head, table-body, table-foot, table-th, table-row, table-td
+- [ ] calendar-table, calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-th, calendar-table-row, calendar-table-td
+- [ ] data-table, data-table-head, data-table-body, data-table-foot, data-table-th, data-table-row, data-table-td
 - [ ] gantt-table, gantt-table-head, gantt-table-body, gantt-table-foot, gantt-table-th, gantt-table-row, gantt-table-td
-- [ ] kanban-table, kanban-table-head, kanban-table-body, kanban-table-foot, kanban-table-col, kanban-table-row, kanban-table-td
+- [ ] kanban-table, kanban-table-head, kanban-table-body, kanban-table-foot, kanban-table-th, kanban-table-row, kanban-table-td
 - [ ] calendar-range-picker
 
 #### f. Navigation patterns
@@ -301,7 +301,7 @@ directory matching the NHS.UK frontend layout.
 - [ ] feature-photo
 - [ ] listbox
 - [ ] meter
-- [ ] mockup-browser, mockup-laptop, mockup-phone, mockup-shell, mockup-tablet-landscape, mockup-tablet-portrait, mockup-watch, mockup-window
+- [ ] mockup-browser, mockup-laptop, mockup-phone-portrait, mockup-shell, mockup-tablet-landscape, mockup-tablet-portrait, mockup-watch, mockup-window
 - [ ] option
 - [ ] photo-pack
 - [ ] segment-group, segment-group-item

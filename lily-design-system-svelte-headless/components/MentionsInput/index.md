@@ -21,7 +21,7 @@ A headless Svelte 5 component inspired by [Ant Design Mentions](https://ant.desi
 
 ## When not to use it
 
-- For plain text input, use `TextInput` or `Textarea`.
+- For plain text input, use `TextInput` or `TextAreaInput`.
 - For tag selection, use `TagInput`.
 
 ## Props
@@ -74,7 +74,7 @@ A headless Svelte 5 component inspired by [Ant Design Mentions](https://ant.desi
 ## Related components
 
 - `Combobox` — generic text-with-list combobox.
-- `TextInput`, `Textarea` — plain text inputs.
+- `TextInput`, `TextAreaInput` — plain text inputs.
 - `Listbox` — selectable list often used as the suggestions panel.
 
 ## References

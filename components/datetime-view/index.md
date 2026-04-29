@@ -63,7 +63,7 @@ Falling back to the raw ISO value:
 
 ## When Not to Use
 
-- Do not use for editable date inputs (use DateInput, DatetimeLocalInput, etc.).
+- Do not use for editable date inputs (use DateInput, DateTimeLocalInput, etc.).
 - Do not use for date-range displays (use DateRange).
 - Do not use to perform localization — format upstream and pass via `format` or `children`.
 
