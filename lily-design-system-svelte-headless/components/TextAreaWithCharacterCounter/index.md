@@ -1,14 +1,14 @@
-# TextAreaWithCharacterCounter
+# TextAreaInputWithCharacterCounter
 
 A multi-line text input combined with a live character-count caption, rendered inside a `<div>` wrapper with `aria-describedby` and `aria-live="polite"` linking the textarea to its counter.
 
 ## What it is
 
-`TextAreaWithCharacterCounter` is a headless Svelte 5 compound input that combines a native `<textarea>` with a live counter `<span>` displaying `"{count} of {max} characters"` (or any consumer-supplied template). It is suitable for feedback forms, comment fields, bios, and anywhere a character limit is enforced.
+`TextAreaInputWithCharacterCounter` is a headless Svelte 5 compound input that combines a native `<textarea>` with a live counter `<span>` displaying `"{count} of {max} characters"` (or any consumer-supplied template). It is suitable for feedback forms, comment fields, bios, and anywhere a character limit is enforced.
 
 ## What it does
 
-- Renders a wrapper `<div class="text-area-with-character-counter">`.
+- Renders a wrapper `<div class="text-area-input-with-character-counter">`.
 - Inside the wrapper: a `<textarea>` with `aria-label`, `aria-describedby` linking to the counter, and `maxlength={maxLength}`.
 - A sibling `<span>` with a generated `id`, `aria-live="polite"`, and the reactive counter text derived from `counterTemplate`, `value.length`, and `maxLength`.
 - Replaces `{count}` and `{max}` placeholders in `counterTemplate` with live values using Svelte 5 `$derived`.
@@ -34,7 +34,7 @@ Import, pass `label`, `maxLength`, and bind `value`. Optionally provide a transl
 
 ## Props
 
-- `class` — string, optional. Extra CSS class appended to `text-area-with-character-counter` on the wrapper.
+- `class` — string, optional. Extra CSS class appended to `text-area-input-with-character-counter` on the wrapper.
 - `label` — string, required. Accessible name for the textarea via `aria-label`.
 - `value` — string, default `""`, bindable via `bind:value`. Textarea content.
 - `maxLength` — number, required. Maximum number of characters allowed.
@@ -49,12 +49,12 @@ Import, pass `label`, `maxLength`, and bind `value`. Optionally provide a transl
 
 ```svelte
 <script lang="ts">
-  import TextAreaWithCharacterCounter from "./TextAreaWithCharacterCounter.svelte";
+  import TextAreaInputWithCharacterCounter from "./TextAreaInputWithCharacterCounter.svelte";
 
   let feedback = $state("");
 </script>
 
-<TextAreaWithCharacterCounter
+<TextAreaInputWithCharacterCounter
   label="Feedback"
   maxLength={500}
   bind:value={feedback}
@@ -63,12 +63,12 @@ Import, pass `label`, `maxLength`, and bind `value`. Optionally provide a transl
 
 ```svelte
 <script lang="ts">
-  import TextAreaWithCharacterCounter from "./TextAreaWithCharacterCounter.svelte";
+  import TextAreaInputWithCharacterCounter from "./TextAreaInputWithCharacterCounter.svelte";
 
   let bio = $state("");
 </script>
 
-<TextAreaWithCharacterCounter
+<TextAreaInputWithCharacterCounter
   label="Bio"
   maxLength={160}
   rows={3}
@@ -79,12 +79,12 @@ Import, pass `label`, `maxLength`, and bind `value`. Optionally provide a transl
 
 ```svelte
 <script lang="ts">
-  import TextAreaWithCharacterCounter from "./TextAreaWithCharacterCounter.svelte";
+  import TextAreaInputWithCharacterCounter from "./TextAreaInputWithCharacterCounter.svelte";
 
   let note = $state("");
 </script>
 
-<TextAreaWithCharacterCounter
+<TextAreaInputWithCharacterCounter
   label="Remarque"
   maxLength={280}
   counterTemplate="{count} sur {max} caractères"
@@ -94,13 +94,13 @@ Import, pass `label`, `maxLength`, and bind `value`. Optionally provide a transl
 
 ```svelte
 <script lang="ts">
-  import TextAreaWithCharacterCounter from "./TextAreaWithCharacterCounter.svelte";
+  import TextAreaInputWithCharacterCounter from "./TextAreaInputWithCharacterCounter.svelte";
 
   let body = $state("");
   let required = $state(true);
 </script>
 
-<TextAreaWithCharacterCounter
+<TextAreaInputWithCharacterCounter
   label="Message"
   maxLength={1000}
   rows={8}

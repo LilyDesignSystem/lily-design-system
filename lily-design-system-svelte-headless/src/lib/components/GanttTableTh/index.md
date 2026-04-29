@@ -1,6 +1,6 @@
-# GanttTableTh
+# GanttTableTH
 
-A column header cell within a `GanttTable`. Renders a `<th scope="col">` element, intended to live inside a `GanttTableTr` within `GanttTableThead`, where it labels a time-period column.
+A column header cell within a `GanttTable`. Renders a `<th scope="col">` element, intended to live inside a `GanttTableTR` within `GanttTableHead`, where it labels a time-period column.
 
 ## What it is
 
@@ -21,13 +21,13 @@ A Svelte 5 component that renders `<th class="gantt-table-th ..." scope="col">` 
 
 ## When not to use it
 
-- For task data cells — use `GanttTableTd`.
-- For row headers — use a `<th scope="row">` directly inside `GanttTableTr`.
+- For task data cells — use `GanttTableTD`.
+- For row headers — use a `<th scope="row">` directly inside `GanttTableTR`.
 - For column-wide styling hooks via `<colgroup>` / `<col>` — write those directly inside `GanttTable`.
 
 ## How to use it
 
-Place `GanttTableTh` elements inside a `GanttTableTr` within `GanttTableThead`, one per time-period column.
+Place `GanttTableTH` elements inside a `GanttTableTR` within `GanttTableHead`, one per time-period column.
 
 ## Props
 
@@ -45,53 +45,53 @@ Place `GanttTableTh` elements inside a `GanttTableTr` within `GanttTableThead`, 
 ```svelte
 <script lang="ts">
     import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableThead from "../GanttTableThead/GanttTableThead.svelte";
-    import GanttTableTbody from "../GanttTableTbody/GanttTableTbody.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTh from "./GanttTableTh.svelte";
-    import GanttTableTd from "../GanttTableTd/GanttTableTd.svelte";
+    import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
+    import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
+    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTH from "./GanttTableTH.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable label="Project schedule">
-    <GanttTableThead>
-        <GanttTableTr>
-            <GanttTableTh>Task</GanttTableTh>
-            <GanttTableTh>W1</GanttTableTh>
-            <GanttTableTh>W2</GanttTableTh>
-            <GanttTableTh>W3</GanttTableTh>
-            <GanttTableTh>W4</GanttTableTh>
-        </GanttTableTr>
-    </GanttTableThead>
-    <GanttTableTbody>
-        <GanttTableTr>
+    <GanttTableHead>
+        <GanttTableTR>
+            <GanttTableTH>Task</GanttTableTH>
+            <GanttTableTH>W1</GanttTableTH>
+            <GanttTableTH>W2</GanttTableTH>
+            <GanttTableTH>W3</GanttTableTH>
+            <GanttTableTH>W4</GanttTableTH>
+        </GanttTableTR>
+    </GanttTableHead>
+    <GanttTableBody>
+        <GanttTableTR>
             <th scope="row">Design</th>
-            <GanttTableTd />
-            <GanttTableTd />
-            <GanttTableTd />
-            <GanttTableTd />
-        </GanttTableTr>
-    </GanttTableTbody>
+            <GanttTableTD />
+            <GanttTableTD />
+            <GanttTableTD />
+            <GanttTableTD />
+        </GanttTableTR>
+    </GanttTableBody>
 </GanttTable>
 ```
 
 ### Grouped quarter and month headers
 
 ```svelte
-<GanttTableThead>
-    <GanttTableTr>
-        <GanttTableTh rowspan={2}>Task</GanttTableTh>
-        <GanttTableTh colspan={3} scope="colgroup">Q1</GanttTableTh>
-        <GanttTableTh colspan={3} scope="colgroup">Q2</GanttTableTh>
-    </GanttTableTr>
-    <GanttTableTr>
-        <GanttTableTh>Jan</GanttTableTh>
-        <GanttTableTh>Feb</GanttTableTh>
-        <GanttTableTh>Mar</GanttTableTh>
-        <GanttTableTh>Apr</GanttTableTh>
-        <GanttTableTh>May</GanttTableTh>
-        <GanttTableTh>Jun</GanttTableTh>
-    </GanttTableTr>
-</GanttTableThead>
+<GanttTableHead>
+    <GanttTableTR>
+        <GanttTableTH rowspan={2}>Task</GanttTableTH>
+        <GanttTableTH colspan={3} scope="colgroup">Q1</GanttTableTH>
+        <GanttTableTH colspan={3} scope="colgroup">Q2</GanttTableTH>
+    </GanttTableTR>
+    <GanttTableTR>
+        <GanttTableTH>Jan</GanttTableTH>
+        <GanttTableTH>Feb</GanttTableTH>
+        <GanttTableTH>Mar</GanttTableTH>
+        <GanttTableTH>Apr</GanttTableTH>
+        <GanttTableTH>May</GanttTableTH>
+        <GanttTableTH>Jun</GanttTableTH>
+    </GanttTableTR>
+</GanttTableHead>
 ```
 
 ### Dynamic column headers
@@ -101,12 +101,12 @@ Place `GanttTableTh` elements inside a `GanttTableTr` within `GanttTableThead`, 
     const weeks = [1, 2, 3, 4];
 </script>
 
-<GanttTableThead>
-    <GanttTableTr>
-        <GanttTableTh>Task</GanttTableTh>
-        {#each weeks as w}<GanttTableTh>W{w}</GanttTableTh>{/each}
-    </GanttTableTr>
-</GanttTableThead>
+<GanttTableHead>
+    <GanttTableTR>
+        <GanttTableTH>Task</GanttTableTH>
+        {#each weeks as w}<GanttTableTH>W{w}</GanttTableTH>{/each}
+    </GanttTableTR>
+</GanttTableHead>
 ```
 
 ## Accessibility
@@ -117,7 +117,7 @@ Place `GanttTableTh` elements inside a `GanttTableTr` within `GanttTableThead`, 
 ## Related components
 
 - `GanttTable` - parent grid.
-- `GanttTableThead` / `GanttTableTbody` / `GanttTableTfoot` - sections.
-- `GanttTableTr` - row wrapper.
-- `GanttTableTd` - data cell primitive.
-- `DataTableCol`, `CalendarTableCol`, `KanbanTableCol`, `TableCol` - sibling header-cell components in other tables.
+- `GanttTableHead` / `GanttTableBody` / `GanttTableTfoot` - sections.
+- `GanttTableTR` - row wrapper.
+- `GanttTableTD` - data cell primitive.
+- `DataTableTD`, `CalendarTableTD`, `KanbanTableTD`, `TableTD` - sibling header-cell components in other tables.

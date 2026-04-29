@@ -1,4 +1,4 @@
-# CalendarTableData
+# CalendarTableTD
 
 A single day cell within a CalendarTable grid. Renders as a `<td>` with `role="gridcell"`, supporting selected and today states. Uses a roving tabindex pattern where the selected cell receives focus.
 
@@ -12,8 +12,8 @@ A single day cell within a CalendarTable grid. Renders as a `<td>` with `role="g
 ## Usage
 
 ```svelte
-<CalendarTableData selected today>15</CalendarTableData>
-<CalendarTableData>22</CalendarTableData>
+<CalendarTableTD selected today>15</CalendarTableTD>
+<CalendarTableTD>22</CalendarTableTD>
 ```
 
 ## Accessibility

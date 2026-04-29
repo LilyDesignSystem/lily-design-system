@@ -11,7 +11,7 @@
     import DataTableHead from "$lib/components/DataTableHead.svelte";
     import DataTableBody from "$lib/components/DataTableBody.svelte";
     import DataTableRow from "$lib/components/DataTableRow.svelte";
-    import DataTableData from "$lib/components/DataTableData.svelte";
+    import DataTableTD from "$lib/components/DataTableTD.svelte";
     import Badge from "$lib/components/Badge.svelte";
     import Button from "$lib/components/Button.svelte";
     import Field from "$lib/components/Field.svelte";
@@ -165,9 +165,9 @@
         <DataTableBody>
             {#each filteredServices as service}
                 <DataTableRow>
-                    <DataTableData>{service.name}</DataTableData>
-                    <DataTableData>{service.location}</DataTableData>
-                    <DataTableData>
+                    <DataTableTD>{service.name}</DataTableTD>
+                    <DataTableTD>{service.location}</DataTableTD>
+                    <DataTableTD>
                         <Badge
                             type={service.status === "Available"
                                 ? "success"
@@ -177,7 +177,7 @@
                         >
                             {service.status}
                         </Badge>
-                    </DataTableData>
+                    </DataTableTD>
                 </DataTableRow>
             {/each}
         </DataTableBody>

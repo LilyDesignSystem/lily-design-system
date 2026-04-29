@@ -28,22 +28,22 @@ This headless component renders a `<table>` element with `role="grid"` and an ac
   </CalendarTableHead>
   <CalendarTableBody>
     <CalendarTableRow>
-      <CalendarTableData>1</CalendarTableData>
-      <CalendarTableData>2</CalendarTableData>
-      <CalendarTableData>3</CalendarTableData>
-      <CalendarTableData>4</CalendarTableData>
-      <CalendarTableData>5</CalendarTableData>
-      <CalendarTableData>6</CalendarTableData>
-      <CalendarTableData>7</CalendarTableData>
+      <CalendarTableTD>1</CalendarTableTD>
+      <CalendarTableTD>2</CalendarTableTD>
+      <CalendarTableTD>3</CalendarTableTD>
+      <CalendarTableTD>4</CalendarTableTD>
+      <CalendarTableTD>5</CalendarTableTD>
+      <CalendarTableTD>6</CalendarTableTD>
+      <CalendarTableTD>7</CalendarTableTD>
     </CalendarTableRow>
     <CalendarTableRow>
-      <CalendarTableData today selected>8</CalendarTableData>
-      <CalendarTableData>9</CalendarTableData>
-      <CalendarTableData>10</CalendarTableData>
-      <CalendarTableData>11</CalendarTableData>
-      <CalendarTableData>12</CalendarTableData>
-      <CalendarTableData>13</CalendarTableData>
-      <CalendarTableData>14</CalendarTableData>
+      <CalendarTableTD today selected>8</CalendarTableTD>
+      <CalendarTableTD>9</CalendarTableTD>
+      <CalendarTableTD>10</CalendarTableTD>
+      <CalendarTableTD>11</CalendarTableTD>
+      <CalendarTableTD>12</CalendarTableTD>
+      <CalendarTableTD>13</CalendarTableTD>
+      <CalendarTableTD>14</CalendarTableTD>
     </CalendarTableRow>
   </CalendarTableBody>
   <CalendarTableFoot>
@@ -68,7 +68,7 @@ None built-in -- the consumer should implement grid keyboard navigation on cells
 - Use to display an interactive calendar grid for managing dates, scheduling, and date selection
 - Use when users need to view and interact with dates in a monthly or weekly grid format
 - Use in scheduling applications, event planners, and dashboard calendars where a visual date layout is needed
-- Use as the container for CalendarTableHead, CalendarTableBody, CalendarTableFoot, CalendarTableRow, and CalendarTableData
+- Use as the container for CalendarTableHead, CalendarTableBody, CalendarTableFoot, CalendarTableRow, and CalendarTableTD
 
 ## When Not to Use
 

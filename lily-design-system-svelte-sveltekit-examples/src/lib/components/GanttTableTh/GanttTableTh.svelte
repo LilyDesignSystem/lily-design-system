@@ -1,8 +1,8 @@
 <script lang="ts">
-    // GanttTableTh component
+    // GanttTableTH component
     //
     // A column header cell within a GanttTable, rendered as a <th> element.
-    // Used inside a <GanttTableTr> within <GanttTableThead> to label the time
+    // Used inside a <GanttTableTR> within <GanttTableHead> to label the time
     // period columns of the Gantt grid (days, weeks, milestones, etc.).
     //
     // Props:
@@ -14,12 +14,12 @@
     //   ...restProps — additional HTML attributes spread onto the <th>.
     //
     // Syntax:
-    //   <GanttTableThead>
-    //     <GanttTableTr>
-    //       <GanttTableTh>Week 1</GanttTableTh>
-    //       <GanttTableTh>Week 2</GanttTableTh>
-    //     </GanttTableTr>
-    //   </GanttTableThead>
+    //   <GanttTableHead>
+    //     <GanttTableTR>
+    //       <GanttTableTH>Week 1</GanttTableTH>
+    //       <GanttTableTH>Week 2</GanttTableTH>
+    //     </GanttTableTR>
+    //   </GanttTableHead>
     //
     // Keyboard:
     //   None — <th> is not interactive.
@@ -57,7 +57,7 @@
     } = $props();
 </script>
 
-<!-- GanttTableTh.svelte -->
+<!-- GanttTableTH.svelte -->
 <th
     class={`gantt-table-th ${className}`}
     {scope}

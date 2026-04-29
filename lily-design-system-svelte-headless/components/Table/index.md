@@ -4,7 +4,7 @@ A headless semantic table with an accessible label. Renders `<table>` and defers
 
 ## What it is
 
-A Svelte 5 headless component that renders `<table class="table ...">` with `aria-label`. The consumer provides `<caption>`, `<colgroup>`, `<thead>`, `<tbody>`, and `<tfoot>` (or equivalent components like `TableHead`, `TableBody`, `TableRow`, `TableCol`, `TableData`) through `children`.
+A Svelte 5 headless component that renders `<table class="table ...">` with `aria-label`. The consumer provides `<caption>`, `<colgroup>`, `<thead>`, `<tbody>`, and `<tfoot>` (or equivalent components like `TableHead`, `TableBody`, `TableRow`, `TableTD`, `TableTD`) through `children`.
 
 ## What it does
 
@@ -70,21 +70,21 @@ Using the companion components:
     import TableHead from "../TableHead/TableHead.svelte";
     import TableBody from "../TableBody/TableBody.svelte";
     import TableRow from "../TableRow/TableRow.svelte";
-    import TableCol from "../TableCol/TableCol.svelte";
-    import TableData from "../TableData/TableData.svelte";
+    import TableTD from "../TableTD/TableTD.svelte";
+    import TableTD from "../TableTD/TableTD.svelte";
 </script>
 
 <Table label="Tasks">
     <TableHead>
         <TableRow>
-            <TableCol>Task</TableCol>
-            <TableCol>Status</TableCol>
+            <TableTD>Task</TableTD>
+            <TableTD>Status</TableTD>
         </TableRow>
     </TableHead>
     <TableBody>
         <TableRow>
-            <TableData>Write docs</TableData>
-            <TableData>In progress</TableData>
+            <TableTD>Write docs</TableTD>
+            <TableTD>In progress</TableTD>
         </TableRow>
     </TableBody>
 </Table>
@@ -162,7 +162,7 @@ References:
 
 ## Related components
 
-- `TableHead`, `TableBody`, `TableFoot`, `TableRow`, `TableCol`, `TableData` - structural building blocks.
+- `TableHead`, `TableBody`, `TableFoot`, `TableRow`, `TableTD`, `TableTD` - structural building blocks.
 - `DataTable` - sortable data grid.
 - `CalendarTable`, `GanttTable`, `KanbanTable` - specialized tables.
 - `SummaryList` - key-value pair alternative.

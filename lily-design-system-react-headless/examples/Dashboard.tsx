@@ -1,7 +1,7 @@
 // Example: Dashboard with cards, progress, and data table
 //
 // Demonstrates: Card, Progress, ProgressCircle, Badge, Banner,
-// DataTable, DataTableHead, DataTableBody, DataTableRow, DataTableData
+// DataTable, DataTableHead, DataTableBody, DataTableRow, DataTableTD
 
 import { useState } from "react";
 import Card from "../components/Card";
@@ -13,7 +13,7 @@ import DataTable from "../components/DataTable";
 import DataTableHead from "../components/DataTableHead";
 import DataTableBody from "../components/DataTableBody";
 import DataTableRow from "../components/DataTableRow";
-import DataTableData from "../components/DataTableData";
+import DataTableTD from "../components/DataTableTD";
 
 interface Task {
     id: number;
@@ -81,14 +81,14 @@ export default function Dashboard() {
                 <DataTableBody>
                     {tasks.map((task) => (
                         <DataTableRow key={task.id}>
-                            <DataTableData>{task.title}</DataTableData>
-                            <DataTableData>{task.assignee}</DataTableData>
-                            <DataTableData>
+                            <DataTableTD>{task.title}</DataTableTD>
+                            <DataTableTD>{task.assignee}</DataTableTD>
+                            <DataTableTD>
                                 <Badge type={statusBadgeType(task.status)}>
                                     {task.status}
                                 </Badge>
-                            </DataTableData>
-                            <DataTableData>{task.priority}</DataTableData>
+                            </DataTableTD>
+                            <DataTableTD>{task.priority}</DataTableTD>
                         </DataTableRow>
                     ))}
                 </DataTableBody>

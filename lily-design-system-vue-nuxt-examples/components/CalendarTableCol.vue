@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-    // CalendarTableCol component
+    // CalendarTableTD component
     //
     // A column header cell within a CalendarTable, rendered as a <th> element.
     // Used inside a <CalendarTableRow> within <CalendarTableHead> to label the
@@ -36,7 +36,7 @@
 </script>
 
 <template>
-    <!-- CalendarTableCol.vue -->
+    <!-- CalendarTableTD.vue -->
     <th
         class="calendar-table-col"
         :scope="scope"

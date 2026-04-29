@@ -1,10 +1,10 @@
-# GanttTableTr
+# GanttTableTR
 
 ## Overview
 
 A single row within a GanttTable grid. Renders as a <tr> containing
-GanttTableTd cells for each time period and task header cells.
-Used inside GanttTableThead, GanttTableTbody, or GanttTableTfoot.
+GanttTableTD cells for each time period and task header cells.
+Used inside GanttTableHead, GanttTableBody, or GanttTableTfoot.
 
 ## What it does
 
@@ -21,11 +21,11 @@ A Gantt chart table interactive grid row for planning schedule visualization <tr
 ## Usage
 
 ```svelte
-<GanttTableTr>
+<GanttTableTR>
   <th>Design</th>
-  <GanttTableTd active>---</GanttTableTd>
-  <GanttTableTd />
-</GanttTableTr>
+  <GanttTableTD active>---</GanttTableTD>
+  <GanttTableTD />
+</GanttTableTR>
 ```
 
 ## Props
@@ -33,24 +33,24 @@ A Gantt chart table interactive grid row for planning schedule visualization <tr
 | Prop | Type | Description |
 |------|------|-------------|
 | `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | GanttTableTd cells and header cells for this row. |
+| `children` | Snippet, required | GanttTableTD cells and header cells for this row. |
 | `...restProps` | additional HTML attributes spread onto the <tr> |  |
 
 ## Examples
 
 ```svelte
 <!-- Task row with active time periods -->
-<GanttTableTr>
+<GanttTableTR>
   <th>Development</th>
-  <GanttTableTd />
-  <GanttTableTd active>---</GanttTableTd>
-  <GanttTableTd active>---</GanttTableTd>
-</GanttTableTr>
+  <GanttTableTD />
+  <GanttTableTD active>---</GanttTableTD>
+  <GanttTableTD active>---</GanttTableTD>
+</GanttTableTR>
 
 <!-- Header row with time period labels -->
-<GanttTableTr>
+<GanttTableTR>
   <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-</GanttTableTr>
+</GanttTableTR>
 ```
 
 ## SvelteKit example
@@ -58,14 +58,14 @@ A Gantt chart table interactive grid row for planning schedule visualization <tr
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import GanttTableTr from "$lib/components/GanttTableTr/GanttTableTr.svelte";
+  import GanttTableTR from "$lib/components/GanttTableTR/GanttTableTR.svelte";
 </script>
 
-<GanttTableTr>
+<GanttTableTR>
   <th>Design</th>
-  <GanttTableTd active>---</GanttTableTd>
-  <GanttTableTd />
-</GanttTableTr>
+  <GanttTableTD active>---</GanttTableTD>
+  <GanttTableTD />
+</GanttTableTR>
 ```
 
 ## Keyboard

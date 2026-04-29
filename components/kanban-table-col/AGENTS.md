@@ -3,7 +3,7 @@
 ## Metadata
 
 - Component: kanban-table-col
-- PascalCase: KanbanTableCol
+- PascalCase: KanbanTableTD
 - Description: a kanban board table interactive grid column for organizing items by status <th>
 - HTML tag: <th>
 - CSS class: .kanban-table-col

@@ -1,10 +1,10 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import TextAreaWithCharacterCounter from './TextAreaWithCharacterCounter.svelte';
+  import TextAreaInputWithCharacterCounter from './TextAreaInputWithCharacterCounter.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/TextAreaWithCharacterCounter',
-    component: TextAreaWithCharacterCounter,
+    title: 'Examples/TextAreaInputWithCharacterCounter',
+    component: TextAreaInputWithCharacterCounter,
   });
 </script>
 

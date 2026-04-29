@@ -1,10 +1,10 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import KanbanTableData from './KanbanTableData.svelte';
+  import KanbanTableTD from './KanbanTableTD.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/KanbanTableData',
-    component: KanbanTableData,
+    title: 'Examples/KanbanTableTD',
+    component: KanbanTableTD,
   });
 </script>
 

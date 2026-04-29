@@ -1,5 +1,5 @@
 {#
-  TableCol macro — a table column header cell.
+  TableTD macro — a table column header cell.
 
   HTML tag: <th>
   CSS class: table-col
@@ -20,7 +20,7 @@
 
   Usage: see Table.
 #}
-{%- macro dataTableCol(params) -%}
+{%- macro dataTableTD(params) -%}
 <th
   class="data-table-col{% if params.classes %} {{ params.classes }}{% endif %}"
   scope="{{ params.scope | default('col') }}"

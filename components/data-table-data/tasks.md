@@ -4,12 +4,12 @@
 
 - [x] Create component directory with index.md and README.md symlink
 - [x] Document props, usage, keyboard interactions, and ARIA in index.md
-- [x] Add CSS class .data-table-data to css-style-sheet-template.css
+- [x] Add CSS class .data-table-td to css-style-sheet-template.css
 
 ## In Progress
 
-- [ ] Implement HTML headless component (data-table-data.html)
-- [ ] Implement HTML headless test (data-table-data.test.js)
+- [ ] Implement HTML headless component (data-table-td.html)
+- [ ] Implement HTML headless test (data-table-td.test.js)
 
 ## Backlog
 

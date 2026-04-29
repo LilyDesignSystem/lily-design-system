@@ -7,7 +7,7 @@ Implement the Calendar Table Data component: a calendar table interactive grid d
 ## HTML Tag and CSS Class
 
 - HTML tag: <td>
-- CSS class: .calendar-table-data
+- CSS class: .calendar-table-td
 
 ## Dependencies
 
@@ -15,7 +15,7 @@ Implement the Calendar Table Data component: a calendar table interactive grid d
 
 ## Approach
 
-1. Use semantic <td> element with class="calendar-table-data"
+1. Use semantic <td> element with class="calendar-table-td"
 2. Add ARIA attributes for accessibility
 3. Implement keyboard navigation
 4. Add vanilla JavaScript for interactive behavior
@@ -26,7 +26,7 @@ Implement the Calendar Table Data component: a calendar table interactive grid d
 
 ## Acceptance Criteria
 
-- [ ] Renders <td> with class="calendar-table-data"
+- [ ] Renders <td> with class="calendar-table-td"
 - [ ] `role="gridcell"` -- identifies the cell as part of a grid
 - [ ] `aria-selected` -- set to `true` when the cell is selected; omitted otherwise
 - [ ] `aria-current="date"` -- set when the cell represents today's date; omitted otherwise

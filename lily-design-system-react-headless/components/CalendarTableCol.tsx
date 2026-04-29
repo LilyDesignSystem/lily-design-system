@@ -1,4 +1,4 @@
-// CalendarTableCol component
+// CalendarTableTD component
 //
 // A column header cell within a CalendarTable, rendered as a <th> element.
 // Used inside a <CalendarTableRow> within <CalendarTableHead> to label the
@@ -15,8 +15,8 @@
 // Syntax:
 //   <CalendarTableHead>
 //     <CalendarTableRow>
-//       <CalendarTableCol>Mon</CalendarTableCol>
-//       <CalendarTableCol>Tue</CalendarTableCol>
+//       <CalendarTableTD>Mon</CalendarTableTD>
+//       <CalendarTableTD>Tue</CalendarTableTD>
 //     </CalendarTableRow>
 //   </CalendarTableHead>
 //
@@ -36,7 +36,7 @@
 
 import React from "react";
 
-export interface CalendarTableColProps {
+export interface CalendarTableTDProps {
     className?: string;
     /** Number of columns this header cell spans. */
     colSpan?: number;
@@ -49,14 +49,14 @@ export interface CalendarTableColProps {
     [key: string]: unknown;
 }
 
-export default function CalendarTableCol({
+export default function CalendarTableTD({
     className = "",
     colSpan,
     rowSpan,
     scope = "col",
     children,
     ...restProps
-}: CalendarTableColProps) {
+}: CalendarTableTDProps) {
     return (
         <th
         className={`calendar-table-col ${className}`}

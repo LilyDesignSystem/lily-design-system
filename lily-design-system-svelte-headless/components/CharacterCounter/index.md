@@ -25,7 +25,7 @@ Display format is `"count / max"` when `max` is provided, or just `"count"` othe
 
 - For pure progress indication not tied to characters — use `Progress` or `Meter`.
 - For validation error messages — use `ErrorMessage` or `Field`.
-- For a combined textarea + counter — use `TextAreaWithCharacterCounter`.
+- For a combined textarea + counter — use `TextAreaInputWithCharacterCounter`.
 
 ## How to use it
 
@@ -98,6 +98,6 @@ Pass `count={text.length}` from the parent and optionally `max`. The component a
 
 ## Related components
 
-- `TextAreaWithCharacterCounter` — combines a textarea with this counter.
+- `TextAreaInputWithCharacterCounter` — combines a textarea with this counter.
 - `ErrorMessage` — error text for form fields.
 - `Progress`, `Meter` — generic numeric progress displays.

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/vue";
 
-import Subject from "./DataTableData.vue";
+import Subject from "./DataTableTD.vue";
 
 
 function renderInRow(props: Record<string, unknown>, slotContent?: string) {
@@ -17,7 +17,7 @@ function renderInRow(props: Record<string, unknown>, slotContent?: string) {
     return { ...result, container };
 }
 
-describe("DataTableData", () => {
+describe("DataTableTD", () => {
     test("renders a td element", () => {
         renderInRow({}, "Alice");
         const td = document.querySelector("td");

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-    // DataTableData component
+    // DataTableTD component
     //
     // A single data cell within a DataTableRow. Renders as a <td> with
     // role="gridcell". Supports an active state for indicating the currently
@@ -14,8 +14,8 @@
     //   ...restProps — additional HTML attributes spread onto the <td>.
     //
     // Syntax:
-    //   <DataTableData>Alice</DataTableData>
-    //   <DataTableData active>Bob</DataTableData>
+    //   <DataTableTD>Alice</DataTableTD>
+    //   <DataTableTD active>Bob</DataTableTD>
     //
     // Keyboard:
     //   None built-in — keyboard navigation handled at the DataTable grid level.
@@ -42,9 +42,9 @@
 </script>
 
 <template>
-    <!-- DataTableData.vue -->
+    <!-- DataTableTD.vue -->
     <td
-        class="data-table-data"
+        class="data-table-td"
         role="gridcell"
         :aria-selected="active || undefined"
         :tabindex="active ? 0 : -1"

@@ -4,12 +4,12 @@
 
 - [x] Create component directory with index.md and README.md symlink
 - [x] Document props, usage, keyboard interactions, and ARIA in index.md
-- [x] Add CSS class .gantt-table-tbody to css-style-sheet-template.css
+- [x] Add CSS class .gantt-table-body to css-style-sheet-template.css
 
 ## In Progress
 
-- [ ] Implement HTML headless component (gantt-table-tbody.html)
-- [ ] Implement HTML headless test (gantt-table-tbody.test.js)
+- [ ] Implement HTML headless component (gantt-table-body.html)
+- [ ] Implement HTML headless test (gantt-table-body.test.js)
 
 ## Backlog
 

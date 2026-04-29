@@ -27,20 +27,20 @@
     {% from "components/kanban-table-head/macro.njk" import kanbanTableHead %}
     {% from "components/kanban-table-body/macro.njk" import kanbanTableBody %}
     {% from "components/kanban-table-row/macro.njk" import kanbanTableRow %}
-    {% from "components/kanban-table-col/macro.njk" import kanbanTableCol %}
-    {% from "components/kanban-table-data/macro.njk" import kanbanTableData %}
+    {% from "components/kanban-table-col/macro.njk" import kanbanTableTD %}
+    {% from "components/kanban-table-td/macro.njk" import kanbanTableTD %}
 
     {% call kanbanTable({ caption: "Your appointments" }) %}
       {% call kanbanTableHead() %}
         {% call kanbanTableRow() %}
-          {{ kanbanTableCol({ text: "Date" }) }}
-          {{ kanbanTableCol({ text: "Type" }) }}
+          {{ kanbanTableTD({ text: "Date" }) }}
+          {{ kanbanTableTD({ text: "Type" }) }}
         {% endcall %}
       {% endcall %}
       {% call kanbanTableBody() %}
         {% call kanbanTableRow() %}
-          {{ kanbanTableData({ text: "27 April" }) }}
-          {{ kanbanTableData({ text: "GP review" }) }}
+          {{ kanbanTableTD({ text: "27 April" }) }}
+          {{ kanbanTableTD({ text: "GP review" }) }}
         {% endcall %}
       {% endcall %}
     {% endcall %}

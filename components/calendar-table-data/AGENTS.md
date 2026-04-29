@@ -2,11 +2,11 @@
 
 ## Metadata
 
-- Component: calendar-table-data
-- PascalCase: CalendarTableData
+- Component: calendar-table-td
+- PascalCase: CalendarTableTD
 - Description: a calendar table interactive grid data cell for managing dates, days, etc. <td>
 - HTML tag: <td>
-- CSS class: .calendar-table-data
+- CSS class: .calendar-table-td
 - Interactive: yes
 
 ## Composition
@@ -43,7 +43,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <td> element with class="calendar-table-data"
+- [ ] Renders <td> element with class="calendar-table-td"
 - [ ] Has role="gridcell"
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
@@ -52,6 +52,6 @@
 ## References
 
 - Documentation: index.md
-- CSS class: .calendar-table-data in css-style-sheet-template.css
-- HTML headless: lily-design-system-html-headless/components/calendar-table-data.html
+- CSS class: .calendar-table-td in css-style-sheet-template.css
+- HTML headless: lily-design-system-html-headless/components/calendar-table-td.html
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

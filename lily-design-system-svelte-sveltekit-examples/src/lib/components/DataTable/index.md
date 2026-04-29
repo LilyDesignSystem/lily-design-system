@@ -24,7 +24,7 @@ A data table interactive grid for displaying and sorting tabular data <table>.
 ```svelte
 <DataTable label="User accounts">
   <DataTableHead><DataTableRow><th scope="col">Name</th></DataTableRow></DataTableHead>
-  <DataTableBody><DataTableRow><DataTableData>Alice</DataTableData></DataTableRow></DataTableBody>
+  <DataTableBody><DataTableRow><DataTableTD>Alice</DataTableTD></DataTableRow></DataTableBody>
 </DataTable>
 ```
 
@@ -47,7 +47,7 @@ A data table interactive grid for displaying and sorting tabular data <table>.
     <DataTableRow><th scope="col">Month</th><th scope="col">Revenue</th></DataTableRow>
   </DataTableHead>
   <DataTableBody>
-    <DataTableRow><DataTableData>January</DataTableData><DataTableData>$10,000</DataTableData></DataTableRow>
+    <DataTableRow><DataTableTD>January</DataTableTD><DataTableTD>$10,000</DataTableTD></DataTableRow>
   </DataTableBody>
 </DataTable>
 ```
@@ -62,7 +62,7 @@ A data table interactive grid for displaying and sorting tabular data <table>.
 
 <DataTable label="User accounts">
   <DataTableHead><DataTableRow><th scope="col">Name</th></DataTableRow></DataTableHead>
-  <DataTableBody><DataTableRow><DataTableData>Alice</DataTableData></DataTableRow></DataTableBody>
+  <DataTableBody><DataTableRow><DataTableTD>Alice</DataTableTD></DataTableRow></DataTableBody>
 </DataTable>
 ```
 

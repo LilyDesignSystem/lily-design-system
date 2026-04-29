@@ -1,4 +1,4 @@
-# CalendarTableCol
+# CalendarTableTD
 
 A column header cell within a `CalendarTable`. Renders a `<th scope="col">` element, intended to live inside a `CalendarTableRow` within `CalendarTableHead`.
 
@@ -21,13 +21,13 @@ A headless Svelte 5 element rendering `<th class="calendar-table-col ..." scope=
 
 ## When not to use it
 
-- For data cells — use `CalendarTableData`.
+- For data cells — use `CalendarTableTD`.
 - For row headers — use a `<th scope="row">` directly inside `CalendarTableRow`.
 - For column-wide styling hooks via `<colgroup>` / `<col>` — write those directly inside `CalendarTable`.
 
 ## How to use it
 
-Import `CalendarTableCol` and place inside a `CalendarTableRow` within `CalendarTableHead`.
+Import `CalendarTableTD` and place inside a `CalendarTableRow` within `CalendarTableHead`.
 
 ## Props
 
@@ -48,26 +48,26 @@ Import `CalendarTableCol` and place inside a `CalendarTableRow` within `Calendar
   import CalendarTableHead from '../CalendarTableHead/CalendarTableHead.svelte';
   import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableCol from './CalendarTableCol.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from './CalendarTableTD.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 </script>
 
 <CalendarTable label="January 2025">
   <CalendarTableHead>
     <CalendarTableRow>
-      <CalendarTableCol>Sun</CalendarTableCol>
-      <CalendarTableCol>Mon</CalendarTableCol>
-      <CalendarTableCol>Tue</CalendarTableCol>
-      <CalendarTableCol>Wed</CalendarTableCol>
-      <CalendarTableCol>Thu</CalendarTableCol>
-      <CalendarTableCol>Fri</CalendarTableCol>
-      <CalendarTableCol>Sat</CalendarTableCol>
+      <CalendarTableTD>Sun</CalendarTableTD>
+      <CalendarTableTD>Mon</CalendarTableTD>
+      <CalendarTableTD>Tue</CalendarTableTD>
+      <CalendarTableTD>Wed</CalendarTableTD>
+      <CalendarTableTD>Thu</CalendarTableTD>
+      <CalendarTableTD>Fri</CalendarTableTD>
+      <CalendarTableTD>Sat</CalendarTableTD>
     </CalendarTableRow>
   </CalendarTableHead>
   <CalendarTableBody>
     <CalendarTableRow>
       {#each [1, 2, 3, 4, 5, 6, 7] as d}
-        <CalendarTableData>{d}</CalendarTableData>
+        <CalendarTableTD>{d}</CalendarTableTD>
       {/each}
     </CalendarTableRow>
   </CalendarTableBody>
@@ -79,8 +79,8 @@ Import `CalendarTableCol` and place inside a `CalendarTableRow` within `Calendar
 ```svelte
 <CalendarTableHead>
   <CalendarTableRow>
-    <CalendarTableCol colspan={5} scope="colgroup">Weekdays</CalendarTableCol>
-    <CalendarTableCol colspan={2} scope="colgroup">Weekend</CalendarTableCol>
+    <CalendarTableTD colspan={5} scope="colgroup">Weekdays</CalendarTableTD>
+    <CalendarTableTD colspan={2} scope="colgroup">Weekend</CalendarTableTD>
   </CalendarTableRow>
 </CalendarTableHead>
 ```
@@ -92,5 +92,5 @@ Import `CalendarTableCol` and place inside a `CalendarTableRow` within `Calendar
 
 ## Related components
 
-- `CalendarTable`, `CalendarTableHead`, `CalendarTableBody`, `CalendarTableFoot`, `CalendarTableRow`, `CalendarTableData`.
-- `DataTableCol`, `GanttTableTh`, `KanbanTableCol`, `TableCol` — sibling header-cell components in other tables.
+- `CalendarTable`, `CalendarTableHead`, `CalendarTableBody`, `CalendarTableFoot`, `CalendarTableRow`, `CalendarTableTD`.
+- `DataTableTD`, `GanttTableTH`, `KanbanTableTD`, `TableTD` — sibling header-cell components in other tables.

@@ -34,7 +34,7 @@ demoLines.push('            };');
 const demoBlock = demoLines.join('\n');
 
 // Read component.html
-const htmlPath = path.join(__dirname, 'lily-design-system-html-javascript-examples', 'pages', 'components', 'component.html');
+const htmlPath = path.join(__dirname, 'lily-design-system-html-css-js-examples', 'pages', 'components', 'component.html');
 let html = fs.readFileSync(htmlPath, 'utf8');
 
 // Insert componentDemos object right before the renderComponent function

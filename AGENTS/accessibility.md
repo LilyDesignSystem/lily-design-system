@@ -1,12 +1,12 @@
-## Accessibility design principles rules
+# Accessibility design principles rules
 
-### Standards
+## Standards
 
 - WCAG 2.2 AAA compliance
 - WAI-ARIA Authoring Practices patterns
 - Semantic HTML elements over generic divs
 
-### Common Patterns
+## Common Patterns
 
 - `<label for="id">` — link labels to inputs
 - `aria-labelledby` / `aria-describedby` — link related elements

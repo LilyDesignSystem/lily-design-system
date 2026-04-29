@@ -1,27 +1,27 @@
-# GanttTableTr
+# GanttTableTR
 
-A single row within a GanttTable grid. Renders as a `<tr>` containing GanttTableTd cells for each time period and task header cells. Used inside GanttTableThead, GanttTableTbody, or GanttTableTfoot.
+A single row within a GanttTable grid. Renders as a `<tr>` containing GanttTableTD cells for each time period and task header cells. Used inside GanttTableHead, GanttTableBody, or GanttTableTfoot.
 
 ## Props
 
-- `children`: Snippet (required) -- GanttTableTd cells and header cells for this row
+- `children`: Snippet (required) -- GanttTableTD cells and header cells for this row
 - `...restProps`: unknown -- additional attributes spread onto the `<tr>`
 
 ## Usage
 
 ```svelte
 <!-- Task row with active time periods -->
-<GanttTableTr>
+<GanttTableTR>
   <th>Development</th>
-  <GanttTableTd />
-  <GanttTableTd active>---</GanttTableTd>
-  <GanttTableTd active>---</GanttTableTd>
-</GanttTableTr>
+  <GanttTableTD />
+  <GanttTableTD active>---</GanttTableTD>
+  <GanttTableTD active>---</GanttTableTD>
+</GanttTableTR>
 
 <!-- Header row -->
-<GanttTableTr>
+<GanttTableTR>
   <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-</GanttTableTr>
+</GanttTableTR>
 ```
 
 ## Accessibility

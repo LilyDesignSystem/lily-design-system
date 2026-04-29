@@ -49,15 +49,15 @@ Import the compound components, compose them with a `KanbanTableHead` for the wo
     import KanbanTableHead from "../KanbanTableHead/KanbanTableHead.svelte";
     import KanbanTableBody from "../KanbanTableBody/KanbanTableBody.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
-    import KanbanTableCol from "../KanbanTableCol/KanbanTableCol.svelte";
-    import KanbanTableData from "../KanbanTableData/KanbanTableData.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
 </script>
 
 <KanbanTable label="Sprint 5 board" caption="Sprint 5">
     <colgroup>
-        <KanbanTableCol span={1} />
-        <KanbanTableCol span={1} />
-        <KanbanTableCol span={1} />
+        <KanbanTableTD span={1} />
+        <KanbanTableTD span={1} />
+        <KanbanTableTD span={1} />
     </colgroup>
     <KanbanTableHead>
         <KanbanTableRow>
@@ -68,9 +68,9 @@ Import the compound components, compose them with a `KanbanTableHead` for the wo
     </KanbanTableHead>
     <KanbanTableBody>
         <KanbanTableRow>
-            <KanbanTableData label="Task A">Task A</KanbanTableData>
-            <KanbanTableData label="Task B">Task B</KanbanTableData>
-            <KanbanTableData label="Task C">Task C</KanbanTableData>
+            <KanbanTableTD label="Task A">Task A</KanbanTableTD>
+            <KanbanTableTD label="Task B">Task B</KanbanTableTD>
+            <KanbanTableTD label="Task C">Task C</KanbanTableTD>
         </KanbanTableRow>
     </KanbanTableBody>
 </KanbanTable>
@@ -84,7 +84,7 @@ Import the compound components, compose them with a `KanbanTableHead` for the wo
     import KanbanTableHead from "../KanbanTableHead/KanbanTableHead.svelte";
     import KanbanTableBody from "../KanbanTableBody/KanbanTableBody.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
-    import KanbanTableData from "../KanbanTableData/KanbanTableData.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
     let selected = $state("a");
 </script>
 
@@ -97,12 +97,12 @@ Import the compound components, compose them with a `KanbanTableHead` for the wo
     </KanbanTableHead>
     <KanbanTableBody>
         <KanbanTableRow>
-            <KanbanTableData active={selected === "a"} label="Fix login bug">
+            <KanbanTableTD active={selected === "a"} label="Fix login bug">
                 Fix login bug
-            </KanbanTableData>
-            <KanbanTableData active={selected === "b"} label="Write docs">
+            </KanbanTableTD>
+            <KanbanTableTD active={selected === "b"} label="Write docs">
                 Write docs
-            </KanbanTableData>
+            </KanbanTableTD>
         </KanbanTableRow>
     </KanbanTableBody>
 </KanbanTable>
@@ -117,7 +117,7 @@ Import the compound components, compose them with a `KanbanTableHead` for the wo
     import KanbanTableBody from "../KanbanTableBody/KanbanTableBody.svelte";
     import KanbanTableFoot from "../KanbanTableFoot/KanbanTableFoot.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
-    import KanbanTableData from "../KanbanTableData/KanbanTableData.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
 </script>
 
 <KanbanTable label="Team board">
@@ -129,14 +129,14 @@ Import the compound components, compose them with a `KanbanTableHead` for the wo
     </KanbanTableHead>
     <KanbanTableBody>
         <KanbanTableRow>
-            <KanbanTableData>T1</KanbanTableData>
-            <KanbanTableData>D1</KanbanTableData>
+            <KanbanTableTD>T1</KanbanTableTD>
+            <KanbanTableTD>D1</KanbanTableTD>
         </KanbanTableRow>
     </KanbanTableBody>
     <KanbanTableFoot>
         <KanbanTableRow>
-            <KanbanTableData>Total: 1</KanbanTableData>
-            <KanbanTableData>Total: 1</KanbanTableData>
+            <KanbanTableTD>Total: 1</KanbanTableTD>
+            <KanbanTableTD>Total: 1</KanbanTableTD>
         </KanbanTableRow>
     </KanbanTableFoot>
 </KanbanTable>
@@ -150,7 +150,7 @@ Import the compound components, compose them with a `KanbanTableHead` for the wo
     import KanbanTableHead from "../KanbanTableHead/KanbanTableHead.svelte";
     import KanbanTableBody from "../KanbanTableBody/KanbanTableBody.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
-    import KanbanTableData from "../KanbanTableData/KanbanTableData.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
 
     let columns = $state(["To Do", "In Progress", "Done"]);
     let tasks = $state([
@@ -171,7 +171,7 @@ Import the compound components, compose them with a `KanbanTableHead` for the wo
         {#each tasks as row}
             <KanbanTableRow>
                 {#each row as cell}
-                    <KanbanTableData>{cell}</KanbanTableData>
+                    <KanbanTableTD>{cell}</KanbanTableTD>
                 {/each}
             </KanbanTableRow>
         {/each}
@@ -187,7 +187,7 @@ Import the compound components, compose them with a `KanbanTableHead` for the wo
     import KanbanTableHead from "../KanbanTableHead/KanbanTableHead.svelte";
     import KanbanTableBody from "../KanbanTableBody/KanbanTableBody.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
-    import KanbanTableData from "../KanbanTableData/KanbanTableData.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
 </script>
 
 <KanbanTable label="Q1 roadmap" caption="Q1 2026 Roadmap">
@@ -199,8 +199,8 @@ Import the compound components, compose them with a `KanbanTableHead` for the wo
     </KanbanTableHead>
     <KanbanTableBody>
         <KanbanTableRow>
-            <KanbanTableData>Feature A</KanbanTableData>
-            <KanbanTableData>Feature B</KanbanTableData>
+            <KanbanTableTD>Feature A</KanbanTableTD>
+            <KanbanTableTD>Feature B</KanbanTableTD>
         </KanbanTableRow>
     </KanbanTableBody>
 </KanbanTable>
@@ -210,7 +210,7 @@ Import the compound components, compose them with a `KanbanTableHead` for the wo
 
 - `role="grid"` identifies the `<table>` as an interactive grid widget.
 - `aria-label` provides the accessible name of the board.
-- Consumers are responsible for wiring grid keyboard navigation (arrow keys, Home, End) between active cells via the `active` prop on `KanbanTableData` (roving tabindex).
+- Consumers are responsible for wiring grid keyboard navigation (arrow keys, Home, End) between active cells via the `active` prop on `KanbanTableTD` (roving tabindex).
 - Screen readers announce column headers (`<th scope="col">`) for each workflow stage.
 - Compliant with WCAG 2.2 AAA when focus indicators and colour contrast are provided by the consumer.
 
@@ -220,8 +220,8 @@ Import the compound components, compose them with a `KanbanTableHead` for the wo
 - `KanbanTableBody` — the `<tbody>` section for task rows.
 - `KanbanTableFoot` — the `<tfoot>` section for totals or actions.
 - `KanbanTableRow` — a `<tr>` row within Head/Body/Foot.
-- `KanbanTableCol` — a `<th scope="col">` column header cell inside `<thead><tr>`.
-- `KanbanTableData` — a `<td>` cell with `role="gridcell"` and roving tabindex.
+- `KanbanTableTD` — a `<th scope="col">` column header cell inside `<thead><tr>`.
+- `KanbanTableTD` — a `<td>` cell with `role="gridcell"` and roving tabindex.
 - `DataTable` — for displaying tabular data.
 - `GanttTable` — for schedule visualization.
 - `CalendarTable` — for date grids.

@@ -1,28 +1,28 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
-describe("kanban-table-data", () => {
+describe("kanban-table-td", () => {
   it("renders a <td> with the base class", () => {
-    const { document } = render("kanban-table-data", { text: "v" });
-    const el = document.querySelector("td.kanban-table-data");
+    const { document } = render("kanban-table-td", { text: "v" });
+    const el = document.querySelector("td.kanban-table-td");
     expect(el).toBeTruthy();
     expect(el.textContent.trim()).toBe("v");
   });
 
   it("escapes params.text", () => {
-    const { document } = render("kanban-table-data", { text: "A & B" });
+    const { document } = render("kanban-table-td", { text: "A & B" });
     expect(document.querySelector("td").textContent.trim()).toBe("A & B");
   });
 
   it("renders params.html raw", () => {
-    const { document } = render("kanban-table-data", {
+    const { document } = render("kanban-table-td", {
       html: "<a href='#'>link</a>",
     });
     expect(document.querySelector("td a")).toBeTruthy();
   });
 
   it("renders colspan, rowspan, headers", () => {
-    const { document } = render("kanban-table-data", {
+    const { document } = render("kanban-table-td", {
       text: "x",
       colspan: 2,
       rowspan: 3,
@@ -35,15 +35,15 @@ describe("kanban-table-data", () => {
   });
 
   it("appends params.classes", () => {
-    const { document } = render("kanban-table-data", {
+    const { document } = render("kanban-table-td", {
       text: "x",
       classes: "table-data-numeric",
     });
-    expect(document.querySelector("td.kanban-table-data.table-data-numeric")).toBeTruthy();
+    expect(document.querySelector("td.kanban-table-td.table-data-numeric")).toBeTruthy();
   });
 
   it("contains no <style> or <script> tags", () => {
-    const { html } = render("kanban-table-data", { text: "x" });
+    const { html } = render("kanban-table-td", { text: "x" });
     expect(html).not.toContain("<style");
     expect(html).not.toContain("<script");
     expect(html).not.toContain("style=");

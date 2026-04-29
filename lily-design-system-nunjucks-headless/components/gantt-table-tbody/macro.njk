@@ -13,10 +13,10 @@
 
   Usage: see Table.
 #}
-{%- macro ganttTableTbody(params) -%}
+{%- macro ganttTableBody(params) -%}
 {%- set p = params | default({}) -%}
 <tbody
-  class="gantt-table-tbody{% if p.classes %} {{ p.classes }}{% endif %}"
+  class="gantt-table-body{% if p.classes %} {{ p.classes }}{% endif %}"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

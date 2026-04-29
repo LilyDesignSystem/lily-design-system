@@ -12,8 +12,8 @@ The footer section of a DataTable, rendered as a `<tfoot>` element. Contains Dat
 ```svelte
 <DataTableFoot>
   <DataTableRow>
-    <DataTableData>Total</DataTableData>
-    <DataTableData>$50,000</DataTableData>
+    <DataTableTD>Total</DataTableTD>
+    <DataTableTD>$50,000</DataTableTD>
   </DataTableRow>
 </DataTableFoot>
 ```

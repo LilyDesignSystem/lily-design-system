@@ -48,7 +48,7 @@ None -- this is a passive informational display, not an interactive element.
 ## When Not to Use
 
 - Do not use outside of a SummaryList `<dl>` container -- it has no standalone meaning as the `<dt>`/`<dd>` elements require a description list parent
-- Do not use for table rows -- use TableRow with TableData instead
+- Do not use for table rows -- use TableRow with TableTD instead
 
 ## Headless
 

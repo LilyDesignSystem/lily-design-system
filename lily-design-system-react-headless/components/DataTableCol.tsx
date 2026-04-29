@@ -1,4 +1,4 @@
-// DataTableCol component
+// DataTableTD component
 //
 // A column header cell within a DataTable, rendered as a <th> element.
 // Used inside a <DataTableRow> within <DataTableHead> to label the columns
@@ -21,7 +21,7 @@
 
 import React from "react";
 
-export interface DataTableColProps {
+export interface DataTableTDProps {
     className?: string;
     /** Number of columns this header cell spans. */
     colSpan?: number;
@@ -34,14 +34,14 @@ export interface DataTableColProps {
     [key: string]: unknown;
 }
 
-export default function DataTableCol({
+export default function DataTableTD({
     className = "",
     colSpan,
     rowSpan,
     scope = "col",
     children,
     ...restProps
-}: DataTableColProps) {
+}: DataTableTDProps) {
     return (
         <th
         className={`data-table-col ${className}`}

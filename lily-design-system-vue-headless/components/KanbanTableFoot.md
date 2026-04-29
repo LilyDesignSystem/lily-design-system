@@ -12,8 +12,8 @@ The footer section of a KanbanTable, rendered as a `<tfoot>` element. Contains K
 ```svelte
 <KanbanTableFoot>
   <KanbanTableRow>
-    <KanbanTableData>Total: 3</KanbanTableData>
-    <KanbanTableData>Total: 5</KanbanTableData>
+    <KanbanTableTD>Total: 3</KanbanTableTD>
+    <KanbanTableTD>Total: 5</KanbanTableTD>
   </KanbanTableRow>
 </KanbanTableFoot>
 ```

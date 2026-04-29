@@ -51,7 +51,7 @@ A headless plain HTML component library with 414 components. All components are 
   - **calendar-table-foot**: a calendar table interactive grid tfoot for managing dates, days, etc.
   - **calendar-table-col**: a calendar table interactive grid column for managing dates, days, etc.
   - **calendar-table-row**: a calendar table interactive grid row for managing dates, days, etc.
-  - **calendar-table-data**: a calendar table interactive grid data cell for managing dates, days, etc.
+  - **calendar-table-td**: a calendar table interactive grid data cell for managing dates, days, etc.
 - **calendar-range-picker**: a picker for selecting a date range on a calendar
 - **call-to-action**: a prominent prompt encouraging user action
 - **caption**: a caption for a table or figure element
@@ -95,7 +95,7 @@ A headless plain HTML component library with 414 components. All components are 
   - **data-table-foot**: a data table interactive grid tfoot for displaying and sorting tabular data
   - **data-table-col**: a data table interactive grid column for displaying and sorting tabular data
   - **data-table-row**: a data table interactive grid row for displaying and sorting tabular data
-  - **data-table-data**: a data table interactive grid data cell for displaying and sorting tabular data
+  - **data-table-td**: a data table interactive grid data cell for displaying and sorting tabular data
 - **date-field**: a structured field for entering date components
 - **date-input**: an input for entering a date value
 - **date-range**: a display of a start and end date range
@@ -145,11 +145,11 @@ A headless plain HTML component library with 414 components. All components are 
 - **form**: a form element for collecting and submitting user data
 - **gantt-table**:
   - **gantt-table**: a Gantt chart table interactive grid for planning schedule visualization
-  - **gantt-table-thead**: a Gantt chart table interactive grid thead for planning schedule visualization
-  - **gantt-table-tbody**: a Gantt chart table interactive grid tbody for planning schedule visualization
-  - **gantt-table-tfoot**: a Gantt chart table interactive grid tfoot for planning schedule visualization
+  - **gantt-table-head**: a Gantt chart table interactive grid thead for planning schedule visualization
+  - **gantt-table-body**: a Gantt chart table interactive grid tbody for planning schedule visualization
+  - **gantt-table-foot**: a Gantt chart table interactive grid tfoot for planning schedule visualization
   - **gantt-table-th**: a Gantt chart table interactive grid column for planning schedule visualization
-  - **gantt-table-tr**: a Gantt chart table interactive grid row for planning schedule visualization
+  - **gantt-table-row**: a Gantt chart table interactive grid row for planning schedule visualization
   - **gantt-table-td**: a Gantt chart table interactive grid data cell for planning schedule visualization
 - **grail-layout**:
   - **grail-layout**: a responsive web design structure with header, left aside, center main, right aside, footer
@@ -178,7 +178,7 @@ A headless plain HTML component library with 414 components. All components are 
   - **kanban-table-foot**: a kanban board table interactive grid tfoot for organizing items by status
   - **kanban-table-col**: a kanban board table interactive grid column for organizing items by status
   - **kanban-table-row**: a kanban board table interactive grid row for organizing items by status
-  - **kanban-table-data**: kanban board table interactive grid data cell for organizing items by status
+  - **kanban-table-td**: kanban board table interactive grid data cell for organizing items by status
 - **kbd**: show keyboard shortcuts and key combinations in a styled inline element
 - **label**: a label associated with a form input
 - **listbox**: a list of selectable options with keyboard navigation
@@ -298,7 +298,7 @@ A headless plain HTML component library with 414 components. All components are 
 - **text-input**: a single-line text input field
 - **text-input-with-search**: a single-line text input field with search capability
 - **textarea**: a multi-line text input area
-- **text-area-with-character-counter**: a multi-line text area with character counter
+- **text-area-input-with-character-counter**: a multi-line text area with character counter
 - **theme-picker**: a picker for selecting a visual theme
 - **theme-picker-button**: a picker button for selecting a visual theme
 - **theme-select**: a select dropdown for choosing a theme
@@ -343,7 +343,7 @@ A headless plain HTML component library with 414 components. All components are 
 - \*Nav \*List \*ListItem: AccordionNav, BreadcrumbNav, ContentsNav, PaginationNav, TreeNav
 - \*Menu \*MenuItem: ContextMenu, Menu, TreeMenu
 - \*Picker \*PickerButton: ColorPicker, FiveFaceRatingPicker, FiveStarRatingPicker, NetPromoterScorePicker, RedAmberGreenPicker, RedOrangeYellowGreenBluePicker
-- \*Table \*TableHead \*TableBody \*TableFoot \*TableCol \*TableRow \*TableData: Table, CalendarTable, DataTable, GanttTable, KanbanTable
+- \*Table \*TableHead \*TableBody \*TableFoot \*TableTD \*TableRow \*TableTD: Table, CalendarTable, DataTable, GanttTable, KanbanTable
 - \*Input \*Link: TelInput/TelLink, EmailInput/EmailLink
 - Tour TourList TourListItem
 
@@ -429,9 +429,9 @@ A headless plain HTML component library with 414 components. All components are 
   </thead>
   <tbody class="data-table-body">
     <tr class="data-table-row">
-      <td class="data-table-data">Jane Doe</td>
-      <td class="data-table-data">jane@example.com</td>
-      <td class="data-table-data">Admin</td>
+      <td class="data-table-td">Jane Doe</td>
+      <td class="data-table-td">jane@example.com</td>
+      <td class="data-table-td">Admin</td>
     </tr>
   </tbody>
 </table>

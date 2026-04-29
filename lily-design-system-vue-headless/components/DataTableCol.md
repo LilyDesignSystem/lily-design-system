@@ -1,4 +1,4 @@
-# DataTableCol
+# DataTableTD
 
 A column header cell within a DataTable, rendered as a `<th scope="col">` element. Intended to live inside a DataTableRow within DataTableHead, where it labels a column.
 
@@ -16,8 +16,8 @@ A column header cell within a DataTable, rendered as a `<th scope="col">` elemen
 <DataTable label="Users">
   <DataTableHead>
     <DataTableRow>
-      <DataTableCol>Name</DataTableCol>
-      <DataTableCol>Email</DataTableCol>
+      <DataTableTD>Name</DataTableTD>
+      <DataTableTD>Email</DataTableTD>
     </DataTableRow>
   </DataTableHead>
   ...

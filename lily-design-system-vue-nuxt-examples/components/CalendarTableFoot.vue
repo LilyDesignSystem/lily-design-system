@@ -13,7 +13,7 @@
     // Syntax:
     //   <CalendarTableFoot>
     //     <CalendarTableRow>
-    //       <CalendarTableData>Week Total: 5</CalendarTableData>
+    //       <CalendarTableTD>Week Total: 5</CalendarTableTD>
     //     </CalendarTableRow>
     //   </CalendarTableFoot>
     //

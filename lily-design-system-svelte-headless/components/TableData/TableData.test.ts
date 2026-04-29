@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
-import TableData from "./TableData.svelte";
+import TableTD from "./TableTD.svelte";
 
-describe("TableData", () => {
+describe("TableTD", () => {
     test("renders with content", () => {
-        render(TableData, { props: { label: "Test" } });
+        render(TableTD, { props: { label: "Test" } });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("table-data");

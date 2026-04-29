@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
-import TextAreaWithCharacterCounter from "./TextAreaWithCharacterCounter.svelte";
+import TextAreaInputWithCharacterCounter from "./TextAreaInputWithCharacterCounter.svelte";
 
-describe("TextAreaWithCharacterCounter", () => {
+describe("TextAreaInputWithCharacterCounter", () => {
     test("renders with content", () => {
-        render(TextAreaWithCharacterCounter, { props: { label: "Test" } });
+        render(TextAreaInputWithCharacterCounter, { props: { label: "Test" } });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("class")).toContain("text-area-with-character-counter");
+        expect(el.getAttribute("class")).toContain("text-area-input-with-character-counter");
     });
 });

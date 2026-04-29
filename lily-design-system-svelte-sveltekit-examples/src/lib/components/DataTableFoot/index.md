@@ -22,8 +22,8 @@ A data table interactive grid tfoot for displaying and sorting tabular data <tfo
 ```svelte
 <DataTableFoot>
   <DataTableRow>
-    <DataTableData>Total</DataTableData>
-    <DataTableData>$50,000</DataTableData>
+    <DataTableTD>Total</DataTableTD>
+    <DataTableTD>$50,000</DataTableTD>
   </DataTableRow>
 </DataTableFoot>
 ```
@@ -46,8 +46,8 @@ A data table interactive grid tfoot for displaying and sorting tabular data <tfo
 
 <DataTableFoot>
   <DataTableRow>
-    <DataTableData>Total</DataTableData>
-    <DataTableData>$50,000</DataTableData>
+    <DataTableTD>Total</DataTableTD>
+    <DataTableTD>$50,000</DataTableTD>
   </DataTableRow>
 </DataTableFoot>
 ```

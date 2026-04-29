@@ -1,4 +1,4 @@
-# KanbanTableCol
+# KanbanTableTD
 
 A column header cell within a `KanbanTable`. Renders a `<th scope="col">` element, intended to live inside a `KanbanTableRow` within `KanbanTableHead`, where it labels a workflow stage column.
 
@@ -21,13 +21,13 @@ A headless Svelte 5 wrapper around `<th>` with `scope="col"` and optional `colsp
 
 ## When not to use it
 
-- For task data cells — use `KanbanTableData`.
+- For task data cells — use `KanbanTableTD`.
 - For row headers — use a `<th scope="row">` directly inside `KanbanTableRow`.
 - For column-wide styling hooks via `<colgroup>` / `<col>` — write those directly inside `KanbanTable`.
 
 ## How to use it
 
-Place `KanbanTableCol` elements inside a `KanbanTableRow` within `KanbanTableHead`, one per workflow stage.
+Place `KanbanTableTD` elements inside a `KanbanTableRow` within `KanbanTableHead`, one per workflow stage.
 
 ## Props
 
@@ -48,23 +48,23 @@ Place `KanbanTableCol` elements inside a `KanbanTableRow` within `KanbanTableHea
     import KanbanTableHead from "../KanbanTableHead/KanbanTableHead.svelte";
     import KanbanTableBody from "../KanbanTableBody/KanbanTableBody.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
-    import KanbanTableCol from "./KanbanTableCol.svelte";
-    import KanbanTableData from "../KanbanTableData/KanbanTableData.svelte";
+    import KanbanTableTD from "./KanbanTableTD.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
 </script>
 
 <KanbanTable label="Board">
     <KanbanTableHead>
         <KanbanTableRow>
-            <KanbanTableCol>To do</KanbanTableCol>
-            <KanbanTableCol>In progress</KanbanTableCol>
-            <KanbanTableCol>Done</KanbanTableCol>
+            <KanbanTableTD>To do</KanbanTableTD>
+            <KanbanTableTD>In progress</KanbanTableTD>
+            <KanbanTableTD>Done</KanbanTableTD>
         </KanbanTableRow>
     </KanbanTableHead>
     <KanbanTableBody>
         <KanbanTableRow>
-            <KanbanTableData>A</KanbanTableData>
-            <KanbanTableData>B</KanbanTableData>
-            <KanbanTableData>C</KanbanTableData>
+            <KanbanTableTD>A</KanbanTableTD>
+            <KanbanTableTD>B</KanbanTableTD>
+            <KanbanTableTD>C</KanbanTableTD>
         </KanbanTableRow>
     </KanbanTableBody>
 </KanbanTable>
@@ -75,8 +75,8 @@ Place `KanbanTableCol` elements inside a `KanbanTableRow` within `KanbanTableHea
 ```svelte
 <KanbanTableHead>
     <KanbanTableRow>
-        <KanbanTableCol colspan={2} scope="colgroup">Active</KanbanTableCol>
-        <KanbanTableCol>Done</KanbanTableCol>
+        <KanbanTableTD colspan={2} scope="colgroup">Active</KanbanTableTD>
+        <KanbanTableTD>Done</KanbanTableTD>
     </KanbanTableRow>
 </KanbanTableHead>
 ```
@@ -86,9 +86,9 @@ Place `KanbanTableCol` elements inside a `KanbanTableRow` within `KanbanTableHea
 ```svelte
 <KanbanTableHead>
     <KanbanTableRow>
-        <KanbanTableCol data-stage="todo">To do</KanbanTableCol>
-        <KanbanTableCol data-stage="doing">In progress</KanbanTableCol>
-        <KanbanTableCol data-stage="done">Done</KanbanTableCol>
+        <KanbanTableTD data-stage="todo">To do</KanbanTableTD>
+        <KanbanTableTD data-stage="doing">In progress</KanbanTableTD>
+        <KanbanTableTD data-stage="done">Done</KanbanTableTD>
     </KanbanTableRow>
 </KanbanTableHead>
 ```
@@ -105,4 +105,4 @@ Place `KanbanTableCol` elements inside a `KanbanTableRow` within `KanbanTableHea
 - `KanbanTableBody` — the `<tbody>` section containing task rows.
 - `KanbanTableFoot` — the `<tfoot>` section for totals.
 - `KanbanTableRow` — a `<tr>` row.
-- `KanbanTableData` — a `<td role="gridcell">` task cell.
+- `KanbanTableTD` — a `<td role="gridcell">` task cell.

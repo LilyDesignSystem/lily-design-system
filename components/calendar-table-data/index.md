@@ -24,15 +24,15 @@ The component uses a roving tabindex pattern where the selected cell has `tabind
 
 ```html
 <CalendarTableRow>
-  <CalendarTableData>7</CalendarTableData>
-  <CalendarTableData today selected>8</CalendarTableData>
-  <CalendarTableData>9</CalendarTableData>
+  <CalendarTableTD>7</CalendarTableTD>
+  <CalendarTableTD today selected>8</CalendarTableTD>
+  <CalendarTableTD>9</CalendarTableTD>
 </CalendarTableRow>
 ```
 
 ```html
 <!-- A disabled day outside the current month -->
-<CalendarTableData aria-disabled="true">31</CalendarTableData>
+<CalendarTableTD aria-disabled="true">31</CalendarTableTD>
 ```
 
 ## Keyboard Interactions
@@ -54,7 +54,7 @@ The component uses a roving tabindex pattern where the selected cell has `tabind
 
 ## When Not to Use
 
-- Do not use outside CalendarTable -- use TableData or DataTableData for other table types
+- Do not use outside CalendarTable -- use TableTD or DataTableTD for other table types
 - Do not use for column header cells -- use `<th>` elements inside CalendarTableHead instead
 
 ## Headless
@@ -64,13 +64,13 @@ This component provides a `<td>` with `role="gridcell"`, conditional `aria-selec
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.calendar-table-data` class for targeting. No default styles are included — this is a fully headless component.
+The consumer provides all CSS styling. The component renders with a `.calendar-table-td` class for targeting. No default styles are included — this is a fully headless component.
 
 
 ## Testing
 
 
-- Verify the component renders a `<td>` element with class `calendar-table-data`
+- Verify the component renders a `<td>` element with class `calendar-table-td`
 - Verify role="gridcell"` -- identifies the cell as part of a grid
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
@@ -82,18 +82,18 @@ The consumer provides all CSS styling. The component renders with a `.calendar-t
 
 ## Composition
 
-CalendarTableData is part of the CalendarTable composition pattern:
+CalendarTableTD is part of the CalendarTable composition pattern:
 
 - **CalendarTable** -- outer `<table>` with `role="grid"`.
 - **CalendarTableHead/Body/Foot** -- section groupings.
 - **CalendarTableRow** -- `<tr>` representing one week.
-- **CalendarTableData** -- `<td>` representing one day with selection and today state.
+- **CalendarTableTD** -- `<td>` representing one day with selection and today state.
 
 ```html
 <CalendarTableRow>
-  <CalendarTableData>14</CalendarTableData>
-  <CalendarTableData today selected>15</CalendarTableData>
-  <CalendarTableData>16</CalendarTableData>
+  <CalendarTableTD>14</CalendarTableTD>
+  <CalendarTableTD today selected>15</CalendarTableTD>
+  <CalendarTableTD>16</CalendarTableTD>
 </CalendarTableRow>
 ```
 

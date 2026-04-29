@@ -1,10 +1,10 @@
 # DataTable
 
-An interactive data table that displays structured information in rows and columns as a grid widget. It renders a `<table role="grid" aria-label>` with an optional visible `<caption>`. Compose with `DataTableHead`, `DataTableBody`, `DataTableFoot`, `DataTableRow`, `DataTableCol`, and `DataTableData`.
+An interactive data table that displays structured information in rows and columns as a grid widget. It renders a `<table role="grid" aria-label>` with an optional visible `<caption>`. Compose with `DataTableHead`, `DataTableBody`, `DataTableFoot`, `DataTableRow`, `DataTableTD`, and `DataTableTD`.
 
 ## What it is
 
-DataTable is the outermost wrapper of the compound table system. It sets up grid semantics so `DataTableData` cells can use `role="gridcell"` with roving tabindex for keyboard grid navigation (which consumers implement at the table level).
+DataTable is the outermost wrapper of the compound table system. It sets up grid semantics so `DataTableTD` cells can use `role="gridcell"` with roving tabindex for keyboard grid navigation (which consumers implement at the table level).
 
 ## What it does
 
@@ -47,7 +47,7 @@ Compose head/body/foot/row/cell components. Provide a descriptive `label` for th
     import DataTableHead from "../DataTableHead/DataTableHead.svelte";
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 </script>
 
 <DataTable label="User accounts">
@@ -59,12 +59,12 @@ Compose head/body/foot/row/cell components. Provide a descriptive `label` for th
     </DataTableHead>
     <DataTableBody>
         <DataTableRow>
-            <DataTableData>Alice</DataTableData>
-            <DataTableData>alice@example.com</DataTableData>
+            <DataTableTD>Alice</DataTableTD>
+            <DataTableTD>alice@example.com</DataTableTD>
         </DataTableRow>
         <DataTableRow>
-            <DataTableData>Bob</DataTableData>
-            <DataTableData>bob@example.com</DataTableData>
+            <DataTableTD>Bob</DataTableTD>
+            <DataTableTD>bob@example.com</DataTableTD>
         </DataTableRow>
     </DataTableBody>
 </DataTable>
@@ -77,7 +77,7 @@ Compose head/body/foot/row/cell components. Provide a descriptive `label` for th
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableFoot from "../DataTableFoot/DataTableFoot.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 </script>
 
 <DataTable label="Sales" caption="Quarterly sales">
@@ -89,18 +89,18 @@ Compose head/body/foot/row/cell components. Provide a descriptive `label` for th
     </DataTableHead>
     <DataTableBody>
         <DataTableRow>
-            <DataTableData>January</DataTableData>
-            <DataTableData>$10,000</DataTableData>
+            <DataTableTD>January</DataTableTD>
+            <DataTableTD>$10,000</DataTableTD>
         </DataTableRow>
         <DataTableRow>
-            <DataTableData>February</DataTableData>
-            <DataTableData>$12,000</DataTableData>
+            <DataTableTD>February</DataTableTD>
+            <DataTableTD>$12,000</DataTableTD>
         </DataTableRow>
     </DataTableBody>
     <DataTableFoot>
         <DataTableRow>
-            <DataTableData>Total</DataTableData>
-            <DataTableData>$22,000</DataTableData>
+            <DataTableTD>Total</DataTableTD>
+            <DataTableTD>$22,000</DataTableTD>
         </DataTableRow>
     </DataTableFoot>
 </DataTable>
@@ -112,14 +112,14 @@ Compose head/body/foot/row/cell components. Provide a descriptive `label` for th
     import DataTableHead from "../DataTableHead/DataTableHead.svelte";
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableCol from "../DataTableCol/DataTableCol.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 </script>
 
 <DataTable label="Users">
     <colgroup>
-        <DataTableCol />
-        <DataTableCol span={2} />
+        <DataTableTD />
+        <DataTableTD span={2} />
     </colgroup>
     <DataTableHead>
         <DataTableRow>
@@ -130,9 +130,9 @@ Compose head/body/foot/row/cell components. Provide a descriptive `label` for th
     </DataTableHead>
     <DataTableBody>
         <DataTableRow>
-            <DataTableData>Alice</DataTableData>
-            <DataTableData>alice@example.com</DataTableData>
-            <DataTableData>Admin</DataTableData>
+            <DataTableTD>Alice</DataTableTD>
+            <DataTableTD>alice@example.com</DataTableTD>
+            <DataTableTD>Admin</DataTableTD>
         </DataTableRow>
     </DataTableBody>
 </DataTable>
@@ -144,7 +144,7 @@ Compose head/body/foot/row/cell components. Provide a descriptive `label` for th
     import DataTableHead from "../DataTableHead/DataTableHead.svelte";
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 
     let activeRow = $state(0);
     let activeCol = $state(0);
@@ -165,9 +165,9 @@ Compose head/body/foot/row/cell components. Provide a descriptive `label` for th
         {#each data as row, r}
             <DataTableRow>
                 {#each row as cell, c}
-                    <DataTableData active={activeRow === r && activeCol === c}>
+                    <DataTableTD active={activeRow === r && activeCol === c}>
                         {cell}
-                    </DataTableData>
+                    </DataTableTD>
                 {/each}
             </DataTableRow>
         {/each}
@@ -179,11 +179,11 @@ Compose head/body/foot/row/cell components. Provide a descriptive `label` for th
 
 - `role="grid"` communicates the interactive grid pattern.
 - `aria-label` names the grid.
-- Pair with `DataTableData` which provides `role="gridcell"` and roving tabindex via the `active` prop.
+- Pair with `DataTableTD` which provides `role="gridcell"` and roving tabindex via the `active` prop.
 - Implement keyboard grid navigation (Arrow keys) at the table level as needed.
 
 ## Related components
 
-- `DataTableHead`, `DataTableBody`, `DataTableFoot`, `DataTableRow`, `DataTableCol`, `DataTableData` — compound parts.
+- `DataTableHead`, `DataTableBody`, `DataTableFoot`, `DataTableRow`, `DataTableTD`, `DataTableTD` — compound parts.
 - `Table` — static table.
 - `CalendarTable`, `GanttTable`, `KanbanTable` — specialized tables.

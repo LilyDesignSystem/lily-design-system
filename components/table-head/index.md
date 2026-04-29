@@ -64,7 +64,7 @@ The consumer provides all CSS styling. The component renders with a `.table-head
 
 ## Composition
 
-TableHead is a child of Table, following the Table pattern: Table > TableHead/TableBody/TableFoot > TableRow > TableData.
+TableHead is a child of Table, following the Table pattern: Table > TableHead/TableBody/TableFoot > TableRow > TableTD.
 
 ## References
 

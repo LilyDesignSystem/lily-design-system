@@ -1,5 +1,5 @@
 <script lang="ts">
-    // TextAreaWithCharacterCounter component
+    // TextAreaInputWithCharacterCounter component
     //
     // A headless component that wraps a native <textarea> and a character counter
     // caption inside a <div>. The counter displays "[number] of [maximum] characters"
@@ -19,7 +19,7 @@
     //   ...restProps — additional HTML attributes spread onto the wrapper <div>.
     //
     // Syntax:
-    //   <TextAreaWithCharacterCounter label="Feedback" maxLength={500} bind:value />
+    //   <TextAreaInputWithCharacterCounter label="Feedback" maxLength={500} bind:value />
     //
     // Keyboard:
     //   - Tab: Focus the textarea (native browser behavior)
@@ -72,9 +72,9 @@
     );
 </script>
 
-<!-- TextAreaWithCharacterCounter.svelte -->
+<!-- TextAreaInputWithCharacterCounter.svelte -->
 <div
-    class={`text-area-with-character-counter ${className}`}
+    class={`text-area-input-with-character-counter ${className}`}
     {...restProps}
 >
     <textarea

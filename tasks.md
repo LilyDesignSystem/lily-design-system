@@ -31,7 +31,7 @@
   - [x] Update lily-design-system-react-next-examples /components/[slug] page with live demo via dangerouslySetInnerHTML
   - [x] Update lily-design-system-vue-nuxt-examples /components/[slug] page with live demo via v-html
   - [x] Update lily-design-system-blazor-web-examples ComponentData.cs with DemoHtml field + ComponentDetail.razor with MarkupString
-  - [x] Update lily-design-system-html-javascript-examples component.html with componentDemos object + innerHTML rendering
+  - [x] Update lily-design-system-html-css-js-examples component.html with componentDemos object + innerHTML rendering
 
 - [x] Harmonize all 10 subproject files (index.md, AGENTS.md, plan.md, tasks.md)
   - [x] Fix "316" → "364" component count across all subproject index.md and AGENTS.md
@@ -57,7 +57,7 @@
 - [x] button-input (NHS: Buttons)
 - [x] card (NHS: Card)
 - [x] character-counter (NHS: Character count)
-- [x] text-area-with-character-counter (NHS: Character count)
+- [x] text-area-input-with-character-counter (NHS: Character count)
 - [x] checkbox-input (NHS: Checkboxes)
 - [x] checkbox-group (NHS: Checkboxes)
 - [x] contents-nav (NHS: Contents list)
@@ -156,7 +156,7 @@ Write original "When to Use" and "When Not to Use" guidance for all non-NHS comp
 - [x] calendar-table-foot
 - [x] calendar-table-col
 - [x] calendar-table-row
-- [x] calendar-table-data
+- [x] calendar-table-td
 - [x] calendar-range-picker
 
 #### Care & Medical (2)
@@ -195,7 +195,7 @@ Write original "When to Use" and "When Not to Use" guidance for all non-NHS comp
 - [x] data-table-foot
 - [x] data-table-col
 - [x] data-table-row
-- [x] data-table-data
+- [x] data-table-td
 - [x] data-filter-form
 
 #### Date & Time extended (7)
@@ -253,11 +253,11 @@ Write original "When to Use" and "When Not to Use" guidance for all non-NHS comp
 
 #### Gantt (7)
 - [x] gantt-table
-- [x] gantt-table-thead
-- [x] gantt-table-tbody
-- [x] gantt-table-tfoot
+- [x] gantt-table-head
+- [x] gantt-table-body
+- [x] gantt-table-foot
 - [x] gantt-table-th
-- [x] gantt-table-tr
+- [x] gantt-table-row
 - [x] gantt-table-td
 
 #### Grail Layout (6)
@@ -300,7 +300,7 @@ Write original "When to Use" and "When Not to Use" guidance for all non-NHS comp
 - [x] kanban-table-foot
 - [x] kanban-table-col
 - [x] kanban-table-row
-- [x] kanban-table-data
+- [x] kanban-table-td
 
 #### List Patterns (4)
 - [x] check-list

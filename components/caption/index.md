@@ -42,11 +42,11 @@ Caption inside a figure with a data table:
 <Figure label="Patient demographics summary">
   <DataTable label="Patient demographics">
     <DataTableHead>
-      <DataTableRow><DataTableCol>Age Group</DataTableCol><DataTableCol>Count</DataTableCol></DataTableRow>
+      <DataTableRow><DataTableTD>Age Group</DataTableTD><DataTableTD>Count</DataTableTD></DataTableRow>
     </DataTableHead>
     <DataTableBody>
-      <DataTableRow><DataTableData>18-30</DataTableData><DataTableData>142</DataTableData></DataTableRow>
-      <DataTableRow><DataTableData>31-50</DataTableData><DataTableData>287</DataTableData></DataTableRow>
+      <DataTableRow><DataTableTD>18-30</DataTableTD><DataTableTD>142</DataTableTD></DataTableRow>
+      <DataTableRow><DataTableTD>31-50</DataTableTD><DataTableTD>287</DataTableTD></DataTableRow>
     </DataTableBody>
   </DataTable>
   <Caption>Table 1: Patient demographics by age group.</Caption>

@@ -27,20 +27,20 @@
     {% from "components/data-table-head/macro.njk" import dataTableHead %}
     {% from "components/data-table-body/macro.njk" import dataTableBody %}
     {% from "components/data-table-row/macro.njk" import dataTableRow %}
-    {% from "components/data-table-col/macro.njk" import dataTableCol %}
-    {% from "components/data-table-data/macro.njk" import dataTableData %}
+    {% from "components/data-table-col/macro.njk" import dataTableTD %}
+    {% from "components/data-table-td/macro.njk" import dataTableTD %}
 
     {% call dataTable({ caption: "Your appointments" }) %}
       {% call dataTableHead() %}
         {% call dataTableRow() %}
-          {{ dataTableCol({ text: "Date" }) }}
-          {{ dataTableCol({ text: "Type" }) }}
+          {{ dataTableTD({ text: "Date" }) }}
+          {{ dataTableTD({ text: "Type" }) }}
         {% endcall %}
       {% endcall %}
       {% call dataTableBody() %}
         {% call dataTableRow() %}
-          {{ dataTableData({ text: "27 April" }) }}
-          {{ dataTableData({ text: "GP review" }) }}
+          {{ dataTableTD({ text: "27 April" }) }}
+          {{ dataTableTD({ text: "GP review" }) }}
         {% endcall %}
       {% endcall %}
     {% endcall %}

@@ -1,6 +1,6 @@
-# GanttTableTd
+# GanttTableTD
 
-A single cell within a `GanttTableTr` representing a time period in the Gantt grid. Renders a `<td>` with `role="gridcell"` and supports an `active` state communicated via `aria-selected` and a roving `tabindex`.
+A single cell within a `GanttTableTR` representing a time period in the Gantt grid. Renders a `<td>` with `role="gridcell"` and supports an `active` state communicated via `aria-selected` and a roving `tabindex`.
 
 ## What it is
 
@@ -21,13 +21,13 @@ A Svelte 5 component that renders `<td class="gantt-table-td ..." role="gridcell
 
 ## When not to use it
 
-- For non-grid tabular data cells. Use `DataTableData` or `TableData`.
-- For calendar dates or kanban statuses. Use `CalendarTableData` or `KanbanTableData`.
-- For column headers. Use native `<th>` inside a `GanttTableTr`.
+- For non-grid tabular data cells. Use `DataTableTD` or `TableTD`.
+- For calendar dates or kanban statuses. Use `CalendarTableTD` or `KanbanTableTD`.
+- For column headers. Use native `<th>` inside a `GanttTableTR`.
 
 ## How to use it
 
-Inside a `GanttTableTr`, place one `GanttTableTd` per time-period column. Set `active` on cells where the task is scheduled.
+Inside a `GanttTableTR`, place one `GanttTableTD` per time-period column. Set `active` on cells where the task is scheduled.
 
 ## Props
 
@@ -40,84 +40,84 @@ Inside a `GanttTableTr`, place one `GanttTableTd` per time-period column. Set `a
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTd from "./GanttTableTd.svelte";
+    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTD from "./GanttTableTD.svelte";
 </script>
 
-<GanttTableTr>
+<GanttTableTR>
     <th>Task A</th>
-    <GanttTableTd active>---</GanttTableTd>
-    <GanttTableTd />
-    <GanttTableTd />
-</GanttTableTr>
+    <GanttTableTD active>---</GanttTableTD>
+    <GanttTableTD />
+    <GanttTableTD />
+</GanttTableTR>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTd from "./GanttTableTd.svelte";
+    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTD from "./GanttTableTD.svelte";
 </script>
 
-<GanttTableTr>
+<GanttTableTR>
     <th>Launch</th>
-    <GanttTableTd />
-    <GanttTableTd active>◆</GanttTableTd>
-    <GanttTableTd />
-</GanttTableTr>
+    <GanttTableTD />
+    <GanttTableTD active>◆</GanttTableTD>
+    <GanttTableTD />
+</GanttTableTR>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTd from "./GanttTableTd.svelte";
+    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTD from "./GanttTableTD.svelte";
     const period = [false, true, true, false];
 </script>
 
-<GanttTableTr>
+<GanttTableTR>
     <th>Build</th>
     {#each period as a}
-        <GanttTableTd active={a}>{a ? "---" : ""}</GanttTableTd>
+        <GanttTableTD active={a}>{a ? "---" : ""}</GanttTableTD>
     {/each}
-</GanttTableTr>
+</GanttTableTR>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTd from "./GanttTableTd.svelte";
+    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTD from "./GanttTableTD.svelte";
 </script>
 
-<GanttTableTr>
+<GanttTableTR>
     <th>QA</th>
-    <GanttTableTd
+    <GanttTableTD
         active
         class="critical"
         data-testid="cell-qa-w1"
         onclick={() => console.log("clicked")}
     >
         ●
-    </GanttTableTd>
-</GanttTableTr>
+    </GanttTableTD>
+</GanttTableTR>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTd from "./GanttTableTd.svelte";
+    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTD from "./GanttTableTD.svelte";
     let focused = $state<number | null>(null);
 </script>
 
-<GanttTableTr>
+<GanttTableTR>
     <th>Review</th>
     {#each [0, 1, 2] as i}
-        <GanttTableTd
+        <GanttTableTD
             active={focused === i}
             onfocus={() => (focused = i)}
         >
             {focused === i ? "▮" : ""}
-        </GanttTableTd>
+        </GanttTableTD>
     {/each}
-</GanttTableTr>
+</GanttTableTR>
 ```
 
 ## Accessibility
@@ -130,7 +130,7 @@ Inside a `GanttTableTr`, place one `GanttTableTd` per time-period column. Set `a
 ## Related components
 
 - `GanttTable` - parent grid.
-- `GanttTableTr` - row wrapper (`<tr>`).
-- `GanttTableThead` / `GanttTableTbody` / `GanttTableTfoot` - sections.
-- `GanttTableTh` - column definition (`<col>`).
-- `DataTableData`, `CalendarTableData`, `KanbanTableData`, `TableData` - data-cell variants in other table families.
+- `GanttTableTR` - row wrapper (`<tr>`).
+- `GanttTableHead` / `GanttTableBody` / `GanttTableTfoot` - sections.
+- `GanttTableTH` - column definition (`<col>`).
+- `DataTableTD`, `CalendarTableTD`, `KanbanTableTD`, `TableTD` - data-cell variants in other table families.

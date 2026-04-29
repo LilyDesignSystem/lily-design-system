@@ -46,9 +46,9 @@ A kanban board table interactive grid for organizing items by status <table>.
   </KanbanTableHead>
   <KanbanTableBody>
     <KanbanTableRow>
-      <KanbanTableData>Task A</KanbanTableData>
-      <KanbanTableData>Task B</KanbanTableData>
-      <KanbanTableData>Task C</KanbanTableData>
+      <KanbanTableTD>Task A</KanbanTableTD>
+      <KanbanTableTD>Task B</KanbanTableTD>
+      <KanbanTableTD>Task C</KanbanTableTD>
     </KanbanTableRow>
   </KanbanTableBody>
 </KanbanTable>

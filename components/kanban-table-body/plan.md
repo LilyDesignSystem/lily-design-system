@@ -26,7 +26,7 @@ Implement the Kanban Table Body component: a kanban board table interactive grid
 
 - [ ] Renders <tbody> with class="kanban-table-body"
 - [ ] Column containers within should use `role="list"` with `aria-label` to identify each workflow stage
-- [ ] Card items within columns should use `role="listitem"` (provided by KanbanTableData)
+- [ ] Card items within columns should use `role="listitem"` (provided by KanbanTableTD)
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 - [ ] Tests pass in all implementations

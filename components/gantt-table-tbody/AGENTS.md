@@ -2,11 +2,11 @@
 
 ## Metadata
 
-- Component: gantt-table-tbody
-- PascalCase: GanttTableTbody
+- Component: gantt-table-body
+- PascalCase: GanttTableBody
 - Description: a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
 - HTML tag: <tbody>
-- CSS class: .gantt-table-tbody
+- CSS class: .gantt-table-body
 - Interactive: no
 
 ## Composition
@@ -33,13 +33,13 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <tbody> element with class="gantt-table-tbody"
+- [ ] Renders <tbody> element with class="gantt-table-body"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
 ## References
 
 - Documentation: index.md
-- CSS class: .gantt-table-tbody in css-style-sheet-template.css
-- HTML headless: lily-design-system-html-headless/components/gantt-table-tbody.html
+- CSS class: .gantt-table-body in css-style-sheet-template.css
+- HTML headless: lily-design-system-html-headless/components/gantt-table-body.html
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

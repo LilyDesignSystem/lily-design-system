@@ -2,7 +2,7 @@
 
 A Gantt table foot is the footer section of a Gantt chart grid, wrapping one or more rows that provide summary information such as milestone markers, totals, or project-level notes. It is designed to be used inside a GanttTable `<table>` structure.
 
-The component renders a `<tfoot>` element and passes through its children, which are expected to be GanttTableTr or `<tr>` elements.
+The component renders a `<tfoot>` element and passes through its children, which are expected to be GanttTableRow or `<tr>` elements.
 
 ## Implementation Notes
 
@@ -21,15 +21,15 @@ The component renders a `<tfoot>` element and passes through its children, which
 
 ```html
 <GanttTable label="Q1 2025 schedule">
-  <GanttTableThead>...</GanttTableThead>
-  <GanttTableTbody>...</GanttTableTbody>
+  <GanttTableHead>...</GanttTableHead>
+  <GanttTableBody>...</GanttTableBody>
   <GanttTableTfoot>
-    <GanttTableTr>
-      <GanttTableTh scope="row">Milestone</GanttTableTh>
-      <GanttTableTd></GanttTableTd>
-      <GanttTableTd></GanttTableTd>
-      <GanttTableTd>Launch</GanttTableTd>
-    </GanttTableTr>
+    <GanttTableRow>
+      <GanttTableTH scope="row">Milestone</GanttTableTH>
+      <GanttTableTD></GanttTableTD>
+      <GanttTableTD></GanttTableTD>
+      <GanttTableTD>Launch</GanttTableTD>
+    </GanttTableRow>
   </GanttTableTfoot>
 </GanttTable>
 ```
@@ -51,7 +51,7 @@ None -- this component is a passive container. Keyboard navigation is handled by
 ## When Not to Use
 
 - Do not use outside of a GanttTable structure -- use TableFoot or DataTableFoot for general tables.
-- Do not use for header rows -- use GanttTableThead instead.
+- Do not use for header rows -- use GanttTableHead instead.
 - Do not use when the Gantt chart has no summary data; the footer section is optional.
 
 ## Headless
@@ -61,19 +61,19 @@ This headless component provides a `<tfoot>` element with implicit `rowgroup` ro
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.gantt-table-tfoot` class for targeting. No default styles are included — this is a fully headless component.
+The consumer provides all CSS styling. The component renders with a `.gantt-table-foot` class for targeting. No default styles are included — this is a fully headless component.
 
 
 ## Testing
 
 
-- Verify the component renders a `<tfoot>` element with class `gantt-table-tfoot`
+- Verify the component renders a `<tfoot>` element with class `gantt-table-foot`
 - Verify pass-through attributes are applied
 
 ## Advice
 
 - **Designers**: Visually distinguish the footer from the body rows using a heavier border or different background color. Use the footer for milestone dates or completion summaries.
-- **Developers**: Place GanttTableTr elements as children containing summary cells. The footer renders at the bottom of the table regardless of source order.
+- **Developers**: Place GanttTableRow elements as children containing summary cells. The footer renders at the bottom of the table regardless of source order.
 
 ## References
 

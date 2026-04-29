@@ -16,9 +16,9 @@ describe("kanban-table-row", () => {
     const { document } = render(
       "kanban-table-row",
       {},
-      '<td class="kanban-table-data">x</td>',
+      '<td class="kanban-table-td">x</td>',
     );
-    expect(document.querySelector("tr td.kanban-table-data").textContent).toBe("x");
+    expect(document.querySelector("tr td.kanban-table-td").textContent).toBe("x");
   });
 
   it("renders params.attributes", () => {

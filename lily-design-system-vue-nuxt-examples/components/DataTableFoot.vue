@@ -13,8 +13,8 @@
     // Syntax:
     //   <DataTableFoot>
     //     <DataTableRow>
-    //       <DataTableData>Total</DataTableData>
-    //       <DataTableData>$50,000</DataTableData>
+    //       <DataTableTD>Total</DataTableTD>
+    //       <DataTableTD>$50,000</DataTableTD>
     //     </DataTableRow>
     //   </DataTableFoot>
     //

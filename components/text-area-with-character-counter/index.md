@@ -1,6 +1,6 @@
 # Text Area With Character Counter
 
-TextAreaWithCharacterCounter is a headless component that wraps a native `<textarea>` and a character counter caption inside a `<div>`. The counter displays "[number] of [maximum] characters" below the textarea and updates reactively as the user types.
+TextAreaInputWithCharacterCounter is a headless component that wraps a native `<textarea>` and a character counter caption inside a `<div>`. The counter displays "[number] of [maximum] characters" below the textarea and updates reactively as the user types.
 
 This component is useful for feedback forms, comment fields, bio inputs, and any interface where users need to know how many characters they have used relative to a maximum limit.
 
@@ -32,13 +32,13 @@ This component is useful for feedback forms, comment fields, bio inputs, and any
 Basic feedback field with a 500-character limit:
 
 ```html
-<TextAreaWithCharacterCounter label="Feedback" maxLength={500} />
+<TextAreaInputWithCharacterCounter label="Feedback" maxLength={500} />
 ```
 
 Referral notes with hint text, pre-filled value, and visible rows:
 
 ```html
-<TextAreaWithCharacterCounter
+<TextAreaInputWithCharacterCounter
   label="Additional notes for the referral"
   value={referralNotes}
   maxLength={500}
@@ -50,13 +50,13 @@ Referral notes with hint text, pre-filled value, and visible rows:
 User bio with two-way binding:
 
 ```html
-<TextAreaWithCharacterCounter label="Bio" value={bio} maxLength={200} rows={4} placeholder="Tell us about yourself" />
+<TextAreaInputWithCharacterCounter label="Bio" value={bio} maxLength={200} rows={4} placeholder="Tell us about yourself" />
 ```
 
 Internationalized counter text (French):
 
 ```html
-<TextAreaWithCharacterCounter label="Commentaire" maxLength={300} counterTemplate="{count} sur {max} caractères" />
+<TextAreaInputWithCharacterCounter label="Commentaire" maxLength={300} counterTemplate="{count} sur {max} caractères" />
 ```
 
 ## Keyboard Interactions
@@ -90,11 +90,11 @@ This headless component provides a `<div>` wrapping a native `<textarea>` and a 
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.text-area-with-character-counter` class for targeting. No default styles are included -- this is a fully headless component.
+The consumer provides all CSS styling. The component renders with a `.text-area-input-with-character-counter` class for targeting. No default styles are included -- this is a fully headless component.
 
 ## Testing
 
-- Verify the component renders a wrapper `<div>` with class `text-area-with-character-counter`
+- Verify the component renders a wrapper `<div>` with class `text-area-input-with-character-counter`
 - Verify it contains a `<textarea>` with `aria-label` and `aria-describedby`
 - Verify it contains a counter element with `aria-live="polite"`
 - Verify the counter displays the correct character count

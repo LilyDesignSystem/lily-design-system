@@ -12,8 +12,8 @@ The body section of a CalendarTable, rendered as a `<tbody>` element. Contains C
 ```svelte
 <CalendarTableBody>
   <CalendarTableRow>
-    <CalendarTableData>1</CalendarTableData>
-    <CalendarTableData>2</CalendarTableData>
+    <CalendarTableTD>1</CalendarTableTD>
+    <CalendarTableTD>2</CalendarTableTD>
   </CalendarTableRow>
 </CalendarTableBody>
 ```

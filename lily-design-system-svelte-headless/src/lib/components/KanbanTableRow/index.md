@@ -1,6 +1,6 @@
 # KanbanTableRow
 
-KanbanTableRow is a headless Svelte 5 component representing a single row within a `KanbanTable`. It renders a `<tr>` element and typically contains `KanbanTableData` cells (one per workflow column), or `<th>` header cells when used inside `KanbanTableHead`.
+KanbanTableRow is a headless Svelte 5 component representing a single row within a `KanbanTable`. It renders a `<tr>` element and typically contains `KanbanTableTD` cells (one per workflow column), or `<th>` header cells when used inside `KanbanTableHead`.
 
 ## What it is
 
@@ -9,7 +9,7 @@ A structural wrapper around the native `<tr>` element. `<tr>` has an implicit `r
 ## What it does
 
 - Renders a `<tr>` with `class="kanban-table-row"` plus any consumer-provided CSS class.
-- Renders the required `children` snippet, which should be `KanbanTableData` cells (or `<th>` in a head section).
+- Renders the required `children` snippet, which should be `KanbanTableTD` cells (or `<th>` in a head section).
 - Spreads `...restProps` onto the `<tr>` for consumer customization.
 
 ## When to use it
@@ -30,7 +30,7 @@ Nest `KanbanTableRow` inside `KanbanTableHead`, `KanbanTableBody`, or `KanbanTab
 ## Props
 
 - `class` (string, optional) — consumer CSS class appended to the base `kanban-table-row` class.
-- `children` (Snippet, required) — `KanbanTableData` cells or `<th>` header cells for this row.
+- `children` (Snippet, required) — `KanbanTableTD` cells or `<th>` header cells for this row.
 - `...restProps` (unknown) — additional HTML attributes spread onto the `<tr>`.
 
 ## Usage
@@ -40,13 +40,13 @@ Nest `KanbanTableRow` inside `KanbanTableHead`, `KanbanTableBody`, or `KanbanTab
 ```svelte
 <script lang="ts">
     import KanbanTableRow from "./KanbanTableRow.svelte";
-    import KanbanTableData from "../KanbanTableData/KanbanTableData.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
 </script>
 
 <KanbanTableRow>
-    <KanbanTableData>Task A</KanbanTableData>
-    <KanbanTableData>Task B</KanbanTableData>
-    <KanbanTableData>Task C</KanbanTableData>
+    <KanbanTableTD>Task A</KanbanTableTD>
+    <KanbanTableTD>Task B</KanbanTableTD>
+    <KanbanTableTD>Task C</KanbanTableTD>
 </KanbanTableRow>
 ```
 
@@ -69,13 +69,13 @@ Nest `KanbanTableRow` inside `KanbanTableHead`, `KanbanTableBody`, or `KanbanTab
 ```svelte
 <script lang="ts">
     import KanbanTableRow from "./KanbanTableRow.svelte";
-    import KanbanTableData from "../KanbanTableData/KanbanTableData.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
     let cells = $state(["Fix login", "Write docs", "Ship 1.0"]);
 </script>
 
 <KanbanTableRow>
     {#each cells as cell}
-        <KanbanTableData>{cell}</KanbanTableData>
+        <KanbanTableTD>{cell}</KanbanTableTD>
     {/each}
 </KanbanTableRow>
 ```
@@ -85,13 +85,13 @@ Nest `KanbanTableRow` inside `KanbanTableHead`, `KanbanTableBody`, or `KanbanTab
 ```svelte
 <script lang="ts">
     import KanbanTableRow from "./KanbanTableRow.svelte";
-    import KanbanTableData from "../KanbanTableData/KanbanTableData.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
     let selected = $state(1);
 </script>
 
 <KanbanTableRow>
     {#each ["A", "B", "C"] as item, i}
-        <KanbanTableData active={selected === i}>{item}</KanbanTableData>
+        <KanbanTableTD active={selected === i}>{item}</KanbanTableTD>
     {/each}
 </KanbanTableRow>
 ```
@@ -101,13 +101,13 @@ Nest `KanbanTableRow` inside `KanbanTableHead`, `KanbanTableBody`, or `KanbanTab
 ```svelte
 <script lang="ts">
     import KanbanTableRow from "./KanbanTableRow.svelte";
-    import KanbanTableData from "../KanbanTableData/KanbanTableData.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
 </script>
 
 <KanbanTableRow class="row-highlight" data-priority="high">
-    <KanbanTableData>Bug: Login failure</KanbanTableData>
-    <KanbanTableData />
-    <KanbanTableData />
+    <KanbanTableTD>Bug: Login failure</KanbanTableTD>
+    <KanbanTableTD />
+    <KanbanTableTD />
 </KanbanTableRow>
 ```
 
@@ -120,6 +120,6 @@ Nest `KanbanTableRow` inside `KanbanTableHead`, `KanbanTableBody`, or `KanbanTab
 
 - `KanbanTable` — the root `<table role="grid">`.
 - `KanbanTableHead`, `KanbanTableBody`, `KanbanTableFoot` — section wrappers.
-- `KanbanTableData` — a `<td role="gridcell">` task cell.
-- `KanbanTableCol` — `<col>` column definitions inside `<colgroup>`.
-- `DataTableRow`, `CalendarTableRow`, `GanttTableTr` — equivalent rows for other table types.
+- `KanbanTableTD` — a `<td role="gridcell">` task cell.
+- `KanbanTableTD` — `<col>` column definitions inside `<colgroup>`.
+- `DataTableRow`, `CalendarTableRow`, `GanttTableTR` — equivalent rows for other table types.

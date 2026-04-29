@@ -15,7 +15,7 @@ Canonical component list: [components.tsv](components.tsv)
 
 ### Subprojects for web app examples
 
-- [Lily Design System: HTML JavaScript examples](lily-design-system-html-javascript-examples)
+- [Lily Design System: HTML JavaScript examples](lily-design-system-html-css-js-examples)
 - [Lily Design System: Svelte SvelteKit examples](lily-design-system-svelte-sveltekit-examples)
 - [Lily Design System: Blazor Web examples](lily-design-system-blazor-web-examples)
 - [Lily Design System: React Next.js examples](lily-design-system-react-next-examples)

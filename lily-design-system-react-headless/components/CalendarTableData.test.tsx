@@ -1,9 +1,9 @@
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
 
-import Subject from "./CalendarTableData";
+import Subject from "./CalendarTableTD";
 
-describe("CalendarTableData", () => {
+describe("CalendarTableTD", () => {
     test("renders a td element", () => {
         render(<table><tbody><tr><Subject>15</Subject></tr></tbody></table>);
         const td = document.querySelector("td");

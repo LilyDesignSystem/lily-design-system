@@ -1,9 +1,9 @@
 // table-data.test.js
-// TableData component test
+// TableTD component test
 
 const path = require('path');
 
-describe('TableData', function() {
+describe('TableTD', function() {
   beforeEach(async function() {
     await browser.url('file://' + path.resolve(__dirname, 'table-data.html'));
   });

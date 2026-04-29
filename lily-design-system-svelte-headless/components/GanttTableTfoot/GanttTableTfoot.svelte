@@ -2,18 +2,18 @@
     // GanttTableTfoot component
     //
     // The footer section of a GanttTable, rendered as a <tfoot> element.
-    // Contains GanttTableTr elements with summary or aggregate data cells.
+    // Contains GanttTableTR elements with summary or aggregate data cells.
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   children — Snippet, required. GanttTableTr elements with footer cells.
+    //   children — Snippet, required. GanttTableTR elements with footer cells.
     //   ...restProps — additional HTML attributes spread onto the <tfoot>.
     //
     // Syntax:
     //   <GanttTableTfoot>
-    //     <GanttTableTr>
-    //       <GanttTableTd>Total: 12 tasks</GanttTableTd>
-    //     </GanttTableTr>
+    //     <GanttTableTR>
+    //       <GanttTableTD>Total: 12 tasks</GanttTableTD>
+    //     </GanttTableTR>
     //   </GanttTableTfoot>
     //
     // Keyboard:
@@ -37,7 +37,7 @@
         children,
         ...restProps
     }: {
-        /** GanttTableTr elements with footer cells. */
+        /** GanttTableTR elements with footer cells. */
         children: Snippet;
         [key: string]: unknown;
     } = $props();
@@ -45,7 +45,7 @@
 
 <!-- GanttTableTfoot.svelte -->
 <tfoot
-    class={`gantt-table-tfoot ${className}`}
+    class={`gantt-table-foot ${className}`}
     {...restProps}
 >
     {@render children()}

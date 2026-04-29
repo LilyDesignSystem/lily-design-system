@@ -22,8 +22,8 @@ A data table interactive grid tbody for displaying and sorting tabular data <tbo
 ```svelte
 <DataTableBody>
   <DataTableRow>
-    <DataTableData>Alice</DataTableData>
-    <DataTableData>alice@example.com</DataTableData>
+    <DataTableTD>Alice</DataTableTD>
+    <DataTableTD>alice@example.com</DataTableTD>
   </DataTableRow>
 </DataTableBody>
 ```
@@ -46,8 +46,8 @@ A data table interactive grid tbody for displaying and sorting tabular data <tbo
 
 <DataTableBody>
   <DataTableRow>
-    <DataTableData>Alice</DataTableData>
-    <DataTableData>alice@example.com</DataTableData>
+    <DataTableTD>Alice</DataTableTD>
+    <DataTableTD>alice@example.com</DataTableTD>
   </DataTableRow>
 </DataTableBody>
 ```

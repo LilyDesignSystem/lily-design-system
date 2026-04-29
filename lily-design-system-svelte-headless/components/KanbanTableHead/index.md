@@ -43,7 +43,7 @@ Place `KanbanTableHead` inside a `KanbanTable` and nest a `KanbanTableRow` conta
     import KanbanTableHead from "./KanbanTableHead.svelte";
     import KanbanTableBody from "../KanbanTableBody/KanbanTableBody.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
-    import KanbanTableData from "../KanbanTableData/KanbanTableData.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
 </script>
 
 <KanbanTable label="Board">
@@ -56,9 +56,9 @@ Place `KanbanTableHead` inside a `KanbanTable` and nest a `KanbanTableRow` conta
     </KanbanTableHead>
     <KanbanTableBody>
         <KanbanTableRow>
-            <KanbanTableData>Task A</KanbanTableData>
-            <KanbanTableData>Task B</KanbanTableData>
-            <KanbanTableData>Task C</KanbanTableData>
+            <KanbanTableTD>Task A</KanbanTableTD>
+            <KanbanTableTD>Task B</KanbanTableTD>
+            <KanbanTableTD>Task C</KanbanTableTD>
         </KanbanTableRow>
     </KanbanTableBody>
 </KanbanTable>
@@ -163,5 +163,5 @@ Place `KanbanTableHead` inside a `KanbanTable` and nest a `KanbanTableRow` conta
 - `KanbanTableBody` — the `<tbody>` section with data rows.
 - `KanbanTableFoot` — the `<tfoot>` section for totals or actions.
 - `KanbanTableRow` — a `<tr>` row used inside head/body/foot.
-- `KanbanTableData` — a `<td role="gridcell">` task cell.
-- `KanbanTableCol` — `<col>` column definitions for `<colgroup>`.
+- `KanbanTableTD` — a `<td role="gridcell">` task cell.
+- `KanbanTableTD` — `<col>` column definitions for `<colgroup>`.

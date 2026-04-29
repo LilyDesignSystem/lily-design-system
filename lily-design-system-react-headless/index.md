@@ -110,9 +110,9 @@ Component names follow a suffix-based pattern that indicates the root HTML eleme
 | TableHead | `<thead>`    | `DataTableHead`                              |
 | TableBody | `<tbody>`    | `DataTableBody`                              |
 | TableFoot | `<tfoot>`    | `DataTableFoot`                              |
-| TableCol  | `<th>`       | `DataTableCol`                               |
+| TableTD  | `<th>`       | `DataTableTD`                               |
 | TableRow  | `<tr>`       | `DataTableRow`                               |
-| TableData | `<td>`       | `DataTableData`                              |
+| TableTD | `<td>`       | `DataTableTD`                              |
 | Div       | `<div>`      | `PinInputDiv`, `PasswordInputOrTextInputDiv` |
 | Meter     | `<meter>`    | `Meter`                                      |
 | Progress  | `<progress>` | `Progress`                                   |
@@ -225,24 +225,24 @@ Every component's root element includes a semantic CSS class matching its kebab-
 | Badge                       | Small label for counts/statuses           |
 | CalendarTable               | Calendar grid for dates                   |
 | CalendarTableHead/Body/Foot | Calendar table sections                   |
-| CalendarTableCol/Row/Data   | Calendar table cells                      |
+| CalendarTableTD/Row/Data   | Calendar table cells                      |
 | Card                        | Grouped content container                 |
 | DataTable                   | Sortable data table grid                  |
 | DataTableHead/Body/Foot     | Data table sections                       |
-| DataTableCol/Row/Data       | Data table cells                          |
+| DataTableTD/Row/Data       | Data table cells                          |
 | GanttTable                  | Gantt chart schedule table                |
-| GanttTableThead/Body/Foot    | Gantt table sections                      |
-| GanttTableTh/Row/Data      | Gantt table cells                         |
+| GanttTableHead/Body/Foot    | Gantt table sections                      |
+| GanttTableTH/Row/Data      | Gantt table cells                         |
 | KanbanTable                 | Kanban board table                        |
 | KanbanTableHead/Body/Foot   | Kanban table sections                     |
-| KanbanTableCol/Row/Data     | Kanban table cells                        |
+| KanbanTableTD/Row/Data     | Kanban table cells                        |
 | Table                       | Table with rows and columns               |
 | TableHead                   | Table thead                               |
 | TableBody                   | Table tbody                               |
 | TableFoot                   | Table tfoot                               |
-| TableCol                    | Table column                              |
+| TableTD                    | Table column                              |
 | TableRow                    | Table row                                 |
-| TableData                   | Table data cell                           |
+| TableTD                   | Table data cell                           |
 | Caption                     | Table/figure caption                      |
 | SuperBanner                 | High-priority state banner for entire app |
 | SummaryList                 | Key-value summary pairs                   |
@@ -613,7 +613,7 @@ import DataTable from "./components/DataTable";
 import DataTableHead from "./components/DataTableHead";
 import DataTableBody from "./components/DataTableBody";
 import DataTableRow from "./components/DataTableRow";
-import DataTableData from "./components/DataTableData";
+import DataTableTD from "./components/DataTableTD";
 
 function UserTable({ users }) {
   return (
@@ -628,9 +628,9 @@ function UserTable({ users }) {
       <DataTableBody>
         {users.map((user) => (
           <DataTableRow key={user.id}>
-            <DataTableData>{user.name}</DataTableData>
-            <DataTableData>{user.email}</DataTableData>
-            <DataTableData>{user.role}</DataTableData>
+            <DataTableTD>{user.name}</DataTableTD>
+            <DataTableTD>{user.email}</DataTableTD>
+            <DataTableTD>{user.role}</DataTableTD>
           </DataTableRow>
         ))}
       </DataTableBody>
@@ -919,7 +919,7 @@ Many components form hierarchical families meant to be used together:
 // Tables: Table → Head/Body/Foot → Row → Data
 <DataTable label="...">
   <DataTableHead><DataTableRow><th>...</th></DataTableRow></DataTableHead>
-  <DataTableBody><DataTableRow><DataTableData>...</DataTableData></DataTableRow></DataTableBody>
+  <DataTableBody><DataTableRow><DataTableTD>...</DataTableTD></DataTableRow></DataTableBody>
 </DataTable>
 
 // Forms: Form → Field → Input

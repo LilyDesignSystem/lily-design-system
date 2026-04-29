@@ -1,6 +1,6 @@
 # Gantt Table Col
 
-A Gantt table col is a column header cell in a GanttTable. It renders a `<th scope="col">` element and is intended to live inside a GanttTableTr within GanttTableThead, where it labels a time-period column (day, week, month, milestone, etc.).
+A Gantt table col is a column header cell in a GanttTable. It renders a `<th scope="col">` element and is intended to live inside a GanttTableTR within GanttTableHead, where it labels a time-period column (day, week, month, milestone, etc.).
 
 ## Implementation Notes
 
@@ -22,22 +22,22 @@ A Gantt table col is a column header cell in a GanttTable. It renders a `<th sco
 
 ```html
 <GanttTable label="Q1 2026 schedule">
-  <GanttTableThead>
-    <GanttTableTr>
-      <GanttTableTh>Task</GanttTableTh>
-      <GanttTableTh>Jan</GanttTableTh>
-      <GanttTableTh>Feb</GanttTableTh>
-      <GanttTableTh>Mar</GanttTableTh>
-    </GanttTableTr>
-  </GanttTableThead>
-  <GanttTableTbody>
-    <GanttTableTr>
+  <GanttTableHead>
+    <GanttTableTR>
+      <GanttTableTH>Task</GanttTableTH>
+      <GanttTableTH>Jan</GanttTableTH>
+      <GanttTableTH>Feb</GanttTableTH>
+      <GanttTableTH>Mar</GanttTableTH>
+    </GanttTableTR>
+  </GanttTableHead>
+  <GanttTableBody>
+    <GanttTableTR>
       <th scope="row">Design phase</th>
-      <GanttTableTd active>████</GanttTableTd>
-      <GanttTableTd></GanttTableTd>
-      <GanttTableTd></GanttTableTd>
-    </GanttTableTr>
-  </GanttTableTbody>
+      <GanttTableTD active>████</GanttTableTD>
+      <GanttTableTD></GanttTableTD>
+      <GanttTableTD></GanttTableTD>
+    </GanttTableTR>
+  </GanttTableBody>
 </GanttTable>
 ```
 
@@ -57,8 +57,8 @@ None -- header cells are not interactive.
 
 ## When Not to Use
 
-- Do not use outside GanttTable -- use TableCol or DataTableCol for other table types
-- Do not use for task data cells -- use GanttTableTd
+- Do not use outside GanttTable -- use TableTD or DataTableTD for other table types
+- Do not use for task data cells -- use GanttTableTD
 - Do not use for column-wide styling hooks via `<colgroup>` / `<col>` -- write those directly inside GanttTable
 
 ## Headless
@@ -79,7 +79,7 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 ## Advice
 
 - **Designers**: Use consistent column widths for time-period columns to create a uniform grid.
-- **Developers**: Place GanttTableTh elements inside a GanttTableTr within GanttTableThead.
+- **Developers**: Place GanttTableTH elements inside a GanttTableTR within GanttTableHead.
 
 ## References
 

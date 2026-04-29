@@ -1,35 +1,35 @@
 # GanttTableTfoot
 
-The footer section of a `GanttTable`, rendered as a native `<tfoot>` element. It contains `GanttTableTr` elements with summary or aggregate data cells.
+The footer section of a `GanttTable`, rendered as a native `<tfoot>` element. It contains `GanttTableTR` elements with summary or aggregate data cells.
 
 ## What it is
 
-A Svelte 5 structural wrapper that renders `<tfoot class="gantt-table-tfoot ...">{children}</tfoot>`. It carries no internal state, no ARIA attributes, and no styling.
+A Svelte 5 structural wrapper that renders `<tfoot class="gantt-table-foot ...">{children}</tfoot>`. It carries no internal state, no ARIA attributes, and no styling.
 
 ## What it does
 
-- Renders `<tfoot class="gantt-table-tfoot ...">` around the `children` snippet.
+- Renders `<tfoot class="gantt-table-foot ...">` around the `children` snippet.
 - Spreads any additional HTML attributes onto the `<tfoot>`.
 
 ## When to use it
 
-- Summary rows under a `GanttTableTbody` - totals, averages, aggregates.
+- Summary rows under a `GanttTableBody` - totals, averages, aggregates.
 - Notes or legends that belong inside the table structure.
 
 ## When not to use it
 
-- For body rows. Use `GanttTableTbody`.
-- For header rows. Use `GanttTableThead`.
+- For body rows. Use `GanttTableBody`.
+- For header rows. Use `GanttTableHead`.
 - For footer content outside the table. Use `Footer`.
 
 ## How to use it
 
-Place inside a `GanttTable` after `GanttTableTbody` and populate with `GanttTableTr` elements.
+Place inside a `GanttTable` after `GanttTableBody` and populate with `GanttTableTR` elements.
 
 ## Props
 
-- `class` (string, optional) - CSS class appended after the base `gantt-table-tfoot` class.
-- `children` (Snippet, required) - `GanttTableTr` elements with footer cells.
+- `class` (string, optional) - CSS class appended after the base `gantt-table-foot` class.
+- `children` (Snippet, required) - `GanttTableTR` elements with footer cells.
 - `...restProps` - Additional HTML attributes spread onto the `<tfoot>`.
 
 ## Usage
@@ -38,15 +38,15 @@ Place inside a `GanttTable` after `GanttTableTbody` and populate with `GanttTabl
 <script lang="ts">
     import GanttTable from "../GanttTable/GanttTable.svelte";
     import GanttTableTfoot from "./GanttTableTfoot.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTd from "../GanttTableTd/GanttTableTd.svelte";
+    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable label="Plan">
     <GanttTableTfoot>
-        <GanttTableTr>
-            <GanttTableTd>Total: 12 tasks</GanttTableTd>
-        </GanttTableTr>
+        <GanttTableTR>
+            <GanttTableTD>Total: 12 tasks</GanttTableTD>
+        </GanttTableTR>
     </GanttTableTfoot>
 </GanttTable>
 ```
@@ -54,28 +54,28 @@ Place inside a `GanttTable` after `GanttTableTbody` and populate with `GanttTabl
 ```svelte
 <script lang="ts">
     import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableThead from "../GanttTableThead/GanttTableThead.svelte";
-    import GanttTableTbody from "../GanttTableTbody/GanttTableTbody.svelte";
+    import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
+    import GanttTableBody from "../GanttTableBody/GanttTableBody.svelte";
     import GanttTableTfoot from "./GanttTableTfoot.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTd from "../GanttTableTd/GanttTableTd.svelte";
+    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable label="Sprint">
-    <GanttTableThead>
-        <GanttTableTr><th>Task</th><th>W1</th><th>W2</th></GanttTableTr>
-    </GanttTableThead>
-    <GanttTableTbody>
-        <GanttTableTr>
+    <GanttTableHead>
+        <GanttTableTR><th>Task</th><th>W1</th><th>W2</th></GanttTableTR>
+    </GanttTableHead>
+    <GanttTableBody>
+        <GanttTableTR>
             <th>Implement</th>
-            <GanttTableTd active />
-            <GanttTableTd />
-        </GanttTableTr>
-    </GanttTableTbody>
+            <GanttTableTD active />
+            <GanttTableTD />
+        </GanttTableTR>
+    </GanttTableBody>
     <GanttTableTfoot>
-        <GanttTableTr>
-            <GanttTableTd colspan="3">1 task in sprint</GanttTableTd>
-        </GanttTableTr>
+        <GanttTableTR>
+            <GanttTableTD colspan="3">1 task in sprint</GanttTableTD>
+        </GanttTableTR>
     </GanttTableTfoot>
 </GanttTable>
 ```
@@ -84,15 +84,15 @@ Place inside a `GanttTable` after `GanttTableTbody` and populate with `GanttTabl
 <script lang="ts">
     import GanttTable from "../GanttTable/GanttTable.svelte";
     import GanttTableTfoot from "./GanttTableTfoot.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTd from "../GanttTableTd/GanttTableTd.svelte";
+    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable label="Usage">
     <GanttTableTfoot class="summary-row" data-testid="gantt-foot">
-        <GanttTableTr>
-            <GanttTableTd>Total utilisation: 68%</GanttTableTd>
-        </GanttTableTr>
+        <GanttTableTR>
+            <GanttTableTD>Total utilisation: 68%</GanttTableTD>
+        </GanttTableTR>
     </GanttTableTfoot>
 </GanttTable>
 ```
@@ -101,17 +101,17 @@ Place inside a `GanttTable` after `GanttTableTbody` and populate with `GanttTabl
 <script lang="ts">
     import GanttTable from "../GanttTable/GanttTable.svelte";
     import GanttTableTfoot from "./GanttTableTfoot.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTd from "../GanttTableTd/GanttTableTd.svelte";
+    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
     const totals = [3, 4, 1];
 </script>
 
 <GanttTable label="Totals">
     <GanttTableTfoot>
-        <GanttTableTr>
+        <GanttTableTR>
             <th>Total</th>
-            {#each totals as t}<GanttTableTd>{t}</GanttTableTd>{/each}
-        </GanttTableTr>
+            {#each totals as t}<GanttTableTD>{t}</GanttTableTD>{/each}
+        </GanttTableTR>
     </GanttTableTfoot>
 </GanttTable>
 ```
@@ -120,16 +120,16 @@ Place inside a `GanttTable` after `GanttTableTbody` and populate with `GanttTabl
 <script lang="ts">
     import GanttTable from "../GanttTable/GanttTable.svelte";
     import GanttTableTfoot from "./GanttTableTfoot.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTd from "../GanttTableTd/GanttTableTd.svelte";
+    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable label="Legend">
     <GanttTableTfoot>
-        <GanttTableTr>
-            <GanttTableTd>--- = scheduled</GanttTableTd>
-            <GanttTableTd>◆ = milestone</GanttTableTd>
-        </GanttTableTr>
+        <GanttTableTR>
+            <GanttTableTD>--- = scheduled</GanttTableTD>
+            <GanttTableTD>◆ = milestone</GanttTableTD>
+        </GanttTableTR>
     </GanttTableTfoot>
 </GanttTable>
 ```
@@ -142,8 +142,8 @@ Place inside a `GanttTable` after `GanttTableTbody` and populate with `GanttTabl
 ## Related components
 
 - `GanttTable` - parent grid.
-- `GanttTableThead` - header section.
-- `GanttTableTbody` - body section.
-- `GanttTableTr` - row wrapper.
-- `GanttTableTd` - data cell primitive.
-- `GanttTableTh` - column definition.
+- `GanttTableHead` - header section.
+- `GanttTableBody` - body section.
+- `GanttTableTR` - row wrapper.
+- `GanttTableTD` - data cell primitive.
+- `GanttTableTH` - column definition.

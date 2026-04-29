@@ -1,19 +1,19 @@
 <script lang="ts">
-    // GanttTableThead component
+    // GanttTableHead component
     //
     // The header section of a GanttTable, rendered as a <thead> element.
-    // Contains GanttTableTr elements with column headers for task names,
+    // Contains GanttTableTR elements with column headers for task names,
     // dates, durations, or other Gantt chart metadata.
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   children — Snippet, required. GanttTableTr elements with header cells.
+    //   children — Snippet, required. GanttTableTR elements with header cells.
     //   ...restProps — additional HTML attributes spread onto the <thead>.
     //
     // Syntax:
-    //   <GanttTableThead>
-    //     <GanttTableTr><th>Task</th><th>Start</th><th>End</th></GanttTableTr>
-    //   </GanttTableThead>
+    //   <GanttTableHead>
+    //     <GanttTableTR><th>Task</th><th>Start</th><th>End</th></GanttTableTR>
+    //   </GanttTableHead>
     //
     // Keyboard:
     //   None built-in — keyboard navigation handled at the GanttTable grid level.
@@ -36,15 +36,15 @@
         children,
         ...restProps
     }: {
-        /** GanttTableTr elements with header cells. */
+        /** GanttTableTR elements with header cells. */
         children: Snippet;
         [key: string]: unknown;
     } = $props();
 </script>
 
-<!-- GanttTableThead.svelte -->
+<!-- GanttTableHead.svelte -->
 <thead
-    class={`gantt-table-thead ${className}`}
+    class={`gantt-table-head ${className}`}
     {...restProps}
 >
     {@render children()}

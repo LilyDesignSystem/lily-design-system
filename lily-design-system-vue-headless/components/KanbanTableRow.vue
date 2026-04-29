@@ -3,22 +3,22 @@
     // KanbanTableRow component
     //
     // A single row within a KanbanTable grid. Renders as a <tr> containing
-    // KanbanTableData cells for each workflow column. Used inside
+    // KanbanTableTD cells for each workflow column. Used inside
     // KanbanTableHead, KanbanTableBody, or KanbanTableFoot.
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   default slot. KanbanTableData cells and header cells.
+    //   default slot. KanbanTableTD cells and header cells.
     //   ...restProps — additional HTML attributes spread onto the <tr>.
     //
     // Syntax:
-    //   <KanbanTableRow><KanbanTableData>Task</KanbanTableData></KanbanTableRow>
+    //   <KanbanTableRow><KanbanTableTD>Task</KanbanTableTD></KanbanTableRow>
     //
     // Examples:
     //   <KanbanTableRow>
-    //     <KanbanTableData>Task A</KanbanTableData>
-    //     <KanbanTableData>Task B</KanbanTableData>
-    //     <KanbanTableData>Task C</KanbanTableData>
+    //     <KanbanTableTD>Task A</KanbanTableTD>
+    //     <KanbanTableTD>Task B</KanbanTableTD>
+    //     <KanbanTableTD>Task C</KanbanTableTD>
     //   </KanbanTableRow>
     //
     // Keyboard:

@@ -15,7 +15,7 @@
 - [ ] Implement child component: data-table-foot
 - [ ] Implement child component: data-table-col
 - [ ] Implement child component: data-table-row
-- [ ] Implement child component: data-table-data
+- [ ] Implement child component: data-table-td
 
 ## Backlog
 

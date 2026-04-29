@@ -1,10 +1,10 @@
 # CalendarTableRow
 
-A single row within a CalendarTable grid. Renders as a `<tr>`, containing CalendarTableData cells for each day in the week.
+A single row within a CalendarTable grid. Renders as a `<tr>`, containing CalendarTableTD cells for each day in the week.
 
 ## Props
 
-- `children`: Snippet (required) -- CalendarTableData cells for this row
+- `children`: Snippet (required) -- CalendarTableTD cells for this row
 - `...restProps`: unknown -- additional attributes spread onto the `<tr>`
 
 ## Usage
@@ -13,9 +13,9 @@ A single row within a CalendarTable grid. Renders as a `<tr>`, containing Calend
 <CalendarTable label="January 2025">
   <CalendarTableBody>
     <CalendarTableRow>
-      <CalendarTableData>1</CalendarTableData>
-      <CalendarTableData>2</CalendarTableData>
-      <CalendarTableData>3</CalendarTableData>
+      <CalendarTableTD>1</CalendarTableTD>
+      <CalendarTableTD>2</CalendarTableTD>
+      <CalendarTableTD>3</CalendarTableTD>
     </CalendarTableRow>
   </CalendarTableBody>
 </CalendarTable>

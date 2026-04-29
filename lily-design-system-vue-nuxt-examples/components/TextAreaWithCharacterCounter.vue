@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-    // TextAreaWithCharacterCounter component
+    // TextAreaInputWithCharacterCounter component
     //
     // A headless component that wraps a native <textarea> and a character counter
     // caption inside a <div>. The counter displays "[number] of [maximum] characters"
@@ -19,7 +19,7 @@
     //   modelValue — string, default "". Bindable textarea value.
     //
     // Syntax:
-    //   <TextAreaWithCharacterCounter label="Feedback" :maxLength="500" v-model="text" />
+    //   <TextAreaInputWithCharacterCounter label="Feedback" :maxLength="500" v-model="text" />
     //
     // Keyboard:
     //   - Tab: Focus the textarea (native browser behavior)
@@ -68,9 +68,9 @@
 </script>
 
 <template>
-    <!-- TextAreaWithCharacterCounter.vue -->
+    <!-- TextAreaInputWithCharacterCounter.vue -->
     <div
-        class="text-area-with-character-counter"
+        class="text-area-input-with-character-counter"
     >
         <textarea
             :aria-label="label"

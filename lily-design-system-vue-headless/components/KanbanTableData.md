@@ -1,4 +1,4 @@
-# KanbanTableData
+# KanbanTableTD
 
 A Kanban table data cell is a single cell within a KanbanTableRow, rendered as a `<td>` with `role="gridcell"`. Represents a task card or content area within a workflow column. Supports an active state with `aria-selected` and roving tabindex for keyboard navigation.
 
@@ -13,9 +13,9 @@ A Kanban table data cell is a single cell within a KanbanTableRow, rendered as a
 
 ```svelte
 <KanbanTableRow>
-  <KanbanTableData active label="Fix login bug">Fix login bug</KanbanTableData>
-  <KanbanTableData />
-  <KanbanTableData />
+  <KanbanTableTD active label="Fix login bug">Fix login bug</KanbanTableTD>
+  <KanbanTableTD />
+  <KanbanTableTD />
 </KanbanTableRow>
 ```
 

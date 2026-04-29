@@ -22,8 +22,8 @@ A kanban board table interactive grid tbody for organizing items by status <tbod
 ```svelte
 <KanbanTableBody>
   <KanbanTableRow>
-    <KanbanTableData>Task A</KanbanTableData>
-    <KanbanTableData>Task B</KanbanTableData>
+    <KanbanTableTD>Task A</KanbanTableTD>
+    <KanbanTableTD>Task B</KanbanTableTD>
   </KanbanTableRow>
 </KanbanTableBody>
 ```
@@ -46,8 +46,8 @@ A kanban board table interactive grid tbody for organizing items by status <tbod
 
 <KanbanTableBody>
   <KanbanTableRow>
-    <KanbanTableData>Task A</KanbanTableData>
-    <KanbanTableData>Task B</KanbanTableData>
+    <KanbanTableTD>Task A</KanbanTableTD>
+    <KanbanTableTD>Task B</KanbanTableTD>
   </KanbanTableRow>
 </KanbanTableBody>
 ```

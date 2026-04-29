@@ -46,7 +46,7 @@ Import `CalendarRangePicker` from `./CalendarRangePicker.svelte`. Pass `label`. 
   import CalendarTableHead from '../CalendarTableHead/CalendarTableHead.svelte';
   import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 </script>
 
 <CalendarRangePicker label="Select travel dates">
@@ -59,7 +59,7 @@ Import `CalendarRangePicker` from `./CalendarRangePicker.svelte`. Pass `label`. 
     <CalendarTableBody>
       <CalendarTableRow>
         {#each [1, 2, 3, 4, 5, 6, 7] as d}
-          <CalendarTableData>{d}</CalendarTableData>
+          <CalendarTableTD>{d}</CalendarTableTD>
         {/each}
       </CalendarTableRow>
     </CalendarTableBody>

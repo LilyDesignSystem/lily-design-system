@@ -1,4 +1,4 @@
-// KanbanTableData component
+// KanbanTableTD component
 //
 // A single cell within a KanbanTableRow, rendered as a <td> with role="gridcell".
 // Represents a task card or content area within a workflow column. Supports an
@@ -12,14 +12,14 @@
 //   ...restProps — additional HTML attributes spread onto the <td>.
 //
 // Syntax:
-//   <KanbanTableData>Task content</KanbanTableData>
-//   <KanbanTableData active label="Design task">...</KanbanTableData>
+//   <KanbanTableTD>Task content</KanbanTableTD>
+//   <KanbanTableTD active label="Design task">...</KanbanTableTD>
 //
 // Examples:
 //   <KanbanTableRow>
-//     <KanbanTableData label="Fix login bug">Fix login bug</KanbanTableData>
-//     <KanbanTableData />
-//     <KanbanTableData />
+//     <KanbanTableTD label="Fix login bug">Fix login bug</KanbanTableTD>
+//     <KanbanTableTD />
+//     <KanbanTableTD />
 //   </KanbanTableRow>
 //
 // Keyboard:
@@ -44,7 +44,7 @@
 
 import React from "react";
 
-export interface KanbanTableDataProps {
+export interface KanbanTableTDProps {
     className?: string;
     /** Marks the cell as currently active/selected. */
     active?: boolean;
@@ -55,16 +55,16 @@ export interface KanbanTableDataProps {
     [key: string]: unknown;
 }
 
-export default function KanbanTableData({
+export default function KanbanTableTD({
     className = "",
     active = false,
     label,
     children,
     ...restProps
-}: KanbanTableDataProps) {
+}: KanbanTableTDProps) {
     return (
         <td
-        className={`kanban-table-data ${className}`}
+        className={`kanban-table-td ${className}`}
         role="gridcell"
         aria-selected={active || undefined}
         tabIndex={active ? 0 : -1}

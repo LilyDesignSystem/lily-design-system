@@ -157,7 +157,7 @@ Components are headless (unstyled) by default. Each component renders a semantic
     <DataTableRow><th>Name</th></DataTableRow>
   </DataTableHead>
   <DataTableBody>
-    <DataTableRow><DataTableData>Alice</DataTableData></DataTableRow>
+    <DataTableRow><DataTableTD>Alice</DataTableTD></DataTableRow>
   </DataTableBody>
 </DataTable>
 ```

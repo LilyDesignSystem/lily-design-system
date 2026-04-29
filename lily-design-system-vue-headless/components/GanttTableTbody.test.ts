@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { render } from "@testing-library/vue";
 
-import Subject from "./GanttTableTbody.vue";
+import Subject from "./GanttTableBody.vue";
 
 
 function renderInTable(props: Record<string, unknown>, slotContent?: string) {
@@ -13,7 +13,7 @@ function renderInTable(props: Record<string, unknown>, slotContent?: string) {
     return { ...result, container };
 }
 
-describe("GanttTableTbody", () => {
+describe("GanttTableBody", () => {
     test("renders a tbody element", () => {
         renderInTable({}, "<tr><td>Design</td></tr>");
         const tbody = document.querySelector("tbody");

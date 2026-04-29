@@ -21,9 +21,9 @@ The component renders a `<td>` element and passes through its children, which ar
 
 ```html
 <DataTableRow>
-  <DataTableData>Alice</DataTableData>
-  <DataTableData>alice@example.com</DataTableData>
-  <DataTableData>Admin</DataTableData>
+  <DataTableTD>Alice</DataTableTD>
+  <DataTableTD>alice@example.com</DataTableTD>
+  <DataTableTD>Admin</DataTableTD>
 </DataTableRow>
 ```
 
@@ -43,23 +43,23 @@ None -- this component is a passive container. Navigation within the table follo
 
 ## When Not to Use
 
-- Do not use outside DataTable -- use TableData, CalendarTableData, GanttTableTd, or KanbanTableData for their respective table types.
+- Do not use outside DataTable -- use TableTD, CalendarTableTD, GanttTableTD, or KanbanTableTD for their respective table types.
 - Do not use for header cells -- use a `<th>` element with `scope` instead.
 
 ## Headless
 
-This headless DataTableData component provides a semantic `<td>` element with implicit `cell` role for assistive technology. The consumer provides all visual styling including text alignment, padding, borders, truncation, and responsive behavior.
+This headless DataTableTD component provides a semantic `<td>` element with implicit `cell` role for assistive technology. The consumer provides all visual styling including text alignment, padding, borders, truncation, and responsive behavior.
 
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.data-table-data` class for targeting. No default styles are included — this is a fully headless component.
+The consumer provides all CSS styling. The component renders with a `.data-table-td` class for targeting. No default styles are included — this is a fully headless component.
 
 
 ## Testing
 
 
-- Verify the component renders a `<td>` element with class `data-table-data`
+- Verify the component renders a `<td>` element with class `data-table-td`
 - Verify pass-through attributes are applied
 
 ## Advice
@@ -69,7 +69,7 @@ The consumer provides all CSS styling. The component renders with a `.data-table
 
 ## Composition
 
-DataTableData is the leaf component in the DataTable composition pattern. It sits inside a DataTableRow. The full hierarchy is DataTable > DataTableHead/DataTableBody/DataTableFoot > DataTableRow > DataTableData.
+DataTableTD is the leaf component in the DataTable composition pattern. It sits inside a DataTableRow. The full hierarchy is DataTable > DataTableHead/DataTableBody/DataTableFoot > DataTableRow > DataTableTD.
 
 ## References
 

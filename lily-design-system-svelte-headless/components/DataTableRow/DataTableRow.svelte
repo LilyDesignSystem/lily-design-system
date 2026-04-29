@@ -2,18 +2,18 @@
     // DataTableRow component
     //
     // A single row within a DataTable. Renders as a <tr> containing
-    // DataTableData cells or header cells. Used inside DataTableHead,
+    // DataTableTD cells or header cells. Used inside DataTableHead,
     // DataTableBody, or DataTableFoot.
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   children — Snippet, required. DataTableData cells or header cells for this row.
+    //   children — Snippet, required. DataTableTD cells or header cells for this row.
     //   ...restProps — additional HTML attributes spread onto the <tr>.
     //
     // Syntax:
     //   <DataTableRow>
-    //     <DataTableData>Alice</DataTableData>
-    //     <DataTableData>alice@example.com</DataTableData>
+    //     <DataTableTD>Alice</DataTableTD>
+    //     <DataTableTD>alice@example.com</DataTableTD>
     //   </DataTableRow>
     //
     // Keyboard:
@@ -37,7 +37,7 @@
         children,
         ...restProps
     }: {
-        /** DataTableData cells or header cells for this row. */
+        /** DataTableTD cells or header cells for this row. */
         children: Snippet;
         [key: string]: unknown;
     } = $props();

@@ -4,7 +4,7 @@ An interactive calendar grid built on a `<table>` with `role="grid"`. Provides t
 
 ## What it is
 
-A headless Svelte 5 compound component. Category: calendar grid primitive, top of the `CalendarTable` → `CalendarTableHead` / `CalendarTableBody` / `CalendarTableFoot` → `CalendarTableRow` → `CalendarTableData` / `CalendarTableCol` composition.
+A headless Svelte 5 compound component. Category: calendar grid primitive, top of the `CalendarTable` → `CalendarTableHead` / `CalendarTableBody` / `CalendarTableFoot` → `CalendarTableRow` → `CalendarTableTD` / `CalendarTableTD` composition.
 
 ## What it does
 
@@ -48,7 +48,7 @@ Import `CalendarTable` from `./CalendarTable.svelte`. Always pass `label` (e.g. 
   import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
   import CalendarTableFoot from '../CalendarTableFoot/CalendarTableFoot.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 </script>
 
 <CalendarTable label="January 2025">
@@ -60,13 +60,13 @@ Import `CalendarTable` from `./CalendarTable.svelte`. Always pass `label` (e.g. 
   <CalendarTableBody>
     <CalendarTableRow>
       {#each [1, 2, 3, 4, 5, 6, 7] as d}
-        <CalendarTableData>{d}</CalendarTableData>
+        <CalendarTableTD>{d}</CalendarTableTD>
       {/each}
     </CalendarTableRow>
   </CalendarTableBody>
   <CalendarTableFoot>
     <CalendarTableRow>
-      <CalendarTableData>Week total: 7</CalendarTableData>
+      <CalendarTableTD>Week total: 7</CalendarTableTD>
     </CalendarTableRow>
   </CalendarTableFoot>
 </CalendarTable>
@@ -79,13 +79,13 @@ Import `CalendarTable` from `./CalendarTable.svelte`. Always pass `label` (e.g. 
   import CalendarTable from './CalendarTable.svelte';
   import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 </script>
 
 <CalendarTable label="February 2025" caption="February 2025">
   <CalendarTableBody>
     <CalendarTableRow>
-      <CalendarTableData>1</CalendarTableData>
+      <CalendarTableTD>1</CalendarTableTD>
     </CalendarTableRow>
   </CalendarTableBody>
 </CalendarTable>
@@ -98,7 +98,7 @@ Import `CalendarTable` from `./CalendarTable.svelte`. Always pass `label` (e.g. 
   import CalendarTable from './CalendarTable.svelte';
   import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 
   let selected = $state(15);
 </script>
@@ -107,7 +107,7 @@ Import `CalendarTable` from `./CalendarTable.svelte`. Always pass `label` (e.g. 
   <CalendarTableBody>
     <CalendarTableRow>
       {#each [14, 15, 16] as d}
-        <CalendarTableData selected={d === selected} today={d === 15}>{d}</CalendarTableData>
+        <CalendarTableTD selected={d === selected} today={d === 15}>{d}</CalendarTableTD>
       {/each}
     </CalendarTableRow>
   </CalendarTableBody>
@@ -119,22 +119,22 @@ Import `CalendarTable` from `./CalendarTable.svelte`. Always pass `label` (e.g. 
 ```svelte
 <script lang="ts">
   import CalendarTable from './CalendarTable.svelte';
-  import CalendarTableCol from '../CalendarTableCol/CalendarTableCol.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
   import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 </script>
 
 <CalendarTable label="Week view">
   <colgroup>
-    <CalendarTableCol />
-    <CalendarTableCol span={5} />
-    <CalendarTableCol />
+    <CalendarTableTD />
+    <CalendarTableTD span={5} />
+    <CalendarTableTD />
   </colgroup>
   <CalendarTableBody>
     <CalendarTableRow>
-      <CalendarTableData>Sun</CalendarTableData>
-      <CalendarTableData>Mon</CalendarTableData>
+      <CalendarTableTD>Sun</CalendarTableTD>
+      <CalendarTableTD>Mon</CalendarTableTD>
     </CalendarTableRow>
   </CalendarTableBody>
 </CalendarTable>
@@ -148,7 +148,7 @@ Import `CalendarTable` from `./CalendarTable.svelte`. Always pass `label` (e.g. 
   import CalendarTable from './CalendarTable.svelte';
   import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 </script>
 
 <CalendarRangePicker label="Select date range">
@@ -156,7 +156,7 @@ Import `CalendarTable` from `./CalendarTable.svelte`. Always pass `label` (e.g. 
     <CalendarTableBody>
       <CalendarTableRow>
         {#each [1, 2, 3, 4, 5] as d}
-          <CalendarTableData>{d}</CalendarTableData>
+          <CalendarTableTD>{d}</CalendarTableTD>
         {/each}
       </CalendarTableRow>
     </CalendarTableBody>
@@ -174,6 +174,6 @@ Import `CalendarTable` from `./CalendarTable.svelte`. Always pass `label` (e.g. 
 ## Related components
 
 - `CalendarTableHead`, `CalendarTableBody`, `CalendarTableFoot` — structural sections.
-- `CalendarTableRow`, `CalendarTableData`, `CalendarTableCol` — row / cell / column.
+- `CalendarTableRow`, `CalendarTableTD`, `CalendarTableTD` — row / cell / column.
 - `CalendarRangePicker` — outer range-selection container.
 - `DataTable`, `GanttTable`, `KanbanTable`, `Table` — sibling table variants.

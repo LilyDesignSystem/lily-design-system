@@ -1,4 +1,4 @@
-// CalendarTableData component
+// CalendarTableTD component
 //
 // A single day cell within a CalendarTable grid. Renders as a <td> with
 // role="gridcell", supporting selected and today states for visual and
@@ -13,14 +13,14 @@
 //   ...restProps — additional HTML attributes spread onto the <td>.
 //
 // Syntax:
-//   <CalendarTableData>15</CalendarTableData>
+//   <CalendarTableTD>15</CalendarTableTD>
 //
 // Examples:
 //   
-//   <CalendarTableData selected today>15</CalendarTableData>
+//   <CalendarTableTD selected today>15</CalendarTableTD>
 //
 //   
-//   <CalendarTableData>22</CalendarTableData>
+//   <CalendarTableTD>22</CalendarTableTD>
 //
 // Keyboard:
 //   - Tab: Focus moves to the selected cell (tabindex="0")
@@ -44,7 +44,7 @@
 
 import React from "react";
 
-export interface CalendarTableDataProps {
+export interface CalendarTableTDProps {
     className?: string;
     /** Whether this day is selected. */
     selected?: boolean;
@@ -55,16 +55,16 @@ export interface CalendarTableDataProps {
     [key: string]: unknown;
 }
 
-export default function CalendarTableData({
+export default function CalendarTableTD({
     className = "",
     selected = false,
     today = false,
     children,
     ...restProps
-}: CalendarTableDataProps) {
+}: CalendarTableTDProps) {
     return (
         <td
-        className={`calendar-table-data ${className}`}
+        className={`calendar-table-td ${className}`}
         role="gridcell"
         aria-selected={selected || undefined}
         aria-current={today ? "date" : undefined}

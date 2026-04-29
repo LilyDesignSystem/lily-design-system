@@ -2,22 +2,22 @@
     // KanbanTableRow component
     //
     // A single row within a KanbanTable grid. Renders as a <tr> containing
-    // KanbanTableData cells for each workflow column. Used inside
+    // KanbanTableTD cells for each workflow column. Used inside
     // KanbanTableHead, KanbanTableBody, or KanbanTableFoot.
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   children — Snippet, required. KanbanTableData cells and header cells.
+    //   children — Snippet, required. KanbanTableTD cells and header cells.
     //   ...restProps — additional HTML attributes spread onto the <tr>.
     //
     // Syntax:
-    //   <KanbanTableRow><KanbanTableData>Task</KanbanTableData></KanbanTableRow>
+    //   <KanbanTableRow><KanbanTableTD>Task</KanbanTableTD></KanbanTableRow>
     //
     // Examples:
     //   <KanbanTableRow>
-    //     <KanbanTableData>Task A</KanbanTableData>
-    //     <KanbanTableData>Task B</KanbanTableData>
-    //     <KanbanTableData>Task C</KanbanTableData>
+    //     <KanbanTableTD>Task A</KanbanTableTD>
+    //     <KanbanTableTD>Task B</KanbanTableTD>
+    //     <KanbanTableTD>Task C</KanbanTableTD>
     //   </KanbanTableRow>
     //
     // Keyboard:
@@ -44,7 +44,7 @@
         children,
         ...restProps
     }: {
-        /** KanbanTableData cells and header cells for this row. */
+        /** KanbanTableTD cells and header cells for this row. */
         children: Snippet;
         [key: string]: unknown;
     } = $props();

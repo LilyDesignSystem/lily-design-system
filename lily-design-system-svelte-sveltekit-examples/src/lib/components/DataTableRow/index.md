@@ -3,7 +3,7 @@
 ## Overview
 
 A single row within a DataTable. Renders as a <tr> containing
-DataTableData cells or header cells. Used inside DataTableHead,
+DataTableTD cells or header cells. Used inside DataTableHead,
 DataTableBody, or DataTableFoot.
 
 ## What it does
@@ -22,8 +22,8 @@ A data table interactive grid row for displaying and sorting tabular data <tr>.
 
 ```svelte
 <DataTableRow>
-  <DataTableData>Alice</DataTableData>
-  <DataTableData>alice@example.com</DataTableData>
+  <DataTableTD>Alice</DataTableTD>
+  <DataTableTD>alice@example.com</DataTableTD>
 </DataTableRow>
 ```
 
@@ -32,7 +32,7 @@ A data table interactive grid row for displaying and sorting tabular data <tr>.
 | Prop | Type | Description |
 |------|------|-------------|
 | `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | DataTableData cells or header cells for this row. |
+| `children` | Snippet, required | DataTableTD cells or header cells for this row. |
 | `...restProps` | additional HTML attributes spread onto the <tr> |  |
 
 ## SvelteKit example
@@ -44,8 +44,8 @@ A data table interactive grid row for displaying and sorting tabular data <tr>.
 </script>
 
 <DataTableRow>
-  <DataTableData>Alice</DataTableData>
-  <DataTableData>alice@example.com</DataTableData>
+  <DataTableTD>Alice</DataTableTD>
+  <DataTableTD>alice@example.com</DataTableTD>
 </DataTableRow>
 ```
 

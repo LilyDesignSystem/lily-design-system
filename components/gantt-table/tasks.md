@@ -10,11 +10,11 @@
 
 - [ ] Implement HTML headless component (gantt-table.html)
 - [ ] Implement HTML headless test (gantt-table.test.js)
-- [ ] Implement child component: gantt-table-thead
-- [ ] Implement child component: gantt-table-tbody
-- [ ] Implement child component: gantt-table-tfoot
+- [ ] Implement child component: gantt-table-head
+- [ ] Implement child component: gantt-table-body
+- [ ] Implement child component: gantt-table-foot
 - [ ] Implement child component: gantt-table-th
-- [ ] Implement child component: gantt-table-tr
+- [ ] Implement child component: gantt-table-row
 - [ ] Implement child component: gantt-table-td
 
 ## Backlog

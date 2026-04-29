@@ -18,7 +18,7 @@
 
 - Renders as a `<div>` for the main Kanban board content area
 - Consumer provides column containers and card items through the children slot
-- Each column within the body typically uses `role="list"` with KanbanTableData items as `role="listitem"` children
+- Each column within the body typically uses `role="list"` with KanbanTableTD items as `role="listitem"` children
 - Spreads `...restProps` onto the `<div>` element for consumer customization
 - No internal state -- purely a structural wrapper
 
@@ -26,7 +26,7 @@
 
 - No explicit ARIA roles required on the body container itself
 - Column containers within should use `role="list"` with `aria-label` to identify each workflow stage
-- Card items within columns should use `role="listitem"` (provided by KanbanTableData)
+- Card items within columns should use `role="listitem"` (provided by KanbanTableTD)
 
 ## Props
 

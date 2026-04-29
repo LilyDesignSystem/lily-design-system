@@ -1,21 +1,21 @@
 <script lang="ts">
-    // GanttTableTbody component
+    // GanttTableBody component
     //
     // The body section of a GanttTable, rendered as a <tbody> element.
-    // Contains GanttTableTr elements with task data cells.
+    // Contains GanttTableTR elements with task data cells.
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   children — Snippet, required. GanttTableTr elements with data cells.
+    //   children — Snippet, required. GanttTableTR elements with data cells.
     //   ...restProps — additional HTML attributes spread onto the <tbody>.
     //
     // Syntax:
-    //   <GanttTableTbody>
-    //     <GanttTableTr>
-    //       <GanttTableTd>Design</GanttTableTd>
-    //       <GanttTableTd>Jan 1</GanttTableTd>
-    //     </GanttTableTr>
-    //   </GanttTableTbody>
+    //   <GanttTableBody>
+    //     <GanttTableTR>
+    //       <GanttTableTD>Design</GanttTableTD>
+    //       <GanttTableTD>Jan 1</GanttTableTD>
+    //     </GanttTableTR>
+    //   </GanttTableBody>
     //
     // Keyboard:
     //   None built-in — keyboard navigation handled at the GanttTable grid level.
@@ -38,15 +38,15 @@
         children,
         ...restProps
     }: {
-        /** GanttTableTr elements with task data cells. */
+        /** GanttTableTR elements with task data cells. */
         children: Snippet;
         [key: string]: unknown;
     } = $props();
 </script>
 
-<!-- GanttTableTbody.svelte -->
+<!-- GanttTableBody.svelte -->
 <tbody
-    class={`gantt-table-tbody ${className}`}
+    class={`gantt-table-body ${className}`}
     {...restProps}
 >
     {@render children()}

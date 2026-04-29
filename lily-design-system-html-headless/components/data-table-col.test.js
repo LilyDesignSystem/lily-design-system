@@ -1,9 +1,9 @@
 // data-table-col.test.js
-// DataTableCol component test
+// DataTableTD component test
 
 const path = require('path');
 
-describe('DataTableCol', function() {
+describe('DataTableTD', function() {
   beforeEach(async function() {
     await browser.url('file://' + path.resolve(__dirname, 'data-table-col.html'));
   });

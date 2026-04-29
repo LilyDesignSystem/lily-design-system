@@ -1,5 +1,5 @@
 <script lang="ts">
-    // KanbanTableCol component
+    // KanbanTableTD component
     //
     // A column header cell within a KanbanTable, rendered as a <th> element.
     // Used inside a <KanbanTableRow> within <KanbanTableHead> to label each
@@ -16,9 +16,9 @@
     // Syntax:
     //   <KanbanTableHead>
     //     <KanbanTableRow>
-    //       <KanbanTableCol>To do</KanbanTableCol>
-    //       <KanbanTableCol>In progress</KanbanTableCol>
-    //       <KanbanTableCol>Done</KanbanTableCol>
+    //       <KanbanTableTD>To do</KanbanTableTD>
+    //       <KanbanTableTD>In progress</KanbanTableTD>
+    //       <KanbanTableTD>Done</KanbanTableTD>
     //     </KanbanTableRow>
     //   </KanbanTableHead>
     //
@@ -58,7 +58,7 @@
     } = $props();
 </script>
 
-<!-- KanbanTableCol.svelte -->
+<!-- KanbanTableTD.svelte -->
 <th
     class={`kanban-table-col ${className}`}
     {scope}

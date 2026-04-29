@@ -1,2 +1,2 @@
-export { default } from "@pgds/TextAreaWithCharacterCounter";
-export type * from "@pgds/TextAreaWithCharacterCounter";
+export { default } from "@pgds/TextAreaInputWithCharacterCounter";
+export type * from "@pgds/TextAreaInputWithCharacterCounter";

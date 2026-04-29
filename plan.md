@@ -63,7 +63,7 @@ Research each component's page at https://service-manual.nhs.uk/design-system/co
 | Breadcrumbs | breadcrumb-nav, breadcrumb-list, breadcrumb-list-item, breadcrumb-link | /components/breadcrumbs |
 | Buttons | button, button-input | /components/buttons |
 | Card | card | /components/card |
-| Character count | character-counter, text-area-with-character-counter | /components/character-count |
+| Character count | character-counter, text-area-input-with-character-counter | /components/character-count |
 | Checkboxes | checkbox-input, checkbox-group | /components/checkboxes |
 | Contents list | contents-nav, contents-list, contents-list-item, contents-link | /components/contents-list |
 | Date input | date-input | /components/date-input |
@@ -112,11 +112,11 @@ Group by category for consistency:
 | Alert & Dialog | alert, alert-dialog, dialog, popup | 4 |
 | Avatar | avatar, avatar-group, avatar-image, avatar-text | 4 |
 | Banner & Callout | banner-box, super-banner, medical-banner, medical-banner-box, medical-banner-box-for-danger, medical-banner-box-for-advice, information-callout | 7 |
-| Calendar | calendar-table, calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-col, calendar-table-row, calendar-table-data, calendar-range-picker | 8 |
+| Calendar | calendar-table, calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-col, calendar-table-row, calendar-table-td, calendar-range-picker | 8 |
 | Chat | chat-nav, chat-list, chat-list-item, chat-message | 4 |
 | Code | code, code-block | 2 |
 | Color | color-input, color-picker, color-picker-button | 3 |
-| Data Table | data-table, data-table-head, data-table-body, data-table-foot, data-table-col, data-table-row, data-table-data, data-filter-form | 8 |
+| Data Table | data-table, data-table-head, data-table-body, data-table-foot, data-table-col, data-table-row, data-table-td, data-filter-form | 8 |
 | Date & Time | date-field, date-range, date-time-now-input, datetime-local-input, time-input, time-picker-input, month-input, week-input | 8 |
 | Drawer & Sheet | drawer, slide-out-drawer, sheet, floating-panel | 4 |
 | Editable | editable, editable-form | 2 |
@@ -124,11 +124,11 @@ Group by category for consistency:
 | Emoji | emoji, emoji-character-picker | 2 |
 | File | file-dialog, file-input, file-manager, image-file-input | 4 |
 | Form | form, field, label, input, hidden-input, reset-input, submit-input | 7 |
-| Gantt | gantt-table, gantt-table-thead, gantt-table-tbody, gantt-table-tfoot, gantt-table-th, gantt-table-tr, gantt-table-td | 7 |
+| Gantt | gantt-table, gantt-table-head, gantt-table-body, gantt-table-foot, gantt-table-th, gantt-table-row, gantt-table-td | 7 |
 | Grail Layout | grail-layout, grail-layout-top-header, grail-layout-left-aside, grail-layout-center-main, grail-layout-right-aside, grail-layout-bottom-footer | 6 |
 | Healthcare IDs | espana-tarjeta-sanitaria-individual-input/view, france-numero-d-identification-au-repertoire-input/view, ireland-individual-health-identifier-input/view, northern-ireland-health-and-care-number-input/view, united-kingdom-national-health-service-number-input/view, united-states-social-security-number-input/view | 12 |
 | Interactive Controls | switch-button, toggle-button, toggle-group, slider, slider-button, dial, dial-group, range-input, angle-slider-range-input | 9 |
-| Kanban | kanban-table, kanban-table-head, kanban-table-body, kanban-table-foot, kanban-table-col, kanban-table-row, kanban-table-data | 7 |
+| Kanban | kanban-table, kanban-table-head, kanban-table-body, kanban-table-foot, kanban-table-col, kanban-table-row, kanban-table-td | 7 |
 | List Patterns | check-list, check-list-item, timeline-list, timeline-list-item | 4 |
 | Media & Visual | image-input, figure, caption, icon, flair, hero, sparkline, qr-code, diff | 9 |
 | Measurement | measurement-instance-input/view, measurement-system-input/view, measurement-unit-input/view | 6 |

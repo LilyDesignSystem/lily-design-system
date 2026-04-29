@@ -27,7 +27,7 @@ Standard table row keyboard interactions.
 ## Props
 
 - `className`: string (default: `""`) -- CSS class name for the row
-- `children`: slot (required) -- row cells, typically `<th>` or TableData components
+- `children`: slot (required) -- row cells, typically `<th>` or TableTD components
 - `...restProps`: unknown -- additional attributes spread onto the `<tr>` element
 
 ## Acceptance Criteria

@@ -39,9 +39,9 @@
 - calendar-table-head = CalendarTableHead = a calendar table interactive grid thead for managing dates, days, etc. <thead>
 - calendar-table-body = CalendarTableBody = a calendar table interactive grid tbody for managing dates, days, etc. <tbody>
 - calendar-table-foot = CalendarTableFoot = a calendar table interactive grid tfoot for managing dates, days, etc. <tfoot>
-- calendar-table-col = CalendarTableCol = a calendar table interactive grid column for managing dates, days, etc. <th>
+- calendar-table-col = CalendarTableTD = a calendar table interactive grid column for managing dates, days, etc. <th>
 - calendar-table-row = CalendarTableRow = a calendar table interactive grid row for managing dates, days, etc. <tr>
-- calendar-table-data = CalendarTableData = a calendar table interactive grid data cell for managing dates, days, etc. <td>
+- calendar-table-td = CalendarTableTD = a calendar table interactive grid data cell for managing dates, days, etc. <td>
 - calendar-range-picker = CalendarRangePicker = a picker for selecting a date range on a calendar
 - call-to-action = CallToAction = a prominent prompt encouraging user action
 - caption = Caption = a caption for a table or figure element
@@ -90,9 +90,9 @@
 - data-table-head = DataTableHead = a data table interactive grid thead for displaying and sorting tabular data <thead>
 - data-table-body = DataTableBody = a data table interactive grid tbody for displaying and sorting tabular data <tbody>
 - data-table-foot = DataTableFoot = a data table interactive grid tfoot for displaying and sorting tabular data <tfoot>
-- data-table-col = DataTableCol = a data table interactive grid column for displaying and sorting tabular data <th>
+- data-table-col = DataTableTD = a data table interactive grid column for displaying and sorting tabular data <th>
 - data-table-row = DataTableRow = a data table interactive grid row for displaying and sorting tabular data <tr>
-- data-table-data = DataTableData = a data table interactive grid data cell for displaying and sorting tabular data <td>
+- data-table-td = DataTableTD = a data table interactive grid data cell for displaying and sorting tabular data <td>
 - date-field = DateField = a structured field for entering date components
 - date-input = DateInput = an input for entering a date value <input type="date">
 - date-range = DateRange = a display of a start and end date range
@@ -151,12 +151,12 @@
 - form = Form = a form element for collecting and submitting user data
 - framer = Framer = a container for framed content display with decorative border
 - gantt-table = GanttTable = a Gantt chart table interactive grid for planning schedule visualization <table>
-- gantt-table-thead = GanttTableThead = a Gantt chart table interactive grid thead for planning schedule visualization <thead>
-- gantt-table-tbody = GanttTableTbody = a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
-- gantt-table-tfoot = GanttTableTfoot = a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
-- gantt-table-th = GanttTableTh = a Gantt chart table interactive grid column for planning schedule visualization <th>
-- gantt-table-tr = GanttTableTr = a Gantt chart table interactive grid row for planning schedule visualization <tr>
-- gantt-table-td = GanttTableTd = a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+- gantt-table-head = GanttTableHead = a Gantt chart table interactive grid thead for planning schedule visualization <thead>
+- gantt-table-body = GanttTableBody = a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
+- gantt-table-foot = GanttTableTfoot = a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
+- gantt-table-th = GanttTableTH = a Gantt chart table interactive grid column for planning schedule visualization <th>
+- gantt-table-row = GanttTableTR = a Gantt chart table interactive grid row for planning schedule visualization <tr>
+- gantt-table-td = GanttTableTD = a Gantt chart table interactive grid data cell for planning schedule visualization <td>
 - government-banner = GovernmentBanner = a banner identifying a website as belonging to a government, with an expandable details panel
 - government-identifier = GovernmentIdentifier = an identifier section with a parent agency logo, agency name, and required government links
 - grail-layout = GrailLayout = a responsive web design structure with header, left aside, center main, right aside, footer
@@ -195,9 +195,9 @@
 - kanban-table-head = KanbanTableHead = a kanban board table interactive grid thead for organizing items by status <thead>
 - kanban-table-body = KanbanTableBody = a kanban board table interactive grid tbody for organizing items by status <tbody>
 - kanban-table-foot = KanbanTableFoot = a kanban board table interactive grid tfoot for organizing items by status <tfoot>
-- kanban-table-col = KanbanTableCol = a kanban board table interactive grid column for organizing items by status <th>
+- kanban-table-col = KanbanTableTD = a kanban board table interactive grid column for organizing items by status <th>
 - kanban-table-row = KanbanTableRow = a kanban board table interactive grid row for organizing items by status <tr>
-- kanban-table-data = KanbanTableData = kanban board table interactive grid data cell for organizing items by status <td>
+- kanban-table-td = KanbanTableTD = kanban board table interactive grid data cell for organizing items by status <td>
 - kbd = Kbd = show keyboard shortcuts and key combinations in a styled inline element
 - label = Label = a label associated with a form input
 - listbox = Listbox = a list of selectable options with keyboard navigation
@@ -320,9 +320,9 @@
 - table-head = TableHead = a table interactive grid thead <thead>
 - table-body = TableBody = a table interactive grid tbody <tbody>
 - table-foot = TableFoot = a table interactive grid tfoot <tfoot>
-- table-col = TableCol = a table interactive grid column <th>
+- table-col = TableTD = a table interactive grid column <th>
 - table-row = TableRow = a table interactive grid row <tr>
-- table-data = TableData = a table interactive grid data cell <td>
+- table-data = TableTD = a table interactive grid data cell <td>
 - tag-group = TagGroup = a group of tag elements
 - tag = Tag = a keyword label for categorizing content
 - tag-input = TagInput = an input for adding and removing tags
@@ -334,7 +334,7 @@
 - tel-link = TelLink = a tel hyperlink for a telephone number
 - text-input = TextInput = a single-line text input field <input type="text">
 - text-input-with-search = TextInputWithSearch = a single-line text input field <input type="text"> with search capability
-- text-area-with-character-counter = TextAreaWithCharacterCounter = a multi-line text area with a caption below that is a character counter "[number] of [maximum] characters"
+- text-area-input-with-character-counter = TextAreaInputWithCharacterCounter = a multi-line text area with a caption below that is a character counter "[number] of [maximum] characters"
 - textarea = Textarea = a multi-line text input area
 - theme-picker = ThemePicker = a picker for selecting a visual theme
 - theme-picker-button = ThemePickerButton = a picker button for selecting a visual theme
@@ -411,8 +411,8 @@
 | table-body | `<tbody>`    | DataTableBody                                    |
 | table-foot | `<tfoot>`    | DataTableFoot                                    |
 | table-row  | `<tr>`       | DataTableRow                                     |
-| table-col  | `<th>`       | DataTableCol                                     |
-| table-data | `<td>`       | DataTableData                                    |
+| table-col  | `<th>`       | DataTableTD                                     |
+| table-data | `<td>`       | DataTableTD                                    |
 
 ## Component name patterns
 
@@ -466,12 +466,12 @@
 - ContainerWith\*
   - ContainerWithFixedWidth
   - ContainerWithFluidWidth
-- \*Table \*TableHead \*TableBody \*TableFoot \*TableCol \*TableRow \*TableData
-  - Table TableHead TableBody TableFoot TableCol TableRow TableData
-  - CalendarTable CalendarTableHead CalendarTableBody CalendarTableFoot CalendarTableCol CalendarTableRow CalendarTableData
-  - DataTable DataTableHead DataTableBody DataTableFoot DataTableCol DataTableRow DataTableData
-  - GanttTable GanttTableThead GanttTableTbody GanttTableTfoot GanttTableTh GanttTableTr GanttTableTd
-  - KanbanTable KanbanTableHead KanbanTableBody KanbanTableFoot KanbanTableCol KanbanTableRow KanbanTableData
+- \*Table \*TableHead \*TableBody \*TableFoot \*TableTD \*TableRow \*TableTD
+  - Table TableHead TableBody TableFoot TableTD TableRow TableTD
+  - CalendarTable CalendarTableHead CalendarTableBody CalendarTableFoot CalendarTableTD CalendarTableRow CalendarTableTD
+  - DataTable DataTableHead DataTableBody DataTableFoot DataTableTD DataTableRow DataTableTD
+  - GanttTable GanttTableHead GanttTableBody GanttTableTfoot GanttTableTH GanttTableTR GanttTableTD
+  - KanbanTable KanbanTableHead KanbanTableBody KanbanTableFoot KanbanTableTD KanbanTableRow KanbanTableTD
 
 ## Component composition patterns
 
@@ -525,7 +525,7 @@
   </DataTableHead>
   <DataTableBody>
     <DataTableRow>
-      <DataTableData>Item</DataTableData>
+      <DataTableTD>Item</DataTableTD>
     </DataTableRow>
   </DataTableBody>
 </DataTable>

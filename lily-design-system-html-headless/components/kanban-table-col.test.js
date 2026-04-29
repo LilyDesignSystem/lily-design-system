@@ -1,9 +1,9 @@
 // kanban-table-col.test.js
-// KanbanTableCol component test
+// KanbanTableTD component test
 
 const path = require('path');
 
-describe('KanbanTableCol', function() {
+describe('KanbanTableTD', function() {
   beforeEach(async function() {
     await browser.url('file://' + path.resolve(__dirname, 'kanban-table-col.html'));
   });

@@ -1,2 +1,2 @@
-export { default } from "@pgds/KanbanTableCol";
-export type * from "@pgds/KanbanTableCol";
+export { default } from "@pgds/KanbanTableTD";
+export type * from "@pgds/KanbanTableTD";

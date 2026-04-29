@@ -107,12 +107,12 @@ function removeTag(tag: string) {
             </DataTableHead>
             <DataTableBody>
                 <DataTableRow v-for="p in filtered" :key="p.id">
-                    <DataTableData>{{ p.name }}</DataTableData>
-                    <DataTableData>{{ p.category }}</DataTableData>
-                    <DataTableData>${{ p.price.toFixed(2) }}</DataTableData>
-                    <DataTableData>
+                    <DataTableTD>{{ p.name }}</DataTableTD>
+                    <DataTableTD>{{ p.category }}</DataTableTD>
+                    <DataTableTD>${{ p.price.toFixed(2) }}</DataTableTD>
+                    <DataTableTD>
                         <Badge :type="statusBadgeType(p.status)">{{ p.status }}</Badge>
-                    </DataTableData>
+                    </DataTableTD>
                 </DataTableRow>
             </DataTableBody>
         </DataTable>

@@ -1,9 +1,9 @@
 // gantt-table-th.test.js
-// GanttTableTh component test
+// GanttTableTH component test
 
 const path = require('path');
 
-describe('GanttTableTh', function() {
+describe('GanttTableTH', function() {
   beforeEach(async function() {
     await browser.url('file://' + path.resolve(__dirname, 'gantt-table-th.html'));
   });

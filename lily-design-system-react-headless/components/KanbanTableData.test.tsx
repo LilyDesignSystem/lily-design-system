@@ -1,9 +1,9 @@
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
 
-import Subject from "./KanbanTableData";
+import Subject from "./KanbanTableTD";
 
-describe("KanbanTableData", () => {
+describe("KanbanTableTD", () => {
     test("renders a gridcell", () => {
         render(<table><tbody><tr><Subject /></tr></tbody></table>);
         expect(screen.getByRole("gridcell")).toBeTruthy();

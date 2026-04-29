@@ -24,23 +24,23 @@
 
   Usage:
     {% from "components/table/macro.njk" import table %}
-    {% from "components/table-head/macro.njk" import tableHead %}
-    {% from "components/table-body/macro.njk" import tableBody %}
+    {% from "components/table-head/macro.njk" import TableHead %}
+    {% from "components/table-body/macro.njk" import TableBody %}
     {% from "components/table-row/macro.njk" import tableRow %}
     {% from "components/table-col/macro.njk" import tableCol %}
-    {% from "components/table-data/macro.njk" import tableData %}
+    {% from "components/table-data/macro.njk" import TableTD %}
 
     {% call table({ caption: "Your appointments" }) %}
-      {% call tableHead() %}
+      {% call TableHead() %}
         {% call tableRow() %}
           {{ tableCol({ text: "Date" }) }}
           {{ tableCol({ text: "Type" }) }}
         {% endcall %}
       {% endcall %}
-      {% call tableBody() %}
+      {% call TableBody() %}
         {% call tableRow() %}
-          {{ tableData({ text: "27 April" }) }}
-          {{ tableData({ text: "GP review" }) }}
+          {{ TableTD({ text: "27 April" }) }}
+          {{ TableTD({ text: "GP review" }) }}
         {% endcall %}
       {% endcall %}
     {% endcall %}

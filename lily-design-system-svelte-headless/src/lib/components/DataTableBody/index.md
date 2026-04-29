@@ -24,7 +24,7 @@ DataTableBody is a thin structural wrapper outputting `<tbody class="data-table-
 
 ## How to use it
 
-Place inside `DataTable`, populate with `DataTableRow` children containing `DataTableData` cells.
+Place inside `DataTable`, populate with `DataTableRow` children containing `DataTableTD` cells.
 
 ## Props
 
@@ -42,7 +42,7 @@ Place inside `DataTable`, populate with `DataTableRow` children containing `Data
     import DataTableHead from "../DataTableHead/DataTableHead.svelte";
     import DataTableBody from "./DataTableBody.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 </script>
 
 <DataTable label="Users">
@@ -50,8 +50,8 @@ Place inside `DataTable`, populate with `DataTableRow` children containing `Data
         <DataTableRow><th scope="col">Name</th></DataTableRow>
     </DataTableHead>
     <DataTableBody>
-        <DataTableRow><DataTableData>Alice</DataTableData></DataTableRow>
-        <DataTableRow><DataTableData>Bob</DataTableData></DataTableRow>
+        <DataTableRow><DataTableTD>Alice</DataTableTD></DataTableRow>
+        <DataTableRow><DataTableTD>Bob</DataTableTD></DataTableRow>
     </DataTableBody>
 </DataTable>
 ```
@@ -62,7 +62,7 @@ Place inside `DataTable`, populate with `DataTableRow` children containing `Data
     import DataTableHead from "../DataTableHead/DataTableHead.svelte";
     import DataTableBody from "./DataTableBody.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 
     const rows = [
         { id: 1, name: "Alice", email: "alice@example.com" },
@@ -80,8 +80,8 @@ Place inside `DataTable`, populate with `DataTableRow` children containing `Data
     <DataTableBody>
         {#each rows as r (r.id)}
             <DataTableRow>
-                <DataTableData>{r.name}</DataTableData>
-                <DataTableData>{r.email}</DataTableData>
+                <DataTableTD>{r.name}</DataTableTD>
+                <DataTableTD>{r.email}</DataTableTD>
             </DataTableRow>
         {/each}
     </DataTableBody>
@@ -94,7 +94,7 @@ Place inside `DataTable`, populate with `DataTableRow` children containing `Data
     import DataTableHead from "../DataTableHead/DataTableHead.svelte";
     import DataTableBody from "./DataTableBody.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 </script>
 
 <DataTable label="Empty state">
@@ -102,7 +102,7 @@ Place inside `DataTable`, populate with `DataTableRow` children containing `Data
         <DataTableRow><th scope="col">Column</th></DataTableRow>
     </DataTableHead>
     <DataTableBody>
-        <DataTableRow><DataTableData>No results yet.</DataTableData></DataTableRow>
+        <DataTableRow><DataTableTD>No results yet.</DataTableTD></DataTableRow>
     </DataTableBody>
 </DataTable>
 ```
@@ -110,10 +110,10 @@ Place inside `DataTable`, populate with `DataTableRow` children containing `Data
 ## Accessibility
 
 - `<tbody>` carries structural body semantics.
-- Grid navigation is handled at the `DataTable` and `DataTableData` level.
+- Grid navigation is handled at the `DataTable` and `DataTableTD` level.
 
 ## Related components
 
 - `DataTable` — parent grid.
 - `DataTableHead`, `DataTableFoot` — other sections.
-- `DataTableRow`, `DataTableData` — row and cell parts.
+- `DataTableRow`, `DataTableTD` — row and cell parts.

@@ -38,7 +38,7 @@ A headless Svelte 5 component library with 414 components. All components are he
   - **calendar-table-foot**: a calendar table interactive grid tfoot for managing dates, days, etc.
   - **calendar-table-col**: a calendar table interactive grid column for managing dates, days, etc.
   - **calendar-table-row**: a calendar table interactive grid row for managing dates, days, etc.
-  - **calendar-table-data**: a calendar table interactive grid data cell for managing dates, days, etc.
+  - **calendar-table-td**: a calendar table interactive grid data cell for managing dates, days, etc.
 - **calendar-range-picker**: a picker for selecting a date range on a calendar
 - **call-to-action**: a prominent prompt encouraging user action
 - **caption**: a caption for a table or figure element
@@ -82,7 +82,7 @@ A headless Svelte 5 component library with 414 components. All components are he
   - **data-table-foot**: a data table interactive grid tfoot for displaying and sorting tabular data
   - **data-table-col**: a data table interactive grid column for displaying and sorting tabular data
   - **data-table-row**: a data table interactive grid row for displaying and sorting tabular data
-  - **data-table-data**: a data table interactive grid data cell for displaying and sorting tabular data
+  - **data-table-td**: a data table interactive grid data cell for displaying and sorting tabular data
 - **date-field**: a structured field for entering date components
 - **date-input**: an input for entering a date value
 - **date-range**: a display of a start and end date range
@@ -132,11 +132,11 @@ A headless Svelte 5 component library with 414 components. All components are he
 - **form**: a form element for collecting and submitting user data
 - **gantt-table**:
   - **gantt-table**: a Gantt chart table interactive grid for planning schedule visualization
-  - **gantt-table-thead**: a Gantt chart table interactive grid thead for planning schedule visualization
-  - **gantt-table-tbody**: a Gantt chart table interactive grid tbody for planning schedule visualization
-  - **gantt-table-tfoot**: a Gantt chart table interactive grid tfoot for planning schedule visualization
+  - **gantt-table-head**: a Gantt chart table interactive grid thead for planning schedule visualization
+  - **gantt-table-body**: a Gantt chart table interactive grid tbody for planning schedule visualization
+  - **gantt-table-foot**: a Gantt chart table interactive grid tfoot for planning schedule visualization
   - **gantt-table-th**: a Gantt chart table interactive grid column for planning schedule visualization
-  - **gantt-table-tr**: a Gantt chart table interactive grid row for planning schedule visualization
+  - **gantt-table-row**: a Gantt chart table interactive grid row for planning schedule visualization
   - **gantt-table-td**: a Gantt chart table interactive grid data cell for planning schedule visualization
 - **hamburger-menu**: a toggle button that opens a mobile navigation menu
 - **header**: a page or section header area
@@ -165,7 +165,7 @@ A headless Svelte 5 component library with 414 components. All components are he
   - **kanban-table-foot**: a kanban board table interactive grid tfoot for organizing items by status
   - **kanban-table-col**: a kanban board table interactive grid column for organizing items by status
   - **kanban-table-row**: a kanban board table interactive grid row for organizing items by status
-  - **kanban-table-data**: kanban board table interactive grid data cell for organizing items by status
+  - **kanban-table-td**: kanban board table interactive grid data cell for organizing items by status
 - **kbd**: show keyboard shortcuts and key combinations in a styled inline element
 - **label**: a label associated with a form input
 - **listbox**: a list of selectable options with keyboard navigation
@@ -285,7 +285,7 @@ A headless Svelte 5 component library with 414 components. All components are he
 - **text-input**: a single-line text input field
 - **text-input-with-search**: a single-line text input field with search capability
 - **textarea**: a multi-line text input area
-- **text-area-with-character-counter**: a multi-line text area with character counter
+- **text-area-input-with-character-counter**: a multi-line text area with character counter
 - **theme-picker**: a picker for selecting a visual theme
 - **theme-picker-button**: a picker button for selecting a visual theme
 - **theme-select**: a select dropdown for choosing a theme
@@ -361,12 +361,12 @@ A headless Svelte 5 component library with 414 components. All components are he
   - NetPromoterScorePicker NetPromoterScorePickerButton
   - RedAmberGreenPicker RedAmberGreenPickerButton
   - RedOrangeYellowGreenBluePicker RedOrangeYellowGreenBluePickerButton
-- \*Table \*TableHead \*TableBody \*TableFoot \*TableCol \*TableRow \*TableData
-  - Table TableHead TableBody TableFoot TableCol TableRow TableData
-  - CalendarTable CalendarTableHead CalendarTableBody CalendarTableFoot CalendarTableCol CalendarTableRow CalendarTableData
-  - DataTable DataTableHead DataTableBody DataTableFoot DataTableCol DataTableRow DataTableData
-  - GanttTable GanttTableThead GanttTableTbody GanttTableTfoot GanttTableTh GanttTableTr GanttTableTd
-  - KanbanTable KanbanTableHead KanbanTableBody KanbanTableFoot KanbanTableCol KanbanTableRow KanbanTableData
+- \*Table \*TableHead \*TableBody \*TableFoot \*TableTD \*TableRow \*TableTD
+  - Table TableHead TableBody TableFoot TableTD TableRow TableTD
+  - CalendarTable CalendarTableHead CalendarTableBody CalendarTableFoot CalendarTableTD CalendarTableRow CalendarTableTD
+  - DataTable DataTableHead DataTableBody DataTableFoot DataTableTD DataTableRow DataTableTD
+  - GanttTable GanttTableHead GanttTableBody GanttTableTfoot GanttTableTH GanttTableTR GanttTableTD
+  - KanbanTable KanbanTableHead KanbanTableBody KanbanTableFoot KanbanTableTD KanbanTableRow KanbanTableTD
 
 ## Component patterns for name suffix and HTML tag
 

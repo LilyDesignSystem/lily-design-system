@@ -1,5 +1,5 @@
 {#
-  TableData macro — a table data cell.
+  TableTD macro — a table data cell.
 
   HTML tag: <td>
   CSS class: table-data
@@ -20,9 +20,9 @@
 
   Usage: see Table.
 #}
-{%- macro dataTableData(params) -%}
+{%- macro dataTableTD(params) -%}
 <td
-  class="data-table-data{% if params.classes %} {{ params.classes }}{% endif %}"
+  class="data-table-td{% if params.classes %} {{ params.classes }}{% endif %}"
   {%- if params.colspan %} colspan="{{ params.colspan }}"{% endif %}
   {%- if params.rowspan %} rowspan="{{ params.rowspan }}"{% endif %}
   {%- if params.headers %} headers="{{ params.headers }}"{% endif %}

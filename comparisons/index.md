@@ -1,0 +1,453 @@
+# Comparisons
+
+Comparisons of components using these design systems:
+
+- [Lily Design System](https://lilydesignsystem.github.io/)
+- [Daisy UI](https://daisyui.com/)
+- [Bits UI](https://bits-ui.com/)
+- [Melt UI](?)
+- [shadcn](https://ui.shadcn.com/)
+- [Ark](?)
+- [Flowbite](?)
+- [Skeleton](https://www.skeleton.dev/)
+- [GOV.UK Design System](https://design-system.service.gov.uk/)
+- [NHS Design System](https://service-manual.nhs.uk/design-system)
+- [ONSdigital Design System](https://github.com/ONSdigital/design-system)
+- [U.S. Web Design System (USWDS)](https://designsystem.digital.gov/components/overview/)
+- [18F](?)
+- [Adobe Spectrum Design System](https://spectrum.adobe.com/page/code/)
+- [Ant Design](https://ant.design/)
+- [IBM Carbon](?)
+- [Mozilla Protocol Design System](https://protocol.mozilla.org/)
+- [Wonderflow Wanda Design System](https://design.wonderflow.ai/)
+
+| Component                                           | Lily | Daisy | Bits | Melt | shadcn | Ark | Flowbite | Skeleton | GOV.UK | NHS UK | ONS UK | USWDS | 18F | Adobe | Ant | IBM | Mozilla | Wonderflow |
+| --------------------------------------------------- | ---- | ----- | ---- | ---- | ------ | --- | -------- | -------- | ------ | ------ | ------ | ----- | --- | ----- | --- | --- | ------- | ---------- | --- |
+| Accordion                                           | +    | ?     | +    | ?    | +      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Accordion Checkbox                                  | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Accordion Link                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Accordion List                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Accordion List Item                                 | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Accordion Nav                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Action Bar                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Action Bar Button                                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Action Group                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Action Link                                         | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Address Input                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Affix                                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Ai Label                                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Alert                                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Alert                                               | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Alert Dialog                                        | +    | ?     | +    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Angle Slider                                        | +    | ?     |      | ?    |        | +   | ?        | ?        | ?      |        | ?      |       | ?   | ?     |     |     |         |            |
+| Angle Slider Range Input                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Announcement Banner                                 | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Area Chart                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Aspect Ratio                                        | +    | ?     | +    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Aspect Ratio Container                              | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Autosuggest                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Avatar                                              | +    | ?     | +    | ?    | +      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Avatar Group                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Avatar Image                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Avatar Text                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Back Link                                           | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Back To Top                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Badge                                               | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Banner                                              | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Banner Box                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Bar Chart                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Beach Ball                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Blockquote                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Breadcrumb                                          | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Breadcrumb Link                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Breadcrumb List                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Breadcrumb List Item                                | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Breadcrumb Nav                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Button                                              | +    | ?     | +    | ?    | +      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Button Group                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Button Input                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Calendar                                            | +    | ?     | +    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Calendar Range Picker                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Calendar Table                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Calendar Table Head                                 | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Calendar Table Foot                                 | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Calendar Table Body                                 | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Calendar Table Row                                  | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Calendar Table TH                                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Calendar Table TD                                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Call To Action                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Caption                                             | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Card                                                | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Card                                                | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Care Card                                           | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Carousel                                            | +    | ?     | -    | ?    | +      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Cascader                                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Character                                           | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Character Counter                                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Chart                                               | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Chat List                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Chat List Item                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Chat Message                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Chat Nav                                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Check List                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Check List Item                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Checkbox                                            | +    | ?     | +    | ?    | +      | +   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Checkbox Group                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Checkbox Input                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Citation                                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Clamp Text                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Clipboard                                           | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Clipboard Copy Button                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Coachmark                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Code                                                | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Code Block                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Collapsible                                         | +    | ?     | +    | ?    | +      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Collection List                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Collection List Item                                | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Color Input                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Color Picker                                        | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Color Picker Button                                 | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Column Chart                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Combobox                                            | +    | ?     | -    | ?    | +      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Command                                             | +    | ?     | +    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Comment                                             | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Container With Fixed Width                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Container With Fluid Width                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Contents Link                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Contents List                                       | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Contents List Item                                  | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Contents Nav                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Context Menu                                        | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Context Menu Item                                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Contextual Help                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Currency Input                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Data Table                                          | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Data Table Head                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Data Table Body                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Data Table Foot                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Data Table Row                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Data Table TH                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Data Table TD                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Data Filter Form                                    | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Data Table                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Data Table Head                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Data Table Body                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Data Table Foot                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Data Table Row                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Data Table TH                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Data Table TD                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Date Field                                          | +    | ?     | +    | ?    | ?      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Date Input                                          | +    | ?     | -    | ?    | ?      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Date Picker                                         | +    | ?     | +    | ?    | +      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Date Range Field                                    | +    | ?     | +    | ?    | ?      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Date Field                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Date Input                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Date Range                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Date Time Now Input                                 | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Date Time Local Input                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Date Time View                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Description List                                    | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Description List Item                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Details                                             | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Dial                                                | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Dial Group                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Dialog                                              | +    | ?     | +    | ?    | +      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Diff                                                | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Digital Object Identifier Link                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Do List                                             | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Do List Item                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Don't List                                          | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Don't List Item                                     | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Document List                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Document List Item                                  | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Download Button                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Drawer                                              | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Dropdown Menu                                       | +    | ?     | +    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Editable                                            | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Editable Form                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Email Input                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Email Link                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Emoji                                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Emoji Character Picker                              | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Error Message                                       | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Error Summary                                       | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Espana Tarjeta Sanitaria Individual Input           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Espana Tarjeta Sanitaria Individual View            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Event                                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Expander                                            | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Feature Card                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Field                                               | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Fieldset                                            | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Figure                                              | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| File Upload                                         | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| File Dialog                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| File Input                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| File Manager                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Five Face Rating Picker                             | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Five Face Rating Picker Button                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Five Face Rating View                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Five Star Rating Picker                             | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Five Star Rating Picker Button                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Five Star Rating View                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Five Face Rating Picker                             | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Five Face Rating Picker Button                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Five Face Rating View                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Five Star Rating Picker                             | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Five Star Rating Picker Button                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Five Star Rating View                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Flair                                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Flex Stack                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Float Button                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Floating Panel                                      | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Footer                                              | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Footnote                                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Form                                                | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| France Numero DIdentification Au Repertoire Input   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| France Numero DIdentification Au Repertoire View    | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Gantt Table                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Gantt Table Head                                    | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Gantt Table Body                                    | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Gantt Table Foot                                    | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Gantt Table Row                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Gantt Table TD                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Gantt Table TH                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Government Banner                                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Government Identifier                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Grail Layout                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Grail Layout Top Header                             | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Grail Layout Center Main                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Grail Layout Bottom Footer                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Grail Layout Left Aside                             | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Grail Layout Right Aside                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |
+| Grid                                                | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Hamburger Menu                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Header                                              | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Hero                                                | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Hidden Input                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Hint                                                | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Hint Text                                           | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Hover Card                                          | +    | ?     | -    | ?    | +      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Icon                                                | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Icon Button                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Icon List                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Icon List Item                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Image                                               | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Image File Input                                    | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Image Input                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Info State                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Information Callout                                 | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Input                                               | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Input OTP ≍ PIN Input + +                           |      | ≍ ?   |      | +    | -      | ?   | ?        | ?        | -      | ?      |        | ?     | ?   |       |     |     |         |
+| Input Group                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Input With Mask                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Inset Text                                          | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Ireland Individual Health Identifier Input          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Ireland Individual Health Identifier View           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Kanban Table                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |     |
+| Kanban Table Head                                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |     |
+| Kanban Table Body                                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |     |
+| Kanban Table Foot                                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |     |
+| Kanban Table Row                                    | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |     |
+| Kanban Table TH                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |     |
+| Kanban Table TD                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |            |     |
+| Kbd                                                 | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Label                                               | +    | ?     | +    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Line Chart                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Listbox                                             | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Loading                                             | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Masonry                                             | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Measurement Instance Input                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Measurement Instance View                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Measurement System Input                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Measurement System View                             | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Measurement Unit Input                              | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Measurement Unit View                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Medical Banner                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Medical Banner Box                                  | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Medical Banner Box For Advice                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Medical Banner Box For Danger                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Mentions Input                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Menu                                                | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Menu Bar                                            | +    | ?     | +    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Menu Bar Button                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Menu Group                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Menu Item                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Meter                                               | +    | ?     | +    | ?    | -      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Mockup Browser                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Mockup Laptop                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Mockup Phone - Landscape                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Mockup Phone - Portrait                             | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Mockup Shell                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Mockup Tablet - Landscape                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Mockup Tablet - Portrait                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Mockup Watch                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Mockup Window                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Month Input                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Mutually Exclusive                                  | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Navigation Menu                                     | +    | ?     | +    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Net Promoter Score Picker                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Net Promoter Score Picker Button                    | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Net Promoter Score View                             | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Newsletter Signup                                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Northern Ireland Health And Care Number Input       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Northern Ireland Health And Care Number View        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Notification                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Number Input                                        | +    | ?     |      | ?    |        | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Option                                              | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Organization                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Overlay Container                                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| PIN Input ≍ Input OTP + +                           |      | + ?   |      | ≍    | +      | ?   | ?        | ?        | -      | ?      |        | ?     | ?   |       |     |     |         |
+| Pagination                                          | +    | ?     | +    | ?    | +      | +   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Pagination Link                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Pagination List                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Pagination List Item                                | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Pagination Nav                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Panel                                               | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Password Input                                      | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Password Input Or Text Input Div                    | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Person                                              | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Phase Banner                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Pictogram                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Pin Input Div                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Place                                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Popconfirm Dialog                                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Popover                                             | +    | ?     | +    | ?    | +      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Popup                                               | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Postal Code Input                                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Postal Code View                                    | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Product Card                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Progress                                            | +    | ?     | +    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Progress Bar                                        | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Progress Circle                                     | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Progress Spinner                                    | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| QR Code                                             | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Radio Button                                        | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Radio Group                                         | +    | ?     | +    | ?    | +      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Radio Input                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Range Calendar                                      | +    | ?     | +    | ?    | -      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Range Input                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Rating Group                                        | +    | ?     | +    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Red Amber Green Picker                              | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Red Amber Green Picker Button                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Red Amber Green View                                | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Red Orange Yellow Green Blue Picker                 | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Red Orange Yellow Green Blue Picker Button          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Red Orange Yellow Green Blue View                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Related Content                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Reset Input                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Resizable                                           | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Review Date                                         | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Scatter Chart                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Screen Reader Span                                  | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Scroll Area                                         | +    | ?     | +    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Scroll Bar                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Search Input                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Section Heading                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Section Link                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Section List                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Section List Item                                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Section Nav                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Segment Group                                       | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      |        | ?      |       | ?   | ?     |     |     |         |            |
+| Segment Group                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Segment Group Item                                  | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Select                                              | +    | ?     | +    | ?    | +      | +   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Select With Extras                                  | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Separator                                           | +    | ?     | +    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Share Page                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Sheet                                               | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Sidebar                                             | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Sidebar                                             | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Signature Pad                                       | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Skeleton                                            | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Skip Link                                           | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Slide Out Drawer                                    | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Slider                                              | +    | ?     | +    | ?    | +      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Slider Button                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Sonner                                              | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Sparkline                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Split Button                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Split View                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Splitter                                            | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Statistic                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Status Light                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Status Tag                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Step List                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Step List Item                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Steps                                               | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Sticky Promo Banner                                 | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Submit Input                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Success Panel                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Summary Box                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Summary List                                        | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Summary List Item                                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Super Banner                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Switch                                              | +    | ?     | +    | ?    | +      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Switch Button                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tab Bar                                             | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tab Bar Button                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tab Panel                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Table                                               | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Table Head                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Table Body                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Table Foot                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Table Row                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Table TH                                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Table TD                                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tabs                                                | +    | ?     | +    | ?    | +      | +   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Tag                                                 | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Tag Group                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tag Input                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tags Input                                          | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Task Bar                                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Task Bar Button                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Task List                                           | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Task List Item                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tel Input                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tel Link                                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Text Area With Character Counter                    | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Text Input                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Text Input With Search                              | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Text Area Input                                     | +    | ?     | -    | ?    | +      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Text Field Input                                    | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Theme Picker                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Theme Picker Button                                 | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Theme Select                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Theme Select Option                                 | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Theme View                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tile                                                | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Time Input                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Time Picker Input                                   | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Timeline List                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Timeline List Item                                  | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Timeout Dialog                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Timer                                               | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Timer Button                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Toast                                               | +    | ?     | -    | ?    | +      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Toggle                                              | +    | ?     | +    | ?    | +      | -   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Toggle Group                                        | +    | ?     | +    | ?    | +      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Toggle Button                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Toggle Group                                        | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tool Bar                                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tool Bar Button                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tooltip                                             | +    | ?     | +    | ?    | +      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Tour                                                | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Tour List                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tour List Item                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Transfer List                                       | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tree View                                           | +    | ?     | -    | ?    | -      | +   | ?        | ?        | ?      | -      | ?      |       | ?   | ?     |     |     |         |            |
+| Tree Link                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tree List                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tree List Item                                      | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tree Menu                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tree Nav                                            | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Tree Select                                         | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| United Kingdom National Health Service Number Input | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| United Kingdom National Health Service Number View  | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| United States Social Security Number Input          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| United States Social Security Number View           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| URL Input                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Validation List                                     | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Validation List Item                                | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Warning Callout                                     | +    | ?     | -    | ?    | -      | -   | ?        | ?        | ?      | +      | ?      |       | ?   | ?     |     |     |         |            |
+| Watermark                                           | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |
+| Week Input                                          | +    |       |      |      |        |     |          |          |        |        |        |       |     |       |     |     |         |

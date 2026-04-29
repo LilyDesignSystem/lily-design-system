@@ -12,8 +12,8 @@ The body section of a KanbanTable, rendered as a `<tbody>` element. Contains Kan
 ```svelte
 <KanbanTableBody>
   <KanbanTableRow>
-    <KanbanTableData>Task A</KanbanTableData>
-    <KanbanTableData>Task B</KanbanTableData>
+    <KanbanTableTD>Task A</KanbanTableTD>
+    <KanbanTableTD>Task B</KanbanTableTD>
   </KanbanTableRow>
 </KanbanTableBody>
 ```

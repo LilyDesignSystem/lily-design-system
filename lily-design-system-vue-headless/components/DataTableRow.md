@@ -1,10 +1,10 @@
 # DataTableRow
 
-A single row within a DataTable. Renders as a `<tr>` containing DataTableData cells or header cells. Used inside DataTableHead, DataTableBody, or DataTableFoot.
+A single row within a DataTable. Renders as a `<tr>` containing DataTableTD cells or header cells. Used inside DataTableHead, DataTableBody, or DataTableFoot.
 
 ## Props
 
-- `children`: Snippet (required) -- DataTableData cells or header cells for this row
+- `children`: Snippet (required) -- DataTableTD cells or header cells for this row
 - `...restProps`: unknown -- additional attributes spread onto the `<tr>`
 
 ## Usage
@@ -12,8 +12,8 @@ A single row within a DataTable. Renders as a `<tr>` containing DataTableData ce
 ```svelte
 <DataTableBody>
   <DataTableRow>
-    <DataTableData>Alice</DataTableData>
-    <DataTableData>alice@example.com</DataTableData>
+    <DataTableTD>Alice</DataTableTD>
+    <DataTableTD>alice@example.com</DataTableTD>
   </DataTableRow>
 </DataTableBody>
 ```

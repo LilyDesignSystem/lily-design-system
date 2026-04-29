@@ -122,9 +122,9 @@ Component names follow a suffix-based pattern that indicates the root HTML eleme
 | TableHead | `<thead>`    | `DataTableHead`                              |
 | TableBody | `<tbody>`    | `DataTableBody`                              |
 | TableFoot | `<tfoot>`    | `DataTableFoot`                              |
-| TableCol  | `<col>`      | `DataTableCol`, `CalendarTableCol`           |
+| TableTD  | `<col>`      | `DataTableTD`, `CalendarTableTD`           |
 | TableRow  | `<tr>`       | `DataTableRow`                               |
-| TableData | `<td>`       | `DataTableData`                              |
+| TableTD | `<td>`       | `DataTableTD`                              |
 | Div       | `<div>`      | `PinInputDiv`, `PasswordInputOrTextInputDiv` |
 | Fieldset  | `<fieldset>` | `Fieldset`                                   |
 | Figure    | `<figure>`   | `Figure`                                     |
@@ -173,7 +173,7 @@ Component names follow a suffix-based pattern that indicates the root HTML eleme
   - **calendar-table-foot**: a calendar table interactive grid tfoot for managing dates, days, etc.
   - **calendar-table-col**: a calendar table interactive grid column for managing dates, days, etc.
   - **calendar-table-row**: a calendar table interactive grid row for managing dates, days, etc.
-  - **calendar-table-data**: a calendar table interactive grid data cell for managing dates, days, etc.
+  - **calendar-table-td**: a calendar table interactive grid data cell for managing dates, days, etc.
 - ...and 200+ more components
 
 See the [parent project](https://github.com/LilyDesignSystem/lily) for the full component list.
@@ -189,7 +189,7 @@ See the [parent project](https://github.com/LilyDesignSystem/lily) for the full 
 - \*Nav \*List \*ListItem: AccordionNav, BreadcrumbNav, ContentsNav, PaginationNav, TreeNav TreeList TreeListItem
 - \*Picker \*PickerButton: ColorPicker, FiveFaceRatingPicker, FiveStarRatingPicker, NetPromoterScorePicker, RedAmberGreenPicker, RedOrangeYellowGreenBluePicker
 - \*Select \*SelectOption: ThemeSelect ThemeSelectOption
-- \*Table \*TableHead \*TableBody \*TableFoot \*TableCol \*TableRow \*TableData: CalendarTable, DataTable, GanttTable, KanbanTable, Table
+- \*Table \*TableHead \*TableBody \*TableFoot \*TableTD \*TableRow \*TableTD: CalendarTable, DataTable, GanttTable, KanbanTable, Table
 
 ## Testing
 

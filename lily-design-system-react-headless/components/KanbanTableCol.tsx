@@ -1,4 +1,4 @@
-// KanbanTableCol component
+// KanbanTableTD component
 //
 // A column header cell within a KanbanTable, rendered as a <th> element.
 // Used inside a <KanbanTableRow> within <KanbanTableHead> to label each
@@ -21,7 +21,7 @@
 
 import React from "react";
 
-export interface KanbanTableColProps {
+export interface KanbanTableTDProps {
     className?: string;
     /** Number of columns this header cell spans. */
     colSpan?: number;
@@ -34,14 +34,14 @@ export interface KanbanTableColProps {
     [key: string]: unknown;
 }
 
-export default function KanbanTableCol({
+export default function KanbanTableTD({
     className = "",
     colSpan,
     rowSpan,
     scope = "col",
     children,
     ...restProps
-}: KanbanTableColProps) {
+}: KanbanTableTDProps) {
     return (
         <th
         className={`kanban-table-col ${className}`}

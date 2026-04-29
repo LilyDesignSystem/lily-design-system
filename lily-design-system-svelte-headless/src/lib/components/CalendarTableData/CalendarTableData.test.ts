@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/svelte";
 
-import Subject from "./CalendarTableData.svelte";
+import Subject from "./CalendarTableTD.svelte";
 
 function textSnippet(text: string) {
     return (($anchor: Comment) => {
@@ -22,7 +22,7 @@ function renderInRow(props: Record<string, unknown>) {
     return { ...result, container };
 }
 
-describe("CalendarTableData", () => {
+describe("CalendarTableTD", () => {
     test("renders a td element", () => {
         renderInRow({ children: textSnippet("15") });
         const td = document.querySelector("td");

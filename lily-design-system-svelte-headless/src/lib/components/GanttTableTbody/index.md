@@ -1,14 +1,14 @@
-# GanttTableTbody
+# GanttTableBody
 
-The body section of a `GanttTable`, rendered as a native `<tbody>` element. It contains `GanttTableTr` elements with task data cells.
+The body section of a `GanttTable`, rendered as a native `<tbody>` element. It contains `GanttTableTR` elements with task data cells.
 
 ## What it is
 
-A Svelte 5 structural wrapper that renders `<tbody class="gantt-table-tbody ...">{children}</tbody>`. It carries no internal state, no ARIA attributes, and no styling.
+A Svelte 5 structural wrapper that renders `<tbody class="gantt-table-body ...">{children}</tbody>`. It carries no internal state, no ARIA attributes, and no styling.
 
 ## What it does
 
-- Renders `<tbody class="gantt-table-tbody ...">` around the `children` snippet.
+- Renders `<tbody class="gantt-table-body ...">` around the `children` snippet.
 - Spreads any additional HTML attributes onto the `<tbody>`.
 
 ## When to use it
@@ -17,18 +17,18 @@ A Svelte 5 structural wrapper that renders `<tbody class="gantt-table-tbody ..."
 
 ## When not to use it
 
-- For header rows. Use `GanttTableThead`.
+- For header rows. Use `GanttTableHead`.
 - For footer/summary rows. Use `GanttTableTfoot`.
 - For non-Gantt table bodies. Use `DataTableBody`, `CalendarTableBody`, `KanbanTableBody`, or `TableBody`.
 
 ## How to use it
 
-Place inside a `GanttTable` and fill with `GanttTableTr` elements.
+Place inside a `GanttTable` and fill with `GanttTableTR` elements.
 
 ## Props
 
-- `class` (string, optional) - CSS class appended after the base `gantt-table-tbody` class.
-- `children` (Snippet, required) - `GanttTableTr` elements with task data cells.
+- `class` (string, optional) - CSS class appended after the base `gantt-table-body` class.
+- `children` (Snippet, required) - `GanttTableTR` elements with task data cells.
 - `...restProps` - Additional HTML attributes spread onto the `<tbody>`.
 
 ## Usage
@@ -36,50 +36,50 @@ Place inside a `GanttTable` and fill with `GanttTableTr` elements.
 ```svelte
 <script lang="ts">
     import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableTbody from "./GanttTableTbody.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTd from "../GanttTableTd/GanttTableTd.svelte";
+    import GanttTableBody from "./GanttTableBody.svelte";
+    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable label="Project timeline">
-    <GanttTableTbody>
-        <GanttTableTr>
+    <GanttTableBody>
+        <GanttTableTR>
             <th>Design</th>
-            <GanttTableTd active>---</GanttTableTd>
-            <GanttTableTd />
-        </GanttTableTr>
-    </GanttTableTbody>
+            <GanttTableTD active>---</GanttTableTD>
+            <GanttTableTD />
+        </GanttTableTR>
+    </GanttTableBody>
 </GanttTable>
 ```
 
 ```svelte
 <script lang="ts">
     import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableThead from "../GanttTableThead/GanttTableThead.svelte";
-    import GanttTableTbody from "./GanttTableTbody.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTd from "../GanttTableTd/GanttTableTd.svelte";
+    import GanttTableHead from "../GanttTableHead/GanttTableHead.svelte";
+    import GanttTableBody from "./GanttTableBody.svelte";
+    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable label="Release plan">
-    <GanttTableThead>
-        <GanttTableTr><th>Task</th><th>W1</th></GanttTableTr>
-    </GanttTableThead>
-    <GanttTableTbody>
-        <GanttTableTr>
+    <GanttTableHead>
+        <GanttTableTR><th>Task</th><th>W1</th></GanttTableTR>
+    </GanttTableHead>
+    <GanttTableBody>
+        <GanttTableTR>
             <th>Ship v1</th>
-            <GanttTableTd active>---</GanttTableTd>
-        </GanttTableTr>
-    </GanttTableTbody>
+            <GanttTableTD active>---</GanttTableTD>
+        </GanttTableTR>
+    </GanttTableBody>
 </GanttTable>
 ```
 
 ```svelte
 <script lang="ts">
     import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableTbody from "./GanttTableTbody.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTd from "../GanttTableTd/GanttTableTd.svelte";
+    import GanttTableBody from "./GanttTableBody.svelte";
+    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
     const tasks = [
         { name: "Scope", active: [true, false] },
         { name: "Build", active: [false, true] },
@@ -87,49 +87,49 @@ Place inside a `GanttTable` and fill with `GanttTableTr` elements.
 </script>
 
 <GanttTable label="Tasks">
-    <GanttTableTbody>
+    <GanttTableBody>
         {#each tasks as t}
-            <GanttTableTr>
+            <GanttTableTR>
                 <th>{t.name}</th>
                 {#each t.active as a}
-                    <GanttTableTd active={a} />
+                    <GanttTableTD active={a} />
                 {/each}
-            </GanttTableTr>
+            </GanttTableTR>
         {/each}
-    </GanttTableTbody>
+    </GanttTableBody>
 </GanttTable>
 ```
 
 ```svelte
 <script lang="ts">
     import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableTbody from "./GanttTableTbody.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTd from "../GanttTableTd/GanttTableTd.svelte";
+    import GanttTableBody from "./GanttTableBody.svelte";
+    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable label="Custom styling demo">
-    <GanttTableTbody class="striped" data-testid="gantt-body">
-        <GanttTableTr><th>Row</th><GanttTableTd /></GanttTableTr>
-    </GanttTableTbody>
+    <GanttTableBody class="striped" data-testid="gantt-body">
+        <GanttTableTR><th>Row</th><GanttTableTD /></GanttTableTR>
+    </GanttTableBody>
 </GanttTable>
 ```
 
 ```svelte
 <script lang="ts">
     import GanttTable from "../GanttTable/GanttTable.svelte";
-    import GanttTableTbody from "./GanttTableTbody.svelte";
-    import GanttTableTr from "../GanttTableTr/GanttTableTr.svelte";
-    import GanttTableTd from "../GanttTableTd/GanttTableTd.svelte";
+    import GanttTableBody from "./GanttTableBody.svelte";
+    import GanttTableTR from "../GanttTableTR/GanttTableTR.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
 <GanttTable label="Grouped body">
-    <GanttTableTbody>
-        <GanttTableTr><th>Group A</th><GanttTableTd active /></GanttTableTr>
-    </GanttTableTbody>
-    <GanttTableTbody>
-        <GanttTableTr><th>Group B</th><GanttTableTd /></GanttTableTr>
-    </GanttTableTbody>
+    <GanttTableBody>
+        <GanttTableTR><th>Group A</th><GanttTableTD active /></GanttTableTR>
+    </GanttTableBody>
+    <GanttTableBody>
+        <GanttTableTR><th>Group B</th><GanttTableTD /></GanttTableTR>
+    </GanttTableBody>
 </GanttTable>
 ```
 
@@ -142,8 +142,8 @@ Place inside a `GanttTable` and fill with `GanttTableTr` elements.
 ## Related components
 
 - `GanttTable` - the parent grid.
-- `GanttTableThead` - header section.
+- `GanttTableHead` - header section.
 - `GanttTableTfoot` - footer section.
-- `GanttTableTr` - row wrapper.
-- `GanttTableTd` - cell primitive with `role="gridcell"` and `active` state.
-- `GanttTableTh` - column definition for `<colgroup>`.
+- `GanttTableTR` - row wrapper.
+- `GanttTableTD` - cell primitive with `role="gridcell"` and `active` state.
+- `GanttTableTH` - column definition for `<colgroup>`.

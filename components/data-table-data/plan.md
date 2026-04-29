@@ -7,7 +7,7 @@ Implement the Data Table Data component: a data table interactive grid data cell
 ## HTML Tag and CSS Class
 
 - HTML tag: <td>
-- CSS class: .data-table-data
+- CSS class: .data-table-td
 
 ## Dependencies
 
@@ -15,7 +15,7 @@ Implement the Data Table Data component: a data table interactive grid data cell
 
 ## Approach
 
-1. Use semantic <td> element with class="data-table-data"
+1. Use semantic <td> element with class="data-table-td"
 2. Add ARIA attributes for accessibility
 3. Implement in HTML headless (plain HTML + vanilla JS)
 4. Implement in Svelte headless (Svelte 5 + runes)
@@ -24,7 +24,7 @@ Implement the Data Table Data component: a data table interactive grid data cell
 
 ## Acceptance Criteria
 
-- [ ] Renders <td> with class="data-table-data"
+- [ ] Renders <td> with class="data-table-td"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 - [ ] Tests pass in all implementations

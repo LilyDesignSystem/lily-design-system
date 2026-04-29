@@ -3,7 +3,7 @@
 ## Metadata
 
 - Component: calendar-table-col
-- PascalCase: CalendarTableCol
+- PascalCase: CalendarTableTD
 - Description: a calendar table interactive grid column for managing dates, days, etc. <th>
 - HTML tag: <th>
 - CSS class: .calendar-table-col

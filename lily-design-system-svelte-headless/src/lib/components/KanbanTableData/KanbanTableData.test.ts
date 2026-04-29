@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/svelte";
 
-import Subject from "./KanbanTableData.svelte";
+import Subject from "./KanbanTableTD.svelte";
 
 function textSnippet(text: string) {
     return (($anchor: Comment) => {
@@ -22,7 +22,7 @@ function renderInRow(props: Record<string, unknown>) {
     return { ...result, container };
 }
 
-describe("KanbanTableData", () => {
+describe("KanbanTableTD", () => {
     test("renders a gridcell", () => {
         renderInRow({});
         expect(screen.getByRole("gridcell")).toBeTruthy();

@@ -5,107 +5,107 @@ description: a Gantt chart table interactive grid for planning schedule visualiz
 ---
 
 {% from "components/gantt-table/macro.njk" import ganttTable %}
-{% from "components/gantt-table-thead/macro.njk" import ganttTableThead %}
-{% from "components/gantt-table-tbody/macro.njk" import ganttTableTbody %}
-{% from "components/gantt-table-tfoot/macro.njk" import ganttTableTfoot %}
-{% from "components/gantt-table-tr/macro.njk" import ganttTableTr %}
-{% from "components/gantt-table-th/macro.njk" import ganttTableTh %}
-{% from "components/gantt-table-td/macro.njk" import ganttTableTd %}
+{% from "components/gantt-table-head/macro.njk" import ganttTableHead %}
+{% from "components/gantt-table-body/macro.njk" import ganttTableBody %}
+{% from "components/gantt-table-foot/macro.njk" import ganttTableTfoot %}
+{% from "components/gantt-table-row/macro.njk" import ganttTableTR %}
+{% from "components/gantt-table-th/macro.njk" import ganttTableTH %}
+{% from "components/gantt-table-td/macro.njk" import ganttTableTD %}
 
 <h2>Default — appointment list</h2>
 {% call ganttTable({ caption: "Your upcoming appointments" }) %}
-  {% call ganttTableThead() %}
-    {% call ganttTableTr() %}
-      {{ ganttTableTh({ text: "Date" }) }}
-      {{ ganttTableTh({ text: "Clinician" }) }}
-      {{ ganttTableTh({ text: "Type" }) }}
-      {{ ganttTableTh({ text: "Location" }) }}
+  {% call ganttTableHead() %}
+    {% call ganttTableTR() %}
+      {{ ganttTableTH({ text: "Date" }) }}
+      {{ ganttTableTH({ text: "Clinician" }) }}
+      {{ ganttTableTH({ text: "Type" }) }}
+      {{ ganttTableTH({ text: "Location" }) }}
     {% endcall %}
   {% endcall %}
-  {% call ganttTableTbody() %}
-    {% call ganttTableTr() %}
-      {{ ganttTableTd({ text: "27 April 2026, 9:30am" }) }}
-      {{ ganttTableTd({ text: "Dr Patel" }) }}
-      {{ ganttTableTd({ text: "GP review" }) }}
-      {{ ganttTableTd({ text: "High Street Surgery" }) }}
+  {% call ganttTableBody() %}
+    {% call ganttTableTR() %}
+      {{ ganttTableTD({ text: "27 April 2026, 9:30am" }) }}
+      {{ ganttTableTD({ text: "Dr Patel" }) }}
+      {{ ganttTableTD({ text: "GP review" }) }}
+      {{ ganttTableTD({ text: "High Street Surgery" }) }}
     {% endcall %}
-    {% call ganttTableTr() %}
-      {{ ganttTableTd({ text: "4 May 2026, 2:15pm" }) }}
-      {{ ganttTableTd({ text: "Nurse Ahmed" }) }}
-      {{ ganttTableTd({ text: "Blood test" }) }}
-      {{ ganttTableTd({ text: "Main Clinic" }) }}
+    {% call ganttTableTR() %}
+      {{ ganttTableTD({ text: "4 May 2026, 2:15pm" }) }}
+      {{ ganttTableTD({ text: "Nurse Ahmed" }) }}
+      {{ ganttTableTD({ text: "Blood test" }) }}
+      {{ ganttTableTD({ text: "Main Clinic" }) }}
     {% endcall %}
-    {% call ganttTableTr() %}
-      {{ ganttTableTd({ text: "19 May 2026, 11:00am" }) }}
-      {{ ganttTableTd({ text: "Dr Smith" }) }}
-      {{ ganttTableTd({ text: "Follow-up" }) }}
-      {{ ganttTableTd({ text: "High Street Surgery" }) }}
+    {% call ganttTableTR() %}
+      {{ ganttTableTD({ text: "19 May 2026, 11:00am" }) }}
+      {{ ganttTableTD({ text: "Dr Smith" }) }}
+      {{ ganttTableTD({ text: "Follow-up" }) }}
+      {{ ganttTableTD({ text: "High Street Surgery" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}
 
 <h2>Numeric columns — weather observations</h2>
 {% call ganttTable({ caption: "Recent weather observations" }) %}
-  {% call ganttTableThead() %}
-    {% call ganttTableTr() %}
-      {{ ganttTableTh({ text: "Date" }) }}
-      {{ ganttTableTh({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
-      {{ ganttTableTh({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
-      {{ ganttTableTh({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
+  {% call ganttTableHead() %}
+    {% call ganttTableTR() %}
+      {{ ganttTableTH({ text: "Date" }) }}
+      {{ ganttTableTH({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
+      {{ ganttTableTH({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
+      {{ ganttTableTH({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
     {% endcall %}
   {% endcall %}
-  {% call ganttTableTbody() %}
-    {% call ganttTableTr() %}
-      {{ ganttTableTd({ text: "12 Apr" }) }}
-      {{ ganttTableTd({ text: "14", classes: "table-data-numeric" }) }}
-      {{ ganttTableTd({ text: "3.2", classes: "table-data-numeric" }) }}
-      {{ ganttTableTd({ text: "18", classes: "table-data-numeric" }) }}
+  {% call ganttTableBody() %}
+    {% call ganttTableTR() %}
+      {{ ganttTableTD({ text: "12 Apr" }) }}
+      {{ ganttTableTD({ text: "14", classes: "table-data-numeric" }) }}
+      {{ ganttTableTD({ text: "3.2", classes: "table-data-numeric" }) }}
+      {{ ganttTableTD({ text: "18", classes: "table-data-numeric" }) }}
     {% endcall %}
-    {% call ganttTableTr() %}
-      {{ ganttTableTd({ text: "19 Apr" }) }}
-      {{ ganttTableTd({ text: "16", classes: "table-data-numeric" }) }}
-      {{ ganttTableTd({ text: "0.0", classes: "table-data-numeric" }) }}
-      {{ ganttTableTd({ text: "12", classes: "table-data-numeric" }) }}
+    {% call ganttTableTR() %}
+      {{ ganttTableTD({ text: "19 Apr" }) }}
+      {{ ganttTableTD({ text: "16", classes: "table-data-numeric" }) }}
+      {{ ganttTableTD({ text: "0.0", classes: "table-data-numeric" }) }}
+      {{ ganttTableTD({ text: "12", classes: "table-data-numeric" }) }}
     {% endcall %}
-    {% call ganttTableTr() %}
-      {{ ganttTableTd({ text: "26 Apr" }) }}
-      {{ ganttTableTd({ text: "15", classes: "table-data-numeric" }) }}
-      {{ ganttTableTd({ text: "1.4", classes: "table-data-numeric" }) }}
-      {{ ganttTableTd({ text: "20", classes: "table-data-numeric" }) }}
+    {% call ganttTableTR() %}
+      {{ ganttTableTD({ text: "26 Apr" }) }}
+      {{ ganttTableTD({ text: "15", classes: "table-data-numeric" }) }}
+      {{ ganttTableTD({ text: "1.4", classes: "table-data-numeric" }) }}
+      {{ ganttTableTD({ text: "20", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call ganttTableTfoot() %}
-    {% call ganttTableTr() %}
-      {{ ganttTableTh({ text: "Average", scope: "row" }) }}
-      {{ ganttTableTd({ text: "15", classes: "table-data-numeric" }) }}
-      {{ ganttTableTd({ text: "1.5", classes: "table-data-numeric" }) }}
-      {{ ganttTableTd({ text: "17", classes: "table-data-numeric" }) }}
+    {% call ganttTableTR() %}
+      {{ ganttTableTH({ text: "Average", scope: "row" }) }}
+      {{ ganttTableTD({ text: "15", classes: "table-data-numeric" }) }}
+      {{ ganttTableTD({ text: "1.5", classes: "table-data-numeric" }) }}
+      {{ ganttTableTD({ text: "17", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}
 
 <h2>Row headers</h2>
-<p>Use <code>TableCol</code> with <code>scope="row"</code> to mark a
+<p>Use <code>TableTD</code> with <code>scope="row"</code> to mark a
   row header, so screen readers announce it together with each data
   cell in the row.</p>
 {% call ganttTable({ caption: "Dosage schedule" }) %}
-  {% call ganttTableThead() %}
-    {% call ganttTableTr() %}
-      {{ ganttTableTh({ text: "Day" }) }}
-      {{ ganttTableTh({ text: "Morning" }) }}
-      {{ ganttTableTh({ text: "Evening" }) }}
+  {% call ganttTableHead() %}
+    {% call ganttTableTR() %}
+      {{ ganttTableTH({ text: "Day" }) }}
+      {{ ganttTableTH({ text: "Morning" }) }}
+      {{ ganttTableTH({ text: "Evening" }) }}
     {% endcall %}
   {% endcall %}
-  {% call ganttTableTbody() %}
-    {% call ganttTableTr() %}
-      {{ ganttTableTh({ text: "Monday", scope: "row" }) }}
-      {{ ganttTableTd({ text: "1 tablet" }) }}
-      {{ ganttTableTd({ text: "1 tablet" }) }}
+  {% call ganttTableBody() %}
+    {% call ganttTableTR() %}
+      {{ ganttTableTH({ text: "Monday", scope: "row" }) }}
+      {{ ganttTableTD({ text: "1 tablet" }) }}
+      {{ ganttTableTD({ text: "1 tablet" }) }}
     {% endcall %}
-    {% call ganttTableTr() %}
-      {{ ganttTableTh({ text: "Tuesday", scope: "row" }) }}
-      {{ ganttTableTd({ text: "1 tablet" }) }}
-      {{ ganttTableTd({ text: "2 tablets" }) }}
+    {% call ganttTableTR() %}
+      {{ ganttTableTH({ text: "Tuesday", scope: "row" }) }}
+      {{ ganttTableTD({ text: "1 tablet" }) }}
+      {{ ganttTableTD({ text: "2 tablets" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}

@@ -41,7 +41,7 @@ Place inside `DataTable`. Use `<th scope="col">` inside a `DataTableRow` for the
     import DataTableHead from "./DataTableHead.svelte";
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 </script>
 
 <DataTable label="Employees">
@@ -53,8 +53,8 @@ Place inside `DataTable`. Use `<th scope="col">` inside a `DataTableRow` for the
     </DataTableHead>
     <DataTableBody>
         <DataTableRow>
-            <DataTableData>Alice</DataTableData>
-            <DataTableData>alice@example.com</DataTableData>
+            <DataTableTD>Alice</DataTableTD>
+            <DataTableTD>alice@example.com</DataTableTD>
         </DataTableRow>
     </DataTableBody>
 </DataTable>
@@ -66,7 +66,7 @@ Place inside `DataTable`. Use `<th scope="col">` inside a `DataTableRow` for the
     import DataTableHead from "./DataTableHead.svelte";
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 
     const cols = ["Name", "Email", "Role"];
 </script>
@@ -81,9 +81,9 @@ Place inside `DataTable`. Use `<th scope="col">` inside a `DataTableRow` for the
     </DataTableHead>
     <DataTableBody>
         <DataTableRow>
-            <DataTableData>Alice</DataTableData>
-            <DataTableData>alice@example.com</DataTableData>
-            <DataTableData>Admin</DataTableData>
+            <DataTableTD>Alice</DataTableTD>
+            <DataTableTD>alice@example.com</DataTableTD>
+            <DataTableTD>Admin</DataTableTD>
         </DataTableRow>
     </DataTableBody>
 </DataTable>
@@ -95,7 +95,7 @@ Place inside `DataTable`. Use `<th scope="col">` inside a `DataTableRow` for the
     import DataTableHead from "./DataTableHead.svelte";
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 
     let sortKey = $state("name");
 
@@ -117,8 +117,8 @@ Place inside `DataTable`. Use `<th scope="col">` inside a `DataTableRow` for the
     </DataTableHead>
     <DataTableBody>
         <DataTableRow>
-            <DataTableData>Alice</DataTableData>
-            <DataTableData>alice@example.com</DataTableData>
+            <DataTableTD>Alice</DataTableTD>
+            <DataTableTD>alice@example.com</DataTableTD>
         </DataTableRow>
     </DataTableBody>
 </DataTable>
@@ -132,4 +132,4 @@ Place inside `DataTable`. Use `<th scope="col">` inside a `DataTableRow` for the
 
 ## Related components
 
-- `DataTable`, `DataTableBody`, `DataTableFoot`, `DataTableRow`, `DataTableData`, `DataTableCol`.
+- `DataTable`, `DataTableBody`, `DataTableFoot`, `DataTableRow`, `DataTableTD`, `DataTableTD`.

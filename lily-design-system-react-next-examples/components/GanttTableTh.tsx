@@ -1,2 +1,2 @@
-export { default } from "@pgds/GanttTableTh";
-export type * from "@pgds/GanttTableTh";
+export { default } from "@pgds/GanttTableTH";
+export type * from "@pgds/GanttTableTH";

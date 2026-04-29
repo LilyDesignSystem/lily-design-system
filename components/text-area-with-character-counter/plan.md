@@ -7,11 +7,11 @@ Implement the Text Area With Character Counter component: a multi-line text area
 ## HTML Tag and CSS Class
 
 - HTML tag: <div>
-- CSS class: .text-area-with-character-counter
+- CSS class: .text-area-input-with-character-counter
 
 ## Approach
 
-1. Use semantic <div> wrapper with class="text-area-with-character-counter"
+1. Use semantic <div> wrapper with class="text-area-input-with-character-counter"
 2. Add <textarea> with aria-label, aria-describedby, and maxlength
 3. Add character counter <span> with aria-live="polite"
 4. Counter text uses configurable template with {count} and {max} placeholders
@@ -19,7 +19,7 @@ Implement the Text Area With Character Counter component: a multi-line text area
 
 ## Acceptance Criteria
 
-- [ ] Renders <div> with class="text-area-with-character-counter"
+- [ ] Renders <div> with class="text-area-input-with-character-counter"
 - [ ] Contains <textarea> with aria-label and aria-describedby
 - [ ] Contains counter with aria-live="polite"
 - [ ] Counter updates reactively

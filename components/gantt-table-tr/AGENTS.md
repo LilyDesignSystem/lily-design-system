@@ -2,11 +2,11 @@
 
 ## Metadata
 
-- Component: gantt-table-tr
-- PascalCase: GanttTableTr
+- Component: gantt-table-row
+- PascalCase: GanttTableTR
 - Description: a Gantt chart table interactive grid row for planning schedule visualization <tr>
 - HTML tag: <tr>
-- CSS class: .gantt-table-tr
+- CSS class: .gantt-table-row
 - Interactive: no
 
 ## Composition
@@ -17,8 +17,8 @@
 ## Key Behaviors
 
 - Renders as a `<tr>` element for one row in a Gantt chart grid
-- Children should be a task-name header cell (`<th>`) followed by time-period data cells (`<td>` or GanttTableTd)
-- Designed to be used inside GanttTableThead, GanttTableTbody, or GanttTableTfoot
+- Children should be a task-name header cell (`<th>`) followed by time-period data cells (`<td>` or GanttTableTD)
+- Designed to be used inside GanttTableHead, GanttTableBody, or GanttTableTfoot
 - Spreads `restProps` onto the `<tr>` element for consumer customization
 - No internal state -- purely a structural wrapper
 
@@ -33,13 +33,13 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <tr> element with class="gantt-table-tr"
+- [ ] Renders <tr> element with class="gantt-table-row"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
 ## References
 
 - Documentation: index.md
-- CSS class: .gantt-table-tr in css-style-sheet-template.css
-- HTML headless: lily-design-system-html-headless/components/gantt-table-tr.html
+- CSS class: .gantt-table-row in css-style-sheet-template.css
+- HTML headless: lily-design-system-html-headless/components/gantt-table-row.html
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

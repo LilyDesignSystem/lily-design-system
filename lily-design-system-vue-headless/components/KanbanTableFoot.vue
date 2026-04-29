@@ -13,8 +13,8 @@
     // Syntax:
     //   <KanbanTableFoot>
     //     <KanbanTableRow>
-    //       <KanbanTableData>Total: 3</KanbanTableData>
-    //       <KanbanTableData>Total: 5</KanbanTableData>
+    //       <KanbanTableTD>Total: 3</KanbanTableTD>
+    //       <KanbanTableTD>Total: 5</KanbanTableTD>
     //     </KanbanTableRow>
     //   </KanbanTableFoot>
     //

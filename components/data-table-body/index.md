@@ -45,7 +45,7 @@ None -- this component is a passive container. Navigation within the table follo
 
 ## When Not to Use
 
-- Do not use outside DataTable -- use TableBody, CalendarTableBody, GanttTableTbody, or KanbanTableBody for their respective table types.
+- Do not use outside DataTable -- use TableBody, CalendarTableBody, GanttTableBody, or KanbanTableBody for their respective table types.
 - Do not use for header rows -- use DataTableHead instead.
 
 ## Headless
@@ -71,7 +71,7 @@ The consumer provides all CSS styling. The component renders with a `.data-table
 
 ## Composition
 
-DataTableBody is part of the DataTable composition pattern. It sits inside a DataTable and contains DataTableRow components. The full hierarchy is DataTable > DataTableHead/DataTableBody/DataTableFoot > DataTableRow > DataTableData.
+DataTableBody is part of the DataTable composition pattern. It sits inside a DataTable and contains DataTableRow components. The full hierarchy is DataTable > DataTableHead/DataTableBody/DataTableFoot > DataTableRow > DataTableTD.
 
 ## References
 

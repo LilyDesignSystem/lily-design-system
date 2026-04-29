@@ -24,9 +24,9 @@
 //     </KanbanTableHead>
 //     <KanbanTableBody>
 //       <KanbanTableRow>
-//         <KanbanTableData>Task A</KanbanTableData>
-//         <KanbanTableData>Task B</KanbanTableData>
-//         <KanbanTableData>Task C</KanbanTableData>
+//         <KanbanTableTD>Task A</KanbanTableTD>
+//         <KanbanTableTD>Task B</KanbanTableTD>
+//         <KanbanTableTD>Task C</KanbanTableTD>
 //       </KanbanTableRow>
 //     </KanbanTableBody>
 //   </KanbanTable>
@@ -46,7 +46,7 @@
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
 //   - Compound component: use with KanbanTableHead, KanbanTableBody, KanbanTableFoot,
-//     KanbanTableRow, KanbanTableData, and KanbanTableCol
+//     KanbanTableRow, KanbanTableTD, and KanbanTableTD
 //   - No internal state — purely a structural wrapper
 //
 // References:

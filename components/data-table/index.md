@@ -26,21 +26,21 @@ A patient appointments table with sortable columns and status tags:
 <DataTable caption="Patient appointments" label="Upcoming appointments">
   <DataTableHead>
     <DataTableRow>
-      <DataTableCol scope="col" sortable>Patient name</DataTableCol>
-      <DataTableCol scope="col" sortable>Date</DataTableCol>
-      <DataTableCol scope="col">Status</DataTableCol>
+      <DataTableTD scope="col" sortable>Patient name</DataTableTD>
+      <DataTableTD scope="col" sortable>Date</DataTableTD>
+      <DataTableTD scope="col">Status</DataTableTD>
     </DataTableRow>
   </DataTableHead>
   <DataTableBody>
     <DataTableRow>
-      <DataTableData>Karen Francis</DataTableData>
-      <DataTableData>15 March 2025</DataTableData>
-      <DataTableData><Tag variant="success">Confirmed</Tag></DataTableData>
+      <DataTableTD>Karen Francis</DataTableTD>
+      <DataTableTD>15 March 2025</DataTableTD>
+      <DataTableTD><Tag variant="success">Confirmed</Tag></DataTableTD>
     </DataTableRow>
     <DataTableRow>
-      <DataTableData>James Lee</DataTableData>
-      <DataTableData>22 March 2025</DataTableData>
-      <DataTableData><Tag variant="warning">Pending</Tag></DataTableData>
+      <DataTableTD>James Lee</DataTableTD>
+      <DataTableTD>22 March 2025</DataTableTD>
+      <DataTableTD><Tag variant="warning">Pending</Tag></DataTableTD>
     </DataTableRow>
   </DataTableBody>
 </DataTable>
@@ -89,11 +89,11 @@ The consumer provides all CSS styling. The component renders with a `.data-table
 ## Advice
 
 - **Designers**: Use alternating row colors or borders to improve scanability. Ensure column headers are visually distinct from data cells. Consider horizontal scrolling or responsive stacking for narrow viewports.
-- **Developers**: Use the `caption` prop for visible table descriptions or `label` for screen-reader-only names. Always add `scope="col"` or `scope="row"` to `<th>` elements. Use DataTableHead, DataTableBody, DataTableFoot, DataTableRow, and DataTableData for structured composition.
+- **Developers**: Use the `caption` prop for visible table descriptions or `label` for screen-reader-only names. Always add `scope="col"` or `scope="row"` to `<th>` elements. Use DataTableHead, DataTableBody, DataTableFoot, DataTableRow, and DataTableTD for structured composition.
 
 ## Composition
 
-DataTable follows the Table/Head/Body/Foot/Row/Data composition pattern. Use DataTable as the root `<table>`, DataTableHead for the `<thead>` with column headers, DataTableBody for the `<tbody>` with data rows, DataTableFoot for optional `<tfoot>` with summary rows, DataTableRow for each `<tr>`, and DataTableData for each `<td>`. Optionally use DataTableCol inside a `<colgroup>` for column-level styling.
+DataTable follows the Table/Head/Body/Foot/Row/Data composition pattern. Use DataTable as the root `<table>`, DataTableHead for the `<thead>` with column headers, DataTableBody for the `<tbody>` with data rows, DataTableFoot for optional `<tfoot>` with summary rows, DataTableRow for each `<tr>`, and DataTableTD for each `<td>`. Optionally use DataTableTD inside a `<colgroup>` for column-level styling.
 
 ## References
 

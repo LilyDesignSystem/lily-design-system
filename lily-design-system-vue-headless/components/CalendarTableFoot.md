@@ -12,7 +12,7 @@ The footer section of a CalendarTable, rendered as a `<tfoot>` element. Contains
 ```svelte
 <CalendarTableFoot>
   <CalendarTableRow>
-    <CalendarTableData>Week Total: 5</CalendarTableData>
+    <CalendarTableTD>Week Total: 5</CalendarTableTD>
   </CalendarTableRow>
 </CalendarTableFoot>
 ```

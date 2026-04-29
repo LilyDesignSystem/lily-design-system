@@ -133,7 +133,7 @@ export const components = [
   },
   {
     slug: "calendar-table-col",
-    name: "CalendarTableCol",
+    name: "CalendarTableTD",
     description:
       "a calendar table interactive grid column for managing dates, days, etc.",
   },
@@ -144,8 +144,8 @@ export const components = [
       "a calendar table interactive grid row for managing dates, days, etc.",
   },
   {
-    slug: "calendar-table-data",
-    name: "CalendarTableData",
+    slug: "calendar-table-td",
+    name: "CalendarTableTD",
     description:
       "a calendar table interactive grid data cell for managing dates, days, etc.",
   },
@@ -311,7 +311,7 @@ export const components = [
   },
   {
     slug: "data-table-col",
-    name: "DataTableCol",
+    name: "DataTableTD",
     description:
       "a data table interactive grid column for displaying and sorting tabular data",
   },
@@ -322,8 +322,8 @@ export const components = [
       "a data table interactive grid row for displaying and sorting tabular data",
   },
   {
-    slug: "data-table-data",
-    name: "DataTableData",
+    slug: "data-table-td",
+    name: "DataTableTD",
     description:
       "a data table interactive grid data cell for displaying and sorting tabular data",
   },
@@ -538,38 +538,38 @@ export const components = [
       "a Gantt chart table interactive grid for planning schedule visualization",
   },
   {
-    slug: "gantt-table-thead",
-    name: "GanttTableThead",
+    slug: "gantt-table-head",
+    name: "GanttTableHead",
     description:
       "a Gantt chart table interactive grid thead for planning schedule visualization",
   },
   {
-    slug: "gantt-table-tbody",
-    name: "GanttTableTbody",
+    slug: "gantt-table-body",
+    name: "GanttTableBody",
     description:
       "a Gantt chart table interactive grid tbody for planning schedule visualization",
   },
   {
-    slug: "gantt-table-tfoot",
+    slug: "gantt-table-foot",
     name: "GanttTableTfoot",
     description:
       "a Gantt chart table interactive grid tfoot for planning schedule visualization",
   },
   {
     slug: "gantt-table-th",
-    name: "GanttTableTh",
+    name: "GanttTableTH",
     description:
       "a Gantt chart table interactive grid column for planning schedule visualization",
   },
   {
-    slug: "gantt-table-tr",
-    name: "GanttTableTr",
+    slug: "gantt-table-row",
+    name: "GanttTableTR",
     description:
       "a Gantt chart table interactive grid row for planning schedule visualization",
   },
   {
     slug: "gantt-table-td",
-    name: "GanttTableTd",
+    name: "GanttTableTD",
     description:
       "a Gantt chart table interactive grid data cell for planning schedule visualization",
   },
@@ -686,7 +686,7 @@ export const components = [
   },
   {
     slug: "kanban-table-col",
-    name: "KanbanTableCol",
+    name: "KanbanTableTD",
     description:
       "a kanban board table interactive grid column for organizing items by status",
   },
@@ -697,8 +697,8 @@ export const components = [
       "a kanban board table interactive grid row for organizing items by status",
   },
   {
-    slug: "kanban-table-data",
-    name: "KanbanTableData",
+    slug: "kanban-table-td",
+    name: "KanbanTableTD",
     description:
       "kanban board table interactive grid data cell for organizing items by status",
   },
@@ -1095,7 +1095,7 @@ export const components = [
   },
   {
     slug: "table-col",
-    name: "TableCol",
+    name: "TableTD",
     description: "a table interactive grid column",
   },
   {
@@ -1105,7 +1105,7 @@ export const components = [
   },
   {
     slug: "table-data",
-    name: "TableData",
+    name: "TableTD",
     description: "a table interactive grid data cell",
   },
   {

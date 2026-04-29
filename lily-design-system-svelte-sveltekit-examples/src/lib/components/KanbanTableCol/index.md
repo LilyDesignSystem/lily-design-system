@@ -1,4 +1,4 @@
-# KanbanTableCol
+# KanbanTableTD
 
 ## Overview
 
@@ -21,7 +21,7 @@ A kanban board table interactive grid column for organizing items by status <th>
 ## Usage
 
 ```svelte
-<colgroup><KanbanTableCol /><KanbanTableCol /><KanbanTableCol /></colgroup>
+<colgroup><KanbanTableTD /><KanbanTableTD /><KanbanTableTD /></colgroup>
 ```
 
 ## Props
@@ -37,9 +37,9 @@ A kanban board table interactive grid column for organizing items by status <th>
 ```svelte
 <KanbanTable label="Board">
   <colgroup>
-    <KanbanTableCol span={1} />
-    <KanbanTableCol span={1} />
-    <KanbanTableCol span={1} />
+    <KanbanTableTD span={1} />
+    <KanbanTableTD span={1} />
+    <KanbanTableTD span={1} />
   </colgroup>
   ...
 </KanbanTable>
@@ -50,10 +50,10 @@ A kanban board table interactive grid column for organizing items by status <th>
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import KanbanTableCol from "$lib/components/KanbanTableCol/KanbanTableCol.svelte";
+  import KanbanTableTD from "$lib/components/KanbanTableTD/KanbanTableTD.svelte";
 </script>
 
-<colgroup><KanbanTableCol /><KanbanTableCol /><KanbanTableCol /></colgroup>
+<colgroup><KanbanTableTD /><KanbanTableTD /><KanbanTableTD /></colgroup>
 ```
 
 ## Keyboard

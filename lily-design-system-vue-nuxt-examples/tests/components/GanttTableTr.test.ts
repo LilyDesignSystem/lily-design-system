@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { render } from "@testing-library/vue";
 
-import Subject from "../../components/GanttTableTr.vue";
+import Subject from "../../components/GanttTableTR.vue";
 
 
 function renderInTable(props: Record<string, unknown>, slotContent?: string) {
@@ -15,7 +15,7 @@ function renderInTable(props: Record<string, unknown>, slotContent?: string) {
     return { ...result, container };
 }
 
-describe("GanttTableTr", () => {
+describe("GanttTableTR", () => {
     test("renders a tr element", () => {
         renderInTable({}, "<td>Design</td>");
         const row = document.querySelector("tr");

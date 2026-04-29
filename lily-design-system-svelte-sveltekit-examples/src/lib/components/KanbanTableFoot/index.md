@@ -22,8 +22,8 @@ A kanban board table interactive grid tfoot for organizing items by status <tfoo
 ```svelte
 <KanbanTableFoot>
   <KanbanTableRow>
-    <KanbanTableData>Total: 3</KanbanTableData>
-    <KanbanTableData>Total: 5</KanbanTableData>
+    <KanbanTableTD>Total: 3</KanbanTableTD>
+    <KanbanTableTD>Total: 5</KanbanTableTD>
   </KanbanTableRow>
 </KanbanTableFoot>
 ```
@@ -46,8 +46,8 @@ A kanban board table interactive grid tfoot for organizing items by status <tfoo
 
 <KanbanTableFoot>
   <KanbanTableRow>
-    <KanbanTableData>Total: 3</KanbanTableData>
-    <KanbanTableData>Total: 5</KanbanTableData>
+    <KanbanTableTD>Total: 3</KanbanTableTD>
+    <KanbanTableTD>Total: 5</KanbanTableTD>
   </KanbanTableRow>
 </KanbanTableFoot>
 ```

@@ -16,9 +16,9 @@ describe("calendar-table-row", () => {
     const { document } = render(
       "calendar-table-row",
       {},
-      '<td class="calendar-table-data">x</td>',
+      '<td class="calendar-table-td">x</td>',
     );
-    expect(document.querySelector("tr td.calendar-table-data").textContent).toBe("x");
+    expect(document.querySelector("tr td.calendar-table-td").textContent).toBe("x");
   });
 
   it("renders params.attributes", () => {

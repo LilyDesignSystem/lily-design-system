@@ -1,4 +1,4 @@
-# DataTableCol
+# DataTableTD
 
 ## Overview
 
@@ -22,8 +22,8 @@ A data table interactive grid column for displaying and sorting tabular data <th
 
 ```svelte
 <colgroup>
-  <DataTableCol />
-  <DataTableCol span={3} />
+  <DataTableTD />
+  <DataTableTD span={3} />
 </colgroup>
 ```
 
@@ -40,12 +40,12 @@ A data table interactive grid column for displaying and sorting tabular data <th
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DataTableCol from "$lib/components/DataTableCol/DataTableCol.svelte";
+  import DataTableTD from "$lib/components/DataTableTD/DataTableTD.svelte";
 </script>
 
 <colgroup>
-  <DataTableCol />
-  <DataTableCol span={3} />
+  <DataTableTD />
+  <DataTableTD span={3} />
 </colgroup>
 ```
 

@@ -139,7 +139,7 @@ directory matching the NHS.UK frontend layout.
 - [ ] text-input
 - [ ] text-input-with-search
 - [ ] textarea
-- [ ] text-area-with-character-counter
+- [ ] text-area-input-with-character-counter
 - [ ] time-input
 - [ ] time-picker-input
 - [ ] url-input
@@ -179,10 +179,10 @@ directory matching the NHS.UK frontend layout.
 #### e. Table families (5 families x 7 parts = 35 components)
 
 - [ ] table, table-head, table-body, table-foot, table-col, table-row, table-data
-- [ ] calendar-table, calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-col, calendar-table-row, calendar-table-data
-- [ ] data-table, data-table-head, data-table-body, data-table-foot, data-table-col, data-table-row, data-table-data
-- [ ] gantt-table, gantt-table-thead, gantt-table-tbody, gantt-table-tfoot, gantt-table-th, gantt-table-tr, gantt-table-td
-- [ ] kanban-table, kanban-table-head, kanban-table-body, kanban-table-foot, kanban-table-col, kanban-table-row, kanban-table-data
+- [ ] calendar-table, calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-col, calendar-table-row, calendar-table-td
+- [ ] data-table, data-table-head, data-table-body, data-table-foot, data-table-col, data-table-row, data-table-td
+- [ ] gantt-table, gantt-table-head, gantt-table-body, gantt-table-foot, gantt-table-th, gantt-table-row, gantt-table-td
+- [ ] kanban-table, kanban-table-head, kanban-table-body, kanban-table-foot, kanban-table-col, kanban-table-row, kanban-table-td
 - [ ] calendar-range-picker
 
 #### f. Navigation patterns

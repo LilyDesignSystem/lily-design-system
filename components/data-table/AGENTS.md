@@ -12,7 +12,7 @@
 ## Composition
 
 - Pattern: Table/Head/Body/Foot/Col/Row/Data
-- Children: data-table-head, data-table-body, data-table-foot, data-table-col, data-table-row, data-table-data
+- Children: data-table-head, data-table-body, data-table-foot, data-table-col, data-table-row, data-table-td
 
 ## Key Behaviors
 

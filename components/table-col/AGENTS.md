@@ -3,7 +3,7 @@
 ## Metadata
 
 - Component: table-col
-- PascalCase: TableCol
+- PascalCase: TableTD
 - Description: a table interactive grid column <th>
 - HTML tag: <th>
 - CSS class: .table-col

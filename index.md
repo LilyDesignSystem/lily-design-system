@@ -10,7 +10,7 @@ Contact <joel@joelparkerhenderson.com>
 
 Batteries-included web examples that demonstrate components in real apps:
 
-- [HTML JavaScript examples](lily-design-system-html-javascript-examples)
+- [HTML JavaScript examples](lily-design-system-html-css-js-examples)
 - [Svelte SvelteKit examples](lily-design-system-svelte-sveltekit-examples)
 - [React Next.js examples](lily-design-system-react-next-examples)
 - [Vue Nuxt.js examples](lily-design-system-vue-nuxt-examples)
@@ -69,7 +69,7 @@ Headless versions if you want to use components with all your own styles:
 - [calendar-table](components/calendar-table): a calendar table interactive grid for managing dates, days, etc. <table>
 - [calendar-table-body](components/calendar-table-body): a calendar table interactive grid tbody for managing dates, days, etc. <tbody>
 - [calendar-table-col](components/calendar-table-col): a calendar table interactive grid column for managing dates, days, etc. <th>
-- [calendar-table-data](components/calendar-table-data): a calendar table interactive grid data cell for managing dates, days, etc. <td>
+- [calendar-table-td](components/calendar-table-td): a calendar table interactive grid data cell for managing dates, days, etc. <td>
 - [calendar-table-foot](components/calendar-table-foot): a calendar table interactive grid tfoot for managing dates, days, etc. <tfoot>
 - [calendar-table-head](components/calendar-table-head): a calendar table interactive grid thead for managing dates, days, etc. <thead>
 - [calendar-table-row](components/calendar-table-row): a calendar table interactive grid row for managing dates, days, etc. <tr>
@@ -119,7 +119,7 @@ Headless versions if you want to use components with all your own styles:
 - [data-table](components/data-table): a data table interactive grid for displaying and sorting tabular data <table>
 - [data-table-body](components/data-table-body): a data table interactive grid tbody for displaying and sorting tabular data <tbody>
 - [data-table-col](components/data-table-col): a data table interactive grid column for displaying and sorting tabular data <th>
-- [data-table-data](components/data-table-data): a data table interactive grid data cell for displaying and sorting tabular data <td>
+- [data-table-td](components/data-table-td): a data table interactive grid data cell for displaying and sorting tabular data <td>
 - [data-table-foot](components/data-table-foot): a data table interactive grid tfoot for displaying and sorting tabular data <tfoot>
 - [data-table-head](components/data-table-head): a data table interactive grid thead for displaying and sorting tabular data <thead>
 - [data-table-row](components/data-table-row): a data table interactive grid row for displaying and sorting tabular data <tr>
@@ -182,12 +182,12 @@ Headless versions if you want to use components with all your own styles:
 - [france-numero-d-identification-au-repertoire-input](components/france-numero-d-identification-au-repertoire-input): an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - [france-numero-d-identification-au-repertoire-view](components/france-numero-d-identification-au-repertoire-view): a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - [gantt-table](components/gantt-table): a Gantt chart table interactive grid for planning schedule visualization <table>
-- [gantt-table-tbody](components/gantt-table-tbody): a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
+- [gantt-table-body](components/gantt-table-body): a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
 - [gantt-table-th](components/gantt-table-th): a Gantt chart table interactive grid column for planning schedule visualization <th>
 - [gantt-table-td](components/gantt-table-td): a Gantt chart table interactive grid data cell for planning schedule visualization <td>
-- [gantt-table-tfoot](components/gantt-table-tfoot): a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
-- [gantt-table-thead](components/gantt-table-thead): a Gantt chart table interactive grid thead for planning schedule visualization <thead>
-- [gantt-table-tr](components/gantt-table-tr): a Gantt chart table interactive grid row for planning schedule visualization <tr>
+- [gantt-table-foot](components/gantt-table-foot): a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
+- [gantt-table-head](components/gantt-table-head): a Gantt chart table interactive grid thead for planning schedule visualization <thead>
+- [gantt-table-row](components/gantt-table-row): a Gantt chart table interactive grid row for planning schedule visualization <tr>
 - [government-banner](components/government-banner): a banner identifying a website as belonging to a government, with an expandable details panel
 - [government-identifier](components/government-identifier): an identifier section with a parent agency logo, agency name, and required government links
 - [grail-layout](components/grail-layout): a responsive web design structure with header, left aside, center main, right aside, footer
@@ -221,7 +221,7 @@ Headless versions if you want to use components with all your own styles:
 - [kanban-table](components/kanban-table): a kanban board table interactive grid for organizing items by status <table>
 - [kanban-table-body](components/kanban-table-body): a kanban board table interactive grid tbody for organizing items by status <tbody>
 - [kanban-table-col](components/kanban-table-col): a kanban board table interactive grid column for organizing items by status <th>
-- [kanban-table-data](components/kanban-table-data): kanban board table interactive grid data cell for organizing items by status <td>
+- [kanban-table-td](components/kanban-table-td): kanban board table interactive grid data cell for organizing items by status <td>
 - [kanban-table-foot](components/kanban-table-foot): a kanban board table interactive grid tfoot for organizing items by status <tfoot>
 - [kanban-table-head](components/kanban-table-head): a kanban board table interactive grid thead for organizing items by status <thead>
 - [kanban-table-row](components/kanban-table-row): a kanban board table interactive grid row for organizing items by status <tr>
@@ -366,7 +366,7 @@ Headless versions if you want to use components with all your own styles:
 - [task-list-item](components/task-list-item): one task item with a checkbox and label
 - [tel-input](components/tel-input): an input for entering a telephone number <input type="tel">
 - [tel-link](components/tel-link): a tel hyperlink for a telephone number
-- [text-area-with-character-counter](components/text-area-with-character-counter): a multi-line text area with a caption below that is a character counter "[number] of [maximum] characters"
+- [text-area-input-with-character-counter](components/text-area-input-with-character-counter): a multi-line text area with a caption below that is a character counter "[number] of [maximum] characters"
 - [text-input](components/text-input): a single-line text input field <input type="text">
 - [text-input-with-search](components/text-input-with-search): a single-line text input field <input type="text"> with search capability
 - [textarea](components/textarea): a multi-line text input area
@@ -472,12 +472,12 @@ Headless versions if you want to use components with all your own styles:
 - ContainerWith\*
   - ContainerWithFixedWidth
   - ContainerWithFluidWidth
-- \*Table \*TableHead \*TableBody \*TableFoot \*TableCol \*TableRow \*TableData
-  - Table TableHead TableBody TableFoot TableCol TableRow TableData
-  - CalendarTable CalendarTableHead CalendarTableBody CalendarTableFoot CalendarTableCol CalendarTableRow CalendarTableData
-  - DataTable DataTableHead DataTableBody DataTableFoot DataTableCol DataTableRow DataTableData
-  - GanttTable GanttTableThead GanttTableTbody GanttTableTfoot GanttTableTh GanttTableTr GanttTableTd
-  - KanbanTable KanbanTableHead KanbanTableBody KanbanTableFoot KanbanTableCol KanbanTableRow KanbanTableData
+- \*Table \*TableHead \*TableBody \*TableFoot \*TableTD \*TableRow \*TableTD
+  - Table TableHead TableBody TableFoot TableTD TableRow TableTD
+  - CalendarTable CalendarTableHead CalendarTableBody CalendarTableFoot CalendarTableTD CalendarTableRow CalendarTableTD
+  - DataTable DataTableHead DataTableBody DataTableFoot DataTableTD DataTableRow DataTableTD
+  - GanttTable GanttTableHead GanttTableBody GanttTableTfoot GanttTableTH GanttTableTR GanttTableTD
+  - KanbanTable KanbanTableHead KanbanTableBody KanbanTableFoot KanbanTableTD KanbanTableRow KanbanTableTD
 
 ## Tracking
 

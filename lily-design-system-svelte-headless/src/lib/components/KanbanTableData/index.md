@@ -1,6 +1,6 @@
-# KanbanTableData
+# KanbanTableTD
 
-KanbanTableData is a headless Svelte 5 component representing a single cell within a `KanbanTableRow`. It renders a `<td>` with `role="gridcell"` and supports a roving-tabindex pattern via the `active` prop.
+KanbanTableTD is a headless Svelte 5 component representing a single cell within a `KanbanTableRow`. It renders a `<td>` with `role="gridcell"` and supports a roving-tabindex pattern via the `active` prop.
 
 ## What it is
 
@@ -8,7 +8,7 @@ A grid cell that represents a task card or empty slot within a Kanban workflow c
 
 ## What it does
 
-- Renders a `<td>` with `class="kanban-table-data"` plus any consumer-provided CSS class.
+- Renders a `<td>` with `class="kanban-table-td"` plus any consumer-provided CSS class.
 - Applies `role="gridcell"` for grid semantics.
 - Sets `aria-selected` when `active` is `true` (otherwise omitted).
 - Uses `tabindex={active ? 0 : -1}` so only the active cell participates in the tab sequence.
@@ -26,15 +26,15 @@ A grid cell that represents a task card or empty slot within a Kanban workflow c
 
 - Do not use outside a `KanbanTableRow` — `<td>` is only valid inside `<tr>`.
 - Do not use for a column header — use a plain `<th scope="col">` inside `KanbanTableHead`.
-- Do not use for tabular data — use `DataTableData`.
+- Do not use for tabular data — use `DataTableTD`.
 
 ## How to use it
 
-Place `KanbanTableData` elements inside `KanbanTableRow`. Use `active` together with your own keyboard-navigation logic on the parent `KanbanTable` to implement roving tabindex.
+Place `KanbanTableTD` elements inside `KanbanTableRow`. Use `active` together with your own keyboard-navigation logic on the parent `KanbanTable` to implement roving tabindex.
 
 ## Props
 
-- `class` (string, optional) — consumer CSS class appended to the base `kanban-table-data` class.
+- `class` (string, optional) — consumer CSS class appended to the base `kanban-table-td` class.
 - `active` (boolean, optional, default `false`) — marks the cell as currently selected; sets `aria-selected` and `tabindex=0`.
 - `label` (string, optional) — accessible name for the cell via `aria-label`.
 - `children` (Snippet, optional) — cell content such as task cards or text; omit for empty cells.
@@ -46,14 +46,14 @@ Place `KanbanTableData` elements inside `KanbanTableRow`. Use `active` together 
 
 ```svelte
 <script lang="ts">
-    import KanbanTableData from "./KanbanTableData.svelte";
+    import KanbanTableTD from "./KanbanTableTD.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
 </script>
 
 <KanbanTableRow>
-    <KanbanTableData>Fix login bug</KanbanTableData>
-    <KanbanTableData>Write docs</KanbanTableData>
-    <KanbanTableData>Release 1.0</KanbanTableData>
+    <KanbanTableTD>Fix login bug</KanbanTableTD>
+    <KanbanTableTD>Write docs</KanbanTableTD>
+    <KanbanTableTD>Release 1.0</KanbanTableTD>
 </KanbanTableRow>
 ```
 
@@ -61,14 +61,14 @@ Place `KanbanTableData` elements inside `KanbanTableRow`. Use `active` together 
 
 ```svelte
 <script lang="ts">
-    import KanbanTableData from "./KanbanTableData.svelte";
+    import KanbanTableTD from "./KanbanTableTD.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
 </script>
 
 <KanbanTableRow>
-    <KanbanTableData label="High priority: Fix login bug">
+    <KanbanTableTD label="High priority: Fix login bug">
         Fix login bug
-    </KanbanTableData>
+    </KanbanTableTD>
 </KanbanTableRow>
 ```
 
@@ -76,14 +76,14 @@ Place `KanbanTableData` elements inside `KanbanTableRow`. Use `active` together 
 
 ```svelte
 <script lang="ts">
-    import KanbanTableData from "./KanbanTableData.svelte";
+    import KanbanTableTD from "./KanbanTableTD.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
 </script>
 
 <KanbanTableRow>
-    <KanbanTableData>Design</KanbanTableData>
-    <KanbanTableData />
-    <KanbanTableData />
+    <KanbanTableTD>Design</KanbanTableTD>
+    <KanbanTableTD />
+    <KanbanTableTD />
 </KanbanTableRow>
 ```
 
@@ -91,15 +91,15 @@ Place `KanbanTableData` elements inside `KanbanTableRow`. Use `active` together 
 
 ```svelte
 <script lang="ts">
-    import KanbanTableData from "./KanbanTableData.svelte";
+    import KanbanTableTD from "./KanbanTableTD.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
     let selectedId = $state("b");
 </script>
 
 <KanbanTableRow>
-    <KanbanTableData active={selectedId === "a"} label="Task A">Task A</KanbanTableData>
-    <KanbanTableData active={selectedId === "b"} label="Task B">Task B</KanbanTableData>
-    <KanbanTableData active={selectedId === "c"} label="Task C">Task C</KanbanTableData>
+    <KanbanTableTD active={selectedId === "a"} label="Task A">Task A</KanbanTableTD>
+    <KanbanTableTD active={selectedId === "b"} label="Task B">Task B</KanbanTableTD>
+    <KanbanTableTD active={selectedId === "c"} label="Task C">Task C</KanbanTableTD>
 </KanbanTableRow>
 ```
 
@@ -107,18 +107,18 @@ Place `KanbanTableData` elements inside `KanbanTableRow`. Use `active` together 
 
 ```svelte
 <script lang="ts">
-    import KanbanTableData from "./KanbanTableData.svelte";
+    import KanbanTableTD from "./KanbanTableTD.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
     import Card from "../Card/Card.svelte";
 </script>
 
 <KanbanTableRow>
-    <KanbanTableData label="Story: Add dark mode">
+    <KanbanTableTD label="Story: Add dark mode">
         <Card label="Add dark mode">
             <h3>Add dark mode</h3>
             <p>Support system preference.</p>
         </Card>
-    </KanbanTableData>
+    </KanbanTableTD>
 </KanbanTableRow>
 ```
 
@@ -134,6 +134,6 @@ Place `KanbanTableData` elements inside `KanbanTableRow`. Use `active` together 
 
 - `KanbanTable` — the root `<table role="grid">`.
 - `KanbanTableHead`, `KanbanTableBody`, `KanbanTableFoot` — section wrappers.
-- `KanbanTableRow` — the `<tr>` row that contains `KanbanTableData` cells.
-- `KanbanTableCol` — `<col>` column definitions for `<colgroup>`.
-- `DataTableData`, `CalendarTableData`, `GanttTableTd` — equivalent cells for other table types.
+- `KanbanTableRow` — the `<tr>` row that contains `KanbanTableTD` cells.
+- `KanbanTableTD` — `<col>` column definitions for `<colgroup>`.
+- `DataTableTD`, `CalendarTableTD`, `GanttTableTD` — equivalent cells for other table types.

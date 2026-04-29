@@ -12,8 +12,8 @@
     // Syntax:
     //   <KanbanTableBody>
     //     <KanbanTableRow>
-    //       <KanbanTableData>Task A</KanbanTableData>
-    //       <KanbanTableData>Task B</KanbanTableData>
+    //       <KanbanTableTD>Task A</KanbanTableTD>
+    //       <KanbanTableTD>Task B</KanbanTableTD>
     //     </KanbanTableRow>
     //   </KanbanTableBody>
     //

@@ -1,5 +1,5 @@
 <script lang="ts">
-    // CalendarTableData component
+    // CalendarTableTD component
     //
     // A single day cell within a CalendarTable grid. Renders as a <td> with
     // role="gridcell", supporting selected and today states for visual and
@@ -14,14 +14,14 @@
     //   ...restProps — additional HTML attributes spread onto the <td>.
     //
     // Syntax:
-    //   <CalendarTableData>15</CalendarTableData>
+    //   <CalendarTableTD>15</CalendarTableTD>
     //
     // Examples:
     //   <!-- Selected day that is also today -->
-    //   <CalendarTableData selected today>15</CalendarTableData>
+    //   <CalendarTableTD selected today>15</CalendarTableTD>
     //
     //   <!-- Regular unselected day -->
-    //   <CalendarTableData>22</CalendarTableData>
+    //   <CalendarTableTD>22</CalendarTableTD>
     //
     // Keyboard:
     //   - Tab: Focus moves to the selected cell (tabindex="0")
@@ -62,9 +62,9 @@
     } = $props();
 </script>
 
-<!-- CalendarTableData.svelte -->
+<!-- CalendarTableTD.svelte -->
 <td
-    class={`calendar-table-data ${className}`}
+    class={`calendar-table-td ${className}`}
     role="gridcell"
     aria-selected={selected || undefined}
     aria-current={today ? "date" : undefined}

@@ -1,4 +1,4 @@
-# DataTableData
+# DataTableTD
 
 ## Overview
 
@@ -22,8 +22,8 @@ A data table interactive grid data cell for displaying and sorting tabular data 
 ## Usage
 
 ```svelte
-<DataTableData>Alice</DataTableData>
-<DataTableData active>Bob</DataTableData>
+<DataTableTD>Alice</DataTableTD>
+<DataTableTD active>Bob</DataTableTD>
 ```
 
 ## Props
@@ -40,11 +40,11 @@ A data table interactive grid data cell for displaying and sorting tabular data 
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import DataTableData from "$lib/components/DataTableData/DataTableData.svelte";
+  import DataTableTD from "$lib/components/DataTableTD/DataTableTD.svelte";
 </script>
 
-<DataTableData>Alice</DataTableData>
-<DataTableData active>Bob</DataTableData>
+<DataTableTD>Alice</DataTableTD>
+<DataTableTD active>Bob</DataTableTD>
 ```
 
 ## Keyboard

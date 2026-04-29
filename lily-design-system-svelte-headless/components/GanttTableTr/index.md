@@ -1,20 +1,20 @@
-# GanttTableTr
+# GanttTableTR
 
-A single row within a `GanttTable` grid. Renders a native `<tr>` element containing `GanttTableTd` cells for each time period, along with optional `<th>` header cells.
+A single row within a `GanttTable` grid. Renders a native `<tr>` element containing `GanttTableTD` cells for each time period, along with optional `<th>` header cells.
 
 ## What it is
 
-A Svelte 5 structural wrapper that renders `<tr class="gantt-table-tr ...">{children}</tr>`. It carries no internal state, no explicit ARIA role (the `<tr>` has an implicit `row` role inside a grid), and no styling.
+A Svelte 5 structural wrapper that renders `<tr class="gantt-table-row ...">{children}</tr>`. It carries no internal state, no explicit ARIA role (the `<tr>` has an implicit `row` role inside a grid), and no styling.
 
 ## What it does
 
-- Renders `<tr class="gantt-table-tr ...">` around the `children` snippet.
+- Renders `<tr class="gantt-table-row ...">` around the `children` snippet.
 - Spreads any additional HTML attributes onto the `<tr>`.
 
 ## When to use it
 
-- Inside `GanttTableThead` for header rows containing `<th>` column labels.
-- Inside `GanttTableTbody` for task rows that mix `<th>` task labels with `GanttTableTd` time-period cells.
+- Inside `GanttTableHead` for header rows containing `<th>` column labels.
+- Inside `GanttTableBody` for task rows that mix `<th>` task labels with `GanttTableTD` time-period cells.
 - Inside `GanttTableTfoot` for summary rows.
 
 ## When not to use it
@@ -24,71 +24,71 @@ A Svelte 5 structural wrapper that renders `<tr class="gantt-table-tr ...">{chil
 
 ## How to use it
 
-Place inside `GanttTableThead`, `GanttTableTbody`, or `GanttTableTfoot`. Add cells as children.
+Place inside `GanttTableHead`, `GanttTableBody`, or `GanttTableTfoot`. Add cells as children.
 
 ## Props
 
-- `class` (string, optional) - CSS class appended after the base `gantt-table-tr` class.
-- `children` (Snippet, required) - Cells (`GanttTableTd` and/or native `<th>`).
+- `class` (string, optional) - CSS class appended after the base `gantt-table-row` class.
+- `children` (Snippet, required) - Cells (`GanttTableTD` and/or native `<th>`).
 - `...restProps` - Additional HTML attributes spread onto the `<tr>`.
 
 ## Usage
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "./GanttTableTr.svelte";
-    import GanttTableTd from "../GanttTableTd/GanttTableTd.svelte";
+    import GanttTableTR from "./GanttTableTR.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
-<GanttTableTr>
+<GanttTableTR>
     <th>Design</th>
-    <GanttTableTd active>---</GanttTableTd>
-    <GanttTableTd />
-</GanttTableTr>
+    <GanttTableTD active>---</GanttTableTD>
+    <GanttTableTD />
+</GanttTableTR>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "./GanttTableTr.svelte";
+    import GanttTableTR from "./GanttTableTR.svelte";
 </script>
 
-<GanttTableTr>
+<GanttTableTR>
     <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-</GanttTableTr>
+</GanttTableTR>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "./GanttTableTr.svelte";
-    import GanttTableTd from "../GanttTableTd/GanttTableTd.svelte";
+    import GanttTableTR from "./GanttTableTR.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
     const task = { name: "Build", periods: [false, true, true, false] };
 </script>
 
-<GanttTableTr>
+<GanttTableTR>
     <th>{task.name}</th>
     {#each task.periods as p}
-        <GanttTableTd active={p}>{p ? "---" : ""}</GanttTableTd>
+        <GanttTableTD active={p}>{p ? "---" : ""}</GanttTableTD>
     {/each}
-</GanttTableTr>
+</GanttTableTR>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "./GanttTableTr.svelte";
-    import GanttTableTd from "../GanttTableTd/GanttTableTd.svelte";
+    import GanttTableTR from "./GanttTableTR.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
 </script>
 
-<GanttTableTr class="critical-path" data-testid="row-critical">
+<GanttTableTR class="critical-path" data-testid="row-critical">
     <th>Launch</th>
-    <GanttTableTd />
-    <GanttTableTd active>◆</GanttTableTd>
-</GanttTableTr>
+    <GanttTableTD />
+    <GanttTableTD active>◆</GanttTableTD>
+</GanttTableTR>
 ```
 
 ```svelte
 <script lang="ts">
-    import GanttTableTr from "./GanttTableTr.svelte";
-    import GanttTableTd from "../GanttTableTd/GanttTableTd.svelte";
+    import GanttTableTR from "./GanttTableTR.svelte";
+    import GanttTableTD from "../GanttTableTD/GanttTableTD.svelte";
     const rows = [
         { name: "Scope", active: [true] },
         { name: "Build", active: [false] },
@@ -96,12 +96,12 @@ Place inside `GanttTableThead`, `GanttTableTbody`, or `GanttTableTfoot`. Add cel
 </script>
 
 {#each rows as r}
-    <GanttTableTr>
+    <GanttTableTR>
         <th>{r.name}</th>
         {#each r.active as a}
-            <GanttTableTd active={a} />
+            <GanttTableTD active={a} />
         {/each}
-    </GanttTableTr>
+    </GanttTableTR>
 {/each}
 ```
 
@@ -114,7 +114,7 @@ Place inside `GanttTableThead`, `GanttTableTbody`, or `GanttTableTfoot`. Add cel
 ## Related components
 
 - `GanttTable` - parent grid.
-- `GanttTableThead` / `GanttTableTbody` / `GanttTableTfoot` - structural sections.
-- `GanttTableTd` - time-period data cell with active/selected state.
-- `GanttTableTh` - column definition element.
+- `GanttTableHead` / `GanttTableBody` / `GanttTableTfoot` - structural sections.
+- `GanttTableTD` - time-period data cell with active/selected state.
+- `GanttTableTH` - column definition element.
 - `DataTableRow`, `CalendarTableRow`, `KanbanTableRow`, `TableRow` - row variants in other table families.

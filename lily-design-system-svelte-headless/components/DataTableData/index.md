@@ -1,10 +1,10 @@
-# DataTableData
+# DataTableTD
 
 A single data cell in a `DataTableRow`. Renders a `<td role="gridcell">` with optional `active` state (roving tabindex and `aria-selected`).
 
 ## What it is
 
-DataTableData is the interactive grid cell for `DataTable`. It exposes an `active` prop that flips `tabindex` between `0` and `-1` and sets `aria-selected="true"` when active. This supports the standard WAI-ARIA grid roving-focus pattern.
+DataTableTD is the interactive grid cell for `DataTable`. It exposes an `active` prop that flips `tabindex` between `0` and `-1` and sets `aria-selected="true"` when active. This supports the standard WAI-ARIA grid roving-focus pattern.
 
 ## What it does
 
@@ -20,7 +20,7 @@ DataTableData is the interactive grid cell for `DataTable`. It exposes an `activ
 
 ## When not to use it
 
-- For static tables with non-interactive cells — use `TableData`.
+- For static tables with non-interactive cells — use `TableTD`.
 - For column header cells — use `<th scope="col">`.
 
 ## How to use it
@@ -44,7 +44,7 @@ Control `active` from parent state tracking which cell is currently focusable. O
     import DataTableHead from "../DataTableHead/DataTableHead.svelte";
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableData from "./DataTableData.svelte";
+    import DataTableTD from "./DataTableTD.svelte";
 </script>
 
 <DataTable label="Simple">
@@ -53,8 +53,8 @@ Control `active` from parent state tracking which cell is currently focusable. O
     </DataTableHead>
     <DataTableBody>
         <DataTableRow>
-            <DataTableData>1</DataTableData>
-            <DataTableData active>2</DataTableData>
+            <DataTableTD>1</DataTableTD>
+            <DataTableTD active>2</DataTableTD>
         </DataTableRow>
     </DataTableBody>
 </DataTable>
@@ -66,7 +66,7 @@ Control `active` from parent state tracking which cell is currently focusable. O
     import DataTableHead from "../DataTableHead/DataTableHead.svelte";
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableData from "./DataTableData.svelte";
+    import DataTableTD from "./DataTableTD.svelte";
 
     let row = $state(0);
     let col = $state(0);
@@ -84,7 +84,7 @@ Control `active` from parent state tracking which cell is currently focusable. O
         {#each rows as r, rIdx}
             <DataTableRow>
                 {#each r as cell, cIdx}
-                    <DataTableData active={row === rIdx && col === cIdx}>{cell}</DataTableData>
+                    <DataTableTD active={row === rIdx && col === cIdx}>{cell}</DataTableTD>
                 {/each}
             </DataTableRow>
         {/each}
@@ -98,7 +98,7 @@ Control `active` from parent state tracking which cell is currently focusable. O
     import DataTableHead from "../DataTableHead/DataTableHead.svelte";
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableData from "./DataTableData.svelte";
+    import DataTableTD from "./DataTableTD.svelte";
 </script>
 
 <DataTable label="Product list">
@@ -110,8 +110,8 @@ Control `active` from parent state tracking which cell is currently focusable. O
     </DataTableHead>
     <DataTableBody>
         <DataTableRow>
-            <DataTableData>Widget</DataTableData>
-            <DataTableData>$1.99</DataTableData>
+            <DataTableTD>Widget</DataTableTD>
+            <DataTableTD>$1.99</DataTableTD>
         </DataTableRow>
     </DataTableBody>
 </DataTable>
@@ -125,5 +125,5 @@ Control `active` from parent state tracking which cell is currently focusable. O
 
 ## Related components
 
-- `DataTableRow`, `DataTableHead`, `DataTableBody`, `DataTableFoot`, `DataTableCol` — compound parts.
+- `DataTableRow`, `DataTableHead`, `DataTableBody`, `DataTableFoot`, `DataTableTD` — compound parts.
 - `DataTable` — enclosing grid.

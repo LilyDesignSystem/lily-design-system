@@ -25,16 +25,16 @@ Sprint board with three workflow stages:
 <KanbanTable label="Sprint 5 board">
     <KanbanTableHead>
         <KanbanTableRow>
-            <KanbanTableCol>To Do</KanbanTableCol>
-            <KanbanTableCol>In Progress</KanbanTableCol>
-            <KanbanTableCol>Done</KanbanTableCol>
+            <KanbanTableTD>To Do</KanbanTableTD>
+            <KanbanTableTD>In Progress</KanbanTableTD>
+            <KanbanTableTD>Done</KanbanTableTD>
         </KanbanTableRow>
     </KanbanTableHead>
     <KanbanTableBody>
         <KanbanTableRow>
-            <KanbanTableData label="Fix login bug">Fix login bug</KanbanTableData>
-            <KanbanTableData label="Add dashboard">Add dashboard</KanbanTableData>
-            <KanbanTableData label="Setup CI/CD">Setup CI/CD</KanbanTableData>
+            <KanbanTableTD label="Fix login bug">Fix login bug</KanbanTableTD>
+            <KanbanTableTD label="Add dashboard">Add dashboard</KanbanTableTD>
+            <KanbanTableTD label="Setup CI/CD">Setup CI/CD</KanbanTableTD>
         </KanbanTableRow>
     </KanbanTableBody>
 </KanbanTable>
@@ -87,7 +87,7 @@ The consumer provides all CSS styling. The component renders with a `.kanban-tab
 
 ## Composition
 
-KanbanTable uses the Table composition pattern: KanbanTable contains KanbanTableHead, KanbanTableBody, and optionally KanbanTableFoot. Each section contains KanbanTableRow elements, which contain KanbanTableData cells representing items in each workflow column. Use KanbanTableCol for column-level styling.
+KanbanTable uses the Table composition pattern: KanbanTable contains KanbanTableHead, KanbanTableBody, and optionally KanbanTableFoot. Each section contains KanbanTableRow elements, which contain KanbanTableTD cells representing items in each workflow column. Use KanbanTableTD for column-level styling.
 
 ## References
 

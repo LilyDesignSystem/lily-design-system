@@ -39,8 +39,8 @@ button-input	ButtonInput	an input element of type button for form actions <input
 calendar-range-picker	CalendarRangePicker	a picker for selecting a date range on a calendar
 calendar-table	CalendarTable	a calendar table interactive grid for managing dates, days, etc. <table>
 calendar-table-body	CalendarTableBody	a calendar table interactive grid tbody for managing dates, days, etc. <tbody>
-calendar-table-col	CalendarTableCol	a calendar table interactive grid column for managing dates, days, etc. <th>
-calendar-table-data	CalendarTableData	a calendar table interactive grid data cell for managing dates, days, etc. <td>
+calendar-table-th	CalendarTableTH	a calendar table interactive grid header cell for managing dates, days, etc. <th>
+calendar-table-td	CalendarTableTD	a calendar table interactive grid data cell for managing dates, days, etc. <td>
 calendar-table-foot	CalendarTableFoot	a calendar table interactive grid tfoot for managing dates, days, etc. <tfoot>
 calendar-table-head	CalendarTableHead	a calendar table interactive grid thead for managing dates, days, etc. <thead>
 calendar-table-row	CalendarTableRow	a calendar table interactive grid row for managing dates, days, etc. <tr>
@@ -88,18 +88,18 @@ contextual-help	ContextualHelp	a help button that opens a popover with explanato
 currency-input	CurrencyInput	a locale-aware currency input with automatic formatting, symbols, separators
 data-filter-form	DataFilterForm	a form for filtering data by criteria
 data-table	DataTable	a data table interactive grid for displaying and sorting tabular data <table>
-data-table-body	DataTableBody	a data table interactive grid tbody for displaying and sorting tabular data <tbody>
-data-table-col	DataTableCol	a data table interactive grid column for displaying and sorting tabular data <th>
-data-table-data	DataTableData	a data table interactive grid data cell for displaying and sorting tabular data <td>
-data-table-foot	DataTableFoot	a data table interactive grid tfoot for displaying and sorting tabular data <tfoot>
 data-table-head	DataTableHead	a data table interactive grid thead for displaying and sorting tabular data <thead>
+data-table-body	DataTableBody	a data table interactive grid tbody for displaying and sorting tabular data <tbody>
+data-table-foot	DataTableFoot	a data table interactive grid tfoot for displaying and sorting tabular data <tfoot>
 data-table-row	DataTableRow	a data table interactive grid row for displaying and sorting tabular data <tr>
+data-table-th	DataTableTH	a data table interactive grid header cell for displaying and sorting tabular data <th>
+data-table-td	DataTableTD	a data table interactive grid data cell for displaying and sorting tabular data <td>
 date-field	DateField	a structured field for entering date components
 date-input	DateInput	an input for entering a date value <input type="date">
 date-range	DateRange	a display of a start and end date range
 date-time-now-input	DateTimeNowInput	an input for entering a date and time and "now" button <input type="date"><input type="time"><button type="button">
-datetime-local-input	DatetimeLocalInput	an input for entering a date and time without time zone <input type="datetime-local">
-datetime-view	DatetimeView	a read-only display of a formatted date and time
+date-time-local-input	DateTimeLocalInput	an input for entering a date and time without time zone <input type="datetime-local">
+date-time-view	DatetimeView	a read-only display of a formatted date and time
 description-list	DescriptionList	a definition list displaying information in key-value format <dl>
 description-list-item	DescriptionListItem	one key-value pair in a description list using dt and dd elements
 details	Details	a disclosure widget that shows and hides content
@@ -153,12 +153,12 @@ form	Form	a form element for collecting and submitting user data
 france-numero-d-identification-au-repertoire-input	FranceNumeroDIdentificationAuRepertoireInput	an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 france-numero-d-identification-au-repertoire-view	FranceNumeroDIdentificationAuRepertoireView	a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 gantt-table	GanttTable	a Gantt chart table interactive grid for planning schedule visualization <table>
-gantt-table-tbody	GanttTableTbody	a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
-gantt-table-th	GanttTableTh	a Gantt chart table interactive grid column for planning schedule visualization <th>
-gantt-table-td	GanttTableTd	a Gantt chart table interactive grid data cell for planning schedule visualization <td>
-gantt-table-tfoot	GanttTableTfoot	a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
-gantt-table-thead	GanttTableThead	a Gantt chart table interactive grid thead for planning schedule visualization <thead>
-gantt-table-tr	GanttTableTr	a Gantt chart table interactive grid row for planning schedule visualization <tr>
+gantt-table-body	GanttTableBody	a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
+gantt-table-th	GanttTableTH	a Gantt chart table interactive grid header cell for planning schedule visualization <th>
+gantt-table-td	GanttTableTD	a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+gantt-table-foot	GanttTableTfoot	a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
+gantt-table-head	GanttTableHead	a Gantt chart table interactive grid thead for planning schedule visualization <thead>
+gantt-table-row	GanttTableTR	a Gantt chart table interactive grid row for planning schedule visualization <tr>
 government-banner	GovernmentBanner	a banner identifying a website as belonging to a government, with an expandable details panel
 government-identifier	GovernmentIdentifier	an identifier section with a parent agency logo, agency name, and required government links
 grail-layout	GrailLayout	a responsive web design structure with header, left aside, center main, right aside, footer
@@ -191,8 +191,8 @@ ireland-individual-health-identifier-input	IrelandIndividualHealthIdentifierInpu
 ireland-individual-health-identifier-view	IrelandIndividualHealthIdentifierView	a read-only display of Ireland Individual Health Identifier (IHI) unique national healthcare identifier
 kanban-table	KanbanTable	a kanban board table interactive grid for organizing items by status <table>
 kanban-table-body	KanbanTableBody	a kanban board table interactive grid tbody for organizing items by status <tbody>
-kanban-table-col	KanbanTableCol	a kanban board table interactive grid column for organizing items by status <th>
-kanban-table-data	KanbanTableData	kanban board table interactive grid data cell for organizing items by status <td>
+kanban-table-th	KanbanTableTH	a kanban board table interactive grid header cell for organizing items by status <th>
+kanban-table-td	KanbanTableTD	kanban board table interactive grid data cell for organizing items by status <td>
 kanban-table-foot	KanbanTableFoot	a kanban board table interactive grid tfoot for organizing items by status <tfoot>
 kanban-table-head	KanbanTableHead	a kanban board table interactive grid thead for organizing items by status <thead>
 kanban-table-row	KanbanTableRow	a kanban board table interactive grid row for organizing items by status <tr>
@@ -260,6 +260,7 @@ postal-code-input	PostalCodeInput	an input for entering a postal or ZIP code
 postal-code-view	PostalCodeView	a read-only display of a postal or ZIP code
 product-card	ProductCard	a specialized card for displaying a product with image, title, price, and actions
 progress	Progress	a horizontal progress bar showing completion
+progress-bar	ProgressBar	a horizontal progress indicator
 progress-circle	ProgressCircle	a circular progress indicator
 progress-spinner	ProgressSpinner	an indeterminate spinning progress indicator
 qr-code	QrCode	a QR code image generated from text or URL data
@@ -323,8 +324,8 @@ tab-bar-button	TabBarButton	one tab button in a tab group
 tab-panel	TabPanel	a content panel associated with a tab in a tab bar
 table	Table	a table with rows and columns <table>
 table-body	TableBody	a table interactive grid tbody <tbody>
-table-col	TableCol	a table interactive grid column <th>
-table-data	TableData	a table interactive grid data cell <td>
+table-col	TableTD	a table interactive grid column <th>
+table-data	TableTD	a table interactive grid data cell <td>
 table-foot	TableFoot	a table interactive grid tfoot <tfoot>
 table-head	TableHead	a table interactive grid thead <thead>
 table-row	TableRow	a table interactive grid row <tr>
@@ -337,10 +338,10 @@ task-list	TaskList	an ordered list of task list items
 task-list-item	TaskListItem	one task item with a checkbox and label
 tel-input	TelInput	an input for entering a telephone number <input type="tel">
 tel-link	TelLink	a tel hyperlink for a telephone number
-text-area-with-character-counter	TextAreaWithCharacterCounter	a multi-line text area with a caption below that is a character counter "[number] of [maximum] characters"
+text-area-input	TextAreaInput	a multi-line text input area
+text-area-input-with-character-counter	TextAreaInputWithCharacterCounter	a multi-line text area input with a caption below that is a character counter "[number] of [maximum] characters"
 text-input	TextInput	a single-line text input field <input type="text">
 text-input-with-search	TextInputWithSearch	a single-line text input field <input type="text"> with search capability
-textarea	Textarea	a multi-line text input area
 theme-picker	ThemePicker	a picker for selecting a visual theme
 theme-picker-button	ThemePickerButton	a picker button for selecting a visual theme
 theme-select	ThemeSelect	a select dropdown for choosing a theme

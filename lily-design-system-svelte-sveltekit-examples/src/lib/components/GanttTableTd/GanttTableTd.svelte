@@ -1,7 +1,7 @@
 <script lang="ts">
-    // GanttTableTd component
+    // GanttTableTD component
     //
-    // A single cell within a GanttTableTr representing a time period in the
+    // A single cell within a GanttTableTR representing a time period in the
     // Gantt table grid. Renders as a <td> with role="gridcell". Supports an
     // active state to indicate the task spans this time period, communicated
     // via aria-selected for screen readers.
@@ -13,18 +13,18 @@
     //   ...restProps — additional HTML attributes spread onto the <td>.
     //
     // Syntax:
-    //   <GanttTableTd active>---</GanttTableTd>
-    //   <GanttTableTd />
+    //   <GanttTableTD active>---</GanttTableTD>
+    //   <GanttTableTD />
     //
     // Examples:
     //   <!-- Active time period with bar content -->
-    //   <GanttTableTd active>---</GanttTableTd>
+    //   <GanttTableTD active>---</GanttTableTD>
     //
     //   <!-- Inactive empty time period -->
-    //   <GanttTableTd />
+    //   <GanttTableTD />
     //
     //   <!-- Active with milestone marker -->
-    //   <GanttTableTd active>◆</GanttTableTd>
+    //   <GanttTableTD active>◆</GanttTableTD>
     //
     // Keyboard:
     //   None built-in — keyboard navigation is handled at the GanttTable grid level.
@@ -39,7 +39,7 @@
     //
     // Claude rules:
     //   - Headless: no CSS, no styles — consumer provides all styling
-    //   - Must be used inside a GanttTableTr (which provides the <tr>)
+    //   - Must be used inside a GanttTableTR (which provides the <tr>)
     //   - Children are optional — empty cells represent inactive time periods
     //
     // References:
@@ -61,7 +61,7 @@
     } = $props();
 </script>
 
-<!-- GanttTableTd.svelte -->
+<!-- GanttTableTD.svelte -->
 <td
     class={`gantt-table-td ${className}`}
     role="gridcell"

@@ -22,8 +22,8 @@ Use this component within a Table to define the body section containing data row
 <Table label="Users">
   <TableBody>
     <TableRow>
-      <TableData>Alice</TableData>
-      <TableData>alice@example.com</TableData>
+      <TableTD>Alice</TableTD>
+      <TableTD>alice@example.com</TableTD>
     </TableRow>
   </TableBody>
 </Table>
@@ -64,7 +64,7 @@ The consumer provides all CSS styling. The component renders with a `.table-body
 
 ## Composition
 
-TableBody is a child of Table, following the Table pattern: Table > TableHead/TableBody/TableFoot > TableRow > TableData.
+TableBody is a child of Table, following the Table pattern: Table > TableHead/TableBody/TableFoot > TableRow > TableTD.
 
 ## References
 

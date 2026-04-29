@@ -1,4 +1,4 @@
-# DataTableData
+# DataTableTD
 
 A single data cell within a DataTableRow. Renders as a `<td>` with `role="gridcell"`. Supports an active state for indicating the currently focused or selected cell, communicated via `aria-selected`. Uses a roving tabindex pattern.
 
@@ -12,8 +12,8 @@ A single data cell within a DataTableRow. Renders as a `<td>` with `role="gridce
 
 ```svelte
 <DataTableRow>
-  <DataTableData>Alice</DataTableData>
-  <DataTableData active>Bob</DataTableData>
+  <DataTableTD>Alice</DataTableTD>
+  <DataTableTD active>Bob</DataTableTD>
 </DataTableRow>
 ```
 

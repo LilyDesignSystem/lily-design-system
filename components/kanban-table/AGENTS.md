@@ -12,7 +12,7 @@
 ## Composition
 
 - Pattern: Table/Head/Body/Foot/Col/Row/Data
-- Children: kanban-table-head, kanban-table-body, kanban-table-foot, kanban-table-col, kanban-table-row, kanban-table-data
+- Children: kanban-table-head, kanban-table-body, kanban-table-foot, kanban-table-col, kanban-table-row, kanban-table-td
 
 ## Key Behaviors
 

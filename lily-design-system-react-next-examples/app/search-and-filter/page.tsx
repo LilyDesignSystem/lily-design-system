@@ -10,7 +10,7 @@ import DataTable from "@pgds/DataTable";
 import DataTableHead from "@pgds/DataTableHead";
 import DataTableBody from "@pgds/DataTableBody";
 import DataTableRow from "@pgds/DataTableRow";
-import DataTableData from "@pgds/DataTableData";
+import DataTableTD from "@pgds/DataTableTD";
 import Badge from "@pgds/Badge";
 
 interface Product {
@@ -122,12 +122,12 @@ export default function SearchAndFilterPage() {
                 <DataTableBody>
                     {filtered.map((p) => (
                         <DataTableRow key={p.id}>
-                            <DataTableData>{p.name}</DataTableData>
-                            <DataTableData>{p.category}</DataTableData>
-                            <DataTableData>${p.price.toFixed(2)}</DataTableData>
-                            <DataTableData>
+                            <DataTableTD>{p.name}</DataTableTD>
+                            <DataTableTD>{p.category}</DataTableTD>
+                            <DataTableTD>${p.price.toFixed(2)}</DataTableTD>
+                            <DataTableTD>
                                 <Badge type={statusBadgeType(p.status)}>{p.status}</Badge>
-                            </DataTableData>
+                            </DataTableTD>
                         </DataTableRow>
                     ))}
                 </DataTableBody>

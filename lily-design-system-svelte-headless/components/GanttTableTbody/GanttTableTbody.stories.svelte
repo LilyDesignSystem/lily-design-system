@@ -1,10 +1,10 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import GanttTableTbody from './GanttTableTbody.svelte';
+  import GanttTableBody from './GanttTableBody.svelte';
 
   const { Story } = defineMeta({
-    title: 'Headless/GanttTableTbody',
-    component: GanttTableTbody,
+    title: 'Headless/GanttTableBody',
+    component: GanttTableBody,
   });
 </script>
 

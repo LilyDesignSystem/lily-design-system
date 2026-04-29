@@ -1,2 +1,2 @@
-export { default } from "@pgds/CalendarTableData";
-export type * from "@pgds/CalendarTableData";
+export { default } from "@pgds/CalendarTableTD";
+export type * from "@pgds/CalendarTableTD";

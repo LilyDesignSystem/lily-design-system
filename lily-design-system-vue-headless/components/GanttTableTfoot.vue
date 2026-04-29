@@ -3,18 +3,18 @@
     // GanttTableTfoot component
     //
     // The footer section of a GanttTable, rendered as a <tfoot> element.
-    // Contains GanttTableTr elements with summary or aggregate data cells.
+    // Contains GanttTableTR elements with summary or aggregate data cells.
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   default slot. GanttTableTr elements with footer cells.
+    //   default slot. GanttTableTR elements with footer cells.
     //   ...restProps — additional HTML attributes spread onto the <tfoot>.
     //
     // Syntax:
     //   <GanttTableTfoot>
-    //     <GanttTableTr>
-    //       <GanttTableTd>Total: 12 tasks</GanttTableTd>
-    //     </GanttTableTr>
+    //     <GanttTableTR>
+    //       <GanttTableTD>Total: 12 tasks</GanttTableTD>
+    //     </GanttTableTR>
     //   </GanttTableTfoot>
     //
     // Keyboard:
@@ -36,7 +36,7 @@
 <template>
     <!-- GanttTableTfoot.vue -->
     <tfoot
-        class="gantt-table-tfoot"
+        class="gantt-table-foot"
     >
         <slot />
     </tfoot>

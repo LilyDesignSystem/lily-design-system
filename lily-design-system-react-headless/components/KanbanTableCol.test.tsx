@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { render } from "@testing-library/react";
 
-import Subject from "./KanbanTableCol";
+import Subject from "./KanbanTableTD";
 
 function renderInRow(props: Record<string, unknown> = {}) {
     return render(
@@ -12,7 +12,7 @@ function renderInRow(props: Record<string, unknown> = {}) {
     );
 }
 
-describe("KanbanTableCol", () => {
+describe("KanbanTableTD", () => {
     test("renders a th element", () => {
         renderInRow();
         const th = document.querySelector("th");

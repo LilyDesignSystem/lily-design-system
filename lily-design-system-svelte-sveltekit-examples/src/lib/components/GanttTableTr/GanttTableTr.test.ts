@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
-import GanttTableTr from "./GanttTableTr.svelte";
+import GanttTableTR from "./GanttTableTR.svelte";
 
-describe("GanttTableTr", () => {
+describe("GanttTableTR", () => {
     test("renders the component", () => {
-        render(GanttTableTr, { props: { label: "Test" }, context: new Map() });
+        render(GanttTableTR, { props: { label: "Test" }, context: new Map() });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
     });

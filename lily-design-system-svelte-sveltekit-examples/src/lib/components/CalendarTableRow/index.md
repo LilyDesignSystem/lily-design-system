@@ -3,7 +3,7 @@
 ## Overview
 
 A single row within a CalendarTable grid. Renders as a <tr>,
-containing CalendarTableData cells for each day in the week.
+containing CalendarTableTD cells for each day in the week.
 Used inside CalendarTableHead, CalendarTableBody, or CalendarTableFoot.
 
 ## What it does
@@ -22,8 +22,8 @@ A calendar table interactive grid row for managing dates, days, etc. <tr>.
 
 ```svelte
 <CalendarTableRow>
-  <CalendarTableData>1</CalendarTableData>
-  <CalendarTableData>2</CalendarTableData>
+  <CalendarTableTD>1</CalendarTableTD>
+  <CalendarTableTD>2</CalendarTableTD>
 </CalendarTableRow>
 ```
 
@@ -32,7 +32,7 @@ A calendar table interactive grid row for managing dates, days, etc. <tr>.
 | Prop | Type | Description |
 |------|------|-------------|
 | `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | CalendarTableData cells for each day in the row. |
+| `children` | Snippet, required | CalendarTableTD cells for each day in the row. |
 | `...restProps` | additional HTML attributes spread onto the <tr> |  |
 
 ## SvelteKit example
@@ -44,8 +44,8 @@ A calendar table interactive grid row for managing dates, days, etc. <tr>.
 </script>
 
 <CalendarTableRow>
-  <CalendarTableData>1</CalendarTableData>
-  <CalendarTableData>2</CalendarTableData>
+  <CalendarTableTD>1</CalendarTableTD>
+  <CalendarTableTD>2</CalendarTableTD>
 </CalendarTableRow>
 ```
 

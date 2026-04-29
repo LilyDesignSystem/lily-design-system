@@ -7,7 +7,7 @@ Implement the Gantt Table Body component: a Gantt chart table interactive grid t
 ## HTML Tag and CSS Class
 
 - HTML tag: <tbody>
-- CSS class: .gantt-table-tbody
+- CSS class: .gantt-table-body
 
 ## Dependencies
 
@@ -15,7 +15,7 @@ Implement the Gantt Table Body component: a Gantt chart table interactive grid t
 
 ## Approach
 
-1. Use semantic <tbody> element with class="gantt-table-tbody"
+1. Use semantic <tbody> element with class="gantt-table-body"
 2. Add ARIA attributes for accessibility
 3. Implement in HTML headless (plain HTML + vanilla JS)
 4. Implement in Svelte headless (Svelte 5 + runes)
@@ -24,7 +24,7 @@ Implement the Gantt Table Body component: a Gantt chart table interactive grid t
 
 ## Acceptance Criteria
 
-- [ ] Renders <tbody> with class="gantt-table-tbody"
+- [ ] Renders <tbody> with class="gantt-table-body"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 - [ ] Tests pass in all implementations

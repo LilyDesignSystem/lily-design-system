@@ -2,11 +2,11 @@
 
 ## Metadata
 
-- Component: data-table-data
-- PascalCase: DataTableData
+- Component: data-table-td
+- PascalCase: DataTableTD
 - Description: a data table interactive grid data cell for displaying and sorting tabular data <td>
 - HTML tag: <td>
-- CSS class: .data-table-data
+- CSS class: .data-table-td
 - Interactive: no
 
 ## Composition
@@ -33,14 +33,14 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <td> element with class="data-table-data"
+- [ ] Renders <td> element with class="data-table-td"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
 ## References
 
 - Documentation: index.md
-- CSS class: .data-table-data in css-style-sheet-template.css
-- HTML headless: lily-design-system-html-headless/components/data-table-data.html
+- CSS class: .data-table-td in css-style-sheet-template.css
+- HTML headless: lily-design-system-html-headless/components/data-table-td.html
 - WAI-ARIA Table Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/table/
 - WAI Tutorial on Tables: https://www.w3.org/WAI/tutorials/tables/

@@ -1,4 +1,4 @@
-# CalendarTableCol
+# CalendarTableTD
 
 ## Overview
 
@@ -22,9 +22,9 @@ A calendar table interactive grid column for managing dates, days, etc. <th>.
 
 ```svelte
 <colgroup>
-  <CalendarTableCol />
-  <CalendarTableCol span={5} />
-  <CalendarTableCol />
+  <CalendarTableTD />
+  <CalendarTableTD span={5} />
+  <CalendarTableTD />
 </colgroup>
 ```
 
@@ -41,13 +41,13 @@ A calendar table interactive grid column for managing dates, days, etc. <th>.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CalendarTableCol from "$lib/components/CalendarTableCol/CalendarTableCol.svelte";
+  import CalendarTableTD from "$lib/components/CalendarTableTD/CalendarTableTD.svelte";
 </script>
 
 <colgroup>
-  <CalendarTableCol />
-  <CalendarTableCol span={5} />
-  <CalendarTableCol />
+  <CalendarTableTD />
+  <CalendarTableTD span={5} />
+  <CalendarTableTD />
 </colgroup>
 ```
 

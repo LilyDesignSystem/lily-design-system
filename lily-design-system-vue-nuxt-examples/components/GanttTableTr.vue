@@ -1,36 +1,36 @@
 <script setup lang="ts">
 
-    // GanttTableTr component
+    // GanttTableTR component
     //
     // A single row within a GanttTable grid. Renders as a <tr> containing
-    // GanttTableTd cells for each time period and task header cells.
-    // Used inside GanttTableThead, GanttTableTbody, or GanttTableTfoot.
+    // GanttTableTD cells for each time period and task header cells.
+    // Used inside GanttTableHead, GanttTableBody, or GanttTableTfoot.
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   default slot. GanttTableTd cells and header cells for this row.
+    //   default slot. GanttTableTD cells and header cells for this row.
     //   ...restProps — additional HTML attributes spread onto the <tr>.
     //
     // Syntax:
-    //   <GanttTableTr>
+    //   <GanttTableTR>
     //     <th>Design</th>
-    //     <GanttTableTd active>---</GanttTableTd>
-    //     <GanttTableTd />
-    //   </GanttTableTr>
+    //     <GanttTableTD active>---</GanttTableTD>
+    //     <GanttTableTD />
+    //   </GanttTableTR>
     //
     // Examples:
     //   <!-- Task row with active time periods -->
-    //   <GanttTableTr>
+    //   <GanttTableTR>
     //     <th>Development</th>
-    //     <GanttTableTd />
-    //     <GanttTableTd active>---</GanttTableTd>
-    //     <GanttTableTd active>---</GanttTableTd>
-    //   </GanttTableTr>
+    //     <GanttTableTD />
+    //     <GanttTableTD active>---</GanttTableTD>
+    //     <GanttTableTD active>---</GanttTableTD>
+    //   </GanttTableTR>
     //
     //   <!-- Header row with time period labels -->
-    //   <GanttTableTr>
+    //   <GanttTableTR>
     //     <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-    //   </GanttTableTr>
+    //   </GanttTableTR>
     //
     // Keyboard:
     //   None built-in — keyboard navigation is handled at the GanttTable grid level.
@@ -52,9 +52,9 @@
 </script>
 
 <template>
-    <!-- GanttTableTr.vue -->
+    <!-- GanttTableTR.vue -->
     <tr
-        class="gantt-table-tr"
+        class="gantt-table-row"
     >
         <slot />
     </tr>

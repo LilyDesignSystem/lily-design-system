@@ -23,9 +23,9 @@ Kanban board header with three workflow stages:
 <KanbanTable label="Sprint board">
     <KanbanTableHead>
         <KanbanTableRow>
-            <KanbanTableCol>To Do</KanbanTableCol>
-            <KanbanTableCol>In Progress</KanbanTableCol>
-            <KanbanTableCol>Done</KanbanTableCol>
+            <KanbanTableTD>To Do</KanbanTableTD>
+            <KanbanTableTD>In Progress</KanbanTableTD>
+            <KanbanTableTD>Done</KanbanTableTD>
         </KanbanTableRow>
     </KanbanTableHead>
     <KanbanTableBody>

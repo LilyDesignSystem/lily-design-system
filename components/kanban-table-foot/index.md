@@ -29,9 +29,9 @@ Kanban board footer with item count and action button:
     </KanbanTableBody>
     <KanbanTableFoot>
         <KanbanTableRow>
-            <KanbanTableData>3 items</KanbanTableData>
-            <KanbanTableData>5 items</KanbanTableData>
-            <KanbanTableData>4 items</KanbanTableData>
+            <KanbanTableTD>3 items</KanbanTableTD>
+            <KanbanTableTD>5 items</KanbanTableTD>
+            <KanbanTableTD>4 items</KanbanTableTD>
         </KanbanTableRow>
     </KanbanTableFoot>
 </KanbanTable>

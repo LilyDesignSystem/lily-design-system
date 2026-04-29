@@ -423,14 +423,14 @@ a:focus {
 
 .calendar-table-head,
 .data-table-head,
-.gantt-table-thead,
+.gantt-table-head,
 .kanban-table-head {
     background-color: var(--nhs-pale-grey);
 }
 
 .calendar-table-head th,
 .data-table-head th,
-.gantt-table-thead th,
+.gantt-table-head th,
 .kanban-table-head th {
     padding: var(--nhs-space-2) var(--nhs-space-3);
     text-align: left;
@@ -440,12 +440,12 @@ a:focus {
 
 .calendar-table-body td,
 .data-table-body td,
-.gantt-table-tbody td,
+.gantt-table-body td,
 .kanban-table-body td,
-.calendar-table-data,
-.data-table-data,
+.calendar-table-td,
+.data-table-td,
 .gantt-table-td,
-.kanban-table-data {
+.kanban-table-td {
     padding: var(--nhs-space-2) var(--nhs-space-3);
     border-bottom: var(--nhs-border-width) solid var(--nhs-pale-grey);
     vertical-align: top;
@@ -453,21 +453,21 @@ a:focus {
 
 .calendar-table-row,
 .data-table-row,
-.gantt-table-tr,
+.gantt-table-row,
 .kanban-table-row {
     border-bottom: var(--nhs-border-width) solid var(--nhs-pale-grey);
 }
 
 .calendar-table-row:hover,
 .data-table-row:hover,
-.gantt-table-tr:hover,
+.gantt-table-row:hover,
 .kanban-table-row:hover {
     background-color: var(--nhs-pale-grey);
 }
 
 .calendar-table-foot,
 .data-table-foot,
-.gantt-table-tfoot,
+.gantt-table-foot,
 .kanban-table-foot {
     background-color: var(--nhs-pale-grey);
 }

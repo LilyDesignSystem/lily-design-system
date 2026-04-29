@@ -28,13 +28,13 @@ This headless component renders a `<div>` with `role="application"` and an acces
     </CalendarTableHead>
     <CalendarTableBody>
       <CalendarTableRow>
-        <CalendarTableData selected>6</CalendarTableData>
-        <CalendarTableData selected>7</CalendarTableData>
-        <CalendarTableData selected>8</CalendarTableData>
-        <CalendarTableData selected>9</CalendarTableData>
-        <CalendarTableData selected>10</CalendarTableData>
-        <CalendarTableData>11</CalendarTableData>
-        <CalendarTableData>12</CalendarTableData>
+        <CalendarTableTD selected>6</CalendarTableTD>
+        <CalendarTableTD selected>7</CalendarTableTD>
+        <CalendarTableTD selected>8</CalendarTableTD>
+        <CalendarTableTD selected>9</CalendarTableTD>
+        <CalendarTableTD selected>10</CalendarTableTD>
+        <CalendarTableTD>11</CalendarTableTD>
+        <CalendarTableTD>12</CalendarTableTD>
       </CalendarTableRow>
     </CalendarTableBody>
   </CalendarTable>

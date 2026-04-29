@@ -1,9 +1,9 @@
 // calendar-table-col.test.js
-// CalendarTableCol component test
+// CalendarTableTD component test
 
 const path = require('path');
 
-describe('CalendarTableCol', function() {
+describe('CalendarTableTD', function() {
   beforeEach(async function() {
     await browser.url('file://' + path.resolve(__dirname, 'calendar-table-col.html'));
   });

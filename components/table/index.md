@@ -25,21 +25,21 @@ This headless table component renders a semantic `<table>` element with an acces
 <Table label="Prescription charges">
   <TableHead>
     <TableRow>
-      <TableCol scope="col">Item</TableCol>
-      <TableCol scope="col">Current charge</TableCol>
-      <TableCol scope="col">New charge</TableCol>
+      <TableTD scope="col">Item</TableTD>
+      <TableTD scope="col">Current charge</TableTD>
+      <TableTD scope="col">New charge</TableTD>
     </TableRow>
   </TableHead>
   <TableBody>
     <TableRow>
-      <TableCol scope="row">3-month prepayment certificate</TableCol>
-      <TableData>£31.25</TableData>
-      <TableData>£32.05</TableData>
+      <TableTD scope="row">3-month prepayment certificate</TableTD>
+      <TableTD>£31.25</TableTD>
+      <TableTD>£32.05</TableTD>
     </TableRow>
     <TableRow>
-      <TableCol scope="row">12-month prepayment certificate</TableCol>
-      <TableData>£111.60</TableData>
-      <TableData>£114.50</TableData>
+      <TableTD scope="row">12-month prepayment certificate</TableTD>
+      <TableTD>£111.60</TableTD>
+      <TableTD>£114.50</TableTD>
     </TableRow>
   </TableBody>
 </Table>

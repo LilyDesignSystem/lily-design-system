@@ -1,9 +1,9 @@
-# Gantt Table Col
+# Gantt Table TH
 
 ## Metadata
 
 - Component: gantt-table-th
-- PascalCase: GanttTableTh
+- PascalCase: GanttTableTH
 - Description: a Gantt chart table interactive grid column for planning schedule visualization <th>
 - HTML tag: <th>
 - CSS class: .gantt-table-th
@@ -17,7 +17,7 @@
 ## Key Behaviors
 
 - Renders as a `<th>` element with `scope="col"` by default
-- Intended to live inside a GanttTableTr within GanttTableThead, where it labels a time-period column
+- Intended to live inside a GanttTableTR within GanttTableHead, where it labels a time-period column
 - Accepts optional `colspan` / `rowspan` for grouped header cells
 - Accepts an alternative `scope` (e.g. `"colgroup"` for grouped headers)
 - Renders header text via children

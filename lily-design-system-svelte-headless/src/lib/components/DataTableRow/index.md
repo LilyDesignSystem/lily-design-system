@@ -1,6 +1,6 @@
 # DataTableRow
 
-A single row within a `DataTable`. Renders a `<tr>` containing `DataTableData` cells or `<th>` header cells. Used inside `DataTableHead`, `DataTableBody`, or `DataTableFoot`.
+A single row within a `DataTable`. Renders a `<tr>` containing `DataTableTD` cells or `<th>` header cells. Used inside `DataTableHead`, `DataTableBody`, or `DataTableFoot`.
 
 ## What it is
 
@@ -22,7 +22,7 @@ DataTableRow is a structural wrapper emitting `<tr class="data-table-row ...">`.
 
 ## How to use it
 
-Place inside `DataTableHead`, `DataTableBody`, or `DataTableFoot`. Populate with `DataTableData` cells or `<th scope="col"|"row">`.
+Place inside `DataTableHead`, `DataTableBody`, or `DataTableFoot`. Populate with `DataTableTD` cells or `<th scope="col"|"row">`.
 
 ## Props
 
@@ -40,7 +40,7 @@ Place inside `DataTableHead`, `DataTableBody`, or `DataTableFoot`. Populate with
     import DataTableHead from "../DataTableHead/DataTableHead.svelte";
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableRow from "./DataTableRow.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 </script>
 
 <DataTable label="Users">
@@ -52,8 +52,8 @@ Place inside `DataTableHead`, `DataTableBody`, or `DataTableFoot`. Populate with
     </DataTableHead>
     <DataTableBody>
         <DataTableRow>
-            <DataTableData>Alice</DataTableData>
-            <DataTableData>alice@example.com</DataTableData>
+            <DataTableTD>Alice</DataTableTD>
+            <DataTableTD>alice@example.com</DataTableTD>
         </DataTableRow>
     </DataTableBody>
 </DataTable>
@@ -65,7 +65,7 @@ Place inside `DataTableHead`, `DataTableBody`, or `DataTableFoot`. Populate with
     import DataTableHead from "../DataTableHead/DataTableHead.svelte";
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableRow from "./DataTableRow.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 
     const rows = [
         { id: 1, name: "Alice" },
@@ -80,7 +80,7 @@ Place inside `DataTableHead`, `DataTableBody`, or `DataTableFoot`. Populate with
     <DataTableBody>
         {#each rows as r (r.id)}
             <DataTableRow aria-rowindex={r.id + 1}>
-                <DataTableData>{r.name}</DataTableData>
+                <DataTableTD>{r.name}</DataTableTD>
             </DataTableRow>
         {/each}
     </DataTableBody>
@@ -93,14 +93,14 @@ Place inside `DataTableHead`, `DataTableBody`, or `DataTableFoot`. Populate with
     import DataTableHead from "../DataTableHead/DataTableHead.svelte";
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableRow from "./DataTableRow.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 </script>
 
 <DataTable label="With row header">
     <DataTableBody>
         <DataTableRow>
             <th scope="row">Total</th>
-            <DataTableData>42</DataTableData>
+            <DataTableTD>42</DataTableTD>
         </DataTableRow>
     </DataTableBody>
 </DataTable>
@@ -113,4 +113,4 @@ Place inside `DataTableHead`, `DataTableBody`, or `DataTableFoot`. Populate with
 
 ## Related components
 
-- `DataTable`, `DataTableHead`, `DataTableBody`, `DataTableFoot`, `DataTableCol`, `DataTableData`.
+- `DataTable`, `DataTableHead`, `DataTableBody`, `DataTableFoot`, `DataTableTD`, `DataTableTD`.

@@ -13,7 +13,7 @@ Use this component within TableHead, TableBody, or TableFoot to define rows of t
 ## Props
 
 - `className`: string (default: `""`) -- CSS class name for the row
-- `children`: slot (required) -- row cells, typically `<th>` or TableData components
+- `children`: slot (required) -- row cells, typically `<th>` or TableTD components
 - `...restProps`: unknown -- additional attributes spread onto the `<tr>` element
 
 ## Usage
@@ -21,8 +21,8 @@ Use this component within TableHead, TableBody, or TableFoot to define rows of t
 ```html
 <TableBody>
   <TableRow>
-    <TableData>Alice</TableData>
-    <TableData>alice@example.com</TableData>
+    <TableTD>Alice</TableTD>
+    <TableTD>alice@example.com</TableTD>
   </TableRow>
 </TableBody>
 ```
@@ -38,7 +38,7 @@ No additional ARIA attributes. Row semantics are provided by the `<tr>` element.
 ## When to Use
 
 - Use inside TableHead, TableBody, or TableFoot to represent one row of data
-- Use to group TableCol (header) and TableData (data) cells into a logical row
+- Use to group TableTD (header) and TableTD (data) cells into a logical row
 - Use inside TableHead for column header rows and inside TableBody for data rows
 
 ## When Not to Use
@@ -62,7 +62,7 @@ The consumer provides all CSS styling. The component renders with a `.table-row`
 
 ## Composition
 
-TableRow is a child of TableHead/TableBody/TableFoot, following the Table pattern: Table > TableHead/TableBody/TableFoot > TableRow > TableData.
+TableRow is a child of TableHead/TableBody/TableFoot, following the Table pattern: Table > TableHead/TableBody/TableFoot > TableRow > TableTD.
 
 ## References
 

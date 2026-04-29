@@ -3,7 +3,7 @@
 ## Metadata
 
 - Component: gantt-table-td
-- PascalCase: GanttTableTd
+- PascalCase: GanttTableTD
 - Description: a Gantt chart table interactive grid data cell for planning schedule visualization <td>
 - HTML tag: <td>
 - CSS class: .gantt-table-td
@@ -16,7 +16,7 @@
 
 ## Key Behaviors
 
-- Renders as a `<td>` element for use inside a GanttTableTr within a GanttTable grid
+- Renders as a `<td>` element for use inside a GanttTableTR within a GanttTable grid
 - Content is provided through the children slot, typically bar segments, milestone markers, or progress indicators
 - Spreads `...restProps` onto the `<td>` element for consumer customization
 - No internal state -- purely a structural wrapper for cell content

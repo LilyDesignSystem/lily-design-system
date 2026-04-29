@@ -1,4 +1,4 @@
-# CalendarTableCol
+# CalendarTableTD
 
 A column header cell within a CalendarTable, rendered as a `<th scope="col">` element. Intended to live inside a CalendarTableRow within CalendarTableHead, where it labels day-of-week or other calendar-grid columns.
 
@@ -16,8 +16,8 @@ A column header cell within a CalendarTable, rendered as a `<th scope="col">` el
 <CalendarTable label="January 2025">
   <CalendarTableHead>
     <CalendarTableRow>
-      <CalendarTableCol>Sun</CalendarTableCol>
-      <CalendarTableCol>Mon</CalendarTableCol>
+      <CalendarTableTD>Sun</CalendarTableTD>
+      <CalendarTableTD>Mon</CalendarTableTD>
     </CalendarTableRow>
   </CalendarTableHead>
   ...

@@ -23,19 +23,19 @@ A Gantt chart table interactive grid for planning schedule visualization <table>
 
 ```svelte
 <GanttTable label="Project timeline">
-  <GanttTableThead>
-    <GanttTableTr>
+  <GanttTableHead>
+    <GanttTableTR>
       <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-    </GanttTableTr>
-  </GanttTableThead>
-  <GanttTableTbody>
-    <GanttTableTr>
+    </GanttTableTR>
+  </GanttTableHead>
+  <GanttTableBody>
+    <GanttTableTR>
       <th>Design</th>
-      <GanttTableTd active>---</GanttTableTd>
-      <GanttTableTd />
-      <GanttTableTd />
-    </GanttTableTr>
-  </GanttTableTbody>
+      <GanttTableTD active>---</GanttTableTD>
+      <GanttTableTD />
+      <GanttTableTD />
+    </GanttTableTR>
+  </GanttTableBody>
 </GanttTable>
 ```
 
@@ -46,7 +46,7 @@ A Gantt chart table interactive grid for planning schedule visualization <table>
 | `className` | string, optional | CSS class name. |
 | `label` | string, required | Accessible name describing the Gantt table content. |
 | `caption` | string, optional | Visible caption text displayed above the table. |
-| `children` | Snippet, required | GanttTableThead, GanttTableTbody, GanttTableTfoot elements. |
+| `children` | Snippet, required | GanttTableHead, GanttTableBody, GanttTableTfoot elements. |
 | `...restProps` | additional HTML attributes spread onto the <table> |  |
 
 ## SvelteKit example
@@ -58,19 +58,19 @@ A Gantt chart table interactive grid for planning schedule visualization <table>
 </script>
 
 <GanttTable label="Project timeline">
-  <GanttTableThead>
-    <GanttTableTr>
+  <GanttTableHead>
+    <GanttTableTR>
       <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-    </GanttTableTr>
-  </GanttTableThead>
-  <GanttTableTbody>
-    <GanttTableTr>
+    </GanttTableTR>
+  </GanttTableHead>
+  <GanttTableBody>
+    <GanttTableTR>
       <th>Design</th>
-      <GanttTableTd active>---</GanttTableTd>
-      <GanttTableTd />
-      <GanttTableTd />
-    </GanttTableTr>
-  </GanttTableTbody>
+      <GanttTableTD active>---</GanttTableTD>
+      <GanttTableTD />
+      <GanttTableTD />
+    </GanttTableTR>
+  </GanttTableBody>
 </GanttTable>
 ```
 

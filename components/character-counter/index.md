@@ -62,7 +62,7 @@ None -- this component is a passive status display.
 - Do not use if the character limit could be increased or removed — relax backend constraints instead of restricting users.
 - Do not use without first testing whether your service works without a character limit.
 - Do not use for short fields like names or postcodes — use TextInput with an appropriate width instead.
-- Do not use as a standalone component — pair it with Textarea inside TextAreaWithCharacterCounter for a complete user experience.
+- Do not use as a standalone component — pair it with Textarea inside TextAreaInputWithCharacterCounter for a complete user experience.
 
 ## Headless
 

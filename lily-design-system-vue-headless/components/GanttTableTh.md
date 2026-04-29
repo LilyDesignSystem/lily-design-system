@@ -1,6 +1,6 @@
-# GanttTableTh
+# GanttTableTH
 
-A column header cell within a GanttTable, rendered as a `<th scope="col">` element. Intended to live inside a GanttTableTr within GanttTableThead, where it labels a time-period column.
+A column header cell within a GanttTable, rendered as a `<th scope="col">` element. Intended to live inside a GanttTableTR within GanttTableHead, where it labels a time-period column.
 
 ## Props
 
@@ -14,13 +14,13 @@ A column header cell within a GanttTable, rendered as a `<th scope="col">` eleme
 
 ```vue
 <GanttTable label="Project timeline">
-  <GanttTableThead>
-    <GanttTableTr>
-      <GanttTableTh>Task</GanttTableTh>
-      <GanttTableTh>W1</GanttTableTh>
-      <GanttTableTh>W2</GanttTableTh>
-    </GanttTableTr>
-  </GanttTableThead>
+  <GanttTableHead>
+    <GanttTableTR>
+      <GanttTableTH>Task</GanttTableTH>
+      <GanttTableTH>W1</GanttTableTH>
+      <GanttTableTH>W2</GanttTableTH>
+    </GanttTableTR>
+  </GanttTableHead>
   ...
 </GanttTable>
 ```

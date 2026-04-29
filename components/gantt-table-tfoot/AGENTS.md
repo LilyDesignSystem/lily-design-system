@@ -2,11 +2,11 @@
 
 ## Metadata
 
-- Component: gantt-table-tfoot
+- Component: gantt-table-foot
 - PascalCase: GanttTableTfoot
 - Description: a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
 - HTML tag: <tfoot>
-- CSS class: .gantt-table-tfoot
+- CSS class: .gantt-table-foot
 - Interactive: no
 
 ## Composition
@@ -33,13 +33,13 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <tfoot> element with class="gantt-table-tfoot"
+- [ ] Renders <tfoot> element with class="gantt-table-foot"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
 ## References
 
 - Documentation: index.md
-- CSS class: .gantt-table-tfoot in css-style-sheet-template.css
-- HTML headless: lily-design-system-html-headless/components/gantt-table-tfoot.html
+- CSS class: .gantt-table-foot in css-style-sheet-template.css
+- HTML headless: lily-design-system-html-headless/components/gantt-table-foot.html
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

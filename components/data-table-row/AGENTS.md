@@ -17,7 +17,7 @@
 ## Key Behaviors
 
 - Renders as a `<tr>` element for one row in a data table
-- Children should be data cells (`<td>` or DataTableData) or header cells (`<th>`)
+- Children should be data cells (`<td>` or DataTableTD) or header cells (`<th>`)
 - Designed to be used inside DataTableHead, DataTableBody, or DataTableFoot
 - Spreads `restProps` onto the `<tr>` element for consumer customization
 - No internal state -- purely a structural wrapper

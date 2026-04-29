@@ -22,8 +22,8 @@ A calendar table interactive grid tbody for managing dates, days, etc. <tbody>.
 ```svelte
 <CalendarTableBody>
   <CalendarTableRow>
-    <CalendarTableData>1</CalendarTableData>
-    <CalendarTableData>2</CalendarTableData>
+    <CalendarTableTD>1</CalendarTableTD>
+    <CalendarTableTD>2</CalendarTableTD>
   </CalendarTableRow>
 </CalendarTableBody>
 ```
@@ -46,8 +46,8 @@ A calendar table interactive grid tbody for managing dates, days, etc. <tbody>.
 
 <CalendarTableBody>
   <CalendarTableRow>
-    <CalendarTableData>1</CalendarTableData>
-    <CalendarTableData>2</CalendarTableData>
+    <CalendarTableTD>1</CalendarTableTD>
+    <CalendarTableTD>2</CalendarTableTD>
   </CalendarTableRow>
 </CalendarTableBody>
 ```

@@ -42,20 +42,20 @@ Import `CalendarTableFoot` from `./CalendarTableFoot.svelte`. Place inside `Cale
   import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
   import CalendarTableFoot from './CalendarTableFoot.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 </script>
 
 <CalendarTable label="Week view">
   <CalendarTableBody>
     <CalendarTableRow>
       {#each [1, 2, 3, 4, 5] as d}
-        <CalendarTableData>{d}</CalendarTableData>
+        <CalendarTableTD>{d}</CalendarTableTD>
       {/each}
     </CalendarTableRow>
   </CalendarTableBody>
   <CalendarTableFoot>
     <CalendarTableRow>
-      <CalendarTableData>Week Total: 5</CalendarTableData>
+      <CalendarTableTD>Week Total: 5</CalendarTableTD>
     </CalendarTableRow>
   </CalendarTableFoot>
 </CalendarTable>
@@ -68,13 +68,13 @@ Import `CalendarTableFoot` from `./CalendarTableFoot.svelte`. Place inside `Cale
   import CalendarTable from '../CalendarTable/CalendarTable.svelte';
   import CalendarTableFoot from './CalendarTableFoot.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 </script>
 
 <CalendarTable label="January 2025">
   <CalendarTableFoot>
     <CalendarTableRow>
-      <CalendarTableData>31 days, 5 weekends</CalendarTableData>
+      <CalendarTableTD>31 days, 5 weekends</CalendarTableTD>
     </CalendarTableRow>
   </CalendarTableFoot>
 </CalendarTable>
@@ -86,12 +86,12 @@ Import `CalendarTableFoot` from `./CalendarTableFoot.svelte`. Place inside `Cale
 <script lang="ts">
   import CalendarTableFoot from './CalendarTableFoot.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 </script>
 
 <CalendarTableFoot data-section="summary">
   <CalendarTableRow>
-    <CalendarTableData>Total: 31</CalendarTableData>
+    <CalendarTableTD>Total: 31</CalendarTableTD>
   </CalendarTableRow>
 </CalendarTableFoot>
 ```
@@ -104,18 +104,18 @@ Import `CalendarTableFoot` from `./CalendarTableFoot.svelte`. Place inside `Cale
   import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
   import CalendarTableFoot from './CalendarTableFoot.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 
   let showTotals = $state(true);
 </script>
 
 <CalendarTable label="Week">
   <CalendarTableBody>
-    <CalendarTableRow><CalendarTableData>1</CalendarTableData></CalendarTableRow>
+    <CalendarTableRow><CalendarTableTD>1</CalendarTableTD></CalendarTableRow>
   </CalendarTableBody>
   {#if showTotals}
     <CalendarTableFoot>
-      <CalendarTableRow><CalendarTableData>Total: 1</CalendarTableData></CalendarTableRow>
+      <CalendarTableRow><CalendarTableTD>Total: 1</CalendarTableTD></CalendarTableRow>
     </CalendarTableFoot>
   {/if}
 </CalendarTable>
@@ -127,12 +127,12 @@ Import `CalendarTableFoot` from `./CalendarTableFoot.svelte`. Place inside `Cale
 <script lang="ts">
   import CalendarTableFoot from './CalendarTableFoot.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 </script>
 
 <CalendarTableFoot>
-  <CalendarTableRow><CalendarTableData>Weekdays: 21</CalendarTableData></CalendarTableRow>
-  <CalendarTableRow><CalendarTableData>Weekends: 10</CalendarTableData></CalendarTableRow>
+  <CalendarTableRow><CalendarTableTD>Weekdays: 21</CalendarTableTD></CalendarTableRow>
+  <CalendarTableRow><CalendarTableTD>Weekends: 10</CalendarTableTD></CalendarTableRow>
 </CalendarTableFoot>
 ```
 
@@ -143,5 +143,5 @@ Import `CalendarTableFoot` from `./CalendarTableFoot.svelte`. Place inside `Cale
 
 ## Related components
 
-- `CalendarTable`, `CalendarTableHead`, `CalendarTableBody`, `CalendarTableRow`, `CalendarTableData`, `CalendarTableCol`.
+- `CalendarTable`, `CalendarTableHead`, `CalendarTableBody`, `CalendarTableRow`, `CalendarTableTD`, `CalendarTableTD`.
 - `DataTableFoot`, `GanttTableTfoot`, `KanbanTableFoot`, `TableFoot`.

@@ -1,4 +1,4 @@
-// TextAreaWithCharacterCounter component
+// TextAreaInputWithCharacterCounter component
 //
 // A headless component that wraps a native <textarea> and a character counter
 // caption inside a <div>. The counter displays "[number] of [maximum] characters"
@@ -18,7 +18,7 @@
 //   ...restProps — additional HTML attributes spread onto the wrapper <div>.
 //
 // Syntax:
-//   <TextAreaWithCharacterCounter label="Feedback" maxLength={500} value={value} onChange={setValue} />
+//   <TextAreaInputWithCharacterCounter label="Feedback" maxLength={500} value={value} onChange={setValue} />
 //
 // Keyboard:
 //   - Tab: Focus the textarea (native browser behavior)
@@ -42,7 +42,7 @@
 
 import React, { useId } from "react";
 
-export interface TextAreaWithCharacterCounterProps {
+export interface TextAreaInputWithCharacterCounterProps {
     className?: string;
     /** Accessible name for the textarea */
     label: string;
@@ -65,7 +65,7 @@ export interface TextAreaWithCharacterCounterProps {
     [key: string]: unknown;
 }
 
-export default function TextAreaWithCharacterCounter({
+export default function TextAreaInputWithCharacterCounter({
     className = "",
     label,
     value = "",
@@ -77,7 +77,7 @@ export default function TextAreaWithCharacterCounter({
     required = false,
     disabled = false,
     ...restProps
-}: TextAreaWithCharacterCounterProps) {
+}: TextAreaInputWithCharacterCounterProps) {
     const counterId = useId();
     const counterText = counterTemplate
         .replace("{count}", String(value.length))
@@ -85,7 +85,7 @@ export default function TextAreaWithCharacterCounter({
 
     return (
         <div
-            className={`text-area-with-character-counter ${className}`}
+            className={`text-area-input-with-character-counter ${className}`}
             {...restProps}
         >
             <textarea

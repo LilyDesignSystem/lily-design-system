@@ -43,7 +43,7 @@ Examples of composition patterns:
 
 - `*Nav` `*List` `*ListItem` (e.g., AccordionNav, BreadcrumbNav)
 - `*List` `*ListItem` (e.g., CheckList, ContentsList, SummaryList)
-- `*Table` `*TableHead` `*TableBody` `*TableFoot` `*TableCol` `*TableRow` `*TableData`
+- `*Table` `*TableHead` `*TableBody` `*TableFoot` `*TableTD` `*TableRow` `*TableTD`
 - `*Bar` `*BarButton` (e.g., MenuBar, TabBar, TaskBar, ToolBar)
 - `*Picker` `*PickerButton` (e.g., ColorPicker, FiveStarRatingPicker)
 - `*Menu` `*MenuItem` (e.g., ContextMenu, Menu, TreeMenu)

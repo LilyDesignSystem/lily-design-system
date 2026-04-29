@@ -1,6 +1,6 @@
 # Calendar Table Col
 
-CalendarTableCol is a headless component that renders a `<th scope="col">` element — a column header cell — intended to live inside a CalendarTableRow within CalendarTableHead. Use it to label day-of-week or other column headers in a calendar grid.
+CalendarTableTD is a headless component that renders a `<th scope="col">` element — a column header cell — intended to live inside a CalendarTableRow within CalendarTableHead. Use it to label day-of-week or other column headers in a calendar grid.
 
 ## Implementation Notes
 
@@ -24,13 +24,13 @@ CalendarTableCol is a headless component that renders a `<th scope="col">` eleme
 <CalendarTable label="April 2026">
   <CalendarTableHead>
     <CalendarTableRow>
-      <CalendarTableCol>Sun</CalendarTableCol>
-      <CalendarTableCol>Mon</CalendarTableCol>
-      <CalendarTableCol>Tue</CalendarTableCol>
-      <CalendarTableCol>Wed</CalendarTableCol>
-      <CalendarTableCol>Thu</CalendarTableCol>
-      <CalendarTableCol>Fri</CalendarTableCol>
-      <CalendarTableCol>Sat</CalendarTableCol>
+      <CalendarTableTD>Sun</CalendarTableTD>
+      <CalendarTableTD>Mon</CalendarTableTD>
+      <CalendarTableTD>Tue</CalendarTableTD>
+      <CalendarTableTD>Wed</CalendarTableTD>
+      <CalendarTableTD>Thu</CalendarTableTD>
+      <CalendarTableTD>Fri</CalendarTableTD>
+      <CalendarTableTD>Sat</CalendarTableTD>
     </CalendarTableRow>
   </CalendarTableHead>
   <CalendarTableBody>...</CalendarTableBody>
@@ -52,8 +52,8 @@ None. Header cells are not interactive.
 
 ## When Not to Use
 
-- Do not use outside CalendarTable -- use TableCol or DataTableCol for other table types
-- Do not use for date data cells -- use CalendarTableData
+- Do not use outside CalendarTable -- use TableTD or DataTableTD for other table types
+- Do not use for date data cells -- use CalendarTableTD
 - Do not use for column-wide styling hooks via `<colgroup>` / `<col>` -- write those directly inside CalendarTable
 
 ## Headless
@@ -74,11 +74,11 @@ The consumer provides all CSS styling. The component renders with a `.calendar-t
 ## Advice
 
 - **Designers**: Keep header labels short and consistent (e.g. three-letter day abbreviations).
-- **Developers**: Place CalendarTableCol elements inside a CalendarTableRow within CalendarTableHead.
+- **Developers**: Place CalendarTableTD elements inside a CalendarTableRow within CalendarTableHead.
 
 ## Composition
 
-CalendarTableCol is part of the CalendarTable composition pattern: CalendarTable > CalendarTableHead > CalendarTableRow > CalendarTableCol.
+CalendarTableTD is part of the CalendarTable composition pattern: CalendarTable > CalendarTableHead > CalendarTableRow > CalendarTableTD.
 
 ## References
 

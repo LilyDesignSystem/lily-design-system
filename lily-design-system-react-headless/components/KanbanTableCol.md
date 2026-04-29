@@ -1,4 +1,4 @@
-# KanbanTableCol
+# KanbanTableTD
 
 A column header cell within a KanbanTable, rendered as a `<th scope="col">` element. Intended to live inside a KanbanTableRow within KanbanTableHead, where it labels a workflow stage column.
 
@@ -16,9 +16,9 @@ A column header cell within a KanbanTable, rendered as a `<th scope="col">` elem
 <KanbanTable label="Board">
   <KanbanTableHead>
     <KanbanTableRow>
-      <KanbanTableCol>To do</KanbanTableCol>
-      <KanbanTableCol>In progress</KanbanTableCol>
-      <KanbanTableCol>Done</KanbanTableCol>
+      <KanbanTableTD>To do</KanbanTableTD>
+      <KanbanTableTD>In progress</KanbanTableTD>
+      <KanbanTableTD>Done</KanbanTableTD>
     </KanbanTableRow>
   </KanbanTableHead>
   ...

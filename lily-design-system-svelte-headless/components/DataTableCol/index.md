@@ -1,10 +1,10 @@
-# DataTableCol
+# DataTableTD
 
 A column header cell within a `DataTable`. Renders a `<th scope="col">` element, intended to live inside a `DataTableRow` within `DataTableHead`.
 
 ## What it is
 
-DataTableCol outputs `<th class="data-table-col ..." scope="col">`, with optional `colspan` and `rowspan` attributes for header grouping.
+DataTableTD outputs `<th class="data-table-col ..." scope="col">`, with optional `colspan` and `rowspan` attributes for header grouping.
 
 ## What it does
 
@@ -21,7 +21,7 @@ DataTableCol outputs `<th class="data-table-col ..." scope="col">`, with optiona
 
 ## When not to use it
 
-- For per-cell data — use `DataTableData`.
+- For per-cell data — use `DataTableTD`.
 - For column-wide styling hooks via `<colgroup>` / `<col>` — write those directly inside `DataTable`.
 
 ## How to use it
@@ -47,23 +47,23 @@ Place inside a `DataTableRow` within `DataTableHead`.
     import DataTableHead from "../DataTableHead/DataTableHead.svelte";
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableCol from "./DataTableCol.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "./DataTableTD.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 </script>
 
 <DataTable label="Users">
     <DataTableHead>
         <DataTableRow>
-            <DataTableCol>Name</DataTableCol>
-            <DataTableCol>Email</DataTableCol>
-            <DataTableCol>Role</DataTableCol>
+            <DataTableTD>Name</DataTableTD>
+            <DataTableTD>Email</DataTableTD>
+            <DataTableTD>Role</DataTableTD>
         </DataTableRow>
     </DataTableHead>
     <DataTableBody>
         <DataTableRow>
-            <DataTableData>Alice</DataTableData>
-            <DataTableData>alice@example.com</DataTableData>
-            <DataTableData>Admin</DataTableData>
+            <DataTableTD>Alice</DataTableTD>
+            <DataTableTD>alice@example.com</DataTableTD>
+            <DataTableTD>Admin</DataTableTD>
         </DataTableRow>
     </DataTableBody>
 </DataTable>
@@ -74,19 +74,19 @@ Place inside a `DataTableRow` within `DataTableHead`.
     import DataTable from "../DataTable/DataTable.svelte";
     import DataTableHead from "../DataTableHead/DataTableHead.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableCol from "./DataTableCol.svelte";
+    import DataTableTD from "./DataTableTD.svelte";
 </script>
 
 <!-- Grouped header spanning multiple columns -->
 <DataTable label="Sales">
     <DataTableHead>
         <DataTableRow>
-            <DataTableCol rowspan={2}>Region</DataTableCol>
-            <DataTableCol colspan={2} scope="colgroup">2025</DataTableCol>
+            <DataTableTD rowspan={2}>Region</DataTableTD>
+            <DataTableTD colspan={2} scope="colgroup">2025</DataTableTD>
         </DataTableRow>
         <DataTableRow>
-            <DataTableCol>Q1</DataTableCol>
-            <DataTableCol>Q2</DataTableCol>
+            <DataTableTD>Q1</DataTableTD>
+            <DataTableTD>Q2</DataTableTD>
         </DataTableRow>
     </DataTableHead>
 </DataTable>
@@ -100,4 +100,4 @@ Place inside a `DataTableRow` within `DataTableHead`.
 ## Related components
 
 - `DataTable`, `DataTableHead`, `DataTableBody` — enclosing components.
-- `DataTableRow`, `DataTableData` — row and cell.
+- `DataTableRow`, `DataTableTD` — row and cell.

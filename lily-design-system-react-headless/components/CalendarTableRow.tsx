@@ -1,18 +1,18 @@
 // CalendarTableRow component
 //
 // A single row within a CalendarTable grid. Renders as a <tr>,
-// containing CalendarTableData cells for each day in the week.
+// containing CalendarTableTD cells for each day in the week.
 // Used inside CalendarTableHead, CalendarTableBody, or CalendarTableFoot.
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   children — ReactNode, required. CalendarTableData cells for each day in the row.
+//   children — ReactNode, required. CalendarTableTD cells for each day in the row.
 //   ...restProps — additional HTML attributes spread onto the <tr>.
 //
 // Syntax:
 //   <CalendarTableRow>
-//     <CalendarTableData>1</CalendarTableData>
-//     <CalendarTableData>2</CalendarTableData>
+//     <CalendarTableTD>1</CalendarTableTD>
+//     <CalendarTableTD>2</CalendarTableTD>
 //   </CalendarTableRow>
 //
 // Keyboard:
@@ -36,7 +36,7 @@ import React from "react";
 
 export interface CalendarTableRowProps {
     className?: string;
-    /** CalendarTableData cells for this row. */
+    /** CalendarTableTD cells for this row. */
     children: React.ReactNode;
     [key: string]: unknown;
 }

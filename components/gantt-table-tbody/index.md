@@ -2,7 +2,7 @@
 
 A Gantt table body is the main content section of a Gantt chart grid, wrapping the rows that represent individual tasks and their timeline data. Each row typically contains a task name and cells indicating the task's duration across time periods. It is designed to be used inside a GanttTable `<table>` structure.
 
-The component renders a `<tbody>` element and passes through its children, which are expected to be GanttTableTr or `<tr>` elements containing task and timeline cells.
+The component renders a `<tbody>` element and passes through its children, which are expected to be GanttTableTR or `<tr>` elements containing task and timeline cells.
 
 ## Implementation Notes
 
@@ -21,21 +21,21 @@ The component renders a `<tbody>` element and passes through its children, which
 
 ```html
 <GanttTable label="Q1 2025 schedule">
-  <GanttTableThead>...</GanttTableThead>
-  <GanttTableTbody>
-    <GanttTableTr>
-      <GanttTableTh scope="row">Design phase</GanttTableTh>
-      <GanttTableTd active>████</GanttTableTd>
-      <GanttTableTd active>████</GanttTableTd>
-      <GanttTableTd></GanttTableTd>
-    </GanttTableTr>
-    <GanttTableTr>
-      <GanttTableTh scope="row">Development</GanttTableTh>
-      <GanttTableTd></GanttTableTd>
-      <GanttTableTd active>████</GanttTableTd>
-      <GanttTableTd active>████</GanttTableTd>
-    </GanttTableTr>
-  </GanttTableTbody>
+  <GanttTableHead>...</GanttTableHead>
+  <GanttTableBody>
+    <GanttTableTR>
+      <GanttTableTH scope="row">Design phase</GanttTableTH>
+      <GanttTableTD active>████</GanttTableTD>
+      <GanttTableTD active>████</GanttTableTD>
+      <GanttTableTD></GanttTableTD>
+    </GanttTableTR>
+    <GanttTableTR>
+      <GanttTableTH scope="row">Development</GanttTableTH>
+      <GanttTableTD></GanttTableTD>
+      <GanttTableTD active>████</GanttTableTD>
+      <GanttTableTD active>████</GanttTableTD>
+    </GanttTableTR>
+  </GanttTableBody>
 </GanttTable>
 ```
 
@@ -56,7 +56,7 @@ None -- this component is a passive container. Keyboard navigation is handled by
 ## When Not to Use
 
 - Do not use outside of a GanttTable structure -- use TableBody or DataTableBody for general tables.
-- Do not use for header or footer rows -- use GanttTableThead or GanttTableTfoot instead.
+- Do not use for header or footer rows -- use GanttTableHead or GanttTableTfoot instead.
 
 ## Headless
 
@@ -65,19 +65,19 @@ This headless component provides a `<tbody>` element with implicit `rowgroup` ro
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.gantt-table-tbody` class for targeting. No default styles are included — this is a fully headless component.
+The consumer provides all CSS styling. The component renders with a `.gantt-table-body` class for targeting. No default styles are included — this is a fully headless component.
 
 
 ## Testing
 
 
-- Verify the component renders a `<tbody>` element with class `gantt-table-tbody`
+- Verify the component renders a `<tbody>` element with class `gantt-table-body`
 - Verify pass-through attributes are applied
 
 ## Advice
 
 - **Designers**: Use alternating row backgrounds or subtle borders to help users track across long timelines. Highlight the current time period column.
-- **Developers**: Place GanttTableTr elements as children. Each row should have a `<th>` for the task name followed by GanttTableTd cells for time periods.
+- **Developers**: Place GanttTableTR elements as children. Each row should have a `<th>` for the task name followed by GanttTableTD cells for time periods.
 
 ## References
 

@@ -7,7 +7,7 @@ Implement the Kanban Table Data component: kanban board table interactive grid d
 ## HTML Tag and CSS Class
 
 - HTML tag: <td>
-- CSS class: .kanban-table-data
+- CSS class: .kanban-table-td
 
 ## Dependencies
 
@@ -15,7 +15,7 @@ Implement the Kanban Table Data component: kanban board table interactive grid d
 
 ## Approach
 
-1. Use semantic <td> element with class="kanban-table-data"
+1. Use semantic <td> element with class="kanban-table-td"
 2. Add ARIA attributes for accessibility
 3. Implement keyboard navigation
 4. Implement in HTML headless (plain HTML + vanilla JS)
@@ -25,7 +25,7 @@ Implement the Kanban Table Data component: kanban board table interactive grid d
 
 ## Acceptance Criteria
 
-- [ ] Renders <td> with class="kanban-table-data"
+- [ ] Renders <td> with class="kanban-table-td"
 - [ ] `role="listitem"` -- identifies this as an item within a list container (the parent Kanban column with `role="list"`)
 - [ ] `aria-label` -- optional accessible name for the card, set from the `label` prop, allowing screen readers to identify individual cards
 - [ ] Keyboard: None directly -- keyboard interaction depends on interactive elements within the card content provided by the consumer

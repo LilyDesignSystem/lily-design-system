@@ -1,18 +1,18 @@
 // GanttTableTfoot component
 //
 // The footer section of a GanttTable, rendered as a <tfoot> element.
-// Contains GanttTableTr elements with summary or aggregate data cells.
+// Contains GanttTableTR elements with summary or aggregate data cells.
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   children — ReactNode, required. GanttTableTr elements with footer cells.
+//   children — ReactNode, required. GanttTableTR elements with footer cells.
 //   ...restProps — additional HTML attributes spread onto the <tfoot>.
 //
 // Syntax:
 //   <GanttTableTfoot>
-//     <GanttTableTr>
-//       <GanttTableTd>Total: 12 tasks</GanttTableTd>
-//     </GanttTableTr>
+//     <GanttTableTR>
+//       <GanttTableTD>Total: 12 tasks</GanttTableTD>
+//     </GanttTableTR>
 //   </GanttTableTfoot>
 //
 // Keyboard:
@@ -33,7 +33,7 @@ import React from "react";
 
 export interface GanttTableFootProps {
     className?: string;
-    /** GanttTableTr elements with footer cells. */
+    /** GanttTableTR elements with footer cells. */
     children: React.ReactNode;
     [key: string]: unknown;
 }
@@ -45,7 +45,7 @@ export default function GanttTableTfoot({
 }: GanttTableFootProps) {
     return (
         <tfoot
-        className={`gantt-table-tfoot ${className}`}
+        className={`gantt-table-foot ${className}`}
         {...restProps}
         >
         {children}

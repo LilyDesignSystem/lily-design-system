@@ -1,28 +1,28 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
-describe("gantt-table-thead", () => {
+describe("gantt-table-head", () => {
   it("renders a <thead> with the base class", () => {
-    const { document } = render("gantt-table-thead", {});
-    expect(document.querySelector("thead.gantt-table-thead")).toBeTruthy();
+    const { document } = render("gantt-table-head", {});
+    expect(document.querySelector("thead.gantt-table-head")).toBeTruthy();
   });
 
   it("appends params.classes", () => {
-    const { document } = render("gantt-table-thead", { classes: "sticky" });
-    expect(document.querySelector("thead.gantt-table-thead.sticky")).toBeTruthy();
+    const { document } = render("gantt-table-head", { classes: "sticky" });
+    expect(document.querySelector("thead.gantt-table-head.sticky")).toBeTruthy();
   });
 
   it("renders caller block content", () => {
     const { document } = render(
-      "gantt-table-thead",
+      "gantt-table-head",
       {},
-      '<tr class="gantt-table-tr"><th>H</th></tr>',
+      '<tr class="gantt-table-row"><th>H</th></tr>',
     );
-    expect(document.querySelector("thead tr.gantt-table-tr")).toBeTruthy();
+    expect(document.querySelector("thead tr.gantt-table-row")).toBeTruthy();
   });
 
   it("contains no <style> or <script> tags", () => {
-    const { html } = render("gantt-table-thead", {});
+    const { html } = render("gantt-table-head", {});
     expect(html).not.toContain("<style");
     expect(html).not.toContain("<script");
     expect(html).not.toContain("style=");

@@ -1,34 +1,34 @@
-// GanttTableTr component
+// GanttTableTR component
 //
 // A single row within a GanttTable grid. Renders as a <tr> containing
-// GanttTableTd cells for each time period and task header cells.
-// Used inside GanttTableThead, GanttTableTbody, or GanttTableTfoot.
+// GanttTableTD cells for each time period and task header cells.
+// Used inside GanttTableHead, GanttTableBody, or GanttTableTfoot.
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   children — ReactNode, required. GanttTableTd cells and header cells for this row.
+//   children — ReactNode, required. GanttTableTD cells and header cells for this row.
 //   ...restProps — additional HTML attributes spread onto the <tr>.
 //
 // Syntax:
-//   <GanttTableTr>
+//   <GanttTableTR>
 //     <th>Design</th>
-//     <GanttTableTd active>---</GanttTableTd>
-//     <GanttTableTd />
-//   </GanttTableTr>
+//     <GanttTableTD active>---</GanttTableTD>
+//     <GanttTableTD />
+//   </GanttTableTR>
 //
 // Examples:
 //   
-//   <GanttTableTr>
+//   <GanttTableTR>
 //     <th>Development</th>
-//     <GanttTableTd />
-//     <GanttTableTd active>---</GanttTableTd>
-//     <GanttTableTd active>---</GanttTableTd>
-//   </GanttTableTr>
+//     <GanttTableTD />
+//     <GanttTableTD active>---</GanttTableTD>
+//     <GanttTableTD active>---</GanttTableTD>
+//   </GanttTableTR>
 //
 //   
-//   <GanttTableTr>
+//   <GanttTableTR>
 //     <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-//   </GanttTableTr>
+//   </GanttTableTR>
 //
 // Keyboard:
 //   None built-in — keyboard navigation is handled at the GanttTable grid level.
@@ -51,19 +51,19 @@ import React from "react";
 
 export interface GanttTableRowProps {
     className?: string;
-    /** GanttTableTd cells and header cells for this row. */
+    /** GanttTableTD cells and header cells for this row. */
     children: React.ReactNode;
     [key: string]: unknown;
 }
 
-export default function GanttTableTr({
+export default function GanttTableTR({
     className = "",
     children,
     ...restProps
 }: GanttTableRowProps) {
     return (
         <tr
-        className={`gantt-table-tr ${className}`}
+        className={`gantt-table-row ${className}`}
         {...restProps}
         >
         {children}

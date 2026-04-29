@@ -1,6 +1,6 @@
 # Kanban Table Col
 
-KanbanTableCol is a headless component that renders a `<th scope="col">` element — a column header cell — intended to live inside a KanbanTableRow within KanbanTableHead, where it labels a workflow stage column (e.g. "To do", "In progress", "Done").
+KanbanTableTD is a headless component that renders a `<th scope="col">` element — a column header cell — intended to live inside a KanbanTableRow within KanbanTableHead, where it labels a workflow stage column (e.g. "To do", "In progress", "Done").
 
 ## Implementation Notes
 
@@ -26,9 +26,9 @@ Three workflow stage column headers:
 <KanbanTable label="Sprint board">
     <KanbanTableHead>
         <KanbanTableRow>
-            <KanbanTableCol>To do</KanbanTableCol>
-            <KanbanTableCol>In progress</KanbanTableCol>
-            <KanbanTableCol>Done</KanbanTableCol>
+            <KanbanTableTD>To do</KanbanTableTD>
+            <KanbanTableTD>In progress</KanbanTableTD>
+            <KanbanTableTD>Done</KanbanTableTD>
         </KanbanTableRow>
     </KanbanTableHead>
     <KanbanTableBody>
@@ -52,8 +52,8 @@ None. Header cells are not interactive.
 
 ## When Not to Use
 
-- Do not use outside KanbanTable -- use TableCol or DataTableCol for other table types
-- Do not use for task data cells -- use KanbanTableData
+- Do not use outside KanbanTable -- use TableTD or DataTableTD for other table types
+- Do not use for task data cells -- use KanbanTableTD
 - Do not use for column-wide styling hooks via `<colgroup>` / `<col>` -- write those directly inside KanbanTable
 
 ## Headless
@@ -74,11 +74,11 @@ The consumer provides all CSS styling. The component renders with a `.kanban-tab
 ## Advice
 
 - **Designers**: Use clear, short stage names (e.g. "To do", "In progress", "Done").
-- **Developers**: Place KanbanTableCol elements inside a KanbanTableRow within KanbanTableHead.
+- **Developers**: Place KanbanTableTD elements inside a KanbanTableRow within KanbanTableHead.
 
 ## Composition
 
-KanbanTableCol is part of the KanbanTable composition pattern: KanbanTable > KanbanTableHead > KanbanTableRow > KanbanTableCol.
+KanbanTableTD is part of the KanbanTable composition pattern: KanbanTable > KanbanTableHead > KanbanTableRow > KanbanTableTD.
 
 ## References
 

@@ -2,7 +2,7 @@
 
 An interactive data table that displays structured information in rows and columns as a grid widget. Renders a `<table>` element with `role="grid"` and an accessible label. Supports an optional visible caption. Commonly used for sortable tables, editable spreadsheets, and interactive data grids.
 
-Compound component: use with DataTableHead, DataTableBody, DataTableFoot, DataTableRow, DataTableData, and DataTableCol.
+Compound component: use with DataTableHead, DataTableBody, DataTableFoot, DataTableRow, DataTableTD, and DataTableTD.
 
 ## Props
 
@@ -20,8 +20,8 @@ Compound component: use with DataTableHead, DataTableBody, DataTableFoot, DataTa
   </DataTableHead>
   <DataTableBody>
     <DataTableRow>
-      <DataTableData>Alice</DataTableData>
-      <DataTableData>alice@example.com</DataTableData>
+      <DataTableTD>Alice</DataTableTD>
+      <DataTableTD>alice@example.com</DataTableTD>
     </DataTableRow>
   </DataTableBody>
 </DataTable>

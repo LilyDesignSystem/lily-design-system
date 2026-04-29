@@ -12,8 +12,8 @@
     // Syntax:
     //   <CalendarTableBody>
     //     <CalendarTableRow>
-    //       <CalendarTableData>1</CalendarTableData>
-    //       <CalendarTableData>2</CalendarTableData>
+    //       <CalendarTableTD>1</CalendarTableTD>
+    //       <CalendarTableTD>2</CalendarTableTD>
     //     </CalendarTableRow>
     //   </CalendarTableBody>
     //

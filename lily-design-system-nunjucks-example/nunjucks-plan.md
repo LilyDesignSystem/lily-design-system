@@ -36,7 +36,7 @@ Sibling subprojects:
 
 - `lily-design-system-nunjucks-headless` (the component library this
   project styles)
-- `lily-design-system-html-javascript-examples` (analogous examples
+- `lily-design-system-html-css-js-examples` (analogous examples
   site for the plain-HTML headless implementation)
 
 ## Technology

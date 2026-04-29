@@ -1,4 +1,4 @@
-# CalendarTableData
+# CalendarTableTD
 
 ## Overview
 
@@ -22,7 +22,7 @@ A calendar table interactive grid data cell for managing dates, days, etc. <td>.
 ## Usage
 
 ```svelte
-<CalendarTableData>15</CalendarTableData>
+<CalendarTableTD>15</CalendarTableTD>
 ```
 
 ## Props
@@ -39,10 +39,10 @@ A calendar table interactive grid data cell for managing dates, days, etc. <td>.
 
 ```svelte
 <!-- Selected day that is also today -->
-<CalendarTableData selected today>15</CalendarTableData>
+<CalendarTableTD selected today>15</CalendarTableTD>
 
 <!-- Regular unselected day -->
-<CalendarTableData>22</CalendarTableData>
+<CalendarTableTD>22</CalendarTableTD>
 ```
 
 ## SvelteKit example
@@ -50,10 +50,10 @@ A calendar table interactive grid data cell for managing dates, days, etc. <td>.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import CalendarTableData from "$lib/components/CalendarTableData/CalendarTableData.svelte";
+  import CalendarTableTD from "$lib/components/CalendarTableTD/CalendarTableTD.svelte";
 </script>
 
-<CalendarTableData>15</CalendarTableData>
+<CalendarTableTD>15</CalendarTableTD>
 ```
 
 ## Keyboard

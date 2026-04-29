@@ -3,7 +3,7 @@
 ## Overview
 
 A single row within a KanbanTable grid. Renders as a <tr> containing
-KanbanTableData cells for each workflow column. Used inside
+KanbanTableTD cells for each workflow column. Used inside
 KanbanTableHead, KanbanTableBody, or KanbanTableFoot.
 
 ## What it does
@@ -21,7 +21,7 @@ A kanban board table interactive grid row for organizing items by status <tr>.
 ## Usage
 
 ```svelte
-<KanbanTableRow><KanbanTableData>Task</KanbanTableData></KanbanTableRow>
+<KanbanTableRow><KanbanTableTD>Task</KanbanTableTD></KanbanTableRow>
 ```
 
 ## Props
@@ -29,16 +29,16 @@ A kanban board table interactive grid row for organizing items by status <tr>.
 | Prop | Type | Description |
 |------|------|-------------|
 | `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | KanbanTableData cells and header cells. |
+| `children` | Snippet, required | KanbanTableTD cells and header cells. |
 | `...restProps` | additional HTML attributes spread onto the <tr> |  |
 
 ## Examples
 
 ```svelte
 <KanbanTableRow>
-  <KanbanTableData>Task A</KanbanTableData>
-  <KanbanTableData>Task B</KanbanTableData>
-  <KanbanTableData>Task C</KanbanTableData>
+  <KanbanTableTD>Task A</KanbanTableTD>
+  <KanbanTableTD>Task B</KanbanTableTD>
+  <KanbanTableTD>Task C</KanbanTableTD>
 </KanbanTableRow>
 ```
 
@@ -50,7 +50,7 @@ A kanban board table interactive grid row for organizing items by status <tr>.
   import KanbanTableRow from "$lib/components/KanbanTableRow/KanbanTableRow.svelte";
 </script>
 
-<KanbanTableRow><KanbanTableData>Task</KanbanTableData></KanbanTableRow>
+<KanbanTableRow><KanbanTableTD>Task</KanbanTableTD></KanbanTableRow>
 ```
 
 ## Keyboard

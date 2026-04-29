@@ -41,7 +41,7 @@
 @import url("components/calendar-table.css");
 @import url("components/calendar-table-body.css");
 @import url("components/calendar-table-col.css");
-@import url("components/calendar-table-data.css");
+@import url("components/calendar-table-td.css");
 @import url("components/calendar-table-foot.css");
 @import url("components/calendar-table-head.css");
 @import url("components/calendar-table-row.css");
@@ -69,7 +69,7 @@
 @import url("components/data-table.css");
 @import url("components/data-table-body.css");
 @import url("components/data-table-col.css");
-@import url("components/data-table-data.css");
+@import url("components/data-table-td.css");
 @import url("components/data-table-foot.css");
 @import url("components/data-table-head.css");
 @import url("components/data-table-row.css");
@@ -110,12 +110,12 @@
 @import url("components/grail-layout-right-aside.css");
 @import url("components/grail-layout-top-header.css");
 @import url("components/gantt-table.css");
-@import url("components/gantt-table-tbody.css");
+@import url("components/gantt-table-body.css");
 @import url("components/gantt-table-th.css");
 @import url("components/gantt-table-td.css");
-@import url("components/gantt-table-tfoot.css");
-@import url("components/gantt-table-thead.css");
-@import url("components/gantt-table-tr.css");
+@import url("components/gantt-table-foot.css");
+@import url("components/gantt-table-head.css");
+@import url("components/gantt-table-row.css");
 @import url("components/header.css");
 @import url("components/hero.css");
 @import url("components/hint.css");
@@ -128,7 +128,7 @@
 @import url("components/kanban-table.css");
 @import url("components/kanban-table-body.css");
 @import url("components/kanban-table-col.css");
-@import url("components/kanban-table-data.css");
+@import url("components/kanban-table-td.css");
 @import url("components/kanban-table-foot.css");
 @import url("components/kanban-table-head.css");
 @import url("components/kanban-table-row.css");
@@ -308,7 +308,7 @@
 @import url("components/splitter.css");
 @import url("components/super-banner.css");
 @import url("components/tag-group.css");
-@import url("components/text-area-with-character-counter.css");
+@import url("components/text-area-input-with-character-counter.css");
 @import url("components/text-input-with-search.css");
 @import url("components/tile.css");
 @import url("components/toast.css");

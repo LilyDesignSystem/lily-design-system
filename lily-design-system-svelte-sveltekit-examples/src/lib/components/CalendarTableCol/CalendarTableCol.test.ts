@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
-import CalendarTableCol from "./CalendarTableCol.svelte";
+import CalendarTableTD from "./CalendarTableTD.svelte";
 
-describe("CalendarTableCol", () => {
+describe("CalendarTableTD", () => {
     test("renders the component", () => {
-        render(CalendarTableCol, { props: { label: "Test" }, context: new Map() });
+        render(CalendarTableTD, { props: { label: "Test" }, context: new Map() });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
     });

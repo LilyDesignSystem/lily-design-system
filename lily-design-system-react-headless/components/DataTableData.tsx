@@ -1,4 +1,4 @@
-// DataTableData component
+// DataTableTD component
 //
 // A single data cell within a DataTableRow. Renders as a <td> with
 // role="gridcell". Supports an active state for indicating the currently
@@ -12,8 +12,8 @@
 //   ...restProps — additional HTML attributes spread onto the <td>.
 //
 // Syntax:
-//   <DataTableData>Alice</DataTableData>
-//   <DataTableData active>Bob</DataTableData>
+//   <DataTableTD>Alice</DataTableTD>
+//   <DataTableTD active>Bob</DataTableTD>
 //
 // Keyboard:
 //   None built-in — keyboard navigation handled at the DataTable grid level.
@@ -32,7 +32,7 @@
 
 import React from "react";
 
-export interface DataTableDataProps {
+export interface DataTableTDProps {
     className?: string;
     /** Whether this cell is active/selected. */
     active?: boolean;
@@ -41,15 +41,15 @@ export interface DataTableDataProps {
     [key: string]: unknown;
 }
 
-export default function DataTableData({
+export default function DataTableTD({
     className = "",
     active = false,
     children,
     ...restProps
-}: DataTableDataProps) {
+}: DataTableTDProps) {
     return (
         <td
-        className={`data-table-data ${className}`}
+        className={`data-table-td ${className}`}
         role="gridcell"
         aria-selected={active || undefined}
         tabIndex={active ? 0 : -1}

@@ -1,5 +1,5 @@
 <script lang="ts">
-    // KanbanTableData component
+    // KanbanTableTD component
     //
     // A single cell within a KanbanTableRow, rendered as a <td> with role="gridcell".
     // Represents a task card or content area within a workflow column. Supports an
@@ -13,14 +13,14 @@
     //   ...restProps — additional HTML attributes spread onto the <td>.
     //
     // Syntax:
-    //   <KanbanTableData>Task content</KanbanTableData>
-    //   <KanbanTableData active label="Design task">...</KanbanTableData>
+    //   <KanbanTableTD>Task content</KanbanTableTD>
+    //   <KanbanTableTD active label="Design task">...</KanbanTableTD>
     //
     // Examples:
     //   <KanbanTableRow>
-    //     <KanbanTableData label="Fix login bug">Fix login bug</KanbanTableData>
-    //     <KanbanTableData />
-    //     <KanbanTableData />
+    //     <KanbanTableTD label="Fix login bug">Fix login bug</KanbanTableTD>
+    //     <KanbanTableTD />
+    //     <KanbanTableTD />
     //   </KanbanTableRow>
     //
     // Keyboard:
@@ -62,9 +62,9 @@
     } = $props();
 </script>
 
-<!-- KanbanTableData.svelte -->
+<!-- KanbanTableTD.svelte -->
 <td
-    class={`kanban-table-data ${className}`}
+    class={`kanban-table-td ${className}`}
     role="gridcell"
     aria-selected={active || undefined}
     tabindex={active ? 0 : -1}

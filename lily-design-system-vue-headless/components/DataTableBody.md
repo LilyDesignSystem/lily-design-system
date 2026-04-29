@@ -12,8 +12,8 @@ The body section of a DataTable, rendered as a `<tbody>` element. Contains DataT
 ```svelte
 <DataTableBody>
   <DataTableRow>
-    <DataTableData>Alice</DataTableData>
-    <DataTableData>alice@example.com</DataTableData>
+    <DataTableTD>Alice</DataTableTD>
+    <DataTableTD>alice@example.com</DataTableTD>
   </DataTableRow>
 </DataTableBody>
 ```

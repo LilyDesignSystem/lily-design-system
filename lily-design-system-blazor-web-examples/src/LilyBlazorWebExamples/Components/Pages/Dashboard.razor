@@ -39,12 +39,12 @@
             @foreach (var task in tasks)
             {
                 <DataTableRow>
-                    <DataTableData>@task.Title</DataTableData>
-                    <DataTableData>@task.Assignee</DataTableData>
-                    <DataTableData>
+                    <DataTableTD>@task.Title</DataTableTD>
+                    <DataTableTD>@task.Assignee</DataTableTD>
+                    <DataTableTD>
                         <Badge Type="@StatusBadgeType(task.Status)">@task.Status</Badge>
-                    </DataTableData>
-                    <DataTableData>@task.Priority</DataTableData>
+                    </DataTableTD>
+                    <DataTableTD>@task.Priority</DataTableTD>
                 </DataTableRow>
             }
         </DataTableBody>

@@ -18,7 +18,7 @@ A headless Svelte 5 structural wrapper. Category: calendar grid structural primi
 
 ## When not to use it
 
-- Outside a `CalendarTable` — use `DataTableBody`, `GanttTableTbody`, `KanbanTableBody`, or `TableBody` as appropriate.
+- Outside a `CalendarTable` — use `DataTableBody`, `GanttTableBody`, `KanbanTableBody`, or `TableBody` as appropriate.
 
 ## How to use it
 
@@ -39,14 +39,14 @@ Import `CalendarTableBody` from `./CalendarTableBody.svelte`. Place inside `Cale
   import CalendarTable from '../CalendarTable/CalendarTable.svelte';
   import CalendarTableBody from './CalendarTableBody.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 </script>
 
 <CalendarTable label="January 2025">
   <CalendarTableBody>
     <CalendarTableRow>
-      <CalendarTableData>1</CalendarTableData>
-      <CalendarTableData>2</CalendarTableData>
+      <CalendarTableTD>1</CalendarTableTD>
+      <CalendarTableTD>2</CalendarTableTD>
     </CalendarTableRow>
   </CalendarTableBody>
 </CalendarTable>
@@ -59,19 +59,19 @@ Import `CalendarTableBody` from `./CalendarTableBody.svelte`. Place inside `Cale
   import CalendarTable from '../CalendarTable/CalendarTable.svelte';
   import CalendarTableBody from './CalendarTableBody.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 </script>
 
 <CalendarTable label="January 2025">
   <CalendarTableBody>
     <CalendarTableRow>
       {#each [1, 2, 3, 4, 5, 6, 7] as d}
-        <CalendarTableData>{d}</CalendarTableData>
+        <CalendarTableTD>{d}</CalendarTableTD>
       {/each}
     </CalendarTableRow>
     <CalendarTableRow>
       {#each [8, 9, 10, 11, 12, 13, 14] as d}
-        <CalendarTableData>{d}</CalendarTableData>
+        <CalendarTableTD>{d}</CalendarTableTD>
       {/each}
     </CalendarTableRow>
   </CalendarTableBody>
@@ -87,7 +87,7 @@ Import `CalendarTableBody` from `./CalendarTableBody.svelte`. Place inside `Cale
   import CalendarTableBody from './CalendarTableBody.svelte';
   import CalendarTableFoot from '../CalendarTableFoot/CalendarTableFoot.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 </script>
 
 <CalendarTable label="Feb 2025">
@@ -95,10 +95,10 @@ Import `CalendarTableBody` from `./CalendarTableBody.svelte`. Place inside `Cale
     <CalendarTableRow><th>Mon</th><th>Tue</th></CalendarTableRow>
   </CalendarTableHead>
   <CalendarTableBody>
-    <CalendarTableRow><CalendarTableData>3</CalendarTableData></CalendarTableRow>
+    <CalendarTableRow><CalendarTableTD>3</CalendarTableTD></CalendarTableRow>
   </CalendarTableBody>
   <CalendarTableFoot>
-    <CalendarTableRow><CalendarTableData>Total</CalendarTableData></CalendarTableRow>
+    <CalendarTableRow><CalendarTableTD>Total</CalendarTableTD></CalendarTableRow>
   </CalendarTableFoot>
 </CalendarTable>
 ```
@@ -108,7 +108,7 @@ Import `CalendarTableBody` from `./CalendarTableBody.svelte`. Place inside `Cale
 ```svelte
 <CalendarTableBody data-month="january">
   <CalendarTableRow>
-    <CalendarTableData>1</CalendarTableData>
+    <CalendarTableTD>1</CalendarTableTD>
   </CalendarTableRow>
 </CalendarTableBody>
 ```
@@ -120,7 +120,7 @@ Import `CalendarTableBody` from `./CalendarTableBody.svelte`. Place inside `Cale
   import CalendarTable from '../CalendarTable/CalendarTable.svelte';
   import CalendarTableBody from './CalendarTableBody.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 
   let weeks = $state([[1, 2, 3, 4, 5, 6, 7]]);
 </script>
@@ -129,7 +129,7 @@ Import `CalendarTableBody` from `./CalendarTableBody.svelte`. Place inside `Cale
   <CalendarTableBody>
     {#each weeks as week}
       <CalendarTableRow>
-        {#each week as d}<CalendarTableData>{d}</CalendarTableData>{/each}
+        {#each week as d}<CalendarTableTD>{d}</CalendarTableTD>{/each}
       </CalendarTableRow>
     {/each}
   </CalendarTableBody>
@@ -143,5 +143,5 @@ Import `CalendarTableBody` from `./CalendarTableBody.svelte`. Place inside `Cale
 
 ## Related components
 
-- `CalendarTable`, `CalendarTableHead`, `CalendarTableFoot`, `CalendarTableRow`, `CalendarTableData`, `CalendarTableCol`.
-- `DataTableBody`, `GanttTableTbody`, `KanbanTableBody`, `TableBody` — sibling variants.
+- `CalendarTable`, `CalendarTableHead`, `CalendarTableFoot`, `CalendarTableRow`, `CalendarTableTD`, `CalendarTableTD`.
+- `DataTableBody`, `GanttTableBody`, `KanbanTableBody`, `TableBody` — sibling variants.

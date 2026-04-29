@@ -1,10 +1,10 @@
 # Gantt Table Data
 
-A Gantt table data cell represents a single time period cell within a task row of a Gantt chart. It renders as a `<td>` element and is designed to be placed inside a GanttTableTr within a GanttTableTbody. Each cell corresponds to one time period (e.g., a day, week, or sprint) for a particular task, and the consumer provides the cell content, such as a bar segment, milestone marker, or empty space.
+A Gantt table data cell represents a single time period cell within a task row of a Gantt chart. It renders as a `<td>` element and is designed to be placed inside a GanttTableTR within a GanttTableBody. Each cell corresponds to one time period (e.g., a day, week, or sprint) for a particular task, and the consumer provides the cell content, such as a bar segment, milestone marker, or empty space.
 
 ## Implementation Notes
 
-- Renders as a `<td>` element for use inside a GanttTableTr within a GanttTable grid
+- Renders as a `<td>` element for use inside a GanttTableTR within a GanttTable grid
 - Content is provided through the children slot, typically bar segments, milestone markers, or progress indicators
 - Spreads `...restProps` onto the `<td>` element for consumer customization
 - No internal state -- purely a structural wrapper for cell content
@@ -17,20 +17,20 @@ A Gantt table data cell represents a single time period cell within a task row o
 ## Usage
 
 ```html
-<GanttTableTbody>
-  <GanttTableTr>
-    <GanttTableTh scope="row">Design phase</GanttTableTh>
-    <GanttTableTd active aria-label="Design phase: Jan, in progress">████</GanttTableTd>
-    <GanttTableTd active aria-label="Design phase: Feb, in progress">████</GanttTableTd>
-    <GanttTableTd aria-label="Design phase: Mar, not scheduled"></GanttTableTd>
-  </GanttTableTr>
-  <GanttTableTr>
-    <GanttTableTh scope="row">Development</GanttTableTh>
-    <GanttTableTd aria-label="Development: Jan, not scheduled"></GanttTableTd>
-    <GanttTableTd active aria-label="Development: Feb, in progress">████</GanttTableTd>
-    <GanttTableTd active aria-label="Development: Mar, in progress">████</GanttTableTd>
-  </GanttTableTr>
-</GanttTableTbody>
+<GanttTableBody>
+  <GanttTableTR>
+    <GanttTableTH scope="row">Design phase</GanttTableTH>
+    <GanttTableTD active aria-label="Design phase: Jan, in progress">████</GanttTableTD>
+    <GanttTableTD active aria-label="Design phase: Feb, in progress">████</GanttTableTD>
+    <GanttTableTD aria-label="Design phase: Mar, not scheduled"></GanttTableTD>
+  </GanttTableTR>
+  <GanttTableTR>
+    <GanttTableTH scope="row">Development</GanttTableTH>
+    <GanttTableTD aria-label="Development: Jan, not scheduled"></GanttTableTD>
+    <GanttTableTD active aria-label="Development: Feb, in progress">████</GanttTableTD>
+    <GanttTableTD active aria-label="Development: Mar, in progress">████</GanttTableTD>
+  </GanttTableTR>
+</GanttTableBody>
 ```
 
 ## Keyboard Interactions
@@ -45,13 +45,13 @@ None built-in -- the consumer should implement grid keyboard navigation on cells
 ## When to Use
 
 - Use inside GanttTable to provide the `<td>` data cell for a time period.
-- Use inside a GanttTableTr to represent a single time period cell containing a bar segment, milestone marker, or empty space.
+- Use inside a GanttTableTR to represent a single time period cell containing a bar segment, milestone marker, or empty space.
 - Use to render visual bar segments, progress indicators, or milestone markers within the Gantt chart grid.
 
 ## When Not to Use
 
-- Do not use outside of a GanttTable structure -- use TableData or DataTableData for general tables.
-- Do not use for header cells -- use GanttTableTh instead.
+- Do not use outside of a GanttTable structure -- use TableTD or DataTableTD for general tables.
+- Do not use for header cells -- use GanttTableTH instead.
 
 ## Headless
 

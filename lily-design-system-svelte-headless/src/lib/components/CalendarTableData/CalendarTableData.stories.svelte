@@ -1,10 +1,10 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import CalendarTableData from './CalendarTableData.svelte';
+  import CalendarTableTD from './CalendarTableTD.svelte';
 
   const { Story } = defineMeta({
-    title: 'Headless/CalendarTableData',
-    component: CalendarTableData,
+    title: 'Headless/CalendarTableTD',
+    component: CalendarTableTD,
   });
 </script>
 

@@ -22,7 +22,7 @@ A multi-line text input rendered as a native `<textarea>` with `aria-label`, bin
 ## When not to use it
 
 - Don't use it for single-line text — use `TextInput`.
-- Don't use it when you need a character counter — use `TextAreaWithCharacterCounter`.
+- Don't use it when you need a character counter — use `TextAreaInputWithCharacterCounter`.
 - Don't use it for rich / formatted text input — use a dedicated rich-text editor.
 - Don't use it for search queries — use `SearchInput` or `TextInputWithSearch`.
 
@@ -98,7 +98,7 @@ Import, bind `value`, pass a translated `label`, and optionally set `rows`. Add 
 
 ## Related components
 
-- `TextAreaWithCharacterCounter` — adds a live character-count caption.
+- `TextAreaInputWithCharacterCounter` — adds a live character-count caption.
 - `TextInput` — single-line text input.
 - `CharacterCounter` — standalone counter you can pair with `Textarea`.
 - `Field` — wrapper providing a visible `<label>`, hint, and error.

@@ -24,9 +24,9 @@ A data table col is a column header cell in a DataTable. It renders a `<th scope
 <DataTable label="Team roster">
   <DataTableHead>
     <DataTableRow>
-      <DataTableCol>Name</DataTableCol>
-      <DataTableCol>Role</DataTableCol>
-      <DataTableCol>Status</DataTableCol>
+      <DataTableTD>Name</DataTableTD>
+      <DataTableTD>Role</DataTableTD>
+      <DataTableTD>Status</DataTableTD>
     </DataTableRow>
   </DataTableHead>
   <DataTableBody>...</DataTableBody>
@@ -49,13 +49,13 @@ None -- this component is a header cell and is not interactive.
 
 ## When Not to Use
 
-- Do not use outside DataTable -- use TableCol, CalendarTableCol, GanttTableTh, or KanbanTableCol for their respective table types
-- Do not use for data cells -- use DataTableData
+- Do not use outside DataTable -- use TableTD, CalendarTableTD, GanttTableTH, or KanbanTableTD for their respective table types
+- Do not use for data cells -- use DataTableTD
 - Do not use for column-wide styling hooks via `<colgroup>` / `<col>` -- write those directly inside DataTable
 
 ## Headless
 
-This headless DataTableCol component provides a `<th>` element. The consumer provides all visual styling.
+This headless DataTableTD component provides a `<th>` element. The consumer provides all visual styling.
 
 ## Styles
 
@@ -71,11 +71,11 @@ The consumer provides all CSS styling. The component renders with a `.data-table
 ## Advice
 
 - **Designers**: Use clear, concise column-header labels.
-- **Developers**: Place DataTableCol elements inside a DataTableRow within DataTableHead.
+- **Developers**: Place DataTableTD elements inside a DataTableRow within DataTableHead.
 
 ## Composition
 
-DataTableCol is part of the DataTable composition pattern: DataTable > DataTableHead > DataTableRow > DataTableCol.
+DataTableTD is part of the DataTable composition pattern: DataTable > DataTableHead > DataTableRow > DataTableTD.
 
 ## References
 

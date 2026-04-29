@@ -2,7 +2,7 @@
 
 An interactive calendar table that presents dates in a structured grid layout, typically organized by weeks and days, allowing users to view and interact with calendar data at a glance. Renders a `<table>` element with `role="grid"` and an accessible label. Supports an optional visible caption.
 
-Compound component: use with CalendarTableHead, CalendarTableBody, CalendarTableFoot, CalendarTableRow, CalendarTableData, and CalendarTableCol.
+Compound component: use with CalendarTableHead, CalendarTableBody, CalendarTableFoot, CalendarTableRow, CalendarTableTD, and CalendarTableTD.
 
 ## Props
 
@@ -20,13 +20,13 @@ Compound component: use with CalendarTableHead, CalendarTableBody, CalendarTable
   </CalendarTableHead>
   <CalendarTableBody>
     <CalendarTableRow>
-      <CalendarTableData>1</CalendarTableData>
-      <CalendarTableData>2</CalendarTableData>
-      <CalendarTableData>3</CalendarTableData>
-      <CalendarTableData>4</CalendarTableData>
-      <CalendarTableData>5</CalendarTableData>
-      <CalendarTableData>6</CalendarTableData>
-      <CalendarTableData>7</CalendarTableData>
+      <CalendarTableTD>1</CalendarTableTD>
+      <CalendarTableTD>2</CalendarTableTD>
+      <CalendarTableTD>3</CalendarTableTD>
+      <CalendarTableTD>4</CalendarTableTD>
+      <CalendarTableTD>5</CalendarTableTD>
+      <CalendarTableTD>6</CalendarTableTD>
+      <CalendarTableTD>7</CalendarTableTD>
     </CalendarTableRow>
   </CalendarTableBody>
 </CalendarTable>

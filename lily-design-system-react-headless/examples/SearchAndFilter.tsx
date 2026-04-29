@@ -1,7 +1,7 @@
 // Example: Search interface with combobox autocomplete, tag filtering, and data table
 //
 // Demonstrates: Combobox, SearchInput, TagGroup, Tag, TagInput,
-// DataTable, DataTableHead, DataTableBody, DataTableRow, DataTableData, Badge
+// DataTable, DataTableHead, DataTableBody, DataTableRow, DataTableTD, Badge
 
 import { useState } from "react";
 import Combobox from "../components/Combobox";
@@ -13,7 +13,7 @@ import DataTable from "../components/DataTable";
 import DataTableHead from "../components/DataTableHead";
 import DataTableBody from "../components/DataTableBody";
 import DataTableRow from "../components/DataTableRow";
-import DataTableData from "../components/DataTableData";
+import DataTableTD from "../components/DataTableTD";
 import Badge from "../components/Badge";
 
 interface Product {
@@ -125,12 +125,12 @@ export default function SearchAndFilter() {
                 <DataTableBody>
                     {filtered.map((p) => (
                         <DataTableRow key={p.id}>
-                            <DataTableData>{p.name}</DataTableData>
-                            <DataTableData>{p.category}</DataTableData>
-                            <DataTableData>${p.price.toFixed(2)}</DataTableData>
-                            <DataTableData>
+                            <DataTableTD>{p.name}</DataTableTD>
+                            <DataTableTD>{p.category}</DataTableTD>
+                            <DataTableTD>${p.price.toFixed(2)}</DataTableTD>
+                            <DataTableTD>
                                 <Badge type={statusBadgeType(p.status)}>{p.status}</Badge>
-                            </DataTableData>
+                            </DataTableTD>
                         </DataTableRow>
                     ))}
                 </DataTableBody>

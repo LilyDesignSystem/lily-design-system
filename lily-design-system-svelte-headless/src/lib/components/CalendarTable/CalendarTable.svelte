@@ -19,7 +19,7 @@
     //       <CalendarTableRow><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></CalendarTableRow>
     //     </CalendarTableHead>
     //     <CalendarTableBody>
-    //       <CalendarTableRow><CalendarTableData>1</CalendarTableData></CalendarTableRow>
+    //       <CalendarTableRow><CalendarTableTD>1</CalendarTableTD></CalendarTableRow>
     //     </CalendarTableBody>
     //   </CalendarTable>
     //
@@ -39,7 +39,7 @@
     // Claude rules:
     //   - Headless: no CSS, no styles — consumer provides all styling
     //   - Compound component: use with CalendarTableHead, CalendarTableBody, CalendarTableFoot,
-    //     CalendarTableRow, CalendarTableData, and CalendarTableCol
+    //     CalendarTableRow, CalendarTableTD, and CalendarTableTD
     //
     // References:
     //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

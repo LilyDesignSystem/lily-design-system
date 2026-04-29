@@ -1,4 +1,4 @@
-# CalendarTableData
+# CalendarTableTD
 
 A single day cell in a `CalendarTable`. Renders a `<td>` with `role="gridcell"`, supporting selected and today states via ARIA and a roving-tabindex pattern (`tabindex="0"` when selected, `-1` otherwise).
 
@@ -8,7 +8,7 @@ A headless Svelte 5 leaf cell. Category: calendar grid cell primitive, inside a 
 
 ## What it does
 
-- Renders `<td class="calendar-table-data {className}" role="gridcell" aria-selected={selected || undefined} aria-current={today ? "date" : undefined} tabindex={selected ? 0 : -1}>`.
+- Renders `<td class="calendar-table-td {className}" role="gridcell" aria-selected={selected || undefined} aria-current={today ? "date" : undefined} tabindex={selected ? 0 : -1}>`.
 - `aria-selected="true"` only when `selected` is true.
 - `aria-current="date"` only when `today` is true.
 - Roving tabindex puts focus on the selected cell; other cells are skipped (`-1`).
@@ -21,16 +21,16 @@ A headless Svelte 5 leaf cell. Category: calendar grid cell primitive, inside a 
 
 ## When not to use it
 
-- Outside a `CalendarTable` — use `DataTableData`, `GanttTableTd`, `KanbanTableData`, or `TableData`.
+- Outside a `CalendarTable` — use `DataTableTD`, `GanttTableTD`, `KanbanTableTD`, or `TableTD`.
 - As a header cell — use a plain `<th>` inside `CalendarTableHead`.
 
 ## How to use it
 
-Import `CalendarTableData` from `./CalendarTableData.svelte`. Pass children for the day content. Set `selected` and `today` as needed.
+Import `CalendarTableTD` from `./CalendarTableTD.svelte`. Pass children for the day content. Set `selected` and `today` as needed.
 
 ## Props
 
-- `class` — string, default `""`. CSS class appended to `calendar-table-data`.
+- `class` — string, default `""`. CSS class appended to `calendar-table-td`.
 - `selected` — boolean, default `false`. Whether the cell is selected.
 - `today` — boolean, default `false`. Whether the cell represents today.
 - `children` — `Snippet`, required. Cell content, typically the day number.
@@ -42,20 +42,20 @@ Import `CalendarTableData` from `./CalendarTableData.svelte`. Pass children for 
 
 ```svelte
 <script lang="ts">
-  import CalendarTableData from './CalendarTableData.svelte';
+  import CalendarTableTD from './CalendarTableTD.svelte';
 </script>
 
-<CalendarTableData>22</CalendarTableData>
+<CalendarTableTD>22</CalendarTableTD>
 ```
 
 ### Selected and today
 
 ```svelte
 <script lang="ts">
-  import CalendarTableData from './CalendarTableData.svelte';
+  import CalendarTableTD from './CalendarTableTD.svelte';
 </script>
 
-<CalendarTableData selected today>15</CalendarTableData>
+<CalendarTableTD selected today>15</CalendarTableTD>
 ```
 
 ### In a row
@@ -63,16 +63,16 @@ Import `CalendarTableData` from `./CalendarTableData.svelte`. Pass children for 
 ```svelte
 <script lang="ts">
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from './CalendarTableData.svelte';
+  import CalendarTableTD from './CalendarTableTD.svelte';
 
   let selected = $state(15);
 </script>
 
 <CalendarTableRow>
   {#each [14, 15, 16] as d}
-    <CalendarTableData selected={d === selected} onclick={() => (selected = d)}>
+    <CalendarTableTD selected={d === selected} onclick={() => (selected = d)}>
       {d}
-    </CalendarTableData>
+    </CalendarTableTD>
   {/each}
 </CalendarTableRow>
 ```
@@ -84,14 +84,14 @@ Import `CalendarTableData` from `./CalendarTableData.svelte`. Pass children for 
   import CalendarTable from '../CalendarTable/CalendarTable.svelte';
   import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from './CalendarTableData.svelte';
+  import CalendarTableTD from './CalendarTableTD.svelte';
 </script>
 
 <CalendarTable label="January 2025">
   <CalendarTableBody>
     <CalendarTableRow>
       {#each [1, 2, 3, 4, 5, 6, 7] as d}
-        <CalendarTableData today={d === 3}>{d}</CalendarTableData>
+        <CalendarTableTD today={d === 3}>{d}</CalendarTableTD>
       {/each}
     </CalendarTableRow>
   </CalendarTableBody>
@@ -102,14 +102,14 @@ Import `CalendarTableData` from `./CalendarTableData.svelte`. Pass children for 
 
 ```svelte
 <script lang="ts">
-  import CalendarTableData from './CalendarTableData.svelte';
+  import CalendarTableTD from './CalendarTableTD.svelte';
 
   function pick(d: number) {
     console.log('picked', d);
   }
 </script>
 
-<CalendarTableData data-date="2025-01-15" onclick={() => pick(15)}>15</CalendarTableData>
+<CalendarTableTD data-date="2025-01-15" onclick={() => pick(15)}>15</CalendarTableTD>
 ```
 
 ## Accessibility
@@ -124,5 +124,5 @@ Import `CalendarTableData` from `./CalendarTableData.svelte`. Pass children for 
 
 - `CalendarTableRow` — required parent.
 - `CalendarTable` — outer grid.
-- `CalendarTableHead`, `CalendarTableBody`, `CalendarTableFoot`, `CalendarTableCol` — siblings.
-- `DataTableData`, `GanttTableTd`, `KanbanTableData`, `TableData` — sibling table variants.
+- `CalendarTableHead`, `CalendarTableBody`, `CalendarTableFoot`, `CalendarTableTD` — siblings.
+- `DataTableTD`, `GanttTableTD`, `KanbanTableTD`, `TableTD` — sibling table variants.

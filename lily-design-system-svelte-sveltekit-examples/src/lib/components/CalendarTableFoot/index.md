@@ -22,7 +22,7 @@ A calendar table interactive grid tfoot for managing dates, days, etc. <tfoot>.
 ```svelte
 <CalendarTableFoot>
   <CalendarTableRow>
-    <CalendarTableData>Week Total: 5</CalendarTableData>
+    <CalendarTableTD>Week Total: 5</CalendarTableTD>
   </CalendarTableRow>
 </CalendarTableFoot>
 ```
@@ -45,7 +45,7 @@ A calendar table interactive grid tfoot for managing dates, days, etc. <tfoot>.
 
 <CalendarTableFoot>
   <CalendarTableRow>
-    <CalendarTableData>Week Total: 5</CalendarTableData>
+    <CalendarTableTD>Week Total: 5</CalendarTableTD>
   </CalendarTableRow>
 </CalendarTableFoot>
 ```

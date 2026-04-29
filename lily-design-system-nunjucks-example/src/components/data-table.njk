@@ -9,37 +9,37 @@ description: a data table interactive grid for displaying and sorting tabular da
 {% from "components/data-table-body/macro.njk" import dataTableBody %}
 {% from "components/data-table-foot/macro.njk" import dataTableFoot %}
 {% from "components/data-table-row/macro.njk" import dataTableRow %}
-{% from "components/data-table-col/macro.njk" import dataTableCol %}
-{% from "components/data-table-data/macro.njk" import dataTableData %}
+{% from "components/data-table-col/macro.njk" import dataTableTD %}
+{% from "components/data-table-td/macro.njk" import dataTableTD %}
 
 <h2>Default — appointment list</h2>
 {% call dataTable({ caption: "Your upcoming appointments" }) %}
   {% call dataTableHead() %}
     {% call dataTableRow() %}
-      {{ dataTableCol({ text: "Date" }) }}
-      {{ dataTableCol({ text: "Clinician" }) }}
-      {{ dataTableCol({ text: "Type" }) }}
-      {{ dataTableCol({ text: "Location" }) }}
+      {{ dataTableTD({ text: "Date" }) }}
+      {{ dataTableTD({ text: "Clinician" }) }}
+      {{ dataTableTD({ text: "Type" }) }}
+      {{ dataTableTD({ text: "Location" }) }}
     {% endcall %}
   {% endcall %}
   {% call dataTableBody() %}
     {% call dataTableRow() %}
-      {{ dataTableData({ text: "27 April 2026, 9:30am" }) }}
-      {{ dataTableData({ text: "Dr Patel" }) }}
-      {{ dataTableData({ text: "GP review" }) }}
-      {{ dataTableData({ text: "High Street Surgery" }) }}
+      {{ dataTableTD({ text: "27 April 2026, 9:30am" }) }}
+      {{ dataTableTD({ text: "Dr Patel" }) }}
+      {{ dataTableTD({ text: "GP review" }) }}
+      {{ dataTableTD({ text: "High Street Surgery" }) }}
     {% endcall %}
     {% call dataTableRow() %}
-      {{ dataTableData({ text: "4 May 2026, 2:15pm" }) }}
-      {{ dataTableData({ text: "Nurse Ahmed" }) }}
-      {{ dataTableData({ text: "Blood test" }) }}
-      {{ dataTableData({ text: "Main Clinic" }) }}
+      {{ dataTableTD({ text: "4 May 2026, 2:15pm" }) }}
+      {{ dataTableTD({ text: "Nurse Ahmed" }) }}
+      {{ dataTableTD({ text: "Blood test" }) }}
+      {{ dataTableTD({ text: "Main Clinic" }) }}
     {% endcall %}
     {% call dataTableRow() %}
-      {{ dataTableData({ text: "19 May 2026, 11:00am" }) }}
-      {{ dataTableData({ text: "Dr Smith" }) }}
-      {{ dataTableData({ text: "Follow-up" }) }}
-      {{ dataTableData({ text: "High Street Surgery" }) }}
+      {{ dataTableTD({ text: "19 May 2026, 11:00am" }) }}
+      {{ dataTableTD({ text: "Dr Smith" }) }}
+      {{ dataTableTD({ text: "Follow-up" }) }}
+      {{ dataTableTD({ text: "High Street Surgery" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}
@@ -48,64 +48,64 @@ description: a data table interactive grid for displaying and sorting tabular da
 {% call dataTable({ caption: "Recent weather observations" }) %}
   {% call dataTableHead() %}
     {% call dataTableRow() %}
-      {{ dataTableCol({ text: "Date" }) }}
-      {{ dataTableCol({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
-      {{ dataTableCol({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
-      {{ dataTableCol({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
+      {{ dataTableTD({ text: "Date" }) }}
+      {{ dataTableTD({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
+      {{ dataTableTD({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
+      {{ dataTableTD({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call dataTableBody() %}
     {% call dataTableRow() %}
-      {{ dataTableData({ text: "12 Apr" }) }}
-      {{ dataTableData({ text: "14", classes: "table-data-numeric" }) }}
-      {{ dataTableData({ text: "3.2", classes: "table-data-numeric" }) }}
-      {{ dataTableData({ text: "18", classes: "table-data-numeric" }) }}
+      {{ dataTableTD({ text: "12 Apr" }) }}
+      {{ dataTableTD({ text: "14", classes: "table-data-numeric" }) }}
+      {{ dataTableTD({ text: "3.2", classes: "table-data-numeric" }) }}
+      {{ dataTableTD({ text: "18", classes: "table-data-numeric" }) }}
     {% endcall %}
     {% call dataTableRow() %}
-      {{ dataTableData({ text: "19 Apr" }) }}
-      {{ dataTableData({ text: "16", classes: "table-data-numeric" }) }}
-      {{ dataTableData({ text: "0.0", classes: "table-data-numeric" }) }}
-      {{ dataTableData({ text: "12", classes: "table-data-numeric" }) }}
+      {{ dataTableTD({ text: "19 Apr" }) }}
+      {{ dataTableTD({ text: "16", classes: "table-data-numeric" }) }}
+      {{ dataTableTD({ text: "0.0", classes: "table-data-numeric" }) }}
+      {{ dataTableTD({ text: "12", classes: "table-data-numeric" }) }}
     {% endcall %}
     {% call dataTableRow() %}
-      {{ dataTableData({ text: "26 Apr" }) }}
-      {{ dataTableData({ text: "15", classes: "table-data-numeric" }) }}
-      {{ dataTableData({ text: "1.4", classes: "table-data-numeric" }) }}
-      {{ dataTableData({ text: "20", classes: "table-data-numeric" }) }}
+      {{ dataTableTD({ text: "26 Apr" }) }}
+      {{ dataTableTD({ text: "15", classes: "table-data-numeric" }) }}
+      {{ dataTableTD({ text: "1.4", classes: "table-data-numeric" }) }}
+      {{ dataTableTD({ text: "20", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call dataTableFoot() %}
     {% call dataTableRow() %}
-      {{ dataTableCol({ text: "Average", scope: "row" }) }}
-      {{ dataTableData({ text: "15", classes: "table-data-numeric" }) }}
-      {{ dataTableData({ text: "1.5", classes: "table-data-numeric" }) }}
-      {{ dataTableData({ text: "17", classes: "table-data-numeric" }) }}
+      {{ dataTableTD({ text: "Average", scope: "row" }) }}
+      {{ dataTableTD({ text: "15", classes: "table-data-numeric" }) }}
+      {{ dataTableTD({ text: "1.5", classes: "table-data-numeric" }) }}
+      {{ dataTableTD({ text: "17", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}
 
 <h2>Row headers</h2>
-<p>Use <code>TableCol</code> with <code>scope="row"</code> to mark a
+<p>Use <code>TableTD</code> with <code>scope="row"</code> to mark a
   row header, so screen readers announce it together with each data
   cell in the row.</p>
 {% call dataTable({ caption: "Dosage schedule" }) %}
   {% call dataTableHead() %}
     {% call dataTableRow() %}
-      {{ dataTableCol({ text: "Day" }) }}
-      {{ dataTableCol({ text: "Morning" }) }}
-      {{ dataTableCol({ text: "Evening" }) }}
+      {{ dataTableTD({ text: "Day" }) }}
+      {{ dataTableTD({ text: "Morning" }) }}
+      {{ dataTableTD({ text: "Evening" }) }}
     {% endcall %}
   {% endcall %}
   {% call dataTableBody() %}
     {% call dataTableRow() %}
-      {{ dataTableCol({ text: "Monday", scope: "row" }) }}
-      {{ dataTableData({ text: "1 tablet" }) }}
-      {{ dataTableData({ text: "1 tablet" }) }}
+      {{ dataTableTD({ text: "Monday", scope: "row" }) }}
+      {{ dataTableTD({ text: "1 tablet" }) }}
+      {{ dataTableTD({ text: "1 tablet" }) }}
     {% endcall %}
     {% call dataTableRow() %}
-      {{ dataTableCol({ text: "Tuesday", scope: "row" }) }}
-      {{ dataTableData({ text: "1 tablet" }) }}
-      {{ dataTableData({ text: "2 tablets" }) }}
+      {{ dataTableTD({ text: "Tuesday", scope: "row" }) }}
+      {{ dataTableTD({ text: "1 tablet" }) }}
+      {{ dataTableTD({ text: "2 tablets" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}

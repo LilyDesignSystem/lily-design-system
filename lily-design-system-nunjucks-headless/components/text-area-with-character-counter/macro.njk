@@ -1,23 +1,23 @@
 {#
-  TextAreaWithCharacterCounter macro — a multi-line text area plus a live
+  TextAreaInputWithCharacterCounter macro — a multi-line text area plus a live
     character counter showing "N of M characters".
 
   HTML tag: <div> wrapping <textarea> + <output>
-  CSS class: text-area-with-character-counter
+  CSS class: text-area-input-with-character-counter
 
   Params: id, name, value, maximum, rows (default 5), label, required,
     disabled, placeholder, classes, attributes.
 #}
 {%- macro textAreaWithCharacterCounter(params) -%}
 {%- set p = params | default({}) -%}
-{%- set textareaId = p.id | default('text-area-with-character-counter') -%}
+{%- set textareaId = p.id | default('text-area-input-with-character-counter') -%}
 <div
-  class="text-area-with-character-counter{% if p.classes %} {{ p.classes }}{% endif %}"
-  data-module="text-area-with-character-counter"
+  class="text-area-input-with-character-counter{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-module="text-area-input-with-character-counter"
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
   <textarea
-    class="text-area-with-character-counter-textarea"
+    class="text-area-input-with-character-counter-textarea"
     id="{{ textareaId }}-textarea"
     rows="{{ p.rows | default(5) }}"
     {%- if p.name %} name="{{ p.name }}"{% endif %}
@@ -29,7 +29,7 @@
   >{{ p.value | default('') }}</textarea>
   {%- if p.maximum %}
   <output
-    class="text-area-with-character-counter-counter"
+    class="text-area-input-with-character-counter-counter"
     id="{{ textareaId }}-counter"
     aria-live="polite"
     for="{{ textareaId }}-textarea"

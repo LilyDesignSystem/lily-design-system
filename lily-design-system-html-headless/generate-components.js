@@ -24,7 +24,7 @@ function getTag(name) {
   if (name.endsWith("-table-foot")) return "tfoot";
   if (name.endsWith("-table-col")) return "th";
   if (name.endsWith("-table-row")) return "tr";
-  if (name.endsWith("-table-data")) return "td";
+  if (name.endsWith("-table-td")) return "td";
   if (name.endsWith("-table")) return "table";
   if (name.endsWith("-input") || name === "input") return "input";
   if (name.endsWith("-button")) return "button";
@@ -180,7 +180,7 @@ const COMPONENTS = [
     "a calendar table interactive grid row for managing dates, days, etc.",
   ],
   [
-    "calendar-table-data",
+    "calendar-table-td",
     "a calendar table interactive grid data cell for managing dates, days, etc.",
   ],
   [
@@ -255,7 +255,7 @@ const COMPONENTS = [
     "a data table interactive grid row for displaying and sorting tabular data",
   ],
   [
-    "data-table-data",
+    "data-table-td",
     "a data table interactive grid data cell for displaying and sorting tabular data",
   ],
   ["date-field", "a structured field for entering date components"],
@@ -330,15 +330,15 @@ const COMPONENTS = [
     "a Gantt chart table interactive grid for planning schedule visualization",
   ],
   [
-    "gantt-table-thead",
+    "gantt-table-head",
     "a Gantt chart table interactive grid thead for planning schedule visualization",
   ],
   [
-    "gantt-table-tbody",
+    "gantt-table-body",
     "a Gantt chart table interactive grid tbody for planning schedule visualization",
   ],
   [
-    "gantt-table-tfoot",
+    "gantt-table-foot",
     "a Gantt chart table interactive grid tfoot for planning schedule visualization",
   ],
   [
@@ -346,7 +346,7 @@ const COMPONENTS = [
     "a Gantt chart table interactive grid column for planning schedule visualization",
   ],
   [
-    "gantt-table-tr",
+    "gantt-table-row",
     "a Gantt chart table interactive grid row for planning schedule visualization",
   ],
   [
@@ -399,7 +399,7 @@ const COMPONENTS = [
     "a kanban board table interactive grid row for organizing items by status",
   ],
   [
-    "kanban-table-data",
+    "kanban-table-td",
     "kanban board table interactive grid data cell for organizing items by status",
   ],
   [
@@ -744,7 +744,7 @@ function getAttributes(name, tag, role) {
       "img",
     ].includes(tag) &&
     !name.endsWith("-list-item") &&
-    !name.endsWith("-table-data") &&
+    !name.endsWith("-table-td") &&
     !name.endsWith("-table-row") &&
     !name.endsWith("-table-col") &&
     !name.endsWith("-table-head") &&

@@ -1,4 +1,4 @@
-# KanbanTableData
+# KanbanTableTD
 
 ## Overview
 
@@ -21,8 +21,8 @@ Kanban board table interactive grid data cell for organizing items by status <td
 ## Usage
 
 ```svelte
-<KanbanTableData>Task content</KanbanTableData>
-<KanbanTableData active label="Design task">...</KanbanTableData>
+<KanbanTableTD>Task content</KanbanTableTD>
+<KanbanTableTD active label="Design task">...</KanbanTableTD>
 ```
 
 ## Props
@@ -39,9 +39,9 @@ Kanban board table interactive grid data cell for organizing items by status <td
 
 ```svelte
 <KanbanTableRow>
-  <KanbanTableData label="Fix login bug">Fix login bug</KanbanTableData>
-  <KanbanTableData />
-  <KanbanTableData />
+  <KanbanTableTD label="Fix login bug">Fix login bug</KanbanTableTD>
+  <KanbanTableTD />
+  <KanbanTableTD />
 </KanbanTableRow>
 ```
 
@@ -50,11 +50,11 @@ Kanban board table interactive grid data cell for organizing items by status <td
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import KanbanTableData from "$lib/components/KanbanTableData/KanbanTableData.svelte";
+  import KanbanTableTD from "$lib/components/KanbanTableTD/KanbanTableTD.svelte";
 </script>
 
-<KanbanTableData>Task content</KanbanTableData>
-<KanbanTableData active label="Design task">...</KanbanTableData>
+<KanbanTableTD>Task content</KanbanTableTD>
+<KanbanTableTD active label="Design task">...</KanbanTableTD>
 ```
 
 ## Keyboard

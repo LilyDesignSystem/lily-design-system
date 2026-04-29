@@ -6,7 +6,7 @@ A Kanban table body provides the main content area of a Kanban board, containing
 
 - Renders as a `<div>` for the main Kanban board content area
 - Consumer provides column containers and card items through the children slot
-- Each column within the body typically uses `role="list"` with KanbanTableData items as `role="listitem"` children
+- Each column within the body typically uses `role="list"` with KanbanTableTD items as `role="listitem"` children
 - Spreads `...restProps` onto the `<div>` element for consumer customization
 - No internal state -- purely a structural wrapper
 
@@ -26,17 +26,17 @@ Kanban board body with task cards across workflow stages:
     </KanbanTableHead>
     <KanbanTableBody>
         <KanbanTableRow>
-            <KanbanTableData label="Fix login bug">
+            <KanbanTableTD label="Fix login bug">
                 <h4>Fix login bug</h4>
                 <p>Assigned to Alice</p>
-            </KanbanTableData>
-            <KanbanTableData label="Add dashboard">
+            </KanbanTableTD>
+            <KanbanTableTD label="Add dashboard">
                 <h4>Add dashboard</h4>
                 <p>Assigned to Bob</p>
-            </KanbanTableData>
-            <KanbanTableData label="Setup CI/CD">
+            </KanbanTableTD>
+            <KanbanTableTD label="Setup CI/CD">
                 <h4>Setup CI/CD</h4>
-            </KanbanTableData>
+            </KanbanTableTD>
         </KanbanTableRow>
     </KanbanTableBody>
 </KanbanTable>
@@ -50,13 +50,13 @@ None -- passive container. Keyboard interaction depends on interactive elements 
 
 - No explicit ARIA roles required on the body container itself
 - Column containers within should use `role="list"` with `aria-label` to identify each workflow stage
-- Card items within columns should use `role="listitem"` (provided by KanbanTableData)
+- Card items within columns should use `role="listitem"` (provided by KanbanTableTD)
 
 ## When to Use
 
 - Use inside KanbanTable to wrap the main content area containing columns and card items.
 - Use when you need a structural container to separate board content from the header and footer areas.
-- Use to hold the column containers that contain KanbanTableData card items.
+- Use to hold the column containers that contain KanbanTableTD card items.
 
 ## When Not to Use
 
@@ -78,7 +78,7 @@ The consumer provides all CSS styling. The component renders with a `.kanban-tab
 
 - Verify the component renders a `<tbody>` element with class `kanban-table-body`
 - Verify Column containers within should use `role="list"` with `aria-label` to identify each workflow stage
-- Verify Card items within columns should use `role="listitem"` (provided by KanbanTableData)
+- Verify Card items within columns should use `role="listitem"` (provided by KanbanTableTD)
 - Verify pass-through attributes are applied
 
 ## Advice
@@ -88,11 +88,11 @@ The consumer provides all CSS styling. The component renders with a `.kanban-tab
 
 ## Composition
 
-KanbanTableBody is part of the KanbanTable compound component. It is used as a child of KanbanTable alongside KanbanTableHead and optionally KanbanTableFoot. It contains column containers that hold KanbanTableData card items.
+KanbanTableBody is part of the KanbanTable compound component. It is used as a child of KanbanTable alongside KanbanTableHead and optionally KanbanTableFoot. It contains column containers that hold KanbanTableTD card items.
 
 ```
 KanbanTable → KanbanTableHead + KanbanTableBody + KanbanTableFoot
-                                  └→ columns → KanbanTableData
+                                  └→ columns → KanbanTableTD
 ```
 
 ## References

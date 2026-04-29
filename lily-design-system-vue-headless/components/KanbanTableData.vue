@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-    // KanbanTableData component
+    // KanbanTableTD component
     //
     // A single cell within a KanbanTableRow, rendered as a <td> with role="gridcell".
     // Represents a task card or content area within a workflow column. Supports an
@@ -14,14 +14,14 @@
     //   ...restProps — additional HTML attributes spread onto the <td>.
     //
     // Syntax:
-    //   <KanbanTableData>Task content</KanbanTableData>
-    //   <KanbanTableData active label="Design task">...</KanbanTableData>
+    //   <KanbanTableTD>Task content</KanbanTableTD>
+    //   <KanbanTableTD active label="Design task">...</KanbanTableTD>
     //
     // Examples:
     //   <KanbanTableRow>
-    //     <KanbanTableData label="Fix login bug">Fix login bug</KanbanTableData>
-    //     <KanbanTableData />
-    //     <KanbanTableData />
+    //     <KanbanTableTD label="Fix login bug">Fix login bug</KanbanTableTD>
+    //     <KanbanTableTD />
+    //     <KanbanTableTD />
     //   </KanbanTableRow>
     //
     // Keyboard:
@@ -56,9 +56,9 @@
 </script>
 
 <template>
-    <!-- KanbanTableData.vue -->
+    <!-- KanbanTableTD.vue -->
     <td
-        class="kanban-table-data"
+        class="kanban-table-td"
         role="gridcell"
         :aria-selected="active || undefined"
         :tabindex="active ? 0 : -1"

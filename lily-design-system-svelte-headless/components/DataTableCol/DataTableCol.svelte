@@ -1,5 +1,5 @@
 <script lang="ts">
-    // DataTableCol component
+    // DataTableTD component
     //
     // A column header cell within a DataTable, rendered as a <th> element.
     // Used inside a <DataTableRow> within <DataTableHead> to label the columns
@@ -16,8 +16,8 @@
     // Syntax:
     //   <DataTableHead>
     //     <DataTableRow>
-    //       <DataTableCol>Name</DataTableCol>
-    //       <DataTableCol>Email</DataTableCol>
+    //       <DataTableTD>Name</DataTableTD>
+    //       <DataTableTD>Email</DataTableTD>
     //     </DataTableRow>
     //   </DataTableHead>
     //
@@ -57,7 +57,7 @@
     } = $props();
 </script>
 
-<!-- DataTableCol.svelte -->
+<!-- DataTableTD.svelte -->
 <th
     class={`data-table-col ${className}`}
     {scope}

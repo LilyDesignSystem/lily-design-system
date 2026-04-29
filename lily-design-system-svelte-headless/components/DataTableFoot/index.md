@@ -42,7 +42,7 @@ Place inside `DataTable`, after `DataTableBody`. Populate with `DataTableRow` ch
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableFoot from "./DataTableFoot.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 </script>
 
 <DataTable label="Budget">
@@ -54,18 +54,18 @@ Place inside `DataTable`, after `DataTableBody`. Populate with `DataTableRow` ch
     </DataTableHead>
     <DataTableBody>
         <DataTableRow>
-            <DataTableData>Travel</DataTableData>
-            <DataTableData>$1,200</DataTableData>
+            <DataTableTD>Travel</DataTableTD>
+            <DataTableTD>$1,200</DataTableTD>
         </DataTableRow>
         <DataTableRow>
-            <DataTableData>Lodging</DataTableData>
-            <DataTableData>$800</DataTableData>
+            <DataTableTD>Lodging</DataTableTD>
+            <DataTableTD>$800</DataTableTD>
         </DataTableRow>
     </DataTableBody>
     <DataTableFoot>
         <DataTableRow>
-            <DataTableData>Total</DataTableData>
-            <DataTableData>$2,000</DataTableData>
+            <DataTableTD>Total</DataTableTD>
+            <DataTableTD>$2,000</DataTableTD>
         </DataTableRow>
     </DataTableFoot>
 </DataTable>
@@ -78,7 +78,7 @@ Place inside `DataTable`, after `DataTableBody`. Populate with `DataTableRow` ch
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableFoot from "./DataTableFoot.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 
     const lines = [
         { label: "A", amount: 10 },
@@ -98,15 +98,15 @@ Place inside `DataTable`, after `DataTableBody`. Populate with `DataTableRow` ch
     <DataTableBody>
         {#each lines as l}
             <DataTableRow>
-                <DataTableData>{l.label}</DataTableData>
-                <DataTableData>{l.amount}</DataTableData>
+                <DataTableTD>{l.label}</DataTableTD>
+                <DataTableTD>{l.amount}</DataTableTD>
             </DataTableRow>
         {/each}
     </DataTableBody>
     <DataTableFoot>
         <DataTableRow>
-            <DataTableData>Sum</DataTableData>
-            <DataTableData>{total}</DataTableData>
+            <DataTableTD>Sum</DataTableTD>
+            <DataTableTD>{total}</DataTableTD>
         </DataTableRow>
     </DataTableFoot>
 </DataTable>
@@ -119,7 +119,7 @@ Place inside `DataTable`, after `DataTableBody`. Populate with `DataTableRow` ch
     import DataTableBody from "../DataTableBody/DataTableBody.svelte";
     import DataTableFoot from "./DataTableFoot.svelte";
     import DataTableRow from "../DataTableRow/DataTableRow.svelte";
-    import DataTableData from "../DataTableData/DataTableData.svelte";
+    import DataTableTD from "../DataTableTD/DataTableTD.svelte";
 </script>
 
 <DataTable label="With empty foot">
@@ -127,10 +127,10 @@ Place inside `DataTable`, after `DataTableBody`. Populate with `DataTableRow` ch
         <DataTableRow><th scope="col">X</th></DataTableRow>
     </DataTableHead>
     <DataTableBody>
-        <DataTableRow><DataTableData>1</DataTableData></DataTableRow>
+        <DataTableRow><DataTableTD>1</DataTableTD></DataTableRow>
     </DataTableBody>
     <DataTableFoot>
-        <DataTableRow><DataTableData>—</DataTableData></DataTableRow>
+        <DataTableRow><DataTableTD>—</DataTableTD></DataTableRow>
     </DataTableFoot>
 </DataTable>
 ```
@@ -141,4 +141,4 @@ Place inside `DataTable`, after `DataTableBody`. Populate with `DataTableRow` ch
 
 ## Related components
 
-- `DataTable`, `DataTableHead`, `DataTableBody`, `DataTableRow`, `DataTableData`.
+- `DataTable`, `DataTableHead`, `DataTableBody`, `DataTableRow`, `DataTableTD`.

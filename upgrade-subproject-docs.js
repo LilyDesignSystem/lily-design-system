@@ -64,7 +64,7 @@ const subprojects = [
     type: "headless",
   },
   {
-    dir: "lily-design-system-html-javascript-examples",
+    dir: "lily-design-system-html-css-js-examples",
     title: "Lily Design System — HTML JavaScript Examples",
     framework: "HTML",
     tech: "Plain HTML + vanilla JavaScript with simple styling",

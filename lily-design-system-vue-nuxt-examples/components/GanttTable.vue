@@ -11,24 +11,24 @@
     //   className — string, optional. CSS class name.
     //   label — string, required. Accessible name describing the Gantt table content.
     //   caption — string, optional. Visible caption text displayed above the table.
-    //   default slot. GanttTableThead, GanttTableTbody, GanttTableTfoot elements.
+    //   default slot. GanttTableHead, GanttTableBody, GanttTableTfoot elements.
     //   ...restProps — additional HTML attributes spread onto the <table>.
     //
     // Syntax:
     //   <GanttTable label="Project timeline">
-    //     <GanttTableThead>
-    //       <GanttTableTr>
+    //     <GanttTableHead>
+    //       <GanttTableTR>
     //         <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
-    //       </GanttTableTr>
-    //     </GanttTableThead>
-    //     <GanttTableTbody>
-    //       <GanttTableTr>
+    //       </GanttTableTR>
+    //     </GanttTableHead>
+    //     <GanttTableBody>
+    //       <GanttTableTR>
     //         <th>Design</th>
-    //         <GanttTableTd active>---</GanttTableTd>
-    //         <GanttTableTd />
-    //         <GanttTableTd />
-    //       </GanttTableTr>
-    //     </GanttTableTbody>
+    //         <GanttTableTD active>---</GanttTableTD>
+    //         <GanttTableTD />
+    //         <GanttTableTD />
+    //       </GanttTableTR>
+    //     </GanttTableBody>
     //   </GanttTable>
     //
     // Keyboard:
@@ -46,8 +46,8 @@
     //
     // Claude rules:
     //   - Headless: no CSS, no styles — consumer provides all styling
-    //   - Compound component: use with GanttTableThead, GanttTableTbody, GanttTableTfoot,
-    //     GanttTableTr, GanttTableTd, and GanttTableTh
+    //   - Compound component: use with GanttTableHead, GanttTableBody, GanttTableTfoot,
+    //     GanttTableTR, GanttTableTD, and GanttTableTH
     //
     // References:
     //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

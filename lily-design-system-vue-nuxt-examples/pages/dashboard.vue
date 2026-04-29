@@ -64,12 +64,12 @@ function statusBadgeType(status: string): string {
             </DataTableHead>
             <DataTableBody>
                 <DataTableRow v-for="task in tasks" :key="task.id">
-                    <DataTableData>{{ task.title }}</DataTableData>
-                    <DataTableData>{{ task.assignee }}</DataTableData>
-                    <DataTableData>
+                    <DataTableTD>{{ task.title }}</DataTableTD>
+                    <DataTableTD>{{ task.assignee }}</DataTableTD>
+                    <DataTableTD>
                         <Badge :type="statusBadgeType(task.status)">{{ task.status }}</Badge>
-                    </DataTableData>
-                    <DataTableData>{{ task.priority }}</DataTableData>
+                    </DataTableTD>
+                    <DataTableTD>{{ task.priority }}</DataTableTD>
                 </DataTableRow>
             </DataTableBody>
         </DataTable>

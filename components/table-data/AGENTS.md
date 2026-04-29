@@ -3,7 +3,7 @@
 ## Metadata
 
 - Component: table-data
-- PascalCase: TableData
+- PascalCase: TableTD
 - Description: a table interactive grid data cell <td>
 - HTML tag: <td>
 - CSS class: .table-data

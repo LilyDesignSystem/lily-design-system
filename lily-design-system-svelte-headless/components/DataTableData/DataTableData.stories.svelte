@@ -1,10 +1,10 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import DataTableData from './DataTableData.svelte';
+  import DataTableTD from './DataTableTD.svelte';
 
   const { Story } = defineMeta({
-    title: 'Headless/DataTableData',
-    component: DataTableData,
+    title: 'Headless/DataTableTD',
+    component: DataTableTD,
   });
 </script>
 

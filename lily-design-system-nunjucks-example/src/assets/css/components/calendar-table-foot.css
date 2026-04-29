@@ -2,6 +2,6 @@
   border-top: 2px solid var(--nhsuk-black);
 }
 
-.calendar-table-foot .calendar-table-data {
+.calendar-table-foot .calendar-table-td {
   font-weight: var(--nhsuk-font-weight-bold);
 }

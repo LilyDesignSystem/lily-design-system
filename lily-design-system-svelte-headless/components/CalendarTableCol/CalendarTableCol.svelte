@@ -1,5 +1,5 @@
 <script lang="ts">
-    // CalendarTableCol component
+    // CalendarTableTD component
     //
     // A column header cell within a CalendarTable, rendered as a <th> element.
     // Used inside a <CalendarTableRow> within <CalendarTableHead> to label the
@@ -16,8 +16,8 @@
     // Syntax:
     //   <CalendarTableHead>
     //     <CalendarTableRow>
-    //       <CalendarTableCol>Mon</CalendarTableCol>
-    //       <CalendarTableCol>Tue</CalendarTableCol>
+    //       <CalendarTableTD>Mon</CalendarTableTD>
+    //       <CalendarTableTD>Tue</CalendarTableTD>
     //     </CalendarTableRow>
     //   </CalendarTableHead>
     //
@@ -57,7 +57,7 @@
     } = $props();
 </script>
 
-<!-- CalendarTableCol.svelte -->
+<!-- CalendarTableTD.svelte -->
 <th
     class={`calendar-table-col ${className}`}
     {scope}

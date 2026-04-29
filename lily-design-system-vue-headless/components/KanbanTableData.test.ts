@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/vue";
 
-import Subject from "./KanbanTableData.vue";
+import Subject from "./KanbanTableTD.vue";
 
 
 function renderInRow(props: Record<string, unknown>, slotContent?: string) {
@@ -17,7 +17,7 @@ function renderInRow(props: Record<string, unknown>, slotContent?: string) {
     return { ...result, container };
 }
 
-describe("KanbanTableData", () => {
+describe("KanbanTableTD", () => {
     test("renders a gridcell", () => {
         renderInRow({});
         expect(screen.getByRole("gridcell")).toBeTruthy();

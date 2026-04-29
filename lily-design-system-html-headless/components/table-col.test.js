@@ -1,9 +1,9 @@
 // table-col.test.js
-// TableCol component test
+// TableTD component test
 
 const path = require('path');
 
-describe('TableCol', function() {
+describe('TableTD', function() {
   beforeEach(async function() {
     await browser.url('file://' + path.resolve(__dirname, 'table-col.html'));
   });

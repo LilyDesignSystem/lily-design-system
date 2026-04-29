@@ -1,18 +1,18 @@
 # KanbanTableRow
 
-A Kanban table row is a single row within a KanbanTable grid. Renders as a `<tr>` containing KanbanTableData cells for each workflow column.
+A Kanban table row is a single row within a KanbanTable grid. Renders as a `<tr>` containing KanbanTableTD cells for each workflow column.
 
 ## Props
 
-- `children`: ReactNode (required) -- KanbanTableData cells and header cells
+- `children`: ReactNode (required) -- KanbanTableTD cells and header cells
 - `...restProps`: unknown -- additional attributes spread onto the `<tr>`
 
 ## Usage
 
 ```tsx
 <KanbanTableRow>
-  <KanbanTableData>Task A</KanbanTableData>
-  <KanbanTableData>Task B</KanbanTableData>
+  <KanbanTableTD>Task A</KanbanTableTD>
+  <KanbanTableTD>Task B</KanbanTableTD>
 </KanbanTableRow>
 ```
 

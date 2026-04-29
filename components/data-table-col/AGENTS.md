@@ -3,7 +3,7 @@
 ## Metadata
 
 - Component: data-table-col
-- PascalCase: DataTableCol
+- PascalCase: DataTableTD
 - Description: a data table interactive grid column for displaying and sorting tabular data <th>
 - HTML tag: <th>
 - CSS class: .data-table-col

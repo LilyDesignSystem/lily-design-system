@@ -22,22 +22,22 @@ The component renders a `<tr>` element and passes through its children, which ar
 ```html
 <CalendarTableBody>
   <CalendarTableRow>
-    <CalendarTableData>1</CalendarTableData>
-    <CalendarTableData>2</CalendarTableData>
-    <CalendarTableData>3</CalendarTableData>
-    <CalendarTableData>4</CalendarTableData>
-    <CalendarTableData>5</CalendarTableData>
-    <CalendarTableData>6</CalendarTableData>
-    <CalendarTableData>7</CalendarTableData>
+    <CalendarTableTD>1</CalendarTableTD>
+    <CalendarTableTD>2</CalendarTableTD>
+    <CalendarTableTD>3</CalendarTableTD>
+    <CalendarTableTD>4</CalendarTableTD>
+    <CalendarTableTD>5</CalendarTableTD>
+    <CalendarTableTD>6</CalendarTableTD>
+    <CalendarTableTD>7</CalendarTableTD>
   </CalendarTableRow>
   <CalendarTableRow>
-    <CalendarTableData today selected>8</CalendarTableData>
-    <CalendarTableData>9</CalendarTableData>
-    <CalendarTableData>10</CalendarTableData>
-    <CalendarTableData>11</CalendarTableData>
-    <CalendarTableData>12</CalendarTableData>
-    <CalendarTableData>13</CalendarTableData>
-    <CalendarTableData>14</CalendarTableData>
+    <CalendarTableTD today selected>8</CalendarTableTD>
+    <CalendarTableTD>9</CalendarTableTD>
+    <CalendarTableTD>10</CalendarTableTD>
+    <CalendarTableTD>11</CalendarTableTD>
+    <CalendarTableTD>12</CalendarTableTD>
+    <CalendarTableTD>13</CalendarTableTD>
+    <CalendarTableTD>14</CalendarTableTD>
   </CalendarTableRow>
 </CalendarTableBody>
 ```
@@ -54,7 +54,7 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 - Use inside CalendarTable to provide the `<tr>` for each row of the calendar grid
 - Use within CalendarTableHead, CalendarTableBody, or CalendarTableFoot to represent one week or one header row
-- Use when you need a row container for CalendarTableData day cells or `<th>` header cells
+- Use when you need a row container for CalendarTableTD day cells or `<th>` header cells
 
 ## When Not to Use
 

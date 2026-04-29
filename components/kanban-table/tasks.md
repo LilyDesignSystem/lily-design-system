@@ -15,7 +15,7 @@
 - [ ] Implement child component: kanban-table-foot
 - [ ] Implement child component: kanban-table-col
 - [ ] Implement child component: kanban-table-row
-- [ ] Implement child component: kanban-table-data
+- [ ] Implement child component: kanban-table-td
 
 ## Backlog
 

@@ -1,6 +1,6 @@
 # Table Col
 
-TableCol is a headless component that renders a `<th scope="col">` element — a column header cell — intended to live inside a TableRow within TableHead.
+TableTD is a headless component that renders a `<th scope="col">` element — a column header cell — intended to live inside a TableRow within TableHead.
 
 Use this component to label the columns of a table.
 
@@ -28,14 +28,14 @@ Use this component to label the columns of a table.
 <Table label="Users">
   <TableHead>
     <TableRow>
-      <TableCol>Name</TableCol>
-      <TableCol>Email</TableCol>
+      <TableTD>Name</TableTD>
+      <TableTD>Email</TableTD>
     </TableRow>
   </TableHead>
   <TableBody>
     <TableRow>
-      <TableData>Alice</TableData>
-      <TableData>alice@example.com</TableData>
+      <TableTD>Alice</TableTD>
+      <TableTD>alice@example.com</TableTD>
     </TableRow>
   </TableBody>
 </Table>
@@ -56,9 +56,9 @@ None. Header cells are not interactive.
 
 ## When Not to Use
 
-- Do not use for data cells -- use TableData for `<td>` elements
+- Do not use for data cells -- use TableTD for `<td>` elements
 - Do not use for column-wide styling hooks via `<colgroup>` / `<col>` -- write those directly inside Table
-- Do not use outside of a Table -- use DataTableCol for DataTable, CalendarTableCol for CalendarTable, etc.
+- Do not use outside of a Table -- use DataTableTD for DataTable, CalendarTableTD for CalendarTable, etc.
 
 ## Headless
 
@@ -77,7 +77,7 @@ The consumer provides all CSS styling. The component renders with a `.table-col`
 
 ## Composition
 
-TableCol is a child of TableRow within TableHead, following the Table pattern: Table > TableHead/TableBody/TableFoot > TableRow > TableCol/TableData.
+TableTD is a child of TableRow within TableHead, following the Table pattern: Table > TableHead/TableBody/TableFoot > TableRow > TableTD/TableTD.
 
 ## References
 

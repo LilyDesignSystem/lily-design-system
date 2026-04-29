@@ -55,7 +55,7 @@ Unlike a single-line text input, a textarea provides a larger, scrollable text a
 ## When Not to Use
 
 - Do not use for single-line answers like names, phone numbers, or postcodes -- use TextInput instead
-- Do not use when a character limit is needed -- use TextAreaWithCharacterCounter which pairs Textarea with CharacterCounter
+- Do not use when a character limit is needed -- use TextAreaInputWithCharacterCounter which pairs Textarea with CharacterCounter
 - Do not disable copy and paste -- users must be able to paste text (WCAG 2.2)
 - Do not use without consulting your clinical team if the service involves health information -- users may disclose sensitive health concerns
 

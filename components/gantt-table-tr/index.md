@@ -1,14 +1,14 @@
 # Gantt Table Row
 
-A Gantt table row represents a single row within a Gantt chart grid, typically corresponding to one task or milestone. It wraps a task-name cell and time-period cells in a horizontal sequence. It is designed to be used inside a GanttTableThead, GanttTableTbody, or GanttTableTfoot section.
+A Gantt table row represents a single row within a Gantt chart grid, typically corresponding to one task or milestone. It wraps a task-name cell and time-period cells in a horizontal sequence. It is designed to be used inside a GanttTableHead, GanttTableBody, or GanttTableTfoot section.
 
-The component renders a `<tr>` element and passes through its children, which are expected to be `<td>`, `<th>`, or GanttTableTd elements.
+The component renders a `<tr>` element and passes through its children, which are expected to be `<td>`, `<th>`, or GanttTableTD elements.
 
 ## Implementation Notes
 
 - Renders as a `<tr>` element for one row in a Gantt chart grid
-- Children should be a task-name header cell (`<th>`) followed by time-period data cells (`<td>` or GanttTableTd)
-- Designed to be used inside GanttTableThead, GanttTableTbody, or GanttTableTfoot
+- Children should be a task-name header cell (`<th>`) followed by time-period data cells (`<td>` or GanttTableTD)
+- Designed to be used inside GanttTableHead, GanttTableBody, or GanttTableTfoot
 - Spreads `restProps` onto the `<tr>` element for consumer customization
 - No internal state -- purely a structural wrapper
 
@@ -20,20 +20,20 @@ The component renders a `<tr>` element and passes through its children, which ar
 ## Usage
 
 ```html
-<GanttTableTbody>
-  <GanttTableTr>
-    <GanttTableTh scope="row">Design phase</GanttTableTh>
-    <GanttTableTd active>████</GanttTableTd>
-    <GanttTableTd active>████</GanttTableTd>
-    <GanttTableTd></GanttTableTd>
-  </GanttTableTr>
-  <GanttTableTr>
-    <GanttTableTh scope="row">Development</GanttTableTh>
-    <GanttTableTd></GanttTableTd>
-    <GanttTableTd active>████</GanttTableTd>
-    <GanttTableTd active>████</GanttTableTd>
-  </GanttTableTr>
-</GanttTableTbody>
+<GanttTableBody>
+  <GanttTableTR>
+    <GanttTableTH scope="row">Design phase</GanttTableTH>
+    <GanttTableTD active>████</GanttTableTD>
+    <GanttTableTD active>████</GanttTableTD>
+    <GanttTableTD></GanttTableTD>
+  </GanttTableTR>
+  <GanttTableTR>
+    <GanttTableTH scope="row">Development</GanttTableTH>
+    <GanttTableTD></GanttTableTD>
+    <GanttTableTD active>████</GanttTableTD>
+    <GanttTableTD active>████</GanttTableTD>
+  </GanttTableTR>
+</GanttTableBody>
 ```
 
 ## Keyboard Interactions
@@ -47,7 +47,7 @@ None -- this component is a passive container. Keyboard navigation is handled by
 ## When to Use
 
 - Use inside GanttTable to provide the `<tr>` row element for a task, header, or summary row.
-- Use inside GanttTableThead, GanttTableTbody, or GanttTableTfoot to represent a single row in the Gantt chart.
+- Use inside GanttTableHead, GanttTableBody, or GanttTableTfoot to represent a single row in the Gantt chart.
 - Use to wrap a task-name cell followed by time-period data cells.
 
 ## When Not to Use
@@ -62,19 +62,19 @@ This headless component provides a `<tr>` element with implicit `row` role for i
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.gantt-table-tr` class for targeting. No default styles are included — this is a fully headless component.
+The consumer provides all CSS styling. The component renders with a `.gantt-table-row` class for targeting. No default styles are included — this is a fully headless component.
 
 
 ## Testing
 
 
-- Verify the component renders a `<tr>` element with class `gantt-table-tr`
+- Verify the component renders a `<tr>` element with class `gantt-table-row`
 - Verify pass-through attributes are applied
 
 ## Advice
 
 - **Designers**: Ensure rows have enough height to display bar segments clearly. Add hover states to help users track across wide timelines.
-- **Developers**: Start each body row with a `<th>` for the task name, followed by GanttTableTd cells for the time period columns.
+- **Developers**: Start each body row with a `<th>` for the task name, followed by GanttTableTD cells for the time period columns.
 
 ## References
 

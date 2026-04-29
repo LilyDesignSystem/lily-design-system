@@ -2,11 +2,11 @@
 
 ## Metadata
 
-- Component: kanban-table-data
-- PascalCase: KanbanTableData
+- Component: kanban-table-td
+- PascalCase: KanbanTableTD
 - Description: kanban board table interactive grid data cell for organizing items by status <td>
 - HTML tag: <td>
-- CSS class: .kanban-table-data
+- CSS class: .kanban-table-td
 - Interactive: no
 
 ## Composition
@@ -40,7 +40,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <td> element with class="kanban-table-data"
+- [ ] Renders <td> element with class="kanban-table-td"
 - [ ] Has aria-label attribute
 - [ ] Has role="listitem"
 - [ ] Keyboard navigation works correctly
@@ -50,6 +50,6 @@
 ## References
 
 - Documentation: index.md
-- CSS class: .kanban-table-data in css-style-sheet-template.css
-- HTML headless: lily-design-system-html-headless/components/kanban-table-data.html
+- CSS class: .kanban-table-td in css-style-sheet-template.css
+- HTML headless: lily-design-system-html-headless/components/kanban-table-td.html
 - WAI-ARIA Listitem Role: https://www.w3.org/TR/wai-aria-1.2/#listitem

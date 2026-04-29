@@ -1,6 +1,6 @@
 # Table Data
 
-TableData is a headless component that renders a `<td>` element within a table row. It represents a single data cell.
+TableTD is a headless component that renders a `<td>` element within a table row. It represents a single data cell.
 
 Use this component within TableRow to define individual data cells in a table.
 
@@ -20,8 +20,8 @@ Use this component within TableRow to define individual data cells in a table.
 
 ```html
 <TableRow>
-  <TableData>Alice</TableData>
-  <TableData>alice@example.com</TableData>
+  <TableTD>Alice</TableTD>
+  <TableTD>alice@example.com</TableTD>
 </TableRow>
 ```
 
@@ -41,9 +41,9 @@ No additional ARIA attributes. Cell semantics are provided by the `<td>` element
 
 ## When Not to Use
 
-- Do not use for header cells -- use TableCol with an appropriate `scope` attribute
+- Do not use for header cells -- use TableTD with an appropriate `scope` attribute
 - Do not leave cells empty -- use "No data" or "Not applicable" with secondary text colour
-- Do not use outside of a Table -- use DataTableData for DataTable or CalendarTableData for CalendarTable
+- Do not use outside of a Table -- use DataTableTD for DataTable or CalendarTableTD for CalendarTable
 
 ## Headless
 
@@ -61,7 +61,7 @@ The consumer provides all CSS styling. The component renders with a `.table-data
 
 ## Composition
 
-TableData is a child of TableRow, following the Table pattern: Table > TableHead/TableBody/TableFoot > TableRow > TableData.
+TableTD is a child of TableRow, following the Table pattern: Table > TableHead/TableBody/TableFoot > TableRow > TableTD.
 
 ## References
 

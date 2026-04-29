@@ -10,7 +10,7 @@ import DataTable from "@pgds/DataTable";
 import DataTableHead from "@pgds/DataTableHead";
 import DataTableBody from "@pgds/DataTableBody";
 import DataTableRow from "@pgds/DataTableRow";
-import DataTableData from "@pgds/DataTableData";
+import DataTableTD from "@pgds/DataTableTD";
 
 interface Task {
     id: number;
@@ -78,14 +78,14 @@ export default function DashboardPage() {
                 <DataTableBody>
                     {tasks.map((task) => (
                         <DataTableRow key={task.id}>
-                            <DataTableData>{task.title}</DataTableData>
-                            <DataTableData>{task.assignee}</DataTableData>
-                            <DataTableData>
+                            <DataTableTD>{task.title}</DataTableTD>
+                            <DataTableTD>{task.assignee}</DataTableTD>
+                            <DataTableTD>
                                 <Badge type={statusBadgeType(task.status)}>
                                     {task.status}
                                 </Badge>
-                            </DataTableData>
-                            <DataTableData>{task.priority}</DataTableData>
+                            </DataTableTD>
+                            <DataTableTD>{task.priority}</DataTableTD>
                         </DataTableRow>
                     ))}
                 </DataTableBody>

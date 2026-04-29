@@ -9,7 +9,7 @@
     import DataTableHead from "$lib/components/DataTableHead.svelte";
     import DataTableBody from "$lib/components/DataTableBody.svelte";
     import DataTableRow from "$lib/components/DataTableRow.svelte";
-    import DataTableData from "$lib/components/DataTableData.svelte";
+    import DataTableTD from "$lib/components/DataTableTD.svelte";
     import SummaryList from "$lib/components/SummaryList.svelte";
     import SummaryListItem from "$lib/components/SummaryListItem.svelte";
     import Sparkline from "$lib/components/Sparkline.svelte";
@@ -103,9 +103,9 @@
         <DataTableBody>
             {#each patients as patient}
                 <DataTableRow>
-                    <DataTableData>{patient.name}</DataTableData>
-                    <DataTableData>{patient.age}</DataTableData>
-                    <DataTableData>
+                    <DataTableTD>{patient.name}</DataTableTD>
+                    <DataTableTD>{patient.age}</DataTableTD>
+                    <DataTableTD>
                         <Badge
                             type={patient.status === "Active"
                                 ? "success"
@@ -115,8 +115,8 @@
                         >
                             {patient.status}
                         </Badge>
-                    </DataTableData>
-                    <DataTableData>{patient.ward}</DataTableData>
+                    </DataTableTD>
+                    <DataTableTD>{patient.ward}</DataTableTD>
                 </DataTableRow>
             {/each}
         </DataTableBody>

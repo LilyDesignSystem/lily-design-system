@@ -27,7 +27,7 @@ A calendar table interactive grid for managing dates, days, etc. <table>.
     <CalendarTableRow><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></CalendarTableRow>
   </CalendarTableHead>
   <CalendarTableBody>
-    <CalendarTableRow><CalendarTableData>1</CalendarTableData></CalendarTableRow>
+    <CalendarTableRow><CalendarTableTD>1</CalendarTableTD></CalendarTableRow>
   </CalendarTableBody>
 </CalendarTable>
 ```
@@ -55,7 +55,7 @@ A calendar table interactive grid for managing dates, days, etc. <table>.
     <CalendarTableRow><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></CalendarTableRow>
   </CalendarTableHead>
   <CalendarTableBody>
-    <CalendarTableRow><CalendarTableData>1</CalendarTableData></CalendarTableRow>
+    <CalendarTableRow><CalendarTableTD>1</CalendarTableTD></CalendarTableRow>
   </CalendarTableBody>
 </CalendarTable>
 ```

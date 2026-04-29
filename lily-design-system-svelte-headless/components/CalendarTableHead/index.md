@@ -115,7 +115,7 @@ Import `CalendarTableHead` from `./CalendarTableHead.svelte`. Place at the top o
   import CalendarTableHead from './CalendarTableHead.svelte';
   import CalendarTableBody from '../CalendarTableBody/CalendarTableBody.svelte';
   import CalendarTableRow from '../CalendarTableRow/CalendarTableRow.svelte';
-  import CalendarTableData from '../CalendarTableData/CalendarTableData.svelte';
+  import CalendarTableTD from '../CalendarTableTD/CalendarTableTD.svelte';
 </script>
 
 <CalendarTable label="Feb 2025">
@@ -123,7 +123,7 @@ Import `CalendarTableHead` from `./CalendarTableHead.svelte`. Place at the top o
     <CalendarTableRow><th>Mon</th><th>Tue</th></CalendarTableRow>
   </CalendarTableHead>
   <CalendarTableBody>
-    <CalendarTableRow><CalendarTableData>3</CalendarTableData><CalendarTableData>4</CalendarTableData></CalendarTableRow>
+    <CalendarTableRow><CalendarTableTD>3</CalendarTableTD><CalendarTableTD>4</CalendarTableTD></CalendarTableRow>
   </CalendarTableBody>
 </CalendarTable>
 ```
@@ -135,5 +135,5 @@ Import `CalendarTableHead` from `./CalendarTableHead.svelte`. Place at the top o
 
 ## Related components
 
-- `CalendarTable`, `CalendarTableBody`, `CalendarTableFoot`, `CalendarTableRow`, `CalendarTableData`, `CalendarTableCol`.
-- `DataTableHead`, `GanttTableThead`, `KanbanTableHead`, `TableHead`.
+- `CalendarTable`, `CalendarTableBody`, `CalendarTableFoot`, `CalendarTableRow`, `CalendarTableTD`, `CalendarTableTD`.
+- `DataTableHead`, `GanttTableHead`, `KanbanTableHead`, `TableHead`.

@@ -24,21 +24,21 @@ This component is designed to be used as a child element within a Kanban column 
 Task card with title and assignee:
 
 ```html
-<KanbanTableData label="Fix login bug">
+<KanbanTableTD label="Fix login bug">
     <h3>Fix login bug</h3>
     <p>Assigned to Alice</p>
     <span>High priority</span>
-</KanbanTableData>
+</KanbanTableTD>
 ```
 
 Dynamic task card with data binding:
 
 ```html
-<KanbanTableData label={task.title}>
+<KanbanTableTD label={task.title}>
     <span>{task.title}</span>
     <span>{task.priority}</span>
     <span>{task.assignee}</span>
-</KanbanTableData>
+</KanbanTableTD>
 ```
 
 ## Keyboard Interactions
@@ -58,8 +58,8 @@ Dynamic task card with data binding:
 
 ## When Not to Use
 
-- Do not use outside of a KanbanTable context -- use TableData or DataTableData for general tables.
-- Do not use for column headings -- use KanbanTableCol instead.
+- Do not use outside of a KanbanTable context -- use TableTD or DataTableTD for general tables.
+- Do not use for column headings -- use KanbanTableTD instead.
 
 ## Headless
 
@@ -68,13 +68,13 @@ This headless component provides semantic listitem structure with `role="listite
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.kanban-table-data` class for targeting. No default styles are included — this is a fully headless component.
+The consumer provides all CSS styling. The component renders with a `.kanban-table-td` class for targeting. No default styles are included — this is a fully headless component.
 
 
 ## Testing
 
 
-- Verify the component renders a `<td>` element with class `kanban-table-data`
+- Verify the component renders a `<td>` element with class `kanban-table-td`
 - Verify role="listitem"` -- identifies this as an item within a list container (the parent Kanban column with `role="list"`)
 - Verify aria-label` -- optional accessible name for the card, set from the `label` prop, allowing screen readers to identify individual cards
 - Verify keyboard interactions work correctly
@@ -87,10 +87,10 @@ The consumer provides all CSS styling. The component renders with a `.kanban-tab
 
 ## Composition
 
-KanbanTableData is the leaf component in the KanbanTable compound pattern. It is placed inside column containers within KanbanTableBody, where each column uses `role="list"`.
+KanbanTableTD is the leaf component in the KanbanTable compound pattern. It is placed inside column containers within KanbanTableBody, where each column uses `role="list"`.
 
 ```
-KanbanTable → KanbanTableBody → column (role="list") → KanbanTableData (role="listitem")
+KanbanTable → KanbanTableBody → column (role="list") → KanbanTableTD (role="listitem")
 ```
 
 ## References

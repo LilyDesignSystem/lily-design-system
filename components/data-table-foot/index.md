@@ -71,7 +71,7 @@ The consumer provides all CSS styling. The component renders with a `.data-table
 
 ## Composition
 
-DataTableFoot is part of the DataTable composition pattern. It sits inside a DataTable alongside DataTableHead and DataTableBody, and contains DataTableRow components. The full hierarchy is DataTable > DataTableHead/DataTableBody/DataTableFoot > DataTableRow > DataTableData.
+DataTableFoot is part of the DataTable composition pattern. It sits inside a DataTable alongside DataTableHead and DataTableBody, and contains DataTableRow components. The full hierarchy is DataTable > DataTableHead/DataTableBody/DataTableFoot > DataTableRow > DataTableTD.
 
 ## References
 

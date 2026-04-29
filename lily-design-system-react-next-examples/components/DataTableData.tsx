@@ -1,2 +1,2 @@
-export { default } from "@pgds/DataTableData";
-export type * from "@pgds/DataTableData";
+export { default } from "@pgds/DataTableTD";
+export type * from "@pgds/DataTableTD";

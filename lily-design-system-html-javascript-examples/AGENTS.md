@@ -10,7 +10,7 @@
 
 ## Metadata
 
-- **Package**: lily-design-system-html-javascript-examples
+- **Package**: lily-design-system-html-css-js-examples
 - **Version**: 0.2.0
 - **Created**: 2026-03-08
 - **License**: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
@@ -31,7 +31,7 @@ Styled example pages demonstrating headless components with Plain HTML + vanilla
 ## Project Structure
 
 ```
-lily-design-system-html-javascript-examples/
+lily-design-system-html-css-js-examples/
 ├── pages/
 │   ├── contact-form/
 │   ├── dashboard/

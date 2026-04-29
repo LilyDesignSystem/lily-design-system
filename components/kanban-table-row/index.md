@@ -13,7 +13,7 @@ Use this component within KanbanTableHead, KanbanTableBody, or KanbanTableFoot t
 ## Props
 
 - `className`: string (default: `""`) -- CSS class name for the row
-- `children`: slot (required) -- row cells, typically KanbanTableData components
+- `children`: slot (required) -- row cells, typically KanbanTableTD components
 - `...restProps`: unknown -- additional attributes spread onto the `<tr>` element
 
 ## Usage
@@ -23,9 +23,9 @@ Row of kanban items across status columns:
 ```html
 <KanbanTableBody>
     <KanbanTableRow>
-        <KanbanTableData label="Fix login bug">Fix login bug</KanbanTableData>
-        <KanbanTableData label="Add dashboard">Add dashboard</KanbanTableData>
-        <KanbanTableData label="Setup CI/CD">Setup CI/CD</KanbanTableData>
+        <KanbanTableTD label="Fix login bug">Fix login bug</KanbanTableTD>
+        <KanbanTableTD label="Add dashboard">Add dashboard</KanbanTableTD>
+        <KanbanTableTD label="Setup CI/CD">Setup CI/CD</KanbanTableTD>
     </KanbanTableRow>
 </KanbanTableBody>
 ```
@@ -41,13 +41,13 @@ No additional ARIA attributes. Row semantics are provided by the `<tr>` element.
 ## When to Use
 
 - Use inside KanbanTableHead, KanbanTableBody, or KanbanTableFoot to define a row of kanban items.
-- Use to group KanbanTableData cells that represent items across status columns.
+- Use to group KanbanTableTD cells that represent items across status columns.
 - Use for each horizontal row of content in the kanban board.
 
 ## When Not to Use
 
 - Do not use outside of a KanbanTable context -- use TableRow or DataTableRow for general tables.
-- Do not use for column headings directly -- place heading content inside KanbanTableCol within the row.
+- Do not use for column headings directly -- place heading content inside KanbanTableTD within the row.
 
 ## Headless
 
@@ -70,7 +70,7 @@ The consumer provides all CSS styling. The component renders with a `.kanban-tab
 
 ## Composition
 
-KanbanTableRow is a child of KanbanTableHead/KanbanTableBody/KanbanTableFoot, following the Table pattern: KanbanTable > KanbanTableHead/KanbanTableBody/KanbanTableFoot > KanbanTableRow > KanbanTableData.
+KanbanTableRow is a child of KanbanTableHead/KanbanTableBody/KanbanTableFoot, following the Table pattern: KanbanTable > KanbanTableHead/KanbanTableBody/KanbanTableFoot > KanbanTableRow > KanbanTableTD.
 
 ## References
 

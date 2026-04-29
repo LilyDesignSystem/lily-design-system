@@ -114,11 +114,11 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9DYWxlbmRhclRhYmxlQm9keS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/jph/git/joelparkerhenderson/public-good-design-system/public-good-design-system-blazor-headless/src/PublicGoodDesignSystemBlazorHeadless/Components/CalendarTableCol.razor]
+[/Users/jph/git/joelparkerhenderson/public-good-design-system/public-good-design-system-blazor-headless/src/PublicGoodDesignSystemBlazorHeadless/Components/CalendarTableTD.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9DYWxlbmRhclRhYmxlQ29sLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/jph/git/joelparkerhenderson/public-good-design-system/public-good-design-system-blazor-headless/src/PublicGoodDesignSystemBlazorHeadless/Components/CalendarTableData.razor]
+[/Users/jph/git/joelparkerhenderson/public-good-design-system/public-good-design-system-blazor-headless/src/PublicGoodDesignSystemBlazorHeadless/Components/CalendarTableTD.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9DYWxlbmRhclRhYmxlRGF0YS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
@@ -234,11 +234,11 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9EYXRhVGFibGVCb2R5LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/jph/git/joelparkerhenderson/public-good-design-system/public-good-design-system-blazor-headless/src/PublicGoodDesignSystemBlazorHeadless/Components/DataTableCol.razor]
+[/Users/jph/git/joelparkerhenderson/public-good-design-system/public-good-design-system-blazor-headless/src/PublicGoodDesignSystemBlazorHeadless/Components/DataTableTD.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9EYXRhVGFibGVDb2wucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/jph/git/joelparkerhenderson/public-good-design-system/public-good-design-system-blazor-headless/src/PublicGoodDesignSystemBlazorHeadless/Components/DataTableData.razor]
+[/Users/jph/git/joelparkerhenderson/public-good-design-system/public-good-design-system-blazor-headless/src/PublicGoodDesignSystemBlazorHeadless/Components/DataTableTD.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9EYXRhVGFibGVEYXRhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
@@ -422,11 +422,11 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9HYW50dFRhYmxlQm9keS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/jph/git/joelparkerhenderson/public-good-design-system/public-good-design-system-blazor-headless/src/PublicGoodDesignSystemBlazorHeadless/Components/GanttTableCol.razor]
+[/Users/jph/git/joelparkerhenderson/public-good-design-system/public-good-design-system-blazor-headless/src/PublicGoodDesignSystemBlazorHeadless/Components/GanttTableTD.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9HYW50dFRhYmxlQ29sLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/jph/git/joelparkerhenderson/public-good-design-system/public-good-design-system-blazor-headless/src/PublicGoodDesignSystemBlazorHeadless/Components/GanttTableData.razor]
+[/Users/jph/git/joelparkerhenderson/public-good-design-system/public-good-design-system-blazor-headless/src/PublicGoodDesignSystemBlazorHeadless/Components/GanttTableTD.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9HYW50dFRhYmxlRGF0YS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
@@ -498,11 +498,11 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9LYW5iYW5UYWJsZUJvZHkucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/jph/git/joelparkerhenderson/public-good-design-system/public-good-design-system-blazor-headless/src/PublicGoodDesignSystemBlazorHeadless/Components/KanbanTableCol.razor]
+[/Users/jph/git/joelparkerhenderson/public-good-design-system/public-good-design-system-blazor-headless/src/PublicGoodDesignSystemBlazorHeadless/Components/KanbanTableTD.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9LYW5iYW5UYWJsZUNvbC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/jph/git/joelparkerhenderson/public-good-design-system/public-good-design-system-blazor-headless/src/PublicGoodDesignSystemBlazorHeadless/Components/KanbanTableData.razor]
+[/Users/jph/git/joelparkerhenderson/public-good-design-system/public-good-design-system-blazor-headless/src/PublicGoodDesignSystemBlazorHeadless/Components/KanbanTableTD.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9LYW5iYW5UYWJsZURhdGEucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 

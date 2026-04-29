@@ -45,7 +45,7 @@ Place `KanbanTableFoot` after `KanbanTableBody` inside a `KanbanTable`, and nest
     import KanbanTableBody from "../KanbanTableBody/KanbanTableBody.svelte";
     import KanbanTableFoot from "./KanbanTableFoot.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
-    import KanbanTableData from "../KanbanTableData/KanbanTableData.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
 </script>
 
 <KanbanTable label="Board">
@@ -57,14 +57,14 @@ Place `KanbanTableFoot` after `KanbanTableBody` inside a `KanbanTable`, and nest
     </KanbanTableHead>
     <KanbanTableBody>
         <KanbanTableRow>
-            <KanbanTableData>A</KanbanTableData>
-            <KanbanTableData>B</KanbanTableData>
+            <KanbanTableTD>A</KanbanTableTD>
+            <KanbanTableTD>B</KanbanTableTD>
         </KanbanTableRow>
     </KanbanTableBody>
     <KanbanTableFoot>
         <KanbanTableRow>
-            <KanbanTableData>Total: 3</KanbanTableData>
-            <KanbanTableData>Total: 5</KanbanTableData>
+            <KanbanTableTD>Total: 3</KanbanTableTD>
+            <KanbanTableTD>Total: 5</KanbanTableTD>
         </KanbanTableRow>
     </KanbanTableFoot>
 </KanbanTable>
@@ -76,20 +76,20 @@ Place `KanbanTableFoot` after `KanbanTableBody` inside a `KanbanTable`, and nest
 <script lang="ts">
     import KanbanTableFoot from "./KanbanTableFoot.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
-    import KanbanTableData from "../KanbanTableData/KanbanTableData.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
 </script>
 
 <KanbanTableFoot>
     <KanbanTableRow>
-        <KanbanTableData>
+        <KanbanTableTD>
             <button type="button">+ Add to To Do</button>
-        </KanbanTableData>
-        <KanbanTableData>
+        </KanbanTableTD>
+        <KanbanTableTD>
             <button type="button">+ Add to Doing</button>
-        </KanbanTableData>
-        <KanbanTableData>
+        </KanbanTableTD>
+        <KanbanTableTD>
             <button type="button">+ Add to Done</button>
-        </KanbanTableData>
+        </KanbanTableTD>
     </KanbanTableRow>
 </KanbanTableFoot>
 ```
@@ -100,7 +100,7 @@ Place `KanbanTableFoot` after `KanbanTableBody` inside a `KanbanTable`, and nest
 <script lang="ts">
     import KanbanTableFoot from "./KanbanTableFoot.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
-    import KanbanTableData from "../KanbanTableData/KanbanTableData.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
 
     let totals = $state([3, 5, 2]);
     let labels = $state(["To Do", "Doing", "Done"]);
@@ -109,9 +109,9 @@ Place `KanbanTableFoot` after `KanbanTableBody` inside a `KanbanTable`, and nest
 <KanbanTableFoot>
     <KanbanTableRow>
         {#each totals as t, i}
-            <KanbanTableData label={`${labels[i]} total`}>
+            <KanbanTableTD label={`${labels[i]} total`}>
                 {labels[i]}: {t}
-            </KanbanTableData>
+            </KanbanTableTD>
         {/each}
     </KanbanTableRow>
 </KanbanTableFoot>
@@ -123,14 +123,14 @@ Place `KanbanTableFoot` after `KanbanTableBody` inside a `KanbanTable`, and nest
 <script lang="ts">
     import KanbanTableFoot from "./KanbanTableFoot.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
-    import KanbanTableData from "../KanbanTableData/KanbanTableData.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
 </script>
 
 <KanbanTableFoot class="foot-totals">
     <KanbanTableRow>
-        <KanbanTableData>12 pts</KanbanTableData>
-        <KanbanTableData>8 pts</KanbanTableData>
-        <KanbanTableData>20 pts</KanbanTableData>
+        <KanbanTableTD>12 pts</KanbanTableTD>
+        <KanbanTableTD>8 pts</KanbanTableTD>
+        <KanbanTableTD>20 pts</KanbanTableTD>
     </KanbanTableRow>
 </KanbanTableFoot>
 ```
@@ -141,17 +141,17 @@ Place `KanbanTableFoot` after `KanbanTableBody` inside a `KanbanTable`, and nest
 <script lang="ts">
     import KanbanTableFoot from "./KanbanTableFoot.svelte";
     import KanbanTableRow from "../KanbanTableRow/KanbanTableRow.svelte";
-    import KanbanTableData from "../KanbanTableData/KanbanTableData.svelte";
+    import KanbanTableTD from "../KanbanTableTD/KanbanTableTD.svelte";
 </script>
 
 <KanbanTableFoot>
     <KanbanTableRow>
-        <KanbanTableData>Count: 3</KanbanTableData>
-        <KanbanTableData>Count: 2</KanbanTableData>
+        <KanbanTableTD>Count: 3</KanbanTableTD>
+        <KanbanTableTD>Count: 2</KanbanTableTD>
     </KanbanTableRow>
     <KanbanTableRow>
-        <KanbanTableData>Points: 8</KanbanTableData>
-        <KanbanTableData>Points: 5</KanbanTableData>
+        <KanbanTableTD>Points: 8</KanbanTableTD>
+        <KanbanTableTD>Points: 5</KanbanTableTD>
     </KanbanTableRow>
 </KanbanTableFoot>
 ```
@@ -160,7 +160,7 @@ Place `KanbanTableFoot` after `KanbanTableBody` inside a `KanbanTable`, and nest
 
 - `<tfoot>` provides structural footer semantics for the table.
 - No additional ARIA needed — the parent `KanbanTable` provides `role="grid"` and the `aria-label`.
-- Cells inside footer rows still participate in grid semantics via `KanbanTableData`.
+- Cells inside footer rows still participate in grid semantics via `KanbanTableTD`.
 
 ## Related components
 
@@ -168,5 +168,5 @@ Place `KanbanTableFoot` after `KanbanTableBody` inside a `KanbanTable`, and nest
 - `KanbanTableHead` — the `<thead>` section with stage columns.
 - `KanbanTableBody` — the `<tbody>` section with data rows.
 - `KanbanTableRow` — a `<tr>` row.
-- `KanbanTableData` — a `<td role="gridcell">` data cell.
-- `KanbanTableCol` — `<col>` column definitions for `<colgroup>`.
+- `KanbanTableTD` — a `<td role="gridcell">` data cell.
+- `KanbanTableTD` — `<col>` column definitions for `<colgroup>`.

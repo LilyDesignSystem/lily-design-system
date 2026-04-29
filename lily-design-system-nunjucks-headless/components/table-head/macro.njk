@@ -13,7 +13,7 @@
 
   Usage: see Table.
 #}
-{%- macro tableHead(params) -%}
+{%- macro TableHead(params) -%}
 {%- set p = params | default({}) -%}
 <thead
   class="table-head{% if p.classes %} {{ p.classes }}{% endif %}"

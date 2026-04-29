@@ -44,11 +44,11 @@ Laptop mockup with live embedded content:
 <MockupLaptop label="Spreadsheet editor preview">
   <DataTable label="Q4 Revenue">
     <DataTableHead>
-      <DataTableRow><DataTableCol>Month</DataTableCol><DataTableCol>Revenue</DataTableCol></DataTableRow>
+      <DataTableRow><DataTableTD>Month</DataTableTD><DataTableTD>Revenue</DataTableTD></DataTableRow>
     </DataTableHead>
     <DataTableBody>
-      <DataTableRow><DataTableData>October</DataTableData><DataTableData>$42,000</DataTableData></DataTableRow>
-      <DataTableRow><DataTableData>November</DataTableData><DataTableData>$48,500</DataTableData></DataTableRow>
+      <DataTableRow><DataTableTD>October</DataTableTD><DataTableTD>$42,000</DataTableTD></DataTableRow>
+      <DataTableRow><DataTableTD>November</DataTableTD><DataTableTD>$48,500</DataTableTD></DataTableRow>
     </DataTableBody>
   </DataTable>
 </MockupLaptop>

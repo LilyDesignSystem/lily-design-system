@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
-import KanbanTableData from "./KanbanTableData.svelte";
+import KanbanTableTD from "./KanbanTableTD.svelte";
 
-describe("KanbanTableData", () => {
+describe("KanbanTableTD", () => {
     test("renders the component", () => {
-        render(KanbanTableData, { props: { label: "Test" }, context: new Map() });
+        render(KanbanTableTD, { props: { label: "Test" }, context: new Map() });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
     });

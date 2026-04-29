@@ -3,7 +3,7 @@
 ## Overview
 
 The footer section of a GanttTable, rendered as a <tfoot> element.
-Contains GanttTableTr elements with summary or aggregate data cells.
+Contains GanttTableTR elements with summary or aggregate data cells.
 
 ## What it does
 
@@ -21,9 +21,9 @@ A Gantt chart table interactive grid tfoot for planning schedule visualization <
 
 ```svelte
 <GanttTableTfoot>
-  <GanttTableTr>
-    <GanttTableTd>Total: 12 tasks</GanttTableTd>
-  </GanttTableTr>
+  <GanttTableTR>
+    <GanttTableTD>Total: 12 tasks</GanttTableTD>
+  </GanttTableTR>
 </GanttTableTfoot>
 ```
 
@@ -32,7 +32,7 @@ A Gantt chart table interactive grid tfoot for planning schedule visualization <
 | Prop | Type | Description |
 |------|------|-------------|
 | `className` | string, optional | CSS class name. |
-| `children` | Snippet, required | GanttTableTr elements with footer cells. |
+| `children` | Snippet, required | GanttTableTR elements with footer cells. |
 | `...restProps` | additional HTML attributes spread onto the <tfoot> |  |
 
 ## SvelteKit example
@@ -44,9 +44,9 @@ A Gantt chart table interactive grid tfoot for planning schedule visualization <
 </script>
 
 <GanttTableTfoot>
-  <GanttTableTr>
-    <GanttTableTd>Total: 12 tasks</GanttTableTd>
-  </GanttTableTr>
+  <GanttTableTR>
+    <GanttTableTD>Total: 12 tasks</GanttTableTD>
+  </GanttTableTR>
 </GanttTableTfoot>
 ```
 

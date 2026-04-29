@@ -2,11 +2,11 @@
 
 ## Metadata
 
-- Component: text-area-with-character-counter
-- PascalCase: TextAreaWithCharacterCounter
+- Component: text-area-input-with-character-counter
+- PascalCase: TextAreaInputWithCharacterCounter
 - Description: a multi-line text area with a caption below that is a character counter "[number] of [maximum] characters"
 - HTML tag: <div>
-- CSS class: .text-area-with-character-counter
+- CSS class: .text-area-input-with-character-counter
 - Interactive: yes
 
 ## Key Behaviors
@@ -44,7 +44,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <div> element with class="text-area-with-character-counter"
+- [ ] Renders <div> element with class="text-area-input-with-character-counter"
 - [ ] Contains <textarea> with aria-label and aria-describedby
 - [ ] Contains character counter with aria-live="polite"
 - [ ] Counter displays "[number] of [maximum] characters"
@@ -56,6 +56,6 @@
 ## References
 
 - Documentation: index.md
-- CSS class: .text-area-with-character-counter in css-style-sheet-template.css
-- HTML headless: lily-design-system-html-headless/components/text-area-with-character-counter.html
+- CSS class: .text-area-input-with-character-counter in css-style-sheet-template.css
+- HTML headless: lily-design-system-html-headless/components/text-area-input-with-character-counter.html
 - MDN textarea: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea

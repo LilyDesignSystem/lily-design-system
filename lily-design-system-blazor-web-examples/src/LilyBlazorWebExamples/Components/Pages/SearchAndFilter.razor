@@ -49,12 +49,12 @@
             @foreach (var product in Filtered)
             {
                 <DataTableRow>
-                    <DataTableData>@product.Name</DataTableData>
-                    <DataTableData>@product.Category</DataTableData>
-                    <DataTableData>@product.Price.ToString("C2")</DataTableData>
-                    <DataTableData>
+                    <DataTableTD>@product.Name</DataTableTD>
+                    <DataTableTD>@product.Category</DataTableTD>
+                    <DataTableTD>@product.Price.ToString("C2")</DataTableTD>
+                    <DataTableTD>
                         <Badge Type="@StatusBadgeType(product.Status)">@product.Status</Badge>
-                    </DataTableData>
+                    </DataTableTD>
                 </DataTableRow>
             }
         </DataTableBody>

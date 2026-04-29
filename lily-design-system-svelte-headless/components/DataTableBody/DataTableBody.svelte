@@ -12,8 +12,8 @@
     // Syntax:
     //   <DataTableBody>
     //     <DataTableRow>
-    //       <DataTableData>Alice</DataTableData>
-    //       <DataTableData>alice@example.com</DataTableData>
+    //       <DataTableTD>Alice</DataTableTD>
+    //       <DataTableTD>alice@example.com</DataTableTD>
     //     </DataTableRow>
     //   </DataTableBody>
     //
