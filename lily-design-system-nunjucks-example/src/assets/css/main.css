@@ -14,6 +14,7 @@
 @import url("layout/grid.css");
 @import url("layout/site-chrome.css");
 
+@import url("components/accordion-checkbox.css");
 @import url("components/accordion-link.css");
 @import url("components/accordion-list.css");
 @import url("components/accordion-list-item.css");

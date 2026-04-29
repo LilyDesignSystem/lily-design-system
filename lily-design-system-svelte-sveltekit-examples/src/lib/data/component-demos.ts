@@ -2,6 +2,7 @@ export const componentDemos: Record<string, string> = {
   'accordion-nav': '<nav class="accordion-nav" aria-label="Accordion"><ol class="accordion-list"><li class="accordion-list-item"><details><summary>Section 1</summary><p>Content 1</p></details></li><li class="accordion-list-item"><details><summary>Section 2</summary><p>Content 2</p></details></li></ol></nav>',
   'accordion-list': '<ol class="accordion-list"><li class="accordion-list-item"><details><summary>Section 1</summary><p>Content 1</p></details></li><li class="accordion-list-item"><details><summary>Section 2</summary><p>Content 2</p></details></li></ol>',
   'accordion-list-item': '<ol class="accordion-list"><li class="accordion-list-item"><details><summary>Section</summary><p>Content</p></details></li></ol>',
+  'accordion-checkbox': '<div class="accordion-checkbox"><input type="checkbox" class="accordion-checkbox-input" id="demo-cb" aria-controls="demo-panel" aria-expanded="true" checked><label class="accordion-checkbox-label" for="demo-cb">I have additional comments</label><div class="accordion-checkbox-panel" id="demo-panel" role="region" aria-labelledby="demo-cb"><p>Tell us more in the textarea below.</p></div></div>',
   'accordion-link': '<a class="accordion-link" href="#">Accordion link</a>',
   'action-link': '<a class="action-link" href="#">Take action</a>',
   'ai-label': '<span class="ai-label" aria-label="AI-generated content">AI</span>',

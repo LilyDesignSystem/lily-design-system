@@ -6,6 +6,12 @@ export interface Component {
 
 export const components: Component[] = [
   {
+    slug: "accordion-checkbox",
+    name: "AccordionCheckbox",
+    description:
+      "a checkbox option that reveals an accordion panel when checked",
+  },
+  {
     slug: "accordion-nav",
     name: "AccordionNav",
     description: "a navigation container for collapsible accordion information",

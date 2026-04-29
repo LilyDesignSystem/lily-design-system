@@ -1,0 +1,20 @@
+---
+title: Accordion Checkbox
+slug: accordion-checkbox
+component: AccordionCheckbox
+description: a checkbox option that reveals an accordion panel when checked
+layout: layouts/component-demo.njk
+---
+
+{% from "components/accordion-checkbox/macro.njk" import accordionCheckbox %}
+
+<h2>Default</h2>
+{% call accordionCheckbox({ id: "comments", label: "I have additional comments" }) %}
+  <p>Tell us more in the textarea below.</p>
+  <textarea aria-label="Your comments"></textarea>
+{% endcall %}
+
+<h2>Initially checked</h2>
+{% call accordionCheckbox({ id: "subscribe", label: "Subscribe to optional updates", checked: true }) %}
+  <p>Choose your topics below.</p>
+{% endcall %}
