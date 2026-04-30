@@ -29,6 +29,11 @@
 - `disabled`: boolean (default: false) -- whether the button is disabled
 - `...restProps`: spread onto the `<input>` element
 
+## ARIA
+
+- Native `<input type="submit">` exposes itself as a `button` and is the form's default submit control
+- `value` (or label override) provides the accessible name
+
 ## Acceptance Criteria
 
 - [ ] Renders <input> element with class="submit-input"

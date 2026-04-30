@@ -26,6 +26,12 @@
 - `text`: string (default: `""`) -- the postal code string to display
 - `...restProps`: any additional HTML attributes spread onto the `<span>` element
 
+## ARIA
+
+- Renders a `<span>` that displays the postal/ZIP code as text content
+- No specific ARIA needed — the visible text provides the accessible name
+- Consumers may add `aria-label` for additional context (e.g. "Postal code: SW1A 1AA")
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="postal-code-view"

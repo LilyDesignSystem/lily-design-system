@@ -30,6 +30,11 @@ Standard table row keyboard interactions.
 - `children`: slot (required) -- row cells, typically KanbanTableTD components
 - `...restProps`: unknown -- additional attributes spread onto the `<tr>` element
 
+## ARIA
+
+- Native `<tr>` semantics announce the row position within the kanban table
+- Screen readers expose the `<tr>` row as part of the surrounding `<table>` grid
+
 ## Acceptance Criteria
 
 - [ ] Renders <tr> element with class="kanban-table-row"

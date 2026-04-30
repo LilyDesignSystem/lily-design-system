@@ -22,6 +22,12 @@
 - `children`: slot (required) -- the key label text content
 - `...restProps`: unknown -- additional attributes spread onto the `<kbd>` element
 
+## ARIA
+
+- Native `<kbd>` element conveys keyboard input semantically
+- Screen readers may announce the content as a keyboard shortcut depending on the user agent
+- Consumers may add `aria-label` if the visible text alone is ambiguous (e.g. a single key glyph)
+
 ## Acceptance Criteria
 
 - [ ] Renders <kbd> element with class="kbd"

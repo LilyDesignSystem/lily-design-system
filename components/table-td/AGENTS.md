@@ -30,6 +30,11 @@ Standard table cell keyboard interactions.
 - `children`: slot (required) -- cell content
 - `...restProps`: unknown -- additional attributes spread onto the `<td>` element
 
+## ARIA
+
+- Native `<td>` exposes a data cell within the surrounding `<table>`
+- Screen readers announce the cell value alongside the relevant column / row header
+
 ## Acceptance Criteria
 
 - [ ] Renders <td> element with class="table-td"

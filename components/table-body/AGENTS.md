@@ -30,6 +30,11 @@ Standard table keyboard interactions.
 - `children`: slot (required) -- data rows, typically TableRow components
 - `...restProps`: unknown -- additional attributes spread onto the `<tbody>` element
 
+## ARIA
+
+- Native `<tbody>` semantics group the body rows of the table
+- No additional ARIA is needed for this passive structural element
+
 ## Acceptance Criteria
 
 - [ ] Renders <tbody> element with class="table-body"

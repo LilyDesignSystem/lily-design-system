@@ -30,6 +30,11 @@ Standard table row keyboard interactions.
 - `children`: slot (required) -- row cells, typically `<th>` or TableTD components
 - `...restProps`: unknown -- additional attributes spread onto the `<tr>` element
 
+## ARIA
+
+- Native `<tr>` semantics announce the row position within the surrounding `<table>`
+- Screen readers expose `<tr>` as a row in the data grid
+
 ## Acceptance Criteria
 
 - [ ] Renders <tr> element with class="table-row"

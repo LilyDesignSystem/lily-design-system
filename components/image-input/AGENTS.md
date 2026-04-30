@@ -35,6 +35,11 @@
 - `disabled`: boolean (default: `false`) -- whether the button is disabled
 - `...restProps`: unknown -- additional attributes spread onto the `<input>` element
 
+## ARIA
+
+- Native `<input type="image">` exposes itself as a `button` to assistive technology
+- `alt` (set from `label`) provides the accessible name — required
+
 ## Acceptance Criteria
 
 - [ ] Renders <input> element with class="image-input"

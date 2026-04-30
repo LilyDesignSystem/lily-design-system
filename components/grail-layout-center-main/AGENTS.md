@@ -37,6 +37,11 @@
 </GrailLayout>
 ```
 
+## ARIA
+
+- Native `<main>` element exposes the main landmark
+- Only one `<main>` should be present per page
+
 ## Acceptance Criteria
 
 - [ ] Renders <main> element with class="grail-layout-center-main"

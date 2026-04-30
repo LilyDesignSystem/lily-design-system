@@ -30,6 +30,11 @@ Standard table keyboard interactions.
 - `children`: slot (required) -- header rows, typically TableRow components with `<th>` cells
 - `...restProps`: unknown -- additional attributes spread onto the `<thead>` element
 
+## ARIA
+
+- Native `<thead>` semantics group the header rows of the table
+- No additional ARIA is needed for this passive structural element
+
 ## Acceptance Criteria
 
 - [ ] Renders <thead> element with class="table-head"

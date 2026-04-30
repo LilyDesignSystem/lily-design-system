@@ -31,7 +31,7 @@
 - `children`: slot -- avatar components
 - `...restProps`: Any additional HTML attributes
 
-## components-helper/avatar.md
+## Key Behaviors
 
 Pattern: AvatarGroup → Avatar → AvatarImage, AvatarText
 

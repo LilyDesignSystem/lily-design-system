@@ -28,6 +28,11 @@
 - `disabled`: boolean (default: false) -- whether the button is disabled
 - `...restProps`: spread onto the `<input>` element
 
+## ARIA
+
+- Native `<input type="reset">` exposes itself as a `button` to assistive technology
+- `value` (or label override) provides the accessible name
+
 ## Acceptance Criteria
 
 - [ ] Renders <input> element with class="reset-input"

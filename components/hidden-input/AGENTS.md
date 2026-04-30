@@ -23,6 +23,11 @@
 - `value`: string (default: `""`) -- the hidden input value
 - `...restProps`: unknown -- additional attributes spread onto the `<input>` element
 
+## ARIA
+
+- Native `<input type="hidden">` is non-interactive and not announced to assistive technology
+- No ARIA attributes are needed; the value is part of form submission only
+
 ## Acceptance Criteria
 
 - [ ] Renders <input> element with class="hidden-input"

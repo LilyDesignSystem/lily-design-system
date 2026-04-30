@@ -16,14 +16,14 @@
 
 ## Key Behaviors
 
-- Renders a `<div>` element for the bottom footer section
-- Spreads `restProps` onto the div for consumer customization
+- Renders a `<footer>` landmark element for the bottom footer section
+- Spreads `restProps` onto the `<footer>` element for consumer customization
 - No styles applied; consumer provides all styling
 
 ## Props
 
 - `children`: slot (required) -- content to render inside the bottom footer section
-- `...restProps`: unknown -- additional attributes spread onto the `<div>` element
+- `...restProps`: unknown -- additional attributes spread onto the `<footer>` element
 
 ### Grail layout pattern: GrailLayout → GrailLayoutTop, GrailLayoutLeft, GrailLayoutCenter, GrailLayoutRight, GrailLayoutBottom
 
@@ -36,6 +36,11 @@
   <GrailLayoutBottomFooter>…</GrailLayoutBottomFooter>
 </GrailLayout>
 ```
+
+## ARIA
+
+- Native `<footer>` element exposes a contentinfo landmark when used as a top-level page footer
+- Screen readers can navigate to the footer via landmark navigation
 
 ## Acceptance Criteria
 

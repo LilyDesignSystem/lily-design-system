@@ -37,6 +37,11 @@
 </GrailLayout>
 ```
 
+## ARIA
+
+- Native `<header>` element exposes a banner landmark when used as a top-level page header
+- Screen readers can navigate to the header via landmark navigation
+
 ## Acceptance Criteria
 
 - [ ] Renders <header> element with class="grail-layout-top-header"

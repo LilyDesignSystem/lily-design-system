@@ -30,6 +30,11 @@ Standard table keyboard interactions.
 - `children`: slot (required) -- footer rows, typically TableRow components
 - `...restProps`: unknown -- additional attributes spread onto the `<tfoot>` element
 
+## ARIA
+
+- Native `<tfoot>` semantics group the footer rows (typically summary rows) of the table
+- No additional ARIA is needed for this passive structural element
+
 ## Acceptance Criteria
 
 - [ ] Renders <tfoot> element with class="table-foot"

@@ -9,6 +9,14 @@
 - CSS class: .toggle-button
 - Interactive: yes
 
+## Key Behaviors
+
+- Renders a native `<button type="button">` so keyboard and focus behaviour are inherited
+- Reports state via `role="switch"` + `aria-checked` (the WAI-ARIA Switch pattern)
+- Supports two-way binding on the `pressed` prop
+- Native `disabled` attribute prevents click events automatically
+- Spreads `restProps` onto the root `<button>` element
+
 ## ARIA
 
 - `role="switch"` -- identifies the element as a two-state toggle switch

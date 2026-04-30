@@ -38,6 +38,11 @@
 </GrailLayout>
 ```
 
+## ARIA
+
+- Renders no implicit landmark — the wrapper is a generic container
+- The contained `<header>`, `<aside>`, `<main>`, and `<footer>` elements provide page-level landmarks
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="grail-layout"

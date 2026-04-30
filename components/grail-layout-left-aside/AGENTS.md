@@ -37,6 +37,11 @@
 </GrailLayout>
 ```
 
+## ARIA
+
+- Native `<aside>` element exposes a complementary landmark
+- Consumers should add `aria-label` (or `aria-labelledby`) to distinguish from other asides on the page
+
 ## Acceptance Criteria
 
 - [ ] Renders <aside> element with class="grail-layout-left-aside"

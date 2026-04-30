@@ -18,7 +18,7 @@
 
 - None -- this is a decorative/informational element, not interactive
 
-## components-helper/avatar.md
+## Key Behaviors
 
 Pattern: AvatarGroup → Avatar → AvatarImage, AvatarText
 
