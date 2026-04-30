@@ -1,23 +1,32 @@
 # GanttTable
 
-Pattern:
+Pattern (gantt-table uses HTML element names directly for sub-components):
 
 ```tsx
 <GanttTable>
-    <GanttTableHead>
-        <GanttTableTR>
+    <GanttTableThead>
+        <GanttTableTr>
             <GanttTableTH>…</GanttTableTH>
-        </GanttTableTR>
-    </GanttTableHead>
-    <GanttTableBody>
-        <GanttTableTR>
+        </GanttTableTr>
+    </GanttTableThead>
+    <GanttTableTbody>
+        <GanttTableTr>
             <GanttTableTD>…</GanttTableTD>
-        </GanttTableTR>
-    </GanttTableBody>
+        </GanttTableTr>
+    </GanttTableTbody>
     <GanttTableTfoot>
-        <GanttTableTR>
+        <GanttTableTr>
             <GanttTableTH>…</GanttTableTH>
-        </GanttTableTR>
+        </GanttTableTr>
     </GanttTableTfoot>
 </GanttTable>
 ```
+
+Suffix slugs (kebab):
+
+- gantt-table-thead ↔ `<thead>`
+- gantt-table-tbody ↔ `<tbody>`
+- gantt-table-tfoot ↔ `<tfoot>`
+- gantt-table-tr ↔ `<tr>`
+- gantt-table-th ↔ `<th>`
+- gantt-table-td ↔ `<td>`

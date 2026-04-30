@@ -5,19 +5,28 @@ Pattern:
 ```tsx
 <KanbanTable>
     <KanbanTableHead>
-        <KanbanTableTR>
+        <KanbanTableRow>
             <KanbanTableTH>…</KanbanTableTH>
-        </KanbanTableTR>
+        </KanbanTableRow>
     </KanbanTableHead>
     <KanbanTableBody>
-        <KanbanTableTR>
+        <KanbanTableRow>
             <KanbanTableTD>…</KanbanTableTD>
-        </KanbanTableTR>
+        </KanbanTableRow>
     </KanbanTableBody>
-    <KanbanTableTfoot>
-        <KanbanTableTR>
+    <KanbanTableFoot>
+        <KanbanTableRow>
             <KanbanTableTH>…</KanbanTableTH>
-        </KanbanTableTR>
-    </KanbanTableTfoot>
+        </KanbanTableRow>
+    </KanbanTableFoot>
 </KanbanTable>
 ```
+
+Suffix slugs (kebab):
+
+- kanban-table-head ↔ `<thead>`
+- kanban-table-body ↔ `<tbody>`
+- kanban-table-foot ↔ `<tfoot>`
+- kanban-table-row ↔ `<tr>`
+- kanban-table-th ↔ `<th>`
+- kanban-table-td ↔ `<td>`

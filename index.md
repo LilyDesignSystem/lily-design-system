@@ -28,6 +28,7 @@ Headless versions if you want to use components with all your own styles:
 
 ## Components
 
+- [accordion-checkbox](components/accordion-checkbox): a checkbox option that reveals an accordion panel when checked
 - [accordion-link](components/accordion-link): an accordion link
 - [accordion-list](components/accordion-list): an accordion ordered list of list item components
 - [accordion-list-item](components/accordion-list-item): an accordion list item component
@@ -51,7 +52,6 @@ Headless versions if you want to use components with all your own styles:
 - [avatar-image](components/avatar-image): an avatar indicator inside image such as a user photo
 - [avatar-text](components/avatar-text): an avatar indicator inner text such as a user name
 - [back-link](components/back-link): a navigation link to return to a previous page
-- [go-to-top](components/go-to-top): a link that returns users to the top of a long page
 - [badge](components/badge): a small label for counts, statuses, or categories
 - [banner](components/banner): a prominent message bar across the top of a page
 - [banner-box](components/banner-box): a banner box that is inside a banner component, using flexbox horizontal
@@ -68,11 +68,11 @@ Headless versions if you want to use components with all your own styles:
 - [calendar-range-picker](components/calendar-range-picker): a picker for selecting a date range on a calendar
 - [calendar-table](components/calendar-table): a calendar table interactive grid for managing dates, days, etc. <table>
 - [calendar-table-body](components/calendar-table-body): a calendar table interactive grid tbody for managing dates, days, etc. <tbody>
-- [calendar-table-th](components/calendar-table-th): a calendar table interactive grid column for managing dates, days, etc. <th>
-- [calendar-table-td](components/calendar-table-td): a calendar table interactive grid data cell for managing dates, days, etc. <td>
 - [calendar-table-foot](components/calendar-table-foot): a calendar table interactive grid tfoot for managing dates, days, etc. <tfoot>
 - [calendar-table-head](components/calendar-table-head): a calendar table interactive grid thead for managing dates, days, etc. <thead>
 - [calendar-table-row](components/calendar-table-row): a calendar table interactive grid row for managing dates, days, etc. <tr>
+- [calendar-table-td](components/calendar-table-td): a calendar table interactive grid data cell for managing dates, days, etc. <td>
+- [calendar-table-th](components/calendar-table-th): a calendar table interactive grid header cell for managing dates, days, etc. <th>
 - [call-to-action](components/call-to-action): a prominent prompt encouraging user action
 - [caption](components/caption): a caption for a table or figure element
 - [card](components/card): a grouped content container with header, body, and footer areas
@@ -105,6 +105,7 @@ Headless versions if you want to use components with all your own styles:
 - [combobox](components/combobox): a text input combined with a dropdown list for filtering options
 - [command](components/command): a command palette for searching and executing actions
 - [comment](components/comment): a comment displays user discussions and user feedback
+- [container](components/container): a generic block-level content container
 - [container-with-fixed-width](components/container-with-fixed-width): a centered content wrapper with a fixed max-width breakpoint
 - [container-with-fluid-width](components/container-with-fluid-width): a full-width content wrapper with horizontal padding
 - [contents-link](components/contents-link): one table of contents link
@@ -118,17 +119,17 @@ Headless versions if you want to use components with all your own styles:
 - [data-filter-form](components/data-filter-form): a form for filtering data by criteria
 - [data-table](components/data-table): a data table interactive grid for displaying and sorting tabular data <table>
 - [data-table-body](components/data-table-body): a data table interactive grid tbody for displaying and sorting tabular data <tbody>
-- [data-table-th](components/data-table-th): a data table interactive grid column for displaying and sorting tabular data <th>
-- [data-table-td](components/data-table-td): a data table interactive grid data cell for displaying and sorting tabular data <td>
 - [data-table-foot](components/data-table-foot): a data table interactive grid tfoot for displaying and sorting tabular data <tfoot>
 - [data-table-head](components/data-table-head): a data table interactive grid thead for displaying and sorting tabular data <thead>
 - [data-table-row](components/data-table-row): a data table interactive grid row for displaying and sorting tabular data <tr>
+- [data-table-td](components/data-table-td): a data table interactive grid data cell for displaying and sorting tabular data <td>
+- [data-table-th](components/data-table-th): a data table interactive grid header cell for displaying and sorting tabular data <th>
 - [date-field](components/date-field): a structured field for entering date components
 - [date-input](components/date-input): an input for entering a date value <input type="date">
 - [date-range](components/date-range): a display of a start and end date range
+- [date-time-local-input](components/date-time-local-input): an input for entering a date and time without time zone <input type="datetime-local">
 - [date-time-now-input](components/date-time-now-input): an input for entering a date and time and "now" button <input type="date"><input type="time"><button type="button">
-- [datetime-local-input](components/datetime-local-input): an input for entering a date and time without time zone <input type="datetime-local">
-- [datetime-view](components/datetime-view): a read-only display of a formatted date and time
+- [date-time-view](components/date-time-view): a read-only display of a formatted date and time
 - [description-list](components/description-list): a definition list displaying information in key-value format <dl>
 - [description-list-item](components/description-list-item): one key-value pair in a description list using dt and dd elements
 - [details](components/details): a disclosure widget that shows and hides content
@@ -183,11 +184,14 @@ Headless versions if you want to use components with all your own styles:
 - [france-numero-d-identification-au-repertoire-view](components/france-numero-d-identification-au-repertoire-view): a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - [gantt-table](components/gantt-table): a Gantt chart table interactive grid for planning schedule visualization <table>
 - [gantt-table-body](components/gantt-table-body): a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
-- [gantt-table-th](components/gantt-table-th): a Gantt chart table interactive grid column for planning schedule visualization <th>
-- [gantt-table-td](components/gantt-table-td): a Gantt chart table interactive grid data cell for planning schedule visualization <td>
 - [gantt-table-foot](components/gantt-table-foot): a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
 - [gantt-table-head](components/gantt-table-head): a Gantt chart table interactive grid thead for planning schedule visualization <thead>
 - [gantt-table-row](components/gantt-table-row): a Gantt chart table interactive grid row for planning schedule visualization <tr>
+- [gantt-table-td](components/gantt-table-td): a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+- [gantt-table-th](components/gantt-table-th): a Gantt chart table interactive grid header cell for planning schedule visualization <th>
+- [go-to-next-section](components/go-to-next-section): a link that takes users to the next section of the current page
+- [go-to-previous-section](components/go-to-previous-section): a link that takes users to the previous section of the current page
+- [go-to-top](components/go-to-top): a link that returns users to the top of a long page
 - [government-banner](components/government-banner): a banner identifying a website as belonging to a government, with an expandable details panel
 - [government-identifier](components/government-identifier): an identifier section with a parent agency logo, agency name, and required government links
 - [grail-layout](components/grail-layout): a responsive web design structure with header, left aside, center main, right aside, footer
@@ -220,11 +224,11 @@ Headless versions if you want to use components with all your own styles:
 - [ireland-individual-health-identifier-view](components/ireland-individual-health-identifier-view): a read-only display of Ireland Individual Health Identifier (IHI) unique national healthcare identifier
 - [kanban-table](components/kanban-table): a kanban board table interactive grid for organizing items by status <table>
 - [kanban-table-body](components/kanban-table-body): a kanban board table interactive grid tbody for organizing items by status <tbody>
-- [kanban-table-th](components/kanban-table-th): a kanban board table interactive grid column for organizing items by status <th>
-- [kanban-table-td](components/kanban-table-td): kanban board table interactive grid data cell for organizing items by status <td>
 - [kanban-table-foot](components/kanban-table-foot): a kanban board table interactive grid tfoot for organizing items by status <tfoot>
 - [kanban-table-head](components/kanban-table-head): a kanban board table interactive grid thead for organizing items by status <thead>
 - [kanban-table-row](components/kanban-table-row): a kanban board table interactive grid row for organizing items by status <tr>
+- [kanban-table-td](components/kanban-table-td): kanban board table interactive grid data cell for organizing items by status <td>
+- [kanban-table-th](components/kanban-table-th): a kanban board table interactive grid header cell for organizing items by status <th>
 - [kbd](components/kbd): show keyboard shortcuts and key combinations in a styled inline element
 - [label](components/label): a label associated with a form input
 - [line-chart](components/line-chart): a line chart visualization connecting data points to display data
@@ -250,6 +254,7 @@ Headless versions if you want to use components with all your own styles:
 - [meter](components/meter): a gauge displaying a scalar value within a known range
 - [mockup-browser](components/mockup-browser): a box area that looks like a web browser
 - [mockup-laptop](components/mockup-laptop): a box area that looks like a laptop computer
+- [mockup-phone-landscape](components/mockup-phone-landscape): a box area that looks like a mobile phone in landscape orientation
 - [mockup-phone-portrait](components/mockup-phone-portrait): a box area that looks like a mobile phone
 - [mockup-shell](components/mockup-shell): a box area that looks like a terminal shell
 - [mockup-tablet-landscape](components/mockup-tablet-landscape): a box area that looks like a tablet computer in landscape mode
@@ -289,6 +294,7 @@ Headless versions if you want to use components with all your own styles:
 - [postal-code-view](components/postal-code-view): a read-only display of a postal or ZIP code
 - [product-card](components/product-card): a specialized card for displaying a product with image, title, price, and actions
 - [progress](components/progress): a horizontal progress bar showing completion
+- [progress-bar](components/progress-bar): a horizontal progress indicator
 - [progress-circle](components/progress-circle): a circular progress indicator
 - [progress-spinner](components/progress-spinner): an indeterminate spinning progress indicator
 - [qr-code](components/qr-code): a QR code image generated from text or URL data
@@ -352,11 +358,11 @@ Headless versions if you want to use components with all your own styles:
 - [tab-panel](components/tab-panel): a content panel associated with a tab in a tab bar
 - [table](components/table): a table with rows and columns <table>
 - [table-body](components/table-body): a table interactive grid tbody <tbody>
-- [table-th](components/table-th): a table interactive grid column <th>
-- [table-td](components/table-td): a table interactive grid data cell <td>
 - [table-foot](components/table-foot): a table interactive grid tfoot <tfoot>
 - [table-head](components/table-head): a table interactive grid thead <thead>
 - [table-row](components/table-row): a table interactive grid row <tr>
+- [table-td](components/table-td): a table interactive grid data cell <td>
+- [table-th](components/table-th): a table interactive grid column <th>
 - [tag](components/tag): a keyword label for categorizing content
 - [tag-group](components/tag-group): a group of tag elements
 - [tag-input](components/tag-input): an input for adding and removing tags
@@ -366,10 +372,10 @@ Headless versions if you want to use components with all your own styles:
 - [task-list-item](components/task-list-item): one task item with a checkbox and label
 - [tel-input](components/tel-input): an input for entering a telephone number <input type="tel">
 - [tel-link](components/tel-link): a tel hyperlink for a telephone number
-- [text-area-input-with-character-counter](components/text-area-input-with-character-counter): a multi-line text area with a caption below that is a character counter "[number] of [maximum] characters"
+- [text-area-input](components/text-area-input): a multi-line text input area
+- [text-area-input-with-character-counter](components/text-area-input-with-character-counter): a multi-line text area input with a caption below that is a character counter "[number] of [maximum] characters"
 - [text-input](components/text-input): a single-line text input field <input type="text">
 - [text-input-with-search](components/text-input-with-search): a single-line text input field <input type="text"> with search capability
-- [text-area-input](components/text-area-input): a multi-line text input area
 - [theme-picker](components/theme-picker): a picker for selecting a visual theme
 - [theme-picker-button](components/theme-picker-button): a picker button for selecting a visual theme
 - [theme-select](components/theme-select): a select dropdown for choosing a theme
@@ -472,12 +478,13 @@ Headless versions if you want to use components with all your own styles:
 - ContainerWith\*
   - ContainerWithFixedWidth
   - ContainerWithFluidWidth
-- \*Table \*TableHead \*TableBody \*TableFoot \*TableTD \*TableRow \*TableTD
-  - Table TableHead TableBody TableFoot TableTD TableRow TableTD
-  - CalendarTable CalendarTableHead CalendarTableBody CalendarTableFoot CalendarTableTD CalendarTableRow CalendarTableTD
-  - DataTable DataTableHead DataTableBody DataTableFoot DataTableTD DataTableRow DataTableTD
-  - GanttTable GanttTableHead GanttTableBody GanttTableTfoot GanttTableTH GanttTableTR GanttTableTD
-  - KanbanTable KanbanTableHead KanbanTableBody KanbanTableFoot KanbanTableTD KanbanTableRow KanbanTableTD
+- Table sub-elements: `*TableHead` `*TableBody` `*TableFoot` `*TableRow` `*TableTH` `*TableTD`
+  - Table TableHead TableBody TableFoot TableRow TableTH TableTD
+  - CalendarTable CalendarTableHead CalendarTableBody CalendarTableFoot CalendarTableRow CalendarTableTH CalendarTableTD
+  - DataTable DataTableHead DataTableBody DataTableFoot DataTableRow DataTableTH DataTableTD
+  - KanbanTable KanbanTableHead KanbanTableBody KanbanTableFoot KanbanTableRow KanbanTableTH KanbanTableTD
+- Table sub-elements (gantt uses HTML element names): `*TableThead` `*TableTbody` `*TableTfoot` `*TableTr` `*TableTh` `*TableTd`
+  - GanttTable GanttTableThead GanttTableTbody GanttTableTfoot GanttTableTr GanttTableTH GanttTableTD
 
 ## Tracking
 

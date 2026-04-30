@@ -5,19 +5,28 @@ Pattern:
 ```tsx
 <DataTable>
     <DataTableHead>
-        <DataTableTR>
+        <DataTableRow>
             <DataTableTH>…</DataTableTH>
-        </DataTableTR>
+        </DataTableRow>
     </DataTableHead>
     <DataTableBody>
-        <DataTableTR>
+        <DataTableRow>
             <DataTableTD>…</DataTableTD>
-        </DataTableTR>
+        </DataTableRow>
     </DataTableBody>
     <DataTableFoot>
-        <DataTableTR>
+        <DataTableRow>
             <DataTableTH>…</DataTableTH>
-        </DataTableTR>
+        </DataTableRow>
     </DataTableFoot>
 </DataTable>
 ```
+
+Suffix slugs (kebab):
+
+- data-table-head ↔ `<thead>`
+- data-table-body ↔ `<tbody>`
+- data-table-foot ↔ `<tfoot>`
+- data-table-row ↔ `<tr>`
+- data-table-th ↔ `<th>`
+- data-table-td ↔ `<td>`

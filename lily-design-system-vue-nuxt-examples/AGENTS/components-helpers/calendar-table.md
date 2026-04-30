@@ -5,19 +5,28 @@ Pattern:
 ```tsx
 <CalendarTable>
     <CalendarTableHead>
-        <CalendarTableTR>
+        <CalendarTableRow>
             <CalendarTableTH>…</CalendarTableTH>
-        </CalendarTableTR>
+        </CalendarTableRow>
     </CalendarTableHead>
     <CalendarTableBody>
-        <CalendarTableTR>
+        <CalendarTableRow>
             <CalendarTableTD>…</CalendarTableTD>
-        </CalendarTableTR>
+        </CalendarTableRow>
     </CalendarTableBody>
     <CalendarTableFoot>
-        <CalendarTableTR>
+        <CalendarTableRow>
             <CalendarTableTH>…</CalendarTableTH>
-        </CalendarTableTR>
+        </CalendarTableRow>
     </CalendarTableFoot>
 </CalendarTable>
 ```
+
+Suffix slugs (kebab):
+
+- calendar-table-head ↔ `<thead>`
+- calendar-table-body ↔ `<tbody>`
+- calendar-table-foot ↔ `<tfoot>`
+- calendar-table-row ↔ `<tr>`
+- calendar-table-th ↔ `<th>`
+- calendar-table-td ↔ `<td>`
