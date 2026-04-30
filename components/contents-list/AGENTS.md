@@ -4,7 +4,7 @@
 
 - Component: contents-list
 - PascalCase: ContentsList
-- Description: an ordered list of contents list item components
+- Description: an contents ordered list of contents list item components
 - HTML tag: <ol>
 - CSS class: .contents-list
 - Interactive: no

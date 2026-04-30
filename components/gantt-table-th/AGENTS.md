@@ -4,7 +4,7 @@
 
 - Component: gantt-table-th
 - PascalCase: GanttTableTH
-- Description: a Gantt chart table interactive grid column for planning schedule visualization <th>
+- Description: a Gantt chart table interactive grid header cell for planning schedule visualization <th>
 - HTML tag: <th>
 - CSS class: .gantt-table-th
 - Interactive: no

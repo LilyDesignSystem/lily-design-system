@@ -4,7 +4,7 @@
 
 - Component: medical-banner
 - PascalCase: MedicalBanner
-- Description: a prominent message bar across the top of a page that displays medical information
+- Description: a prominent message bar across the top of a page, with medical information
 - HTML tag: <div>
 - CSS class: .medical-banner
 - Interactive: yes

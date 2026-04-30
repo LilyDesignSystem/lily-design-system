@@ -1,4 +1,4 @@
-# Calendar Table Data
+# Calendar Table TD
 
 A calendar board item represents a single day cell within a calendar grid, supporting `aria-selected` for the chosen date and `aria-current="date"` for today. It is designed to be used inside a CalendarTable `<table>` / `<tr>` structure.
 

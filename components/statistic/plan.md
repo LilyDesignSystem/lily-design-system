@@ -2,7 +2,7 @@
 
 ## Goal
 
-Implement the Statistic component: a numeric value display with title, optional prefix, and optional suffix.
+Implement the Statistic component: a numeric value display with title, prefix, and suffix.
 
 ## HTML Tag and CSS Class
 

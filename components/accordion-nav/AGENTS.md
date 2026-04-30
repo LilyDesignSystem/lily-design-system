@@ -4,7 +4,7 @@
 
 - Component: accordion-nav
 - PascalCase: AccordionNav
-- Description: a navigation container for collapsible accordion information
+- Description: an accordion navigation area for collapsible accordion information
 - HTML tag: <nav>
 - CSS class: .accordion-nav
 - Interactive: no

@@ -4,7 +4,7 @@
 
 - Component: contents-link
 - PascalCase: ContentsLink
-- Description: one contents link, such as to a page or page section
+- Description: one table of contents link
 - HTML tag: <a>
 - CSS class: .contents-link
 - Interactive: yes

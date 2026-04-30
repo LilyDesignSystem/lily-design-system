@@ -4,7 +4,7 @@
 
 - Component: contents-list-item
 - PascalCase: ContentsListItem
-- Description: one contents list item component linking to a page section
+- Description: one contents list item
 - HTML tag: <li>
 - CSS class: .contents-list-item
 - Interactive: no

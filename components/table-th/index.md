@@ -1,4 +1,4 @@
-# Table Col
+# Table TH
 
 TableTD is a headless component that renders a `<th scope="col">` element — a column header cell — intended to live inside a TableRow within TableHead.
 

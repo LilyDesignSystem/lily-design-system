@@ -1,4 +1,4 @@
-# Table Data
+# Table TD
 
 TableTD is a headless component that renders a `<td>` element within a table row. It represents a single data cell.
 

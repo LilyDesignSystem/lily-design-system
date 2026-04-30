@@ -4,7 +4,7 @@
 
 - Component: breadcrumb-list-item
 - PascalCase: BreadcrumbListItem
-- Description: one breadcrumb navigation link in the trail
+- Description: one breadcrumb list item in the trail
 - HTML tag: <li>
 - CSS class: .breadcrumb-list-item
 - Interactive: no

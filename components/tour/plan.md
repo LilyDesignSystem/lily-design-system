@@ -2,7 +2,7 @@
 
 ## Goal
 
-Implement the Tour component: a tour guide, such as for sightseeing, or pathways, or demonstrations, etc..
+Implement the Tour component: a tour guide, such as for sightseeing, or pathways, or demonstrations, etc.
 
 ## HTML Tag and CSS Class
 

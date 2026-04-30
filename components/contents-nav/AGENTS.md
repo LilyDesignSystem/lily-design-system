@@ -4,7 +4,7 @@
 
 - Component: contents-nav
 - PascalCase: ContentsNav
-- Description: a navigation landmark for a list of contents
+- Description: a contents navigation area
 - HTML tag: <nav>
 - CSS class: .contents-nav
 - Interactive: no

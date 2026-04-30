@@ -3,8 +3,8 @@
 ## Metadata
 
 - Component: data-table-th
-- PascalCase: DataTableTD
-- Description: a data table interactive grid column for displaying and sorting tabular data <th>
+- PascalCase: DataTableTH
+- Description: a data table interactive grid header cell for displaying and sorting tabular data <th>
 - HTML tag: <th>
 - CSS class: .data-table-th
 - Interactive: no

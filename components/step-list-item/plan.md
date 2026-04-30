@@ -2,7 +2,7 @@
 
 ## Goal
 
-Implement the StepListItem component: one step in a step list with status of waiting, in-progress, finished, or error.
+Implement the StepListItem component: one step in a step list with status of waiting, in progress, finished, or error.
 
 ## HTML Tag and CSS Class
 

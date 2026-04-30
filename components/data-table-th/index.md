@@ -1,4 +1,4 @@
-# Data Table Col
+# Data Table TH
 
 A data table col is a column header cell in a DataTable. It renders a `<th scope="col">` element and is intended to live inside a DataTableRow within DataTableHead.
 

@@ -4,7 +4,7 @@
 
 - Component: pagination-list-item
 - PascalCase: PaginationListItem
-- Description: one page link in a pagination list
+- Description: one pagination list item in the trail
 - HTML tag: <li>
 - CSS class: .pagination-list-item
 - Interactive: no

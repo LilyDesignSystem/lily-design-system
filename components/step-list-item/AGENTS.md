@@ -4,7 +4,7 @@
 
 - Component: step-list-item
 - PascalCase: StepListItem
-- Description: one step in a step list with status of waiting, in-progress, finished, or error
+- Description: one step in a step list with status of waiting, in progress, finished, or error
 - HTML tag: <li>
 - CSS class: .step-list-item
 - Interactive: no

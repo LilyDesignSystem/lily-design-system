@@ -4,7 +4,7 @@
 
 - Component: medical-banner-box
 - PascalCase: MedicalBannerBox
-- Description: a prominent message bar across the top of a page, inside a medical banner, using flexbox horizontal, that displays medical information
+- Description: a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
 - HTML tag: <div>
 - CSS class: .medical-banner-box
 - Interactive: no

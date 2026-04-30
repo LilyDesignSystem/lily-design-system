@@ -4,7 +4,7 @@
 
 - Component: accordion-list-item
 - PascalCase: AccordionListItem
-- Description: one accordion list item component
+- Description: an accordion list item component
 - HTML tag: <li>
 - CSS class: .accordion-list-item
 - Interactive: yes

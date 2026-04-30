@@ -3,8 +3,8 @@
 ## Metadata
 
 - Component: kanban-table-th
-- PascalCase: KanbanTableTD
-- Description: a kanban board table interactive grid column for organizing items by status <th>
+- PascalCase: KanbanTableTH
+- Description: a kanban board table interactive grid header cell for organizing items by status <th>
 - HTML tag: <th>
 - CSS class: .kanban-table-th
 - Interactive: no

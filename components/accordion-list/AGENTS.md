@@ -4,7 +4,7 @@
 
 - Component: accordion-list
 - PascalCase: AccordionList
-- Description: an ordered list of accordion list item components
+- Description: an accordion ordered list of list item components
 - HTML tag: <ol>
 - CSS class: .accordion-list
 - Interactive: no

@@ -4,7 +4,7 @@
 
 - Component: tree-link
 - PascalCase: TreeLink
-- Description: one tree link in the trail
+- Description: one link in the tree
 - HTML tag: <a>
 - CSS class: .tree-link
 - Interactive: yes

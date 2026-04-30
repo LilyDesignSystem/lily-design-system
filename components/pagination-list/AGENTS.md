@@ -4,7 +4,7 @@
 
 - Component: pagination-list
 - PascalCase: PaginationList
-- Description: an ordered list of page navigation links
+- Description: an ordered list of pagination list items
 - HTML tag: <ol>
 - CSS class: .pagination-list
 - Interactive: yes

@@ -4,7 +4,7 @@
 
 - Component: espana-tarjeta-sanitaria-individual-view
 - PascalCase: EspanaTarjetaSanitariaIndividualView
-- Description: a read-only display of a España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
+- Description: a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
 - HTML tag: <span>
 - CSS class: .espana-tarjeta-sanitaria-individual-view
 - Interactive: no

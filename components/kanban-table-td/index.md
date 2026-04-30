@@ -1,4 +1,4 @@
-# Kanban Table Data
+# Kanban Table TD
 
 A Kanban board item is a component that represents a single work item or task card within a Kanban board column. Each item typically displays summary information about a task, such as its title, assignee, priority, or due date, and serves as the unit that moves between workflow stages.
 

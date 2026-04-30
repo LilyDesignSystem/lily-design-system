@@ -4,7 +4,7 @@
 
 - Component: breadcrumb-list
 - PascalCase: BreadcrumbList
-- Description: an ordered list of breadcrumb navigation items
+- Description: an ordered list of breadcrumb list items
 - HTML tag: <ol>
 - CSS class: .breadcrumb-list
 - Interactive: yes

@@ -4,7 +4,7 @@
 
 - Component: text-area-input-with-character-counter
 - PascalCase: TextAreaInputWithCharacterCounter
-- Description: a multi-line text area with a caption below that is a character counter "[number] of [maximum] characters"
+- Description: a multi-line text area input with a caption below that is a character counter "[number] of [maximum] characters"
 - HTML tag: <div>
 - CSS class: .text-area-input-with-character-counter
 - Interactive: yes

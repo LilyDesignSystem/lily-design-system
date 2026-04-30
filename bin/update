@@ -19,13 +19,21 @@ improve every existing important file in every existing subdirectory:
 - plan.md
 - tasks.md
 
-Important directories:
+read components.tsv (the source of truth) then:
+
+- regenerate AGENTS/components.md 
+- update root index.md components section.
+
+run bin/sync tu update all subproject AGENTS/ directories
+  
+important directories:
 
 - bin
 - components
 
-Subproject directories:
+subproject directories:
 
+- lilydesignsystem.github.io
 - lily-design-system-blazor-headless
 - lily-design-system-blazor-web-examples
 - lily-design-system-html-headless

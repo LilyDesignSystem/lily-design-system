@@ -1,4 +1,4 @@
-# Calendar Table Col
+# Calendar Table TH
 
 CalendarTableTD is a headless component that renders a `<th scope="col">` element — a column header cell — intended to live inside a CalendarTableRow within CalendarTableHead. Use it to label day-of-week or other column headers in a calendar grid.
 

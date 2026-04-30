@@ -1,4 +1,4 @@
-# Kanban Table Col
+# Kanban Table TH
 
 KanbanTableTD is a headless component that renders a `<th scope="col">` element — a column header cell — intended to live inside a KanbanTableRow within KanbanTableHead, where it labels a workflow stage column (e.g. "To do", "In progress", "Done").
 

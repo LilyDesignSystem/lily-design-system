@@ -2,7 +2,7 @@
 
 ## Goal
 
-Implement the ContentsLink component: one contents link, such as to a page or page section.
+Implement the ContentsLink component: one table of contents link.
 
 ## HTML Tag and CSS Class
 

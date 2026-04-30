@@ -4,7 +4,7 @@
 
 - Component: espana-tarjeta-sanitaria-individual-input
 - PascalCase: EspanaTarjetaSanitariaIndividualInput
-- Description: an input for entering a España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
+- Description: an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
 - HTML tag: <input>
 - CSS class: .espana-tarjeta-sanitaria-individual-input
 - Interactive: yes

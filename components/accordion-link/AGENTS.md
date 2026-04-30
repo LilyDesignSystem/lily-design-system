@@ -4,7 +4,7 @@
 
 - Component: accordion-link
 - PascalCase: AccordionLink
-- Description: one accordion link in the trail
+- Description: an accordion link
 - HTML tag: <a>
 - CSS class: .accordion-link
 - Interactive: yes
