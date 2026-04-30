@@ -1,3 +1,20 @@
 # AlertDialog
 
-a modal dialog for urgent messages requiring user acknowledgment
+A modal dialog for urgent messages requiring user acknowledgment.
+
+## Canonical documentation
+
+See [components/alert-dialog/index.md](../../../components/alert-dialog/index.md) for the full component documentation, including ARIA, keyboard interactions, params, and usage guidance.
+
+## Nunjucks usage
+
+```njk
+{% from "components/alert-dialog/macro.njk" import alertDialog %}
+
+{{ alertDialog({ }) }}
+```
+
+## Files
+
+- `macro.njk` — Nunjucks macro implementation
+- `macro.test.js` — vitest render test
