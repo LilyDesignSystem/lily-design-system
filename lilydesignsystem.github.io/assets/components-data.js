@@ -107,7 +107,7 @@ window.LILY_COMPONENTS = [
   { name: "date-range", pascal: "DateRange", description: "a display of a start and end date range" },
   { name: "date-time-local-input", pascal: "DateTimeLocalInput", description: "an input for entering a date and time without time zone <input type=\"datetime-local\">" },
   { name: "date-time-now-input", pascal: "DateTimeNowInput", description: "an input for entering a date and time and \"now\" button <input type=\"date\"><input type=\"time\"><button type=\"button\">" },
-  { name: "date-time-view", pascal: "DatetimeView", description: "a read-only display of a formatted date and time" },
+  { name: "date-time-view", pascal: "DateTimeView", description: "a read-only display of a formatted date and time" },
   { name: "description-list", pascal: "DescriptionList", description: "a definition list displaying information in key-value format <dl>" },
   { name: "description-list-item", pascal: "DescriptionListItem", description: "one key-value pair in a description list using dt and dd elements" },
   { name: "details", pascal: "Details", description: "a disclosure widget that shows and hides content" },

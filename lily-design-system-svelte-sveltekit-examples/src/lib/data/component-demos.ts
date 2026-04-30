@@ -81,7 +81,7 @@ export const componentDemos: Record<string, string> = {
   'date-field': '<div class="date-field" role="group" aria-label="Date"><input type="text" aria-label="Day" size="2" value="15" /> / <input type="text" aria-label="Month" size="2" value="03" /> / <input type="text" aria-label="Year" size="4" value="2026" /></div>',
   'date-input': '<label class="label" for="demo-input">Label</label><input class="date-input" type="date" id="demo-input" aria-label="DateInput" />',
   'date-range': '<div class="date-range"><time datetime="2026-01-01">1 Jan 2026</time> — <time datetime="2026-12-31">31 Dec 2026</time></div>',
-  'datetime-local-input': '<label class="label" for="demo-input">Label</label><input class="datetime-local-input" type="datetime-local" id="demo-input" aria-label="DateTimeLocalInput" />',
+  'date-time-local-input': '<label class="label" for="demo-input">Label</label><input class="date-time-local-input" type="datetime-local" id="demo-input" aria-label="DateTimeLocalInput" />',
   'details': '<details class="details"><summary>Click to expand</summary><p>Hidden content revealed here.</p></details>',
   'dial': '<div class="dial" role="slider" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" aria-label="Volume">50</div>',
   'dial-group': '<div class="dial-group"><div class="dial" role="slider" aria-valuenow="30" aria-label="Bass">30</div><div class="dial" role="slider" aria-valuenow="70" aria-label="Treble">70</div></div>',

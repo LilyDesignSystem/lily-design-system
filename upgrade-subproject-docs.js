@@ -125,7 +125,7 @@ let count = 0;
 for (const sp of subprojects) {
   const dir = path.join(TOP, sp.dir);
 
-  // Create directory if it doesn't exist (e.g., html-javascript-examples)
+  // Create directory if it doesn't exist (e.g., html-css-js-examples)
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
     console.log(`Created directory: ${sp.dir}`);
@@ -294,7 +294,7 @@ Create styled example pages demonstrating component usage with ${sp.tech}. Examp
 
   fs.writeFileSync(tasksPath, tasksMd, "utf8");
 
-  // --- Ensure index.md exists (especially for html-javascript-examples) ---
+  // --- Ensure index.md exists (especially for html-css-js-examples) ---
   const indexPath = path.join(dir, "index.md");
   if (!fs.existsSync(indexPath) || fs.statSync(indexPath).size === 0) {
     let indexMd;

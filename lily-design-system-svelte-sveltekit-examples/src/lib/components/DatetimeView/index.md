@@ -1,4 +1,4 @@
-# DatetimeView
+# DateTimeView
 
 A read-only display of a formatted date and time. This headless Svelte component renders a native `<time>` element with the machine-readable `datetime` attribute set to an ISO 8601 value, while displaying a consumer-formatted human-readable string.
 
@@ -8,7 +8,7 @@ A headless Svelte 5 component that renders a single `<time>` element. Category: 
 
 ## What it does
 
-- Renders a `<time>` element with the base class `datetime-view` plus consumer `class`.
+- Renders a `<time>` element with the base class `date-time-view` plus consumer `class`.
 - Sets the `datetime` attribute to the ISO 8601 `value` for assistive tech and crawlers.
 - Displays in priority order: `children` snippet → `format` string → raw `value`.
 - Applies `aria-label` when `label` is provided.
@@ -28,11 +28,11 @@ A headless Svelte 5 component that renders a single `<time>` element. Category: 
 
 ## How to use it
 
-Import `DatetimeView` and pass an ISO 8601 `value`. Format the display string yourself (e.g., with `Intl.DateTimeFormat`) and pass it as `format`. Required prop: `value`.
+Import `DateTimeView` and pass an ISO 8601 `value`. Format the display string yourself (e.g., with `Intl.DateTimeFormat`) and pass it as `format`. Required prop: `value`.
 
 ## Props
 
-- `class` — string, default `""`. CSS class appended to `datetime-view`.
+- `class` — string, default `""`. CSS class appended to `date-time-view`.
 - `value` — string, required. ISO 8601 datetime.
 - `format` — string, optional. Pre-formatted display text.
 - `label` — string, optional. Accessible label override.
@@ -45,7 +45,7 @@ Import `DatetimeView` and pass an ISO 8601 `value`. Format the display string yo
 
 ```svelte
 <script lang="ts">
-  import DatetimeView from './DatetimeView.svelte';
+  import DateTimeView from './DateTimeView.svelte';
 
   const iso = '2026-01-31T10:00:00Z';
   const formatted = new Intl.DateTimeFormat('en-US', {
@@ -54,15 +54,15 @@ Import `DatetimeView` and pass an ISO 8601 `value`. Format the display string yo
   }).format(new Date(iso));
 </script>
 
-<DatetimeView value={iso} format={formatted} label="Published" />
+<DateTimeView value={iso} format={formatted} label="Published" />
 ```
 
 ### With custom children
 
 ```svelte
-<DatetimeView value="2026-01-31T10:00:00Z">
+<DateTimeView value="2026-01-31T10:00:00Z">
   <strong>Today</strong>
-</DatetimeView>
+</DateTimeView>
 ```
 
 ## Accessibility

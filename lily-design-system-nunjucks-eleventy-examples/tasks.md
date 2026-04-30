@@ -173,7 +173,7 @@ Each bullet below delivers **both**
 - [ ] date-input
 - [ ] date-field
 - [ ] date-time-now-input
-- [ ] datetime-local-input
+- [ ] date-time-local-input
 - [ ] email-input
 - [ ] file-input
 - [ ] hidden-input

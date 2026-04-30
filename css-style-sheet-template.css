@@ -304,8 +304,8 @@
 .date-time-now-input {
 }
 
-/* datetime-local-input: an input for entering a date and time without time zone */
-.datetime-local-input {
+/* date-time-local-input: an input for entering a date and time without time zone */
+.date-time-local-input {
 }
 
 /* details: a disclosure widget that shows and hides content */

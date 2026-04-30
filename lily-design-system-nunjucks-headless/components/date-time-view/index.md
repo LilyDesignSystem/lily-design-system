@@ -1,10 +1,10 @@
-# DatetimeView
+# DateTimeView
 
 a read-only display of a formatted date and time
 
 ## Description
 
-DatetimeView renders a semantic `<time>` element with a machine-readable
+DateTimeView renders a semantic `<time>` element with a machine-readable
 `datetime` attribute (ISO 8601) and a human-readable display string
 provided by the consumer. The component does **not** localize — pass a
 pre-formatted string via `format`, `text`, or `html`.
@@ -15,7 +15,7 @@ pre-formatted string via `format`, `text`, or `html`.
 
 ## CSS class
 
-`datetime-view`
+`date-time-view`
 
 ## Params
 
@@ -40,7 +40,7 @@ pre-formatted string via `format`, `text`, or `html`.
 ## Usage
 
 ```njk
-{% from "components/datetime-view/macro.njk" import datetimeView %}
+{% from "components/date-time-view/macro.njk" import datetimeView %}
 
 {{ datetimeView({
   value: "2026-04-27T15:00:00Z",
@@ -66,7 +66,7 @@ No CSS or styling — this component only emits semantic markup.
 
 ## Testing
 
-`components/datetime-view/macro.test.js` verifies the `<time>`
+`components/date-time-view/macro.test.js` verifies the `<time>`
 element, `datetime` attribute, and the display fallback order.
 
 ## References

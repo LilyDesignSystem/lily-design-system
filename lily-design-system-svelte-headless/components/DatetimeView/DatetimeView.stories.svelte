@@ -1,10 +1,10 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import DatetimeView from './DatetimeView.svelte';
+  import DateTimeView from './DateTimeView.svelte';
 
   const { Story } = defineMeta({
-    title: 'Headless/DatetimeView',
-    component: DatetimeView,
+    title: 'Headless/DateTimeView',
+    component: DateTimeView,
   });
 </script>
 

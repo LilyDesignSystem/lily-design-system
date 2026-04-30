@@ -1,18 +1,18 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
-describe("datetime-view", () => {
+describe("date-time-view", () => {
   it("renders a <time> with the base class and datetime attribute", () => {
-    const { document } = render("datetime-view", {
+    const { document } = render("date-time-view", {
       value: "2026-04-27T15:00:00Z",
     });
-    const el = document.querySelector("time.datetime-view");
+    const el = document.querySelector("time.date-time-view");
     expect(el).toBeTruthy();
     expect(el.getAttribute("datetime")).toBe("2026-04-27T15:00:00Z");
   });
 
   it("falls back to value when no format/text/html is provided", () => {
-    const { document } = render("datetime-view", {
+    const { document } = render("date-time-view", {
       value: "2026-04-27T15:00:00Z",
     });
     expect(document.querySelector("time").textContent.trim())
@@ -20,7 +20,7 @@ describe("datetime-view", () => {
   });
 
   it("renders params.format as display text", () => {
-    const { document } = render("datetime-view", {
+    const { document } = render("date-time-view", {
       value: "2026-04-27T15:00:00Z",
       format: "27 April 2026",
     });
@@ -29,7 +29,7 @@ describe("datetime-view", () => {
   });
 
   it("params.text overrides format", () => {
-    const { document } = render("datetime-view", {
+    const { document } = render("date-time-view", {
       value: "2026-04-27T15:00:00Z",
       format: "Format",
       text: "Text",
@@ -38,7 +38,7 @@ describe("datetime-view", () => {
   });
 
   it("renders params.html as raw HTML and overrides text/format", () => {
-    const { document } = render("datetime-view", {
+    const { document } = render("date-time-view", {
       value: "2026-04-27T15:00:00Z",
       html: "<strong>Now</strong>",
     });
@@ -46,7 +46,7 @@ describe("datetime-view", () => {
   });
 
   it("renders params.label as aria-label", () => {
-    const { document } = render("datetime-view", {
+    const { document } = render("date-time-view", {
       value: "2026-04-27T15:00:00Z",
       label: "Published",
     });
@@ -55,15 +55,15 @@ describe("datetime-view", () => {
   });
 
   it("appends params.classes", () => {
-    const { document } = render("datetime-view", {
+    const { document } = render("date-time-view", {
       value: "2026-04-27T15:00:00Z",
       classes: "muted",
     });
-    expect(document.querySelector("time.datetime-view.muted")).toBeTruthy();
+    expect(document.querySelector("time.date-time-view.muted")).toBeTruthy();
   });
 
   it("renders params.attributes", () => {
-    const { document } = render("datetime-view", {
+    const { document } = render("date-time-view", {
       value: "2026-04-27T15:00:00Z",
       attributes: { "data-test": "x" },
     });
@@ -71,7 +71,7 @@ describe("datetime-view", () => {
   });
 
   it("contains no <style> or <script> tag", () => {
-    const { html } = render("datetime-view", {
+    const { html } = render("date-time-view", {
       value: "2026-04-27T15:00:00Z",
     });
     expect(html).not.toContain("<style");

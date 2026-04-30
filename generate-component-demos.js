@@ -32,7 +32,7 @@ const inputTypeMap = {
   'time-input': 'time',
   'month-input': 'month',
   'week-input': 'week',
-  'datetime-local-input': 'datetime-local',
+  'date-time-local-input': 'datetime-local',
   'color-input': 'color',
   'file-input': 'file',
   'range-input': 'range',

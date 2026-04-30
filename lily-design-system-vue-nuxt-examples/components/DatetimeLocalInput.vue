@@ -71,7 +71,7 @@
 <template>
     <!-- DateTimeLocalInput.vue -->
     <input
-        class="datetime-local-input"
+        class="date-time-local-input"
         type="datetime-local"
         :aria-label="label"
         v-model="modelValue"

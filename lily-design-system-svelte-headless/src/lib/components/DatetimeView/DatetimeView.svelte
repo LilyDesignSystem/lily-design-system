@@ -1,5 +1,5 @@
 <script lang="ts">
-    // DatetimeView component
+    // DateTimeView component
     //
     // A headless read-only display of a formatted date and time. Renders a native
     // `<time>` element with the machine-readable `datetime` attribute set to the
@@ -15,10 +15,10 @@
     //   ...restProps — additional HTML attributes spread onto the <time>.
     //
     // Syntax:
-    //   <DatetimeView value="2026-01-31T10:00:00Z" format="Jan 31, 2026, 10:00 AM" />
+    //   <DateTimeView value="2026-01-31T10:00:00Z" format="Jan 31, 2026, 10:00 AM" />
     //
     // Examples:
-    //   <DatetimeView value={iso} format={displayText} label="Published" />
+    //   <DateTimeView value={iso} format={displayText} label="Published" />
     //
     // Keyboard:
     //   - None (read-only display)
@@ -59,9 +59,9 @@
     } = $props();
 </script>
 
-<!-- DatetimeView.svelte -->
+<!-- DateTimeView.svelte -->
 <time
-    class={`datetime-view ${className}`}
+    class={`date-time-view ${className}`}
     datetime={value}
     aria-label={label}
     {...restProps}

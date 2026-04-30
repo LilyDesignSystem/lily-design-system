@@ -381,7 +381,7 @@ export const components: Component[] = [
     description: "a display of a start and end date range",
   },
   {
-    slug: "datetime-local-input",
+    slug: "date-time-local-input",
     name: "DateTimeLocalInput",
     description:
       'an input for entering a date and time without time zone <input type="datetime-local">',

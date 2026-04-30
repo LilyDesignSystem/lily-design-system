@@ -3,7 +3,7 @@
 ## Metadata
 
 - Component: date-time-view
-- PascalCase: DatetimeView
+- PascalCase: DateTimeView
 - Description: a read-only display of a formatted date and time
 - HTML tag: <time>
 - CSS class: .date-time-view

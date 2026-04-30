@@ -115,7 +115,7 @@ directory matching the NHS.UK frontend layout.
 - [ ] date-input
 - [ ] date-field
 - [ ] date-time-now-input
-- [ ] datetime-local-input
+- [ ] date-time-local-input
 - [ ] email-input
 - [ ] file-input
 - [ ] hidden-input

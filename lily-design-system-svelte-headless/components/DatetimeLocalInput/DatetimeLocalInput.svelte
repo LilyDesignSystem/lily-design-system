@@ -73,7 +73,7 @@
 
 <!-- DateTimeLocalInput.svelte -->
 <input
-    class={`datetime-local-input ${className}`}
+    class={`date-time-local-input ${className}`}
     type="datetime-local"
     aria-label={label}
     bind:value

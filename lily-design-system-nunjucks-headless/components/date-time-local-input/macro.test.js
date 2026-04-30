@@ -1,16 +1,16 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
-describe("datetime-local-input", () => {
+describe("date-time-local-input", () => {
   it("renders an <input type=datetime-local> with the base class", () => {
-    const { document } = render("datetime-local-input", { id: "d" });
+    const { document } = render("date-time-local-input", { id: "d" });
     const el = document.querySelector("input");
     expect(el.getAttribute("type")).toBe("datetime-local");
-    expect(el.classList.contains("datetime-local-input")).toBe(true);
+    expect(el.classList.contains("date-time-local-input")).toBe(true);
   });
 
   it("renders ISO datetime value", () => {
-    const { document } = render("datetime-local-input", {
+    const { document } = render("date-time-local-input", {
       id: "appt",
       value: "2026-04-27T09:30",
     });
@@ -19,7 +19,7 @@ describe("datetime-local-input", () => {
   });
 
   it("renders min, max, step", () => {
-    const { document } = render("datetime-local-input", {
+    const { document } = render("date-time-local-input", {
       id: "d",
       min: "2026-01-01T00:00",
       max: "2026-12-31T23:59",
@@ -32,7 +32,7 @@ describe("datetime-local-input", () => {
   });
 
   it("supports required, disabled, readonly, aria-invalid", () => {
-    const { document } = render("datetime-local-input", {
+    const { document } = render("date-time-local-input", {
       id: "d",
       required: true,
       disabled: true,
@@ -47,15 +47,15 @@ describe("datetime-local-input", () => {
   });
 
   it("appends params.classes", () => {
-    const { document } = render("datetime-local-input", {
+    const { document } = render("date-time-local-input", {
       id: "d",
       classes: "wide",
     });
-    expect(document.querySelector("input.datetime-local-input.wide")).toBeTruthy();
+    expect(document.querySelector("input.date-time-local-input.wide")).toBeTruthy();
   });
 
   it("contains no <style> or <script> tags", () => {
-    const { html } = render("datetime-local-input", { id: "d" });
+    const { html } = render("date-time-local-input", { id: "d" });
     expect(html).not.toContain("<style");
     expect(html).not.toContain("<script");
     expect(html).not.toContain("style=");

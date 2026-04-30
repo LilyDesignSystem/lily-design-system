@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/vue";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./DatetimeView.vue";
+import Subject from "./DateTimeView.vue";
 
 
-describe("DatetimeView", () => {
+describe("DateTimeView", () => {
     test("renders as a <time> element", () => {
         const { container } = render(Subject, { props: { value: "2026-04-27T10:00:00Z" } });
 
@@ -12,11 +12,11 @@ describe("DatetimeView", () => {
         expect(el).toBeTruthy();
     });
 
-    test("has datetime-view class on root", () => {
+    test("has date-time-view class on root", () => {
         const { container } = render(Subject, { props: { value: "2026-04-27T10:00:00Z" } });
 
         const el = container.querySelector("time");
-        expect(el?.classList.contains("datetime-view")).toBe(true);
+        expect(el?.classList.contains("date-time-view")).toBe(true);
     });
 
     test("sets the datetime attribute from value prop", () => {

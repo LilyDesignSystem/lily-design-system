@@ -4,7 +4,7 @@ title: Datetime View
 description: a read-only display of a formatted date and time
 ---
 
-{% from "components/datetime-view/macro.njk" import datetimeView %}
+{% from "components/date-time-view/macro.njk" import datetimeView %}
 
 <h2>ISO datetime with formatted display</h2>
 {{ datetimeView({ value: "2026-04-27T14:30:00Z", format: "27 April 2026, 14:30 UTC" }) }}

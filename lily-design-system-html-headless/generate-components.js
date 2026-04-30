@@ -262,7 +262,7 @@ const COMPONENTS = [
   ["date-input", "an input for entering a date value"],
   ["date-range", "a display of a start and end date range"],
   [
-    "datetime-local-input",
+    "date-time-local-input",
     "an input for entering a date and time without time zone",
   ],
   ["details", "a disclosure widget that shows and hides content"],
@@ -590,7 +590,7 @@ const INPUT_TYPES = {
   "color-input": "color",
   "currency-input": "text",
   "date-input": "date",
-  "datetime-local-input": "datetime-local",
+  "date-time-local-input": "datetime-local",
   "email-input": "email",
   "file-input": "file",
   "hidden-input": "hidden",

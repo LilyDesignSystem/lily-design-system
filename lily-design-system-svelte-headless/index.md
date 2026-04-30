@@ -87,7 +87,7 @@ A headless Svelte 5 component library with 414 components. All components are he
 - **date-input**: an input for entering a date value
 - **date-range**: a display of a start and end date range
 - **date-time-now-input**: an input for entering a date and time and "now" button
-- **datetime-local-input**: an input for entering a date and time without time zone
+- **date-time-local-input**: an input for entering a date and time without time zone
 - **details**: a disclosure widget that shows and hides content
 - **dial**: a rotary dial control for selecting a value
 - **dial-group**: a group of dial components

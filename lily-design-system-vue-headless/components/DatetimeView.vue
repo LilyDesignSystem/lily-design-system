@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-    // DatetimeView component
+    // DateTimeView component
     //
     // A headless read-only display of an ISO 8601 datetime value rendered as a
     // semantic <time> element. The datetime attribute carries the machine-readable
@@ -18,19 +18,19 @@
     //   ...restProps — additional HTML attributes spread onto <time>.
     //
     // Syntax:
-    //   <DatetimeView value="2026-04-27T10:00" format="April 27, 2026" />
+    //   <DateTimeView value="2026-04-27T10:00" format="April 27, 2026" />
     //
     // Examples:
     //   <!-- With consumer-formatted display text -->
-    //   <DatetimeView value="2026-04-27T10:00:00Z" format="Apr 27, 2026" />
+    //   <DateTimeView value="2026-04-27T10:00:00Z" format="Apr 27, 2026" />
     //
     //   <!-- With default slot content -->
-    //   <DatetimeView value="2026-04-27T10:00:00Z">
+    //   <DateTimeView value="2026-04-27T10:00:00Z">
     //     <strong>Today</strong>
-    //   </DatetimeView>
+    //   </DateTimeView>
     //
     //   <!-- Falling back to value when no format/slot is given -->
-    //   <DatetimeView value="2026-04-27T10:00:00Z" />
+    //   <DateTimeView value="2026-04-27T10:00:00Z" />
     //
     // Keyboard: None — passive read-only view.
     //
@@ -62,9 +62,9 @@
 </script>
 
 <template>
-    <!-- DatetimeView.vue -->
+    <!-- DateTimeView.vue -->
     <time
-        class="datetime-view"
+        class="date-time-view"
         :datetime="value"
         :aria-label="label"
     >

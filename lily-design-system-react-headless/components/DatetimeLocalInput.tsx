@@ -78,7 +78,7 @@ export default function DateTimeLocalInput({
 }: DateTimeLocalInputProps) {
     return (
         <input
-        className={`datetime-local-input ${className}`}
+        className={`date-time-local-input ${className}`}
         type="datetime-local"
         aria-label={label}
         value={value} onChange={(e) => onChange?.(e.target.value)}

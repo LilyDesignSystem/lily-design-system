@@ -1,4 +1,4 @@
-// DatetimeView component
+// DateTimeView component
 //
 // A headless read-only display of a formatted date and time. Renders a
 // semantic <time> element with the machine-readable ISO 8601 value in the
@@ -16,16 +16,16 @@
 //   ...restProps — additional HTML attributes spread onto the <time>.
 //
 // Syntax:
-//   <DatetimeView value="2026-01-15T09:30:00Z" format="Jan 15, 2026, 9:30 AM" />
+//   <DateTimeView value="2026-01-15T09:30:00Z" format="Jan 15, 2026, 9:30 AM" />
 //
 // Examples:
 //
-//   <DatetimeView value="2026-01-15T09:30:00Z" format="January 15, 2026" />
+//   <DateTimeView value="2026-01-15T09:30:00Z" format="January 15, 2026" />
 //
 //
-//   <DatetimeView value="2026-01-15T09:30:00Z">
+//   <DateTimeView value="2026-01-15T09:30:00Z">
 //     <strong>Jan 15</strong>, 2026
-//   </DatetimeView>
+//   </DateTimeView>
 //
 // Keyboard: None — read-only display.
 //
@@ -59,7 +59,7 @@ export interface DatetimeViewProps {
     [key: string]: unknown;
 }
 
-export default function DatetimeView({
+export default function DateTimeView({
     className = "",
     value,
     format = undefined,
@@ -70,7 +70,7 @@ export default function DatetimeView({
     const display: React.ReactNode = children ?? format ?? value;
     return (
         <time
-        className={`datetime-view ${className}`}
+        className={`date-time-view ${className}`}
         dateTime={value}
         aria-label={label}
         {...restProps}

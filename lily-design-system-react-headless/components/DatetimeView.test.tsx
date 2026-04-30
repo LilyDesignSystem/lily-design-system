@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./DatetimeView";
+import Subject from "./DateTimeView";
 
-describe("DatetimeView", () => {
+describe("DateTimeView", () => {
     test("renders a <time> element with the dateTime attribute", () => {
         const { container } = render(
             <Subject value="2026-01-15T09:30:00Z" data-testid="dt" />,
@@ -15,11 +15,11 @@ describe("DatetimeView", () => {
         expect(container.querySelector("time")).toBeTruthy();
     });
 
-    test("applies the datetime-view root class", () => {
+    test("applies the date-time-view root class", () => {
         render(<Subject value="2026-01-15" data-testid="dt" />);
 
         const el: HTMLElement = screen.getByTestId("dt");
-        expect(el.className.includes("datetime-view")).toBe(true);
+        expect(el.className.includes("date-time-view")).toBe(true);
     });
 
     test("falls back to value when format and children are not provided", () => {

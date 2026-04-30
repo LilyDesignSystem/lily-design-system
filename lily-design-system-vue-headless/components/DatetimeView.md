@@ -1,4 +1,4 @@
-# DatetimeView
+# DateTimeView
 
 A read-only display of a formatted date and time. Renders a semantic HTML `<time>` element whose `datetime` attribute carries the machine-readable ISO 8601 value while the visible text comes from the default slot, the `format` prop, or (as a fallback) the raw `value`.
 
@@ -19,11 +19,11 @@ A read-only display of a formatted date and time. Renders a semantic HTML `<time
 ## Usage
 
 ```vue
-<DatetimeView value="2026-04-27T10:00:00Z" format="Apr 27, 2026" />
+<DateTimeView value="2026-04-27T10:00:00Z" format="Apr 27, 2026" />
 
-<DatetimeView value="2026-04-27T10:00:00Z">
+<DateTimeView value="2026-04-27T10:00:00Z">
     <strong>Today</strong>
-</DatetimeView>
+</DateTimeView>
 ```
 
 ## Keyboard Interactions
@@ -49,7 +49,7 @@ The component does not localize or format. Consumers must supply human-readable 
 
 ## Testing
 
-- Verify root is `<time>` with `datetime-view` class
+- Verify root is `<time>` with `date-time-view` class
 - Verify `datetime` attribute matches `value`
 - Verify text precedence: slot > format > value
 - Verify `aria-label` and pass-through

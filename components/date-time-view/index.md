@@ -30,21 +30,21 @@ that the consumer has formatted in the user's locale.
 ISO value with consumer-formatted display:
 
 ```html
-<DatetimeView value="2026-04-27T14:30:00Z" format="April 27, 2026 at 2:30 PM" />
+<DateTimeView value="2026-04-27T14:30:00Z" format="April 27, 2026 at 2:30 PM" />
 ```
 
 Children slot for richer rendering:
 
 ```html
-<DatetimeView value="2026-04-27">
+<DateTimeView value="2026-04-27">
   <strong>27 Apr 2026</strong>
-</DatetimeView>
+</DateTimeView>
 ```
 
 Falling back to the raw ISO value:
 
 ```html
-<DatetimeView value="2026-04-27T14:30:00Z" />
+<DateTimeView value="2026-04-27T14:30:00Z" />
 ```
 
 ## Keyboard Interactions

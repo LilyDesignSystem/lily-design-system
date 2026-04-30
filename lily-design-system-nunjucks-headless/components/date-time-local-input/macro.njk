@@ -2,7 +2,7 @@
   DateTimeLocalInput macro — an input for entering a date and time without time zone.
 
   HTML tag: <input type="datetime-local">
-  CSS class: datetime-local-input
+  CSS class: date-time-local-input
   Accessibility: browser-native. See TextInput.
   Format: value is YYYY-MM-DDTHH:MM (e.g. "2026-04-27T09:30").
 
@@ -12,12 +12,12 @@
     required, disabled, readonly, autocomplete, classes, attributes.
 
   Usage:
-    {% from "components/datetime-local-input/macro.njk" import datetimeLocalInput %}
+    {% from "components/date-time-local-input/macro.njk" import datetimeLocalInput %}
     {{ datetimeLocalInput({ id: "appt", value: "2026-04-27T09:30" }) }}
 #}
 {%- macro datetimeLocalInput(params) -%}
 <input
-  class="datetime-local-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  class="date-time-local-input{% if params.classes %} {{ params.classes }}{% endif %}"
   type="datetime-local"
   id="{{ params.id }}"
   name="{{ params.name | default(params.id) }}"

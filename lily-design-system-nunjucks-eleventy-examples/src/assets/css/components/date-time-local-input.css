@@ -1,4 +1,4 @@
-.datetime-local-input {
+.date-time-local-input {
   display: block;
   width: 100%;
   max-width: 18rem;
@@ -11,4 +11,4 @@
   line-height: 1.25;
 }
 
-.datetime-local-input[aria-invalid="true"] { border-color: var(--nhsuk-red); }
+.date-time-local-input[aria-invalid="true"] { border-color: var(--nhsuk-red); }

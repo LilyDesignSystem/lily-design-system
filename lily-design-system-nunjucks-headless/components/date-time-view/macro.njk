@@ -1,9 +1,9 @@
 {#
-  DatetimeView macro — a read-only display of a formatted date and
+  DateTimeView macro — a read-only display of a formatted date and
     time.
 
   HTML tag: <time>
-  CSS class: datetime-view
+  CSS class: date-time-view
   Behavior: Renders `<time datetime={value}>`. Display text falls
     back from html → text → format → value. The component does not
     localize — the consumer formats `format` (or `text`/`html`) for
@@ -20,7 +20,7 @@
     attributes   object
 
   Usage:
-    {% from "components/datetime-view/macro.njk" import datetimeView %}
+    {% from "components/date-time-view/macro.njk" import datetimeView %}
     {{ datetimeView({
       value: "2026-04-27T15:00:00Z",
       format: "27 April 2026, 3:00 pm"
@@ -28,7 +28,7 @@
 #}
 {%- macro datetimeView(params) -%}
 <time
-  class="datetime-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  class="date-time-view{% if params.classes %} {{ params.classes }}{% endif %}"
   {%- if params.value %} datetime="{{ params.value }}"{% endif %}
   {%- if params.id %} id="{{ params.id }}"{% endif %}
   {%- if params.label %} aria-label="{{ params.label }}"{% endif %}

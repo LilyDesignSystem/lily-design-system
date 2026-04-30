@@ -1,8 +1,8 @@
-# DatetimeView — Implementation Plan
+# DateTimeView — Implementation Plan
 
 ## Goal
 
-Implement the DatetimeView component: a read-only display of a formatted date and time.
+Implement the DateTimeView component: a read-only display of a formatted date and time.
 
 ## HTML Tag and CSS Class
 

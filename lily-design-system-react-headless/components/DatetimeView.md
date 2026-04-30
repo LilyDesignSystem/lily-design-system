@@ -1,4 +1,4 @@
-# DatetimeView
+# DateTimeView
 
 A read-only display of a formatted date and time. Renders a semantic HTML `<time>` element with the machine-readable ISO 8601 value in the `dateTime` attribute, and a human-readable display string supplied by the consumer.
 
@@ -21,11 +21,11 @@ The component does not localize. The consumer is responsible for formatting the 
 ## Usage
 
 ```tsx
-<DatetimeView value="2026-01-15T09:30:00Z" format="January 15, 2026, 9:30 AM" />
+<DateTimeView value="2026-01-15T09:30:00Z" format="January 15, 2026, 9:30 AM" />
 
-<DatetimeView value="2026-01-15T09:30:00Z" label="Published">
+<DateTimeView value="2026-01-15T09:30:00Z" label="Published">
   <strong>Jan 15</strong>, 2026
-</DatetimeView>
+</DateTimeView>
 ```
 
 ## Keyboard Interactions

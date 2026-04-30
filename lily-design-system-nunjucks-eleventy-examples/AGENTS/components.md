@@ -105,7 +105,7 @@
 - date-range = DateRange = a display of a start and end date range
 - date-time-local-input = DateTimeLocalInput = an input for entering a date and time without time zone <input type="datetime-local">
 - date-time-now-input = DateTimeNowInput = an input for entering a date and time and "now" button <input type="date"><input type="time"><button type="button">
-- date-time-view = DatetimeView = a read-only display of a formatted date and time
+- date-time-view = DateTimeView = a read-only display of a formatted date and time
 - description-list = DescriptionList = a definition list displaying information in key-value format <dl>
 - description-list-item = DescriptionListItem = one key-value pair in a description list using dt and dd elements
 - details = Details = a disclosure widget that shows and hides content
