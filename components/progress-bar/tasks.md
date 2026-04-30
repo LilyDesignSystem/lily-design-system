@@ -9,10 +9,10 @@
 
 ## Backlog
 
-- [ ] Implement HTML headless component
-- [ ] Implement Svelte headless component
-- [ ] Implement React headless component
-- [ ] Implement Vue headless component
-- [ ] Implement Blazor headless component
-- [ ] Implement Nunjucks headless macro
-- [ ] Add to all `*-examples` subprojects
+- [x] Implement HTML headless component
+- [x] Implement Svelte headless component
+- [x] Implement React headless component
+- [x] Implement Vue headless component
+- [x] Implement Blazor headless component
+- [x] Implement Nunjucks headless macro
+- [x] Add to all `*-examples` subprojects

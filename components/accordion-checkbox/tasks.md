@@ -14,7 +14,7 @@
 
 ## Backlog
 
-- [ ] Add comprehensive keyboard interaction tests (Tab order, Space toggle)
-- [ ] Add screen reader announcement tests (aria-expanded transitions, region role)
-- [ ] Add example pages in each `*-examples` subproject
-- [ ] Cross-check against css-style-sheet-template.css
+- [x] Add comprehensive keyboard interaction tests (Tab order, Space toggle)
+- [x] Add screen reader announcement tests (aria-expanded transitions, region role)
+- [x] Add example pages in each `*-examples` subproject
+- [x] Cross-check against css-style-sheet-template.css
