@@ -1,0 +1,11 @@
+{# ProgressBar macro — a horizontal progress indicator. #}
+{%- macro progressBar(params) -%}
+<div
+  class="progress-bar{% if params.classes %} {{ params.classes }}{% endif %}"
+  role="progressbar"
+  aria-valuenow="{{ params.value }}"
+  aria-valuemin="{{ params.min | default(0) }}"
+  aria-valuemax="{{ params.max | default(100) }}"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+></div>
+{%- endmacro -%}

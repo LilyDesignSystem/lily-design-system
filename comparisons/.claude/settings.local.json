@@ -7,7 +7,9 @@
       "Bash(awk -F'\\\\t' 'NR>1 {print $1}' /Users/jph/git/lilydesignsystem/lily-design-system/comparisons/comparisons.tsv)",
       "Read(//tmp/**)",
       "Bash(mkdir -p /tmp/lily-research)",
-      "Read(//private/tmp/**)"
+      "Read(//private/tmp/**)",
+      "Bash(python3 build_mappings.py)",
+      "Bash(python3 /tmp/lily-research/assemble.py)"
     ]
   }
 }

@@ -1,0 +1,8 @@
+{# GoToPreviousSection macro — a link that takes users to the previous section of the current page. #}
+{%- macro goToPreviousSection(params) -%}
+<a
+  class="go-to-previous-section{% if params.classes %} {{ params.classes }}{% endif %}"
+  href="{{ params.href }}"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+>{{ params.label }}</a>
+{%- endmacro -%}

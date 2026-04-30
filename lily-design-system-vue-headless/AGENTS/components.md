@@ -379,6 +379,10 @@
 - watermark = Watermark = a decorative repeating overlay text or image marking a page
 - week-input = WeekInput = an input for selecting a week and year <input type="week">
 
+- container = Container = a generic block-level content container
+- mockup-phone-landscape = MockupPhoneLandscape = a box area that looks like a mobile phone in landscape orientation
+- go-to-previous-section = GoToPreviousSection = a link that takes users to the previous section of the current page
+- go-to-next-section = GoToNextSection = a link that takes users to the next section of the current page
 ## Component patterns for file name and HTML tag
 
 ### Suffix → HTML Element Mapping

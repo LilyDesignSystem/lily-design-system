@@ -1,6 +1,6 @@
-## components-helper/avatar.md
+# Avatar
 
-Pattern: AvatarGroup → Avatar → AvatarImage, AvatarText
+Pattern:
 
 ```tsx
 <AvatarGroup>

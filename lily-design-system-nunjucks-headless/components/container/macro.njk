@@ -1,0 +1,11 @@
+{# Container macro — a generic block-level content container. #}
+{%- macro container(params) -%}
+<div
+  class="container{% if params.classes %} {{ params.classes }}{% endif %}"
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

@@ -1,0 +1,17 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ProgressBar component
+    A horizontal progress indicator.
+*@
+
+<div class="@($"progress-bar {CssClass}".Trim())" role="progressbar" aria-valuenow="@Value" aria-valuemin="@Min" aria-valuemax="@Max" aria-label="@Label" @attributes="AdditionalAttributes"></div>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter, EditorRequired] public int Value { get; set; }
+    [Parameter] public int Min { get; set; } = 0;
+    [Parameter] public int Max { get; set; } = 100;
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

@@ -1,6 +1,6 @@
-## components-helper/grail-layout.md
+# GrailLayout
 
-Pattern: GrailLayout → GrailLayoutTop, GrailLayoutLeft, GrailLayoutCenter, GrailLayoutRight, GrailLayoutBottom
+Pattern:
 
 ```tsx
 <GrailLayout>

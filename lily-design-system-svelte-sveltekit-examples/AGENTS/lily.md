@@ -1,10 +1,10 @@
-## Lily Design System
+# Lily Design System
 
 [CSS style sheet template](css-style-sheet-template.css)
 
 Canonical component list: [components.tsv](components.tsv)
 
-### Subprojects for headless components
+## Subprojects for headless components
 
 - [Lily Design System: HTML headless](lily-design-system-html-headless)
 - [Lily Design System: Svelte headless](lily-design-system-svelte-headless)
@@ -13,7 +13,7 @@ Canonical component list: [components.tsv](components.tsv)
 - [Lily Design System: Vue headless](lily-design-system-vue-headless)
 - [Lily Design System: Nunjucks headless](lily-design-system-nunjucks-headless)
 
-### Subprojects for web app examples
+## Subprojects for web app examples
 
 - [Lily Design System: HTML CSS JS examples](lily-design-system-html-css-js-examples)
 - [Lily Design System: Svelte SvelteKit examples](lily-design-system-svelte-sveltekit-examples)
@@ -21,7 +21,7 @@ Canonical component list: [components.tsv](components.tsv)
 - [Lily Design System: React Next.js examples](lily-design-system-react-next-examples)
 - [Lily Design System: Vue Nuxt.js examples](lily-design-system-vue-nuxt-examples)
 
-### Tools
+## Tools
 
 - [list-components-as-kebab-case](bin/list-components-as-kebab-case): List components as kebab case
 - [list-components-as-pascal-case](bin/list-components-as-pascal-case): List components as title case
@@ -33,7 +33,7 @@ Canonical component list: [components.tsv](components.tsv)
 - [update](bin/update): Update shared files
 - [git-subtree-push](bin/git-subtree-push): Push subtree to its remote
 
-### Inspirations
+## Inspirations
 
 See [citations.md](citations.md) for the full list of design systems Lily draws from. Short list:
 
@@ -50,7 +50,7 @@ See [citations.md](citations.md) for the full list of design systems Lily draws 
 - [shadcn/ui](https://ui.shadcn.com/)
 - [Reuters graphics components](https://github.com/reuters-graphics/graphics-components)
 
-### For each subproject
+## For each subproject
 
 - `index.md`
 - `README.md` symlink to `index.md`
@@ -59,7 +59,7 @@ See [citations.md](citations.md) for the full list of design systems Lily draws 
 - `CLAUDE.md` that loads `AGENTS.md`
 - `.git-subtree-push`
 
-### For each component directory
+## For each component directory
 
 - `index.md`
 - `README.md` symlink to `index.md`
@@ -68,6 +68,6 @@ See [citations.md](citations.md) for the full list of design systems Lily draws 
 - `plan.md`
 - `tasks.md`
 
-### Verify
+## Verify
 
 Run `bin/test`.
