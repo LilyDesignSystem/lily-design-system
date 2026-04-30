@@ -39,7 +39,7 @@ subproject directories:
 - lily-design-system-html-headless
 - lily-design-system-html-css-js-examples
 - lily-design-system-nunjucks-headless
-- lily-design-system-nunjucks-examples
+- lily-design-system-nunjucks-eleventy-examples
 - lily-design-system-react-headless
 - lily-design-system-react-next-examples
 - lily-design-system-svelte-headless
