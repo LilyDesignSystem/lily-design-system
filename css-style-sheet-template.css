@@ -1319,3 +1319,440 @@
 /* go-to-next-section: a link that takes users to the next section of the current page */
 .go-to-next-section {
 }
+
+/* action-bar: a contextual action bar that appears when items are selected, showing the selection count and bulk action buttons */
+.action-bar {
+}
+
+/* action-bar-button: one action button inside an action bar */
+.action-bar-button {
+}
+
+/* action-group: a group of action buttons that can collapse to an overflow menu when space is constrained */
+.action-group {
+}
+
+/* address-input: an input for searching or manually entering an address */
+.address-input {
+}
+
+/* affix: a wrapper that pins its content to a viewport position while the page scrolls */
+.affix {
+}
+
+/* announcement-banner: a banner highlighting important messages for all users */
+.announcement-banner {
+}
+
+/* area-chart: an area chart visualization showing sized components in continuous data */
+.area-chart {
+}
+
+/* autosuggest: a text input that proposes matching options as users type */
+.autosuggest {
+}
+
+/* avatar-group: a group of avatar components */
+.avatar-group {
+}
+
+/* bar-chart: a horizontal bar chart visualization for displaying data */
+.bar-chart {
+}
+
+/* blockquote: a block-level quotation with optional source citation */
+.blockquote {
+}
+
+/* button-group: a wrapper that groups related buttons together */
+.button-group {
+}
+
+/* cascader: a multi-level dropdown for selecting a value from a hierarchy */
+.cascader {
+}
+
+/* chat-list: an ordered list of chat list item components */
+.chat-list {
+}
+
+/* chat-list-item: one chat list item component, typically containing one chat message component */
+.chat-list-item {
+}
+
+/* chat-message: a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc. */
+.chat-message {
+}
+
+/* chat-nav: a navigation container for chat information */
+.chat-nav {
+}
+
+/* citation: a citation acknowledges the relevance of a work of another to the topic of discussion */
+.citation {
+}
+
+/* clamp-text: a text container that truncates content to a maximum number of lines */
+.clamp-text {
+}
+
+/* coachmark: an anchored popover that spotlights and explains a single feature */
+.coachmark {
+}
+
+/* code: an inline code span for displaying short code snippets within surrounding text */
+.code {
+}
+
+/* code-block: a block of formatted code with optional line numbers and line highlighting */
+.code-block {
+}
+
+/* collection-list: a compact list of multiple related items such as articles or events */
+.collection-list {
+}
+
+/* collection-list-item: one item in a collection list with optional image, heading, meta, and description */
+.collection-list-item {
+}
+
+/* column-chart: a vertical column chart visualization for displaying data */
+.column-chart {
+}
+
+/* comment: a comment displays user discussions and user feedback */
+.comment {
+}
+
+/* container-with-fixed-width: a centered content wrapper with a fixed max-width breakpoint */
+.container-with-fixed-width {
+}
+
+/* container-with-fluid-width: a full-width content wrapper with horizontal padding */
+.container-with-fluid-width {
+}
+
+/* contents-link: one table of contents link */
+.contents-link {
+}
+
+/* contextual-help: a help button that opens a popover with explanatory content */
+.contextual-help {
+}
+
+/* date-time-local-input: an input for entering a date and time without time zone <input type="datetime-local"> */
+.date-time-local-input {
+}
+
+/* date-time-view: a read-only display of a formatted date and time */
+.date-time-view {
+}
+
+/* description-list: a definition list displaying information in key-value format <dl> */
+.description-list {
+}
+
+/* description-list-item: one key-value pair in a description list using dt and dd elements */
+.description-list-item {
+}
+
+/* dial-group: a group of dial components */
+.dial-group {
+}
+
+/* diff: a side-by-side comparison of two items */
+.diff {
+}
+
+/* digital-object-identifier-link: a permanent hyperlink for a Digital Object Identifier (DOI) to an electronic source */
+.digital-object-identifier-link {
+}
+
+/* document-list: a list displaying documents with titles and metadata */
+.document-list {
+}
+
+/* document-list-item: one document entry in a document list */
+.document-list-item {
+}
+
+/* download-button: a download link styled as a button, with optional file size and format metadata */
+.download-button {
+}
+
+/* event: an event component that contains other event-related information */
+.event {
+}
+
+/* feature-card: a large content card with a prominent image positioned alongside or above the text */
+.feature-card {
+}
+
+/* flex-stack: a flex layout container for vertical or horizontal stacking with consistent gap */
+.flex-stack {
+}
+
+/* float-button: a floating action button anchored to a viewport corner */
+.float-button {
+}
+
+/* go-to-top: a link that returns users to the top of a long page */
+.go-to-top {
+}
+
+/* government-banner: a banner identifying a website as belonging to a government, with an expandable details panel */
+.government-banner {
+}
+
+/* government-identifier: an identifier section with a parent agency logo, agency name, and required government links */
+.government-identifier {
+}
+
+/* grid: a CSS grid layout container with configurable columns and gap */
+.grid {
+}
+
+/* icon-button: a button containing only an icon with a required accessible label */
+.icon-button {
+}
+
+/* icon-list: an ordered list of icon list item components */
+.icon-list {
+}
+
+/* icon-list-item: one item in an icon list with a leading icon slot */
+.icon-list-item {
+}
+
+/* info-state: a composition of illustration, title, description, and action for empty, error, or info states */
+.info-state {
+}
+
+/* input-group: a group wrapping an input with prefix and suffix addons */
+.input-group {
+}
+
+/* input-with-mask: an input displaying a format mask placeholder for the user to fill in */
+.input-with-mask {
+}
+
+/* line-chart: a line chart visualization connecting data points to display data */
+.line-chart {
+}
+
+/* loading: a loading indicator, such as text, or image, or animation */
+.loading {
+}
+
+/* masonry: a masonry layout container for variable-height items */
+.masonry {
+}
+
+/* mentions-input: a text input with at-mention autocomplete suggestions */
+.mentions-input {
+}
+
+/* menu-group: a labeled section of menu items within a menu */
+.menu-group {
+}
+
+/* mockup-browser: a box area that looks like a web browser */
+.mockup-browser {
+}
+
+/* mockup-laptop: a box area that looks like a laptop computer */
+.mockup-laptop {
+}
+
+/* mockup-phone-portrait: a box area that looks like a mobile phone */
+.mockup-phone-portrait {
+}
+
+/* mockup-shell: a box area that looks like a terminal shell */
+.mockup-shell {
+}
+
+/* mockup-tablet-landscape: a box area that looks like a tablet computer in landscape mode */
+.mockup-tablet-landscape {
+}
+
+/* mockup-tablet-portrait: a box area that looks like a tablet computer in portrait mode */
+.mockup-tablet-portrait {
+}
+
+/* mockup-watch: a box area that looks like a smart watch */
+.mockup-watch {
+}
+
+/* mockup-window: a box area that looks like a desktop window */
+.mockup-window {
+}
+
+/* mutually-exclusive: a container ensuring only one option can be selected from a group */
+.mutually-exclusive {
+}
+
+/* newsletter-signup: an email subscription form composition with idle, submitting, success, and error states */
+.newsletter-signup {
+}
+
+/* organization: an organization component that contains other organization-related information */
+.organization {
+}
+
+/* overlay-container: a full-viewport overlay backdrop for modals and sheets */
+.overlay-container {
+}
+
+/* person: a person component that contains other person-related information */
+.person {
+}
+
+/* phase-banner: a banner showing service development phase and inviting feedback */
+.phase-banner {
+}
+
+/* pictogram: an icon-based component pairing an icon with a title and description in a centered or side layout */
+.pictogram {
+}
+
+/* place: a place component that contains other place-related information */
+.place {
+}
+
+/* popconfirm-dialog: a popover dialog with confirm and cancel buttons */
+.popconfirm-dialog {
+}
+
+/* product-card: a specialized card for displaying a product with image, title, price, and actions */
+.product-card {
+}
+
+/* progress-bar: a horizontal progress indicator */
+.progress-bar {
+}
+
+/* related-content: a section providing links to related or supporting information */
+.related-content {
+}
+
+/* scatter-chart: a scatter chart visualization using dots to display data */
+.scatter-chart {
+}
+
+/* screen-reader-span: a visually hidden span of text intended for screen readers to provide more descriptive labels */
+.screen-reader-span {
+}
+
+/* section-heading: a styled heading introducing a major content section, with optional eyebrow and subtitle */
+.section-heading {
+}
+
+/* section-link: one section link in the navigation */
+.section-link {
+}
+
+/* section-list: a list of section navigation items */
+.section-list {
+}
+
+/* section-list-item: one section navigation item */
+.section-list-item {
+}
+
+/* section-nav: a navigation container for section navigation links */
+.section-nav {
+}
+
+/* share-page: a component for sharing the page on social media */
+.share-page {
+}
+
+/* slider-button: a button with a slider that the user needs to slide to confirm */
+.slider-button {
+}
+
+/* split-button: a button with a primary action and a dropdown for related actions */
+.split-button {
+}
+
+/* split-view: a two-panel resizable layout container with a draggable divider between them */
+.split-view {
+}
+
+/* statistic: a numeric value display with title, prefix, and suffix */
+.statistic {
+}
+
+/* status-light: a small colored dot status indicator paired with a status label */
+.status-light {
+}
+
+/* status-tag: a tag showing the current status of a task */
+.status-tag {
+}
+
+/* step-list: an ordered list of step items showing progress through a multi-step process */
+.step-list {
+}
+
+/* step-list-item: one step in a step list with status of waiting, in progress, finished, or error */
+.step-list-item {
+}
+
+/* sticky-promo-banner: a fixed-position promotional banner with a dismiss button */
+.sticky-promo-banner {
+}
+
+/* success-panel: a panel confirming a task has been completed */
+.success-panel {
+}
+
+/* summary-box: a boxed callout highlighting key takeaways or next steps from a longer page */
+.summary-box {
+}
+
+/* super-banner: a super-banner communicates a high-priority state that affects an entire app, experience, process, or system */
+.super-banner {
+}
+
+/* tab-panel: a content panel associated with a tab in a tab bar */
+.tab-panel {
+}
+
+/* theme-picker-button: a picker button for selecting a visual theme */
+.theme-picker-button {
+}
+
+/* tile: a grouping container that presents related content in a structured format, often as a single clickable area */
+.tile {
+}
+
+/* timeout-dialog: a modal dialog warning users before session timeout */
+.timeout-dialog {
+}
+
+/* timer-button: a button with a timer that will automatically click after a given amount of time */
+.timer-button {
+}
+
+/* transfer-list: a dual list box for moving items between two lists */
+.transfer-list {
+}
+
+/* tree-select: a select dropdown showing a tree of hierarchical options */
+.tree-select {
+}
+
+/* validation-list: a live-feedback list of input validation rules with pending, passed, and failed states */
+.validation-list {
+}
+
+/* validation-list-item: one validation rule in a validation list with a status of pending, passed, or failed */
+.validation-list-item {
+}
+
+/* watermark: a decorative repeating overlay text or image marking a page */
+.watermark {
+}
+
