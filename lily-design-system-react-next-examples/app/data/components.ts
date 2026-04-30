@@ -12,6 +12,30 @@ export const components: Component[] = [
       "a checkbox option that reveals an accordion panel when checked",
   },
   {
+    slug: "mockup-phone-landscape",
+    name: "MockupPhoneLandscape",
+    description:
+      "a box area that looks like a mobile phone in landscape orientation",
+  },
+  {
+    slug: "progress-bar",
+    name: "ProgressBar",
+    description:
+      "a horizontal progress indicator",
+  },
+  {
+    slug: "go-to-previous-section",
+    name: "GoToPreviousSection",
+    description:
+      "a link that takes users to the previous section of the current page",
+  },
+  {
+    slug: "go-to-next-section",
+    name: "GoToNextSection",
+    description:
+      "a link that takes users to the next section of the current page",
+  },
+  {
     slug: "accordion-nav",
     name: "AccordionNav",
     description: "a navigation container for collapsible accordion information",

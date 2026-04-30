@@ -1,0 +1,12 @@
+---
+title: ProgressBar
+slug: progress-bar
+component: ProgressBar
+description: a horizontal progress indicator
+layout: layouts/component-demo.njk
+---
+
+{% from "components/progress-bar/macro.njk" import progressBar %}
+
+<h2>Default</h2>
+<div class="progress-bar" role="progressbar" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100" aria-label="Upload progress" style="background:#e5e7eb;height:1rem;border-radius:0.25rem;"><div style="width:42%;background:#2563eb;height:100%;border-radius:0.25rem;"></div></div>

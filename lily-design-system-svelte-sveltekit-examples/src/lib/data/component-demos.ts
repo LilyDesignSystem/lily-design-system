@@ -1,4 +1,9 @@
 export const componentDemos: Record<string, string> = {
+  'container': '<div class="container"><p>Container holds arbitrary block-level content.</p></div>',
+  'mockup-phone-landscape': '<div class="mockup-phone-landscape" role="img" aria-label="App screen mockup"><div style="padding:1rem;background:#f3f4f6;border:2px solid #d1d5db;border-radius:12px;text-align:center;min-height:80px;">MockupPhoneLandscape Preview</div></div>',
+  'progress-bar': '<div class="progress-bar" role="progressbar" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100" aria-label="Upload progress" style="background:#e5e7eb;height:1rem;border-radius:0.25rem;"><div style="width:42%;background:#2563eb;height:100%;border-radius:0.25rem;"></div></div>',
+  'go-to-previous-section': '<a class="go-to-previous-section" href="#section-1" aria-label="Previous section: Introduction">← Previous: Introduction</a>',
+  'go-to-next-section': '<a class="go-to-next-section" href="#section-3" aria-label="Next section: Implementation">Next: Implementation →</a>',
   'accordion-nav': '<nav class="accordion-nav" aria-label="Accordion"><ol class="accordion-list"><li class="accordion-list-item"><details><summary>Section 1</summary><p>Content 1</p></details></li><li class="accordion-list-item"><details><summary>Section 2</summary><p>Content 2</p></details></li></ol></nav>',
   'accordion-list': '<ol class="accordion-list"><li class="accordion-list-item"><details><summary>Section 1</summary><p>Content 1</p></details></li><li class="accordion-list-item"><details><summary>Section 2</summary><p>Content 2</p></details></li></ol>',
   'accordion-list-item': '<ol class="accordion-list"><li class="accordion-list-item"><details><summary>Section</summary><p>Content</p></details></li></ol>',
