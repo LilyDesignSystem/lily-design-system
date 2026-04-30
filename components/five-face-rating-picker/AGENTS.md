@@ -1,4 +1,4 @@
-# Five Face Rating Picker
+# FiveFaceRatingPicker
 
 ## Metadata
 

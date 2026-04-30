@@ -1,4 +1,4 @@
-# Gantt Table
+# GanttTable
 
 ## Metadata
 

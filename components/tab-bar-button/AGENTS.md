@@ -1,4 +1,4 @@
-# Tab Bar Button
+# TabBarButton
 
 ## Metadata
 

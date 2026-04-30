@@ -1,4 +1,4 @@
-# Skip Link
+# SkipLink
 
 ## Metadata
 

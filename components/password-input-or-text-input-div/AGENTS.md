@@ -1,4 +1,4 @@
-# Password Input Or Text Input Div
+# PasswordInputOrTextInputDiv
 
 ## Metadata
 

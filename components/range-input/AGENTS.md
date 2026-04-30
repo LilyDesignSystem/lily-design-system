@@ -1,4 +1,4 @@
-# Range Input
+# RangeInput
 
 ## Metadata
 

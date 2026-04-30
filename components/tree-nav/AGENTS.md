@@ -1,4 +1,4 @@
-# Tree Nav
+# TreeNav
 
 ## Metadata
 

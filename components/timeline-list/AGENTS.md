@@ -1,4 +1,4 @@
-# Timeline List
+# TimelineList
 
 ## Metadata
 
@@ -24,6 +24,14 @@
 
 - None directly -- standard list navigation by screen readers
 - Tab moves focus between any interactive elements (links, buttons) within timeline items
+
+## Props
+
+| Prop           | Type            | Default    | Description                                  |
+| -------------- | --------------- | ---------- | -------------------------------------------- |
+| `label`        | `string`        | (required) | Accessible label via `aria-label`            |
+| `children`     | `slot`       | (required) | Timeline items (should be `<li>` elements)   |
+| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<ol>` |
 
 ## Acceptance Criteria
 

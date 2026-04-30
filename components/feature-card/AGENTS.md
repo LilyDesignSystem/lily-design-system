@@ -1,4 +1,4 @@
-# Feature Card
+# FeatureCard
 
 ## Metadata
 

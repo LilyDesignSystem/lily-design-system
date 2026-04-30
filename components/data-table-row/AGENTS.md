@@ -1,4 +1,4 @@
-# Data Table Row
+# DataTableRow
 
 ## Metadata
 

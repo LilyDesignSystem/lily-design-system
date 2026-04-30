@@ -1,4 +1,4 @@
-# Government Banner
+# GovernmentBanner
 
 ## Metadata
 

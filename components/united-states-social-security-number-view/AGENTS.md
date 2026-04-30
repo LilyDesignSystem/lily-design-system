@@ -1,4 +1,4 @@
-# United States Social Security Number View
+# UnitedStatesSocialSecurityNumberView
 
 ## Metadata
 

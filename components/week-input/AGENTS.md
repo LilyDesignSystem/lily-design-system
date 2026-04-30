@@ -1,4 +1,4 @@
-# Week Input
+# WeekInput
 
 ## Metadata
 

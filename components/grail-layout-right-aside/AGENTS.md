@@ -1,4 +1,4 @@
-# Grail Layout Right Aside
+# GrailLayoutRightAside
 
 ## Metadata
 

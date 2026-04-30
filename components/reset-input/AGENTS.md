@@ -1,4 +1,4 @@
-# Reset Input
+# ResetInput
 
 ## Metadata
 

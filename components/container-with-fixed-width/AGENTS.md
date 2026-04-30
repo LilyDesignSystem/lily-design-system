@@ -1,4 +1,4 @@
-# Container With Fixed Width
+# ContainerWithFixedWidth
 
 ## Metadata
 

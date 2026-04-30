@@ -1,4 +1,4 @@
-# Northern Ireland Health And Care Number View
+# NorthernIrelandHealthAndCareNumberView
 
 ## Metadata
 

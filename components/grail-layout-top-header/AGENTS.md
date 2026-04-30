@@ -1,4 +1,4 @@
-# Grail Layout Top Header
+# GrailLayoutTopHeader
 
 ## Metadata
 

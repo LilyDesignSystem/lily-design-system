@@ -1,4 +1,4 @@
-# Red Orange Yellow Green Blue Picker Button
+# RedOrangeYellowGreenBluePickerButton
 
 ## Metadata
 

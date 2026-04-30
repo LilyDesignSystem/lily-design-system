@@ -1,4 +1,4 @@
-# Tag Input
+# TagInput
 
 ## Metadata
 

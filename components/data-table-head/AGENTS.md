@@ -1,4 +1,4 @@
-# Data Table Head
+# DataTableHead
 
 ## Metadata
 

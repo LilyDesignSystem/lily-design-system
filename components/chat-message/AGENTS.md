@@ -1,4 +1,4 @@
-# Chat Message
+# ChatMessage
 
 ## Metadata
 

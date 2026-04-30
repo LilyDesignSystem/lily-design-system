@@ -1,4 +1,4 @@
-# Pagination Nav
+# PaginationNav
 
 ## Metadata
 

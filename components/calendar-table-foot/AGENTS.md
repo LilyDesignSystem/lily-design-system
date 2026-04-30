@@ -1,4 +1,4 @@
-# Calendar Table Foot
+# CalendarTableFoot
 
 ## Metadata
 

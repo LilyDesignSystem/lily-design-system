@@ -1,4 +1,4 @@
-# Avatar Image
+# AvatarImage
 
 ## Metadata
 
@@ -34,6 +34,14 @@ Pattern: AvatarGroup → Avatar → AvatarImage, AvatarText
   </Avatar>
 </AvatarGroup>
 ```
+
+## Props
+
+| Prop           | Type            | Default    | Description                                           |
+| -------------- | --------------- | ---------- | ----------------------------------------------------- |
+| `src`          | `string`        | (required) | URL of the avatar image                               |
+| `alt`          | `string`        | (required) | Accessible alt text for the image                     |
+| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<img>` element |
 
 ## Acceptance Criteria
 

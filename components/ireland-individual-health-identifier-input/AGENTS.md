@@ -1,4 +1,4 @@
-# Ireland Individual Health Identifier Input
+# IrelandIndividualHealthIdentifierInput
 
 ## Metadata
 

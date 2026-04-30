@@ -1,4 +1,4 @@
-# Context Menu
+# ContextMenu
 
 ## Metadata
 

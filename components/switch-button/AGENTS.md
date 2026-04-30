@@ -1,4 +1,4 @@
-# Switch Button
+# SwitchButton
 
 ## Metadata
 

@@ -1,4 +1,4 @@
-# Action Group
+# ActionGroup
 
 ## Metadata
 

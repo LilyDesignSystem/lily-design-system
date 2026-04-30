@@ -1,4 +1,4 @@
-# Kanban Table Body
+# KanbanTableBody
 
 ## Metadata
 

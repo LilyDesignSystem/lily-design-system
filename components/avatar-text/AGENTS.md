@@ -1,4 +1,4 @@
-# Avatar Text
+# AvatarText
 
 ## Metadata
 
@@ -34,6 +34,13 @@ Pattern: AvatarGroup → Avatar → AvatarImage, AvatarText
   </Avatar>
 </AvatarGroup>
 ```
+
+## Props
+
+| Prop           | Type            | Default    | Description                                            |
+| -------------- | --------------- | ---------- | ------------------------------------------------------ |
+| `children`     | `slot`       | (required) | Initials or short text to display                      |
+| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<span>` element |
 
 ## Acceptance Criteria
 

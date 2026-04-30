@@ -1,4 +1,4 @@
-# Overlay Container
+# OverlayContainer
 
 ## Metadata
 

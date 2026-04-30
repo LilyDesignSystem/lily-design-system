@@ -1,4 +1,4 @@
-# Scroll Area
+# ScrollArea
 
 ## Metadata
 

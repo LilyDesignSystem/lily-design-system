@@ -1,4 +1,4 @@
-# Tool Bar Button
+# ToolBarButton
 
 ## Metadata
 
@@ -25,6 +25,14 @@
 - Enter / Space: Activate the button (browser default)
 - Arrow keys: Handled by parent ToolBar for roving focus navigation
 - Button is skipped in tab order when `disabled` is true
+
+## Props
+
+| Prop           | Type            | Default    | Description                                            |
+| -------------- | --------------- | ---------- | ------------------------------------------------------ |
+| `disabled`     | `boolean`       | `false`    | Whether the button is disabled                         |
+| `children`     | `slot`       | (required) | Button content                                         |
+| `...restProps` | HTML attributes |            | Additional attributes passed to the `<button>` element |
 
 ## Acceptance Criteria
 

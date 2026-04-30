@@ -1,4 +1,4 @@
-# Submit Input
+# SubmitInput
 
 ## Metadata
 

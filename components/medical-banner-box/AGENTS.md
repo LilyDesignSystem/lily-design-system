@@ -1,4 +1,4 @@
-# Medical Banner Box
+# MedicalBannerBox
 
 ## Metadata
 

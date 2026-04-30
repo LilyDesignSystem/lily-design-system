@@ -1,4 +1,4 @@
-# Signature Pad
+# SignaturePad
 
 ## Metadata
 

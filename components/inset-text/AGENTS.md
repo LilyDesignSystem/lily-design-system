@@ -1,4 +1,4 @@
-# Inset Text
+# InsetText
 
 ## Metadata
 

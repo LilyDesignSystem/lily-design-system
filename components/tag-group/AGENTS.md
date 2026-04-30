@@ -1,4 +1,4 @@
-# Tag Group
+# TagGroup
 
 ## Metadata
 

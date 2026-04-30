@@ -1,4 +1,4 @@
-# File Manager
+# FileManager
 
 ## Metadata
 

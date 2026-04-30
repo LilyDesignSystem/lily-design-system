@@ -1,4 +1,4 @@
-# Collection List
+# CollectionList
 
 ## Metadata
 

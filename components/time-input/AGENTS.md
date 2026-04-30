@@ -1,4 +1,4 @@
-# Time Input
+# TimeInput
 
 ## Metadata
 

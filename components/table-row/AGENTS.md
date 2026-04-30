@@ -1,4 +1,4 @@
-# Table Row
+# TableRow
 
 ## Metadata
 

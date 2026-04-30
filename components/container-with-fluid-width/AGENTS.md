@@ -1,4 +1,4 @@
-# Container With Fluid Width
+# ContainerWithFluidWidth
 
 ## Metadata
 

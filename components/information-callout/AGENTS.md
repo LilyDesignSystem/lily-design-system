@@ -1,4 +1,4 @@
-# Information Callout
+# InformationCallout
 
 ## Metadata
 

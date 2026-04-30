@@ -1,4 +1,4 @@
-# Summary List
+# SummaryList
 
 ## Metadata
 

@@ -1,4 +1,4 @@
-# Input Group
+# InputGroup
 
 ## Metadata
 

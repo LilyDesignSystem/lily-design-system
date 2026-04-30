@@ -1,4 +1,4 @@
-# Accordion Link
+# AccordionLink
 
 ## Metadata
 

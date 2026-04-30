@@ -1,4 +1,4 @@
-# Tour List Item
+# TourListItem
 
 ## Metadata
 
@@ -26,6 +26,17 @@
 ## Keyboard
 
 - None directly -- keyboard interactions are managed by the parent TourGuideList and by interactive elements within step content
+
+## Props
+
+| Prop           | Type            | Default    | Description                                             |
+| -------------- | --------------- | ---------- | ------------------------------------------------------- |
+| `label`        | `string`        | (required) | Accessible name for this step via `aria-label`          |
+| `current`      | `boolean`       | `false`    | Whether this step is the currently visible step         |
+| `stepNumber`   | `number`        | (optional) | 1-based step number (e.g. 1, 2, 3)                      |
+| `totalSteps`   | `number`        | (optional) | Total number of steps in the tour                       |
+| `children`     | `slot`       | (required) | Step content                                            |
+| `...restProps` | HTML attributes |            | Additional attributes spread onto the container `<div>` |
 
 ## Acceptance Criteria
 

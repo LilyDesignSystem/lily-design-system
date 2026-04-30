@@ -1,4 +1,4 @@
-# Grail Layout
+# GrailLayout
 
 ## Metadata
 

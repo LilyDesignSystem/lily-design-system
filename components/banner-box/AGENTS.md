@@ -1,4 +1,4 @@
-# Banner Box
+# BannerBox
 
 ## Metadata
 

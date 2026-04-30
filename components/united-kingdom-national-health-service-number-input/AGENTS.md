@@ -1,4 +1,4 @@
-# United Kingdom National Health Service Number Input
+# UnitedKingdomNationalHealthServiceNumberInput
 
 ## Metadata
 

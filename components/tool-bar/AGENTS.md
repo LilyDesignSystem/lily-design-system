@@ -1,4 +1,4 @@
-# Tool Bar
+# ToolBar
 
 ## Metadata
 

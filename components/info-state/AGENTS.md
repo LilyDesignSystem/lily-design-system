@@ -1,4 +1,4 @@
-# Info State
+# InfoState
 
 ## Metadata
 

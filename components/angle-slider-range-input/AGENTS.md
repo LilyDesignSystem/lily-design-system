@@ -1,4 +1,4 @@
-# Angle Slider Range Input
+# AngleSliderRangeInput
 
 ## Metadata
 

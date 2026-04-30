@@ -1,4 +1,4 @@
-# Theme Select
+# ThemeSelect
 
 ## Metadata
 
@@ -24,6 +24,15 @@
 - Space/Enter: Opens the dropdown list when focused (native browser behavior)
 - Arrow Up/Down: Navigates through theme options (native browser behavior)
 - Escape: Closes the dropdown list (native browser behavior)
+
+## Props
+
+| Prop           | Type            | Default    | Description                                               |
+| -------------- | --------------- | ---------- | --------------------------------------------------------- |
+| `label`        | `string`        | (required) | Accessible name applied via `aria-label`                  |
+| `value`        | `string`        | `""`       | Bindable string representing the currently selected theme |
+| `children`     | `slot`       | (required) | `<option>` elements representing available themes         |
+| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<select>` element  |
 
 ## Acceptance Criteria
 

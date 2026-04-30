@@ -1,4 +1,4 @@
-# Measurement Instance View
+# MeasurementInstanceView
 
 ## Metadata
 

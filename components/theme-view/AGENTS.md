@@ -1,4 +1,4 @@
-# Theme View
+# ThemeView
 
 ## Metadata
 

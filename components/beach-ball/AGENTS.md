@@ -1,4 +1,4 @@
-# Beach Ball
+# BeachBall
 
 ## Metadata
 

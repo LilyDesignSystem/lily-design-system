@@ -1,4 +1,4 @@
-# Segment Group
+# SegmentGroup
 
 ## Metadata
 

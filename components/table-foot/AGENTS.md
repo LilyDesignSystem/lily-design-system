@@ -1,4 +1,4 @@
-# Table Foot
+# TableFoot
 
 ## Metadata
 

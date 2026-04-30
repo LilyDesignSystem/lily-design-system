@@ -1,4 +1,4 @@
-# Call To Action
+# CallToAction
 
 ## Metadata
 

@@ -1,4 +1,4 @@
-# Calendar Range Picker
+# CalendarRangePicker
 
 ## Metadata
 

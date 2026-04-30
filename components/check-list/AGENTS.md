@@ -1,4 +1,4 @@
-# Check List
+# CheckList
 
 ## Metadata
 

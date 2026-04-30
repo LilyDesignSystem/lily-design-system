@@ -1,4 +1,4 @@
-# Download Button
+# DownloadButton
 
 ## Metadata
 

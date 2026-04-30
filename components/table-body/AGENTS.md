@@ -1,4 +1,4 @@
-# Table Body
+# TableBody
 
 ## Metadata
 

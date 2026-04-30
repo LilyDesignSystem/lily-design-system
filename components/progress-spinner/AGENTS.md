@@ -1,4 +1,4 @@
-# Progress Spinner
+# ProgressSpinner
 
 ## Metadata
 

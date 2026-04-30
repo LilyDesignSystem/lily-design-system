@@ -1,4 +1,4 @@
-# Sticky Promo Banner
+# StickyPromoBanner
 
 ## Metadata
 

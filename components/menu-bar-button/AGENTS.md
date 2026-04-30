@@ -1,4 +1,4 @@
-# Menu Bar Button
+# MenuBarButton
 
 ## Metadata
 

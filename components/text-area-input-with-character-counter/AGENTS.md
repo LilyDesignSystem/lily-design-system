@@ -1,4 +1,4 @@
-# Text Area With Character Counter
+# TextAreaInputWithCharacterCounter
 
 ## Metadata
 

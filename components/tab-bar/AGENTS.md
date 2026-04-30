@@ -1,4 +1,4 @@
-# Tab Bar
+# TabBar
 
 ## Metadata
 

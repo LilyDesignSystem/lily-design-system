@@ -1,4 +1,4 @@
-# Time Picker Input
+# TimePickerInput
 
 ## Metadata
 

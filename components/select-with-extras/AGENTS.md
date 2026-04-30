@@ -1,4 +1,4 @@
-# Select With Extras
+# SelectWithExtras
 
 ## Metadata
 

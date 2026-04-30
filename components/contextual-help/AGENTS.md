@@ -1,4 +1,4 @@
-# Contextual Help
+# ContextualHelp
 
 ## Metadata
 

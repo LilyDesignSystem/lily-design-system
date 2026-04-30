@@ -1,4 +1,4 @@
-# Chat Nav
+# ChatNav
 
 ## Metadata
 

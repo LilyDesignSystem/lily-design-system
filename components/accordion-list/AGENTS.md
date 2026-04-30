@@ -1,4 +1,4 @@
-# accordion list
+# AccordionList
 
 ## Metadata
 
@@ -19,6 +19,13 @@
 
 - Semantic `<ol>` element provides ordered list semantics for assistive technology
 - List structure conveys that the accordion sections are related and ordered
+
+## Props
+
+| Prop           | Type            | Default    | Description                                          |
+| -------------- | --------------- | ---------- | ---------------------------------------------------- |
+| `children`     | `slot`          | (required) | AccordionListItem elements to render inside the list |
+| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<ol>` element |
 
 ## Acceptance Criteria
 

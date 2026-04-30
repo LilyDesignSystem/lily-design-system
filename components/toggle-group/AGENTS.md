@@ -1,4 +1,4 @@
-# Toggle Group
+# ToggleGroup
 
 ## Metadata
 

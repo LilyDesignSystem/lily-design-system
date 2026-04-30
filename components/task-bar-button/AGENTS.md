@@ -1,4 +1,4 @@
-# Task Bar Button
+# TaskBarButton
 
 ## Metadata
 

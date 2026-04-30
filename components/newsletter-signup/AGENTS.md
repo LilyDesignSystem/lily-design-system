@@ -1,4 +1,4 @@
-# Newsletter Signup
+# NewsletterSignup
 
 ## Metadata
 

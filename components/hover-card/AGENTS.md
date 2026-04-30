@@ -1,4 +1,4 @@
-# Hover Card
+# HoverCard
 
 ## Metadata
 

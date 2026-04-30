@@ -1,4 +1,4 @@
-# Five Star Rating View
+# FiveStarRatingView
 
 ## Metadata
 

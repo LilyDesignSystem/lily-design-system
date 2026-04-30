@@ -1,4 +1,4 @@
-# Progress Circle
+# ProgressCircle
 
 ## Metadata
 

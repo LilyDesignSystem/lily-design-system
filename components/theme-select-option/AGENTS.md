@@ -1,4 +1,4 @@
-# Theme Select Option
+# ThemeSelectOption
 
 ## Metadata
 
@@ -23,6 +23,15 @@
 
 - Arrow Up/Down: Navigates between options within the parent select (native browser behavior)
 - Enter/Space: Selects the focused option (native browser behavior)
+
+## Props
+
+| Prop           | Type            | Default    | Description                                              |
+| -------------- | --------------- | ---------- | -------------------------------------------------------- |
+| `value`        | `string`        | `""`       | The value submitted when this option is selected         |
+| `disabled`     | `boolean`       | `false`    | Whether this option is disabled                          |
+| `children`     | `slot`       | (required) | Display text for the option                              |
+| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<option>` element |
 
 ## Acceptance Criteria
 

@@ -1,4 +1,4 @@
-# Menu Item
+# MenuItem
 
 ## Metadata
 

@@ -1,4 +1,4 @@
-# Digital Object Identifier Link
+# DigitalObjectIdentifierLink
 
 ## Metadata
 

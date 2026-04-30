@@ -1,4 +1,4 @@
-# Data Table Body
+# DataTableBody
 
 ## Metadata
 

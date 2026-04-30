@@ -1,4 +1,4 @@
-# Navigation Menu
+# NavigationMenu
 
 ## Metadata
 

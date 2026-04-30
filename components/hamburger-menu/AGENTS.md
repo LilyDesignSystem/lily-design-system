@@ -1,4 +1,4 @@
-# Hamburger Menu
+# HamburgerMenu
 
 ## Metadata
 

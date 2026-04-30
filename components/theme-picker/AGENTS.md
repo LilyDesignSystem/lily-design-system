@@ -1,4 +1,4 @@
-# Theme Picker
+# ThemePicker
 
 ## Metadata
 

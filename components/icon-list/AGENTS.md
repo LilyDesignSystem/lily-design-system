@@ -1,4 +1,4 @@
-# Icon List
+# IconList
 
 ## Metadata
 

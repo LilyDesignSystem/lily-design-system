@@ -1,4 +1,4 @@
-# Northern Ireland Health And Care Number Input
+# NorthernIrelandHealthAndCareNumberInput
 
 ## Metadata
 

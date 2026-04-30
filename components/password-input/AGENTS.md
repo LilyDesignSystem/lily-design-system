@@ -1,4 +1,4 @@
-# Password Input
+# PasswordInput
 
 ## Metadata
 

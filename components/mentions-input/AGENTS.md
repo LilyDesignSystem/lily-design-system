@@ -1,4 +1,4 @@
-# Mentions Input
+# MentionsInput
 
 ## Metadata
 

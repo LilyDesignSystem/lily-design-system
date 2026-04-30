@@ -1,4 +1,4 @@
-# Contents Nav
+# ContentsNav
 
 ## Metadata
 

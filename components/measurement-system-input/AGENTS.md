@@ -1,4 +1,4 @@
-# Measurement System Input
+# MeasurementSystemInput
 
 ## Metadata
 

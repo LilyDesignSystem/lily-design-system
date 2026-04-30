@@ -1,4 +1,4 @@
-# Radio Group
+# RadioGroup
 
 ## Metadata
 

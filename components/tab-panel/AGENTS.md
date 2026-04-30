@@ -1,4 +1,4 @@
-# Tab Panel
+# TabPanel
 
 ## Metadata
 

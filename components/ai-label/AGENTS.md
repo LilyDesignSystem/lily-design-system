@@ -1,4 +1,4 @@
-# AI Label
+# AiLabel
 
 ## Metadata
 

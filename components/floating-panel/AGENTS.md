@@ -1,4 +1,4 @@
-# Floating Panel
+# FloatingPanel
 
 ## Metadata
 

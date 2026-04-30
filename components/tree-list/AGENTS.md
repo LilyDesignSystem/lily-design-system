@@ -1,4 +1,4 @@
-# Tree List
+# TreeList
 
 ## Metadata
 
@@ -26,6 +26,14 @@
 - ArrowUp: Moves focus to the previous tree item; wraps to the last item before the first
 - Home: Moves focus to the first tree item
 - End: Moves focus to the last tree item
+
+## Props
+
+| Prop           | Type            | Default    | Description                                                         |
+| -------------- | --------------- | ---------- | ------------------------------------------------------------------- |
+| `label`        | `string`        | (required) | Accessible name for the tree via `aria-label`                       |
+| `children`     | `slot`          | (required) | Tree item elements with `role="treeitem"` to render inside the list |
+| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<ul>` element                |
 
 ## Acceptance Criteria
 

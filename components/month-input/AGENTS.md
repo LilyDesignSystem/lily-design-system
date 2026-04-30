@@ -1,4 +1,4 @@
-# Month Input
+# MonthInput
 
 ## Metadata
 

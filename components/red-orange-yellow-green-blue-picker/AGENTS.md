@@ -1,4 +1,4 @@
-# Red Orange Yellow Green Blue Picker
+# RedOrangeYellowGreenBluePicker
 
 ## Metadata
 

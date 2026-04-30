@@ -1,4 +1,4 @@
-# Alert Dialog
+# AlertDialog
 
 ## Metadata
 

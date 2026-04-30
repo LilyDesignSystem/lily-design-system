@@ -1,4 +1,4 @@
-# Aspect Ratio Container
+# AspectRatioContainer
 
 ## Metadata
 

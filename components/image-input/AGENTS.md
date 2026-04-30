@@ -1,4 +1,4 @@
-# Image Input
+# ImageInput
 
 ## Metadata
 

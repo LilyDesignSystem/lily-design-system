@@ -1,4 +1,4 @@
-# URL Input
+# UrlInput
 
 ## Metadata
 

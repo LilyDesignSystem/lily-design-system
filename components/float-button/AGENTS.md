@@ -1,4 +1,4 @@
-# Float Button
+# FloatButton
 
 ## Metadata
 

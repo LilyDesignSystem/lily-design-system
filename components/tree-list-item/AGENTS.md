@@ -1,4 +1,4 @@
-# Tree List Item
+# TreeListItem
 
 ## Metadata
 
@@ -29,6 +29,13 @@
 - ArrowLeft: Collapses an expanded item, or moves to parent (when applicable)
 - Home: Moves focus to the first tree item (managed by parent TreeList)
 - End: Moves focus to the last visible tree item (managed by parent TreeList)
+
+## Props
+
+| Prop           | Type            | Default    | Description                                                                                          |
+| -------------- | --------------- | ---------- | ---------------------------------------------------------------------------------------------------- |
+| `children`     | `slot`       | (required) | Content for the tree item                                                                            |
+| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<li>` element (including `role`, `tabindex`, `aria-expanded`) |
 
 ## Acceptance Criteria
 

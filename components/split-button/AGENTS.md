@@ -1,4 +1,4 @@
-# Split Button
+# SplitButton
 
 ## Metadata
 

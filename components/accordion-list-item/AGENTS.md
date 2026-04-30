@@ -1,4 +1,4 @@
-# accordion list Item
+# AccordionListItem
 
 ## Metadata
 
@@ -23,6 +23,15 @@
 
 - Tab: Focus the summary element
 - Enter / Space: Toggle open/close (browser default for `<details>`)
+
+## Props
+
+| Prop           | Type            | Default    | Description                                                        |
+| -------------- | --------------- | ---------- | ------------------------------------------------------------------ |
+| `summary`      | `string`        | (required) | Text for the summary/header line                                   |
+| `open`         | `boolean`       | `false`    | Whether the item is expanded; bindable with two-way `open` binding |
+| `children`     | `slot`          | (required) | Detail content rendered when expanded                              |
+| `...restProps` | HTML attributes |            | Additional attributes passed to the `<details>` element            |
 
 ## Acceptance Criteria
 

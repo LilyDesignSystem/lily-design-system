@@ -1,4 +1,4 @@
-# Mockup Phone
+# MockupPhonePortrait
 
 ## Metadata
 

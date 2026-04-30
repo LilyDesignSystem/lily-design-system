@@ -1,4 +1,4 @@
-# Grail Layout Bottom Footer
+# GrailLayoutBottomFooter
 
 ## Metadata
 

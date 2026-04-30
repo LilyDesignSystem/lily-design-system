@@ -1,4 +1,4 @@
-# Step List Item
+# StepListItem
 
 ## Metadata
 

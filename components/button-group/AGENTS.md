@@ -1,4 +1,4 @@
-# Button Group
+# ButtonGroup
 
 ## Metadata
 

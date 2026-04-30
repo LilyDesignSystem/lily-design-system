@@ -1,4 +1,4 @@
-# Input With Mask
+# InputWithMask
 
 ## Metadata
 

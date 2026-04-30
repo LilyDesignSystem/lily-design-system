@@ -1,4 +1,4 @@
-# Currency Input
+# CurrencyInput
 
 ## Metadata
 

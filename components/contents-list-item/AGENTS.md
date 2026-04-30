@@ -1,4 +1,4 @@
-# Contents List Item
+# ContentsListItem
 
 ## Metadata
 

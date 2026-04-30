@@ -1,4 +1,4 @@
-# QR Code
+# QrCode
 
 ## Metadata
 

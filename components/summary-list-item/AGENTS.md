@@ -1,4 +1,4 @@
-# Summary List Item
+# SummaryListItem
 
 ## Metadata
 

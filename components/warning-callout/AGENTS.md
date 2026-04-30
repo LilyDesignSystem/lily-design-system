@@ -1,4 +1,4 @@
-# Warning Callout
+# WarningCallout
 
 ## Metadata
 

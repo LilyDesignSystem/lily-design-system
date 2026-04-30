@@ -1,4 +1,4 @@
-# Chat List
+# ChatList
 
 ## Metadata
 

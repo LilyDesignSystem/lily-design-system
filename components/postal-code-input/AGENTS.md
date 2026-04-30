@@ -1,4 +1,4 @@
-# Postal Code Input
+# PostalCodeInput
 
 ## Metadata
 

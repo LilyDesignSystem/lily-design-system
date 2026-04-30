@@ -1,4 +1,4 @@
-# Tel Input
+# TelInput
 
 ## Metadata
 

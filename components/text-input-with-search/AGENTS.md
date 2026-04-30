@@ -1,4 +1,4 @@
-# Text Input With Search
+# TextInputWithSearch
 
 ## Metadata
 

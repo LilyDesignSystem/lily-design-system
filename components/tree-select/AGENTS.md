@@ -1,4 +1,4 @@
-# Tree Select
+# TreeSelect
 
 ## Metadata
 

@@ -1,4 +1,4 @@
-# Emoji Character Picker
+# EmojiCharacterPicker
 
 ## Metadata
 

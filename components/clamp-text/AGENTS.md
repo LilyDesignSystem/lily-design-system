@@ -1,4 +1,4 @@
-# Clamp Text
+# ClampText
 
 ## Metadata
 

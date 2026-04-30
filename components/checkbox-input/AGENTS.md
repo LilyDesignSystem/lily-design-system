@@ -1,4 +1,4 @@
-# Checkbox Input
+# CheckboxInput
 
 ## Metadata
 

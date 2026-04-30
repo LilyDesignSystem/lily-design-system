@@ -1,4 +1,4 @@
-# Flex Stack
+# FlexStack
 
 ## Metadata
 

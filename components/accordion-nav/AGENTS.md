@@ -1,4 +1,4 @@
-# Accordion Nav
+# AccordionNav
 
 ## Metadata
 
@@ -18,6 +18,14 @@
 
 - `role="region"` -- identifies the accordion as a landmark region
 - `aria-label` -- provides an accessible name for the region, allowing screen readers to announce it
+
+## Props
+
+| Prop           | Type            | Default    | Description                                               |
+| -------------- | --------------- | ---------- | --------------------------------------------------------- |
+| `label`        | `string`        | (required) | Accessible name for the accordion region via `aria-label` |
+| `children`     | `slot`       | (required) | Accordion content to render inside the container          |
+| `...restProps` | HTML attributes |            | Additional attributes spread onto the outer `<div>`       |
 
 ## Acceptance Criteria
 

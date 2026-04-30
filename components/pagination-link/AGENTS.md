@@ -1,4 +1,4 @@
-# Pagination Link
+# PaginationLink
 
 ## Metadata
 

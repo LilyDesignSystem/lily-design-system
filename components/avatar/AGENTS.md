@@ -36,6 +36,15 @@ Pattern: AvatarGroup → Avatar → AvatarImage, AvatarText
 </AvatarGroup>
 ```
 
+## Props
+
+| Prop           | Type            | Default    | Description                                                                                        |
+| -------------- | --------------- | ---------- | -------------------------------------------------------------------------------------------------- |
+| `src`          | `string`        | (optional) | URL of the avatar image                                                                            |
+| `alt`          | `string`        | (required) | Accessible description of the person, used as `aria-label` on the container and `alt` on the image |
+| `initials`     | `string`        | (optional) | Fallback text displayed when no image is available or the image fails to load                      |
+| `...restProps` | HTML attributes |            | Additional attributes spread onto the outer `<span>` element                                       |
+
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="avatar"

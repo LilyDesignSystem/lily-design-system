@@ -1,4 +1,4 @@
-# Kanban Table Foot
+# KanbanTableFoot
 
 ## Metadata
 

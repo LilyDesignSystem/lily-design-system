@@ -1,4 +1,4 @@
-# Action Bar
+# ActionBar
 
 ## Metadata
 

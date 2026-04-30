@@ -1,4 +1,4 @@
-# Action Link
+# ActionLink
 
 ## Metadata
 

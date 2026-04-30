@@ -1,4 +1,4 @@
-# Icon Button
+# IconButton
 
 ## Metadata
 

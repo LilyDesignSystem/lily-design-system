@@ -1,4 +1,4 @@
-# Split View
+# SplitView
 
 ## Metadata
 

@@ -1,4 +1,4 @@
-# Calendar Table Head
+# CalendarTableHead
 
 ## Metadata
 

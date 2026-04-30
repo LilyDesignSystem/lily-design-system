@@ -1,4 +1,4 @@
-# Net Promoter Score Picker
+# NetPromoterScorePicker
 
 ## Metadata
 

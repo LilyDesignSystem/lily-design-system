@@ -1,4 +1,4 @@
-# Scroll Bar
+# ScrollBar
 
 ## Metadata
 

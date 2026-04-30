@@ -1,4 +1,4 @@
-# Clipboard Copy Button
+# ClipboardCopyButton
 
 ## Metadata
 

@@ -1,4 +1,4 @@
-# Email Link
+# EmailLink
 
 ## Metadata
 

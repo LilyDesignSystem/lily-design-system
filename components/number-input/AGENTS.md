@@ -1,4 +1,4 @@
-# Number Input
+# NumberInput
 
 ## Metadata
 

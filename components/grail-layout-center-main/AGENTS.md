@@ -1,4 +1,4 @@
-# Grail Layout Center Main
+# GrailLayoutCenterMain
 
 ## Metadata
 

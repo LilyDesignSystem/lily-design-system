@@ -1,4 +1,4 @@
-# Net Promoter Score View
+# NetPromoterScoreView
 
 ## Metadata
 

@@ -1,4 +1,4 @@
-# Data Table Col
+# DataTableTH
 
 ## Metadata
 

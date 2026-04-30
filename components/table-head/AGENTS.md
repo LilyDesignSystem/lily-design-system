@@ -1,4 +1,4 @@
-# Table Head
+# TableHead
 
 ## Metadata
 

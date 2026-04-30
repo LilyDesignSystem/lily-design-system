@@ -1,4 +1,4 @@
-# Section Heading
+# SectionHeading
 
 ## Metadata
 

@@ -1,4 +1,4 @@
-# Menu Bar
+# MenuBar
 
 ## Metadata
 

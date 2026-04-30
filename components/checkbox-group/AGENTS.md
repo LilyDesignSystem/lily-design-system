@@ -1,4 +1,4 @@
-# Checkbox Group
+# CheckboxGroup
 
 ## Metadata
 

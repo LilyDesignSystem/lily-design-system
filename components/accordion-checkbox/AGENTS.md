@@ -1,4 +1,4 @@
-# Accordion Checkbox
+# AccordionCheckbox
 
 ## Metadata
 

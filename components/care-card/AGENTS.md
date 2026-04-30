@@ -1,4 +1,4 @@
-# Care Card
+# CareCard
 
 ## Metadata
 

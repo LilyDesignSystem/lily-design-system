@@ -1,4 +1,4 @@
-# Slide-Out Drawer
+# SlideOutDrawer
 
 ## Metadata
 

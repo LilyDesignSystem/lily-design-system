@@ -1,4 +1,4 @@
-# Red Amber Green View
+# RedAmberGreenView
 
 ## Metadata
 

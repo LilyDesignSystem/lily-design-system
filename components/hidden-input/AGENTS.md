@@ -1,4 +1,4 @@
-# Hidden Input
+# HiddenInput
 
 ## Metadata
 
