@@ -23,6 +23,10 @@
 - `aria-label="..."` -- provides an accessible name describing what is loading
 - `aria-live="polite"` -- ensures content changes are announced by screen readers at the next opportunity without interrupting
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name describing the loading state via `aria-label`

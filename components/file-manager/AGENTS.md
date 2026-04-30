@@ -22,6 +22,10 @@
 - `role="region"` -- defines the file manager as a named landmark section
 - `aria-label={label}` -- provides an accessible name for the region
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name describing the file manager, applied via `aria-label`

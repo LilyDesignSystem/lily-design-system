@@ -21,6 +21,10 @@
 - Spreads `restProps` on the `<span>` for consumer customization (e.g., `class`, `data-*` attributes)
 - No ARIA attributes needed; the text content is directly readable by assistive technology
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `text`: string (default: `""`) -- the postal code string to display

@@ -22,6 +22,10 @@
 - `role="note"` -- identifies the content as a note or supplementary information
 - `aria-label={label}` -- provides an accessible name describing the type of callout (e.g., "Note", "Warning", "Tip")
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name for the callout via `aria-label`

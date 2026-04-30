@@ -24,6 +24,10 @@
 - `aria-label="..."` -- provides an accessible name for the upload button
 - `aria-live="polite"` -- on the status span, announces file selection count without interrupting the user
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name for the upload button, also used as visible button text

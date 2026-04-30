@@ -24,6 +24,10 @@
 - `aria-label="..."` -- provides the accessible name for meaningful icons
 - `aria-hidden="true"` -- applied when `decorative` is true, hiding the icon from the accessibility tree
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (optional) -- accessible name announced by screen readers for meaningful icons

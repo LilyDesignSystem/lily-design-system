@@ -27,6 +27,10 @@
 - `role="list"` -- explicitly declares list semantics on the `<ul>`, ensuring assistive technology announces it as a list
 - `aria-label={label}` -- provides an accessible name for the list (defaults to "Do")
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (default: `"Do"`) -- accessible name for the list

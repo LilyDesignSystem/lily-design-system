@@ -22,6 +22,10 @@
 - `aria-label` -- provides screen reader context from the `label` prop
 - `datetime` -- machine-readable date attribute on the `<time>` element
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible label for screen readers via `aria-label`

@@ -22,6 +22,10 @@
 
 - `aria-label={label}` -- provides an accessible name describing the purpose of the month input
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name for the input via `aria-label`

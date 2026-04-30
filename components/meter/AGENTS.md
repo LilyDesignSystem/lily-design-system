@@ -23,6 +23,10 @@
 
 - `aria-label={label}` -- provides an accessible name describing what the meter measures
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `value`: number (required) -- the current measured value

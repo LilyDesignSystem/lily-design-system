@@ -22,6 +22,10 @@
 - The `<nav>` element implicitly has `role="navigation"`, making it a navigation landmark.
 - `aria-label` -- provides an accessible name to distinguish this navigation from other `<nav>` landmarks on the page.
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name applied via `aria-label` to distinguish this nav landmark.

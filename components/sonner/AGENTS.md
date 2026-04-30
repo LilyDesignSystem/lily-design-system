@@ -24,6 +24,10 @@
 - `aria-label={label}` -- provides an accessible name identifying the notification area
 - `aria-live="polite"` -- ensures new content is announced after the screen reader finishes its current output
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name identifying the notification area, applied via `aria-label`

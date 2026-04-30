@@ -27,6 +27,10 @@
 - No explicit ARIA roles required on the footer container itself
 - Interactive elements within the footer (e.g., buttons) provide their own semantics
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `children`: slot (required) -- footer content such as action buttons, item counts, or summary information

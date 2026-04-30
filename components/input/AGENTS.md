@@ -22,6 +22,10 @@
 
 - `aria-label` -- provides an accessible name for the input when no visible label is present.
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name applied via `aria-label`.

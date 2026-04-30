@@ -26,6 +26,10 @@
 
 - `aria-label` -- optionally set from the `label` prop to provide additional context beyond the displayed unit abbreviation
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `value`: string (required) -- the measurement unit to display

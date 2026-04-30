@@ -28,6 +28,10 @@
 - `scope="col"` associates the header with its column for assistive technologies
 - Use `scope="colgroup"` together with `colspan` for grouped column headers (e.g. quarter spanning months)
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `colspan`: number (optional) -- number of columns this header cell spans

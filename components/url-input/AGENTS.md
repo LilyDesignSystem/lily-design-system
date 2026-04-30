@@ -21,6 +21,10 @@
 
 - `aria-label={label}` -- provides the accessible name for the URL input since no visible label element is associated
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name applied via `aria-label`

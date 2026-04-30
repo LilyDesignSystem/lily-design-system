@@ -20,6 +20,10 @@
 - Spreads `restProps` onto the div for consumer customization
 - No styles applied; consumer provides all styling
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `children`: slot (required) -- content to render inside the top header section

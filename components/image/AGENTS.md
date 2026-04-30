@@ -22,6 +22,10 @@
 - `alt="..."` -- provides the accessible name for the image, required for all non-decorative images
 - `<figure>` and `<figcaption>` -- when caption is present, these semantic HTML elements associate the caption with the image for assistive technology
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `src`: string (required) -- the image source URL

@@ -27,6 +27,10 @@
 - Implicit `listitem` role from the semantic `<li>` element
 - `aria-current="page"` -- set when `current` is true, indicating the user's current location in the breadcrumb trail
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `current`: boolean (default: false) -- whether this item represents the current page in the breadcrumb trail

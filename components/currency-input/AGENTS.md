@@ -26,6 +26,10 @@
 - `aria-label={label}` -- provides an accessible name describing the purpose of the currency input
 - `inputmode="decimal"` -- triggers a numeric keyboard with decimal point on mobile devices
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name for the input via `aria-label`

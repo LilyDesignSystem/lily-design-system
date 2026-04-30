@@ -20,6 +20,10 @@
 - Semantic `<ol>` element provides ordered list semantics for assistive technology
 - List structure conveys that the accordion sections are related and ordered
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 | Prop           | Type            | Default    | Description                                          |

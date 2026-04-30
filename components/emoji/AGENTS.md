@@ -21,6 +21,10 @@
 - `role="img"` -- identifies the emoji as an image for assistive technologies
 - `aria-label` -- provides a textual description of the emoji character for screen readers
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `emoji`: string (required) -- the emoji character(s) to display

@@ -28,6 +28,10 @@
 
 - `aria-label={label}` -- provides an accessible name for the `<nav>` landmark, distinguishing it from other navigation regions on the page
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name for the navigation landmark (e.g., "Contents", "On this page")

@@ -26,6 +26,10 @@
 - `aria-hidden="true"` -- on the required asterisk, prevents screen readers from reading the decorative indicator
 - `data-required` -- data attribute on the wrapper for consumer CSS styling
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- visible label text

@@ -27,6 +27,10 @@
 
 - `aria-label={label}` -- provides the accessible name for the status display, allowing screen readers to announce the context of the value
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible label for screen readers via `aria-label`

@@ -21,6 +21,10 @@
 
 - `aria-label="..."` -- provides an accessible name for the form, helping screen readers identify its purpose
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name for the form via `aria-label`

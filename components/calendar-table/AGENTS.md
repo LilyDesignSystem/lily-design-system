@@ -27,6 +27,10 @@
 - `role="grid"` -- identifies the table as an interactive grid widget
 - `aria-label={label}` -- provides an accessible name describing the calendar period
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name describing the calendar period (e.g., month and year), applied via `aria-label`

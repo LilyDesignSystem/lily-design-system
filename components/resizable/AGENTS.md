@@ -22,6 +22,10 @@
 - `role="region"` -- identifies the container as a landmark region for assistive technologies
 - `aria-label={label}` -- provides an accessible name describing the resizable area
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible label for the resizable region, applied via `aria-label`

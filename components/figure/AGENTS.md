@@ -22,6 +22,10 @@
 - `role="img"` -- identifies the figure as a graphical image to assistive technologies
 - `aria-label={label}` -- provides an accessible name describing the figure content
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name describing what the figure represents, applied via `aria-label`

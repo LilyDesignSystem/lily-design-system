@@ -26,6 +26,10 @@
 
 - Implicit `rowgroup` role from the `<tbody>` element -- groups the body rows of the table
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `children`: slot (required) -- data rows representing records in the table

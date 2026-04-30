@@ -28,6 +28,10 @@
 - Column containers within should use `role="list"` with `aria-label` to identify each workflow stage
 - Card items within columns should use `role="listitem"` (provided by KanbanTableTD)
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `children`: slot (required) -- column containers with card content

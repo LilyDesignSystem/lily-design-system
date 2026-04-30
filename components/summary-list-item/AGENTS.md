@@ -29,6 +29,10 @@
 - Screen readers announce term-description pairs naturally
 - The `<div>` wrapper is transparent to assistive technology and does not interfere with list semantics
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `term`: string (required) -- the key/label text rendered in the `<dt>` element

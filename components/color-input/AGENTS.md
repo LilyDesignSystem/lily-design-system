@@ -21,6 +21,10 @@
 
 - `aria-label="..."` -- provides an accessible name for the color input since it has no visible `<label>` element
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `value`: string (default: `"#000000"`) -- current hex color string, two-way bindable via `value`

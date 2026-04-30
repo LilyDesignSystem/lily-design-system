@@ -22,6 +22,10 @@
 - `aria-label={label}` -- provides an accessible name describing what process the progress bar represents
 - The `<progress>` element implicitly has `role="Progress"` with `aria-valuenow`, `aria-valuemin`, and `aria-valuemax` attributes managed by the browser
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name applied via `aria-label`

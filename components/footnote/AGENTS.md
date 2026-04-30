@@ -21,6 +21,10 @@
 - `role="note"` -- indicates supplementary content that is related to the main content
 - `aria-label="{id}"` -- provides an accessible name derived from the footnote identifier
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `id`: string (required) -- unique footnote identifier, used for the element id and aria-label

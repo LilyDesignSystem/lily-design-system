@@ -24,6 +24,10 @@
 - `aria-label` -- provides the accessible name for meaningful characters; omitted when decorative
 - `aria-hidden="true"` -- applied when `decorative` is true, hiding the element from the accessibility tree
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (optional) -- accessible description of the character for screen readers

@@ -21,6 +21,10 @@
 
 - `role="note"` -- identifies the content as a note or supplementary information, so screen readers announce it with appropriate context.
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `children`: slot (required) -- content to display inside the inset text block.

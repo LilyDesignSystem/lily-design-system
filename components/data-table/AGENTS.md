@@ -27,6 +27,10 @@
 - `aria-label={label}` -- provides an accessible name when no visible caption is present
 - `<caption>` -- semantic table caption that serves as the accessible name when provided
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `caption`: string (default: undefined) -- visible caption text displayed above the table

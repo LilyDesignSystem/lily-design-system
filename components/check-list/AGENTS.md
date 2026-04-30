@@ -26,6 +26,10 @@
 - `role="list"` -- explicit list role on the `<ul>` ensures assistive technologies treat it as a list
 - `aria-label` -- optional accessible name describing the purpose of the checklist
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (default: undefined) -- accessible name for the checklist via `aria-label`

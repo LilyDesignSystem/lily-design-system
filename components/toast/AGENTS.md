@@ -27,6 +27,10 @@
 - `aria-live="assertive"` -- (when `urgent` is true) screen reader interrupts current speech to announce the content
 - `aria-label={label}` -- optional descriptive label for the toast region
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (default: undefined) -- optional accessible label applied via `aria-label`

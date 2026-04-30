@@ -26,6 +26,10 @@
 
 - Implicit `rowgroup` role from the `<thead>` element -- groups the header rows of the grid
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `children`: slot (required) -- header rows containing column labels for tasks and time periods

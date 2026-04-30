@@ -21,6 +21,10 @@
 - `role="img"` -- identifies the container as a graphical image to assistive technologies
 - `aria-label={label}` -- provides an accessible name describing what the sparkline represents
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name describing the sparkline data, applied via `aria-label`

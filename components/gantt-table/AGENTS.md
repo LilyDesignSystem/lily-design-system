@@ -27,6 +27,10 @@
 - `role="grid"` -- identifies the table as an interactive grid widget
 - `aria-label={label}` -- provides an accessible name describing the Gantt chart
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name describing the Gantt chart content, applied via `aria-label`

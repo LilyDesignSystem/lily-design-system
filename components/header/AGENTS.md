@@ -21,6 +21,10 @@
 - `aria-label={label}` -- optionally provides an accessible name for the header landmark, useful when multiple headers exist on a page to help screen reader users distinguish between them
 - The `<header>` element implicitly has `role="banner"` when it is a direct child of `<body>`, providing a page-level landmark
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (default: undefined) -- optional accessible name applied via `aria-label`, useful for distinguishing multiple headers

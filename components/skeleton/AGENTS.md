@@ -21,6 +21,10 @@
 - `aria-hidden="true"` -- hides the placeholder entirely from screen readers
 - `aria-busy="true"` -- signals that this region is in a loading state and content will be replaced
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `children`: slot (default: `undefined`) -- optional placeholder content (e.g., skeleton line shapes)

@@ -26,6 +26,10 @@
 
 - Implicit `row` role from the `<tr>` element -- identifies a row of cells within the grid
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `children`: slot (required) -- cells for this row, typically day numbers or day-of-week labels

@@ -22,6 +22,10 @@
 - `role="grid"` -- identifies the container as a grid widget for structured cell navigation
 - `aria-label={label}` -- provides an accessible name for the emoji picker
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name describing the picker, applied via `aria-label`

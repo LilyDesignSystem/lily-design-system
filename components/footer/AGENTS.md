@@ -20,6 +20,10 @@
 - `contentinfo` landmark role -- provided natively by the `<footer>` element, allowing screen reader users to navigate directly to the footer
 - `aria-label` -- optional accessible name to distinguish this footer from others on the page
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (default: undefined) -- optional accessible name via `aria-label`, useful when multiple footers exist

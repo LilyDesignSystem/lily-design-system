@@ -27,6 +27,10 @@
 - `role="group"` -- identifies the container as a semantic grouping of related toggle buttons
 - `aria-label={label}` -- provides an accessible name describing the purpose of the toggle collection
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name for the group via `aria-label`

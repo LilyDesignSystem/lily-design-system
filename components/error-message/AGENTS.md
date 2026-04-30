@@ -20,6 +20,10 @@
 
 - `role="alert"` -- creates an assertive live region so the error message is announced immediately by screen readers when it appears
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `children`: slot (required) -- error message text content

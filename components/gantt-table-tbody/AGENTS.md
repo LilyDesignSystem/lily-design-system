@@ -26,6 +26,10 @@
 
 - Implicit `rowgroup` role from the `<tbody>` element -- groups the body rows of the grid
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `children`: slot (required) -- task rows representing items and their timeline data

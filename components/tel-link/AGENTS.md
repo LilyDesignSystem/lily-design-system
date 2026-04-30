@@ -25,6 +25,10 @@
 
 - `aria-label` -- when provided, gives an accessible name that provides more context than the phone number alone (e.g., describing who the number belongs to or its purpose).
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `phone`: string (required) -- the phone number to display and link to (should include country code, e.g., `"+1-555-0100"`).

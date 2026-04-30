@@ -27,6 +27,10 @@
 - `aria-label="..."` -- provides the full rating description for screen readers
 - `aria-hidden="true"` -- on each inner star span, prevents screen readers from reading individual star characters
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `value`: number (required) -- rating value (0-5) to display

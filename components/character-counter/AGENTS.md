@@ -24,6 +24,10 @@
 - `aria-live="polite"` -- screen readers announce updates at the next convenient pause, without interrupting the user
 - `aria-label` -- set from the `label` prop to provide context for what the counter represents
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `count`: number (default: 0) -- current character count

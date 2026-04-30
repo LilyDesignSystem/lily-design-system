@@ -20,6 +20,10 @@
 
 - `id={id}` -- provides a target for `aria-describedby` on the associated form control
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `id`: string (default: undefined) -- ID for linking via `aria-describedby` on the associated form control

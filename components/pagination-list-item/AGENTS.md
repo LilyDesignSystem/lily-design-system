@@ -26,6 +26,10 @@
 - Implicit `listitem` role from the semantic `<li>` element
 - Consumer should set `aria-current="page"` on the active page link within the item
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `children`: slot (required) -- item content, typically a link (e.g., `<a href="/page/2">2</a>`) or button

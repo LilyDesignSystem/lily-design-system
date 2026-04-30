@@ -25,6 +25,10 @@
 - `aria-errormessage={errorId}` -- links the input to its error message when present
 - `role="alert"` -- on the error paragraph, announces the error message to screen readers
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- visible label text for the date field

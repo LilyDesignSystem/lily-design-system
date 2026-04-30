@@ -27,6 +27,10 @@
 - No explicit ARIA roles required -- the headings within provide their own semantic structure
 - Column headings should use appropriate heading levels (e.g., `<h3>`) for proper document outline
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `children`: slot (required) -- column heading content for each workflow stage

@@ -21,6 +21,10 @@
 - `role="img"` -- identifies the container as an image for assistive technologies
 - `aria-label` -- provides an accessible description of the QR code content, ensuring screen reader users know what the code encodes
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible description of the QR code content via `aria-label`

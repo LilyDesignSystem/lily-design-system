@@ -23,6 +23,10 @@
 - `aria-roledescription="carousel"` -- overrides the default "region" announcement with "carousel" for clearer context.
 - `aria-label` -- provides an accessible name describing the carousel content.
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name for the carousel region, applied via `aria-label`.

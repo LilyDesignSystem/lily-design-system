@@ -21,6 +21,10 @@
 - Spreads `restProps` onto the div for consumer customization
 - No layout styles applied; consumers provide CSS Grid or Flexbox for positioning
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `children`: slot (required) -- layout section elements to render inside the container

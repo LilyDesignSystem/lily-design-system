@@ -22,6 +22,10 @@
 - `role="region"` -- identifies the panel as a landmark region
 - `aria-label="..."` -- provides an accessible name for the region
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `open`: boolean (default: `false`) -- whether the panel is visible

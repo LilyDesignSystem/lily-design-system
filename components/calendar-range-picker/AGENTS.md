@@ -21,6 +21,10 @@
 - `role="application"` -- indicates that the widget manages its own keyboard interactions, overriding standard screen reader navigation
 - `aria-label={label}` -- provides an accessible name for the calendar range picker
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name describing the picker purpose, applied via `aria-label`

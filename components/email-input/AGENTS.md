@@ -26,6 +26,10 @@
 
 - `aria-label="..."` -- provides an accessible name for the email input since it has no visible `<label>` element
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name via `aria-label`

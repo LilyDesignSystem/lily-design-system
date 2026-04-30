@@ -19,6 +19,10 @@
 - `role="region"` -- identifies the accordion as a landmark region
 - `aria-label` -- provides an accessible name for the region, allowing screen readers to announce it
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 | Prop           | Type            | Default    | Description                                               |

@@ -26,6 +26,10 @@
 - Implicit `gridcell` role from the `<td>` element when inside a `role="grid"` table
 - Consumer may add `aria-label` or `aria-describedby` for cells with visual-only content (e.g., bar segments)
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `children`: slot (required) -- cell content such as bar segments, milestone markers, or text

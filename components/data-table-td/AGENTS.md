@@ -26,6 +26,10 @@
 
 - Implicit `cell` role from the `<td>` element -- identifies the element as a cell within a table row
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `children`: slot (required) -- cell content

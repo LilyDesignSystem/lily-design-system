@@ -21,6 +21,10 @@
 - `role="search"` -- identifies the form as a search landmark for assistive technology
 - `aria-label={label}` -- provides an accessible name for the search region
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name for the filter region, applied as `aria-label`

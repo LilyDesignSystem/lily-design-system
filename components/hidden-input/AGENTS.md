@@ -17,6 +17,10 @@
 - Spreads `restProps` onto the input for consumer customization (e.g., `id`, `data-*` attributes)
 - No ARIA attributes needed because hidden inputs are not perceivable by any user
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `name`: string (required) -- the form field name attribute

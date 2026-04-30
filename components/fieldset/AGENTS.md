@@ -20,6 +20,10 @@
 
 - No custom ARIA attributes required -- native `<fieldset>` and `<legend>` elements provide built-in group semantics and labeling for screen readers
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `legend`: string (required) -- text for the `<legend>` element describing the group

@@ -22,6 +22,10 @@
 - The native `<label>` element with `for` attribute provides an implicit accessible name for the linked form control
 - No additional ARIA attributes are needed because the semantic HTML `<label>` element is fully recognized by assistive technology
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `for`: string (optional) -- the `id` of the associated form control, rendered as the HTML `for` attribute

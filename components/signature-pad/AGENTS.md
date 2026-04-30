@@ -21,6 +21,10 @@
 - `role="application"` -- indicates a complex widget with custom pointer interactions, informing assistive technologies to pass keyboard events through to the application
 - `aria-label` -- provides an accessible description of the signature pad purpose
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible description of the signature field via `aria-label`

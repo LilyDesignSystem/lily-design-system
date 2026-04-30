@@ -21,6 +21,10 @@
 
 - `aria-label={label}` -- provides an accessible name for the AI indicator so screen readers announce its purpose
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (default: "AI") -- accessible name for the indicator via `aria-label`

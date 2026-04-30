@@ -26,6 +26,10 @@
 
 - `aria-label` -- optionally set from the `label` prop to provide additional context beyond the displayed system name
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `value`: string (required) -- the measurement system name to display

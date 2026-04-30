@@ -22,6 +22,10 @@
 - `<section aria-label="...">` -- creates a named region landmark, allowing assistive technology to list and navigate to this section
 - The `aria-label` value should be concise and descriptive of the panel's content
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name for the panel region via `aria-label`

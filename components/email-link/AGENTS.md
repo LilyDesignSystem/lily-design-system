@@ -24,6 +24,10 @@
 
 - `aria-label="..."` -- optional override for the accessible name when the visible email text alone is insufficient context
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `email`: string (required) -- the email address to display and link to

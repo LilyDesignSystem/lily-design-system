@@ -21,6 +21,10 @@
 
 - `aria-label={label}` -- provides an accessible name describing what the displayed value represents
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name for the display element via `aria-label`

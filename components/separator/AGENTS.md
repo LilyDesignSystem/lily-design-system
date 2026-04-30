@@ -22,6 +22,10 @@
 - `role="separator"` -- explicitly identifies the element as a separator between sections of content
 - `aria-label={label}` -- optional descriptive label for the separator, announced by screen readers when present
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (default: undefined) -- optional accessible label describing the separation, applied via `aria-label`

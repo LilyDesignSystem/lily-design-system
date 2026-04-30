@@ -21,6 +21,10 @@
 - Implicit `complementary` role via the `<aside>` element -- identifies the container as a complementary landmark
 - `aria-label={label}` -- provides an accessible name so screen readers can distinguish this sidebar from other landmarks on the page
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible label for the sidebar region, applied via `aria-label`

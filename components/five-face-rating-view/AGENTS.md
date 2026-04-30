@@ -26,6 +26,10 @@
 - `role="img"` -- indicates the span represents a visual/graphic element (the face rating)
 - `aria-label="..."` -- provides an accessible description of the rating for screen readers
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `value`: number (required) -- rating value (1-5) to display

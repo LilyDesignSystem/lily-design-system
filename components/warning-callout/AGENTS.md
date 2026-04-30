@@ -21,6 +21,10 @@
 - `role="alert"` -- identifies the content as an alert; screen readers announce it immediately when it appears or changes
 - `aria-label={label}` -- optional accessible name to distinguish this alert from others on the page
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (optional) -- accessible name applied via `aria-label`; useful when multiple alerts exist on the same page

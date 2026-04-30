@@ -26,6 +26,10 @@
 - `aria-live="polite"` -- default live region politeness; waits for user idle before announcing
 - `aria-live="assertive"` -- applied when `urgent` is true; announces immediately
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (optional) -- accessible name for the notification region via `aria-label`

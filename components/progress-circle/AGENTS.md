@@ -25,6 +25,10 @@
 - `aria-valuemin` -- the minimum value of the progress range
 - `aria-valuemax` -- the maximum value of the progress range
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name for the progress indicator via `aria-label`

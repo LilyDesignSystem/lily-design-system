@@ -27,6 +27,10 @@
 - `role="region"` -- defines the Kanban board as a named landmark section
 - `aria-label={label}` -- provides an accessible name for the board region
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible name describing the board, applied via `aria-label`

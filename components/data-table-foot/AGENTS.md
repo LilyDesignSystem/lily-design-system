@@ -26,6 +26,10 @@
 
 - Implicit `rowgroup` role from the `<tfoot>` element -- groups the footer rows of the table
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `children`: slot (required) -- footer rows with summary or aggregate content

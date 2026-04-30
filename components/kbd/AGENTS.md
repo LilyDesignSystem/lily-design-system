@@ -16,6 +16,10 @@
 - Spreads `restProps` onto the `<kbd>` element for consumer customization
 - Children slot renders the key label text
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `className`: string (default: `""`) -- CSS class name for the element

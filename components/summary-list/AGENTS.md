@@ -27,6 +27,10 @@
 
 - `aria-label={label}` -- provides the accessible name for the description list, allowing screen readers to announce the context of the key-value pairs
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (required) -- accessible label for the description list via `aria-label`

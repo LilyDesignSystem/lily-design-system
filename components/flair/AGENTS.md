@@ -21,6 +21,10 @@
 - `aria-hidden="true"` -- applied when no `label` is provided, marking the flair as decorative
 - `aria-label` -- applied when `label` is provided, giving the flair an accessible name for screen readers
 
+## Keyboard
+
+- No keyboard interactions — this is a passive element
+
 ## Props
 
 - `label`: string (default: undefined) -- accessible label; omit for decorative flair, provide for meaningful flair
