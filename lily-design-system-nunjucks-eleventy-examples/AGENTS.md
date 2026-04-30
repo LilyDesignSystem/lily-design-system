@@ -1,4 +1,4 @@
-# Lily Design System - Nunjucks Example
+# Lily Design System - Nunjucks Eleventy Examples
 
 @AGENTS/lily.md
 @AGENTS/components.md
@@ -9,7 +9,7 @@
 
 ## Metadata
 
-- Package: lily-design-system-nunjucks-example
+- Package: lily-design-system-nunjucks-eleventy-examples
 - Version: 0.1.0
 - Created: 2026-04-18
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
@@ -86,7 +86,7 @@ See `nunjucks-plan.md` for the full tree. Key paths:
 ## Titles
 
 - PackagePascalCase: `LilyNunjucksExample`
-- package-kebab-case: `lily-design-system-nunjucks-example`
+- package-kebab-case: `lily-design-system-nunjucks-eleventy-examples`
 - package_snake_case: `lily_nunjucks_example`
 
 ## Helpers

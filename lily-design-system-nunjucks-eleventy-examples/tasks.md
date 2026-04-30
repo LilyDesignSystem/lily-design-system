@@ -1,10 +1,10 @@
-# Lily Design System — Nunjucks Example — Tasks
+# Lily Design System — Nunjucks Eleventy Examples — Tasks
 
 Reference: [nunjucks-plan.md](nunjucks-plan.md).
 
 ## Infrastructure
 
-- [ ] Create subproject directory `lily-design-system-nunjucks-example/`
+- [ ] Create subproject directory `lily-design-system-nunjucks-eleventy-examples/`
 - [ ] Create `package.json` with `@11ty/eleventy`, `nunjucks`,
       `vitest`, `jsdom`; ESM; scripts `dev`, `build`, `test`
 - [ ] Run `pnpm install`
@@ -22,7 +22,7 @@ Reference: [nunjucks-plan.md](nunjucks-plan.md).
 - [ ] Create `index.md` project overview
 - [ ] Symlink `README.md` → `index.md`
 - [ ] Add entry to root `AGENTS.md` linking to this subproject
-- [ ] Add `lily-design-system-nunjucks-example` to
+- [ ] Add `lily-design-system-nunjucks-eleventy-examples` to
       `bin/list-implementations`
 - [ ] Gitignore `_site/` and `node_modules/`
 

@@ -1,4 +1,4 @@
-# Lily Design System — Nunjucks Example — Implementation Plan
+# Lily Design System — Nunjucks Eleventy Examples — Implementation Plan
 
 ## Goal
 
@@ -55,7 +55,7 @@ Sibling subprojects:
 ## Directory structure
 
 ```
-lily-design-system-nunjucks-example/
+lily-design-system-nunjucks-eleventy-examples/
 ├── AGENTS.md
 ├── CLAUDE.md
 ├── AGENTS/                              # symlinks to shared docs
@@ -528,5 +528,5 @@ page scale, not just in isolation.
 ## Titles
 
 - PackagePascalCase: `LilyNunjucksExample`
-- package-kebab-case: `lily-design-system-nunjucks-example`
+- package-kebab-case: `lily-design-system-nunjucks-eleventy-examples`
 - package_snake_case: `lily_nunjucks_example`

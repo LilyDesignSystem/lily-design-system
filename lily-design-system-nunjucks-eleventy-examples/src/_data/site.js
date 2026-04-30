@@ -1,5 +1,5 @@
 export default {
-  name: "Lily Design System — Nunjucks Example",
+  name: "Lily Design System — Nunjucks Eleventy Examples",
   shortName: "Lily",
   lang: "en",
   description:

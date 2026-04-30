@@ -15,7 +15,7 @@ Batteries-included web examples that demonstrate components in real apps:
 - [React Next.js examples](lily-design-system-react-next-examples)
 - [Vue Nuxt.js examples](lily-design-system-vue-nuxt-examples)
 - [Blazor Web examples](lily-design-system-blazor-web-examples)
-- [Nunjucks Eleventy example](lily-design-system-nunjucks-example)
+- [Nunjucks Eleventy example](lily-design-system-nunjucks-eleventy-examples)
 
 Headless versions if you want to use components with all your own styles:
 

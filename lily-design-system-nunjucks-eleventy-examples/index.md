@@ -1,4 +1,4 @@
-# Lily Design System - Nunjucks Example
+# Lily Design System - Nunjucks Eleventy Examples
 
 A browsable example website that demonstrates every Lily Design System
 component rendered through the
