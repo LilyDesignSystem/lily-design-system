@@ -81,6 +81,16 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 - **Designers**: Use consistent column widths for time-period columns to create a uniform grid.
 - **Developers**: Place GanttTableTH elements inside a GanttTableTR within GanttTableHead.
 
+## Related components
+
+- `gantt-table` — a Gantt chart table interactive grid for planning schedule visualization <table>
+- `gantt-table-body` — a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
+- `gantt-table-foot` — a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
+- `gantt-table-head` — a Gantt chart table interactive grid thead for planning schedule visualization <thead>
+- `gantt-table-row` — a Gantt chart table interactive grid row for planning schedule visualization <tr>
+- `gantt-table-td` — a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+- `table` — a table with rows and columns <table>
+
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

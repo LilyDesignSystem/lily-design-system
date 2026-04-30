@@ -93,3 +93,7 @@ The consumer provides all CSS styling. The component renders with a `.slider-but
 
 - **Designers**: Make the slider track and thumb clearly visible. Provide visual feedback as the slider progresses. Show a completion animation on success.
 - **Developers**: Always provide a keyboard fallback (Enter key) for accessibility. Reset the slider state after confirmation or cancellation.
+
+## References
+
+- [MDN button element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)

@@ -91,3 +91,16 @@ The consumer provides all CSS styling. The component renders with a `.mockup-win
 
 - **Designers**: Include recognizable window elements (title bar, close/minimize/maximize buttons) for clear identification.
 - **Developers**: Always provide a descriptive `label` prop so screen readers can convey the mockup's purpose.
+
+## Related components
+
+- `mockup-browser` — a box area that looks like a web browser
+- `mockup-laptop` — a box area that looks like a laptop computer
+- `mockup-phone-landscape` — a box area that looks like a mobile phone in landscape orientation
+- `mockup-phone-portrait` — a box area that looks like a mobile phone
+- `mockup-shell` — a box area that looks like a terminal shell
+- `mockup-tablet-landscape` — a box area that looks like a tablet computer in landscape mode
+
+## References
+
+- [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

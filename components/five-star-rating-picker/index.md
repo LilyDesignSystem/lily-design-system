@@ -97,6 +97,10 @@ The consumer provides all CSS styling. The component renders with a `.five-star-
 
 FiveStarRatingPicker uses the Picker/PickerButton pattern. It contains FiveStarRatingPickerButton children, where each button represents one star level. The picker manages the group semantics while each button handles individual selection state via `aria-pressed`.
 
+## Related components
+
+- `five-star-rating-picker-button` — a picker button for selecting a 1-5 star rating using radio buttons
+
 ## References
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/

@@ -117,6 +117,10 @@ The consumer provides all CSS styling. The component renders with a `.red-amber-
 
 RedAmberGreenPicker is the container for RedAmberGreenPickerButton children. Use `<RedAmberGreenPicker>` to wrap `<RedAmberGreenPickerButton>` elements, where each button represents one RAG status level with `aria-pressed` toggle state.
 
+## Related components
+
+- `red-amber-green-picker-button` — a picker button for selecting a red/amber/green status
+
 ## References
 
 - RAG Status: https://en.wikipedia.org/wiki/Traffic_light_rating_system

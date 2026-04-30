@@ -115,6 +115,10 @@ The consumer provides all CSS styling. The component renders with a `.tag-input`
 - **Designers**: Place the TagInput visually adjacent to or inside the TagGroup so users understand the relationship. Show a clear placeholder text such as "Add a tag..." to indicate purpose.
 - **Developers**: Use the `onadd` callback to append the new tag to your collection state. Consider trimming and deduplicating tags in the callback. Pair with a TagGroup for displaying the resulting tags.
 
+## Related components
+
+- `text-input` — a single-line text input field <input type="text">
+
 ## References
 
 - WAI-ARIA textbox role (implicit via input type="text"): https://www.w3.org/TR/wai-aria-1.2/#textbox

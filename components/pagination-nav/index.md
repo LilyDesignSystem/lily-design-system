@@ -110,6 +110,12 @@ PaginationNav is the outermost component in the pagination compound pattern. It 
 PaginationNav (nav) → PaginationList (nav + ul) → PaginationListItem (li)
 ```
 
+## Related components
+
+- `pagination-list` — an ordered list of pagination list items
+- `pagination-list-item` — one pagination list item in the trail
+- `pagination-link` — one pagination link in the trail
+
 ## References
 
 - WAI-ARIA Navigation Role: https://www.w3.org/TR/wai-aria-1.2/#navigation

@@ -83,3 +83,13 @@ PaginationListItem is the leaf component in the PaginationNav compound pattern. 
 ```
 PaginationNav → PaginationList → PaginationListItem (li) → link or button
 ```
+
+## Related components
+
+- `pagination-nav` — an ordered list of page navigation links
+- `pagination-list` — an ordered list of pagination list items
+- `pagination-link` — one pagination link in the trail
+
+## References
+
+- [MDN li element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li)

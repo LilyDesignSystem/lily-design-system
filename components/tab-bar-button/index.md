@@ -94,6 +94,10 @@ The consumer provides all CSS styling. The component renders with a `.tab-bar-bu
 
 TabBarButton is designed to be used as a child of TabBar. The TabBar provides the `role="tablist"` container with arrow key navigation, and each TabBarButton provides an individual `role="tab"` button with selection state.
 
+## Related components
+
+- `tab-bar` — a group of tabs for switching between content panels
+
 ## References
 
 - WAI-ARIA TabBarButtons Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/

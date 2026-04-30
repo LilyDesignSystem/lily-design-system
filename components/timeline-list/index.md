@@ -4,6 +4,11 @@ A timeline list is a UI/UX component used to visually organize and display event
 
 This component renders as a semantic ordered list (`<ol>`) with an accessible label, conveying the chronological nature of the content to both sighted users and screen reader users. The consumer provides individual timeline entries as `<li>` children through the children slot.
 
+## Implementation Notes
+
+- Renders a `<ol>` element with class `timeline-list`
+- Spreads `restProps` onto the root element for consumer customization
+
 ## Help
 
 Use TimelineList when you need to present a sequence of events or milestones in chronological order. Common scenarios include project milestones, order history, activity feeds, and user journey maps. Each child should be a TimelineListItem or a plain `<li>` element.
@@ -130,6 +135,10 @@ The consumer provides all CSS styling. The component renders with a `.timeline-l
 ## Composition
 
 TimelineList contains TimelineListItem children following the List/ListItem pattern. TimelineList provides the `<ol>` container with accessible labeling, and each TimelineListItem provides an `<li>` for one chronological event.
+
+## Related components
+
+- `timeline-list-item` — one event in a timeline list
 
 ## References
 

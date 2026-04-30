@@ -98,3 +98,7 @@ The consumer provides all CSS styling. The component renders with a `.character`
 
 - **Designers**: Ensure meaningful characters have sufficient size and color contrast to be legible. Consider pairing symbols with supporting text for clarity.
 - **Developers**: Always provide a descriptive `label` for meaningful characters. Set `decorative` to true for purely visual symbols that add no information.
+
+## References
+
+- [MDN span element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span)

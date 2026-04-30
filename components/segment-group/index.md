@@ -91,6 +91,10 @@ The consumer provides all CSS styling. The component renders with a `.segment-gr
 
 SegmentGroup is the container for SegmentGroupItem children. Use `<SegmentGroup>` to wrap `<SegmentGroupItem>` elements, providing the group-level accessible label while each item carries its own value and checked state.
 
+## Related components
+
+- `segment-group-item` — one selectable segment in a segment group
+
 ## References
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/

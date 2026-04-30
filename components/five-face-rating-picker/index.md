@@ -95,6 +95,10 @@ The consumer provides all CSS styling. The component renders with a `.five-face-
 
 FiveFaceRatingPicker composes with FiveFaceRatingPickerButton using the Picker/PickerButton pattern. The picker provides the group container with `role="radiogroup"`, and each picker button represents one selectable face rating level.
 
+## Related components
+
+- `five-face-rating-picker-button` — a picker button for selecting a 1-5 satisfaction rating using face labels
+
 ## References
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/

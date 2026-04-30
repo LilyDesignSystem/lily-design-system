@@ -89,6 +89,10 @@ MenuBarButton is a child component of MenuBar. The parent MenuBar provides `role
 MenuBar (role="menubar") → MenuBarButton (role="menuitem")
 ```
 
+## Related components
+
+- `menu-bar` — a horizontal bar of menu triggers
+
 ## References
 
 - WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/

@@ -76,6 +76,10 @@ The consumer provides all CSS styling. The component renders with a `.five-star-
 - **Designers**: Use clear visual distinction between filled and empty stars. Consider half-star displays for fractional ratings by styling at the consumer level.
 - **Developers**: The `data-filled` attribute on each star span enables CSS-only styling of filled vs. empty states without JavaScript.
 
+## Related components
+
+- `five-star-rating-picker` — a picker for selecting a 1-5 star rating using radio buttons
+
 ## References
 
 - WAI-ARIA `img` role: https://www.w3.org/WAI/ARIA/apd/roles/img/

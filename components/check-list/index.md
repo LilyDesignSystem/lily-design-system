@@ -88,6 +88,10 @@ The consumer provides all CSS styling. The component renders with a `.check-list
 
 CheckList follows the List/ListItem composition pattern. Use CheckList as the container with CheckListItem components as children. Each CheckListItem renders as an `<li>` and should contain a checkbox input and label. The CheckList manages the accessible list semantics while each CheckListItem manages its own item semantics.
 
+## Related components
+
+- `check-list-item` — one check list item component with a checkbox
+
 ## References
 
 - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/

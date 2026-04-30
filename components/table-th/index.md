@@ -79,6 +79,15 @@ The consumer provides all CSS styling. The component renders with a `.table-th` 
 
 TableTD is a child of TableRow within TableHead, following the Table pattern: Table > TableHead/TableBody/TableFoot > TableRow > TableTD/TableTD.
 
+## Related components
+
+- `table` — a table with rows and columns <table>
+- `table-body` — a table interactive grid tbody <tbody>
+- `table-foot` — a table interactive grid tfoot <tfoot>
+- `table-head` — a table interactive grid thead <thead>
+- `table-row` — a table interactive grid row <tr>
+- `table-td` — a table interactive grid data cell <td>
+
 ## References
 
 - MDN th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th

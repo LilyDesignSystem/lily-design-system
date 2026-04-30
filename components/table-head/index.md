@@ -66,6 +66,15 @@ The consumer provides all CSS styling. The component renders with a `.table-head
 
 TableHead is a child of Table, following the Table pattern: Table > TableHead/TableBody/TableFoot > TableRow > TableTD.
 
+## Related components
+
+- `table` — a table with rows and columns <table>
+- `table-body` — a table interactive grid tbody <tbody>
+- `table-foot` — a table interactive grid tfoot <tfoot>
+- `table-row` — a table interactive grid row <tr>
+- `table-td` — a table interactive grid data cell <td>
+- `table-th` — a table interactive grid column <th>
+
 ## References
 
 - MDN thead element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead

@@ -104,6 +104,12 @@ TreeLink follows the Nav / List / ListItem composition pattern:
 </TreeNav>
 ```
 
+## Related components
+
+- `tree-nav` — a hierarchical navigation with expandable branches
+- `tree-list` — a hierarchical list with nested expandable items
+- `tree-list-item` — one item in a tree navigation list
+
 ## References
 
 - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/

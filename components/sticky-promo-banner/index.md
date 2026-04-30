@@ -115,6 +115,15 @@ and `sticky-promo-banner-dismiss` classes for layout and the dismiss icon.
 - **Designers**: Keep the message short — one sentence with one link. Reserve top placement for higher-impact announcements; default to bottom for promos.
 - **Developers**: Always supply `label` and `dismissLabel`. Persist the user's dismissal in storage so the banner does not reappear on every page load.
 
+## Related components
+
+- `announcement-banner` — a banner highlighting important messages for all users
+- `banner` — a prominent message bar across the top of a page
+- `banner-box` — a banner box that is inside a banner component, using flexbox horizontal
+- `government-banner` — a banner identifying a website as belonging to a government, with an expandable details panel
+- `medical-banner` — a prominent message bar across the top of a page, with medical information
+- `medical-banner-box` — a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
+
 ## References
 
 - WAI-ARIA `complementary` role: https://www.w3.org/TR/wai-aria-1.2/#complementary

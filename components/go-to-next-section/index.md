@@ -30,6 +30,14 @@ A link that takes users to the next section of the current page.
 
 - Native anchor accessibility — the `href` provides the destination, the link text provides the accessible name
 
+## When to Use
+
+- See `index.md` description: a link that takes users to the next section of the current page.
+
+## When Not to Use
+
+- See related components for alternative patterns.
+
 ## Headless
 
 This headless component renders semantic HTML. The consumer provides all visual styling. No CSS, animations, or layout are included — the consumer composes those.

@@ -75,3 +75,7 @@ The consumer provides all CSS styling. The component renders with a `.footer` cl
 
 - **Designers**: Keep footer content organized with clear groupings (e.g., navigation links, legal text, social links). Use a visually distinct background to separate the footer from main content.
 - **Developers**: When multiple footers exist on a page, provide the `label` prop to help screen reader users distinguish between them.
+
+## References
+
+- [MDN footer element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer)

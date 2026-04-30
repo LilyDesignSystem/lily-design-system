@@ -78,6 +78,10 @@ The consumer provides all CSS styling. The component renders with a `.net-promot
 - **Designers**: Color-code displayed scores by range (e.g., red for Detractors 0-6, yellow for Passives 7-8, green for Promoters 9-10) and display the category label alongside the number.
 - **Developers**: Provide a descriptive `label` prop (e.g., "Customer NPS score") so screen reader users understand the context of the displayed number.
 
+## Related components
+
+- `net-promoter-score-picker` — a picker for selecting a 0-10 Net Promoter Score
+
 ## References
 
 - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score

@@ -89,6 +89,10 @@ NetPromoterScorePickerButton is a child component of NetPromoterScorePicker. The
 NetPromoterScorePicker → NetPromoterScorePickerButton (value="0" through "10")
 ```
 
+## Related components
+
+- `net-promoter-score-picker` — a picker for selecting a 0-10 Net Promoter Score
+
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

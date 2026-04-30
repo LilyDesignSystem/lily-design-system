@@ -99,6 +99,12 @@ BreadcrumbListItem follows the Nav / List / ListItem composition pattern:
 </BreadcrumbNav>
 ```
 
+## Related components
+
+- `breadcrumb-nav` — a navigation container for breadcrumb trail links
+- `breadcrumb-list` — an ordered list of breadcrumb list items
+- `breadcrumb-link` — one breadcrumb link in the trail
+
 ## References
 
 - WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/

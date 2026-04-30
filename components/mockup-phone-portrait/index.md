@@ -84,6 +84,15 @@ The consumer provides all CSS styling. The component renders with a `.mockup-pho
 - **Designers**: Maintain a realistic phone aspect ratio (approximately 9:19.5 for modern smartphones). Include visual details like a bezel, notch, and rounded corners. Ensure the screen content area is clearly defined and the mockup scales well across viewport sizes.
 - **Developers**: Always provide a descriptive `label` prop that explains what the phone mockup is showing. Ensure any interactive content inside the mockup remains keyboard accessible and does not trap focus.
 
+## Related components
+
+- `mockup-browser` — a box area that looks like a web browser
+- `mockup-laptop` — a box area that looks like a laptop computer
+- `mockup-phone-landscape` — a box area that looks like a mobile phone in landscape orientation
+- `mockup-shell` — a box area that looks like a terminal shell
+- `mockup-tablet-landscape` — a box area that looks like a tablet computer in landscape mode
+- `mockup-tablet-portrait` — a box area that looks like a tablet computer in portrait mode
+
 ## References
 
 - WAI-ARIA img Role: https://www.w3.org/TR/wai-aria-1.2/#img

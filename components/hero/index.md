@@ -85,3 +85,7 @@ The consumer provides all CSS styling. The component renders with a `.hero` clas
 
 - **Designers**: Keep hero content concise and focused. Use high-contrast text over images. Ensure text is readable at all viewport sizes. Include a clear call-to-action.
 - **Developers**: Always provide a descriptive `label` prop for screen reader landmark navigation. Use responsive images and consider lazy loading for hero backgrounds.
+
+## References
+
+- [MDN section element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section)

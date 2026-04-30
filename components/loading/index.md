@@ -87,3 +87,7 @@ The consumer provides all CSS styling. The component renders with a `.loading` c
 
 - **Designers**: Provide clear visual feedback that something is happening. Use consistent loading indicators across the application. Consider skeleton screens for content-heavy pages.
 - **Developers**: Use `aria-live="polite"` to avoid interrupting screen reader users. Update the `label` prop to reflect the current loading context.
+
+## References
+
+- [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

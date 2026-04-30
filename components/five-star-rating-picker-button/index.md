@@ -75,6 +75,10 @@ The consumer provides all CSS styling. The component renders with a `.five-star-
 - **Designers**: Ensure the pressed and unpressed states are visually distinct, with sufficient color contrast for both states. Consider animation on press.
 - **Developers**: Always provide a descriptive `label` prop (e.g., "3 stars") so screen readers announce the rating level clearly.
 
+## Related components
+
+- `five-star-rating-picker` — a picker for selecting a 1-5 star rating using radio buttons
+
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

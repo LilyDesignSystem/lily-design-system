@@ -4,6 +4,11 @@ An accordion list item is a single expandable section using native HTML `<detail
 
 The component leverages the browser's native disclosure widget to deliver accessible expand/collapse behavior without any custom JavaScript. The `open` prop is two-way bindable, allowing parent components to programmatically control and observe the expanded state.
 
+## Implementation Notes
+
+- Renders a `<li>` element with class `accordion-list-item`
+- Spreads `restProps` onto the root element for consumer customization
+
 ## Help
 
 Use AccordionListItem for each individual collapsible section within an AccordionList. Common scenarios include FAQ question/answer pairs, expandable settings groups, and collapsible content panels. For more granular control over the header and body, use AccordionSummary and AccordionDetails as children.
@@ -125,6 +130,12 @@ AccordionListItem follows the Nav / List / ListItem composition pattern:
   </AccordionList>
 </AccordionNav>
 ```
+
+## Related components
+
+- `accordion-nav` — an accordion navigation area for collapsible accordion information
+- `accordion-list` — an accordion ordered list of list item components
+- `accordion-link` — an accordion link
 
 ## References
 

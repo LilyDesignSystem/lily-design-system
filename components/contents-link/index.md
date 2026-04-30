@@ -84,3 +84,13 @@ The consumer provides all CSS styling. The component renders with a `.contents-l
 ## Composition
 
 ContentsLink is used within ContentsListItem, which is part of ContentsList and ContentsNav.
+
+## Related components
+
+- `contents-nav` — a contents navigation area
+- `contents-list` — an contents ordered list of contents list item components
+- `contents-list-item` — one contents list item
+
+## References
+
+- [MDN a element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a)

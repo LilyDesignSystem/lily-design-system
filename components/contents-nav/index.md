@@ -87,6 +87,12 @@ The consumer provides all CSS styling. The component renders with a `.contents-n
 
 ContentsNav follows the Nav/List/ListItem composition pattern. Use ContentsNav as the outer `<nav>` landmark, ContentsList as the inner ordered list, and ContentsListItem for each section link entry. This three-level structure ensures proper semantics and landmark navigation for assistive technology users.
 
+## Related components
+
+- `contents-list` — an contents ordered list of contents list item components
+- `contents-list-item` — one contents list item
+- `contents-link` — one table of contents link
+
 ## References
 
 - WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/

@@ -79,6 +79,10 @@ The consumer provides all CSS styling. The component renders with a `.summary-li
 
 SummaryList uses the List/ListItem composition pattern. Place SummaryListItem components as children inside SummaryList. Each SummaryListItem renders a `<dt>`/`<dd>` pair within a `<div>` wrapper, while SummaryList provides the outer `<dl>` container with accessible labeling.
 
+## Related components
+
+- `summary-list-item` — one key-value pair in a summary list
+
 ## References
 
 - MDN dl element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl

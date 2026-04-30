@@ -75,6 +75,10 @@ The consumer provides all CSS styling. The component renders with a `.summary-li
 
 SummaryListItem is designed to be used as a child of SummaryList. The SummaryList provides the outer `<dl>` container, and each SummaryListItem provides one `<div>`-wrapped `<dt>`/`<dd>` pair within it.
 
+## Related components
+
+- `summary-list` — an ordered list of key-value summary pairs
+
 ## References
 
 - MDN dl element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl

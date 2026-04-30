@@ -64,6 +64,15 @@ The consumer provides all CSS styling. The component renders with a `.espana-tar
 
 The España Tarjeta Sanitaria Individual (TSI) uses a CIP-SNS code that typically begins with 4 digits indicating the Autonomous Community region, followed by a variable mix of alphanumeric characters. The code is printed on the front of the health card, often below the barcode. To obtain the card, España citizens use their DNI (National Identity Document) and non-España citizens use their NIE (Foreigner Identification Number). A 12-digit España Social Security Number (NUSS/NAF) is also required for registration.
 
+## Related components
+
+- `espana-tarjeta-sanitaria-individual-input` — an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
+- `france-numero-d-identification-au-repertoire-input` — an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
+- `france-numero-d-identification-au-repertoire-view` — a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
+- `ireland-individual-health-identifier-input` — an input for entering Ireland Individual Health Identifier (IHI) unique national healthcare identifier
+- `ireland-individual-health-identifier-view` — a read-only display of Ireland Individual Health Identifier (IHI) unique national healthcare identifier
+- `northern-ireland-health-and-care-number-input` — an input for entering aNorthern Ireland Health and Care (H&C) Number unique national healthcare identifier
+
 ## References
 
 - Ministerio de Sanidad: https://www.sanidad.gob.es/

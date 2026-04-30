@@ -4,6 +4,11 @@ A theme select is a headless component that allows users to switch between diffe
 
 The consumer provides `<option>` elements as children to define the available themes. The component uses `aria-label` for accessible naming and supports two-way binding on the selected theme.
 
+## Implementation Notes
+
+- Renders a `<select>` element with class `theme-select`
+- Spreads `restProps` onto the root element for consumer customization
+
 ## Help
 
 Use ThemeSelect when you need a dropdown for switching visual themes. Common scenarios include light/dark mode toggles, high-contrast themes for accessibility, or branded theme options. Pair with ThemeSelectOption for individual options, or use plain `<option>` elements.
@@ -123,6 +128,10 @@ The consumer provides all CSS styling. The component renders with a `.theme-sele
 ## Composition
 
 ThemeSelect contains ThemeSelectOption children (or plain `<option>` elements) following the Select/SelectOption pattern. ThemeSelect is also related to ThemePicker (radio-based approach) and ThemeView (read-only display).
+
+## Related components
+
+- `theme-select-option` — one option in a theme select dropdown
 
 ## References
 

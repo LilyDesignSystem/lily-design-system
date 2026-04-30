@@ -111,6 +111,15 @@ The consumer provides all CSS styling. The component renders with a `.medical-ba
 
 Medical banners in clinical systems display patient-specific information, clinical alerts, and health record summaries. They must be highly accessible as they convey critical information to clinicians.
 
+## Related components
+
+- `announcement-banner` — a banner highlighting important messages for all users
+- `banner` — a prominent message bar across the top of a page
+- `banner-box` — a banner box that is inside a banner component, using flexbox horizontal
+- `government-banner` — a banner identifying a website as belonging to a government, with an expandable details panel
+- `medical-banner-box` — a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
+- `medical-banner-box-for-advice` — a medical record banner box for advice information e.g. contacts, contexts, plans, etc.
+
 ## References
 
 - Parent pattern: Banner

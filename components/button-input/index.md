@@ -90,6 +90,10 @@ The consumer provides all CSS styling. The component renders with a `.button-inp
 - **Designers**: Apply the same visual treatment as Button components to maintain consistency. Ensure disabled state has sufficient contrast.
 - **Developers**: Use the `label` prop for an `aria-label` override when the `value` text alone is insufficient context for screen reader users. The `name` prop is useful for identifying the button in form submissions.
 
+## Related components
+
+- `text-input` — a single-line text input field <input type="text">
+
 ## References
 
 - MDN input type="button": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/button

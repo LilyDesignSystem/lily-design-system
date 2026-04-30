@@ -113,6 +113,10 @@ classes for fine-grained control.
 - **Designers**: Keep heading length predictable so the list reads as a tidy stack. Use thumbnails sparingly and at consistent dimensions.
 - **Developers**: Always supply `imageAlt` when `imageUrl` is set. Use `href` to make the heading the link target so the entire heading text is announced as the link.
 
+## Related components
+
+- `collection-list` — a compact list of multiple related items such as articles or events
+
 ## References
 
 - US Web Design System Collection: https://designsystem.digital.gov/components/collection/

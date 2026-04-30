@@ -84,6 +84,16 @@ KanbanTable → KanbanTableHead + KanbanTableBody + KanbanTableFoot
                 └→ column headings
 ```
 
+## Related components
+
+- `kanban-table` — a kanban board table interactive grid for organizing items by status <table>
+- `kanban-table-body` — a kanban board table interactive grid tbody for organizing items by status <tbody>
+- `kanban-table-foot` — a kanban board table interactive grid tfoot for organizing items by status <tfoot>
+- `kanban-table-row` — a kanban board table interactive grid row for organizing items by status <tr>
+- `kanban-table-td` — kanban board table interactive grid data cell for organizing items by status <td>
+- `kanban-table-th` — a kanban board table interactive grid header cell for organizing items by status <th>
+- `table` — a table with rows and columns <table>
+
 ## References
 
 - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region

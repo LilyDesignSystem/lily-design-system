@@ -90,6 +90,11 @@ The consumer provides all CSS styling. The component renders with a `.united-sta
 
 UnitedStatesSocialSecurityNumberInput is the editable input counterpart to UnitedStatesSocialSecurityNumberView, following the Input/View pattern. Use the Input for data entry and the View for read-only display.
 
+## Related components
+
+- `united-states-social-security-number-view` — a read-only display of a US Social Security number
+- `text-input` — a single-line text input field <input type="text">
+
 ## References
 
 - Social Security Number format: https://www.ssa.gov/employer/randomization.html

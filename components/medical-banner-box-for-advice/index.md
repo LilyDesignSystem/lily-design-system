@@ -88,6 +88,15 @@ The consumer provides all CSS styling. The component renders with a `.medical-ba
 
 In clinical systems, advice-level information includes care team contacts, care plans, clinical context, and routine patient data. This information is typically displayed with neutral styling to contrast with danger-level alerts.
 
+## Related components
+
+- `announcement-banner` — a banner highlighting important messages for all users
+- `banner` — a prominent message bar across the top of a page
+- `banner-box` — a banner box that is inside a banner component, using flexbox horizontal
+- `government-banner` — a banner identifying a website as belonging to a government, with an expandable details panel
+- `medical-banner` — a prominent message bar across the top of a page, with medical information
+- `medical-banner-box` — a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
+
 ## References
 
 - NHS UK Design System: https://service-manual.nhs.uk/design-system

@@ -2,6 +2,11 @@
 
 A timeline list item is a single entry within a TimelineList, rendered as a semantic `<li>` element. Each item typically contains a timestamp (via the `<time>` element) and a description of the event or milestone.
 
+## Implementation Notes
+
+- Renders a `<li>` element with class `timeline-list-item`
+- Spreads `restProps` onto the root element for consumer customization
+
 ## Help
 
 Use TimelineListItem for individual entries within a TimelineList. Common scenarios include project milestones, order status updates, activity feed entries, and historical events. Each item should represent a single event or point in time.
@@ -104,6 +109,10 @@ The consumer provides all CSS styling. The component renders with a `.timeline-l
 ## Composition
 
 TimelineListItem is a child of TimelineList, following the List/ListItem pattern. Each TimelineListItem represents one chronological event within the parent TimelineList container.
+
+## Related components
+
+- `timeline-list` — an ordered list of chronological events or milestones
 
 ## References
 

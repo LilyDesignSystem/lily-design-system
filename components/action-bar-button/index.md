@@ -100,6 +100,10 @@ indicator and hover/active visual feedback. Maintain a 44×44 px touch target.
 - **Designers**: Use a consistent visual treatment across all action bar buttons in a single bar.
 - **Developers**: Always supply a `label` prop. Include an icon plus visible text whenever space allows.
 
+## Related components
+
+- `action-bar` — a contextual action bar that appears when items are selected, showing the selection count and bulk action buttons
+
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

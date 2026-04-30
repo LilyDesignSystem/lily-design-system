@@ -106,6 +106,10 @@ The consumer provides all CSS styling. The component renders with a `.theme-pick
 
 ThemePicker is a standalone picker component that contains consumer-provided radio buttons. It is related to ThemeSelect (dropdown approach) and ThemeView (read-only display). Use ThemePicker when you want visible radio options; use ThemeSelect for a compact dropdown.
 
+## Related components
+
+- `theme-picker-button` — a picker button for selecting a visual theme
+
 ## References
 
 - WAI-ARIA radiogroup role: https://www.w3.org/TR/wai-aria-1.2/#radiogroup

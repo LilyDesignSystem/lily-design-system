@@ -112,6 +112,10 @@ Menu is a compound component that contains MenuItem children. Each MenuItem prov
 Menu (role="menu") → MenuItem (role="menuitem")
 ```
 
+## Related components
+
+- `menu-item` — one item in a menu
+
 ## References
 
 - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/

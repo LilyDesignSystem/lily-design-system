@@ -99,6 +99,10 @@ color alone.
 - **Designers**: Use group labels that describe the category, not the count or layout (e.g., "Edit", not "Three options").
 - **Developers**: Localize the `label` prop; avoid translating it inside the component.
 
+## Related components
+
+- `menu-item` — one item in a menu
+
 ## References
 
 - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/

@@ -94,6 +94,10 @@ The consumer provides all CSS styling. The component renders with a `.tab-bar` c
 
 TabBar uses the Bar/BarButton composition pattern. Place TabBarButton components as children inside TabBar. The TabBar provides the `role="tablist"` container with keyboard navigation, while each TabBarButton provides `role="tab"` with selection state and panel association.
 
+## Related components
+
+- `tab-bar-button` — one tab button in a tab group
+
 ## References
 
 - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/

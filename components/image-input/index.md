@@ -57,6 +57,10 @@ No additional ARIA attributes are needed. The native `<input type="image">` elem
 - Avoid when you need a standard text-based submit button; use SubmitInput instead.
 - Avoid when you need a non-submit image button; use a Button with an Image child instead.
 
+## When Not to Use
+
+- See related components for alternative patterns.
+
 ## Headless
 
 This headless component renders a native `<input type="image">` element with configurable `src`, `alt`, `width`, `height`, and `disabled` props. It provides built-in form submission behavior with no additional ARIA needed. The consumer provides all visual styling including borders, shadows, hover/focus states, and sizing.

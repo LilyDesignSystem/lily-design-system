@@ -85,6 +85,10 @@ consistent vertical spacing.
 - **Designers**: Use a single icon per list to maintain visual rhythm. Choose icons that match the tone (check, arrow, dot).
 - **Developers**: Always supply `IconListItem` children. Add `label` when the list's purpose is not clear from surrounding context.
 
+## Related components
+
+- `icon-list-item` — one item in an icon list with a leading icon slot
+
 ## References
 
 - US Web Design System Icon List: https://designsystem.digital.gov/components/icon-list/

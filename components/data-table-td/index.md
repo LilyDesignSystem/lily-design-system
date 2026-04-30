@@ -71,6 +71,16 @@ The consumer provides all CSS styling. The component renders with a `.data-table
 
 DataTableTD is the leaf component in the DataTable composition pattern. It sits inside a DataTableRow. The full hierarchy is DataTable > DataTableHead/DataTableBody/DataTableFoot > DataTableRow > DataTableTD.
 
+## Related components
+
+- `data-table` — a data table interactive grid for displaying and sorting tabular data <table>
+- `data-table-body` — a data table interactive grid tbody for displaying and sorting tabular data <tbody>
+- `data-table-foot` — a data table interactive grid tfoot for displaying and sorting tabular data <tfoot>
+- `data-table-head` — a data table interactive grid thead for displaying and sorting tabular data <thead>
+- `data-table-row` — a data table interactive grid row for displaying and sorting tabular data <tr>
+- `data-table-th` — a data table interactive grid header cell for displaying and sorting tabular data <th>
+- `table` — a table with rows and columns <table>
+
 ## References
 
 - WAI-ARIA Table Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/table/

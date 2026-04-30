@@ -77,3 +77,7 @@ The consumer provides all CSS styling. The component renders with a `.place` cla
 
 - **Designers**: Include location name, address, and a visual element (map or photo) for clear identification.
 - **Developers**: Use the `label` prop to identify the place for screen readers. Use semantic `<address>` elements for postal addresses.
+
+## References
+
+- [MDN article element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article)

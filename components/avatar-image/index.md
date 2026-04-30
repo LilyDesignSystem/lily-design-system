@@ -2,6 +2,11 @@
 
 An avatar image is the `<img>` element rendered inside an Avatar when a valid image source is available. It displays the user's profile photo with proper `alt` text for accessibility and an `onerror` handler to trigger the initials fallback.
 
+## Implementation Notes
+
+- Renders a `<img>` element with class `avatar-image`
+- Spreads `restProps` onto the root element for consumer customization
+
 ## Help
 
 Use AvatarImage inside an Avatar to display a user's photo. The parent Avatar typically manages rendering this component automatically based on the `src` prop. Common scenarios include profile photos, team member headshots, and social media avatars.
@@ -102,6 +107,12 @@ AvatarImage is a child component within the Avatar composition pattern:
   <AvatarImage src="/photo.jpg" alt="Jane Doe" />
 </Avatar>
 ```
+
+## Related components
+
+- `avatar` — an avatar indicator that shows an avatar image or avatar text
+- `avatar-text` — an avatar indicator inner text such as a user name
+- `avatar-group` — a group of avatar components
 
 ## References
 

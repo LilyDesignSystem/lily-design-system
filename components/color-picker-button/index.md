@@ -84,6 +84,10 @@ The consumer provides all CSS styling. The component renders with a `.color-pick
 
 ColorPickerButton is the child component in the ColorPicker/ColorPickerButton composition pattern. Multiple ColorPickerButton instances form a color palette. They can be combined with a ColorPicker for interfaces that offer both preset swatches and fine-grained 2D color selection.
 
+## Related components
+
+- `color-picker` — a two-dimensional board for picking colors by hue and saturation
+
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

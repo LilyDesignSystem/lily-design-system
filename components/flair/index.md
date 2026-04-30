@@ -81,3 +81,7 @@ The consumer provides all CSS styling. The component renders with a `.flair` cla
 
 - **Designers**: Use consistent color coding across your application for flair categories. Keep flair text short -- one or two words maximum.
 - **Developers**: Provide the `label` prop whenever the flair conveys meaningful information that is not available from surrounding text. Omit `label` only for purely decorative flair.
+
+## References
+
+- [MDN span element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span)

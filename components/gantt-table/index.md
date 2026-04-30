@@ -97,6 +97,16 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 
 GanttTable uses the Table composition pattern: GanttTable contains GanttTableHead, GanttTableBody, and optionally GanttTableTfoot. Each section contains GanttTableTR elements, which contain `<th>` cells for task names and GanttTableTD cells for time period indicators. Use GanttTableTH inside a `<colgroup>` for column-level styling.
 
+## Related components
+
+- `gantt-table-body` — a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
+- `gantt-table-foot` — a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
+- `gantt-table-head` — a Gantt chart table interactive grid thead for planning schedule visualization <thead>
+- `gantt-table-row` — a Gantt chart table interactive grid row for planning schedule visualization <tr>
+- `gantt-table-td` — a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+- `gantt-table-th` — a Gantt chart table interactive grid header cell for planning schedule visualization <th>
+- `table` — a table with rows and columns <table>
+
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

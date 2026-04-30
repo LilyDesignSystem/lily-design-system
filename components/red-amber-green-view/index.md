@@ -87,6 +87,10 @@ The consumer provides all CSS styling. The component renders with a `.red-amber-
 - **Designers**: Pair the color indicator with a text label (e.g., "Green - On track") so the status is understandable without relying on color alone.
 - **Developers**: Apply CSS styles using the text content or a `data-*` attribute to dynamically color-code the display based on the status value.
 
+## Related components
+
+- `red-amber-green-picker` — a picker for selecting a red/amber/green status
+
 ## References
 
 - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status

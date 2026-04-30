@@ -96,6 +96,10 @@ The consumer provides all CSS styling. The component renders with a `.date-time-
 - **Designers**: Place the "Now" button adjacent to the inputs so users can easily discover it. Consider adding a clock icon to the button for visual clarity.
 - **Developers**: The "Now" button uses `new Date()` to get the current local date and time. The date format is `YYYY-MM-DD` and time format is `HH:mm` to match native input requirements.
 
+## Related components
+
+- `text-input` — a single-line text input field <input type="text">
+
 ## References
 
 - MDN date input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date

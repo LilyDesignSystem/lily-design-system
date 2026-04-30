@@ -82,3 +82,7 @@ The consumer provides all CSS styling. The component renders with a `.dial-group
 ## Composition
 
 DialGroup is a container for Dial components.
+
+## References
+
+- [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

@@ -80,6 +80,16 @@ The consumer provides all CSS styling. The component renders with a `.kanban-tab
 
 KanbanTableTD is part of the KanbanTable composition pattern: KanbanTable > KanbanTableHead > KanbanTableRow > KanbanTableTD.
 
+## Related components
+
+- `kanban-table` — a kanban board table interactive grid for organizing items by status <table>
+- `kanban-table-body` — a kanban board table interactive grid tbody for organizing items by status <tbody>
+- `kanban-table-foot` — a kanban board table interactive grid tfoot for organizing items by status <tfoot>
+- `kanban-table-head` — a kanban board table interactive grid thead for organizing items by status <thead>
+- `kanban-table-row` — a kanban board table interactive grid row for organizing items by status <tr>
+- `kanban-table-td` — kanban board table interactive grid data cell for organizing items by status <td>
+- `table` — a table with rows and columns <table>
+
 ## References
 
 - MDN th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th

@@ -2,6 +2,11 @@
 
 A theme select option is a single `<option>` element intended for use within a ThemeSelect dropdown. It represents one available theme choice (e.g. light, dark, high-contrast) and renders as a native `<option>` element for full browser and assistive technology compatibility.
 
+## Implementation Notes
+
+- Renders a `<option>` element with class `theme-select-option`
+- Spreads `restProps` onto the root element for consumer customization
+
 ## Help
 
 Use ThemeSelectOption for individual theme choices within a ThemeSelect dropdown. Common scenarios include light/dark mode options, high-contrast themes, and system-default options. Can be used instead of plain `<option>` elements when you want a dedicated component.
@@ -111,6 +116,10 @@ The consumer provides all CSS styling. The component renders with a `.theme-sele
 ## Composition
 
 ThemeSelectOption is a child of ThemeSelect, following the Select/SelectOption pattern. Each ThemeSelectOption represents one available theme choice within the parent dropdown.
+
+## Related components
+
+- `theme-select` — a select dropdown for choosing a theme
 
 ## References
 

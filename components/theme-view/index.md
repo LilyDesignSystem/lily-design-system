@@ -95,6 +95,10 @@ The consumer provides all CSS styling. The component renders with a `.theme-view
 
 ThemeView is the read-only display counterpart to ThemePicker and ThemeSelect. Use ThemeView to show the current theme, and pair it with ThemePicker or ThemeSelect for editing.
 
+## Related components
+
+- `theme-picker` — a picker for selecting a visual theme
+
 ## References
 
 - WAI-ARIA Accessible Name: https://www.w3.org/TR/accname-1.2/

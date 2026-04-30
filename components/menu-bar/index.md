@@ -105,6 +105,10 @@ MenuBar is a compound component that contains MenuBarItem children. MenuBar prov
 MenuBar (role="menubar") → MenuBarItem (role="menuitem")
 ```
 
+## Related components
+
+- `menu-bar-button` — one item in a menu bar
+
 ## References
 
 - WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/

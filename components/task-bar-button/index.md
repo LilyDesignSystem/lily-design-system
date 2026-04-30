@@ -83,3 +83,11 @@ The consumer provides all CSS styling. The component renders with a `.task-bar-b
 ## Composition
 
 TaskBarButton is designed to be used as a child of TaskBar. The TaskBar provides the `role="toolbar"` container, and each TaskBarButton provides an individual action button within it.
+
+## Related components
+
+- `task-bar` — a horizontal bar of task shortcuts or actions
+
+## References
+
+- [MDN button element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)

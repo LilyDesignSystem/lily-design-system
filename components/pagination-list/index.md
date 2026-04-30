@@ -97,6 +97,12 @@ PaginationList is part of the PaginationNav compound component. It renders insid
 PaginationNav → PaginationList (nav + ul) → PaginationListItem (li)
 ```
 
+## Related components
+
+- `pagination-nav` — an ordered list of page navigation links
+- `pagination-list-item` — one pagination list item in the trail
+- `pagination-link` — one pagination link in the trail
+
 ## References
 
 - WAI-ARIA Practices - Pagination: https://www.w3.org/WAI/ARIA/apg/patterns/navigation/

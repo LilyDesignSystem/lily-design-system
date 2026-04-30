@@ -80,6 +80,16 @@ The consumer provides all CSS styling. The component renders with a `.calendar-t
 
 CalendarTableTD is part of the CalendarTable composition pattern: CalendarTable > CalendarTableHead > CalendarTableRow > CalendarTableTD.
 
+## Related components
+
+- `calendar-table` — a calendar table interactive grid for managing dates, days, etc. <table>
+- `calendar-table-body` — a calendar table interactive grid tbody for managing dates, days, etc. <tbody>
+- `calendar-table-foot` — a calendar table interactive grid tfoot for managing dates, days, etc. <tfoot>
+- `calendar-table-head` — a calendar table interactive grid thead for managing dates, days, etc. <thead>
+- `calendar-table-row` — a calendar table interactive grid row for managing dates, days, etc. <tr>
+- `calendar-table-td` — a calendar table interactive grid data cell for managing dates, days, etc. <td>
+- `table` — a table with rows and columns <table>
+
 ## References
 
 - MDN th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th

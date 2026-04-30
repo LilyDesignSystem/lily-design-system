@@ -91,3 +91,7 @@ The consumer provides all CSS styling. The component renders with a `.badge` cla
 
 - **Designers**: Keep badge content to 1-3 characters for counts or short labels. Use consistent sizing and position (e.g., top-right of an icon) across the interface.
 - **Developers**: Use the `label` prop to provide expanded context for screen readers, e.g., `label="3 unread messages"` when the visible badge only shows "3".
+
+## References
+
+- [MDN span element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span)

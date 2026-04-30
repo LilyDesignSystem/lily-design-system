@@ -78,3 +78,7 @@ The consumer provides all CSS styling. The component renders with an `.organizat
 
 - **Designers**: Use consistent layouts across organization entries. Include logo, name, and key details prominently.
 - **Developers**: Use the `label` prop to identify the organization for screen readers.
+
+## References
+
+- [MDN article element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article)

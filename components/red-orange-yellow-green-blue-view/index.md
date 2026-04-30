@@ -88,6 +88,10 @@ The consumer provides all CSS styling. The component renders with a `.red-orange
 - **Designers**: Use both color and text to communicate the status level, ensuring the display is understandable for users with color vision deficiencies.
 - **Developers**: Apply dynamic CSS classes or inline styles based on the `value` prop to color-code the display element appropriately.
 
+## Related components
+
+- `red-orange-yellow-green-blue-picker` — a picker for selecting a five-level color status
+
 ## References
 
 - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status

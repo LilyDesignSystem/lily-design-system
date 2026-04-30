@@ -77,3 +77,13 @@ The consumer provides all CSS styling. The component renders with a `.contents-l
 ## Composition
 
 ContentsListItem is the child component in the ContentsNav/ContentsList/ContentsListItem composition pattern. Place ContentsListItem components inside a ContentsList. Each item typically contains an anchor link. For hierarchical structures, nest a `<ul>` with additional ContentsListItem components inside a parent item.
+
+## Related components
+
+- `contents-nav` — a contents navigation area
+- `contents-list` — an contents ordered list of contents list item components
+- `contents-link` — one table of contents link
+
+## References
+
+- [MDN li element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li)

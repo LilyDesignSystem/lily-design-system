@@ -84,6 +84,12 @@ ChatListItem is part of the ChatNav composition pattern:
 - **ChatListItem** -- individual `<li>` items, each typically containing a ChatMessage component.
 - **ChatMessage** -- `<article>` element displaying one chat message with author, time, and content.
 
+## Related components
+
+- `chat-nav` — a navigation container for chat information
+- `chat-list` — an ordered list of chat list item components
+- `chat-message` — a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.
+
 ## References
 
 - MDN HTML li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li

@@ -102,3 +102,7 @@ The consumer provides all CSS styling. The component renders with a `.aspect-rat
 
 - **Designers**: Choose standard aspect ratios (16:9, 4:3, 1:1, 21:9) for consistency across the interface. Ensure fallback behavior for content that cannot fill the container.
 - **Developers**: Use `ratio={16/9}` as a JavaScript expression rather than a string. Ensure child content uses `object-fit` or similar CSS to handle how it fills the container.
+
+## References
+
+- [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

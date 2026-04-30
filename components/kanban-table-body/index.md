@@ -95,6 +95,16 @@ KanbanTable → KanbanTableHead + KanbanTableBody + KanbanTableFoot
                                   └→ columns → KanbanTableTD
 ```
 
+## Related components
+
+- `kanban-table` — a kanban board table interactive grid for organizing items by status <table>
+- `kanban-table-foot` — a kanban board table interactive grid tfoot for organizing items by status <tfoot>
+- `kanban-table-head` — a kanban board table interactive grid thead for organizing items by status <thead>
+- `kanban-table-row` — a kanban board table interactive grid row for organizing items by status <tr>
+- `kanban-table-td` — kanban board table interactive grid data cell for organizing items by status <td>
+- `kanban-table-th` — a kanban board table interactive grid header cell for organizing items by status <th>
+- `table` — a table with rows and columns <table>
+
 ## References
 
 - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/

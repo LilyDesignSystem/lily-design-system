@@ -93,3 +93,7 @@ The consumer provides all CSS styling. The component renders with a `.card` clas
 ## Composition
 
 Card supports header, body, and footer content areas through its children slot. Structure the card content with a heading for the header area, paragraph or descriptive content for the body, and action links or buttons for the footer. The `heading` prop provides a built-in heading element, or consumers can supply their own heading as part of the children content.
+
+## References
+
+- [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

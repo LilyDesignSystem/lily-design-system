@@ -99,6 +99,15 @@ The consumer provides all CSS styling. The component renders with a `.medical-ba
 - **Designers**: Use MedicalBannerBox to create horizontal layouts within medical banners for patient details. Consider responsive behavior for narrow screens.
 - **Developers**: Apply `display: flex; flex-direction: row;` to `.medical-banner-box` in your CSS.
 
+## Related components
+
+- `announcement-banner` — a banner highlighting important messages for all users
+- `banner` — a prominent message bar across the top of a page
+- `banner-box` — a banner box that is inside a banner component, using flexbox horizontal
+- `government-banner` — a banner identifying a website as belonging to a government, with an expandable details panel
+- `medical-banner` — a prominent message bar across the top of a page, with medical information
+- `medical-banner-box-for-advice` — a medical record banner box for advice information e.g. contacts, contexts, plans, etc.
+
 ## References
 
 - Parent component: MedicalBanner

@@ -109,6 +109,10 @@ The consumer provides all CSS styling. The component renders with a `.red-orange
 
 RedOrangeYellowGreenBluePicker is the container for RedOrangeYellowGreenBluePickerButton children. Use `<RedOrangeYellowGreenBluePicker>` to wrap `<RedOrangeYellowGreenBluePickerButton>` elements, where each button represents one of the five status levels with `aria-pressed` toggle state.
 
+## Related components
+
+- `red-orange-yellow-green-blue-picker-button` — a picker button for selecting a five-level color status
+
 ## References
 
 - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system

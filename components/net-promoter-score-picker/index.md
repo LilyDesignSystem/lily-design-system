@@ -112,6 +112,10 @@ NetPromoterScorePicker is a compound component that can contain NetPromoterScore
 NetPromoterScorePicker (role="radiogroup") → NetPromoterScorePickerButton (0-10)
 ```
 
+## Related components
+
+- `net-promoter-score-picker-button` — a picker button for selecting a 0-10 Net Promoter Score
+
 ## References
 
 - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score

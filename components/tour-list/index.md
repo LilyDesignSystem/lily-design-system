@@ -4,6 +4,11 @@ TourList is a headless guided walkthrough overlay that presents step-by-step ins
 
 This component is useful for onboarding flows, feature tutorials, or contextual help systems. The `active` prop is bindable, allowing the consumer to programmatically start or stop the tour. Step content, navigation buttons, and progress indicators are provided by the consumer as children.
 
+## Implementation Notes
+
+- Renders a `<ol>` element with class `tour-list`
+- Spreads `restProps` onto the root element for consumer customization
+
 ## Help
 
 Use TourList when you need to walk users through a sequence of steps in a modal overlay. Common scenarios include onboarding flows, feature discovery tours, and contextual help walkthroughs. Pair with TourListItem for individual steps.
@@ -117,6 +122,10 @@ The consumer provides all CSS styling. The component renders with a `.tour-list`
 ## Composition
 
 TourList contains TourListItem children following the Guide/GuideList/GuideListItem pattern. TourList provides the modal dialog overlay, and each TourListItem provides one step with conditional visibility based on the `current` prop.
+
+## Related components
+
+- `tour-list-item` — one step in a tour guide list
 
 ## References
 

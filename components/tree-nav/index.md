@@ -123,6 +123,12 @@ The consumer provides all CSS styling. The component renders with a `.tree-nav` 
 
 TreeNav contains a TreeList, which in turn contains TreeListItem children, following the Nav/List/ListItem pattern. TreeNav provides the `<nav>` landmark, TreeList provides `role="tree"` with keyboard navigation, and TreeListItem provides `role="treeitem"` for each node.
 
+## Related components
+
+- `tree-list` — a hierarchical list with nested expandable items
+- `tree-list-item` — one item in a tree navigation list
+- `tree-link` — one link in the tree
+
 ## References
 
 - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/

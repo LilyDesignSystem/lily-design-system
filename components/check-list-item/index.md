@@ -88,3 +88,11 @@ The consumer provides all CSS styling. The component renders with a `.check-list
 ## Composition
 
 CheckListItem is used within a CheckList component.
+
+## Related components
+
+- `check-list` — an ordered list of check list item components
+
+## References
+
+- [MDN li element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li)

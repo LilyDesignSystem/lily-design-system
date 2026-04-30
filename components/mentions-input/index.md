@@ -100,6 +100,10 @@ and a visible boundary on the suggestions panel.
 - **Designers**: Show the trigger character in the placeholder hint so users know how to invoke suggestions.
 - **Developers**: Track caret position to detect the trigger char accurately. Use `aria-activedescendant` on the input to announce the current suggestion.
 
+## Related components
+
+- `text-input` — a single-line text input field <input type="text">
+
 ## References
 
 - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/

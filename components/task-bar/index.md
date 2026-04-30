@@ -90,6 +90,10 @@ The consumer provides all CSS styling. The component renders with a `.task-bar` 
 
 TaskBar uses the Bar/BarButton composition pattern. Place TaskBarButton components as children inside TaskBar. The TaskBar provides the `role="toolbar"` container with an accessible label, while each TaskBarButton provides an individual action button within the toolbar.
 
+## Related components
+
+- `task-bar-button` — one item in a task bar
+
 ## References
 
 - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/

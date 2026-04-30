@@ -77,6 +77,10 @@ The consumer provides all CSS styling. The component renders with a `.five-face-
 - **Designers**: Ensure the visual treatment clearly communicates that this is a display-only element, not an interactive control. Use color or iconography that matches the rating sentiment.
 - **Developers**: Pair this component with FiveFaceRatingPicker for edit scenarios. Customize the `labels` prop when the default face labels do not match your application's rating scale.
 
+## Related components
+
+- `five-face-rating-picker` — a picker for selecting a 1-5 satisfaction rating using face labels
+
 ## References
 
 - WAI-ARIA `img` role: https://www.w3.org/WAI/ARIA/apd/roles/img/

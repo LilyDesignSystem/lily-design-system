@@ -92,6 +92,15 @@ The consumer provides all CSS styling. The component renders with a `.table` cla
 - **Designers**: Use alternating row colors or subtle borders to improve scannability. Ensure column headers are visually distinct from data cells.
 - **Developers**: Always use `<th scope="col">` for column headers and `<th scope="row">` for row headers to ensure screen readers announce headers correctly. Add a `<caption>` element for a visible table title when appropriate.
 
+## Related components
+
+- `table-body` — a table interactive grid tbody <tbody>
+- `table-foot` — a table interactive grid tfoot <tfoot>
+- `table-head` — a table interactive grid thead <thead>
+- `table-row` — a table interactive grid row <tr>
+- `table-td` — a table interactive grid data cell <td>
+- `table-th` — a table interactive grid column <th>
+
 ## References
 
 - WAI-ARIA Table Role: https://www.w3.org/WAI/ARIA/apg/patterns/table/

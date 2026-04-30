@@ -101,6 +101,15 @@ The consumer provides all CSS styling. The component renders with a `.banner-box
 - **Designers**: Use BannerBox to create a horizontal layout within banners. Consider responsive behavior -- the consumer may want to switch to vertical stacking on narrow screens.
 - **Developers**: Apply `display: flex; flex-direction: row;` to `.banner-box` in your CSS. Use `align-items: center` for vertical centering and `gap` for spacing between items.
 
+## Related components
+
+- `announcement-banner` — a banner highlighting important messages for all users
+- `banner` — a prominent message bar across the top of a page
+- `government-banner` — a banner identifying a website as belonging to a government, with an expandable details panel
+- `medical-banner` — a prominent message bar across the top of a page, with medical information
+- `medical-banner-box` — a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
+- `medical-banner-box-for-advice` — a medical record banner box for advice information e.g. contacts, contexts, plans, etc.
+
 ## References
 
 - Parent component: Banner

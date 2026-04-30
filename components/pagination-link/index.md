@@ -115,6 +115,12 @@ PaginationLink follows the Nav / List / ListItem composition pattern:
 </PaginationNav>
 ```
 
+## Related components
+
+- `pagination-nav` — an ordered list of page navigation links
+- `pagination-list` — an ordered list of pagination list items
+- `pagination-list-item` — one pagination list item in the trail
+
 ## References
 
 - WAI-ARIA Navigation Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/examples/navigation.html

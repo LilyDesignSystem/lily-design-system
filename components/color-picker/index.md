@@ -85,6 +85,10 @@ The consumer provides all CSS styling. The component renders with a `.color-pick
 
 ColorPicker is the parent component in the ColorPicker/ColorPickerButton composition pattern. Use ColorPicker for free-form 2D color selection, and ColorPickerButton for individual predefined color swatches. They can be combined in a single interface where ColorPickerButton offers quick presets and ColorPicker provides fine-grained adjustment.
 
+## Related components
+
+- `color-picker-button` — a button showing a color swatch in a color picker
+
 ## References
 
 - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/

@@ -39,6 +39,10 @@ None -- this component is a passive display container.
 - Use QrCode when users need to transfer information from screen to mobile device without manual typing.
 - Avoid using QrCode as the sole means of sharing a link; always provide a text-based alternative for accessibility.
 
+## When Not to Use
+
+- See related components for alternative patterns.
+
 ## Headless
 
 The QrCode headless component provides a `<div>` with `role="img"` and `aria-label` so screen readers can describe what the QR code encodes. The consumer provides the actual QR code rendering (SVG, canvas, or a third-party library) as children, along with all visual styling.

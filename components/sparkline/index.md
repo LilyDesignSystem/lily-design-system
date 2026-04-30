@@ -40,6 +40,10 @@ None -- this component is a passive container for data visualization.
 - Avoid when users need to interact with or drill into the data; use a full chart or graph component instead.
 - Consider providing the underlying data in a table or tooltip for accessibility.
 
+## When Not to Use
+
+- See related components for alternative patterns.
+
 ## Headless
 
 This headless component provides a semantic container with `role="img"` and `aria-label` to identify the visualization for assistive technologies. The consumer provides the actual chart rendering (SVG, canvas, or a charting library) as children, along with all visual styling, dimensions, and colors.

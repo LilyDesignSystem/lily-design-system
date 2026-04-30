@@ -106,6 +106,11 @@ The consumer provides all CSS styling. The component renders with a `.postal-cod
 
 PostalCodeInput is the editable counterpart of PostalCodeView. Use PostalCodeInput for data entry and PostalCodeView for read-only display of the same postal code value.
 
+## Related components
+
+- `postal-code-view` — a read-only display of a postal or ZIP code
+- `text-input` — a single-line text input field <input type="text">
+
 ## References
 
 - HTML autocomplete attribute: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete

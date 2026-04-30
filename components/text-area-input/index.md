@@ -82,6 +82,10 @@ The consumer provides all CSS styling. The component renders with a `.text-area-
 - **Designers**: Set a visible height (via `rows`) that reflects the expected content length. Allow vertical resizing so users can expand the area if needed.
 - **Developers**: Use the `rows` prop to set an appropriate initial height. Wrap the text-area-input with a Field and Label component for a complete accessible form field. Consider debouncing the bound value for expensive reactive operations.
 
+## Related components
+
+- `text-input` — a single-line text input field <input type="text">
+
 ## References
 
 - MDN text-area-input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/text-area-input

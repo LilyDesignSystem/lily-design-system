@@ -81,3 +81,7 @@ The consumer provides all CSS styling. The component renders with a `.person` cl
 
 - **Designers**: Use consistent layouts across person entries. Include avatar, name, and role prominently.
 - **Developers**: Use the `label` prop to identify the person for screen readers.
+
+## References
+
+- [MDN article element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article)

@@ -92,3 +92,16 @@ The consumer provides all CSS styling. The component renders with a `.mockup-she
 
 - **Designers**: Use a dark background with light monospace text for a recognizable terminal appearance. Include a title bar with window controls for authenticity.
 - **Developers**: Always provide a descriptive `label` prop so screen readers can convey the mockup's purpose.
+
+## Related components
+
+- `mockup-browser` — a box area that looks like a web browser
+- `mockup-laptop` — a box area that looks like a laptop computer
+- `mockup-phone-landscape` — a box area that looks like a mobile phone in landscape orientation
+- `mockup-phone-portrait` — a box area that looks like a mobile phone
+- `mockup-tablet-landscape` — a box area that looks like a tablet computer in landscape mode
+- `mockup-tablet-portrait` — a box area that looks like a tablet computer in portrait mode
+
+## References
+
+- [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

@@ -4,6 +4,11 @@ An accordion nav is a navigation container that organizes and displays content i
 
 The AccordionNav component serves as the outer wrapper. Place an AccordionList inside it, containing AccordionListItem children for the individual collapsible sections.
 
+## Implementation Notes
+
+- Renders a `<nav>` element with class `accordion-nav`
+- Spreads `restProps` onto the root element for consumer customization
+
 ## Help
 
 Use AccordionNav as the outermost container for an accordion component. Common scenarios include FAQ sections, settings panels, filter groups, and mobile navigation menus. Pair with AccordionList, AccordionListItem, AccordionSummary, and AccordionDetails.
@@ -121,6 +126,12 @@ AccordionNav follows the Nav / List / ListItem composition pattern:
   </AccordionList>
 </AccordionNav>
 ```
+
+## Related components
+
+- `accordion-list` — an accordion ordered list of list item components
+- `accordion-list-item` — an accordion list item component
+- `accordion-link` — an accordion link
 
 ## References
 

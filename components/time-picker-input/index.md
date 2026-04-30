@@ -85,6 +85,10 @@ The consumer provides all CSS styling. The component renders with a `.time-picke
 - **Designers**: Provide clear visual feedback for the selected time and consider adding a visible label above the picker for clarity.
 - **Developers**: The `value` is always in HH:MM 24-hour format internally. Use the `step` attribute via restProps to control minute granularity (e.g., `step="900"` for 15-minute intervals).
 
+## Related components
+
+- `text-input` — a single-line text input field <input type="text">
+
 ## References
 
 - MDN input type="time": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time

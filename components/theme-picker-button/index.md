@@ -100,3 +100,11 @@ The consumer provides all CSS styling. The component renders with a `.theme-pick
 ## Composition
 
 ThemePickerButton is used within a ThemePicker component following the Picker/PickerButton pattern.
+
+## Related components
+
+- `theme-picker` — a picker for selecting a visual theme
+
+## References
+
+- [MDN button element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)

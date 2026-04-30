@@ -85,3 +85,16 @@ The consumer provides all CSS styling. The component renders with a `.super-bann
 
 - **Designers**: Use bold, high-contrast colors to distinguish super banners from regular content. Keep the message concise and actionable. Position at the very top of the viewport.
 - **Developers**: Use `role="alert"` for critical messages that need immediate attention. Provide a dismiss mechanism for non-persistent messages.
+
+## Related components
+
+- `announcement-banner` — a banner highlighting important messages for all users
+- `banner` — a prominent message bar across the top of a page
+- `banner-box` — a banner box that is inside a banner component, using flexbox horizontal
+- `government-banner` — a banner identifying a website as belonging to a government, with an expandable details panel
+- `medical-banner` — a prominent message bar across the top of a page, with medical information
+- `medical-banner-box` — a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
+
+## References
+
+- [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

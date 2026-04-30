@@ -105,6 +105,10 @@ indicator on every interactive descendant.
 - **Designers**: Position the action bar predictably (top of the list or as a sticky bar). Maintain a high-contrast focus indicator.
 - **Developers**: Format the count via `Intl.PluralRules` or your i18n library and pass the result as `selectedCountLabel`.
 
+## Related components
+
+- `action-bar-button` — one action button inside an action bar
+
 ## References
 
 - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/

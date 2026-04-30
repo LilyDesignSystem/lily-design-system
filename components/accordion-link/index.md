@@ -96,6 +96,12 @@ AccordionLink follows the Nav / List / ListItem composition pattern:
 </AccordionNav>
 ```
 
+## Related components
+
+- `accordion-nav` — an accordion navigation area for collapsible accordion information
+- `accordion-list` — an accordion ordered list of list item components
+- `accordion-list-item` — an accordion list item component
+
 ## References
 
 - WAI-ARIA Accordion Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/accordion/

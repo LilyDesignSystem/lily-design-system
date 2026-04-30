@@ -99,6 +99,10 @@ The consumer provides all CSS styling. The component renders with a `.segment-gr
 - **Designers**: Make the selected segment visually distinct with a filled background or bold text, and ensure disabled segments are visually muted.
 - **Developers**: Use the `checked` prop to control `aria-checked` and tabindex; ensure only one item in the group has `checked={true}` at a time.
 
+## Related components
+
+- `segment-group` — a group of mutually exclusive segment options
+
 ## References
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/

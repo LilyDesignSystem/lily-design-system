@@ -84,6 +84,14 @@ The consumer provides all CSS styling. Common approaches include CSS Grid with n
 
 GrailLayout is the container for GrailLayoutTopHeader, GrailLayoutLeftAside, GrailLayoutCenterMain, GrailLayoutRightAside, and GrailLayoutBottomFooter children. Each child section renders a `<div>` with its own CSS class.
 
+## Related components
+
+- `grail-layout-bottom-footer` — grail layout bottom footer full width with <footer> tag
+- `grail-layout-center-main` — grail layout center main content with <main> tag
+- `grail-layout-left-aside` — grail layout left aside sidebar with <aside> tag
+- `grail-layout-right-aside` — grail layout right aside sidebar with <aside> tag
+- `grail-layout-top-header` — grail layout top header full width with <header> tag
+
 ## References
 
 - CSS Grid Layout: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout

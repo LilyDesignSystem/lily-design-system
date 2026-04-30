@@ -82,3 +82,11 @@ The consumer provides all CSS styling. The component renders with a `.measuremen
 ## Composition
 
 MeasurementSystemView is part of the measurement component family. It is the read-only counterpart to MeasurementSystemInput and works alongside MeasurementUnitView, MeasurementInstanceView, and their input counterparts.
+
+## Related components
+
+- `measurement-system-input` — an input for selecting a measurement system
+
+## References
+
+- [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

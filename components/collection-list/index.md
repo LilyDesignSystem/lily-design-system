@@ -85,6 +85,10 @@ optional dividers between items.
 - **Designers**: Keep item templates consistent so the list reads predictably. Use a generous vertical rhythm to separate items.
 - **Developers**: Always supply `CollectionListItem` children. Add `label` when the list's purpose is not clear from surrounding context.
 
+## Related components
+
+- `collection-list-item` — one item in a collection list with optional image, heading, meta, and description
+
 ## References
 
 - US Web Design System Collection: https://designsystem.digital.gov/components/collection/

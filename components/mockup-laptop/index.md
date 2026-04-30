@@ -96,3 +96,16 @@ The consumer provides all CSS styling. The component renders with a `.mockup-lap
 
 - **Designers**: Include recognizable laptop elements (screen bezel, keyboard hint) for clear identification. Maintain proper aspect ratio for the screen area.
 - **Developers**: Always provide a descriptive `label` prop so screen readers can convey the mockup's purpose.
+
+## Related components
+
+- `mockup-browser` — a box area that looks like a web browser
+- `mockup-phone-landscape` — a box area that looks like a mobile phone in landscape orientation
+- `mockup-phone-portrait` — a box area that looks like a mobile phone
+- `mockup-shell` — a box area that looks like a terminal shell
+- `mockup-tablet-landscape` — a box area that looks like a tablet computer in landscape mode
+- `mockup-tablet-portrait` — a box area that looks like a tablet computer in portrait mode
+
+## References
+
+- [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

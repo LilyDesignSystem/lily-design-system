@@ -33,6 +33,14 @@ A horizontal progress indicator.
 - `aria-valuenow`, `aria-valuemin`, `aria-valuemax` expose the current and bounding values
 - `aria-label` provides an accessible name
 
+## When to Use
+
+- See `index.md` description: a horizontal progress indicator.
+
+## When Not to Use
+
+- See related components for alternative patterns.
+
 ## Headless
 
 This headless component renders semantic HTML. The consumer provides all visual styling. No CSS, animations, or layout are included — the consumer composes those.

@@ -100,6 +100,10 @@ The consumer provides all CSS styling. The component renders with a `.task-list-
 
 TaskListItem is designed to be used as a child of TaskList. The TaskList provides the outer `<ul>` container with `role="list"`, and each TaskListItem provides an individual `<li>` with completion tracking.
 
+## Related components
+
+- `task-list` — an ordered list of task list items
+
 ## References
 
 - MDN li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li

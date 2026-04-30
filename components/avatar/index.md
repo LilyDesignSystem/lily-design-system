@@ -4,6 +4,11 @@ An avatar circle is a component that displays a user's profile image or fallback
 
 The component handles image loading gracefully: if an image source is provided, it renders an AvatarImage; if the image fails to load or no source is provided, it falls back to displaying the user's initials via AvatarText.
 
+## Implementation Notes
+
+- Renders a `<div>` element with class `avatar`
+- Spreads `restProps` onto the root element for consumer customization
+
 ## Help
 
 Use Avatar as the outer container for user avatars. It renders either an AvatarImage (when a photo is available) or an AvatarText (initials fallback). Common scenarios include user profiles, comment threads, chat interfaces, account menus, and team member lists.
@@ -116,6 +121,12 @@ Avatar follows a parent/child composition pattern:
 ```html
 <Avatar src="/photo.jpg" alt="Jane Doe" initials="JD" />
 ```
+
+## Related components
+
+- `avatar-image` — an avatar indicator inside image such as a user photo
+- `avatar-text` — an avatar indicator inner text such as a user name
+- `avatar-group` — a group of avatar components
 
 ## References
 

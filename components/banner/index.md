@@ -94,6 +94,15 @@ The consumer provides all CSS styling. The component renders with a `.banner` cl
 - **Designers**: Ensure the dismiss button has a minimum 44x44px touch target and is visually distinct. Use color and an icon together so meaning is not conveyed by color alone.
 - **Developers**: Provide a meaningful `closeLabel` prop for the dismiss button so screen reader users understand its purpose. Handle the `onclose` callback to persist dismissal state if needed.
 
+## Related components
+
+- `announcement-banner` — a banner highlighting important messages for all users
+- `banner-box` — a banner box that is inside a banner component, using flexbox horizontal
+- `government-banner` — a banner identifying a website as belonging to a government, with an expandable details panel
+- `medical-banner` — a prominent message bar across the top of a page, with medical information
+- `medical-banner-box` — a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
+- `medical-banner-box-for-advice` — a medical record banner box for advice information e.g. contacts, contexts, plans, etc.
+
 ## References
 
 - WAI-ARIA banner role: https://www.w3.org/TR/wai-aria-1.2/#banner

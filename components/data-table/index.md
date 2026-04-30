@@ -95,6 +95,16 @@ The consumer provides all CSS styling. The component renders with a `.data-table
 
 DataTable follows the Table/Head/Body/Foot/Row/Data composition pattern. Use DataTable as the root `<table>`, DataTableHead for the `<thead>` with column headers, DataTableBody for the `<tbody>` with data rows, DataTableFoot for optional `<tfoot>` with summary rows, DataTableRow for each `<tr>`, and DataTableTD for each `<td>`. Optionally use DataTableTD inside a `<colgroup>` for column-level styling.
 
+## Related components
+
+- `data-table-body` — a data table interactive grid tbody for displaying and sorting tabular data <tbody>
+- `data-table-foot` — a data table interactive grid tfoot for displaying and sorting tabular data <tfoot>
+- `data-table-head` — a data table interactive grid thead for displaying and sorting tabular data <thead>
+- `data-table-row` — a data table interactive grid row for displaying and sorting tabular data <tr>
+- `data-table-td` — a data table interactive grid data cell for displaying and sorting tabular data <td>
+- `data-table-th` — a data table interactive grid header cell for displaying and sorting tabular data <th>
+- `table` — a table with rows and columns <table>
+
 ## References
 
 - WAI-ARIA Table Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/table/

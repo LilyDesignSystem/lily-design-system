@@ -104,6 +104,10 @@ Consumer CSS targets the `validation-list-item` class with
 - **Designers**: Use color plus an icon to signal each status — never color alone. Pending should look passive (gray dot), passed should look successful (green check), failed should look corrective (red cross).
 - **Developers**: Update the `status` prop reactively as the user types. The parent `ValidationList`'s `aria-live="polite"` ensures the change is announced.
 
+## Related components
+
+- `validation-list` — a live-feedback list of input validation rules with pending, passed, and failed states
+
 ## References
 
 - US Web Design System Validation: https://designsystem.digital.gov/components/validation/

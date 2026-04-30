@@ -94,6 +94,10 @@ The consumer provides all CSS styling. The component renders with a `.dont-list`
 
 DontList composes with DontListItem using the List/ListItem pattern. DontList renders the `<ul>` container, and each DontListItem renders an `<li>` within it. Pair with DoList and DoListItem for complete do/don't guidance.
 
+## Related components
+
+- `dont-list-item` — a discouraged-practice item in a dont-list guideline list
+
 ## References
 
 - MDN ul element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul

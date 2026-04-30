@@ -64,6 +64,15 @@ The consumer provides all CSS styling. The component renders with a `.table-row`
 
 TableRow is a child of TableHead/TableBody/TableFoot, following the Table pattern: Table > TableHead/TableBody/TableFoot > TableRow > TableTD.
 
+## Related components
+
+- `table` — a table with rows and columns <table>
+- `table-body` — a table interactive grid tbody <tbody>
+- `table-foot` — a table interactive grid tfoot <tfoot>
+- `table-head` — a table interactive grid thead <thead>
+- `table-td` — a table interactive grid data cell <td>
+- `table-th` — a table interactive grid column <th>
+
 ## References
 
 - MDN tr element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tr

@@ -92,6 +92,10 @@ control.
 - **Designers**: Use a single icon style across all items in a list. Keep the icon size compact relative to the text.
 - **Developers**: Treat the icon as decorative. Do not place meaningful information only inside the icon — repeat it in the text.
 
+## Related components
+
+- `icon-list` — an ordered list of icon list item components
+
 ## References
 
 - US Web Design System Icon List: https://designsystem.digital.gov/components/icon-list/

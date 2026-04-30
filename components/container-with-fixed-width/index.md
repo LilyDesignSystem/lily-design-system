@@ -87,6 +87,11 @@ Consumer CSS may target the `container-with-fixed-width` class or the
 - **Designers**: Choose `maxWidth` based on optimal line length for the content type. 65–75 characters per line is a common reading-width target.
 - **Developers**: Combine with horizontal padding (either via consumer CSS on this element or a parent fluid container) so content does not sit flush against the viewport edge on narrow screens.
 
+## Related components
+
+- `container` — a generic block-level content container
+- `container-with-fluid-width` — a full-width content wrapper with horizontal padding
+
 ## References
 
 - MDN max-width: https://developer.mozilla.org/en-US/docs/Web/CSS/max-width

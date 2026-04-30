@@ -68,6 +68,10 @@ The consumer provides all CSS styling. The component renders with a `.dont-list-
 - **Designers**: Keep each item to a single, clear sentence. Use consistent visual markers (e.g., cross marks) across all dont-list items.
 - **Developers**: Always place DontListItem inside a DontList component for valid HTML structure. Use `restProps` to add custom data attributes or event handlers.
 
+## Related components
+
+- `dont-list` — a guideline list of discouraged dont-list-item components
+
 ## References
 
 - MDN li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li

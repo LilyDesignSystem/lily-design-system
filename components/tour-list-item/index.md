@@ -4,6 +4,11 @@ A single step within a TourGuideList guided tour. Each step represents one scree
 
 This component is designed to be placed inside a TourGuideList container. The consumer controls which step is current via the `current` prop, enabling flexible navigation patterns (next/previous buttons, step indicators, etc.).
 
+## Implementation Notes
+
+- Renders a `<li>` element with class `tour-list-item`
+- Spreads `restProps` onto the root element for consumer customization
+
 ## Help
 
 Use TourListItem for each individual step in a TourGuideList walkthrough. Common scenarios include onboarding step content, feature highlight descriptions, and tutorial instructions. The parent TourGuideList manages the dialog overlay while each TourListItem manages its own visibility.
@@ -115,6 +120,10 @@ The consumer provides all CSS styling. The component renders with a `.tour-list-
 ## Composition
 
 TourListItem is a child of TourGuideList, following the Guide/GuideList/GuideListItem pattern. The parent TourGuideList provides the modal dialog overlay, and each TourListItem manages its own visibility based on the `current` prop.
+
+## Related components
+
+- `tour-list` — an ordered list of tour guide steps
 
 ## References
 

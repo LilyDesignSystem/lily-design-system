@@ -96,3 +96,16 @@ The consumer provides all CSS styling. The component renders with a `.mockup-tab
 
 - **Designers**: Use a landscape aspect ratio (e.g., 4:3 or 16:10) that matches common tablet displays. Include visible bezel for device recognition.
 - **Developers**: Always provide a descriptive `label` prop so screen readers can convey the mockup's purpose.
+
+## Related components
+
+- `mockup-browser` — a box area that looks like a web browser
+- `mockup-laptop` — a box area that looks like a laptop computer
+- `mockup-phone-landscape` — a box area that looks like a mobile phone in landscape orientation
+- `mockup-phone-portrait` — a box area that looks like a mobile phone
+- `mockup-shell` — a box area that looks like a terminal shell
+- `mockup-tablet-portrait` — a box area that looks like a tablet computer in portrait mode
+
+## References
+
+- [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

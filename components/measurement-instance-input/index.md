@@ -86,3 +86,12 @@ The consumer provides all CSS styling. The component renders with a `.measuremen
 ## Composition
 
 MeasurementInstanceInput is part of the measurement component family. It works alongside MeasurementUnitInput, MeasurementUnitView, MeasurementSystemInput, MeasurementSystemView, and MeasurementInstanceView to cover input and display of measurement data.
+
+## Related components
+
+- `measurement-instance-view` — a read-only display of a measurement value and unit
+- `text-input` — a single-line text input field <input type="text">
+
+## References
+
+- [MDN input element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)

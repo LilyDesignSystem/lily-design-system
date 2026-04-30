@@ -68,3 +68,7 @@ The consumer provides all CSS styling. The component renders with a `.comment` c
 
 - **Designers**: Clearly distinguish comment author, timestamp, and body text. Use indentation or threading to show reply hierarchies. Provide visual separation between comments.
 - **Developers**: Use the `label` prop to identify the comment author for screen readers. Nest Comment components for threaded reply structures.
+
+## References
+
+- [MDN article element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article)

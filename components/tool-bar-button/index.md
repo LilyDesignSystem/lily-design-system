@@ -4,6 +4,11 @@ A tool bar button is a single button within a toolbar, rendered as a native `<bu
 
 The component uses `<button type="button">` to avoid unintended form submissions and supports the `disabled` attribute for disabling interaction. Content is provided through the children slot, allowing full flexibility in button content.
 
+## Implementation Notes
+
+- Renders a `<button>` element with class `tool-bar-button`
+- Spreads `restProps` onto the root element for consumer customization
+
 ## Help
 
 Use ToolBarButton for individual action buttons within a ToolBar. Common scenarios include text formatting buttons (Bold, Italic, Underline), drawing tool selectors, or media controls. The parent ToolBar manages keyboard navigation between buttons.
@@ -100,6 +105,10 @@ The consumer provides all CSS styling. The component renders with a `.tool-bar-b
 ## Composition
 
 ToolBarButton is a child of ToolBar, following the Bar/BarButton pattern. The parent ToolBar manages roving focus navigation between ToolBarButton children.
+
+## Related components
+
+- `tool-bar` — a horizontal bar of tool actions
 
 ## References
 

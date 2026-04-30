@@ -81,6 +81,11 @@ section spacing, or responsive padding overrides.
 - **Designers**: Use a padding scale that holds up across breakpoints; consider responsive overrides via consumer CSS for narrower viewports.
 - **Developers**: Compose `ContainerWithFluidWidth` (background and edge padding) around `ContainerWithFixedWidth` (content width cap) for the common full-bleed-with-centered-content pattern.
 
+## Related components
+
+- `container` — a generic block-level content container
+- `container-with-fixed-width` — a centered content wrapper with a fixed max-width breakpoint
+
 ## References
 
 - MDN padding-inline: https://developer.mozilla.org/en-US/docs/Web/CSS/padding-inline

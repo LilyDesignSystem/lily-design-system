@@ -100,6 +100,10 @@ The consumer provides all CSS styling. The component renders with a `.postal-cod
 
 PostalCodeView is the read-only counterpart of PostalCodeInput. Use PostalCodeInput for data entry and PostalCodeView for displaying the saved postal code value.
 
+## Related components
+
+- `postal-code-input` — an input for entering a postal or ZIP code
+
 ## References
 
 - MDN span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span

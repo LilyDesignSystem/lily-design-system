@@ -124,6 +124,10 @@ The consumer provides all CSS styling. The component renders with a `.angle-slid
 - **Designers**: Consider pairing the slider with a visual degree indicator (circular dial or angle preview) so users can see the selected angle. Ensure the thumb has a minimum 44x44px touch target on mobile.
 - **Developers**: Use the `step` prop to snap to common increments (15, 45, 90 degrees) when fine-grained control is not needed. Test that `aria-valuetext` announcements are clear with screen readers.
 
+## Related components
+
+- `text-input` — a single-line text input field <input type="text">
+
 ## References
 
 - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/

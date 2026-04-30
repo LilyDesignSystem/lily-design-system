@@ -93,6 +93,16 @@ KanbanTableTD is the leaf component in the KanbanTable compound pattern. It is p
 KanbanTable → KanbanTableBody → column (role="list") → KanbanTableTD (role="listitem")
 ```
 
+## Related components
+
+- `kanban-table` — a kanban board table interactive grid for organizing items by status <table>
+- `kanban-table-body` — a kanban board table interactive grid tbody for organizing items by status <tbody>
+- `kanban-table-foot` — a kanban board table interactive grid tfoot for organizing items by status <tfoot>
+- `kanban-table-head` — a kanban board table interactive grid thead for organizing items by status <thead>
+- `kanban-table-row` — a kanban board table interactive grid row for organizing items by status <tr>
+- `kanban-table-th` — a kanban board table interactive grid header cell for organizing items by status <th>
+- `table` — a table with rows and columns <table>
+
 ## References
 
 - WAI-ARIA Listitem Role: https://www.w3.org/TR/wai-aria-1.2/#listitem

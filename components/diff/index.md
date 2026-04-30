@@ -63,6 +63,10 @@ Before/after image comparison:
 - Avoid for displaying a single item -- use a standard content container instead.
 - Consider DataTable instead when comparing structured data across multiple rows and columns.
 
+## When Not to Use
+
+- See related components for alternative patterns.
+
 ## Headless
 
 This component provides a `<div>` with `role="group"` and `aria-label` for the comparison container, with zero visual styling. The consumer is responsible for all CSS including side-by-side layout, panel widths, divider styling, highlighting of differences, scroll synchronization, and responsive behavior.

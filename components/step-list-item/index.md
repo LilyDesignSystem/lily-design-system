@@ -82,6 +82,10 @@ distinguish waiting/in-progress/finished/error visual states.
 - **Designers**: Choose distinct visual treatments per status. Keep step labels short and the optional description specific.
 - **Developers**: Use the `error` status to signal a failed step. Pair `current` with the parent's `current` index for consistent ARIA and CSS state.
 
+## Related components
+
+- `step-list` — an ordered list of step items showing progress through a multi-step process
+
 ## References
 
 - WAI-ARIA aria-current: https://www.w3.org/TR/wai-aria-1.2/#aria-current

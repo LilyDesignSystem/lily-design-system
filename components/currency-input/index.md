@@ -104,6 +104,10 @@ The consumer provides all CSS styling. The component renders with a `.currency-i
 - **Designers**: Display the currency symbol clearly near the input. Use right-aligned text and tabular numbers for consistent formatting. Show the expected currency format as placeholder text.
 - **Developers**: Use `Intl.NumberFormat` with the appropriate locale and currency code for formatting display values. Be aware that different currencies have different decimal place requirements (e.g., JPY uses 0, USD uses 2). Validate and clamp values on blur rather than on every keystroke.
 
+## Related components
+
+- `text-input` — a single-line text input field <input type="text">
+
 ## References
 
 - HTML text input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text

@@ -79,6 +79,15 @@ The consumer provides all CSS styling. The component renders with a `.united-kin
 
 UnitedKingdomNationalHealthServiceNumberView is the read-only display counterpart to UnitedKingdomNationalHealthServiceNumberInput, following the Input/View pattern. Use the View for display and the Input for data entry.
 
+## Related components
+
+- `united-kingdom-national-health-service-number-input` — an input for entering a UK NHS number
+- `espana-tarjeta-sanitaria-individual-input` — an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
+- `espana-tarjeta-sanitaria-individual-view` — a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
+- `france-numero-d-identification-au-repertoire-input` — an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
+- `france-numero-d-identification-au-repertoire-view` — a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
+- `ireland-individual-health-identifier-input` — an input for entering Ireland Individual Health Identifier (IHI) unique national healthcare identifier
+
 ## References
 
 - NHS Number: https://www.nhs.uk/using-the-nhs/about-the-nhs/what-is-an-nhs-number/

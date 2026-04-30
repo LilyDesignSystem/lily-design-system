@@ -68,6 +68,10 @@ The consumer provides all CSS styling. The component renders with a `.do-list-it
 - **Designers**: Keep each item to a single, clear sentence. Use consistent visual markers (e.g., check marks) across all do-list items.
 - **Developers**: Always place DoListItem inside a DoList component for valid HTML structure. Use `restProps` to add custom data attributes or event handlers.
 
+## Related components
+
+- `do-list` — a guideline list of encouraged do-list-item components
+
 ## References
 
 - MDN li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li

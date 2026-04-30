@@ -4,6 +4,11 @@ A ToggleButton is a UI/UX component that provides a binary on/off control using 
 
 ToggleButtons are commonly used for settings like dark mode, notifications, or feature flags where a user needs to switch between two states. While similar to SwitchInput, the ToggleButton component uses a `pressed` prop name rather than `checked`, providing a semantic distinction for use cases where "pressed/unpressed" better describes the interaction than "checked/unchecked".
 
+## Implementation Notes
+
+- Renders a `<button>` element with class `toggle-button`
+- Spreads `restProps` onto the root element for consumer customization
+
 ## Help
 
 Use ToggleButton when you need a binary on/off control with button semantics. Common scenarios include dark mode toggles, mute controls, notification switches, and feature flags. For checkbox-style toggles, consider SwitchInput instead.

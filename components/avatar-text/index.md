@@ -2,6 +2,11 @@
 
 Avatar text is a `<span>` element rendered inside an Avatar as a fallback when no image is available or the image fails to load. It displays the user's initials or short text within the circular avatar frame.
 
+## Implementation Notes
+
+- Renders a `<span>` element with class `avatar-text`
+- Spreads `restProps` onto the root element for consumer customization
+
 ## Help
 
 Use AvatarText inside an Avatar to show initials when a photo is unavailable. The parent Avatar typically manages rendering this component automatically when the `src` is missing or fails. Common scenarios include placeholder avatars, anonymous users, and image load failures.
@@ -107,6 +112,12 @@ AvatarText is a child component within the Avatar composition pattern:
   <AvatarText>JD</AvatarText>
 </Avatar>
 ```
+
+## Related components
+
+- `avatar` — an avatar indicator that shows an avatar image or avatar text
+- `avatar-image` — an avatar indicator inside image such as a user photo
+- `avatar-group` — a group of avatar components
 
 ## References
 

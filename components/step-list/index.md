@@ -90,6 +90,10 @@ needed.
 - **Designers**: Decide whether to show the user's position via `data-current` styling or a separate visual indicator. Keep step labels short.
 - **Developers**: Pass the 0-based index via the `current` prop so consumer CSS can target the active step. Use StepListItem `current` to apply `aria-current="step"`.
 
+## Related components
+
+- `step-list-item` — one step in a step list with status of waiting, in progress, finished, or error
+
 ## References
 
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group

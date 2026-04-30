@@ -97,6 +97,10 @@ The consumer provides all CSS styling. The component renders with a `.context-me
 
 ContextMenu follows the Menu/MenuItem composition pattern. Use ContextMenu as the container with ContextMenuItem components as children. The ContextMenu manages focus and keyboard navigation, while each ContextMenuItem renders as a `role="menuitem"` element with `tabindex="-1"` for roving focus.
 
+## Related components
+
+- `context-menu-item` — one item in a context menu
+
 ## References
 
 - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/

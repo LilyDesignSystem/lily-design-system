@@ -102,6 +102,10 @@ The consumer provides all CSS styling. The component renders with a `.task-list`
 
 TaskList uses the List/ListItem composition pattern. Place TaskListItem components as children inside TaskList. The TaskList provides the outer `<ul>` container with accessible labeling, while each TaskListItem provides an individual `<li>` with completion state tracking via `data-completed`.
 
+## Related components
+
+- `task-list-item` — one task item with a checkbox and label
+
 ## References
 
 - WAI-ARIA list role: https://www.w3.org/TR/wai-aria-1.2/#list

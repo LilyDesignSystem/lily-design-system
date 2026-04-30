@@ -68,6 +68,11 @@ The consumer provides all CSS styling. The component renders with a `.northern-i
 
 The Northern Ireland Health and Care (H&C) Number is a 10-digit numeric identifier, often displayed in a 3-3-4 format (e.g. 320 000 0001). The first two digits are always between 32 and 39. It is the unique patient identifier used by Health and Social Care (HSC) services in Northern Ireland.
 
+## Related components
+
+- `northern-ireland-health-and-care-number-view` — a read-only display of Northern Ireland Health and Care (H&C) Number unique national healthcare identifier
+- `text-input` — a single-line text input field <input type="text">
+
 ## References
 
 - HSC NI: https://online.hscni.net/

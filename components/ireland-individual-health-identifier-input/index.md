@@ -68,6 +68,11 @@ The consumer provides all CSS styling. The component renders with a `.ireland-in
 
 The Ireland Individual Health Identifier (IHI) is a 10-digit clinical identifier used by healthcare providers to safely match patients with their medical records across different hospitals and GPs. Unlike the Ireland Personal Public Service Number (PPSN), the IHI contains no personal information and is not used for social welfare or taxes. It is primarily used behind the scenes by the Health Service Executive (HSE).
 
+## Related components
+
+- `ireland-individual-health-identifier-view` — a read-only display of Ireland Individual Health Identifier (IHI) unique national healthcare identifier
+- `text-input` — a single-line text input field <input type="text">
+
 ## References
 
 - HSE: https://www.hse.ie/

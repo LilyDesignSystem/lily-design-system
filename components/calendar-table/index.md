@@ -125,6 +125,16 @@ CalendarTable follows the Table composition pattern:
 </CalendarTable>
 ```
 
+## Related components
+
+- `calendar-table-body` — a calendar table interactive grid tbody for managing dates, days, etc. <tbody>
+- `calendar-table-foot` — a calendar table interactive grid tfoot for managing dates, days, etc. <tfoot>
+- `calendar-table-head` — a calendar table interactive grid thead for managing dates, days, etc. <thead>
+- `calendar-table-row` — a calendar table interactive grid row for managing dates, days, etc. <tr>
+- `calendar-table-td` — a calendar table interactive grid data cell for managing dates, days, etc. <td>
+- `calendar-table-th` — a calendar table interactive grid header cell for managing dates, days, etc. <th>
+- `table` — a table with rows and columns <table>
+
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

@@ -104,6 +104,10 @@ The consumer provides all CSS styling. The component renders with a `.red-amber-
 - **Designers**: Make the selected state visually prominent with a border, background fill, or scale change, and ensure each button has a text label alongside any color indicator.
 - **Developers**: Use the `data-value` attribute for CSS selectors to apply status-specific colors (e.g., `[data-value="red"] { background: red; }`).
 
+## Related components
+
+- `red-amber-green-picker` — a picker for selecting a red/amber/green status
+
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

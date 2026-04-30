@@ -102,6 +102,12 @@ ChatNav follows the Nav / List / ListItem composition pattern:
 </ChatNav>
 ```
 
+## Related components
+
+- `chat-list` — an ordered list of chat list item components
+- `chat-list-item` — one chat list item component, typically containing one chat message component
+- `chat-message` — a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.
+
 ## References
 
 - WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apg/patterns/landmark/

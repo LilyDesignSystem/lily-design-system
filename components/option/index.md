@@ -44,6 +44,10 @@ The component supports `selected` for pre-selecting an option and `disabled` for
 - Use when each option needs a distinct form submission value separate from its display text.
 - Avoid using Option outside of a Select component; it depends on the parent `<select>` for semantics and keyboard behavior.
 
+## When Not to Use
+
+- See related components for alternative patterns.
+
 ## Headless
 
 This headless component wraps the native `<option>` element with props for `value`, `selected`, and `disabled` states. Accessibility is provided automatically by the browser through the parent `<select>`. The consumer provides all visual styling via the parent Select component, as native `<option>` elements have limited styling capabilities.

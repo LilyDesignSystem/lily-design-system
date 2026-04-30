@@ -95,6 +95,10 @@ attribute selectors.
 - **Designers**: Keep rule text short and start each rule with a verb-free statement (e.g., "At least 8 characters"). Use color plus an icon to signal state — never color alone.
 - **Developers**: Always supply `ValidationListItem` children with the appropriate `status` prop. Update the `status` reactively as the user types.
 
+## Related components
+
+- `validation-list-item` — one validation rule in a validation list with a status of pending, passed, or failed
+
 ## References
 
 - US Web Design System Validation: https://designsystem.digital.gov/components/validation/

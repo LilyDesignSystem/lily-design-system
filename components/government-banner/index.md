@@ -105,6 +105,15 @@ Consumer CSS targets the `government-banner` class plus the inner
 - **Designers**: Keep the headline short and treat the toggle as a passive disclosure. Use a flag or shield glyph next to the headline for fast recognition.
 - **Developers**: Generate a stable id for the panel (use `useId` in React, `crypto.randomUUID()` server-side, or a deterministic helper). Always wire the toggle handler to flip `expanded`.
 
+## Related components
+
+- `announcement-banner` — a banner highlighting important messages for all users
+- `banner` — a prominent message bar across the top of a page
+- `banner-box` — a banner box that is inside a banner component, using flexbox horizontal
+- `medical-banner` — a prominent message bar across the top of a page, with medical information
+- `medical-banner-box` — a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information
+- `medical-banner-box-for-advice` — a medical record banner box for advice information e.g. contacts, contexts, plans, etc.
+
 ## References
 
 - US Web Design System Banner: https://designsystem.digital.gov/components/banner/

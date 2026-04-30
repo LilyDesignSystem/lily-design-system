@@ -86,3 +86,7 @@ The consumer provides all CSS styling. The component renders with a `.character-
 
 - **Designers**: Position the counter near the associated input field, typically below or to the right. Use a warning color when the user approaches or exceeds the limit.
 - **Developers**: Bind the `count` prop to your input's character length. Use the `data-over-limit` attribute in CSS to trigger visual warnings when the maximum is exceeded.
+
+## References
+
+- [MDN span element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span)

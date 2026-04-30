@@ -67,6 +67,15 @@ The consumer provides all CSS styling. The component renders with a `.france-num
 
 The French NIR (Numéro d'Inscription au Répertoire) is structured as 15 digits: position 1 is sex (1=male, 2=female), positions 2-3 are birth year, 4-5 birth month, 6-7 department code, 8-10 commune INSEE code, 11-13 order number, 14-15 control key (checksum 01-97). For people born abroad, the department code is 99 and the commune code is replaced by a 3-digit country code. Temporary numbers begin with 7 (male) or 8 (female).
 
+## Related components
+
+- `france-numero-d-identification-au-repertoire-input` — an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
+- `espana-tarjeta-sanitaria-individual-input` — an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
+- `espana-tarjeta-sanitaria-individual-view` — a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
+- `ireland-individual-health-identifier-input` — an input for entering Ireland Individual Health Identifier (IHI) unique national healthcare identifier
+- `ireland-individual-health-identifier-view` — a read-only display of Ireland Individual Health Identifier (IHI) unique national healthcare identifier
+- `northern-ireland-health-and-care-number-input` — an input for entering aNorthern Ireland Health and Care (H&C) Number unique national healthcare identifier
+
 ## References
 
 - Ameli.fr: https://www.ameli.fr/assure/droits-demarches/principes/numero-securite-sociale

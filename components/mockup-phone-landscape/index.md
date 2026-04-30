@@ -30,6 +30,14 @@ A box area that looks like a mobile phone in landscape orientation.
 
 - No specific ARIA — decorative wrapper. Apply `role="img"` on the inner image if needed
 
+## When to Use
+
+- See `index.md` description: a box area that looks like a mobile phone in landscape orientation.
+
+## When Not to Use
+
+- See related components for alternative patterns.
+
 ## Headless
 
 This headless component renders semantic HTML. The consumer provides all visual styling. No CSS, animations, or layout are included — the consumer composes those.
@@ -37,6 +45,15 @@ This headless component renders semantic HTML. The consumer provides all visual 
 ## Styles
 
 The component renders with `.mockup-phone-landscape` as the root class. No default styles are included.
+
+## Related components
+
+- `mockup-browser` — a box area that looks like a web browser
+- `mockup-laptop` — a box area that looks like a laptop computer
+- `mockup-phone-portrait` — a box area that looks like a mobile phone
+- `mockup-shell` — a box area that looks like a terminal shell
+- `mockup-tablet-landscape` — a box area that looks like a tablet computer in landscape mode
+- `mockup-tablet-portrait` — a box area that looks like a tablet computer in portrait mode
 
 ## References
 

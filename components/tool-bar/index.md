@@ -96,6 +96,10 @@ The consumer provides all CSS styling. The component renders with a `.tool-bar` 
 
 ToolBar contains ToolBarButton children following the Bar/BarButton pattern. ToolBar provides the toolbar container with keyboard navigation, and each ToolBarButton provides a single action button within the toolbar.
 
+## Related components
+
+- `tool-bar-button` — one action button in a tool bar
+
 ## References
 
 - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/

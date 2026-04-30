@@ -90,6 +90,11 @@ The consumer provides all CSS styling. The component renders with a `.united-kin
 
 UnitedKingdomNationalHealthServiceNumberInput is the editable input counterpart to UnitedKingdomNationalHealthServiceNumberView, following the Input/View pattern. Use the Input for data entry and the View for read-only display.
 
+## Related components
+
+- `united-kingdom-national-health-service-number-view` — a read-only display of a UK NHS number
+- `text-input` — a single-line text input field <input type="text">
+
 ## References
 
 - NHS Number format: https://www.nhs.uk/nhs-services/online-services/find-nhs-number/

@@ -95,6 +95,10 @@ The consumer provides all CSS styling. The component renders with a `.do-list` c
 
 DoList composes with DoListItem using the List/ListItem pattern. DoList renders the `<ul>` container, and each DoListItem renders an `<li>` within it. Pair with DontList and DontListItem for complete do/don't guidance.
 
+## Related components
+
+- `do-list-item` — an encouraged-practice item in a do-list guideline list
+
 ## References
 
 - MDN ul element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul

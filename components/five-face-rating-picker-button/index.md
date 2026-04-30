@@ -75,6 +75,10 @@ The consumer provides all CSS styling. The component renders with a `.five-face-
 - **Designers**: Make the selected state visually distinct (e.g., highlighted border, increased size, or color change). Ensure each face button has enough tap target size for touch devices.
 - **Developers**: Pass the `selected` prop to control `aria-pressed`. Use the `onclick` handler to update the parent picker's value. The `value` prop carries the numeric rating for form submission.
 
+## Related components
+
+- `five-face-rating-picker` — a picker for selecting a 1-5 satisfaction rating using face labels
+
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

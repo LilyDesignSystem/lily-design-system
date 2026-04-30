@@ -81,6 +81,12 @@ The consumer provides all CSS styling. The component renders with a `.contents-l
 
 ContentsList follows the Nav/List/ListItem composition pattern as part of the ContentsNav group. Use ContentsNav as the outer navigation landmark, ContentsList as the ordered list container, and ContentsListItem for each individual section link. ContentsListItem supports nesting for hierarchical section structures.
 
+## Related components
+
+- `contents-nav` — a contents navigation area
+- `contents-list-item` — one contents list item
+- `contents-link` — one table of contents link
+
 ## References
 
 - WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/

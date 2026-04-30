@@ -108,6 +108,10 @@ The consumer provides all CSS styling. The component renders with a `.red-orange
 - **Designers**: Ensure each of the five buttons is visually distinct with both color and text, and make the selected state clearly prominent.
 - **Developers**: Use `data-value` for CSS selectors to apply status-specific colors, and ensure only one button has `aria-pressed="true"` at a time.
 
+## Related components
+
+- `red-orange-yellow-green-blue-picker` — a picker for selecting a five-level color status
+
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

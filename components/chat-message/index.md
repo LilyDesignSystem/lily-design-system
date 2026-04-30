@@ -102,6 +102,12 @@ ChatMessage is part of the ChatNav composition pattern:
 - **ChatListItem** -- individual `<li>` items, each typically containing a ChatMessage component.
 - **ChatMessage** -- `<article>` element displaying one chat message with author, time, and content.
 
+## Related components
+
+- `chat-nav` — a navigation container for chat information
+- `chat-list` — an ordered list of chat list item components
+- `chat-list-item` — one chat list item component, typically containing one chat message component
+
 ## References
 
 - MDN HTML article element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article

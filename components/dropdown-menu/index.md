@@ -102,6 +102,10 @@ The consumer provides all CSS styling. The component renders with a `.dropdown-m
 - **Designers**: Position the menu directly below the trigger button. Keep the menu width consistent and avoid overly long item labels. Use separators for grouping related actions.
 - **Developers**: Ensure each child element has `role="menuitem"` and `tabindex="-1"`. Return focus to the trigger button after the menu closes.
 
+## Related components
+
+- `menu-item` — one item in a menu
+
 ## References
 
 - WAI-ARIA Menu Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubutton/

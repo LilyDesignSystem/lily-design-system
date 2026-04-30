@@ -85,3 +85,13 @@ The consumer provides all CSS styling. The component renders with an `.avatar-gr
 ## Composition
 
 AvatarGroup is a container for Avatar, AvatarImage, and AvatarText components.
+
+## Related components
+
+- `avatar` — an avatar indicator that shows an avatar image or avatar text
+- `avatar-image` — an avatar indicator inside image such as a user photo
+- `avatar-text` — an avatar indicator inner text such as a user name
+
+## References
+
+- [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

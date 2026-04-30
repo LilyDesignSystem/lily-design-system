@@ -49,6 +49,10 @@ None -- this component is a passive container. Keyboard behavior depends on the 
 - Use with `decorative` for icons that are purely visual and have adjacent text labels.
 - Avoid using a meaningful icon without a `label` prop; screen reader users would miss the icon's purpose.
 
+## When Not to Use
+
+- See related components for alternative patterns.
+
 ## Headless
 
 This headless component provides a `<span>` with `role="img"` and `aria-label` for meaningful icons, or `aria-hidden="true"` for decorative icons. The consumer provides all visual content (SVG, text characters, icon fonts) and styling.

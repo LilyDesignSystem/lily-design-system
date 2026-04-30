@@ -83,3 +83,11 @@ The consumer provides all CSS styling. The component renders with a `.measuremen
 ## Composition
 
 MeasurementUnitView is part of the measurement component family. It is the read-only counterpart to MeasurementUnitInput and works alongside MeasurementInstanceView, MeasurementSystemView, and their input counterparts.
+
+## Related components
+
+- `measurement-unit-input` — an input for selecting a measurement unit
+
+## References
+
+- [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

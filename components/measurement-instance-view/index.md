@@ -81,3 +81,11 @@ The consumer provides all CSS styling. The component renders with a `.measuremen
 ## Composition
 
 MeasurementInstanceView is part of the measurement component family. It is the read-only counterpart to MeasurementInstanceInput and works alongside MeasurementUnitView, MeasurementSystemView, and their input counterparts.
+
+## Related components
+
+- `measurement-instance-input` — an input for entering a measurement value and unit
+
+## References
+
+- [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)
