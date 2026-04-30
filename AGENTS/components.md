@@ -162,12 +162,12 @@
 - france-numero-d-identification-au-repertoire-input = FranceNumeroDIdentificationAuRepertoireInput = an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - france-numero-d-identification-au-repertoire-view = FranceNumeroDIdentificationAuRepertoireView = a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - gantt-table = GanttTable = a Gantt chart table interactive grid for planning schedule visualization <table>
-- gantt-table-body = GanttTableBody = a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
-- gantt-table-foot = GanttTableTfoot = a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
-- gantt-table-head = GanttTableHead = a Gantt chart table interactive grid thead for planning schedule visualization <thead>
-- gantt-table-row = GanttTableTR = a Gantt chart table interactive grid row for planning schedule visualization <tr>
+- gantt-table-tbody = GanttTableTbody = a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
 - gantt-table-td = GanttTableTD = a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+- gantt-table-tfoot = GanttTableTfoot = a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
 - gantt-table-th = GanttTableTH = a Gantt chart table interactive grid header cell for planning schedule visualization <th>
+- gantt-table-thead = GanttTableThead = a Gantt chart table interactive grid thead for planning schedule visualization <thead>
+- gantt-table-tr = GanttTableTr = a Gantt chart table interactive grid row for planning schedule visualization <tr>
 - go-to-next-section = GoToNextSection = a link that takes users to the next section of the current page
 - go-to-previous-section = GoToPreviousSection = a link that takes users to the previous section of the current page
 - go-to-top = GoToTop = a link that returns users to the top of a long page

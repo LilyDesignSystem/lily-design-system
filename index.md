@@ -190,12 +190,12 @@ Headless versions if you want to use components with all your own styles:
 - [france-numero-d-identification-au-repertoire-input](components/france-numero-d-identification-au-repertoire-input): an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - [france-numero-d-identification-au-repertoire-view](components/france-numero-d-identification-au-repertoire-view): a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - [gantt-table](components/gantt-table): a Gantt chart table interactive grid for planning schedule visualization <table>
-- [gantt-table-body](components/gantt-table-body): a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
-- [gantt-table-foot](components/gantt-table-foot): a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
-- [gantt-table-head](components/gantt-table-head): a Gantt chart table interactive grid thead for planning schedule visualization <thead>
-- [gantt-table-row](components/gantt-table-row): a Gantt chart table interactive grid row for planning schedule visualization <tr>
+- [gantt-table-tbody](components/gantt-table-tbody): a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
 - [gantt-table-td](components/gantt-table-td): a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+- [gantt-table-tfoot](components/gantt-table-tfoot): a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
 - [gantt-table-th](components/gantt-table-th): a Gantt chart table interactive grid header cell for planning schedule visualization <th>
+- [gantt-table-thead](components/gantt-table-thead): a Gantt chart table interactive grid thead for planning schedule visualization <thead>
+- [gantt-table-tr](components/gantt-table-tr): a Gantt chart table interactive grid row for planning schedule visualization <tr>
 - [go-to-next-section](components/go-to-next-section): a link that takes users to the next section of the current page
 - [go-to-previous-section](components/go-to-previous-section): a link that takes users to the previous section of the current page
 - [go-to-top](components/go-to-top): a link that returns users to the top of a long page
