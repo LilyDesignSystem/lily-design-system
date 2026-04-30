@@ -46,7 +46,7 @@
 
 import React from "react";
 
-export interface GanttTableTDProps {
+export interface GanttTableTdProps {
     className?: string;
     /** Whether this cell represents an active time period for the task. */
     active?: boolean;
@@ -60,7 +60,7 @@ export default function GanttTableTD({
     active = false,
     children,
     ...restProps
-}: GanttTableTDProps) {
+}: GanttTableTdProps) {
     return (
         <td
         className={`gantt-table-td ${className}`}

@@ -1,4 +1,4 @@
-export interface BackToTopProps {
+export interface GoToTopProps {
   className?: string;
   label?: string;
   children: React.ReactNode;
@@ -10,7 +10,7 @@ export default function GoToTop({
   label = undefined,
   children,
   ...restProps
-}: BackToTopProps) {
+}: GoToTopProps) {
   return (
     <a
       className={`go-to-top ${className}`}

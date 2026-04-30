@@ -21,7 +21,7 @@
 
 import React from "react";
 
-export interface GanttTableTDProps {
+export interface GanttTableThProps {
     className?: string;
     /** Number of columns this header cell spans. */
     colSpan?: number;
@@ -41,7 +41,7 @@ export default function GanttTableTH({
     scope = "col",
     children,
     ...restProps
-}: GanttTableTDProps) {
+}: GanttTableThProps) {
     return (
         <th
         className={`gantt-table-th ${className}`}

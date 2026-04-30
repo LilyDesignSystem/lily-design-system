@@ -46,7 +46,7 @@
 
 import React from "react";
 
-export interface DatetimeViewProps {
+export interface DateTimeViewProps {
     className?: string;
     /** ISO 8601 datetime string (required, machine-readable) */
     value: string;
@@ -66,7 +66,7 @@ export default function DateTimeView({
     label = undefined,
     children = undefined,
     ...restProps
-}: DatetimeViewProps) {
+}: DateTimeViewProps) {
     const display: React.ReactNode = children ?? format ?? value;
     return (
         <time

@@ -21,7 +21,7 @@
 
 import React from "react";
 
-export interface DataTableTDProps {
+export interface DataTableTHProps {
     className?: string;
     /** Number of columns this header cell spans. */
     colSpan?: number;
@@ -41,7 +41,7 @@ export default function DataTableTD({
     scope = "col",
     children,
     ...restProps
-}: DataTableTDProps) {
+}: DataTableTHProps) {
     return (
         <th
         className={`data-table-th ${className}`}

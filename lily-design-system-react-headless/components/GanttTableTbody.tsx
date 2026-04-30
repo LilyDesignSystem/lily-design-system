@@ -32,7 +32,7 @@
 
 import React from "react";
 
-export interface GanttTableBodyProps {
+export interface GanttTableTbodyProps {
     className?: string;
     /** GanttTableTR elements with task data cells. */
     children: React.ReactNode;
@@ -43,7 +43,7 @@ export default function GanttTableBody({
     className = "",
     children,
     ...restProps
-}: GanttTableBodyProps) {
+}: GanttTableTbodyProps) {
     return (
         <tbody
         className={`gantt-table-body ${className}`}

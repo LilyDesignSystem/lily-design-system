@@ -31,7 +31,7 @@
 
 import React from "react";
 
-export interface GanttTableFootProps {
+export interface GanttTableTfootProps {
     className?: string;
     /** GanttTableTR elements with footer cells. */
     children: React.ReactNode;
@@ -42,7 +42,7 @@ export default function GanttTableTfoot({
     className = "",
     children,
     ...restProps
-}: GanttTableFootProps) {
+}: GanttTableTfootProps) {
     return (
         <tfoot
         className={`gantt-table-foot ${className}`}

@@ -30,7 +30,7 @@
 
 import React from "react";
 
-export interface GanttTableHeadProps {
+export interface GanttTableTheadProps {
     className?: string;
     /** GanttTableTR elements with header cells. */
     children: React.ReactNode;
@@ -41,7 +41,7 @@ export default function GanttTableHead({
     className = "",
     children,
     ...restProps
-}: GanttTableHeadProps) {
+}: GanttTableTheadProps) {
     return (
         <thead
         className={`gantt-table-head ${className}`}

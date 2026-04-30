@@ -49,7 +49,7 @@
 
 import React from "react";
 
-export interface GanttTableRowProps {
+export interface GanttTableTrProps {
     className?: string;
     /** GanttTableTD cells and header cells for this row. */
     children: React.ReactNode;
@@ -60,7 +60,7 @@ export default function GanttTableTR({
     className = "",
     children,
     ...restProps
-}: GanttTableRowProps) {
+}: GanttTableTrProps) {
     return (
         <tr
         className={`gantt-table-row ${className}`}

@@ -47,7 +47,7 @@
 
 import React from "react";
 
-export interface TextareaProps {
+export interface TextAreaInputProps {
     className?: string;
     /** Accessible label. */
     label: string;
@@ -73,7 +73,7 @@ export default function TextAreaInput({
     disabled = false,
     onChange,
     ...restProps
-}: TextareaProps) {
+}: TextAreaInputProps) {
     return (
         <textarea
         className={`text-area-input ${className}`}

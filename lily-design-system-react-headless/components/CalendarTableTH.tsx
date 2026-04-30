@@ -36,7 +36,7 @@
 
 import React from "react";
 
-export interface CalendarTableTDProps {
+export interface CalendarTableTHProps {
     className?: string;
     /** Number of columns this header cell spans. */
     colSpan?: number;
@@ -56,7 +56,7 @@ export default function CalendarTableTD({
     scope = "col",
     children,
     ...restProps
-}: CalendarTableTDProps) {
+}: CalendarTableTHProps) {
     return (
         <th
         className={`calendar-table-th ${className}`}

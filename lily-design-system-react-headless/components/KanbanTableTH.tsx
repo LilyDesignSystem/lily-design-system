@@ -21,7 +21,7 @@
 
 import React from "react";
 
-export interface KanbanTableTDProps {
+export interface KanbanTableTHProps {
     className?: string;
     /** Number of columns this header cell spans. */
     colSpan?: number;
@@ -41,7 +41,7 @@ export default function KanbanTableTD({
     scope = "col",
     children,
     ...restProps
-}: KanbanTableTDProps) {
+}: KanbanTableTHProps) {
     return (
         <th
         className={`kanban-table-th ${className}`}
