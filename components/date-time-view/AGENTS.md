@@ -2,11 +2,11 @@
 
 ## Metadata
 
-- Component: datetime-view
+- Component: date-time-view
 - PascalCase: DatetimeView
 - Description: a read-only display of a formatted date and time
 - HTML tag: <time>
-- CSS class: .datetime-view
+- CSS class: .date-time-view
 - Interactive: no
 
 ## Key Behaviors
@@ -35,7 +35,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <time> element with class="datetime-view"
+- [ ] Renders <time> element with class="date-time-view"
 - [ ] datetime attribute equals value prop
 - [ ] Display text follows fallback chain: children → format → value
 - [ ] aria-label is rendered when label prop is provided
@@ -45,6 +45,6 @@
 ## References
 
 - Documentation: index.md
-- CSS class: .datetime-view in css-style-sheet-template.css
-- HTML headless: lily-design-system-html-headless/components/datetime-view.html
+- CSS class: .date-time-view in css-style-sheet-template.css
+- HTML headless: lily-design-system-html-headless/components/date-time-view.html
 - MDN time: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time

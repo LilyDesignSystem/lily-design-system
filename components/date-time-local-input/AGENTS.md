@@ -2,11 +2,11 @@
 
 ## Metadata
 
-- Component: datetime-local-input
+- Component: date-time-local-input
 - PascalCase: DateTimeLocalInput
 - Description: an input for entering a date and time without time zone <input type="datetime-local">
 - HTML tag: <input>
-- CSS class: .datetime-local-input
+- CSS class: .date-time-local-input
 - Interactive: yes
 
 ## Key Behaviors
@@ -39,7 +39,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <input> element with class="datetime-local-input"
+- [ ] Renders <input> element with class="date-time-local-input"
 - [ ] Has aria-label attribute
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
@@ -48,6 +48,6 @@
 ## References
 
 - Documentation: index.md
-- CSS class: .datetime-local-input in css-style-sheet-template.css
-- HTML headless: lily-design-system-html-headless/components/datetime-local-input.html
+- CSS class: .date-time-local-input in css-style-sheet-template.css
+- HTML headless: lily-design-system-html-headless/components/date-time-local-input.html
 - MDN datetime-local input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local

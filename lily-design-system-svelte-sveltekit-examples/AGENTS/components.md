@@ -17,6 +17,7 @@
 - angle-slider-range-input = AngleSliderRangeInput = a range input for selecting an angle in degrees
 - announcement-banner = AnnouncementBanner = a banner highlighting important messages for all users
 - area-chart = AreaChart = an area chart visualization showing sized components in continuous data
+- article-layout = ArticleLayout = a top-level article wrapper that sets CSS custom properties for content column widths
 - aspect-ratio-container = AspectRatioContainer = a container that maintains a fixed aspect ratio
 - autosuggest = Autosuggest = a text input that proposes matching options as users type
 - avatar = Avatar = an avatar indicator that shows an avatar image or avatar text
@@ -30,6 +31,7 @@
 - bar-chart = BarChart = a horizontal bar chart visualization for displaying data
 - beach-ball = BeachBall = a decorative animated beach ball element
 - blockquote = Blockquote = a block-level quotation with optional source citation
+- body-text = BodyText = a rendered text block within a content width container
 - breadcrumb-link = BreadcrumbLink = one breadcrumb link in the trail
 - breadcrumb-list = BreadcrumbList = an ordered list of breadcrumb list items
 - breadcrumb-list-item = BreadcrumbListItem = one breadcrumb list item in the trail
@@ -37,6 +39,7 @@
 - button = Button = a generic clickable button element
 - button-group = ButtonGroup = a wrapper that groups related buttons together
 - button-input = ButtonInput = an input element of type button for form actions <input type="button">
+- byline = Byline = an author attribution with publish and update timestamps
 - calendar-range-picker = CalendarRangePicker = a picker for selecting a date range on a calendar
 - calendar-table = CalendarTable = a calendar table interactive grid for managing dates, days, etc. <table>
 - calendar-table-body = CalendarTableBody = a calendar table interactive grid tbody for managing dates, days, etc. <tbody>
@@ -80,6 +83,7 @@
 - container = Container = a generic block-level content container
 - container-with-fixed-width = ContainerWithFixedWidth = a centered content wrapper with a fixed max-width breakpoint
 - container-with-fluid-width = ContainerWithFluidWidth = a full-width content wrapper with horizontal padding
+- content-block = ContentBlock = a content width constraint container with named column widths
 - contents-link = ContentsLink = one table of contents link
 - contents-list = ContentsList = an contents ordered list of contents list item components
 - contents-list-item = ContentsListItem = one contents list item
@@ -125,6 +129,7 @@
 - email-link = EmailLink = a mailto hyperlink for an email address
 - emoji = Emoji = a single emoji character with accessible name
 - emoji-character-picker = EmojiCharacterPicker = a picker for browsing and selecting emoji characters
+- end-notes = EndNotes = a section of titled endnote items at the end of an article
 - error-message = ErrorMessage = an error message associated with a form field
 - error-summary = ErrorSummary = a summary of all validation errors on a form
 - espana-tarjeta-sanitaria-individual-input = EspanaTarjetaSanitariaIndividualInput = an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
@@ -132,6 +137,7 @@
 - event = Event = an event component that contains other event-related information
 - expander = Expander = a control that expands to reveal more content
 - feature-card = FeatureCard = a large content card with a prominent image positioned alongside or above the text
+- feature-photo = FeaturePhoto = a responsive photo with lazy loading and alt text validation
 - field = Field = a form field wrapper with label, input, and error message
 - fieldset = Fieldset = a group of related form fields with a legend
 - figure = Figure = a self-contained figure with optional caption
@@ -152,6 +158,7 @@
 - footer = Footer = a page or section footer area
 - footnote = Footnote = a footnote reference and content element
 - form = Form = a form element for collecting and submitting user data
+- framer = Framer = a container for framed content display with decorative border
 - france-numero-d-identification-au-repertoire-input = FranceNumeroDIdentificationAuRepertoireInput = an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - france-numero-d-identification-au-repertoire-view = FranceNumeroDIdentificationAuRepertoireView = a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - gantt-table = GanttTable = a Gantt chart table interactive grid for planning schedule visualization <table>
@@ -172,12 +179,16 @@
 - grail-layout-left-aside = GrailLayoutLeftAside = grail layout left aside sidebar with <aside> tag
 - grail-layout-right-aside = GrailLayoutRightAside = grail layout right aside sidebar with <aside> tag
 - grail-layout-top-header = GrailLayoutTopHeader = grail layout top header full width with <header> tag
+- graphic-block = GraphicBlock = a wrapper for charts and graphics with title, description, notes, and ARIA description
 - grid = Grid = a CSS grid layout container with configurable columns and gap
 - hamburger-menu = HamburgerMenu = a toggle button that opens a mobile navigation menu
 - header = Header = a page or section header area
+- headline = Headline = a page headline with heading, subtitle, and byline area
 - hero = Hero = a large box or image with a title and description
+- hero-headline = HeroHeadline = a full-bleed hero section with headline overlaid on media
 - hidden-input = HiddenInput = a hidden input for including data in form submission <input type="hidden">
 - hint = Hint = hint text providing guidance for a form field
+- horizontal-scroller = HorizontalScroller = a horizontally scrollable content container
 - hover-card = HoverCard = a card that appears on hover over a trigger element
 - icon = Icon = a container for displaying an icon
 - icon-button = IconButton = a button containing only an icon with a required accessible label
@@ -247,6 +258,7 @@
 - option = Option = an option element within a select dropdown
 - organization = Organization = an organization component that contains other organization-related information
 - overlay-container = OverlayContainer = a full-viewport overlay backdrop for modals and sheets
+- padding-reset = PaddingReset = a container that resets padding inside fluid-width containers
 - pagination-link = PaginationLink = one pagination link in the trail
 - pagination-list = PaginationList = an ordered list of pagination list items
 - pagination-list-item = PaginationListItem = one pagination list item in the trail
@@ -256,6 +268,7 @@
 - password-input-or-text-input-div = PasswordInputOrTextInputDiv = an input for entering a password <input type="password"> or text <input type="text"> with show/hide toggle
 - person = Person = a person component that contains other person-related information
 - phase-banner = PhaseBanner = a banner showing service development phase and inviting feedback
+- photo-pack = PhotoPack = a collection of photos displayed together as a group
 - pictogram = Pictogram = an icon-based component pairing an icon with a title and description in a centered or side layout
 - pin-input-div = PinInputDiv = a series of single-digit inputs for entering a PIN or OTP code
 - place = Place = a place component that contains other place-related information
@@ -287,6 +300,9 @@
 - screen-reader-span = ScreenReaderSpan = a visually hidden span of text intended for screen readers to provide more descriptive labels
 - scroll-area = ScrollArea = a scrollable container with custom scrollbar support
 - scroll-bar = ScrollBar = a custom scrollbar element
+- scroller = Scroller = a scrollytelling container with step-based foreground and background composition
+- scroller-base = ScrollerBase = a low-level scroll position tracking primitive for scrollytelling
+- scroller-video = ScrollerVideo = a video-driven scrollytelling component with frame-by-frame scrubbing
 - search-input = SearchInput = an input for entering a search query <input type="search">
 - section-heading = SectionHeading = a styled heading introducing a major content section, with optional eyebrow and subtitle
 - section-link = SectionLink = one section link in the navigation
@@ -350,10 +366,12 @@
 - text-input-with-search = TextInputWithSearch = a single-line text input field <input type="text"> with search capability
 - theme-picker = ThemePicker = a picker for selecting a visual theme
 - theme-picker-button = ThemePickerButton = a picker button for selecting a visual theme
+- theme-provider = ThemeProvider = a container that applies CSS custom properties from a theme object to its children
 - theme-select = ThemeSelect = a select dropdown for choosing a theme
 - theme-select-option = ThemeSelectOption = one option in a theme select dropdown
 - theme-view = ThemeView = a read-only display of the current theme
 - tile = Tile = a grouping container that presents related content in a structured format, often as a single clickable area
+- tile-map = TileMap = a tile cartogram map with configurable layers for geographic data visualization
 - time-input = TimeInput = an input for entering a time value <input type="time">
 - time-picker-input = TimePickerInput = an input with a dropdown for picking a time
 - timeline-list = TimelineList = an ordered list of chronological events or milestones
@@ -384,6 +402,8 @@
 - url-input = UrlInput = an input for entering a URL <input type="url">
 - validation-list = ValidationList = a live-feedback list of input validation rules with pending, passed, and failed states
 - validation-list-item = ValidationListItem = one validation rule in a validation list with a status of pending, passed, or failed
+- video-player = VideoPlayer = a video player with play-in-view behavior, custom controls, and IntersectionObserver support
+- visible = Visible = an IntersectionObserver wrapper that exposes element visibility state
 - warning-callout = WarningCallout = a callout box highlighting a warning message
 - watermark = Watermark = a decorative repeating overlay text or image marking a page
 - week-input = WeekInput = an input for selecting a week and year <input type="week">

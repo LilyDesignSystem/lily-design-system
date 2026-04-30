@@ -7,11 +7,11 @@ Implement the DatetimeView component: a read-only display of a formatted date an
 ## HTML Tag and CSS Class
 
 - HTML tag: <time>
-- CSS class: .datetime-view
+- CSS class: .date-time-view
 
 ## Approach
 
-1. Use semantic <time> element with class="datetime-view"
+1. Use semantic <time> element with class="date-time-view"
 2. Add ARIA attributes for accessibility
 3. Implement keyboard interaction (where applicable)
 4. Add vanilla JavaScript for interactive behavior (where applicable)
@@ -24,7 +24,7 @@ Implement the DatetimeView component: a read-only display of a formatted date an
 
 ## Acceptance Criteria
 
-- [ ] Renders <time> with class="datetime-view"
+- [ ] Renders <time> with class="date-time-view"
 - [ ] Required ARIA attributes are set
 - [ ] All user-facing strings come through props or params (i18n-ready)
 - [ ] Headless: zero CSS classes beyond the base class plus consumer extras

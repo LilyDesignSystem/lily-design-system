@@ -73,13 +73,13 @@ This headless component provides a native `<input type="datetime-local">` with a
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.datetime-local-input` class for targeting. No default styles are included — this is a fully headless component.
+The consumer provides all CSS styling. The component renders with a `.date-time-local-input` class for targeting. No default styles are included — this is a fully headless component.
 
 
 ## Testing
 
 
-- Verify the component renders a `<input>` element with class `datetime-local-input`
+- Verify the component renders a `<input>` element with class `date-time-local-input`
 - Verify aria-label={label}` -- provides an accessible name for the datetime input since there is no visible `<label>` element
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied

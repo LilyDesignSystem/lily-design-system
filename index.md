@@ -45,6 +45,7 @@ Headless versions if you want to use components with all your own styles:
 - [angle-slider-range-input](components/angle-slider-range-input): a range input for selecting an angle in degrees
 - [announcement-banner](components/announcement-banner): a banner highlighting important messages for all users
 - [area-chart](components/area-chart): an area chart visualization showing sized components in continuous data
+- [article-layout](components/article-layout): a top-level article wrapper that sets CSS custom properties for content column widths
 - [aspect-ratio-container](components/aspect-ratio-container): a container that maintains a fixed aspect ratio
 - [autosuggest](components/autosuggest): a text input that proposes matching options as users type
 - [avatar](components/avatar): an avatar indicator that shows an avatar image or avatar text
@@ -58,6 +59,7 @@ Headless versions if you want to use components with all your own styles:
 - [bar-chart](components/bar-chart): a horizontal bar chart visualization for displaying data
 - [beach-ball](components/beach-ball): a decorative animated beach ball element
 - [blockquote](components/blockquote): a block-level quotation with optional source citation
+- [body-text](components/body-text): a rendered text block within a content width container
 - [breadcrumb-link](components/breadcrumb-link): one breadcrumb link in the trail
 - [breadcrumb-list](components/breadcrumb-list): an ordered list of breadcrumb list items
 - [breadcrumb-list-item](components/breadcrumb-list-item): one breadcrumb list item in the trail
@@ -65,6 +67,7 @@ Headless versions if you want to use components with all your own styles:
 - [button](components/button): a generic clickable button element
 - [button-group](components/button-group): a wrapper that groups related buttons together
 - [button-input](components/button-input): an input element of type button for form actions <input type="button">
+- [byline](components/byline): an author attribution with publish and update timestamps
 - [calendar-range-picker](components/calendar-range-picker): a picker for selecting a date range on a calendar
 - [calendar-table](components/calendar-table): a calendar table interactive grid for managing dates, days, etc. <table>
 - [calendar-table-body](components/calendar-table-body): a calendar table interactive grid tbody for managing dates, days, etc. <tbody>
@@ -108,6 +111,7 @@ Headless versions if you want to use components with all your own styles:
 - [container](components/container): a generic block-level content container
 - [container-with-fixed-width](components/container-with-fixed-width): a centered content wrapper with a fixed max-width breakpoint
 - [container-with-fluid-width](components/container-with-fluid-width): a full-width content wrapper with horizontal padding
+- [content-block](components/content-block): a content width constraint container with named column widths
 - [contents-link](components/contents-link): one table of contents link
 - [contents-list](components/contents-list): an contents ordered list of contents list item components
 - [contents-list-item](components/contents-list-item): one contents list item
@@ -153,6 +157,7 @@ Headless versions if you want to use components with all your own styles:
 - [email-link](components/email-link): a mailto hyperlink for an email address
 - [emoji](components/emoji): a single emoji character with accessible name
 - [emoji-character-picker](components/emoji-character-picker): a picker for browsing and selecting emoji characters
+- [end-notes](components/end-notes): a section of titled endnote items at the end of an article
 - [error-message](components/error-message): an error message associated with a form field
 - [error-summary](components/error-summary): a summary of all validation errors on a form
 - [espana-tarjeta-sanitaria-individual-input](components/espana-tarjeta-sanitaria-individual-input): an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
@@ -160,6 +165,7 @@ Headless versions if you want to use components with all your own styles:
 - [event](components/event): an event component that contains other event-related information
 - [expander](components/expander): a control that expands to reveal more content
 - [feature-card](components/feature-card): a large content card with a prominent image positioned alongside or above the text
+- [feature-photo](components/feature-photo): a responsive photo with lazy loading and alt text validation
 - [field](components/field): a form field wrapper with label, input, and error message
 - [fieldset](components/fieldset): a group of related form fields with a legend
 - [figure](components/figure): a self-contained figure with optional caption
@@ -180,6 +186,7 @@ Headless versions if you want to use components with all your own styles:
 - [footer](components/footer): a page or section footer area
 - [footnote](components/footnote): a footnote reference and content element
 - [form](components/form): a form element for collecting and submitting user data
+- [framer](components/framer): a container for framed content display with decorative border
 - [france-numero-d-identification-au-repertoire-input](components/france-numero-d-identification-au-repertoire-input): an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - [france-numero-d-identification-au-repertoire-view](components/france-numero-d-identification-au-repertoire-view): a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 - [gantt-table](components/gantt-table): a Gantt chart table interactive grid for planning schedule visualization <table>
@@ -200,12 +207,16 @@ Headless versions if you want to use components with all your own styles:
 - [grail-layout-left-aside](components/grail-layout-left-aside): grail layout left aside sidebar with <aside> tag
 - [grail-layout-right-aside](components/grail-layout-right-aside): grail layout right aside sidebar with <aside> tag
 - [grail-layout-top-header](components/grail-layout-top-header): grail layout top header full width with <header> tag
+- [graphic-block](components/graphic-block): a wrapper for charts and graphics with title, description, notes, and ARIA description
 - [grid](components/grid): a CSS grid layout container with configurable columns and gap
 - [hamburger-menu](components/hamburger-menu): a toggle button that opens a mobile navigation menu
 - [header](components/header): a page or section header area
+- [headline](components/headline): a page headline with heading, subtitle, and byline area
 - [hero](components/hero): a large box or image with a title and description
+- [hero-headline](components/hero-headline): a full-bleed hero section with headline overlaid on media
 - [hidden-input](components/hidden-input): a hidden input for including data in form submission <input type="hidden">
 - [hint](components/hint): hint text providing guidance for a form field
+- [horizontal-scroller](components/horizontal-scroller): a horizontally scrollable content container
 - [hover-card](components/hover-card): a card that appears on hover over a trigger element
 - [icon](components/icon): a container for displaying an icon
 - [icon-button](components/icon-button): a button containing only an icon with a required accessible label
@@ -275,6 +286,7 @@ Headless versions if you want to use components with all your own styles:
 - [option](components/option): an option element within a select dropdown
 - [organization](components/organization): an organization component that contains other organization-related information
 - [overlay-container](components/overlay-container): a full-viewport overlay backdrop for modals and sheets
+- [padding-reset](components/padding-reset): a container that resets padding inside fluid-width containers
 - [pagination-link](components/pagination-link): one pagination link in the trail
 - [pagination-list](components/pagination-list): an ordered list of pagination list items
 - [pagination-list-item](components/pagination-list-item): one pagination list item in the trail
@@ -284,6 +296,7 @@ Headless versions if you want to use components with all your own styles:
 - [password-input-or-text-input-div](components/password-input-or-text-input-div): an input for entering a password <input type="password"> or text <input type="text"> with show/hide toggle
 - [person](components/person): a person component that contains other person-related information
 - [phase-banner](components/phase-banner): a banner showing service development phase and inviting feedback
+- [photo-pack](components/photo-pack): a collection of photos displayed together as a group
 - [pictogram](components/pictogram): an icon-based component pairing an icon with a title and description in a centered or side layout
 - [pin-input-div](components/pin-input-div): a series of single-digit inputs for entering a PIN or OTP code
 - [place](components/place): a place component that contains other place-related information
@@ -315,6 +328,9 @@ Headless versions if you want to use components with all your own styles:
 - [screen-reader-span](components/screen-reader-span): a visually hidden span of text intended for screen readers to provide more descriptive labels
 - [scroll-area](components/scroll-area): a scrollable container with custom scrollbar support
 - [scroll-bar](components/scroll-bar): a custom scrollbar element
+- [scroller](components/scroller): a scrollytelling container with step-based foreground and background composition
+- [scroller-base](components/scroller-base): a low-level scroll position tracking primitive for scrollytelling
+- [scroller-video](components/scroller-video): a video-driven scrollytelling component with frame-by-frame scrubbing
 - [search-input](components/search-input): an input for entering a search query <input type="search">
 - [section-heading](components/section-heading): a styled heading introducing a major content section, with optional eyebrow and subtitle
 - [section-link](components/section-link): one section link in the navigation
@@ -378,10 +394,12 @@ Headless versions if you want to use components with all your own styles:
 - [text-input-with-search](components/text-input-with-search): a single-line text input field <input type="text"> with search capability
 - [theme-picker](components/theme-picker): a picker for selecting a visual theme
 - [theme-picker-button](components/theme-picker-button): a picker button for selecting a visual theme
+- [theme-provider](components/theme-provider): a container that applies CSS custom properties from a theme object to its children
 - [theme-select](components/theme-select): a select dropdown for choosing a theme
 - [theme-select-option](components/theme-select-option): one option in a theme select dropdown
 - [theme-view](components/theme-view): a read-only display of the current theme
 - [tile](components/tile): a grouping container that presents related content in a structured format, often as a single clickable area
+- [tile-map](components/tile-map): a tile cartogram map with configurable layers for geographic data visualization
 - [time-input](components/time-input): an input for entering a time value <input type="time">
 - [time-picker-input](components/time-picker-input): an input with a dropdown for picking a time
 - [timeline-list](components/timeline-list): an ordered list of chronological events or milestones
@@ -412,6 +430,8 @@ Headless versions if you want to use components with all your own styles:
 - [url-input](components/url-input): an input for entering a URL <input type="url">
 - [validation-list](components/validation-list): a live-feedback list of input validation rules with pending, passed, and failed states
 - [validation-list-item](components/validation-list-item): one validation rule in a validation list with a status of pending, passed, or failed
+- [video-player](components/video-player): a video player with play-in-view behavior, custom controls, and IntersectionObserver support
+- [visible](components/visible): an IntersectionObserver wrapper that exposes element visibility state
 - [warning-callout](components/warning-callout): a callout box highlighting a warning message
 - [watermark](components/watermark): a decorative repeating overlay text or image marking a page
 - [week-input](components/week-input): an input for selecting a week and year <input type="week">

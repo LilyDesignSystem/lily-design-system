@@ -93,7 +93,7 @@ The consumer provides all CSS styling. The component renders with a `.timer` cla
 
 - `timer-button` — a button with a timer that will automatically click after a given amount of time
 - `loading` — a loading indicator, such as text, or image, or animation
-- `datetime-view` — see components.tsv
+- `date-time-view` — see components.tsv
 
 ## References
 

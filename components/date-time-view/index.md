@@ -15,7 +15,7 @@ that the consumer has formatted in the user's locale.
 - Sets `datetime={value}` from the ISO 8601 string
 - Display text falls back: `children` → `format` → `value`
 - Does not perform any localization — the consumer formats the displayed text
-- Sets `class="datetime-view"`
+- Sets `class="date-time-view"`
 
 ## Props
 
@@ -75,12 +75,12 @@ and any visual treatment are the consumer's responsibility.
 
 ## Styles
 
-The consumer styles the `datetime-view` class. A common pattern wraps the
+The consumer styles the `date-time-view` class. A common pattern wraps the
 component to apply font-variant-numeric or letter-spacing for tabular dates.
 
 ## Testing
 
-- Verify the component renders a `<time>` element with class `datetime-view`
+- Verify the component renders a `<time>` element with class `date-time-view`
 - Verify the `datetime` attribute equals the `value` prop
 - Verify display text uses children if provided, then `format`, then `value`
 - Verify `aria-label` is set when the `label` prop is provided

@@ -86,7 +86,7 @@ The consumer provides all CSS styling. The component renders with a `.review-dat
 ## Related components
 
 - `date-time-view` — a read-only display of a formatted date and time
-- `datetime-view` — see components.tsv
+- `date-time-view` — see components.tsv
 - `byline` — see components.tsv
 
 ## References
