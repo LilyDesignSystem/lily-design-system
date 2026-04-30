@@ -94,6 +94,12 @@ The consumer provides all CSS styling. The component renders with a `.toast` cla
 - **Designers**: Position toasts consistently (e.g., bottom-right or top-center) and use color/icon cues to distinguish success, error, and informational messages.
 - **Developers**: Set `urgent={true}` only for error or time-sensitive messages. For normal confirmations, use the default polite behavior to avoid interrupting screen reader users.
 
+## Related components
+
+- `sonner` — a toast notification manager
+- `notification` — a brief message about an event or update
+- `alert` — a status message for important information or feedback
+
 ## References
 
 - WAI-ARIA Alert Role: https://www.w3.org/TR/wai-aria-1.2/#alert

@@ -99,6 +99,13 @@ The consumer provides all CSS styling. The component renders with a `.field` cla
 
 Field composes with Label, input components (TextInput, Select, etc.), ErrorMessage, and Hint following the Form/Field/Input pattern. Field wraps a label, the consumer's input, an optional description, and an optional error message. Use inside a Form and group related Fields with Fieldset.
 
+## Related components
+
+- `form` — a form element for collecting and submitting user data
+- `fieldset` — a group of related form fields with a legend
+- `input` — a generic HTML input element
+- `label` — a label associated with a form input
+
 ## References
 
 - WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/

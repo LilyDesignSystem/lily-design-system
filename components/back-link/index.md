@@ -75,6 +75,13 @@ The consumer provides all CSS styling. The component renders with a `.back-link`
 - **Designers**: Place the back link consistently at the top-left of the content area. Include a left-pointing arrow icon to visually reinforce the "back" direction.
 - **Developers**: Use the `label` prop to provide descriptive screen reader text when the visible text is short (e.g., "Back" visible but "Return to dashboard" announced).
 
+## Related components
+
+- `go-to-top` — a link that returns users to the top of a long page
+- `skip-link` — a hidden link for keyboard users to skip to main content
+- `breadcrumb-nav` — a navigation container for breadcrumb trail links
+- `action-link` — a hyperlink styled as an action trigger
+
 ## References
 
 - [MDN a element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a)

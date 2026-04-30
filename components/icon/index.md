@@ -76,6 +76,12 @@ The consumer provides all CSS styling. The component renders with a `.icon` clas
 - **Designers**: Ensure icons are visually clear at small sizes. Pair icons with text labels when the meaning may be ambiguous. Maintain consistent icon sizing across the interface.
 - **Developers**: Set `decorative={true}` when the icon is adjacent to a text label that conveys the same meaning. Always provide `label` for standalone icons.
 
+## Related components
+
+- `icon-button` — a button containing only an icon with a required accessible label
+- `emoji` — a single emoji character with accessible name
+- `qr-code` — a QR code image generated from text or URL data
+
 ## References
 
 - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img

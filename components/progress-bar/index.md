@@ -49,6 +49,14 @@ This headless component renders semantic HTML. The consumer provides all visual 
 
 The component renders with `.progress-bar` as the root class. No default styles are included.
 
+## Related components
+
+- `progress` — a horizontal progress bar showing completion
+- `progress-circle` — a circular progress indicator
+- `progress-spinner` — an indeterminate spinning progress indicator
+- `meter` — a gauge displaying a scalar value within a known range
+- `loading` — a loading indicator, such as text, or image, or animation
+
 ## References
 
 - Documentation: index.md

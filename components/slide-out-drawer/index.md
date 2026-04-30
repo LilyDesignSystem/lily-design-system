@@ -108,6 +108,11 @@ The consumer provides all CSS styling. The component renders with a `.slide-out-
 - **Designers**: Include a visible close button inside the drawer and use a semi-transparent backdrop to indicate the drawer is an overlay. Animate the slide transition to reinforce direction.
 - **Developers**: Implement focus trapping within the drawer so keyboard users cannot interact with content behind it. Restore focus to the trigger element when the drawer closes.
 
+## Related components
+
+- `drawer` — a panel that slides in from the edge of the screen
+- `sheet` — a panel that slides in from a screen edge as an overlay
+
 ## References
 
 - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

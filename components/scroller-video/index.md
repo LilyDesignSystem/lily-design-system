@@ -101,6 +101,12 @@ The consumer provides all CSS styling. The component renders with a `.scroller-v
 - **Designers**: Choose videos that communicate a clear progression. Ensure foreground text is readable over the video at every frame. Consider providing a static fallback image for users who prefer reduced motion.
 - **Developers**: Always provide both `label` and `alt` props for accessibility. The `alt` text should describe the overall video content, not individual frames. Test with WebCodecs API support and the currentTime fallback. Ensure the video file is optimized for scrubbing (short GOP length).
 
+## Related components
+
+- `scroller` — see components.tsv
+- `scroller-base` — see components.tsv
+- `video-player` — see components.tsv
+
 ## References
 
 - Reuters Graphics ScrollerVideo

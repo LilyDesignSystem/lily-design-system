@@ -88,6 +88,12 @@ The consumer provides all CSS styling. The component renders with a `.meter` cla
 - **Designers**: Use color to indicate threshold regions (e.g., green for optimum, yellow for warning, red for critical) and always include a visible text label near the meter.
 - **Developers**: Set `low`, `high`, and `optimum` props to leverage the browser's built-in color hinting for the `<meter>` element. Provide a meaningful `label` for screen readers.
 
+## Related components
+
+- `progress` — a horizontal progress bar showing completion
+- `progress-bar` — a horizontal progress indicator
+- `statistic` — a numeric value display with title, prefix, and suffix
+
 ## References
 
 - HTML meter element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meter

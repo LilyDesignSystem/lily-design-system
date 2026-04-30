@@ -85,6 +85,11 @@ The consumer provides all CSS styling. The component renders with a `.sonner` cl
 
 Sonner serves as the container region that manages Toast notification components. Place individual Toast elements as children inside the Sonner region. The Sonner provides the live region semantics while each Toast provides the individual notification content and dismiss behavior.
 
+## Related components
+
+- `toast` — a brief auto-dismissing notification message
+- `notification` — a brief message about an event or update
+
 ## References
 
 - WAI-ARIA Live Regions: https://www.w3.org/TR/wai-aria-1.2/#aria-live

@@ -90,6 +90,13 @@ The consumer provides all CSS styling. The component renders with a `.checkbox-i
 - **Designers**: Ensure custom checkbox indicators have sufficient size (at least 24x24px touch target) and clear checked/unchecked states with adequate contrast.
 - **Developers**: Use the `aria-label` prop to provide an accessible name. For visible labels, wrap the CheckboxInput in your own `<label>` element or use a separate linked label.
 
+## Related components
+
+- `checkbox-group` — a group component that manages a collection of checkboxes with shared state
+- `radio-input` — a single radio button input <input type="radio">
+- `switch-button` — a toggle switch for turning a setting on or off
+- `toggle-button` — a button that toggles between pressed and unpressed states
+
 ## References
 
 - MDN checkbox input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox

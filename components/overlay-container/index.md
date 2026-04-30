@@ -95,6 +95,12 @@ removed from layout via the native `hidden` attribute.
 - **Designers**: A scrim should reduce content contrast just enough to focus the user on the modal — typically 40–60% black at low opacity. Avoid full opacity which hides context entirely.
 - **Developers**: Pair the OverlayContainer with a focus-trapping Dialog inside. Hook the backdrop click only when the underlying dialog is dismissible — destructive flows should not close on backdrop click.
 
+## Related components
+
+- `dialog` — a modal or non-modal dialog window
+- `drawer` — a panel that slides in from the edge of the screen
+- `sheet` — a panel that slides in from a screen edge as an overlay
+
 ## References
 
 - WAI-ARIA dialog pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

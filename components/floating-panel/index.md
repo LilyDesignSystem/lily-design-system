@@ -83,6 +83,12 @@ The consumer provides all CSS styling. The component renders with a `.floating-p
 - **Designers**: Ensure the floating panel has sufficient contrast and shadow to distinguish it from underlying content. Consider adding an arrow or caret pointing to the trigger element.
 - **Developers**: Implement focus management and Escape-to-close behavior in your consumer code. Use CSS absolute/fixed positioning relative to the trigger element.
 
+## Related components
+
+- `panel` — a generic content panel with optional heading
+- `popover` — a floating content box anchored to a trigger element
+- `drawer` — a panel that slides in from the edge of the screen
+
 ## References
 
 - WAI-ARIA Practices - Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/

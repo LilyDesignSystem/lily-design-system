@@ -100,6 +100,12 @@ The consumer provides all CSS styling. The component renders with a `.url-input`
 - **Designers**: Include a placeholder (e.g., "https://example.com") to clarify the expected format. Show validation errors inline near the input.
 - **Developers**: The browser requires a valid URL with a protocol (e.g., `https://`) for validation. Pass `placeholder` and `pattern` via restProps to customize behavior.
 
+## Related components
+
+- `text-input` — a single-line text input field <input type="text">
+- `email-input` — an input for entering an email address <input type="email">
+- `tel-input` — an input for entering a telephone number <input type="tel">
+
 ## References
 
 - MDN input type="url": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/url

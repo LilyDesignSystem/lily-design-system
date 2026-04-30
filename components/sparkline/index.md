@@ -67,6 +67,12 @@ The consumer provides all CSS styling. The component renders with a `.sparkline`
 - **Designers**: Keep sparklines small and unadorned -- omit axes, labels, and gridlines to maintain their compact nature. Use a consistent color and line weight across all sparklines in the same context.
 - **Developers**: Write a descriptive `label` that conveys the data trend (e.g., "Sales up 12% over 7 days") rather than just a title. Ensure the SVG or canvas has appropriate dimensions and does not cause layout shift.
 
+## Related components
+
+- `statistic` — a numeric value display with title, prefix, and suffix
+- `line-chart` — a line chart visualization connecting data points to display data
+- `meter` — a gauge displaying a scalar value within a known range
+
 ## References
 
 - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img

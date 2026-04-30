@@ -99,6 +99,10 @@ hooks the `--clamp-text-lines` custom property:
 - **Designers**: Choose a line count that fits the worst-case content while preserving readability. Two or three lines is typical for cards.
 - **Developers**: Do not add `overflow: hidden` to the headless component itself — apply it in your consumer CSS so the truncation strategy stays explicit.
 
+## Related components
+
+- `blockquote` — a block-level quotation with optional source citation
+
 ## References
 
 - MDN line-clamp: https://developer.mozilla.org/en-US/docs/Web/CSS/line-clamp

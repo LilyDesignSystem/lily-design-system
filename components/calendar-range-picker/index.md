@@ -92,6 +92,12 @@ The consumer provides all CSS styling. The component renders with a `.calendar-r
 - **Designers**: Clearly highlight the selected range with a distinct background color spanning from the start date to the end date. Show hover previews as the user moves toward the end date.
 - **Developers**: Implement keyboard navigation for date cells (arrow keys), selection (Enter/Space), and range extension (Shift+click or Shift+arrow). Since `role="application"` overrides screen reader navigation, ensure all keyboard interactions are fully implemented.
 
+## Related components
+
+- `date-range` — a display of a start and end date range
+- `date-field` — a structured field for entering date components
+- `calendar-table` — a calendar table interactive grid for managing dates, days, etc. <table>
+
 ## References
 
 - WAI-ARIA Application Role: https://www.w3.org/TR/wai-aria-1.2/#application

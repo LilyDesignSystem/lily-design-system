@@ -96,6 +96,12 @@ The consumer provides all CSS styling. The component renders with a `.command` c
 - **Designers**: Present the command palette in a modal overlay centered on screen. Group related commands and show keyboard shortcut hints alongside each action.
 - **Developers**: Implement filtering logic by reacting to the bindable `value` prop. Add arrow key navigation for the listbox items in your consumer code. Pair with a Dialog for modal presentation.
 
+## Related components
+
+- `combobox` — a text input combined with a dropdown list for filtering options
+- `menu` — a list of actions or options triggered by a button
+- `search-input` — an input for entering a search query <input type="search">
+
 ## References
 
 - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/

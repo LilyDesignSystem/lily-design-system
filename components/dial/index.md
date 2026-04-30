@@ -93,6 +93,12 @@ The consumer provides all CSS styling. The component renders with a `.dial` clas
 - **Designers**: Provide a clear visual indicator of the current value position on the dial. Include a numeric readout near the dial so users can see the exact value.
 - **Developers**: Use the `step` prop to match the precision users need. The Shift+Arrow coarse adjustment (10x step) is built in, so choose a base step that makes both fine and coarse increments intuitive.
 
+## Related components
+
+- `dial-group` — a group of dial components
+- `slider` — a draggable control for selecting a value along a track
+- `angle-slider-range-input` — a range input for selecting an angle in degrees
+
 ## References
 
 - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/

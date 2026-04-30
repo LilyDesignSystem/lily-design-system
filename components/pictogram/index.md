@@ -99,6 +99,12 @@ classes as needed.
 - **Designers**: Use a consistent icon family across pictograms in a grid. Maintain a stable caption height to keep grids aligned.
 - **Developers**: Pass the icon via the dedicated `icon` slot/prop, not children. This keeps `aria-hidden` on the icon container without affecting other content.
 
+## Related components
+
+- `icon` — a container for displaying an icon
+- `feature-photo` — see components.tsv
+- `card` — a grouped content container with header, body, and footer areas
+
 ## References
 
 - MDN `<figure>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure

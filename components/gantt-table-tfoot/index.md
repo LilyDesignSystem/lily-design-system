@@ -75,6 +75,15 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 - **Designers**: Visually distinguish the footer from the body rows using a heavier border or different background color. Use the footer for milestone dates or completion summaries.
 - **Developers**: Place GanttTableRow elements as children containing summary cells. The footer renders at the bottom of the table regardless of source order.
 
+## Related components
+
+- `gantt-table` — a Gantt chart table interactive grid for planning schedule visualization <table>
+- `gantt-table-thead` — see components.tsv
+- `gantt-table-tbody` — see components.tsv
+- `gantt-table-tr` — see components.tsv
+- `gantt-table-th` — a Gantt chart table interactive grid header cell for planning schedule visualization <th>
+- `gantt-table-td` — a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

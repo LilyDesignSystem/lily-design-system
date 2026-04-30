@@ -115,6 +115,12 @@ The consumer provides all CSS styling. The component renders with a `.tile` clas
 - **Designers**: Use consistent sizing within tile grids. Provide clear hover and focus states for interactive tiles. Include visual hierarchy with icon, title, and description.
 - **Developers**: Set `interactive` to true only when the entire tile is clickable. For tiles with internal links, keep the tile static and let the link handle navigation.
 
+## Related components
+
+- `card` — a grouped content container with header, body, and footer areas
+- `panel` — a generic content panel with optional heading
+- `feature-card` — a large content card with a prominent image positioned alongside or above the text
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

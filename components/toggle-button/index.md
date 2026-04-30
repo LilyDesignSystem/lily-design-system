@@ -108,6 +108,12 @@ The consumer provides all CSS styling. The component renders with a `.toggle-but
 
 ToggleButton works as a standalone component or as a child of ToggleGroup. When used inside a ToggleGroup, multiple ToggleButtons are semantically grouped with `role="group"` for related toggle options (e.g., text formatting: bold, italic, underline).
 
+## Related components
+
+- `switch-button` — a toggle switch for turning a setting on or off
+- `button` — a generic clickable button element
+- `checkbox-input` — a checkbox input for toggling a boolean value <input type="checkbox">
+
 ## References
 
 - WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/

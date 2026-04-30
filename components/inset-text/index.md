@@ -83,6 +83,11 @@ The consumer provides all CSS styling. The component renders with a `.inset-text
 - **Designers**: Use a thick left border (typically 4-10px) as the primary visual indicator. Keep inset text visually distinct from blockquotes and callouts.
 - **Developers**: Keep inset text content concise. Avoid nesting interactive elements inside the inset text; use it for informational content only.
 
+## Related components
+
+- `information-callout` — a callout box highlighting informational content
+- `blockquote` — a block-level quotation with optional source citation
+
 ## References
 
 - WAI-ARIA Note Role: https://www.w3.org/TR/wai-aria-1.2/#note

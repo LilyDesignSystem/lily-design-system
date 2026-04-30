@@ -119,6 +119,11 @@ The consumer provides all CSS styling. The component renders with a `.pin-input-
 - **Designers**: Space digit fields evenly and make each field large enough for easy touch input; consider visual separators between groups (e.g., after the third digit in a 6-digit code).
 - **Developers**: Handle paste events to distribute a pasted code across all digit fields, and auto-submit the form when all digits are entered for a smoother user experience.
 
+## Related components
+
+- `password-input` — an input for entering a password with obscured text <input type="password">
+- `input-with-mask` — an input displaying a format mask placeholder for the user to fill in
+
 ## References
 
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group

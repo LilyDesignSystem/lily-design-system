@@ -92,6 +92,11 @@ The consumer provides all CSS styling. The component renders with a `.horizontal
 - **Designers**: Provide visual cues that content extends beyond the visible area, such as partial visibility of the next item or scroll indicators. Consider how the layout adapts at different viewport widths.
 - **Developers**: Always provide a descriptive `label` prop for screen reader users. Apply `overflow-x: auto` or `overflow-x: scroll` via CSS. Use `scroll-snap-type` for snap behavior. Test with keyboard, mouse drag, and touch swipe interactions.
 
+## Related components
+
+- `scroll-area` — a scrollable container with custom scrollbar support
+- `carousel` — a slideshow for cycling through content items
+
 ## References
 
 - Reuters Graphics HorizontalScroller

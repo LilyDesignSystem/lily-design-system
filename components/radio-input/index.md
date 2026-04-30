@@ -92,6 +92,12 @@ The consumer provides all CSS styling. The component renders with a `.radio-inpu
 - **Designers**: Ensure the clickable area around each radio option is large enough for comfortable touch interaction, even when using custom visual designs.
 - **Developers**: Always set a consistent `name` attribute across grouped RadioInput components to ensure mutual exclusion, and use `onchange` handlers to update state.
 
+## Related components
+
+- `radio-group` — a group of radio buttons for selecting one option
+- `checkbox-input` — a checkbox input for toggling a boolean value <input type="checkbox">
+- `segment-group-item` — one selectable segment in a segment group
+
 ## References
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/

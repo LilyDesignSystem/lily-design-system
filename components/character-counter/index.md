@@ -87,6 +87,11 @@ The consumer provides all CSS styling. The component renders with a `.character-
 - **Designers**: Position the counter near the associated input field, typically below or to the right. Use a warning color when the user approaches or exceeds the limit.
 - **Developers**: Bind the `count` prop to your input's character length. Use the `data-over-limit` attribute in CSS to trigger visual warnings when the maximum is exceeded.
 
+## Related components
+
+- `text-area-input-with-character-counter` — a multi-line text area input with a caption below that is a character counter "[number] of [maximum] characters"
+- `character` — a single character display element
+
 ## References
 
 - [MDN span element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span)

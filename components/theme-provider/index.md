@@ -88,6 +88,12 @@ The consumer provides all CSS styling. The component renders with a `.theme-prov
 - **Designers**: Ensure all theme color combinations meet WCAG 2.2 AAA contrast ratios. Define a complete theme object so that no component is left unstyled. Test themes at multiple viewport sizes.
 - **Developers**: Use consistent naming conventions in theme objects. Always provide a base theme to ensure all custom properties have fallback values. Use CSS `var()` with fallbacks when referencing theme properties.
 
+## Related components
+
+- `theme-picker` — a picker for selecting a visual theme
+- `theme-select` — a select dropdown for choosing a theme
+- `theme-view` — a read-only display of the current theme
+
 ## References
 
 - [Reuters Graphics Theme component](https://github.com/reuters-graphics/graphics-components)

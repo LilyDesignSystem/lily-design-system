@@ -93,6 +93,11 @@ The consumer provides all CSS styling. The component renders with a `.resizable`
 - **Designers**: Provide a visible resize handle or grip indicator so users know the area is resizable, and set sensible minimum/maximum dimensions.
 - **Developers**: Apply `overflow: auto` and the appropriate CSS `resize` value (`both`, `horizontal`, or `vertical`) based on the `data-resize` attribute.
 
+## Related components
+
+- `splitter` — a draggable divider for resizing adjacent panels
+- `split-view` — a two-panel resizable layout container with a draggable divider between them
+
 ## References
 
 - WAI-ARIA Region Role: https://www.w3.org/TR/wai-aria-1.2/#region

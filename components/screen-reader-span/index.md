@@ -97,6 +97,11 @@ The consumer provides the visually-hidden CSS. The component renders with a `.sc
 - **Designers**: Identify icon-only controls that need supplementary text for screen readers. Document the intended screen reader text alongside visual designs.
 - **Developers**: Prefer `aria-label` on interactive elements where possible. Use ScreenReaderSpan when you need inline text that participates in the DOM flow for screen readers.
 
+## Related components
+
+- `label` — a label associated with a form input
+- `hint` — hint text providing guidance for a form field
+
 ## References
 
 - WebAIM: CSS in Action - Invisible Content Just for Screen Readers: https://webaim.org/techniques/css/invisiblecontent/

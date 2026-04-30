@@ -109,6 +109,13 @@ The consumer provides all CSS styling. The component renders with a `.text-input
 - **Designers**: Position the search button adjacent to the input. Use a recognizable search icon or text label.
 - **Developers**: The `onsearch` callback receives the current input value as a string. Handle empty string searches as appropriate for your use case.
 
+## Related components
+
+- `text-input` — a single-line text input field <input type="text">
+- `search-input` — an input for entering a search query <input type="search">
+- `combobox` — a text input combined with a dropdown list for filtering options
+- `autosuggest` — a text input that proposes matching options as users type
+
 ## References
 
 - MDN text input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text

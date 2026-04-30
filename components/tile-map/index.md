@@ -95,6 +95,11 @@ The consumer provides all CSS styling. The component renders with a `.tile-map` 
 - **Designers**: Choose tile colors with sufficient contrast for WCAG 2.2 AAA compliance. Include a legend explaining color mappings. Consider how the cartogram layout communicates equal representation versus geographic accuracy.
 - **Developers**: Always provide a descriptive `label` prop for screen reader users. Add `aria-label` to individual tiles with data values. Ensure keyboard navigation follows a logical reading order through the grid.
 
+## Related components
+
+- `tile` — a grouping container that presents related content in a structured format, often as a single clickable area
+- `image` — an image element with alt text
+
 ## References
 
 - [Reuters Graphics TileMap component](https://github.com/reuters-graphics/graphics-components)

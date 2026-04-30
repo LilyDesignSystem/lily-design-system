@@ -86,6 +86,11 @@ The consumer provides all CSS styling. The component renders with a `.time-input
 - **Designers**: Pair the time input with a visible label and hint text showing the expected format, since native time picker appearance varies by browser.
 - **Developers**: Use `min` and `max` attributes via restProps to constrain valid time ranges (e.g., business hours). The value is always in 24-hour HH:MM format regardless of display locale.
 
+## Related components
+
+- `time-picker-input` — an input with a dropdown for picking a time
+- `date-input` — an input for entering a date value <input type="date">
+
 ## References
 
 - MDN input type="time": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time

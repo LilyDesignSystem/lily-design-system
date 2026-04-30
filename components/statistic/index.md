@@ -92,6 +92,11 @@ weight for the value than the title.
 - **Designers**: Keep titles short and values pre-formatted. Use suffix/prefix for units rather than embedding them in `value`.
 - **Developers**: Format numbers in the consumer (locale, separators, decimals) before passing as the `value` prop.
 
+## Related components
+
+- `meter` — a gauge displaying a scalar value within a known range
+- `sparkline` — a small inline chart showing a data trend
+
 ## References
 
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group

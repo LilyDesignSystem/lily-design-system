@@ -94,6 +94,12 @@ expanded states.
 - **Designers**: Show the selected path on the trigger so users can verify their choice without reopening the cascader. Keep depth shallow (3-4 levels).
 - **Developers**: Manage `expanded` state externally. Pair with a tree or nested listboxes inside the panel for keyboard support.
 
+## Related components
+
+- `combobox` — a text input combined with a dropdown list for filtering options
+- `tree-select` — a select dropdown showing a tree of hierarchical options
+- `select-with-extras` — a select dropdown with additional features like search or groups
+
 ## References
 
 - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/

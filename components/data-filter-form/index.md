@@ -71,6 +71,12 @@ The consumer provides all CSS styling. The component renders with a `.data-filte
 - **Designers**: Group related filter controls visually and provide clear "Apply" and "Reset" actions. Show the active filter count or summary to indicate what is currently filtered.
 - **Developers**: Handle filtering in the `onsubmit` callback since default submission is prevented. Use `onreset` to clear filter state. Provide consumer form controls as children.
 
+## Related components
+
+- `form` — a form element for collecting and submitting user data
+- `data-table` — a data table interactive grid for displaying and sorting tabular data <table>
+- `search-input` — an input for entering a search query <input type="search">
+
 ## References
 
 - WAI-ARIA Landmark Roles: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/

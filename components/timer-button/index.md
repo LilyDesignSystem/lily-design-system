@@ -90,6 +90,11 @@ The consumer provides all CSS styling. The component renders with a `.timer-butt
 - **Designers**: Show a visual countdown (progress bar, seconds display) so users know how much time remains. Provide a way to cancel or extend the timer.
 - **Developers**: Update `aria-label` with remaining time for screen reader users. Clean up timer intervals when the component unmounts or is cancelled.
 
+## Related components
+
+- `button` — a generic clickable button element
+- `timer` — a countdown or elapsed time display
+
 ## References
 
 - [MDN button element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)

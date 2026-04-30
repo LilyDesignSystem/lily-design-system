@@ -90,6 +90,12 @@ The consumer provides all CSS styling. The component renders with a `.skip-link`
 - **Designers**: Style the skip link to appear at the top of the viewport with high contrast when focused. Ensure it is large enough and clearly visible so keyboard users can easily see it.
 - **Developers**: Ensure the target element (e.g., `<main id="content">`) exists and has `tabindex="-1"` so focus moves correctly. Place the SkipLink component before all other focusable page content in the DOM order.
 
+## Related components
+
+- `back-link` — a navigation link to return to a previous page
+- `go-to-top` — a link that returns users to the top of a long page
+- `navigation-menu` — a site-wide navigation menu with links
+
 ## References
 
 - WCAG 2.1 Bypass Blocks: https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html

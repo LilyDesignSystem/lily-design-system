@@ -92,6 +92,13 @@ The consumer provides all CSS styling. The component renders with a `.progress` 
 - **Designers**: Provide a clear visual distinction between determinate (filled bar) and indeterminate (animated/pulsing) states, and ensure the progress bar has sufficient color contrast.
 - **Developers**: Include a text fallback inside the `<progress>` element for older browsers, and update the `value` prop in real time during async operations to give users meaningful feedback.
 
+## Related components
+
+- `progress-bar` — a horizontal progress indicator
+- `progress-circle` — a circular progress indicator
+- `progress-spinner` — an indeterminate spinning progress indicator
+- `meter` — a gauge displaying a scalar value within a known range
+
 ## References
 
 - MDN progress element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress

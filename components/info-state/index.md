@@ -115,6 +115,13 @@ variants.
 - **Designers**: Pair each info state with a clear next-step action — empty states without guidance are dead ends. Differentiate `level` variants visually with color and iconography.
 - **Developers**: Use `level="error"` for recoverable failures and provide a Retry action. Reserve children-slot replacement for cases that genuinely need a custom body.
 
+## Related components
+
+- `panel` — a generic content panel with optional heading
+- `loading` — a loading indicator, such as text, or image, or animation
+- `skeleton` — a placeholder loading animation for content
+- `alert` — a status message for important information or feedback
+
 ## References
 
 - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status

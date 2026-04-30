@@ -93,6 +93,12 @@ proportions and divider direction.
 - **Designers**: Communicate divider affordance with a hover/focus indicator; ensure it meets minimum 44×44 px target size or provide an enlarged hit area.
 - **Developers**: Persist `splitPercent` in user preferences so the layout survives reloads.
 
+## Related components
+
+- `splitter` — a draggable divider for resizing adjacent panels
+- `drawer` — a panel that slides in from the edge of the screen
+- `sidebar` — a side panel for navigation or supplementary content
+
 ## References
 
 - WAI-ARIA Separator: https://www.w3.org/TR/wai-aria-1.2/#separator

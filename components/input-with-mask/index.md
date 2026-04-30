@@ -104,6 +104,12 @@ input, with monospace typography so the characters align.
 - **Designers**: Use a monospace font for the input so the mask and the typed characters align. Choose a low-contrast color for the mask so it does not compete with the user's input.
 - **Developers**: The mask display is purely visual. The input value remains a plain string — do not parse the mask characters into the value. Use a separate validation component (e.g., `ValidationList`) to verify the format.
 
+## Related components
+
+- `text-input` — a single-line text input field <input type="text">
+- `pin-input-div` — a series of single-digit inputs for entering a PIN or OTP code
+- `input` — a generic HTML input element
+
 ## References
 
 - US Web Design System Input Mask: https://designsystem.digital.gov/components/input-mask/

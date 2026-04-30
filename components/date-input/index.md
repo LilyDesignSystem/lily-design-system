@@ -89,6 +89,14 @@ The consumer provides all CSS styling. The component renders with a `.date-input
 - **Designers**: Ensure the date input is wide enough to display the full date format. Consider showing the expected format (e.g., YYYY-MM-DD) as placeholder or helper text nearby.
 - **Developers**: Use ISO 8601 `YYYY-MM-DD` format for `value`, `min`, and `max` props. The browser provides the native date picker UI, which varies across browsers and platforms.
 
+## Related components
+
+- `date-field` — a structured field for entering date components
+- `date-range` — a display of a start and end date range
+- `date-time-local-input` — an input for entering a date and time without time zone <input type="datetime-local">
+- `date-time-now-input` — an input for entering a date and time and "now" button <input type="date"><input type="time"><button type="button">
+- `calendar-range-picker` — a picker for selecting a date range on a calendar
+
 ## References
 
 - MDN date input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date

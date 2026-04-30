@@ -104,6 +104,12 @@ addon backgrounds, and connected radii.
 - **Designers**: Use prefix and suffix addons sparingly — overusing them clutters forms. Reserve them for unit symbols, currency markers, and trailing action buttons.
 - **Developers**: Continue to apply a label on the inner input itself (via `<label>`, `aria-label`, or `aria-labelledby`); the group's `label` prop names the composite control, not the input.
 
+## Related components
+
+- `input` — a generic HTML input element
+- `field` — a form field wrapper with label, input, and error message
+- `form` — a form element for collecting and submitting user data
+
 ## References
 
 - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group

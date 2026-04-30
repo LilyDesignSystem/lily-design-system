@@ -89,6 +89,12 @@ The consumer provides all CSS styling. The component renders with a `.timer` cla
 - **Designers**: Use a clear, monospaced or tabular font for the timer digits to prevent layout shifts as numbers change. Consider color changes as time runs low.
 - **Developers**: Provide a `datetime` attribute (e.g., `datetime="PT5M30S"`) via restProps for machine-readable duration. Manage cleanup of intervals on component unmount.
 
+## Related components
+
+- `timer-button` — a button with a timer that will automatically click after a given amount of time
+- `loading` — a loading indicator, such as text, or image, or animation
+- `datetime-view` — see components.tsv
+
 ## References
 
 - WAI-ARIA timer role: https://www.w3.org/TR/wai-aria-1.2/#timer

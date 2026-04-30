@@ -102,6 +102,12 @@ The consumer provides all CSS styling. The component renders with a `.drawer` cl
 - **Designers**: Include a visible close button and consider adding a semi-transparent backdrop to indicate the main content is temporarily inaccessible. Animate the slide-in transition for a smooth experience.
 - **Developers**: Trap focus within the drawer when it is open and return focus to the trigger element on close. Use the `data-side` attribute to apply directional CSS transitions.
 
+## Related components
+
+- `sheet` — a panel that slides in from a screen edge as an overlay
+- `slide-out-drawer` — a drawer that slides out from the side of the page
+- `sidebar` — a side panel for navigation or supplementary content
+
 ## References
 
 - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

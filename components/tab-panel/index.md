@@ -104,6 +104,11 @@ Provide a clear focus indicator on the panel since it is keyboard-focusable.
 - **Designers**: Keep tab labels short; communicate the selection clearly with both color and a non-color indicator (underline, weight).
 - **Developers**: Use stable ids on tabs and panels so `aria-labelledby` and `aria-controls` survive re-renders.
 
+## Related components
+
+- `tab-bar` — a group of tabs for switching between content panels
+- `tab-bar-button` — one tab button in a tab group
+
 ## References
 
 - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/

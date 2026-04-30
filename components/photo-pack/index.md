@@ -97,6 +97,11 @@ The consumer provides all CSS styling. The component renders with a `.photo-pack
 - **Designers**: Consider consistent aspect ratios across photos in a pack. Plan responsive layouts that work from single-column mobile to multi-column desktop. Ensure captions remain readable at all sizes.
 - **Developers**: Always provide a descriptive `label` prop that explains the collection theme. Use CSS Grid or Flexbox for layout. Consider lazy loading on individual FeaturePhoto components for performance.
 
+## Related components
+
+- `image` — an image element with alt text
+- `carousel` — a slideshow for cycling through content items
+
 ## References
 
 - Reuters Graphics PhotoPack component

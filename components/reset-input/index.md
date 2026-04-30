@@ -86,6 +86,12 @@ The consumer provides all CSS styling. The component renders with a `.reset-inpu
 - **Designers**: Style the reset button with less visual emphasis than the submit button to reduce accidental clicks, and position it away from the primary action.
 - **Developers**: Use the `disabled` prop to disable reset when the form is in its initial state (not dirty), preventing unnecessary resets.
 
+## Related components
+
+- `submit-input` — a button input that submits a form <input type="submit">
+- `button-input` — an input element of type button for form actions <input type="button">
+- `form` — a form element for collecting and submitting user data
+
 ## References
 
 - MDN input type="reset": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/reset

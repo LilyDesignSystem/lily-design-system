@@ -96,6 +96,12 @@ The consumer provides all CSS styling. The component renders with a `.expander` 
 - **Designers**: Use a visual indicator (such as a chevron or plus/minus icon) on the toggle button to communicate expandability. Animate the expand/collapse transition for a polished feel.
 - **Developers**: The content region is removed from the DOM when collapsed, so any stateful children will reset. Use the bindable `expanded` prop to coordinate with parent component logic.
 
+## Related components
+
+- `details` — a disclosure widget that shows and hides content
+- `collapsible` — a container that can be expanded or collapsed
+- `accordion-list-item` — an accordion list item component
+
 ## References
 
 - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/

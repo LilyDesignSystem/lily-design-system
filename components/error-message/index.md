@@ -76,6 +76,12 @@ The consumer provides all CSS styling. The component renders with a `.error-mess
 - **Designers**: Use a distinct error color (typically red) and consider an error icon to make the message visually prominent. Position the error message directly below the associated input field.
 - **Developers**: Conditionally render the ErrorMessage so it only appears when an error exists. The `role="alert"` ensures it is announced on insertion without extra ARIA live-region setup.
 
+## Related components
+
+- `error-summary` — a summary of all validation errors on a form
+- `hint` — hint text providing guidance for a form field
+- `alert` — a status message for important information or feedback
+
 ## References
 
 - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/

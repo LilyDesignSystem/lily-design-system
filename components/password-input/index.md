@@ -85,6 +85,12 @@ The consumer provides all CSS styling. The component renders with a `.password-i
 - **Designers**: Ensure the password input matches the visual style of other form inputs. Consider using a lock icon or label to clearly indicate the field requires a password.
 - **Developers**: Set `autocomplete` to `"new-password"` for registration forms to help password managers distinguish between login and signup flows.
 
+## Related components
+
+- `password-input-or-text-input-div` — an input for entering a password <input type="password"> or text <input type="text"> with show/hide toggle
+- `text-input` — a single-line text input field <input type="text">
+- `pin-input-div` — a series of single-digit inputs for entering a PIN or OTP code
+
 ## References
 
 - MDN input type="password": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/password

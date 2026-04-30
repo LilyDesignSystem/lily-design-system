@@ -79,6 +79,11 @@ The consumer provides all CSS styling. The component renders with an `.article-l
 - **Designers**: Plan content at multiple column widths. Use narrower widths for reading text and wider widths for data visualizations and images.
 - **Developers**: Override default column widths by setting CSS custom properties on the ArticleLayout element. Pair with ContentBlock components for width management.
 
+## Related components
+
+- `container` — a generic block-level content container
+- `grail-layout` — a responsive web design structure with header, left aside, center main, right aside, footer
+
 ## References
 
 - Reuters Graphics Article component

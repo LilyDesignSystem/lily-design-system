@@ -90,6 +90,10 @@ The consumer provides all CSS styling. The component renders with a `.hero-headl
 - **Designers**: Ensure text remains readable over media at all viewport sizes. Provide sufficient contrast between text and background. Consider how media crops at different screen sizes.
 - **Developers**: Always provide a descriptive `label` prop for accessibility. Ensure media has appropriate alt text. Consider lazy loading for large media assets. Test text readability across viewport sizes.
 
+## Related components
+
+- `hero` — a large box or image with a title and description
+
 ## References
 
 - [MDN HTML elements reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)

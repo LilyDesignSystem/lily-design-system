@@ -86,6 +86,11 @@ The consumer provides all CSS styling. The component renders with a `.byline` cl
 - **Designers**: Keep byline layout compact. Distinguish between publish and update dates visually. Consider how multiple authors display at different viewport widths.
 - **Developers**: Always use `<time>` elements with `datetime` attributes for machine-readable dates. Use `rel="author"` on author links for structured data. Ensure date formats are localized for the target audience.
 
+## Related components
+
+- `review-date` — a display of a content review date
+- `comment` — a comment displays user discussions and user feedback
+
 ## References
 
 - [MDN HTML elements reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)

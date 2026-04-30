@@ -84,6 +84,11 @@ state if a visual cue is desired.
 - **Designers**: Reserve enough viewport space so the affixed content does not obscure interactive elements. Provide a clear visual boundary when the element is sticky.
 - **Developers**: Remember that `position: sticky` requires an ancestor scrolling container without `overflow: hidden`. Provide JS-based fallbacks only when sticky is insufficient.
 
+## Related components
+
+- `sticky-promo-banner` — a fixed-position promotional banner with a dismiss button
+- `float-button` — a floating action button anchored to a viewport corner
+
 ## References
 
 - MDN position: sticky: https://developer.mozilla.org/docs/Web/CSS/position#sticky

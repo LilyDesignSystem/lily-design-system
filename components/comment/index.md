@@ -69,6 +69,11 @@ The consumer provides all CSS styling. The component renders with a `.comment` c
 - **Designers**: Clearly distinguish comment author, timestamp, and body text. Use indentation or threading to show reply hierarchies. Provide visual separation between comments.
 - **Developers**: Use the `label` prop to identify the comment author for screen readers. Nest Comment components for threaded reply structures.
 
+## Related components
+
+- `chat-message` — a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.
+- `blockquote` — a block-level quotation with optional source citation
+
 ## References
 
 - [MDN article element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article)

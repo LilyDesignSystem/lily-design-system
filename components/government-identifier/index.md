@@ -103,6 +103,11 @@ classes for fine-grained control.
 - **Designers**: Keep the masthead layout consistent across all government sites in your portfolio. Treat the description as a single short sentence.
 - **Developers**: Always pass an `<ul>` of required links as children. Always supply `logoAlt` when `logoUrl` is set.
 
+## Related components
+
+- `government-banner` — a banner identifying a website as belonging to a government, with an expandable details panel
+- `organization` — an organization component that contains other organization-related information
+
 ## References
 
 - US Web Design System Identifier: https://designsystem.digital.gov/components/identifier/

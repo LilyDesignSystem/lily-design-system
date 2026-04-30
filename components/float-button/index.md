@@ -97,6 +97,12 @@ indicator, and elevation that matches the surrounding theme.
 - **Designers**: Place the float button where it will not obscure key content. Maintain sufficient contrast against any underlying scroll surface.
 - **Developers**: Always supply `label`. Avoid stacking multiple float buttons that overlap; group related actions inside a single trigger.
 
+## Related components
+
+- `button` — a generic clickable button element
+- `icon-button` — a button containing only an icon with a required accessible label
+- `affix` — a wrapper that pins its content to a viewport position while the page scrolls
+
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

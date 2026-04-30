@@ -85,6 +85,11 @@ The consumer provides all CSS styling. The component renders with a `.beach-ball
 - **Designers**: Keep the indicator visually lightweight so it does not overwhelm the content area. Ensure the animation is smooth and not distracting at small sizes.
 - **Developers**: Use the `active` prop to control visibility rather than mounting/unmounting the component, so the live region remains in the DOM for consistent screen reader announcements.
 
+## Related components
+
+- `loading` — a loading indicator, such as text, or image, or animation
+- `progress-spinner` — an indeterminate spinning progress indicator
+
 ## References
 
 - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status

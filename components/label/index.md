@@ -88,6 +88,12 @@ The consumer provides all CSS styling. The component renders with a `.label` cla
 - **Designers**: Position labels consistently relative to their controls (typically above or to the left) and visually indicate required fields with a marker such as an asterisk.
 - **Developers**: Use the `for` prop to link the label to its control by ID, or wrap the control inside the label element. Avoid using `aria-label` as a substitute for a visible label.
 
+## Related components
+
+- `field` — a form field wrapper with label, input, and error message
+- `hint` — hint text providing guidance for a form field
+- `error-message` — an error message associated with a form field
+
 ## References
 
 - WAI Forms Tutorial - Labels: https://www.w3.org/WAI/tutorials/forms/labels/

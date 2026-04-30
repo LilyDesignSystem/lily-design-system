@@ -105,6 +105,12 @@ Consumers may target `.grid` for responsive column overrides:
 - **Designers**: Pick a small column count (3, 4, 6, 12) for predictable alignment. Reserve custom track strings for layouts where fixed-width sidebars or asymmetric tracks are required.
 - **Developers**: Use the numeric `columns` API for the common case. Drop down to the string API only when you need fixed tracks or named lines.
 
+## Related components
+
+- `flex-stack` — a flex layout container for vertical or horizontal stacking with consistent gap
+- `container` — a generic block-level content container
+- `masonry` — a masonry layout container for variable-height items
+
 ## References
 
 - MDN grid-template-columns: https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns

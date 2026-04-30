@@ -110,6 +110,11 @@ interactive descendant.
 - **Designers**: Establish a clear primary-to-secondary order; promote the most-used actions and demote infrequent actions to the overflow menu.
 - **Developers**: Manage `overflowOpen` state in the consumer; close it on outside click and on Escape.
 
+## Related components
+
+- `button-group` — a wrapper that groups related buttons together
+- `tool-bar` — a horizontal bar of tool actions
+
 ## References
 
 - WAI-ARIA Group: https://www.w3.org/TR/wai-aria-1.2/#group

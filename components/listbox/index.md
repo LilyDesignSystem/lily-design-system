@@ -109,6 +109,12 @@ The consumer provides all CSS styling. The component renders with a `.listbox` c
 - **Designers**: Provide clear visual distinction for the selected and focused option states, using both color and a non-color indicator to support color-blind users.
 - **Developers**: Ensure each child option uses `role="option"` with `tabindex="-1"` and manage `aria-selected` on options to reflect the current selection state.
 
+## Related components
+
+- `select` — a dropdown select element for choosing one option
+- `combobox` — a text input combined with a dropdown list for filtering options
+- `option` — an option element within a select dropdown
+
 ## References
 
 - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/

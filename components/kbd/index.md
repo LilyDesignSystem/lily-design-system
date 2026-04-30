@@ -95,6 +95,11 @@ The consumer provides all CSS styling. The component renders with a `.kbd` class
 - **Designers**: Style Kbd elements to look like physical keycaps with borders, subtle shadows, and rounded corners. Use a monospace font for consistency.
 - **Developers**: Nest `<Kbd>` elements for key combinations (e.g., `<Kbd>Ctrl</Kbd> + <Kbd>C</Kbd>`). Use the `<kbd>` semantic for screen readers.
 
+## Related components
+
+- `code` — an inline code span for displaying short code snippets within surrounding text
+- `code-block` — a block of formatted code with optional line numbers and line highlighting
+
 ## References
 
 - MDN kbd element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/kbd

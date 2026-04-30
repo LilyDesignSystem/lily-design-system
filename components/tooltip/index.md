@@ -114,6 +114,12 @@ The consumer provides all CSS styling. The component renders with a `.tooltip` c
 - **Designers**: Keep tooltip text concise (one line if possible). Position tooltips so they do not obscure the trigger element or important content.
 - **Developers**: Link the tooltip to its trigger using `id` and `aria-describedby`. Handle Escape key to dismiss the tooltip and ensure it works on both hover and focus for keyboard accessibility.
 
+## Related components
+
+- `hover-card` — a card that appears on hover over a trigger element
+- `popover` — a floating content box anchored to a trigger element
+- `contextual-help` — a help button that opens a popover with explanatory content
+
 ## References
 
 - WAI-ARIA Tooltip Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/

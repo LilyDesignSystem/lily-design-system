@@ -87,6 +87,11 @@ The consumer provides all CSS styling. The component renders with a `.diff` clas
 - **Designers**: Use clear visual separation between the two panels (e.g., a vertical divider). Highlight additions, deletions, and modifications with distinct colors. Ensure responsive behavior for narrow viewports, such as stacking panels vertically.
 - **Developers**: Always provide a descriptive `label` prop for the comparison group. Label each side clearly so screen reader users understand which content is the original and which is the modified version.
 
+## Related components
+
+- `code-block` — a block of formatted code with optional line numbers and line highlighting
+- `table` — a table with rows and columns <table>
+
 ## References
 
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group

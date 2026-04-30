@@ -83,6 +83,11 @@ The consumer provides all CSS styling. The component renders with a `.image-inpu
 - **Designers**: Ensure the image clearly communicates its submit action. Provide sufficient contrast and hover/focus indicators. Always include meaningful alt text for accessibility.
 - **Developers**: Always provide a descriptive `alt` prop for screen reader users. Consider providing `width` and `height` to prevent layout shift during image loading.
 
+## Related components
+
+- `image` — an image element with alt text
+- `button-input` — an input element of type button for form actions <input type="button">
+
 ## References
 
 - MDN input type="image": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/image

@@ -118,6 +118,12 @@ The consumer provides all CSS styling. The component renders with a `.alert-dial
 - **Designers**: Ensure the dialog has a clear title, a concise description of the action, and distinguishable confirm/cancel buttons with appropriate visual weight (e.g., a destructive action button should appear more prominent and cautionary).
 - **Developers**: The consumer must implement focus trapping and Escape key handling. Set initial focus on the least destructive action button (e.g., "Cancel") to prevent accidental confirmations.
 
+## Related components
+
+- `dialog` — a modal or non-modal dialog window
+- `popconfirm-dialog` — a popover dialog with confirm and cancel buttons
+- `alert` — a status message for important information or feedback
+
 ## References
 
 - WAI-ARIA alertdialog role: https://www.w3.org/TR/wai-aria-1.2/#alertdialog

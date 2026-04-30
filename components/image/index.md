@@ -92,6 +92,11 @@ The consumer provides all CSS styling. The component renders with a `.image` cla
 - **Designers**: Define consistent aspect ratios and sizing for images across the application. Provide placeholder or skeleton states for slow-loading images.
 - **Developers**: Always write meaningful `alt` text that describes the image content. Use `loading="lazy"` for below-the-fold images to improve page performance.
 
+## Related components
+
+- `image-input` — a graphical submit button that displays an image <input type="image">
+- `image-file-input` — an input for selecting image files with preview
+
 ## References
 
 - WAI Images Tutorial: https://www.w3.org/WAI/tutorials/images/

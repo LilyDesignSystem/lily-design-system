@@ -123,6 +123,12 @@ positioning.
 - **Designers**: Make the primary action visually dominant and the dropdown trigger a smaller adjacent affordance. Keep menu items to a short list of related variants.
 - **Developers**: The component does not manage menu state — the consumer owns `menuOpen` and decides when to close (Escape, outside click, item selection). Pair with the Menu component for built-in keyboard navigation inside the menu.
 
+## Related components
+
+- `button` — a generic clickable button element
+- `dropdown-menu` — a menu that opens below a trigger button
+- `menu-bar-button` — one item in a menu bar
+
 ## References
 
 - WAI-ARIA Disclosure pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/

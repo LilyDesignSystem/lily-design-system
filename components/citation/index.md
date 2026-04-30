@@ -83,6 +83,12 @@ The consumer provides all CSS styling. The component renders with a `.citation` 
 - **Designers**: Consider using italic styling to visually distinguish citations from surrounding text. Ensure citations within blockquotes are clearly associated with the quoted content.
 - **Developers**: Use `<cite>` for work titles only, not for author names. Combine with `<a>` elements when the citation should link to the referenced source.
 
+## Related components
+
+- `blockquote` — a block-level quotation with optional source citation
+- `digital-object-identifier-link` — a permanent hyperlink for a Digital Object Identifier (DOI) to an electronic source
+- `footnote` — a footnote reference and content element
+
 ## References
 
 - MDN HTML cite element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite

@@ -98,6 +98,13 @@ The consumer provides all CSS styling. The component renders with a `.combobox` 
 - **Designers**: Show a clear visual distinction between the input field and the dropdown list. Highlight the currently focused option and provide feedback when no results match.
 - **Developers**: Implement your own filtering logic by reacting to the bindable `value` prop. Provide `role="option"` elements as children and manage selection state externally.
 
+## Related components
+
+- `autosuggest` — a text input that proposes matching options as users type
+- `select` — a dropdown select element for choosing one option
+- `cascader` — a multi-level dropdown for selecting a value from a hierarchy
+- `tree-select` — a select dropdown showing a tree of hierarchical options
+
 ## References
 
 - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/

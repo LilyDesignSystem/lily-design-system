@@ -77,6 +77,10 @@ The consumer provides all CSS styling. The component renders with a `.padding-re
 - **Designers**: Use PaddingReset sparingly for full-bleed content like hero images, maps, or edge-to-edge data visualizations.
 - **Developers**: Set negative margins in your CSS to match the parent container's padding. Ensure overflow is handled correctly to prevent horizontal scrollbars.
 
+## Related components
+
+- `container` — a generic block-level content container
+
 ## References
 
 - Reuters Graphics PaddingReset component

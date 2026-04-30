@@ -100,6 +100,12 @@ The consumer provides all CSS styling. The component renders with a `.care-card`
 - **Designers**: Use distinct, high-contrast colors for each urgency level so users can quickly identify severity. Follow NHS design patterns for familiarity in healthcare contexts.
 - **Developers**: Always set the `type` prop explicitly to match the clinical urgency. Use the `data-type` attribute in your CSS selectors to apply urgency-specific styling.
 
+## Related components
+
+- `card` — a grouped content container with header, body, and footer areas
+- `medical-banner` — a prominent message bar across the top of a page, with medical information
+- `alert` — a status message for important information or feedback
+
 ## References
 
 - NHS England Care Cards: https://service-manual.nhs.uk/design-system/components/care-cards

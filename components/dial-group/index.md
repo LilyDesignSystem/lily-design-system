@@ -83,6 +83,11 @@ The consumer provides all CSS styling. The component renders with a `.dial-group
 
 DialGroup is a container for Dial components.
 
+## Related components
+
+- `dial` — a rotary dial control for selecting a value
+- `slider` — a draggable control for selecting a value along a track
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

@@ -76,6 +76,15 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 - **Designers**: Ensure rows have enough height to display bar segments clearly. Add hover states to help users track across wide timelines.
 - **Developers**: Start each body row with a `<th>` for the task name, followed by GanttTableTD cells for the time period columns.
 
+## Related components
+
+- `gantt-table` — a Gantt chart table interactive grid for planning schedule visualization <table>
+- `gantt-table-thead` — see components.tsv
+- `gantt-table-tbody` — see components.tsv
+- `gantt-table-tfoot` — see components.tsv
+- `gantt-table-th` — a Gantt chart table interactive grid header cell for planning schedule visualization <th>
+- `gantt-table-td` — a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

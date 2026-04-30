@@ -87,6 +87,12 @@ The consumer provides all CSS styling. The component renders with a `.search-inp
 - **Designers**: Include a visible search icon or placeholder text to clearly indicate the field's purpose, and ensure the clear button (native or custom) is easily discoverable.
 - **Developers**: Debounce the search input value to avoid excessive search requests, and wrap the input in a `<form>` with `role="search"` for full semantic search landmark support.
 
+## Related components
+
+- `text-input` — a single-line text input field <input type="text">
+- `text-input-with-search` — a single-line text input field <input type="text"> with search capability
+- `combobox` — a text input combined with a dropdown list for filtering options
+
 ## References
 
 - WAI-ARIA Search Role: https://www.w3.org/WAI/ARIA/apg/patterns/search/

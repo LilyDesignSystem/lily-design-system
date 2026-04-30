@@ -339,7 +339,7 @@ tag-input	TagInput	an input for adding and removing tags
 task-bar	TaskBar	a horizontal bar of task shortcuts or actions
 task-bar-button	TaskBarButton	one item in a task bar
 task-list	TaskList	an ordered list of task list items
-task-list-item	TaskListItem	one task item with a checkbox and label
+task-list-item	TaskListItem	one task item with a checkbox and label                 
 tel-input	TelInput	an input for entering a telephone number <input type="tel">
 tel-link	TelLink	a tel hyperlink for a telephone number
 text-area-input	TextAreaInput	a multi-line text input area

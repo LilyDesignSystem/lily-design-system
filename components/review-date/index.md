@@ -83,6 +83,12 @@ The consumer provides all CSS styling. The component renders with a `.review-dat
 - **Designers**: Display dates in a format familiar to your target audience (e.g., "June 15, 2025" for US, "15 June 2025" for UK) and visually distinguish upcoming vs. past review dates.
 - **Developers**: Always pass a valid ISO 8601 string to `datetime` and format the children text using locale-appropriate date formatting for human readability.
 
+## Related components
+
+- `date-time-view` — a read-only display of a formatted date and time
+- `datetime-view` — see components.tsv
+- `byline` — see components.tsv
+
 ## References
 
 - [MDN span element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span)

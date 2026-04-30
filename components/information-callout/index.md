@@ -85,6 +85,12 @@ The consumer provides all CSS styling. The component renders with a `.informatio
 - **Designers**: Use a distinct background color or left border to visually separate the callout from surrounding content. Include an informational icon (e.g., "i" circle) for quick recognition.
 - **Developers**: Choose a descriptive `label` value (e.g., "Note", "Tip", "Important") so screen readers announce the callout type clearly.
 
+## Related components
+
+- `warning-callout` — a callout box highlighting a warning message
+- `alert` — a status message for important information or feedback
+- `inset-text` — indented text to distinguish it from surrounding content
+
 ## References
 
 - WAI-ARIA note role: https://www.w3.org/TR/wai-aria-1.2/#note

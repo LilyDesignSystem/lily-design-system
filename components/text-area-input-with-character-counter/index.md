@@ -108,6 +108,12 @@ The consumer provides all CSS styling. The component renders with a `.text-area-
 - **Designers**: Position the counter below the text-area-input. Consider visual feedback when nearing the limit (the consumer can style based on character count).
 - **Developers**: The `counterTemplate` prop uses `{count}` and `{max}` placeholders. Override for internationalization.
 
+## Related components
+
+- `text-area-input` — a multi-line text input area
+- `character-counter` — a counter showing remaining or used characters in a text field
+- `text-input` — a single-line text input field <input type="text">
+
 ## References
 
 - MDN text-area-input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/text-area-input

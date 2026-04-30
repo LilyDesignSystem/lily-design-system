@@ -88,6 +88,12 @@ The consumer provides all CSS styling. The component renders with a `.checkbox-g
 
 CheckboxGroup is the container for CheckboxInput children. Use `<CheckboxGroup>` to wrap multiple `<CheckboxInput>` elements or native `<input type="checkbox">` elements, providing the group-level accessible label and optional disabled state while each checkbox carries its own option label.
 
+## Related components
+
+- `checkbox-input` — a checkbox input for toggling a boolean value <input type="checkbox">
+- `radio-group` — a group of radio buttons for selecting one option
+- `toggle-group` — a group of toggle buttons for selecting options
+
 ## References
 
 - WAI-ARIA Checkbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/

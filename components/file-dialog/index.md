@@ -92,6 +92,12 @@ The consumer provides all CSS styling. The component renders with a `.file-dialo
 - **Designers**: Include clear action buttons (Open, Cancel) and a file list or navigation area within the dialog. Provide visual feedback for the currently selected file.
 - **Developers**: Manage focus by moving it into the dialog when opened and returning it to the trigger on close. Use the `open` binding to coordinate visibility with parent component state.
 
+## Related components
+
+- `file-input` — an input for selecting files from the file system <input type="file">
+- `file-manager` — a file browser for navigating and managing files
+- `dialog` — a modal or non-modal dialog window
+
 ## References
 
 - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

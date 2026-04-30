@@ -90,6 +90,11 @@ The consumer provides all CSS styling. The component renders with a `.switch-but
 - **Designers**: Make the on and off states visually distinct using color, position, and optionally text labels. Ensure the switch is large enough for touch targets (at least 44x44px).
 - **Developers**: Use the two-way bindable `checked` prop for reactive state. Remember that switches convey immediate effect -- do not use them for settings that require a separate save action.
 
+## Related components
+
+- `toggle-button` — a button that toggles between pressed and unpressed states
+- `checkbox-input` — a checkbox input for toggling a boolean value <input type="checkbox">
+
 ## References
 
 - WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/

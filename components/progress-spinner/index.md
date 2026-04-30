@@ -84,6 +84,12 @@ The consumer provides all CSS styling. The component renders with a `.progress-s
 - **Designers**: Keep the spinner visually simple and use smooth animation; pair with a visible "Loading..." label for clarity in larger content areas.
 - **Developers**: Place the spinner near the content it represents, and remove or hide it promptly when loading completes to avoid stale status announcements.
 
+## Related components
+
+- `loading` — a loading indicator, such as text, or image, or animation
+- `progress` — a horizontal progress bar showing completion
+- `skeleton` — a placeholder loading animation for content
+
 ## References
 
 - WAI-ARIA `status` role: https://www.w3.org/WAI/ARIA/apd/roles/status/

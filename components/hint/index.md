@@ -83,6 +83,12 @@ The consumer provides all CSS styling. The component renders with a `.hint` clas
 - **Designers**: Place hint text directly below the label and above the input. Use a lighter color or smaller font to distinguish it from labels and error messages.
 - **Developers**: Always set the `id` prop and add `aria-describedby` to the associated input so screen readers announce the hint when the input is focused.
 
+## Related components
+
+- `error-message` — an error message associated with a form field
+- `field` — a form field wrapper with label, input, and error message
+- `label` — a label associated with a form input
+
 ## References
 
 - WAI Forms Tutorial - Instructions: https://www.w3.org/WAI/tutorials/forms/instructions/

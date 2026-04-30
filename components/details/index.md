@@ -83,6 +83,13 @@ The consumer provides all CSS styling. The component renders with a `.details` c
 - **Designers**: Make the summary text descriptive enough that users understand what content will be revealed. Use visual cues (such as a chevron icon) to indicate expandability.
 - **Developers**: Use the bindable `open` prop to synchronize state with parent components. Avoid nesting multiple levels of Details deeply, as it can create confusing navigation.
 
+## Related components
+
+- `collapsible` — a container that can be expanded or collapsed
+- `expander` — a control that expands to reveal more content
+- `accordion-list-item` — an accordion list item component
+- `summary-box` — a boxed callout highlighting key takeaways or next steps from a longer page
+
 ## References
 
 - MDN details element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details

@@ -79,6 +79,15 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 - **Designers**: Use alternating row backgrounds or subtle borders to help users track across long timelines. Highlight the current time period column.
 - **Developers**: Place GanttTableTR elements as children. Each row should have a `<th>` for the task name followed by GanttTableTD cells for time periods.
 
+## Related components
+
+- `gantt-table` — a Gantt chart table interactive grid for planning schedule visualization <table>
+- `gantt-table-thead` — see components.tsv
+- `gantt-table-tfoot` — see components.tsv
+- `gantt-table-tr` — see components.tsv
+- `gantt-table-th` — a Gantt chart table interactive grid header cell for planning schedule visualization <th>
+- `gantt-table-td` — a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

@@ -90,6 +90,11 @@ The consumer provides all CSS styling. The component renders with a `.week-input
 - **Designers**: Display a hint showing the expected format (e.g., "2024-W01") since the native week picker appearance varies significantly across browsers. Provide a fallback UI for unsupported browsers.
 - **Developers**: Values follow ISO 8601 week format (YYYY-Www). Use `min` and `max` via restProps to constrain the selectable range. Test across browsers, as some fall back to a plain text input.
 
+## Related components
+
+- `date-input` — an input for entering a date value <input type="date">
+- `month-input` — an input for selecting a month and year <input type="month">
+
 ## References
 
 - MDN input type="week": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/week

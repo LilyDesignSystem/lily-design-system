@@ -80,6 +80,11 @@ The consumer provides all CSS styling. The component renders with an `.event` cl
 - **Designers**: Clearly distinguish event date, time, and location from the description. Use consistent formatting across event listings.
 - **Developers**: Use semantic `<time>` elements with `datetime` attributes for machine-readable dates. Provide descriptive `label` props for screen readers.
 
+## Related components
+
+- `timeline-list-item` — one event in a timeline list
+- `date-range` — a display of a start and end date range
+
 ## References
 
 - [MDN article element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article)

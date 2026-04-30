@@ -101,6 +101,12 @@ and `data-file-format` attributes to render badges or pseudo-element labels.
 - **Designers**: Make file format and size visible (PDF, 2.4 MB) so users know what they are downloading. Use the same focus and hover treatment as other primary buttons.
 - **Developers**: Pre-format `fileSize` in the consumer's locale. Use the `download` attribute only for same-origin URLs or cross-origin URLs that send appropriate `Content-Disposition` headers.
 
+## Related components
+
+- `button` — a generic clickable button element
+- `document-list-item` — one document entry in a document list
+- `file-input` — an input for selecting files from the file system <input type="file">
+
 ## References
 
 - MDN `<a>` download attribute: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download

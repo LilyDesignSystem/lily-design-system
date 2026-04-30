@@ -82,6 +82,12 @@ The consumer provides all CSS styling. The component renders with a `.image-file
 - **Designers**: Consider adding an image preview area adjacent to the input so users can confirm their selection. Show accepted file type guidance near the input.
 - **Developers**: Narrow the `accept` prop to specific MIME types (e.g., `"image/png, image/jpeg"`) when only certain formats are supported. Validate file size on the client side before submission.
 
+## Related components
+
+- `file-input` — an input for selecting files from the file system <input type="file">
+- `file-upload` — a drag-and-drop area for uploading files
+- `image` — an image element with alt text
+
 ## References
 
 - MDN Input type="file": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file

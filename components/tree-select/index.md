@@ -108,6 +108,12 @@ and a clear distinction between the collapsed and expanded states.
 - **Designers**: Show selected values clearly on the trigger. For multiple selection, consider a chip/tag list.
 - **Developers**: Manage `expanded` state externally. Use a TreeNav/TreeList in the panel to provide proper ARIA tree semantics.
 
+## Related components
+
+- `combobox` — a text input combined with a dropdown list for filtering options
+- `tree-nav` — a hierarchical navigation with expandable branches
+- `select` — a dropdown select element for choosing one option
+
 ## References
 
 - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/

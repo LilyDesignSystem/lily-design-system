@@ -90,6 +90,12 @@ The consumer provides all CSS styling. The component renders with a `.date-field
 - **Designers**: Place the description text below the label and above the input to set expectations before users interact. Display error messages in a contrasting color near the input.
 - **Developers**: Use the bindable `value` prop for two-way date state. The auto-generated IDs handle all ARIA linking; provide a custom `id` prop only when you need a specific ID for testing or integration.
 
+## Related components
+
+- `date-input` — an input for entering a date value <input type="date">
+- `date-range` — a display of a start and end date range
+- `calendar-range-picker` — a picker for selecting a date range on a calendar
+
 ## References
 
 - ARIA Error Handling: https://www.w3.org/WAI/WCAG22/Techniques/aria/ARIA21

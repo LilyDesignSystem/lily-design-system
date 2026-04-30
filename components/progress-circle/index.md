@@ -93,6 +93,12 @@ The consumer provides all CSS styling. The component renders with a `.progress-c
 - **Designers**: Use a ring or arc visual with clear fill to indicate progress, and display the percentage value in the center of the circle for quick readability.
 - **Developers**: Use the ARIA value attributes to drive your CSS or SVG arc calculations, keeping the visual and semantic states synchronized.
 
+## Related components
+
+- `progress` — a horizontal progress bar showing completion
+- `progress-spinner` — an indeterminate spinning progress indicator
+- `loading` — a loading indicator, such as text, or image, or animation
+
 ## References
 
 - WAI-ARIA Meter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/meter/

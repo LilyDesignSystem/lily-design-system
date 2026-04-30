@@ -112,6 +112,15 @@ The consumer provides all CSS styling. The component renders with a `.button` cl
 - **Designers**: Maintain a minimum 44x44px touch target. Use visual hierarchy (primary, secondary, ghost) to distinguish button importance. Ensure disabled buttons have sufficient contrast.
 - **Developers**: The default type is `"button"` (not `"submit"`) to prevent accidental form submissions. Only provide the `pressed` prop when implementing a toggle button pattern.
 
+## Related components
+
+- `button-group` — a wrapper that groups related buttons together
+- `button-input` — an input element of type button for form actions <input type="button">
+- `icon-button` — a button containing only an icon with a required accessible label
+- `split-button` — a button with a primary action and a dropdown for related actions
+- `toggle-button` — a button that toggles between pressed and unpressed states
+- `float-button` — a floating action button anchored to a viewport corner
+
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

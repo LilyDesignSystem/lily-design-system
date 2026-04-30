@@ -90,6 +90,13 @@ buttons.
 - **Designers**: Pair a primary button with at most two secondary buttons. Maintain consistent spacing across all groups in the product.
 - **Developers**: Always supply a meaningful `label` that describes the group's purpose, not the buttons themselves (e.g. "Form actions" rather than "Save and Cancel").
 
+## Related components
+
+- `button` — a generic clickable button element
+- `action-group` — a group of action buttons that can collapse to an overflow menu when space is constrained
+- `segment-group` — a group of mutually exclusive segment options
+- `toggle-group` — a group of toggle buttons for selecting options
+
 ## References
 
 - US Web Design System Button Group: https://designsystem.digital.gov/components/button-group/

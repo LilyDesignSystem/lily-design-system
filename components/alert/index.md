@@ -112,6 +112,13 @@ The consumer provides all CSS styling. The component renders with a `.alert` cla
 - **Designers**: Use consistent color coding across severity types (info, success, warning, error) and pair colors with icons so that meaning is not conveyed by color alone.
 - **Developers**: Use `role="alert"` with `aria-live="assertive"` for critical messages and `role="status"` with `aria-live="polite"` for non-urgent updates to avoid disrupting the user unnecessarily.
 
+## Related components
+
+- `alert-dialog` — a modal dialog for urgent messages requiring user acknowledgment
+- `banner` — a prominent message bar across the top of a page
+- `notification` — a brief message about an event or update
+- `warning-callout` — a callout box highlighting a warning message
+
 ## References
 
 - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/

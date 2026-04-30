@@ -79,6 +79,12 @@ The consumer provides all CSS styling. The component renders with a `.framer` cl
 - **Designers**: Design frame styles that complement the content without distracting from it. Consider using subtle borders and shadows. Ensure frame styling works well at different viewport sizes.
 - **Developers**: Only provide a `label` prop when the frame adds semantic meaning beyond decoration. For purely decorative frames, omit the label to avoid unnecessary verbosity for screen reader users. Ensure framed images have their own `alt` text.
 
+## Related components
+
+- `card` — a grouped content container with header, body, and footer areas
+- `panel` — a generic content panel with optional heading
+- `aspect-ratio-container` — a container that maintains a fixed aspect ratio
+
 ## References
 
 - [Reuters Graphics Framer component](https://github.com/reuters-graphics/graphics-components)

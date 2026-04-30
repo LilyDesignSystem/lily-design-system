@@ -88,6 +88,13 @@ The consumer provides all CSS styling. The component renders with a `.loading` c
 - **Designers**: Provide clear visual feedback that something is happening. Use consistent loading indicators across the application. Consider skeleton screens for content-heavy pages.
 - **Developers**: Use `aria-live="polite"` to avoid interrupting screen reader users. Update the `label` prop to reflect the current loading context.
 
+## Related components
+
+- `skeleton` — a placeholder loading animation for content
+- `progress-spinner` — an indeterminate spinning progress indicator
+- `progress` — a horizontal progress bar showing completion
+- `beach-ball` — a decorative animated beach ball element
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

@@ -103,6 +103,12 @@ The consumer provides all CSS styling. The component renders with a `.feature-ph
 - **Designers**: Ensure photos have sufficient contrast and are not relied upon as the sole source of information. Consider aspect ratios across breakpoints. Provide clear guidance on caption and credit placement.
 - **Developers**: Always provide meaningful alt text that describes the image content. Set width and height attributes to prevent cumulative layout shift. Use `loading="eager"` only for above-the-fold images.
 
+## Related components
+
+- `image` — an image element with alt text
+- `feature-card` — a large content card with a prominent image positioned alongside or above the text
+- `hero` — a large box or image with a title and description
+
 ## References
 
 - Reuters Graphics FeaturePhoto component

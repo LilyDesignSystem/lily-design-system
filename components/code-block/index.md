@@ -88,6 +88,11 @@ The consumer provides all CSS styling. The component renders with a `.code-block
 - **Designers**: Use a monospace font with sufficient line height. Provide horizontal scrolling for long lines. Use a distinct background to separate code from surrounding content.
 - **Developers**: Use the `label` prop to describe the code block purpose for screen readers. Nest a `<code>` element inside the `<pre>` for proper semantics.
 
+## Related components
+
+- `code` — an inline code span for displaying short code snippets within surrounding text
+- `kbd` — show keyboard shortcuts and key combinations in a styled inline element
+
 ## References
 
 - MDN `<pre>` element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/pre

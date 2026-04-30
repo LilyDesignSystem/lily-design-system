@@ -109,6 +109,11 @@ The consumer provides all CSS styling. The component renders with a `.separator`
 - **Designers**: Use subtle styling that visually distinguishes sections without drawing excessive attention. Maintain consistent separator weight and color throughout the interface.
 - **Developers**: Provide an `aria-label` when the purpose of the separation is not obvious from the surrounding content. Avoid nesting separators inside interactive widgets.
 
+## Related components
+
+- `divider` — see components.tsv
+- `horizontal-scroller` — see components.tsv
+
 ## References
 
 - WAI-ARIA Separator Role: https://www.w3.org/TR/wai-aria-1.2/#separator

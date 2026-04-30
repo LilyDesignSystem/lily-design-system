@@ -103,6 +103,11 @@ The consumer provides all CSS styling. The component renders with a `.scroll-are
 
 ScrollArea can contain a ScrollBar child for custom scrollbar rendering. Use `<ScrollArea>` as the scrollable container and nest `<ScrollBar>` within for styled scrollbar controls that sync with the scroll position.
 
+## Related components
+
+- `scroll-bar` — a custom scrollbar element
+- `container` — a generic block-level content container
+
 ## References
 
 - WAI-ARIA Region Role: https://www.w3.org/TR/wai-aria-1.2/#region

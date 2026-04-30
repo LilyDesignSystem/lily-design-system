@@ -91,6 +91,12 @@ The consumer provides all CSS styling. The component renders with a `.popup` cla
 - **Designers**: Give popups a clear visual elevation (shadow or border) and ensure they do not cover critical page actions the user may need to reach.
 - **Developers**: Implement Escape key handling to close the popup, and return focus to the trigger element when the popup closes.
 
+## Related components
+
+- `popover` — a floating content box anchored to a trigger element
+- `tooltip` — a small popup showing descriptive text on hover or focus
+- `drawer` — a panel that slides in from the edge of the screen
+
 ## References
 
 - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog/

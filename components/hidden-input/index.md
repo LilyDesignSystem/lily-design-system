@@ -78,6 +78,12 @@ The consumer provides all CSS styling. The component renders with a `.hidden-inp
 - **Designers**: No visual design is needed -- hidden inputs have no visual presence. Document which hidden values your forms require so developers include them.
 - **Developers**: Always set the `name` prop for form submission. Never store sensitive data in hidden inputs that could be inspected or modified by the user.
 
+## Related components
+
+- `input` — a generic HTML input element
+- `form` — a form element for collecting and submitting user data
+- `field` — a form field wrapper with label, input, and error message
+
 ## References
 
 - HTML hidden input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/hidden

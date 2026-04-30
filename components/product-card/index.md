@@ -111,6 +111,11 @@ Consumer CSS targets `.product-card`, `.product-card-image`, `.product-card-head
 - **Designers**: Maintain a consistent aspect ratio for product images across cards. Keep the price visually prominent and the action button reachable on small screens.
 - **Developers**: Always supply `imageAlt`. For decorative product photos that duplicate the name, an empty `alt=""` is acceptable, but if the image conveys information not in the name, write descriptive alt text.
 
+## Related components
+
+- `card` — a grouped content container with header, body, and footer areas
+- `feature-card` — a large content card with a prominent image positioned alongside or above the text
+
 ## References
 
 - MDN article element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article

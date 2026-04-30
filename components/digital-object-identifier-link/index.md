@@ -91,6 +91,11 @@ The consumer provides all CSS styling. The component renders with a `.digital-ob
 
 A Digital Object Identifier (DOI) is a persistent identifier used to uniquely identify objects such as academic papers, datasets, and government reports. The DOI system is managed by the International DOI Foundation (IDF). DOIs are resolved via `https://doi.org/` followed by the DOI string. Example: `https://doi.org/10.1000/xyz123` resolves to the identified resource.
 
+## Related components
+
+- `citation` — a citation acknowledges the relevance of a work of another to the topic of discussion
+- `footnote` — a footnote reference and content element
+
 ## References
 
 - DOI Handbook: https://www.doi.org/hb.html

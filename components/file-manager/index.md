@@ -82,6 +82,12 @@ The consumer provides all CSS styling. The component renders with a `.file-manag
 - **Designers**: Organize the interface with clear navigation (breadcrumbs or tree view), a file list area, and contextual action buttons. Use icons to differentiate file types and folders.
 - **Developers**: Implement keyboard navigation for file selection and folder traversal. Use the region landmark to help screen reader users locate the file manager quickly within the page.
 
+## Related components
+
+- `file-upload` — a drag-and-drop area for uploading files
+- `file-dialog` — a dialog for browsing and selecting files
+- `tree-nav` — a hierarchical navigation with expandable branches
+
 ## References
 
 - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region

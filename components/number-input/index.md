@@ -103,6 +103,13 @@ The consumer provides all CSS styling. The component renders with a `.number-inp
 - **Designers**: Clearly indicate the expected range and step size near the input (e.g., "Enter a value between 1 and 100") to reduce input errors.
 - **Developers**: Set `min`, `max`, and `step` props to leverage browser-native validation. Be aware that `<input type="number">` returns an empty string for non-numeric input.
 
+## Related components
+
+- `text-input` — a single-line text input field <input type="text">
+- `currency-input` — a locale-aware currency input with automatic formatting, symbols, separators
+- `range-input` — a slider input for selecting a value within a range <input type="range">
+- `meter` — a gauge displaying a scalar value within a known range
+
 ## References
 
 - HTML number input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/number

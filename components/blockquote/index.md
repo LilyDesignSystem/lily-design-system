@@ -90,6 +90,11 @@ attribution.
 - **Designers**: Indent the quote body, use a clear typographic hierarchy between the quote and its attribution, and avoid relying on decorative quotation marks alone for meaning.
 - **Developers**: Always supply `cite` (URL) and `citationText` (visible attribution) when the source is known. Keep visual quotation marks in CSS so screen readers do not announce them twice.
 
+## Related components
+
+- `citation` — a citation acknowledges the relevance of a work of another to the topic of discussion
+- `inset-text` — indented text to distinguish it from surrounding content
+
 ## References
 
 - MDN `<blockquote>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote

@@ -92,6 +92,12 @@ inner `section-heading-eyebrow`, `section-heading-heading`, and
 - **Designers**: Use the eyebrow to label the section's category or theme. Keep the subtitle short — it is supporting text, not a paragraph.
 - **Developers**: Always pass the correct `level` to keep heading hierarchy intact (the page should have one `<h1>`; sections inside should be `<h2>`, subsections `<h3>`, and so on).
 
+## Related components
+
+- `headline` — see components.tsv
+- `hero-headline` — see components.tsv
+- `byline` — see components.tsv
+
 ## References
 
 - MDN `<header>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header

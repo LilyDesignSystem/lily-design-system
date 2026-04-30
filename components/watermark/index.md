@@ -89,6 +89,11 @@ properties.
 - **Designers**: Choose a low-contrast watermark so it does not interfere with reading. Test at small and large viewports.
 - **Developers**: Encode the watermark as an inline SVG background-image for crisp rendering. Use the data attributes to drive the CSS.
 
+## Related components
+
+- `banner` — a prominent message bar across the top of a page
+- `image` — an image element with alt text
+
 ## References
 
 - WAI-ARIA aria-hidden: https://www.w3.org/TR/wai-aria-1.2/#aria-hidden

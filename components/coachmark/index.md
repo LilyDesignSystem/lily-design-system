@@ -90,6 +90,12 @@ for selective styling. Provide a clear focus indicator on the dismiss button.
 - **Designers**: Anchor the coachmark visually to the feature; do not obscure other actions.
 - **Developers**: Persist the dismissed state in user preferences so the coachmark does not reappear.
 
+## Related components
+
+- `popover` — a floating content box anchored to a trigger element
+- `tooltip` — a small popup showing descriptive text on hover or focus
+- `tour` — a tour guide, such as for sightseeing, or pathways, or demonstrations, etc.
+
 ## References
 
 - WAI-ARIA Dialog: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

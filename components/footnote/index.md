@@ -97,6 +97,10 @@ The consumer provides all CSS styling. The component renders with a `.footnote` 
 - **Designers**: Position footnotes at the bottom of the page or section with a clear visual separator. Use smaller text to distinguish footnotes from body content.
 - **Developers**: Ensure the `id` prop matches the `href` fragment on the in-page link (e.g., `<a href="#fn1">`) for proper jump-to-footnote navigation.
 
+## Related components
+
+- `citation` — a citation acknowledges the relevance of a work of another to the topic of discussion
+
 ## References
 
 - WAI-ARIA note role: https://www.w3.org/TR/wai-aria-1.2/#note

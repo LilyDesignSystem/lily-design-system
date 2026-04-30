@@ -76,6 +76,13 @@ The consumer provides all CSS styling. The component renders with a `.email-inpu
 - **Designers**: Place the email input near related contact fields. Provide clear error styling when validation fails so users know the expected format.
 - **Developers**: Rely on the browser's built-in email validation for basic format checking. Add server-side validation for stricter requirements. Pair with a Field component for label and error message display.
 
+## Related components
+
+- `text-input` — a single-line text input field <input type="text">
+- `email-link` — a mailto hyperlink for an email address
+- `tel-input` — an input for entering a telephone number <input type="tel">
+- `url-input` — an input for entering a URL <input type="url">
+
 ## References
 
 - MDN `<input type="email">`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email

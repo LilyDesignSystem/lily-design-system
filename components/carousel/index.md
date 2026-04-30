@@ -105,6 +105,13 @@ The consumer provides all CSS styling. The component renders with a `.carousel` 
 - **Designers**: Provide clear navigation indicators (dots or arrows) so users understand there is more content to view. Avoid autoplay or provide a visible pause control.
 - **Developers**: Mark each slide with `role="group"` and `aria-roledescription="slide"` with an `aria-label` indicating position (e.g., "Slide 1 of 5"). Implement keyboard navigation for slide controls.
 
+## Related components
+
+- `photo-pack` — see components.tsv
+- `scroller` — see components.tsv
+- `horizontal-scroller` — see components.tsv
+- `image` — an image element with alt text
+
 ## References
 
 - WAI-ARIA Carousel Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/carousel/

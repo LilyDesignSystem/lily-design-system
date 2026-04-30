@@ -105,6 +105,12 @@ touch target, a clear focus indicator, and hover/active visual feedback.
 - **Designers**: Use icons that are universally recognizable. Maintain a 44×44 px touch target and a high-contrast focus ring.
 - **Developers**: Always supply a `label` prop. The `pressed` prop is for toggle semantics only — leave it `undefined` for ordinary action buttons.
 
+## Related components
+
+- `button` — a generic clickable button element
+- `float-button` — a floating action button anchored to a viewport corner
+- `tool-bar-button` — one action button in a tool bar
+
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

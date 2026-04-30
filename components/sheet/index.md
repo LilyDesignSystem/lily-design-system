@@ -98,6 +98,12 @@ The consumer provides all CSS styling. The component renders with a `.sheet` cla
 - **Designers**: Include a visible close button and a semi-transparent backdrop so users understand the panel is an overlay. Animate the slide-in transition to reinforce which edge the sheet originates from.
 - **Developers**: Implement focus trapping so keyboard users cannot tab behind the sheet. Move focus into the sheet on open and restore focus to the trigger element on close.
 
+## Related components
+
+- `drawer` — a panel that slides in from the edge of the screen
+- `dialog` — a modal or non-modal dialog window
+- `slide-out-drawer` — a drawer that slides out from the side of the page
+
 ## References
 
 - WAI-ARIA Dialog (Modal) Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

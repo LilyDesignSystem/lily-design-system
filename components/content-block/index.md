@@ -89,6 +89,11 @@ The consumer provides all CSS styling. The component renders with a `.content-bl
 - **Designers**: Use narrower widths (330px--510px) for body text to maintain optimal line length. Use wider widths for images, charts, and data visualizations.
 - **Developers**: The `data-width` attribute allows CSS targeting for each width variant. Use CSS custom properties from the parent ArticleLayout to control actual widths.
 
+## Related components
+
+- `container` — a generic block-level content container
+- `container-with-fluid-width` — a full-width content wrapper with horizontal padding
+
 ## References
 
 - Reuters Graphics Block component

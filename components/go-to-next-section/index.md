@@ -46,6 +46,12 @@ This headless component renders semantic HTML. The consumer provides all visual 
 
 The component renders with `.go-to-next-section` as the root class. No default styles are included.
 
+## Related components
+
+- `go-to-previous-section` — a link that takes users to the previous section of the current page
+- `go-to-top` — a link that returns users to the top of a long page
+- `section-nav` — a navigation container for section navigation links
+
 ## References
 
 - Documentation: index.md

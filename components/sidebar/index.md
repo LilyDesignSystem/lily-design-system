@@ -118,6 +118,12 @@ The consumer provides all CSS styling. The component renders with a `.sidebar` c
 - **Designers**: Keep sidebar width proportional to the main content area, typically 20-30% of the viewport. Provide clear visual separation from the main content using borders, background color, or spacing.
 - **Developers**: Use a descriptive `label` prop to distinguish this sidebar from other landmarks on the page. Avoid placing more than two sidebar landmarks on a single page to prevent landmark clutter.
 
+## Related components
+
+- `drawer` — a panel that slides in from the edge of the screen
+- `navigation-menu` — a site-wide navigation menu with links
+- `section-nav` — a navigation container for section navigation links
+
 ## References
 
 - WAI-ARIA Complementary Role: https://www.w3.org/TR/wai-aria-1.2/#complementary

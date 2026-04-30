@@ -100,6 +100,12 @@ The consumer provides all CSS styling. The component renders with a `.signature-
 - **Designers**: Provide a clear border and placeholder text (e.g., "Sign here") so users understand where to draw. Include a visible clear/reset button alongside the pad.
 - **Developers**: Offer a clear button to reset the signature and export the result as an image or data URL. Provide a keyboard-accessible alternative or fallback for users who cannot use pointer input.
 
+## Related components
+
+- `text-input` — a single-line text input field <input type="text">
+- `field` — a form field wrapper with label, input, and error message
+- `form` — a form element for collecting and submitting user data
+
 ## References
 
 - WAI-ARIA application Role: https://www.w3.org/TR/wai-aria-1.2/#application

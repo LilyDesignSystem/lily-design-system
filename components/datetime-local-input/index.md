@@ -89,6 +89,11 @@ The consumer provides all CSS styling. The component renders with a `.datetime-l
 - **Designers**: Place the datetime input near contextual information (e.g., time zone indicator) so users understand the expected format. Ensure sufficient width for the native picker to display properly.
 - **Developers**: Use the `min` and `max` props to constrain selectable datetimes. Remember that the value format is `YYYY-MM-DDThh:mm`, not a full ISO 8601 string.
 
+## Related components
+
+- `date-input` — an input for entering a date value <input type="date">
+- `time-input` — an input for entering a time value <input type="time">
+
 ## References
 
 - MDN datetime-local input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local

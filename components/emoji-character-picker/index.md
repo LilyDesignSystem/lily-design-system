@@ -80,6 +80,11 @@ The consumer provides all CSS styling. The component renders with a `.emoji-char
 - **Designers**: Organize emoji into clearly labeled categories (e.g., smileys, animals, food). Provide a search or filter mechanism for quick access to specific emoji.
 - **Developers**: Implement arrow key navigation on `role="gridcell"` elements for keyboard accessibility. Use Enter or Space for emoji selection and ensure focus management within the grid.
 
+## Related components
+
+- `emoji` — a single emoji character with accessible name
+- `character` — a single character display element
+
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

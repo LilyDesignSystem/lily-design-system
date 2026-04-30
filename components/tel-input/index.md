@@ -90,6 +90,12 @@ The consumer provides all CSS styling. The component renders with a `.tel-input`
 
 TelInput and TelLink follow the Input/Link pattern. TelInput provides the editable telephone input for forms, while TelLink provides the read-only clickable `tel:` link for display. Use them together for edit and view modes of phone number data.
 
+## Related components
+
+- `tel-link` — a tel hyperlink for a telephone number
+- `text-input` — a single-line text input field <input type="text">
+- `email-input` — an input for entering an email address <input type="email">
+
 ## References
 
 - HTML tel input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/tel

@@ -93,6 +93,12 @@ The consumer provides all CSS styling. The component renders with a `.range-inpu
 - **Designers**: Display the current value near the slider thumb or in a label, and consider adding tick marks at key intervals for better spatial reference.
 - **Developers**: Use the `step` prop to constrain values to meaningful increments, and debounce `oninput` handlers if the slider drives expensive updates.
 
+## Related components
+
+- `slider` — a draggable control for selecting a value along a track
+- `number-input` — an input for entering a numeric value with validation <input type="number">
+- `angle-slider-range-input` — a range input for selecting an angle in degrees
+
 ## References
 
 - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/

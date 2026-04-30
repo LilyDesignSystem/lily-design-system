@@ -80,6 +80,12 @@ The consumer provides all CSS styling. The component renders with a `.warning-ca
 - **Designers**: Use a distinct visual treatment (e.g., amber/yellow background, warning icon) to differentiate warnings from errors and informational messages. Ensure sufficient color contrast.
 - **Developers**: Content within `role="alert"` is announced immediately by screen readers when it appears or changes. Avoid dynamically adding and removing WarningCallout rapidly, as each change triggers an announcement.
 
+## Related components
+
+- `alert` — a status message for important information or feedback
+- `information-callout` — a callout box highlighting informational content
+- `banner` — a prominent message bar across the top of a page
+
 ## References
 
 - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/

@@ -94,6 +94,12 @@ The consumer provides all CSS styling. The component renders with a `.visible` c
 - **Designers**: Plan placeholder states for content that loads lazily. Ensure loading states communicate to users that content is forthcoming. Consider skeleton placeholders for better perceived performance.
 - **Developers**: Always provide meaningful alt text or labels for lazily loaded content. Use `once` mode for content that should stay rendered after first load. Choose appropriate threshold values -- 0 triggers on first pixel visible, 1 requires full visibility.
 
+## Related components
+
+- `scroller-base` — see components.tsv
+- `scroller` — see components.tsv
+- `video-player` — see components.tsv
+
 ## References
 
 - [Reuters Graphics Visible component](https://github.com/reuters-graphics/graphics-components)

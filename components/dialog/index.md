@@ -102,6 +102,14 @@ The consumer provides all CSS styling. The component renders with a `.dialog` cl
 - **Designers**: Include a clear close or cancel affordance in every dialog. For modal dialogs, dim the background to communicate that the main content is not interactive.
 - **Developers**: Manage focus carefully -- move focus into the dialog when it opens and return it to the trigger element when it closes. Use the `modal` prop to control `aria-modal` behavior.
 
+## Related components
+
+- `alert-dialog` — a modal dialog for urgent messages requiring user acknowledgment
+- `popconfirm-dialog` — a popover dialog with confirm and cancel buttons
+- `file-dialog` — a dialog for browsing and selecting files
+- `drawer` — a panel that slides in from the edge of the screen
+- `sheet` — a panel that slides in from a screen edge as an overlay
+
 ## References
 
 - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

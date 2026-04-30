@@ -98,6 +98,11 @@ The consumer provides all CSS styling. The component renders with a `.editable` 
 - **Designers**: Make the display text visually distinct from static text (e.g., with an underline or hover effect) so users know it is editable. Provide clear visual feedback when entering and exiting edit mode.
 - **Developers**: Use the `editing` bind to coordinate with other components or show save/cancel buttons. The component manages a draft value internally, so cancellation safely reverts changes.
 
+## Related components
+
+- `editable-form` — a form wrapper for inline editing of content
+- `text-input` — a single-line text input field <input type="text">
+
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/

@@ -93,6 +93,11 @@ A typical consumer adds `break-inside: avoid` to direct children:
 - **Designers**: CSS-columns masonry flows top-down within each column. If left-to-right reading order matters, use Grid instead.
 - **Developers**: Always pair Masonry with `break-inside: avoid` on the items so cards do not split across columns. Consider responsive overrides on `column-count` for narrow viewports.
 
+## Related components
+
+- `grid` — a CSS grid layout container with configurable columns and gap
+- `flex-stack` — a flex layout container for vertical or horizontal stacking with consistent gap
+
 ## References
 
 - MDN column-count: https://developer.mozilla.org/en-US/docs/Web/CSS/column-count

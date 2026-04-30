@@ -84,6 +84,16 @@ The consumer provides all CSS styling. The component renders with a `.text-input
 - **Designers**: Size the input width to match the expected content length (e.g., wider for full names, narrower for short codes). Use placeholder text sparingly and never as a substitute for labels.
 - **Developers**: Use `restProps` to pass `placeholder`, `maxlength`, `pattern`, and other native attributes. Wrap the input with a Field and Label component for a complete accessible form field.
 
+## Related components
+
+- `email-input` — an input for entering an email address <input type="email">
+- `password-input` — an input for entering a password with obscured text <input type="password">
+- `search-input` — an input for entering a search query <input type="search">
+- `tel-input` — an input for entering a telephone number <input type="tel">
+- `url-input` — an input for entering a URL <input type="url">
+- `number-input` — an input for entering a numeric value with validation <input type="number">
+- `text-area-input` — a multi-line text input area
+
 ## References
 
 - MDN input type="text": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text

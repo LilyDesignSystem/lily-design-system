@@ -109,6 +109,13 @@ The consumer provides all CSS styling. The component renders with a `.scroller` 
 - **Designers**: Design background visuals that transition meaningfully between steps. Ensure foreground text has sufficient contrast against the background at every step. Consider reduced-motion preferences for animated backgrounds.
 - **Developers**: Always provide a descriptive `label` prop for screen reader landmark navigation. Ensure background content updates are communicated via `aria-live`. Test with keyboard-only and screen reader navigation.
 
+## Related components
+
+- `scroller-base` — see components.tsv
+- `scroller-video` — see components.tsv
+- `horizontal-scroller` — see components.tsv
+- `carousel` — a slideshow for cycling through content items
+
 ## References
 
 - Reuters Graphics Scroller

@@ -70,6 +70,11 @@ The consumer provides all CSS styling. The component renders with a `.option` cl
 - **Designers**: Keep option text concise and scannable. For long lists, group related options using `<optgroup>` via the parent Select.
 - **Developers**: Use the `value` prop for the form submission value and children for the display text. Native `<option>` styling is limited; for custom-styled dropdowns, consider Listbox or Combobox instead.
 
+## Related components
+
+- `select` — a dropdown select element for choosing one option
+- `theme-select-option` — one option in a theme select dropdown
+
 ## References
 
 - HTML option element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option

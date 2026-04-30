@@ -93,6 +93,12 @@ The consumer provides all CSS styling. The component renders with a `.header` cl
 - **Designers**: Keep the header visually consistent across pages. Include branding and primary navigation prominently. Use a sticky or fixed position for easy access on long pages.
 - **Developers**: When multiple headers exist on a page, provide the `label` prop to help screen reader users distinguish between them.
 
+## Related components
+
+- `footer` — a page or section footer area
+- `grail-layout-top-header` — grail layout top header full width with <header> tag
+- `navigation-menu` — a site-wide navigation menu with links
+
 ## References
 
 - MDN header element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header

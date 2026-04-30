@@ -103,6 +103,11 @@ The consumer provides all CSS styling. The component renders with a `.figure` cl
 - **Designers**: Include a visible caption or title near the figure so sighted users understand what it represents. Ensure the figure has sufficient contrast and is not the sole means of conveying critical data.
 - **Developers**: Write a descriptive `label` that summarizes the figure's content and purpose, not just a generic title. For complex charts, consider providing a data table as an alternative.
 
+## Related components
+
+- `caption` — a caption for a table or figure element
+- `image` — an image element with alt text
+
 ## References
 
 - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img

@@ -81,6 +81,12 @@ The consumer provides all CSS styling. The component renders with a `.emoji` cla
 - **Designers**: Ensure emoji are large enough to be recognizable and are not the sole means of conveying information. Pair emoji with text labels when clarity is important.
 - **Developers**: Always provide a descriptive `label` that conveys the emoji's meaning in context, not just its Unicode name (e.g., "Approved" rather than "Check mark").
 
+## Related components
+
+- `emoji-character-picker` — a picker for browsing and selecting emoji characters
+- `character` — a single character display element
+- `icon` — a container for displaying an icon
+
 ## References
 
 - [MDN span element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span)

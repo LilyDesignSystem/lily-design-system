@@ -92,6 +92,11 @@ The consumer provides all CSS styling. The component renders with a `.end-notes`
 - **Designers**: Visually distinguish endnotes from body content with spacing or dividers. Use smaller text or muted colors to indicate supplementary status. Group related endnotes logically.
 - **Developers**: Always provide a descriptive `label` prop for screen reader landmark navigation. Use appropriate heading levels within endnote items that follow the page heading hierarchy.
 
+## Related components
+
+- `footnote` — a footnote reference and content element
+- `citation` — a citation acknowledges the relevance of a work of another to the topic of discussion
+
 ## References
 
 - [MDN HTML elements reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)

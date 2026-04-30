@@ -71,6 +71,11 @@ The consumer provides all CSS styling. The component renders with a `.email-link
 - **Designers**: Style the email link consistently with other hyperlinks in your design system. Consider adding an email icon to visually indicate the mailto behavior.
 - **Developers**: Use the `label` prop to provide additional accessible context when the email address alone is ambiguous (e.g., when multiple email links appear on the same page).
 
+## Related components
+
+- `email-input` — an input for entering an email address <input type="email">
+- `tel-link` — a tel hyperlink for a telephone number
+
 ## References
 
 - MDN `mailto:` links: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#linking_to_an_email_address

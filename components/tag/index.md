@@ -87,6 +87,13 @@ The consumer provides all CSS styling. The component renders with a `.tag` class
 
 Tag is designed to be used as a child of TagGroup. The TagGroup provides a `role="group"` container with an accessible label, while each Tag provides an individual labeled status element within the group.
 
+## Related components
+
+- `tag-group` — a group of tag elements
+- `tag-input` — an input for adding and removing tags
+- `badge` — a small label for counts, statuses, or categories
+- `status-tag` — a tag showing the current status of a task
+
 ## References
 
 - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status

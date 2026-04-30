@@ -73,6 +73,15 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 - **Designers**: Make header labels concise and readable. For long timelines, consider multi-row headers (e.g., months on one row, weeks on another).
 - **Developers**: Use `<th>` elements inside GanttTableTR children for proper header cell semantics. Add `scope="col"` to column headers for screen reader clarity.
 
+## Related components
+
+- `gantt-table` — a Gantt chart table interactive grid for planning schedule visualization <table>
+- `gantt-table-tbody` — see components.tsv
+- `gantt-table-tfoot` — see components.tsv
+- `gantt-table-tr` — see components.tsv
+- `gantt-table-th` — a Gantt chart table interactive grid header cell for planning schedule visualization <th>
+- `gantt-table-td` — a Gantt chart table interactive grid data cell for planning schedule visualization <td>
+
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

@@ -82,6 +82,13 @@ The consumer provides all CSS styling. The component renders with a `.radio-grou
 
 RadioGroup is the container for RadioInput children. Use `<RadioGroup>` to wrap multiple `<RadioInput>` elements, providing the group-level accessible label while each RadioInput carries its own option label.
 
+## Related components
+
+- `radio-input` — a single radio button input <input type="radio">
+- `checkbox-group` — a group component that manages a collection of checkboxes with shared state
+- `segment-group` — a group of mutually exclusive segment options
+- `mutually-exclusive` — a container ensuring only one option can be selected from a group
+
 ## References
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/

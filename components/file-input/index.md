@@ -85,6 +85,12 @@ The consumer provides all CSS styling. The component renders with a `.file-input
 - **Designers**: Consider pairing the file input with a visible label or instructions about accepted file types and size limits. The default browser styling varies, so plan for custom styling.
 - **Developers**: Use the `accept` prop to restrict file types at the browser level, but always validate on the server as well. Access selected files via the input's `files` property or event handlers.
 
+## Related components
+
+- `file-upload` — a drag-and-drop area for uploading files
+- `image-file-input` — an input for selecting image files with preview
+- `file-dialog` — a dialog for browsing and selecting files
+
 ## References
 
 - MDN input type="file": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file

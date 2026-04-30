@@ -88,6 +88,11 @@ The consumer provides all CSS styling. The component renders with a `.skeleton` 
 - **Designers**: Match skeleton shapes to the actual content layout (e.g., rectangles for text lines, circles for avatars). Use a subtle animation such as a shimmer or pulse to indicate loading.
 - **Developers**: Replace the skeleton with actual content as soon as data loads, ensuring `aria-busy` is removed from the parent region. Avoid rendering skeletons for content that loads in under 200ms.
 
+## Related components
+
+- `loading` — a loading indicator, such as text, or image, or animation
+- `progress-spinner` — an indeterminate spinning progress indicator
+
 ## References
 
 - WAI-ARIA `aria-busy`: https://www.w3.org/WAI/ARIA/apd/states/aria-busy/

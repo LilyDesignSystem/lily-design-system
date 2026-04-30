@@ -96,6 +96,14 @@ No default styles are included — this is a fully headless component.
 - **Designers**: Indicate that the option reveals more content (a chevron or "+/–" cue helps). Make sure the revealed panel is visually grouped with its trigger so the relationship is unambiguous.
 - **Developers**: Keep the panel content lightweight; if it grows large, consider lazy rendering tied to the `checked` prop. Validate any inputs inside the panel only when the checkbox is checked.
 
+## Related components
+
+- `accordion-list` — an accordion ordered list of list item components
+- `accordion-list-item` — an accordion list item component
+- `details` — a disclosure widget that shows and hides content
+- `switch-button` — a toggle switch for turning a setting on or off
+- `checkbox-input` — a checkbox input for toggling a boolean value <input type="checkbox">
+
 ## References
 
 - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/

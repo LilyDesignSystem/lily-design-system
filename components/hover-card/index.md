@@ -125,6 +125,12 @@ The consumer provides all CSS styling. The component renders with a `.hover-card
 - **Designers**: Add a slight delay before showing and hiding the card to prevent flickering on accidental hover. Include an arrow pointing to the trigger element.
 - **Developers**: Manage hover/focus events on the trigger element to toggle `open`. Consider adding a delay to prevent the card from disappearing when the user moves the mouse between the trigger and the card.
 
+## Related components
+
+- `popover` — a floating content box anchored to a trigger element
+- `tooltip` — a small popup showing descriptive text on hover or focus
+- `popup` — a temporary overlay that appears above page content
+
 ## References
 
 - WAI-ARIA tooltip role: https://www.w3.org/TR/wai-aria-1.2/#tooltip

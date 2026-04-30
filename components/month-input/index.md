@@ -83,6 +83,11 @@ The consumer provides all CSS styling. The component renders with a `.month-inpu
 - **Designers**: Be aware that native month picker appearance varies widely across browsers; plan fallback styling or a custom picker for consistent cross-browser experience.
 - **Developers**: The value format is always `YYYY-MM`. Use `min` and `max` via restProps to constrain the selectable range when needed.
 
+## Related components
+
+- `date-input` — an input for entering a date value <input type="date">
+- `week-input` — an input for selecting a week and year <input type="week">
+
 ## References
 
 - HTML month input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/month

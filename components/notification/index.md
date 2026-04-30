@@ -95,6 +95,12 @@ The consumer provides all CSS styling. The component renders with a `.notificati
 - **Designers**: Use distinct visual styles for different notification types (success, error, warning, info) and ensure notifications do not obscure important page content.
 - **Developers**: Use the `urgent` prop only for messages requiring immediate attention. Polite notifications wait for the user to finish their current task before being announced.
 
+## Related components
+
+- `toast` — a brief auto-dismissing notification message
+- `alert` — a status message for important information or feedback
+- `banner` — a prominent message bar across the top of a page
+
 ## References
 
 - WAI-ARIA alert role: https://www.w3.org/TR/wai-aria-1.2/#alert

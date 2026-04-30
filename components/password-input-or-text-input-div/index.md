@@ -96,6 +96,12 @@ The consumer provides all CSS styling. The component renders with a `.password-i
 - **Designers**: Position the show/hide toggle button clearly within or beside the input field, using a recognizable eye icon with sufficient contrast.
 - **Developers**: Set `autocomplete` to `"new-password"` for registration forms by overriding via `restProps` to help password managers distinguish between login and signup flows.
 
+## Related components
+
+- `password-input` — an input for entering a password with obscured text <input type="password">
+- `text-input` — a single-line text input field <input type="text">
+- `pin-input-div` — a series of single-digit inputs for entering a PIN or OTP code
+
 ## References
 
 - HTML password input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/password

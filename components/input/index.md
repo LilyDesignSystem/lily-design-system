@@ -84,6 +84,12 @@ The consumer provides all CSS styling. The component renders with a `.input` cla
 - **Designers**: Ensure input fields have visible focus indicators and sufficient padding. Use consistent sizing across related form fields.
 - **Developers**: Prefer specialized input components (EmailInput, TelInput, etc.) when available, as they provide type-specific defaults. Use the `type` prop to leverage browser-native validation and mobile keyboard optimization.
 
+## Related components
+
+- `text-input` — a single-line text input field <input type="text">
+- `field` — a form field wrapper with label, input, and error message
+- `form` — a form element for collecting and submitting user data
+
 ## References
 
 - MDN Input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input

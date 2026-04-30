@@ -84,6 +84,12 @@ The consumer provides all CSS styling. The component renders with an `.ai-label`
 - **Designers**: Make the AI label visually distinct from surrounding content using a contrasting color or badge style. Keep it small and unobtrusive but clearly visible. Consider a consistent AI color across your product.
 - **Developers**: Always include AiLabel wherever AI generates content, even if the output is reviewed by a human. For explainability popover behavior, wrap the label in a button and use your popover component to show explanatory content on click.
 
+## Related components
+
+- `badge` — a small label for counts, statuses, or categories
+- `tag` — a keyword label for categorizing content
+- `flair` — a decorative highlight or emphasis element
+
 ## References
 
 - Carbon Design System AI Label: https://carbondesignsystem.com/components/ai-label/usage/

@@ -105,6 +105,12 @@ The consumer provides all CSS styling. The component renders with a `.select-wit
 - **Designers**: Keep before/after content compact so it does not visually overwhelm the select control. Use consistent icon sizes and spacing across all SelectWithExtras instances.
 - **Developers**: Ensure the `before` and `after` slot content is decorative or supplementary only; interactive elements in these slots can confuse keyboard navigation. Use the `aria-label` prop rather than relying on before/after content for accessible naming.
 
+## Related components
+
+- `select` — a dropdown select element for choosing one option
+- `combobox` — a text input combined with a dropdown list for filtering options
+- `cascader` — a multi-level dropdown for selecting a value from a hierarchy
+
 ## References
 
 - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/

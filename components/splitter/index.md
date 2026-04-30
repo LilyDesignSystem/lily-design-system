@@ -95,6 +95,11 @@ The consumer provides all CSS styling. The component renders with a `.splitter` 
 - **Designers**: Make the splitter handle at least 8px wide for easy grabbing, with a visible drag affordance such as dots or a grip icon. Change the cursor to `col-resize` or `row-resize` on hover.
 - **Developers**: Update `aria-valuenow` dynamically as the user drags. Implement arrow key handlers to adjust position in small increments, and Home/End to jump to min/max values.
 
+## Related components
+
+- `split-view` — a two-panel resizable layout container with a draggable divider between them
+- `resizable` — a container that the user can resize by dragging
+
 ## References
 
 - WAI-ARIA Window Splitter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/

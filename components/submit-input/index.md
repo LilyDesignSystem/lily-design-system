@@ -89,6 +89,13 @@ The consumer provides all CSS styling. The component renders with a `.submit-inp
 - **Designers**: Use a clear, action-oriented label (e.g., "Save changes", "Send message") rather than generic text like "Submit". Visually distinguish the submit button from other form controls.
 - **Developers**: Disable the submit button while the form is processing to prevent duplicate submissions. Place the SubmitInput at the end of the form for a logical tab order.
 
+## Related components
+
+- `reset-input` — a button input that resets a form to default values <input type="reset">
+- `button-input` — an input element of type button for form actions <input type="button">
+- `button` — a generic clickable button element
+- `form` — a form element for collecting and submitting user data
+
 ## References
 
 - MDN input type="submit": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/submit

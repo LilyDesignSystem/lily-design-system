@@ -98,6 +98,12 @@ The consumer provides all CSS styling. The component renders with a `.date-range
 - **Designers**: Clearly indicate which field is the start and which is the end, using visual labels or positioning. Ensure the date inputs are visually grouped so users understand they form a pair.
 - **Developers**: Validate that the end date is not before the start date. Use the `min` and `max` attributes on the underlying inputs via `restProps` to constrain selectable ranges.
 
+## Related components
+
+- `date-input` — an input for entering a date value <input type="date">
+- `calendar-range-picker` — a picker for selecting a date range on a calendar
+- `date-field` — a structured field for entering date components
+
 ## References
 
 - MDN input type="date": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date

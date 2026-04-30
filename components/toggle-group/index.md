@@ -88,6 +88,13 @@ The consumer provides all CSS styling. The component renders with a `.toggle-gro
 
 ToggleGroup contains ToggleButton children (or plain buttons with `aria-pressed`) following the Group/Item pattern. ToggleGroup provides the semantic grouping container, and each child ToggleButton manages its own pressed state independently.
 
+## Related components
+
+- `toggle-button` — a button that toggles between pressed and unpressed states
+- `checkbox-group` — a group component that manages a collection of checkboxes with shared state
+- `segment-group` — a group of mutually exclusive segment options
+- `button-group` — a wrapper that groups related buttons together
+
 ## References
 
 - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group

@@ -93,6 +93,11 @@ The consumer provides all CSS styling. The component renders with a `.editable-f
 
 EditableForm composes with Editable and form input components. EditableForm provides the `<form>` wrapper with submit/cancel lifecycle, while Editable can be used inside for individual inline-editable fields. Use Field, TextInput, and other input components as form content.
 
+## Related components
+
+- `editable` — an inline-editable text element that toggles between view and edit modes
+- `form` — a form element for collecting and submitting user data
+
 ## References
 
 - WAI-ARIA Form Role: https://www.w3.org/WAI/ARIA/apd/roles/form/

@@ -90,6 +90,12 @@ The consumer provides all CSS styling. The component renders with a `.error-summ
 - **Designers**: Place the error summary prominently at the top of the form with a distinct visual treatment (e.g., red border, error icon). Each error should be a clickable link that scrolls to the relevant field.
 - **Developers**: Call `element.focus()` on the error summary after form submission fails to direct the user's attention. Populate each list item with an anchor link targeting the input's ID.
 
+## Related components
+
+- `error-message` — an error message associated with a form field
+- `alert` — a status message for important information or feedback
+- `field` — a form field wrapper with label, input, and error message
+
 ## References
 
 - GOV.UK Error Summary: https://design-system.service.gov.uk/components/error-summary/

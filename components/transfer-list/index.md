@@ -95,6 +95,12 @@ flex layout with the actions column between the two lists.
 - **Designers**: Show counts and a search field above each list when the option set is large. Use clear directional icons on the move buttons.
 - **Developers**: Use a Listbox component in each slot for proper ARIA. Manage the source and target arrays in the consumer.
 
+## Related components
+
+- `listbox` — a list of selectable options with keyboard navigation
+- `select` — a dropdown select element for choosing one option
+- `checkbox-group` — a group component that manages a collection of checkboxes with shared state
+
 ## References
 
 - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/

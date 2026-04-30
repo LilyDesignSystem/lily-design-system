@@ -108,6 +108,12 @@ and `feature-card-description` classes as needed.
 - **Designers**: Keep the image meaningful and high-contrast. Match the heading hierarchy to surrounding content (most pages should use `<h3>` for cards inside an `<h2>` section).
 - **Developers**: Always provide `imageAlt` (use an empty string for decorative imagery). Render CTAs as children so the consumer can swap link/button styles per surface.
 
+## Related components
+
+- `card` — a grouped content container with header, body, and footer areas
+- `hero` — a large box or image with a title and description
+- `call-to-action` — a prominent prompt encouraging user action
+
 ## References
 
 - MDN `<article>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article

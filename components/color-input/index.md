@@ -66,6 +66,11 @@ The consumer provides all CSS styling. The component renders with a `.color-inpu
 - **Designers**: Ensure the color swatch is large enough to be easily identifiable and clickable. Consider showing the hex value alongside the swatch for precision.
 - **Developers**: The value is always a 7-character hex string (e.g., "#ff0000"). Use the native color picker for broad browser support, and pair with a visible label element when needed.
 
+## Related components
+
+- `color-picker` — a two-dimensional board for picking colors by hue and saturation
+- `color-picker-button` — a button showing a color swatch in a color picker
+
 ## References
 
 - MDN `<input type="color">`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color

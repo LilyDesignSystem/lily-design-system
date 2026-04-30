@@ -94,6 +94,13 @@ The consumer provides all CSS styling. The component renders with a `.card` clas
 
 Card supports header, body, and footer content areas through its children slot. Structure the card content with a heading for the header area, paragraph or descriptive content for the body, and action links or buttons for the footer. The `heading` prop provides a built-in heading element, or consumers can supply their own heading as part of the children content.
 
+## Related components
+
+- `feature-card` — a large content card with a prominent image positioned alongside or above the text
+- `product-card` — a specialized card for displaying a product with image, title, price, and actions
+- `panel` — a generic content panel with optional heading
+- `tile` — a grouping container that presents related content in a structured format, often as a single clickable area
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

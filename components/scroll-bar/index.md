@@ -100,6 +100,10 @@ The consumer provides all CSS styling. The component renders with a `.scroll-bar
 - **Designers**: Make the scrollbar thumb large enough to grab easily, and ensure sufficient contrast between the thumb and track for visibility.
 - **Developers**: Update `aria-valuenow` dynamically as the user scrolls, and implement keyboard event handlers for arrow keys, Page Up/Down, Home, and End.
 
+## Related components
+
+- `scroll-area` — a scrollable container with custom scrollbar support
+
 ## References
 
 - WAI-ARIA scrollbar role: https://www.w3.org/TR/wai-aria-1.2/#scrollbar

@@ -108,6 +108,12 @@ The consumer provides all CSS styling. The component renders with a `.clipboard-
 - **Designers**: Provide clear visual feedback when copying succeeds, such as a checkmark icon or "Copied!" text. Keep the button close to the content it copies.
 - **Developers**: Use the `data-copied` attribute (e.g., `[data-copied="true"]`) in CSS to show success state. Handle the `onerror` callback for browsers that restrict clipboard access.
 
+## Related components
+
+- `button` — a generic clickable button element
+- `icon-button` — a button containing only an icon with a required accessible label
+- `share-page` — a component for sharing the page on social media
+
 ## References
 
 - ClipboardCopyButton API: https://developer.mozilla.org/en-US/docs/Web/API/ClipboardCopyButton/writeText

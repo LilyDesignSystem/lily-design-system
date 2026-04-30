@@ -96,6 +96,12 @@ The consumer provides all CSS styling. The component renders with a `.collapsibl
 - **Designers**: Include a clear visual indicator (such as a chevron or plus/minus icon) showing whether the section is expanded or collapsed. Ensure the summary text clearly describes the hidden content.
 - **Developers**: Use the bindable `open` prop to programmatically control or observe the expanded state. The native `<details>` element handles all accessibility announcements automatically.
 
+## Related components
+
+- `details` — a disclosure widget that shows and hides content
+- `expander` — a control that expands to reveal more content
+- `accordion-list-item` — an accordion list item component
+
 ## References
 
 - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/

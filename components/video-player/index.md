@@ -111,6 +111,10 @@ The consumer provides all CSS styling. The component renders with a `.video-play
 - **Designers**: Consider providing a clear poster image that communicates the video content. Ensure custom controls have sufficient contrast and touch target sizes. Plan for the video's aspect ratio across breakpoints.
 - **Developers**: Always provide a descriptive `label` prop for screen reader users. When using autoplay, always set `muted` to comply with browser autoplay policies. Use IntersectionObserver with an appropriate threshold for play-in-view behavior.
 
+## Related components
+
+- `image` — an image element with alt text
+
 ## References
 
 - Reuters Graphics Video component

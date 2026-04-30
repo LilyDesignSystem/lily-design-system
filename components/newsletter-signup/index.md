@@ -113,6 +113,12 @@ for status messaging.
 - **Designers**: Use a clear, single-line layout where possible. Reserve vertical space for the success and error messages so the layout does not jump.
 - **Developers**: Always supply `label`, `emailLabel`, and `submitLabel` (required). Do not announce success with `role="alert"` — that is reserved for errors. Disable the submit while submitting to avoid duplicate calls.
 
+## Related components
+
+- `form` — a form element for collecting and submitting user data
+- `email-input` — an input for entering an email address <input type="email">
+- `call-to-action` — a prominent prompt encouraging user action
+
 ## References
 
 - WAI-ARIA `role="status"`: https://www.w3.org/TR/wai-aria-1.2/#status

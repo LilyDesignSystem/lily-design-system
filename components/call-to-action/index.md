@@ -103,6 +103,13 @@ The consumer provides all CSS styling. The component renders with a `.call-to-ac
 - **Designers**: Limit to one primary CTA per page or section to avoid diluting focus. Use size, color, and whitespace to make it the most visually prominent element.
 - **Developers**: The component automatically renders as `<a>` when `href` is provided and `<button>` otherwise. The `disabled` prop only applies in button mode since links cannot be natively disabled.
 
+## Related components
+
+- `button` — a generic clickable button element
+- `action-link` — a hyperlink styled as an action trigger
+- `hero` — a large box or image with a title and description
+- `feature-card` — a large content card with a prominent image positioned alongside or above the text
+
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

@@ -79,6 +79,11 @@ in addition to color.
 - **Designers**: Pair every color with a textual label and an icon shape if possible; never communicate state by color alone.
 - **Developers**: Localize the `label` prop. If multiple status lights update at once, consider de-duplicating announcements at the page level.
 
+## Related components
+
+- `status-tag` — a tag showing the current status of a task
+- `badge` — a small label for counts, statuses, or categories
+
 ## References
 
 - WAI-ARIA `status` role: https://www.w3.org/TR/wai-aria-1.2/#status

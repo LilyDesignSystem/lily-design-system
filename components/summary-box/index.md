@@ -97,6 +97,12 @@ control.
 - **Designers**: Place the summary box near the top of the page so scanning users see it first. Keep the heading short and the body to a few bullet points.
 - **Developers**: Always supply a meaningful `heading`. Use `label` only when the heading would not make sense as a standalone landmark name.
 
+## Related components
+
+- `panel` — a generic content panel with optional heading
+- `card` — a grouped content container with header, body, and footer areas
+- `info-state` — a composition of illustration, title, description, and action for empty, error, or info states
+
 ## References
 
 - US Web Design System Summary Box: https://designsystem.digital.gov/components/summary-box/

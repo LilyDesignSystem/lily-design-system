@@ -90,6 +90,12 @@ component to apply font-variant-numeric or letter-spacing for tabular dates.
 - **Designers**: Decide whether absolute ("April 27, 2026") or relative ("3 hours ago") formatting fits the context. Pass either via `format` or `children`.
 - **Developers**: Always pass an ISO 8601 value to `value` so the underlying `datetime` attribute remains machine-readable, even if your display text is relative or partial.
 
+## Related components
+
+- `date-time-local-input` — an input for entering a date and time without time zone <input type="datetime-local">
+- `date-range` — a display of a start and end date range
+- `review-date` — a display of a content review date
+
 ## References
 
 - MDN time element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time

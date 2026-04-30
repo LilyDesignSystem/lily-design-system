@@ -99,6 +99,11 @@ for direction-specific styles.
 - **Designers**: Specify gap in a consistent spacing scale. Use `align="center"` for icon-plus-text rows; `justify="space-between"` for headers with trailing actions.
 - **Developers**: Reach for FlexStack first for small one-dimensional groups. Use Grid for two-dimensional layouts.
 
+## Related components
+
+- `grid` — a CSS grid layout container with configurable columns and gap
+- `container` — a generic block-level content container
+
 ## References
 
 - MDN flexbox: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout

@@ -62,6 +62,11 @@ The consumer provides all CSS styling. The component renders with a `.code` clas
 - **Designers**: Use a monospace font to distinguish code from prose. A subtle background color helps code stand out within paragraphs.
 - **Developers**: Use Code for inline snippets and CodeBlock for multi-line code. No ARIA attributes are needed beyond the semantic `<code>` element.
 
+## Related components
+
+- `code-block` — a block of formatted code with optional line numbers and line highlighting
+- `kbd` — show keyboard shortcuts and key combinations in a styled inline element
+
 ## References
 
 - MDN `<code>` element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code

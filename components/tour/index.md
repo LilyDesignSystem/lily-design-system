@@ -89,6 +89,12 @@ The consumer provides all CSS styling. The component renders with a `.tour` clas
 
 Tour is the parent container in the Tour pattern: Tour > TourList > TourListItem.
 
+## Related components
+
+- `tour-list` — an ordered list of tour guide steps
+- `tour-list-item` — one step in a tour guide list
+- `coachmark` — an anchored popover that spotlights and explains a single feature
+
 ## References
 
 - WAI-ARIA Practices: https://www.w3.org/WAI/ARIA/apg/

@@ -66,6 +66,11 @@ The consumer provides all CSS styling. The component renders with a `.qr-code` c
 - **Designers**: Ensure the QR code has sufficient size and contrast for reliable scanning, and include a short text label or caption explaining what scanning will do.
 - **Developers**: Use a proven QR generation library for the children content, and set the `aria-label` to describe the action (e.g., "Scan to visit example.com") rather than the raw encoded data.
 
+## Related components
+
+- `image` — an image element with alt text
+- `icon` — a container for displaying an icon
+
 ## References
 
 - WAI-ARIA img Role: https://www.w3.org/TR/wai-aria-1.2/#img

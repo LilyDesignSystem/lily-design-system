@@ -103,6 +103,13 @@ The consumer provides all CSS styling. The component renders with a `.navigation
 - **Designers**: Highlight the current page link in the navigation to orient users, and ensure the navigation is responsive across screen sizes.
 - **Developers**: Use distinct `aria-label` values when multiple `<nav>` elements exist on the same page (e.g., "Main navigation" vs. "Footer navigation") so screen reader users can distinguish them.
 
+## Related components
+
+- `sidebar` — a side panel for navigation or supplementary content
+- `menu-bar` — a horizontal bar of menu triggers
+- `hamburger-menu` — a toggle button that opens a mobile navigation menu
+- `tree-nav` — a hierarchical navigation with expandable branches
+
 ## References
 
 - WAI-ARIA Navigation Landmark: https://www.w3.org/TR/wai-aria-1.2/#navigation

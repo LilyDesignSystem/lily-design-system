@@ -97,6 +97,13 @@ The consumer provides all CSS styling. The component renders with a `.select` cl
 - **Designers**: Include a placeholder option (e.g., "Select a country...") as the first item to guide users, and avoid overly long option lists that are hard to scan.
 - **Developers**: Set the placeholder option's `value` to an empty string and combine with the `required` prop to enforce selection, ensuring form validation works correctly.
 
+## Related components
+
+- `select-with-extras` — a select dropdown with additional features like search or groups
+- `option` — an option element within a select dropdown
+- `combobox` — a text input combined with a dropdown list for filtering options
+- `theme-select` — a select dropdown for choosing a theme
+
 ## References
 
 - MDN select element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select

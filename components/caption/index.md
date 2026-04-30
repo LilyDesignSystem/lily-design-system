@@ -94,6 +94,10 @@ The consumer provides all CSS styling. The component renders with a `.caption` c
 - **Designers**: Place captions directly below the media element. Use a smaller font size and muted color to establish visual hierarchy. Keep captions concise.
 - **Developers**: Always place this component inside a `<figure>` element for proper semantic association. Use the `id` attribute if you need to reference the caption via `aria-describedby` from other elements.
 
+## Related components
+
+- `figure` — a self-contained figure with optional caption
+
 ## References
 
 - [MDN caption element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption)

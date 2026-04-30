@@ -91,6 +91,12 @@ The consumer provides all CSS styling. The component renders with a `.panel` cla
 - **Designers**: Keep panel labels concise and unique on each page so users can quickly distinguish between sections in a landmark list.
 - **Developers**: Ensure each Panel on a page has a distinct `label` value; duplicate region names make landmark navigation confusing for screen reader users.
 
+## Related components
+
+- `card` — a grouped content container with header, body, and footer areas
+- `summary-box` — a boxed callout highlighting key takeaways or next steps from a longer page
+- `info-state` — a composition of illustration, title, description, and action for empty, error, or info states
+
 ## References
 
 - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region

@@ -75,6 +75,13 @@ The consumer provides all CSS styling. The component renders with a `.action-lin
 - **Designers**: Make action links visually distinct from standard inline links using size, weight, or an arrow icon to signal their importance as key navigational steps.
 - **Developers**: Use the `label` prop to provide expanded screen reader text when the visible link text is ambiguous, such as providing "Find a GP near your postcode" for a link that just reads "Find a GP".
 
+## Related components
+
+- `call-to-action` — a prominent prompt encouraging user action
+- `back-link` — a navigation link to return to a previous page
+- `go-to-top` — a link that returns users to the top of a long page
+- `skip-link` — a hidden link for keyboard users to skip to main content
+
 ## References
 
 - Inspired by NHS England action link pattern

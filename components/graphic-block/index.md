@@ -98,6 +98,10 @@ The consumer provides all CSS styling. The component renders with a `.graphic-bl
 - **Designers**: Keep titles concise and descriptive. Place source attribution in the notes area. Ensure sufficient contrast between graphic content and background.
 - **Developers**: Always provide a descriptive `label` prop that conveys the key insight or data trend shown in the graphic. The label should describe what the graphic shows, not just its type.
 
+## Related components
+
+- `figure` — a self-contained figure with optional caption
+
 ## References
 
 - Reuters Graphics GraphicBlock component

@@ -87,6 +87,12 @@ The consumer provides all CSS styling. The component renders with a `.scroller-b
 - **Designers**: Plan step content with clear visual transitions in mind. Each step should represent a meaningful narrative beat. Consider how the viewport offset affects the reading experience.
 - **Developers**: Always provide a descriptive `aria-label` for the scrollable region. Use the bindable `index` and `progress` values to drive visual changes in sibling or parent components. Choose an appropriate `offset` value based on content type -- 0.5 (center) works well for most cases.
 
+## Related components
+
+- `scroller` — see components.tsv
+- `scroller-video` — see components.tsv
+- `visible` — see components.tsv
+
 ## References
 
 - Reuters Graphics ScrollerBase

@@ -100,6 +100,13 @@ The consumer provides all CSS styling. The component renders with a `.hamburger-
 - **Designers**: Use a universally recognized three-line (hamburger) icon. Animate the icon to an X when open to indicate the toggle state.
 - **Developers**: Use two-way binding on `open` to synchronize menu state. Ensure the navigation content receives focus when opened for keyboard accessibility.
 
+## Related components
+
+- `menu-bar` — a horizontal bar of menu triggers
+- `navigation-menu` — a site-wide navigation menu with links
+- `drawer` — a panel that slides in from the edge of the screen
+- `menu` — a list of actions or options triggered by a button
+
 ## References
 
 - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/

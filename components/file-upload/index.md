@@ -83,6 +83,12 @@ The consumer provides all CSS styling. The component renders with a `.file-uploa
 - **Designers**: Style the upload button prominently and display the file count or file names near the button after selection. Include accepted file type hints in nearby text.
 - **Developers**: Use the `onchange` callback to receive the `FileList` for processing. The `data-file-count` attribute on the status span can be used for conditional CSS styling or testing.
 
+## Related components
+
+- `file-input` — an input for selecting files from the file system <input type="file">
+- `file-manager` — a file browser for navigating and managing files
+- `download-button` — a download link styled as a button, with optional file size and format metadata
+
 ## References
 
 - MDN `<input type="file">`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file

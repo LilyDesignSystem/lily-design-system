@@ -90,6 +90,13 @@ The consumer provides all CSS styling. The component renders with a `.fieldset` 
 
 Fieldset groups multiple Field components together. Each Field wraps a label and input, and Fieldset provides the semantic group boundary with a legend. Use Fieldset inside a Form for well-structured form layouts.
 
+## Related components
+
+- `form` — a form element for collecting and submitting user data
+- `field` — a form field wrapper with label, input, and error message
+- `checkbox-group` — a group component that manages a collection of checkboxes with shared state
+- `radio-group` — a group of radio buttons for selecting one option
+
 ## References
 
 - HTML Specification fieldset: https://html.spec.whatwg.org/multipage/form-elements.html#the-fieldset-element

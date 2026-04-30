@@ -97,6 +97,12 @@ with a callout arrow if appropriate.
 - **Designers**: Place the dialog near the trigger with a clear callout. Keep `title` short and the description specific.
 - **Developers**: Move focus to the cancel button (or confirm, depending on policy) when the dialog opens. Restore focus to the trigger when it closes.
 
+## Related components
+
+- `dialog` — a modal or non-modal dialog window
+- `alert-dialog` — a modal dialog for urgent messages requiring user acknowledgment
+- `popover` — a floating content box anchored to a trigger element
+
 ## References
 
 - WAI-ARIA Alert Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/

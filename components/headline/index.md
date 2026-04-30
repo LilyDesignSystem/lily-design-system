@@ -88,6 +88,11 @@ The consumer provides all CSS styling. The component renders with a `.headline` 
 - **Designers**: Keep headlines concise and scannable. Ensure subtitle text complements rather than repeats the headline. Consider responsive typography for different viewport sizes.
 - **Developers**: Always use the appropriate heading level for the page hierarchy. Do not skip heading levels. Use the Byline component within the byline slot for consistent author attribution.
 
+## Related components
+
+- `hero` — a large box or image with a title and description
+- `section-heading` — a styled heading introducing a major content section, with optional eyebrow and subtitle
+
 ## References
 
 - [MDN HTML elements reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)

@@ -109,6 +109,13 @@ The consumer provides all CSS styling. The component renders with a `.popover` c
 - **Designers**: Position popovers to avoid obscuring the trigger element, and ensure the popover has a clear visual boundary (border or shadow) to distinguish it from surrounding content.
 - **Developers**: Implement focus trapping within the popover when open, and close it on Escape key press to follow the WAI-ARIA dialog pattern.
 
+## Related components
+
+- `popup` — a temporary overlay that appears above page content
+- `hover-card` — a card that appears on hover over a trigger element
+- `tooltip` — a small popup showing descriptive text on hover or focus
+- `popconfirm-dialog` — a popover dialog with confirm and cancel buttons
+
 ## References
 
 - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog/

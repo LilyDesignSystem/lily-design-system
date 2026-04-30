@@ -89,6 +89,11 @@ The consumer provides all CSS styling. The component renders with a `.body-text`
 - **Designers**: Use appropriate line height and measure (characters per line) for readability. Ensure sufficient contrast between text and background. Consider responsive font sizing.
 - **Developers**: Use semantic HTML elements within BodyText (paragraphs, lists, blockquotes). Do not nest BodyText components. Pair with ContentBlock for width constraint.
 
+## Related components
+
+- `blockquote` — a block-level quotation with optional source citation
+- `section-heading` — a styled heading introducing a major content section, with optional eyebrow and subtitle
+
 ## References
 
 - [MDN HTML elements reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)

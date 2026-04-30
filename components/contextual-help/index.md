@@ -89,6 +89,12 @@ indicator on the trigger and ensure the panel is reachable by keyboard.
 - **Designers**: Use a recognizable help affordance (e.g., a question mark in a circle); do not rely on color alone.
 - **Developers**: Generate panel ids server-side or with `useId` to remain hydration-stable.
 
+## Related components
+
+- `tooltip` — a small popup showing descriptive text on hover or focus
+- `popover` — a floating content box anchored to a trigger element
+- `details` — a disclosure widget that shows and hides content
+
 ## References
 
 - WAI-ARIA Dialog: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/

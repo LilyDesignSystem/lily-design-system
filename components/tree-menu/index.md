@@ -101,6 +101,15 @@ The consumer provides all CSS styling. The component renders with a `.tree-menu`
 - **Designers**: Use indentation and visual connectors (lines or icons) to clearly show the hierarchy depth. Provide expand/collapse indicators for branch nodes.
 - **Developers**: Ensure all tree items have `role="treeitem"` and `tabindex="-1"` for keyboard focusability. Use nested `<ul role="group">` for subtrees.
 
+## Related components
+
+- `tree-nav` — a hierarchical navigation with expandable branches
+- `tree-list` — a hierarchical list with nested expandable items
+- `tree-list-item` — one item in a tree navigation list
+- `tree-link` — one link in the tree
+- `menu` — a list of actions or options triggered by a button
+- `navigation-menu` — a site-wide navigation menu with links
+
 ## References
 
 - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/

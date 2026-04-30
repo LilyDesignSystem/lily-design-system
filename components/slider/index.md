@@ -92,6 +92,13 @@ The consumer provides all CSS styling. The component renders with a `.slider` cl
 - **Designers**: Display the current value near the slider thumb or in a nearby label so users can see the exact selection. Use a track fill color to indicate the selected portion of the range.
 - **Developers**: Use the `step` prop to constrain values to meaningful increments. Consider debouncing the bound value if the slider drives expensive operations like API calls.
 
+## Related components
+
+- `range-input` — a slider input for selecting a value within a range <input type="range">
+- `slider-button` — a button with a slider that the user needs to slide to confirm
+- `dial` — a rotary dial control for selecting a value
+- `angle-slider-range-input` — a range input for selecting an angle in degrees
+
 ## References
 
 - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/

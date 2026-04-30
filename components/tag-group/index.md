@@ -76,6 +76,11 @@ The consumer provides all CSS styling. The component renders with a `.tag-group`
 
 TagGroup uses the Group/Item composition pattern. Place Tag components as children inside TagGroup. The TagGroup provides the `role="group"` container with an accessible label, while each Tag provides an individual labeled element within the group.
 
+## Related components
+
+- `tag` — a keyword label for categorizing content
+- `tag-input` — an input for adding and removing tags
+
 ## References
 
 - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
