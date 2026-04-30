@@ -117,7 +117,7 @@ Group by category for consistency:
 | Code | code, code-block | 2 |
 | Color | color-input, color-picker, color-picker-button | 3 |
 | Data Table | data-table, data-table-head, data-table-body, data-table-foot, data-table-th, data-table-row, data-table-td, data-filter-form | 8 |
-| Date & Time | date-field, date-range, date-time-now-input, datetime-local-input, time-input, time-picker-input, month-input, week-input | 8 |
+| Date & Time | date-field, date-range, date-time-now-input, date-time-local-input, date-time-view, time-input, time-picker-input, month-input, week-input | 9 |
 | Drawer & Sheet | drawer, slide-out-drawer, sheet, floating-panel | 4 |
 | Editable | editable, editable-form | 2 |
 | Email & Tel | email-input, email-link, tel-input, tel-link | 4 |

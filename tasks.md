@@ -202,7 +202,7 @@ Write original "When to Use" and "When Not to Use" guidance for all non-NHS comp
 - [x] date-field
 - [x] date-range
 - [x] date-time-now-input
-- [x] datetime-local-input
+- [x] date-time-local-input
 - [x] time-input
 - [x] time-picker-input
 - [x] month-input
