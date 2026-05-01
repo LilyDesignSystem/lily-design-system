@@ -124,7 +124,7 @@ Group by category for consistency:
 | Emoji | emoji, emoji-character-picker | 2 |
 | File | file-dialog, file-input, file-manager, image-file-input | 4 |
 | Form | form, field, label, input, hidden-input, reset-input, submit-input | 7 |
-| Gantt | gantt-table, gantt-table-head, gantt-table-body, gantt-table-foot, gantt-table-th, gantt-table-row, gantt-table-td | 7 |
+| Gantt | gantt-table, gantt-table-thead, gantt-table-tbody, gantt-table-tfoot, gantt-table-th, gantt-table-tr, gantt-table-td | 7 |
 | Grail Layout | grail-layout, grail-layout-top-header, grail-layout-left-aside, grail-layout-center-main, grail-layout-right-aside, grail-layout-bottom-footer | 6 |
 | Healthcare IDs | espana-tarjeta-sanitaria-individual-input/view, france-numero-d-identification-au-repertoire-input/view, ireland-individual-health-identifier-input/view, northern-ireland-health-and-care-number-input/view, united-kingdom-national-health-service-number-input/view, united-states-social-security-number-input/view | 12 |
 | Interactive Controls | switch-button, toggle-button, toggle-group, slider, slider-button, dial, dial-group, range-input, angle-slider-range-input | 9 |

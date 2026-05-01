@@ -54,7 +54,7 @@
 <template>
     <!-- GanttTableTR.vue -->
     <tr
-        class="gantt-table-row"
+        class="gantt-table-tr"
     >
         <slot />
     </tr>

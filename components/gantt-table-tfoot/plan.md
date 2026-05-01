@@ -7,7 +7,7 @@ Implement the Gantt Table Foot component: a Gantt chart table interactive grid t
 ## HTML Tag and CSS Class
 
 - HTML tag: <tfoot>
-- CSS class: .gantt-table-foot
+- CSS class: .gantt-table-tfoot
 
 ## Dependencies
 
@@ -15,7 +15,7 @@ Implement the Gantt Table Foot component: a Gantt chart table interactive grid t
 
 ## Approach
 
-1. Use semantic <tfoot> element with class="gantt-table-foot"
+1. Use semantic <tfoot> element with class="gantt-table-tfoot"
 2. Add ARIA attributes for accessibility
 3. Implement in HTML headless (plain HTML + vanilla JS)
 4. Implement in Svelte headless (Svelte 5 + runes)
@@ -24,7 +24,7 @@ Implement the Gantt Table Foot component: a Gantt chart table interactive grid t
 
 ## Acceptance Criteria
 
-- [ ] Renders <tfoot> with class="gantt-table-foot"
+- [ ] Renders <tfoot> with class="gantt-table-tfoot"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 - [ ] Tests pass in all implementations

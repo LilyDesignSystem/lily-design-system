@@ -65,13 +65,13 @@ This headless component provides a `<tbody>` element with implicit `rowgroup` ro
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.gantt-table-body` class for targeting. No default styles are included — this is a fully headless component.
+The consumer provides all CSS styling. The component renders with a `.gantt-table-tbody` class for targeting. No default styles are included — this is a fully headless component.
 
 
 ## Testing
 
 
-- Verify the component renders a `<tbody>` element with class `gantt-table-body`
+- Verify the component renders a `<tbody>` element with class `gantt-table-tbody`
 - Verify pass-through attributes are applied
 
 ## Advice

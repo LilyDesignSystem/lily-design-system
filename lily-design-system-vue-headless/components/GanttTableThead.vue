@@ -35,7 +35,7 @@
 <template>
     <!-- GanttTableHead.vue -->
     <thead
-        class="gantt-table-head"
+        class="gantt-table-thead"
     >
         <slot />
     </thead>

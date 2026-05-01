@@ -4,11 +4,11 @@ A single row within a `GanttTable` grid. Renders a native `<tr>` element contain
 
 ## What it is
 
-A Svelte 5 structural wrapper that renders `<tr class="gantt-table-row ...">{children}</tr>`. It carries no internal state, no explicit ARIA role (the `<tr>` has an implicit `row` role inside a grid), and no styling.
+A Svelte 5 structural wrapper that renders `<tr class="gantt-table-tr ...">{children}</tr>`. It carries no internal state, no explicit ARIA role (the `<tr>` has an implicit `row` role inside a grid), and no styling.
 
 ## What it does
 
-- Renders `<tr class="gantt-table-row ...">` around the `children` snippet.
+- Renders `<tr class="gantt-table-tr ...">` around the `children` snippet.
 - Spreads any additional HTML attributes onto the `<tr>`.
 
 ## When to use it
@@ -28,7 +28,7 @@ Place inside `GanttTableHead`, `GanttTableBody`, or `GanttTableTfoot`. Add cells
 
 ## Props
 
-- `class` (string, optional) - CSS class appended after the base `gantt-table-row` class.
+- `class` (string, optional) - CSS class appended after the base `gantt-table-tr` class.
 - `children` (Snippet, required) - Cells (`GanttTableTD` and/or native `<th>`).
 - `...restProps` - Additional HTML attributes spread onto the `<tr>`.
 

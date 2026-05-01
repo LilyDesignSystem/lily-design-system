@@ -4,11 +4,11 @@ The footer section of a `GanttTable`, rendered as a native `<tfoot>` element. It
 
 ## What it is
 
-A Svelte 5 structural wrapper that renders `<tfoot class="gantt-table-foot ...">{children}</tfoot>`. It carries no internal state, no ARIA attributes, and no styling.
+A Svelte 5 structural wrapper that renders `<tfoot class="gantt-table-tfoot ...">{children}</tfoot>`. It carries no internal state, no ARIA attributes, and no styling.
 
 ## What it does
 
-- Renders `<tfoot class="gantt-table-foot ...">` around the `children` snippet.
+- Renders `<tfoot class="gantt-table-tfoot ...">` around the `children` snippet.
 - Spreads any additional HTML attributes onto the `<tfoot>`.
 
 ## When to use it
@@ -28,7 +28,7 @@ Place inside a `GanttTable` after `GanttTableBody` and populate with `GanttTable
 
 ## Props
 
-- `class` (string, optional) - CSS class appended after the base `gantt-table-foot` class.
+- `class` (string, optional) - CSS class appended after the base `gantt-table-tfoot` class.
 - `children` (Snippet, required) - `GanttTableTR` elements with footer cells.
 - `...restProps` - Additional HTML attributes spread onto the `<tfoot>`.
 

@@ -46,7 +46,7 @@
 
 <!-- GanttTableBody.svelte -->
 <tbody
-    class={`gantt-table-body ${className}`}
+    class={`gantt-table-tbody ${className}`}
     {...restProps}
 >
     {@render children()}

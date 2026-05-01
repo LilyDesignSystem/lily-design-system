@@ -7,7 +7,7 @@ Implement the Gantt Table Row component: a Gantt chart table interactive grid ro
 ## HTML Tag and CSS Class
 
 - HTML tag: <tr>
-- CSS class: .gantt-table-row
+- CSS class: .gantt-table-tr
 
 ## Dependencies
 
@@ -15,7 +15,7 @@ Implement the Gantt Table Row component: a Gantt chart table interactive grid ro
 
 ## Approach
 
-1. Use semantic <tr> element with class="gantt-table-row"
+1. Use semantic <tr> element with class="gantt-table-tr"
 2. Add ARIA attributes for accessibility
 3. Implement in HTML headless (plain HTML + vanilla JS)
 4. Implement in Svelte headless (Svelte 5 + runes)
@@ -24,7 +24,7 @@ Implement the Gantt Table Row component: a Gantt chart table interactive grid ro
 
 ## Acceptance Criteria
 
-- [ ] Renders <tr> with class="gantt-table-row"
+- [ ] Renders <tr> with class="gantt-table-tr"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 - [ ] Tests pass in all implementations

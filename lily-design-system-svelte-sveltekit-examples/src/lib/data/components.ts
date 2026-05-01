@@ -568,19 +568,19 @@ export const components = [
       "a Gantt chart table interactive grid for planning schedule visualization",
   },
   {
-    slug: "gantt-table-head",
+    slug: "gantt-table-thead",
     name: "GanttTableHead",
     description:
       "a Gantt chart table interactive grid thead for planning schedule visualization",
   },
   {
-    slug: "gantt-table-body",
+    slug: "gantt-table-tbody",
     name: "GanttTableBody",
     description:
       "a Gantt chart table interactive grid tbody for planning schedule visualization",
   },
   {
-    slug: "gantt-table-foot",
+    slug: "gantt-table-tfoot",
     name: "GanttTableTfoot",
     description:
       "a Gantt chart table interactive grid tfoot for planning schedule visualization",
@@ -592,7 +592,7 @@ export const components = [
       "a Gantt chart table interactive grid column for planning schedule visualization",
   },
   {
-    slug: "gantt-table-row",
+    slug: "gantt-table-tr",
     name: "GanttTableTR",
     description:
       "a Gantt chart table interactive grid row for planning schedule visualization",

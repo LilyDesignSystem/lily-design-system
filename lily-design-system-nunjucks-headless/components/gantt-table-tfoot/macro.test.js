@@ -16,9 +16,9 @@ describe("gantt-table-tfoot", () => {
     const { document } = render(
       "gantt-table-tfoot",
       {},
-      '<tr class="gantt-table-row"><td>sum</td></tr>',
+      '<tr class="gantt-table-tr"><td>sum</td></tr>',
     );
-    expect(document.querySelector("tfoot tr.gantt-table-row")).toBeTruthy();
+    expect(document.querySelector("tfoot tr.gantt-table-tr")).toBeTruthy();
   });
 
   it("contains no <style> or <script> tags", () => {

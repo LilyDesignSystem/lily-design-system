@@ -59,13 +59,13 @@ This headless component provides a `<thead>` element with implicit `rowgroup` ro
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.gantt-table-head` class for targeting. No default styles are included — this is a fully headless component.
+The consumer provides all CSS styling. The component renders with a `.gantt-table-thead` class for targeting. No default styles are included — this is a fully headless component.
 
 
 ## Testing
 
 
-- Verify the component renders a `<thead>` element with class `gantt-table-head`
+- Verify the component renders a `<thead>` element with class `gantt-table-thead`
 - Verify pass-through attributes are applied
 
 ## Advice

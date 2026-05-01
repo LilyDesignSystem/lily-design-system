@@ -79,10 +79,10 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 ## Related components
 
 - `gantt-table` — a Gantt chart table interactive grid for planning schedule visualization <table>
-- `gantt-table-body` — a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
-- `gantt-table-foot` — a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
-- `gantt-table-head` — a Gantt chart table interactive grid thead for planning schedule visualization <thead>
-- `gantt-table-row` — a Gantt chart table interactive grid row for planning schedule visualization <tr>
+- `gantt-table-tbody` — a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
+- `gantt-table-tfoot` — a Gantt chart table interactive grid tfoot for planning schedule visualization <tfoot>
+- `gantt-table-thead` — a Gantt chart table interactive grid thead for planning schedule visualization <thead>
+- `gantt-table-tr` — a Gantt chart table interactive grid row for planning schedule visualization <tr>
 - `gantt-table-th` — a Gantt chart table interactive grid header cell for planning schedule visualization <th>
 - `table` — a table with rows and columns <table>
 

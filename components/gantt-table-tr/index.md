@@ -62,13 +62,13 @@ This headless component provides a `<tr>` element with implicit `row` role for i
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.gantt-table-row` class for targeting. No default styles are included — this is a fully headless component.
+The consumer provides all CSS styling. The component renders with a `.gantt-table-tr` class for targeting. No default styles are included — this is a fully headless component.
 
 
 ## Testing
 
 
-- Verify the component renders a `<tr>` element with class `gantt-table-row`
+- Verify the component renders a `<tr>` element with class `gantt-table-tr`
 - Verify pass-through attributes are applied
 
 ## Advice

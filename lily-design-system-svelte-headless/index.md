@@ -132,11 +132,11 @@ A headless Svelte 5 component library with 414 components. All components are he
 - **form**: a form element for collecting and submitting user data
 - **gantt-table**:
   - **gantt-table**: a Gantt chart table interactive grid for planning schedule visualization
-  - **gantt-table-head**: a Gantt chart table interactive grid thead for planning schedule visualization
-  - **gantt-table-body**: a Gantt chart table interactive grid tbody for planning schedule visualization
-  - **gantt-table-foot**: a Gantt chart table interactive grid tfoot for planning schedule visualization
+  - **gantt-table-thead**: a Gantt chart table interactive grid thead for planning schedule visualization
+  - **gantt-table-tbody**: a Gantt chart table interactive grid tbody for planning schedule visualization
+  - **gantt-table-tfoot**: a Gantt chart table interactive grid tfoot for planning schedule visualization
   - **gantt-table-th**: a Gantt chart table interactive grid column for planning schedule visualization
-  - **gantt-table-row**: a Gantt chart table interactive grid row for planning schedule visualization
+  - **gantt-table-tr**: a Gantt chart table interactive grid row for planning schedule visualization
   - **gantt-table-td**: a Gantt chart table interactive grid data cell for planning schedule visualization
 - **hamburger-menu**: a toggle button that opens a mobile navigation menu
 - **header**: a page or section header area

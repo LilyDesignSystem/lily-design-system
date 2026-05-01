@@ -4,11 +4,11 @@ The body section of a `GanttTable`, rendered as a native `<tbody>` element. It c
 
 ## What it is
 
-A Svelte 5 structural wrapper that renders `<tbody class="gantt-table-body ...">{children}</tbody>`. It carries no internal state, no ARIA attributes, and no styling.
+A Svelte 5 structural wrapper that renders `<tbody class="gantt-table-tbody ...">{children}</tbody>`. It carries no internal state, no ARIA attributes, and no styling.
 
 ## What it does
 
-- Renders `<tbody class="gantt-table-body ...">` around the `children` snippet.
+- Renders `<tbody class="gantt-table-tbody ...">` around the `children` snippet.
 - Spreads any additional HTML attributes onto the `<tbody>`.
 
 ## When to use it
@@ -27,7 +27,7 @@ Place inside a `GanttTable` and fill with `GanttTableTR` elements.
 
 ## Props
 
-- `class` (string, optional) - CSS class appended after the base `gantt-table-body` class.
+- `class` (string, optional) - CSS class appended after the base `gantt-table-tbody` class.
 - `children` (Snippet, required) - `GanttTableTR` elements with task data cells.
 - `...restProps` - Additional HTML attributes spread onto the `<tbody>`.
 

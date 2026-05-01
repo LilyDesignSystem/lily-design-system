@@ -44,7 +44,7 @@
 
 <!-- GanttTableHead.svelte -->
 <thead
-    class={`gantt-table-head ${className}`}
+    class={`gantt-table-thead ${className}`}
     {...restProps}
 >
     {@render children()}

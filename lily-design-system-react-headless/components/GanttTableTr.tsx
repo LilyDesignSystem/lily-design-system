@@ -63,7 +63,7 @@ export default function GanttTableTR({
 }: GanttTableTrProps) {
     return (
         <tr
-        className={`gantt-table-row ${className}`}
+        className={`gantt-table-tr ${className}`}
         {...restProps}
         >
         {children}

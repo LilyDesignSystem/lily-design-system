@@ -63,7 +63,7 @@
 
 <!-- GanttTableTR.svelte -->
 <tr
-    class={`gantt-table-row ${className}`}
+    class={`gantt-table-tr ${className}`}
     {...restProps}
 >
     {@render children()}

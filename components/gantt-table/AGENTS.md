@@ -12,7 +12,7 @@
 ## Composition
 
 - Pattern: Table/Head/Body/Foot/Col/Row/Data
-- Children: gantt-table-head, gantt-table-body, gantt-table-foot, gantt-table-th, gantt-table-row, gantt-table-td
+- Children: gantt-table-thead, gantt-table-tbody, gantt-table-tfoot, gantt-table-th, gantt-table-tr, gantt-table-td
 
 ## Key Behaviors
 

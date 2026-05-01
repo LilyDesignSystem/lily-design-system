@@ -46,7 +46,7 @@ export default function GanttTableBody({
 }: GanttTableTbodyProps) {
     return (
         <tbody
-        className={`gantt-table-body ${className}`}
+        className={`gantt-table-tbody ${className}`}
         {...restProps}
         >
         {children}

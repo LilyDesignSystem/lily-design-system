@@ -37,7 +37,7 @@
 <template>
     <!-- GanttTableBody.vue -->
     <tbody
-        class="gantt-table-body"
+        class="gantt-table-tbody"
     >
         <slot />
     </tbody>

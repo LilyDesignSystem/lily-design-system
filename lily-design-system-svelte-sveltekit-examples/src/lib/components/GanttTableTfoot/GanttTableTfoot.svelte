@@ -45,7 +45,7 @@
 
 <!-- GanttTableTfoot.svelte -->
 <tfoot
-    class={`gantt-table-foot ${className}`}
+    class={`gantt-table-tfoot ${className}`}
     {...restProps}
 >
     {@render children()}

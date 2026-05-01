@@ -2,11 +2,11 @@
 
 ## Metadata
 
-- Component: gantt-table-head
+- Component: gantt-table-thead
 - PascalCase: GanttTableHead
 - Description: a Gantt chart table interactive grid thead for planning schedule visualization <thead>
 - HTML tag: <thead>
-- CSS class: .gantt-table-head
+- CSS class: .gantt-table-thead
 - Interactive: no
 
 ## Composition
@@ -37,13 +37,13 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <thead> element with class="gantt-table-head"
+- [ ] Renders <thead> element with class="gantt-table-thead"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
 ## References
 
 - Documentation: index.md
-- CSS class: .gantt-table-head in css-style-sheet-template.css
-- HTML headless: lily-design-system-html-headless/components/gantt-table-head.html
+- CSS class: .gantt-table-thead in css-style-sheet-template.css
+- HTML headless: lily-design-system-html-headless/components/gantt-table-thead.html
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/

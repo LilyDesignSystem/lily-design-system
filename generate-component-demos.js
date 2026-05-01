@@ -158,7 +158,7 @@ const explicitDemos = {
   'table': '<table class="table" aria-label="Table"><thead class="table-head"><tr class="table-row"><th class="table-th">Name</th><th class="table-th">Value</th></tr></thead><tbody class="table-body"><tr class="table-row"><td class="table-td">Item 1</td><td class="table-td">100</td></tr></tbody></table>',
   'data-table': '<table class="data-table" aria-label="Data table"><thead class="data-table-head"><tr class="data-table-row"><th class="data-table-th">Name</th><th class="data-table-th">Value</th></tr></thead><tbody class="data-table-body"><tr class="data-table-row"><td class="data-table-td">Item 1</td><td class="data-table-td">100</td></tr></tbody></table>',
   'calendar-table': '<table class="calendar-table" aria-label="Calendar"><thead class="calendar-table-head"><tr class="calendar-table-row"><th class="calendar-table-th">Mon</th><th class="calendar-table-th">Tue</th><th class="calendar-table-th">Wed</th></tr></thead><tbody class="calendar-table-body"><tr class="calendar-table-row"><td class="calendar-table-td">1</td><td class="calendar-table-td">2</td><td class="calendar-table-td">3</td></tr></tbody></table>',
-  'gantt-table': '<table class="gantt-table" aria-label="Gantt chart"><thead class="gantt-table-head"><tr class="gantt-table-row"><th class="gantt-table-th">Task</th><th class="gantt-table-th">Timeline</th></tr></thead><tbody class="gantt-table-body"><tr class="gantt-table-row"><td class="gantt-table-td">Design</td><td class="gantt-table-td">Jan-Feb</td></tr></tbody></table>',
+  'gantt-table': '<table class="gantt-table" aria-label="Gantt chart"><thead class="gantt-table-thead"><tr class="gantt-table-tr"><th class="gantt-table-th">Task</th><th class="gantt-table-th">Timeline</th></tr></thead><tbody class="gantt-table-tbody"><tr class="gantt-table-tr"><td class="gantt-table-td">Design</td><td class="gantt-table-td">Jan-Feb</td></tr></tbody></table>',
   'kanban-table': '<table class="kanban-table" aria-label="Kanban board"><thead class="kanban-table-head"><tr class="kanban-table-row"><th class="kanban-table-th">To Do</th><th class="kanban-table-th">In Progress</th><th class="kanban-table-th">Done</th></tr></thead><tbody class="kanban-table-body"><tr class="kanban-table-row"><td class="kanban-table-td">Task 1</td><td class="kanban-table-td">Task 2</td><td class="kanban-table-td">Task 3</td></tr></tbody></table>',
 
   // Table sub-elements
@@ -180,10 +180,10 @@ const explicitDemos = {
   'calendar-table-row': '<tr class="calendar-table-row"><td class="calendar-table-td">1</td><td class="calendar-table-td">2</td></tr>',
   'calendar-table-th': '<th class="calendar-table-th">Day</th>',
   'calendar-table-td': '<td class="calendar-table-td">15</td>',
-  'gantt-table-head': '<thead class="gantt-table-head"><tr class="gantt-table-row"><th class="gantt-table-th">Task</th></tr></thead>',
-  'gantt-table-body': '<tbody class="gantt-table-body"><tr class="gantt-table-row"><td class="gantt-table-td">Design</td></tr></tbody>',
-  'gantt-table-foot': '<tfoot class="gantt-table-foot"><tr class="gantt-table-row"><td class="gantt-table-td">Summary</td></tr></tfoot>',
-  'gantt-table-row': '<tr class="gantt-table-row"><td class="gantt-table-td">Task</td><td class="gantt-table-td">Timeline</td></tr>',
+  'gantt-table-thead': '<thead class="gantt-table-thead"><tr class="gantt-table-tr"><th class="gantt-table-th">Task</th></tr></thead>',
+  'gantt-table-tbody': '<tbody class="gantt-table-tbody"><tr class="gantt-table-tr"><td class="gantt-table-td">Design</td></tr></tbody>',
+  'gantt-table-tfoot': '<tfoot class="gantt-table-tfoot"><tr class="gantt-table-tr"><td class="gantt-table-td">Summary</td></tr></tfoot>',
+  'gantt-table-tr': '<tr class="gantt-table-tr"><td class="gantt-table-td">Task</td><td class="gantt-table-td">Timeline</td></tr>',
   'gantt-table-th': '<th class="gantt-table-th">Task</th>',
   'gantt-table-td': '<td class="gantt-table-td">Design phase</td>',
   'kanban-table-head': '<thead class="kanban-table-head"><tr class="kanban-table-row"><th class="kanban-table-th">Status</th></tr></thead>',

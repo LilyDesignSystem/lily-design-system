@@ -36,7 +36,7 @@
 <template>
     <!-- GanttTableTfoot.vue -->
     <tfoot
-        class="gantt-table-foot"
+        class="gantt-table-tfoot"
     >
         <slot />
     </tfoot>

@@ -16,9 +16,9 @@ describe("gantt-table-thead", () => {
     const { document } = render(
       "gantt-table-thead",
       {},
-      '<tr class="gantt-table-row"><th>H</th></tr>',
+      '<tr class="gantt-table-tr"><th>H</th></tr>',
     );
-    expect(document.querySelector("thead tr.gantt-table-row")).toBeTruthy();
+    expect(document.querySelector("thead tr.gantt-table-tr")).toBeTruthy();
   });
 
   it("contains no <style> or <script> tags", () => {

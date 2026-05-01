@@ -45,7 +45,7 @@ export default function GanttTableTfoot({
 }: GanttTableTfootProps) {
     return (
         <tfoot
-        className={`gantt-table-foot ${className}`}
+        className={`gantt-table-tfoot ${className}`}
         {...restProps}
         >
         {children}

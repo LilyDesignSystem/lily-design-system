@@ -4,11 +4,11 @@ The header section of a `GanttTable`, rendered as a native `<thead>` element. It
 
 ## What it is
 
-A Svelte 5 structural wrapper that renders `<thead class="gantt-table-head ...">{children}</thead>`. It carries no internal state, no ARIA attributes, and no styling.
+A Svelte 5 structural wrapper that renders `<thead class="gantt-table-thead ...">{children}</thead>`. It carries no internal state, no ARIA attributes, and no styling.
 
 ## What it does
 
-- Renders `<thead class="gantt-table-head ...">` around the `children` snippet.
+- Renders `<thead class="gantt-table-thead ...">` around the `children` snippet.
 - Spreads any additional HTML attributes onto the `<thead>`.
 
 ## When to use it
@@ -28,7 +28,7 @@ Place inside a `GanttTable` before `GanttTableBody`. Populate with a `GanttTable
 
 ## Props
 
-- `class` (string, optional) - CSS class appended after the base `gantt-table-head` class.
+- `class` (string, optional) - CSS class appended after the base `gantt-table-thead` class.
 - `children` (Snippet, required) - `GanttTableTR` elements with header cells.
 - `...restProps` - Additional HTML attributes spread onto the `<thead>`.
 
