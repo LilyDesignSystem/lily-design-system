@@ -1,6 +1,10 @@
 # TimeoutDialog
 
-A modal dialog warning users before session timeout.
+A modal dialog warning users before session timeout, giving them a clear chance to keep working before unsaved data is lost or they are signed out.
+
+The component is built on the native `<dialog>` element opened via `showModal()` so that focus is trapped and the rest of the page becomes inert. It uses `role="alertdialog"` so screen readers announce the warning as an interruption that requires immediate attention. The consumer drives the countdown — the component takes a live `remainingSeconds` prop and re-renders the visible time, but does not start, stop, or reset any timer of its own.
+
+Common in services that hold sensitive data (banking, government, healthcare) where automatic sign-out is a regulatory requirement, but where the user still deserves an opportunity to extend the session before being kicked out.
 
 ## Implementation Notes
 

@@ -1,6 +1,8 @@
 # AddressInput
 
-An input for searching or manually entering an address.
+A single-line text input for capturing a postal address, with `autocomplete="street-address"` set so browsers, password managers, and platform autofill can populate it from the user's saved addresses.
+
+The component is intentionally minimal: it provides only the input and the autocomplete hint. Postcode lookup, suggestion dropdowns, and structured multi-field forms (street / city / region / postcode) are the consumer's responsibility — `AddressInput` is the building block, not the full address-capture flow. For typeahead behaviour, wrap or compose with `Autosuggest` or `Combobox`. For per-field validation, use a structured set of inputs instead.
 
 ## Implementation Notes
 

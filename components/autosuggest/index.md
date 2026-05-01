@@ -1,6 +1,10 @@
 # Autosuggest
 
-A text input that proposes matching options as users type.
+A text input that proposes matching options as users type, helping people find an item from a long list without browsing the whole list.
+
+The component implements the WAI-ARIA Combobox pattern: a single-line `<input>` is paired with a popup `<ul role="listbox">` that appears when there are suggestions and disappears when the user picks one or dismisses it. The consumer owns the matching logic — Autosuggest emits the typed query, the consumer returns a fresh list of suggestions, and the component handles focus, keyboard navigation, and ARIA wiring.
+
+Use it for searches over large or remote datasets (countries, services, contacts, products) where typing should narrow the field, but where the user is also free to enter free-form text that may not appear in the suggestion list.
 
 ## Implementation Notes
 

@@ -1,6 +1,8 @@
 # MutuallyExclusive
 
-A container ensuring only one option can be selected from a group.
+A container that enforces a "zero or one" selection rule across a group of checkboxes — when the user checks one option, the previously checked option is unchecked, but unlike a radio group the user is also free to uncheck the current selection and leave the group with nothing selected.
+
+This sits in the gap between `RadioGroup` (always exactly one) and `CheckboxGroup` (any number, including all). It is the right choice for optional preferences ("which one of these would you prefer, if any?") rather than required choices. The component renders `role="group"` with an accessible label so screen readers announce the constraint, and each child checkbox keeps its own native semantics.
 
 ## Implementation Notes
 
