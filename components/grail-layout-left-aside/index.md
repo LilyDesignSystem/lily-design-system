@@ -4,7 +4,7 @@ GrailLayoutLeftAside is a headless container for the left aside section of a Gra
 
 ## Implementation Notes
 
-- Renders a `<div>` element for the left aside section
+- Renders a `<aside>` element for the left aside section
 - Spreads `restProps` onto the div for consumer customization
 - No styles applied; consumer provides all styling
 
@@ -43,6 +43,16 @@ GrailLayoutLeftAside is a headless container for the left aside section of a Gra
 </GrailLayout>
 ```
 
+
+## Keyboard Interactions
+
+- No keyboard interactions — this is a passive landmark container
+- Focusable descendants follow native tab order
+
+## ARIA
+
+- Native `<aside>` exposes a `complementary` landmark — give it an `aria-label` if a page has more than one aside so screen readers can distinguish them
+- Implicit `complementary` role from the `<aside>` element when used as a top-level landmark
 
 ## Headless
 

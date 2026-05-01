@@ -4,7 +4,7 @@ GrailLayoutCenterMain is a headless container for the center main content sectio
 
 ## Implementation Notes
 
-- Renders a `<div>` element for the center main content section
+- Renders a `<main>` element for the center main content section
 - Spreads `restProps` onto the div for consumer customization
 - No styles applied; consumer provides all styling
 
@@ -39,6 +39,16 @@ GrailLayoutCenterMain is a headless container for the center main content sectio
 </GrailLayout>
 ```
 
+
+## Keyboard Interactions
+
+- No keyboard interactions — this is a passive landmark container
+- Focusable descendants follow native tab order
+
+## ARIA
+
+- Native `<main>` exposes a `main` landmark; there should be only one per page
+- Implicit `main` role from the `<main>` element when used as a top-level landmark
 
 ## Headless
 

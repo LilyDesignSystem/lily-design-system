@@ -4,7 +4,7 @@ GrailLayoutTopHeader is a headless container for the top header section of a Gra
 
 ## Implementation Notes
 
-- Renders a `<div>` element for the top header section
+- Renders a `<header>` element for the top header section
 - Spreads `restProps` onto the div for consumer customization
 - No styles applied; consumer provides all styling
 
@@ -38,6 +38,16 @@ GrailLayoutTopHeader is a headless container for the top header section of a Gra
 </GrailLayout>
 ```
 
+
+## Keyboard Interactions
+
+- No keyboard interactions — this is a passive landmark container
+- Focusable descendants follow native tab order
+
+## ARIA
+
+- Native `<header>` exposes a `banner` landmark when used as the top-level page header so screen readers can navigate to it via landmark navigation
+- Implicit `banner` role from the `<header>` element when used as a top-level landmark
 
 ## Headless
 

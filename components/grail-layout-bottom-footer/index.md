@@ -4,7 +4,7 @@ GrailLayoutBottomFooter is a headless container for the bottom footer section of
 
 ## Implementation Notes
 
-- Renders a `<div>` element for the bottom footer section
+- Renders a `<footer>` element for the bottom footer section
 - Spreads `restProps` onto the div for consumer customization
 - No styles applied; consumer provides all styling
 
@@ -38,6 +38,16 @@ GrailLayoutBottomFooter is a headless container for the bottom footer section of
 </GrailLayout>
 ```
 
+
+## Keyboard Interactions
+
+- No keyboard interactions — this is a passive landmark container
+- Focusable descendants follow native tab order
+
+## ARIA
+
+- Native `<footer>` exposes a `contentinfo` landmark when used as the top-level page footer so screen readers can navigate to it via landmark navigation
+- Implicit `contentinfo` role from the `<footer>` element when used as a top-level landmark
 
 ## Headless
 
