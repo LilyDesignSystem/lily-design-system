@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 import NavigationAndMenusPage from "../../app/navigation-and-menus/page";
 
-describe("NavigationAndMenusPage", () => {
+describe("NavigationAndMenus", () => {
     test("renders the heading", () => {
         render(<NavigationAndMenusPage />);
         const heading = screen.getByRole("heading", { level: 1 });

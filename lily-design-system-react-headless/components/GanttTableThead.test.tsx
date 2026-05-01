@@ -1,9 +1,9 @@
 import { describe, expect, test } from "vitest";
 import { render } from "@testing-library/react";
 
-import Subject from "./GanttTableHead";
+import Subject from "./GanttTableThead";
 
-describe("GanttTableHead", () => {
+describe("GanttTableThead", () => {
     test("renders a thead element", () => {
         render(<table><Subject><tr><th>Task</th></tr></Subject></table>);
         const thead = document.querySelector("thead");

@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 import TabbedInterfacePage from "../../app/tabbed-interface/page";
 
-describe("TabbedInterfacePage", () => {
+describe("TabbedInterface", () => {
     test("renders the heading", () => {
         render(<TabbedInterfacePage />);
         const heading = screen.getByRole("heading", { level: 1 });

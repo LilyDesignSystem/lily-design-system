@@ -4,7 +4,7 @@ import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./ColorPickerButton";
 
-describe("ColorPickerSwatchButton", () => {
+describe("ColorPickerButton", () => {
   test("renders as a button", () => {
     render(<Subject color="#ff0000" label="Red" />);
     expect(screen.getByRole("button", { name: "Red" })).toBeTruthy();

@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 import DashboardPage from "../../app/dashboard/page";
 
-describe("DashboardPage", () => {
+describe("Dashboard", () => {
     test("renders the dashboard heading", () => {
         render(<DashboardPage />);
         const heading = screen.getByRole("heading", { level: 1 });

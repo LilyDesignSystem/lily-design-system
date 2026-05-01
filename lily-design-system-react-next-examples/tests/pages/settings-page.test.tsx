@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 import SettingsPagePage from "../../app/settings-page/page";
 
-describe("SettingsPagePage", () => {
+describe("SettingsPage", () => {
     test("renders the heading", () => {
         render(<SettingsPagePage />);
         const heading = screen.getByRole("heading", { level: 1 });

@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 import ContactFormPage from "../../app/contact-form/page";
 
-describe("ContactFormPage", () => {
+describe("ContactForm", () => {
     test("renders the contact form heading", () => {
         render(<ContactFormPage />);
         const heading = screen.getByRole("heading", { level: 1 });

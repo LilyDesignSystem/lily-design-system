@@ -1,9 +1,9 @@
 import { describe, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
 
-import Subject from "./GanttTableTD";
+import Subject from "./GanttTableTd";
 
-describe("GanttTableTD", () => {
+describe("GanttTableTd", () => {
     test("renders a td element", () => {
         render(<table><tbody><tr><Subject /></tr></tbody></table>);
         const td = document.querySelector("td");

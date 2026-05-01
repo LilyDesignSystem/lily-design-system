@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 import SearchAndFilterPage from "../../app/search-and-filter/page";
 
-describe("SearchAndFilterPage", () => {
+describe("SearchAndFilter", () => {
     test("renders the heading", () => {
         render(<SearchAndFilterPage />);
         const heading = screen.getByRole("heading", { level: 1 });

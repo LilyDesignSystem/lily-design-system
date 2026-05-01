@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 import PageLayoutPage from "../../app/page-layout/page";
 
-describe("PageLayoutPage", () => {
+describe("PageLayout", () => {
     test("renders header and footer", () => {
         render(<PageLayoutPage />);
         expect(screen.getByRole("banner")).toBeTruthy();

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { render } from "@testing-library/react";
 
-import Subject from "./CalendarTableTD";
+import Subject from "./CalendarTableTH";
 
 function renderInRow(props: Record<string, unknown> = {}) {
     return render(
@@ -12,7 +12,7 @@ function renderInRow(props: Record<string, unknown> = {}) {
     );
 }
 
-describe("CalendarTableTD", () => {
+describe("CalendarTableTH", () => {
     test("renders a th element", () => {
         renderInRow();
         const th = document.querySelector("th");

@@ -1,4 +1,4 @@
-// GanttTableTR component
+// GanttTableTr component
 //
 // A single row within a GanttTable grid. Renders as a <tr> containing
 // GanttTableTD cells for each time period and task header cells.

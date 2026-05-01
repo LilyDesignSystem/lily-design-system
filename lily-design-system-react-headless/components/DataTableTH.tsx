@@ -1,4 +1,4 @@
-// DataTableTD component
+// DataTableTH component
 //
 // A column header cell within a DataTable, rendered as a <th> element.
 // Used inside a <DataTableRow> within <DataTableHead> to label the columns

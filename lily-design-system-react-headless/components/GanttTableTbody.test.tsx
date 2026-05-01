@@ -1,9 +1,9 @@
 import { describe, expect, test } from "vitest";
 import { render } from "@testing-library/react";
 
-import Subject from "./GanttTableBody";
+import Subject from "./GanttTableTbody";
 
-describe("GanttTableBody", () => {
+describe("GanttTableTbody", () => {
     test("renders a tbody element", () => {
         render(<table><Subject><tr><td>Design</td></tr></Subject></table>);
         const tbody = document.querySelector("tbody");

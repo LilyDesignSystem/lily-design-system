@@ -1,4 +1,4 @@
-// GanttTableHead component
+// GanttTableThead component
 //
 // The header section of a GanttTable, rendered as a <thead> element.
 // Contains GanttTableTR elements with column headers for task names,

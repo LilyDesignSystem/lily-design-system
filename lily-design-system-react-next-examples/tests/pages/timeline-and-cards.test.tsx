@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 import TimelineAndCardsPage from "../../app/timeline-and-cards/page";
 
-describe("TimelineAndCardsPage", () => {
+describe("TimelineAndCards", () => {
     test("renders the heading", () => {
         render(<TimelineAndCardsPage />);
         const heading = screen.getByRole("heading", { level: 1 });

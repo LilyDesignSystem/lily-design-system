@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 import FileUploadFormPage from "../../app/file-upload-form/page";
 
-describe("FileUploadFormPage", () => {
+describe("FileUploadForm", () => {
     test("renders the heading", () => {
         render(<FileUploadFormPage />);
         const heading = screen.getByRole("heading", { level: 1 });

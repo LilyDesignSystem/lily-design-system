@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 import DialogFlowPage from "../../app/dialog-flow/page";
 
-describe("DialogFlowPage", () => {
+describe("DialogFlow", () => {
     test("renders the heading", () => {
         render(<DialogFlowPage />);
         const heading = screen.getByRole("heading", { level: 1 });

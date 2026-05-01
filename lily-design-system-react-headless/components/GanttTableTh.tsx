@@ -1,4 +1,4 @@
-// GanttTableTH component
+// GanttTableTh component
 //
 // A column header cell within a GanttTable, rendered as a <th> element.
 // Used inside a <GanttTableTR> within <GanttTableHead> to label the time

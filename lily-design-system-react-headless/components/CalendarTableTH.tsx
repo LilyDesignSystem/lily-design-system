@@ -1,4 +1,4 @@
-// CalendarTableTD component
+// CalendarTableTH component
 //
 // A column header cell within a CalendarTable, rendered as a <th> element.
 // Used inside a <CalendarTableRow> within <CalendarTableHead> to label the

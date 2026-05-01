@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 import TaskManagementPage from "../../app/task-management/page";
 
-describe("TaskManagementPage", () => {
+describe("TaskManagement", () => {
     test("renders the heading", () => {
         render(<TaskManagementPage />);
         const heading = screen.getByRole("heading", { level: 1 });

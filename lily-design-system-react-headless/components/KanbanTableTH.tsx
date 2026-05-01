@@ -1,4 +1,4 @@
-// KanbanTableTD component
+// KanbanTableTH component
 //
 // A column header cell within a KanbanTable, rendered as a <th> element.
 // Used inside a <KanbanTableRow> within <KanbanTableHead> to label each

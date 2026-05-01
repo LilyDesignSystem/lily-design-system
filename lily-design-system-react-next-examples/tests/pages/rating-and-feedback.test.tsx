@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 import RatingAndFeedbackPage from "../../app/rating-and-feedback/page";
 
-describe("RatingAndFeedbackPage", () => {
+describe("RatingAndFeedback", () => {
     test("renders the heading", () => {
         render(<RatingAndFeedbackPage />);
         const heading = screen.getByRole("heading", { level: 1 });

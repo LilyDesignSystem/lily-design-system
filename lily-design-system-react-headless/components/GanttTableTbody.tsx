@@ -1,4 +1,4 @@
-// GanttTableBody component
+// GanttTableTbody component
 //
 // The body section of a GanttTable, rendered as a <tbody> element.
 // Contains GanttTableTR elements with task data cells.

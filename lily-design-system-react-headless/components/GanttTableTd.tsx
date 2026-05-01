@@ -1,4 +1,4 @@
-// GanttTableTD component
+// GanttTableTd component
 //
 // A single cell within a GanttTableTR representing a time period in the
 // Gantt table grid. Renders as a <td> with role="gridcell". Supports an
