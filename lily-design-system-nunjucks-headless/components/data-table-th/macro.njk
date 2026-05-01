@@ -20,7 +20,7 @@
 
   Usage: see Table.
 #}
-{%- macro dataTableTD(params) -%}
+{%- macro dataTableTh(params) -%}
 <th
   class="data-table-th{% if params.classes %} {{ params.classes }}{% endif %}"
   scope="{{ params.scope | default('col') }}"

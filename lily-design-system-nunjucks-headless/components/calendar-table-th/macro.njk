@@ -20,7 +20,7 @@
 
   Usage: see Table.
 #}
-{%- macro calendarTableTD(params) -%}
+{%- macro calendarTableTh(params) -%}
 <th
   class="calendar-table-th{% if params.classes %} {{ params.classes }}{% endif %}"
   scope="{{ params.scope | default('col') }}"

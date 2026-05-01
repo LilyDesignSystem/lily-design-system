@@ -20,13 +20,13 @@
     attributes   object
 
   Usage:
-    {% from "components/date-time-view/macro.njk" import datetimeView %}
-    {{ datetimeView({
+    {% from "components/date-time-view/macro.njk" import dateTimeView %}
+    {{ dateTimeView({
       value: "2026-04-27T15:00:00Z",
       format: "27 April 2026, 3:00 pm"
     }) }}
 #}
-{%- macro datetimeView(params) -%}
+{%- macro dateTimeView(params) -%}
 <time
   class="date-time-view{% if params.classes %} {{ params.classes }}{% endif %}"
   {%- if params.value %} datetime="{{ params.value }}"{% endif %}

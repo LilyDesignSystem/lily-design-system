@@ -20,7 +20,7 @@
 
   Usage: see Table.
 #}
-{%- macro dataTableTD(params) -%}
+{%- macro dataTableTd(params) -%}
 <td
   class="data-table-td{% if params.classes %} {{ params.classes }}{% endif %}"
   {%- if params.colspan %} colspan="{{ params.colspan }}"{% endif %}

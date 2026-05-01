@@ -20,7 +20,7 @@
 
   Usage: see Table.
 #}
-{%- macro kanbanTableTD(params) -%}
+{%- macro kanbanTableTh(params) -%}
 <th
   class="kanban-table-th{% if params.classes %} {{ params.classes }}{% endif %}"
   scope="{{ params.scope | default('col') }}"

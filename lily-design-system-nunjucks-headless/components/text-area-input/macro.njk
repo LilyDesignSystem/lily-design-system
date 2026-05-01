@@ -33,7 +33,7 @@
     {% from "components/text-area-input/macro.njk" import text-area-input %}
     {{ text-area-input({ id: "feedback", rows: 6 }) }}
 #}
-{%- macro text-area-input(params) -%}
+{%- macro textAreaInput(params) -%}
 <textarea
   class="text-area-input{% if params.classes %} {{ params.classes }}{% endif %}"
   id="{{ params.id }}"

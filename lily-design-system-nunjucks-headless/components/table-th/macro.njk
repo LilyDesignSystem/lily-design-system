@@ -20,7 +20,7 @@
 
   Usage: see Table.
 #}
-{%- macro tableCol(params) -%}
+{%- macro tableTh(params) -%}
 <th
   class="table-th{% if params.classes %} {{ params.classes }}{% endif %}"
   scope="{{ params.scope | default('col') }}"

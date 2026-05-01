@@ -15,7 +15,7 @@
 
   Body content: the rendered UI preview, via caller().
 #}
-{%- macro mockupPhone(params) -%}
+{%- macro mockupPhonePortrait(params) -%}
 {%- set p = params | default({}) -%}
 <figure
   class="mockup-phone-portrait{% if p.classes %} {{ p.classes }}{% endif %}"

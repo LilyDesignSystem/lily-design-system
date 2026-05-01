@@ -1,5 +1,5 @@
 {#
-  TableBody macro — the <tbody> of a table.
+  tableBody macro — the <tbody> of a table.
 
   HTML tag: <tbody>
   CSS class: table-body
@@ -13,7 +13,7 @@
 
   Usage: see Table.
 #}
-{%- macro TableBody(params) -%}
+{%- macro tableBody(params) -%}
 {%- set p = params | default({}) -%}
 <tbody
   class="table-body{% if p.classes %} {{ p.classes }}{% endif %}"

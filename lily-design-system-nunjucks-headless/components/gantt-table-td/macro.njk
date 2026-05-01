@@ -20,7 +20,7 @@
 
   Usage: see Table.
 #}
-{%- macro ganttTableTD(params) -%}
+{%- macro ganttTableTd(params) -%}
 <td
   class="gantt-table-td{% if params.classes %} {{ params.classes }}{% endif %}"
   {%- if params.colspan %} colspan="{{ params.colspan }}"{% endif %}

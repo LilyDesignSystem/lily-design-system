@@ -8,9 +8,9 @@
   Params: id, name, value, maximum, rows (default 5), label, required,
     disabled, placeholder, classes, attributes.
 #}
-{%- macro textAreaWithCharacterCounter(params) -%}
+{%- macro textAreaInputWithCharacterCounter(params) -%}
 {%- set p = params | default({}) -%}
-{%- set text-area-inputId = p.id | default('text-area-input-with-character-counter') -%}
+{%- set textAreaInputId = p.id | default('text-area-input-with-character-counter') -%}
 <div
   class="text-area-input-with-character-counter{% if p.classes %} {{ p.classes }}{% endif %}"
   data-module="text-area-input-with-character-counter"
@@ -18,10 +18,10 @@
 >
   <textarea
     class="text-area-input-with-character-counter-textarea"
-    id="{{ text-area-inputId }}-textarea"
+    id="{{ textAreaInputId }}-textarea"
     rows="{{ p.rows | default(5) }}"
     {%- if p.name %} name="{{ p.name }}"{% endif %}
-    {%- if p.maximum %} maxlength="{{ p.maximum }}" aria-describedby="{{ text-area-inputId }}-counter"{% endif %}
+    {%- if p.maximum %} maxlength="{{ p.maximum }}" aria-describedby="{{ textAreaInputId }}-counter"{% endif %}
     {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
     {%- if p.placeholder %} placeholder="{{ p.placeholder }}"{% endif %}
     {%- if p.required %} required{% endif %}
@@ -30,9 +30,9 @@
   {%- if p.maximum %}
   <output
     class="text-area-input-with-character-counter-counter"
-    id="{{ text-area-inputId }}-counter"
+    id="{{ textAreaInputId }}-counter"
     aria-live="polite"
-    for="{{ text-area-inputId }}-textarea"
+    for="{{ textAreaInputId }}-textarea"
     data-maximum="{{ p.maximum }}"
   >{{ (p.value | default('')) | length }} of {{ p.maximum }} characters</output>
   {%- endif %}

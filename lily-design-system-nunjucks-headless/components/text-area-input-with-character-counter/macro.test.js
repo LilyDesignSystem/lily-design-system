@@ -9,7 +9,7 @@ describe("text-area-input-with-character-counter", () => {
       maximum: 200,
       value: "Hello",
     });
-    const ta = document.querySelector("text-area-input.text-area-input-with-character-counter-textarea");
+    const ta = document.querySelector("textarea.text-area-input-with-character-counter-textarea");
     expect(ta).toBeTruthy();
     expect(ta.getAttribute("maxlength")).toBe("200");
     expect(ta.textContent).toBe("Hello");

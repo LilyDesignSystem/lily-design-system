@@ -1,20 +1,20 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
-describe("gantt-table-body", () => {
+describe("gantt-table-tbody", () => {
   it("renders a <tbody> with the base class", () => {
-    const { document } = render("gantt-table-body", {});
-    expect(document.querySelector("tbody.gantt-table-body")).toBeTruthy();
+    const { document } = render("gantt-table-tbody", {});
+    expect(document.querySelector("tbody.gantt-table-tbody")).toBeTruthy();
   });
 
   it("appends params.classes", () => {
-    const { document } = render("gantt-table-body", { classes: "scroll" });
-    expect(document.querySelector("tbody.gantt-table-body.scroll")).toBeTruthy();
+    const { document } = render("gantt-table-tbody", { classes: "scroll" });
+    expect(document.querySelector("tbody.gantt-table-tbody.scroll")).toBeTruthy();
   });
 
   it("renders caller block content", () => {
     const { document } = render(
-      "gantt-table-body",
+      "gantt-table-tbody",
       {},
       '<tr class="gantt-table-row"><td>v</td></tr>',
     );
@@ -22,7 +22,7 @@ describe("gantt-table-body", () => {
   });
 
   it("contains no <style> or <script> tags", () => {
-    const { html } = render("gantt-table-body", {});
+    const { html } = render("gantt-table-tbody", {});
     expect(html).not.toContain("<style");
     expect(html).not.toContain("<script");
     expect(html).not.toContain("style=");

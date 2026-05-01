@@ -1,12 +1,22 @@
 import { describe, it, expect } from "vitest";
-import render from "../../test/render.js";
+import { render } from "../../test/render.js";
 
-describe("backToTop macro", () => {
-  it("renders the component", () => {
-    const html = render("components/go-to-top/macro.njk", `
-      {% from "components/go-to-top/macro.njk" import backToTop %}
-      {{ backToTop({ label: "Test", text: "Content" }) }}
-    `);
-    expect(html).toContain("go-to-top");
+describe("go-to-top", () => {
+  it("renders a <a> with the base class", () => {
+    const { document } = render("go-to-top", { label: "Test", text: "Content" });
+    const el = document.querySelector(".go-to-top");
+    expect(el).toBeTruthy();
+  });
+
+  it("appends params.classes to the root element", () => {
+    const { document } = render("go-to-top", { label: "Test", classes: "extra" });
+    const el = document.querySelector(".go-to-top.extra");
+    expect(el).toBeTruthy();
+  });
+
+  it("contains no <style> or <script> tags", () => {
+    const { html } = render("go-to-top", { label: "Test" });
+    expect(html).not.toContain("<style");
+    expect(html).not.toContain("<script");
   });
 });

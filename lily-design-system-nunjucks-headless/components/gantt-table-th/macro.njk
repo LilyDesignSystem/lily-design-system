@@ -20,7 +20,7 @@
 
   Usage: see Table.
 #}
-{%- macro ganttTableTH(params) -%}
+{%- macro ganttTableTh(params) -%}
 <th
   class="gantt-table-th{% if params.classes %} {{ params.classes }}{% endif %}"
   scope="{{ params.scope | default('col') }}"

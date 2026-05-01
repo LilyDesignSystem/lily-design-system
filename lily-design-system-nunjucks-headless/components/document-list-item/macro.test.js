@@ -1,12 +1,22 @@
 import { describe, it, expect } from "vitest";
-import render from "../../test/render.js";
+import { render } from "../../test/render.js";
 
-describe("documentListItem macro", () => {
-  it("renders the component", () => {
-    const html = render("components/document-list-item/macro.njk", `
-      {% from "components/document-list-item/macro.njk" import documentListItem %}
-      {{ documentListItem({ label: "Test", text: "Content" }) }}
-    `);
-    expect(html).toContain("document-list-item");
+describe("document-list-item", () => {
+  it("renders a <li> with the base class", () => {
+    const { document } = render("document-list-item", { label: "Test", text: "Content" });
+    const el = document.querySelector(".document-list-item");
+    expect(el).toBeTruthy();
+  });
+
+  it("appends params.classes to the root element", () => {
+    const { document } = render("document-list-item", { label: "Test", classes: "extra" });
+    const el = document.querySelector(".document-list-item.extra");
+    expect(el).toBeTruthy();
+  });
+
+  it("contains no <style> or <script> tags", () => {
+    const { html } = render("document-list-item", { label: "Test" });
+    expect(html).not.toContain("<style");
+    expect(html).not.toContain("<script");
   });
 });

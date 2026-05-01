@@ -12,10 +12,10 @@
     required, disabled, readonly, autocomplete, classes, attributes.
 
   Usage:
-    {% from "components/date-time-local-input/macro.njk" import datetimeLocalInput %}
-    {{ datetimeLocalInput({ id: "appt", value: "2026-04-27T09:30" }) }}
+    {% from "components/date-time-local-input/macro.njk" import dateTimeLocalInput %}
+    {{ dateTimeLocalInput({ id: "appt", value: "2026-04-27T09:30" }) }}
 #}
-{%- macro datetimeLocalInput(params) -%}
+{%- macro dateTimeLocalInput(params) -%}
 <input
   class="date-time-local-input{% if params.classes %} {{ params.classes }}{% endif %}"
   type="datetime-local"
