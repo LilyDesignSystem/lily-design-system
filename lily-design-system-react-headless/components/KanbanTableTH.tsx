@@ -34,7 +34,7 @@ export interface KanbanTableTHProps {
     [key: string]: unknown;
 }
 
-export default function KanbanTableTD({
+export default function KanbanTableTH({
     className = "",
     colSpan,
     rowSpan,

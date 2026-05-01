@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-    // KanbanTableTD component
+    // KanbanTableTH component
     //
     // A column header cell within a KanbanTable, rendered as a <th> element.
     // Used inside a <KanbanTableRow> within <KanbanTableHead> to label each
@@ -36,7 +36,7 @@
 </script>
 
 <template>
-    <!-- KanbanTableTD.vue -->
+    <!-- KanbanTableTH.vue -->
     <th
         class="kanban-table-th"
         :scope="scope"

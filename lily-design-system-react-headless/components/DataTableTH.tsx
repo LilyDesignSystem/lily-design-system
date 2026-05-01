@@ -34,7 +34,7 @@ export interface DataTableTHProps {
     [key: string]: unknown;
 }
 
-export default function DataTableTD({
+export default function DataTableTH({
     className = "",
     colSpan,
     rowSpan,

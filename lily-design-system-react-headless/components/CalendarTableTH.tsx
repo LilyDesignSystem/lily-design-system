@@ -49,7 +49,7 @@ export interface CalendarTableTHProps {
     [key: string]: unknown;
 }
 
-export default function CalendarTableTD({
+export default function CalendarTableTH({
     className = "",
     colSpan,
     rowSpan,
