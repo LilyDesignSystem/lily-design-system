@@ -69,5 +69,5 @@
     for={forProp}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </label>

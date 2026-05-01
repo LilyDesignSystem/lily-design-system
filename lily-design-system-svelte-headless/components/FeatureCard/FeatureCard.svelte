@@ -79,5 +79,5 @@
     {#if description}
         <p class="feature-card-description">{description}</p>
     {/if}
-    {#if children}{@render children()}{/if}
+    {#if children}{@render children?.()}{/if}
 </article>

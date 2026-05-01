@@ -54,6 +54,6 @@
 >
     <div class="menu-group-heading" aria-hidden="true">{label}</div>
     {#if children}
-        {@render children()}
+        {@render children?.()}
     {/if}
 </div>

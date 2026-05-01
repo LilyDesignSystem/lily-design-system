@@ -76,5 +76,5 @@
     aria-live={urgent ? "assertive" : "polite"}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </div>

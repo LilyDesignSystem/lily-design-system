@@ -74,5 +74,5 @@
     data-recommendation="dont"
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </li>

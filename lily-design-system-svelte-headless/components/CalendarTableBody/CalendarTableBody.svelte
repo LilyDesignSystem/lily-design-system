@@ -49,5 +49,5 @@
     class={`calendar-table-body ${className}`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </tbody>

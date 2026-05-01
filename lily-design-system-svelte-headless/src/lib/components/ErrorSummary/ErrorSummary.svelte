@@ -84,5 +84,5 @@
     {...restProps}
 >
     <h2 id={titleId}>{title}</h2>
-    {@render children()}
+    {@render children?.()}
 </div>

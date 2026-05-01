@@ -14,5 +14,5 @@
 
 <!-- MockupTabletPortrait.svelte -->
 <div class={`mockup-tablet-portrait ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

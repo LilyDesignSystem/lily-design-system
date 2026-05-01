@@ -14,5 +14,5 @@
 
 <!-- SuperBanner.svelte -->
 <div class={`super-banner ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

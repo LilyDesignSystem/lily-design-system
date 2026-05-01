@@ -110,6 +110,6 @@
         aria-labelledby={checkboxId}
         hidden={!checked}
     >
-        {@render children()}
+        {@render children?.()}
     </div>
 </div>

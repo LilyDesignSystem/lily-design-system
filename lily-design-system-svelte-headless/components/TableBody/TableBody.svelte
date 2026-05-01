@@ -14,5 +14,5 @@
 
 <!-- TableBody.svelte -->
 <div class={`table-body ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

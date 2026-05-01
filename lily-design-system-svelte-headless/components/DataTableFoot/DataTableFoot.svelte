@@ -49,5 +49,5 @@
     class={`data-table-foot ${className}`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </tfoot>

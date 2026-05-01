@@ -61,5 +61,5 @@
     aria-current={current ? "page" : undefined}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </li>

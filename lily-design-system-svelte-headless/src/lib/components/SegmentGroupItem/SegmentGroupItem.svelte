@@ -78,5 +78,5 @@
     {disabled}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </button>

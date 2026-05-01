@@ -58,7 +58,7 @@
     <h3 class="summary-box-heading">{heading}</h3>
     <div class="summary-box-body">
         {#if children}
-            {@render children()}
+            {@render children?.()}
         {/if}
     </div>
 </aside>

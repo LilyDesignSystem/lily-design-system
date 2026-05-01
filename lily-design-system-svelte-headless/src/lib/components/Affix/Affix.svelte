@@ -71,5 +71,5 @@
     data-offset-bottom={offsetBottom}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </div>

@@ -112,5 +112,5 @@
     {onkeydown}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </div>

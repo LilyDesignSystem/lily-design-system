@@ -33,5 +33,5 @@
 
 <!-- GrailLayoutBottomFooter.svelte -->
 <footer class={`grail-layout-bottom-footer ${className}`} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </footer>

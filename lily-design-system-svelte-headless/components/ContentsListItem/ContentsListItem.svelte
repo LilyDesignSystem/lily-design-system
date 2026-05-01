@@ -59,5 +59,5 @@
 
 <!-- ContentsListItem.svelte -->
 <li class={`contents-list-item ${className}`} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </li>

@@ -82,7 +82,7 @@
         aria-label={label}
         {...restProps}
     >
-        {@render children()}
+        {@render children?.()}
     </a>
 {:else}
     <button
@@ -93,6 +93,6 @@
         {onclick}
         {...restProps}
     >
-        {@render children()}
+        {@render children?.()}
     </button>
 {/if}

@@ -74,5 +74,5 @@
     bind:value
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </select>

@@ -93,6 +93,6 @@
         {onkeydown}
         {...restProps}
     >
-        {@render children()}
+        {@render children?.()}
     </dialog>
 {/if}

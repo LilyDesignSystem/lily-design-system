@@ -72,5 +72,5 @@
         data-text={text}
         data-image-url={imageUrl}
     ></div>
-    {#if children}{@render children()}{/if}
+    {#if children}{@render children?.()}{/if}
 </div>

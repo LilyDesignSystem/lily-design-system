@@ -107,5 +107,5 @@
     {onkeydown}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </ol>

@@ -103,7 +103,29 @@
       "Bash(bin/list-implementations)",
       "Bash(ls -la src/lib/components)",
       "Bash(ls -d src/lib)",
-      "Bash(ls -d src)"
+      "Bash(ls -d src)",
+      "Bash(awk *)",
+      "Bash(cat)",
+      "Bash(sort -u components.tsv /tmp/lily-new-components.tsv -o components.tsv)",
+      "Bash(sort -u components.tsv /tmp/lily-antd-new.tsv -o components.tsv)",
+      "WebFetch(domain:designsystem.digital.gov)",
+      "Bash(sort -u components.tsv /tmp/lily-uswds-new.tsv -o components.tsv)",
+      "WebFetch(domain:spectrum.adobe.com)",
+      "WebFetch(domain:opensource.adobe.com)",
+      "Bash(sort -u components.tsv /tmp/lily-spectrum-new.tsv -o components.tsv)",
+      "WebFetch(domain:protocol.mozilla.org)",
+      "Bash(sort -u components.tsv /tmp/lily-mozilla-new.tsv -o components.tsv)",
+      "Read(//Users/jph/git/lilydesignsystem/**)",
+      "Bash(python3 -m http.server 8765)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8765/)",
+      "Bash(xargs -I{} rm -rf \"{}\")",
+      "Bash(git commit *)",
+      "Bash(bin/create-component-directory accordion-checkbox *)",
+      "Bash(pnpm vitest *)",
+      "Bash(git mv *)",
+      "Bash(bin/create-component-directory container *)",
+      "Bash(wait)",
+      "Bash([ -d \"components/$c\" ])"
     ]
   }
 }

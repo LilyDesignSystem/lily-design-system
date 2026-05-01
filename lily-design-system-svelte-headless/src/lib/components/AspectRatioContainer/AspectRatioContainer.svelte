@@ -74,5 +74,5 @@
     data-aspect-ratio-container={ratio}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </div>

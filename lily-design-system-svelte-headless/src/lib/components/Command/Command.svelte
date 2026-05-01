@@ -87,6 +87,6 @@
         role="listbox"
         aria-label={label}
     >
-        {@render children()}
+        {@render children?.()}
     </div>
 </div>

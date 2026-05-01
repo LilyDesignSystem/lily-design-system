@@ -14,5 +14,5 @@
 
 <!-- CodeBlock.svelte -->
 <div class={`code-block ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

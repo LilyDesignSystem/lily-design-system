@@ -14,5 +14,5 @@
 
 <!-- TableHead.svelte -->
 <div class={`table-head ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

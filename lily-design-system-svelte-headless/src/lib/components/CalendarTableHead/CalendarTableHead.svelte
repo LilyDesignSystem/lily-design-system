@@ -46,5 +46,5 @@
     class={`calendar-table-head ${className}`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </thead>

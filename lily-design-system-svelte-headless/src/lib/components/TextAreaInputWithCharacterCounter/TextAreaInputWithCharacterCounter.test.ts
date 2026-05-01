@@ -4,9 +4,10 @@ import TextAreaInputWithCharacterCounter from "./TextAreaInputWithCharacterCount
 
 describe("TextAreaInputWithCharacterCounter", () => {
     test("renders with content", () => {
-        render(TextAreaInputWithCharacterCounter, { props: { label: "Test" } });
+        render(TextAreaInputWithCharacterCounter, { props: { label: "Test", maxLength: 100 } });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("class")).toContain("text-area-input-with-character-counter");
+        const wrapper = el.closest(".text-area-input-with-character-counter");
+        expect(wrapper).toBeTruthy();
     });
 });

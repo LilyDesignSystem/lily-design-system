@@ -80,7 +80,7 @@
     {...restProps}
 >
     <div class="sticky-promo-banner-content">
-        {#if children}{@render children()}{/if}
+        {#if children}{@render children?.()}{/if}
     </div>
     {#if ondismiss}
         <button

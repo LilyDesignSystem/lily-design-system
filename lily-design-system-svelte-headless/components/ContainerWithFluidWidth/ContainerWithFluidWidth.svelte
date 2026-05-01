@@ -57,5 +57,5 @@
     style={`width: 100%; padding-inline: ${paddingInline};`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </div>

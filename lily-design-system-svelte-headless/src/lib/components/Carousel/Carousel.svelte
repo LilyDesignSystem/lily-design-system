@@ -73,5 +73,5 @@
     aria-roledescription="carousel"
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </div>

@@ -75,5 +75,5 @@
     bind:open
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </details>

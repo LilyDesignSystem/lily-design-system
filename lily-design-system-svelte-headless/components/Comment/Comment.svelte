@@ -14,5 +14,5 @@
 
 <!-- Comment.svelte -->
 <div class={`comment ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

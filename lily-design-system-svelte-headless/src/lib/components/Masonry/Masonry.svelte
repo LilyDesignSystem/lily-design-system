@@ -65,5 +65,5 @@
     style={`column-count: ${columns}; column-gap: ${gap};`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </div>

@@ -14,5 +14,5 @@
 
 <!-- TableFoot.svelte -->
 <div class={`table-foot ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

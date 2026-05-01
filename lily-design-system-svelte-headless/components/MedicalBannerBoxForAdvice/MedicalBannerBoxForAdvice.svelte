@@ -50,5 +50,5 @@
     data-type="advice"
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </div>

@@ -14,5 +14,5 @@
 
 <!-- MockupTabletLandscape.svelte -->
 <div class={`mockup-tablet-landscape ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

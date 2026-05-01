@@ -62,5 +62,5 @@
     role="note"
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </div>

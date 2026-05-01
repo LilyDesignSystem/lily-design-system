@@ -14,5 +14,5 @@
 
 <!-- ScreenReaderSpan.svelte -->
 <div class={`screen-reader-span ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

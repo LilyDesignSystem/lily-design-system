@@ -90,7 +90,7 @@
             role="region"
             aria-label={label}
         >
-            {@render children()}
+            {@render children?.()}
         </div>
     {/if}
 </div>

@@ -32,5 +32,5 @@
 
 <!-- GrailLayoutLeftAside.svelte -->
 <aside class={`grail-layout-left-aside ${className}`} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </aside>

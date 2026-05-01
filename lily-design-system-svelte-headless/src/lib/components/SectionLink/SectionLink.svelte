@@ -23,5 +23,5 @@
     {href}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </a>

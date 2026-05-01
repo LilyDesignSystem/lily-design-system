@@ -80,5 +80,5 @@
     {#if caption}
         <caption>{caption}</caption>
     {/if}
-    {@render children()}
+    {@render children?.()}
 </table>

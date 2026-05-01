@@ -14,5 +14,5 @@
 
 <!-- TimerButton.svelte -->
 <div class={`timer-button ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

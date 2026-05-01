@@ -14,5 +14,5 @@
 
 <!-- ThemePickerButton.svelte -->
 <div class={`theme-picker-button ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

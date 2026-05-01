@@ -95,5 +95,5 @@
             </h6>
         {/if}
     {/if}
-    {@render children()}
+    {@render children?.()}
 </article>

@@ -97,6 +97,6 @@
         <p class="collection-list-item-description">{description}</p>
     {/if}
     {#if children}
-        {@render children()}
+        {@render children?.()}
     {/if}
 </li>

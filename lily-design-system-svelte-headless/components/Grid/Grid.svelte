@@ -69,5 +69,5 @@
     style={`display: grid; grid-template-columns: ${templateColumns}; gap: ${gap};`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </div>

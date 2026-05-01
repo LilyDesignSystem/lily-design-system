@@ -74,5 +74,5 @@
     data-recommendation="do"
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </li>

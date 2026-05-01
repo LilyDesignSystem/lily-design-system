@@ -50,5 +50,5 @@
     data-type="danger"
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </div>

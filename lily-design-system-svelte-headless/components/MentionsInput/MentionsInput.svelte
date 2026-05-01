@@ -93,6 +93,6 @@
         {oninput}
     />
     <div class="mentions-input-suggestions" hidden={!expanded}>
-        {#if children}{@render children()}{/if}
+        {#if children}{@render children?.()}{/if}
     </div>
 </div>

@@ -23,5 +23,5 @@
     {open}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </dialog>

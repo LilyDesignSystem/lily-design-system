@@ -14,5 +14,5 @@
 
 <!-- TreeListItem.svelte -->
 <div class={`tree-list-item ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

@@ -53,5 +53,5 @@
     aria-live="polite"
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </ul>

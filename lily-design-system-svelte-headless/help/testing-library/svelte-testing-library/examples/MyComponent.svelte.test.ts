@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/svelte";
 import { userEvent, type UserEvent } from "@testing-library/user-event";
 import { expect, test } from "vitest";
 
-import Subject from "./MyComponent.svelte.svelte";
+import Subject from "./MyComponent.svelte";
 
 test("no initial greeting", (): void => {
   render(Subject, { name: "World" });

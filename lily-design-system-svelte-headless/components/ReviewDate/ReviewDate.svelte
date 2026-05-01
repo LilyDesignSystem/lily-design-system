@@ -72,5 +72,5 @@
     {datetime}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </time>

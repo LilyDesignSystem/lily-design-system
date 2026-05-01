@@ -57,5 +57,5 @@
     class={`grail-layout ${className}`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </div>

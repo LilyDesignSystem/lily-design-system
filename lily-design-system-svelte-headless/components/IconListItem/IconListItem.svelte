@@ -55,6 +55,6 @@
         </span>
     {/if}
     <span class="icon-list-item-text">
-        {@render children()}
+        {@render children?.()}
     </span>
 </li>

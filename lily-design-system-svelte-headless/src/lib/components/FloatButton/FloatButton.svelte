@@ -91,5 +91,5 @@
     {onclick}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </button>

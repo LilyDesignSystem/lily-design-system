@@ -156,7 +156,7 @@
             bind:this={menuRef}
             onkeydown={onMenuKeydown}
         >
-            {@render children()}
+            {@render children?.()}
         </div>
     {/if}
 </div>

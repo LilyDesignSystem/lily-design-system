@@ -14,5 +14,5 @@
 
 <!-- Person.svelte -->
 <div class={`person ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

@@ -99,7 +99,7 @@
             id={menuId}
             aria-label={label}
         >
-            {@render children()}
+            {@render children?.()}
         </nav>
     {/if}
 </div>

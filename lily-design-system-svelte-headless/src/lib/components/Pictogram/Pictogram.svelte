@@ -80,7 +80,7 @@
             <h3 class="pictogram-heading">{heading}</h3>
         {/if}
         {#if children}
-            {@render children()}
+            {@render children?.()}
         {:else if description}
             <p class="pictogram-description">{description}</p>
         {/if}

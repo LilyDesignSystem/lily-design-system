@@ -77,5 +77,5 @@
     {...restProps}
 >
     <h2>{heading}</h2>
-    {@render children()}
+    {@render children?.()}
 </section>

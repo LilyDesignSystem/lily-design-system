@@ -73,5 +73,5 @@
     download={download === true ? "" : download}
     {...restProps}
 >
-    {#if children}{@render children()}{:else}{label}{/if}
+    {#if children}{@render children?.()}{:else}{label}{/if}
 </a>

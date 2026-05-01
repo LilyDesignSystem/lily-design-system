@@ -14,5 +14,5 @@
 
 <!-- TableTD.svelte -->
 <div class={`table-td ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

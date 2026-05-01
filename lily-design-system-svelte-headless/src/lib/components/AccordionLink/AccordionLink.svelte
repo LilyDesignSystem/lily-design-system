@@ -14,5 +14,5 @@
 
 <!-- AccordionLink.svelte -->
 <div class={`accordion-link ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

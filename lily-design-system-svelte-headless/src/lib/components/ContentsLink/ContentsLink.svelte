@@ -14,5 +14,5 @@
 
 <!-- ContentsLink.svelte -->
 <div class={`contents-link ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

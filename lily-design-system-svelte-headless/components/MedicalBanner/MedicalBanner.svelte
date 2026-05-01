@@ -72,7 +72,7 @@
         data-context="medical"
         {...restProps}
     >
-        {@render children()}
+        {@render children?.()}
         {#if dismissible}
             <button
                 type="button"

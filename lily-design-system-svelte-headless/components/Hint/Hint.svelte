@@ -62,5 +62,5 @@
     {id}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </p>

@@ -14,5 +14,5 @@
 
 <!-- CurrencyInput.svelte -->
 <div class={`currency-input ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

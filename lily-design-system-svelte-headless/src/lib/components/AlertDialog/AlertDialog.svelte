@@ -107,7 +107,7 @@
             {#if description}
                 <p id={descriptionId}>{description}</p>
             {/if}
-            {@render children()}
+            {@render children?.()}
         </div>
     </dialog>
 {/if}

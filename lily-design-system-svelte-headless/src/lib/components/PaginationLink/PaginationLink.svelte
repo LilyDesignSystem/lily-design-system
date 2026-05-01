@@ -14,5 +14,5 @@
 
 <!-- PaginationLink.svelte -->
 <div class={`pagination-link ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

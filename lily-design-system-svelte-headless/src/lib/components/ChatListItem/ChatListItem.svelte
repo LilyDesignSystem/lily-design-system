@@ -14,5 +14,5 @@
 
 <!-- ChatListItem.svelte -->
 <div class={`chat-list-item ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

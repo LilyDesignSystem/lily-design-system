@@ -97,7 +97,7 @@
     {#if description}
         <p id={descId}>{description}</p>
     {/if}
-    {@render children()}
+    {@render children?.()}
     {#if error}
         <p
             id={errorId}

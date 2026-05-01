@@ -62,7 +62,7 @@
     aria-label={label}
     {...restProps}
 >
-    {#if children}{@render children()}{/if}
+    {#if children}{@render children?.()}{/if}
     {#if citationText}
         <footer class="blockquote-citation">{citationText}</footer>
     {/if}

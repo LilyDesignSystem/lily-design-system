@@ -76,7 +76,7 @@
     {#if prefix}
         <span class="input-group-prefix">{@render prefix()}</span>
     {/if}
-    {@render children()}
+    {@render children?.()}
     {#if suffix}
         <span class="input-group-suffix">{@render suffix()}</span>
     {/if}

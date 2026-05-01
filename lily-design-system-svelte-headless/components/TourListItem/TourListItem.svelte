@@ -100,5 +100,5 @@
     hidden={!current ? true : undefined}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </li>

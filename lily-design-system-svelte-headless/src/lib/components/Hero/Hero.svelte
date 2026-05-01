@@ -14,5 +14,5 @@
 
 <!-- Hero.svelte -->
 <div class={`hero ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>

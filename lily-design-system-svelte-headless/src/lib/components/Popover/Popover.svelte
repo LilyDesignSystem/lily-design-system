@@ -71,6 +71,6 @@
         aria-label={label}
         {...restProps}
     >
-        {@render children()}
+        {@render children?.()}
     </div>
 {/if}

@@ -83,7 +83,7 @@
     {...restProps}
 >
     {#if children}
-        {@render children()}
+        {@render children?.()}
     {:else}
         {#if illustration}
             <div class="info-state-illustration">{@render illustration()}</div>

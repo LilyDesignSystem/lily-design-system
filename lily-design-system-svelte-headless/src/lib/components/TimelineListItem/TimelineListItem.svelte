@@ -84,5 +84,5 @@
     {#if datetime || heading}
         <time datetime={datetime || undefined}>{heading}</time>
     {/if}
-    {@render children()}
+    {@render children?.()}
 </li>

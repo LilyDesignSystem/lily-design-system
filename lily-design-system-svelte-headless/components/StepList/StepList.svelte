@@ -60,5 +60,5 @@
     data-current={current}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </ol>
