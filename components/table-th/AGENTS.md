@@ -1,10 +1,10 @@
-# TableTD
+# TableTH
 
 ## Metadata
 
 - Component: table-th
-- PascalCase: TableTD
-- Description: a table interactive grid column <th>
+- PascalCase: TableTH
+- Description: a table interactive grid header cell <th>
 - HTML tag: <th>
 - CSS class: .table-th
 - Interactive: no

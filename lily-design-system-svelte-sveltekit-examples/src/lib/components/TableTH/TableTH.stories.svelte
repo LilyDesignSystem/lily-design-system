@@ -1,14 +1,14 @@
 <script module lang="ts">
     import { defineMeta } from "@storybook/addon-svelte-csf";
-    import TableTD from "./TableTD.svelte";
+    import TableTH from "./TableTH.svelte";
     const { Story } = defineMeta({
-        title: "Examples/TableTD",
-        component: TableTD,
+        title: "Examples/TableTH",
+        component: TableTH,
     });
 </script>
 
 <Story name="Default" tags={["autodocs", "!dev"]}>
-    <TableTD label="TableTD example">
-        <span>TableTD example</span>
-    </TableTD>
+    <TableTH label="TableTH example">
+        <span>TableTH example</span>
+    </TableTH>
 </Story>

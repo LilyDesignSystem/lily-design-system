@@ -12,7 +12,7 @@
     } = $props();
 </script>
 
-<!-- TableTD.svelte -->
+<!-- TableTH.svelte -->
 <div class={`table-th ${className}`} aria-label={label} {...restProps}>
     {@render children()}
 </div>

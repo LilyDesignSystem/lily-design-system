@@ -350,7 +350,7 @@
 - table-head = TableHead = a table interactive grid thead <thead>
 - table-row = TableRow = a table interactive grid row <tr>
 - table-td = TableTD = a table interactive grid data cell <td>
-- table-th = TableTD = a table interactive grid column <th>
+- table-th = TableTH = a table interactive grid header cell <th>
 - tag = Tag = a keyword label for categorizing content
 - tag-group = TagGroup = a group of tag elements
 - tag-input = TagInput = an input for adding and removing tags

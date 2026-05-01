@@ -1,6 +1,6 @@
 # Table TH
 
-TableTD is a headless component that renders a `<th scope="col">` element — a column header cell — intended to live inside a TableRow within TableHead.
+TableTH is a headless component that renders a `<th scope="col">` element — a column header cell — intended to live inside a TableRow within TableHead.
 
 Use this component to label the columns of a table.
 
@@ -28,8 +28,8 @@ Use this component to label the columns of a table.
 <Table label="Users">
   <TableHead>
     <TableRow>
-      <TableTD>Name</TableTD>
-      <TableTD>Email</TableTD>
+      <TableTH>Name</TableTH>
+      <TableTH>Email</TableTH>
     </TableRow>
   </TableHead>
   <TableBody>
@@ -77,7 +77,7 @@ The consumer provides all CSS styling. The component renders with a `.table-th` 
 
 ## Composition
 
-TableTD is a child of TableRow within TableHead, following the Table pattern: Table > TableHead/TableBody/TableFoot > TableRow > TableTD/TableTD.
+TableTH is a child of TableRow within TableHead, following the Table pattern: Table > TableHead/TableBody/TableFoot > TableRow > TableTH/TableTD.
 
 ## Related components
 
