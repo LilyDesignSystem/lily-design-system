@@ -35,11 +35,16 @@ A horizontal progress indicator.
 
 ## When to Use
 
-- See `index.md` description: a horizontal progress indicator.
+- For determinate progress where the current value falls within a known range (file upload, form completion, multi-step task).
+- When the consumer needs full control over the bar visualization (custom track, fill animation, segmented styles) — pick this over `Progress` whose native `<progress>` element is harder to style.
+- When you need to expose progress state to assistive technology via ARIA value attributes.
 
 ## When Not to Use
 
-- See related components for alternative patterns.
+- Do not use when progress is indeterminate (loading without a known endpoint) — use `ProgressSpinner` instead.
+- Do not use as a circular indicator — use `ProgressCircle`.
+- Do not use to display a measured value within a known range that is not progress (e.g. battery, disk usage) — use `Meter`.
+- Do not use when the native `<progress>` element is sufficient — use `Progress` for less custom styling needs.
 
 ## Headless
 

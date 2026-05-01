@@ -46,7 +46,10 @@ The component supports `selected` for pre-selecting an option and `disabled` for
 
 ## When Not to Use
 
-- See related components for alternative patterns.
+- Do not use outside of a `<select>` element — `Option` relies on the parent `<select>` for semantics and keyboard handling.
+- Do not use when you need rich content in each option (icons, descriptions, multi-line text) — native `<option>` cannot render arbitrary HTML; use `Listbox` or `Combobox` for that.
+- Do not use when you need autocomplete/typeahead filtering — use `Combobox` or `Autosuggest`.
+- Do not use a single `Option` to represent something other than a discrete selectable value (e.g. a heading) — use `<optgroup>` for grouping.
 
 ## Headless
 

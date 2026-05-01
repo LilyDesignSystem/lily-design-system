@@ -65,7 +65,10 @@ Before/after image comparison:
 
 ## When Not to Use
 
-- See related components for alternative patterns.
+- Do not use to display a single item — use a standard content container instead.
+- Do not use when comparing structured data across many rows and columns — use `DataTable` so users can sort and scan.
+- Do not use for displaying merged or already-resolved content — `Diff` is for showing the comparison itself, not the result.
+- Do not use as a navigation pattern between two pages — use `BreadcrumbNav` or page links.
 
 ## Headless
 

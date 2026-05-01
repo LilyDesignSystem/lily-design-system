@@ -32,11 +32,15 @@ A link that takes users to the previous section of the current page.
 
 ## When to Use
 
-- See `index.md` description: a link that takes users to the previous section of the current page.
+- On long single-page documents where users benefit from sequential navigation between adjacent sections.
+- Together with `GoToNextSection` to give readers symmetric forward/back movement at the end of each section.
+- When section anchor IDs are stable enough to link to.
 
 ## When Not to Use
 
-- See related components for alternative patterns.
+- Do not use to navigate between separate pages — use `BackLink` for cross-page back navigation.
+- Do not use as the primary on-page navigation for an article — use `ContentsNav` or `SectionNav` instead.
+- Do not use when there is no logical "previous" section (e.g. on the first section of a page).
 
 ## Headless
 

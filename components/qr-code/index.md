@@ -41,7 +41,10 @@ None -- this component is a passive display container.
 
 ## When Not to Use
 
-- See related components for alternative patterns.
+- Do not use as the only way to access information — always pair with a text-based equivalent (a written URL, a copy-link button) so it is accessible to keyboard, screen reader, and desktop users.
+- Do not use to encode large or sensitive payloads — large QR codes degrade scanning reliability and printed/screenshotted codes are not secret.
+- Do not use as a generic image — use `Image` for arbitrary pictures, or `Icon` for symbolic glyphs.
+- Do not use without a meaningful `label` describing what scanning will do, not the raw encoded string.
 
 ## Headless
 

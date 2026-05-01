@@ -32,11 +32,15 @@ A generic block-level content container.
 
 ## When to Use
 
-- See `index.md` description: a generic block-level content container.
+- As a neutral wrapper around a section of related content where you want a single styling hook but no semantic meaning.
+- When you need a hook for consumer CSS (margins, padding, background) without committing to a fixed or fluid layout policy.
+- As the building block other layout components are composed from.
 
 ## When Not to Use
 
-- See related components for alternative patterns.
+- Do not use when a fixed reading width is required — use `container-with-fixed-width` instead.
+- Do not use when full-bleed horizontal padding is required — use `container-with-fluid-width` instead.
+- Do not use as a substitute for a semantic landmark — use `<header>`, `<main>`, `<nav>`, `<footer>`, or `<section>` (or the corresponding Lily components) when the content has a clear role.
 
 ## Headless
 

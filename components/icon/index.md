@@ -51,7 +51,10 @@ None -- this component is a passive container. Keyboard behavior depends on the 
 
 ## When Not to Use
 
-- See related components for alternative patterns.
+- Do not use as the only target of a click — wrap interactive icons in `IconButton` or another button so they pick up button semantics and focus styles.
+- Do not use to render a single emoji character that already has a textual meaning — use `Emoji` for that.
+- Do not use as a substitute for a labeled image with caption — use `Figure` for content imagery.
+- Do not use without `label` for an icon that conveys meaning standalone, and do not pass a `label` to a decorative icon.
 
 ## Headless
 

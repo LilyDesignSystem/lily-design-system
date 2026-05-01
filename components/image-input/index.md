@@ -59,7 +59,11 @@ No additional ARIA attributes are needed. The native `<input type="image">` elem
 
 ## When Not to Use
 
-- See related components for alternative patterns.
+- Do not use when a plain text submit button is sufficient — use `SubmitInput` for that.
+- Do not use for a non-submit image button (no form submission, just a click handler) — use `Button` with an `Image` child or use `IconButton`.
+- Do not use as a generic image — use `Image` for non-interactive images.
+- Do not use without meaningful `alt` text; the alt is the accessible name and is required for screen reader users.
+- Do not rely on the click coordinates submitted by `<input type="image">` (`name.x`, `name.y`) for new code — modern UIs should not depend on this legacy behavior.
 
 ## Headless
 

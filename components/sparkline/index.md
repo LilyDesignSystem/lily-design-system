@@ -42,7 +42,10 @@ None -- this component is a passive container for data visualization.
 
 ## When Not to Use
 
-- See related components for alternative patterns.
+- Do not use when users must interact with or drill into the data — use a full chart (`LineChart`, `BarChart`, `AreaChart`).
+- Do not use when precise numeric values matter — pair the trend with a `Statistic` or include the values in a table or tooltip.
+- Do not use as a single point reading of a value within a range — use `Meter` instead.
+- Do not use when the chart needs axes, gridlines, or legends — that contradicts the inline-trend purpose of a sparkline.
 
 ## Headless
 

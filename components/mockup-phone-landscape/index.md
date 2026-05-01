@@ -32,11 +32,16 @@ A box area that looks like a mobile phone in landscape orientation.
 
 ## When to Use
 
-- See `index.md` description: a box area that looks like a mobile phone in landscape orientation.
+- In marketing pages, documentation, or component galleries to frame a screenshot or video as a horizontally-held phone — useful for video, games, or split-screen UI.
+- When a portrait frame would crop or distort wide content; the landscape frame preserves the wide aspect ratio.
+- Alongside `MockupPhonePortrait` to show both orientations of the same app or screen.
 
 ## When Not to Use
 
-- See related components for alternative patterns.
+- Do not use to frame portrait-oriented screenshots — use `MockupPhonePortrait`.
+- Do not use to render an actual interactive device frame — this is a decorative wrapper, not a viewport emulator.
+- Do not use for tablet content — use `MockupTabletLandscape` or `MockupTabletPortrait`.
+- Do not use for desktop browser screenshots — use `MockupBrowser` or `MockupWindow`.
 
 ## Headless
 
