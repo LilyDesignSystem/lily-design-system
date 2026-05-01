@@ -14,6 +14,13 @@
 - Pattern: Nav/List/ListItem
 - Children: accordion-list, accordion-list-item
 
+## Key Behaviors
+
+- Renders a `<nav>` landmark wrapping an `AccordionList` so the whole accordion is announced as navigation
+- Provides an accessible label for the nav landmark via the `label` prop
+- No interactive behaviour of its own; each accordion section manages its own open/closed state
+- Spreads `restProps` onto the `<nav>`
+
 ## ARIA
 
 - `role="region"` -- identifies the accordion as a landmark region

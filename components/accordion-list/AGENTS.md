@@ -15,6 +15,13 @@
 - Parent: accordion-nav
 - Children: accordion-list-item
 
+## Key Behaviors
+
+- Renders an `<ol>` element so screen readers announce the count and ordered position of each accordion section
+- Children are `AccordionListItem` elements, each wrapping one collapsible section
+- Spreads `restProps` onto the `<ol>` so consumers can attach arbitrary attributes
+- No state of its own — each child item manages its own open/closed state
+
 ## ARIA
 
 - Semantic `<ol>` element provides ordered list semantics for assistive technology

@@ -14,6 +14,13 @@
 - Pattern: Tour/List/ListItem
 - Parent: tour-list
 
+## Key Behaviors
+
+- Renders an `<li>` inside a `TourList`, representing one step of the tour
+- Children include the step content (heading, description, illustration) composed by the consumer
+- The consumer marks the active step using `aria-current="step"` or a class hook for styling
+- Spreads `restProps` onto the `<li>`
+
 ## ARIA
 
 - `role="group"` -- groups the step content semantically

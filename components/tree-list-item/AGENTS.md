@@ -14,6 +14,14 @@
 - Pattern: Nav/List/ListItem
 - Parent: tree-list
 
+## Key Behaviors
+
+- Renders an `<li>` inside a `TreeList`
+- Items with children render a nested `TreeList` and reflect their open/closed state via `aria-expanded`
+- Leaf items (no children) omit `aria-expanded`
+- The consumer drives expand/collapse — typically via a child disclosure button or a `<details>` element
+- Spreads `restProps` onto the `<li>`
+
 ## ARIA
 
 - `role="treeitem"` -- identifies the element as an item in a tree widget

@@ -15,6 +15,14 @@
 - Parent: tree-nav
 - Children: tree-list-item
 
+## Key Behaviors
+
+- Renders an `<ol>` element used as the root of (or nested inside) a hierarchical tree
+- Children are `TreeListItem` elements, each of which may contain its own nested `TreeList`
+- Stateless — expand/collapse state lives on each item or in the consumer's data
+- For a fully labelled tree landmark, wrap inside `TreeNav`
+- Spreads `restProps` onto the `<ol>`
+
 ## ARIA
 
 - `role="tree"` -- identifies the container as a tree widget for hierarchical data

@@ -14,6 +14,13 @@
 - Pattern: Select/SelectOption
 - Parent: theme-select
 
+## Key Behaviors
+
+- Renders a native `<option>` element with `value` and visible text from children
+- Used inside a `ThemeSelect` (or any `<select>`) to represent one available theme
+- Native `<option>` styling is limited; the parent `<select>` controls dropdown appearance
+- Spreads `restProps` onto the `<option>`
+
 ## ARIA
 
 - Native `<option>` element provides built-in accessibility semantics

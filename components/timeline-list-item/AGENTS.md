@@ -14,6 +14,13 @@
 - Pattern: List/ListItem
 - Parent: timeline-list
 
+## Key Behaviors
+
+- Renders an `<li>` inside a `TimelineList`, representing one event in the chronological sequence
+- Children typically include a date/time element, a title, and supporting content composed by the consumer
+- For dates, prefer wrapping the timestamp in a `<time datetime="...">` element so the date is machine-readable
+- Spreads `restProps` onto the `<li>`
+
 ## ARIA
 
 - Semantic `<li>` element within an `<ol>` conveys ordered list item semantics

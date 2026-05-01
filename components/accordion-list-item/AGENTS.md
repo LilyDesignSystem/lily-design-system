@@ -14,6 +14,13 @@
 - Pattern: Nav/List/ListItem
 - Parent: accordion-list
 
+## Key Behaviors
+
+- Renders an `<li>` element inside an `AccordionList`
+- The collapsible section itself (header button + panel) lives in the `children` slot — typically a `<details>` element or a button + region pair
+- Stateless — the consumer (or a child `<details>`) owns the open/closed state
+- Spreads `restProps` onto the `<li>`
+
 ## ARIA
 
 - Native `<details>` / `<summary>` provide implicit disclosure widget semantics

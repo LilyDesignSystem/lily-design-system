@@ -15,6 +15,13 @@
 - Parent: tour
 - Children: tour-list-item
 
+## Key Behaviors
+
+- Renders an `<ol>` so screen readers announce the count and ordered position of each tour step
+- Children are `TourListItem` elements, each representing one step in the guided sequence
+- Stateless — does not manage which step is active; consumer drives the highlight via props or classes
+- Spreads `restProps` onto the `<ol>`
+
 ## ARIA
 
 - `role="dialog"` -- identifies the tour overlay as a dialog window

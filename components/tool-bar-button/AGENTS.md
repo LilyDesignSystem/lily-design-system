@@ -14,6 +14,14 @@
 - Pattern: Bar/BarButton
 - Parent: tool-bar
 
+## Key Behaviors
+
+- Renders a native `<button>` so it has an implicit `button` role and built-in Enter/Space activation
+- Defaults to `type="button"` to avoid accidentally submitting a surrounding form
+- When inside a `ToolBar` with roving focus, the parent manages tabindex and arrow-key navigation; standalone, the button picks up native tab focus
+- The native `disabled` attribute removes the button from the focus order and prevents activation
+- Spreads `restProps` onto the `<button>`
+
 ## ARIA
 
 - Implicit `button` role from the `<button>` element

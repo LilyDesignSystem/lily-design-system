@@ -14,6 +14,13 @@
 - Pattern: List/ListItem
 - Children: timeline-list-item
 
+## Key Behaviors
+
+- Renders an `<ol>` so screen readers announce the count and ordered position of each timeline event
+- Children are `TimelineListItem` elements, each representing one chronological event
+- Stateless wrapper — no scroll behaviour, expand/collapse, or filtering is included
+- Spreads `restProps` onto the `<ol>`
+
 ## ARIA
 
 - Semantic `<ol>` for ordered/chronological content

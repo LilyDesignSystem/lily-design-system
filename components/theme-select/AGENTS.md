@@ -14,6 +14,14 @@
 - Pattern: Select/SelectOption
 - Children: theme-select-option
 
+## Key Behaviors
+
+- Renders a native `<select>` element bound to `value` for two-way binding of the chosen theme
+- Children are `ThemeSelectOption` (or plain `<option>`) elements representing the available themes
+- Native `<select>` provides full keyboard, screen reader, and platform-appropriate dropdown behaviour for free
+- The `aria-label` is set from `label` since there is no visible `<label>` wrapping the select
+- The component does not apply the theme — the consumer reacts to `value` changes and applies CSS variables, classes, or theme objects
+
 ## ARIA
 
 - `aria-label={label}` -- provides an accessible name for the theme select since there is no visible `<label>` element
