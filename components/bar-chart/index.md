@@ -1,6 +1,10 @@
 # BarChart
 
-A horizontal bar chart visualization for displaying data.
+A categorical visualization with bars running horizontally, used to compare a measured value across a set of named categories. Horizontal orientation works particularly well when category labels are long or numerous, since each label sits on its own row and stays legible without rotation.
+
+The component is a headless wrapper around an inline `<svg>`: it renders a `<figure role="img">` containing the bars, names the figure via `aria-label` (from `label`), and references an extended `description` and an optional `dataTable` slot via `aria-describedby`. The data table is the canonical accessible alternative — screen readers and exports both benefit from a real `<table>` rendering of the same numbers, and Lily encourages always providing it.
+
+For the same comparison with vertical bars (better for short labels and time-ordered categories) use `ColumnChart`. For trends over continuous data use `LineChart` or `AreaChart`. For tiny inline summaries use `Sparkline`.
 
 ## Implementation Notes
 

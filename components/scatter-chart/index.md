@@ -1,6 +1,12 @@
 # ScatterChart
 
-A scatter chart visualization using dots to display data.
+A two-variable visualization where each observation is plotted as a single dot at its `(x, y)` coordinate, used to look at the relationship between two measurements — correlation, clustering, outliers — across a set of cases.
+
+Unlike a line or area chart, the x-axis isn't ordered as a sequence and points aren't connected; each dot stands on its own. Multiple series can be plotted as distinct sets of dots so groups can be compared visually.
+
+The component is a headless wrapper around an inline `<svg>`: it renders a `<figure role="img">` containing the dots, names the figure via `aria-label` (from `label`), and references an extended `description` and an optional `dataTable` slot via `aria-describedby`. The data table is the canonical accessible alternative — screen readers and exports both benefit from a real `<table>` rendering of the same numbers, and Lily encourages always providing it.
+
+For ordered continuous data use `LineChart` or `AreaChart`. For categorical comparison use `BarChart` or `ColumnChart`.
 
 ## Implementation Notes
 
