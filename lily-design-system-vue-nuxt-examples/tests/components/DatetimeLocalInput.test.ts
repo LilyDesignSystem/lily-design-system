@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "../../components/DateTimeLocalInput.vue";
 
-describe("DateTimeLocalInput", () => {
+describe("DatetimeLocalInput", () => {
     test("renders a datetime-local input", () => {
         render(Subject, { props: { label: "Event" } });
         const input = screen.getByLabelText("Event") as HTMLInputElement;

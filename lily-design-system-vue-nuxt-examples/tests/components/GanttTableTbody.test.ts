@@ -13,7 +13,7 @@ function renderInTable(props: Record<string, unknown>, slotContent?: string) {
     return { ...result, container };
 }
 
-describe("GanttTableBody", () => {
+describe("GanttTableTbody", () => {
     test("renders a tbody element", () => {
         renderInTable({}, "<tr><td>Design</td></tr>");
         const tbody = document.querySelector("tbody");

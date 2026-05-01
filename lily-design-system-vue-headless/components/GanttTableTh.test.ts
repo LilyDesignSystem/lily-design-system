@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { render } from "@testing-library/vue";
 
-import Subject from "./GanttTableTH.vue";
+import Subject from "./GanttTableTh.vue";
 
 function renderInRow(props: Record<string, unknown>) {
     const container = document.createElement("div");
@@ -16,7 +16,7 @@ function renderInRow(props: Record<string, unknown>) {
     return { ...result, container };
 }
 
-describe("GanttTableTH", () => {
+describe("GanttTableTh", () => {
     test("renders a th element", () => {
         renderInRow({});
         const th = document.querySelector("th");

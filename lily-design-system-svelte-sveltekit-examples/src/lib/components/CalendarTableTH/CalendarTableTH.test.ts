@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
 import CalendarTableTD from "./CalendarTableTD.svelte";
 
-describe("CalendarTableTD", () => {
+describe("CalendarTableTH", () => {
     test("renders the component", () => {
         render(CalendarTableTD, { props: { label: "Test" }, context: new Map() });
         const el = screen.getByLabelText("Test");

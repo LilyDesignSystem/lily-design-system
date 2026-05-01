@@ -13,7 +13,7 @@ function renderInTable(props: Record<string, unknown>, slotContent?: string) {
     return { ...result, container };
 }
 
-describe("GanttTableHead", () => {
+describe("GanttTableThead", () => {
     test("renders a thead element", () => {
         renderInTable({}, "<tr><th>Task</th></tr>");
         const thead = document.querySelector("thead");

@@ -16,7 +16,7 @@ function renderInRow(props: Record<string, unknown>) {
     return { ...result, container };
 }
 
-describe("KanbanTableTD", () => {
+describe("KanbanTableTH", () => {
     test("renders a th element", () => {
         renderInRow({});
         const th = document.querySelector("th");

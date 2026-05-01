@@ -15,7 +15,7 @@ function renderInTable(props: Record<string, unknown>, slotContent?: string) {
     return { ...result, container };
 }
 
-describe("GanttTableTR", () => {
+describe("GanttTableTr", () => {
     test("renders a tr element", () => {
         renderInTable({}, "<td>Design</td>");
         const row = document.querySelector("tr");

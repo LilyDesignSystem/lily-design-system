@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./DateTimeLocalInput.svelte";
+import Subject from "./DatetimeLocalInput.svelte";
 
-describe("DateTimeLocalInput", () => {
+describe("DatetimeLocalInput", () => {
     test("renders a datetime-local input", () => {
         render(Subject, { props: { label: "Event" } });
         const input = screen.getByLabelText("Event") as HTMLInputElement;

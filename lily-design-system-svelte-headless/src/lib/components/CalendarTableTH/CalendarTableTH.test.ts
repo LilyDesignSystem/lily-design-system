@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { render } from "@testing-library/svelte";
 
-import Subject from "./CalendarTableTD.svelte";
+import Subject from "./CalendarTableTH.svelte";
 
 function renderInRow(props: Record<string, unknown>) {
     const container = document.createElement("div");
@@ -16,7 +16,7 @@ function renderInRow(props: Record<string, unknown>) {
     return { ...result, container };
 }
 
-describe("CalendarTableTD", () => {
+describe("CalendarTableTH", () => {
     test("renders a th element", () => {
         renderInRow({});
         const th = document.querySelector("th");

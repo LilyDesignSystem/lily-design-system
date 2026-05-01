@@ -16,7 +16,7 @@ function renderInRow(props: Record<string, unknown>) {
     return { ...result, container };
 }
 
-describe("DataTableTD", () => {
+describe("DataTableTH", () => {
     test("renders a th element", () => {
         renderInRow({});
         const th = document.querySelector("th");

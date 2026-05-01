@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { render } from "@testing-library/svelte";
 
-import Subject from "./GanttTableTR.svelte";
+import Subject from "./GanttTableTr.svelte";
 
 function tdSnippet(text: string) {
     return (($anchor: Comment) => {
@@ -22,7 +22,7 @@ function renderInTable(props: Record<string, unknown>) {
     return { ...result, container };
 }
 
-describe("GanttTableTR", () => {
+describe("GanttTableTr", () => {
     test("renders a tr element", () => {
         renderInTable({ children: tdSnippet("Design") });
         const row = document.querySelector("tr");
