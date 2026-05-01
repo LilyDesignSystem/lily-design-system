@@ -1,6 +1,13 @@
 # AnnouncementBanner
 
-A banner highlighting important messages for all users.
+A persistent, page-level banner for service-wide messages — scheduled maintenance, public-interest news, regulatory notices — that every user should see while the message is active.
+
+The component renders a `<div role="region">` so the banner is a labeled landmark in the page outline, named by the required `label` prop. Two optional behaviours layer on top:
+
+- `dismissible` adds a close `<button>` so users can hide a non-critical banner once they have read it; the consumer decides whether the dismissal is remembered (cookie, local storage, server flag).
+- `live` promotes the region to `aria-live="polite"` so screen readers announce content changes (e.g. updated maintenance ETA) without interrupting the user.
+
+Reach for `AnnouncementBanner` when the message is broad and persistent. Use `Alert` for status tied to a specific section or action, `Notification` / `Toast` for transient confirmations, and `PhaseBanner` specifically for alpha/beta service phase messaging.
 
 ## Implementation Notes
 

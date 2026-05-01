@@ -1,6 +1,10 @@
 # SuccessPanel
 
-A panel confirming a task has been completed.
+The dominant element on a confirmation page — a prominent panel that says, in plain language, that a multi-step task has finished, and (optionally) shows a reference number and what happens next.
+
+The component is built around a configurable heading (defaulting to `<h1>` because the confirmation panel is normally the page's main heading) and a body slot for follow-up information: confirmation reference, what to expect next, links to related services, contact details. The wrapping `<div>` is exposed as `role="alert"` with `aria-live="polite"` so screen readers announce the heading when the page loads, even if focus has not yet been moved into it.
+
+This is heavier than `Alert` (which is for inline status inside a longer page) and `Notification` / `Toast` (which are transient). Reach for `SuccessPanel` only at the end of a discrete task — form submission, payment, booking, account creation — when the page changes role from "perform task" to "confirm task complete".
 
 ## Implementation Notes
 

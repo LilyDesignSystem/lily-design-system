@@ -1,6 +1,10 @@
 # RelatedContent
 
-A section providing links to related or supporting information.
+A complementary `<aside>` placed beside or after a piece of content, listing links to articles, guides, or service pages that the reader may want to look at next.
+
+The component renders the aside as a labelled landmark — its required heading is wired up via `aria-labelledby` — so screen reader users can navigate into and out of it as a discrete region. The link list itself is the consumer's responsibility: pass any markup through the children slot, whether that is a plain `<ul>`, `ContentsLink` items, or a richer composition. Heading level is configurable so the aside fits the page outline (e.g. `<h2>` next to the article body, `<h3>` inside a sidebar section).
+
+Use it for "you might also be interested in…" patterns. For in-page section navigation use `ContentsNav`, and for the page's primary side navigation use `Sidebar`.
 
 ## Implementation Notes
 

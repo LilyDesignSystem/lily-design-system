@@ -1,6 +1,10 @@
 # StatusTag
 
-A tag showing the current status of a task.
+A small inline label that names the current state of an item — "Completed", "In review", "Cannot start yet" — typically rendered next to a row in a list, a step in a workflow, or a heading on a detail page.
+
+The component is intentionally a static label, not a live region: it renders a `<span>` with the status text inside and a `tone` prop that the consumer maps to colour. Crucially, the meaning is always carried by the visible text — colour is reinforcement, never the only indicator. WCAG 1.4.1 (Use of Colour) requires this for users who can't perceive colour.
+
+`StatusTag` does not announce changes. If the status updating during the user's session is meaningful (e.g. "Awaiting review" → "Approved"), wrap the tag in a `Notification` or `Alert` with `aria-live="polite"`, or use `Toast` for a transient announcement. Use `Badge` for counts, `Tag` for non-status keyword labels.
 
 ## Implementation Notes
 

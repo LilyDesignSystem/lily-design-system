@@ -1,6 +1,10 @@
 # SharePage
 
-A component for sharing the page on social media.
+A labeled group of share controls — typically email, copy-link, and one or two social platforms — letting readers send the current page to others without leaving it.
+
+The component is a thin headless wrapper: it renders a `role="group"` container with an accessible label, then renders one button or link per configured service. Social platforms render as anchors that open the platform's share endpoint with the URL and title pre-filled; copy-link renders as a `<button>` that calls the Clipboard API (with a textarea-select fallback for older browsers) and announces success via an `aria-live="polite"` region. The list of services is configurable so consumers can add, remove, or reorder share targets to match their audience.
+
+For mobile-first contexts where the OS share sheet is preferable, prefer the native Web Share API (`navigator.share`) over this component.
 
 ## Implementation Notes
 
