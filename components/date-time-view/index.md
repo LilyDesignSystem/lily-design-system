@@ -1,4 +1,4 @@
-# Datetime View
+# DateTime View
 
 A datetime view is a read-only display of a formatted date and/or time using
 the semantic `<time>` element so that browsers and assistive technology can

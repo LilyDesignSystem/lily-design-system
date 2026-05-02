@@ -1,8 +1,8 @@
-# Datetime Local Input — Implementation Plan
+# DateTime Local Input — Implementation Plan
 
 ## Goal
 
-Implement the Datetime Local Input component: an input for entering a date and time without time zone <input type="datetime-local">.
+Implement the DateTime Local Input component: an input for entering a date and time without time zone <input type="datetime-local">.
 
 ## HTML Tag and CSS Class
 

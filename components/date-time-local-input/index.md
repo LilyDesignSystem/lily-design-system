@@ -1,4 +1,4 @@
-# Datetime Local Input
+# DateTime Local Input
 
 A datetime-local input allows users to select both a date and time using the native `<input type="datetime-local">` element. It provides accessible labelling via `aria-label` and a bindable value for reactive form state.
 

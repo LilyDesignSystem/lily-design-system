@@ -1,4 +1,4 @@
-# Datetime View
+# DateTime View
 
 ## Metadata
 

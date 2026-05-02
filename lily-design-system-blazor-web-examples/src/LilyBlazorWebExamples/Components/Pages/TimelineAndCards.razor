@@ -9,14 +9,14 @@
                End="@filterEnd" EndChanged="v => filterEnd = v" />
 </Card>
 
-<ReviewDate Label="Last updated" Datetime="2025-06-20">
+<ReviewDate Label="Last updated" DateTime="2025-06-20">
     Last updated: June 20, 2025
 </ReviewDate>
 
 <TimelineList Label="Project milestones">
     @foreach (var m in FilteredMilestones)
     {
-        <TimelineListItem Datetime="@m.Date" Heading="@m.Heading">
+        <TimelineListItem DateTime="@m.Date" Heading="@m.Heading">
             <Card Heading="@m.Title" HeadingLevel="3">
                 <Badge Type="@m.Status">@m.StatusLabel</Badge>
                 <p>@m.Description</p>

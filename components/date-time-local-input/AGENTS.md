@@ -1,4 +1,4 @@
-# Datetime Local Input
+# DateTime Local Input
 
 ## Metadata
 
