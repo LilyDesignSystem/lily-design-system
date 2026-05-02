@@ -1,0 +1,18 @@
+# Place
+
+A place component containing place-related information.
+
+## Props
+
+- `label`: string (optional) -- accessible label via `aria-label`
+- default slot — component content
+
+## Usage
+
+```vue
+<Place>...</Place>
+```
+
+## References
+
+- HTML article element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article
