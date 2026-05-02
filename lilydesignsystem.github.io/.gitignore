@@ -4,3 +4,8 @@
 node_modules/
 *.log
 .claude
+.svelte-kit/
+build/
+.env
+.env.*
+!.env.example
