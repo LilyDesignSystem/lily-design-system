@@ -68,6 +68,9 @@ pnpm install`}</code></pre>
 </button>`}</code></pre>
 
   <h3>Svelte</h3>
+  <!-- The Svelte compiler scans literal `<script>`/`</script>` even inside template
+       literals, so we concatenate `<` + `script>` to render the tags as plain text
+       in the rendered code sample without triggering the parser. -->
   <pre><code>{`<` + `script>
   import Button from "lily-design-system-svelte-headless/components/Button/Button.svelte";
 </` + `script>
@@ -80,6 +83,7 @@ pnpm install`}</code></pre>
 <Button onClick={save}>Save</Button>`}</code></pre>
 
   <h3>Vue</h3>
+  <!-- See note above the Svelte sample for why `<` + `script setup>` is split. -->
   <pre><code>{`<` + `script setup>
   import Button from "lily-design-system-vue-headless/components/Button.vue";
 </` + `script>
