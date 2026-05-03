@@ -2,14 +2,12 @@
 
 ### Architecture
 
-- Svelte 5
-- SvelteKit 2
-- TypeScript
-- Runes ($state, $derived, $props, $bindable)
-- Vite
-- Paraglide-JS for internationalization
-- pnpm NOT npm
-- [Storybook](https://storybook.js.org/)
+- Svelte 5 with runes (`$state`, `$derived`, `$props`, `$bindable`, `$effect`)
+- SvelteKit 2 (used by the example subproject; the headless subproject ships components only and does NOT depend on SvelteKit)
+- TypeScript everywhere
+- Vite as the build tool
+- pnpm (not npm)
+- Internationalisation is the consumer's concern — components accept text via props, no i18n library is bundled (no Paraglide, no svelte-i18n)
 
 ### Component conventions
 
@@ -17,8 +15,8 @@
 - Two-way binding uses `$bindable()`
 - Derived values use `$derived()`
 - Local state uses `$state()`
-- Children slots use `Snippet` type with `{@render children()}`
-- All styling is scoped within component `<style>` blocks
+- Children slots use `Snippet` type with `{@render children?.()}` (the optional invocation form so missing children don't throw)
+- Headless components do NOT include `<style>` blocks — consumers provide all CSS. Style scoping only applies inside the example subproject.
 - All `{#each}` blocks must have a key expression
 - Color palette comes from `AGENTS/theme.md`
 

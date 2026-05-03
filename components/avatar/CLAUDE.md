@@ -1,2 +1,2 @@
 @AGENTS.md
-@../../AGENTS/components-helper/avatar.md
+@../../AGENTS/components-helpers/avatar.md

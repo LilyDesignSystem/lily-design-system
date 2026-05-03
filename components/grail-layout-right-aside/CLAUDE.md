@@ -1,2 +1,2 @@
 @AGENTS.md
-@../../AGENTS/component-helpers/grail-layout.md
+@../../AGENTS/components-helpers/grail-layout.md
