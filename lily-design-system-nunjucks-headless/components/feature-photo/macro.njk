@@ -1,0 +1,41 @@
+{#
+  featurePhoto macro — responsive feature photo with required alt and optional caption/credit.
+
+  HTML tag: <figure>
+  CSS class: feature-photo
+
+  Params:
+    src         string  REQUIRED. Image source URL.
+    alt         string  REQUIRED. Use empty string for decorative photos.
+    loading     string  "lazy" | "eager". Default "lazy".
+    width       number
+    height      number
+    caption     string  Caption text.
+    captionHtml string  Caption raw HTML.
+    credit      string  Photographer/source credit text.
+    creditHtml  string  Credit raw HTML.
+    classes     string
+    attributes  object
+#}
+{%- macro featurePhoto(params) -%}
+{%- set loading = params.loading | default("lazy") -%}
+<figure
+  class="feature-photo{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <img
+    class="feature-photo-image"
+    src="{{ params.src }}"
+    alt="{{ params.alt }}"
+    loading="{{ loading }}"
+    {%- if params.width %} width="{{ params.width }}"{% endif %}
+    {%- if params.height %} height="{{ params.height }}"{% endif %}
+  >
+  {%- if params.caption or params.captionHtml or params.credit or params.creditHtml -%}
+    <figcaption class="feature-photo-caption">
+      {%- if params.captionHtml %}<span class="feature-photo-caption-text">{{ params.captionHtml | safe }}</span>{% elif params.caption %}<span class="feature-photo-caption-text">{{ params.caption }}</span>{% endif -%}
+      {%- if params.creditHtml %}<span class="feature-photo-credit">{{ params.creditHtml | safe }}</span>{% elif params.credit %}<span class="feature-photo-credit">{{ params.credit }}</span>{% endif -%}
+    </figcaption>
+  {%- endif -%}
+</figure>
+{%- endmacro -%}

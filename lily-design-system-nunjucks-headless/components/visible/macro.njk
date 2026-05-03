@@ -1,0 +1,31 @@
+{#
+  visible macro — IntersectionObserver marker div.
+
+  HTML tag: <div>
+  CSS class: visible
+
+  Params:
+    text       string
+    html       string
+    classes    string
+    attributes object
+
+  Visibility tracking is JS-driven; this macro renders the marker
+  element with data-visible="false" so consumer scripts can attach
+  an IntersectionObserver and toggle data-visible.
+#}
+{%- macro visible(params) -%}
+<div
+  class="visible{% if params.classes %} {{ params.classes }}{% endif %}"
+  data-visible="false"
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}
+    {{ params.html | safe }}
+  {%- elif params.text -%}
+    {{ params.text }}
+  {%- elif caller -%}
+    {{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

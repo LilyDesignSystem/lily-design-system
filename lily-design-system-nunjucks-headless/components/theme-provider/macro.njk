@@ -1,0 +1,33 @@
+{#
+  themeProvider macro — applies a theme object as CSS custom properties.
+
+  HTML tag: <div>
+  CSS class: theme-provider
+
+  Params:
+    theme      object  REQUIRED. Flat object {key: value} flattened to --theme-{key}.
+    base       string  "light" | "dark". Default "light". Reflected as data-theme.
+    text       string
+    html       string
+    classes    string
+
+  Note: Nunjucks cannot deeply walk arbitrary nested theme objects;
+  this macro flattens one level. Pass nested keys pre-flattened
+  (e.g. { "color-primary": "#fff" }) for deeper structures.
+#}
+{%- macro themeProvider(params) -%}
+{%- set base = params.base | default("light") -%}
+<div
+  class="theme-provider{% if params.classes %} {{ params.classes }}{% endif %}"
+  data-theme="{{ base }}"
+  style="display: contents;{%- if params.theme %}{% for k, v in params.theme %} --theme-{{ k }}: {{ v }};{% endfor %}{% endif %}"
+>
+  {%- if params.html -%}
+    {{ params.html | safe }}
+  {%- elif params.text -%}
+    {{ params.text }}
+  {%- elif caller -%}
+    {{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

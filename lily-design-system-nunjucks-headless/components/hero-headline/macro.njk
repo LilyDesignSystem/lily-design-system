@@ -1,0 +1,32 @@
+{#
+  heroHeadline macro — full-bleed hero section with headline overlaid on media.
+
+  HTML tag: <div>
+  CSS class: hero-headline
+
+  Params:
+    label      string  REQUIRED. aria-label.
+    text       string  Headline content.
+    html       string
+    mediaHtml  string  Background media (image/video) HTML.
+    classes    string
+    attributes object
+#}
+{%- macro heroHeadline(params) -%}
+<div
+  class="hero-headline{% if params.classes %} {{ params.classes }}{% endif %}"
+  aria-label="{{ params.label }}"
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.mediaHtml %}<div class="hero-headline-media">{{ params.mediaHtml | safe }}</div>{% endif -%}
+  <div class="hero-headline-content">
+    {%- if params.html -%}
+      {{ params.html | safe }}
+    {%- elif params.text -%}
+      {{ params.text }}
+    {%- elif caller -%}
+      {{ caller() }}
+    {%- endif -%}
+  </div>
+</div>
+{%- endmacro -%}

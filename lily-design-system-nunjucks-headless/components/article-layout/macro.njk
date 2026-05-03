@@ -1,0 +1,28 @@
+{#
+  articleLayout macro — see components/article-layout/index.md for canonical documentation.
+
+  HTML tag: <article>
+  CSS class: article-layout
+
+  Params:
+    text       string  Plain text content.
+    html       string  Raw HTML content (rendered via | safe).
+    label      string  aria-label.
+    classes    string
+    attributes object
+#}
+{%- macro articleLayout(params) -%}
+<article
+  class="article-layout{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}
+    {{ params.html | safe }}
+  {%- elif params.text -%}
+    {{ params.text }}
+  {%- elif caller -%}
+    {{ caller() }}
+  {%- endif -%}
+</article>
+{%- endmacro -%}

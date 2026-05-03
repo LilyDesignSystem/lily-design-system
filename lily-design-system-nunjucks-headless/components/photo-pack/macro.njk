@@ -1,0 +1,28 @@
+{#
+  photoPack macro — see components/photo-pack/index.md for canonical documentation.
+
+  HTML tag: <div>
+  CSS class: photo-pack
+
+  Params:
+    text       string  Plain text content.
+    html       string  Raw HTML content (rendered via | safe).
+    label      string  REQUIRED. aria-label.
+    classes    string
+    attributes object
+#}
+{%- macro photoPack(params) -%}
+<div
+  class="photo-pack{% if params.classes %} {{ params.classes }}{% endif %}" role="group"
+  aria-label="{{ params.label }}"
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}
+    {{ params.html | safe }}
+  {%- elif params.text -%}
+    {{ params.text }}
+  {%- elif caller -%}
+    {{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

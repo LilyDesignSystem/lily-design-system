@@ -1,0 +1,39 @@
+{#
+  scroller macro — scrollytelling container with sticky background.
+
+  HTML tag: <div>
+  CSS class: scroller
+
+  Params:
+    label           string  Optional aria-label.
+    offset          number  Trigger offset 0..1, default 0.5.
+    backgroundHtml  string  Sticky background content.
+    text            string  Foreground step content.
+    html            string  Foreground step content (raw).
+    classes         string
+    attributes      object
+#}
+{%- macro scroller(params) -%}
+{%- set offset = params.offset | default(0.5) -%}
+<div
+  class="scroller{% if params.classes %} {{ params.classes }}{% endif %}"
+  data-offset="{{ offset }}"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <div class="scroller-background" aria-live="polite">
+    {%- if params.backgroundHtml -%}
+      {{ params.backgroundHtml | safe }}
+    {%- endif -%}
+  </div>
+  <div class="scroller-foreground scroller-base" data-offset="{{ offset }}">
+    {%- if params.html -%}
+      {{ params.html | safe }}
+    {%- elif params.text -%}
+      {{ params.text }}
+    {%- elif caller -%}
+      {{ caller() }}
+    {%- endif -%}
+  </div>
+</div>
+{%- endmacro -%}

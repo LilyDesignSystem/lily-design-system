@@ -1,0 +1,35 @@
+{#
+  headline macro — page or article headline composition.
+
+  HTML tag: <div> containing <hN>
+  CSS class: headline
+
+  Params:
+    level         number  1..6. Default 1.
+    text          string  Heading text.
+    html          string  Heading content (raw HTML).
+    subtitleText  string
+    subtitleHtml  string
+    bylineHtml    string
+    classes       string
+    attributes    object
+#}
+{%- macro headline(params) -%}
+{%- set level = params.level | default(1) -%}
+<div
+  class="headline{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <h{{ level }} class="headline-heading">
+    {%- if params.html -%}
+      {{ params.html | safe }}
+    {%- elif params.text -%}
+      {{ params.text }}
+    {%- elif caller -%}
+      {{ caller() }}
+    {%- endif -%}
+  </h{{ level }}>
+  {%- if params.subtitleHtml %}<div class="headline-subtitle">{{ params.subtitleHtml | safe }}</div>{% elif params.subtitleText %}<div class="headline-subtitle">{{ params.subtitleText }}</div>{% endif -%}
+  {%- if params.bylineHtml %}<div class="headline-byline">{{ params.bylineHtml | safe }}</div>{% endif -%}
+</div>
+{%- endmacro -%}

@@ -1,0 +1,42 @@
+{#
+  videoPlayer macro — <video> rendered inside <figure>.
+
+  HTML tag: <figure>
+  CSS class: video-player
+
+  Params:
+    src         string  REQUIRED. Video source URL.
+    label       string  REQUIRED. aria-label for the video.
+    poster      string
+    autoplay    boolean
+    muted       boolean
+    loop        boolean
+    controls    boolean (default true)
+    captionText string
+    captionHtml string
+    classes     string
+    attributes  object
+
+  Autoplay-on-scroll behaviour requires consumer JavaScript
+  (IntersectionObserver). The macro renders the markup only.
+#}
+{%- macro videoPlayer(params) -%}
+{%- set controls = params.controls if params.controls is defined else true -%}
+<figure
+  class="video-player{% if params.classes %} {{ params.classes }}{% endif %}"
+  aria-label="{{ params.label }}"
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <video
+    class="video-player-element"
+    src="{{ params.src }}"
+    {%- if params.poster %} poster="{{ params.poster }}"{% endif %}
+    {%- if params.autoplay %} autoplay{% endif %}
+    {%- if params.muted %} muted{% endif %}
+    {%- if params.loop %} loop{% endif %}
+    {%- if controls %} controls{% endif %}
+    playsinline
+  ></video>
+  {%- if params.captionHtml %}<figcaption class="video-player-caption">{{ params.captionHtml | safe }}</figcaption>{% elif params.captionText %}<figcaption class="video-player-caption">{{ params.captionText }}</figcaption>{% endif -%}
+</figure>
+{%- endmacro -%}

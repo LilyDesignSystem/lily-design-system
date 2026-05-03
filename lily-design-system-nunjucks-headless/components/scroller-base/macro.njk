@@ -1,0 +1,35 @@
+{#
+  scrollerBase macro — low-level scroll-position tracking primitive.
+
+  HTML tag: <div>
+  CSS class: scroller-base
+
+  Params:
+    label      string  Optional aria-label.
+    offset     number  Trigger position (0..1). Default 0.5. data-offset.
+    text       string
+    html       string  Step content (each direct child element is a step).
+    classes    string
+    attributes object
+
+  Behaviour (IntersectionObserver, scroll progress) is consumer-
+  driven. The macro renders the wrapper with data-offset so consumer
+  scripts can pick up the configured trigger.
+#}
+{%- macro scrollerBase(params) -%}
+{%- set offset = params.offset | default(0.5) -%}
+<div
+  class="scroller-base{% if params.classes %} {{ params.classes }}{% endif %}"
+  data-offset="{{ offset }}"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if params.html -%}
+    {{ params.html | safe }}
+  {%- elif params.text -%}
+    {{ params.text }}
+  {%- elif caller -%}
+    {{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}
