@@ -59,7 +59,7 @@
 
 <section class="section">
   <ul class="tag-list" aria-label="Common categories">
-    {#each tags as tag}
+    {#each tags as tag (tag.label)}
       <li>
         <button
           type="button"
