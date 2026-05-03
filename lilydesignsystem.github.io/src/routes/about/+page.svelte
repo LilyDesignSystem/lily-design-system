@@ -79,6 +79,7 @@
     systems:
   </p>
   <ul>
+    <li><a href="https://service-manual.nhs.uk/design-system">NHS UK Design System</a></li>
     <li><a href="https://design-system.service.gov.uk/">GOV.UK Design System</a></li>
     <li><a href="https://designsystem.digital.gov/">U.S. Web Design System (USWDS)</a></li>
     <li><a href="https://github.com/ONSdigital/design-system">ONSdigital design system</a></li>
