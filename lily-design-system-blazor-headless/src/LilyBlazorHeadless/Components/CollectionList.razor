@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    CollectionList component
+    a compact list of multiple related items such as articles or events
+*@
+
+<ul class="@($"collection-list {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ul>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

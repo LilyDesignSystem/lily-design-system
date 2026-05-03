@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    StickyPromoBanner component
+    a fixed-position promotional banner with a dismiss button
+*@
+
+<aside class="@($"sticky-promo-banner {CssClass}".Trim())" role="complementary" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</aside>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

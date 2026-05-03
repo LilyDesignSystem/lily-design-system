@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    SummaryBox component
+    a boxed callout highlighting key takeaways or next steps from a longer page
+*@
+
+<aside class="@($"summary-box {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</aside>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

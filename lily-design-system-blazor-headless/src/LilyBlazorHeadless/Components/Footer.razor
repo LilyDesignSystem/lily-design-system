@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    Footer component
+    a page or section footer area
+*@
+
+<footer class="@($"footer {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</footer>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

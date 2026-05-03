@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    Place component
+    a place component that contains other place-related information
+*@
+
+<article class="@($"place {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</article>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

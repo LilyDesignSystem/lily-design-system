@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    NorthernIrelandHealthAndCareNumberInput component
+    an input for entering aNorthern Ireland Health and Care (H&C) Number unique national healthcare identifier
+*@
+
+<input class="@($"northern-ireland-health-and-care-number-input {CssClass}".Trim())" type="text" aria-label="@Label" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

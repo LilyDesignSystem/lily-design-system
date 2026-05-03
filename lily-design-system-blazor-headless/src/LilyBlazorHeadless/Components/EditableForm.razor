@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    EditableForm component
+    a form wrapper for inline editing of content
+*@
+
+<form class="@($"editable-form {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</form>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

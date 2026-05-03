@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    DateTimeView component
+    a read-only display of a formatted date and time
+*@
+
+<time class="@($"date-time-view {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</time>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

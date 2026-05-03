@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    Sidebar component
+    a side panel for navigation or supplementary content
+*@
+
+<aside class="@($"sidebar {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</aside>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

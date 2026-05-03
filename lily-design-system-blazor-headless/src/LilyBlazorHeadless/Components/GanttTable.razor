@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    GanttTable component
+    a Gantt chart table interactive grid for planning schedule visualization <table>
+*@
+
+<table class="@($"gantt-table {CssClass}".Trim())" role="grid" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</table>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

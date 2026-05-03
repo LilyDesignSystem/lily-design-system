@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    DoListItem component
+    an encouraged-practice item in a do-list guideline list
+*@
+
+<li class="@($"do-list-item {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

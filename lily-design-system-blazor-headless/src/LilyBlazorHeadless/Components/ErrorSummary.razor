@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ErrorSummary component
+    a summary of all validation errors on a form
+*@
+
+<div class="@($"error-summary {CssClass}".Trim())" role="alert" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    CalendarTableRow component
+    a calendar table interactive grid row for managing dates, days, etc. <tr>
+*@
+
+<tr class="@($"calendar-table-row {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</tr>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

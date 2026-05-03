@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    Select component
+    a dropdown select element for choosing one option
+*@
+
+<select class="@($"select {CssClass}".Trim())" role="combobox" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</select>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

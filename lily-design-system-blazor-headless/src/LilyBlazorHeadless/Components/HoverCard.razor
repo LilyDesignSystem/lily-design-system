@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    HoverCard component
+    a card that appears on hover over a trigger element
+*@
+
+<div class="@($"hover-card {CssClass}".Trim())" role="tooltip" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

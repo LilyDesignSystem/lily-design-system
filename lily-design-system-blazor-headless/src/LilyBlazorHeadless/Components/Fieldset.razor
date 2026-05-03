@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    Fieldset component
+    a group of related form fields with a legend
+*@
+
+<fieldset class="@($"fieldset {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</fieldset>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

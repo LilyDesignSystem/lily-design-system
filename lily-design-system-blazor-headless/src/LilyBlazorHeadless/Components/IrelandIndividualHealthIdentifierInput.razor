@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    IrelandIndividualHealthIdentifierInput component
+    an input for entering Ireland Individual Health Identifier (IHI) unique national healthcare identifier
+*@
+
+<input class="@($"ireland-individual-health-identifier-input {CssClass}".Trim())" type="text" aria-label="@Label" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

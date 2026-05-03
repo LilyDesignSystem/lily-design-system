@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    GanttTableTbody component
+    a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
+*@
+
+<tbody class="@($"gantt-table-tbody {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</tbody>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

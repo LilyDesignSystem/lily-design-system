@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    TabBarButton component
+    one tab button in a tab group
+*@
+
+<button class="@($"tab-bar-button {CssClass}".Trim())" role="tab" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    FeatureCard component
+    a large content card with a prominent image positioned alongside or above the text
+*@
+
+<article class="@($"feature-card {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</article>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

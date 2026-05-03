@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ContextMenuItem component
+    one item in a context menu
+*@
+
+<div class="@($"context-menu-item {CssClass}".Trim())" role="menuitem" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

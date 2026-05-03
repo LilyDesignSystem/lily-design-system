@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    BarChart component
+    a horizontal bar chart visualization for displaying data
+*@
+
+<figure class="@($"bar-chart {CssClass}".Trim())" role="img" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</figure>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

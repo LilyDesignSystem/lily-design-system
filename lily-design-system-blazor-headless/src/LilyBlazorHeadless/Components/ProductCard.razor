@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ProductCard component
+    a specialized card for displaying a product with image, title, price, and actions
+*@
+
+<article class="@($"product-card {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</article>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

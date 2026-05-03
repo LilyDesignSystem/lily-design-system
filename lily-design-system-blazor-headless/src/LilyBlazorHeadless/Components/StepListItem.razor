@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    StepListItem component
+    one step in a step list with status of waiting, in progress, finished, or error
+*@
+
+<li class="@($"step-list-item {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

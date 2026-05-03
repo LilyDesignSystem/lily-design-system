@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    KanbanTable component
+    a kanban board table interactive grid for organizing items by status <table>
+*@
+
+<table class="@($"kanban-table {CssClass}".Trim())" role="region" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</table>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

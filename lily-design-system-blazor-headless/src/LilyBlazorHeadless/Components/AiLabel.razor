@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    AiLabel component
+    an indicator of AI instances that is a pathway to AI explainability
+*@
+
+<span class="@($"ai-label {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    RadioInput component
+    a single radio button input <input type="radio">
+*@
+
+<input class="@($"radio-input {CssClass}".Trim())" type="radio" aria-label="@Label" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

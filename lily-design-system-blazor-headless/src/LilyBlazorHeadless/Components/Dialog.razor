@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    Dialog component
+    a modal or non-modal dialog window
+*@
+
+<dialog class="@($"dialog {CssClass}".Trim())" role="dialog" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</dialog>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

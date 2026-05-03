@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    LineChart component
+    a line chart visualization connecting data points to display data
+*@
+
+<figure class="@($"line-chart {CssClass}".Trim())" role="img" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</figure>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

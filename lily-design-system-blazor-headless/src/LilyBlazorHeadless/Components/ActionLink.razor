@@ -1,0 +1,16 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ActionLink component
+    a hyperlink styled as an action trigger
+*@
+
+<a class="@($"action-link {CssClass}".Trim())" href="@Href" aria-label="@Label" @attributes="AdditionalAttributes">@(ChildContent ?? @<text>@Label</text>)</a>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter, EditorRequired] public string Href { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

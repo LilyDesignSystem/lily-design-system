@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    GovernmentIdentifier component
+    an identifier section with a parent agency logo, agency name, and required government links
+*@
+
+<section class="@($"government-identifier {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</section>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

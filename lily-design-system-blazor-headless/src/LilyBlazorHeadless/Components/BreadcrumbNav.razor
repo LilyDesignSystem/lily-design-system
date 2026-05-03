@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    BreadcrumbNav component
+    a navigation container for breadcrumb trail links
+*@
+
+<nav class="@($"breadcrumb-nav {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</nav>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

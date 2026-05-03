@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    AngleSliderRangeInput component
+    a range input for selecting an angle in degrees
+*@
+
+<input class="@($"angle-slider-range-input {CssClass}".Trim())" role="slider" type="text" aria-label="@Label" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

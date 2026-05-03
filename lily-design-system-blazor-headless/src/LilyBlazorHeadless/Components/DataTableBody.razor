@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    DataTableBody component
+    a data table interactive grid tbody for displaying and sorting tabular data <tbody>
+*@
+
+<tbody class="@($"data-table-body {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</tbody>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

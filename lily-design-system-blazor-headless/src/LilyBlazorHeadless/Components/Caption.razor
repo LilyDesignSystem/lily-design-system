@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    Caption component
+    a caption for a table or figure element
+*@
+
+<caption class="@($"caption {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</caption>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

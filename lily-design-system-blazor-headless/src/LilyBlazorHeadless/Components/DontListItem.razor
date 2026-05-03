@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    DontListItem component
+    a discouraged-practice item in a dont-list guideline list
+*@
+
+<li class="@($"dont-list-item {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

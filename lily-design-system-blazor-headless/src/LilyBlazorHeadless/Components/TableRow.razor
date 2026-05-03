@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    TableRow component
+    a table interactive grid row <tr>
+*@
+
+<tr class="@($"table-row {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</tr>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    KanbanTableBody component
+    a kanban board table interactive grid tbody for organizing items by status <tbody>
+*@
+
+<tbody class="@($"kanban-table-body {CssClass}".Trim())" role="list" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</tbody>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

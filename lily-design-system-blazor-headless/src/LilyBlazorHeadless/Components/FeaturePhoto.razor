@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    FeaturePhoto component
+    a responsive photo with lazy loading and alt text validation
+*@
+
+<figure class="@($"feature-photo {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</figure>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

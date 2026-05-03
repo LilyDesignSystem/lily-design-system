@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    Kbd component
+    show keyboard shortcuts and key combinations in a styled inline element
+*@
+
+<kbd class="@($"kbd {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</kbd>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

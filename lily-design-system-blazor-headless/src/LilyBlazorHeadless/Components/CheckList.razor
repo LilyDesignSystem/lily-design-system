@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    CheckList component
+    an ordered list of check list item components
+*@
+
+<ol class="@($"check-list {CssClass}".Trim())" role="list" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ol>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

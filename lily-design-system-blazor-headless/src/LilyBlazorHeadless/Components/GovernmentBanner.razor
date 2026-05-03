@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    GovernmentBanner component
+    a banner identifying a website as belonging to a government, with an expandable details panel
+*@
+
+<aside class="@($"government-banner {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</aside>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

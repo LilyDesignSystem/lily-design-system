@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ChatMessage component
+    a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.
+*@
+
+<article class="@($"chat-message {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</article>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

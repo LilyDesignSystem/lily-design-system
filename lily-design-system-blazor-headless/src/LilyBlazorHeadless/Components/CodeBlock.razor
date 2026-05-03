@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    CodeBlock component
+    a block of formatted code with optional line numbers and line highlighting
+*@
+
+<pre class="@($"code-block {CssClass}".Trim())" role="region" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</pre>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

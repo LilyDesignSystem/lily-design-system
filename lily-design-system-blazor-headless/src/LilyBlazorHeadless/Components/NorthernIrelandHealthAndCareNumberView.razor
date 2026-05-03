@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    NorthernIrelandHealthAndCareNumberView component
+    a read-only display of Northern Ireland Health and Care (H&C) Number unique national healthcare identifier
+*@
+
+<span class="@($"northern-ireland-health-and-care-number-view {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

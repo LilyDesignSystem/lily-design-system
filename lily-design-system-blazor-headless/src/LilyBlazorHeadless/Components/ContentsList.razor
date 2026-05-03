@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ContentsList component
+    an contents ordered list of contents list item components
+*@
+
+<ol class="@($"contents-list {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ol>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

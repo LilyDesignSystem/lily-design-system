@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    TreeList component
+    a hierarchical list with nested expandable items
+*@
+
+<ol class="@($"tree-list {CssClass}".Trim())" role="tree" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ol>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

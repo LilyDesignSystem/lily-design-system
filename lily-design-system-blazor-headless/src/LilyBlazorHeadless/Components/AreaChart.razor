@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    AreaChart component
+    an area chart visualization showing sized components in continuous data
+*@
+
+<figure class="@($"area-chart {CssClass}".Trim())" role="img" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</figure>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

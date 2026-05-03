@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    DataTableRow component
+    a data table interactive grid row for displaying and sorting tabular data <tr>
+*@
+
+<tr class="@($"data-table-row {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</tr>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

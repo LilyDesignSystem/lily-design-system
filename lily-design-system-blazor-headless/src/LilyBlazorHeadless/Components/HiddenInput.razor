@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    HiddenInput component
+    a hidden input for including data in form submission <input type="hidden">
+*@
+
+<input class="@($"hidden-input {CssClass}".Trim())" type="hidden" aria-label="@Label" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

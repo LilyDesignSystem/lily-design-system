@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    TreeNav component
+    a hierarchical navigation with expandable branches
+*@
+
+<nav class="@($"tree-nav {CssClass}".Trim())" role="tree" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</nav>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

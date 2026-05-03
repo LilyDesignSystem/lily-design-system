@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    EspanaTarjetaSanitariaIndividualInput component
+    an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
+*@
+
+<input class="@($"espana-tarjeta-sanitaria-individual-input {CssClass}".Trim())" type="text" aria-label="@Label" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

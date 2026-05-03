@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    NetPromoterScorePickerButton component
+    a picker button for selecting a 0-10 Net Promoter Score
+*@
+
+<button class="@($"net-promoter-score-picker-button {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

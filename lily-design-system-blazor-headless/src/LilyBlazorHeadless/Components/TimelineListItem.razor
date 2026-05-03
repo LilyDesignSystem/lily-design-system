@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    TimelineListItem component
+    one event in a timeline list
+*@
+
+<li class="@($"timeline-list-item {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

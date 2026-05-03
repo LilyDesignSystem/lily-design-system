@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    SignaturePad component
+    a drawing area for capturing a handwritten signature
+*@
+
+<canvas class="@($"signature-pad {CssClass}".Trim())" role="application" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</canvas>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

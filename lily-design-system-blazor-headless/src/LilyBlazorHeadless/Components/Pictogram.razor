@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    Pictogram component
+    an icon-based component pairing an icon with a title and description in a centered or side layout
+*@
+
+<figure class="@($"pictogram {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</figure>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

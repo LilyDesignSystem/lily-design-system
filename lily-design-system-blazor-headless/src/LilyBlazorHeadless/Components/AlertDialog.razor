@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    AlertDialog component
+    a modal dialog for urgent messages requiring user acknowledgment
+*@
+
+<dialog class="@($"alert-dialog {CssClass}".Trim())" role="alertdialog" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</dialog>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

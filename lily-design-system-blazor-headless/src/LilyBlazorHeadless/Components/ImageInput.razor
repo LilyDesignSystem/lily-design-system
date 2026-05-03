@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ImageInput component
+    a graphical submit button that displays an image <input type="image">
+*@
+
+<input class="@($"image-input {CssClass}".Trim())" type="image" aria-label="@Label" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

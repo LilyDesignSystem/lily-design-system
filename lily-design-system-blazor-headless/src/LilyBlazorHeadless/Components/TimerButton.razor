@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    TimerButton component
+    a button with a timer that will automatically click after a given amount of time
+*@
+
+<button class="@($"timer-button {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

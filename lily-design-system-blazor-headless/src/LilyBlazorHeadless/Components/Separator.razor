@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    Separator component
+    a horizontal or vertical divider between content sections
+*@
+
+<hr class="@($"separator {CssClass}".Trim())" role="separator" aria-label="@Label" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

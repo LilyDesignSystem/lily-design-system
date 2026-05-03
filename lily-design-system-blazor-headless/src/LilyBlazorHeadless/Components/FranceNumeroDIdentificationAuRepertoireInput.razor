@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    FranceNumeroDIdentificationAuRepertoireInput component
+    an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
+*@
+
+<input class="@($"france-numero-d-identification-au-repertoire-input {CssClass}".Trim())" type="text" aria-label="@Label" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

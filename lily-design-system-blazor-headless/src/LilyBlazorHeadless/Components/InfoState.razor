@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    InfoState component
+    a composition of illustration, title, description, and action for empty, error, or info states
+*@
+
+<section class="@($"info-state {CssClass}".Trim())" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</section>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

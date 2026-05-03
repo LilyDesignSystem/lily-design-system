@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ValidationList component
+    a live-feedback list of input validation rules with pending, passed, and failed states
+*@
+
+<ul class="@($"validation-list {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ul>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

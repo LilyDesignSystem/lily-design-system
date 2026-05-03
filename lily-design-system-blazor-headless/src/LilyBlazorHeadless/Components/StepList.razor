@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    StepList component
+    an ordered list of step items showing progress through a multi-step process
+*@
+
+<ol class="@($"step-list {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ol>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

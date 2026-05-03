@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    TableFoot component
+    a table interactive grid tfoot <tfoot>
+*@
+
+<tfoot class="@($"table-foot {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</tfoot>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

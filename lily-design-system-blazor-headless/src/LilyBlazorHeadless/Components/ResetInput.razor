@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ResetInput component
+    a button input that resets a form to default values <input type="reset">
+*@
+
+<input class="@($"reset-input {CssClass}".Trim())" type="reset" aria-label="@Label" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

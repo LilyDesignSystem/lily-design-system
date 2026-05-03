@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    HamburgerMenu component
+    a toggle button that opens a mobile navigation menu
+*@
+
+<button class="@($"hamburger-menu {CssClass}".Trim())" role="navigation" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

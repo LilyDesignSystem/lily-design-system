@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    DataTableFoot component
+    a data table interactive grid tfoot for displaying and sorting tabular data <tfoot>
+*@
+
+<tfoot class="@($"data-table-foot {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</tfoot>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

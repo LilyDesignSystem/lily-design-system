@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    SubmitInput component
+    a button input that submits a form <input type="submit">
+*@
+
+<input class="@($"submit-input {CssClass}".Trim())" type="submit" aria-label="@Label" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

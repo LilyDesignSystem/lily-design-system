@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ArticleLayout component
+    a top-level article wrapper that sets CSS custom properties for content column widths
+*@
+
+<article class="@($"article-layout {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</article>
+
+@code {
+    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

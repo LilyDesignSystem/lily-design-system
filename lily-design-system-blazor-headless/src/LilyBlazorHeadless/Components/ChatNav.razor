@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ChatNav component
+    a navigation container for chat information
+*@
+
+<nav class="@($"chat-nav {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</nav>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}
