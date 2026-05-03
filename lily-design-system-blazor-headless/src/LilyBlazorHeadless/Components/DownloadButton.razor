@@ -5,7 +5,7 @@
     a download link styled as a button, with optional file size and format metadata
 *@
 
-<a class="@($"download-button {CssClass}".Trim())" href="@Href" aria-label="@Label" @attributes="AdditionalAttributes">@(ChildContent ?? @<text>@Label</text>)</a>
+<a class="@($"download-button {CssClass}".Trim())" href="@Href" aria-label="@Label" @attributes="AdditionalAttributes">@(ChildContent ?? (RenderFragment)(b => b.AddContent(0, Label)))</a>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

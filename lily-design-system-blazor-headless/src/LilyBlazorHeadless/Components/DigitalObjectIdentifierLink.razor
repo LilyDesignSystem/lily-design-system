@@ -5,7 +5,7 @@
     a permanent hyperlink for a Digital Object Identifier (DOI) to an electronic source
 *@
 
-<a class="@($"digital-object-identifier-link {CssClass}".Trim())" href="@Href" aria-label="@Label" @attributes="AdditionalAttributes">@(ChildContent ?? @<text>@Label</text>)</a>
+<a class="@($"digital-object-identifier-link {CssClass}".Trim())" href="@Href" aria-label="@Label" @attributes="AdditionalAttributes">@(ChildContent ?? (RenderFragment)(b => b.AddContent(0, Label)))</a>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

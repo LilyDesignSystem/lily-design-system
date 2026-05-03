@@ -5,7 +5,7 @@
     a tel hyperlink for a telephone number
 *@
 
-<a class="@($"tel-link {CssClass}".Trim())" href="@Href" aria-label="@Label" @attributes="AdditionalAttributes">@(ChildContent ?? @<text>@Label</text>)</a>
+<a class="@($"tel-link {CssClass}".Trim())" href="@Href" aria-label="@Label" @attributes="AdditionalAttributes">@(ChildContent ?? (RenderFragment)(b => b.AddContent(0, Label)))</a>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

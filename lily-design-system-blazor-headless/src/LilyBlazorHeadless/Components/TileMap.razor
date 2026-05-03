@@ -5,7 +5,7 @@
     a tile cartogram map with configurable layers for geographic data visualization
 *@
 
-<div class="@($"tile-map {CssClass}".Trim())" role="img" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"tile-map {CssClass}".Trim())" role="img" aria-roledescription="tile map" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

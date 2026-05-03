@@ -5,7 +5,7 @@
     a mailto hyperlink for an email address
 *@
 
-<a class="@($"email-link {CssClass}".Trim())" href="@Href" aria-label="@Label" @attributes="AdditionalAttributes">@(ChildContent ?? @<text>@Label</text>)</a>
+<a class="@($"email-link {CssClass}".Trim())" href="@Href" aria-label="@Label" @attributes="AdditionalAttributes">@(ChildContent ?? (RenderFragment)(b => b.AddContent(0, Label)))</a>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
