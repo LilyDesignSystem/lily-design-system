@@ -3,7 +3,7 @@
 ## Metadata
 
 - Component: gantt-table-thead
-- PascalCase: GanttTableHead
+- PascalCase: GanttTableThead
 - Description: a Gantt chart table interactive grid thead for planning schedule visualization <thead>
 - HTML tag: <thead>
 - CSS class: .gantt-table-thead

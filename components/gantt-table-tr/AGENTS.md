@@ -3,7 +3,7 @@
 ## Metadata
 
 - Component: gantt-table-tr
-- PascalCase: GanttTableTR
+- PascalCase: GanttTableTr
 - Description: a Gantt chart table interactive grid row for planning schedule visualization <tr>
 - HTML tag: <tr>
 - CSS class: .gantt-table-tr

@@ -18,7 +18,7 @@
 <Header label="Site header">
     <div class="page-wrapper">
         <h1>Components</h1>
-        <p>284 headless components</p>
+        <p>407 headless components</p>
     </div>
 </Header>
 

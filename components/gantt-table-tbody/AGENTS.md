@@ -3,7 +3,7 @@
 ## Metadata
 
 - Component: gantt-table-tbody
-- PascalCase: GanttTableBody
+- PascalCase: GanttTableTbody
 - Description: a Gantt chart table interactive grid tbody for planning schedule visualization <tbody>
 - HTML tag: <tbody>
 - CSS class: .gantt-table-tbody

@@ -5,7 +5,7 @@ export default function ComponentsPage() {
     return (
         <main className="page-wrapper">
             <h1>Components</h1>
-            <p>284 headless components</p>
+            <p>407 headless components</p>
             <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                 {components.map((c) => (
                     <li key={c.slug} style={{ borderBottom: "1px solid var(--nhs-color-border, #d8dde0)", padding: "var(--nhs-space-3) 0" }}>

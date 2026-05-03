@@ -33,17 +33,17 @@ Vue 3 + Nuxt 3 example application demonstrating the Lily Design System headless
 | --------------- | ------------------------ |
 | `pnpm run dev`   | Start development server |
 | `pnpm run build` | Build for production     |
-| `pnpm test`      | Run all 1342 tests       |
+| `pnpm test`      | Run all component tests  |
 
 ### Project Structure
 
 ```
 ├── app.vue                     # Root layout
 ├── nuxt.config.ts              # Nuxt configuration
-├── components/                 # 414 headless Vue components
+├── components/                 # 407 headless Vue components
 ├── pages/                      # 13 example pages
 ├── assets/css/nhs.css          # NHS UK design tokens & styles
-├── tests/components/           # 414 component test files
+├── tests/components/           # 407 component test files
 ├── vitest.config.ts            # Vitest configuration
 └── vitest-setup.ts             # Test setup (cleanup)
 ```
