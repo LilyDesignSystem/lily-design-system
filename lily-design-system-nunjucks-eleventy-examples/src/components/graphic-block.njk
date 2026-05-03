@@ -1,0 +1,12 @@
+---
+title: GraphicBlock
+slug: graphic-block
+component: GraphicBlock
+description: a wrapper for charts and graphics with title, description, notes, and ARIA description
+layout: layouts/component-demo.njk
+---
+
+{% from "components/graphic-block/macro.njk" import graphicBlock %}
+
+<h2>Default</h2>
+{{ graphicBlock({ label: "Example" }) }}

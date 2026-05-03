@@ -1,0 +1,12 @@
+---
+title: HeroHeadline
+slug: hero-headline
+component: HeroHeadline
+description: a full-bleed hero section with headline overlaid on media
+layout: layouts/component-demo.njk
+---
+
+{% from "components/hero-headline/macro.njk" import heroHeadline %}
+
+<h2>Default</h2>
+{{ heroHeadline({ label: "Example" }) }}

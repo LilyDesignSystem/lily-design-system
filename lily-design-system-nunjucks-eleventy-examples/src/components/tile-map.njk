@@ -1,0 +1,12 @@
+---
+title: TileMap
+slug: tile-map
+component: TileMap
+description: a tile cartogram map with configurable layers for geographic data visualization
+layout: layouts/component-demo.njk
+---
+
+{% from "components/tile-map/macro.njk" import tileMap %}
+
+<h2>Default</h2>
+{{ tileMap({ label: "Example" }) }}

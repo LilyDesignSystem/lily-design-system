@@ -1,0 +1,12 @@
+---
+title: PaddingReset
+slug: padding-reset
+component: PaddingReset
+description: a container that resets padding inside fluid-width containers
+layout: layouts/component-demo.njk
+---
+
+{% from "components/padding-reset/macro.njk" import paddingReset %}
+
+<h2>Default</h2>
+{{ paddingReset({ label: "Example" }) }}

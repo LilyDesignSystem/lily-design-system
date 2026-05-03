@@ -1,0 +1,12 @@
+---
+title: Headline
+slug: headline
+component: Headline
+description: a page headline with heading, subtitle, and byline area
+layout: layouts/component-demo.njk
+---
+
+{% from "components/headline/macro.njk" import headline %}
+
+<h2>Default</h2>
+{{ headline({ label: "Example" }) }}

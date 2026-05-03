@@ -1,0 +1,12 @@
+---
+title: ThemeProvider
+slug: theme-provider
+component: ThemeProvider
+description: a container that applies CSS custom properties from a theme object to its children
+layout: layouts/component-demo.njk
+---
+
+{% from "components/theme-provider/macro.njk" import themeProvider %}
+
+<h2>Default</h2>
+{{ themeProvider({ label: "Example" }) }}

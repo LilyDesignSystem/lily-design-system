@@ -1,0 +1,12 @@
+---
+title: Scroller
+slug: scroller
+component: Scroller
+description: a scrollytelling container with step-based foreground and background composition
+layout: layouts/component-demo.njk
+---
+
+{% from "components/scroller/macro.njk" import scroller %}
+
+<h2>Default</h2>
+{{ scroller({ label: "Example" }) }}

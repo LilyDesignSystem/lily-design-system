@@ -1,0 +1,12 @@
+---
+title: HorizontalScroller
+slug: horizontal-scroller
+component: HorizontalScroller
+description: a horizontally scrollable content container
+layout: layouts/component-demo.njk
+---
+
+{% from "components/horizontal-scroller/macro.njk" import horizontalScroller %}
+
+<h2>Default</h2>
+{{ horizontalScroller({ label: "Example" }) }}

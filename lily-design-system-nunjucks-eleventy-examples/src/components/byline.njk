@@ -1,0 +1,12 @@
+---
+title: Byline
+slug: byline
+component: Byline
+description: an author attribution with publish and update timestamps
+layout: layouts/component-demo.njk
+---
+
+{% from "components/byline/macro.njk" import byline %}
+
+<h2>Default</h2>
+{{ byline({ label: "Example" }) }}

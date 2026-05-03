@@ -1,0 +1,38 @@
+<script setup lang="ts">
+
+    // Event component
+    //
+    // An event component containing event-related information.
+    //
+    // Props:
+    //   label — string, optional. Accessible label via aria-label.
+    //   default slot — component content.
+    //
+    // Accessibility:
+    //   - native <article> semantics
+    //   - aria-label exposes a screen-reader name when label is provided
+    //
+    // Claude rules:
+    //   - Headless: no CSS, no styles — consumer provides all styling
+    //
+    // References:
+    //   - HTML article element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article
+
+    withDefaults(defineProps<{
+        /** Optional accessible label set on aria-label. */
+        label?: string;
+    }>(), {
+        label: undefined,
+    });
+
+</script>
+
+<template>
+    <!-- Event.vue -->
+    <article
+        class="event"
+        :aria-label="label"
+    >
+        <slot />
+    </article>
+</template>

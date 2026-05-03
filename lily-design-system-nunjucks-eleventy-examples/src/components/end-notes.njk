@@ -1,0 +1,12 @@
+---
+title: EndNotes
+slug: end-notes
+component: EndNotes
+description: a section of titled endnote items at the end of an article
+layout: layouts/component-demo.njk
+---
+
+{% from "components/end-notes/macro.njk" import endNotes %}
+
+<h2>Default</h2>
+{{ endNotes({ label: "Example" }) }}

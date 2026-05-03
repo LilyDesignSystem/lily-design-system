@@ -1,0 +1,12 @@
+---
+title: ContentBlock
+slug: content-block
+component: ContentBlock
+description: a content width constraint container with named column widths
+layout: layouts/component-demo.njk
+---
+
+{% from "components/content-block/macro.njk" import contentBlock %}
+
+<h2>Default</h2>
+{{ contentBlock({ label: "Example" }) }}

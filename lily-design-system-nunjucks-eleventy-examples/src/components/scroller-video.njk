@@ -1,0 +1,12 @@
+---
+title: ScrollerVideo
+slug: scroller-video
+component: ScrollerVideo
+description: a video-driven scrollytelling component with frame-by-frame scrubbing
+layout: layouts/component-demo.njk
+---
+
+{% from "components/scroller-video/macro.njk" import scrollerVideo %}
+
+<h2>Default</h2>
+{{ scrollerVideo({ label: "Example" }) }}

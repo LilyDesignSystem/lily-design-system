@@ -1,0 +1,12 @@
+---
+title: ArticleLayout
+slug: article-layout
+component: ArticleLayout
+description: a top-level article wrapper that sets CSS custom properties for content column widths
+layout: layouts/component-demo.njk
+---
+
+{% from "components/article-layout/macro.njk" import articleLayout %}
+
+<h2>Default</h2>
+{{ articleLayout({ label: "Example" }) }}

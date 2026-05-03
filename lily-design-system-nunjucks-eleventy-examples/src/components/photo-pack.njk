@@ -1,0 +1,12 @@
+---
+title: PhotoPack
+slug: photo-pack
+component: PhotoPack
+description: a collection of photos displayed together as a group
+layout: layouts/component-demo.njk
+---
+
+{% from "components/photo-pack/macro.njk" import photoPack %}
+
+<h2>Default</h2>
+{{ photoPack({ label: "Example" }) }}

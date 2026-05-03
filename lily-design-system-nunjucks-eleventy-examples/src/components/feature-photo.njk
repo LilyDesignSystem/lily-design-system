@@ -1,0 +1,12 @@
+---
+title: FeaturePhoto
+slug: feature-photo
+component: FeaturePhoto
+description: a responsive photo with lazy loading and alt text validation
+layout: layouts/component-demo.njk
+---
+
+{% from "components/feature-photo/macro.njk" import featurePhoto %}
+
+<h2>Default</h2>
+{{ featurePhoto({ label: "Example" }) }}

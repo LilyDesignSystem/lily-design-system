@@ -1,0 +1,12 @@
+---
+title: VideoPlayer
+slug: video-player
+component: VideoPlayer
+description: a video player with play-in-view behavior, custom controls, and IntersectionObserver support
+layout: layouts/component-demo.njk
+---
+
+{% from "components/video-player/macro.njk" import videoPlayer %}
+
+<h2>Default</h2>
+{{ videoPlayer({ label: "Example" }) }}

@@ -1,0 +1,12 @@
+---
+title: Visible
+slug: visible
+component: Visible
+description: an IntersectionObserver wrapper that exposes element visibility state
+layout: layouts/component-demo.njk
+---
+
+{% from "components/visible/macro.njk" import visible %}
+
+<h2>Default</h2>
+{{ visible({ label: "Example" }) }}

@@ -1,0 +1,12 @@
+---
+title: BodyText
+slug: body-text
+component: BodyText
+description: a rendered text block within a content width container
+layout: layouts/component-demo.njk
+---
+
+{% from "components/body-text/macro.njk" import bodyText %}
+
+<h2>Default</h2>
+{{ bodyText({ label: "Example" }) }}
