@@ -8,17 +8,17 @@
     ".NETCoreApp,Version=v10.0": {
       "LilyBlazorWebExamples/1.0.0": {
         "dependencies": {
-          "LilyBlazorHeadless": "1.0.0"
+          "LilyBlazorHeadless": "0.2.0"
         },
         "runtime": {
           "LilyBlazorWebExamples.dll": {}
         }
       },
-      "LilyBlazorHeadless/1.0.0": {
+      "LilyBlazorHeadless/0.2.0": {
         "runtime": {
           "LilyBlazorHeadless.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
+            "assemblyVersion": "0.2.0.0",
+            "fileVersion": "0.2.0.0"
           }
         }
       }
@@ -30,7 +30,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "LilyBlazorHeadless/1.0.0": {
+    "LilyBlazorHeadless/0.2.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "cf5MaZD4nRc=",
+  "dgSpecHash": "X1UcBhePjDo=",
   "success": true,
-  "projectFilePath": "/Users/jph/git/lilydesignsystem/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/LilyBlazorWebExamples.csproj",
+  "projectFilePath": "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/LilyBlazorWebExamples.csproj",
   "expectedPackageFiles": [
-    "/Users/jph/.nuget/packages/microsoft.aspnetcore.app.internal.assets/10.0.3/microsoft.aspnetcore.app.internal.assets.10.0.3.nupkg.sha512"
+    "/Users/jph/.nuget/packages/microsoft.aspnetcore.app.internal.assets/10.0.7/microsoft.aspnetcore.app.internal.assets.10.0.7.nupkg.sha512"
   ],
   "logs": []
 }

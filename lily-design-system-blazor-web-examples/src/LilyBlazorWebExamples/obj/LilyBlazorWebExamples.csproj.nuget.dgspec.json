@@ -1,21 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "/Users/jph/git/lilydesignsystem/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/LilyBlazorWebExamples.csproj": {}
+    "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/LilyBlazorWebExamples.csproj": {}
   },
   "projects": {
-    "/Users/jph/git/lilydesignsystem/lily-rblazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj": {
-      "version": "1.0.0",
+    "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj": {
+      "version": "0.2.0",
       "restore": {
-        "projectUniqueName": "/Users/jph/git/lilydesignsystem/lily-rblazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj",
+        "projectUniqueName": "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj",
         "projectName": "LilyBlazorHeadless",
-        "projectPath": "/Users/jph/git/lilydesignsystem/lily-rblazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj",
+        "projectPath": "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj",
         "packagesPath": "/Users/jph/.nuget/packages/",
-        "outputPath": "/Users/jph/git/lilydesignsystem/lily-rblazor-headless/src/LilyBlazorHeadless/obj/",
+        "outputPath": "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-headless/src/LilyBlazorHeadless/obj/",
         "projectStyle": "PackageReference",
-        "configFilePaths": ["/Users/jph/.nuget/NuGet/NuGet.Config"],
-        "originalTargetFrameworks": ["net10.0"],
+        "configFilePaths": [
+          "/Users/jph/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net10.0"
+        ],
         "sources": {
+          "/opt/homebrew/Cellar/dotnet/10.0.107/libexec/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -25,7 +30,9 @@
           }
         },
         "warningProperties": {
-          "warnAsError": ["NU1605"]
+          "warnAsError": [
+            "NU1605"
+          ]
         },
         "restoreAuditProperties": {
           "enableAudit": "true",
@@ -40,7 +47,7 @@
           "dependencies": {
             "Microsoft.AspNetCore.Components.Web": {
               "target": "Package",
-              "version": "[10.0.3, )"
+              "version": "[10.0.0, )"
             }
           },
           "imports": [
@@ -59,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.103/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/opt/homebrew/Cellar/dotnet/10.0.107/libexec/sdk/10.0.107/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -337,32 +344,39 @@
         }
       }
     },
-    "/Users/jph/git/lilydesignsystem/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/LilyBlazorWebExamples.csproj": {
+    "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/LilyBlazorWebExamples.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/jph/git/lilydesignsystem/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/LilyBlazorWebExamples.csproj",
+        "projectUniqueName": "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/LilyBlazorWebExamples.csproj",
         "projectName": "LilyBlazorWebExamples",
-        "projectPath": "/Users/jph/git/lilydesignsystem/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/LilyBlazorWebExamples.csproj",
+        "projectPath": "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/LilyBlazorWebExamples.csproj",
         "packagesPath": "/Users/jph/.nuget/packages/",
-        "outputPath": "/Users/jph/git/lilydesignsystem/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/",
+        "outputPath": "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/",
         "projectStyle": "PackageReference",
-        "configFilePaths": ["/Users/jph/.nuget/NuGet/NuGet.Config"],
-        "originalTargetFrameworks": ["net10.0"],
+        "configFilePaths": [
+          "/Users/jph/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net10.0"
+        ],
         "sources": {
+          "/opt/homebrew/Cellar/dotnet/10.0.107/libexec/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/Users/jph/git/lilydesignsystem/lily-rblazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj": {
-                "projectPath": "/Users/jph/git/lilydesignsystem/lily-rblazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj"
+              "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj": {
+                "projectPath": "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj"
               }
             }
           }
         },
         "warningProperties": {
-          "warnAsError": ["NU1605"]
+          "warnAsError": [
+            "NU1605"
+          ]
         },
         "restoreAuditProperties": {
           "enableAudit": "true",
@@ -378,7 +392,7 @@
             "Microsoft.AspNetCore.App.Internal.Assets": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[10.0.3, )",
+              "version": "[10.0.7, )",
               "autoReferenced": true
             }
           },
@@ -401,7 +415,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.103/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/opt/homebrew/Cellar/dotnet/10.0.107/libexec/sdk/10.0.107/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

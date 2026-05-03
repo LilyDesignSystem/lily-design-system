@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     "net10.0": {
-      "Microsoft.AspNetCore.App.Internal.Assets/10.0.3": {
+      "Microsoft.AspNetCore.App.Internal.Assets/10.0.7": {
         "type": "package",
         "build": {
           "build/Microsoft.AspNetCore.App.Internal.Assets.props": {},
@@ -12,7 +12,7 @@
           "buildMultiTargeting/Microsoft.AspNetCore.App.Internal.Assets.targets": {}
         }
       },
-      "LilyBlazorHeadless/1.0.0": {
+      "LilyBlazorHeadless/0.2.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "compile": {
@@ -25,10 +25,10 @@
     }
   },
   "libraries": {
-    "Microsoft.AspNetCore.App.Internal.Assets/10.0.3": {
-      "sha512": "mr3Zn+ht8lijYvlMIasftw9opU9hsLKDdnOgQMmYI3RjWPJLOF9l8+YHDseRkTs97wOrULmJgo/NDCmzL/EGDg==",
+    "Microsoft.AspNetCore.App.Internal.Assets/10.0.7": {
+      "sha512": "ao3i+ks0uOQ7FWacI1hqHkUczebmXrGkUB63Xhkc34QbSzG9nYBlDv9v5l6rtCrHMsDW+13kZlpJrSj1HXddqg==",
       "type": "package",
-      "path": "microsoft.aspnetcore.app.internal.assets/10.0.3",
+      "path": "microsoft.aspnetcore.app.internal.assets/10.0.7",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -44,11 +44,11 @@
         "build/Microsoft.AspNetCore.App.Internal.Assets.targets",
         "buildMultiTargeting/Microsoft.AspNetCore.App.Internal.Assets.targets",
         "buildTransitive/Microsoft.AspNetCore.App.Internal.Assets.targets",
-        "microsoft.aspnetcore.app.internal.assets.10.0.3.nupkg.sha512",
+        "microsoft.aspnetcore.app.internal.assets.10.0.7.nupkg.sha512",
         "microsoft.aspnetcore.app.internal.assets.nuspec"
       ]
     },
-    "LilyBlazorHeadless/1.0.0": {
+    "LilyBlazorHeadless/0.2.0": {
       "type": "project",
       "path": "../../../lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj",
       "msbuildProject": "../../../lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj"
@@ -56,8 +56,8 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
-      "Microsoft.AspNetCore.App.Internal.Assets >= 10.0.3",
-      "LilyBlazorHeadless >= 1.0.0"
+      "LilyBlazorHeadless >= 0.2.0",
+      "Microsoft.AspNetCore.App.Internal.Assets >= 10.0.7"
     ]
   },
   "packageFolders": {
@@ -66,29 +66,36 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/jph/git/lilydesignsystem/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/LilyBlazorWebExamples.csproj",
+      "projectUniqueName": "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/LilyBlazorWebExamples.csproj",
       "projectName": "LilyBlazorWebExamples",
-      "projectPath": "/Users/jph/git/lilydesignsystem/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/LilyBlazorWebExamples.csproj",
+      "projectPath": "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/LilyBlazorWebExamples.csproj",
       "packagesPath": "/Users/jph/.nuget/packages/",
-      "outputPath": "/Users/jph/git/lilydesignsystem/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/",
+      "outputPath": "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/",
       "projectStyle": "PackageReference",
-      "configFilePaths": ["/Users/jph/.nuget/NuGet/NuGet.Config"],
-      "originalTargetFrameworks": ["net10.0"],
+      "configFilePaths": [
+        "/Users/jph/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net10.0"
+      ],
       "sources": {
+        "/opt/homebrew/Cellar/dotnet/10.0.107/libexec/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "/Users/jph/git/lilydesignsystem/lily-rblazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj": {
-              "projectPath": "/Users/jph/git/lilydesignsystem/lily-rblazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj"
+            "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj": {
+              "projectPath": "/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-headless/src/LilyBlazorHeadless/LilyBlazorHeadless.csproj"
             }
           }
         }
       },
       "warningProperties": {
-        "warnAsError": ["NU1605"]
+        "warnAsError": [
+          "NU1605"
+        ]
       },
       "restoreAuditProperties": {
         "enableAudit": "true",
@@ -104,7 +111,7 @@
           "Microsoft.AspNetCore.App.Internal.Assets": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[10.0.3, )",
+            "version": "[10.0.7, )",
             "autoReferenced": true
           }
         },
@@ -127,7 +134,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.103/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "/opt/homebrew/Cellar/dotnet/10.0.107/libexec/sdk/10.0.107/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

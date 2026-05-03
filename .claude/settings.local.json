@@ -125,7 +125,19 @@
       "Bash(git mv *)",
       "Bash(bin/create-component-directory container *)",
       "Bash(wait)",
-      "Bash([ -d \"components/$c\" ])"
+      "Bash([ -d \"components/$c\" ])",
+      "Bash(bash -c ' *)",
+      "Bash(git reset *)",
+      "Bash(bash *)",
+      "Bash(git check-ignore *)",
+      "Bash(dotnet new *)",
+      "Bash(dotnet sln *)",
+      "Bash(dotnet build *)",
+      "Bash(dotnet test *)",
+      "Bash(git rm *)",
+      "Bash(find . -name \"*.csproj\")",
+      "Bash(ls *.sln*)",
+      "Bash(ls ../../*.sln*)"
     ]
   }
 }
