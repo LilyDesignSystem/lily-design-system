@@ -41,6 +41,15 @@ GitHub Actions deploys automatically on push to `main` of the public
 `LilyDesignSystem/lilydesignsystem.github.io` repo. The site is served from
 `https://lilydesignsystem.com/` (with a fallback on `https://lilydesignsystem.github.io/`).
 
+## First deploy (one-time)
+
+After the first `git subtree push` to `LilyDesignSystem/lilydesignsystem.github.io`:
+
+1. Open `https://github.com/LilyDesignSystem/lilydesignsystem.github.io/settings/pages`.
+2. Set **Source** to **GitHub Actions**.
+3. Set **Custom domain** to `lilydesignsystem.com` (this is automated by `static/CNAME` after the first build, but the registrar DNS records still need to be configured separately).
+4. Wait for DNS propagation; verify with `curl -I https://lilydesignsystem.com/` returning HTTP 200.
+
 ## Update the component catalog
 
 The catalog data in `src/lib/components.ts` is generated from the canonical [`components.tsv`](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv) in the main repo. To regenerate:
