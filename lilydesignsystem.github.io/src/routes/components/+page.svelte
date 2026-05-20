@@ -92,8 +92,10 @@
   <ul class="component-list component-list-stacked" aria-label="Component list">
     {#each matches as component (component.name)}
       <li class="component-list-item">
-        <span class="component-list-item-name">{component.name}</span>
-        <span class="component-list-item-description">{component.description}</span>
+        <a class="component-list-item-link" href="/components/{component.name}/">
+          <span class="component-list-item-name">{component.name}</span>
+          <span class="component-list-item-description">{component.description}</span>
+        </a>
       </li>
     {/each}
   </ul>
