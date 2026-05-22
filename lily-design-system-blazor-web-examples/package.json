@@ -1,0 +1,12 @@
+{
+  "name": "lily-design-system-blazor-web-examples",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Playwright e2e harness for the Blazor Web example app.",
+  "scripts": {
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}

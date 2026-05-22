@@ -1,0 +1,13 @@
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import ResetInput from './ResetInput';
+
+const meta = {
+  title: 'Examples/ResetInput',
+  component: ResetInput,
+  tags: ['autodocs']
+} satisfies Meta<typeof ResetInput>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};

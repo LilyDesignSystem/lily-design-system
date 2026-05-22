@@ -56,9 +56,7 @@ export const componentDemos: Record<string, string> = {
   'clipboard-copy-button': '<button class="clipboard-copy-button">Copy to clipboard</button>',
   'collapsible': '<div class="collapsible"><button aria-expanded="false">Show more</button><div hidden>Collapsed content</div></div>',
   'code': '<code class="code">const x = 42;</code>',
-  'code-block': '<pre class="code-block"><code>function hello() {
-  return "world";
-}</code></pre>',
+  'code-block': '<pre class="code-block"><code>function hello() {\n  return "world";\n}</code></pre>',
   'color-input': '<label class="label" for="demo-input">Label</label><input class="color-input" type="color" id="demo-input" aria-label="ColorInput" />',
   'color-picker': '<div class="color-picker" aria-label="Color picker"><button class="color-picker-button" style="background:#ff0000" aria-label="Red"></button><button class="color-picker-button" style="background:#00ff00" aria-label="Green"></button><button class="color-picker-button" style="background:#0000ff" aria-label="Blue"></button></div>',
   'color-picker-button': '<button class="color-picker-button" style="background:#ff0000" aria-label="Red"></button>',

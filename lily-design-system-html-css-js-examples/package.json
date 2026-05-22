@@ -5,14 +5,18 @@
   "private": true,
   "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
   "scripts": {
-    "test": "wdio run wdio.conf.js"
+    "test": "wdio run wdio.conf.js",
+    "test:e2e": "playwright test",
+    "serve": "npx http-server pages -p 8080 -c-1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.49.0",
     "@wdio/cli": "^9.0.0",
     "@wdio/local-runner": "^9.0.0",
     "@wdio/mocha-framework": "^9.0.0",
     "@wdio/spec-reporter": "^9.0.0",
     "chromedriver": "^131.0.0",
+    "http-server": "^14.1.1",
     "wdio-chromedriver-service": "^8.0.0"
   }
 }

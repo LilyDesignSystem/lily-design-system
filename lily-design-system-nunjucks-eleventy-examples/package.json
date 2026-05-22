@@ -8,13 +8,16 @@
   "scripts": {
     "dev": "eleventy --serve",
     "build": "eleventy",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.0.0",
     "nunjucks": "^3.2.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "http-server": "^14.1.1",
     "jsdom": "^25.0.1",
     "vitest": "^2.1.8"
   }
