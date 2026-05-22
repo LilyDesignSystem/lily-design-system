@@ -1,0 +1,37 @@
+import type { Meta, StoryObj } from '@storybook/html-vite';
+
+const html = `<div
+  class="password-input-or-text-input-div"
+  aria-label=""
+>
+  <!-- Consumer provides content -->
+</div>
+
+<script>
+  // PasswordInputOrTextInputDiv behavior
+  (function() {
+    'use strict';
+    document.querySelectorAll('.password-input-or-text-input-div').forEach(function(el) {
+      var input = el.querySelector('input');
+      var toggle = el.querySelector('[data-toggle]');
+      if (input && toggle) {
+        toggle.addEventListener('click', function() {
+          var isPassword = input.type === 'password';
+          input.type = isPassword ? 'text' : 'password';
+          toggle.setAttribute('aria-pressed', String(isPassword));
+        });
+      }
+    });
+  })();
+</script>`;
+
+const meta = {
+  title: 'Headless/PasswordInputOrTextInputDiv',
+  render: () => html,
+  tags: ['autodocs']
+} satisfies Meta;
+
+export default meta;
+type Story = StoryObj;
+
+export const Default: Story = {};
