@@ -1,21 +1,21 @@
 <script lang="ts">
-    import Dialog from "$lib/components/Dialog.svelte";
-    import AlertDialog from "$lib/components/AlertDialog.svelte";
-    import Drawer from "$lib/components/Drawer.svelte";
-    import SlideOutDrawer from "$lib/components/SlideOutDrawer.svelte";
-    import Sheet from "$lib/components/Sheet.svelte";
-    import Popover from "$lib/components/Popover.svelte";
-    import Popup from "$lib/components/Popup.svelte";
-    import HoverCard from "$lib/components/HoverCard.svelte";
-    import Tooltip from "$lib/components/Tooltip.svelte";
-    import FloatingPanel from "$lib/components/FloatingPanel.svelte";
-    import Button from "$lib/components/Button.svelte";
-    import Collapsible from "$lib/components/Collapsible.svelte";
-    import Details from "$lib/components/Details.svelte";
-    import Expander from "$lib/components/Expander.svelte";
-    import Header from "$lib/components/Header.svelte";
-    import Footer from "$lib/components/Footer.svelte";
-    import BackLink from "$lib/components/BackLink.svelte";
+    import Dialog from "$lib/components/Dialog/Dialog.svelte";
+    import AlertDialog from "$lib/components/AlertDialog/AlertDialog.svelte";
+    import Drawer from "$lib/components/Drawer/Drawer.svelte";
+    import SlideOutDrawer from "$lib/components/SlideOutDrawer/SlideOutDrawer.svelte";
+    import Sheet from "$lib/components/Sheet/Sheet.svelte";
+    import Popover from "$lib/components/Popover/Popover.svelte";
+    import Popup from "$lib/components/Popup/Popup.svelte";
+    import HoverCard from "$lib/components/HoverCard/HoverCard.svelte";
+    import Tooltip from "$lib/components/Tooltip/Tooltip.svelte";
+    import FloatingPanel from "$lib/components/FloatingPanel/FloatingPanel.svelte";
+    import Button from "$lib/components/Button/Button.svelte";
+    import Collapsible from "$lib/components/Collapsible/Collapsible.svelte";
+    import Details from "$lib/components/Details/Details.svelte";
+    import Expander from "$lib/components/Expander/Expander.svelte";
+    import Header from "$lib/components/Header/Header.svelte";
+    import Footer from "$lib/components/Footer/Footer.svelte";
+    import BackLink from "$lib/components/BackLink/BackLink.svelte";
 
     let showDialog = $state(false);
     let showAlert = $state(false);

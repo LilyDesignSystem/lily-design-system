@@ -1,30 +1,30 @@
 <script lang="ts">
-    import TaskList from "$lib/components/TaskList.svelte";
-    import TaskListItem from "$lib/components/TaskListItem.svelte";
-    import CheckList from "$lib/components/CheckList.svelte";
-    import CheckListItem from "$lib/components/CheckListItem.svelte";
-    import TextInput from "$lib/components/TextInput.svelte";
-    import CheckboxInput from "$lib/components/CheckboxInput.svelte";
-    import Button from "$lib/components/Button.svelte";
-    import Badge from "$lib/components/Badge.svelte";
-    import Progress from "$lib/components/Progress.svelte";
-    import DateInput from "$lib/components/DateInput.svelte";
-    import TimeInput from "$lib/components/TimeInput.svelte";
-    import DateRange from "$lib/components/DateRange.svelte";
-    import Editable from "$lib/components/Editable.svelte";
-    import ClipboardCopyButton from "$lib/components/ClipboardCopyButton.svelte";
-    import DoList from "$lib/components/DoList.svelte";
-    import DoListItem from "$lib/components/DoListItem.svelte";
-    import DontList from "$lib/components/DontList.svelte";
-    import DontListItem from "$lib/components/DontListItem.svelte";
-    import Form from "$lib/components/Form.svelte";
-    import Field from "$lib/components/Field.svelte";
-    import Tag from "$lib/components/Tag.svelte";
-    import TagGroup from "$lib/components/TagGroup.svelte";
-    import Separator from "$lib/components/Separator.svelte";
-    import Header from "$lib/components/Header.svelte";
-    import Footer from "$lib/components/Footer.svelte";
-    import BackLink from "$lib/components/BackLink.svelte";
+    import TaskList from "$lib/components/TaskList/TaskList.svelte";
+    import TaskListItem from "$lib/components/TaskListItem/TaskListItem.svelte";
+    import CheckList from "$lib/components/CheckList/CheckList.svelte";
+    import CheckListItem from "$lib/components/CheckListItem/CheckListItem.svelte";
+    import TextInput from "$lib/components/TextInput/TextInput.svelte";
+    import CheckboxInput from "$lib/components/CheckboxInput/CheckboxInput.svelte";
+    import Button from "$lib/components/Button/Button.svelte";
+    import Badge from "$lib/components/Badge/Badge.svelte";
+    import Progress from "$lib/components/Progress/Progress.svelte";
+    import DateInput from "$lib/components/DateInput/DateInput.svelte";
+    import TimeInput from "$lib/components/TimeInput/TimeInput.svelte";
+    import DateRange from "$lib/components/DateRange/DateRange.svelte";
+    import Editable from "$lib/components/Editable/Editable.svelte";
+    import ClipboardCopyButton from "$lib/components/ClipboardCopyButton/ClipboardCopyButton.svelte";
+    import DoList from "$lib/components/DoList/DoList.svelte";
+    import DoListItem from "$lib/components/DoListItem/DoListItem.svelte";
+    import DontList from "$lib/components/DontList/DontList.svelte";
+    import DontListItem from "$lib/components/DontListItem/DontListItem.svelte";
+    import Form from "$lib/components/Form/Form.svelte";
+    import Field from "$lib/components/Field/Field.svelte";
+    import Tag from "$lib/components/Tag/Tag.svelte";
+    import TagGroup from "$lib/components/TagGroup/TagGroup.svelte";
+    import Separator from "$lib/components/Separator/Separator.svelte";
+    import Header from "$lib/components/Header/Header.svelte";
+    import Footer from "$lib/components/Footer/Footer.svelte";
+    import BackLink from "$lib/components/BackLink/BackLink.svelte";
 
     let tasks = $state([
         {

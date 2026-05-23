@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Header from "$lib/components/Header.svelte";
-    import Footer from "$lib/components/Footer.svelte";
-    import BackLink from "$lib/components/BackLink.svelte";
+    import Header from "$lib/components/Header/Header.svelte";
+    import Footer from "$lib/components/Footer/Footer.svelte";
+    import BackLink from "$lib/components/BackLink/BackLink.svelte";
     import { components } from "$lib/data/components";
 
     let search = $state("");

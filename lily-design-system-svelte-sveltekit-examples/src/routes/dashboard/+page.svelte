@@ -1,24 +1,24 @@
 <script lang="ts">
-    import Card from "$lib/components/Card.svelte";
-    import Badge from "$lib/components/Badge.svelte";
-    import Banner from "$lib/components/Banner.svelte";
-    import Progress from "$lib/components/Progress.svelte";
-    import ProgressCircle from "$lib/components/ProgressCircle.svelte";
-    import Meter from "$lib/components/Meter.svelte";
-    import DataTable from "$lib/components/DataTable.svelte";
-    import DataTableHead from "$lib/components/DataTableHead.svelte";
-    import DataTableBody from "$lib/components/DataTableBody.svelte";
-    import DataTableRow from "$lib/components/DataTableRow.svelte";
-    import DataTableTD from "$lib/components/DataTableTD.svelte";
-    import SummaryList from "$lib/components/SummaryList.svelte";
-    import SummaryListItem from "$lib/components/SummaryListItem.svelte";
-    import Sparkline from "$lib/components/Sparkline.svelte";
-    import Notification from "$lib/components/Notification.svelte";
-    import Skeleton from "$lib/components/Skeleton.svelte";
-    import Separator from "$lib/components/Separator.svelte";
-    import Header from "$lib/components/Header.svelte";
-    import Footer from "$lib/components/Footer.svelte";
-    import BackLink from "$lib/components/BackLink.svelte";
+    import Card from "$lib/components/Card/Card.svelte";
+    import Badge from "$lib/components/Badge/Badge.svelte";
+    import Banner from "$lib/components/Banner/Banner.svelte";
+    import Progress from "$lib/components/Progress/Progress.svelte";
+    import ProgressCircle from "$lib/components/ProgressCircle/ProgressCircle.svelte";
+    import Meter from "$lib/components/Meter/Meter.svelte";
+    import DataTable from "$lib/components/DataTable/DataTable.svelte";
+    import DataTableHead from "$lib/components/DataTableHead/DataTableHead.svelte";
+    import DataTableBody from "$lib/components/DataTableBody/DataTableBody.svelte";
+    import DataTableRow from "$lib/components/DataTableRow/DataTableRow.svelte";
+    import DataTableTD from "$lib/components/DataTableTD/DataTableTD.svelte";
+    import SummaryList from "$lib/components/SummaryList/SummaryList.svelte";
+    import SummaryListItem from "$lib/components/SummaryListItem/SummaryListItem.svelte";
+    import Sparkline from "$lib/components/Sparkline/Sparkline.svelte";
+    import Notification from "$lib/components/Notification/Notification.svelte";
+    import Skeleton from "$lib/components/Skeleton/Skeleton.svelte";
+    import Separator from "$lib/components/Separator/Separator.svelte";
+    import Header from "$lib/components/Header/Header.svelte";
+    import Footer from "$lib/components/Footer/Footer.svelte";
+    import BackLink from "$lib/components/BackLink/BackLink.svelte";
 
     const patients = [
         { name: "Alice Johnson", age: 34, status: "Active", ward: "A1" },

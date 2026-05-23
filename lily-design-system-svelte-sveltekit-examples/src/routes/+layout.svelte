@@ -1,6 +1,6 @@
 <script lang="ts">
     import "$lib/css/nhs.css";
-    import SkipLink from "$lib/components/SkipLink.svelte";
+    import SkipLink from "$lib/components/SkipLink/SkipLink.svelte";
 
     let { children } = $props();
 </script>

@@ -1,20 +1,20 @@
 <script lang="ts">
-    import TabBar from "$lib/components/TabBar.svelte";
-    import TabBarButton from "$lib/components/TabBarButton.svelte";
-    import AccordionNav from "$lib/components/AccordionNav.svelte";
-    import AccordionList from "$lib/components/AccordionList.svelte";
-    import AccordionListItem from "$lib/components/AccordionListItem.svelte";
-    import Badge from "$lib/components/Badge.svelte";
-    import Card from "$lib/components/Card.svelte";
-    import Panel from "$lib/components/Panel.svelte";
-    import TreeNav from "$lib/components/TreeNav.svelte";
-    import TreeList from "$lib/components/TreeList.svelte";
-    import ToggleGroup from "$lib/components/ToggleGroup.svelte";
-    import ToggleButton from "$lib/components/ToggleButton.svelte";
-    import Separator from "$lib/components/Separator.svelte";
-    import Header from "$lib/components/Header.svelte";
-    import Footer from "$lib/components/Footer.svelte";
-    import BackLink from "$lib/components/BackLink.svelte";
+    import TabBar from "$lib/components/TabBar/TabBar.svelte";
+    import TabBarButton from "$lib/components/TabBarButton/TabBarButton.svelte";
+    import AccordionNav from "$lib/components/AccordionNav/AccordionNav.svelte";
+    import AccordionList from "$lib/components/AccordionList/AccordionList.svelte";
+    import AccordionListItem from "$lib/components/AccordionListItem/AccordionListItem.svelte";
+    import Badge from "$lib/components/Badge/Badge.svelte";
+    import Card from "$lib/components/Card/Card.svelte";
+    import Panel from "$lib/components/Panel/Panel.svelte";
+    import TreeNav from "$lib/components/TreeNav/TreeNav.svelte";
+    import TreeList from "$lib/components/TreeList/TreeList.svelte";
+    import ToggleGroup from "$lib/components/ToggleGroup/ToggleGroup.svelte";
+    import ToggleButton from "$lib/components/ToggleButton/ToggleButton.svelte";
+    import Separator from "$lib/components/Separator/Separator.svelte";
+    import Header from "$lib/components/Header/Header.svelte";
+    import Footer from "$lib/components/Footer/Footer.svelte";
+    import BackLink from "$lib/components/BackLink/BackLink.svelte";
 
     let activeTab = $state("overview");
     let boldPressed = $state(false);

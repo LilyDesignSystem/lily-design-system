@@ -1,22 +1,22 @@
 <script lang="ts">
-    import SkipLink from "$lib/components/SkipLink.svelte";
-    import Header from "$lib/components/Header.svelte";
-    import Footer from "$lib/components/Footer.svelte";
-    import NavigationMenu from "$lib/components/NavigationMenu.svelte";
-    import BreadcrumbNav from "$lib/components/BreadcrumbNav.svelte";
-    import BreadcrumbList from "$lib/components/BreadcrumbList.svelte";
-    import BreadcrumbListItem from "$lib/components/BreadcrumbListItem.svelte";
-    import Sidebar from "$lib/components/Sidebar.svelte";
-    import ContentsNav from "$lib/components/ContentsNav.svelte";
-    import ContentsList from "$lib/components/ContentsList.svelte";
-    import ContentsListItem from "$lib/components/ContentsListItem.svelte";
-    import Panel from "$lib/components/Panel.svelte";
-    import InsetText from "$lib/components/InsetText.svelte";
-    import InformationCallout from "$lib/components/InformationCallout.svelte";
-    import WarningCallout from "$lib/components/WarningCallout.svelte";
-    import CareCard from "$lib/components/CareCard.svelte";
-    import MedicalBannerBoxForDanger from "$lib/components/MedicalBannerBoxForDanger.svelte";
-    import BackLink from "$lib/components/BackLink.svelte";
+    import SkipLink from "$lib/components/SkipLink/SkipLink.svelte";
+    import Header from "$lib/components/Header/Header.svelte";
+    import Footer from "$lib/components/Footer/Footer.svelte";
+    import NavigationMenu from "$lib/components/NavigationMenu/NavigationMenu.svelte";
+    import BreadcrumbNav from "$lib/components/BreadcrumbNav/BreadcrumbNav.svelte";
+    import BreadcrumbList from "$lib/components/BreadcrumbList/BreadcrumbList.svelte";
+    import BreadcrumbListItem from "$lib/components/BreadcrumbListItem/BreadcrumbListItem.svelte";
+    import Sidebar from "$lib/components/Sidebar/Sidebar.svelte";
+    import ContentsNav from "$lib/components/ContentsNav/ContentsNav.svelte";
+    import ContentsList from "$lib/components/ContentsList/ContentsList.svelte";
+    import ContentsListItem from "$lib/components/ContentsListItem/ContentsListItem.svelte";
+    import Panel from "$lib/components/Panel/Panel.svelte";
+    import InsetText from "$lib/components/InsetText/InsetText.svelte";
+    import InformationCallout from "$lib/components/InformationCallout/InformationCallout.svelte";
+    import WarningCallout from "$lib/components/WarningCallout/WarningCallout.svelte";
+    import CareCard from "$lib/components/CareCard/CareCard.svelte";
+    import MedicalBannerBoxForDanger from "$lib/components/MedicalBannerBoxForDanger/MedicalBannerBoxForDanger.svelte";
+    import BackLink from "$lib/components/BackLink/BackLink.svelte";
 </script>
 
 <Header label="Site header">

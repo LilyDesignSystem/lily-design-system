@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Header from "$lib/components/Header.svelte";
-    import Footer from "$lib/components/Footer.svelte";
-    import NavigationMenu from "$lib/components/NavigationMenu.svelte";
+    import Header from "$lib/components/Header/Header.svelte";
+    import Footer from "$lib/components/Footer/Footer.svelte";
+    import NavigationMenu from "$lib/components/NavigationMenu/NavigationMenu.svelte";
 
     const examples = [
         {

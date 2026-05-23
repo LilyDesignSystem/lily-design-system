@@ -1,18 +1,18 @@
 <script lang="ts">
-    import Form from "$lib/components/Form.svelte";
-    import Field from "$lib/components/Field.svelte";
-    import FileInput from "$lib/components/FileInput.svelte";
-    import FileUpload from "$lib/components/FileUpload.svelte";
-    import ImageFileInput from "$lib/components/ImageFileInput.svelte";
-    import Progress from "$lib/components/Progress.svelte";
-    import Badge from "$lib/components/Badge.svelte";
-    import Button from "$lib/components/Button.svelte";
-    import ErrorMessage from "$lib/components/ErrorMessage.svelte";
-    import Hint from "$lib/components/Hint.svelte";
-    import Label from "$lib/components/Label.svelte";
-    import Header from "$lib/components/Header.svelte";
-    import Footer from "$lib/components/Footer.svelte";
-    import BackLink from "$lib/components/BackLink.svelte";
+    import Form from "$lib/components/Form/Form.svelte";
+    import Field from "$lib/components/Field/Field.svelte";
+    import FileInput from "$lib/components/FileInput/FileInput.svelte";
+    import FileUpload from "$lib/components/FileUpload/FileUpload.svelte";
+    import ImageFileInput from "$lib/components/ImageFileInput/ImageFileInput.svelte";
+    import Progress from "$lib/components/Progress/Progress.svelte";
+    import Badge from "$lib/components/Badge/Badge.svelte";
+    import Button from "$lib/components/Button/Button.svelte";
+    import ErrorMessage from "$lib/components/ErrorMessage/ErrorMessage.svelte";
+    import Hint from "$lib/components/Hint/Hint.svelte";
+    import Label from "$lib/components/Label/Label.svelte";
+    import Header from "$lib/components/Header/Header.svelte";
+    import Footer from "$lib/components/Footer/Footer.svelte";
+    import BackLink from "$lib/components/BackLink/BackLink.svelte";
 
     let uploadedFiles: string[] = $state([]);
     let uploadProgress = $state(0);
