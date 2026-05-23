@@ -1,0 +1,14 @@
+# .NET / Blazor build outputs
+**/bin/
+**/obj/
+*.user
+*.suo
+.vs/
+
+# Node
+node_modules/
+pnpm-workspace.yaml
+
+# Playwright
+test-results/
+playwright-report/

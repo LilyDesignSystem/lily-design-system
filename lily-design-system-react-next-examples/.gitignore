@@ -13,6 +13,14 @@ dist/
 
 # testing
 coverage/
+test-results/
+playwright-report/
+
+# storybook
+storybook-static/
+
+# pnpm
+pnpm-workspace.yaml
 
 # misc
 .DS_Store

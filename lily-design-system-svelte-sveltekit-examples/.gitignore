@@ -6,3 +6,6 @@ dist
 .env.*
 !.env.example
 vite.config.ts.timestamp*
+test-results
+playwright-report
+pnpm-workspace.yaml

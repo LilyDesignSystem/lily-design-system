@@ -3,3 +3,7 @@ node_modules
 .output
 dist
 .env
+storybook-static
+test-results
+playwright-report
+pnpm-workspace.yaml

@@ -2,3 +2,5 @@ node_modules
 .vite
 coverage
 dist
+storybook-static
+pnpm-workspace.yaml
