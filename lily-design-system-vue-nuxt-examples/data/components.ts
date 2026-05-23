@@ -1355,4 +1355,899 @@ export const components: ComponentMeta[] = [
     name: "WeekInput",
     description: 'an input for selecting a week and year <input type="week">',
   },
+  {
+    slug: "accordion-link",
+    name: "AccordionLink",
+    description:
+      "an accordion link",
+  },
+  {
+    slug: "action-bar",
+    name: "ActionBar",
+    description:
+      "a contextual action bar that appears when items are selected, showing the selection count and bulk action buttons",
+  },
+  {
+    slug: "action-bar-button",
+    name: "ActionBarButton",
+    description:
+      "one action button inside an action bar",
+  },
+  {
+    slug: "action-group",
+    name: "ActionGroup",
+    description:
+      "a group of action buttons that can collapse to an overflow menu when space is constrained",
+  },
+  {
+    slug: "address-input",
+    name: "AddressInput",
+    description:
+      "an input for searching or manually entering an address",
+  },
+  {
+    slug: "affix",
+    name: "Affix",
+    description:
+      "a wrapper that pins its content to a viewport position while the page scrolls",
+  },
+  {
+    slug: "announcement-banner",
+    name: "AnnouncementBanner",
+    description:
+      "a banner highlighting important messages for all users",
+  },
+  {
+    slug: "area-chart",
+    name: "AreaChart",
+    description:
+      "an area chart visualization showing sized components in continuous data",
+  },
+  {
+    slug: "article-layout",
+    name: "ArticleLayout",
+    description:
+      "a top-level article wrapper that sets CSS custom properties for content column widths",
+  },
+  {
+    slug: "autosuggest",
+    name: "Autosuggest",
+    description:
+      "a text input that proposes matching options as users type",
+  },
+  {
+    slug: "avatar-group",
+    name: "AvatarGroup",
+    description:
+      "a group of avatar components",
+  },
+  {
+    slug: "banner-box",
+    name: "BannerBox",
+    description:
+      "a banner box that is inside a banner component, using flexbox horizontal",
+  },
+  {
+    slug: "bar-chart",
+    name: "BarChart",
+    description:
+      "a horizontal bar chart visualization for displaying data",
+  },
+  {
+    slug: "blockquote",
+    name: "Blockquote",
+    description:
+      "a block-level quotation with optional source citation",
+  },
+  {
+    slug: "body-text",
+    name: "BodyText",
+    description:
+      "a rendered text block within a content width container",
+  },
+  {
+    slug: "breadcrumb-link",
+    name: "BreadcrumbLink",
+    description:
+      "one breadcrumb link in the trail",
+  },
+  {
+    slug: "button-group",
+    name: "ButtonGroup",
+    description:
+      "a wrapper that groups related buttons together",
+  },
+  {
+    slug: "byline",
+    name: "Byline",
+    description:
+      "an author attribution with publish and update timestamps",
+  },
+  {
+    slug: "cascader",
+    name: "Cascader",
+    description:
+      "a multi-level dropdown for selecting a value from a hierarchy",
+  },
+  {
+    slug: "chat-list",
+    name: "ChatList",
+    description:
+      "an ordered list of chat list item components",
+  },
+  {
+    slug: "chat-list-item",
+    name: "ChatListItem",
+    description:
+      "one chat list item component, typically containing one chat message component",
+  },
+  {
+    slug: "chat-message",
+    name: "ChatMessage",
+    description:
+      "a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.",
+  },
+  {
+    slug: "chat-nav",
+    name: "ChatNav",
+    description:
+      "a navigation container for chat information",
+  },
+  {
+    slug: "citation",
+    name: "Citation",
+    description:
+      "a citation acknowledges the relevance of a work of another to the topic of discussion",
+  },
+  {
+    slug: "clamp-text",
+    name: "ClampText",
+    description:
+      "a text container that truncates content to a maximum number of lines",
+  },
+  {
+    slug: "coachmark",
+    name: "Coachmark",
+    description:
+      "an anchored popover that spotlights and explains a single feature",
+  },
+  {
+    slug: "code",
+    name: "Code",
+    description:
+      "an inline code span for displaying short code snippets within surrounding text",
+  },
+  {
+    slug: "code-block",
+    name: "CodeBlock",
+    description:
+      "a block of formatted code with optional line numbers and line highlighting",
+  },
+  {
+    slug: "collection-list",
+    name: "CollectionList",
+    description:
+      "a compact list of multiple related items such as articles or events",
+  },
+  {
+    slug: "collection-list-item",
+    name: "CollectionListItem",
+    description:
+      "one item in a collection list with optional image, heading, meta, and description",
+  },
+  {
+    slug: "column-chart",
+    name: "ColumnChart",
+    description:
+      "a vertical column chart visualization for displaying data",
+  },
+  {
+    slug: "comment",
+    name: "Comment",
+    description:
+      "a comment displays user discussions and user feedback",
+  },
+  {
+    slug: "container",
+    name: "Container",
+    description:
+      "a generic block-level content container",
+  },
+  {
+    slug: "container-with-fixed-width",
+    name: "ContainerWithFixedWidth",
+    description:
+      "a centered content wrapper with a fixed max-width breakpoint",
+  },
+  {
+    slug: "container-with-fluid-width",
+    name: "ContainerWithFluidWidth",
+    description:
+      "a full-width content wrapper with horizontal padding",
+  },
+  {
+    slug: "content-block",
+    name: "ContentBlock",
+    description:
+      "a content width constraint container with named column widths",
+  },
+  {
+    slug: "contents-link",
+    name: "ContentsLink",
+    description:
+      "one table of contents link",
+  },
+  {
+    slug: "contextual-help",
+    name: "ContextualHelp",
+    description:
+      "a help button that opens a popover with explanatory content",
+  },
+  {
+    slug: "date-time-now-input",
+    name: "DateTimeNowInput",
+    description:
+      'an input for entering a date and time and "now" button <input type="date"><input type="time"><button type="button">',
+  },
+  {
+    slug: "date-time-view",
+    name: "DateTimeView",
+    description:
+      "a read-only display of a formatted date and time",
+  },
+  {
+    slug: "description-list",
+    name: "DescriptionList",
+    description:
+      "a definition list displaying information in key-value format <dl>",
+  },
+  {
+    slug: "description-list-item",
+    name: "DescriptionListItem",
+    description:
+      "one key-value pair in a description list using dt and dd elements",
+  },
+  {
+    slug: "dial-group",
+    name: "DialGroup",
+    description:
+      "a group of dial components",
+  },
+  {
+    slug: "diff",
+    name: "Diff",
+    description:
+      "a side-by-side comparison of two items",
+  },
+  {
+    slug: "digital-object-identifier-link",
+    name: "DigitalObjectIdentifierLink",
+    description:
+      "a permanent hyperlink for a Digital Object Identifier (DOI) to an electronic source",
+  },
+  {
+    slug: "document-list",
+    name: "DocumentList",
+    description:
+      "a list displaying documents with titles and metadata",
+  },
+  {
+    slug: "document-list-item",
+    name: "DocumentListItem",
+    description:
+      "one document entry in a document list",
+  },
+  {
+    slug: "download-button",
+    name: "DownloadButton",
+    description:
+      "a download link styled as a button, with optional file size and format metadata",
+  },
+  {
+    slug: "end-notes",
+    name: "EndNotes",
+    description:
+      "a section of titled endnote items at the end of an article",
+  },
+  {
+    slug: "espana-tarjeta-sanitaria-individual-input",
+    name: "EspanaTarjetaSanitariaIndividualInput",
+    description:
+      "an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier",
+  },
+  {
+    slug: "espana-tarjeta-sanitaria-individual-view",
+    name: "EspanaTarjetaSanitariaIndividualView",
+    description:
+      "a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier",
+  },
+  {
+    slug: "event",
+    name: "Event",
+    description:
+      "an event component that contains other event-related information",
+  },
+  {
+    slug: "feature-card",
+    name: "FeatureCard",
+    description:
+      "a large content card with a prominent image positioned alongside or above the text",
+  },
+  {
+    slug: "feature-photo",
+    name: "FeaturePhoto",
+    description:
+      "a responsive photo with lazy loading and alt text validation",
+  },
+  {
+    slug: "flex-stack",
+    name: "FlexStack",
+    description:
+      "a flex layout container for vertical or horizontal stacking with consistent gap",
+  },
+  {
+    slug: "float-button",
+    name: "FloatButton",
+    description:
+      "a floating action button anchored to a viewport corner",
+  },
+  {
+    slug: "framer",
+    name: "Framer",
+    description:
+      "a container for framed content display with decorative border",
+  },
+  {
+    slug: "france-numero-d-identification-au-repertoire-input",
+    name: "FranceNumeroDIdentificationAuRepertoireInput",
+    description:
+      "an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier",
+  },
+  {
+    slug: "france-numero-d-identification-au-repertoire-view",
+    name: "FranceNumeroDIdentificationAuRepertoireView",
+    description:
+      "a read-only display of a France numéro d'identification au répertoire (NIR) unique national healthcare identifier",
+  },
+  {
+    slug: "go-to-top",
+    name: "GoToTop",
+    description:
+      "a link that returns users to the top of a long page",
+  },
+  {
+    slug: "government-banner",
+    name: "GovernmentBanner",
+    description:
+      "a banner identifying a website as belonging to a government, with an expandable details panel",
+  },
+  {
+    slug: "government-identifier",
+    name: "GovernmentIdentifier",
+    description:
+      "an identifier section with a parent agency logo, agency name, and required government links",
+  },
+  {
+    slug: "graphic-block",
+    name: "GraphicBlock",
+    description:
+      "a wrapper for charts and graphics with title, description, notes, and ARIA description",
+  },
+  {
+    slug: "grid",
+    name: "Grid",
+    description:
+      "a CSS grid layout container with configurable columns and gap",
+  },
+  {
+    slug: "headline",
+    name: "Headline",
+    description:
+      "a page headline with heading, subtitle, and byline area",
+  },
+  {
+    slug: "hero",
+    name: "Hero",
+    description:
+      "a large box or image with a title and description",
+  },
+  {
+    slug: "hero-headline",
+    name: "HeroHeadline",
+    description:
+      "a full-bleed hero section with headline overlaid on media",
+  },
+  {
+    slug: "horizontal-scroller",
+    name: "HorizontalScroller",
+    description:
+      "a horizontally scrollable content container",
+  },
+  {
+    slug: "icon-button",
+    name: "IconButton",
+    description:
+      "a button containing only an icon with a required accessible label",
+  },
+  {
+    slug: "icon-list",
+    name: "IconList",
+    description:
+      "an ordered list of icon list item components",
+  },
+  {
+    slug: "icon-list-item",
+    name: "IconListItem",
+    description:
+      "one item in an icon list with a leading icon slot",
+  },
+  {
+    slug: "info-state",
+    name: "InfoState",
+    description:
+      "a composition of illustration, title, description, and action for empty, error, or info states",
+  },
+  {
+    slug: "input-group",
+    name: "InputGroup",
+    description:
+      "a group wrapping an input with prefix and suffix addons",
+  },
+  {
+    slug: "input-with-mask",
+    name: "InputWithMask",
+    description:
+      "an input displaying a format mask placeholder for the user to fill in",
+  },
+  {
+    slug: "ireland-individual-health-identifier-input",
+    name: "IrelandIndividualHealthIdentifierInput",
+    description:
+      "an input for entering Ireland Individual Health Identifier (IHI) unique national healthcare identifier",
+  },
+  {
+    slug: "ireland-individual-health-identifier-view",
+    name: "IrelandIndividualHealthIdentifierView",
+    description:
+      "a read-only display of Ireland Individual Health Identifier (IHI) unique national healthcare identifier",
+  },
+  {
+    slug: "line-chart",
+    name: "LineChart",
+    description:
+      "a line chart visualization connecting data points to display data",
+  },
+  {
+    slug: "loading",
+    name: "Loading",
+    description:
+      "a loading indicator, such as text, or image, or animation",
+  },
+  {
+    slug: "masonry",
+    name: "Masonry",
+    description:
+      "a masonry layout container for variable-height items",
+  },
+  {
+    slug: "medical-banner",
+    name: "MedicalBanner",
+    description:
+      "a prominent message bar across the top of a page, with medical information",
+  },
+  {
+    slug: "medical-banner-box",
+    name: "MedicalBannerBox",
+    description:
+      "a medical banner box that is inside a medical-banner component, using flexbox horizontal, with medical information",
+  },
+  {
+    slug: "medical-banner-box-for-advice",
+    name: "MedicalBannerBoxForAdvice",
+    description:
+      "a medical record banner box for advice information e.g. contacts, contexts, plans, etc.",
+  },
+  {
+    slug: "medical-banner-box-for-danger",
+    name: "MedicalBannerBoxForDanger",
+    description:
+      "a medical record banner box for danger information e.g. reactions, warnings, alarms, etc.",
+  },
+  {
+    slug: "mentions-input",
+    name: "MentionsInput",
+    description:
+      "a text input with at-mention autocomplete suggestions",
+  },
+  {
+    slug: "menu-group",
+    name: "MenuGroup",
+    description:
+      "a labeled section of menu items within a menu",
+  },
+  {
+    slug: "mockup-browser",
+    name: "MockupBrowser",
+    description:
+      "a box area that looks like a web browser",
+  },
+  {
+    slug: "mockup-laptop",
+    name: "MockupLaptop",
+    description:
+      "a box area that looks like a laptop computer",
+  },
+  {
+    slug: "mockup-phone-portrait",
+    name: "MockupPhonePortrait",
+    description:
+      "a box area that looks like a mobile phone",
+  },
+  {
+    slug: "mockup-shell",
+    name: "MockupShell",
+    description:
+      "a box area that looks like a terminal shell",
+  },
+  {
+    slug: "mockup-tablet-landscape",
+    name: "MockupTabletLandscape",
+    description:
+      "a box area that looks like a tablet computer in landscape mode",
+  },
+  {
+    slug: "mockup-tablet-portrait",
+    name: "MockupTabletPortrait",
+    description:
+      "a box area that looks like a tablet computer in portrait mode",
+  },
+  {
+    slug: "mockup-watch",
+    name: "MockupWatch",
+    description:
+      "a box area that looks like a smart watch",
+  },
+  {
+    slug: "mockup-window",
+    name: "MockupWindow",
+    description:
+      "a box area that looks like a desktop window",
+  },
+  {
+    slug: "mutually-exclusive",
+    name: "MutuallyExclusive",
+    description:
+      "a container ensuring only one option can be selected from a group",
+  },
+  {
+    slug: "newsletter-signup",
+    name: "NewsletterSignup",
+    description:
+      "an email subscription form composition with idle, submitting, success, and error states",
+  },
+  {
+    slug: "northern-ireland-health-and-care-number-input",
+    name: "NorthernIrelandHealthAndCareNumberInput",
+    description:
+      "an input for entering aNorthern Ireland Health and Care (H&C) Number unique national healthcare identifier",
+  },
+  {
+    slug: "northern-ireland-health-and-care-number-view",
+    name: "NorthernIrelandHealthAndCareNumberView",
+    description:
+      "a read-only display of Northern Ireland Health and Care (H&C) Number unique national healthcare identifier",
+  },
+  {
+    slug: "organization",
+    name: "Organization",
+    description:
+      "an organization component that contains other organization-related information",
+  },
+  {
+    slug: "overlay-container",
+    name: "OverlayContainer",
+    description:
+      "a full-viewport overlay backdrop for modals and sheets",
+  },
+  {
+    slug: "padding-reset",
+    name: "PaddingReset",
+    description:
+      "a container that resets padding inside fluid-width containers",
+  },
+  {
+    slug: "pagination-link",
+    name: "PaginationLink",
+    description:
+      "one pagination link in the trail",
+  },
+  {
+    slug: "person",
+    name: "Person",
+    description:
+      "a person component that contains other person-related information",
+  },
+  {
+    slug: "phase-banner",
+    name: "PhaseBanner",
+    description:
+      "a banner showing service development phase and inviting feedback",
+  },
+  {
+    slug: "photo-pack",
+    name: "PhotoPack",
+    description:
+      "a collection of photos displayed together as a group",
+  },
+  {
+    slug: "pictogram",
+    name: "Pictogram",
+    description:
+      "an icon-based component pairing an icon with a title and description in a centered or side layout",
+  },
+  {
+    slug: "place",
+    name: "Place",
+    description:
+      "a place component that contains other place-related information",
+  },
+  {
+    slug: "popconfirm-dialog",
+    name: "PopconfirmDialog",
+    description:
+      "a popover dialog with confirm and cancel buttons",
+  },
+  {
+    slug: "product-card",
+    name: "ProductCard",
+    description:
+      "a specialized card for displaying a product with image, title, price, and actions",
+  },
+  {
+    slug: "related-content",
+    name: "RelatedContent",
+    description:
+      "a section providing links to related or supporting information",
+  },
+  {
+    slug: "scatter-chart",
+    name: "ScatterChart",
+    description:
+      "a scatter chart visualization using dots to display data",
+  },
+  {
+    slug: "screen-reader-span",
+    name: "ScreenReaderSpan",
+    description:
+      "a visually hidden span of text intended for screen readers to provide more descriptive labels",
+  },
+  {
+    slug: "scroller",
+    name: "Scroller",
+    description:
+      "a scrollytelling container with step-based foreground and background composition",
+  },
+  {
+    slug: "scroller-base",
+    name: "ScrollerBase",
+    description:
+      "a low-level scroll position tracking primitive for scrollytelling",
+  },
+  {
+    slug: "scroller-video",
+    name: "ScrollerVideo",
+    description:
+      "a video-driven scrollytelling component with frame-by-frame scrubbing",
+  },
+  {
+    slug: "section-heading",
+    name: "SectionHeading",
+    description:
+      "a styled heading introducing a major content section, with optional eyebrow and subtitle",
+  },
+  {
+    slug: "section-link",
+    name: "SectionLink",
+    description:
+      "one section link in the navigation",
+  },
+  {
+    slug: "section-list",
+    name: "SectionList",
+    description:
+      "a list of section navigation items",
+  },
+  {
+    slug: "section-list-item",
+    name: "SectionListItem",
+    description:
+      "one section navigation item",
+  },
+  {
+    slug: "section-nav",
+    name: "SectionNav",
+    description:
+      "a navigation container for section navigation links",
+  },
+  {
+    slug: "share-page",
+    name: "SharePage",
+    description:
+      "a component for sharing the page on social media",
+  },
+  {
+    slug: "slider-button",
+    name: "SliderButton",
+    description:
+      "a button with a slider that the user needs to slide to confirm",
+  },
+  {
+    slug: "split-button",
+    name: "SplitButton",
+    description:
+      "a button with a primary action and a dropdown for related actions",
+  },
+  {
+    slug: "split-view",
+    name: "SplitView",
+    description:
+      "a two-panel resizable layout container with a draggable divider between them",
+  },
+  {
+    slug: "statistic",
+    name: "Statistic",
+    description:
+      "a numeric value display with title, prefix, and suffix",
+  },
+  {
+    slug: "status-light",
+    name: "StatusLight",
+    description:
+      "a small colored dot status indicator paired with a status label",
+  },
+  {
+    slug: "status-tag",
+    name: "StatusTag",
+    description:
+      "a tag showing the current status of a task",
+  },
+  {
+    slug: "step-list",
+    name: "StepList",
+    description:
+      "an ordered list of step items showing progress through a multi-step process",
+  },
+  {
+    slug: "step-list-item",
+    name: "StepListItem",
+    description:
+      "one step in a step list with status of waiting, in progress, finished, or error",
+  },
+  {
+    slug: "sticky-promo-banner",
+    name: "StickyPromoBanner",
+    description:
+      "a fixed-position promotional banner with a dismiss button",
+  },
+  {
+    slug: "success-panel",
+    name: "SuccessPanel",
+    description:
+      "a panel confirming a task has been completed",
+  },
+  {
+    slug: "summary-box",
+    name: "SummaryBox",
+    description:
+      "a boxed callout highlighting key takeaways or next steps from a longer page",
+  },
+  {
+    slug: "super-banner",
+    name: "SuperBanner",
+    description:
+      "a super-banner communicates a high-priority state that affects an entire app, experience, process, or system",
+  },
+  {
+    slug: "tab-panel",
+    name: "TabPanel",
+    description:
+      "a content panel associated with a tab in a tab bar",
+  },
+  {
+    slug: "text-area-input-with-character-counter",
+    name: "TextAreaInputWithCharacterCounter",
+    description:
+      'a multi-line text area input with a caption below that is a character counter "[number] of [maximum] characters"',
+  },
+  {
+    slug: "text-input-with-search",
+    name: "TextInputWithSearch",
+    description:
+      'a single-line text input field <input type="text"> with search capability',
+  },
+  {
+    slug: "theme-picker-button",
+    name: "ThemePickerButton",
+    description:
+      "a picker button for selecting a visual theme",
+  },
+  {
+    slug: "theme-provider",
+    name: "ThemeProvider",
+    description:
+      "a container that applies CSS custom properties from a theme object to its children",
+  },
+  {
+    slug: "tile",
+    name: "Tile",
+    description:
+      "a grouping container that presents related content in a structured format, often as a single clickable area",
+  },
+  {
+    slug: "tile-map",
+    name: "TileMap",
+    description:
+      "a tile cartogram map with configurable layers for geographic data visualization",
+  },
+  {
+    slug: "timeout-dialog",
+    name: "TimeoutDialog",
+    description:
+      "a modal dialog warning users before session timeout",
+  },
+  {
+    slug: "timer-button",
+    name: "TimerButton",
+    description:
+      "a button with a timer that will automatically click after a given amount of time",
+  },
+  {
+    slug: "transfer-list",
+    name: "TransferList",
+    description:
+      "a dual list box for moving items between two lists",
+  },
+  {
+    slug: "tree-link",
+    name: "TreeLink",
+    description:
+      "one link in the tree",
+  },
+  {
+    slug: "tree-select",
+    name: "TreeSelect",
+    description:
+      "a select dropdown showing a tree of hierarchical options",
+  },
+  {
+    slug: "validation-list",
+    name: "ValidationList",
+    description:
+      "a live-feedback list of input validation rules with pending, passed, and failed states",
+  },
+  {
+    slug: "validation-list-item",
+    name: "ValidationListItem",
+    description:
+      "one validation rule in a validation list with a status of pending, passed, or failed",
+  },
+  {
+    slug: "video-player",
+    name: "VideoPlayer",
+    description:
+      "a video player with play-in-view behavior, custom controls, and IntersectionObserver support",
+  },
+  {
+    slug: "visible",
+    name: "Visible",
+    description:
+      "an IntersectionObserver wrapper that exposes element visibility state",
+  },
+  {
+    slug: "watermark",
+    name: "Watermark",
+    description:
+      "a decorative repeating overlay text or image marking a page",
+  },
+
 ];
