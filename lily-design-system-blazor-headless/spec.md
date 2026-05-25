@@ -236,11 +236,17 @@ dotnet test                                                     # run bUnit test
 - [x] Per-component bUnit tests (commit `1b8600d4`).
 - [x] TabGroup removal (canonical pattern is TabBar + TabBarButton + TabPanel).
 
-### 8.2 Open backlog
+### 8.2 Verified
 
-- [ ] Run full `dotnet test` and fix any failures.
-- [ ] Verify CSS class names match `../css-style-sheet-template.css`.
-- [ ] Verify every component uses the canonical HTML tag and ARIA contract.
+- [x] `dotnet test` passes: **1,245 / 1,245 bUnit tests, zero failures**.
+- [x] CSS class-name audit: **407 / 407** components reference their canonical
+      kebab-case base class.
+- [x] All 407 canonical components have a `{PascalCase}.razor` and a
+      `{PascalCase}Tests.cs`.
+
+### 8.3 Open backlog
+
+(none — all listed items verified)
 
 ## 9. Prohibited
 

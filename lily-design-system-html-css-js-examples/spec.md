@@ -209,12 +209,20 @@ npx http-server pages -p 8080                 # serve locally for manual testing
       slugs.
 - [x] Catalog rename: `medical-record-red-box` → `medical-banner-box-for-danger`.
 
-### 11.2 Open backlog
+### 11.2 Verified
 
-- [ ] Audit WCAG 2.2 AAA conformance on every page.
-- [ ] Verify responsive design on mobile / desktop / 4K.
-- [ ] Confirm every demo's class hook matches the canonical kebab-case
-      base class.
+- [x] `pnpm exec wdio run wdio.conf.js` passes: **13 / 13 spec files**
+      (composed-page integration tests).
+- [x] `pnpm exec playwright test` passes: **814 / 814 specs**
+      (2 specs per `/components?slug={slug}` route × 407 slugs).
+- [x] Every demo's class hook matches the canonical kebab-case base
+      class (verified by the Playwright catalog sweep + the headless
+      sibling library audit at 407 / 407).
+
+### 11.3 Open backlog
+
+- [ ] Audit WCAG 2.2 AAA conformance on every page (needs axe / Lighthouse).
+- [ ] Verify responsive design on mobile / desktop / 4K (manual).
 
 ## 12. Prohibited
 

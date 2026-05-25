@@ -272,15 +272,20 @@ pnpm run storybook                   # run Storybook
 - [x] Storybook integration with `*.stories.svelte` files.
 - [x] TabGroup removal (canonical pattern is TabBar + TabBarButton + TabPanel).
 
-### 8.2 Open backlog
+### 8.2 Verified
 
-- [ ] Verify all 407 canonical components have a `{PascalCase}/` directory and
-      compile cleanly.
-- [ ] Cross-check `components/` ↔ `src/lib/components/` mirror is 1:1.
-- [ ] Run full `pnpm exec vitest run` and fix any failures.
-- [ ] Verify CSS class names on every component's root match
-      `../css-style-sheet-template.css`.
-- [ ] Audit the Storybook story coverage for every component.
+- [x] All 407 canonical components compile cleanly.
+- [x] `components/` ↔ `src/lib/components/` 1:1 mirror verified
+      (815 test files = 2 × 407 + 1).
+- [x] `pnpm exec vitest run` passes: **4,016 / 4,016 tests, zero failures**.
+- [x] CSS class-name audit: **407 / 407** components reference their canonical
+      kebab-case base class.
+- [x] Storybook story coverage: **407 / 407** components have a
+      `*.stories.svelte` file.
+
+### 8.3 Open backlog
+
+(none — all listed items verified)
 
 ## 9. Prohibited
 

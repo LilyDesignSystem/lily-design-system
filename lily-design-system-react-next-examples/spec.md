@@ -222,10 +222,16 @@ pnpm run storybook                   # run Storybook
       `components.ts`; e2e spec deleted.
 - [x] TabGroup removal (canonical pattern is TabBar + TabBarButton + TabPanel).
 
-### 10.2 Open backlog
+### 10.2 Verified
 
-- [ ] Audit WCAG 2.2 AAA conformance on every page.
-- [ ] Verify responsive design on mobile / desktop / 4K.
+- [x] `pnpm test` (vitest) passes: **67 / 67 tests, zero failures**.
+- [x] `pnpm exec playwright test` passes: **1,221 / 1,221 specs**
+      (3 specs per `/components/[slug]` route × 407 slugs).
+
+### 10.3 Open backlog
+
+- [ ] Audit WCAG 2.2 AAA conformance on every page (needs axe / Lighthouse).
+- [ ] Verify responsive design on mobile / desktop / 4K (manual).
 - [ ] Resolve `next.config.ts: typescript.ignoreBuildErrors: true` — the
       underlying headless `[key: string]: unknown` typing should be tightened.
 

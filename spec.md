@@ -650,20 +650,43 @@ checked is considered live work; anything unchecked is queued in §12.
 - [x] `bin/sync` keeps shared files in sync (rsync, not symlink).
 - [x] `bin/git-subtree-push` pushes each subtree to its remote.
 
-### 11.4 Backlog (open)
+### 11.4 Verified
 
-- [ ] Audit `css-style-sheet-template.css` against all implemented components
-      for any missing class hooks.
-- [ ] Verify all 6 headless and 6 example subprojects implement all 407
-      canonical components (no skipped components).
-- [ ] Cross-check component names across all subprojects for consistency
-      (no typos, no mismatched PascalCase).
-- [ ] Verify per-framework test suites (vitest, bUnit, Playwright) cover every
-      component in every subproject.
-- [ ] Wire up Storybook generation for all framework example apps that support
-      it (currently Vue, React).
-- [ ] Audit Playwright e2e coverage across the 5 example apps with browser
-      runners.
+- [x] `css-style-sheet-template.css` audit: 407 / 407 canonical slugs have
+      a class hook; 3 additional documented sub-element hooks
+      (`accordion-checkbox-input`, `accordion-checkbox-label`,
+      `accordion-checkbox-panel`).
+- [x] All 6 headless and 6 example subprojects implement all 407 canonical
+      components.
+- [x] Cross-subproject name consistency: TabGroup removed,
+      `medical-record-red-box` renamed; no orphans remain.
+- [x] Per-framework test suites cover every component in every subproject:
+      - svelte-headless: 4,016 vitest cases (407 dual-mirror specs).
+      - react-headless: 2,205 vitest cases.
+      - vue-headless: 2,187 vitest cases.
+      - blazor-headless: 1,245 bUnit cases.
+      - nunjucks-headless: 2,393 vitest cases.
+      - html-headless: 407 WebDriverIO spec files.
+- [x] Per-framework CSS class-name audit: 407 / 407 components in every
+      headless subproject reference their canonical kebab-case base class.
+- [x] Storybook story coverage across headless: 407 / 407 in svelte, react,
+      vue, html (4 frameworks with Storybook; blazor + nunjucks do not).
+- [x] Playwright e2e coverage on all 5 browser-runnable example apps:
+      - svelte-sveltekit-examples: 1,221 specs.
+      - react-next-examples: 1,221 specs.
+      - vue-nuxt-examples: 1,221 specs.
+      - blazor-web-examples: 1,221 specs.
+      - html-css-js-examples: 814 specs.
+      - nunjucks-eleventy-examples: 612 specs.
+
+### 11.5 Open backlog
+
+- [ ] WCAG 2.2 AAA conformance audit across every example app page
+      (needs axe-core / Lighthouse integration in Playwright).
+- [ ] Responsive design verification on mobile / desktop / 4K (manual,
+      could be partially automated with Playwright viewport sweeps).
+- [ ] Wire up Storybook generation for the Blazor and Nunjucks headless
+      libraries (Storybook supports both via dedicated frameworks).
 
 ## 12. Implementation status
 

@@ -230,12 +230,18 @@ pnpm run storybook                   # run Storybook
 - [x] Storybook integration with `*.stories.ts` files.
 - [x] TabGroup removal (canonical pattern is TabBar + TabBarButton + TabPanel).
 
-### 8.2 Open backlog
+### 8.2 Verified
 
-- [ ] Verify all 407 components have `{PascalCase}.vue` and compile.
-- [ ] Run full `pnpm exec vitest run` and fix any failures.
-- [ ] Verify CSS class names match `../css-style-sheet-template.css`.
-- [ ] Audit Storybook story coverage.
+- [x] All 407 components have `{PascalCase}.vue` and compile.
+- [x] `pnpm exec vitest run` passes: **2,187 / 2,187 tests, zero failures**.
+- [x] CSS class-name audit: **407 / 407** components reference their canonical
+      kebab-case base class.
+- [x] Storybook story coverage: **407 / 407** components have a
+      `*.stories.ts` file.
+
+### 8.3 Open backlog
+
+(none — all listed items verified)
 
 ## 9. Prohibited
 

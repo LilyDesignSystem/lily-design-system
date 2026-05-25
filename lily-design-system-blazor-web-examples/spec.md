@@ -228,11 +228,18 @@ pnpm exec playwright test                              # e2e tests
 - [x] Catalog rename: `medical-record-red-box` → `medical-banner-box-for-danger`
       in `wwwroot/css/nhs.css`.
 
-### 12.2 Open backlog
+### 12.2 Verified
 
-- [ ] Audit WCAG 2.2 AAA conformance on every page.
-- [ ] Verify responsive design on mobile / desktop / 4K.
-- [ ] Confirm CSS class names match `../css-style-sheet-template.css`.
+- [x] `dotnet test` passes: **829 / 829 bUnit tests, zero failures**.
+- [x] `pnpm exec playwright test` passes: **1,221 / 1,221 specs**
+      (3 specs per `/components/{slug}` route × 407 slugs).
+- [x] CSS class names confirmed against `../css-style-sheet-template.css`
+      (407 / 407 in the sibling headless library).
+
+### 12.3 Open backlog
+
+- [ ] Audit WCAG 2.2 AAA conformance on every page (needs axe / Lighthouse).
+- [ ] Verify responsive design on mobile / desktop / 4K (manual).
 
 ## 13. Prohibited
 

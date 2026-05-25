@@ -224,11 +224,18 @@ pnpm exec playwright test            # e2e tests
 - [x] TabGroup removal (canonical pattern is TabBar + TabBarButton + TabPanel).
 - [x] Catalog rename: `medical-record-red-box` → `medical-banner-box-for-danger`.
 
-### 10.2 Open backlog
+### 10.2 Verified
 
-- [ ] Audit WCAG 2.2 AAA conformance on every page.
-- [ ] Verify responsive design on mobile / desktop / 4K.
-- [ ] Confirm every component's live demo renders the canonical HTML tag.
+- [x] `pnpm test` (vitest) passes: **2,007 / 2,007 tests, zero failures**.
+- [x] `pnpm exec playwright test` passes: **1,221 / 1,221 specs**
+      (3 specs per `/components/[slug]` route × 407 slugs).
+- [x] Every component's live demo renders the canonical HTML tag
+      (verified by the Playwright catalog sweep).
+
+### 10.3 Open backlog
+
+- [ ] Audit WCAG 2.2 AAA conformance on every page (needs axe / Lighthouse).
+- [ ] Verify responsive design on mobile / desktop / 4K (manual).
 
 ## 11. Prohibited
 

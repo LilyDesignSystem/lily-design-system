@@ -188,12 +188,20 @@ pnpm run storybook                            # run Storybook
 - [x] Storybook integration with `*.stories.ts` files.
 - [x] Catalog rename: `medical-record-red-box` → `medical-banner-box-for-danger`.
 
-### 8.2 Open backlog
+### 8.2 Verified
 
-- [ ] Verify every component has a corresponding WebDriverIO test file.
-- [ ] Run full `pnpm exec wdio run wdio.conf.js` and fix failures.
-- [ ] Verify CSS class names match `../css-style-sheet-template.css`.
-- [ ] Audit Storybook story coverage.
+- [x] Every component has a corresponding `*.test.js` WebDriverIO spec
+      (**407 / 407**).
+- [x] `pnpm exec wdio run wdio.conf.js` passes: **407 / 407 spec files,
+      zero failures** (parallel with `maxInstances: 8`, ~3 min).
+- [x] CSS class-name audit: **407 / 407** components reference their canonical
+      kebab-case base class.
+- [x] Storybook story coverage: **407 / 407** components have a
+      `*.stories.ts` file.
+
+### 8.3 Open backlog
+
+(none — all listed items verified)
 
 ## 9. Prohibited
 

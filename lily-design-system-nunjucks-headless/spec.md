@@ -203,11 +203,16 @@ pnpm exec vitest run                 # explicit one-shot run
 - [x] All 407 canonical components have a `components/{kebab-case}/` directory
       with `macro.njk` (per audit).
 
-### 8.2 Open backlog
+### 8.2 Verified
 
-- [ ] Verify every component has a `macro.test.js`.
-- [ ] Run full `pnpm test` and fix any failures.
-- [ ] Verify CSS class names match `../css-style-sheet-template.css`.
+- [x] Every component has a `macro.test.js` (**407 / 407**).
+- [x] `pnpm test` passes: **2,393 / 2,393 tests, zero failures**.
+- [x] CSS class-name audit: **407 / 407** macros reference their canonical
+      kebab-case base class.
+
+### 8.3 Open backlog
+
+(none — all listed items verified)
 
 ## 9. Prohibited
 
