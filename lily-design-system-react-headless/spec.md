@@ -75,17 +75,16 @@ lily-design-system-react-headless/
 │   ├── {PascalCase}.tsx                   ← implementation
 │   ├── {PascalCase}.test.tsx              ← vitest spec
 │   ├── {PascalCase}.stories.tsx           ← Storybook story
-│   ├── {PascalCase}.md                    ← author-facing notes
-│   └── {kebab-case}/                      ← documentation directory
-│       ├── index.md, README.md, AGENTS.md,
-│       │   CLAUDE.md, plan.md, tasks.md
+│   └── {PascalCase}.md                    ← author-facing notes
 ├── package.json
 ├── vitest.config.ts
 └── vitest-setup.ts
 ```
 
-Docs live in `components/{kebab-case}/` subdirectories; source code at the
-top of `components/` with PascalCase filenames.
+Per-component documentation lives in the **root** `../components/{kebab-case}/`
+directory (`index.md`, `README.md`, `AGENTS.md`, `CLAUDE.md`, `plan.md`,
+`tasks.md`). It is canonical and shared across all six headless subprojects —
+not duplicated here.
 
 ## 4. Per-component contract
 
@@ -95,8 +94,9 @@ Each component requires:
 - `components/{PascalCase}.test.tsx` — vitest spec.
 - `components/{PascalCase}.stories.tsx` — Storybook story.
 - `components/{PascalCase}.md` — author-facing notes.
-- `components/{kebab-case}/{index,README,AGENTS,CLAUDE,plan,tasks}.md` —
-  per-component documentation (`bin/test` requires this).
+- `../components/{kebab-case}/{index,README,AGENTS,CLAUDE,plan,tasks}.md` —
+  canonical per-component documentation at the **repository root**, shared
+  across all headless subprojects.
 
 ### Component source template
 
@@ -207,7 +207,8 @@ pnpm run storybook                   # run Storybook
 
 - [ ] All 407 canonical components from [../components.tsv](../components.tsv)
       have a `{PascalCase}.tsx` + `.test.tsx` + `.stories.tsx` + `.md` set.
-- [ ] All 407 kebab-case documentation directories exist with 6 required files.
+- [x] Per-component docs live in the root `../components/{kebab-case}/`
+      (shared canonical, not duplicated per subproject).
 - [ ] Every component uses the canonical HTML tag from its `AGENTS.md`.
 - [ ] Every component sets the kebab-case base class on its root element.
 - [ ] No inline `style`, no CSS imports, no stylesheets shipped.

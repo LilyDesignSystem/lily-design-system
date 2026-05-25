@@ -69,13 +69,15 @@ lily-design-system-html-headless/
 ├── components/
 │   ├── {kebab-case}.html                  ← component source
 │   ├── {kebab-case}.stories.ts            ← Storybook story
-│   ├── {kebab-case}.test.js               ← WebDriverIO browser test
-│   └── {kebab-case}/                      ← documentation directory
-│       ├── index.md, README.md, AGENTS.md,
-│       │   CLAUDE.md, plan.md, tasks.md
+│   └── {kebab-case}.test.js               ← WebDriverIO browser test
 ├── wdio.conf.js
 └── package.json
 ```
+
+Per-component documentation lives in the **root** `../components/{kebab-case}/`
+directory (`index.md`, `README.md`, `AGENTS.md`, `CLAUDE.md`, `plan.md`,
+`tasks.md`). It is canonical and shared across all six headless subprojects —
+not duplicated here.
 
 ## 4. Per-component contract
 
@@ -84,8 +86,9 @@ Each component requires:
 - `components/{kebab-case}.html` — implementation.
 - `components/{kebab-case}.test.js` — WebDriverIO browser test.
 - `components/{kebab-case}.stories.ts` — Storybook story.
-- `components/{kebab-case}/{index,README,AGENTS,CLAUDE,plan,tasks}.md` —
-  per-component documentation directory.
+- `../components/{kebab-case}/{index,README,AGENTS,CLAUDE,plan,tasks}.md` —
+  canonical per-component documentation at the **repository root**, shared
+  across all headless subprojects.
 
 ### Component source template
 
@@ -148,8 +151,8 @@ pnpm run storybook                            # run Storybook
 
 - [ ] All 407 canonical components have a `{kebab-case}.html` + `.test.js` +
       `.stories.ts` set.
-- [ ] All 407 kebab-case documentation directories exist with the 6 required
-      files.
+- [x] Per-component docs live in the root `../components/{kebab-case}/`
+      (shared canonical, not duplicated per subproject).
 - [ ] Every component uses the canonical HTML tag.
 - [ ] Every component sets the kebab-case base class on its root.
 - [ ] No `<style>` blocks anywhere.
