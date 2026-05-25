@@ -2,18 +2,11 @@
 <!-- ThemeSelectOption component -->
 <!--
   Description: one option in a theme select dropdown
-  HTML tag: <option>
+  HTML tag: <option> wrapped in <select>
   CSS class: theme-select-option
-  Keyboard: None (passive element)
   Accessibility: aria-label for accessible name
-  Usage:
-    <option class="theme-select-option" aria-label="Example">
-      ...
-    </option>
 -->
 
-<option
-  class="theme-select-option"
->
-  <!-- Consumer provides option text -->
-</option>
+<select><option class="theme-select-option" aria-label="Example">
+    <!-- Consumer provides child content -->
+</option></select>

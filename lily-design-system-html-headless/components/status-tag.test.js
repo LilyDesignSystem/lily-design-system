@@ -1,13 +1,17 @@
-const { describe, it, expect } = require("vitest");
-const { JSDOM } = require("jsdom");
-const fs = require("fs");
-const path = require("path");
+// status-tag.test.js
+// StatusTag component test
 
-describe("StatusTag", () => {
-  it("renders the component", () => {
-    const html = fs.readFileSync(path.resolve(__dirname, "status-tag.html"), "utf8");
-    const dom = new JSDOM(html);
-    const el = dom.window.document.querySelector(".status-tag");
-    expect(el).toBeTruthy();
+const path = require('path');
+
+describe('StatusTag', function() {
+  beforeEach(async function() {
+    await browser.url('file://' + path.resolve(__dirname, 'status-tag.html'));
+  });
+
+  it('should render the span element with correct class', async function() {
+    const el = await $('span.status-tag');
+    await expect(el).toExist();
+    const className = await el.getAttribute('class');
+    expect(className).toContain('status-tag');
   });
 });

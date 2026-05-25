@@ -2,18 +2,11 @@
 <!-- ContentsListItem component -->
 <!--
   Description: one contents list item component linking to a page section
-  HTML tag: <li>
+  HTML tag: <li> wrapped in <ol>
   CSS class: contents-list-item
-  Keyboard: None (passive element)
   Accessibility: aria-label for accessible name
-  Usage:
-    <li class="contents-list-item" aria-label="Example">
-      ...
-    </li>
 -->
 
-<li
-  class="contents-list-item"
->
-  <!-- Consumer provides item content -->
-</li>
+<ol><li class="contents-list-item" aria-label="Example">
+    <!-- Consumer provides child content -->
+</li></ol>

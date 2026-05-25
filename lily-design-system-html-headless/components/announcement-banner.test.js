@@ -1,13 +1,17 @@
-const { describe, it, expect } = require("vitest");
-const { JSDOM } = require("jsdom");
-const fs = require("fs");
-const path = require("path");
+// announcement-banner.test.js
+// AnnouncementBanner component test
 
-describe("AnnouncementBanner", () => {
-  it("renders the component", () => {
-    const html = fs.readFileSync(path.resolve(__dirname, "announcement-banner.html"), "utf8");
-    const dom = new JSDOM(html);
-    const el = dom.window.document.querySelector(".announcement-banner");
-    expect(el).toBeTruthy();
+const path = require('path');
+
+describe('AnnouncementBanner', function() {
+  beforeEach(async function() {
+    await browser.url('file://' + path.resolve(__dirname, 'announcement-banner.html'));
+  });
+
+  it('should render the div element with correct class', async function() {
+    const el = await $('div.announcement-banner');
+    await expect(el).toExist();
+    const className = await el.getAttribute('class');
+    expect(className).toContain('announcement-banner');
   });
 });

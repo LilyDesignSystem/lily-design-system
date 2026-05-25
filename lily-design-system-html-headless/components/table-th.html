@@ -1,22 +1,12 @@
 <!-- table-th.html -->
-<!-- TableTD component -->
+<!-- TableTh component -->
 <!--
   Description: a table column header cell
-  HTML tag: <th>
+  HTML tag: <th> wrapped in <table><thead><tr>
   CSS class: table-th
-  Keyboard: None (passive element)
-  Accessibility: scope="col" associates the header with its column
-  Usage:
-    <thead>
-      <tr>
-        <th class="table-th" scope="col">Name</th>
-      </tr>
-    </thead>
+  Accessibility: aria-label for accessible name
 -->
 
-<th
-  class="table-th"
-  scope="col"
->
-  <!-- Consumer provides header text -->
-</th>
+<table><thead><tr><th class="table-th" aria-label="Example" scope="col">
+    <!-- Consumer provides child content -->
+</th></tr></thead></table>

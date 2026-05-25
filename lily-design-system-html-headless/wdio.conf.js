@@ -3,7 +3,7 @@ const path = require('path');
 exports.config = {
   runner: 'local',
   specs: ['./components/*.test.js'],
-  maxInstances: 1,
+  maxInstances: 8,
   capabilities: [{
     browserName: 'chrome',
     'goog:chromeOptions': {

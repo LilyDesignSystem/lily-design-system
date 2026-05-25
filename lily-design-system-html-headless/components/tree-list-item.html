@@ -2,16 +2,11 @@
 <!-- TreeListItem component -->
 <!--
   Description: one item in a tree navigation list
-  HTML tag: <li>
+  HTML tag: <li> wrapped in <ol>
   CSS class: tree-list-item
-  Keyboard: None (passive element)
-  Accessibility: role="treeitem", aria-label for accessible name
-  Usage:
-    <li class="tree-list-item" role="treeitem" aria-label="Example">
-      ...
-    </li>
+  Accessibility: aria-label for accessible name
 -->
 
-<li class="tree-list-item" role="treeitem">
-    <!-- Consumer provides item content -->
-</li>
+<ol role="tree"><li class="tree-list-item" role="treeitem" aria-label="Example">
+    <!-- Consumer provides child content -->
+</li></ol>

@@ -2,18 +2,11 @@
 <!-- Option component -->
 <!--
   Description: an option element within a select dropdown
-  HTML tag: <option>
+  HTML tag: <option> wrapped in <select>
   CSS class: option
-  Keyboard: None (passive element)
   Accessibility: aria-label for accessible name
-  Usage:
-    <option class="option" aria-label="Example">
-      ...
-    </option>
 -->
 
-<option
-  class="option"
->
-  <!-- Consumer provides option text -->
-</option>
+<select><option class="option" aria-label="Example">
+    <!-- Consumer provides child content -->
+</option></select>

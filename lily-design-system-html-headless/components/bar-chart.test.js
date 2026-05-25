@@ -1,13 +1,17 @@
-const { describe, it, expect } = require("vitest");
-const { JSDOM } = require("jsdom");
-const fs = require("fs");
-const path = require("path");
+// bar-chart.test.js
+// BarChart component test
 
-describe("BarChart", () => {
-  it("renders the component", () => {
-    const html = fs.readFileSync(path.resolve(__dirname, "bar-chart.html"), "utf8");
-    const dom = new JSDOM(html);
-    const el = dom.window.document.querySelector(".bar-chart");
-    expect(el).toBeTruthy();
+const path = require('path');
+
+describe('BarChart', function() {
+  beforeEach(async function() {
+    await browser.url('file://' + path.resolve(__dirname, 'bar-chart.html'));
+  });
+
+  it('should render the figure element with correct class', async function() {
+    const el = await $('figure.bar-chart');
+    await expect(el).toExist();
+    const className = await el.getAttribute('class');
+    expect(className).toContain('bar-chart');
   });
 });

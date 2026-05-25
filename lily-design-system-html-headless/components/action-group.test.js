@@ -43,15 +43,22 @@ describe('ActionGroup', function() {
     const hiddenBefore = await panel.getAttribute('hidden');
     expect(hiddenBefore).not.toBeNull();
 
-    // Click to expand
+    // Click to expand (use waitUntil to allow the inline script's
+    // click listener to register before the assertion runs)
     await trigger.click();
-    expect(await trigger.getAttribute('aria-expanded')).toBe('true');
+    await browser.waitUntil(
+      async () => (await trigger.getAttribute('aria-expanded')) === 'true',
+      { timeout: 5000, timeoutMsg: 'aria-expanded did not become true after click' }
+    );
     const hiddenAfter = await panel.getAttribute('hidden');
     expect(hiddenAfter).toBeNull();
 
     // Click to collapse
     await trigger.click();
-    expect(await trigger.getAttribute('aria-expanded')).toBe('false');
+    await browser.waitUntil(
+      async () => (await trigger.getAttribute('aria-expanded')) === 'false',
+      { timeout: 5000, timeoutMsg: 'aria-expanded did not become false after second click' }
+    );
     const hiddenAgain = await panel.getAttribute('hidden');
     expect(hiddenAgain).not.toBeNull();
   });

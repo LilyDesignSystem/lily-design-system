@@ -1,13 +1,17 @@
-const { describe, it, expect } = require("vitest");
-const { JSDOM } = require("jsdom");
-const fs = require("fs");
-const path = require("path");
+// share-page.test.js
+// SharePage component test
 
-describe("SharePage", () => {
-  it("renders the component", () => {
-    const html = fs.readFileSync(path.resolve(__dirname, "share-page.html"), "utf8");
-    const dom = new JSDOM(html);
-    const el = dom.window.document.querySelector(".share-page");
-    expect(el).toBeTruthy();
+const path = require('path');
+
+describe('SharePage', function() {
+  beforeEach(async function() {
+    await browser.url('file://' + path.resolve(__dirname, 'share-page.html'));
+  });
+
+  it('should render the div element with correct class', async function() {
+    const el = await $('div.share-page');
+    await expect(el).toExist();
+    const className = await el.getAttribute('class');
+    expect(className).toContain('share-page');
   });
 });

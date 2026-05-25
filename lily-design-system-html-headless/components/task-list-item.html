@@ -2,18 +2,11 @@
 <!-- TaskListItem component -->
 <!--
   Description: one task item with a checkbox and label
-  HTML tag: <li>
+  HTML tag: <li> wrapped in <ol>
   CSS class: task-list-item
-  Keyboard: None (passive element)
   Accessibility: aria-label for accessible name
-  Usage:
-    <li class="task-list-item" aria-label="Example">
-      ...
-    </li>
 -->
 
-<li
-  class="task-list-item"
->
-  <!-- Consumer provides item content -->
-</li>
+<ol><li class="task-list-item" aria-label="Example">
+    <!-- Consumer provides child content -->
+</li></ol>

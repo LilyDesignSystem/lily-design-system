@@ -2,18 +2,11 @@
 <!-- DontListItem component -->
 <!--
   Description: a discouraged-practice item in a dont-list guideline list
-  HTML tag: <li>
+  HTML tag: <li> wrapped in <ol>
   CSS class: dont-list-item
-  Keyboard: None (passive element)
   Accessibility: aria-label for accessible name
-  Usage:
-    <li class="dont-list-item" aria-label="Example">
-      ...
-    </li>
 -->
 
-<li
-  class="dont-list-item"
->
-  <!-- Consumer provides item content -->
-</li>
+<ol><li class="dont-list-item" aria-label="Example">
+    <!-- Consumer provides child content -->
+</li></ol>

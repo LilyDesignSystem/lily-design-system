@@ -1,19 +1,12 @@
 <!-- gantt-table-td.html -->
-<!-- GanttTableTD component -->
+<!-- GanttTableTd component -->
 <!--
   Description: a Gantt chart table interactive grid data cell for planning schedule visualization
-  HTML tag: <td>
+  HTML tag: <td> wrapped in <table><tr>
   CSS class: gantt-table-td
-  Keyboard: None (passive element)
   Accessibility: aria-label for accessible name
-  Usage:
-    <td class="gantt-table-td" aria-label="Example">
-      ...
-    </td>
 -->
 
-<td
-  class="gantt-table-td"
->
-  <!-- Consumer provides cell content -->
-</td>
+<table><tr><td class="gantt-table-td" aria-label="Example">
+    <!-- Consumer provides child content -->
+</td></tr></table>

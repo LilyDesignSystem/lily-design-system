@@ -1,13 +1,17 @@
-const { describe, it, expect } = require("vitest");
-const { JSDOM } = require("jsdom");
-const fs = require("fs");
-const path = require("path");
+// related-content.test.js
+// RelatedContent component test
 
-describe("RelatedContent", () => {
-  it("renders the component", () => {
-    const html = fs.readFileSync(path.resolve(__dirname, "related-content.html"), "utf8");
-    const dom = new JSDOM(html);
-    const el = dom.window.document.querySelector(".related-content");
-    expect(el).toBeTruthy();
+const path = require('path');
+
+describe('RelatedContent', function() {
+  beforeEach(async function() {
+    await browser.url('file://' + path.resolve(__dirname, 'related-content.html'));
+  });
+
+  it('should render the aside element with correct class', async function() {
+    const el = await $('aside.related-content');
+    await expect(el).toExist();
+    const className = await el.getAttribute('class');
+    expect(className).toContain('related-content');
   });
 });

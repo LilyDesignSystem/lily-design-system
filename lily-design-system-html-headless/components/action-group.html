@@ -16,15 +16,17 @@
       - Reads aria-controls to find the overflow menu panel.
       - Toggles aria-expanded on the trigger and the hidden attribute on the panel.
 
-  Usage:
+  Usage (HTML comments inside this docstring are written without nested
+  comment markers to keep the outer comment intact):
+
     <div class="action-group" role="group" aria-label="Document actions">
-      <!-- visible action buttons here -->
+      (visible action buttons here)
       <button class="action-group-overflow-trigger" type="button"
               aria-haspopup="menu" aria-expanded="false"
               aria-controls="action-group-overflow-1"
-              aria-label="More actions">…</button>
+              aria-label="More actions">...</button>
       <div class="action-group-overflow-menu" id="action-group-overflow-1" hidden>
-        <!-- overflow menu content -->
+        (overflow menu content)
       </div>
     </div>
 -->

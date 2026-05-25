@@ -40,7 +40,7 @@ describe('Contact Form', function() {
   });
 
   it('should render the text-area-input', async function() {
-    const el = await $('text-area-input.text-area-input#message');
+    const el = await $('textarea.text-area-input#message');
     await expect(el).toExist();
   });
 
@@ -60,7 +60,7 @@ describe('Contact Form', function() {
   it('should show success message on valid submit', async function() {
     await $('input#name').setValue('John');
     await $('input#email').setValue('john@example.com');
-    await $('text-area-input#message').setValue('Hello there');
+    await $('textarea.text-area-input#message').setValue('Hello there');
     await $('button.button[type="submit"]').click();
     const success = await $('div#success-message');
     const hidden = await success.getAttribute('hidden');

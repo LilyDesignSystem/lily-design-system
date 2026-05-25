@@ -1,13 +1,17 @@
-const { describe, it, expect } = require("vitest");
-const { JSDOM } = require("jsdom");
-const fs = require("fs");
-const path = require("path");
+// scatter-chart.test.js
+// ScatterChart component test
 
-describe("ScatterChart", () => {
-  it("renders the component", () => {
-    const html = fs.readFileSync(path.resolve(__dirname, "scatter-chart.html"), "utf8");
-    const dom = new JSDOM(html);
-    const el = dom.window.document.querySelector(".scatter-chart");
-    expect(el).toBeTruthy();
+const path = require('path');
+
+describe('ScatterChart', function() {
+  beforeEach(async function() {
+    await browser.url('file://' + path.resolve(__dirname, 'scatter-chart.html'));
+  });
+
+  it('should render the figure element with correct class', async function() {
+    const el = await $('figure.scatter-chart');
+    await expect(el).toExist();
+    const className = await el.getAttribute('class');
+    expect(className).toContain('scatter-chart');
   });
 });

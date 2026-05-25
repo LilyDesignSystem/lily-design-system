@@ -59,7 +59,7 @@ describe('Rating and Feedback', function() {
   });
 
   it('should render the comments text-area-input', async function() {
-    const el = await $('text-area-input.text-area-input#comments');
+    const el = await $('textarea.text-area-input#comments');
     await expect(el).toExist();
   });
 

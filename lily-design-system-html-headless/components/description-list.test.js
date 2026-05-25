@@ -1,13 +1,17 @@
-const { describe, it, expect } = require("vitest");
-const { JSDOM } = require("jsdom");
-const fs = require("fs");
-const path = require("path");
+// description-list.test.js
+// DescriptionList component test
 
-describe("DescriptionList", () => {
-  it("renders the component", () => {
-    const html = fs.readFileSync(path.resolve(__dirname, "description-list.html"), "utf8");
-    const dom = new JSDOM(html);
-    const el = dom.window.document.querySelector(".description-list");
-    expect(el).toBeTruthy();
+const path = require('path');
+
+describe('DescriptionList', function() {
+  beforeEach(async function() {
+    await browser.url('file://' + path.resolve(__dirname, 'description-list.html'));
+  });
+
+  it('should render the dl element with correct class', async function() {
+    const el = await $('dl.description-list');
+    await expect(el).toExist();
+    const className = await el.getAttribute('class');
+    expect(className).toContain('description-list');
   });
 });

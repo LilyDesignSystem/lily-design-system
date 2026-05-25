@@ -1,13 +1,17 @@
-const { describe, it, expect } = require("vitest");
-const { JSDOM } = require("jsdom");
-const fs = require("fs");
-const path = require("path");
+// section-nav.test.js
+// SectionNav component test
 
-describe("SectionNav", () => {
-  it("renders the component", () => {
-    const html = fs.readFileSync(path.resolve(__dirname, "section-nav.html"), "utf8");
-    const dom = new JSDOM(html);
-    const el = dom.window.document.querySelector(".section-nav");
-    expect(el).toBeTruthy();
+const path = require('path');
+
+describe('SectionNav', function() {
+  beforeEach(async function() {
+    await browser.url('file://' + path.resolve(__dirname, 'section-nav.html'));
+  });
+
+  it('should render the nav element with correct class', async function() {
+    const el = await $('nav.section-nav');
+    await expect(el).toExist();
+    const className = await el.getAttribute('class');
+    expect(className).toContain('section-nav');
   });
 });

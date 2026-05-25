@@ -1,19 +1,12 @@
 <!-- data-table-td.html -->
-<!-- DataTableTD component -->
+<!-- DataTableTd component -->
 <!--
   Description: a data table interactive grid data cell for displaying and sorting tabular data
-  HTML tag: <td>
+  HTML tag: <td> wrapped in <table><tr>
   CSS class: data-table-td
-  Keyboard: None (passive element)
   Accessibility: aria-label for accessible name
-  Usage:
-    <td class="data-table-td" aria-label="Example">
-      ...
-    </td>
 -->
 
-<td
-  class="data-table-td"
->
-  <!-- Consumer provides cell content -->
-</td>
+<table><tr><td class="data-table-td" aria-label="Example">
+    <!-- Consumer provides child content -->
+</td></tr></table>
