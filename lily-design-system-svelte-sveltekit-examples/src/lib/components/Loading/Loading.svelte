@@ -14,11 +14,5 @@
 
 <!-- Loading.svelte -->
 <div class={`loading ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>
-
-<style>
-    .loading {
-        display: block;
-    }
-</style>

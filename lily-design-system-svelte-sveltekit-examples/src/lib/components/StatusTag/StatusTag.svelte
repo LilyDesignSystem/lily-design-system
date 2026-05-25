@@ -23,5 +23,5 @@
     data-type={type}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </span>

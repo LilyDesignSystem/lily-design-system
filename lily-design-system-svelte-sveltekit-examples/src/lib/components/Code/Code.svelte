@@ -14,11 +14,5 @@
 
 <!-- Code.svelte -->
 <div class={`code ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>
-
-<style>
-    .code {
-        display: block;
-    }
-</style>

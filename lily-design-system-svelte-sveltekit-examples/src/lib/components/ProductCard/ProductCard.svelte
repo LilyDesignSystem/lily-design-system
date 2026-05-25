@@ -84,6 +84,6 @@
         <p class="product-card-price">{price}</p>
     </header>
     {#if children}
-        {@render children()}
+        {@render children?.()}
     {/if}
 </article>

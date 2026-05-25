@@ -1,11 +1,20 @@
-import { render, screen } from "@testing-library/svelte";
-import { describe, expect, test } from "vitest";
+import { describe, it, expect } from "vitest";
+import { render } from "@testing-library/svelte";
+import { createRawSnippet } from "svelte";
 import DocumentList from "./DocumentList.svelte";
 
+function textSnippet(text: string) {
+    return createRawSnippet(() => ({
+        render: () => `<span>${text}</span>`,
+    }));
+}
+
 describe("DocumentList", () => {
-    test("renders the component", () => {
-        render(DocumentList, { props: { label: "Test" }, context: new Map() });
-        const el = screen.getByLabelText("Test");
+    it("renders with class", () => {
+        const { container } = render(DocumentList, {
+            props: { label: "Test", children: textSnippet("content") },
+        });
+        const el = container.querySelector(".document-list");
         expect(el).toBeTruthy();
     });
 });

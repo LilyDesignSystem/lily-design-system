@@ -69,5 +69,5 @@
     {...restProps}
 >
     <summary>{summary}</summary>
-    {@render children()}
+    {@render children?.()}
 </details>

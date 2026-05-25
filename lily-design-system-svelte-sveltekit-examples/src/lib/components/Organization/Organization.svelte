@@ -14,11 +14,5 @@
 
 <!-- Organization.svelte -->
 <div class={`organization ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>
-
-<style>
-    .organization {
-        display: block;
-    }
-</style>

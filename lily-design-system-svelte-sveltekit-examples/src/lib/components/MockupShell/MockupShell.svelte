@@ -14,11 +14,5 @@
 
 <!-- MockupShell.svelte -->
 <div class={`mockup-shell ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>
-
-<style>
-    .mockup-shell {
-        display: block;
-    }
-</style>

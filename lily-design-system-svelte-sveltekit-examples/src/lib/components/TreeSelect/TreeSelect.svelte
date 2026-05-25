@@ -88,6 +88,6 @@
         {value ?? placeholder ?? ""}
     </button>
     <div class="tree-select-panel" hidden={!expanded}>
-        {#if children}{@render children()}{/if}
+        {#if children}{@render children?.()}{/if}
     </div>
 </div>

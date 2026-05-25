@@ -57,5 +57,5 @@
     style={`max-width: ${maxWidth}; margin-inline: auto;`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </div>

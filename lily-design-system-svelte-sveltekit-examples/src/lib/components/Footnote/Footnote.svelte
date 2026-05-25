@@ -70,5 +70,5 @@
     aria-label={id}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </aside>

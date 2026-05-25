@@ -62,5 +62,5 @@
     aria-hidden="true"
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </span>

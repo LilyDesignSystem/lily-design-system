@@ -47,5 +47,5 @@
     class={`gantt-table-thead ${className}`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </thead>

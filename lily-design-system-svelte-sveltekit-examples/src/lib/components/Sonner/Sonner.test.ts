@@ -1,11 +1,9 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
-import Sonner from "./Sonner.svelte";
-
+import Subject from "./Sonner.svelte";
+function textSnippet(text: string) { return (($anchor: Comment) => { $anchor.before(document.createTextNode(text)); }) as any; }
 describe("Sonner", () => {
-    test("renders the component", () => {
-        render(Sonner, { props: { label: "Test" }, context: new Map() });
-        const el = screen.getByLabelText("Test");
-        expect(el).toBeTruthy();
-    });
+    test("renders a region", () => { render(Subject, { props: { label: "Notifications", children: textSnippet("toast") } }); expect(screen.getByRole("region")).toBeTruthy(); });
+    test("has aria-live", () => { render(Subject, { props: { label: "Notifications", children: textSnippet("toast") } }); expect(screen.getByRole("region").getAttribute("aria-live")).toBe("polite"); });
+    test("passes through attributes", () => { render(Subject, { props: { label: "N", "data-testid": "sn", children: textSnippet("x") } }); expect(screen.getByTestId("sn")).toBeTruthy(); });
 });

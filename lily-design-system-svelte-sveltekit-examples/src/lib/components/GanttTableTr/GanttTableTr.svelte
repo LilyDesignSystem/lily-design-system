@@ -66,5 +66,5 @@
     class={`gantt-table-tr ${className}`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </tr>

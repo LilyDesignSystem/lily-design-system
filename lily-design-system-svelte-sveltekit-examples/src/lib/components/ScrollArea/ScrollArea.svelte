@@ -76,5 +76,5 @@
     tabindex="0"
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </div>

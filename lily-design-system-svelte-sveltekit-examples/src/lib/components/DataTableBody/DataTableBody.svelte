@@ -49,5 +49,5 @@
     class={`data-table-body ${className}`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </tbody>

@@ -110,6 +110,6 @@
         onclick={onmenutoggle}
     ></button>
     <div class="split-button-menu" hidden={!menuOpen}>
-        {@render children()}
+        {@render children?.()}
     </div>
 </div>

@@ -69,7 +69,7 @@
     {...restProps}
 >
     {#if children}
-        {@render children()}
+        {@render children?.()}
     {/if}
     {#if overflow}
         <button

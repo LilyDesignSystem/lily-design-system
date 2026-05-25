@@ -75,5 +75,5 @@
     {...restProps}
 >
     <legend>{legend}</legend>
-    {@render children()}
+    {@render children?.()}
 </fieldset>

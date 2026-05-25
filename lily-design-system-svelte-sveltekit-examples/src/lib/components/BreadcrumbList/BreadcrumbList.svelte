@@ -63,5 +63,5 @@
     class={`breadcrumb-list ${className}`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </ol>

@@ -1,11 +1,45 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
-import Avatar from "./Avatar.svelte";
+
+import Subject from "./Avatar.svelte";
+
+function textSnippet(text: string) {
+  return (($anchor: Comment) => {
+    const node = document.createTextNode(text);
+    $anchor.before(node);
+  }) as any;
+}
 
 describe("Avatar", () => {
-    test("renders the component", () => {
-        render(Avatar, { props: { label: "Test" }, context: new Map() });
-        const el = screen.getByLabelText("Test");
-        expect(el).toBeTruthy();
+  test("renders with img role", () => {
+    render(Subject, {
+      props: { alt: "Jane Doe", children: textSnippet("JD") },
     });
+    expect(screen.getByRole("img")).toBeTruthy();
+  });
+
+  test("has aria-label from alt prop", () => {
+    render(Subject, {
+      props: { alt: "Jane Doe", children: textSnippet("JD") },
+    });
+    expect(screen.getByRole("img", { name: "Jane Doe" })).toBeTruthy();
+  });
+
+  test("renders children", () => {
+    render(Subject, {
+      props: { alt: "Jane Doe", children: textSnippet("JD") },
+    });
+    expect(screen.getByRole("img").textContent).toContain("JD");
+  });
+
+  test("passes through attributes", () => {
+    render(Subject, {
+      props: {
+        alt: "User",
+        "data-testid": "avatar",
+        children: textSnippet("U"),
+      },
+    });
+    expect(screen.getByTestId("avatar")).toBeTruthy();
+  });
 });

@@ -1,11 +1,21 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
-import ImageFileInput from "./ImageFileInput.svelte";
-
+import Subject from "./ImageFileInput.svelte";
 describe("ImageFileInput", () => {
-    test("renders the component", () => {
-        render(ImageFileInput, { props: { label: "Test" }, context: new Map() });
-        const el = screen.getByLabelText("Test");
-        expect(el).toBeTruthy();
-    });
+  test("renders file input", () => {
+    render(Subject, { props: { label: "Photo" } });
+    expect((screen.getByLabelText("Photo") as HTMLInputElement).type).toBe(
+      "file",
+    );
+  });
+  test("accepts images by default", () => {
+    render(Subject, { props: { label: "Photo" } });
+    expect((screen.getByLabelText("Photo") as HTMLInputElement).accept).toBe(
+      "image/*",
+    );
+  });
+  test("passes through attributes", () => {
+    render(Subject, { props: { label: "P", "data-testid": "ii" } });
+    expect(screen.getByTestId("ii")).toBeTruthy();
+  });
 });

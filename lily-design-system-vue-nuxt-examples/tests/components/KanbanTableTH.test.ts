@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { render } from "@testing-library/vue";
 
-import Subject from "../../components/KanbanTableTD.vue";
+import Subject from "../../components/KanbanTableTH.vue";
 
 function renderInRow(props: Record<string, unknown>) {
     const container = document.createElement("div");

@@ -68,5 +68,5 @@
     {...restProps}
 >
     <dt>{term}</dt>
-    <dd>{@render children()}</dd>
+    <dd>{@render children?.()}</dd>
 </div>

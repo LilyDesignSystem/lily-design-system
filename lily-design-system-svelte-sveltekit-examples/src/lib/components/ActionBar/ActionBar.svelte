@@ -83,7 +83,7 @@
 >
     <span class="action-bar-count">{selectedCountLabel}</span>
     {#if children}
-        {@render children()}
+        {@render children?.()}
     {/if}
     {#if showClear}
         <button

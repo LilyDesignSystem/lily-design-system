@@ -14,11 +14,5 @@
 
 <!-- ChatList.svelte -->
 <div class={`chat-list ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>
-
-<style>
-    .chat-list {
-        display: block;
-    }
-</style>

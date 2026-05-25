@@ -14,11 +14,5 @@
 
 <!-- MockupLaptop.svelte -->
 <div class={`mockup-laptop ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>
-
-<style>
-    .mockup-laptop {
-        display: block;
-    }
-</style>

@@ -80,5 +80,5 @@
     tabindex={selected ? 0 : -1}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </button>

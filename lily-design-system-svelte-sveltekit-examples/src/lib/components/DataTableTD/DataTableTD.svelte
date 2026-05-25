@@ -55,5 +55,5 @@
     tabindex={active ? 0 : -1}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </td>

@@ -49,5 +49,5 @@
     class={`gantt-table-tbody ${className}`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </tbody>

@@ -1,12 +1,29 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
-import GrailLayoutLeftAside from "./GrailLayoutLeftAside.svelte";
+
+import Subject from "./GrailLayoutLeftAside.svelte";
+
+function childSnippet() {
+    return (($anchor: Comment) => {
+        const div = document.createElement("div");
+        div.textContent = "Left";
+        $anchor.before(div);
+    }) as any;
+}
 
 describe("GrailLayoutLeftAside", () => {
-    test("renders with content", () => {
-        render(GrailLayoutLeftAside, { props: { label: "Test" } });
-        const el = screen.getByLabelText("Test");
-        expect(el).toBeTruthy();
-        expect(el.getAttribute("class")).toContain("grail-layout-left-aside");
+    test("renders an aside", () => {
+        render(Subject, { props: { children: childSnippet() } });
+        expect(document.querySelector("aside.grail-layout-left-aside")).toBeTruthy();
+    });
+
+    test("renders children", () => {
+        render(Subject, { props: { children: childSnippet() } });
+        expect(screen.getByText("Left")).toBeTruthy();
+    });
+
+    test("passes through attributes", () => {
+        render(Subject, { props: { "data-testid": "glla", children: childSnippet() } });
+        expect(screen.getByTestId("glla")).toBeTruthy();
     });
 });

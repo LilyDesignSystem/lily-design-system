@@ -66,5 +66,5 @@
     rowspan={rowspan || undefined}
     {...restProps}
 >
-    {#if children}{@render children()}{/if}
+    {#if children}{@render children?.()}{/if}
 </th>

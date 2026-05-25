@@ -83,5 +83,5 @@
     {onreset}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </form>

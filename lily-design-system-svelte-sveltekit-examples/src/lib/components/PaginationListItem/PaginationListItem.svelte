@@ -58,5 +58,5 @@
     class={`pagination-list-item ${className}`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </li>

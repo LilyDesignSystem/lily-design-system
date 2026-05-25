@@ -83,5 +83,5 @@
     aria-valuemax={100}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </div>

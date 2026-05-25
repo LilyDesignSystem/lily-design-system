@@ -49,5 +49,5 @@
     class={`kanban-table-foot ${className}`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </tfoot>

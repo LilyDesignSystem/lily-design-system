@@ -48,5 +48,5 @@
     class={`gantt-table-tfoot ${className}`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </tfoot>

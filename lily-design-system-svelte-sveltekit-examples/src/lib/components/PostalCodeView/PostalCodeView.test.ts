@@ -1,11 +1,27 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
-import PostalCodeView from "./PostalCodeView.svelte";
+
+import Subject from "./PostalCodeView.svelte";
 
 describe("PostalCodeView", () => {
-    test("renders the component", () => {
-        render(PostalCodeView, { props: { label: "Test" }, context: new Map() });
-        const el = screen.getByLabelText("Test");
-        expect(el).toBeTruthy();
+    test("renders a span", () => {
+        render(Subject, { props: { text: "90210", "data-testid": "pc" } });
+        const el = screen.getByTestId("pc");
+        expect(el.tagName).toBe("SPAN");
+    });
+
+    test("displays the postal code text", () => {
+        render(Subject, { props: { text: "90210", "data-testid": "pc" } });
+        expect(screen.getByTestId("pc").textContent).toBe("90210");
+    });
+
+    test("renders empty when no text provided", () => {
+        render(Subject, { props: { "data-testid": "pc" } });
+        expect(screen.getByTestId("pc").textContent).toBe("");
+    });
+
+    test("passes through attributes", () => {
+        render(Subject, { props: { text: "12345", "data-testid": "pc" } });
+        expect(screen.getByTestId("pc")).toBeTruthy();
     });
 });

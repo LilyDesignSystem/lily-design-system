@@ -14,11 +14,5 @@
 
 <!-- MockupPhonePortrait.svelte -->
 <div class={`mockup-phone-portrait ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>
-
-<style>
-    .mockup-phone-portrait {
-        display: block;
-    }
-</style>

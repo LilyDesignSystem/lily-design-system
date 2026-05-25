@@ -1,11 +1,20 @@
-import { render, screen } from "@testing-library/svelte";
-import { describe, expect, test } from "vitest";
+import { describe, it, expect } from "vitest";
+import { render } from "@testing-library/svelte";
+import { createRawSnippet } from "svelte";
 import ScatterChart from "./ScatterChart.svelte";
 
+function textSnippet(text: string) {
+    return createRawSnippet(() => ({
+        render: () => `<span>${text}</span>`,
+    }));
+}
+
 describe("ScatterChart", () => {
-    test("renders the component", () => {
-        render(ScatterChart, { props: { label: "Test" }, context: new Map() });
-        const el = screen.getByLabelText("Test");
+    it("renders with class", () => {
+        const { container } = render(ScatterChart, {
+            props: { label: "Test", children: textSnippet("content") },
+        });
+        const el = container.querySelector(".scatter-chart");
         expect(el).toBeTruthy();
     });
 });

@@ -3,9 +3,10 @@ import { describe, expect, test } from "vitest";
 import MedicalBanner from "./MedicalBanner.svelte";
 
 describe("MedicalBanner", () => {
-    test("renders the component", () => {
-        render(MedicalBanner, { props: { label: "Test" }, context: new Map() });
+    test("renders with content", () => {
+        render(MedicalBanner, { props: { label: "Test" } });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
+        expect(el.getAttribute("class")).toContain("medical-banner");
     });
 });

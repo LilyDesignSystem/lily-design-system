@@ -14,11 +14,5 @@
 
 <!-- TreeMenu.svelte -->
 <div class={`tree-menu ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>
-
-<style>
-    .tree-menu {
-        display: block;
-    }
-</style>

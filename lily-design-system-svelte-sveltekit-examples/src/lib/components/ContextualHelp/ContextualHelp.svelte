@@ -83,7 +83,7 @@
         hidden={!expanded}
     >
         {#if children}
-            {@render children()}
+            {@render children?.()}
         {/if}
     </div>
 </div>

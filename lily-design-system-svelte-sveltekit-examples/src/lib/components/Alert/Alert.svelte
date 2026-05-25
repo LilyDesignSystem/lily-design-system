@@ -106,5 +106,5 @@
     {#if heading}
         <p><strong>{heading}</strong></p>
     {/if}
-    {@render children()}
+    {@render children?.()}
 </div>

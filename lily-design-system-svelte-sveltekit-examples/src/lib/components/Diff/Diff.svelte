@@ -14,11 +14,5 @@
 
 <!-- Diff.svelte -->
 <div class={`diff ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>
-
-<style>
-    .diff {
-        display: block;
-    }
-</style>

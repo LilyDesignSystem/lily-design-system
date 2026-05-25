@@ -14,11 +14,5 @@
 
 <!-- MockupBrowser.svelte -->
 <div class={`mockup-browser ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>
-
-<style>
-    .mockup-browser {
-        display: block;
-    }
-</style>

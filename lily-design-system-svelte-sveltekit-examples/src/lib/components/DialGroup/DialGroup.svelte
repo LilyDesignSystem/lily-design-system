@@ -14,11 +14,5 @@
 
 <!-- DialGroup.svelte -->
 <div class={`dial-group ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>
-
-<style>
-    .dial-group {
-        display: block;
-    }
-</style>

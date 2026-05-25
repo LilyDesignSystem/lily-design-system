@@ -75,5 +75,5 @@
     {value}
     {selected}
     {disabled}
-    {...restProps}>{@render children()}</option
+    {...restProps}>{@render children?.()}</option
 >

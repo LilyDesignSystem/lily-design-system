@@ -68,6 +68,6 @@
             {checked}
             {disabled}
         />
-        {@render children()}
+        {@render children?.()}
     </label>
 </li>

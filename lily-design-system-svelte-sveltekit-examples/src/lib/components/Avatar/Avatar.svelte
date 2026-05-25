@@ -74,5 +74,5 @@
     aria-label={alt}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </span>

@@ -58,5 +58,5 @@
     class={`caption ${className}`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </figcaption>

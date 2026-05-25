@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { render } from "@testing-library/vue";
 
-import Subject from "../../components/DataTableTD.vue";
+import Subject from "../../components/DataTableTH.vue";
 
 function renderInRow(props: Record<string, unknown>) {
     const container = document.createElement("div");

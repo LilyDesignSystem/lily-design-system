@@ -55,5 +55,5 @@
     class={`contents-list ${className}`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </ol>

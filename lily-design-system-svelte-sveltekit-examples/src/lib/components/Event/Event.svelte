@@ -14,11 +14,5 @@
 
 <!-- Event.svelte -->
 <div class={`event ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>
-
-<style>
-    .event {
-        display: block;
-    }
-</style>

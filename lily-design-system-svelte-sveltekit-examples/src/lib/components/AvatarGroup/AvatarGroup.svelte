@@ -14,11 +14,5 @@
 
 <!-- AvatarGroup.svelte -->
 <div class={`avatar-group ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>
-
-<style>
-    .avatar-group {
-        display: block;
-    }
-</style>

@@ -67,7 +67,7 @@
     {...restProps}
 >
     {#if children}
-        {@render children()}
+        {@render children?.()}
     {:else if format}
         {format}
     {:else}

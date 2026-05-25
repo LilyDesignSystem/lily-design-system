@@ -48,5 +48,5 @@
     class={`data-table-row ${className}`}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </tr>

@@ -59,5 +59,5 @@
     role="alert"
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </p>

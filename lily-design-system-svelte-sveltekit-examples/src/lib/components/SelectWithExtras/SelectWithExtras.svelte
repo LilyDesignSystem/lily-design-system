@@ -107,7 +107,7 @@
         {required}
         {disabled}
     >
-        {@render children()}
+        {@render children?.()}
     </select>
     {#if after}
         {@render after()}

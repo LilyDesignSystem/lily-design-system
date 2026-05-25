@@ -92,7 +92,7 @@
             class="government-identifier-links"
             aria-label={label}
         >
-            {@render children()}
+            {@render children?.()}
         </nav>
     {/if}
 </section>

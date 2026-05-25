@@ -3,9 +3,10 @@ import { describe, expect, test } from "vitest";
 import EspanaTarjetaSanitariaIndividualInput from "./EspanaTarjetaSanitariaIndividualInput.svelte";
 
 describe("EspanaTarjetaSanitariaIndividualInput", () => {
-    test("renders the component", () => {
-        render(EspanaTarjetaSanitariaIndividualInput, { props: { label: "Test" }, context: new Map() });
+    test("renders with content", () => {
+        render(EspanaTarjetaSanitariaIndividualInput, { props: { label: "Test" } });
         const el = screen.getByLabelText("Test");
         expect(el).toBeTruthy();
+        expect(el.getAttribute("class")).toContain("espana-tarjeta-sanitaria-individual-input");
     });
 });

@@ -14,11 +14,5 @@
 
 <!-- Place.svelte -->
 <div class={`place ${className}`} aria-label={label} {...restProps}>
-    {@render children()}
+    {@render children?.()}
 </div>
-
-<style>
-    .place {
-        display: block;
-    }
-</style>

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { render } from "@testing-library/vue";
 
-import Subject from "../../components/GanttTableHead.vue";
+import Subject from "../../components/GanttTableThead.vue";
 
 
 function renderInTable(props: Record<string, unknown>, slotContent?: string) {

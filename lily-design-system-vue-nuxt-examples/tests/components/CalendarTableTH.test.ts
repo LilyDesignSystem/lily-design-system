@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { render } from "@testing-library/vue";
 
-import Subject from "../../components/CalendarTableTD.vue";
+import Subject from "../../components/CalendarTableTH.vue";
 
 function renderInRow(props: Record<string, unknown>) {
     const container = document.createElement("div");

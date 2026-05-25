@@ -71,5 +71,5 @@
     aria-hidden={decorative || undefined}
     {...restProps}
 >
-    {@render children()}
+    {@render children?.()}
 </span>
