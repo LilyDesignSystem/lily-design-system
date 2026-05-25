@@ -791,12 +791,6 @@ export const components: Component[] = [
     description: "a read-only display of a measurement unit",
   },
   {
-    slug: "medical-record-red-box",
-    name: "MedicalRecordRedBox",
-    description:
-      "a red highlighted box for critical medical record information",
-  },
-  {
     slug: "menu",
     name: "Menu",
     description: "a list of actions or options triggered by a button",

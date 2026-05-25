@@ -421,8 +421,8 @@ const COMPONENTS = [
   ["measurement-unit-input", "an input for selecting a measurement unit"],
   ["measurement-unit-view", "a read-only display of a measurement unit"],
   [
-    "medical-record-red-box",
-    "a red highlighted box for critical medical record information",
+    "medical-banner-box-for-danger",
+    "a medical record banner box for danger information e.g. reactions, warnings, alarms, etc.",
   ],
   ["menu", "a list of actions or options triggered by a button"],
   ["menu-item", "one item in a menu"],
@@ -881,7 +881,7 @@ function getActualTag(name, tag) {
   if (name === "inset-text") return "div";
   if (name === "information-callout") return "div";
   if (name === "warning-callout") return "div";
-  if (name === "medical-record-red-box") return "div";
+  if (name === "medical-banner-box-for-danger") return "div";
   if (name === "notification") return "div";
   if (name === "banner") return "div";
   if (name === "card") return "div";

@@ -26,7 +26,7 @@ A Svelte 5 headless component that renders `<div class="task-bar ...">` with `ro
 
 ## When not to use it
 
-- Tabs that switch content - use `TabBar` or `TabGroup`.
+- Tabs that switch content - use `TabBar`.
 - Site navigation - use `NavigationMenu`, `Header`, or a custom `<nav>`.
 - Menu triggers - use `MenuBar` + `MenuBarButton`.
 - Radio-style segmented controls - use `SegmentGroup`.

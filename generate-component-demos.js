@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 // generate-component-demos.js
-// Reads components.csv (tab-separated: slug, name, description)
+// Reads components.tsv (tab-separated: slug, name, description)
 // Outputs a TypeScript module mapping slug → demo HTML string.
 
 const fs = require('fs');
 const path = require('path');
 
-const csvPath = path.join(__dirname, 'components.csv');
+const csvPath = path.join(__dirname, 'components.tsv');
 const csvContent = fs.readFileSync(csvPath, 'utf-8');
 
 const components = csvContent
@@ -285,7 +285,7 @@ const explicitDemos = {
   'care-card': '<div class="care-card"><h3>Urgent care</h3><p>Contact your GP within 48 hours.</p></div>',
   'information-callout': '<div class="information-callout"><h3>Information</h3><p>This is helpful information.</p></div>',
   'warning-callout': '<div class="warning-callout"><h3>Warning</h3><p>Please be aware of this important warning.</p></div>',
-  'medical-record-red-box': '<div class="medical-record-red-box"><h3>Critical</h3><p>Allergic to penicillin.</p></div>',
+  'medical-banner-box-for-danger': '<div class="medical-banner-box-for-danger" role="region" aria-label="Allergies" data-type="danger"><h3>Critical</h3><p>Allergic to penicillin.</p></div>',
   'call-to-action': '<div class="call-to-action"><h3>Get started</h3><p>Sign up for free today.</p><a href="#">Sign up</a></div>',
   'comment': '<article class="comment"><header>Jane Doe \u2014 <time>2 hours ago</time></header><p>Great work on this!</p></article>',
   'footnote': '<span class="footnote"><sup><a href="#fn1">[1]</a></sup></span>',

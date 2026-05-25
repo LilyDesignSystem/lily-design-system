@@ -37,15 +37,34 @@ ai_exists_or_err() (
 
 top="$(git rev-parse --show-toplevel)"
 
+repo_root_ai_exists_or_err() (
+    # dir="$1" — root-level repo doc check; the repo uses spec.md instead of plan.md/tasks.md
+    directory_exists_or_err "$1"
+    file_size_or_err "$1/index.md"
+    symlink_exists_or_err "$1/README.md"
+    file_size_or_err "$1/AGENTS.md" && implemented_or_err "$1/AGENTS.md"
+    file_size_or_err "$1/CLAUDE.md"
+    file_size_or_err "$1/spec.md" && implemented_or_err "$1/spec.md"
+)
+
 test_repository() {
     repo_setup_exists_or_err "$top"
-    ai_exists_or_err "$top"
+    repo_root_ai_exists_or_err "$top"
 }
 
 test_components() {
     "$top/bin/list-components-as-kebab-case" | 
     while read -r component; do
         ai_exists_or_err "$top/components/$component"
+    done
+}
+
+test_lilydesignsystem_github_io() {
+    "$top/bin/list-components-as-kebab-case" | 
+    while read -r component; do
+        dir="$top/lilydesignsystem.github.io/src/routes/components/$component"
+        ai_exists_or_err "$dir"
+        file_size_or_err "$dir/+page.svelte"
     done
 }
 
@@ -111,6 +130,7 @@ test_implementation_nunjucks_example() {
 
 test_repository
 test_components
+test_lilydesignsystem_github_io
 test_implementations
 test_implementations_with_vite
 test_implementations_with_svelte

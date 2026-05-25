@@ -6,6 +6,9 @@ This is brand new work and we welcome collaboration, guidance, and feedback.
 
 Contact <joel@joelparkerhenderson.com>
 
+The living specification is [spec.md](spec.md). The modular reference docs are in
+[AGENTS.md](AGENTS.md) and [AGENTS/](AGENTS/).
+
 ## Examples
 
 Batteries-included web examples that demonstrate components in real apps:
@@ -27,6 +30,9 @@ Headless versions if you want to use components with all your own styles:
 - [Nunjucks headless](lily-design-system-nunjucks-headless)
 
 ## Components
+
+The canonical catalog is [components.tsv](components.tsv) — 407 components. Each
+slug below links to the per-component documentation.
 
 - [accordion-checkbox](components/accordion-checkbox): a checkbox option that reveals an accordion panel when checked
 - [accordion-link](components/accordion-link): an accordion link

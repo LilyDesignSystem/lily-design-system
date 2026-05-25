@@ -1168,8 +1168,8 @@ article[class*="card"] {
   font-size: var(--nhs-font-size-16);
 }
 
-/* medical-record-red-box */
-.medical-record-red-box {
+/* medical-banner-box-for-danger */
+.medical-banner-box-for-danger {
   padding: var(--nhs-space-3) var(--nhs-space-4);
   margin-bottom: var(--nhs-space-4);
   border: var(--nhs-border-width-thick) solid var(--nhs-red);

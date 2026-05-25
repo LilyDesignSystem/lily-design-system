@@ -162,6 +162,5 @@ References:
 ## Related components
 
 - `TabBar` - the required parent.
-- `TabGroup` - duplicated TabBar variant.
 - `SegmentGroupItem` - radio-style alternative.
 - `Button` - generic button.

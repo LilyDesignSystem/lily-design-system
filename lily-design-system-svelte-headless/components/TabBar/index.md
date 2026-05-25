@@ -158,6 +158,5 @@ References:
 ## Related components
 
 - `TabBarButton` - the intended child.
-- `TabGroup` - a second, duplicated variant of TabBar (see the TabGroup docs).
 - `SegmentGroup` - for radio-style single selection.
 - `ToolBar`, `TaskBar` - toolbars of buttons.

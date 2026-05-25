@@ -101,7 +101,7 @@ const TAG_OVERRIDES = {
   "inset-text": "div",
   label: "label",
   listbox: "div",
-  "medical-record-red-box": "div",
+  "medical-banner-box-for-danger": "div",
   "navigation-menu": "nav",
   notification: "div",
   panel: "div",
