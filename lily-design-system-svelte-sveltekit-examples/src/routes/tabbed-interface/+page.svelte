@@ -151,27 +151,27 @@
     <h2>Tree Navigation</h2>
     <TreeNav label="Department hierarchy">
         <TreeList label="Hospital">
-            <li>
+            <li role="treeitem" aria-expanded="true" tabindex="0">
                 Medicine
                 <TreeList label="Medicine departments">
-                    <li>Cardiology</li>
-                    <li>Neurology</li>
-                    <li>Gastroenterology</li>
+                    <li role="treeitem" tabindex="-1">Cardiology</li>
+                    <li role="treeitem" tabindex="-1">Neurology</li>
+                    <li role="treeitem" tabindex="-1">Gastroenterology</li>
                 </TreeList>
             </li>
-            <li>
+            <li role="treeitem" aria-expanded="true" tabindex="-1">
                 Surgery
                 <TreeList label="Surgery departments">
-                    <li>General Surgery</li>
-                    <li>Orthopaedics</li>
-                    <li>Urology</li>
+                    <li role="treeitem" tabindex="-1">General Surgery</li>
+                    <li role="treeitem" tabindex="-1">Orthopaedics</li>
+                    <li role="treeitem" tabindex="-1">Urology</li>
                 </TreeList>
             </li>
-            <li>
+            <li role="treeitem" aria-expanded="true" tabindex="-1">
                 Diagnostics
                 <TreeList label="Diagnostics departments">
-                    <li>Radiology</li>
-                    <li>Pathology</li>
+                    <li role="treeitem" tabindex="-1">Radiology</li>
+                    <li role="treeitem" tabindex="-1">Pathology</li>
                 </TreeList>
             </li>
         </TreeList>

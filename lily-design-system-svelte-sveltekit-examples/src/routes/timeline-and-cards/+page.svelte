@@ -75,7 +75,7 @@
             <div
                 style="display: flex; align-items: center; gap: var(--nhs-space-3); margin-bottom: var(--nhs-space-2);"
             >
-                <Avatar label="Dr. Sarah Chen">
+                <Avatar alt="Dr. Sarah Chen">
                     <AvatarText>SC</AvatarText>
                 </Avatar>
                 <div>
@@ -96,7 +96,7 @@
             <div
                 style="display: flex; align-items: center; gap: var(--nhs-space-3); margin-bottom: var(--nhs-space-2);"
             >
-                <Avatar label="Nurse James Patel">
+                <Avatar alt="Nurse James Patel">
                     <AvatarText>JP</AvatarText>
                 </Avatar>
                 <div>
@@ -115,7 +115,7 @@
             <div
                 style="display: flex; align-items: center; gap: var(--nhs-space-3); margin-bottom: var(--nhs-space-2);"
             >
-                <Avatar label="Dr. Emily Watson">
+                <Avatar alt="Dr. Emily Watson">
                     <AvatarText>EW</AvatarText>
                 </Avatar>
                 <div>
@@ -167,6 +167,7 @@
     <p>
         This section demonstrates inline text components:
         <Flair>highlighted text</Flair>, special characters like <Character
+            label="Letter A"
             >A</Character
         >, and emoji: <Emoji emoji="heart" label="heart" />
         <Emoji emoji="star" label="star" />
