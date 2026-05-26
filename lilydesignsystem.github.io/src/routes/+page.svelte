@@ -60,18 +60,3 @@ import Button from "lily-design-system-react-headless/components/Button";
   </div>
 </section>
 
-<section class="section">
-  <header class="section-heading">
-    <p class="section-heading-eyebrow">Catalog</p>
-    <h2>All components, alphabetical</h2>
-  </header>
-
-  <ul class="component-list component-list-stacked" aria-label="All components">
-    {#each LILY_COMPONENTS as component (component.name)}
-      <li class="component-list-item">
-        <span class="component-list-item-name">{component.name}</span>
-        <span class="component-list-item-description">{component.description}</span>
-      </li>
-    {/each}
-  </ul>
-</section>

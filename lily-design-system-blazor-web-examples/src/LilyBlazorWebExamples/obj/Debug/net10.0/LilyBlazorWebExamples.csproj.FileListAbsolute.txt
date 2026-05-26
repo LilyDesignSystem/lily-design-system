@@ -62,7 +62,6 @@
 /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/Debug/net10.0/rjsmrazor.dswa.cache.json
 /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/Debug/net10.0/rjsmcshtml.dswa.cache.json
 /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/Debug/net10.0/scopedcss/bundle/LilyBlazorWebExamples.styles.css
-/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/Debug/net10.0/compressed/svon4aef66-{0}-sn9kvqe5gt-sn9kvqe5gt.gz
 /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/Debug/net10.0/compressed/o692fc25hh-{0}-vdxcezdvoq-vdxcezdvoq.gz
 /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/Debug/net10.0/compressed/8kswrrfghe-{0}-hwaxidwiwj-hwaxidwiwj.gz
 /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/Debug/net10.0/compressed/9y81rep4vw-{0}-xbbil6v7co-xbbil6v7co.gz
@@ -77,3 +76,4 @@
 /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/Debug/net10.0/LilyBlazorWebExamples.pdb
 /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/Debug/net10.0/LilyBlazorWebExamples.genruntimeconfig.cache
 /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/Debug/net10.0/ref/LilyBlazorWebExamples.dll
+/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/Debug/net10.0/compressed/svon4aef66-{0}-g6f4d47xa1-g6f4d47xa1.gz

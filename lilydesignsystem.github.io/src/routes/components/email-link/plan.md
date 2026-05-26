@@ -1,0 +1,31 @@
+# Email Link — Implementation Plan
+
+## Goal
+
+Implement the Email Link component: a mailto hyperlink for an email address.
+
+## HTML Tag and CSS Class
+
+- HTML tag: <a>
+- CSS class: .email-link
+
+## Companion Component
+
+- email-input (Input/View or Input/Link pair)
+
+## Approach
+
+1. Use semantic <a> element with class="email-link"
+2. Add ARIA attributes for accessibility
+3. Implement in HTML headless (plain HTML + vanilla JS)
+4. Implement in Svelte headless (Svelte 5 + runes)
+5. Implement in React, Vue, Blazor headless
+6. Create tests for each implementation
+
+## Acceptance Criteria
+
+- [ ] Renders <a> with class="email-link"
+- [ ] `aria-label="..."` -- optional override for the accessible name when the visible email text alone is insufficient context
+- [ ] WCAG 2.2 AAA compliant
+- [ ] Zero CSS — fully headless
+- [ ] Tests pass in all implementations

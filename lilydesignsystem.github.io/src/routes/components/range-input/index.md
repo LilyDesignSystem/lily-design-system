@@ -1,0 +1,105 @@
+# Range Input
+
+A range input is a UI/UX component that provides a slider control for selecting a numeric value within a defined range. It uses the native HTML `<input type="range">` element, which renders as a draggable track and handle. The component supports configurable minimum, maximum, and step values, and provides a bindable value prop for two-way data binding. An aria-label ensures the control is accessible to screen readers and assistive technologies.
+
+Range inputs are commonly used for volume controls, brightness settings, price filters, and any scenario where users need to select a value from a continuous numeric spectrum.
+
+## Implementation Notes
+
+- Renders a single `<input type="range">` element for native slider behavior
+- Supports two-way binding for the `value` prop enabling two-way data binding with two-way `value` binding
+- Supports rest props via `...restProps` for extensibility (e.g., `id`, `name`, `class`)
+- The `aria-label` prop provides an accessible name since there is no visible `<label>` element
+- Default value is 50, centered in the default 0-100 range
+
+## Props
+
+- `label`: string (required) -- accessible name applied via `aria-label`
+- `value`: number (default: 50) -- current numeric value, bindable with two-way `value` binding
+- `min`: number (default: 0) -- minimum allowed value
+- `max`: number (default: 100) -- maximum allowed value
+- `step`: number (default: 1) -- increment between selectable values
+- `disabled`: boolean (default: false) -- whether the input is disabled
+- `...restProps`: spread onto the `<input>` element
+
+## Usage
+
+Volume control:
+
+```html
+<RangeInput label="Volume" value={volume} min={0} max={100} />
+```
+
+Price filter with step increments:
+
+```html
+<RangeInput label="Maximum price" value={maxPrice} min={10} max={500} step={10} />
+```
+
+Satisfaction rating from 1 to 10:
+
+```html
+<RangeInput label="Satisfaction" value={satisfaction} min={1} max={10} step={1} />
+```
+
+## Keyboard Interactions
+
+- Left Arrow / Down Arrow: decrease value by one step
+- Right Arrow / Up Arrow: increase value by one step
+- Home: set to minimum value
+- End: set to maximum value
+- Page Down: decrease by a larger step (browser-defined)
+- Page Up: increase by a larger step (browser-defined)
+
+Note: keyboard interactions are provided natively by the `<input type="range">` element.
+
+## ARIA
+
+- `aria-label={label}` -- provides the accessible name for the slider control since no visible label element is associated
+
+## When to Use
+
+- Use for selecting a value within a defined range using a native HTML range slider.
+- Use for approximate value selection like satisfaction ratings, volume, brightness, or price filters.
+- Use when the full range should be visually represented and an approximate value is acceptable.
+- Use for zoom levels, opacity controls, or any bounded numeric spectrum.
+
+## When Not to Use
+
+- Do not use when exact numbers matter -- use NumberInput instead.
+- Do not use for angle selection in degrees -- use AngleSliderRangeInput instead.
+- Do not use for a custom slider with non-native styling needs -- use Slider instead.
+
+## Headless
+
+The RangeInput headless component provides a native `<input type="range">` with `aria-label`, configurable `min`, `max`, and `step` values, and two-way value binding. The browser handles all slider keyboard interactions natively. The consumer provides all visual styling for the track, thumb, and labels.
+
+
+## Styles
+
+The consumer provides all CSS styling. The component renders with a `.range-input` class for targeting. No default styles are included — this is a fully headless component.
+
+
+## Testing
+
+
+- Verify the component renders a `<input>` element with class `range-input`
+- Verify aria-label={label}` -- provides the accessible name for the slider control since no visible label element is associated
+- Verify keyboard interactions work correctly
+- Verify pass-through attributes are applied
+
+## Advice
+
+- **Designers**: Display the current value near the slider thumb or in a label, and consider adding tick marks at key intervals for better spatial reference.
+- **Developers**: Use the `step` prop to constrain values to meaningful increments, and debounce `oninput` handlers if the slider drives expensive updates.
+
+## Related components
+
+- `slider` — a draggable control for selecting a value along a track
+- `number-input` — an input for entering a numeric value with validation <input type="number">
+- `angle-slider-range-input` — a range input for selecting an angle in degrees
+
+## References
+
+- WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
+- MDN input type="range": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range

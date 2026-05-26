@@ -15,7 +15,7 @@
   /* NHS Neutrals */
   --nhs-black: #231f20;
   --nhs-dark-grey: #425563;
-  --nhs-mid-grey: #768692;
+  --nhs-mid-grey: #5d6b75;
   --nhs-pale-grey: #e8edee;
   --nhs-white: #ffffff;
 
@@ -1013,7 +1013,7 @@ article[class*="card"] {
   color: var(--nhs-white);
 }
 
-.header h1 {
+.header h1, .header h2, .header h3, .header h4 {
   color: var(--nhs-white);
   margin: 0;
   font-size: var(--nhs-font-size-26);

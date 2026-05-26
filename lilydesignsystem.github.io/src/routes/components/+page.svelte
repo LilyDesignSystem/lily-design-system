@@ -94,8 +94,8 @@
       <li class="component-list-item">
         <a class="component-list-item-link" href="/components/{component.name}/">
           <span class="component-list-item-name">{component.name}</span>
-          <span class="component-list-item-description">{component.description}</span>
         </a>
+          <span class="component-list-item-description">{component.description}</span>
       </li>
     {/each}
   </ul>
