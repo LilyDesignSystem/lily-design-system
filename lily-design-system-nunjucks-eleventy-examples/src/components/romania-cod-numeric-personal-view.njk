@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Romania Cod Numeric Personal View
+description: a read-only display of Romania's Cod Numeric Personal (CNP)
+---
+
+{% from "components/romania-cod-numeric-personal-view/macro.njk" import romaniaCodNumericPersonalView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Personal Numerical Code</dt>
+  <dd>{{ romaniaCodNumericPersonalView({ value: "sample-value", label: "Personal Numerical Code" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>13 digits: gender and century (1/3/5/7 male; 2/4/6/8 female; 9 foreigner), date of birth (YYMMDD), country zone (01-52, or 99 for Bucharest sectors), serial (3 digits), and a Modulus-11 checksum digit.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/National_identification_number#Romania">Personal Numerical Code</a>.</p>

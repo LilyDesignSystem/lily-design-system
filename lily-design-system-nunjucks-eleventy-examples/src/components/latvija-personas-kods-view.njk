@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Latvija Personas Kods View
+description: a read-only display of Latvia's Personas kods
+---
+
+{% from "components/latvija-personas-kods-view/macro.njk" import latvijaPersonasKodsView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Personal Code</dt>
+  <dd>{{ latvijaPersonasKodsView({ value: "sample-value", label: "Personal Code" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>11 digits in the form DDMMYY-CZZZZ where the first 6 are the date of birth (DDMMYY) and C encodes the century (0 = 19th, 1 = 20th, 2 = 21st).</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/National_identification_number#Latvia">Personal Code</a>.</p>

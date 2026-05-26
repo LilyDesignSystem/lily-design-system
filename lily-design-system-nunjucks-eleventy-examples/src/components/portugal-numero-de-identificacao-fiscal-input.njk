@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Portugal Numero De Identificacao Fiscal Input
+description: an input for entering Portugal's Número de Identificação Fiscal (NIF)
+---
+
+{% from "components/portugal-numero-de-identificacao-fiscal-input/macro.njk" import portugalNumeroDeIdentificacaoFiscalInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "portugal-numero-de-identificacao-fiscal-input-demo", text: "Tax Identification Number" }) }}
+  {{ portugalNumeroDeIdentificacaoFiscalInput({ id: "portugal-numero-de-identificacao-fiscal-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>9 digits; the leading digit(s) encode the kind of taxpayer (1-3 personal, 45 non-resident citizen, 5 legal person, etc.).</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Personal_identification_number_(Portugal)">Tax Identification Number</a>.</p>

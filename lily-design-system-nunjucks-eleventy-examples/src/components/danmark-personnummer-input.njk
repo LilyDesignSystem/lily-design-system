@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Danmark Personnummer Input
+description: an input for entering Denmark's Personnummer (CPR-nummer) (CPR)
+---
+
+{% from "components/danmark-personnummer-input/macro.njk" import danmarkPersonnummerInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "danmark-personnummer-input-demo", text: "Personal Identity Code" }) }}
+  {{ danmarkPersonnummerInput({ id: "danmark-personnummer-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>10 digits in the format DDMMYYXXXX where the first 6 are the date of birth (DDMMYY).</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Personal_identification_number_(Denmark)">Personal Identity Code</a>.</p>

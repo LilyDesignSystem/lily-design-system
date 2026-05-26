@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Italia Codice Fiscale Input
+description: an input for entering Italy's Codice fiscale (CF)
+---
+
+{% from "components/italia-codice-fiscale-input/macro.njk" import italiaCodiceFiscaleInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "italia-codice-fiscale-input-demo", text: "Italian Fiscal Code" }) }}
+  {{ italiaCodiceFiscaleInput({ id: "italia-codice-fiscale-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>16 alphanumeric characters: 3 from the surname, 3 from the given name, 5 encoding date of birth and sex, 4 encoding place of birth, and 1 check character.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Italian_fiscal_code">Italian Fiscal Code</a>.</p>

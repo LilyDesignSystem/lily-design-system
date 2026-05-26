@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Alba Community Health Index View
+description: a read-only display of Scotland's Community Health Index (CHI)
+---
+
+{% from "components/alba-community-health-index-view/macro.njk" import albaCommunityHealthIndexView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Community Health Index</dt>
+  <dd>{{ albaCommunityHealthIndexView({ value: "sample-value", label: "Community Health Index" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>10 digits encoding date of birth (DDMMYY) + two random digits + a sex digit (odd male, even female) + a Modulus-11 check digit.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/National_Health_Service_Central_Register">Community Health Index</a>.</p>

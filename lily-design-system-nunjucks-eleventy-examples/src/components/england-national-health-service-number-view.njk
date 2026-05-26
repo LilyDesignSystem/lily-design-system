@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: England National Health Service Number View
+description: a read-only display of England's National Health Service Number (NHS)
+---
+
+{% from "components/england-national-health-service-number-view/macro.njk" import englandNationalHealthServiceNumberView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>National Health Service Number</dt>
+  <dd>{{ englandNationalHealthServiceNumberView({ value: "sample-value", label: "National Health Service Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>10 digits in 3-3-4 format with a Modulus-11 check digit, allocated through the Personal Demographics Service.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/NHS_number">National Health Service Number</a>.</p>

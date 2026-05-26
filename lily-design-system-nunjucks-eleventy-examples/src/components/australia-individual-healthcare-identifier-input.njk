@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Australia Individual Healthcare Identifier Input
+description: an input for entering Australia's Individual Healthcare Identifier (IHI)
+---
+
+{% from "components/australia-individual-healthcare-identifier-input/macro.njk" import australiaIndividualHealthcareIdentifierInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "australia-individual-healthcare-identifier-input-demo", text: "Individual Healthcare Identifier" }) }}
+  {{ australiaIndividualHealthcareIdentifierInput({ id: "australia-individual-healthcare-identifier-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>16 digits assigned by the Healthcare Identifiers Service.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/My_Health_Record">Individual Healthcare Identifier</a>.</p>

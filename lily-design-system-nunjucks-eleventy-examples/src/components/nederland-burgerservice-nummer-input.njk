@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Nederland Burgerservice Nummer Input
+description: an input for entering Netherlands's Burgerservicenummer (BSN)
+---
+
+{% from "components/nederland-burgerservice-nummer-input/macro.njk" import nederlandBurgerserviceNummerInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "nederland-burgerservice-nummer-input-demo", text: "Citizen Service Number" }) }}
+  {{ nederlandBurgerserviceNummerInput({ id: "nederland-burgerservice-nummer-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>9-digit number issued via the Personal Records Database (BRP); validated with a variant of the eleven-test (Luhn) algorithm.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Burgerservicenummer">Citizen Service Number</a>.</p>

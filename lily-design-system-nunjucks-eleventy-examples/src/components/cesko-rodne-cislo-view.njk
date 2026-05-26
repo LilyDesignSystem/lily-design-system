@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Cesko Rodne Cislo View
+description: a read-only display of Czech Republic's Rodné číslo (RČ)
+---
+
+{% from "components/cesko-rodne-cislo-view/macro.njk" import ceskoRodneCisloView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Czech Personal Number</dt>
+  <dd>{{ ceskoRodneCisloView({ value: "sample-value", label: "Czech Personal Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>nine or ten digits in the format YYXXDD/SSSC where XX=MM for males and MM+50 for females; the ten-digit form ends in a check digit and is usually divisible by 11.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/National_identification_number#Czech_Republic">Czech Personal Number</a>.</p>

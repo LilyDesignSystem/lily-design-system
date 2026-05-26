@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Cesko Cestovni Pas View
+description: a read-only display of Czech Republic's Cestovní pas
+---
+
+{% from "components/cesko-cestovni-pas-view/macro.njk" import ceskoCestovniPasView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Czech Passport</dt>
+  <dd>{{ ceskoCestovniPasView({ value: "sample-value", label: "Czech Passport" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>usually 8 digits, sometimes longer, issued by the Ministry of the Interior.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Czech_passport">Czech Passport</a>.</p>

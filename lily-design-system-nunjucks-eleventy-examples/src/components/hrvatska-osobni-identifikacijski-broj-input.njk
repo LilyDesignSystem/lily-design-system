@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Hrvatska Osobni Identifikacijski Broj Input
+description: an input for entering Croatia's Osobni identifikacijski broj (OIB)
+---
+
+{% from "components/hrvatska-osobni-identifikacijski-broj-input/macro.njk" import hrvatskaOsobniIdentifikacijskiBrojInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "hrvatska-osobni-identifikacijski-broj-input-demo", text: "Personal Identification Number" }) }}
+  {{ hrvatskaOsobniIdentifikacijskiBrojInput({ id: "hrvatska-osobni-identifikacijski-broj-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>11 digits — 10 random digits plus a check digit; permanent, unique, and assigned to every Croatian citizen and legal person.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Personal_identification_number_(Croatia)">Personal Identification Number</a>.</p>

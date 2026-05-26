@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Slovensko Rodne Cislo Input
+description: an input for entering Slovakia's Rodné číslo (RČ)
+---
+
+{% from "components/slovensko-rodne-cislo-input/macro.njk" import slovenskoRodneCisloInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "slovensko-rodne-cislo-input-demo", text: "Slovak Personal Number" }) }}
+  {{ slovenskoRodneCisloInput({ id: "slovensko-rodne-cislo-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>10 digits in the form YYMMDDCCCX where MM is 01-12 for males and 51-62 for females; X is a check digit and the whole number is divisible by 11.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/National_identification_number#Slovakia">Slovak Personal Number</a>.</p>

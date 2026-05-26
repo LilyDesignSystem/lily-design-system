@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Polska Pesel Input
+description: an input for entering Poland's PESEL
+---
+
+{% from "components/polska-pesel-input/macro.njk" import polskaPeselInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "polska-pesel-input-demo", text: "PESEL" }) }}
+  {{ polskaPeselInput({ id: "polska-pesel-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>11 numeric digits; assigned shortly after birth and unchanged for life.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/PESEL">PESEL</a>.</p>

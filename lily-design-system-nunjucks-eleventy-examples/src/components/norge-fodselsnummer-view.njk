@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Norge Fodselsnummer View
+description: a read-only display of Norway's Fødselsnummer
+---
+
+{% from "components/norge-fodselsnummer-view/macro.njk" import norgeFodselsnummerView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Norwegian Birth Number</dt>
+  <dd>{{ norgeFodselsnummerView({ value: "sample-value", label: "Norwegian Birth Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>11 digits where the first 6 represent the date of birth (DDMMYY).</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/National_identification_number#Norway">Norwegian Birth Number</a>.</p>

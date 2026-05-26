@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Cyprus National Passport Number Input
+description: an input for entering Cyprus's National Passport Number
+---
+
+{% from "components/cyprus-national-passport-number-input/macro.njk" import cyprusNationalPassportNumberInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "cyprus-national-passport-number-input-demo", text: "National Passport Number" }) }}
+  {{ cyprusNationalPassportNumberInput({ id: "cyprus-national-passport-number-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>passports before 13/12/2010 begin with 'E' followed by 6 digits (e.g. E123456); biometric passports issued after 13/12/2010 begin with 'K' followed by 8 digits (e.g. K12345678).</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Cypriot_passport">National Passport Number</a>.</p>

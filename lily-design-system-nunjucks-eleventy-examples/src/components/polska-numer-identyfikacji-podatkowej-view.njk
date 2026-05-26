@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Polska Numer Identyfikacji Podatkowej View
+description: a read-only display of Poland's Numer Identyfikacji Podatkowej (NIP)
+---
+
+{% from "components/polska-numer-identyfikacji-podatkowej-view/macro.njk" import polskaNumerIdentyfikacjiPodatkowejView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Tax Identification Number</dt>
+  <dd>{{ polskaNumerIdentyfikacjiPodatkowejView({ value: "sample-value", label: "Tax Identification Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>10 numeric digits used for tax identification.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/National_identification_number#Poland">Tax Identification Number</a>.</p>

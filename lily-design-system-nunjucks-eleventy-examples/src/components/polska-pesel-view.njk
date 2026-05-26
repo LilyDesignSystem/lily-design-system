@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Polska Pesel View
+description: a read-only display of Poland's PESEL
+---
+
+{% from "components/polska-pesel-view/macro.njk" import polskaPeselView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>PESEL</dt>
+  <dd>{{ polskaPeselView({ value: "sample-value", label: "PESEL" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>11 numeric digits; assigned shortly after birth and unchanged for life.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/PESEL">PESEL</a>.</p>

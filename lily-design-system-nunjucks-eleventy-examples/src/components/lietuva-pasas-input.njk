@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Lietuva Pasas Input
+description: an input for entering Lithuania's Pasas
+---
+
+{% from "components/lietuva-pasas-input/macro.njk" import lietuvaPasasInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "lietuva-pasas-input-demo", text: "Lithuanian Passport" }) }}
+  {{ lietuvaPasasInput({ id: "lietuva-pasas-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>8-digit passport or identity card number.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Lithuanian_passport">Lithuanian Passport</a>.</p>

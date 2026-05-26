@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Latvija Personas Kods Input
+description: an input for entering Latvia's Personas kods
+---
+
+{% from "components/latvija-personas-kods-input/macro.njk" import latvijaPersonasKodsInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "latvija-personas-kods-input-demo", text: "Personal Code" }) }}
+  {{ latvijaPersonasKodsInput({ id: "latvija-personas-kods-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>11 digits in the form DDMMYY-CZZZZ where the first 6 are the date of birth (DDMMYY) and C encodes the century (0 = 19th, 1 = 20th, 2 = 21st).</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/National_identification_number#Latvia">Personal Code</a>.</p>

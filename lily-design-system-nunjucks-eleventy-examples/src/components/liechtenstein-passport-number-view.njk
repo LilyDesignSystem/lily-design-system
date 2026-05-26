@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Liechtenstein Passport Number View
+description: a read-only display of Liechtenstein's Liechtenstein Passport Number
+---
+
+{% from "components/liechtenstein-passport-number-view/macro.njk" import liechtensteinPassportNumberView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Liechtenstein Passport Number</dt>
+  <dd>{{ liechtensteinPassportNumberView({ value: "sample-value", label: "Liechtenstein Passport Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>1 letter followed by 5 digits (e.g. R00536).</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Liechtenstein_passport">Liechtenstein Passport Number</a>.</p>

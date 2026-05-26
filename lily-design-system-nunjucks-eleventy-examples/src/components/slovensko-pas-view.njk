@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Slovensko Pas View
+description: a read-only display of Slovakia's Pas
+---
+
+{% from "components/slovensko-pas-view/macro.njk" import slovenskoPasView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Slovak Passport</dt>
+  <dd>{{ slovenskoPasView({ value: "sample-value", label: "Slovak Passport" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>9 characters in the format XXNNNNNNN: 2 block letters and 7 digits; valid for 10 years.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Slovak_passport">Slovak Passport</a>.</p>

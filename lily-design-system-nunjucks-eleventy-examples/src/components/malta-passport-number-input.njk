@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Malta Passport Number Input
+description: an input for entering Malta's Malta Passport Number
+---
+
+{% from "components/malta-passport-number-input/macro.njk" import maltaPassportNumberInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "malta-passport-number-input-demo", text: "Malta Passport Number" }) }}
+  {{ maltaPassportNumberInput({ id: "malta-passport-number-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>7 numerical digits issued by the Civil Registration Directorate.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Maltese_passport">Malta Passport Number</a>.</p>

@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Nederland Identiteitskaart Nummer Input
+description: an input for entering Netherlands's Identiteitskaart Nummer
+---
+
+{% from "components/nederland-identiteitskaart-nummer-input/macro.njk" import nederlandIdentiteitskaartNummerInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "nederland-identiteitskaart-nummer-input-demo", text: "Dutch National Identity Card Number" }) }}
+  {{ nederlandIdentiteitskaartNummerInput({ id: "nederland-identiteitskaart-nummer-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>9 characters following the same format as the passport number; 'O' is disallowed but '0' is permitted.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Dutch_identity_card">Dutch National Identity Card Number</a>.</p>

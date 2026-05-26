@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Italia Codice Fiscale View
+description: a read-only display of Italy's Codice fiscale (CF)
+---
+
+{% from "components/italia-codice-fiscale-view/macro.njk" import italiaCodiceFiscaleView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Italian Fiscal Code</dt>
+  <dd>{{ italiaCodiceFiscaleView({ value: "sample-value", label: "Italian Fiscal Code" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>16 alphanumeric characters: 3 from the surname, 3 from the given name, 5 encoding date of birth and sex, 4 encoding place of birth, and 1 check character.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Italian_fiscal_code">Italian Fiscal Code</a>.</p>

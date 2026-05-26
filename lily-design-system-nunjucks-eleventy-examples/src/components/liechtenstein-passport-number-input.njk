@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Liechtenstein Passport Number Input
+description: an input for entering Liechtenstein's Liechtenstein Passport Number
+---
+
+{% from "components/liechtenstein-passport-number-input/macro.njk" import liechtensteinPassportNumberInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "liechtenstein-passport-number-input-demo", text: "Liechtenstein Passport Number" }) }}
+  {{ liechtensteinPassportNumberInput({ id: "liechtenstein-passport-number-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>1 letter followed by 5 digits (e.g. R00536).</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Liechtenstein_passport">Liechtenstein Passport Number</a>.</p>

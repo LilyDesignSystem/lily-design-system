@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Liechtenstein National Identity Card Number View
+description: a read-only display of Liechtenstein's Liechtenstein National Identity Card Number
+---
+
+{% from "components/liechtenstein-national-identity-card-number-view/macro.njk" import liechtensteinNationalIdentityCardNumberView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Liechtenstein National Identity Card Number</dt>
+  <dd>{{ liechtensteinNationalIdentityCardNumberView({ value: "sample-value", label: "Liechtenstein National Identity Card Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>2 letters followed by 8 digits (e.g. ID022143586); changes with each renewed card.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/National_identity_card">Liechtenstein National Identity Card Number</a>.</p>

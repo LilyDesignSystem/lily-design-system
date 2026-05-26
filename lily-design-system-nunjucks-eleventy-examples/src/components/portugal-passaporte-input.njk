@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Portugal Passaporte Input
+description: an input for entering Portugal's Passaporte
+---
+
+{% from "components/portugal-passaporte-input/macro.njk" import portugalPassaporteInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "portugal-passaporte-input-demo", text: "Portuguese Passport" }) }}
+  {{ portugalPassaporteInput({ id: "portugal-passaporte-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>1 letter [A-Z] and 6 digits [0-9].</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Portuguese_passport">Portuguese Passport</a>.</p>

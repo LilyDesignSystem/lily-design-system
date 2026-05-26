@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Slovenija Emso View
+description: a read-only display of Slovenia's Enotna Matična Številka Občana (EMŠO)
+---
+
+{% from "components/slovenija-emso-view/macro.njk" import slovenijaEmsoView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Unique Master Citizen Number</dt>
+  <dd>{{ slovenijaEmsoView({ value: "sample-value", label: "Unique Master Citizen Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>13 digits: the first 7 are the date of birth (DDMMYYY), digits 8-9 the register, 10-12 a sex-and-serial component (000-499 male, 500-999 female), 13 a check digit.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Unique_Master_Citizen_Number">Unique Master Citizen Number</a>.</p>

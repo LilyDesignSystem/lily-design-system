@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Island Kennitala View
+description: a read-only display of Iceland's Kennitala
+---
+
+{% from "components/island-kennitala-view/macro.njk" import islandKennitalaView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Personal Identity Code</dt>
+  <dd>{{ islandKennitalaView({ value: "sample-value", label: "Personal Identity Code" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>10 digits where the first 6 are the date of birth (DDMMYY).</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Kennitala">Personal Identity Code</a>.</p>

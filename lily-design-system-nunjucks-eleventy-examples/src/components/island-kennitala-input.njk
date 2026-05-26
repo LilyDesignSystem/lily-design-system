@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Island Kennitala Input
+description: an input for entering Iceland's Kennitala
+---
+
+{% from "components/island-kennitala-input/macro.njk" import islandKennitalaInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "island-kennitala-input-demo", text: "Personal Identity Code" }) }}
+  {{ islandKennitalaInput({ id: "island-kennitala-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>10 digits where the first 6 are the date of birth (DDMMYY).</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Kennitala">Personal Identity Code</a>.</p>

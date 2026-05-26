@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Slovenija Emso Input
+description: an input for entering Slovenia's Enotna Matična Številka Občana (EMŠO)
+---
+
+{% from "components/slovenija-emso-input/macro.njk" import slovenijaEmsoInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "slovenija-emso-input-demo", text: "Unique Master Citizen Number" }) }}
+  {{ slovenijaEmsoInput({ id: "slovenija-emso-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>13 digits: the first 7 are the date of birth (DDMMYYY), digits 8-9 the register, 10-12 a sex-and-serial component (000-499 male, 500-999 female), 13 a check digit.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Unique_Master_Citizen_Number">Unique Master Citizen Number</a>.</p>

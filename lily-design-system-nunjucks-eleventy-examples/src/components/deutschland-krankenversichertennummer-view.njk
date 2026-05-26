@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Deutschland Krankenversichertennummer View
+description: a read-only display of Germany's Krankenversichertennummer (KVNR)
+---
+
+{% from "components/deutschland-krankenversichertennummer-view/macro.njk" import deutschlandKrankenversichertennummerView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Health Insurance Number</dt>
+  <dd>{{ deutschlandKrankenversichertennummerView({ value: "sample-value", label: "Health Insurance Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>a random capital letter followed by eight random digits and a Luhn check digit.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://de.wikipedia.org/wiki/Krankenversichertennummer">Health Insurance Number</a>.</p>

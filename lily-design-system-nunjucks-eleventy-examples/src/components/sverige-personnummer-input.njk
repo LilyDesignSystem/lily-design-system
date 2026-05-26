@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Sverige Personnummer Input
+description: an input for entering Sweden's Personnummer
+---
+
+{% from "components/sverige-personnummer-input/macro.njk" import sverigePersonnummerInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "sverige-personnummer-input-demo", text: "Personal Identity Number" }) }}
+  {{ sverigePersonnummerInput({ id: "sverige-personnummer-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>12 digits in the format CCYYMMDDZZZQ: CCYYMMDD is the date of birth, ZZZ a serial (odd male, even female), and Q a Luhn check digit.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Personal_identity_number_(Sweden)">Personal Identity Number</a>.</p>

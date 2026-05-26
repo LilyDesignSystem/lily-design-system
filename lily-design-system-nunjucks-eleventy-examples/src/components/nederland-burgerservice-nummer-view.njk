@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Nederland Burgerservice Nummer View
+description: a read-only display of Netherlands's Burgerservicenummer (BSN)
+---
+
+{% from "components/nederland-burgerservice-nummer-view/macro.njk" import nederlandBurgerserviceNummerView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Citizen Service Number</dt>
+  <dd>{{ nederlandBurgerserviceNummerView({ value: "sample-value", label: "Citizen Service Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>9-digit number issued via the Personal Records Database (BRP); validated with a variant of the eleven-test (Luhn) algorithm.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Burgerservicenummer">Citizen Service Number</a>.</p>

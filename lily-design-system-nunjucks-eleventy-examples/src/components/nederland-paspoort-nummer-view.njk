@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Nederland Paspoort Nummer View
+description: a read-only display of Netherlands's Paspoort Nummer
+---
+
+{% from "components/nederland-paspoort-nummer-view/macro.njk" import nederlandPaspoortNummerView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Dutch Passport Number</dt>
+  <dd>{{ nederlandPaspoortNummerView({ value: "sample-value", label: "Dutch Passport Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>9 characters: positions 1-2 [A-Z] except 'O', positions 3-8 [A-Z 0-9] except 'O', position 9 [0-9].</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Dutch_passport">Dutch Passport Number</a>.</p>

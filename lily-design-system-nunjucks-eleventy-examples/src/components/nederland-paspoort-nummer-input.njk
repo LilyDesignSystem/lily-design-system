@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Nederland Paspoort Nummer Input
+description: an input for entering Netherlands's Paspoort Nummer
+---
+
+{% from "components/nederland-paspoort-nummer-input/macro.njk" import nederlandPaspoortNummerInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "nederland-paspoort-nummer-input-demo", text: "Dutch Passport Number" }) }}
+  {{ nederlandPaspoortNummerInput({ id: "nederland-paspoort-nummer-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>9 characters: positions 1-2 [A-Z] except 'O', positions 3-8 [A-Z 0-9] except 'O', position 9 [0-9].</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Dutch_passport">Dutch Passport Number</a>.</p>

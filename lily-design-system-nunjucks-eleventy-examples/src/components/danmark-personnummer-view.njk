@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Danmark Personnummer View
+description: a read-only display of Denmark's Personnummer (CPR-nummer) (CPR)
+---
+
+{% from "components/danmark-personnummer-view/macro.njk" import danmarkPersonnummerView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Personal Identity Code</dt>
+  <dd>{{ danmarkPersonnummerView({ value: "sample-value", label: "Personal Identity Code" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>10 digits in the format DDMMYYXXXX where the first 6 are the date of birth (DDMMYY).</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Personal_identification_number_(Denmark)">Personal Identity Code</a>.</p>

@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Espana Codigo De Identificacion Fiscal View
+description: a read-only display of Spain's Código de Identificación Fiscal (CIF)
+---
+
+{% from "components/espana-codigo-de-identificacion-fiscal-view/macro.njk" import espanaCodigoDeIdentificacionFiscalView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Tax Identification Code</dt>
+  <dd>{{ espanaCodigoDeIdentificacionFiscalView({ value: "sample-value", label: "Tax Identification Code" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>9 characters: 8 numbers and a control letter (the letters I, Ñ, O, and U are not used).</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/VAT_identification_number#Spain">Tax Identification Code</a>.</p>

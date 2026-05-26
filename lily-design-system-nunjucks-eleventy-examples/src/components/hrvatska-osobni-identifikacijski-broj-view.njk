@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Hrvatska Osobni Identifikacijski Broj View
+description: a read-only display of Croatia's Osobni identifikacijski broj (OIB)
+---
+
+{% from "components/hrvatska-osobni-identifikacijski-broj-view/macro.njk" import hrvatskaOsobniIdentifikacijskiBrojView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Personal Identification Number</dt>
+  <dd>{{ hrvatskaOsobniIdentifikacijskiBrojView({ value: "sample-value", label: "Personal Identification Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>11 digits — 10 random digits plus a check digit; permanent, unique, and assigned to every Croatian citizen and legal person.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Personal_identification_number_(Croatia)">Personal Identification Number</a>.</p>

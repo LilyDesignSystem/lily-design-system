@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Portugal Passaporte View
+description: a read-only display of Portugal's Passaporte
+---
+
+{% from "components/portugal-passaporte-view/macro.njk" import portugalPassaporteView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Portuguese Passport</dt>
+  <dd>{{ portugalPassaporteView({ value: "sample-value", label: "Portuguese Passport" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>1 letter [A-Z] and 6 digits [0-9].</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Portuguese_passport">Portuguese Passport</a>.</p>

@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Australia Individual Healthcare Identifier View
+description: a read-only display of Australia's Individual Healthcare Identifier (IHI)
+---
+
+{% from "components/australia-individual-healthcare-identifier-view/macro.njk" import australiaIndividualHealthcareIdentifierView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Individual Healthcare Identifier</dt>
+  <dd>{{ australiaIndividualHealthcareIdentifierView({ value: "sample-value", label: "Individual Healthcare Identifier" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>16 digits assigned by the Healthcare Identifiers Service.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/My_Health_Record">Individual Healthcare Identifier</a>.</p>

@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Bulgaria Edinen Grazhdanski Nomer View
+description: a read-only display of Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)
+---
+
+{% from "components/bulgaria-edinen-grazhdanski-nomer-view/macro.njk" import bulgariaEdinenGrazhdanskiNomerView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Uniform Civil Number</dt>
+  <dd>{{ bulgariaEdinenGrazhdanskiNomerView({ value: "sample-value", label: "Uniform Civil Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>10 digits: the first 6 are the date of birth (YYMMDD), the next 3 encode area and birth order (ninth digit even for boy, odd for girl), and the tenth is a check digit.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Unique_citizenship_number">Uniform Civil Number</a>.</p>

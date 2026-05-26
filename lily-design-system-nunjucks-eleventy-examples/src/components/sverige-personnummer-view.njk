@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Sverige Personnummer View
+description: a read-only display of Sweden's Personnummer
+---
+
+{% from "components/sverige-personnummer-view/macro.njk" import sverigePersonnummerView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Personal Identity Number</dt>
+  <dd>{{ sverigePersonnummerView({ value: "sample-value", label: "Personal Identity Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>12 digits in the format CCYYMMDDZZZQ: CCYYMMDD is the date of birth, ZZZ a serial (odd male, even female), and Q a Luhn check digit.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Personal_identity_number_(Sweden)">Personal Identity Number</a>.</p>

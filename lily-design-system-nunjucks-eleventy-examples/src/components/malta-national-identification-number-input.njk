@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Malta National Identification Number Input
+description: an input for entering Malta's Malta National Identification Number
+---
+
+{% from "components/malta-national-identification-number-input/macro.njk" import maltaNationalIdentificationNumberInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "malta-national-identification-number-input-demo", text: "Malta National Identification Number" }) }}
+  {{ maltaNationalIdentificationNumberInput({ id: "malta-national-identification-number-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>8 characters: 7 digits and a letter (A, B, G, H, L, M, P, or Z) that encodes geographic origin and registration era.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/National_identification_number#Malta">Malta National Identification Number</a>.</p>

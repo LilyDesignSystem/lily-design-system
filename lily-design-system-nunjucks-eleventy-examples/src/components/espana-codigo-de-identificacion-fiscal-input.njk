@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Espana Codigo De Identificacion Fiscal Input
+description: an input for entering Spain's Código de Identificación Fiscal (CIF)
+---
+
+{% from "components/espana-codigo-de-identificacion-fiscal-input/macro.njk" import espanaCodigoDeIdentificacionFiscalInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "espana-codigo-de-identificacion-fiscal-input-demo", text: "Tax Identification Code" }) }}
+  {{ espanaCodigoDeIdentificacionFiscalInput({ id: "espana-codigo-de-identificacion-fiscal-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>9 characters: 8 numbers and a control letter (the letters I, Ñ, O, and U are not used).</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/VAT_identification_number#Spain">Tax Identification Code</a>.</p>

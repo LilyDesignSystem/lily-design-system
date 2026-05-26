@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: United Kingdom National Insurance Number View
+description: a read-only display of United Kingdom's National Insurance Number (NINO)
+---
+
+{% from "components/united-kingdom-national-insurance-number-view/macro.njk" import unitedKingdomNationalInsuranceNumberView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>National Insurance Number</dt>
+  <dd>{{ unitedKingdomNationalInsuranceNumberView({ value: "sample-value", label: "National Insurance Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>two prefix letters, six digits, and a suffix letter (A, B, C, or D) — e.g. AB123456A; the letters D, F, I, Q, U, V and the prefix-2 letter O are excluded.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/National_Insurance_number">National Insurance Number</a>.</p>

@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Nederland Identiteitskaart Nummer View
+description: a read-only display of Netherlands's Identiteitskaart Nummer
+---
+
+{% from "components/nederland-identiteitskaart-nummer-view/macro.njk" import nederlandIdentiteitskaartNummerView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Dutch National Identity Card Number</dt>
+  <dd>{{ nederlandIdentiteitskaartNummerView({ value: "sample-value", label: "Dutch National Identity Card Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>9 characters following the same format as the passport number; 'O' is disallowed but '0' is permitted.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Dutch_identity_card">Dutch National Identity Card Number</a>.</p>

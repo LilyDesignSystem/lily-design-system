@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Cesko Rodne Cislo Input
+description: an input for entering Czech Republic's Rodné číslo (RČ)
+---
+
+{% from "components/cesko-rodne-cislo-input/macro.njk" import ceskoRodneCisloInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "cesko-rodne-cislo-input-demo", text: "Czech Personal Number" }) }}
+  {{ ceskoRodneCisloInput({ id: "cesko-rodne-cislo-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>nine or ten digits in the format YYXXDD/SSSC where XX=MM for males and MM+50 for females; the ten-digit form ends in a check digit and is usually divisible by 11.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/National_identification_number#Czech_Republic">Czech Personal Number</a>.</p>

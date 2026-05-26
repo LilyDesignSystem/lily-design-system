@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Eesti Isikukood View
+description: a read-only display of Estonia's Isikukood (IK)
+---
+
+{% from "components/eesti-isikukood-view/macro.njk" import eestiIsikukoodView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Personal Identification Code</dt>
+  <dd>{{ eestiIsikukoodView({ value: "sample-value", label: "Personal Identification Code" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>11 digits in the form GYYMMDDSSSC: G is sex and century (odd male, even female; 1-2 19th c., 3-4 20th c., 5-6 21st c.), SSS distinguishes persons born the same day, C is a checksum.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/National_identification_number#Estonia">Personal Identification Code</a>.</p>

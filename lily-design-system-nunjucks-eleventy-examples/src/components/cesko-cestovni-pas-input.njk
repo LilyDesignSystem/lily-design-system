@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Cesko Cestovni Pas Input
+description: an input for entering Czech Republic's Cestovní pas
+---
+
+{% from "components/cesko-cestovni-pas-input/macro.njk" import ceskoCestovniPasInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "cesko-cestovni-pas-input-demo", text: "Czech Passport" }) }}
+  {{ ceskoCestovniPasInput({ id: "cesko-cestovni-pas-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>usually 8 digits, sometimes longer, issued by the Ministry of the Interior.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Czech_passport">Czech Passport</a>.</p>

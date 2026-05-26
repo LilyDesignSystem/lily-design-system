@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Romania Pasaport Input
+description: an input for entering Romania's Paşaport
+---
+
+{% from "components/romania-pasaport-input/macro.njk" import romaniaPasaportInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "romania-pasaport-input-demo", text: "Romanian Passport" }) }}
+  {{ romaniaPasaportInput({ id: "romania-pasaport-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>8 characters: positions 1-2 [A-Z] and positions 3-8 [0-9].</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Romanian_passport">Romanian Passport</a>.</p>

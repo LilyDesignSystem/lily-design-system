@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Suomi Henkilotunnus Input
+description: an input for entering Finland's Henkilötunnus (HETU)
+---
+
+{% from "components/suomi-henkilotunnus-input/macro.njk" import suomiHenkilotunnusInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "suomi-henkilotunnus-input-demo", text: "Personal Identity Code" }) }}
+  {{ suomiHenkilotunnusInput({ id: "suomi-henkilotunnus-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>11 characters in the format DDMMYYCZZZQ: DDMMYY is the date of birth, C is the century sign (+, -, or A), ZZZ is an individual number (odd male, even female), Q is the checksum.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Personal_identity_code_(Finland)">Personal Identity Code</a>.</p>

@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Malta Passport Number View
+description: a read-only display of Malta's Malta Passport Number
+---
+
+{% from "components/malta-passport-number-view/macro.njk" import maltaPassportNumberView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Malta Passport Number</dt>
+  <dd>{{ maltaPassportNumberView({ value: "sample-value", label: "Malta Passport Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>7 numerical digits issued by the Civil Registration Directorate.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Maltese_passport">Malta Passport Number</a>.</p>

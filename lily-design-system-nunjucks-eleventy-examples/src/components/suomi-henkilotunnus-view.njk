@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Suomi Henkilotunnus View
+description: a read-only display of Finland's Henkilötunnus (HETU)
+---
+
+{% from "components/suomi-henkilotunnus-view/macro.njk" import suomiHenkilotunnusView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>Personal Identity Code</dt>
+  <dd>{{ suomiHenkilotunnusView({ value: "sample-value", label: "Personal Identity Code" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>11 characters in the format DDMMYYCZZZQ: DDMMYY is the date of birth, C is the century sign (+, -, or A), ZZZ is an individual number (odd male, even female), Q is the checksum.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Personal_identity_code_(Finland)">Personal Identity Code</a>.</p>

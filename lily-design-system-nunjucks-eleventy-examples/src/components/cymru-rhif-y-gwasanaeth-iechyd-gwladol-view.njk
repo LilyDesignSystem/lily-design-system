@@ -1,0 +1,19 @@
+---
+layout: layouts/component-demo.njk
+title: Cymru Rhif Y Gwasanaeth Iechyd Gwladol View
+description: a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
+---
+
+{% from "components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view/macro.njk" import cymruRhifYGwasanaethIechydGwladolView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>National Health Service Number</dt>
+  <dd>{{ cymruRhifYGwasanaethIechydGwladolView({ value: "sample-value", label: "National Health Service Number" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>10 digits in 3-3-4 format with a Modulus-11 check digit (shared with England and the Isle of Man).</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/NHS_number">National Health Service Number</a>.</p>

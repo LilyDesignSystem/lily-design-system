@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Lietuva Asmens Kodas Input
+description: an input for entering Lithuania's Asmens kodas
+---
+
+{% from "components/lietuva-asmens-kodas-input/macro.njk" import lietuvaAsmensKodasInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "lietuva-asmens-kodas-input-demo", text: "Personal Code" }) }}
+  {{ lietuvaAsmensKodasInput({ id: "lietuva-asmens-kodas-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>11 digits in the format GYYMMDDNNNC: G encodes sex and century (4 or 6 women, 3 or 5 men), YYMMDD is the date of birth, NNN is a serial, C is the check digit.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/National_identification_number#Lithuania">Personal Code</a>.</p>

@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: Slovensko Pas Input
+description: an input for entering Slovakia's Pas
+---
+
+{% from "components/slovensko-pas-input/macro.njk" import slovenskoPasInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "slovensko-pas-input-demo", text: "Slovak Passport" }) }}
+  {{ slovenskoPasInput({ id: "slovensko-pas-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>9 characters in the format XXNNNNNNN: 2 block letters and 7 digits; valid for 10 years.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/Slovak_passport">Slovak Passport</a>.</p>

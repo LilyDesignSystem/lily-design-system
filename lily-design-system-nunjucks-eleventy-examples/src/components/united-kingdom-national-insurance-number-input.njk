@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: United Kingdom National Insurance Number Input
+description: an input for entering United Kingdom's National Insurance Number (NINO)
+---
+
+{% from "components/united-kingdom-national-insurance-number-input/macro.njk" import unitedKingdomNationalInsuranceNumberInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "united-kingdom-national-insurance-number-input-demo", text: "National Insurance Number" }) }}
+  {{ unitedKingdomNationalInsuranceNumberInput({ id: "united-kingdom-national-insurance-number-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>two prefix letters, six digits, and a suffix letter (A, B, C, or D) — e.g. AB123456A; the letters D, F, I, Q, U, V and the prefix-2 letter O are excluded.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/National_Insurance_number">National Insurance Number</a>.</p>
