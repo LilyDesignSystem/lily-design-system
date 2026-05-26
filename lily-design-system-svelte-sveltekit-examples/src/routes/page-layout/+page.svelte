@@ -43,9 +43,7 @@
         </BreadcrumbList>
     </BreadcrumbNav>
 
-    <div
-        style="display: grid; grid-template-columns: 250px 1fr; gap: var(--nhs-space-4);"
-    >
+    <div class="page-layout-grid">
         <Sidebar label="Page navigation">
             <h3>Navigation</h3>
             <ContentsNav label="On this page">
@@ -178,7 +176,7 @@
     <div class="page-wrapper">
         <nav aria-label="Footer navigation">
             <ul
-                style="list-style: none; padding: 0; display: flex; gap: var(--nhs-space-4);"
+                style="list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--nhs-space-4);"
             >
                 <li><a href="/page-layout">Accessibility statement</a></li>
                 <li><a href="/page-layout">Contact us</a></li>
@@ -189,3 +187,16 @@
         <p>Lily Design System — Page Layout Example</p>
     </div>
 </Footer>
+
+<style>
+    .page-layout-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--nhs-space-4);
+    }
+    @media (min-width: 768px) {
+        .page-layout-grid {
+            grid-template-columns: minmax(0, 250px) minmax(0, 1fr);
+        }
+    }
+</style>

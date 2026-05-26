@@ -40,7 +40,7 @@ None -- this component is a passive display element that does not accept user in
 ## ARIA
 
 - `aria-label={label}` -- provides an accessible name describing what process the progress bar represents
-- The `<progress>` element implicitly has `role="Progress"` with `aria-valuenow`, `aria-valuemin`, and `aria-valuemax` attributes managed by the browser
+- The `<progress>` element implicitly has `role="progressbar"` with `aria-valuenow`, `aria-valuemin`, and `aria-valuemax` attributes managed by the browser
 
 ## References
 

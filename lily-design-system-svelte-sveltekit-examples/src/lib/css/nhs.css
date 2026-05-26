@@ -99,6 +99,27 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* Prevent <pre> / <code> content from forcing horizontal page overflow
+   on narrow viewports. Long code lines scroll within the block instead. */
+pre {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+/* Tables wider than the viewport should scroll within their container, not
+   push the page wider. Wrap in a scrollable container per CSS Working Group
+   guidance. */
+table {
+    max-width: 100%;
+}
+
+/* Long slugs / URLs in link text (and code) should wrap rather than force
+   horizontal page overflow on narrow viewports. */
+a,
+code {
+    overflow-wrap: anywhere;
+}
+
 h1,
 h2,
 h3,
@@ -694,9 +715,11 @@ article[class*="card"] {
 /* date-range */
 .date-range {
     display: inline-flex;
+    flex-wrap: wrap;
     gap: var(--nhs-space-2);
     align-items: center;
     font-size: var(--nhs-font-size-16);
+    max-width: 100%;
 }
 
 /* details / expander */

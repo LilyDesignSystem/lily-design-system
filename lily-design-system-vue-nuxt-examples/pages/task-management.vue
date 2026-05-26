@@ -72,9 +72,13 @@ function toggleTask(id: number) {
         </div>
 
         <TaskList label="Project tasks">
-            <TaskListItem v-for="task in visibleTasks" :key="task.id">
-                <CheckboxInput :label="task.title" :checked="task.done" @change="toggleTask(task.id)" />
-                <span :style="{ textDecoration: task.done ? 'line-through' : 'none' }">{{ task.title }}</span>
+            <TaskListItem
+                v-for="task in visibleTasks"
+                :key="task.id"
+                :label="task.title"
+                :checked="task.done"
+                @change="toggleTask(task.id)"
+            >
                 <Badge :type="priorityBadgeType(task.priority)">{{ task.priority }}</Badge>
             </TaskListItem>
         </TaskList>

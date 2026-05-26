@@ -48,6 +48,8 @@ const filtered = computed(() =>
         <Card heading="Filter by Date Range">
             <DateRange
                 label="Milestone date range"
+                startLabel="From"
+                endLabel="To"
                 :start="filterStart"
                 :end="filterEnd"
             />
@@ -72,14 +74,8 @@ const filtered = computed(() =>
                     <Badge :type="m.status">{{ m.statusLabel }}</Badge>
                     <p>{{ m.description }}</p>
                     <SummaryList :label="`${m.title} details`">
-                        <SummaryListItem>
-                            <dt>Target Date</dt>
-                            <dd>{{ m.heading }}</dd>
-                        </SummaryListItem>
-                        <SummaryListItem>
-                            <dt>Status</dt>
-                            <dd>{{ m.statusLabel }}</dd>
-                        </SummaryListItem>
+                        <SummaryListItem term="Target Date">{{ m.heading }}</SummaryListItem>
+                        <SummaryListItem term="Status">{{ m.statusLabel }}</SummaryListItem>
                     </SummaryList>
                 </Card>
             </TimelineListItem>
@@ -87,22 +83,10 @@ const filtered = computed(() =>
 
         <h2>Project Summary</h2>
         <SummaryList label="Overall project summary">
-            <SummaryListItem>
-                <dt>Total Milestones</dt>
-                <dd>{{ milestones.length }}</dd>
-            </SummaryListItem>
-            <SummaryListItem>
-                <dt>Completed</dt>
-                <dd>{{ milestones.filter((m) => m.status === 'success').length }}</dd>
-            </SummaryListItem>
-            <SummaryListItem>
-                <dt>In Progress</dt>
-                <dd>{{ milestones.filter((m) => m.status === 'warning').length }}</dd>
-            </SummaryListItem>
-            <SummaryListItem>
-                <dt>Planned</dt>
-                <dd>{{ milestones.filter((m) => m.status === 'default').length }}</dd>
-            </SummaryListItem>
+            <SummaryListItem term="Total Milestones">{{ milestones.length }}</SummaryListItem>
+            <SummaryListItem term="Completed">{{ milestones.filter((m) => m.status === 'success').length }}</SummaryListItem>
+            <SummaryListItem term="In Progress">{{ milestones.filter((m) => m.status === 'warning').length }}</SummaryListItem>
+            <SummaryListItem term="Planned">{{ milestones.filter((m) => m.status === 'default').length }}</SummaryListItem>
         </SummaryList>
     </main>
 </template>

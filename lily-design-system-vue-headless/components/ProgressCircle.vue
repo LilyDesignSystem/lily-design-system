@@ -34,7 +34,7 @@
     //   None — this is a passive, read-only display element.
     //
     // Accessibility:
-    //   - role="Progress" identifies the element as a progress indicator
+    //   - role="progressbar" identifies the element as a progress indicator
     //   - aria-label provides the accessible name
     //   - aria-valuenow communicates the current progress value
     //   - aria-valuemin and aria-valuemax define the progress range
@@ -73,7 +73,7 @@
     <!-- ProgressCircle.vue -->
     <div
         class="progress-circle"
-        role="Progress"
+        role="progressbar"
         :aria-label="label"
         :aria-valuenow="value"
         :aria-valuemin="min"

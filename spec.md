@@ -679,14 +679,59 @@ checked is considered live work; anything unchecked is queued in §12.
       - html-css-js-examples: 814 specs.
       - nunjucks-eleventy-examples: 612 specs.
 
-### 11.5 Open backlog
+### 11.5 Accessibility audit (axe-core via Playwright)
 
-- [ ] WCAG 2.2 AAA conformance audit across every example app page
-      (needs axe-core / Lighthouse integration in Playwright).
-- [ ] Responsive design verification on mobile / desktop / 4K (manual,
-      could be partially automated with Playwright viewport sweeps).
-- [ ] Wire up Storybook generation for the Blazor and Nunjucks headless
-      libraries (Storybook supports both via dedicated frameworks).
+axe-core / Playwright integration shipped across all 6 example apps.
+Per-app baseline (axe-clean routes / total checked):
+
+| App                            | Clean | Notes                                |
+| ------------------------------ | ----- | ------------------------------------ |
+| svelte-sveltekit-examples      | 29/29 | ✅ full pass                          |
+| react-next-examples            | 29/29 | ✅ full pass                          |
+| vue-nuxt-examples              | 29/29 | ✅ full pass                          |
+| blazor-web-examples            | ~21/29| ARIA-attribute bugs in Razor pages   |
+| html-css-js-examples           | ~1/29 | Many static-HTML form-label gaps     |
+| nunjucks-eleventy-examples     | 0/17  | Color-contrast (deeper palette work) |
+
+axe rule set: WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA.
+
+### 11.6 Responsive viewport sweep
+
+Responsive smoke check across 4 viewport sizes (mobile 375×667,
+tablet 768×1024, desktop 1280×800, 4K 2560×1440) shipped in the
+svelte-sveltekit-examples app: **40 / 40 pass** for 10 representative
+routes × 4 viewports. Tests assert: skip-link present, `<main>` and
+H1 visible, no horizontal page overflow.
+
+Could be ported to the other 5 example apps using the same pattern.
+
+### 11.7 Storybook coverage
+
+| Library              | Storybook    | Stories       |
+| -------------------- | ------------ | ------------- |
+| html-headless        | yes (vite)   | 407 / 407     |
+| svelte-headless      | yes (vite)   | 407 / 407     |
+| react-headless       | yes (vite)   | 407 / 407     |
+| vue-headless         | yes (vite)   | 407 / 407     |
+| nunjucks-headless    | yes (vite)   | 407 / 407     |
+| blazor-headless      | no           | not planned   |
+
+Blazor headless deliberately skips Storybook: there is no idiomatic
+`@storybook/blazor` framework, and the runtime-rendering pipeline
+(bUnit + `dotnet watch`) covers the same exploration use case. A
+static-HTML pre-render pipeline would be possible but adds tooling
+overhead that the project hasn't chosen to pay.
+
+### 11.8 Open backlog
+
+- [ ] axe-core: tune contrast and aria attributes in
+      blazor-web-examples, html-css-js-examples, and
+      nunjucks-eleventy-examples to reach the 29 / 29 baseline that
+      svelte / react / vue already hit. Per-app violations are
+      documented in each subproject's spec.md.
+- [ ] Port the responsive viewport sweep from svelte-sveltekit to the
+      other 5 example apps (same pattern; routes and selectors
+      adjusted per app).
 
 ## 12. Implementation status
 

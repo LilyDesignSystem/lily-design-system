@@ -68,7 +68,7 @@ A circular progress indicator.
 
 ## Accessibility
 
-- role="Progress" identifies the element as a progress indicator
+- role="progressbar" identifies the element as a progress indicator
 - aria-label provides the accessible name
 - aria-valuenow communicates the current progress value
 - aria-valuemin and aria-valuemax define the progress range
