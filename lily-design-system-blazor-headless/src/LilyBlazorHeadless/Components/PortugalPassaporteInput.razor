@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    PortugalPassaporteInput component
+    an input for entering Portugal's Passaporte
+*@
+
+<input class="@($"portugal-passaporte-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

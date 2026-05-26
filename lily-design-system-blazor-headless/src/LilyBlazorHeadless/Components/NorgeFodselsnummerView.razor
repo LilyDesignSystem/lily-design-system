@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    NorgeFodselsnummerView component
+    a read-only display of Norway's Fødselsnummer
+*@
+
+<span class="@($"norge-fodselsnummer-view {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

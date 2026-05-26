@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    PolskaNumerIdentyfikacjiPodatkowejInput component
+    an input for entering Poland's Numer Identyfikacji Podatkowej (NIP)
+*@
+
+<input class="@($"polska-numer-identyfikacji-podatkowej-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

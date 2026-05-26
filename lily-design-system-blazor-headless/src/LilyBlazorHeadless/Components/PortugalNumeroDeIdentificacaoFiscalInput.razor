@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    PortugalNumeroDeIdentificacaoFiscalInput component
+    an input for entering Portugal's Número de Identificação Fiscal (NIF)
+*@
+
+<input class="@($"portugal-numero-de-identificacao-fiscal-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

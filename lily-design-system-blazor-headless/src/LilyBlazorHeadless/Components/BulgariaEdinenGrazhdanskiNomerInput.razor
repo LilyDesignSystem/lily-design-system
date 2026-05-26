@@ -1,0 +1,14 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    BulgariaEdinenGrazhdanskiNomerInput component
+    an input for entering Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)
+*@
+
+<input class="@($"bulgaria-edinen-grazhdanski-nomer-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}
