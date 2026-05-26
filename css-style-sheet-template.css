@@ -1,21 +1,5 @@
 /* Lily Design System: CSS style sheet template */
 
-/* accordion-nav: a navigation container for collapsible accordion information */
-.accordion-nav {
-}
-
-/* accordion-list: an ordered list of accordion list item components */
-.accordion-list {
-}
-
-/* accordion-list-item: one accordion list item component */
-.accordion-list-item {
-}
-
-/* accordion-link: one accordion link in the trail */
-.accordion-link {
-}
-
 /* accordion-checkbox: a checkbox option that reveals an accordion panel when checked */
 .accordion-checkbox {
 }
@@ -32,24 +16,76 @@
 .accordion-checkbox-panel {
 }
 
+/* accordion-link: one accordion link in the trail */
+.accordion-link {
+}
+
+/* accordion-list: an ordered list of accordion list item components */
+.accordion-list {
+}
+
+/* accordion-list-item: one accordion list item component */
+.accordion-list-item {
+}
+
+/* accordion-nav: a navigation container for collapsible accordion information */
+.accordion-nav {
+}
+
+/* action-bar: a contextual action bar that appears when items are selected, showing the selection count and bulk action buttons */
+.action-bar {
+}
+
+/* action-bar-button: one action button inside an action bar */
+.action-bar-button {
+}
+
+/* action-group: a group of action buttons that can collapse to an overflow menu when space is constrained */
+.action-group {
+}
+
 /* action-link: a hyperlink styled as an action trigger */
 .action-link {
+}
+
+/* address-input: an input for searching or manually entering an address */
+.address-input {
+}
+
+/* affix: a wrapper that pins its content to a viewport position while the page scrolls */
+.affix {
 }
 
 /* ai-label: an indicator of AI instances that is a pathway to AI explainability */
 .ai-label {
 }
 
-/* alert-dialog: a modal dialog for urgent messages requiring user acknowledgment */
-.alert-dialog {
+/* alba-community-health-index-input: an input for entering Scotland's Community Health Index (CHI) */
+.alba-community-health-index-input {
+}
+
+/* alba-community-health-index-view: a read-only display of Scotland's Community Health Index (CHI) */
+.alba-community-health-index-view {
 }
 
 /* alert: a status message for important information or feedback */
 .alert {
 }
 
+/* alert-dialog: a modal dialog for urgent messages requiring user acknowledgment */
+.alert-dialog {
+}
+
 /* angle-slider-range-input: a range input for selecting an angle in degrees */
 .angle-slider-range-input {
+}
+
+/* announcement-banner: a banner highlighting important messages for all users */
+.announcement-banner {
+}
+
+/* area-chart: an area chart visualization showing sized components in continuous data */
+.area-chart {
 }
 
 /* article-layout: a top-level article wrapper that sets CSS custom properties for content column widths */
@@ -60,8 +96,24 @@
 .aspect-ratio-container {
 }
 
+/* australia-individual-healthcare-identifier-input: an input for entering Australia's Individual Healthcare Identifier (IHI) */
+.australia-individual-healthcare-identifier-input {
+}
+
+/* australia-individual-healthcare-identifier-view: a read-only display of Australia's Individual Healthcare Identifier (IHI) */
+.australia-individual-healthcare-identifier-view {
+}
+
+/* autosuggest: a text input that proposes matching options as users type */
+.autosuggest {
+}
+
 /* avatar: an avatar indicator that shows an avatar image or avatar text */
 .avatar {
+}
+
+/* avatar-group: a group of avatar components */
+.avatar-group {
 }
 
 /* avatar-image: an avatar indicator inside image such as a user photo */
@@ -88,16 +140,32 @@
 .banner-box {
 }
 
+/* bar-chart: a horizontal bar chart visualization for displaying data */
+.bar-chart {
+}
+
 /* beach-ball: a decorative animated beach ball element */
 .beach-ball {
+}
+
+/* belgique-numero-de-registre-national-input: an input for entering Belgium's Numéro de Registre National / Rijksregisternummer (NRN) */
+.belgique-numero-de-registre-national-input {
+}
+
+/* belgique-numero-de-registre-national-view: a read-only display of Belgium's Numéro de Registre National / Rijksregisternummer (NRN) */
+.belgique-numero-de-registre-national-view {
+}
+
+/* blockquote: a block-level quotation with optional source citation */
+.blockquote {
 }
 
 /* body-text: a rendered text block within a content width container */
 .body-text {
 }
 
-/* breadcrumb-nav: a navigation container for breadcrumb trail links */
-.breadcrumb-nav {
+/* breadcrumb-link: one breadcrumb link in the trail */
+.breadcrumb-link {
 }
 
 /* breadcrumb-list: an ordered list of breadcrumb navigation items */
@@ -108,12 +176,24 @@
 .breadcrumb-list-item {
 }
 
-/* breadcrumb-link: one breadcrumb link in the trail */
-.breadcrumb-link {
+/* breadcrumb-nav: a navigation container for breadcrumb trail links */
+.breadcrumb-nav {
+}
+
+/* bulgaria-edinen-grazhdanski-nomer-input: an input for entering Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN) */
+.bulgaria-edinen-grazhdanski-nomer-input {
+}
+
+/* bulgaria-edinen-grazhdanski-nomer-view: a read-only display of Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN) */
+.bulgaria-edinen-grazhdanski-nomer-view {
 }
 
 /* button: a generic clickable button element */
 .button {
+}
+
+/* button-group: a wrapper that groups related buttons together */
+.button-group {
 }
 
 /* button-input: an input element of type button for form actions */
@@ -124,12 +204,12 @@
 .byline {
 }
 
-/* calendar-table: a calendar table interactive grid for managing dates, days, etc. */
-.calendar-table {
+/* calendar-range-picker: a picker for selecting a date range on a calendar */
+.calendar-range-picker {
 }
 
-/* calendar-table-head: a calendar table interactive grid thead for managing dates, days, etc. */
-.calendar-table-head {
+/* calendar-table: a calendar table interactive grid for managing dates, days, etc. */
+.calendar-table {
 }
 
 /* calendar-table-body: a calendar table interactive grid tbody for managing dates, days, etc. */
@@ -140,8 +220,8 @@
 .calendar-table-foot {
 }
 
-/* calendar-table-th: a calendar table interactive grid column for managing dates, days, etc. */
-.calendar-table-th {
+/* calendar-table-head: a calendar table interactive grid thead for managing dates, days, etc. */
+.calendar-table-head {
 }
 
 /* calendar-table-row: a calendar table interactive grid row for managing dates, days, etc. */
@@ -152,8 +232,8 @@
 .calendar-table-td {
 }
 
-/* calendar-range-picker: a picker for selecting a date range on a calendar */
-.calendar-range-picker {
+/* calendar-table-th: a calendar table interactive grid column for managing dates, days, etc. */
+.calendar-table-th {
 }
 
 /* call-to-action: a prominent prompt encouraging user action */
@@ -176,20 +256,48 @@
 .carousel {
 }
 
-/* character-counter: a counter showing remaining or used characters in a text field */
-.character-counter {
+/* cascader: a multi-level dropdown for selecting a value from a hierarchy */
+.cascader {
+}
+
+/* cesko-cestovni-pas-input: an input for entering Czech Republic's Cestovní pas */
+.cesko-cestovni-pas-input {
+}
+
+/* cesko-cestovni-pas-view: a read-only display of Czech Republic's Cestovní pas */
+.cesko-cestovni-pas-view {
+}
+
+/* cesko-rodne-cislo-input: an input for entering Czech Republic's Rodné číslo (RČ) */
+.cesko-rodne-cislo-input {
+}
+
+/* cesko-rodne-cislo-view: a read-only display of Czech Republic's Rodné číslo (RČ) */
+.cesko-rodne-cislo-view {
 }
 
 /* character: a single character display element */
 .character {
 }
 
-/* checkbox-input: a checkbox input for toggling a boolean value */
-.checkbox-input {
+/* character-counter: a counter showing remaining or used characters in a text field */
+.character-counter {
 }
 
-/* checkbox-group: a group component that manages a collection of checkboxes with shared state */
-.checkbox-group {
+/* chat-list: an ordered list of chat list item components */
+.chat-list {
+}
+
+/* chat-list-item: one chat list item component, typically containing one chat message component */
+.chat-list-item {
+}
+
+/* chat-message: a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc. */
+.chat-message {
+}
+
+/* chat-nav: a navigation container for chat information */
+.chat-nav {
 }
 
 /* check-list: an ordered list of check list item components */
@@ -200,12 +308,48 @@
 .check-list-item {
 }
 
+/* checkbox-group: a group component that manages a collection of checkboxes with shared state */
+.checkbox-group {
+}
+
+/* checkbox-input: a checkbox input for toggling a boolean value */
+.checkbox-input {
+}
+
+/* citation: a citation acknowledges the relevance of a work of another to the topic of discussion */
+.citation {
+}
+
+/* clamp-text: a text container that truncates content to a maximum number of lines */
+.clamp-text {
+}
+
 /* clipboard-copy-button: a button that copies text to the clipboard */
 .clipboard-copy-button {
 }
 
+/* coachmark: an anchored popover that spotlights and explains a single feature */
+.coachmark {
+}
+
+/* code: an inline code span for displaying short code snippets within surrounding text */
+.code {
+}
+
+/* code-block: a block of formatted code with optional line numbers and line highlighting */
+.code-block {
+}
+
 /* collapsible: a container that can be expanded or collapsed */
 .collapsible {
+}
+
+/* collection-list: a compact list of multiple related items such as articles or events */
+.collection-list {
+}
+
+/* collection-list-item: one item in a collection list with optional image, heading, meta, and description */
+.collection-list-item {
 }
 
 /* color-input: an input for selecting a color value */
@@ -220,20 +364,40 @@
 .color-picker-button {
 }
 
-/* combobox: a text input combined with a dropdown list for filtering options */
-.combobox {
+/* column-chart: a vertical column chart visualization for displaying data */
+.column-chart {
 }
 
-/* content-block: a content width constraint container with named column widths */
-.content-block {
+/* combobox: a text input combined with a dropdown list for filtering options */
+.combobox {
 }
 
 /* command: a command palette for searching and executing actions */
 .command {
 }
 
-/* contents-nav: a navigation landmark for a list of contents */
-.contents-nav {
+/* comment: a comment displays user discussions and user feedback */
+.comment {
+}
+
+/* container: a generic block-level content container */
+.container {
+}
+
+/* container-with-fixed-width: a centered content wrapper with a fixed max-width breakpoint */
+.container-with-fixed-width {
+}
+
+/* container-with-fluid-width: a full-width content wrapper with horizontal padding */
+.container-with-fluid-width {
+}
+
+/* content-block: a content width constraint container with named column widths */
+.content-block {
+}
+
+/* contents-link: one table of contents link */
+.contents-link {
 }
 
 /* contents-list: an ordered list of contents list item components */
@@ -244,6 +408,10 @@
 .contents-list-item {
 }
 
+/* contents-nav: a navigation landmark for a list of contents */
+.contents-nav {
+}
+
 /* context-menu: a menu that appears on right-click or long-press */
 .context-menu {
 }
@@ -252,8 +420,36 @@
 .context-menu-item {
 }
 
+/* contextual-help: a help button that opens a popover with explanatory content */
+.contextual-help {
+}
+
 /* currency-input: a locale-aware currency input with automatic formatting, symbols, separators */
 .currency-input {
+}
+
+/* cymru-rhif-y-gwasanaeth-iechyd-gwladol-input: an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG) */
+.cymru-rhif-y-gwasanaeth-iechyd-gwladol-input {
+}
+
+/* cymru-rhif-y-gwasanaeth-iechyd-gwladol-view: a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG) */
+.cymru-rhif-y-gwasanaeth-iechyd-gwladol-view {
+}
+
+/* cyprus-national-passport-number-input: an input for entering Cyprus's National Passport Number */
+.cyprus-national-passport-number-input {
+}
+
+/* cyprus-national-passport-number-view: a read-only display of Cyprus's National Passport Number */
+.cyprus-national-passport-number-view {
+}
+
+/* danmark-personnummer-input: an input for entering Denmark's Personnummer (CPR-nummer) (CPR) */
+.danmark-personnummer-input {
+}
+
+/* danmark-personnummer-view: a read-only display of Denmark's Personnummer (CPR-nummer) (CPR) */
+.danmark-personnummer-view {
 }
 
 /* data-filter-form: a form for filtering data by criteria */
@@ -264,10 +460,6 @@
 .data-table {
 }
 
-/* data-table-head: a data table interactive grid thead for displaying and sorting tabular data */
-.data-table-head {
-}
-
 /* data-table-body: a data table interactive grid tbody for displaying and sorting tabular data */
 .data-table-body {
 }
@@ -276,8 +468,8 @@
 .data-table-foot {
 }
 
-/* data-table-th: a data table interactive grid column for displaying and sorting tabular data */
-.data-table-th {
+/* data-table-head: a data table interactive grid thead for displaying and sorting tabular data */
+.data-table-head {
 }
 
 /* data-table-row: a data table interactive grid row for displaying and sorting tabular data */
@@ -286,6 +478,10 @@
 
 /* data-table-td: a data table interactive grid data cell for displaying and sorting tabular data */
 .data-table-td {
+}
+
+/* data-table-th: a data table interactive grid column for displaying and sorting tabular data */
+.data-table-th {
 }
 
 /* date-field: a structured field for entering date components */
@@ -300,24 +496,60 @@
 .date-range {
 }
 
+/* date-time-local-input: an input for entering a date and time without time zone */
+.date-time-local-input {
+}
+
+/* date-time-local-input: an input for entering a date and time without time zone <input type="datetime-local"> */
+.date-time-local-input {
+}
+
 /* date-time-now-input: an input for entering a date and time and "now" button */
 .date-time-now-input {
 }
 
-/* date-time-local-input: an input for entering a date and time without time zone */
-.date-time-local-input {
+/* date-time-view: a read-only display of a formatted date and time */
+.date-time-view {
+}
+
+/* description-list: a definition list displaying information in key-value format <dl> */
+.description-list {
+}
+
+/* description-list-item: one key-value pair in a description list using dt and dd elements */
+.description-list-item {
 }
 
 /* details: a disclosure widget that shows and hides content */
 .details {
 }
 
+/* deutschland-krankenversichertennummer-input: an input for entering Germany's Krankenversichertennummer (KVNR) */
+.deutschland-krankenversichertennummer-input {
+}
+
+/* deutschland-krankenversichertennummer-view: a read-only display of Germany's Krankenversichertennummer (KVNR) */
+.deutschland-krankenversichertennummer-view {
+}
+
 /* dial: a rotary dial control for selecting a value */
 .dial {
 }
 
+/* dial-group: a group of dial components */
+.dial-group {
+}
+
 /* dialog: a modal or non-modal dialog window */
 .dialog {
+}
+
+/* diff: a side-by-side comparison of two items */
+.diff {
+}
+
+/* digital-object-identifier-link: a permanent hyperlink for a Digital Object Identifier (DOI) to an electronic source */
+.digital-object-identifier-link {
 }
 
 /* do-list: a guideline list of encouraged do-list-item components */
@@ -328,12 +560,24 @@
 .do-list-item {
 }
 
+/* document-list: a list displaying documents with titles and metadata */
+.document-list {
+}
+
+/* document-list-item: one document entry in a document list */
+.document-list-item {
+}
+
 /* dont-list: a guideline list of discouraged dont-list-item components */
 .dont-list {
 }
 
 /* dont-list-item: a discouraged-practice item in a dont-list guideline list */
 .dont-list-item {
+}
+
+/* download-button: a download link styled as a button, with optional file size and format metadata */
+.download-button {
 }
 
 /* drawer: a panel that slides in from the edge of the screen */
@@ -344,32 +588,56 @@
 .dropdown-menu {
 }
 
-/* editable-form: a form wrapper for inline editing of content */
-.editable-form {
-}
-
 /* editable: an inline-editable text element that toggles between view and edit modes */
 .editable {
 }
 
-/* email-link: a mailto hyperlink for an email address */
-.email-link {
+/* editable-form: a form wrapper for inline editing of content */
+.editable-form {
+}
+
+/* eesti-isikukood-input: an input for entering Estonia's Isikukood (IK) */
+.eesti-isikukood-input {
+}
+
+/* eesti-isikukood-view: a read-only display of Estonia's Isikukood (IK) */
+.eesti-isikukood-view {
+}
+
+/* ellada-dematerialised-securities-system-input: an input for entering Greece's Dematerialised Securities System (DSS) */
+.ellada-dematerialised-securities-system-input {
+}
+
+/* ellada-dematerialised-securities-system-view: a read-only display of Greece's Dematerialised Securities System (DSS) */
+.ellada-dematerialised-securities-system-view {
 }
 
 /* email-input: an input for entering an email address */
 .email-input {
 }
 
-/* emoji-character-picker: a picker for browsing and selecting emoji characters */
-.emoji-character-picker {
+/* email-link: a mailto hyperlink for an email address */
+.email-link {
 }
 
 /* emoji: a single emoji character with accessible name */
 .emoji {
 }
 
+/* emoji-character-picker: a picker for browsing and selecting emoji characters */
+.emoji-character-picker {
+}
+
 /* end-notes: a section of titled endnote items at the end of an article */
 .end-notes {
+}
+
+/* england-national-health-service-number-input: an input for entering England's National Health Service Number (NHS) */
+.england-national-health-service-number-input {
+}
+
+/* england-national-health-service-number-view: a read-only display of England's National Health Service Number (NHS) */
+.england-national-health-service-number-view {
 }
 
 /* error-message: an error message associated with a form field */
@@ -380,24 +648,40 @@
 .error-summary {
 }
 
-/* espana-tarjeta-sanitaria-individual-view: a read-only display of a España TSI */
-.espana-tarjeta-sanitaria-individual-view {
+/* espana-codigo-de-identificacion-fiscal-input: an input for entering Spain's Código de Identificación Fiscal (CIF) */
+.espana-codigo-de-identificacion-fiscal-input {
+}
+
+/* espana-codigo-de-identificacion-fiscal-view: a read-only display of Spain's Código de Identificación Fiscal (CIF) */
+.espana-codigo-de-identificacion-fiscal-view {
 }
 
 /* espana-tarjeta-sanitaria-individual-input: an input for entering a España TSI */
 .espana-tarjeta-sanitaria-individual-input {
 }
 
+/* espana-tarjeta-sanitaria-individual-view: a read-only display of a España TSI */
+.espana-tarjeta-sanitaria-individual-view {
+}
+
+/* event: an event component that contains other event-related information */
+.event {
+}
+
 /* expander: a control that expands to reveal more content */
 .expander {
 }
 
-/* field: a form field wrapper with label, input, and error message */
-.field {
+/* feature-card: a large content card with a prominent image positioned alongside or above the text */
+.feature-card {
 }
 
 /* feature-photo: a responsive photo with lazy loading and alt text validation */
 .feature-photo {
+}
+
+/* field: a form field wrapper with label, input, and error message */
+.field {
 }
 
 /* fieldset: a group of related form fields with a legend */
@@ -424,10 +708,6 @@
 .file-upload {
 }
 
-/* five-face-rating-view: a read-only display of a five-face satisfaction rating */
-.five-face-rating-view {
-}
-
 /* five-face-rating-picker: a picker for selecting a 1-5 satisfaction rating using face labels */
 .five-face-rating-picker {
 }
@@ -436,8 +716,8 @@
 .five-face-rating-picker-button {
 }
 
-/* five-star-rating-view: a read-only display of a five-star rating */
-.five-star-rating-view {
+/* five-face-rating-view: a read-only display of a five-face satisfaction rating */
+.five-face-rating-view {
 }
 
 /* five-star-rating-picker: a picker for selecting a 1-5 star rating using radio buttons */
@@ -448,16 +728,20 @@
 .five-star-rating-picker-button {
 }
 
+/* five-star-rating-view: a read-only display of a five-star rating */
+.five-star-rating-view {
+}
+
 /* flair: a decorative highlight or emphasis element */
 .flair {
 }
 
-/* france-numero-d-identification-au-repertoire-view: a read-only display of a France NIR */
-.france-numero-d-identification-au-repertoire-view {
+/* flex-stack: a flex layout container for vertical or horizontal stacking with consistent gap */
+.flex-stack {
 }
 
-/* france-numero-d-identification-au-repertoire-input: an input for entering a France NIR */
-.france-numero-d-identification-au-repertoire-input {
+/* float-button: a floating action button anchored to a viewport corner */
+.float-button {
 }
 
 /* floating-panel: a panel that floats above page content */
@@ -480,16 +764,24 @@
 .framer {
 }
 
+/* france-numero-d-identification-au-repertoire-input: an input for entering a France NIR */
+.france-numero-d-identification-au-repertoire-input {
+}
+
+/* france-numero-d-identification-au-repertoire-view: a read-only display of a France NIR */
+.france-numero-d-identification-au-repertoire-view {
+}
+
 /* gantt-table: a Gantt chart table interactive grid for planning schedule visualization */
 .gantt-table {
 }
 
-/* gantt-table-thead: a Gantt chart table interactive grid thead for planning schedule visualization */
-.gantt-table-thead {
-}
-
 /* gantt-table-tbody: a Gantt chart table interactive grid tbody for planning schedule visualization */
 .gantt-table-tbody {
+}
+
+/* gantt-table-td: a Gantt chart table interactive grid data cell for planning schedule visualization */
+.gantt-table-td {
 }
 
 /* gantt-table-tfoot: a Gantt chart table interactive grid tfoot for planning schedule visualization */
@@ -500,40 +792,64 @@
 .gantt-table-th {
 }
 
+/* gantt-table-thead: a Gantt chart table interactive grid thead for planning schedule visualization */
+.gantt-table-thead {
+}
+
 /* gantt-table-tr: a Gantt chart table interactive grid row for planning schedule visualization */
 .gantt-table-tr {
 }
 
-/* gantt-table-td: a Gantt chart table interactive grid data cell for planning schedule visualization */
-.gantt-table-td {
+/* go-to-next-section: a link that takes users to the next section of the current page */
+.go-to-next-section {
+}
+
+/* go-to-previous-section: a link that takes users to the previous section of the current page */
+.go-to-previous-section {
+}
+
+/* go-to-top: a link that returns users to the top of a long page */
+.go-to-top {
+}
+
+/* government-banner: a banner identifying a website as belonging to a government, with an expandable details panel */
+.government-banner {
+}
+
+/* government-identifier: an identifier section with a parent agency logo, agency name, and required government links */
+.government-identifier {
 }
 
 /* grail-layout: a responsive web design structure with header, left aside, center main, right aside, footer */
 .grail-layout {
 }
 
-/* grail-layout-top-header: grail layout top header full width with tag */
-.grail-layout-top-header {
-}
-
-/* grail-layout-left-aside: grail layout left aside sidebar with tag */
-.grail-layout-left-aside {
+/* grail-layout-bottom-footer: grail layout bottom footer full width with tag */
+.grail-layout-bottom-footer {
 }
 
 /* grail-layout-center-main: grail layout center main content with tag */
 .grail-layout-center-main {
 }
 
+/* grail-layout-left-aside: grail layout left aside sidebar with tag */
+.grail-layout-left-aside {
+}
+
 /* grail-layout-right-aside: grail layout right aside sidebar with tag */
 .grail-layout-right-aside {
 }
 
-/* grail-layout-bottom-footer: grail layout bottom footer full width with tag */
-.grail-layout-bottom-footer {
+/* grail-layout-top-header: grail layout top header full width with tag */
+.grail-layout-top-header {
 }
 
 /* graphic-block: a wrapper for charts and graphics with title, description, notes, and ARIA description */
 .graphic-block {
+}
+
+/* grid: a CSS grid layout container with configurable columns and gap */
+.grid {
 }
 
 /* hamburger-menu: a toggle button that opens a mobile navigation menu */
@@ -572,20 +888,44 @@
 .hover-card {
 }
 
+/* hrvatska-osobni-identifikacijski-broj-input: an input for entering Croatia's Osobni identifikacijski broj (OIB) */
+.hrvatska-osobni-identifikacijski-broj-input {
+}
+
+/* hrvatska-osobni-identifikacijski-broj-view: a read-only display of Croatia's Osobni identifikacijski broj (OIB) */
+.hrvatska-osobni-identifikacijski-broj-view {
+}
+
 /* icon: a container for displaying an icon */
 .icon {
 }
 
-/* image-file-input: an input for selecting image files with preview */
-.image-file-input {
+/* icon-button: a button containing only an icon with a required accessible label */
+.icon-button {
+}
+
+/* icon-list: an ordered list of icon list item components */
+.icon-list {
+}
+
+/* icon-list-item: one item in an icon list with a leading icon slot */
+.icon-list-item {
 }
 
 /* image: an image element with alt text */
 .image {
 }
 
+/* image-file-input: an input for selecting image files with preview */
+.image-file-input {
+}
+
 /* image-input: a graphical submit button that displays an image */
 .image-input {
+}
+
+/* info-state: a composition of illustration, title, description, and action for empty, error, or info states */
+.info-state {
 }
 
 /* information-callout: a callout box highlighting informational content */
@@ -596,24 +936,44 @@
 .input {
 }
 
-/* inset-text: indented text to distinguish it from surrounding content */
-.inset-text {
+/* input-group: a group wrapping an input with prefix and suffix addons */
+.input-group {
 }
 
-/* ireland-individual-health-identifier-view: a read-only display of Ireland IHI */
-.ireland-individual-health-identifier-view {
+/* input-with-mask: an input displaying a format mask placeholder for the user to fill in */
+.input-with-mask {
+}
+
+/* inset-text: indented text to distinguish it from surrounding content */
+.inset-text {
 }
 
 /* ireland-individual-health-identifier-input: an input for entering Ireland IHI */
 .ireland-individual-health-identifier-input {
 }
 
-/* kanban-table: a kanban board table interactive grid for organizing items by status */
-.kanban-table {
+/* ireland-individual-health-identifier-view: a read-only display of Ireland IHI */
+.ireland-individual-health-identifier-view {
 }
 
-/* kanban-table-head: a kanban board table interactive grid thead for organizing items by status */
-.kanban-table-head {
+/* island-kennitala-input: an input for entering Iceland's Kennitala */
+.island-kennitala-input {
+}
+
+/* island-kennitala-view: a read-only display of Iceland's Kennitala */
+.island-kennitala-view {
+}
+
+/* italia-codice-fiscale-input: an input for entering Italy's Codice fiscale (CF) */
+.italia-codice-fiscale-input {
+}
+
+/* italia-codice-fiscale-view: a read-only display of Italy's Codice fiscale (CF) */
+.italia-codice-fiscale-view {
+}
+
+/* kanban-table: a kanban board table interactive grid for organizing items by status */
+.kanban-table {
 }
 
 /* kanban-table-body: a kanban board table interactive grid tbody for organizing items by status */
@@ -624,8 +984,8 @@
 .kanban-table-foot {
 }
 
-/* kanban-table-th: a kanban board table interactive grid column for organizing items by status */
-.kanban-table-th {
+/* kanban-table-head: a kanban board table interactive grid thead for organizing items by status */
+.kanban-table-head {
 }
 
 /* kanban-table-row: a kanban board table interactive grid row for organizing items by status */
@@ -636,6 +996,10 @@
 .kanban-table-td {
 }
 
+/* kanban-table-th: a kanban board table interactive grid column for organizing items by status */
+.kanban-table-th {
+}
+
 /* kbd: show keyboard shortcuts and key combinations in a styled inline element */
 .kbd {
 }
@@ -644,8 +1008,76 @@
 .label {
 }
 
+/* latvija-personas-kods-input: an input for entering Latvia's Personas kods */
+.latvija-personas-kods-input {
+}
+
+/* latvija-personas-kods-view: a read-only display of Latvia's Personas kods */
+.latvija-personas-kods-view {
+}
+
+/* liechtenstein-national-identity-card-number-input: an input for entering Liechtenstein's Liechtenstein National Identity Card Number */
+.liechtenstein-national-identity-card-number-input {
+}
+
+/* liechtenstein-national-identity-card-number-view: a read-only display of Liechtenstein's Liechtenstein National Identity Card Number */
+.liechtenstein-national-identity-card-number-view {
+}
+
+/* liechtenstein-passport-number-input: an input for entering Liechtenstein's Liechtenstein Passport Number */
+.liechtenstein-passport-number-input {
+}
+
+/* liechtenstein-passport-number-view: a read-only display of Liechtenstein's Liechtenstein Passport Number */
+.liechtenstein-passport-number-view {
+}
+
+/* lietuva-asmens-kodas-input: an input for entering Lithuania's Asmens kodas */
+.lietuva-asmens-kodas-input {
+}
+
+/* lietuva-asmens-kodas-view: a read-only display of Lithuania's Asmens kodas */
+.lietuva-asmens-kodas-view {
+}
+
+/* lietuva-pasas-input: an input for entering Lithuania's Pasas */
+.lietuva-pasas-input {
+}
+
+/* lietuva-pasas-view: a read-only display of Lithuania's Pasas */
+.lietuva-pasas-view {
+}
+
+/* line-chart: a line chart visualization connecting data points to display data */
+.line-chart {
+}
+
 /* listbox: a list of selectable options with keyboard navigation */
 .listbox {
+}
+
+/* loading: a loading indicator, such as text, or image, or animation */
+.loading {
+}
+
+/* malta-national-identification-number-input: an input for entering Malta's Malta National Identification Number */
+.malta-national-identification-number-input {
+}
+
+/* malta-national-identification-number-view: a read-only display of Malta's Malta National Identification Number */
+.malta-national-identification-number-view {
+}
+
+/* malta-passport-number-input: an input for entering Malta's Malta Passport Number */
+.malta-passport-number-input {
+}
+
+/* malta-passport-number-view: a read-only display of Malta's Malta Passport Number */
+.malta-passport-number-view {
+}
+
+/* masonry: a masonry layout container for variable-height items */
+.masonry {
 }
 
 /* measurement-instance-input: an input for entering a measurement value and unit */
@@ -680,20 +1112,20 @@
 .medical-banner-box {
 }
 
-/* medical-banner-box-for-danger: a medical record banner box for danger information */
-.medical-banner-box-for-danger {
-}
-
 /* medical-banner-box-for-advice: a medical record banner box for advice information */
 .medical-banner-box-for-advice {
 }
 
-/* menu: a list of actions or options triggered by a button */
-.menu {
+/* medical-banner-box-for-danger: a medical record banner box for danger information */
+.medical-banner-box-for-danger {
 }
 
-/* menu-item: one item in a menu */
-.menu-item {
+/* mentions-input: a text input with at-mention autocomplete suggestions */
+.mentions-input {
+}
+
+/* menu: a list of actions or options triggered by a button */
+.menu {
 }
 
 /* menu-bar: a horizontal bar of menu triggers */
@@ -704,20 +1136,88 @@
 .menu-bar-button {
 }
 
+/* menu-group: a labeled section of menu items within a menu */
+.menu-group {
+}
+
+/* menu-item: one item in a menu */
+.menu-item {
+}
+
 /* meter: a gauge displaying a scalar value within a known range */
 .meter {
+}
+
+/* mockup-browser: a box area that looks like a web browser */
+.mockup-browser {
+}
+
+/* mockup-laptop: a box area that looks like a laptop computer */
+.mockup-laptop {
+}
+
+/* mockup-phone-landscape: a box area that looks like a mobile phone in landscape orientation */
+.mockup-phone-landscape {
+}
+
+/* mockup-phone-portrait: a box area that looks like a mobile phone */
+.mockup-phone-portrait {
+}
+
+/* mockup-shell: a box area that looks like a terminal shell */
+.mockup-shell {
+}
+
+/* mockup-tablet-landscape: a box area that looks like a tablet computer in landscape mode */
+.mockup-tablet-landscape {
+}
+
+/* mockup-tablet-portrait: a box area that looks like a tablet computer in portrait mode */
+.mockup-tablet-portrait {
+}
+
+/* mockup-watch: a box area that looks like a smart watch */
+.mockup-watch {
+}
+
+/* mockup-window: a box area that looks like a desktop window */
+.mockup-window {
 }
 
 /* month-input: an input for selecting a month and year */
 .month-input {
 }
 
+/* mutually-exclusive: a container ensuring only one option can be selected from a group */
+.mutually-exclusive {
+}
+
 /* navigation-menu: a site-wide navigation menu with links */
 .navigation-menu {
 }
 
-/* net-promoter-score-view: a read-only display of a Net Promoter Score */
-.net-promoter-score-view {
+/* nederland-burgerservice-nummer-input: an input for entering Netherlands's Burgerservicenummer (BSN) */
+.nederland-burgerservice-nummer-input {
+}
+
+/* nederland-burgerservice-nummer-view: a read-only display of Netherlands's Burgerservicenummer (BSN) */
+.nederland-burgerservice-nummer-view {
+}
+
+/* nederland-identiteitskaart-nummer-input: an input for entering Netherlands's Identiteitskaart Nummer */
+.nederland-identiteitskaart-nummer-input {
+}
+
+/* nederland-identiteitskaart-nummer-view: a read-only display of Netherlands's Identiteitskaart Nummer */
+.nederland-identiteitskaart-nummer-view {
+}
+
+/* nederland-paspoort-nummer-input: an input for entering Netherlands's Paspoort Nummer */
+.nederland-paspoort-nummer-input {
+}
+
+/* nederland-paspoort-nummer-view: a read-only display of Netherlands's Paspoort Nummer */
+.nederland-paspoort-nummer-view {
 }
 
 /* net-promoter-score-picker: a picker for selecting a 0-10 Net Promoter Score */
@@ -728,16 +1228,32 @@
 .net-promoter-score-picker-button {
 }
 
-/* notification: a brief message about an event or update */
-.notification {
+/* net-promoter-score-view: a read-only display of a Net Promoter Score */
+.net-promoter-score-view {
+}
+
+/* newsletter-signup: an email subscription form composition with idle, submitting, success, and error states */
+.newsletter-signup {
+}
+
+/* norge-fodselsnummer-input: an input for entering Norway's Fødselsnummer */
+.norge-fodselsnummer-input {
+}
+
+/* norge-fodselsnummer-view: a read-only display of Norway's Fødselsnummer */
+.norge-fodselsnummer-view {
+}
+
+/* northern-ireland-health-and-care-number-input: an input for entering NI H&C Number */
+.northern-ireland-health-and-care-number-input {
 }
 
 /* northern-ireland-health-and-care-number-view: a read-only display of NI H&C Number */
 .northern-ireland-health-and-care-number-view {
 }
 
-/* northern-ireland-health-and-care-number-input: an input for entering NI H&C Number */
-.northern-ireland-health-and-care-number-input {
+/* notification: a brief message about an event or update */
+.notification {
 }
 
 /* number-input: an input for entering a numeric value with validation */
@@ -748,8 +1264,20 @@
 .option {
 }
 
-/* pagination-nav: an ordered list of page navigation links */
-.pagination-nav {
+/* organization: an organization component that contains other organization-related information */
+.organization {
+}
+
+/* overlay-container: a full-viewport overlay backdrop for modals and sheets */
+.overlay-container {
+}
+
+/* padding-reset: a container that resets padding inside fluid-width containers */
+.padding-reset {
+}
+
+/* pagination-link: one pagination link in the trail */
+.pagination-link {
 }
 
 /* pagination-list: an ordered list of page navigation links */
@@ -760,12 +1288,8 @@
 .pagination-list-item {
 }
 
-/* padding-reset: a container that resets padding inside fluid-width containers */
-.padding-reset {
-}
-
-/* pagination-link: one pagination link in the trail */
-.pagination-link {
+/* pagination-nav: an ordered list of page navigation links */
+.pagination-nav {
 }
 
 /* panel: a generic content panel with optional heading */
@@ -780,12 +1304,48 @@
 .password-input-or-text-input-div {
 }
 
+/* person: a person component that contains other person-related information */
+.person {
+}
+
+/* phase-banner: a banner showing service development phase and inviting feedback */
+.phase-banner {
+}
+
 /* photo-pack: a collection of photos displayed together as a group */
 .photo-pack {
 }
 
+/* pictogram: an icon-based component pairing an icon with a title and description in a centered or side layout */
+.pictogram {
+}
+
 /* pin-input-div: a series of single-digit inputs for entering a PIN or OTP code */
 .pin-input-div {
+}
+
+/* place: a place component that contains other place-related information */
+.place {
+}
+
+/* polska-numer-identyfikacji-podatkowej-input: an input for entering Poland's Numer Identyfikacji Podatkowej (NIP) */
+.polska-numer-identyfikacji-podatkowej-input {
+}
+
+/* polska-numer-identyfikacji-podatkowej-view: a read-only display of Poland's Numer Identyfikacji Podatkowej (NIP) */
+.polska-numer-identyfikacji-podatkowej-view {
+}
+
+/* polska-pesel-input: an input for entering Poland's PESEL */
+.polska-pesel-input {
+}
+
+/* polska-pesel-view: a read-only display of Poland's PESEL */
+.polska-pesel-view {
+}
+
+/* popconfirm-dialog: a popover dialog with confirm and cancel buttons */
+.popconfirm-dialog {
 }
 
 /* popover: a floating content box anchored to a trigger element */
@@ -796,6 +1356,22 @@
 .popup {
 }
 
+/* portugal-numero-de-identificacao-fiscal-input: an input for entering Portugal's Número de Identificação Fiscal (NIF) */
+.portugal-numero-de-identificacao-fiscal-input {
+}
+
+/* portugal-numero-de-identificacao-fiscal-view: a read-only display of Portugal's Número de Identificação Fiscal (NIF) */
+.portugal-numero-de-identificacao-fiscal-view {
+}
+
+/* portugal-passaporte-input: an input for entering Portugal's Passaporte */
+.portugal-passaporte-input {
+}
+
+/* portugal-passaporte-view: a read-only display of Portugal's Passaporte */
+.portugal-passaporte-view {
+}
+
 /* postal-code-input: an input for entering a postal or ZIP code */
 .postal-code-input {
 }
@@ -804,16 +1380,24 @@
 .postal-code-view {
 }
 
+/* product-card: a specialized card for displaying a product with image, title, price, and actions */
+.product-card {
+}
+
+/* progress: a horizontal progress bar showing completion */
+.progress {
+}
+
+/* progress-bar: a horizontal progress indicator */
+.progress-bar {
+}
+
 /* progress-circle: a circular progress indicator */
 .progress-circle {
 }
 
 /* progress-spinner: an indeterminate spinning progress indicator */
 .progress-spinner {
-}
-
-/* progress: a horizontal progress bar showing completion */
-.progress {
 }
 
 /* qr-code: a QR code image generated from text or URL data */
@@ -832,10 +1416,6 @@
 .range-input {
 }
 
-/* red-amber-green-view: a read-only display of a red/amber/green status */
-.red-amber-green-view {
-}
-
 /* red-amber-green-picker: a picker for selecting a red/amber/green status */
 .red-amber-green-picker {
 }
@@ -844,8 +1424,8 @@
 .red-amber-green-picker-button {
 }
 
-/* red-orange-yellow-green-blue-view: a read-only display of a five-level color status */
-.red-orange-yellow-green-blue-view {
+/* red-amber-green-view: a read-only display of a red/amber/green status */
+.red-amber-green-view {
 }
 
 /* red-orange-yellow-green-blue-picker: a picker for selecting a five-level color status */
@@ -854,6 +1434,14 @@
 
 /* red-orange-yellow-green-blue-picker-button: a picker button for selecting a five-level color status */
 .red-orange-yellow-green-blue-picker-button {
+}
+
+/* red-orange-yellow-green-blue-view: a read-only display of a five-level color status */
+.red-orange-yellow-green-blue-view {
+}
+
+/* related-content: a section providing links to related or supporting information */
+.related-content {
 }
 
 /* reset-input: a button input that resets a form to default values */
@@ -866,6 +1454,30 @@
 
 /* review-date: a display of a content review date */
 .review-date {
+}
+
+/* romania-cod-numeric-personal-input: an input for entering Romania's Cod Numeric Personal (CNP) */
+.romania-cod-numeric-personal-input {
+}
+
+/* romania-cod-numeric-personal-view: a read-only display of Romania's Cod Numeric Personal (CNP) */
+.romania-cod-numeric-personal-view {
+}
+
+/* romania-pasaport-input: an input for entering Romania's Paşaport */
+.romania-pasaport-input {
+}
+
+/* romania-pasaport-view: a read-only display of Romania's Paşaport */
+.romania-pasaport-view {
+}
+
+/* scatter-chart: a scatter chart visualization using dots to display data */
+.scatter-chart {
+}
+
+/* screen-reader-span: a visually hidden span of text intended for screen readers to provide more descriptive labels */
+.screen-reader-span {
 }
 
 /* scroll-area: a scrollable container with custom scrollbar support */
@@ -892,6 +1504,26 @@
 .search-input {
 }
 
+/* section-heading: a styled heading introducing a major content section, with optional eyebrow and subtitle */
+.section-heading {
+}
+
+/* section-link: one section link in the navigation */
+.section-link {
+}
+
+/* section-list: a list of section navigation items */
+.section-list {
+}
+
+/* section-list-item: one section navigation item */
+.section-list-item {
+}
+
+/* section-nav: a navigation container for section navigation links */
+.section-nav {
+}
+
 /* segment-group: a group of mutually exclusive segment options */
 .segment-group {
 }
@@ -900,16 +1532,20 @@
 .segment-group-item {
 }
 
-/* select-with-extras: a select dropdown with additional features like search or groups */
-.select-with-extras {
-}
-
 /* select: a dropdown select element for choosing one option */
 .select {
 }
 
+/* select-with-extras: a select dropdown with additional features like search or groups */
+.select-with-extras {
+}
+
 /* separator: a horizontal or vertical divider between content sections */
 .separator {
+}
+
+/* share-page: a component for sharing the page on social media */
+.share-page {
 }
 
 /* sheet: a panel that slides in from a screen edge as an overlay */
@@ -940,6 +1576,34 @@
 .slider {
 }
 
+/* slider-button: a button with a slider that the user needs to slide to confirm */
+.slider-button {
+}
+
+/* slovenija-emso-input: an input for entering Slovenia's Enotna Matična Številka Občana (EMŠO) */
+.slovenija-emso-input {
+}
+
+/* slovenija-emso-view: a read-only display of Slovenia's Enotna Matična Številka Občana (EMŠO) */
+.slovenija-emso-view {
+}
+
+/* slovensko-pas-input: an input for entering Slovakia's Pas */
+.slovensko-pas-input {
+}
+
+/* slovensko-pas-view: a read-only display of Slovakia's Pas */
+.slovensko-pas-view {
+}
+
+/* slovensko-rodne-cislo-input: an input for entering Slovakia's Rodné číslo (RČ) */
+.slovensko-rodne-cislo-input {
+}
+
+/* slovensko-rodne-cislo-view: a read-only display of Slovakia's Rodné číslo (RČ) */
+.slovensko-rodne-cislo-view {
+}
+
 /* sonner: a toast notification manager */
 .sonner {
 }
@@ -948,12 +1612,52 @@
 .sparkline {
 }
 
+/* split-button: a button with a primary action and a dropdown for related actions */
+.split-button {
+}
+
+/* split-view: a two-panel resizable layout container with a draggable divider between them */
+.split-view {
+}
+
 /* splitter: a draggable divider for resizing adjacent panels */
 .splitter {
 }
 
+/* statistic: a numeric value display with title, prefix, and suffix */
+.statistic {
+}
+
+/* status-light: a small colored dot status indicator paired with a status label */
+.status-light {
+}
+
+/* status-tag: a tag showing the current status of a task */
+.status-tag {
+}
+
+/* step-list: an ordered list of step items showing progress through a multi-step process */
+.step-list {
+}
+
+/* step-list-item: one step in a step list with status of waiting, in progress, finished, or error */
+.step-list-item {
+}
+
+/* sticky-promo-banner: a fixed-position promotional banner with a dismiss button */
+.sticky-promo-banner {
+}
+
 /* submit-input: a button input that submits a form */
 .submit-input {
+}
+
+/* success-panel: a panel confirming a task has been completed */
+.success-panel {
+}
+
+/* summary-box: a boxed callout highlighting key takeaways or next steps from a longer page */
+.summary-box {
 }
 
 /* summary-list: an ordered list of key-value summary pairs */
@@ -962,6 +1666,26 @@
 
 /* summary-list-item: one key-value pair in a summary list */
 .summary-list-item {
+}
+
+/* suomi-henkilotunnus-input: an input for entering Finland's Henkilötunnus (HETU) */
+.suomi-henkilotunnus-input {
+}
+
+/* suomi-henkilotunnus-view: a read-only display of Finland's Henkilötunnus (HETU) */
+.suomi-henkilotunnus-view {
+}
+
+/* super-banner: a super-banner communicates a high-priority state that affects an entire app, experience, process, or system */
+.super-banner {
+}
+
+/* sverige-personnummer-input: an input for entering Sweden's Personnummer */
+.sverige-personnummer-input {
+}
+
+/* sverige-personnummer-view: a read-only display of Sweden's Personnummer */
+.sverige-personnummer-view {
 }
 
 /* switch-button: a toggle switch for turning a setting on or off */
@@ -976,12 +1700,12 @@
 .tab-bar-button {
 }
 
-/* table: a table with rows and columns */
-.table {
+/* tab-panel: a content panel associated with a tab in a tab bar */
+.tab-panel {
 }
 
-/* table-head: a table interactive grid thead */
-.table-head {
+/* table: a table with rows and columns */
+.table {
 }
 
 /* table-body: a table interactive grid tbody */
@@ -992,8 +1716,8 @@
 .table-foot {
 }
 
-/* table-th: a table interactive grid column */
-.table-th {
+/* table-head: a table interactive grid thead */
+.table-head {
 }
 
 /* table-row: a table interactive grid row */
@@ -1004,12 +1728,16 @@
 .table-td {
 }
 
-/* tag-group: a group of tag elements */
-.tag-group {
+/* table-th: a table interactive grid column */
+.table-th {
 }
 
 /* tag: a keyword label for categorizing content */
 .tag {
+}
+
+/* tag-group: a group of tag elements */
+.tag-group {
 }
 
 /* tag-input: an input for adding and removing tags */
@@ -1040,6 +1768,14 @@
 .tel-link {
 }
 
+/* text-area-input: a multi-line text input area */
+.text-area-input {
+}
+
+/* text-area-input-with-character-counter: a multi-line text area with character counter */
+.text-area-input-with-character-counter {
+}
+
 /* text-input: a single-line text input field */
 .text-input {
 }
@@ -1048,16 +1784,12 @@
 .text-input-with-search {
 }
 
-/* text-area-input-with-character-counter: a multi-line text area with character counter */
-.text-area-input-with-character-counter {
-}
-
-/* text-area-input: a multi-line text input area */
-.text-area-input {
-}
-
 /* theme-picker: a picker for selecting a visual theme */
 .theme-picker {
+}
+
+/* theme-picker-button: a picker button for selecting a visual theme */
+.theme-picker-button {
 }
 
 /* theme-provider: a container that applies CSS custom properties from a theme object */
@@ -1076,6 +1808,14 @@
 .theme-view {
 }
 
+/* tile: a grouping container that presents related content in a structured format, often as a single clickable area */
+.tile {
+}
+
+/* tile-map: a tile cartogram map with configurable layers for geographic data visualization */
+.tile-map {
+}
+
 /* time-input: an input for entering a time value */
 .time-input {
 }
@@ -1092,24 +1832,28 @@
 .timeline-list-item {
 }
 
-/* tile-map: a tile cartogram map with configurable layers for geographic data visualization */
-.tile-map {
+/* timeout-dialog: a modal dialog warning users before session timeout */
+.timeout-dialog {
 }
 
 /* timer: a countdown or elapsed time display */
 .timer {
 }
 
+/* timer-button: a button with a timer that will automatically click after a given amount of time */
+.timer-button {
+}
+
 /* toast: a brief auto-dismissing notification message */
 .toast {
 }
 
-/* toggle-group: a group of toggle buttons for selecting options */
-.toggle-group {
-}
-
 /* toggle-button: a button that toggles between pressed and unpressed states */
 .toggle-button {
+}
+
+/* toggle-group: a group of toggle buttons for selecting options */
+.toggle-group {
 }
 
 /* tool-bar: a horizontal bar of tool actions */
@@ -1136,12 +1880,12 @@
 .tour-list-item {
 }
 
-/* tree-menu: a hierarchical tree menu with expandable branches */
-.tree-menu {
+/* transfer-list: a dual list box for moving items between two lists */
+.transfer-list {
 }
 
-/* tree-nav: a hierarchical navigation with expandable branches */
-.tree-nav {
+/* tree-link: one tree link in the trail */
+.tree-link {
 }
 
 /* tree-list: a hierarchical list with nested expandable items */
@@ -1152,8 +1896,16 @@
 .tree-list-item {
 }
 
-/* tree-link: one tree link in the trail */
-.tree-link {
+/* tree-menu: a hierarchical tree menu with expandable branches */
+.tree-menu {
+}
+
+/* tree-nav: a hierarchical navigation with expandable branches */
+.tree-nav {
+}
+
+/* tree-select: a select dropdown showing a tree of hierarchical options */
+.tree-select {
 }
 
 /* united-kingdom-national-health-service-number-input: an input for entering a UK NHS number */
@@ -1162,6 +1914,14 @@
 
 /* united-kingdom-national-health-service-number-view: a read-only display of a UK NHS number */
 .united-kingdom-national-health-service-number-view {
+}
+
+/* united-kingdom-national-insurance-number-input: an input for entering United Kingdom's National Insurance Number (NINO) */
+.united-kingdom-national-insurance-number-input {
+}
+
+/* united-kingdom-national-insurance-number-view: a read-only display of United Kingdom's National Insurance Number (NINO) */
+.united-kingdom-national-insurance-number-view {
 }
 
 /* united-states-social-security-number-input: an input for entering a US Social Security number */
@@ -1176,6 +1936,14 @@
 .url-input {
 }
 
+/* validation-list: a live-feedback list of input validation rules with pending, passed, and failed states */
+.validation-list {
+}
+
+/* validation-list-item: one validation rule in a validation list with a status of pending, passed, or failed */
+.validation-list-item {
+}
+
 /* video-player: a video player with play-in-view behavior and custom controls */
 .video-player {
 }
@@ -1188,571 +1956,11 @@
 .warning-callout {
 }
 
-/* week-input: an input for selecting a week and year */
-.week-input {
-}
-
-/* - article suffix = tag: - article suffix = tag */
-.- article suffix = tag {
-}
-
-/* - aside suffix = tag: - aside suffix = tag */
-.- aside suffix = tag {
-}
-
-/* - button suffix = tag: - button suffix = tag */
-.- button suffix = tag {
-}
-
-/* - dialog suffix = tag: - dialog suffix = tag */
-.- dialog suffix = tag {
-}
-
-/* - div suffix = tag: - div suffix = tag */
-.- div suffix = tag {
-}
-
-/* - fieldset suffix = tag: - fieldset suffix = tag */
-.- fieldset suffix = tag {
-}
-
-/* - figure suffix = tag: - figure suffix = tag */
-.- figure suffix = tag {
-}
-
-/* - footer suffix = tag: - footer suffix = tag */
-.- footer suffix = tag {
-}
-
-/* - header suffix = tag: - header suffix = tag */
-.- header suffix = tag {
-}
-
-/* - input suffix = tag: - input suffix = tag */
-.- input suffix = tag {
-}
-
-/* - kbd suffix = tag: - kbd suffix = tag */
-.- kbd suffix = tag {
-}
-
-/* - list suffix = tag: - list suffix = tag */
-.- list suffix = tag {
-}
-
-/* - list-item suffix = tag: - list-item suffix = tag */
-.- list-item suffix = tag {
-}
-
-/* - main suffix = tag: - main suffix = tag */
-.- main suffix = tag {
-}
-
-/* - meter suffix = tag: - meter suffix = tag */
-.- meter suffix = tag {
-}
-
-/* - nav suffix = tag: - nav suffix = tag */
-.- nav suffix = tag {
-}
-
-/* - option suffix = tag: - option suffix = tag */
-.- option suffix = tag {
-}
-
-/* - picker suffix = tag: - picker suffix = tag */
-.- picker suffix = tag {
-}
-
-/* - progress suffix = tag: - progress suffix = tag */
-.- progress suffix = tag {
-}
-
-/* - table suffix = tag: - table suffix = tag */
-.- table suffix = tag {
-}
-
-/* - table-head suffix = tag: - table-head suffix = tag */
-.- table-head suffix = tag {
-}
-
-/* - table-body suffix = tag: - table-body suffix = tag */
-.- table-body suffix = tag {
-}
-
-/* - table-foot suffix = tag: - table-foot suffix = tag */
-.- table-foot suffix = tag {
-}
-
-/* - table-th suffix = tag: - table-th suffix = tag */
-.- table-th suffix = tag {
-}
-
-/* - table-row suffix = tag: - table-row suffix = tag */
-.- table-row suffix = tag {
-}
-
-/* - table-td suffix = tag: - table-td suffix = tag */
-.- table-td suffix = tag {
-}
-
-/* - select suffix = tag: - select suffix = tag */
-.- select suffix = tag {
-}
-
-/* - span suffix = tag: - span suffix = tag */
-.- span suffix = tag {
-}
-
-/* container: a generic block-level content container */
-.container {
-}
-
-/* mockup-phone-landscape: a box area that looks like a mobile phone in landscape orientation */
-.mockup-phone-landscape {
-}
-
-/* go-to-previous-section: a link that takes users to the previous section of the current page */
-.go-to-previous-section {
-}
-
-/* go-to-next-section: a link that takes users to the next section of the current page */
-.go-to-next-section {
-}
-
-/* action-bar: a contextual action bar that appears when items are selected, showing the selection count and bulk action buttons */
-.action-bar {
-}
-
-/* action-bar-button: one action button inside an action bar */
-.action-bar-button {
-}
-
-/* action-group: a group of action buttons that can collapse to an overflow menu when space is constrained */
-.action-group {
-}
-
-/* address-input: an input for searching or manually entering an address */
-.address-input {
-}
-
-/* affix: a wrapper that pins its content to a viewport position while the page scrolls */
-.affix {
-}
-
-/* announcement-banner: a banner highlighting important messages for all users */
-.announcement-banner {
-}
-
-/* area-chart: an area chart visualization showing sized components in continuous data */
-.area-chart {
-}
-
-/* autosuggest: a text input that proposes matching options as users type */
-.autosuggest {
-}
-
-/* avatar-group: a group of avatar components */
-.avatar-group {
-}
-
-/* bar-chart: a horizontal bar chart visualization for displaying data */
-.bar-chart {
-}
-
-/* blockquote: a block-level quotation with optional source citation */
-.blockquote {
-}
-
-/* button-group: a wrapper that groups related buttons together */
-.button-group {
-}
-
-/* cascader: a multi-level dropdown for selecting a value from a hierarchy */
-.cascader {
-}
-
-/* chat-list: an ordered list of chat list item components */
-.chat-list {
-}
-
-/* chat-list-item: one chat list item component, typically containing one chat message component */
-.chat-list-item {
-}
-
-/* chat-message: a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc. */
-.chat-message {
-}
-
-/* chat-nav: a navigation container for chat information */
-.chat-nav {
-}
-
-/* citation: a citation acknowledges the relevance of a work of another to the topic of discussion */
-.citation {
-}
-
-/* clamp-text: a text container that truncates content to a maximum number of lines */
-.clamp-text {
-}
-
-/* coachmark: an anchored popover that spotlights and explains a single feature */
-.coachmark {
-}
-
-/* code: an inline code span for displaying short code snippets within surrounding text */
-.code {
-}
-
-/* code-block: a block of formatted code with optional line numbers and line highlighting */
-.code-block {
-}
-
-/* collection-list: a compact list of multiple related items such as articles or events */
-.collection-list {
-}
-
-/* collection-list-item: one item in a collection list with optional image, heading, meta, and description */
-.collection-list-item {
-}
-
-/* column-chart: a vertical column chart visualization for displaying data */
-.column-chart {
-}
-
-/* comment: a comment displays user discussions and user feedback */
-.comment {
-}
-
-/* container-with-fixed-width: a centered content wrapper with a fixed max-width breakpoint */
-.container-with-fixed-width {
-}
-
-/* container-with-fluid-width: a full-width content wrapper with horizontal padding */
-.container-with-fluid-width {
-}
-
-/* contents-link: one table of contents link */
-.contents-link {
-}
-
-/* contextual-help: a help button that opens a popover with explanatory content */
-.contextual-help {
-}
-
-/* date-time-local-input: an input for entering a date and time without time zone <input type="datetime-local"> */
-.date-time-local-input {
-}
-
-/* date-time-view: a read-only display of a formatted date and time */
-.date-time-view {
-}
-
-/* description-list: a definition list displaying information in key-value format <dl> */
-.description-list {
-}
-
-/* description-list-item: one key-value pair in a description list using dt and dd elements */
-.description-list-item {
-}
-
-/* dial-group: a group of dial components */
-.dial-group {
-}
-
-/* diff: a side-by-side comparison of two items */
-.diff {
-}
-
-/* digital-object-identifier-link: a permanent hyperlink for a Digital Object Identifier (DOI) to an electronic source */
-.digital-object-identifier-link {
-}
-
-/* document-list: a list displaying documents with titles and metadata */
-.document-list {
-}
-
-/* document-list-item: one document entry in a document list */
-.document-list-item {
-}
-
-/* download-button: a download link styled as a button, with optional file size and format metadata */
-.download-button {
-}
-
-/* event: an event component that contains other event-related information */
-.event {
-}
-
-/* feature-card: a large content card with a prominent image positioned alongside or above the text */
-.feature-card {
-}
-
-/* flex-stack: a flex layout container for vertical or horizontal stacking with consistent gap */
-.flex-stack {
-}
-
-/* float-button: a floating action button anchored to a viewport corner */
-.float-button {
-}
-
-/* go-to-top: a link that returns users to the top of a long page */
-.go-to-top {
-}
-
-/* government-banner: a banner identifying a website as belonging to a government, with an expandable details panel */
-.government-banner {
-}
-
-/* government-identifier: an identifier section with a parent agency logo, agency name, and required government links */
-.government-identifier {
-}
-
-/* grid: a CSS grid layout container with configurable columns and gap */
-.grid {
-}
-
-/* icon-button: a button containing only an icon with a required accessible label */
-.icon-button {
-}
-
-/* icon-list: an ordered list of icon list item components */
-.icon-list {
-}
-
-/* icon-list-item: one item in an icon list with a leading icon slot */
-.icon-list-item {
-}
-
-/* info-state: a composition of illustration, title, description, and action for empty, error, or info states */
-.info-state {
-}
-
-/* input-group: a group wrapping an input with prefix and suffix addons */
-.input-group {
-}
-
-/* input-with-mask: an input displaying a format mask placeholder for the user to fill in */
-.input-with-mask {
-}
-
-/* line-chart: a line chart visualization connecting data points to display data */
-.line-chart {
-}
-
-/* loading: a loading indicator, such as text, or image, or animation */
-.loading {
-}
-
-/* masonry: a masonry layout container for variable-height items */
-.masonry {
-}
-
-/* mentions-input: a text input with at-mention autocomplete suggestions */
-.mentions-input {
-}
-
-/* menu-group: a labeled section of menu items within a menu */
-.menu-group {
-}
-
-/* mockup-browser: a box area that looks like a web browser */
-.mockup-browser {
-}
-
-/* mockup-laptop: a box area that looks like a laptop computer */
-.mockup-laptop {
-}
-
-/* mockup-phone-portrait: a box area that looks like a mobile phone */
-.mockup-phone-portrait {
-}
-
-/* mockup-shell: a box area that looks like a terminal shell */
-.mockup-shell {
-}
-
-/* mockup-tablet-landscape: a box area that looks like a tablet computer in landscape mode */
-.mockup-tablet-landscape {
-}
-
-/* mockup-tablet-portrait: a box area that looks like a tablet computer in portrait mode */
-.mockup-tablet-portrait {
-}
-
-/* mockup-watch: a box area that looks like a smart watch */
-.mockup-watch {
-}
-
-/* mockup-window: a box area that looks like a desktop window */
-.mockup-window {
-}
-
-/* mutually-exclusive: a container ensuring only one option can be selected from a group */
-.mutually-exclusive {
-}
-
-/* newsletter-signup: an email subscription form composition with idle, submitting, success, and error states */
-.newsletter-signup {
-}
-
-/* organization: an organization component that contains other organization-related information */
-.organization {
-}
-
-/* overlay-container: a full-viewport overlay backdrop for modals and sheets */
-.overlay-container {
-}
-
-/* person: a person component that contains other person-related information */
-.person {
-}
-
-/* phase-banner: a banner showing service development phase and inviting feedback */
-.phase-banner {
-}
-
-/* pictogram: an icon-based component pairing an icon with a title and description in a centered or side layout */
-.pictogram {
-}
-
-/* place: a place component that contains other place-related information */
-.place {
-}
-
-/* popconfirm-dialog: a popover dialog with confirm and cancel buttons */
-.popconfirm-dialog {
-}
-
-/* product-card: a specialized card for displaying a product with image, title, price, and actions */
-.product-card {
-}
-
-/* progress-bar: a horizontal progress indicator */
-.progress-bar {
-}
-
-/* related-content: a section providing links to related or supporting information */
-.related-content {
-}
-
-/* scatter-chart: a scatter chart visualization using dots to display data */
-.scatter-chart {
-}
-
-/* screen-reader-span: a visually hidden span of text intended for screen readers to provide more descriptive labels */
-.screen-reader-span {
-}
-
-/* section-heading: a styled heading introducing a major content section, with optional eyebrow and subtitle */
-.section-heading {
-}
-
-/* section-link: one section link in the navigation */
-.section-link {
-}
-
-/* section-list: a list of section navigation items */
-.section-list {
-}
-
-/* section-list-item: one section navigation item */
-.section-list-item {
-}
-
-/* section-nav: a navigation container for section navigation links */
-.section-nav {
-}
-
-/* share-page: a component for sharing the page on social media */
-.share-page {
-}
-
-/* slider-button: a button with a slider that the user needs to slide to confirm */
-.slider-button {
-}
-
-/* split-button: a button with a primary action and a dropdown for related actions */
-.split-button {
-}
-
-/* split-view: a two-panel resizable layout container with a draggable divider between them */
-.split-view {
-}
-
-/* statistic: a numeric value display with title, prefix, and suffix */
-.statistic {
-}
-
-/* status-light: a small colored dot status indicator paired with a status label */
-.status-light {
-}
-
-/* status-tag: a tag showing the current status of a task */
-.status-tag {
-}
-
-/* step-list: an ordered list of step items showing progress through a multi-step process */
-.step-list {
-}
-
-/* step-list-item: one step in a step list with status of waiting, in progress, finished, or error */
-.step-list-item {
-}
-
-/* sticky-promo-banner: a fixed-position promotional banner with a dismiss button */
-.sticky-promo-banner {
-}
-
-/* success-panel: a panel confirming a task has been completed */
-.success-panel {
-}
-
-/* summary-box: a boxed callout highlighting key takeaways or next steps from a longer page */
-.summary-box {
-}
-
-/* super-banner: a super-banner communicates a high-priority state that affects an entire app, experience, process, or system */
-.super-banner {
-}
-
-/* tab-panel: a content panel associated with a tab in a tab bar */
-.tab-panel {
-}
-
-/* theme-picker-button: a picker button for selecting a visual theme */
-.theme-picker-button {
-}
-
-/* tile: a grouping container that presents related content in a structured format, often as a single clickable area */
-.tile {
-}
-
-/* timeout-dialog: a modal dialog warning users before session timeout */
-.timeout-dialog {
-}
-
-/* timer-button: a button with a timer that will automatically click after a given amount of time */
-.timer-button {
-}
-
-/* transfer-list: a dual list box for moving items between two lists */
-.transfer-list {
-}
-
-/* tree-select: a select dropdown showing a tree of hierarchical options */
-.tree-select {
-}
-
-/* validation-list: a live-feedback list of input validation rules with pending, passed, and failed states */
-.validation-list {
-}
-
-/* validation-list-item: one validation rule in a validation list with a status of pending, passed, or failed */
-.validation-list-item {
-}
-
 /* watermark: a decorative repeating overlay text or image marking a page */
 .watermark {
+}
+
+/* week-input: an input for selecting a week and year */
+.week-input {
 }
 

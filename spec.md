@@ -42,7 +42,7 @@ committing.
 
 ### In scope
 
-- A canonical catalog of 407 components (`components.tsv`).
+- A canonical catalog of 487 components (`components.tsv`).
 - Six headless component libraries: HTML, Svelte, React, Vue, Blazor, Nunjucks.
 - Six example applications: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Blazor Web,
   Nunjucks Eleventy.
@@ -69,8 +69,8 @@ committing.
 ```
 lily-design-system/                            ← canonical catalog + tools
 ├── AGENTS.md, AGENTS/*.md                     ← modular reference docs
-├── components.tsv                             ← canonical 407-component list
-├── components/{slug}/                         ← per-component docs (407 dirs)
+├── components.tsv                             ← canonical 487-component list
+├── components/{slug}/                         ← per-component docs (487 dirs)
 ├── css-style-sheet-template.css               ← class-hook stylesheet template
 ├── bin/                                       ← scaffolding, listing, sync, test
 ├── spec.md                                    ← this file
@@ -185,7 +185,7 @@ read the file for the full contract.
 - No CSS framework dependency.
 - Three required routes per example subproject:
   - `/` — home page describing the project.
-  - `/components` — index of every component in the catalog (407 entries),
+  - `/components` — index of every component in the catalog (487 entries),
     searchable / filterable.
   - `/components/{slug}` — per-component detail page with live demo.
 - Composed-page demos (e.g., `/dashboard`, `/contact-form`, `/file-upload-form`,
@@ -201,7 +201,14 @@ tab-separated columns: slug, PascalCase name, description. Mirrored by
 [AGENTS/components.md](AGENTS/components.md) (with patterns), [index.md](index.md)
 (linked listing), and the per-framework implementations.
 
-**Current count: 407 components.**
+**Current count: 487 components.**
+
+The most recent additions (May 2026) are 80 national personal identifier
+components (40 identifier types × `-input` + `-view`) spanning 30+ countries,
+covering healthcare, national-ID, tax, and passport identifiers. The catalog
+rows, per-component docs, and CSS class hooks landed in Phase 1; per-subproject
+implementations (Svelte, React, Vue, HTML, Blazor, Nunjucks headless +
+6 example apps) are deferred to Phase 2.
 
 Catalog category overview (counts approximate; the TSV is authoritative):
 
@@ -450,7 +457,7 @@ The companion `AGENTS.md` carries the canonical machine-readable metadata
 - Code examples use semantic HTML with proper ARIA.
 - No hardcoded user-facing strings in examples — use realistic placeholder
   content.
-- Consistent voice across all 407 components.
+- Consistent voice across all 487 components.
 
 ### 8.2 Component demo strategy (example subprojects)
 
@@ -609,11 +616,11 @@ checked is considered live work; anything unchecked is queued in §12.
 
 ### 11.1 Catalog & docs
 
-- [x] Canonical component list defined (407 components in `components.tsv`).
+- [x] Canonical component list defined (487 components in `components.tsv`).
 - [x] CSS style sheet template covers every component class hook.
-- [x] All 407 components have a directory in `components/` with `index.md`,
+- [x] All 487 components have a directory in `components/` with `index.md`,
       `README.md` (symlink), `AGENTS.md`, `CLAUDE.md`, `plan.md`, `tasks.md`.
-- [x] All 407 components have separate "When to Use" and "When Not to Use"
+- [x] All 487 components have separate "When to Use" and "When Not to Use"
       sections (not combined).
 - [x] All "When Not to Use" sections name specific Lily component alternatives.
 - [x] All 37 NHS-equivalent components enhanced with NHS-researched guidance.
@@ -652,12 +659,15 @@ checked is considered live work; anything unchecked is queued in §12.
 
 ### 11.4 Verified
 
-- [x] `css-style-sheet-template.css` audit: 407 / 407 canonical slugs have
+- [x] `css-style-sheet-template.css` audit: 487 / 487 canonical slugs have
       a class hook; 3 additional documented sub-element hooks
       (`accordion-checkbox-input`, `accordion-checkbox-label`,
       `accordion-checkbox-panel`).
-- [x] All 6 headless and 6 example subprojects implement all 407 canonical
-      components.
+- [x] All 6 headless and 6 example subprojects implement the original 407
+      canonical components; the 80 newly-added national personal identifier
+      components are catalogued and documented but per-subproject
+      implementations are pending (Phase 2 of the national-identifier work,
+      tracked in §11.8).
 - [x] Cross-subproject name consistency: TabGroup removed,
       `medical-record-red-box` renamed; no orphans remain.
 - [x] Per-framework test suites cover every component in every subproject:
@@ -749,6 +759,15 @@ overhead that the project hasn't chosen to pay.
       app (see §11.6 for the per-app route table). Runtime baselines
       still need to be captured per-app once each app's playwright
       runner is exercised.
+- [ ] National personal identifier Phase 2: implement the 80 newly-
+      catalogued components in all 6 headless subprojects (Svelte 5,
+      React 19, Vue 3, plain HTML, Blazor 10, Nunjucks 3) and all 6
+      example apps. Each follows the existing
+      `france-numero-d-identification-au-repertoire-{input,view}`
+      pattern: pattern-validated `<input type="text">` for the input
+      variant, `<span role="text">` for the view variant. Tests, demo
+      registry entries, and Storybook stories propagate via the same
+      generators used for the 407 baseline.
 
 ## 12. Implementation status
 

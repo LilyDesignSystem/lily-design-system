@@ -1,5 +1,4 @@
 ## Components
-
 - accordion-checkbox = AccordionCheckbox = a checkbox option that reveals an accordion panel when checked
 - accordion-link = AccordionLink = an accordion link
 - accordion-list = AccordionList = an accordion ordered list of list item components
@@ -12,6 +11,8 @@
 - address-input = AddressInput = an input for searching or manually entering an address
 - affix = Affix = a wrapper that pins its content to a viewport position while the page scrolls
 - ai-label = AiLabel = an indicator of AI instances that is a pathway to AI explainability
+- alba-community-health-index-input = AlbaCommunityHealthIndexInput = an input for entering Scotland's Community Health Index (CHI)
+- alba-community-health-index-view = AlbaCommunityHealthIndexView = a read-only display of Scotland's Community Health Index (CHI)
 - alert = Alert = a status message for important information or feedback
 - alert-dialog = AlertDialog = a modal dialog for urgent messages requiring user acknowledgment
 - angle-slider-range-input = AngleSliderRangeInput = a range input for selecting an angle in degrees
@@ -19,6 +20,8 @@
 - area-chart = AreaChart = an area chart visualization showing sized components in continuous data
 - article-layout = ArticleLayout = a top-level article wrapper that sets CSS custom properties for content column widths
 - aspect-ratio-container = AspectRatioContainer = a container that maintains a fixed aspect ratio
+- australia-individual-healthcare-identifier-input = AustraliaIndividualHealthcareIdentifierInput = an input for entering Australia's Individual Healthcare Identifier (IHI)
+- australia-individual-healthcare-identifier-view = AustraliaIndividualHealthcareIdentifierView = a read-only display of Australia's Individual Healthcare Identifier (IHI)
 - autosuggest = Autosuggest = a text input that proposes matching options as users type
 - avatar = Avatar = an avatar indicator that shows an avatar image or avatar text
 - avatar-group = AvatarGroup = a group of avatar components
@@ -30,12 +33,16 @@
 - banner-box = BannerBox = a banner box that is inside a banner component, using flexbox horizontal
 - bar-chart = BarChart = a horizontal bar chart visualization for displaying data
 - beach-ball = BeachBall = a decorative animated beach ball element
+- belgique-numero-de-registre-national-input = BelgiqueNumeroDeRegistreNationalInput = an input for entering Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
+- belgique-numero-de-registre-national-view = BelgiqueNumeroDeRegistreNationalView = a read-only display of Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
 - blockquote = Blockquote = a block-level quotation with optional source citation
 - body-text = BodyText = a rendered text block within a content width container
 - breadcrumb-link = BreadcrumbLink = one breadcrumb link in the trail
 - breadcrumb-list = BreadcrumbList = an ordered list of breadcrumb list items
 - breadcrumb-list-item = BreadcrumbListItem = one breadcrumb list item in the trail
 - breadcrumb-nav = BreadcrumbNav = a navigation container for breadcrumb trail links
+- bulgaria-edinen-grazhdanski-nomer-input = BulgariaEdinenGrazhdanskiNomerInput = an input for entering Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)
+- bulgaria-edinen-grazhdanski-nomer-view = BulgariaEdinenGrazhdanskiNomerView = a read-only display of Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)
 - button = Button = a generic clickable button element
 - button-group = ButtonGroup = a wrapper that groups related buttons together
 - button-input = ButtonInput = an input element of type button for form actions <input type="button">
@@ -54,6 +61,10 @@
 - care-card = CareCard = a medical care instruction card with urgency levels
 - carousel = Carousel = a slideshow for cycling through content items
 - cascader = Cascader = a multi-level dropdown for selecting a value from a hierarchy
+- cesko-cestovni-pas-input = CeskoCestovniPasInput = an input for entering Czech Republic's Cestovní pas
+- cesko-cestovni-pas-view = CeskoCestovniPasView = a read-only display of Czech Republic's Cestovní pas
+- cesko-rodne-cislo-input = CeskoRodneCisloInput = an input for entering Czech Republic's Rodné číslo (RČ)
+- cesko-rodne-cislo-view = CeskoRodneCisloView = a read-only display of Czech Republic's Rodné číslo (RČ)
 - character = Character = a single character display element
 - character-counter = CharacterCounter = a counter showing remaining or used characters in a text field
 - chat-list = ChatList = an ordered list of chat list item components
@@ -92,6 +103,12 @@
 - context-menu-item = ContextMenuItem = one item in a context menu
 - contextual-help = ContextualHelp = a help button that opens a popover with explanatory content
 - currency-input = CurrencyInput = a locale-aware currency input with automatic formatting, symbols, separators
+- cymru-rhif-y-gwasanaeth-iechyd-gwladol-input = CymruRhifYGwasanaethIechydGwladolInput = an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
+- cymru-rhif-y-gwasanaeth-iechyd-gwladol-view = CymruRhifYGwasanaethIechydGwladolView = a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
+- cyprus-national-passport-number-input = CyprusNationalPassportNumberInput = an input for entering Cyprus's National Passport Number
+- cyprus-national-passport-number-view = CyprusNationalPassportNumberView = a read-only display of Cyprus's National Passport Number
+- danmark-personnummer-input = DanmarkPersonnummerInput = an input for entering Denmark's Personnummer (CPR-nummer) (CPR)
+- danmark-personnummer-view = DanmarkPersonnummerView = a read-only display of Denmark's Personnummer (CPR-nummer) (CPR)
 - data-filter-form = DataFilterForm = a form for filtering data by criteria
 - data-table = DataTable = a data table interactive grid for displaying and sorting tabular data <table>
 - data-table-body = DataTableBody = a data table interactive grid tbody for displaying and sorting tabular data <tbody>
@@ -109,6 +126,8 @@
 - description-list = DescriptionList = a definition list displaying information in key-value format <dl>
 - description-list-item = DescriptionListItem = one key-value pair in a description list using dt and dd elements
 - details = Details = a disclosure widget that shows and hides content
+- deutschland-krankenversichertennummer-input = DeutschlandKrankenversichertennummerInput = an input for entering Germany's Krankenversichertennummer (KVNR)
+- deutschland-krankenversichertennummer-view = DeutschlandKrankenversichertennummerView = a read-only display of Germany's Krankenversichertennummer (KVNR)
 - dial = Dial = a rotary dial control for selecting a value
 - dial-group = DialGroup = a group of dial components
 - dialog = Dialog = a modal or non-modal dialog window
@@ -125,13 +144,21 @@
 - dropdown-menu = DropdownMenu = a menu that opens below a trigger button
 - editable = Editable = an inline-editable text element that toggles between view and edit modes
 - editable-form = EditableForm = a form wrapper for inline editing of content
+- eesti-isikukood-input = EestiIsikukoodInput = an input for entering Estonia's Isikukood (IK)
+- eesti-isikukood-view = EestiIsikukoodView = a read-only display of Estonia's Isikukood (IK)
+- ellada-dematerialised-securities-system-input = ElladaDematerialisedSecuritiesSystemInput = an input for entering Greece's Dematerialised Securities System (DSS)
+- ellada-dematerialised-securities-system-view = ElladaDematerialisedSecuritiesSystemView = a read-only display of Greece's Dematerialised Securities System (DSS)
 - email-input = EmailInput = an input for entering an email address <input type="email">
 - email-link = EmailLink = a mailto hyperlink for an email address
 - emoji = Emoji = a single emoji character with accessible name
 - emoji-character-picker = EmojiCharacterPicker = a picker for browsing and selecting emoji characters
 - end-notes = EndNotes = a section of titled endnote items at the end of an article
+- england-national-health-service-number-input = EnglandNationalHealthServiceNumberInput = an input for entering England's National Health Service Number (NHS)
+- england-national-health-service-number-view = EnglandNationalHealthServiceNumberView = a read-only display of England's National Health Service Number (NHS)
 - error-message = ErrorMessage = an error message associated with a form field
 - error-summary = ErrorSummary = a summary of all validation errors on a form
+- espana-codigo-de-identificacion-fiscal-input = EspanaCodigoDeIdentificacionFiscalInput = an input for entering Spain's Código de Identificación Fiscal (CIF)
+- espana-codigo-de-identificacion-fiscal-view = EspanaCodigoDeIdentificacionFiscalView = a read-only display of Spain's Código de Identificación Fiscal (CIF)
 - espana-tarjeta-sanitaria-individual-input = EspanaTarjetaSanitariaIndividualInput = an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
 - espana-tarjeta-sanitaria-individual-view = EspanaTarjetaSanitariaIndividualView = a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
 - event = Event = an event component that contains other event-related information
@@ -190,6 +217,8 @@
 - hint = Hint = hint text providing guidance for a form field
 - horizontal-scroller = HorizontalScroller = a horizontally scrollable content container
 - hover-card = HoverCard = a card that appears on hover over a trigger element
+- hrvatska-osobni-identifikacijski-broj-input = HrvatskaOsobniIdentifikacijskiBrojInput = an input for entering Croatia's Osobni identifikacijski broj (OIB)
+- hrvatska-osobni-identifikacijski-broj-view = HrvatskaOsobniIdentifikacijskiBrojView = a read-only display of Croatia's Osobni identifikacijski broj (OIB)
 - icon = Icon = a container for displaying an icon
 - icon-button = IconButton = a button containing only an icon with a required accessible label
 - icon-list = IconList = an ordered list of icon list item components
@@ -205,6 +234,10 @@
 - inset-text = InsetText = indented text to distinguish it from surrounding content
 - ireland-individual-health-identifier-input = IrelandIndividualHealthIdentifierInput = an input for entering Ireland Individual Health Identifier (IHI) unique national healthcare identifier
 - ireland-individual-health-identifier-view = IrelandIndividualHealthIdentifierView = a read-only display of Ireland Individual Health Identifier (IHI) unique national healthcare identifier
+- island-kennitala-input = IslandKennitalaInput = an input for entering Iceland's Kennitala
+- island-kennitala-view = IslandKennitalaView = a read-only display of Iceland's Kennitala
+- italia-codice-fiscale-input = ItaliaCodiceFiscaleInput = an input for entering Italy's Codice fiscale (CF)
+- italia-codice-fiscale-view = ItaliaCodiceFiscaleView = a read-only display of Italy's Codice fiscale (CF)
 - kanban-table = KanbanTable = a kanban board table interactive grid for organizing items by status <table>
 - kanban-table-body = KanbanTableBody = a kanban board table interactive grid tbody for organizing items by status <tbody>
 - kanban-table-foot = KanbanTableFoot = a kanban board table interactive grid tfoot for organizing items by status <tfoot>
@@ -214,9 +247,23 @@
 - kanban-table-th = KanbanTableTH = a kanban board table interactive grid header cell for organizing items by status <th>
 - kbd = Kbd = show keyboard shortcuts and key combinations in a styled inline element
 - label = Label = a label associated with a form input
+- latvija-personas-kods-input = LatvijaPersonasKodsInput = an input for entering Latvia's Personas kods
+- latvija-personas-kods-view = LatvijaPersonasKodsView = a read-only display of Latvia's Personas kods
+- liechtenstein-national-identity-card-number-input = LiechtensteinNationalIdentityCardNumberInput = an input for entering Liechtenstein's Liechtenstein National Identity Card Number
+- liechtenstein-national-identity-card-number-view = LiechtensteinNationalIdentityCardNumberView = a read-only display of Liechtenstein's Liechtenstein National Identity Card Number
+- liechtenstein-passport-number-input = LiechtensteinPassportNumberInput = an input for entering Liechtenstein's Liechtenstein Passport Number
+- liechtenstein-passport-number-view = LiechtensteinPassportNumberView = a read-only display of Liechtenstein's Liechtenstein Passport Number
+- lietuva-asmens-kodas-input = LietuvaAsmensKodasInput = an input for entering Lithuania's Asmens kodas
+- lietuva-asmens-kodas-view = LietuvaAsmensKodasView = a read-only display of Lithuania's Asmens kodas
+- lietuva-pasas-input = LietuvaPasasInput = an input for entering Lithuania's Pasas
+- lietuva-pasas-view = LietuvaPasasView = a read-only display of Lithuania's Pasas
 - line-chart = LineChart = a line chart visualization connecting data points to display data
 - listbox = Listbox = a list of selectable options with keyboard navigation
 - loading = Loading = a loading indicator, such as text, or image, or animation
+- malta-national-identification-number-input = MaltaNationalIdentificationNumberInput = an input for entering Malta's Malta National Identification Number
+- malta-national-identification-number-view = MaltaNationalIdentificationNumberView = a read-only display of Malta's Malta National Identification Number
+- malta-passport-number-input = MaltaPassportNumberInput = an input for entering Malta's Malta Passport Number
+- malta-passport-number-view = MaltaPassportNumberView = a read-only display of Malta's Malta Passport Number
 - masonry = Masonry = a masonry layout container for variable-height items
 - measurement-instance-input = MeasurementInstanceInput = an input for entering a measurement value and unit
 - measurement-instance-view = MeasurementInstanceView = a read-only display of a measurement value and unit
@@ -247,10 +294,18 @@
 - month-input = MonthInput = an input for selecting a month and year <input type="month">
 - mutually-exclusive = MutuallyExclusive = a container ensuring only one option can be selected from a group
 - navigation-menu = NavigationMenu = a site-wide navigation menu with links
+- nederland-burgerservice-nummer-input = NederlandBurgerserviceNummerInput = an input for entering Netherlands's Burgerservicenummer (BSN)
+- nederland-burgerservice-nummer-view = NederlandBurgerserviceNummerView = a read-only display of Netherlands's Burgerservicenummer (BSN)
+- nederland-identiteitskaart-nummer-input = NederlandIdentiteitskaartNummerInput = an input for entering Netherlands's Identiteitskaart Nummer
+- nederland-identiteitskaart-nummer-view = NederlandIdentiteitskaartNummerView = a read-only display of Netherlands's Identiteitskaart Nummer
+- nederland-paspoort-nummer-input = NederlandPaspoortNummerInput = an input for entering Netherlands's Paspoort Nummer
+- nederland-paspoort-nummer-view = NederlandPaspoortNummerView = a read-only display of Netherlands's Paspoort Nummer
 - net-promoter-score-picker = NetPromoterScorePicker = a picker for selecting a 0-10 Net Promoter Score
 - net-promoter-score-picker-button = NetPromoterScorePickerButton = a picker button for selecting a 0-10 Net Promoter Score
 - net-promoter-score-view = NetPromoterScoreView = a read-only display of a Net Promoter Score
 - newsletter-signup = NewsletterSignup = an email subscription form composition with idle, submitting, success, and error states
+- norge-fodselsnummer-input = NorgeFodselsnummerInput = an input for entering Norway's Fødselsnummer
+- norge-fodselsnummer-view = NorgeFodselsnummerView = a read-only display of Norway's Fødselsnummer
 - northern-ireland-health-and-care-number-input = NorthernIrelandHealthAndCareNumberInput = an input for entering aNorthern Ireland Health and Care (H&C) Number unique national healthcare identifier
 - northern-ireland-health-and-care-number-view = NorthernIrelandHealthAndCareNumberView = a read-only display of Northern Ireland Health and Care (H&C) Number unique national healthcare identifier
 - notification = Notification = a brief message about an event or update
@@ -272,9 +327,17 @@
 - pictogram = Pictogram = an icon-based component pairing an icon with a title and description in a centered or side layout
 - pin-input-div = PinInputDiv = a series of single-digit inputs for entering a PIN or OTP code
 - place = Place = a place component that contains other place-related information
+- polska-numer-identyfikacji-podatkowej-input = PolskaNumerIdentyfikacjiPodatkowejInput = an input for entering Poland's Numer Identyfikacji Podatkowej (NIP)
+- polska-numer-identyfikacji-podatkowej-view = PolskaNumerIdentyfikacjiPodatkowejView = a read-only display of Poland's Numer Identyfikacji Podatkowej (NIP)
+- polska-pesel-input = PolskaPeselInput = an input for entering Poland's PESEL
+- polska-pesel-view = PolskaPeselView = a read-only display of Poland's PESEL
 - popconfirm-dialog = PopconfirmDialog = a popover dialog with confirm and cancel buttons
 - popover = Popover = a floating content box anchored to a trigger element
 - popup = Popup = a temporary overlay that appears above page content
+- portugal-numero-de-identificacao-fiscal-input = PortugalNumeroDeIdentificacaoFiscalInput = an input for entering Portugal's Número de Identificação Fiscal (NIF)
+- portugal-numero-de-identificacao-fiscal-view = PortugalNumeroDeIdentificacaoFiscalView = a read-only display of Portugal's Número de Identificação Fiscal (NIF)
+- portugal-passaporte-input = PortugalPassaporteInput = an input for entering Portugal's Passaporte
+- portugal-passaporte-view = PortugalPassaporteView = a read-only display of Portugal's Passaporte
 - postal-code-input = PostalCodeInput = an input for entering a postal or ZIP code
 - postal-code-view = PostalCodeView = a read-only display of a postal or ZIP code
 - product-card = ProductCard = a specialized card for displaying a product with image, title, price, and actions
@@ -296,6 +359,10 @@
 - reset-input = ResetInput = a button input that resets a form to default values <input type="reset">
 - resizable = Resizable = a container that the user can resize by dragging
 - review-date = ReviewDate = a display of a content review date
+- romania-cod-numeric-personal-input = RomaniaCodNumericPersonalInput = an input for entering Romania's Cod Numeric Personal (CNP)
+- romania-cod-numeric-personal-view = RomaniaCodNumericPersonalView = a read-only display of Romania's Cod Numeric Personal (CNP)
+- romania-pasaport-input = RomaniaPasaportInput = an input for entering Romania's Paşaport
+- romania-pasaport-view = RomaniaPasaportView = a read-only display of Romania's Paşaport
 - scatter-chart = ScatterChart = a scatter chart visualization using dots to display data
 - screen-reader-span = ScreenReaderSpan = a visually hidden span of text intended for screen readers to provide more descriptive labels
 - scroll-area = ScrollArea = a scrollable container with custom scrollbar support
@@ -323,6 +390,12 @@
 - slide-out-drawer = SlideOutDrawer = a drawer that slides out from the side of the page
 - slider = Slider = a draggable control for selecting a value along a track
 - slider-button = SliderButton = a button with a slider that the user needs to slide to confirm
+- slovenija-emso-input = SlovenijaEmsoInput = an input for entering Slovenia's Enotna Matična Številka Občana (EMŠO)
+- slovenija-emso-view = SlovenijaEmsoView = a read-only display of Slovenia's Enotna Matična Številka Občana (EMŠO)
+- slovensko-pas-input = SlovenskoPasInput = an input for entering Slovakia's Pas
+- slovensko-pas-view = SlovenskoPasView = a read-only display of Slovakia's Pas
+- slovensko-rodne-cislo-input = SlovenskoRodneCisloInput = an input for entering Slovakia's Rodné číslo (RČ)
+- slovensko-rodne-cislo-view = SlovenskoRodneCisloView = a read-only display of Slovakia's Rodné číslo (RČ)
 - sonner = Sonner = a toast notification manager
 - sparkline = Sparkline = a small inline chart showing a data trend
 - split-button = SplitButton = a button with a primary action and a dropdown for related actions
@@ -339,7 +412,11 @@
 - summary-box = SummaryBox = a boxed callout highlighting key takeaways or next steps from a longer page
 - summary-list = SummaryList = an ordered list of key-value summary pairs
 - summary-list-item = SummaryListItem = one key-value pair in a summary list
+- suomi-henkilotunnus-input = SuomiHenkilotunnusInput = an input for entering Finland's Henkilötunnus (HETU)
+- suomi-henkilotunnus-view = SuomiHenkilotunnusView = a read-only display of Finland's Henkilötunnus (HETU)
 - super-banner = SuperBanner = a super-banner communicates a high-priority state that affects an entire app, experience, process, or system
+- sverige-personnummer-input = SverigePersonnummerInput = an input for entering Sweden's Personnummer
+- sverige-personnummer-view = SverigePersonnummerView = a read-only display of Sweden's Personnummer
 - switch-button = SwitchButton = a toggle switch for turning a setting on or off
 - tab-bar = TabBar = a group of tabs for switching between content panels
 - tab-bar-button = TabBarButton = one tab button in a tab group
@@ -397,6 +474,8 @@
 - tree-select = TreeSelect = a select dropdown showing a tree of hierarchical options
 - united-kingdom-national-health-service-number-input = UnitedKingdomNationalHealthServiceNumberInput = an input for entering a UK NHS number
 - united-kingdom-national-health-service-number-view = UnitedKingdomNationalHealthServiceNumberView = a read-only display of a UK NHS number
+- united-kingdom-national-insurance-number-input = UnitedKingdomNationalInsuranceNumberInput = an input for entering United Kingdom's National Insurance Number (NINO)
+- united-kingdom-national-insurance-number-view = UnitedKingdomNationalInsuranceNumberView = a read-only display of United Kingdom's National Insurance Number (NINO)
 - united-states-social-security-number-input = UnitedStatesSocialSecurityNumberInput = an input for entering a US Social Security number
 - united-states-social-security-number-view = UnitedStatesSocialSecurityNumberView = a read-only display of a US Social Security number
 - url-input = UrlInput = an input for entering a URL <input type="url">
