@@ -1,0 +1,22 @@
+{#
+  LatvijaPersonasKodsView macro — a read-only display of Latvia's
+    Personas kods.
+
+  HTML tag: <span>
+  CSS class: latvija-personas-kods-view
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/latvija-personas-kods-view/macro.njk" import latvijaPersonasKodsView %}
+    {{ latvijaPersonasKodsView({ value: "sample", label: "Personal Code" }) }}
+#}
+{%- macro latvijaPersonasKodsView(params) -%}
+<span
+  class="latvija-personas-kods-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ params.value | default("") }}</span>
+{%- endmacro -%}

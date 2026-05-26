@@ -1,0 +1,36 @@
+{#
+  CeskoCestovniPasInput macro — an input for entering Czech Republic's
+    Cestovní pas.
+
+  HTML tag: <input type="text">
+  CSS class: cesko-cestovni-pas-input
+  Format: usually 8 digits, sometimes longer, issued by the Ministry of the Interior
+  Accessibility: autocomplete="off", spellcheck suppressed.
+
+  Params:
+    id, name, value, label, describedBy, errormessage, invalid,
+    required, disabled, readonly, classes, attributes.
+
+  Usage:
+    {% from "components/cesko-cestovni-pas-input/macro.njk" import ceskoCestovniPasInput %}
+    {{ ceskoCestovniPasInput({ id: "field-id", label: "Czech Passport" }) }}
+#}
+{%- macro ceskoCestovniPasInput(params) -%}
+<input
+  class="cesko-cestovni-pas-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="text"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  autocomplete="off"
+  spellcheck="false"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

@@ -1,0 +1,36 @@
+{#
+  DanmarkPersonnummerInput macro — an input for entering Denmark's
+    Personnummer (CPR-nummer) (CPR).
+
+  HTML tag: <input type="text">
+  CSS class: danmark-personnummer-input
+  Format: 10 digits in the format DDMMYYXXXX where the first 6 are the date of birth (DDMMYY)
+  Accessibility: autocomplete="off", spellcheck suppressed.
+
+  Params:
+    id, name, value, label, describedBy, errormessage, invalid,
+    required, disabled, readonly, classes, attributes.
+
+  Usage:
+    {% from "components/danmark-personnummer-input/macro.njk" import danmarkPersonnummerInput %}
+    {{ danmarkPersonnummerInput({ id: "field-id", label: "Personal Identity Code" }) }}
+#}
+{%- macro danmarkPersonnummerInput(params) -%}
+<input
+  class="danmark-personnummer-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="text"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  autocomplete="off"
+  spellcheck="false"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

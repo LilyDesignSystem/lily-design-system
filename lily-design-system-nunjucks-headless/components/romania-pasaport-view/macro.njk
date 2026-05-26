@@ -1,0 +1,22 @@
+{#
+  RomaniaPasaportView macro — a read-only display of Romania's
+    Paşaport.
+
+  HTML tag: <span>
+  CSS class: romania-pasaport-view
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/romania-pasaport-view/macro.njk" import romaniaPasaportView %}
+    {{ romaniaPasaportView({ value: "sample", label: "Romanian Passport" }) }}
+#}
+{%- macro romaniaPasaportView(params) -%}
+<span
+  class="romania-pasaport-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ params.value | default("") }}</span>
+{%- endmacro -%}

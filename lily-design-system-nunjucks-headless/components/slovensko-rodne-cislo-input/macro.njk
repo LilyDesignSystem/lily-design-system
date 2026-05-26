@@ -1,0 +1,36 @@
+{#
+  SlovenskoRodneCisloInput macro — an input for entering Slovakia's
+    Rodné číslo (RČ).
+
+  HTML tag: <input type="text">
+  CSS class: slovensko-rodne-cislo-input
+  Format: 10 digits in the form YYMMDDCCCX where MM is 01-12 for males and 51-62 for females; X is a check digit and the whole number is divisible by 11
+  Accessibility: autocomplete="off", spellcheck suppressed.
+
+  Params:
+    id, name, value, label, describedBy, errormessage, invalid,
+    required, disabled, readonly, classes, attributes.
+
+  Usage:
+    {% from "components/slovensko-rodne-cislo-input/macro.njk" import slovenskoRodneCisloInput %}
+    {{ slovenskoRodneCisloInput({ id: "field-id", label: "Slovak Personal Number" }) }}
+#}
+{%- macro slovenskoRodneCisloInput(params) -%}
+<input
+  class="slovensko-rodne-cislo-input{% if params.classes %} {{ params.classes }}{% endif %}"
+  type="text"
+  id="{{ params.id }}"
+  name="{{ params.name | default(params.id) }}"
+  value="{{ params.value | default('') }}"
+  autocomplete="off"
+  spellcheck="false"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}
+  {%- if params.errormessage %} aria-errormessage="{{ params.errormessage }}"{% endif %}
+  {%- if params.invalid %} aria-invalid="true"{% endif %}
+  {%- if params.required %} required{% endif %}
+  {%- if params.disabled %} disabled{% endif %}
+  {%- if params.readonly %} readonly{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

@@ -1,0 +1,22 @@
+{#
+  RomaniaCodNumericPersonalView macro — a read-only display of Romania's
+    Cod Numeric Personal (CNP).
+
+  HTML tag: <span>
+  CSS class: romania-cod-numeric-personal-view
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/romania-cod-numeric-personal-view/macro.njk" import romaniaCodNumericPersonalView %}
+    {{ romaniaCodNumericPersonalView({ value: "sample", label: "Personal Numerical Code" }) }}
+#}
+{%- macro romaniaCodNumericPersonalView(params) -%}
+<span
+  class="romania-cod-numeric-personal-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ params.value | default("") }}</span>
+{%- endmacro -%}

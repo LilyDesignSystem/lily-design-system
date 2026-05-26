@@ -1,0 +1,22 @@
+{#
+  SverigePersonnummerView macro — a read-only display of Sweden's
+    Personnummer.
+
+  HTML tag: <span>
+  CSS class: sverige-personnummer-view
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/sverige-personnummer-view/macro.njk" import sverigePersonnummerView %}
+    {{ sverigePersonnummerView({ value: "sample", label: "Personal Identity Number" }) }}
+#}
+{%- macro sverigePersonnummerView(params) -%}
+<span
+  class="sverige-personnummer-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ params.value | default("") }}</span>
+{%- endmacro -%}

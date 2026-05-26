@@ -1,0 +1,22 @@
+{#
+  PortugalNumeroDeIdentificacaoFiscalView macro — a read-only display of Portugal's
+    Número de Identificação Fiscal (NIF).
+
+  HTML tag: <span>
+  CSS class: portugal-numero-de-identificacao-fiscal-view
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/portugal-numero-de-identificacao-fiscal-view/macro.njk" import portugalNumeroDeIdentificacaoFiscalView %}
+    {{ portugalNumeroDeIdentificacaoFiscalView({ value: "sample", label: "Tax Identification Number" }) }}
+#}
+{%- macro portugalNumeroDeIdentificacaoFiscalView(params) -%}
+<span
+  class="portugal-numero-de-identificacao-fiscal-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ params.value | default("") }}</span>
+{%- endmacro -%}

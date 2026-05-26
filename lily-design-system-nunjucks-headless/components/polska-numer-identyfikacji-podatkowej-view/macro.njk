@@ -1,0 +1,22 @@
+{#
+  PolskaNumerIdentyfikacjiPodatkowejView macro — a read-only display of Poland's
+    Numer Identyfikacji Podatkowej (NIP).
+
+  HTML tag: <span>
+  CSS class: polska-numer-identyfikacji-podatkowej-view
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/polska-numer-identyfikacji-podatkowej-view/macro.njk" import polskaNumerIdentyfikacjiPodatkowejView %}
+    {{ polskaNumerIdentyfikacjiPodatkowejView({ value: "sample", label: "Tax Identification Number" }) }}
+#}
+{%- macro polskaNumerIdentyfikacjiPodatkowejView(params) -%}
+<span
+  class="polska-numer-identyfikacji-podatkowej-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ params.value | default("") }}</span>
+{%- endmacro -%}

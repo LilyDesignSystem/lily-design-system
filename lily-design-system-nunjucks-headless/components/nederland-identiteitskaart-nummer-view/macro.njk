@@ -1,0 +1,22 @@
+{#
+  NederlandIdentiteitskaartNummerView macro — a read-only display of Netherlands's
+    Identiteitskaart Nummer.
+
+  HTML tag: <span>
+  CSS class: nederland-identiteitskaart-nummer-view
+
+  Params:
+    value, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/nederland-identiteitskaart-nummer-view/macro.njk" import nederlandIdentiteitskaartNummerView %}
+    {{ nederlandIdentiteitskaartNummerView({ value: "sample", label: "Dutch National Identity Card Number" }) }}
+#}
+{%- macro nederlandIdentiteitskaartNummerView(params) -%}
+<span
+  class="nederland-identiteitskaart-nummer-view{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.id %} id="{{ params.id }}"{% endif %}
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{{ params.value | default("") }}</span>
+{%- endmacro -%}
