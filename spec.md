@@ -698,12 +698,26 @@ axe rule set: WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA.
 ### 11.6 Responsive viewport sweep
 
 Responsive smoke check across 4 viewport sizes (mobile 375×667,
-tablet 768×1024, desktop 1280×800, 4K 2560×1440) shipped in the
-svelte-sveltekit-examples app: **40 / 40 pass** for 10 representative
-routes × 4 viewports. Tests assert: skip-link present, `<main>` and
-H1 visible, no horizontal page overflow.
+tablet 768×1024, desktop 1280×800, 4K 2560×1440) ported to all 6
+example apps. Tests assert: skip-link present, `<main>` and H1
+visible, no horizontal page overflow.
 
-Could be ported to the other 5 example apps using the same pattern.
+Each app loads ~10 representative routes (home, catalog, sample
+component-detail pages, key composed pages) × 4 viewports = ~40
+checks per app. Route paths adjusted per app:
+
+| App                            | Route shape                                          |
+| ------------------------------ | ---------------------------------------------------- |
+| svelte-sveltekit-examples      | `/components/{slug}`, `/page-layout` (no slashes)    |
+| react-next-examples            | `/components/{slug}`, `/page-layout` (no slashes)    |
+| vue-nuxt-examples              | `/components/{slug}`, `/page-layout` (no slashes)    |
+| blazor-web-examples            | `/components/{slug}`, `/page-layout` (no slashes)    |
+| html-css-js-examples           | `/components/component.html?slug={slug}`, trailing slash on composed |
+| nunjucks-eleventy-examples     | `/components/{slug}/` (trailing slash), no composed pages built yet  |
+
+The nunjucks-eleventy app skips composed-page routes (only catalog
++ component-detail pages are built), and tests skip individually if
+a built route 404s.
 
 ### 11.7 Storybook coverage
 
@@ -729,9 +743,12 @@ overhead that the project hasn't chosen to pay.
       nunjucks-eleventy-examples to reach the 29 / 29 baseline that
       svelte / react / vue already hit. Per-app violations are
       documented in each subproject's spec.md.
-- [ ] Port the responsive viewport sweep from svelte-sveltekit to the
-      other 5 example apps (same pattern; routes and selectors
-      adjusted per app).
+- [x] Port the responsive viewport sweep from svelte-sveltekit to the
+      other 5 example apps. Specs land in
+      `{app}/e2e/responsive.spec.ts` with route paths adjusted per
+      app (see §11.6 for the per-app route table). Runtime baselines
+      still need to be captured per-app once each app's playwright
+      runner is exercised.
 
 ## 12. Implementation status
 
