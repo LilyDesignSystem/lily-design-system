@@ -663,11 +663,13 @@ checked is considered live work; anything unchecked is queued in §12.
       a class hook; 3 additional documented sub-element hooks
       (`accordion-checkbox-input`, `accordion-checkbox-label`,
       `accordion-checkbox-panel`).
-- [x] All 6 headless and 6 example subprojects implement the original 407
-      canonical components; the 80 newly-added national personal identifier
-      components are catalogued and documented but per-subproject
-      implementations are pending (Phase 2 of the national-identifier work,
-      tracked in §11.8).
+- [x] All 6 headless and 6 example subprojects implement all 487 canonical
+      components. The 80 newly-added national personal identifier
+      components (May 2026) shipped per-subproject implementations in
+      Phase 2 (commits 50841648..490282db): Svelte, React, Vue, HTML,
+      Blazor, Nunjucks headless libraries plus all 6 example apps. Sample
+      tests pass in every framework that has runnable tests (38 svelte,
+      19 react, 19 vue, 17 nunjucks, 9 blazor sample tests verified).
 - [x] Cross-subproject name consistency: TabGroup removed,
       `medical-record-red-box` renamed; no orphans remain.
 - [x] Per-framework test suites cover every component in every subproject:
@@ -759,15 +761,15 @@ overhead that the project hasn't chosen to pay.
       app (see §11.6 for the per-app route table). Runtime baselines
       still need to be captured per-app once each app's playwright
       runner is exercised.
-- [ ] National personal identifier Phase 2: implement the 80 newly-
+- [x] National personal identifier Phase 2: implemented the 80 newly-
       catalogued components in all 6 headless subprojects (Svelte 5,
       React 19, Vue 3, plain HTML, Blazor 10, Nunjucks 3) and all 6
       example apps. Each follows the existing
       `france-numero-d-identification-au-repertoire-{input,view}`
-      pattern: pattern-validated `<input type="text">` for the input
-      variant, `<span role="text">` for the view variant. Tests, demo
-      registry entries, and Storybook stories propagate via the same
-      generators used for the 407 baseline.
+      pattern: `<input type="text" autocomplete="off">` for the input
+      variant, `<span aria-label=...>` for the view variant. Tests,
+      demo registry entries, and Storybook stories landed in commits
+      50841648..490282db.
 
 ## 12. Implementation status
 
