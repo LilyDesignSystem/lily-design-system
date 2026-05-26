@@ -1,0 +1,60 @@
+# SummaryBox — Specification
+
+Single source of truth for spec-driven development of the SummaryBox component. Consolidates the prior `plan.md` and `tasks.md`.
+
+## Goal
+
+Implement the SummaryBox component: a boxed callout highlighting key takeaways or next steps from a longer page.
+
+## HTML Tag and CSS Class
+
+- HTML tag: <aside>
+- CSS class: .summary-box
+
+## Approach
+
+1. Use semantic <aside> element with class="summary-box" and aria-label
+2. Default aria-label to the heading text; override with the optional label prop
+3. Render <h3 class="summary-box-heading"> with the required heading
+4. Render <div class="summary-box-body"> with the children
+5. Pass through additional HTML attributes to the aside
+6. Implement in HTML headless (plain HTML)
+7. Implement in Svelte headless (Svelte 5 + runes)
+8. Implement in React headless (React 19 + TypeScript)
+9. Implement in Vue headless (Vue 3 + TypeScript)
+10. Implement in Nunjucks headless (macro)
+11. Create tests for each implementation
+
+## Acceptance Criteria
+
+- [ ] Renders <aside> with class="summary-box" and aria-label
+- [ ] Heading rendered as <h3 class="summary-box-heading">
+- [ ] Body rendered inside <div class="summary-box-body">
+- [ ] All user-facing strings come through props or params (i18n-ready)
+- [ ] Headless: zero CSS classes beyond the base class plus consumer extras
+- [ ] WCAG 2.2 AAA compliant
+- [ ] Tests pass in all implementations
+
+## Implementation Status
+
+### Done
+
+- [x] Create component directory with index.md and README.md symlink
+- [x] Document props, usage, keyboard interactions, and ARIA in index.md
+- [x] Add canonical entry to components.tsv and AGENTS/components.md
+
+### In Progress
+
+- [ ] Cross-check implementations against the canonical spec
+
+### Backlog
+
+- [ ] Implement HTML headless component
+- [ ] Implement Svelte headless component
+- [ ] Implement React headless component
+- [ ] Implement Vue headless component
+- [ ] Implement Nunjucks headless component
+- [ ] Implement Blazor headless component
+- [ ] Add CSS class .summary-box to css-style-sheet-template.css
+- [ ] Add comprehensive accessibility tests for the complementary landmark
+- [ ] Add integration tests with parent/child components
