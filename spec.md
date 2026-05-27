@@ -735,11 +735,11 @@ a built route 404s.
 
 | Library              | Storybook    | Stories       |
 | -------------------- | ------------ | ------------- |
-| html-headless        | yes (vite)   | 407 / 407     |
-| svelte-headless      | yes (vite)   | 407 / 407     |
-| react-headless       | yes (vite)   | 407 / 407     |
-| vue-headless         | yes (vite)   | 407 / 407     |
-| nunjucks-headless    | yes (vite)   | 407 / 407     |
+| html-headless        | yes (vite)   | 487 / 487     |
+| svelte-headless      | yes (vite)   | 487 / 487     |
+| react-headless       | yes (vite)   | 487 / 487     |
+| vue-headless         | yes (vite)   | 487 / 487     |
+| nunjucks-headless    | yes (vite)   | 487 / 487     |
 | blazor-headless      | no           | not planned   |
 
 Blazor headless deliberately skips Storybook: there is no idiomatic
