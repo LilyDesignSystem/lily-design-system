@@ -46,7 +46,7 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/text-input
   {{ errorMessage({ id: "nhs-error", text: "Enter your NHS number" }) }}
   {{ textInput({
     id: "nhs",
-    describedBy: "nhs-hint",
+    describedBy: "nhs-hint nhs-error",
     errormessage: "nhs-error",
     invalid: true,
     inputmode: "numeric"

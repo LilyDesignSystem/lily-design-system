@@ -4,10 +4,10 @@ title: MutuallyExclusive
 description: a fieldset where selecting one option deselects others
 ---
 
-{% from "components/mutually-exclusive/macro.njk" import LMutuallyExclusive %}
+{% from "components/mutually-exclusive/macro.njk" import mutuallyExclusive %}
 
 <h2>Default</h2>
-{{ LMutuallyExclusive({ text: "Example MutuallyExclusive content" }) }}
+{{ mutuallyExclusive({ text: "Example MutuallyExclusive content" }) }}
 
 <h2>With accessible label</h2>
-{{ LMutuallyExclusive({ text: "Example content", label: "MutuallyExclusive example" }) }}
+{{ mutuallyExclusive({ text: "Example content", label: "MutuallyExclusive example" }) }}

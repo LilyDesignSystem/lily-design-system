@@ -4,10 +4,10 @@ title: SectionLink
 description: a navigation link to a section
 ---
 
-{% from "components/section-link/macro.njk" import LSectionLink %}
+{% from "components/section-link/macro.njk" import sectionLink %}
 
 <h2>Default</h2>
-{{ LSectionLink({ text: "Example SectionLink content" }) }}
+{{ sectionLink({ text: "Example SectionLink content" }) }}
 
 <h2>With accessible label</h2>
-{{ LSectionLink({ text: "Example content", label: "SectionLink example" }) }}
+{{ sectionLink({ text: "Example content", label: "SectionLink example" }) }}

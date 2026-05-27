@@ -71,6 +71,12 @@
   gap: var(--nhsuk-spacing-4);
 }
 
+.site-footer-links a {
+  /* Force a >=4.5:1 link colour on the pale-grey footer background.
+     nhsuk-bright-blue (#0072ce) was 4.41:1 — fails WCAG AA. */
+  color: var(--nhsuk-blue);
+}
+
 .site-footer-copy {
   margin: 0;
   font-size: var(--nhsuk-font-size-14);

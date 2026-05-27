@@ -4,10 +4,10 @@ title: DescriptionList
 description: a definition list displaying information in key-value format
 ---
 
-{% from "components/description-list/macro.njk" import LDescriptionList %}
+{% from "components/description-list/macro.njk" import descriptionList %}
 
 <h2>Default</h2>
-{{ LDescriptionList({ text: "Example DescriptionList content" }) }}
+{{ descriptionList({ text: "Example DescriptionList content" }) }}
 
 <h2>With accessible label</h2>
-{{ LDescriptionList({ text: "Example content", label: "DescriptionList example" }) }}
+{{ descriptionList({ text: "Example content", label: "DescriptionList example" }) }}

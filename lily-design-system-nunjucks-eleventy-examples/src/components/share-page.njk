@@ -4,10 +4,10 @@ title: SharePage
 description: a group of social sharing links
 ---
 
-{% from "components/share-page/macro.njk" import LSharePage %}
+{% from "components/share-page/macro.njk" import sharePage %}
 
 <h2>Default</h2>
-{{ LSharePage({ text: "Example SharePage content" }) }}
+{{ sharePage({ text: "Example SharePage content" }) }}
 
 <h2>With accessible label</h2>
-{{ LSharePage({ text: "Example content", label: "SharePage example" }) }}
+{{ sharePage({ text: "Example content", label: "SharePage example" }) }}

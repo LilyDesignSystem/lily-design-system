@@ -4,10 +4,10 @@ title: ScatterChart
 description: a scatter chart visualization for displaying data correlations
 ---
 
-{% from "components/scatter-chart/macro.njk" import LScatterChart %}
+{% from "components/scatter-chart/macro.njk" import scatterChart %}
 
 <h2>Default</h2>
-{{ LScatterChart({ text: "Example ScatterChart content" }) }}
+{{ scatterChart({ text: "Example ScatterChart content" }) }}
 
 <h2>With accessible label</h2>
-{{ LScatterChart({ text: "Example content", label: "ScatterChart example" }) }}
+{{ scatterChart({ text: "Example content", label: "ScatterChart example" }) }}

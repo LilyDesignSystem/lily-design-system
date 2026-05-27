@@ -4,10 +4,10 @@ title: DocumentListItem
 description: one document entry in a document list
 ---
 
-{% from "components/document-list-item/macro.njk" import LDocumentListItem %}
+{% from "components/document-list-item/macro.njk" import documentListItem %}
 
 <h2>Default</h2>
-{{ LDocumentListItem({ text: "Example DocumentListItem content" }) }}
+{{ documentListItem({ text: "Example DocumentListItem content" }) }}
 
 <h2>With accessible label</h2>
-{{ LDocumentListItem({ text: "Example content", label: "DocumentListItem example" }) }}
+{{ documentListItem({ text: "Example content", label: "DocumentListItem example" }) }}

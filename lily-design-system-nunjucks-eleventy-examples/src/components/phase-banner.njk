@@ -4,10 +4,10 @@ title: PhaseBanner
 description: a banner indicating the phase of a service
 ---
 
-{% from "components/phase-banner/macro.njk" import LPhaseBanner %}
+{% from "components/phase-banner/macro.njk" import phaseBanner %}
 
 <h2>Default</h2>
-{{ LPhaseBanner({ text: "Example PhaseBanner content" }) }}
+{{ phaseBanner({ text: "Example PhaseBanner content" }) }}
 
 <h2>With accessible label</h2>
-{{ LPhaseBanner({ text: "Example content", label: "PhaseBanner example" }) }}
+{{ phaseBanner({ text: "Example content", label: "PhaseBanner example" }) }}

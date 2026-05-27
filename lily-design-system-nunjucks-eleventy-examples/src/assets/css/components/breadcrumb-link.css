@@ -1,5 +1,7 @@
 .breadcrumb-link {
-  color: var(--nhsuk-bright-blue);
+  /* nhsuk-blue (#005eb8) gives ~5.85:1 on pale-grey background.
+     nhsuk-bright-blue (#0072ce) was 4.41:1 — fails WCAG AA 4.5:1. */
+  color: var(--nhsuk-blue);
   text-decoration-thickness: 1px;
 }
 

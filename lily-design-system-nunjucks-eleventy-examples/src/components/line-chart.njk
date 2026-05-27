@@ -4,10 +4,10 @@ title: LineChart
 description: a line chart visualization for displaying data trends
 ---
 
-{% from "components/line-chart/macro.njk" import LLineChart %}
+{% from "components/line-chart/macro.njk" import lineChart %}
 
 <h2>Default</h2>
-{{ LLineChart({ text: "Example LineChart content" }) }}
+{{ lineChart({ text: "Example LineChart content" }) }}
 
 <h2>With accessible label</h2>
-{{ LLineChart({ text: "Example content", label: "LineChart example" }) }}
+{{ lineChart({ text: "Example content", label: "LineChart example" }) }}

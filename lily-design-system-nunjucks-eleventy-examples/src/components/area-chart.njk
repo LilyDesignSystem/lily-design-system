@@ -4,10 +4,10 @@ title: AreaChart
 description: an area chart visualization showing sized components in continuous data
 ---
 
-{% from "components/area-chart/macro.njk" import LAreaChart %}
+{% from "components/area-chart/macro.njk" import areaChart %}
 
 <h2>Default</h2>
-{{ LAreaChart({ text: "Example AreaChart content" }) }}
+{{ areaChart({ text: "Example AreaChart content" }) }}
 
 <h2>With accessible label</h2>
-{{ LAreaChart({ text: "Example content", label: "AreaChart example" }) }}
+{{ areaChart({ text: "Example content", label: "AreaChart example" }) }}

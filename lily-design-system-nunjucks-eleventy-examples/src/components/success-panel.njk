@@ -4,10 +4,10 @@ title: SuccessPanel
 description: a panel confirming a successful action
 ---
 
-{% from "components/success-panel/macro.njk" import LSuccessPanel %}
+{% from "components/success-panel/macro.njk" import successPanel %}
 
 <h2>Default</h2>
-{{ LSuccessPanel({ text: "Example SuccessPanel content" }) }}
+{{ successPanel({ text: "Example SuccessPanel content" }) }}
 
 <h2>With accessible label</h2>
-{{ LSuccessPanel({ text: "Example content", label: "SuccessPanel example" }) }}
+{{ successPanel({ text: "Example content", label: "SuccessPanel example" }) }}

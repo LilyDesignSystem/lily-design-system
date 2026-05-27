@@ -4,10 +4,10 @@ title: DescriptionListItem
 description: one key-value pair in a description list
 ---
 
-{% from "components/description-list-item/macro.njk" import LDescriptionListItem %}
+{% from "components/description-list-item/macro.njk" import descriptionListItem %}
 
 <h2>Default</h2>
-{{ LDescriptionListItem({ text: "Example DescriptionListItem content" }) }}
+{{ descriptionListItem({ text: "Example DescriptionListItem content" }) }}
 
 <h2>With accessible label</h2>
-{{ LDescriptionListItem({ text: "Example content", label: "DescriptionListItem example" }) }}
+{{ descriptionListItem({ text: "Example content", label: "DescriptionListItem example" }) }}

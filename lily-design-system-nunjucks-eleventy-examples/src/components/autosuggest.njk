@@ -4,10 +4,10 @@ title: Autosuggest
 description: a text input that proposes matching options as users type
 ---
 
-{% from "components/autosuggest/macro.njk" import LAutosuggest %}
+{% from "components/autosuggest/macro.njk" import autosuggest %}
 
 <h2>Default</h2>
-{{ LAutosuggest({ text: "Example Autosuggest content" }) }}
+{{ autosuggest({ text: "Example Autosuggest content" }) }}
 
 <h2>With accessible label</h2>
-{{ LAutosuggest({ text: "Example content", label: "Autosuggest example" }) }}
+{{ autosuggest({ text: "Example content", label: "Autosuggest example" }) }}

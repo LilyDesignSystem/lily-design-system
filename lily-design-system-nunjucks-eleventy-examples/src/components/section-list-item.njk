@@ -4,10 +4,10 @@ title: SectionListItem
 description: one item in a section list
 ---
 
-{% from "components/section-list-item/macro.njk" import LSectionListItem %}
+{% from "components/section-list-item/macro.njk" import sectionListItem %}
 
 <h2>Default</h2>
-{{ LSectionListItem({ text: "Example SectionListItem content" }) }}
+{{ sectionListItem({ text: "Example SectionListItem content" }) }}
 
 <h2>With accessible label</h2>
-{{ LSectionListItem({ text: "Example content", label: "SectionListItem example" }) }}
+{{ sectionListItem({ text: "Example content", label: "SectionListItem example" }) }}

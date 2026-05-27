@@ -4,10 +4,10 @@ title: RelatedContent
 description: an aside showing related content links
 ---
 
-{% from "components/related-content/macro.njk" import LRelatedContent %}
+{% from "components/related-content/macro.njk" import relatedContent %}
 
 <h2>Default</h2>
-{{ LRelatedContent({ text: "Example RelatedContent content" }) }}
+{{ relatedContent({ text: "Example RelatedContent content" }) }}
 
 <h2>With accessible label</h2>
-{{ LRelatedContent({ text: "Example content", label: "RelatedContent example" }) }}
+{{ relatedContent({ text: "Example content", label: "RelatedContent example" }) }}

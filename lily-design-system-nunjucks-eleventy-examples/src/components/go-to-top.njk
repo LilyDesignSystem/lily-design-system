@@ -4,10 +4,10 @@ title: GoToTop
 description: a link that returns users to the top of a long page
 ---
 
-{% from "components/go-to-top/macro.njk" import LBackToTop %}
+{% from "components/go-to-top/macro.njk" import backToTop %}
 
 <h2>Default</h2>
-{{ LBackToTop({ text: "Example GoToTop content" }) }}
+{{ backToTop({ text: "Example GoToTop content" }) }}
 
 <h2>With accessible label</h2>
-{{ LBackToTop({ text: "Example content", label: "GoToTop example" }) }}
+{{ backToTop({ text: "Example content", label: "GoToTop example" }) }}
