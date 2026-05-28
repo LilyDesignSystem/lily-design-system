@@ -21,7 +21,7 @@
 
   /* NHS Support Greens */
   --nhs-dark-green: #006747;
-  --nhs-green: #009639;
+  --nhs-green: #007a2e;  /* was #009639 — bumped for >=4.5:1 vs white */
   --nhs-light-green: #78be20;
   --nhs-aqua-green: #00a499;
 
@@ -335,6 +335,14 @@ a:focus {
   content: "\203A ";
   color: var(--nhs-mid-grey);
   margin-right: var(--nhs-space-1);
+}
+
+/* Breadcrumb links meet WCAG 2.2 target-size (24×24 minimum). */
+.breadcrumb-list-item a {
+  display: inline-block;
+  min-height: 24px;
+  padding: var(--nhs-space-1) var(--nhs-space-2);
+  line-height: 1.5;
 }
 
 /* button */
@@ -1240,10 +1248,12 @@ article[class*="card"] {
 
 .navigation-menu a {
   display: inline-block;
+  min-height: 24px;
   padding: var(--nhs-space-2) var(--nhs-space-3);
   color: var(--nhs-white);
   text-decoration: none;
   font-weight: 700;
+  line-height: 1.5;
 }
 
 .navigation-menu a:hover {
@@ -1706,16 +1716,23 @@ article[class*="card"] {
   position: relative;
   display: inline-flex;
   align-items: center;
-  width: 48px;
-  height: 28px;
+  /* Removed fixed width so visible label text inside the button has room.
+     The visual "switch" is purely the colored background; the text label
+     provides both the visual and accessible name. */
+  min-height: 28px;
+  padding: 0 var(--nhs-space-3);
   background-color: var(--nhs-mid-grey);
+  color: var(--nhs-white);
   border: none;
   border-radius: 14px;
   cursor: pointer;
+  font-size: var(--nhs-font-size-14);
+  font-weight: 600;
   transition: background-color 0.2s;
 }
 
-.switch-button[aria-pressed="true"] {
+.switch-button[aria-pressed="true"],
+.switch-button[aria-checked="true"] {
   background-color: var(--nhs-green);
 }
 

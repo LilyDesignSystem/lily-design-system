@@ -41,24 +41,24 @@
     </ol>
 
     <h2>Project Summary</h2>
-    <ol class="summary-list" aria-label="Overall project summary">
-      <li class="summary-list-item">
+    <dl class="summary-list" aria-label="Overall project summary">
+      <div class="summary-list-item">
         <dt>Total Milestones</dt>
         <dd id="total-milestones">4</dd>
-      </li>
-      <li class="summary-list-item">
+      </div>
+      <div class="summary-list-item">
         <dt>Completed</dt>
         <dd id="completed-milestones">2</dd>
-      </li>
-      <li class="summary-list-item">
+      </div>
+      <div class="summary-list-item">
         <dt>In Progress</dt>
         <dd id="in-progress-milestones">1</dd>
-      </li>
-      <li class="summary-list-item">
+      </div>
+      <div class="summary-list-item">
         <dt>Planned</dt>
         <dd id="planned-milestones">1</dd>
-      </li>
-    </ol>
+      </div>
+    </dl>
   </main>
 
   <footer class="footer" aria-label="Site footer">
@@ -110,16 +110,20 @@
           p.textContent = m.description;
           card.appendChild(p);
 
-          var summaryList = document.createElement('ol');
+          // Use <dl> so the contained <dt>/<dd> pairs have their required
+          // description-list parent. The CSS `.summary-list` class still
+          // applies. Each pair is wrapped in a <div> so the
+          // summary-list-item styling can target the row.
+          var summaryList = document.createElement('dl');
           summaryList.className = 'summary-list';
           summaryList.setAttribute('aria-label', m.title + ' details');
 
-          var item1 = document.createElement('li');
+          var item1 = document.createElement('div');
           item1.className = 'summary-list-item';
           item1.innerHTML = '<dt>Target Date</dt><dd>' + m.heading + '</dd>';
           summaryList.appendChild(item1);
 
-          var item2 = document.createElement('li');
+          var item2 = document.createElement('div');
           item2.className = 'summary-list-item';
           item2.innerHTML = '<dt>Status</dt><dd>' + m.statusLabel + '</dd>';
           summaryList.appendChild(item2);

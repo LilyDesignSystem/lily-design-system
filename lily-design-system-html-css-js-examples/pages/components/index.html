@@ -2510,16 +2510,23 @@
                         var li = document.createElement("li");
                         li.style.borderBottom = "1px solid var(--nhs-color-border, #d8dde0)";
                         li.style.padding = "var(--nhs-space-3) 0";
-                        li.innerHTML =
-                            '<a href="component.html?slug=' +
-                            encodeURIComponent(c.slug) +
-                            '" style="font-weight: 700;">' +
-                            c.name +
-                            "</a>" +
-                            '<span style="color: var(--nhs-color-secondary, #4c6272); margin-left: 0.5rem;">' +
+                        // Build with DOM API so descriptions containing literal
+                        // HTML fragments like `<dl>` or `<input type="...">`
+                        // render as text rather than as actual elements that
+                        // axe-core then flags as orphan/unlabeled.
+                        var a = document.createElement("a");
+                        a.href = "component.html?slug=" + encodeURIComponent(c.slug);
+                        a.style.fontWeight = "700";
+                        a.textContent = c.name;
+                        var span = document.createElement("span");
+                        span.style.color = "var(--nhs-color-secondary, #4c6272)";
+                        span.style.marginLeft = "0.5rem";
+                        span.textContent =
                             c.description.charAt(0).toUpperCase() +
                             c.description.slice(1) +
-                            ".</span>";
+                            ".";
+                        li.appendChild(a);
+                        li.appendChild(span);
                         list_el.appendChild(li);
                     }
                     resultCount.textContent =

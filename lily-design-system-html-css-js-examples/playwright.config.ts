@@ -12,6 +12,9 @@ export default defineConfig({
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
+    // The `pages/*.html` files reference `../assets/css/nhs.css` (one
+    // level above `pages/`). `pages/assets` is a symlink to `../assets`
+    // so that path resolves when http-server is rooted at `pages/`.
     command: 'npx http-server pages -p 8080 -c-1 --silent',
     url: 'http://localhost:8080/',
     reuseExistingServer: !process.env.CI,

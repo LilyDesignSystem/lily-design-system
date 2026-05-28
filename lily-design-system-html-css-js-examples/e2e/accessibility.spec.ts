@@ -56,19 +56,22 @@ test.describe('accessibility: component-detail samples', () => {
   }
 });
 
+// Static-file paths in this app are flat `.html` files (not directory
+// index files), so the URL has the `.html` extension. Trailing-slash
+// directory URLs would 404 to an empty document.
 const composedPages = [
-  '/contact-form/',
-  '/dashboard/',
-  '/dialog-flow/',
-  '/file-upload-form/',
-  '/navigation-and-menus/',
-  '/page-layout/',
-  '/rating-and-feedback/',
-  '/search-and-filter/',
-  '/settings-page/',
-  '/tabbed-interface/',
-  '/task-management/',
-  '/timeline-and-cards/',
+  '/contact-form.html',
+  '/dashboard.html',
+  '/dialog-flow.html',
+  '/file-upload-form.html',
+  '/navigation-and-menus.html',
+  '/page-layout.html',
+  '/rating-and-feedback.html',
+  '/search-and-filter.html',
+  '/settings-page.html',
+  '/tabbed-interface.html',
+  '/task-management.html',
+  '/timeline-and-cards.html',
 ];
 
 test.describe('accessibility: composed-page demos', () => {
