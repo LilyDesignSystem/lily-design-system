@@ -1,5 +1,11 @@
 import { Component, ChangeDetectionStrategy, signal, computed } from "@angular/core";
-import { Form, Field, Label, TextInput, EmailInput, TextAreaInput, Button } from "lily-design-system-angular-headless";
+import { Form } from "../components/Form";
+import { Field } from "../components/Field";
+import { Label } from "../components/Label";
+import { TextInput } from "../components/TextInput";
+import { EmailInput } from "../components/EmailInput";
+import { TextAreaInput } from "../components/TextAreaInput";
+import { Button } from "../components/Button";
 
 @Component({
   selector: "lily-contact-form",

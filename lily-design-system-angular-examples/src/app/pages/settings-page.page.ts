@@ -1,5 +1,13 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
-import { Fieldset, Field, Label, SwitchButton, RadioGroup, RadioInput, Select, Option, Banner } from "lily-design-system-angular-headless";
+import { Fieldset } from "../components/Fieldset";
+import { Field } from "../components/Field";
+import { Label } from "../components/Label";
+import { SwitchButton } from "../components/SwitchButton";
+import { RadioGroup } from "../components/RadioGroup";
+import { RadioInput } from "../components/RadioInput";
+import { Select } from "../components/Select";
+import { Option } from "../components/Option";
+import { Banner } from "../components/Banner";
 
 @Component({
   selector: "lily-settings-page",

@@ -1,6 +1,6 @@
 # Lily Design System - Angular Examples
 
-A reference application demonstrating every component in the Lily Design System using the headless `lily-design-system-angular-headless` library plus the NHS UK visual reference styling.
+A reference application demonstrating every component in the Lily Design System using headless Angular components (copied from `lily-design-system-angular-headless`) plus the NHS UK visual reference styling.
 
 Built on **Angular 20 + Analog.js v1** with file-based routing, signal-driven state, OnPush change detection, and full SSG prerendering.
 

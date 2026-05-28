@@ -10,9 +10,8 @@ import { RouterLink } from "@angular/router";
       <h1>Lily Design System — Angular examples</h1>
       <p>
         A reference application that demonstrates every component in the
-        Lily Design System catalog using the
-        <code>lily-design-system-angular-headless</code> library plus the
-        NHS UK visual reference. Built on Angular 20 + Analog.js.
+        Lily Design System catalog using headless Angular components
+        plus the NHS UK visual reference. Built on Angular 20 + Analog.js.
       </p>
 
       <h2>Browse</h2>

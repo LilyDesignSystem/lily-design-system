@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, signal } from "@angular/core";
-import { Button, Dialog } from "lily-design-system-angular-headless";
+import { Button } from "../components/Button";
+import { Dialog } from "../components/Dialog";
 
 @Component({
   selector: "lily-dialog-flow",

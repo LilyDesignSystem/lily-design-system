@@ -1,5 +1,7 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
-import { TaskList, TaskListItem, Badge } from "lily-design-system-angular-headless";
+import { TaskList } from "../components/TaskList";
+import { TaskListItem } from "../components/TaskListItem";
+import { Badge } from "../components/Badge";
 
 @Component({
   selector: "lily-task-management",

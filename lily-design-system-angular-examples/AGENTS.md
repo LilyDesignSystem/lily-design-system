@@ -22,7 +22,7 @@
 - File-based routing under `src/app/pages/`
 - Signal-driven, zoneless change detection
 - Standalone components only (no NgModules)
-- Workspace dependency on `lily-design-system-angular-headless`
+- Headless components copied into `src/app/components/` (same copy-pattern the other 6 example apps use; no workspace dep)
 - Vite-based dev + build, SSG prerender for every catalog + composed route
 - NHS UK CSS via single global `src/styles/nhs.css`
 - Playwright + axe-core e2e (same pattern as the other 6 example apps)

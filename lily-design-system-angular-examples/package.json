@@ -19,7 +19,6 @@
     "@angular/platform-browser": "^20.0.0",
     "@angular/platform-browser-dynamic": "^20.0.0",
     "@angular/router": "^20.0.0",
-    "lily-design-system-angular-headless": "workspace:*",
     "rxjs": "^7.8.0",
     "tslib": "^2.7.0",
     "zone.js": "^0.15.0"

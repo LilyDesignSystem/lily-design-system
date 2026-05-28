@@ -1,0 +1,19 @@
+import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+
+/**
+ * GrailLayoutLeftAside — grail layout left aside sidebar with <aside> tag
+ *
+ * Headless Angular component. Renders the semantic HTML root with the
+ * kebab-case class hook `grail-layout-left-aside` and the consumer-provided `className`.
+ * Ships zero CSS; the consumer styles via the class hook.
+ */
+@Component({
+  selector: "lily-grail-layout-left-aside",
+  standalone: true,
+  template: `<aside class="grail-layout-left-aside {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></aside>`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class GrailLayoutLeftAside {
+  readonly label = input<string>("");
+  readonly className = input<string>("");
+}

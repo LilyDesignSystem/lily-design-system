@@ -1,5 +1,11 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
-import { Header, Footer, BreadcrumbNav, BreadcrumbList, BreadcrumbListItem, Sidebar, Panel } from "lily-design-system-angular-headless";
+import { Header } from "../components/Header";
+import { Footer } from "../components/Footer";
+import { BreadcrumbNav } from "../components/BreadcrumbNav";
+import { BreadcrumbList } from "../components/BreadcrumbList";
+import { BreadcrumbListItem } from "../components/BreadcrumbListItem";
+import { Sidebar } from "../components/Sidebar";
+import { Panel } from "../components/Panel";
 
 @Component({
   selector: "lily-page-layout",

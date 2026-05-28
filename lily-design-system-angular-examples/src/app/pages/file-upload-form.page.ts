@@ -1,5 +1,9 @@
 import { Component, ChangeDetectionStrategy, signal } from "@angular/core";
-import { Form, Field, Label, FileInput, Button } from "lily-design-system-angular-headless";
+import { Form } from "../components/Form";
+import { Field } from "../components/Field";
+import { Label } from "../components/Label";
+import { FileInput } from "../components/FileInput";
+import { Button } from "../components/Button";
 
 @Component({
   selector: "lily-file-upload-form",

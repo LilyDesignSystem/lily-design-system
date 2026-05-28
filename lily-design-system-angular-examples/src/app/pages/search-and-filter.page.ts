@@ -1,5 +1,9 @@
 import { Component, ChangeDetectionStrategy, signal, computed } from "@angular/core";
-import { SearchInput, Combobox, TagGroup, Tag, Badge } from "lily-design-system-angular-headless";
+import { SearchInput } from "../components/SearchInput";
+import { Combobox } from "../components/Combobox";
+import { TagGroup } from "../components/TagGroup";
+import { Tag } from "../components/Tag";
+import { Badge } from "../components/Badge";
 
 @Component({
   selector: "lily-search-and-filter",

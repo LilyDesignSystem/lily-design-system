@@ -1,5 +1,8 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
-import { NavigationMenu, MenuBar, MenuBarButton, HamburgerMenu } from "lily-design-system-angular-headless";
+import { NavigationMenu } from "../components/NavigationMenu";
+import { MenuBar } from "../components/MenuBar";
+import { MenuBarButton } from "../components/MenuBarButton";
+import { HamburgerMenu } from "../components/HamburgerMenu";
 
 @Component({
   selector: "lily-navigation-and-menus",

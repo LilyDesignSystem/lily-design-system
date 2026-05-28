@@ -1,5 +1,7 @@
 import { Component, ChangeDetectionStrategy, signal } from "@angular/core";
-import { TabBar, TabBarButton, TabPanel } from "lily-design-system-angular-headless";
+import { TabBar } from "../components/TabBar";
+import { TabBarButton } from "../components/TabBarButton";
+import { TabPanel } from "../components/TabPanel";
 
 @Component({
   selector: "lily-tabbed-interface",

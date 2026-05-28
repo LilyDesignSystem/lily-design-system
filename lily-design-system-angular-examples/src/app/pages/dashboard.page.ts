@@ -1,5 +1,8 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
-import { Card, Badge, Progress, Banner } from "lily-design-system-angular-headless";
+import { Card } from "../components/Card";
+import { Badge } from "../components/Badge";
+import { Progress } from "../components/Progress";
+import { Banner } from "../components/Banner";
 
 @Component({
   selector: "lily-dashboard",

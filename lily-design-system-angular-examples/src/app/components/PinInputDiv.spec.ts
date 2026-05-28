@@ -1,0 +1,22 @@
+import { describe, expect, test } from "vitest";
+import { TestBed } from "@angular/core/testing";
+
+import { PinInputDiv } from "./PinInputDiv";
+
+describe("PinInputDiv", () => {
+  test("renders the div root with the base class", () => {
+    const fixture = TestBed.createComponent(PinInputDiv);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector("div.pin-input-div");
+    expect(el).toBeTruthy();
+  });
+
+  test("appends the className input to the root class list", () => {
+    const fixture = TestBed.createComponent(PinInputDiv);
+    fixture.componentRef.setInput("className", "extra");
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector("div.pin-input-div");
+    expect(el).toBeTruthy();
+    expect(el.classList.contains("extra")).toBe(true);
+  });
+});

@@ -1,5 +1,7 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
-import { FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker } from "lily-design-system-angular-headless";
+import { FiveStarRatingPicker } from "../components/FiveStarRatingPicker";
+import { FiveFaceRatingPicker } from "../components/FiveFaceRatingPicker";
+import { NetPromoterScorePicker } from "../components/NetPromoterScorePicker";
 
 @Component({
   selector: "lily-rating-and-feedback",

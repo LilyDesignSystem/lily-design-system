@@ -16,7 +16,7 @@ Based on the Angular example-app research:
   - `components/[slug].page.ts` → `/components/:slug`
   - `{composed}.page.ts` × 12 → `/contact-form`, `/dashboard`, …
 - **SSG prerender** via Analog's `prerender.routes` config — generates every component-detail page (487) plus the composed pages.
-- **Pnpm workspace dependency** on `lily-design-system-angular-headless` (`workspace:*`) — the example app imports headless components directly.
+- **Headless components copied** from `lily-design-system-angular-headless/components/` into `src/app/components/` (487 × 3 files = 1,461). Same copy-pattern the other 6 example apps use; no workspace dep.
 - **Demo HTML registry** copied from `svelte-sveltekit-examples/src/lib/data/component-demos.ts` into `src/app/component-demos.ts`. Rendered via `[innerHTML]` + `DomSanitizer.bypassSecurityTrustHtml`.
 - **NHS UK CSS** copied from `svelte-sveltekit-examples/src/lib/css/nhs.css` into `src/styles/nhs.css`, imported once in `main.ts`.
 - **Playwright e2e**: `accessibility.spec.ts` (axe-core sweep) + `responsive.spec.ts` (4-viewport × 10-route). Static-build target on port 4173.

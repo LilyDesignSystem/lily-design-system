@@ -1,5 +1,9 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
-import { TimelineList, TimelineListItem, Card, DateRange, ReviewDate } from "lily-design-system-angular-headless";
+import { TimelineList } from "../components/TimelineList";
+import { TimelineListItem } from "../components/TimelineListItem";
+import { Card } from "../components/Card";
+import { DateRange } from "../components/DateRange";
+import { ReviewDate } from "../components/ReviewDate";
 
 @Component({
   selector: "lily-timeline-and-cards",
