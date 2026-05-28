@@ -701,7 +701,7 @@ Per-app baseline (axe-clean routes / total checked):
 | svelte-sveltekit-examples      | 29/29 | ✅ full pass                          |
 | react-next-examples            | 29/29 | ✅ full pass                          |
 | vue-nuxt-examples              | 29/29 | ✅ full pass                          |
-| blazor-web-examples            | ~21/29| ARIA-attribute bugs in Razor pages   |
+| blazor-web-examples            | 29/29 | ✅ full pass                          |
 | html-css-js-examples           | ~1/29 | Many static-HTML form-label gaps     |
 | nunjucks-eleventy-examples     | 17/17 | ✅ full pass                          |
 
@@ -750,14 +750,13 @@ overhead that the project hasn't chosen to pay.
 
 ### 11.8 Open backlog
 
-- [ ] axe-core: tune contrast and aria attributes in
-      blazor-web-examples and html-css-js-examples to reach the 29/29
-      baseline that svelte / react / vue / nunjucks-eleventy already
-      hit. (nunjucks-eleventy reached 17/17 in commit bb32928e via
-      header h1 colour inheritance, badge-grey dark-grey background,
-      grail-layout aside link colours, and unblocking 24 import-name
-      typos in the pre-existing demo templates.) Per-app violations
-      are documented in each subproject's spec.md.
+- [ ] axe-core: tune html-css-js-examples to reach the 29/29 baseline
+      that the other 5 example apps already hit. blazor-web-examples
+      reached 29/29 in commit 2eb6b11c via narrow ARIA fixes to 7
+      Blazor headless components (ProgressCircle, FileUpload, DateRange,
+      SwitchButton, Select, Combobox, DropdownMenu) plus a Listbox
+      wrapper in the search-and-filter demo and a hamburger-menu
+      link-padding tweak for WCAG 2.2 target-size.
 - [x] Port the responsive viewport sweep from svelte-sveltekit to the
       other 5 example apps. Specs land in
       `{app}/e2e/responsive.spec.ts` with route paths adjusted per
