@@ -44,8 +44,8 @@ committing.
 
 - A canonical catalog of 487 components (`components.tsv`).
 - Seven headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks.
-- Six example applications: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Blazor Web,
-  Nunjucks Eleventy.
+- Seven example applications: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js,
+  Angular Analog, Blazor Web, Nunjucks Eleventy.
 - A CSS style-sheet template (`css-style-sheet-template.css`) declaring every
   component class hook.
 - Component documentation per component (`components/{slug}/index.md`,

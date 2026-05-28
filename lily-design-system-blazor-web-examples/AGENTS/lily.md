@@ -22,6 +22,7 @@ Canonical component list: [components.tsv](../components.tsv) — 487 components
 - [Lily Design System: Svelte SvelteKit examples](../lily-design-system-svelte-sveltekit-examples)
 - [Lily Design System: React Next.js examples](../lily-design-system-react-next-examples)
 - [Lily Design System: Vue Nuxt.js examples](../lily-design-system-vue-nuxt-examples)
+- [Lily Design System: Angular Analog examples](../lily-design-system-angular-examples)
 - [Lily Design System: Blazor Web examples](../lily-design-system-blazor-web-examples)
 - [Lily Design System: Nunjucks Eleventy examples](../lily-design-system-nunjucks-eleventy-examples)
 
