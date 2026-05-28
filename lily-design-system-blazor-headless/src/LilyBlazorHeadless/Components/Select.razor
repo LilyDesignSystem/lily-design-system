@@ -5,7 +5,7 @@
     a dropdown select element for choosing one option
 *@
 
-<select class="@($"select {CssClass}".Trim())" role="combobox" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</select>
+<select class="@($"select {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</select>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

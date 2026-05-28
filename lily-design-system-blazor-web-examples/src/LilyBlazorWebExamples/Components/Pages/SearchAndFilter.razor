@@ -9,10 +9,12 @@
 <section class="section">
     <Combobox Label="Filter by category" Value="@comboValue" ValueChanged="v => comboValue = v"
              Open="@comboOpen" OpenChanged="v => comboOpen = v">
-        @foreach (var cat in ComboSuggestions)
-        {
-            <div role="option" @onclick="() => SelectCategory(cat)">@cat</div>
-        }
+        <Listbox Label="Filter suggestions">
+            @foreach (var cat in ComboSuggestions)
+            {
+                <div role="option" @onclick="() => SelectCategory(cat)">@cat</div>
+            }
+        </Listbox>
     </Combobox>
 </section>
 

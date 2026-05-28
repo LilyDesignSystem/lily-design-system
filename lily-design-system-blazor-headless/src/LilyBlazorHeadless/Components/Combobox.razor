@@ -5,10 +5,12 @@
     a text input combined with a dropdown list for filtering options
 *@
 
-<div class="@($"combobox {CssClass}".Trim())" role="combobox" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"combobox {CssClass}".Trim())" role="combobox" aria-label="@Label" aria-expanded="@(Open ? "true" : "false")" aria-haspopup="listbox" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

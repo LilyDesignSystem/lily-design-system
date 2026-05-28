@@ -5,10 +5,12 @@
     a toggle switch for turning a setting on or off
 *@
 
-<button class="@($"switch-button {CssClass}".Trim())" role="switch" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
+<button class="@($"switch-button {CssClass}".Trim())" type="button" role="switch" aria-label="@Label" aria-checked="@(Checked ? "true" : "false")" @attributes="AdditionalAttributes">@ChildContent</button>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public bool Checked { get; set; }
+    [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

@@ -5,7 +5,7 @@
     a menu that opens below a trigger button
 *@
 
-<div class="@($"dropdown-menu {CssClass}".Trim())" role="menuitem" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"dropdown-menu {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

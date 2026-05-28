@@ -5,7 +5,7 @@
     a circular progress indicator
 *@
 
-<div class="@($"progress-circle {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"progress-circle {CssClass}".Trim())" role="progressbar" aria-label="@Label" aria-valuemin="0" aria-valuemax="100" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

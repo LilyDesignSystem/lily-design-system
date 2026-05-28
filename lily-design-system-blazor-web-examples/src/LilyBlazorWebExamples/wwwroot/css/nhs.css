@@ -1002,6 +1002,19 @@ article[class*="card"] {
   gap: 4px;
 }
 
+/* Hamburger menu items expand to meet WCAG 2.2 target-size (24×24 minimum). */
+.hamburger-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.hamburger-menu li a {
+  display: inline-block;
+  min-height: 24px;
+  padding: var(--nhs-space-2) var(--nhs-space-3);
+  line-height: 1.5;
+}
+
 /* header */
 .header {
   padding: var(--nhs-space-3) var(--nhs-space-4);
