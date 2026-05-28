@@ -702,7 +702,7 @@ Per-app baseline (axe-clean routes / total checked):
 | react-next-examples            | 29/29 | ✅ full pass                          |
 | vue-nuxt-examples              | 29/29 | ✅ full pass                          |
 | blazor-web-examples            | 29/29 | ✅ full pass                          |
-| html-css-js-examples           | ~1/29 | Many static-HTML form-label gaps     |
+| html-css-js-examples           | 29/29 | ✅ full pass                          |
 | nunjucks-eleventy-examples     | 17/17 | ✅ full pass                          |
 
 axe rule set: WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA.
@@ -750,13 +750,13 @@ overhead that the project hasn't chosen to pay.
 
 ### 11.8 Open backlog
 
-- [ ] axe-core: tune html-css-js-examples to reach the 29/29 baseline
-      that the other 5 example apps already hit. blazor-web-examples
-      reached 29/29 in commit 2eb6b11c via narrow ARIA fixes to 7
-      Blazor headless components (ProgressCircle, FileUpload, DateRange,
-      SwitchButton, Select, Combobox, DropdownMenu) plus a Listbox
-      wrapper in the search-and-filter demo and a hamburger-menu
-      link-padding tweak for WCAG 2.2 target-size.
+- [x] axe-core: all 6 example apps now hit their full route baseline
+      clean. html-css-js-examples reached 29/29 in commit 27fefce9 by
+      fixing a stylesheet-404 routing bug (symlinking `pages/assets`),
+      correcting trailing-slash composed-page URLs, bumping nhs-green
+      and switch-button contrast, rebuilding the components-index
+      cards via DOM APIs to avoid orphan-element rendering, and
+      switching the timeline summary-list to <dl>/<div>.
 - [x] Port the responsive viewport sweep from svelte-sveltekit to the
       other 5 example apps. Specs land in
       `{app}/e2e/responsive.spec.ts` with route paths adjusted per
