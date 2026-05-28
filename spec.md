@@ -78,12 +78,14 @@ lily-design-system/                            ← canonical catalog + tools
 ├── lily-design-system-svelte-headless/        ← headless: Svelte 5
 ├── lily-design-system-react-headless/         ← headless: React
 ├── lily-design-system-vue-headless/           ← headless: Vue 3
+├── lily-design-system-angular-headless/       ← headless: Angular 20
 ├── lily-design-system-blazor-headless/        ← headless: Blazor
 ├── lily-design-system-nunjucks-headless/      ← headless: Nunjucks
 ├── lily-design-system-html-css-js-examples/   ← examples: vanilla HTML+CSS+JS
 ├── lily-design-system-svelte-sveltekit-examples/ ← examples: SvelteKit 2
 ├── lily-design-system-react-next-examples/    ← examples: Next.js
 ├── lily-design-system-vue-nuxt-examples/      ← examples: Nuxt.js
+├── lily-design-system-angular-examples/       ← examples: Angular 20 + Analog.js
 ├── lily-design-system-blazor-web-examples/    ← examples: Blazor Web
 └── lily-design-system-nunjucks-eleventy-examples/ ← examples: Nunjucks + Eleventy
 ```
@@ -636,10 +638,18 @@ checked is considered live work; anything unchecked is queued in §12.
 - [x] All 6 implemented headless subprojects exist (HTML, Svelte, React,
       Vue, Blazor, Nunjucks). A seventh — Angular — landed as an initial
       scaffold (Angular 20, signal-based, OnPush, zero-CSS) on 2026-05-28.
-- [x] All 6 example subprojects exist (HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js,
-      Blazor Web, Nunjucks Eleventy).
-- [x] All 12 subprojects have required files (`index.md`, `README.md` symlink,
-      `AGENTS.md`, `CLAUDE.md`, `plan.md`, `tasks.md`, `.git-subtree-push`).
+- [x] All 6 implemented example subprojects exist (HTML+CSS+JS, SvelteKit,
+      Next.js, Nuxt.js, Blazor Web, Nunjucks Eleventy). A seventh —
+      Angular + Analog.js — landed as an initial scaffold on
+      2026-05-28: standalone components, zoneless change detection,
+      file-based routing, Vite SSG, pnpm workspace dep on the
+      angular-headless library.
+- [x] All 14 subprojects have required files (`index.md`, `README.md`
+      symlink, `AGENTS.md`, `CLAUDE.md`, `spec.md`, `.git-subtree-push`).
+      The 7 newest (angular-headless + angular-examples, alba- through
+      slovensko- identifier dirs in the components/ catalog) use the
+      same spec-driven `spec.md` layout the May 2026 migration
+      standardised on.
 - [x] All example subprojects reference `AGENTS/examples.md` for route
       requirements.
 - [x] All example subprojects have a `/components` route listing the full catalog.
@@ -780,7 +790,8 @@ overhead that the project hasn't chosen to pay.
 
 #### Catalog & infrastructure
 
-- [x] Create canonical component list (now 407 components).
+- [x] Create canonical component list (now 487 components after the
+      May 2026 national-identifier additions).
 - [x] Create CSS style sheet template.
 - [x] Create scaffolding/listing/testing tools.
 - [x] Create `AGENTS.md` with component patterns and composition patterns.
