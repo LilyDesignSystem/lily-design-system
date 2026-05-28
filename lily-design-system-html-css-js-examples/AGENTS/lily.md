@@ -12,6 +12,7 @@ Canonical component list: [components.tsv](../components.tsv) — 487 components
 - [Lily Design System: Svelte headless](../lily-design-system-svelte-headless)
 - [Lily Design System: React headless](../lily-design-system-react-headless)
 - [Lily Design System: Vue headless](../lily-design-system-vue-headless)
+- [Lily Design System: Angular headless](../lily-design-system-angular-headless)
 - [Lily Design System: Blazor headless](../lily-design-system-blazor-headless)
 - [Lily Design System: Nunjucks headless](../lily-design-system-nunjucks-headless)
 
@@ -60,8 +61,7 @@ See [citations.md](citations.md) for the full list of design systems Lily draws 
 - `AGENTS.md` with AI coding help
 - `AGENTS/` directory with modular agent files
 - `CLAUDE.md` that loads `AGENTS.md`
-- `plan.md` — subproject implementation plan
-- `tasks.md` — subproject task list
+- `spec.md` — spec-driven plan + tasks (replaces the older split plan.md / tasks.md)
 - `.git-subtree-push`
 
 ## For each component directory
@@ -70,8 +70,7 @@ See [citations.md](citations.md) for the full list of design systems Lily draws 
 - `README.md` symlink to `index.md`
 - `AGENTS.md`
 - `CLAUDE.md`
-- `plan.md`
-- `tasks.md`
+- `spec.md` — spec-driven plan + tasks (replaces the older split plan.md / tasks.md)
 
 ## Verify
 

@@ -43,7 +43,7 @@ committing.
 ### In scope
 
 - A canonical catalog of 487 components (`components.tsv`).
-- Six headless component libraries: HTML, Svelte, React, Vue, Blazor, Nunjucks.
+- Seven headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks.
 - Six example applications: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Blazor Web,
   Nunjucks Eleventy.
 - A CSS style-sheet template (`css-style-sheet-template.css`) declaring every
@@ -633,8 +633,9 @@ checked is considered live work; anything unchecked is queued in §12.
 
 ### 11.2 Subprojects
 
-- [x] All 6 headless subprojects exist (HTML, Svelte, React, Vue, Blazor,
-      Nunjucks).
+- [x] All 6 implemented headless subprojects exist (HTML, Svelte, React,
+      Vue, Blazor, Nunjucks). A seventh — Angular — landed as an initial
+      scaffold (Angular 20, signal-based, OnPush, zero-CSS) on 2026-05-28.
 - [x] All 6 example subprojects exist (HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js,
       Blazor Web, Nunjucks Eleventy).
 - [x] All 12 subprojects have required files (`index.md`, `README.md` symlink,

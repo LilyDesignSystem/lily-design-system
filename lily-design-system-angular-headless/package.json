@@ -1,0 +1,47 @@
+{
+  "name": "lily-design-system-angular-headless",
+  "version": "0.1.0",
+  "description": "Lily Design System - Angular 20 headless component library",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "build": "ng-packagr -p ng-package.json",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=20.0.0 <22.0.0",
+    "@angular/common": ">=20.0.0 <22.0.0",
+    "rxjs": ">=7.0.0"
+  },
+  "devDependencies": {
+    "@analogjs/vite-plugin-angular": "^1.10.0",
+    "@analogjs/vitest-angular": "^1.10.0",
+    "@angular/common": "^20.0.0",
+    "@angular/compiler": "^20.0.0",
+    "@angular/compiler-cli": "^20.0.0",
+    "@angular/core": "^20.0.0",
+    "@angular/platform-browser": "^20.0.0",
+    "@angular/platform-browser-dynamic": "^20.0.0",
+    "@types/node": "^22.0.0",
+    "jsdom": "^25.0.0",
+    "ng-packagr": "^20.0.0",
+    "rxjs": "^7.8.0",
+    "tslib": "^2.7.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0",
+    "zone.js": "^0.15.0"
+  },
+  "keywords": [
+    "lily",
+    "design-system",
+    "angular",
+    "headless",
+    "wcag",
+    "aria"
+  ],
+  "license": "MIT OR Apache-2.0 OR GPL-2.0 OR GPL-3.0 OR BSD-3-Clause"
+}

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:en.wikipedia.org)",
+      "Bash(awk -F'\\\\t' '{print NR\": \"NF\" fields\"}' countries.tsv)",
+      "Bash(sort -u -k2)",
+      "Bash(awk -F'\\\\t' 'NR>1 && $4==\"\"{print NR\": \"$0}' countries.tsv)",
+      "Bash(awk -F'\\\\t' '{print NF}' countries.tsv)",
+      "Bash(grep -E \"input$\")",
+      "Bash(awk *)"
+    ]
+  }
+}
