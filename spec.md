@@ -703,7 +703,7 @@ Per-app baseline (axe-clean routes / total checked):
 | vue-nuxt-examples              | 29/29 | ✅ full pass                          |
 | blazor-web-examples            | ~21/29| ARIA-attribute bugs in Razor pages   |
 | html-css-js-examples           | ~1/29 | Many static-HTML form-label gaps     |
-| nunjucks-eleventy-examples     | 0/17  | Color-contrast (deeper palette work) |
+| nunjucks-eleventy-examples     | 17/17 | ✅ full pass                          |
 
 axe rule set: WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA.
 
@@ -751,10 +751,13 @@ overhead that the project hasn't chosen to pay.
 ### 11.8 Open backlog
 
 - [ ] axe-core: tune contrast and aria attributes in
-      blazor-web-examples, html-css-js-examples, and
-      nunjucks-eleventy-examples to reach the 29 / 29 baseline that
-      svelte / react / vue already hit. Per-app violations are
-      documented in each subproject's spec.md.
+      blazor-web-examples and html-css-js-examples to reach the 29/29
+      baseline that svelte / react / vue / nunjucks-eleventy already
+      hit. (nunjucks-eleventy reached 17/17 in commit bb32928e via
+      header h1 colour inheritance, badge-grey dark-grey background,
+      grail-layout aside link colours, and unblocking 24 import-name
+      typos in the pre-existing demo templates.) Per-app violations
+      are documented in each subproject's spec.md.
 - [x] Port the responsive viewport sweep from svelte-sveltekit to the
       other 5 example apps. Specs land in
       `{app}/e2e/responsive.spec.ts` with route paths adjusted per
