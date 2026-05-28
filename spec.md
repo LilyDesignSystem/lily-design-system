@@ -751,7 +751,14 @@ a built route 404s.
 | react-headless       | yes (vite)   | 487 / 487     |
 | vue-headless         | yes (vite)   | 487 / 487     |
 | nunjucks-headless    | yes (vite)   | 487 / 487     |
+| angular-headless     | deferred     | not yet wired |
 | blazor-headless      | no           | not planned   |
+
+Angular headless ships without Storybook in the initial scaffold.
+`@storybook/angular` with the Vite builder is the standard pairing
+for Angular 20 in 2026; wiring it across all 487 components is queued
+behind the more pressing "actually exercise `pnpm install` and
+`vitest run` end-to-end" verification.
 
 Blazor headless deliberately skips Storybook: there is no idiomatic
 `@storybook/blazor` framework, and the runtime-rendering pipeline
@@ -783,6 +790,15 @@ overhead that the project hasn't chosen to pay.
       variant, `<span aria-label=...>` for the view variant. Tests,
       demo registry entries, and Storybook stories landed in commits
       50841648..490282db.
+- [ ] Angular subprojects end-to-end verification. The scaffolds
+      shipped on 2026-05-28 (commits 832dce3e + bcf649f5) but
+      `pnpm install`, `vitest run`, `vite build`, and the Playwright
+      suites have not been exercised yet. Likely to surface real
+      version-resolution / API issues against the latest Angular 20 +
+      Analog.js v1 releases.
+- [ ] Angular headless Storybook coverage. Wire `@storybook/angular`
+      with the Vite builder and generate 487 stories matching the
+      svelte / react / vue / html / nunjucks pattern.
 
 ## 12. Implementation status
 
