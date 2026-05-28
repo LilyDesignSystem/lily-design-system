@@ -4,15 +4,15 @@ title: DateTime View
 description: a read-only display of a formatted date and time
 ---
 
-{% from "components/date-time-view/macro.njk" import datetimeView %}
+{% from "components/date-time-view/macro.njk" import dateTimeView %}
 
 <h2>ISO datetime with formatted display</h2>
-{{ datetimeView({ value: "2026-04-27T14:30:00Z", format: "27 April 2026, 14:30 UTC" }) }}
+{{ dateTimeView({ value: "2026-04-27T14:30:00Z", format: "27 April 2026, 14:30 UTC" }) }}
 
 <h2>ISO datetime, no format (raw fallback)</h2>
-{{ datetimeView({ value: "2026-12-25T09:00:00Z" }) }}
+{{ dateTimeView({ value: "2026-12-25T09:00:00Z" }) }}
 
 <h2>With explicit caller body</h2>
-{% call datetimeView({ value: "2026-01-01T00:00:00Z" }) %}
+{% call dateTimeView({ value: "2026-01-01T00:00:00Z" }) %}
   <strong>1 January 2026</strong>
 {% endcall %}

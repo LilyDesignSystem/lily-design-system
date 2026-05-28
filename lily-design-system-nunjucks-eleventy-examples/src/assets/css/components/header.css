@@ -3,3 +3,14 @@
   background: var(--nhsuk-blue);
   color: var(--nhsuk-white);
 }
+
+/* Heading elements default to nhsuk-black; force inheritance so they
+   meet contrast on the nhsuk-blue header background. */
+.header h1,
+.header h2,
+.header h3,
+.header h4,
+.header h5,
+.header h6 {
+  color: inherit;
+}

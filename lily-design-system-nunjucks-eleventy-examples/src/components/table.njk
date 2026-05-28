@@ -6,107 +6,107 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/table
 ---
 
 {% from "components/table/macro.njk" import table %}
-{% from "components/table-head/macro.njk" import TableHead %}
-{% from "components/table-body/macro.njk" import TableBody %}
+{% from "components/table-head/macro.njk" import tableHead %}
+{% from "components/table-body/macro.njk" import tableBody %}
 {% from "components/table-foot/macro.njk" import tableFoot %}
 {% from "components/table-row/macro.njk" import tableRow %}
-{% from "components/table-th/macro.njk" import tableCol %}
-{% from "components/table-td/macro.njk" import TableTD %}
+{% from "components/table-th/macro.njk" import tableTh %}
+{% from "components/table-td/macro.njk" import tableTd %}
 
 <h2>Default — appointment list</h2>
 {% call table({ caption: "Your upcoming appointments" }) %}
-  {% call TableHead() %}
+  {% call tableHead() %}
     {% call tableRow() %}
-      {{ tableCol({ text: "Date" }) }}
-      {{ tableCol({ text: "Clinician" }) }}
-      {{ tableCol({ text: "Type" }) }}
-      {{ tableCol({ text: "Location" }) }}
+      {{ tableTh({ text: "Date" }) }}
+      {{ tableTh({ text: "Clinician" }) }}
+      {{ tableTh({ text: "Type" }) }}
+      {{ tableTh({ text: "Location" }) }}
     {% endcall %}
   {% endcall %}
-  {% call TableBody() %}
+  {% call tableBody() %}
     {% call tableRow() %}
-      {{ TableTD({ text: "27 April 2026, 9:30am" }) }}
-      {{ TableTD({ text: "Dr Patel" }) }}
-      {{ TableTD({ text: "GP review" }) }}
-      {{ TableTD({ text: "High Street Surgery" }) }}
+      {{ tableTd({ text: "27 April 2026, 9:30am" }) }}
+      {{ tableTd({ text: "Dr Patel" }) }}
+      {{ tableTd({ text: "GP review" }) }}
+      {{ tableTd({ text: "High Street Surgery" }) }}
     {% endcall %}
     {% call tableRow() %}
-      {{ TableTD({ text: "4 May 2026, 2:15pm" }) }}
-      {{ TableTD({ text: "Nurse Ahmed" }) }}
-      {{ TableTD({ text: "Blood test" }) }}
-      {{ TableTD({ text: "Main Clinic" }) }}
+      {{ tableTd({ text: "4 May 2026, 2:15pm" }) }}
+      {{ tableTd({ text: "Nurse Ahmed" }) }}
+      {{ tableTd({ text: "Blood test" }) }}
+      {{ tableTd({ text: "Main Clinic" }) }}
     {% endcall %}
     {% call tableRow() %}
-      {{ TableTD({ text: "19 May 2026, 11:00am" }) }}
-      {{ TableTD({ text: "Dr Smith" }) }}
-      {{ TableTD({ text: "Follow-up" }) }}
-      {{ TableTD({ text: "High Street Surgery" }) }}
+      {{ tableTd({ text: "19 May 2026, 11:00am" }) }}
+      {{ tableTd({ text: "Dr Smith" }) }}
+      {{ tableTd({ text: "Follow-up" }) }}
+      {{ tableTd({ text: "High Street Surgery" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}
 
 <h2>Numeric columns — weather observations</h2>
 {% call table({ caption: "Recent weather observations" }) %}
-  {% call TableHead() %}
+  {% call tableHead() %}
     {% call tableRow() %}
-      {{ tableCol({ text: "Date" }) }}
-      {{ tableCol({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
-      {{ tableCol({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
-      {{ tableCol({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
+      {{ tableTh({ text: "Date" }) }}
+      {{ tableTh({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
+      {{ tableTh({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
+      {{ tableTh({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
     {% endcall %}
   {% endcall %}
-  {% call TableBody() %}
+  {% call tableBody() %}
     {% call tableRow() %}
-      {{ TableTD({ text: "12 Apr" }) }}
-      {{ TableTD({ text: "14", classes: "table-data-numeric" }) }}
-      {{ TableTD({ text: "3.2", classes: "table-data-numeric" }) }}
-      {{ TableTD({ text: "18", classes: "table-data-numeric" }) }}
+      {{ tableTd({ text: "12 Apr" }) }}
+      {{ tableTd({ text: "14", classes: "table-data-numeric" }) }}
+      {{ tableTd({ text: "3.2", classes: "table-data-numeric" }) }}
+      {{ tableTd({ text: "18", classes: "table-data-numeric" }) }}
     {% endcall %}
     {% call tableRow() %}
-      {{ TableTD({ text: "19 Apr" }) }}
-      {{ TableTD({ text: "16", classes: "table-data-numeric" }) }}
-      {{ TableTD({ text: "0.0", classes: "table-data-numeric" }) }}
-      {{ TableTD({ text: "12", classes: "table-data-numeric" }) }}
+      {{ tableTd({ text: "19 Apr" }) }}
+      {{ tableTd({ text: "16", classes: "table-data-numeric" }) }}
+      {{ tableTd({ text: "0.0", classes: "table-data-numeric" }) }}
+      {{ tableTd({ text: "12", classes: "table-data-numeric" }) }}
     {% endcall %}
     {% call tableRow() %}
-      {{ TableTD({ text: "26 Apr" }) }}
-      {{ TableTD({ text: "15", classes: "table-data-numeric" }) }}
-      {{ TableTD({ text: "1.4", classes: "table-data-numeric" }) }}
-      {{ TableTD({ text: "20", classes: "table-data-numeric" }) }}
+      {{ tableTd({ text: "26 Apr" }) }}
+      {{ tableTd({ text: "15", classes: "table-data-numeric" }) }}
+      {{ tableTd({ text: "1.4", classes: "table-data-numeric" }) }}
+      {{ tableTd({ text: "20", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call tableFoot() %}
     {% call tableRow() %}
-      {{ tableCol({ text: "Average", scope: "row" }) }}
-      {{ TableTD({ text: "15", classes: "table-data-numeric" }) }}
-      {{ TableTD({ text: "1.5", classes: "table-data-numeric" }) }}
-      {{ TableTD({ text: "17", classes: "table-data-numeric" }) }}
+      {{ tableTh({ text: "Average", scope: "row" }) }}
+      {{ tableTd({ text: "15", classes: "table-data-numeric" }) }}
+      {{ tableTd({ text: "1.5", classes: "table-data-numeric" }) }}
+      {{ tableTd({ text: "17", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}
 
 <h2>Row headers</h2>
-<p>Use <code>TableTD</code> with <code>scope="row"</code> to mark a
+<p>Use <code>tableTd</code> with <code>scope="row"</code> to mark a
   row header, so screen readers announce it together with each data
   cell in the row.</p>
 {% call table({ caption: "Dosage schedule" }) %}
-  {% call TableHead() %}
+  {% call tableHead() %}
     {% call tableRow() %}
-      {{ tableCol({ text: "Day" }) }}
-      {{ tableCol({ text: "Morning" }) }}
-      {{ tableCol({ text: "Evening" }) }}
+      {{ tableTh({ text: "Day" }) }}
+      {{ tableTh({ text: "Morning" }) }}
+      {{ tableTh({ text: "Evening" }) }}
     {% endcall %}
   {% endcall %}
-  {% call TableBody() %}
+  {% call tableBody() %}
     {% call tableRow() %}
-      {{ tableCol({ text: "Monday", scope: "row" }) }}
-      {{ TableTD({ text: "1 tablet" }) }}
-      {{ TableTD({ text: "1 tablet" }) }}
+      {{ tableTh({ text: "Monday", scope: "row" }) }}
+      {{ tableTd({ text: "1 tablet" }) }}
+      {{ tableTd({ text: "1 tablet" }) }}
     {% endcall %}
     {% call tableRow() %}
-      {{ tableCol({ text: "Tuesday", scope: "row" }) }}
-      {{ TableTD({ text: "1 tablet" }) }}
-      {{ TableTD({ text: "2 tablets" }) }}
+      {{ tableTh({ text: "Tuesday", scope: "row" }) }}
+      {{ tableTd({ text: "1 tablet" }) }}
+      {{ tableTd({ text: "2 tablets" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}

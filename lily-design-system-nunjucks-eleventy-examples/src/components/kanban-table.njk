@@ -9,37 +9,36 @@ description: a kanban board table interactive grid for organizing items by statu
 {% from "components/kanban-table-body/macro.njk" import kanbanTableBody %}
 {% from "components/kanban-table-foot/macro.njk" import kanbanTableFoot %}
 {% from "components/kanban-table-row/macro.njk" import kanbanTableRow %}
-{% from "components/kanban-table-th/macro.njk" import kanbanTableTD %}
-{% from "components/kanban-table-td/macro.njk" import kanbanTableTD %}
+{% from "components/kanban-table-td/macro.njk" import kanbanTableTd %}
 
 <h2>Default — appointment list</h2>
 {% call kanbanTable({ caption: "Your upcoming appointments" }) %}
   {% call kanbanTableHead() %}
     {% call kanbanTableRow() %}
-      {{ kanbanTableTD({ text: "Date" }) }}
-      {{ kanbanTableTD({ text: "Clinician" }) }}
-      {{ kanbanTableTD({ text: "Type" }) }}
-      {{ kanbanTableTD({ text: "Location" }) }}
+      {{ kanbanTableTd({ text: "Date" }) }}
+      {{ kanbanTableTd({ text: "Clinician" }) }}
+      {{ kanbanTableTd({ text: "Type" }) }}
+      {{ kanbanTableTd({ text: "Location" }) }}
     {% endcall %}
   {% endcall %}
   {% call kanbanTableBody() %}
     {% call kanbanTableRow() %}
-      {{ kanbanTableTD({ text: "27 April 2026, 9:30am" }) }}
-      {{ kanbanTableTD({ text: "Dr Patel" }) }}
-      {{ kanbanTableTD({ text: "GP review" }) }}
-      {{ kanbanTableTD({ text: "High Street Surgery" }) }}
+      {{ kanbanTableTd({ text: "27 April 2026, 9:30am" }) }}
+      {{ kanbanTableTd({ text: "Dr Patel" }) }}
+      {{ kanbanTableTd({ text: "GP review" }) }}
+      {{ kanbanTableTd({ text: "High Street Surgery" }) }}
     {% endcall %}
     {% call kanbanTableRow() %}
-      {{ kanbanTableTD({ text: "4 May 2026, 2:15pm" }) }}
-      {{ kanbanTableTD({ text: "Nurse Ahmed" }) }}
-      {{ kanbanTableTD({ text: "Blood test" }) }}
-      {{ kanbanTableTD({ text: "Main Clinic" }) }}
+      {{ kanbanTableTd({ text: "4 May 2026, 2:15pm" }) }}
+      {{ kanbanTableTd({ text: "Nurse Ahmed" }) }}
+      {{ kanbanTableTd({ text: "Blood test" }) }}
+      {{ kanbanTableTd({ text: "Main Clinic" }) }}
     {% endcall %}
     {% call kanbanTableRow() %}
-      {{ kanbanTableTD({ text: "19 May 2026, 11:00am" }) }}
-      {{ kanbanTableTD({ text: "Dr Smith" }) }}
-      {{ kanbanTableTD({ text: "Follow-up" }) }}
-      {{ kanbanTableTD({ text: "High Street Surgery" }) }}
+      {{ kanbanTableTd({ text: "19 May 2026, 11:00am" }) }}
+      {{ kanbanTableTd({ text: "Dr Smith" }) }}
+      {{ kanbanTableTd({ text: "Follow-up" }) }}
+      {{ kanbanTableTd({ text: "High Street Surgery" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}
@@ -48,38 +47,38 @@ description: a kanban board table interactive grid for organizing items by statu
 {% call kanbanTable({ caption: "Recent weather observations" }) %}
   {% call kanbanTableHead() %}
     {% call kanbanTableRow() %}
-      {{ kanbanTableTD({ text: "Date" }) }}
-      {{ kanbanTableTD({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
-      {{ kanbanTableTD({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
-      {{ kanbanTableTD({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
+      {{ kanbanTableTd({ text: "Date" }) }}
+      {{ kanbanTableTd({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
+      {{ kanbanTableTd({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
+      {{ kanbanTableTd({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call kanbanTableBody() %}
     {% call kanbanTableRow() %}
-      {{ kanbanTableTD({ text: "12 Apr" }) }}
-      {{ kanbanTableTD({ text: "14", classes: "table-data-numeric" }) }}
-      {{ kanbanTableTD({ text: "3.2", classes: "table-data-numeric" }) }}
-      {{ kanbanTableTD({ text: "18", classes: "table-data-numeric" }) }}
+      {{ kanbanTableTd({ text: "12 Apr" }) }}
+      {{ kanbanTableTd({ text: "14", classes: "table-data-numeric" }) }}
+      {{ kanbanTableTd({ text: "3.2", classes: "table-data-numeric" }) }}
+      {{ kanbanTableTd({ text: "18", classes: "table-data-numeric" }) }}
     {% endcall %}
     {% call kanbanTableRow() %}
-      {{ kanbanTableTD({ text: "19 Apr" }) }}
-      {{ kanbanTableTD({ text: "16", classes: "table-data-numeric" }) }}
-      {{ kanbanTableTD({ text: "0.0", classes: "table-data-numeric" }) }}
-      {{ kanbanTableTD({ text: "12", classes: "table-data-numeric" }) }}
+      {{ kanbanTableTd({ text: "19 Apr" }) }}
+      {{ kanbanTableTd({ text: "16", classes: "table-data-numeric" }) }}
+      {{ kanbanTableTd({ text: "0.0", classes: "table-data-numeric" }) }}
+      {{ kanbanTableTd({ text: "12", classes: "table-data-numeric" }) }}
     {% endcall %}
     {% call kanbanTableRow() %}
-      {{ kanbanTableTD({ text: "26 Apr" }) }}
-      {{ kanbanTableTD({ text: "15", classes: "table-data-numeric" }) }}
-      {{ kanbanTableTD({ text: "1.4", classes: "table-data-numeric" }) }}
-      {{ kanbanTableTD({ text: "20", classes: "table-data-numeric" }) }}
+      {{ kanbanTableTd({ text: "26 Apr" }) }}
+      {{ kanbanTableTd({ text: "15", classes: "table-data-numeric" }) }}
+      {{ kanbanTableTd({ text: "1.4", classes: "table-data-numeric" }) }}
+      {{ kanbanTableTd({ text: "20", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call kanbanTableFoot() %}
     {% call kanbanTableRow() %}
-      {{ kanbanTableTD({ text: "Average", scope: "row" }) }}
-      {{ kanbanTableTD({ text: "15", classes: "table-data-numeric" }) }}
-      {{ kanbanTableTD({ text: "1.5", classes: "table-data-numeric" }) }}
-      {{ kanbanTableTD({ text: "17", classes: "table-data-numeric" }) }}
+      {{ kanbanTableTd({ text: "Average", scope: "row" }) }}
+      {{ kanbanTableTd({ text: "15", classes: "table-data-numeric" }) }}
+      {{ kanbanTableTd({ text: "1.5", classes: "table-data-numeric" }) }}
+      {{ kanbanTableTd({ text: "17", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}
@@ -91,21 +90,21 @@ description: a kanban board table interactive grid for organizing items by statu
 {% call kanbanTable({ caption: "Dosage schedule" }) %}
   {% call kanbanTableHead() %}
     {% call kanbanTableRow() %}
-      {{ kanbanTableTD({ text: "Day" }) }}
-      {{ kanbanTableTD({ text: "Morning" }) }}
-      {{ kanbanTableTD({ text: "Evening" }) }}
+      {{ kanbanTableTd({ text: "Day" }) }}
+      {{ kanbanTableTd({ text: "Morning" }) }}
+      {{ kanbanTableTd({ text: "Evening" }) }}
     {% endcall %}
   {% endcall %}
   {% call kanbanTableBody() %}
     {% call kanbanTableRow() %}
-      {{ kanbanTableTD({ text: "Monday", scope: "row" }) }}
-      {{ kanbanTableTD({ text: "1 tablet" }) }}
-      {{ kanbanTableTD({ text: "1 tablet" }) }}
+      {{ kanbanTableTd({ text: "Monday", scope: "row" }) }}
+      {{ kanbanTableTd({ text: "1 tablet" }) }}
+      {{ kanbanTableTd({ text: "1 tablet" }) }}
     {% endcall %}
     {% call kanbanTableRow() %}
-      {{ kanbanTableTD({ text: "Tuesday", scope: "row" }) }}
-      {{ kanbanTableTD({ text: "1 tablet" }) }}
-      {{ kanbanTableTD({ text: "2 tablets" }) }}
+      {{ kanbanTableTd({ text: "Tuesday", scope: "row" }) }}
+      {{ kanbanTableTd({ text: "1 tablet" }) }}
+      {{ kanbanTableTd({ text: "2 tablets" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}

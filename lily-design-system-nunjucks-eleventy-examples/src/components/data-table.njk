@@ -9,37 +9,36 @@ description: a data table interactive grid for displaying and sorting tabular da
 {% from "components/data-table-body/macro.njk" import dataTableBody %}
 {% from "components/data-table-foot/macro.njk" import dataTableFoot %}
 {% from "components/data-table-row/macro.njk" import dataTableRow %}
-{% from "components/data-table-th/macro.njk" import dataTableTD %}
-{% from "components/data-table-td/macro.njk" import dataTableTD %}
+{% from "components/data-table-td/macro.njk" import dataTableTd %}
 
 <h2>Default — appointment list</h2>
 {% call dataTable({ caption: "Your upcoming appointments" }) %}
   {% call dataTableHead() %}
     {% call dataTableRow() %}
-      {{ dataTableTD({ text: "Date" }) }}
-      {{ dataTableTD({ text: "Clinician" }) }}
-      {{ dataTableTD({ text: "Type" }) }}
-      {{ dataTableTD({ text: "Location" }) }}
+      {{ dataTableTd({ text: "Date" }) }}
+      {{ dataTableTd({ text: "Clinician" }) }}
+      {{ dataTableTd({ text: "Type" }) }}
+      {{ dataTableTd({ text: "Location" }) }}
     {% endcall %}
   {% endcall %}
   {% call dataTableBody() %}
     {% call dataTableRow() %}
-      {{ dataTableTD({ text: "27 April 2026, 9:30am" }) }}
-      {{ dataTableTD({ text: "Dr Patel" }) }}
-      {{ dataTableTD({ text: "GP review" }) }}
-      {{ dataTableTD({ text: "High Street Surgery" }) }}
+      {{ dataTableTd({ text: "27 April 2026, 9:30am" }) }}
+      {{ dataTableTd({ text: "Dr Patel" }) }}
+      {{ dataTableTd({ text: "GP review" }) }}
+      {{ dataTableTd({ text: "High Street Surgery" }) }}
     {% endcall %}
     {% call dataTableRow() %}
-      {{ dataTableTD({ text: "4 May 2026, 2:15pm" }) }}
-      {{ dataTableTD({ text: "Nurse Ahmed" }) }}
-      {{ dataTableTD({ text: "Blood test" }) }}
-      {{ dataTableTD({ text: "Main Clinic" }) }}
+      {{ dataTableTd({ text: "4 May 2026, 2:15pm" }) }}
+      {{ dataTableTd({ text: "Nurse Ahmed" }) }}
+      {{ dataTableTd({ text: "Blood test" }) }}
+      {{ dataTableTd({ text: "Main Clinic" }) }}
     {% endcall %}
     {% call dataTableRow() %}
-      {{ dataTableTD({ text: "19 May 2026, 11:00am" }) }}
-      {{ dataTableTD({ text: "Dr Smith" }) }}
-      {{ dataTableTD({ text: "Follow-up" }) }}
-      {{ dataTableTD({ text: "High Street Surgery" }) }}
+      {{ dataTableTd({ text: "19 May 2026, 11:00am" }) }}
+      {{ dataTableTd({ text: "Dr Smith" }) }}
+      {{ dataTableTd({ text: "Follow-up" }) }}
+      {{ dataTableTd({ text: "High Street Surgery" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}
@@ -48,38 +47,38 @@ description: a data table interactive grid for displaying and sorting tabular da
 {% call dataTable({ caption: "Recent weather observations" }) %}
   {% call dataTableHead() %}
     {% call dataTableRow() %}
-      {{ dataTableTD({ text: "Date" }) }}
-      {{ dataTableTD({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
-      {{ dataTableTD({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
-      {{ dataTableTD({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
+      {{ dataTableTd({ text: "Date" }) }}
+      {{ dataTableTd({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
+      {{ dataTableTd({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
+      {{ dataTableTd({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call dataTableBody() %}
     {% call dataTableRow() %}
-      {{ dataTableTD({ text: "12 Apr" }) }}
-      {{ dataTableTD({ text: "14", classes: "table-data-numeric" }) }}
-      {{ dataTableTD({ text: "3.2", classes: "table-data-numeric" }) }}
-      {{ dataTableTD({ text: "18", classes: "table-data-numeric" }) }}
+      {{ dataTableTd({ text: "12 Apr" }) }}
+      {{ dataTableTd({ text: "14", classes: "table-data-numeric" }) }}
+      {{ dataTableTd({ text: "3.2", classes: "table-data-numeric" }) }}
+      {{ dataTableTd({ text: "18", classes: "table-data-numeric" }) }}
     {% endcall %}
     {% call dataTableRow() %}
-      {{ dataTableTD({ text: "19 Apr" }) }}
-      {{ dataTableTD({ text: "16", classes: "table-data-numeric" }) }}
-      {{ dataTableTD({ text: "0.0", classes: "table-data-numeric" }) }}
-      {{ dataTableTD({ text: "12", classes: "table-data-numeric" }) }}
+      {{ dataTableTd({ text: "19 Apr" }) }}
+      {{ dataTableTd({ text: "16", classes: "table-data-numeric" }) }}
+      {{ dataTableTd({ text: "0.0", classes: "table-data-numeric" }) }}
+      {{ dataTableTd({ text: "12", classes: "table-data-numeric" }) }}
     {% endcall %}
     {% call dataTableRow() %}
-      {{ dataTableTD({ text: "26 Apr" }) }}
-      {{ dataTableTD({ text: "15", classes: "table-data-numeric" }) }}
-      {{ dataTableTD({ text: "1.4", classes: "table-data-numeric" }) }}
-      {{ dataTableTD({ text: "20", classes: "table-data-numeric" }) }}
+      {{ dataTableTd({ text: "26 Apr" }) }}
+      {{ dataTableTd({ text: "15", classes: "table-data-numeric" }) }}
+      {{ dataTableTd({ text: "1.4", classes: "table-data-numeric" }) }}
+      {{ dataTableTd({ text: "20", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call dataTableFoot() %}
     {% call dataTableRow() %}
-      {{ dataTableTD({ text: "Average", scope: "row" }) }}
-      {{ dataTableTD({ text: "15", classes: "table-data-numeric" }) }}
-      {{ dataTableTD({ text: "1.5", classes: "table-data-numeric" }) }}
-      {{ dataTableTD({ text: "17", classes: "table-data-numeric" }) }}
+      {{ dataTableTd({ text: "Average", scope: "row" }) }}
+      {{ dataTableTd({ text: "15", classes: "table-data-numeric" }) }}
+      {{ dataTableTd({ text: "1.5", classes: "table-data-numeric" }) }}
+      {{ dataTableTd({ text: "17", classes: "table-data-numeric" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}
@@ -91,21 +90,21 @@ description: a data table interactive grid for displaying and sorting tabular da
 {% call dataTable({ caption: "Dosage schedule" }) %}
   {% call dataTableHead() %}
     {% call dataTableRow() %}
-      {{ dataTableTD({ text: "Day" }) }}
-      {{ dataTableTD({ text: "Morning" }) }}
-      {{ dataTableTD({ text: "Evening" }) }}
+      {{ dataTableTd({ text: "Day" }) }}
+      {{ dataTableTd({ text: "Morning" }) }}
+      {{ dataTableTd({ text: "Evening" }) }}
     {% endcall %}
   {% endcall %}
   {% call dataTableBody() %}
     {% call dataTableRow() %}
-      {{ dataTableTD({ text: "Monday", scope: "row" }) }}
-      {{ dataTableTD({ text: "1 tablet" }) }}
-      {{ dataTableTD({ text: "1 tablet" }) }}
+      {{ dataTableTd({ text: "Monday", scope: "row" }) }}
+      {{ dataTableTd({ text: "1 tablet" }) }}
+      {{ dataTableTd({ text: "1 tablet" }) }}
     {% endcall %}
     {% call dataTableRow() %}
-      {{ dataTableTD({ text: "Tuesday", scope: "row" }) }}
-      {{ dataTableTD({ text: "1 tablet" }) }}
-      {{ dataTableTD({ text: "2 tablets" }) }}
+      {{ dataTableTd({ text: "Tuesday", scope: "row" }) }}
+      {{ dataTableTd({ text: "1 tablet" }) }}
+      {{ dataTableTd({ text: "2 tablets" }) }}
     {% endcall %}
   {% endcall %}
 {% endcall %}
