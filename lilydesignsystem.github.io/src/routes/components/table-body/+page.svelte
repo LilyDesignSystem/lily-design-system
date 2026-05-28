@@ -1,5 +1,9 @@
 <script lang="ts">
   const html: string = "<h1>Table Body</h1>\n\n<p>TableBody is a headless component that renders a <code>&lt;tbody&gt;</code> element within a table. It groups the main data rows of the table.</p>\n\n<p>Use this component within a Table to define the body section containing data rows.</p>\n\n<h2>Implementation Notes</h2>\n\n<ul>\n<li>Renders a <code>&lt;tbody&gt;</code> element for table body group semantics</li>\n<li>Accepts <code>className</code> for CSS class targeting</li>\n<li>Spreads <code>restProps</code> onto the <code>&lt;tbody&gt;</code> element for consumer customization</li>\n</ul>\n\n<h2>Props</h2>\n\n<ul>\n<li><code>className</code>: string (default: <code>\"\"</code>) -- CSS class name for the body group</li>\n<li><code>children</code>: slot (required) -- data rows, typically TableRow components</li>\n<li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;tbody&gt;</code> element</li>\n</ul>\n\n<h2>Usage</h2>\n\n<pre><code class=\"language-html\">&lt;Table label=\"Users\"&gt;\n  &lt;TableBody&gt;\n    &lt;TableRow&gt;\n      &lt;TableTD&gt;Alice&lt;/TableTD&gt;\n      &lt;TableTD&gt;alice@example.com&lt;/TableTD&gt;\n    &lt;/TableRow&gt;\n  &lt;/TableBody&gt;\n&lt;/Table&gt;</code></pre>\n\n<h2>Keyboard Interactions</h2>\n\n<p>Standard table keyboard interactions.</p>\n\n<h2>ARIA</h2>\n\n<p>No additional ARIA attributes. Body semantics are provided by the <code>&lt;tbody&gt;</code> element.</p>\n\n<h2>When to Use</h2>\n\n<ul>\n<li>Use inside Table to wrap the data rows that contain the main table content</li>\n<li>Use to separate data rows from header rows (TableHead) and footer rows (TableFoot)</li>\n<li>Use to enable screen readers to distinguish between header and data sections</li>\n</ul>\n\n<h2>When Not to Use</h2>\n\n<ul>\n<li>Do not use outside of a Table -- use DataTableBody for DataTable or CalendarTableBody for CalendarTable</li>\n<li>Do not use for header rows -- use TableHead instead</li>\n</ul>\n\n<h2>Headless</h2>\n\n<p>This headless component renders a <code>&lt;tbody&gt;</code> element. The consumer provides all visual styling.</p>\n\n<h2>Styles</h2>\n\n<p>The consumer provides all CSS styling. The component renders with a <code>.table-body</code> class for targeting.</p>\n\n<h2>Testing</h2>\n\n<ul>\n<li>Verify the component renders a <code>&lt;tbody&gt;</code> element</li>\n<li>Verify children content is rendered</li>\n<li>Verify pass-through attributes are applied</li>\n</ul>\n\n<h2>Composition</h2>\n\n<p>TableBody is a child of Table, following the Table pattern: Table &gt; TableHead/TableBody/TableFoot &gt; TableRow &gt; TableTD.</p>\n\n<h2>Related components</h2>\n\n<ul>\n<li><code>table</code> — a table with rows and columns &lt;table&gt;</li>\n<li><code>table-foot</code> — a table interactive grid tfoot &lt;tfoot&gt;</li>\n<li><code>table-head</code> — a table interactive grid thead &lt;thead&gt;</li>\n<li><code>table-row</code> — a table interactive grid row &lt;tr&gt;</li>\n<li><code>table-td</code> — a table interactive grid data cell &lt;td&gt;</li>\n<li><code>table-th</code> — a table interactive grid column &lt;th&gt;</li>\n</ul>\n\n<h2>References</h2>\n\n<ul>\n<li>MDN tbody element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody</li>\n</ul>";
+  // BEGIN auto-generated component example consts
+  const demoHtml: string = "<tbody class=\"table-body\"><tr class=\"table-row\"><td class=\"table-td\">Data</td></tr></tbody>";
+  const svelteSource: string = "// In your Svelte component:\nimport TableBody from \"lily-design-system-svelte-headless/components/TableBody/TableBody.svelte\";\n\n<TableBody>\n  <!-- TableBody content -->\n</TableBody>\n";
+  // END auto-generated component example consts
 </script>
 
 <svelte:head>
@@ -14,3 +18,15 @@
 <article class="component-page prose" style="max-width: 64rem; margin: 0 auto; padding: 1rem 1rem 2rem;">
   {@html html}
 </article>
+
+<!-- BEGIN auto-generated component example -->
+<section class="component-example" aria-labelledby="example-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="example-heading">Example</h2>
+  <div class="component-example-rendered" style="padding: 1rem; border: 1px solid #d8dde0; border-radius: 0.5rem; background: #ffffff;">{@html demoHtml}</div>
+  <details style="margin-top: 1rem;">
+    <summary style="cursor: pointer; font-weight: 600;">Show Svelte source</summary>
+    <pre style="overflow-x: auto; padding: 1rem; background: #f0f4f5; border-radius: 0.5rem;"><code>{svelteSource}</code></pre>
+  </details>
+</section>
+<!-- END auto-generated component example -->
+

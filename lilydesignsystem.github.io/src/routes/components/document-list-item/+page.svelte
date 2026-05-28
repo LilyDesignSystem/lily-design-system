@@ -1,5 +1,9 @@
 <script lang="ts">
   const html: string = "<h1>DocumentListItem</h1>\n\n<p>One document entry in a document list.</p>\n\n<h2>Implementation Notes</h2>\n\n<ul>\n<li>Renders an <code>&lt;li&gt;</code> containing the document title (as a link), file type, file size, and optional last-modified date</li>\n<li>Title is rendered as an <code>&lt;a download&gt;</code> so browsers offer a download dialog</li>\n<li>Metadata (type, size, modified) is rendered in <code>&lt;span&gt;</code> elements</li>\n<li>Spreads <code>restProps</code> onto the root <code>&lt;li&gt;</code></li>\n</ul>\n\n<h2>Props</h2>\n\n<table>\n<thead>\n<tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr>\n</thead>\n<tbody>\n<tr><td><code>title</code></td><td>string (required)</td><td>—</td><td>Document title (link text)</td></tr>\n<tr><td><code>href</code></td><td>string (required)</td><td>—</td><td>Document URL</td></tr>\n<tr><td><code>type</code></td><td>string</td><td>—</td><td>File type label, e.g. <code>\"PDF\"</code>, <code>\"DOCX\"</code></td></tr>\n<tr><td><code>size</code></td><td>string</td><td>—</td><td>File size, e.g. <code>\"1.2 MB\"</code></td></tr>\n<tr><td><code>modified</code></td><td>string</td><td>—</td><td>Last-modified date string</td></tr>\n<tr><td><code>...restProps</code></td><td>HTML attributes</td><td>—</td><td>Spread onto the root <code>&lt;li&gt;</code></td></tr>\n</tbody>\n</table>\n\n<h2>Usage</h2>\n\n<pre><code class=\"language-html\">&lt;DocumentListItem title=\"Annual report\" href=\"/annual.pdf\" type=\"PDF\" size=\"1.2 MB\" modified=\"14 January 2026\" /&gt;</code></pre>\n\n<h2>Keyboard Interactions</h2>\n\n<ul>\n<li>Tab moves focus onto the document link</li>\n<li>Enter activates the link to download the document (native browser behaviour)</li>\n</ul>\n\n<h2>ARIA</h2>\n\n<ul>\n<li>Native anchor and list-item semantics</li>\n<li>The link's accessible name combines the title and the file type/size when announced by screen readers</li>\n</ul>\n\n<h2>When to Use</h2>\n\n<ul>\n<li>As a child of <code>DocumentList</code></li>\n</ul>\n\n<h2>When Not to Use</h2>\n\n<ul>\n<li>Use <code>DownloadButton</code> for a single, prominent download action</li>\n</ul>\n\n<h2>Headless</h2>\n\n<p>This headless component renders semantic HTML with appropriate ARIA wiring. The consumer provides all visual styling — no CSS, animations, or layout assumptions are baked in.</p>\n\n<h2>Styles</h2>\n\n<p>The component renders with <code>.document-list-item</code> as the root class. No default styles are included.</p>\n\n<h2>Related components</h2>\n\n<ul>\n<li><code>document-list</code> — parent list</li>\n<li><code>download-button</code> — single download link styled as a button</li>\n</ul>\n\n<h2>References</h2>\n\n<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download\">MDN download attribute</a></li>\n</ul>";
+  // BEGIN auto-generated component example consts
+  const demoHtml: string = "<div class=\"document-list-item\" aria-label=\"one document entry in a document list\">DocumentListItem</div>";
+  const svelteSource: string = "// In your Svelte component:\nimport DocumentListItem from \"lily-design-system-svelte-headless/components/DocumentListItem/DocumentListItem.svelte\";\n\n<DocumentListItem>\n  <!-- DocumentListItem content -->\n</DocumentListItem>\n";
+  // END auto-generated component example consts
 </script>
 
 <svelte:head>
@@ -14,3 +18,15 @@
 <article class="component-page prose" style="max-width: 64rem; margin: 0 auto; padding: 1rem 1rem 2rem;">
   {@html html}
 </article>
+
+<!-- BEGIN auto-generated component example -->
+<section class="component-example" aria-labelledby="example-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="example-heading">Example</h2>
+  <div class="component-example-rendered" style="padding: 1rem; border: 1px solid #d8dde0; border-radius: 0.5rem; background: #ffffff;">{@html demoHtml}</div>
+  <details style="margin-top: 1rem;">
+    <summary style="cursor: pointer; font-weight: 600;">Show Svelte source</summary>
+    <pre style="overflow-x: auto; padding: 1rem; background: #f0f4f5; border-radius: 0.5rem;"><code>{svelteSource}</code></pre>
+  </details>
+</section>
+<!-- END auto-generated component example -->
+
