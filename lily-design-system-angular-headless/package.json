@@ -18,8 +18,9 @@
     "rxjs": ">=7.0.0"
   },
   "devDependencies": {
-    "@analogjs/vite-plugin-angular": "^1.10.0",
-    "@analogjs/vitest-angular": "^1.10.0",
+    "@analogjs/vite-plugin-angular": "1.19.4",
+    "@analogjs/vitest-angular": "1.19.4",
+    "@angular/build": "^20.0.0",
     "@angular/common": "^20.0.0",
     "@angular/compiler": "^20.0.0",
     "@angular/compiler-cli": "^20.0.0",

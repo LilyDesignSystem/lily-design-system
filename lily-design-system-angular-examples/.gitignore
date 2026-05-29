@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.nitro/
+.output/
+.angular/
+*.tsbuildinfo
+test-results/
+playwright-report/
+playwright/.cache/

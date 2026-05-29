@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
 @Component({
   selector: "lily-theme-select",
   standalone: true,
-  template: `<select class="theme-select {{ className() }}" [attr.aria-label]="label() || null" [value]="value()" (change)="value.set(($event.target as HTMLSelectElement).value)"><ng-content /></select>`,
+  template: `<select class="theme-select {{ className() }}" [attr.aria-label]="label() || null" [value]="value()" (change)="value.set($any($event.target).value)"><ng-content /></select>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThemeSelect {

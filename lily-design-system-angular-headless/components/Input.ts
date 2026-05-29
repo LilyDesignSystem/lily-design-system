@@ -16,7 +16,7 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
       [attr.aria-label]="label() || null"
       autocomplete="off"
       [value]="value()"
-      (input)="value.set(($event.target as HTMLInputElement).value)"
+      (input)="value.set($any($event.target).value)"
       [disabled]="disabled()"
       [required]="required()"
     />`,

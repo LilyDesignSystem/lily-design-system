@@ -790,12 +790,33 @@ overhead that the project hasn't chosen to pay.
       variant, `<span aria-label=...>` for the view variant. Tests,
       demo registry entries, and Storybook stories landed in commits
       50841648..490282db.
-- [ ] Angular subprojects end-to-end verification. The scaffolds
-      shipped on 2026-05-28 (commits 832dce3e + bcf649f5) but
-      `pnpm install`, `vitest run`, `vite build`, and the Playwright
-      suites have not been exercised yet. Likely to surface real
-      version-resolution / API issues against the latest Angular 20 +
-      Analog.js v1 releases.
+- [/] Angular subprojects end-to-end verification — partial:
+      - **angular-headless** (2026-05-29): `pnpm install` works once
+        `@analogjs/vite-plugin-angular` is pinned to `1.19.4` (the
+        1.22+ line requires Vite 6 via `defaultClientConditions`) and
+        `@angular/build` is added as a direct devDep. `vitest run`
+        passes **974 / 974** across **487 / 487** spec files. `pnpm
+        build` (ng-packagr) emits the APF bundle cleanly. Source fix:
+        all `($event.target as HTMLInputElement).value` patterns
+        rewritten to `$any($event.target).value` because Angular
+        template parsing rejects parenthesised TS casts inside method
+        calls.
+      - **angular-examples**: `pnpm install` resolves once both
+        `@analogjs/{platform,router,vite-plugin-angular}` are pinned
+        to `1.19.4` and `pnpm.overrides` force the same on
+        `@analogjs/vite-plugin-angular`. Same template-cast fix
+        applied to the copied components. `pnpm run build`
+        progresses through client + SSR bundle emission but trips
+        when Nitro 1.22.5 (still pulled transitively via Analog
+        platform 1.19.4 — the override doesn't catch it) expects a
+        `dist/client/index.html` layout while the Vite 5 build writes
+        to `dist/`. Resolving this likely means either bumping the
+        whole stack to Vite 6 + Analog 1.22+ + Vitest 3+, or
+        scaffolding Analog SSR (`main.server.ts`,
+        `app.config.server.ts`, `index.html`) plus matching vite
+        `build.outDir`. The SSR scaffolding files are now in place;
+        the version-matrix decision is the remaining blocker.
+      - Playwright e2e suites not yet exercised against either app.
 - [ ] Angular headless Storybook coverage. Wire `@storybook/angular`
       with the Vite builder and generate 487 stories matching the
       svelte / react / vue / html / nunjucks pattern.
