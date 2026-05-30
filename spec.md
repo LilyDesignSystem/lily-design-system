@@ -751,14 +751,17 @@ a built route 404s.
 | react-headless       | yes (vite)   | 487 / 487     |
 | vue-headless         | yes (vite)   | 487 / 487     |
 | nunjucks-headless    | yes (vite)   | 487 / 487     |
-| angular-headless     | deferred     | not yet wired |
+| angular-headless     | yes (webpack)| 487 / 487     |
 | blazor-headless      | no           | not planned   |
 
-Angular headless ships without Storybook in the initial scaffold.
-`@storybook/angular` with the Vite builder is the standard pairing
-for Angular 20 in 2026; wiring it across all 487 components is queued
-behind the more pressing "actually exercise `pnpm install` and
-`vitest run` end-to-end" verification.
+Angular headless uses `@storybook/angular` 9.1 with the
+`@storybook/angular:build-storybook` Angular builder (webpack-based;
+Storybook 9 does not yet ship a first-class Vite builder for
+Angular). An `angular.json` scaffold declares the `storybook` and
+`build-storybook` architect targets and points them at
+`.storybook/tsconfig.json`. All 487 stories render with the same
+`title: "Headless/{Pascal}"` + single `Default` story shape used by
+the other 5 Storybook-wired libraries.
 
 Blazor headless deliberately skips Storybook: there is no idiomatic
 `@storybook/blazor` framework, and the runtime-rendering pipeline
@@ -817,9 +820,19 @@ overhead that the project hasn't chosen to pay.
         `build.outDir`. The SSR scaffolding files are now in place;
         the version-matrix decision is the remaining blocker.
       - Playwright e2e suites not yet exercised against either app.
-- [ ] Angular headless Storybook coverage. Wire `@storybook/angular`
-      with the Vite builder and generate 487 stories matching the
-      svelte / react / vue / html / nunjucks pattern.
+- [x] Angular headless Storybook coverage. Wired `@storybook/angular`
+      9.1 with the webpack-based `@storybook/angular:build-storybook`
+      Angular builder (the Vite-builder path isn't first-class for
+      Angular yet in Storybook 9). Scaffolded `angular.json` to
+      declare the storybook + build-storybook architect targets,
+      `.storybook/main.ts`, `.storybook/preview.ts`, and
+      `.storybook/tsconfig.json` (so `@ngtools/webpack` sees
+      preview.ts and the stories). Generated 487 / 487
+      `components/*.stories.ts` files matching the svelte / react /
+      vue / html / nunjucks pattern: `title: "Headless/{Pascal}"`,
+      `component`, `tags: ["autodocs"]`, one `Default` story.
+      `pnpm run build-storybook` emits all 487 story bundles into
+      `storybook-static/`. Vitest still passes 974 / 974.
 
 ## 12. Implementation status
 

@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "declaration": false,
+    "declarationMap": false,
+    "types": ["node"]
+  },
+  "files": ["./main.ts", "./preview.ts"],
+  "include": ["../components/**/*.stories.ts"]
+}
