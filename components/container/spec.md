@@ -15,7 +15,7 @@ Implement the Container component: a generic block-level content container.
 
 1. Render `<div>` as the root element with `class="container"`
 2. Accept and spread `restProps` for consumer customization
-3. Implement headless variants in HTML, Svelte, React, Vue, Blazor, and Nunjucks subprojects (follow-up)
+3. Implement headless variants in HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks subprojects (follow-up)
 
 ## Acceptance Criteria
 

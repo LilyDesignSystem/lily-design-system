@@ -23,7 +23,7 @@ Styled example pages demonstrating headless components with Plain HTML + vanilla
 ## IMPORTANT Architecture
 
 - Plain HTML + vanilla JavaScript
-- No frameworks (no React, no Svelte, no Vue, no Angular)
+- No frameworks (no React, no Svelte, no Vue, no Angular, no Blazor)
 - No TypeScript (plain JavaScript only)
 - No build tools required
 - NHS UK CSS via css/nhs.css for styling

@@ -32,7 +32,7 @@ Implement the AccordionCheckbox component: a checkbox option that reveals an acc
 - [ ] Two-way binding on `checked` works
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
-- [ ] Tests pass in all six headless implementations
+- [ ] Tests pass in all seven headless implementations
 
 ## Implementation Status
 

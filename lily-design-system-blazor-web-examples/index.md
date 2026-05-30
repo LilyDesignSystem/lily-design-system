@@ -83,7 +83,7 @@ lily-design-system-blazor-web-examples/
 | Route                   | Description                                             |
 | ----------------------- | ------------------------------------------------------- |
 | `/`                     | Home page with links to all examples                    |
-| `/components`           | Lists all 414 components with links to individual demos |
+| `/components`           | Lists all 487 components with links to individual demos |
 | `/components/{slug}`    | Demonstrates one component with a live interactive demo |
 | `/contact-form`         | Contact form example page                               |
 | `/dashboard`            | Dashboard example page                                  |
@@ -156,6 +156,8 @@ Components are headless (unstyled) by default. Each component renders a semantic
 - [React Next.js Examples](../lily-design-system-react-next-examples/) - React equivalent
 - [Svelte SvelteKit Examples](../lily-design-system-svelte-sveltekit-examples/) - Svelte equivalent
 - [Vue Nuxt Examples](../lily-design-system-vue-nuxt-examples/) - Vue equivalent
+- [Angular Headless](../lily-design-system-angular-headless/) — Angular 20 equivalent
+- [Angular Analog Examples](../lily-design-system-angular-examples/) — Angular + Analog.js equivalent
 
 ## NHS UK Design System References
 

@@ -15,7 +15,7 @@ Blazor Web App examples of the Lily Design System Blazor headless component libr
 - **Package**: lily-design-system-blazor-web-examples
 - **Version**: 0.2.0
 - **Created**: 2026-03-03
-- **Updated**: 2026-03-04
+- **Updated**: 2026-05-30
 - **License**: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
 - **Contact**: Joel Parker Henderson (joel@joelparkerhenderson.com)
 

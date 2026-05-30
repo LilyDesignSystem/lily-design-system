@@ -15,7 +15,7 @@ Implement the MockupPhoneLandscape component: a box area that looks like a mobil
 
 1. Render `<div>` as the root element with `class="mockup-phone-landscape"`
 2. Accept and spread `restProps` for consumer customization
-3. Implement headless variants in HTML, Svelte, React, Vue, Blazor, and Nunjucks subprojects (follow-up)
+3. Implement headless variants in HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks subprojects (follow-up)
 
 ## Acceptance Criteria
 

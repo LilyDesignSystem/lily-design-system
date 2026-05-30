@@ -69,6 +69,8 @@ headless macro file without any copy-in step.
   the headless component library this site styles
 - [HTML Headless](../lily-design-system-html-headless/)
 - [Svelte Headless](../lily-design-system-svelte-headless/)
+- [Angular Headless](../lily-design-system-angular-headless/) — Angular 20 equivalent
+- [Angular Analog Examples](../lily-design-system-angular-examples/) — Angular + Analog.js equivalent
 
 ## License
 

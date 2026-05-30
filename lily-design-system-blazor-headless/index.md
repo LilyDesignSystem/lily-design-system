@@ -157,6 +157,7 @@ public class ButtonTests : TestContext
 - [React Headless](../lily-design-system-react-headless/) - React equivalent
 - [Svelte Headless](../lily-design-system-svelte-headless/) - Svelte equivalent
 - [Vue Headless](../lily-design-system-vue-headless/) - Vue equivalent
+- [Angular Headless](../lily-design-system-angular-headless/) — Angular 20 equivalent
 
 ## License
 

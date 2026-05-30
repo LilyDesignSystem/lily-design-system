@@ -1,5 +1,5 @@
 // Lily component catalog — generated from components.tsv
-// Components across HTML, Svelte, React, Vue, Blazor, Nunjucks headless
+// Components across HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks headless
 
 export type LilyComponent = {
   name: string;

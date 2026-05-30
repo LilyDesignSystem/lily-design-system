@@ -1,6 +1,6 @@
 # Lily Design System - Nunjucks Headless
 
-A headless Nunjucks component library with 414 components. All
+A headless Nunjucks component library with 487 components. All
 components are Nunjucks macros that render semantic HTML; they have no
 built-in styles, are fully accessible (WCAG 2.2 AAA), and are
 internationalisation-ready.
@@ -14,7 +14,7 @@ design system's Nunjucks macro pattern.
 
 ## Features
 
-- 414 headless Nunjucks macros
+- 487 headless Nunjucks macros
 - One macro per component, in its own directory, at
   `components/{component}/macro.njk` — the NHS.UK layout
 - WCAG 2.2 AAA accessibility
@@ -182,6 +182,7 @@ and error messages are all configurable by the consumer.
 - [React Headless](../lily-design-system-react-headless/)
 - [Vue Headless](../lily-design-system-vue-headless/)
 - [Blazor Headless](../lily-design-system-blazor-headless/)
+- [Angular Headless](../lily-design-system-angular-headless/) — Angular 20 equivalent
 
 ## License
 

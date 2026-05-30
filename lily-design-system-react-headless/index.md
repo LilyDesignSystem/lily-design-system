@@ -1,12 +1,12 @@
 # Lily Design System - React Headless
 
-A comprehensive headless React component library with 414 accessible, unstyled components for building design systems. Every component follows WCAG 2.2 AAA guidelines with full ARIA support, keyboard navigation, and internationalization readiness.
+A comprehensive headless React component library with 487 accessible, unstyled components for building design systems. Every component follows WCAG 2.2 AAA guidelines with full ARIA support, keyboard navigation, and internationalization readiness.
 
 **Headless** means zero CSS, zero styles, zero opinions about appearance. You provide all styling. Components provide structure, semantics, accessibility, and behavior.
 
 ## Features
 
-- 414 headless React components
+- 487 headless React components
 - TypeScript with full type definitions
 - WCAG 2.2 AAA accessibility compliance
 - Full keyboard navigation support
@@ -1033,7 +1033,7 @@ pnpm install
 ### Testing
 
 ```bash
-# Run all tests (414 files)
+# Run all tests (487 files)
 pnpm test
 
 # Run tests in watch mode
@@ -1136,6 +1136,17 @@ No strings are hardcoded in any component. All user-facing text comes through pr
 - Use `...restProps` spread on the root element
 - camelCase for all callback props (`onChange`, `onClose`, `onSubmit`)
 - camelCase for HTML attributes in JSX (`autoComplete`, `tabIndex`, `htmlFor`)
+
+## Related Projects
+
+- [Lily Design System](https://github.com/LilyDesignSystem/lily) — Parent project
+- [React Next.js Examples](../lily-design-system-react-next-examples/) — Example app
+- [HTML Headless](../lily-design-system-html-headless/) — Plain HTML equivalent
+- [Svelte Headless](../lily-design-system-svelte-headless/) — Svelte equivalent
+- [Vue Headless](../lily-design-system-vue-headless/) — Vue equivalent
+- [Angular Headless](../lily-design-system-angular-headless/) — Angular 20 equivalent
+- [Blazor Headless](../lily-design-system-blazor-headless/) — Blazor equivalent
+- [Nunjucks Headless](../lily-design-system-nunjucks-headless/) — Nunjucks equivalent
 
 ## License
 

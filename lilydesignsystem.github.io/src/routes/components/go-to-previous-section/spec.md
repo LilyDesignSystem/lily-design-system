@@ -15,7 +15,7 @@ Implement the GoToPreviousSection component: a link that takes users to the prev
 
 1. Render `<a>` as the root element with `class="go-to-previous-section"`
 2. Accept and spread `restProps` for consumer customization
-3. Implement headless variants in HTML, Svelte, React, Vue, Blazor, and Nunjucks subprojects (follow-up)
+3. Implement headless variants in HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks subprojects (follow-up)
 
 ## Acceptance Criteria
 

@@ -14,7 +14,7 @@
 - Package: lily-design-system-svelte-headless
 - Version: 0.2.0
 - Created: 2021-03-30T15:47:49Z
-- Updated: 2026-03-01T19:15:49Z
+- Updated: 2026-05-30T00:00:00Z
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
 - Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
 

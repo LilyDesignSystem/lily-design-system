@@ -6,7 +6,7 @@
   <title>Lily Design System</title>
   <meta
     name="description"
-    content="Lily is a free, open-source, accessible, headless design system with components across HTML, Svelte, React, Vue, Blazor, and Nunjucks."
+    content="Lily is a free, open-source, accessible, headless design system with components across HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks."
   />
 </svelte:head>
 

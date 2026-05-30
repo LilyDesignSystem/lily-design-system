@@ -1,12 +1,12 @@
 # Lily Design System - HTML Headless
 
-A headless plain HTML component library with 414 components. All components are headless (no built-in styles), fully accessible (WCAG 2.2 AAA), and use vanilla JavaScript for interactivity.
+A headless plain HTML component library with 487 components. All components are headless (no built-in styles), fully accessible (WCAG 2.2 AAA), and use vanilla JavaScript for interactivity.
 
 **Headless** means zero CSS, zero styles, zero opinions about appearance. You provide all styling. Components provide structure, semantics, accessibility, and behavior.
 
 ## Features
 
-- 414 headless HTML components
+- 487 headless HTML components
 - Plain HTML and vanilla JavaScript — no frameworks required
 - WCAG 2.2 AAA accessibility compliance
 - Full keyboard navigation support
@@ -542,6 +542,7 @@ No strings are hardcoded in any component. All user-facing text comes through HT
 - [React Headless](../lily-design-system-react-headless/) — React equivalent
 - [Vue Headless](../lily-design-system-vue-headless/) — Vue equivalent
 - [Blazor Headless](../lily-design-system-blazor-headless/) — Blazor equivalent
+- [Angular Headless](../lily-design-system-angular-headless/) — Angular 20 equivalent
 
 ## License
 
