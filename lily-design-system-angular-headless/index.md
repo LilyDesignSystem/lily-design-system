@@ -1,6 +1,6 @@
 # Lily Design System - Angular Headless
 
-A headless Angular 20 component library implementing the Lily Design System catalog (487 components).
+A headless Angular 20 component library implementing the Lily Design System catalog (492 components).
 
 Components are standalone, signal-based, zero-CSS, and ship semantic HTML + ARIA only. Consumers provide all styling via the kebab-case class hooks documented in `css-style-sheet-template.css`.
 
@@ -43,4 +43,4 @@ See `AGENTS.md` for the full architecture, component pattern, testing convention
 
 ## Status
 
-Initial scaffold. Infrastructure (package.json, vitest, tsconfig, ng-packagr config) and the full 487-component catalog are in place. Each component is a standalone Angular 20 component with signal inputs and OnPush change detection.
+Initial scaffold. Infrastructure (package.json, vitest, tsconfig, ng-packagr config) and the full 492-component catalog are in place. Each component is a standalone Angular 20 component with signal inputs and OnPush change detection.

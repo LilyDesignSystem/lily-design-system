@@ -52,6 +52,10 @@
 .address-input {
 }
 
+/* addressograph-box: a box that shows a person's identification details, such as name, tracking information, and salient notations */
+.addressograph-box {
+}
+
 /* affix: a wrapper that pins its content to a viewport position while the page scrolls */
 .affix {
 }
@@ -82,6 +86,10 @@
 
 /* announcement-banner: a banner highlighting important messages for all users */
 .announcement-banner {
+}
+
+/* answer: an answer is anything that responds to a question, request, action, etc. */
+.answer {
 }
 
 /* area-chart: an area chart visualization showing sized components in continuous data */
@@ -142,6 +150,10 @@
 
 /* bar-chart: a horizontal bar chart visualization for displaying data */
 .bar-chart {
+}
+
+/* barcode-image: a visual machine-readable symbolic code image, such as for a scanner */
+.barcode-image {
 }
 
 /* beach-ball: a decorative animated beach ball element */
@@ -376,7 +388,7 @@
 .command {
 }
 
-/* comment: a comment displays user discussions and user feedback */
+/* comment: a comment is anything that expresses an opinion, observation, explanation, etc. */
 .comment {
 }
 
@@ -578,6 +590,10 @@
 
 /* download-button: a download link styled as a button, with optional file size and format metadata */
 .download-button {
+}
+
+/* draft: an early preliminary version of content such as an article, email, report, etc. */
+.draft {
 }
 
 /* drawer: a panel that slides in from the edge of the screen */
@@ -1400,8 +1416,12 @@
 .progress-spinner {
 }
 
-/* qr-code: a QR code image generated from text or URL data */
-.qr-code {
+/* qr-code-image: a QR code image generated from text or URL data */
+.qr-code-image {
+}
+
+/* question: a question is anything that asks for information, invites a response, tests knowledge, etc. */
+.question {
 }
 
 /* radio-group: a group of radio buttons for selecting one option */

@@ -42,7 +42,7 @@ committing.
 
 ### In scope
 
-- A canonical catalog of 487 components (`components.tsv`).
+- A canonical catalog of 492 components (`components.tsv`).
 - Seven headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks.
 - Seven example applications: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js,
   Angular Analog, Blazor Web, Nunjucks Eleventy.
@@ -69,8 +69,8 @@ committing.
 ```
 lily-design-system/                            ← canonical catalog + tools
 ├── AGENTS.md, AGENTS/*.md                     ← modular reference docs
-├── components.tsv                             ← canonical 487-component list
-├── components/{slug}/                         ← per-component docs (487 dirs)
+├── components.tsv                             ← canonical 492-component list
+├── components/{slug}/                         ← per-component docs (492 dirs)
 ├── css-style-sheet-template.css               ← class-hook stylesheet template
 ├── bin/                                       ← scaffolding, listing, sync, test
 ├── spec.md                                    ← this file
@@ -187,7 +187,7 @@ read the file for the full contract.
 - No CSS framework dependency.
 - Three required routes per example subproject:
   - `/` — home page describing the project.
-  - `/components` — index of every component in the catalog (487 entries),
+  - `/components` — index of every component in the catalog (492 entries),
     searchable / filterable.
   - `/components/{slug}` — per-component detail page with live demo.
 - Composed-page demos (e.g., `/dashboard`, `/contact-form`, `/file-upload-form`,
@@ -203,7 +203,7 @@ tab-separated columns: slug, PascalCase name, description. Mirrored by
 [AGENTS/components.md](AGENTS/components.md) (with patterns), [index.md](index.md)
 (linked listing), and the per-framework implementations.
 
-**Current count: 487 components.**
+**Current count: 492 components.**
 
 The most recent additions (May 2026) are 80 national personal identifier
 components (40 identifier types × `-input` + `-view`) spanning 30+ countries,
@@ -459,7 +459,7 @@ The companion `AGENTS.md` carries the canonical machine-readable metadata
 - Code examples use semantic HTML with proper ARIA.
 - No hardcoded user-facing strings in examples — use realistic placeholder
   content.
-- Consistent voice across all 487 components.
+- Consistent voice across all 492 components.
 
 ### 8.2 Component demo strategy (example subprojects)
 
@@ -618,11 +618,11 @@ checked is considered live work; anything unchecked is queued in §12.
 
 ### 11.1 Catalog & docs
 
-- [x] Canonical component list defined (487 components in `components.tsv`).
+- [x] Canonical component list defined (492 components in `components.tsv`).
 - [x] CSS style sheet template covers every component class hook.
-- [x] All 487 components have a directory in `components/` with `index.md`,
+- [x] All 492 components have a directory in `components/` with `index.md`,
       `README.md` (symlink), `AGENTS.md`, `CLAUDE.md`, `plan.md`, `tasks.md`.
-- [x] All 487 components have separate "When to Use" and "When Not to Use"
+- [x] All 492 components have separate "When to Use" and "When Not to Use"
       sections (not combined).
 - [x] All "When Not to Use" sections name specific Lily component alternatives.
 - [x] All 37 NHS-equivalent components enhanced with NHS-researched guidance.
@@ -640,9 +640,9 @@ checked is considered live work; anything unchecked is queued in §12.
       (Angular 20, signal-based, OnPush, zero-CSS, standalone
       components) landed on 2026-05-28 and is fully verified as of
       2026-05-30: `pnpm install` resolves with Analog 1.19.4 pinning,
-      `vitest run` passes 974 / 974 cases across 487 / 487 spec
+      `vitest run` passes 974 / 974 cases across 492 / 492 spec
       files, `ng-packagr` build emits a clean APF bundle, and
-      `@storybook/angular` 9.1 builds 487 / 487 stories.
+      `@storybook/angular` 9.1 builds 492 / 492 stories.
 - [x] All 7 example subprojects exist (HTML+CSS+JS, SvelteKit,
       Next.js, Nuxt.js, Angular + Analog.js, Blazor Web, Nunjucks
       Eleventy). The Angular + Analog.js app (standalone components,
@@ -677,12 +677,12 @@ checked is considered live work; anything unchecked is queued in §12.
 
 ### 11.4 Verified
 
-- [x] `css-style-sheet-template.css` audit: 487 / 487 canonical slugs have
+- [x] `css-style-sheet-template.css` audit: 492 / 492 canonical slugs have
       a class hook; 3 additional documented sub-element hooks
       (`accordion-checkbox-input`, `accordion-checkbox-label`,
       `accordion-checkbox-panel`).
 - [x] All 6 long-standing headless and 6 long-standing example
-      subprojects implement all 487 canonical components. The 80
+      subprojects implement all 492 canonical components. The 80
       newly-added national personal identifier components (May 2026)
       shipped per-subproject implementations in Phase 2 (commits
       50841648..490282db): Svelte, React, Vue, HTML, Blazor, Nunjucks
@@ -690,10 +690,10 @@ checked is considered live work; anything unchecked is queued in §12.
       in every framework that has runnable tests (38 svelte, 19
       react, 19 vue, 17 nunjucks, 9 blazor sample tests verified).
       The seventh pair (Angular headless + Angular Analog examples,
-      added 2026-05-28) also implements all 487 components in the
-      same canonical layout; angular-headless ships 487 / 487
+      added 2026-05-28) also implements all 492 components in the
+      same canonical layout; angular-headless ships 492 / 492
       working .ts + .spec.ts + .stories.ts triplets, and the
-      examples app copies the 487 .ts components into
+      examples app copies the 492 .ts components into
       `src/app/components/`.
 - [x] Cross-subproject name consistency: TabGroup removed,
       `medical-record-red-box` renamed; no orphans remain.
@@ -704,13 +704,13 @@ checked is considered live work; anything unchecked is queued in §12.
         spec generation is a separate sweep).
       - react-headless: 2,205 vitest cases.
       - vue-headless: 2,187 vitest cases.
-      - angular-headless: 974 vitest cases across 487 / 487 spec files.
+      - angular-headless: 974 vitest cases across 492 / 492 spec files.
       - blazor-headless: 1,245 bUnit cases.
       - nunjucks-headless: 2,393 vitest cases.
       - html-headless: 407 WebDriverIO spec files.
-- [x] Per-framework CSS class-name audit: 487 / 487 components in every
+- [x] Per-framework CSS class-name audit: 492 / 492 components in every
       headless subproject reference their canonical kebab-case base class.
-- [x] Storybook story coverage across headless: 487 / 487 in
+- [x] Storybook story coverage across headless: 492 / 492 in
       svelte, react, vue, html, nunjucks, angular (6 frameworks with
       Storybook; blazor does not — see §11.7).
 - [x] Playwright e2e coverage on all 5 browser-runnable example apps:
@@ -765,12 +765,12 @@ a built route 404s.
 
 | Library              | Storybook    | Stories       |
 | -------------------- | ------------ | ------------- |
-| html-headless        | yes (vite)   | 487 / 487     |
-| svelte-headless      | yes (vite)   | 487 / 487     |
-| react-headless       | yes (vite)   | 487 / 487     |
-| vue-headless         | yes (vite)   | 487 / 487     |
-| nunjucks-headless    | yes (vite)   | 487 / 487     |
-| angular-headless     | yes (webpack)| 487 / 487     |
+| html-headless        | yes (vite)   | 492 / 492     |
+| svelte-headless      | yes (vite)   | 492 / 492     |
+| react-headless       | yes (vite)   | 492 / 492     |
+| vue-headless         | yes (vite)   | 492 / 492     |
+| nunjucks-headless    | yes (vite)   | 492 / 492     |
+| angular-headless     | yes (webpack)| 492 / 492     |
 | blazor-headless      | no           | not planned   |
 
 Angular headless uses `@storybook/angular` 9.1 with the
@@ -778,7 +778,7 @@ Angular headless uses `@storybook/angular` 9.1 with the
 Storybook 9 does not yet ship a first-class Vite builder for
 Angular). An `angular.json` scaffold declares the `storybook` and
 `build-storybook` architect targets and points them at
-`.storybook/tsconfig.json`. All 487 stories render with the same
+`.storybook/tsconfig.json`. All 492 stories render with the same
 `title: "Headless/{Pascal}"` + single `Default` story shape used by
 the other 5 Storybook-wired libraries.
 
@@ -817,7 +817,7 @@ overhead that the project hasn't chosen to pay.
         `@analogjs/vite-plugin-angular` is pinned to `1.19.4` (the
         1.22+ line requires Vite 6 via `defaultClientConditions`) and
         `@angular/build` is added as a direct devDep. `vitest run`
-        passes **974 / 974** across **487 / 487** spec files. `pnpm
+        passes **974 / 974** across **492 / 492** spec files. `pnpm
         build` (ng-packagr) emits the APF bundle cleanly. Source fix:
         all `($event.target as HTMLInputElement).value` patterns
         rewritten to `$any($event.target).value` because Angular
@@ -866,11 +866,11 @@ overhead that the project hasn't chosen to pay.
       declare the storybook + build-storybook architect targets,
       `.storybook/main.ts`, `.storybook/preview.ts`, and
       `.storybook/tsconfig.json` (so `@ngtools/webpack` sees
-      preview.ts and the stories). Generated 487 / 487
+      preview.ts and the stories). Generated 492 / 492
       `components/*.stories.ts` files matching the svelte / react /
       vue / html / nunjucks pattern: `title: "Headless/{Pascal}"`,
       `component`, `tags: ["autodocs"]`, one `Default` story.
-      `pnpm run build-storybook` emits all 487 story bundles into
+      `pnpm run build-storybook` emits all 492 story bundles into
       `storybook-static/`. Vitest still passes 974 / 974.
 
 ## 12. Implementation status
@@ -879,7 +879,7 @@ overhead that the project hasn't chosen to pay.
 
 #### Catalog & infrastructure
 
-- [x] Create canonical component list (now 487 components after the
+- [x] Create canonical component list (now 492 components after the
       May 2026 national-identifier additions).
 - [x] Create CSS style sheet template.
 - [x] Create scaffolding/listing/testing tools.
@@ -934,7 +934,7 @@ overhead that the project hasn't chosen to pay.
 - [x] Update tasks to reflect `/components` route work in all example
       subprojects.
 
-#### Per-component documentation (487 components)
+#### Per-component documentation (492 components)
 
 - [x] All 407 long-standing component `index.md` files enhanced
       with separate "When to Use" and "When Not to Use" sections
@@ -963,16 +963,16 @@ overhead that the project hasn't chosen to pay.
       13 projects (commit `624bbb94`).
 - [x] Catalog 80 national personal identifier components (40 types
       × `-input` / `-view` across 30+ countries) — bumping the
-      canonical count from 407 to 487. Per-subproject
+      canonical count from 407 to 492. Per-subproject
       implementations followed in commits 50841648..490282db
       (May 2026).
 - [x] Add Angular headless library and Angular + Analog.js example
       app as the 7th framework pair (2026-05-28, commits 832dce3e
       + bcf649f5). Angular headless verified end-to-end
-      (974 / 974 vitest, ng-packagr APF build, Storybook 487/487)
+      (974 / 974 vitest, ng-packagr APF build, Storybook 492/492)
       in commits 8185610a + c84ae81c (2026-05-29).
 - [x] Wire `@storybook/angular` 9.1 into angular-headless with
-      487 / 487 generated stories (commit `c84ae81c`).
+      492 / 492 generated stories (commit `c84ae81c`).
 
 ### 12.2 Open backlog
 
@@ -985,7 +985,7 @@ section), not into a separate `tasks.md`.
 Near-term focus:
 
 1. Catalog and css-template audit — close §11.4 items.
-2. Cross-subproject component coverage audit — ensure all 487 components are
+2. Cross-subproject component coverage audit — ensure all 492 components are
    implemented in every headless and example subproject.
 3. Test-coverage audit — vitest, bUnit, Playwright e2e cover every component.
 
@@ -1003,13 +1003,13 @@ Long-term:
 ## 14. Tracking
 
 - Package: lily
-- Version: 0.3.0
+- Version: 0.4.0
 - Created: 2025-08-09
 - Updated: 2026-05-30
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or contact
   for other terms)
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [components.tsv](components.tsv) (487 rows, tab-separated:
+- Canonical catalog: [components.tsv](components.tsv) (492 rows, tab-separated:
   slug, name, description)
 - Companion docs: [AGENTS.md](AGENTS.md), [AGENTS/*.md](AGENTS/),
   [index.md](index.md)
@@ -1017,10 +1017,23 @@ Long-term:
 
 ### 14.1 Changelog highlights
 
+- **0.4.0 (2026-05-30)** — Catalog grows from 487 to 492 components
+  across two batches. Batch one adds `question`, `answer` and rewrites
+  `comment` (`<article>` → `<div>`, broader description) as a generic
+  discourse triad. Batch two adds `addressograph-box` (patient/recipient
+  ID box, `<div>`), `barcode-image` (1D scanner symbology, `<img>`),
+  and `draft` (in-progress content wrapper, `<div>` with optional
+  `data-status`). Existing `qr-code` renamed to `qr-code-image` for
+  symmetry with `barcode-image`. All 5 new components propagated across
+  the 14 implementation subprojects + `lilydesignsystem.github.io`
+  (headless implementations, tests, Storybook stories, example-app
+  demo registries, github.io route pages). `AGENTS/components.md`
+  trimmed from 55 KB to 7 KB by replacing the duplicated 492-line
+  catalog listing with a pointer to the canonical `components.tsv`.
 - **0.3.0 (2026-05-30)** — 7th headless + 7th example pair
   (Angular 20 + Analog.js v1) land. angular-headless verified
   end-to-end (974/974 vitest, ng-packagr APF build,
-  `@storybook/angular` with 487/487 stories). angular-examples
+  `@storybook/angular` with 492/492 stories). angular-examples
   build still blocked on upstream Analog SSR issue (see §11.8).
   Canonical national-identifier reference files
   (`AGENTS/{countries.tsv,national-person-identifiers.tsv,
@@ -1028,6 +1041,6 @@ Long-term:
   root and propagated to all 12 subprojects.
 - **0.2.0 (2026-05-24)** — 80 national personal identifier
   components added across 30+ countries, bumping the canonical
-  count from 407 to 487. axe-core baseline reaches 29/29 on every
+  count from 407 to 492. axe-core baseline reaches 29/29 on every
   example app. Responsive viewport sweep ported to all 6 example
   apps. spec.md replaces the older split plan.md / tasks.md.

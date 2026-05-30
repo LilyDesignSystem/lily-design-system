@@ -37,7 +37,7 @@
 ## Required routes (per `AGENTS/examples.md`)
 
 - `/` — home; links to all composed-page demos and the catalog
-- `/components` — searchable / filterable index of all 487 components
+- `/components` — searchable / filterable index of all 492 components
 - `/components/[slug]` — per-component detail page rendering the demo HTML
 
 Composed-page demos:
@@ -87,7 +87,7 @@ vite.config.ts              — Analog plugin + prerender route list
 
 Each `/components/[slug]` page reads the demo HTML string from
 `component-demos.ts` (a `Record<string, string>` registry covering all
-487 slugs) and renders it via `[innerHTML]` after `DomSanitizer`
+492 slugs) and renders it via `[innerHTML]` after `DomSanitizer`
 `bypassSecurityTrustHtml`. This matches how the svelte-sveltekit /
 react-next / vue-nuxt apps render demos via `{@html}` /
 `dangerouslySetInnerHTML` / `v-html`.

@@ -463,7 +463,7 @@ const COMPONENTS = [
   ["progress-circle", "a circular progress indicator"],
   ["progress-spinner", "an indeterminate spinning progress indicator"],
   ["progress", "a horizontal progress bar showing completion"],
-  ["qr-code", "a QR code image generated from text or URL data"],
+  ["qr-code-image", "a QR code image generated from text or URL data"],
   ["radio-group", "a group of radio buttons for selecting one option"],
   ["radio-input", "a single radio button input"],
   ["range-input", "a slider input for selecting a value within a range"],
@@ -899,7 +899,7 @@ function getActualTag(name, tag) {
   if (name === "sonner") return "div";
   if (name === "timer") return "div";
   if (name === "sparkline") return "div";
-  if (name === "qr-code") return "div";
+  if (name === "qr-code-image") return "div";
   if (name === "beach-ball") return "div";
   if (name === "drawer") return "div";
   if (name === "sheet") return "div";

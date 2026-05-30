@@ -1,0 +1,16 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    BarcodeImage component
+    a barcode image with a required text alternative for assistive technologies.
+*@
+
+<img class="@($"barcode-image {CssClass}".Trim())" src="@Src" alt="@Alt" loading="@Loading" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Src { get; set; } = "";
+    [Parameter, EditorRequired] public string Alt { get; set; } = "";
+    [Parameter] public string Loading { get; set; } = "";
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

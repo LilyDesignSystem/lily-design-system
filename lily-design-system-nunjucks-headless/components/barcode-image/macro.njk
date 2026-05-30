@@ -1,0 +1,9 @@
+{# BarcodeImage macro — renders a barcode image from a consumer-supplied source and alt text. #}
+{%- macro barcodeImage(params) -%}
+<img
+  class="barcode-image{% if params.classes %} {{ params.classes }}{% endif %}"
+  src="{{ params.src }}"
+  alt="{{ params.alt }}"
+  {%- if params.loading %} loading="{{ params.loading }}"{% endif %}
+/>
+{%- endmacro -%}

@@ -76,4 +76,4 @@
 /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/Debug/net10.0/LilyBlazorWebExamples.pdb
 /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/Debug/net10.0/LilyBlazorWebExamples.genruntimeconfig.cache
 /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/Debug/net10.0/ref/LilyBlazorWebExamples.dll
-/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/Debug/net10.0/compressed/svon4aef66-{0}-g6f4d47xa1-g6f4d47xa1.gz
+/Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/obj/Debug/net10.0/compressed/svon4aef66-{0}-s26fsfvcam-s26fsfvcam.gz

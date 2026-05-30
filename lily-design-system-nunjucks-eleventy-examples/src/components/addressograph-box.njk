@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: AddressographBox
+description: a passive identification block displaying consumer-supplied patient or subject details.
+---
+
+{% from "components/addressograph-box/macro.njk" import addressographBox %}
+
+{% call addressographBox({ label: "Patient identification" }) %}
+<p>Jane Doe</p>
+<p>DOB: 1980-05-12</p>
+<p>NHS: 943 476 5919</p>
+{% endcall %}

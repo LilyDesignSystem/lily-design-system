@@ -354,7 +354,7 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "progress-bar", pascal: "ProgressBar", description: "a horizontal progress indicator" },
   { name: "progress-circle", pascal: "ProgressCircle", description: "a circular progress indicator" },
   { name: "progress-spinner", pascal: "ProgressSpinner", description: "an indeterminate spinning progress indicator" },
-  { name: "qr-code", pascal: "QrCode", description: "a QR code image generated from text or URL data" },
+  { name: "qr-code-image", pascal: "QrCodeImage", description: "a QR code image generated from text or URL data" },
   { name: "radio-group", pascal: "RadioGroup", description: "a group of radio buttons for selecting one option" },
   { name: "radio-input", pascal: "RadioInput", description: "a single radio button input <input type=\"radio\">" },
   { name: "range-input", pascal: "RangeInput", description: "a slider input for selecting a value within a range <input type=\"range\">" },

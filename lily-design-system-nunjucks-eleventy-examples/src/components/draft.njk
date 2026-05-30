@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Draft
+description: a passive container that marks unfinished content with an optional status data attribute.
+---
+
+{% from "components/draft/macro.njk" import draft %}
+
+{% call draft({ label: "Draft article", status: "in-progress" }) %}
+<h3>Working title</h3>
+<p>Opening paragraph still needs a hook.</p>
+{% endcall %}

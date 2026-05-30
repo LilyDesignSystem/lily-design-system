@@ -1,3 +1,3 @@
 # Comment
 
-a comment displays user discussions and user feedback
+a comment is anything that expresses an opinion, observation, explanation, etc.

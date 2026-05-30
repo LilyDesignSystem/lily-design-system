@@ -190,7 +190,14 @@
       "Bash(tar xzf *)",
       "Bash(pnpm run *)",
       "Bash(xxd)",
-      "Bash(pnpm --version)"
+      "Bash(pnpm --version)",
+      "Bash(xargs perl *)",
+      "Bash(cp /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-svelte-headless/components/Question/*.svelte /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-svelte-headless/components/Question/*.ts /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-svelte-sveltekit-examples/src/lib/components/Question/)",
+      "Bash(cp /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-svelte-headless/components/Answer/*.svelte /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-svelte-headless/components/Answer/*.ts /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-svelte-sveltekit-examples/src/lib/components/Answer/)",
+      "Bash(/Users/jph/git/lilydesignsystem/lily-design-system/bin/list-implementations *)",
+      "Bash(cp -r /Users/jph/git/lilydesignsystem/lily-design-system/components/answer /Users/jph/git/lilydesignsystem/lily-design-system/lilydesignsystem.github.io/src/routes/components/)",
+      "Bash(cp -r /Users/jph/git/lilydesignsystem/lily-design-system/components/question /Users/jph/git/lilydesignsystem/lily-design-system/lilydesignsystem.github.io/src/routes/components/)",
+      "Bash(tee /tmp/lily-test.out)"
     ]
   }
 }

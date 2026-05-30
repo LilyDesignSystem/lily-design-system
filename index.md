@@ -33,7 +33,7 @@ Headless versions if you want to use components with all your own styles:
 
 ## Components
 
-The canonical catalog is [components.tsv](components.tsv) — 487 components. Each
+The canonical catalog is [components.tsv](components.tsv) — 492 components. Each
 slug below links to the per-component documentation.
 
 - [accordion-checkbox](components/accordion-checkbox): a checkbox option that reveals an accordion panel when checked
@@ -46,6 +46,7 @@ slug below links to the per-component documentation.
 - [action-group](components/action-group): a group of action buttons that can collapse to an overflow menu when space is constrained
 - [action-link](components/action-link): a hyperlink styled as an action trigger
 - [address-input](components/address-input): an input for searching or manually entering an address
+- [addressograph-box](components/addressograph-box): a box that shows a person's identification details, such as name, tracking information, and salient notations
 - [affix](components/affix): a wrapper that pins its content to a viewport position while the page scrolls
 - [ai-label](components/ai-label): an indicator of AI instances that is a pathway to AI explainability
 - [alba-community-health-index-input](components/alba-community-health-index-input): an input for entering Scotland's Community Health Index (CHI)
@@ -54,6 +55,7 @@ slug below links to the per-component documentation.
 - [alert-dialog](components/alert-dialog): a modal dialog for urgent messages requiring user acknowledgment
 - [angle-slider-range-input](components/angle-slider-range-input): a range input for selecting an angle in degrees
 - [announcement-banner](components/announcement-banner): a banner highlighting important messages for all users
+- [answer](components/answer): an answer is anything that responds to a question, request, action, etc.
 - [area-chart](components/area-chart): an area chart visualization showing sized components in continuous data
 - [article-layout](components/article-layout): a top-level article wrapper that sets CSS custom properties for content column widths
 - [aspect-ratio-container](components/aspect-ratio-container): a container that maintains a fixed aspect ratio
@@ -69,6 +71,7 @@ slug below links to the per-component documentation.
 - [banner](components/banner): a prominent message bar across the top of a page
 - [banner-box](components/banner-box): a banner box that is inside a banner component, using flexbox horizontal
 - [bar-chart](components/bar-chart): a horizontal bar chart visualization for displaying data
+- [barcode-image](components/barcode-image): a visual machine-readable symbolic code image, such as for a scanner
 - [beach-ball](components/beach-ball): a decorative animated beach ball element
 - [belgique-numero-de-registre-national-input](components/belgique-numero-de-registre-national-input): an input for entering Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
 - [belgique-numero-de-registre-national-view](components/belgique-numero-de-registre-national-view): a read-only display of Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
@@ -127,7 +130,7 @@ slug below links to the per-component documentation.
 - [column-chart](components/column-chart): a vertical column chart visualization for displaying data
 - [combobox](components/combobox): a text input combined with a dropdown list for filtering options
 - [command](components/command): a command palette for searching and executing actions
-- [comment](components/comment): a comment displays user discussions and user feedback
+- [comment](components/comment): a comment is anything that expresses an opinion, observation, explanation, etc.
 - [container](components/container): a generic block-level content container
 - [container-with-fixed-width](components/container-with-fixed-width): a centered content wrapper with a fixed max-width breakpoint
 - [container-with-fluid-width](components/container-with-fluid-width): a full-width content wrapper with horizontal padding
@@ -177,6 +180,7 @@ slug below links to the per-component documentation.
 - [dont-list](components/dont-list): a guideline list of discouraged dont-list-item components
 - [dont-list-item](components/dont-list-item): a discouraged-practice item in a dont-list guideline list
 - [download-button](components/download-button): a download link styled as a button, with optional file size and format metadata
+- [draft](components/draft): an early preliminary version of content such as an article, email, report, etc.
 - [drawer](components/drawer): a panel that slides in from the edge of the screen
 - [dropdown-menu](components/dropdown-menu): a menu that opens below a trigger button
 - [editable](components/editable): an inline-editable text element that toggles between view and edit modes
@@ -382,7 +386,8 @@ slug below links to the per-component documentation.
 - [progress-bar](components/progress-bar): a horizontal progress indicator
 - [progress-circle](components/progress-circle): a circular progress indicator
 - [progress-spinner](components/progress-spinner): an indeterminate spinning progress indicator
-- [qr-code](components/qr-code): a QR code image generated from text or URL data
+- [qr-code-image](components/qr-code-image): a QR code image generated from text or URL data
+- [question](components/question): a question is anything that asks for information, invites a response, tests knowledge, etc.
 - [radio-group](components/radio-group): a group of radio buttons for selecting one option
 - [radio-input](components/radio-input): a single radio button input <input type="radio">
 - [range-input](components/range-input): a slider input for selecting a value within a range <input type="range">

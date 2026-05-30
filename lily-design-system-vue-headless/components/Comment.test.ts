@@ -4,11 +4,11 @@ import { render } from "@testing-library/vue";
 import Subject from "./Comment.vue";
 
 describe("Comment", () => {
-    test("renders a article element with class comment", () => {
+    test("renders a div element with class comment", () => {
         const { container } = render(Subject, { props: {}, slots: { default: "content" } });
         const root = container.querySelector(".comment");
         expect(root).toBeTruthy();
-        expect(root?.tagName).toBe("ARTICLE");
+        expect(root?.tagName).toBe("DIV");
     });
 
     test("renders slot content", () => {

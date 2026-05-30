@@ -280,7 +280,7 @@ const explicitDemos = {
   'review-date': '<div class="review-date"><span>Last reviewed: </span><time datetime="2026-01-15">15 January 2026</time></div>',
   'date-range': '<div class="date-range"><time datetime="2026-01-01">1 Jan 2026</time> \u2014 <time datetime="2026-12-31">31 Dec 2026</time></div>',
   'ai-label': '<span class="ai-label" aria-label="AI-generated content">AI</span>',
-  'qr-code': '<div class="qr-code" role="img" aria-label="QR Code">\u25a3 QR Code \u25a3</div>',
+  'qr-code-image': '<div class="qr-code-image" role="img" aria-label="QR Code">\u25a3 QR Code \u25a3</div>',
   'sparkline': '<span class="sparkline" role="img" aria-label="Trend: increasing">\u2581\u2582\u2583\u2585\u2587</span>',
   'care-card': '<div class="care-card"><h3>Urgent care</h3><p>Contact your GP within 48 hours.</p></div>',
   'information-callout': '<div class="information-callout"><h3>Information</h3><p>This is helpful information.</p></div>',

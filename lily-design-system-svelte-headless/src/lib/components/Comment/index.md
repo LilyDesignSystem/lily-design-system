@@ -1,10 +1,10 @@
 # Comment
 
-A comment displays user discussions and user feedback.
+A comment is anything that expresses an opinion, observation, explanation, etc.
 
 ## Canonical documentation
 
-See [components/comment/index.md](../../../../../components/comment/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/comment/index.md](../../../../components/comment/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

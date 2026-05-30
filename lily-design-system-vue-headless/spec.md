@@ -5,7 +5,7 @@ System. Single source of truth for spec-driven development of this subproject.
 For project-wide rules, read the root [spec.md](../spec.md) first.
 
 This file adds Vue-specific detail and tracks the implementation status of
-the **487 canonical components** in this framework.
+the **492 canonical components** in this framework.
 
 ---
 
@@ -24,7 +24,7 @@ This library does NOT depend on Nuxt. Components work in any Vue 3 host
 
 ### In scope
 
-- Vue 3 Composition API single-file components for all 487 components.
+- Vue 3 Composition API single-file components for all 492 components.
 - TypeScript types for every component's props and emits.
 - A vitest test file per component asserting ARIA, keyboard, and structural
   contract.
@@ -184,7 +184,7 @@ pnpm run storybook                   # run Storybook
 
 ### 7.1 Catalog parity
 
-- [ ] All 487 canonical components have a `{PascalCase}.vue` + `.test.ts` +
+- [ ] All 492 canonical components have a `{PascalCase}.vue` + `.test.ts` +
       `.stories.ts` + `.md` set.
 - [x] Per-component docs live in the root `../components/{kebab-case}/`
       (shared canonical, not duplicated per subproject).
@@ -232,11 +232,11 @@ pnpm run storybook                   # run Storybook
 
 ### 8.2 Verified
 
-- [x] All 487 components have `{PascalCase}.vue` and compile.
+- [x] All 492 components have `{PascalCase}.vue` and compile.
 - [x] `pnpm exec vitest run` passes: **2,187 / 2,187 tests, zero failures**.
-- [x] CSS class-name audit: **487 / 487** components reference their canonical
+- [x] CSS class-name audit: **492 / 492** components reference their canonical
       kebab-case base class.
-- [x] Storybook story coverage: **487 / 487** components have a
+- [x] Storybook story coverage: **492 / 492** components have a
       `*.stories.ts` file.
 
 ### 8.3 Open backlog
@@ -264,6 +264,6 @@ pnpm run storybook                   # run Storybook
 - Package manager: pnpm
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../components.tsv) — 487 components
+- Canonical catalog: [../components.tsv](../components.tsv) — 492 components
 - Root spec: [../spec.md](../spec.md)
 - Sibling example app: [../lily-design-system-vue-nuxt-examples/](../lily-design-system-vue-nuxt-examples/)

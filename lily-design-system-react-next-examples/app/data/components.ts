@@ -78,6 +78,12 @@ export const components: Component[] = [
     description: "a range input for selecting an angle in degrees",
   },
   {
+    slug: "answer",
+    name: "Answer",
+    description:
+      "an answer is anything that responds to a question, request, action, etc.",
+  },
+  {
     slug: "aspect-ratio-container",
     name: "AspectRatioContainer",
     description: "a container that maintains a fixed aspect ratio",
@@ -926,9 +932,15 @@ export const components: Component[] = [
     description: "a horizontal progress bar showing completion",
   },
   {
-    slug: "qr-code",
-    name: "QrCode",
+    slug: "qr-code-image",
+    name: "QrCodeImage",
     description: "a QR code image generated from text or URL data",
+  },
+  {
+    slug: "question",
+    name: "Question",
+    description:
+      "a question is anything that asks for information, invites a response, tests knowledge, etc.",
   },
   {
     slug: "radio-group",
@@ -1539,7 +1551,7 @@ export const components: Component[] = [
     slug: "comment",
     name: "Comment",
     description:
-      "a comment displays user discussions and user feedback",
+      "a comment is anything that expresses an opinion, observation, explanation, etc.",
   },
   {
     slug: "container",
@@ -2242,6 +2254,24 @@ export const components: Component[] = [
     name: "Watermark",
     description:
       "a decorative repeating overlay text or image marking a page",
+  },
+  {
+    slug: "addressograph-box",
+    name: "AddressographBox",
+    description:
+      "a printed or rendered block of patient identification details",
+  },
+  {
+    slug: "barcode-image",
+    name: "BarcodeImage",
+    description:
+      "a barcode image element with required alt text",
+  },
+  {
+    slug: "draft",
+    name: "Draft",
+    description:
+      "a container marking content that is unpublished or in progress",
   },
 
 ];

@@ -1,0 +1,26 @@
+{#
+  QrCodeImage macro — a QR code image generated from text or URL data.
+
+  HTML tag: <img>
+  CSS class: qr-code-image
+  Accessibility: the alt text should describe the QR code's purpose.
+
+  Params:
+    src         string   Pre-rendered QR image URL (required).
+    alt         string   Alt text describing the code's purpose.
+    size        number   Square side length in px.
+    id          string
+    classes     string
+    attributes  object
+#}
+{%- macro qrCodeImage(params) -%}
+{%- set p = params | default({}) -%}
+<img
+  class="qr-code-image{% if p.classes %} {{ p.classes }}{% endif %}"
+  src="{{ p.src }}"
+  alt="{{ p.alt | default('QR code') }}"
+  {%- if p.size %} width="{{ p.size }}" height="{{ p.size }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- endmacro -%}

@@ -1,0 +1,13 @@
+{# Draft macro — a passive container marking unfinished content with an optional status. #}
+{%- macro draft(params) -%}
+<div
+  class="draft{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.status %} data-status="{{ params.status }}"{% endif %}
+>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
+{%- endmacro -%}

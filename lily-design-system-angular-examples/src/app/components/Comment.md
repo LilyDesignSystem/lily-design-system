@@ -1,6 +1,6 @@
 # Comment
 
-a comment displays user discussions and user feedback
+a comment is anything that expresses an opinion, observation, explanation, etc.
 
 This is the Angular headless implementation. See `components/comment/index.md`
 in the canonical repo root for the cross-framework documentation.

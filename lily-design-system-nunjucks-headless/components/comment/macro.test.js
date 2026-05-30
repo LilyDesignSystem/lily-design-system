@@ -2,24 +2,21 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("comment", () => {
-  it("renders an <article> with author, time, and body", () => {
-    const { document } = render("comment", {
-      author: "Alex",
-      time: "2026-04-20T10:00:00Z",
-      timeText: "10:00am",
-      text: "Helpful info.",
-    });
-    expect(document.querySelector("article.comment")).toBeTruthy();
-    expect(document.querySelector(".comment-author").textContent.trim())
-      .toBe("Alex");
-    expect(document.querySelector(".comment-time").getAttribute("datetime"))
-      .toBe("2026-04-20T10:00:00Z");
-    expect(document.querySelector(".comment-body").textContent.trim())
-      .toBe("Helpful info.");
+  it("renders a <div> with the base class", () => {
+    const { document } = render("comment", { text: "Helpful info." });
+    const el = document.querySelector("div.comment");
+    expect(el).toBeTruthy();
+    expect(el.textContent.trim()).toBe("Helpful info.");
+  });
+
+  it("applies aria-label when label is provided", () => {
+    const { document } = render("comment", { label: "User comment", text: "x" });
+    expect(document.querySelector("div.comment").getAttribute("aria-label"))
+      .toBe("User comment");
   });
 
   it("contains no <style> or <script> tags", () => {
-    const { html } = render("comment", { author: "x", text: "y" });
+    const { html } = render("comment", { text: "y" });
     expect(html).not.toContain("<style");
     expect(html).not.toContain("<script");
   });

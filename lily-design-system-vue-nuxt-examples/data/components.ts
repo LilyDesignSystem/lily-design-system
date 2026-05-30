@@ -78,6 +78,12 @@ export const components: ComponentMeta[] = [
     description: "a range input for selecting an angle in degrees",
   },
   {
+    slug: "answer",
+    name: "Answer",
+    description:
+      "an answer is anything that responds to a question, request, action, etc.",
+  },
+  {
     slug: "aspect-ratio-container",
     name: "AspectRatioContainer",
     description: "a container that maintains a fixed aspect ratio",
@@ -926,9 +932,15 @@ export const components: ComponentMeta[] = [
     description: "a horizontal progress bar showing completion",
   },
   {
-    slug: "qr-code",
-    name: "QrCode",
+    slug: "qr-code-image",
+    name: "QrCodeImage",
     description: "a QR code image generated from text or URL data",
+  },
+  {
+    slug: "question",
+    name: "Question",
+    description:
+      "a question is anything that asks for information, invites a response, tests knowledge, etc.",
   },
   {
     slug: "radio-group",
@@ -1380,6 +1392,12 @@ export const components: ComponentMeta[] = [
       "an input for searching or manually entering an address",
   },
   {
+    slug: "addressograph-box",
+    name: "AddressographBox",
+    description:
+      "a printed block of patient identification details, traditionally pressed from an addressograph plate onto a clinical record",
+  },
+  {
     slug: "affix",
     name: "Affix",
     description:
@@ -1426,6 +1444,12 @@ export const components: ComponentMeta[] = [
     name: "BarChart",
     description:
       "a horizontal bar chart visualization for displaying data",
+  },
+  {
+    slug: "barcode-image",
+    name: "BarcodeImage",
+    description:
+      "a barcode image rendered as an img with required src and alt",
   },
   {
     slug: "blockquote",
@@ -1539,7 +1563,7 @@ export const components: ComponentMeta[] = [
     slug: "comment",
     name: "Comment",
     description:
-      "a comment displays user discussions and user feedback",
+      "a comment is anything that expresses an opinion, observation, explanation, etc.",
   },
   {
     slug: "container",
@@ -1636,6 +1660,12 @@ export const components: ComponentMeta[] = [
     name: "DownloadButton",
     description:
       "a download link styled as a button, with optional file size and format metadata",
+  },
+  {
+    slug: "draft",
+    name: "Draft",
+    description:
+      "a wrapper marking content as a work-in-progress draft, with optional data-status",
   },
   {
     slug: "end-notes",

@@ -23,7 +23,7 @@ A Svelte 5 component that renders `<span class="icon ...">` wrapping the `childr
 - For emoji with a specific text label. Use `Emoji`.
 - For a single decorative character inside body text. Use `Character`.
 - For images with full alt text. Use `Image`.
-- For QR codes. Use `QrCode`.
+- For QR codes. Use `QrCodeImage`.
 
 ## How to use it
 

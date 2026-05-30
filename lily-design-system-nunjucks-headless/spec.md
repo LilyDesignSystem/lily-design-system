@@ -6,7 +6,7 @@ this subproject. For project-wide rules, read the root [spec.md](../spec.md)
 first.
 
 This file adds Nunjucks-specific detail and tracks the implementation status
-of the **487 canonical components** in this framework.
+of the **492 canonical components** in this framework.
 
 ---
 
@@ -27,7 +27,7 @@ environment (Eleventy, Express, custom Node, Mozilla docs builds).
 
 ### In scope
 
-- One Nunjucks macro per component (487 macros total).
+- One Nunjucks macro per component (492 macros total).
 - vitest + jsdom render tests per component.
 - Macro names are camelCase (Nunjucks does not allow hyphens in identifiers);
   paths and CSS classes stay kebab-case.
@@ -163,7 +163,7 @@ pnpm exec vitest run                 # explicit one-shot run
 
 ### 7.1 Catalog parity
 
-- [ ] All 487 canonical components have a `components/{kebab-case}/`
+- [ ] All 492 canonical components have a `components/{kebab-case}/`
       directory.
 - [ ] Each directory has `macro.njk`, `macro.test.js`, and the 6 documentation
       files (`index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md`,
@@ -200,14 +200,14 @@ pnpm exec vitest run                 # explicit one-shot run
 - [x] Project infrastructure (`package.json`, `vitest.config.js`,
       `test/render.js`).
 - [x] AGENTS.md, CLAUDE.md, index.md, README.md (symlink), plan.md, tasks.md.
-- [x] All 487 canonical components have a `components/{kebab-case}/` directory
+- [x] All 492 canonical components have a `components/{kebab-case}/` directory
       with `macro.njk` (per audit).
 
 ### 8.2 Verified
 
-- [x] Every component has a `macro.test.js` (**487 / 487**).
+- [x] Every component has a `macro.test.js` (**492 / 492**).
 - [x] `pnpm test` passes: **2,393 / 2,393 tests, zero failures**.
-- [x] CSS class-name audit: **487 / 487** macros reference their canonical
+- [x] CSS class-name audit: **492 / 492** macros reference their canonical
       kebab-case base class.
 
 ### 8.3 Open backlog
@@ -234,6 +234,6 @@ pnpm exec vitest run                 # explicit one-shot run
 - Package manager: pnpm
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../components.tsv) — 487 components
+- Canonical catalog: [../components.tsv](../components.tsv) — 492 components
 - Root spec: [../spec.md](../spec.md)
 - Sibling example app: [../lily-design-system-nunjucks-eleventy-examples/](../lily-design-system-nunjucks-eleventy-examples/)

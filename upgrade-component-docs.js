@@ -109,7 +109,7 @@ const TAG_OVERRIDES = {
   "pin-input-div": "div",
   popover: "div",
   popup: "div",
-  "qr-code": "div",
+  "qr-code-image": "div",
   resizable: "div",
   "review-date": "span",
   "scroll-area": "div",

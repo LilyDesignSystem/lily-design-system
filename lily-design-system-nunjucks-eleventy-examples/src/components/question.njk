@@ -1,0 +1,11 @@
+---
+layout: layouts/component-demo.njk
+title: Question
+description: a question is anything that asks for information, invites a response, tests knowledge, etc.
+---
+
+{% from "components/question/macro.njk" import question %}
+
+{{ question({
+  text: "What is the capital of France?"
+}) }}

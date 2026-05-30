@@ -15,8 +15,8 @@ Based on the Angular example-app research:
   - `components/index.page.ts` → `/components`
   - `components/[slug].page.ts` → `/components/:slug`
   - `{composed}.page.ts` × 12 → `/contact-form`, `/dashboard`, …
-- **SSG prerender** via Analog's `prerender.routes` config — generates every component-detail page (487) plus the composed pages.
-- **Headless components copied** from `lily-design-system-angular-headless/components/` into `src/app/components/` (487 × 3 files = 1,461). Same copy-pattern the other 6 example apps use; no workspace dep.
+- **SSG prerender** via Analog's `prerender.routes` config — generates every component-detail page (492) plus the composed pages.
+- **Headless components copied** from `lily-design-system-angular-headless/components/` into `src/app/components/` (492 × 3 files = 1,461). Same copy-pattern the other 6 example apps use; no workspace dep.
 - **Demo HTML registry** copied from `svelte-sveltekit-examples/src/lib/data/component-demos.ts` into `src/app/component-demos.ts`. Rendered via `[innerHTML]` + `DomSanitizer.bypassSecurityTrustHtml`.
 - **NHS UK CSS** copied from `svelte-sveltekit-examples/src/lib/css/nhs.css` into `src/styles/nhs.css`, imported once in `main.ts`.
 - **Playwright e2e**: `accessibility.spec.ts` (axe-core sweep) + `responsive.spec.ts` (4-viewport × 10-route). Static-build target on port 4173.
@@ -37,7 +37,7 @@ Based on the Angular example-app research:
 ## Tasks
 
 - [ ] Smoke-test `pnpm dev` and confirm home + /components + /components/button render.
-- [ ] Smoke-test `pnpm build` and confirm `dist/analog/public/` contains 487 + 14 prerendered HTML files.
+- [ ] Smoke-test `pnpm build` and confirm `dist/analog/public/` contains 492 + 14 prerendered HTML files.
 - [ ] Run `pnpm test:e2e` and iterate on any axe violations.
 - [ ] If desired, port the responsive-sweep route list to match this app's exact route shape (already done in `e2e/responsive.spec.ts`).
 - [ ] Consider adding per-composed-page unit tests via Vitest + TestBed (mirror the headless library's test stack).

@@ -19,7 +19,7 @@
 ## Project overview
 
 A headless Angular component library that mirrors the canonical
-`components.tsv` catalog (487 components). Components are standalone,
+`components.tsv` catalog (492 components). Components are standalone,
 zero-CSS, signal-based, and use Angular 20's OnPush change detection.
 
 ## IMPORTANT architecture
@@ -152,7 +152,7 @@ import { Button } from "lily-design-system-angular-headless";
 ## File structure
 
 ```
-components/                — one .ts + .spec.ts + .md per component (× 487)
+components/                — one .ts + .spec.ts + .md per component (× 492)
   Accordion*.ts
   ActionBar.ts
   …

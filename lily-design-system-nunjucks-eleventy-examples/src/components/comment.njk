@@ -1,14 +1,11 @@
 ---
 layout: layouts/component-demo.njk
 title: Comment
-description: a user discussion comment display
+description: a comment is anything that expresses an opinion, observation, explanation, etc.
 ---
 
 {% from "components/comment/macro.njk" import comment %}
 
 {{ comment({
-  author: "Alex Morgan",
-  time: "2026-04-20T10:00:00Z",
-  timeText: "10:00am",
   text: "Thanks for the detailed information — this really helps."
 }) }}

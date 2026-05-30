@@ -1,22 +1,18 @@
 // Comment component
 //
-// A comment that displays user discussion or feedback.
+// A comment is anything that expresses an opinion, observation, explanation, etc.
 //
 // Props:
 //   className — string, optional. CSS class name.
 //   label    — string, optional. Accessible label via aria-label.
 //   children — ReactNode, required. Component content.
-//   ...restProps — additional HTML attributes spread onto the <article>.
+//   ...restProps — additional HTML attributes spread onto the <div>.
 //
 // Accessibility:
-//   - native <article> semantics
 //   - aria-label exposes a screen-reader name when label is provided
 //
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
-//
-// References:
-//   - HTML article element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article
 
 import React from "react";
 
@@ -36,12 +32,12 @@ export default function Comment({
     ...restProps
 }: CommentProps) {
     return (
-        <article
+        <div
             className={`comment ${className}`}
             aria-label={label}
             {...restProps}
         >
             {children}
-        </article>
+        </div>
     );
 }

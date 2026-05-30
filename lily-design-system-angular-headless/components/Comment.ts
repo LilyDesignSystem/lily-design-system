@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 
 /**
- * Comment — a comment displays user discussions and user feedback
+ * Comment — a comment is anything that expresses an opinion, observation, explanation, etc.
  *
  * Headless Angular component. Renders the semantic HTML root with the
  * kebab-case class hook `comment` and the consumer-provided `className`.

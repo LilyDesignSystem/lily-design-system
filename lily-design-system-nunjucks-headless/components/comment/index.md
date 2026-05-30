@@ -1,6 +1,6 @@
 # Comment
 
-A comment displays user discussions and user feedback.
+A comment is anything that expresses an opinion, observation, explanation, etc.
 
 ## Canonical documentation
 
@@ -18,3 +18,4 @@ See [components/comment/index.md](../../../components/comment/index.md) for the 
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+- `macro.stories.ts` — Storybook stories

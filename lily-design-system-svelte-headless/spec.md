@@ -8,7 +8,7 @@ and implementation status.
 
 For project-wide rules, read the root [spec.md](../spec.md) first. This file
 adds Svelte-specific detail and tracks the implementation status of the
-**487 canonical components** in this framework.
+**492 canonical components** in this framework.
 
 ---
 
@@ -27,7 +27,7 @@ work in any Svelte 5 host (SvelteKit, plain Vite + Svelte, Astro, Storybook).
 
 ### In scope
 
-- Svelte 5 implementation of all 487 components from `components.tsv`.
+- Svelte 5 implementation of all 492 components from `components.tsv`.
 - TypeScript types for every component's props.
 - A vitest test file per component asserting ARIA, keyboard, and structural
   contract.
@@ -212,9 +212,9 @@ pnpm run storybook                   # run Storybook
 
 ### 7.1 Catalog parity
 
-- [ ] All 487 canonical components from [../components.tsv](../components.tsv)
+- [ ] All 492 canonical components from [../components.tsv](../components.tsv)
       have a directory in `components/{PascalCase}/`.
-- [ ] All 487 directories are mirrored under `src/lib/components/{PascalCase}/`.
+- [ ] All 492 directories are mirrored under `src/lib/components/{PascalCase}/`.
 - [ ] Each directory has the 10 required files (see §4).
 - [ ] Every component implements the HTML tag specified in its
       `AGENTS.md → HTML tag`.
@@ -274,13 +274,13 @@ pnpm run storybook                   # run Storybook
 
 ### 8.2 Verified
 
-- [x] All 487 canonical components compile cleanly.
+- [x] All 492 canonical components compile cleanly.
 - [x] `components/` ↔ `src/lib/components/` 1:1 mirror verified
-      (815 test files = 2 × 487 + 1).
+      (815 test files = 2 × 492 + 1).
 - [x] `pnpm exec vitest run` passes: **4,016 / 4,016 tests, zero failures**.
-- [x] CSS class-name audit: **487 / 487** components reference their canonical
+- [x] CSS class-name audit: **492 / 492** components reference their canonical
       kebab-case base class.
-- [x] Storybook story coverage: **487 / 487** components have a
+- [x] Storybook story coverage: **492 / 492** components have a
       `*.stories.svelte` file.
 
 ### 8.3 Open backlog
@@ -310,6 +310,6 @@ pnpm run storybook                   # run Storybook
 - Package manager: pnpm
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../components.tsv) — 487 components
+- Canonical catalog: [../components.tsv](../components.tsv) — 492 components
 - Root spec: [../spec.md](../spec.md)
 - Sibling example app: [../lily-design-system-svelte-sveltekit-examples/](../lily-design-system-svelte-sveltekit-examples/)

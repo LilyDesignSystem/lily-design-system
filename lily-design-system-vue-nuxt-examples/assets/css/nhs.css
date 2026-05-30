@@ -1423,8 +1423,8 @@ article[class*="card"] {
   to { transform: rotate(360deg); }
 }
 
-/* qr-code */
-.qr-code {
+/* qr-code-image */
+.qr-code-image {
   display: inline-block;
 }
 

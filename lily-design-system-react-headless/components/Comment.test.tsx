@@ -4,11 +4,11 @@ import { describe, expect, test } from "vitest";
 import Subject from "./Comment";
 
 describe("Comment", () => {
-    test("renders a article element with class comment", () => {
+    test("renders a div element with class comment", () => {
         const { container } = render(<Subject>content</Subject>);
         const root = container.querySelector(".comment");
         expect(root).toBeTruthy();
-        expect(root?.tagName).toBe("ARTICLE");
+        expect(root?.tagName).toBe("DIV");
     });
 
     test("renders children content", () => {

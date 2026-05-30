@@ -2,7 +2,7 @@
 
 ## Status
 
-Initial scaffold landed 2026-05-28. Infrastructure + all 487 components present. Pending: `pnpm install` + `vitest run` end-to-end verification.
+Initial scaffold landed 2026-05-28. Infrastructure + all 492 components present. Pending: `pnpm install` + `vitest run` end-to-end verification.
 
 ## Architecture decisions
 
@@ -22,7 +22,7 @@ Based on the Angular 2026 research summary:
 
 ```
 lily-design-system-angular-headless/
-├── components/                — 487 × 3 files
+├── components/                — 492 × 3 files
 │   ├── Accordion*.ts          — standalone component
 │   ├── Accordion*.spec.ts     — vitest + TestBed test
 │   ├── Accordion*.md          — per-component doc
@@ -41,7 +41,7 @@ lily-design-system-angular-headless/
 
 - [x] Decide on Angular version target — Angular 20.
 - [x] Set up build infra (package.json, tsconfig, ng-package, vitest).
-- [x] Generate the 487-component scaffold from templates.
+- [x] Generate the 492-component scaffold from templates.
 - [x] Index barrel that re-exports every component.
 - [ ] Run `pnpm install` end-to-end (skipped in initial scaffold — pulls a lot of node_modules).
 - [ ] Verify `vitest run` passes for a sample of components.

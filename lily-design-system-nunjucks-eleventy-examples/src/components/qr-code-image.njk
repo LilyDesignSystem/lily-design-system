@@ -1,0 +1,13 @@
+---
+layout: layouts/component-demo.njk
+title: QR Code Image
+description: a QR code image generated from text or URL data
+---
+
+{% from "components/qr-code-image/macro.njk" import qrCodeImage %}
+
+{{ qrCodeImage({
+  src: "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fexample.nhs.uk",
+  alt: "Link to example.nhs.uk",
+  size: 200
+}) }}

@@ -1,13 +1,13 @@
 # Comment
 
-A comment displays user discussions and user feedback, typically including the author's name, avatar, timestamp, and the comment text. Comments are used in discussion threads, review sections, and feedback areas.
+A comment is anything that expresses an opinion, observation, explanation, etc. Examples include user discussion replies, peer review remarks, marginalia, code review notes, and editor annotations.
 
-This headless component uses an `<article>` element for self-contained content semantics, with appropriate ARIA attributes for author and timestamp metadata.
+This headless component renders a `<div>` with class `comment`. The consumer supplies the comment body and any related metadata (author, timestamp, action buttons) as children.
 
 ## Implementation Notes
 
-- Uses `<article>` element for self-contained comment semantics
-- `aria-label` describes the comment (e.g., "Comment by Jane Doe")
+- Uses `<div>` element with class `comment`
+- `aria-label` describes the comment for assistive technology (e.g., "Comment by Jane Doe")
 - Contains slots for avatar, author name, timestamp, and body content
 - Supports nested replies through recursive composition
 
@@ -34,12 +34,11 @@ This headless component uses an `<article>` element for self-contained content s
 
 ## ARIA
 
-- Implicit `article` role from `<article>` element
 - `aria-label` -- describes the comment for screen readers
 
 ## When to Use
 
-- Use to display user discussions and feedback on content, such as clinical notes, patient feedback, or article comments.
+- Use to display opinions, observations, or explanations from a user or contributor.
 - Use when each comment includes author, timestamp, and content.
 - Use for threaded reply structures via recursive composition of nested Comment components.
 
@@ -51,7 +50,7 @@ This headless component uses an `<article>` element for self-contained content s
 
 ## Headless
 
-This component provides an `<article>` element with optional `aria-label` for accessible comment identification, with zero visual styling. The consumer is responsible for all CSS including layout, avatar positioning, author name styling, timestamp formatting, and thread indentation for replies.
+This component provides a `<div>` element with optional `aria-label` for accessible comment identification, with zero visual styling. The consumer is responsible for all CSS including layout, avatar positioning, author name styling, timestamp formatting, and thread indentation for replies.
 
 ## Styles
 
@@ -59,7 +58,7 @@ The consumer provides all CSS styling. The component renders with a `.comment` c
 
 ## Testing
 
-- Verify the component renders an `<article>` element with class `comment`
+- Verify the component renders a `<div>` element with class `comment`
 - Verify `aria-label` is applied when provided
 - Verify child content slots are rendered correctly
 - Verify pass-through attributes are applied
@@ -71,9 +70,11 @@ The consumer provides all CSS styling. The component renders with a `.comment` c
 
 ## Related components
 
+- `question` — a question is anything that asks for information, invites a response, tests knowledge, etc.
+- `answer` — an answer is anything that responds to a question, request, action, etc.
 - `chat-message` — a chat message shows one chat conversation message entry and all its data, including the author avatar, author name, time, etc.
 - `blockquote` — a block-level quotation with optional source citation
 
 ## References
 
-- [MDN article element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article)
+- [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)

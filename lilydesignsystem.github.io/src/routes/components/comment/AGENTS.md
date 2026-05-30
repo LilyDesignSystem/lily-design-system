@@ -4,21 +4,20 @@
 
 - Component: comment
 - PascalCase: Comment
-- Description: a comment displays user discussions and user feedback
-- HTML tag: <article>
+- Description: a comment is anything that expresses an opinion, observation, explanation, etc.
+- HTML tag: <div>
 - CSS class: .comment
 - Interactive: no
 
 ## Key Behaviors
 
-- Uses `<article>` element for self-contained comment semantics
-- `aria-label` describes the comment
+- Uses `<div>` element with class `comment`
+- `aria-label` describes the comment for screen readers
 - Contains slots for avatar, author name, timestamp, and body content
 - Supports nested replies through recursive composition
 
 ## ARIA
 
-- Implicit `article` role from `<article>` element
 - `aria-label` -- describes the comment for screen readers
 
 ## Keyboard
@@ -33,7 +32,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <article> element with class="comment"
+- [ ] Renders <div> element with class="comment"
 - [ ] Has aria-label attribute when provided
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless

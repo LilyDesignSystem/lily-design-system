@@ -8,6 +8,7 @@ action-bar-button	ActionBarButton	one action button inside an action bar
 action-group	ActionGroup	a group of action buttons that can collapse to an overflow menu when space is constrained
 action-link	ActionLink	a hyperlink styled as an action trigger
 address-input	AddressInput	an input for searching or manually entering an address
+addressograph-box	AddressographBox	a box that shows a person's identification details, such as name, tracking information, and salient notations
 affix	Affix	a wrapper that pins its content to a viewport position while the page scrolls
 ai-label	AiLabel	an indicator of AI instances that is a pathway to AI explainability
 alba-community-health-index-input	AlbaCommunityHealthIndexInput	an input for entering Scotland's Community Health Index (CHI)
@@ -16,6 +17,7 @@ alert	Alert	a status message for important information or feedback
 alert-dialog	AlertDialog	a modal dialog for urgent messages requiring user acknowledgment
 angle-slider-range-input	AngleSliderRangeInput	a range input for selecting an angle in degrees
 announcement-banner	AnnouncementBanner	a banner highlighting important messages for all users
+answer	Answer	an answer is anything that responds to a question, request, action, etc.
 area-chart	AreaChart	an area chart visualization showing sized components in continuous data
 article-layout	ArticleLayout	a top-level article wrapper that sets CSS custom properties for content column widths
 aspect-ratio-container	AspectRatioContainer	a container that maintains a fixed aspect ratio
@@ -31,6 +33,7 @@ badge	Badge	a small label for counts, statuses, or categories
 banner	Banner	a prominent message bar across the top of a page
 banner-box	BannerBox	a banner box that is inside a banner component, using flexbox horizontal
 bar-chart	BarChart	a horizontal bar chart visualization for displaying data
+barcode-image	BarcodeImage	a visual machine-readable symbolic code image, such as for a scanner
 beach-ball	BeachBall	a decorative animated beach ball element
 belgique-numero-de-registre-national-input	BelgiqueNumeroDeRegistreNationalInput	an input for entering Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
 belgique-numero-de-registre-national-view	BelgiqueNumeroDeRegistreNationalView	a read-only display of Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
@@ -89,7 +92,7 @@ color-picker-button	ColorPickerButton	a button showing a color swatch in a color
 column-chart	ColumnChart	a vertical column chart visualization for displaying data
 combobox	Combobox	a text input combined with a dropdown list for filtering options
 command	Command	a command palette for searching and executing actions
-comment	Comment	a comment displays user discussions and user feedback
+comment	Comment	a comment is anything that expresses an opinion, observation, explanation, etc.
 container	Container	a generic block-level content container
 container-with-fixed-width	ContainerWithFixedWidth	a centered content wrapper with a fixed max-width breakpoint
 container-with-fluid-width	ContainerWithFluidWidth	a full-width content wrapper with horizontal padding
@@ -139,6 +142,7 @@ document-list-item	DocumentListItem	one document entry in a document list
 dont-list	DontList	a guideline list of discouraged dont-list-item components
 dont-list-item	DontListItem	a discouraged-practice item in a dont-list guideline list
 download-button	DownloadButton	a download link styled as a button, with optional file size and format metadata
+draft	Draft	an early preliminary version of content such as an article, email, report, etc.
 drawer	Drawer	a panel that slides in from the edge of the screen
 dropdown-menu	DropdownMenu	a menu that opens below a trigger button
 editable	Editable	an inline-editable text element that toggles between view and edit modes
@@ -344,7 +348,8 @@ progress	Progress	a horizontal progress bar showing completion
 progress-bar	ProgressBar	a horizontal progress indicator
 progress-circle	ProgressCircle	a circular progress indicator
 progress-spinner	ProgressSpinner	an indeterminate spinning progress indicator
-qr-code	QrCode	a QR code image generated from text or URL data
+qr-code-image	QrCodeImage	a QR code image generated from text or URL data
+question	Question	a question is anything that asks for information, invites a response, tests knowledge, etc.
 radio-group	RadioGroup	a group of radio buttons for selecting one option
 radio-input	RadioInput	a single radio button input <input type="radio">
 range-input	RangeInput	a slider input for selecting a value within a range <input type="range">

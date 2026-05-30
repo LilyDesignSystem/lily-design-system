@@ -918,9 +918,15 @@ export const components = [
     description: "a horizontal progress bar showing completion",
   },
   {
-    slug: "qr-code",
-    name: "QrCode",
+    slug: "qr-code-image",
+    name: "QrCodeImage",
     description: "a QR code image generated from text or URL data",
+  },
+  {
+    slug: "question",
+    name: "Question",
+    description:
+      "a question is anything that asks for information, invites a response, tests knowledge, etc.",
   },
   {
     slug: "radio-group",
@@ -1370,6 +1376,12 @@ export const components = [
       "an input for searching or manually entering an address",
   },
   {
+    slug: "addressograph-box",
+    name: "AddressographBox",
+    description:
+      "a box that shows a person's identification details, such as name, tracking information, and salient notations",
+  },
+  {
     slug: "affix",
     name: "Affix",
     description:
@@ -1380,6 +1392,12 @@ export const components = [
     name: "AnnouncementBanner",
     description:
       "a banner highlighting important messages for all users",
+  },
+  {
+    slug: "answer",
+    name: "Answer",
+    description:
+      "an answer is anything that responds to a question, request, action, etc.",
   },
   {
     slug: "area-chart",
@@ -1416,6 +1434,12 @@ export const components = [
     name: "BarChart",
     description:
       "a horizontal bar chart visualization for displaying data",
+  },
+  {
+    slug: "barcode-image",
+    name: "BarcodeImage",
+    description:
+      "a visual machine-readable symbolic code image, such as for a scanner",
   },
   {
     slug: "blockquote",
@@ -1529,7 +1553,7 @@ export const components = [
     slug: "comment",
     name: "Comment",
     description:
-      "a comment displays user discussions and user feedback",
+      "a comment is anything that expresses an opinion, observation, explanation, etc.",
   },
   {
     slug: "container",
@@ -1626,6 +1650,12 @@ export const components = [
     name: "DownloadButton",
     description:
       "a download link styled as a button, with optional file size and format metadata",
+  },
+  {
+    slug: "draft",
+    name: "Draft",
+    description:
+      "an early preliminary version of content such as an article, email, report, etc.",
   },
   {
     slug: "end-notes",

@@ -26,7 +26,7 @@ pnpm test:e2e   # Playwright accessibility + responsive specs
 ## Required routes
 
 - `/` — home page linking to every composed-page demo plus the components catalog
-- `/components` — searchable index of all 487 components
+- `/components` — searchable index of all 492 components
 - `/components/[slug]` — per-component detail page rendering the headless library's HTML output via `[innerHTML]` + `DomSanitizer`
 - 12 composed pages (`/contact-form`, `/dashboard`, …, `/timeline-and-cards`)
 

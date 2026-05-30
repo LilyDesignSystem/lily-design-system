@@ -4,25 +4,25 @@ Single source of truth for spec-driven development of the Comment component. Con
 
 ## Goal
 
-Implement the Comment component: a comment displays user discussions and user feedback.
+Implement the Comment component: a comment is anything that expresses an opinion, observation, explanation, etc.
 
 ## HTML Tag and CSS Class
 
-- HTML tag: <article>
+- HTML tag: <div>
 - CSS class: .comment
 
 ## Approach
 
-1. Use semantic <article> element with class="comment"
+1. Use semantic <div> element with class="comment"
 2. Add ARIA attributes for accessibility
 3. Implement in HTML headless (plain HTML + vanilla JS)
 4. Implement in Svelte headless (Svelte 5 + runes)
-5. Implement in React, Vue, Blazor headless
+5. Implement in React, Vue, Angular, Blazor, Nunjucks headless
 6. Create tests for each implementation
 
 ## Acceptance Criteria
 
-- [ ] Renders <article> with class="comment"
+- [ ] Renders <div> with class="comment"
 - [ ] `aria-label` -- describes the comment for screen readers
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless

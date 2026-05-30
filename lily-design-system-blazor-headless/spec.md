@@ -6,7 +6,7 @@ this subproject. For project-wide rules, read the root [spec.md](../spec.md)
 first.
 
 This file adds Blazor-specific detail and tracks the implementation status of
-the **487 canonical components** in this framework.
+the **492 canonical components** in this framework.
 
 ---
 
@@ -27,7 +27,7 @@ WebAssembly, and Blazor Hybrid hosts.
 ### In scope
 
 - Blazor Razor components (`*.razor` + optional `*.razor.cs` code-behind) for
-  all 487 components.
+  all 492 components.
 - bUnit + xUnit tests per component asserting ARIA, keyboard, and structural
   contract.
 - C# 13 / .NET 10.0 source.
@@ -200,8 +200,8 @@ dotnet test                                                     # run bUnit test
 
 ### 7.1 Catalog parity
 
-- [ ] All 487 canonical components have a `{PascalCase}.razor`.
-- [ ] All 487 components have a `{PascalCase}Tests.cs` bUnit test.
+- [ ] All 492 canonical components have a `{PascalCase}.razor`.
+- [ ] All 492 components have a `{PascalCase}Tests.cs` bUnit test.
 - [x] Per-component docs live in the root `../components/{kebab-case}/`
       (shared canonical, not duplicated per subproject).
 - [ ] Every component uses the canonical HTML tag.
@@ -232,16 +232,16 @@ dotnet test                                                     # run bUnit test
 - [x] Project infrastructure (`.csproj`, `_Imports.razor`).
 - [x] Test project (bUnit + xUnit).
 - [x] AGENTS.md, CLAUDE.md, index.md, README.md (symlink), plan.md, tasks.md.
-- [x] All 487 canonical components have a `{PascalCase}.razor` (per audit).
+- [x] All 492 canonical components have a `{PascalCase}.razor` (per audit).
 - [x] Per-component bUnit tests (commit `1b8600d4`).
 - [x] TabGroup removal (canonical pattern is TabBar + TabBarButton + TabPanel).
 
 ### 8.2 Verified
 
 - [x] `dotnet test` passes: **1,245 / 1,245 bUnit tests, zero failures**.
-- [x] CSS class-name audit: **487 / 487** components reference their canonical
+- [x] CSS class-name audit: **492 / 492** components reference their canonical
       kebab-case base class.
-- [x] All 487 canonical components have a `{PascalCase}.razor` and a
+- [x] All 492 canonical components have a `{PascalCase}.razor` and a
       `{PascalCase}Tests.cs`.
 
 ### 8.3 Open backlog
@@ -269,6 +269,6 @@ dotnet test                                                     # run bUnit test
 - Build: `dotnet build`
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../components.tsv) — 487 components
+- Canonical catalog: [../components.tsv](../components.tsv) — 492 components
 - Root spec: [../spec.md](../spec.md)
 - Sibling example app: [../lily-design-system-blazor-web-examples/](../lily-design-system-blazor-web-examples/)

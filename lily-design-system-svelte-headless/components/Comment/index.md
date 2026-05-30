@@ -1,6 +1,6 @@
 # Comment
 
-A comment displays user discussions and user feedback.
+A comment is anything that expresses an opinion, observation, explanation, etc.
 
 ## Canonical documentation
 

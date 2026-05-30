@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LilyBlazorWebExamples")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0a24d904cd267a3a005e1a2c9376629f1c55986f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d3cc435f2a0b6f4baf1149bf0b7d75114c51e932")]
 [assembly: System.Reflection.AssemblyProductAttribute("LilyBlazorWebExamples")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LilyBlazorWebExamples")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

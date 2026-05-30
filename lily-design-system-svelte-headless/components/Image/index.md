@@ -31,7 +31,7 @@ A Svelte 5 component that conditionally wraps an `<img>` in a `<figure>` + `<fig
 - For user-uploaded image files. Use `ImageFileInput` or `FileUpload`.
 - For decorative background graphics. Use CSS background images instead.
 - For responsive media with multiple sources. Use a raw `<picture>` element.
-- For QR codes. Use `QrCode`.
+- For QR codes. Use `QrCodeImage`.
 
 ## How to use it
 
@@ -115,6 +115,6 @@ Pass `src` and `alt`. Optionally pass `caption` to get the figure/figcaption wra
 
 - `ImageInput` - graphical `<input type="image">` submit button.
 - `ImageFileInput` - file input restricted to image files.
-- `QrCode` - QR code image generator.
+- `QrCodeImage` - QR code image generator.
 - `Figure` - standalone figure/figcaption wrapper.
 - `FeaturePhoto` - responsive photo component with alt-text validation.

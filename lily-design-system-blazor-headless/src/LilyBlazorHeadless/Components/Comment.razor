@@ -2,10 +2,10 @@
 
 @*
     Comment component
-    a comment displays user discussions and user feedback
+    a comment is anything that expresses an opinion, observation, explanation, etc.
 *@
 
-<article class="@($"comment {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</article>
+<div class="@($"comment {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-const html = `<article
-  class="comment">  <div class="comment-header">  </div>
-  <div class="comment-body"></div>
-</article>`;
+const html = `<div
+  class="comment"
+></div>`;
 
 const meta = {
   title: 'Headless/Comment',

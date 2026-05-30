@@ -1469,8 +1469,8 @@ article[class*="card"] {
     }
 }
 
-/* qr-code */
-.qr-code {
+/* qr-code-image */
+.qr-code-image {
     display: inline-block;
 }
 

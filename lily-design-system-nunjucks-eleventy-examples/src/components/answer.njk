@@ -1,0 +1,11 @@
+---
+layout: layouts/component-demo.njk
+title: Answer
+description: an answer is anything that responds to a question, request, action, etc.
+---
+
+{% from "components/answer/macro.njk" import answer %}
+
+{{ answer({
+  text: "The capital of France is Paris."
+}) }}

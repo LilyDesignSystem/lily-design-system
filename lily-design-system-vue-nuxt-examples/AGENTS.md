@@ -40,10 +40,10 @@ Vue 3 + Nuxt 3 example application demonstrating the Lily Design System headless
 ```
 ├── app.vue                     # Root layout
 ├── nuxt.config.ts              # Nuxt configuration
-├── components/                 # 487 headless Vue components
+├── components/                 # 492 headless Vue components
 ├── pages/                      # 13 example pages
 ├── assets/css/nhs.css          # NHS UK design tokens & styles
-├── tests/components/           # 487 component test files
+├── tests/components/           # 492 component test files
 ├── vitest.config.ts            # Vitest configuration
 └── vitest-setup.ts             # Test setup (cleanup)
 ```

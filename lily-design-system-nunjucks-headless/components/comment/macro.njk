@@ -1,31 +1,12 @@
-{#
-  Comment macro — a user-discussion comment display.
-
-  HTML tag: <article>
-  CSS class: comment
-
-  Params: author, time, timeText, avatarHtml, text, html, label, id, classes, attributes.
-#}
+{# Comment macro — a comment is anything that expresses an opinion, observation, explanation, etc. #}
 {%- macro comment(params) -%}
-{%- set p = params | default({}) -%}
-<article
-  class="comment{% if p.classes %} {{ p.classes }}{% endif %}"
-  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
-  {%- if p.id %} id="{{ p.id }}"{% endif %}
-  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+<div
+  class="comment{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
 >
-  {%- if p.avatarHtml %}<div class="comment-avatar">{{ p.avatarHtml | safe }}</div>{% endif %}
-  <div class="comment-header">
-    {%- if p.author %}<span class="comment-author">{{ p.author }}</span>{% endif %}
-    {%- if p.time or p.timeText %}
-    <time class="comment-time"{% if p.time %} datetime="{{ p.time }}"{% endif %}>{{ p.timeText | default(p.time) }}</time>
-    {%- endif %}
-  </div>
-  <div class="comment-body">
-    {%- if p.html -%}{{ p.html | safe }}
-    {%- elif p.text -%}{{ p.text }}
-    {%- elif caller -%}{{ caller() }}
-    {%- endif -%}
-  </div>
-</article>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</div>
 {%- endmacro -%}
