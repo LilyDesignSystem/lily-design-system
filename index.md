@@ -17,6 +17,7 @@ Batteries-included web examples that demonstrate components in real apps:
 - [Svelte SvelteKit examples](lily-design-system-svelte-sveltekit-examples)
 - [React Next.js examples](lily-design-system-react-next-examples)
 - [Vue Nuxt.js examples](lily-design-system-vue-nuxt-examples)
+- [Angular Analog examples](lily-design-system-angular-examples)
 - [Blazor Web examples](lily-design-system-blazor-web-examples)
 - [Nunjucks Eleventy example](lily-design-system-nunjucks-eleventy-examples)
 
@@ -26,12 +27,13 @@ Headless versions if you want to use components with all your own styles:
 - [Svelte headless](lily-design-system-svelte-headless)
 - [React headless](lily-design-system-react-headless)
 - [Vue headless](lily-design-system-vue-headless)
+- [Angular headless](lily-design-system-angular-headless)
 - [Blazor headless](lily-design-system-blazor-headless)
 - [Nunjucks headless](lily-design-system-nunjucks-headless)
 
 ## Components
 
-The canonical catalog is [components.tsv](components.tsv) — 407 components. Each
+The canonical catalog is [components.tsv](components.tsv) — 487 components. Each
 slug below links to the per-component documentation.
 
 - [accordion-checkbox](components/accordion-checkbox): a checkbox option that reveals an accordion panel when checked
@@ -46,6 +48,8 @@ slug below links to the per-component documentation.
 - [address-input](components/address-input): an input for searching or manually entering an address
 - [affix](components/affix): a wrapper that pins its content to a viewport position while the page scrolls
 - [ai-label](components/ai-label): an indicator of AI instances that is a pathway to AI explainability
+- [alba-community-health-index-input](components/alba-community-health-index-input): an input for entering Scotland's Community Health Index (CHI)
+- [alba-community-health-index-view](components/alba-community-health-index-view): a read-only display of Scotland's Community Health Index (CHI)
 - [alert](components/alert): a status message for important information or feedback
 - [alert-dialog](components/alert-dialog): a modal dialog for urgent messages requiring user acknowledgment
 - [angle-slider-range-input](components/angle-slider-range-input): a range input for selecting an angle in degrees
@@ -53,6 +57,8 @@ slug below links to the per-component documentation.
 - [area-chart](components/area-chart): an area chart visualization showing sized components in continuous data
 - [article-layout](components/article-layout): a top-level article wrapper that sets CSS custom properties for content column widths
 - [aspect-ratio-container](components/aspect-ratio-container): a container that maintains a fixed aspect ratio
+- [australia-individual-healthcare-identifier-input](components/australia-individual-healthcare-identifier-input): an input for entering Australia's Individual Healthcare Identifier (IHI)
+- [australia-individual-healthcare-identifier-view](components/australia-individual-healthcare-identifier-view): a read-only display of Australia's Individual Healthcare Identifier (IHI)
 - [autosuggest](components/autosuggest): a text input that proposes matching options as users type
 - [avatar](components/avatar): an avatar indicator that shows an avatar image or avatar text
 - [avatar-group](components/avatar-group): a group of avatar components
@@ -64,12 +70,16 @@ slug below links to the per-component documentation.
 - [banner-box](components/banner-box): a banner box that is inside a banner component, using flexbox horizontal
 - [bar-chart](components/bar-chart): a horizontal bar chart visualization for displaying data
 - [beach-ball](components/beach-ball): a decorative animated beach ball element
+- [belgique-numero-de-registre-national-input](components/belgique-numero-de-registre-national-input): an input for entering Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
+- [belgique-numero-de-registre-national-view](components/belgique-numero-de-registre-national-view): a read-only display of Belgium's Numéro de Registre National / Rijksregisternummer (NRN)
 - [blockquote](components/blockquote): a block-level quotation with optional source citation
 - [body-text](components/body-text): a rendered text block within a content width container
 - [breadcrumb-link](components/breadcrumb-link): one breadcrumb link in the trail
 - [breadcrumb-list](components/breadcrumb-list): an ordered list of breadcrumb list items
 - [breadcrumb-list-item](components/breadcrumb-list-item): one breadcrumb list item in the trail
 - [breadcrumb-nav](components/breadcrumb-nav): a navigation container for breadcrumb trail links
+- [bulgaria-edinen-grazhdanski-nomer-input](components/bulgaria-edinen-grazhdanski-nomer-input): an input for entering Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)
+- [bulgaria-edinen-grazhdanski-nomer-view](components/bulgaria-edinen-grazhdanski-nomer-view): a read-only display of Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)
 - [button](components/button): a generic clickable button element
 - [button-group](components/button-group): a wrapper that groups related buttons together
 - [button-input](components/button-input): an input element of type button for form actions <input type="button">
@@ -88,6 +98,10 @@ slug below links to the per-component documentation.
 - [care-card](components/care-card): a medical care instruction card with urgency levels
 - [carousel](components/carousel): a slideshow for cycling through content items
 - [cascader](components/cascader): a multi-level dropdown for selecting a value from a hierarchy
+- [cesko-cestovni-pas-input](components/cesko-cestovni-pas-input): an input for entering Czech Republic's Cestovní pas
+- [cesko-cestovni-pas-view](components/cesko-cestovni-pas-view): a read-only display of Czech Republic's Cestovní pas
+- [cesko-rodne-cislo-input](components/cesko-rodne-cislo-input): an input for entering Czech Republic's Rodné číslo (RČ)
+- [cesko-rodne-cislo-view](components/cesko-rodne-cislo-view): a read-only display of Czech Republic's Rodné číslo (RČ)
 - [character](components/character): a single character display element
 - [character-counter](components/character-counter): a counter showing remaining or used characters in a text field
 - [chat-list](components/chat-list): an ordered list of chat list item components
@@ -126,6 +140,12 @@ slug below links to the per-component documentation.
 - [context-menu-item](components/context-menu-item): one item in a context menu
 - [contextual-help](components/contextual-help): a help button that opens a popover with explanatory content
 - [currency-input](components/currency-input): a locale-aware currency input with automatic formatting, symbols, separators
+- [cymru-rhif-y-gwasanaeth-iechyd-gwladol-input](components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-input): an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
+- [cymru-rhif-y-gwasanaeth-iechyd-gwladol-view](components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view): a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
+- [cyprus-national-passport-number-input](components/cyprus-national-passport-number-input): an input for entering Cyprus's National Passport Number
+- [cyprus-national-passport-number-view](components/cyprus-national-passport-number-view): a read-only display of Cyprus's National Passport Number
+- [danmark-personnummer-input](components/danmark-personnummer-input): an input for entering Denmark's Personnummer (CPR-nummer) (CPR)
+- [danmark-personnummer-view](components/danmark-personnummer-view): a read-only display of Denmark's Personnummer (CPR-nummer) (CPR)
 - [data-filter-form](components/data-filter-form): a form for filtering data by criteria
 - [data-table](components/data-table): a data table interactive grid for displaying and sorting tabular data <table>
 - [data-table-body](components/data-table-body): a data table interactive grid tbody for displaying and sorting tabular data <tbody>
@@ -143,6 +163,8 @@ slug below links to the per-component documentation.
 - [description-list](components/description-list): a definition list displaying information in key-value format <dl>
 - [description-list-item](components/description-list-item): one key-value pair in a description list using dt and dd elements
 - [details](components/details): a disclosure widget that shows and hides content
+- [deutschland-krankenversichertennummer-input](components/deutschland-krankenversichertennummer-input): an input for entering Germany's Krankenversichertennummer (KVNR)
+- [deutschland-krankenversichertennummer-view](components/deutschland-krankenversichertennummer-view): a read-only display of Germany's Krankenversichertennummer (KVNR)
 - [dial](components/dial): a rotary dial control for selecting a value
 - [dial-group](components/dial-group): a group of dial components
 - [dialog](components/dialog): a modal or non-modal dialog window
@@ -159,13 +181,21 @@ slug below links to the per-component documentation.
 - [dropdown-menu](components/dropdown-menu): a menu that opens below a trigger button
 - [editable](components/editable): an inline-editable text element that toggles between view and edit modes
 - [editable-form](components/editable-form): a form wrapper for inline editing of content
+- [eesti-isikukood-input](components/eesti-isikukood-input): an input for entering Estonia's Isikukood (IK)
+- [eesti-isikukood-view](components/eesti-isikukood-view): a read-only display of Estonia's Isikukood (IK)
+- [ellada-dematerialised-securities-system-input](components/ellada-dematerialised-securities-system-input): an input for entering Greece's Dematerialised Securities System (DSS)
+- [ellada-dematerialised-securities-system-view](components/ellada-dematerialised-securities-system-view): a read-only display of Greece's Dematerialised Securities System (DSS)
 - [email-input](components/email-input): an input for entering an email address <input type="email">
 - [email-link](components/email-link): a mailto hyperlink for an email address
 - [emoji](components/emoji): a single emoji character with accessible name
 - [emoji-character-picker](components/emoji-character-picker): a picker for browsing and selecting emoji characters
 - [end-notes](components/end-notes): a section of titled endnote items at the end of an article
+- [england-national-health-service-number-input](components/england-national-health-service-number-input): an input for entering England's National Health Service Number (NHS)
+- [england-national-health-service-number-view](components/england-national-health-service-number-view): a read-only display of England's National Health Service Number (NHS)
 - [error-message](components/error-message): an error message associated with a form field
 - [error-summary](components/error-summary): a summary of all validation errors on a form
+- [espana-codigo-de-identificacion-fiscal-input](components/espana-codigo-de-identificacion-fiscal-input): an input for entering Spain's Código de Identificación Fiscal (CIF)
+- [espana-codigo-de-identificacion-fiscal-view](components/espana-codigo-de-identificacion-fiscal-view): a read-only display of Spain's Código de Identificación Fiscal (CIF)
 - [espana-tarjeta-sanitaria-individual-input](components/espana-tarjeta-sanitaria-individual-input): an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
 - [espana-tarjeta-sanitaria-individual-view](components/espana-tarjeta-sanitaria-individual-view): a read-only display of an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
 - [event](components/event): an event component that contains other event-related information
@@ -224,6 +254,8 @@ slug below links to the per-component documentation.
 - [hint](components/hint): hint text providing guidance for a form field
 - [horizontal-scroller](components/horizontal-scroller): a horizontally scrollable content container
 - [hover-card](components/hover-card): a card that appears on hover over a trigger element
+- [hrvatska-osobni-identifikacijski-broj-input](components/hrvatska-osobni-identifikacijski-broj-input): an input for entering Croatia's Osobni identifikacijski broj (OIB)
+- [hrvatska-osobni-identifikacijski-broj-view](components/hrvatska-osobni-identifikacijski-broj-view): a read-only display of Croatia's Osobni identifikacijski broj (OIB)
 - [icon](components/icon): a container for displaying an icon
 - [icon-button](components/icon-button): a button containing only an icon with a required accessible label
 - [icon-list](components/icon-list): an ordered list of icon list item components
@@ -239,6 +271,10 @@ slug below links to the per-component documentation.
 - [inset-text](components/inset-text): indented text to distinguish it from surrounding content
 - [ireland-individual-health-identifier-input](components/ireland-individual-health-identifier-input): an input for entering Ireland Individual Health Identifier (IHI) unique national healthcare identifier
 - [ireland-individual-health-identifier-view](components/ireland-individual-health-identifier-view): a read-only display of Ireland Individual Health Identifier (IHI) unique national healthcare identifier
+- [island-kennitala-input](components/island-kennitala-input): an input for entering Iceland's Kennitala
+- [island-kennitala-view](components/island-kennitala-view): a read-only display of Iceland's Kennitala
+- [italia-codice-fiscale-input](components/italia-codice-fiscale-input): an input for entering Italy's Codice fiscale (CF)
+- [italia-codice-fiscale-view](components/italia-codice-fiscale-view): a read-only display of Italy's Codice fiscale (CF)
 - [kanban-table](components/kanban-table): a kanban board table interactive grid for organizing items by status <table>
 - [kanban-table-body](components/kanban-table-body): a kanban board table interactive grid tbody for organizing items by status <tbody>
 - [kanban-table-foot](components/kanban-table-foot): a kanban board table interactive grid tfoot for organizing items by status <tfoot>
@@ -248,9 +284,23 @@ slug below links to the per-component documentation.
 - [kanban-table-th](components/kanban-table-th): a kanban board table interactive grid header cell for organizing items by status <th>
 - [kbd](components/kbd): show keyboard shortcuts and key combinations in a styled inline element
 - [label](components/label): a label associated with a form input
+- [latvija-personas-kods-input](components/latvija-personas-kods-input): an input for entering Latvia's Personas kods
+- [latvija-personas-kods-view](components/latvija-personas-kods-view): a read-only display of Latvia's Personas kods
+- [liechtenstein-national-identity-card-number-input](components/liechtenstein-national-identity-card-number-input): an input for entering Liechtenstein's Liechtenstein National Identity Card Number
+- [liechtenstein-national-identity-card-number-view](components/liechtenstein-national-identity-card-number-view): a read-only display of Liechtenstein's Liechtenstein National Identity Card Number
+- [liechtenstein-passport-number-input](components/liechtenstein-passport-number-input): an input for entering Liechtenstein's Liechtenstein Passport Number
+- [liechtenstein-passport-number-view](components/liechtenstein-passport-number-view): a read-only display of Liechtenstein's Liechtenstein Passport Number
+- [lietuva-asmens-kodas-input](components/lietuva-asmens-kodas-input): an input for entering Lithuania's Asmens kodas
+- [lietuva-asmens-kodas-view](components/lietuva-asmens-kodas-view): a read-only display of Lithuania's Asmens kodas
+- [lietuva-pasas-input](components/lietuva-pasas-input): an input for entering Lithuania's Pasas
+- [lietuva-pasas-view](components/lietuva-pasas-view): a read-only display of Lithuania's Pasas
 - [line-chart](components/line-chart): a line chart visualization connecting data points to display data
 - [listbox](components/listbox): a list of selectable options with keyboard navigation
 - [loading](components/loading): a loading indicator, such as text, or image, or animation
+- [malta-national-identification-number-input](components/malta-national-identification-number-input): an input for entering Malta's Malta National Identification Number
+- [malta-national-identification-number-view](components/malta-national-identification-number-view): a read-only display of Malta's Malta National Identification Number
+- [malta-passport-number-input](components/malta-passport-number-input): an input for entering Malta's Malta Passport Number
+- [malta-passport-number-view](components/malta-passport-number-view): a read-only display of Malta's Malta Passport Number
 - [masonry](components/masonry): a masonry layout container for variable-height items
 - [measurement-instance-input](components/measurement-instance-input): an input for entering a measurement value and unit
 - [measurement-instance-view](components/measurement-instance-view): a read-only display of a measurement value and unit
@@ -281,11 +331,19 @@ slug below links to the per-component documentation.
 - [month-input](components/month-input): an input for selecting a month and year <input type="month">
 - [mutually-exclusive](components/mutually-exclusive): a container ensuring only one option can be selected from a group
 - [navigation-menu](components/navigation-menu): a site-wide navigation menu with links
+- [nederland-burgerservice-nummer-input](components/nederland-burgerservice-nummer-input): an input for entering Netherlands's Burgerservicenummer (BSN)
+- [nederland-burgerservice-nummer-view](components/nederland-burgerservice-nummer-view): a read-only display of Netherlands's Burgerservicenummer (BSN)
+- [nederland-identiteitskaart-nummer-input](components/nederland-identiteitskaart-nummer-input): an input for entering Netherlands's Identiteitskaart Nummer
+- [nederland-identiteitskaart-nummer-view](components/nederland-identiteitskaart-nummer-view): a read-only display of Netherlands's Identiteitskaart Nummer
+- [nederland-paspoort-nummer-input](components/nederland-paspoort-nummer-input): an input for entering Netherlands's Paspoort Nummer
+- [nederland-paspoort-nummer-view](components/nederland-paspoort-nummer-view): a read-only display of Netherlands's Paspoort Nummer
 - [net-promoter-score-picker](components/net-promoter-score-picker): a picker for selecting a 0-10 Net Promoter Score
 - [net-promoter-score-picker-button](components/net-promoter-score-picker-button): a picker button for selecting a 0-10 Net Promoter Score
 - [net-promoter-score-view](components/net-promoter-score-view): a read-only display of a Net Promoter Score
 - [newsletter-signup](components/newsletter-signup): an email subscription form composition with idle, submitting, success, and error states
-- [northern-ireland-health-and-care-number-input](components/northern-ireland-health-and-care-number-input): an input for entering aNorthern Ireland Health and Care (H&C) Number unique national healthcare identifier
+- [norge-fodselsnummer-input](components/norge-fodselsnummer-input): an input for entering Norway's Fødselsnummer
+- [norge-fodselsnummer-view](components/norge-fodselsnummer-view): a read-only display of Norway's Fødselsnummer
+- [northern-ireland-health-and-care-number-input](components/northern-ireland-health-and-care-number-input): an input for entering Northern Ireland Health and Care (H&C) Number unique national healthcare identifier
 - [northern-ireland-health-and-care-number-view](components/northern-ireland-health-and-care-number-view): a read-only display of Northern Ireland Health and Care (H&C) Number unique national healthcare identifier
 - [notification](components/notification): a brief message about an event or update
 - [number-input](components/number-input): an input for entering a numeric value with validation <input type="number">
@@ -306,9 +364,17 @@ slug below links to the per-component documentation.
 - [pictogram](components/pictogram): an icon-based component pairing an icon with a title and description in a centered or side layout
 - [pin-input-div](components/pin-input-div): a series of single-digit inputs for entering a PIN or OTP code
 - [place](components/place): a place component that contains other place-related information
+- [polska-numer-identyfikacji-podatkowej-input](components/polska-numer-identyfikacji-podatkowej-input): an input for entering Poland's Numer Identyfikacji Podatkowej (NIP)
+- [polska-numer-identyfikacji-podatkowej-view](components/polska-numer-identyfikacji-podatkowej-view): a read-only display of Poland's Numer Identyfikacji Podatkowej (NIP)
+- [polska-pesel-input](components/polska-pesel-input): an input for entering Poland's PESEL
+- [polska-pesel-view](components/polska-pesel-view): a read-only display of Poland's PESEL
 - [popconfirm-dialog](components/popconfirm-dialog): a popover dialog with confirm and cancel buttons
 - [popover](components/popover): a floating content box anchored to a trigger element
 - [popup](components/popup): a temporary overlay that appears above page content
+- [portugal-numero-de-identificacao-fiscal-input](components/portugal-numero-de-identificacao-fiscal-input): an input for entering Portugal's Número de Identificação Fiscal (NIF)
+- [portugal-numero-de-identificacao-fiscal-view](components/portugal-numero-de-identificacao-fiscal-view): a read-only display of Portugal's Número de Identificação Fiscal (NIF)
+- [portugal-passaporte-input](components/portugal-passaporte-input): an input for entering Portugal's Passaporte
+- [portugal-passaporte-view](components/portugal-passaporte-view): a read-only display of Portugal's Passaporte
 - [postal-code-input](components/postal-code-input): an input for entering a postal or ZIP code
 - [postal-code-view](components/postal-code-view): a read-only display of a postal or ZIP code
 - [product-card](components/product-card): a specialized card for displaying a product with image, title, price, and actions
@@ -330,6 +396,10 @@ slug below links to the per-component documentation.
 - [reset-input](components/reset-input): a button input that resets a form to default values <input type="reset">
 - [resizable](components/resizable): a container that the user can resize by dragging
 - [review-date](components/review-date): a display of a content review date
+- [romania-cod-numeric-personal-input](components/romania-cod-numeric-personal-input): an input for entering Romania's Cod Numeric Personal (CNP)
+- [romania-cod-numeric-personal-view](components/romania-cod-numeric-personal-view): a read-only display of Romania's Cod Numeric Personal (CNP)
+- [romania-pasaport-input](components/romania-pasaport-input): an input for entering Romania's Paşaport
+- [romania-pasaport-view](components/romania-pasaport-view): a read-only display of Romania's Paşaport
 - [scatter-chart](components/scatter-chart): a scatter chart visualization using dots to display data
 - [screen-reader-span](components/screen-reader-span): a visually hidden span of text intended for screen readers to provide more descriptive labels
 - [scroll-area](components/scroll-area): a scrollable container with custom scrollbar support
@@ -357,6 +427,12 @@ slug below links to the per-component documentation.
 - [slide-out-drawer](components/slide-out-drawer): a drawer that slides out from the side of the page
 - [slider](components/slider): a draggable control for selecting a value along a track
 - [slider-button](components/slider-button): a button with a slider that the user needs to slide to confirm
+- [slovenija-emso-input](components/slovenija-emso-input): an input for entering Slovenia's Enotna Matična Številka Občana (EMŠO)
+- [slovenija-emso-view](components/slovenija-emso-view): a read-only display of Slovenia's Enotna Matična Številka Občana (EMŠO)
+- [slovensko-pas-input](components/slovensko-pas-input): an input for entering Slovakia's Pas
+- [slovensko-pas-view](components/slovensko-pas-view): a read-only display of Slovakia's Pas
+- [slovensko-rodne-cislo-input](components/slovensko-rodne-cislo-input): an input for entering Slovakia's Rodné číslo (RČ)
+- [slovensko-rodne-cislo-view](components/slovensko-rodne-cislo-view): a read-only display of Slovakia's Rodné číslo (RČ)
 - [sonner](components/sonner): a toast notification manager
 - [sparkline](components/sparkline): a small inline chart showing a data trend
 - [split-button](components/split-button): a button with a primary action and a dropdown for related actions
@@ -373,7 +449,11 @@ slug below links to the per-component documentation.
 - [summary-box](components/summary-box): a boxed callout highlighting key takeaways or next steps from a longer page
 - [summary-list](components/summary-list): an ordered list of key-value summary pairs
 - [summary-list-item](components/summary-list-item): one key-value pair in a summary list
+- [suomi-henkilotunnus-input](components/suomi-henkilotunnus-input): an input for entering Finland's Henkilötunnus (HETU)
+- [suomi-henkilotunnus-view](components/suomi-henkilotunnus-view): a read-only display of Finland's Henkilötunnus (HETU)
 - [super-banner](components/super-banner): a super-banner communicates a high-priority state that affects an entire app, experience, process, or system
+- [sverige-personnummer-input](components/sverige-personnummer-input): an input for entering Sweden's Personnummer
+- [sverige-personnummer-view](components/sverige-personnummer-view): a read-only display of Sweden's Personnummer
 - [switch-button](components/switch-button): a toggle switch for turning a setting on or off
 - [tab-bar](components/tab-bar): a group of tabs for switching between content panels
 - [tab-bar-button](components/tab-bar-button): one tab button in a tab group
@@ -384,7 +464,7 @@ slug below links to the per-component documentation.
 - [table-head](components/table-head): a table interactive grid thead <thead>
 - [table-row](components/table-row): a table interactive grid row <tr>
 - [table-td](components/table-td): a table interactive grid data cell <td>
-- [table-th](components/table-th): a table interactive grid column <th>
+- [table-th](components/table-th): a table interactive grid header cell <th>
 - [tag](components/tag): a keyword label for categorizing content
 - [tag-group](components/tag-group): a group of tag elements
 - [tag-input](components/tag-input): an input for adding and removing tags
@@ -431,6 +511,8 @@ slug below links to the per-component documentation.
 - [tree-select](components/tree-select): a select dropdown showing a tree of hierarchical options
 - [united-kingdom-national-health-service-number-input](components/united-kingdom-national-health-service-number-input): an input for entering a UK NHS number
 - [united-kingdom-national-health-service-number-view](components/united-kingdom-national-health-service-number-view): a read-only display of a UK NHS number
+- [united-kingdom-national-insurance-number-input](components/united-kingdom-national-insurance-number-input): an input for entering United Kingdom's National Insurance Number (NINO)
+- [united-kingdom-national-insurance-number-view](components/united-kingdom-national-insurance-number-view): a read-only display of United Kingdom's National Insurance Number (NINO)
 - [united-states-social-security-number-input](components/united-states-social-security-number-input): an input for entering a US Social Security number
 - [united-states-social-security-number-view](components/united-states-social-security-number-view): a read-only display of a US Social Security number
 - [url-input](components/url-input): an input for entering a URL <input type="url">
@@ -447,7 +529,7 @@ slug below links to the per-component documentation.
 - **Accessible**: Semantic HTML elements, ARIA roles and attributes, and keyboard navigation built in. Targets WCAG 2.2 AAA.
 - **Composable**: Compound components (e.g., Nav + List + ListItem, Table + Head + Body + Row + Data) snap together cleanly.
 - **Internationalizable**: All user-facing text comes through props or parameters — no hardcoded strings — so consumers can localize.
-- **Batteries-included examples**: We provide complete styled examples for HTML, Svelte, React, Vue, Blazor, and Nunjucks.
+- **Batteries-included examples**: We provide complete styled examples for HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks.
 - **Semantic-CSS friendly**: If you like semantic CSS classes (e.g., DaisyUI), you can target each component by its kebab-case class name.
 - **Tailwind friendly**: If you like utility CSS classes (e.g., Tailwind), you can layer them on top of the headless components.
 - **Headless friendly**: If you bring your own styles, the headless versions give you semantic HTML and ARIA with no visual styling.
@@ -515,8 +597,8 @@ slug below links to the per-component documentation.
 ## Tracking
 
 - Package: lily
-- Version: 0.2.0
+- Version: 0.3.0
 - Created: 2025-08-09T21:09:52Z
-- Updated: 2026-04-28T00:00:00Z
+- Updated: 2026-05-30T00:00:00Z
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
 - Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)

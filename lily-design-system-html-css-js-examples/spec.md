@@ -6,7 +6,7 @@ development of this subproject. For project-wide rules, read the root
 [spec.md](../spec.md) first.
 
 This file adds plain-HTML-specific detail and tracks the example app's
-implementation status against the **407 canonical components**.
+implementation status against the **487 canonical components**.
 
 ---
 
@@ -97,12 +97,12 @@ lily-design-system-html-css-js-examples/
 | `/components`               | `pages/components/index.html`           | Catalog index                    |
 | `/components?slug={slug}`   | `pages/components/component.html`       | Per-component live demo via JS   |
 
-The catalog index lists all 407 canonical slugs and links each entry to
+The catalog index lists all 487 canonical slugs and links each entry to
 `component.html?slug={slug}`. `component.html` reads the `slug` query
 parameter and renders `componentDemos[slug]` via `element.innerHTML`.
 
 `componentDemos` is a JavaScript object literal embedded in
-`pages/components/component.html` with **407 entries** (one per canonical
+`pages/components/component.html` with **487 entries** (one per canonical
 slug).
 
 ## 5. Composed-page demos
@@ -160,14 +160,14 @@ npx http-server pages -p 8080                 # serve locally for manual testing
 ### 10.1 Routes
 
 - [ ] `pages/index.html` renders home with skip-link + standard landmarks.
-- [ ] `pages/components/index.html` lists all 407 canonical components.
-- [ ] `pages/components/component.html` renders a live demo for all 407
+- [ ] `pages/components/index.html` lists all 487 canonical components.
+- [ ] `pages/components/component.html` renders a live demo for all 487
       canonical slugs.
 - [ ] All 12 composed-page demos exist.
 
 ### 10.2 Demo registry
 
-- [x] `pages/components/component.html` `componentDemos` covers all 407
+- [x] `pages/components/component.html` `componentDemos` covers all 487
       canonical slugs (per commit `1f1772e1`).
 - [x] No orphan slugs (`medical-record-red-box` purged in favour of
       `medical-banner-box-for-danger`).
@@ -205,7 +205,7 @@ npx http-server pages -p 8080                 # serve locally for manual testing
 - [x] All 12 composed-page demos.
 - [x] WebDriverIO smoke tests.
 - [x] Playwright e2e per slug.
-- [x] Demo registry backfill: `componentDemos` covers all 407 canonical
+- [x] Demo registry backfill: `componentDemos` covers all 487 canonical
       slugs.
 - [x] Catalog rename: `medical-record-red-box` → `medical-banner-box-for-danger`.
 
@@ -214,10 +214,10 @@ npx http-server pages -p 8080                 # serve locally for manual testing
 - [x] `pnpm exec wdio run wdio.conf.js` passes: **13 / 13 spec files**
       (composed-page integration tests).
 - [x] `pnpm exec playwright test` passes: **814 / 814 specs**
-      (2 specs per `/components?slug={slug}` route × 407 slugs).
+      (2 specs per `/components?slug={slug}` route × 487 slugs).
 - [x] Every demo's class hook matches the canonical kebab-case base
       class (verified by the Playwright catalog sweep + the headless
-      sibling library audit at 407 / 407).
+      sibling library audit at 487 / 487).
 
 ### 11.3 Open backlog
 
@@ -245,6 +245,6 @@ npx http-server pages -p 8080                 # serve locally for manual testing
 - Package manager: pnpm (dev-only)
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../components.tsv) — 407 components
+- Canonical catalog: [../components.tsv](../components.tsv) — 487 components
 - Root spec: [../spec.md](../spec.md)
 - Sibling headless library: [../lily-design-system-html-headless/](../lily-design-system-html-headless/)

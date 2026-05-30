@@ -53,8 +53,7 @@ lily-design-system-blazor-headless/
 ├── CLAUDE.md
 ├── README.md -> index.md
 ├── index.md
-├── plan.md
-├── tasks.md
+├── spec.md
 ├── AGENTS/
 │   ├── accessibility.md
 │   ├── components.md

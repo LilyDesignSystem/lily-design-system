@@ -6,7 +6,7 @@ this subproject. For project-wide rules, read the root [spec.md](../spec.md)
 first.
 
 This file adds SvelteKit-specific detail and tracks the example app's
-implementation status against the **407 canonical components**.
+implementation status against the **487 canonical components**.
 
 ---
 
@@ -31,7 +31,7 @@ The app ships:
 
 - A SvelteKit 2 app with file-based routing.
 - A `/components/[slug]` route that renders a live demo per component for all
-  407 components (via `component-demos.ts`).
+  487 components (via `component-demos.ts`).
 - 12 composed-page demos: contact-form, dashboard, dialog-flow,
   file-upload-form, navigation-and-menus, page-layout, rating-and-feedback,
   search-and-filter, settings-page, tabbed-interface, task-management,
@@ -86,7 +86,7 @@ lily-design-system-svelte-sveltekit-examples/
 │   │   └── …
 │   ├── lib/
 │   │   ├── components/{PascalCase}/       ← re-exports from headless library
-│   │   ├── data/component-demos.ts        ← slug → demo-HTML map (407 entries)
+│   │   ├── data/component-demos.ts        ← slug → demo-HTML map (487 entries)
 │   │   └── css/nhs.css                    ← NHS-aligned stylesheet
 ├── e2e/components/{kebab-case}.spec.ts    ← Playwright e2e per slug
 ├── playwright.config.ts
@@ -108,7 +108,7 @@ Every example subproject must ship these three routes per the root
 
 `/components/[slug]` renders the demo HTML from `component-demos.ts` using
 `{@html demo}`. Demo data lives in `src/lib/data/component-demos.ts` and
-contains **407 entries** (one per canonical slug).
+contains **487 entries** (one per canonical slug).
 
 ## 5. Composed-page demos
 
@@ -173,13 +173,13 @@ pnpm exec playwright test            # e2e tests
 ### 9.1 Routes
 
 - [ ] `/` renders home page with skip-link and standard landmarks.
-- [ ] `/components` lists all 407 canonical components, searchable / filterable.
-- [ ] `/components/[slug]` renders a live demo for all 407 slugs.
+- [ ] `/components` lists all 487 canonical components, searchable / filterable.
+- [ ] `/components/[slug]` renders a live demo for all 487 slugs.
 - [ ] All 12 composed-page demos exist and exercise the listed components.
 
 ### 9.2 Demo registry
 
-- [ ] `src/lib/data/component-demos.ts` exports a 407-entry map keyed by
+- [ ] `src/lib/data/component-demos.ts` exports a 487-entry map keyed by
       canonical slug.
 - [ ] Each demo's class hook matches the canonical kebab-case base class.
 - [ ] No orphan slugs (every key exists in `components.tsv`).
@@ -219,7 +219,7 @@ pnpm exec playwright test            # e2e tests
       `{@html}`.
 - [x] All 12 composed-page demos.
 - [x] Playwright e2e per slug (commit `7a51013b`).
-- [x] Demo registry backfill: `component-demos.ts` covers all 407 canonical
+- [x] Demo registry backfill: `component-demos.ts` covers all 487 canonical
       slugs (per commit `1f1772e1`).
 - [x] TabGroup removal (canonical pattern is TabBar + TabBarButton + TabPanel).
 - [x] Catalog rename: `medical-record-red-box` → `medical-banner-box-for-danger`.
@@ -228,7 +228,7 @@ pnpm exec playwright test            # e2e tests
 
 - [x] `pnpm test` (vitest) passes: **2,007 / 2,007 tests, zero failures**.
 - [x] `pnpm exec playwright test` passes: **1,221 / 1,221 specs**
-      (3 specs per `/components/[slug]` route × 407 slugs).
+      (3 specs per `/components/[slug]` route × 487 slugs).
 - [x] Every component's live demo renders the canonical HTML tag
       (verified by the Playwright catalog sweep).
 
@@ -258,6 +258,6 @@ pnpm exec playwright test            # e2e tests
 - Package manager: pnpm
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../components.tsv) — 407 components
+- Canonical catalog: [../components.tsv](../components.tsv) — 487 components
 - Root spec: [../spec.md](../spec.md)
 - Sibling headless library: [../lily-design-system-svelte-headless/](../lily-design-system-svelte-headless/)

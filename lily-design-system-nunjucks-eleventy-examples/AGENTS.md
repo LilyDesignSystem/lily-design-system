@@ -43,7 +43,7 @@
 
 ## Directory structure
 
-See `nunjucks-plan.md` for the full tree. Key paths:
+See `spec.md` for the full tree. Key paths:
 
 - `src/` — Eleventy input
 - `src/_data/` — site and component data
@@ -101,5 +101,4 @@ See `nunjucks-plan.md` for the full tree. Key paths:
 
 - `pnpm build` must exit zero
 - `pnpm test` must pass
-- See `nunjucks-plan.md` acceptance criteria and `tasks.md`
-  verification section
+- See `spec.md` acceptance criteria and verification section

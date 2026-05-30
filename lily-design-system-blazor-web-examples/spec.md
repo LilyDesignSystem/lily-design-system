@@ -6,7 +6,7 @@ this subproject. For project-wide rules, read the root [spec.md](../spec.md)
 first.
 
 This file adds Blazor-Web-specific detail and tracks the example app's
-implementation status against the **407 canonical components**.
+implementation status against the **487 canonical components**.
 
 ---
 
@@ -32,7 +32,7 @@ The app ships:
 
 - A Blazor Web App with Interactive Server rendering.
 - A `/components/{slug}` route that renders a live demo per component for all
-  407 components (via `Data/ComponentData.cs`).
+  487 components (via `Data/ComponentData.cs`).
 - 12 composed-page demos (`Components/Pages/*.razor`).
 - A complete NHS-aligned CSS stylesheet (`wwwroot/css/nhs.css`).
 - Playwright e2e tests for each `/components/{slug}` route.
@@ -90,7 +90,7 @@ lily-design-system-blazor-web-examples/
 │   │       ├── Dashboard.razor
 │   │       └── …
 │   ├── Data/
-│   │   └── ComponentData.cs               ← record list (407 entries)
+│   │   └── ComponentData.cs               ← record list (487 entries)
 │   └── wwwroot/
 │       ├── css/nhs.css                    ← NHS-aligned stylesheet
 │       └── js/headless-interop.js         ← minimal JS interop
@@ -109,7 +109,7 @@ lily-design-system-blazor-web-examples/
 
 `ComponentDetail.razor` renders the demo HTML from `ComponentData.cs` using
 `MarkupString`. `ComponentData.Components` is a `List<ComponentInfo>` with
-**407 entries** (one per canonical slug).
+**487 entries** (one per canonical slug).
 
 ```csharp
 public record ComponentInfo(string Slug, string Name, string Description, string DemoHtml);
@@ -183,13 +183,13 @@ pnpm exec playwright test                              # e2e tests
 ### 11.1 Routes
 
 - [ ] `/` renders home with skip-link + standard landmarks.
-- [ ] `/components` lists all 407 canonical components.
-- [ ] `/components/{slug}` renders a live demo for all 407 slugs.
+- [ ] `/components` lists all 487 canonical components.
+- [ ] `/components/{slug}` renders a live demo for all 487 slugs.
 - [ ] All 12 composed-page demos exist as `Pages/{PascalCase}.razor`.
 
 ### 11.2 Demo registry
 
-- [x] `Data/ComponentData.cs` contains a 407-entry `Components` list.
+- [x] `Data/ComponentData.cs` contains a 487-entry `Components` list.
 - [x] Each demo's class hook matches the canonical kebab-case base class.
 - [x] No orphan slugs (every record matches `components.tsv`).
 
@@ -221,7 +221,7 @@ pnpm exec playwright test                              # e2e tests
 - [x] `Pages/Components.razor` (`/components`).
 - [x] `Pages/ComponentDetail.razor` (`/components/{slug}` with `MarkupString`).
 - [x] All 12 composed-page demos.
-- [x] `Data/ComponentData.cs` with 407 components (canonical, no orphans).
+- [x] `Data/ComponentData.cs` with 487 components (canonical, no orphans).
 - [x] Per-component bUnit tests in the sibling headless project
       (commit `1b8600d4`).
 - [x] Playwright e2e per slug (commit `7a51013b`).
@@ -232,9 +232,9 @@ pnpm exec playwright test                              # e2e tests
 
 - [x] `dotnet test` passes: **829 / 829 bUnit tests, zero failures**.
 - [x] `pnpm exec playwright test` passes: **1,221 / 1,221 specs**
-      (3 specs per `/components/{slug}` route × 407 slugs).
+      (3 specs per `/components/{slug}` route × 487 slugs).
 - [x] CSS class names confirmed against `../css-style-sheet-template.css`
-      (407 / 407 in the sibling headless library).
+      (487 / 487 in the sibling headless library).
 
 ### 12.3 Open backlog
 
@@ -260,6 +260,6 @@ pnpm exec playwright test                              # e2e tests
 - Build: `dotnet build`
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../components.tsv) — 407 components
+- Canonical catalog: [../components.tsv](../components.tsv) — 487 components
 - Root spec: [../spec.md](../spec.md)
 - Sibling headless library: [../lily-design-system-blazor-headless/](../lily-design-system-blazor-headless/)

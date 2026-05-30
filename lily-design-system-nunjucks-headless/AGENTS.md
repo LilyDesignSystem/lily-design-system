@@ -32,7 +32,7 @@
 - Macro names are camelCase (Nunjucks does not allow hyphens in
   identifiers); file paths and CSS classes stay kebab-case
 - Set root-element class using the kebab-case component name
-- All tasks reference `nunjucks-plan.md` for implementation details
+- All tasks reference `spec.md` for implementation details
 
 ## NO
 
@@ -159,7 +159,7 @@ Each component lives in its own directory:
 ## Implementation plan
 
 - Implementation priority: infrastructure first, then proceed
-  alphabetically within each priority tier (see `nunjucks-plan.md`)
+  alphabetically within each priority tier (see `spec.md`)
 - Batch size: implement as many components as possible per session
 
 ## Timeline
