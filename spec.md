@@ -804,21 +804,35 @@ overhead that the project hasn't chosen to pay.
         rewritten to `$any($event.target).value` because Angular
         template parsing rejects parenthesised TS casts inside method
         calls.
-      - **angular-examples**: `pnpm install` resolves once both
-        `@analogjs/{platform,router,vite-plugin-angular}` are pinned
-        to `1.19.4` and `pnpm.overrides` force the same on
-        `@analogjs/vite-plugin-angular`. Same template-cast fix
-        applied to the copied components. `pnpm run build`
-        progresses through client + SSR bundle emission but trips
-        when Nitro 1.22.5 (still pulled transitively via Analog
-        platform 1.19.4 — the override doesn't catch it) expects a
-        `dist/client/index.html` layout while the Vite 5 build writes
-        to `dist/`. Resolving this likely means either bumping the
-        whole stack to Vite 6 + Analog 1.22+ + Vitest 3+, or
-        scaffolding Analog SSR (`main.server.ts`,
-        `app.config.server.ts`, `index.html`) plus matching vite
-        `build.outDir`. The SSR scaffolding files are now in place;
-        the version-matrix decision is the remaining blocker.
+      - **angular-examples** (2026-05-30): `pnpm install` resolves
+        with both `@analogjs/{platform,router,vite-plugin-angular}`
+        pinned to `1.19.4` plus `pnpm-workspace.yaml` overrides
+        (pnpm 11 ignores `pnpm.overrides` in package.json — they
+        must live in `pnpm-workspace.yaml`) forcing both
+        `@analogjs/vite-plugin-{angular,nitro}` onto `1.19.4`. Same
+        template-cast fix applied to the copied components. SSR
+        scaffolding shipped: `index.html`, `src/main.server.ts`
+        (default-exports `render(url, document)` per the Analog
+        renderer contract documented in
+        `@analogjs/vite-plugin-nitro/src/lib/runtime/renderer.ts`),
+        `src/app/app.config.server.ts`, `vite.config.ts` with
+        explicit `build.outDir: "dist/client"` (the analog plugin
+        reads `config.build?.outDir || 'dist/client'` but Vite's
+        default `"dist"` already wins, so the explicit override is
+        needed). `pnpm run build` now: (a) builds the client into
+        `dist/client/` cleanly, (b) tries to bundle SSR but the
+        analog vite-plugin-angular transform consumes
+        `main.server.ts` and returns empty code — output is exactly
+        1 byte regardless of source. Confirmed isolation: a plain
+        `vite build --ssr src/main.server.ts` without the analog
+        plugin produces a working 2 KB bundle with the default
+        export intact. Likely root cause: the angular plugin's
+        `fileEmitter(id)` returns no compiled content for files not
+        in the Angular project's initial compilation set, despite
+        `src/main.server.ts` being inside the tsconfig's `src/**/*.ts`
+        include. Remaining work: file an Analog upstream issue, or
+        switch the example app off Analog onto a vanilla
+        Angular + Vite + esbuild + prerender pipeline.
       - Playwright e2e suites not yet exercised against either app.
 - [x] Angular headless Storybook coverage. Wired `@storybook/angular`
       9.1 with the webpack-based `@storybook/angular:build-storybook`

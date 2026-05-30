@@ -40,6 +40,7 @@ const prerenderRoutes = [
 export default defineConfig(() => ({
   build: {
     target: ["es2022"],
+    outDir: "dist/client",
   },
   resolve: {
     mainFields: ["module"],
