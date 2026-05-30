@@ -165,7 +165,32 @@
       "Bash(sh /tmp/fix-html-demos.sh)",
       "Bash(git checkout *)",
       "Bash(perl -i -pe \"s|'text-area-input\\\\\\\\.text-area-input'|'textarea.text-area-input'|g\" components/text-area-input.test.js)",
-      "Bash(perl -i -pe 's|<Avatar label=|<Avatar alt=|g' src/routes/timeline-and-cards/+page.svelte)"
+      "Bash(perl -i -pe 's|<Avatar label=|<Avatar alt=|g' src/routes/timeline-and-cards/+page.svelte)",
+      "Bash(perl -i -pe 's/\\\\bdatetimeLocalInput\\\\b/dateTimeLocalInput/g' src/components/date-time-local-input.njk)",
+      "Bash(perl -i -pe 's/\\\\bdatetimeView\\\\b/dateTimeView/g' src/components/date-time-view.njk)",
+      "Bash(perl -i -pe 's/\\\\bganttTableHead\\\\b/ganttTableThead/g; s/\\\\bganttTableBody\\\\b/ganttTableTbody/g' src/components/gantt-table.njk)",
+      "Bash(perl -i -pe 's/\\\\bbackToTop\\\\b/goToTop/g' src/components/go-to-top.njk)",
+      "Bash(perl -i -pe 's/\\\\bmockupPhone\\\\b/mockupPhonePortrait/g' src/components/mockup-phone-portrait.njk)",
+      "Bash(perl -i -pe 's/text-area-input\\\\\\(/textAreaInput\\(/g; s/import text-area-input\\\\b/import textAreaInput/g' src/components/text-area-input.njk)",
+      "Bash(lsof -ti:8080)",
+      "Bash(xargs -r kill -9)",
+      "Bash(curl -s -I http://localhost:8080/assets/css/nhs.css)",
+      "Bash(curl -s http://localhost:8080/assets/css/nhs.css)",
+      "Bash(curl -s http://localhost:8080/contact-form.html)",
+      "Bash(npx http-server *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8080/contact-form.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8080/../assets/css/nhs.css)",
+      "Bash(curl -s \"http://localhost:8080/../assets/css/nhs.css\")",
+      "Bash(git clean *)",
+      "Bash(echo \"@AGENTS.md\")",
+      "Bash(git status *)",
+      "Bash(rm _composed.ts)",
+      "Bash(npm view *)",
+      "Bash(tar tzf *)",
+      "Bash(tar xzf *)",
+      "Bash(pnpm run *)",
+      "Bash(xxd)",
+      "Bash(pnpm --version)"
     ]
   }
 }
