@@ -830,9 +830,15 @@ overhead that the project hasn't chosen to pay.
         `fileEmitter(id)` returns no compiled content for files not
         in the Angular project's initial compilation set, despite
         `src/main.server.ts` being inside the tsconfig's `src/**/*.ts`
-        include. Remaining work: file an Analog upstream issue, or
-        switch the example app off Analog onto a vanilla
-        Angular + Vite + esbuild + prerender pipeline.
+        include. Tried `analog({ vite: { transformFilter } })` to
+        bypass the plugin transform for the SSR entry — that lets
+        Rollup parse main.server.ts directly, but then the
+        transitive `./app/app` import fails because the same plugin
+        state issue empties `app.ts`'s `App` export inside the
+        separate Vite instance `buildSSRApp` spawns. Remaining work:
+        file an Analog upstream issue, or switch the example app
+        off Analog onto a vanilla Angular + Vite + esbuild +
+        prerender pipeline.
       - Playwright e2e suites not yet exercised against either app.
 - [x] Angular headless Storybook coverage. Wired `@storybook/angular`
       9.1 with the webpack-based `@storybook/angular:build-storybook`
