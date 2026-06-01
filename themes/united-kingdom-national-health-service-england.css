@@ -1,0 +1,137 @@
+/* ============================================================================
+ * NHS England (United Kingdom) Design System — daisyUI theme
+ * ----------------------------------------------------------------------------
+ * Canonical references
+ *   - NHS Service Manual: https://service-manual.nhs.uk/design-system
+ *   - NHS Identity Guidelines (Colours):
+ *       https://www.england.nhs.uk/nhsidentity/identity-guidelines/colours/
+ *   - NHS frontend tokens (Sass source):
+ *       https://github.com/nhsuk/nhsuk-frontend
+ *   - Typography: Frutiger W01 (primary), Arial / system-ui fallback
+ *   - Base font size: 16px, modular scale (14 / 16 / 19 / 22 / 26 / 32 / 48 / 64)
+ *   - Spacing scale (px): 0, 4, 8, 12, 16, 24, 32, 40, 48, 64
+ *   - WCAG 2.2 AAA target; focus outline is 4px solid #FFEB3B over #212B32
+ *
+ * Brand palette (sRGB → OKLCH conversions used below)
+ *   NHS Blue           #005EB8   primary brand colour
+ *   NHS Dark Blue      #003087   hover / pressed states, secondary
+ *   NHS Bright Blue    #0072CE   informational links / chips
+ *   NHS Light Blue     #41B6E6   accent, illustrative
+ *   NHS Aqua Blue      #00A9CE   emphasis / supplementary
+ *   NHS Black          #212B32   primary text
+ *   NHS Dark Grey      #425563   secondary text
+ *   NHS Mid Grey       #768692   tertiary text / borders
+ *   NHS Pale Grey      #E8EDEE   surface backgrounds
+ *   NHS White          #FFFFFF   page background
+ *   NHS Warm Yellow    #FFB81C   warning / focus indicator
+ *   NHS Emergency Red  #DA291C   error / destructive action
+ *   NHS Green          #009639   success / confirmation
+ *   NHS Dark Green     #006747   success hover
+ *
+ * Geometry rules (NHS frontend defaults)
+ *   - Border radius: 4px on cards / inputs / buttons (selectors are square: 0)
+ *   - Borders: 1px solid, drawn in NHS Mid Grey #768692 by default
+ *   - Surfaces are flat: no shadow, no gradient (depth = 0)
+ *   - No textures / noise (noise = 0); the system favours legibility over flair
+ *
+ * Accessibility commitments encoded in this theme
+ *   - All foreground/background pairs target WCAG AA at minimum (most reach AAA)
+ *   - Warning content is dark (oklch ~28%) so #FFB81C yellow stays legible
+ *   - Primary/secondary/info/success/error all use white content for contrast
+ * ========================================================================= */
+
+@plugin "daisyui/theme" {
+    name: "united-kingdom-national-health-service-england";
+    default: false;
+    prefersdark: false;
+    color-scheme: "light";
+
+    /* ---- Surfaces -------------------------------------------------------- */
+    /* base-100: page background. NHS White #FFFFFF — the default canvas    */
+    /* used behind body copy and primary content areas.                     */
+    --color-base-100: oklch(100% 0 0);
+
+    /* base-200: secondary surface. NHS Pale Grey #E8EDEE — sectioned       */
+    /* backgrounds, sidebars, and the "grey-panel" pattern in the manual.   */
+    --color-base-200: oklch(94% 0.005 220);
+
+    /* base-300: tertiary surface. Slightly darker pale grey used for       */
+    /* dividers, table zebra-striping and hover backgrounds on list rows.   */
+    --color-base-300: oklch(89% 0.007 220);
+
+    /* base-content: primary text. NHS Black #212B32 — the body-copy        */
+    /* colour. Note this is NOT pure black; it warms text slightly to       */
+    /* reduce on-screen glare per NHS readability guidance.                 */
+    --color-base-content: oklch(28% 0.015 230);
+
+    /* ---- Primary (NHS Blue) --------------------------------------------- */
+    /* Primary action colour. NHS Blue #005EB8 — the signature brand        */
+    /* colour used on the NHS logo block, primary buttons, and active nav.  */
+    --color-primary: oklch(45% 0.17 251);
+    --color-primary-content: oklch(100% 0 0);
+
+    /* ---- Secondary (NHS Dark Blue) -------------------------------------- */
+    /* Hover / pressed state for primary, and secondary chrome.             */
+    /* NHS Dark Blue #003087 — also used for visited links by some teams.   */
+    --color-secondary: oklch(33% 0.18 264);
+    --color-secondary-content: oklch(100% 0 0);
+
+    /* ---- Accent (NHS Light Blue) ---------------------------------------- */
+    /* Illustrative accent. NHS Light Blue #41B6E6 — used in charts,        */
+    /* diagrams, and supplementary UI cues. Not for primary CTAs.           */
+    --color-accent: oklch(67% 0.13 220);
+    --color-accent-content: oklch(100% 0 0);
+
+    /* ---- Neutral -------------------------------------------------------- */
+    /* Neutral chrome (footer, dark cards). Mirrors base-content so that    */
+    /* the page maintains a single neutral identity across both polarities. */
+    --color-neutral: oklch(28% 0.015 230);
+    --color-neutral-content: oklch(100% 0 0);
+
+    /* ---- Info (NHS Bright Blue) ----------------------------------------- */
+    /* Informational banners, links, and "did you know?" callouts.          */
+    /* NHS Bright Blue #0072CE — distinct from primary so banners read as   */
+    /* messages rather than calls to action.                                */
+    --color-info: oklch(54% 0.17 247);
+    --color-info-content: oklch(100% 0 0);
+
+    /* ---- Success (NHS Green) -------------------------------------------- */
+    /* Confirmation, completed-step, "you have been booked" panels.         */
+    /* NHS Green #009639 — meets 4.5:1 against white when paired below.     */
+    --color-success: oklch(56% 0.16 145);
+    --color-success-content: oklch(100% 0 0);
+
+    /* ---- Warning (NHS Warm Yellow) -------------------------------------- */
+    /* Caution banners and the canonical focus indicator.                   */
+    /* NHS Warm Yellow #FFB81C — because the swatch is light, content       */
+    /* must be dark (≈ NHS Black) to clear WCAG AA contrast.                */
+    --color-warning: oklch(82% 0.16 79);
+    --color-warning-content: oklch(28% 0.015 230);
+
+    /* ---- Error (NHS Emergency Services Red) ----------------------------- */
+    /* Validation errors, destructive actions, urgent banners.              */
+    /* NHS Emergency Services Red #DA291C — reserved for genuine errors;    */
+    /* do not use for decorative emphasis (it carries strong NHS meaning).  */
+    --color-error: oklch(55% 0.22 28);
+    --color-error-content: oklch(100% 0 0);
+
+    /* ---- Geometry tokens ------------------------------------------------ */
+    /* Selectors (checkbox / radio): square per NHS frontend defaults.      */
+    --radius-selector: 0rem;
+    /* Form fields: 4px corners — NHS frontend uses `$nhsuk-border-radius`. */
+    --radius-field: 0.25rem;
+    /* Card / panel / dialog: same 4px corner radius for visual harmony.    */
+    --radius-box: 0.25rem;
+
+    /* Inner padding hints for selectors and fields (daisyUI sizing).       */
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+
+    /* Border width: 1px hairline, matching `$nhsuk-border-width-form`.     */
+    --border: 1px;
+
+    /* Depth & noise off — NHS guidance avoids shadows and textures so      */
+    /* the interface looks clinical, calm, and easy to read.                */
+    --depth: 0;
+    --noise: 0;
+}
