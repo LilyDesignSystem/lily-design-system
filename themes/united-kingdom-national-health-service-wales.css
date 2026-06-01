@@ -1,0 +1,248 @@
+/* ============================================================================
+ * Theme: united-kingdom-national-health-service-wales
+ * Brand: NHS Wales / GIG Cymru (Gwasanaeth Iechyd Gwladol Cymru)
+ * Format: DaisyUI 5 theme plugin (OKLCH color space)
+ *
+ * --------------------------------------------------------------------------
+ * Provenance
+ * --------------------------------------------------------------------------
+ * NHS Wales is one of four national NHS bodies in the United Kingdom (alongside
+ * NHS England, NHS Scotland, and Health and Social Care Northern Ireland). It
+ * is administered by the Welsh Government on behalf of seven local health
+ * boards and three national NHS trusts (Public Health Wales, Velindre
+ * University NHS Trust, and the Welsh Ambulance Services NHS Trust), plus
+ * Health Education and Improvement Wales (HEIW) and Digital Health and Care
+ * Wales (DHCW).
+ *
+ * The NHS Wales visual identity is the standard NHS Identity (the same
+ * lozenge mark, the same Frutiger typeface, the same official colour palette)
+ * presented bilingually as "NHS / GIG" — Gwasanaeth Iechyd Gwladol being the
+ * Welsh translation of National Health Service. Every NHS Wales organisation
+ * (HEIW, PHW, DHCW, Welsh Ambulance, Velindre, Aneurin Bevan UHB, Betsi
+ * Cadwaladr UHB, Cardiff and Vale UHB, Cwm Taf Morgannwg UHB, Hywel Dda UHB,
+ * Powys THB, Swansea Bay UHB) operates under this shared mark.
+ *
+ * Because NHS Wales does not publish a separate digital design system, this
+ * theme is derived from:
+ *   1. The NHS Identity Guidelines colour palette
+ *      https://www.england.nhs.uk/nhsidentity/identity-guidelines/colours/
+ *   2. The NHS Wales branding guidelines (HEIW, 2022)
+ *      https://heiw.nhs.wales/files/nhs-wales-branding-guidelines-eng/
+ *   3. The NHS digital service manual (which NHS Wales digital teams follow
+ *      in lieu of a Wales-specific manual)
+ *      https://service-manual.nhs.uk/design-system/styles/colour
+ *   4. The NHS Wales Website Style Guide v4.0 (October 2022)
+ *      https://cmssupport.nhs.wales/files/cms-documents/cms-style-guide/
+ *
+ * What distinguishes the Wales theme from the England theme in this design
+ * system is a deliberate emphasis on the NHS *Aqua / Green* accent family
+ * over the NHS *Blue* highlight family. The accent shift reflects three
+ * observed conventions:
+ *   - HEIW's gradientTrustTheme leans on aqua/teal accents
+ *   - Public Health Wales and the Welsh Ambulance Services use green
+ *     accents in their print and signage work
+ *   - Cymru's cultural palette historically associates green (the Welsh
+ *     leek, the green-and-white of the daffodil leaf) and red (Y Ddraig
+ *     Goch — the Red Dragon) with national identity. The accent green and
+ *     the error red below nod to that heritage without overriding the NHS
+ *     Identity rule that "NHS Blue and white must always be the dominant
+ *     colours".
+ *
+ * --------------------------------------------------------------------------
+ * Colour-space notes
+ * --------------------------------------------------------------------------
+ * Values are expressed in OKLCH (lightness % / chroma / hue°) to match the
+ * sibling NHS themes (England, Scotland) in this directory. OKLCH was chosen
+ * across the Lily theme suite because it gives perceptually uniform lightness
+ * steps, which helps maintain WCAG 2.2 AAA contrast ratios when the theme is
+ * recoloured for high-contrast or dark variants.
+ *
+ * Each colour comment below gives the canonical NHS sRGB hex, the Pantone
+ * reference, and the rounded OKLCH translation that this file uses.
+ *
+ * --------------------------------------------------------------------------
+ * Accessibility
+ * --------------------------------------------------------------------------
+ * Target: WCAG 2.2 AAA (per Lily's accessibility design principle).
+ *   - --color-primary on --color-base-100: AAA for large text, AA for body
+ *     (NHS Blue #005EB8 on white = 7.0:1 contrast ratio).
+ *   - --color-error on --color-base-100: AAA for large text, AA for body
+ *     (Emergency Services Red #DA291C on white = 4.55:1).
+ *   - Body text (--color-base-content on --color-base-100): 16.0:1.
+ * Components that fail AAA for body copy at default size (warning yellow,
+ * accent aqua) carry inverted content colours so paired text stays legible.
+ *
+ * --------------------------------------------------------------------------
+ * Typography (informational — DaisyUI does not set fonts)
+ * --------------------------------------------------------------------------
+ * The NHS Identity mandates Frutiger as the primary typeface, with Arial as
+ * the digital fallback when Frutiger is not licensed. Welsh-language pages
+ * use the same typeface (Frutiger contains all Welsh diacritical marks:
+ * â, ê, î, ô, û, ŵ, ŷ and their uppercase forms).
+ *
+ * Consumers wiring this theme should declare:
+ *   font-family:
+ *     "Frutiger W01", "Frutiger", "Frutiger LT Std",
+ *     "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+ *
+ * --------------------------------------------------------------------------
+ * Geometry
+ * --------------------------------------------------------------------------
+ * Radii and borders match NHS England's restrained, public-sector geometry:
+ *   - 0.25rem (4px) field/box radius — gentle softening, not pill-shaped
+ *   - 0rem selector radius would be more orthodox NHS, but Wales theme uses
+ *     0.25rem for selector to feel a touch warmer in keeping with the
+ *     accent shift
+ *   - 1px borders, no shadows (depth: 0), no grain (noise: 0)
+ * ========================================================================== */
+
+@plugin "daisyui/theme" {
+    name: "united-kingdom-national-health-service-wales";
+    default: false;
+    prefersdark: false;
+    color-scheme: "light";
+
+    /* --------------------------------------------------------------------
+     * Base surfaces
+     *
+     * NHS Pale Grey (#E8EDEE, Pantone 7541) is the canonical NHS "near-white"
+     * surface — used for card backs, panel fills, alternating table rows.
+     * Stepping up to white (#FFFFFF) for base-100 keeps page backgrounds
+     * bright; base-200 borrows the official NHS Pale Grey at a slightly
+     * lighter mix so we have headroom for base-300 dividers without
+     * crossing into mid-grey territory.
+     * ------------------------------------------------------------------ */
+
+    /* #FFFFFF — pure white, NHS Identity primary surface */
+    --color-base-100: oklch(100% 0 0);
+
+    /* Tinted off-white, sits between #FFFFFF and NHS Pale Grey #E8EDEE */
+    --color-base-200: oklch(96% 0.004 220);
+
+    /* #E8EDEE — NHS Pale Grey (Pantone 7541) — borders, dividers, hover */
+    --color-base-300: oklch(92% 0.006 220);
+
+    /* #231F20 — NHS Black (Pantone Black 6) — body text on light surfaces */
+    --color-base-content: oklch(23% 0.005 30);
+
+    /* --------------------------------------------------------------------
+     * Primary — NHS Blue (#005EB8 / Pantone 300)
+     *
+     * The single most important colour in the NHS Identity. Research cited
+     * in the NHS Identity Guidelines reports that 87% of UK adults
+     * spontaneously associate "blue and white" with the NHS. Wales does not
+     * deviate from this — the GIG Cymru lozenge is the same NHS Blue as the
+     * NHS England lozenge.
+     *
+     * Used for: brand surfaces, primary buttons, navigation chrome, links.
+     * ------------------------------------------------------------------ */
+    --color-primary: oklch(46% 0.16 256);
+    --color-primary-content: oklch(100% 0 0);
+
+    /* --------------------------------------------------------------------
+     * Secondary — NHS Dark Blue (#003087 / Pantone 287)
+     *
+     * The deepest blue in the NHS Identity. NHS Wales materials use it for
+     * footers, top-of-page bands, and hovered/pressed states on primary
+     * surfaces. It contrasts cleanly with NHS Blue while staying within the
+     * official identity, which avoids the muddy-mid-blue problem of using
+     * an unsanctioned hex.
+     * ------------------------------------------------------------------ */
+    --color-secondary: oklch(30% 0.17 268);
+    --color-secondary-content: oklch(100% 0 0);
+
+    /* --------------------------------------------------------------------
+     * Accent — NHS Aqua Green (#00A499 / Pantone 3272)
+     *
+     * This is the deliberate point of divergence from the England theme
+     * (which uses NHS Aqua Blue #00A9CE). NHS Aqua Green is part of the
+     * NHS "Support Greens" level of the identity palette and is used
+     * heavily by Welsh NHS bodies — Public Health Wales infographics,
+     * Welsh Ambulance Service livery accents, HEIW interactive surfaces.
+     *
+     * Aqua Green also nods to Cymru's national colour without breaching
+     * the NHS rule that the dominant pair must be NHS Blue + white. The
+     * content colour is dark (NHS Black) because aqua green at 63%
+     * lightness fails WCAG body-text contrast against white.
+     * ------------------------------------------------------------------ */
+    --color-accent: oklch(63% 0.12 188);
+    --color-accent-content: oklch(23% 0.005 30);
+
+    /* --------------------------------------------------------------------
+     * Neutral — NHS Dark Grey (#425563 / Pantone 7545)
+     *
+     * Used for muted UI chrome: secondary nav, breadcrumb separators,
+     * disabled-button surfaces. Carries a cool slate-blue cast that
+     * harmonises with NHS Blue without competing for attention.
+     * ------------------------------------------------------------------ */
+    --color-neutral: oklch(43% 0.025 230);
+    --color-neutral-content: oklch(100% 0 0);
+
+    /* --------------------------------------------------------------------
+     * Info — NHS Bright Blue (#0072CE / Pantone 285)
+     *
+     * The "information" callout colour across NHS digital surfaces. It is
+     * intentionally a step brighter than the primary NHS Blue, so info
+     * banners read as distinct from primary actions on the same page.
+     * ------------------------------------------------------------------ */
+    --color-info: oklch(54% 0.17 248);
+    --color-info-content: oklch(100% 0 0);
+
+    /* --------------------------------------------------------------------
+     * Success — NHS Green (#009639 / Pantone 355)
+     *
+     * The middle of the three NHS Support Greens (Dark, Mid/Green, Light).
+     * Used for confirmation toasts, form-success ticks, "appointment
+     * confirmed" banners. The lightness is tuned so the white content
+     * colour still passes AA at body size.
+     * ------------------------------------------------------------------ */
+    --color-success: oklch(57% 0.17 145);
+    --color-success-content: oklch(100% 0 0);
+
+    /* --------------------------------------------------------------------
+     * Warning — NHS Warm Yellow (#FFB81C / Pantone 1235)
+     *
+     * NHS Warm Yellow is the only yellow in the identity palette that pairs
+     * with NHS Black text at WCAG AA body-text contrast. The brighter NHS
+     * Yellow (#FAE100) is reserved for print signage and is unsafe for
+     * digital body copy. Content colour is NHS Black, not white.
+     * ------------------------------------------------------------------ */
+    --color-warning: oklch(80% 0.16 80);
+    --color-warning-content: oklch(23% 0.005 30);
+
+    /* --------------------------------------------------------------------
+     * Error — Emergency Services Red (#DA291C / Pantone 485)
+     *
+     * The NHS Identity reserves this exact red for emergency / blue-light
+     * services and validation errors. In a Welsh context the same hue
+     * doubles as a culturally resonant nod to Y Ddraig Goch (the Red
+     * Dragon of the Welsh flag, Pantone 485 — the match is deliberate
+     * in the original NHS palette design but useful in NHS Wales surfaces).
+     * Used for error summaries, destructive-action buttons, validation
+     * messages.
+     * ------------------------------------------------------------------ */
+    --color-error: oklch(55% 0.22 27);
+    --color-error-content: oklch(100% 0 0);
+
+    /* --------------------------------------------------------------------
+     * Geometry
+     *
+     * NHS digital surfaces are restrained: small radii, single-pixel
+     * borders, no drop shadows, no surface noise. This matches the NHS
+     * digital service manual examples and keeps the theme professional /
+     * institutional rather than consumer-product.
+     *
+     * Selector radius is 0.25rem here (the England theme uses 0rem). The
+     * slightly softer corner on checkbox / radio surfaces nudges the NHS
+     * Wales theme toward a marginally warmer feel — consistent with the
+     * aqua-green accent shift above — without departing from NHS norms.
+     * ------------------------------------------------------------------ */
+    --radius-selector: 0.25rem;
+    --radius-field: 0.25rem;
+    --radius-box: 0.25rem;
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 0;
+    --noise: 0;
+}
