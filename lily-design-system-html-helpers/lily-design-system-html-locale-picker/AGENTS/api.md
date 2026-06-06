@@ -1,0 +1,215 @@
+# API — `<locale-picker>` (HTML helper)
+
+Authoritative API surface lives in [`../spec.md`](../spec.md) §4.
+This file documents the custom-element-flavoured shape of the
+contract.
+
+## Exports
+
+The barrel (`index.ts`) re-exports:
+
+```ts
+export {
+    LocalePicker,
+    bcp47LocaleTag,
+    isRtlLocale,
+    localeName,
+    matchNavigatorLanguage,
+    defaultLocaleLabels,
+    RTL_LANGUAGE_TAGS,
+    RTL_SCRIPT_SUBTAGS,
+    type LocalePickerProps,
+    type LocalePickerChangeDetail,
+} from "./locale-picker";
+```
+
+It additionally performs the side-effectful registration:
+
+```ts
+if (typeof customElements !== "undefined" && !customElements.get("locale-picker")) {
+    customElements.define("locale-picker", LocalePicker);
+}
+```
+
+A consumer can import either form:
+
+```ts
+// Side-effect only — registers <locale-picker> globally:
+import "./lily-design-system-html-locale-picker";
+
+// Or grab the class + helpers + types:
+import {
+    LocalePicker,
+    bcp47LocaleTag,
+    isRtlLocale,
+    localeName,
+    matchNavigatorLanguage,
+    defaultLocaleLabels,
+    type LocalePickerProps,
+    type LocalePickerChangeDetail,
+} from "./lily-design-system-html-locale-picker";
+```
+
+## Observed attributes
+
+| Attribute               | Type            | Required | Default                                  |
+| ----------------------- | --------------- | -------- | ---------------------------------------- |
+| `label`                 | `string`        | yes      | —                                        |
+| `locales`               | `string` (CSV)  | yes      | —                                        |
+| `value`                 | `string`        | no       | `""`                                     |
+| `default-value`         | `string`        | no       | resolves to `"en"` or `locales[0]`       |
+| `storage-key`           | `string`        | no       | absent                                   |
+| `detect-from-navigator` | boolean attr    | no       | absent (`false`)                         |
+| `name`                  | `string`        | no       | `"locale"`                               |
+| `apply-dir`             | boolean attr    | no       | absent (`true`); `"false"` opts out      |
+| `locale-labels`         | `string` (JSON) | no       | `"{}"`                                   |
+| `class`                 | `string`        | no       | `""`                                     |
+
+`label` and `locales` are required. The boolean-attribute convention
+follows HTML: presence is truthy unless the literal value is
+`"false"`; absence is the default (which is `false` for
+`detect-from-navigator` and `true` for `apply-dir`).
+
+## JS property mirrors
+
+| Property                  | Type                     | Notes                                              |
+| ------------------------- | ------------------------ | -------------------------------------------------- |
+| `el.label`                | `string`                 | round-trips with `label`                           |
+| `el.locales`              | `string[]`               | CSV-encoded in `locales`                           |
+| `el.value`                | `string`                 | round-trips with `value` (consumer-form code)      |
+| `el.defaultValue`         | `string`                 | round-trips with `default-value`                   |
+| `el.storageKey`           | `string`                 | round-trips with `storage-key`                     |
+| `el.detectFromNavigator`  | `boolean`                | mirrors boolean attribute                          |
+| `el.name`                 | `string`                 | round-trips with `name`                            |
+| `el.applyDir`             | `boolean`                | mirrors boolean attribute                          |
+| `el.localeLabels`         | `Record<string, string>` | JSON-encoded in `locale-labels`                    |
+| `el.target`               | `HTMLElement \| null`    | no attribute form — JS-only                        |
+
+## Events
+
+The element fires `localechange` after every successful apply:
+
+```ts
+el.addEventListener("localechange", (e) => {
+    const { locale } = (e as CustomEvent<LocalePickerChangeDetail>).detail;
+});
+```
+
+| Property     | Value                                       |
+| ------------ | ------------------------------------------- |
+| `type`       | `"localechange"`                            |
+| `detail`     | `{ locale: string }` (consumer-form code)   |
+| `bubbles`    | `true`                                      |
+| `composed`   | `true`                                      |
+| `cancelable` | `false`                                     |
+
+The detail carries the **consumer-form** code (`en_US` if the
+consumer put `en_US` in `locales`). The DOM mutation uses the
+BCP 47 hyphen form (`en-US`).
+
+## Pure helpers
+
+```ts
+export function bcp47LocaleTag(locale: string): string;
+export function isRtlLocale(locale: string): boolean;
+export function localeName(locale: string): string;
+export function matchNavigatorLanguage(
+    navLangs: readonly string[],
+    locales: readonly string[],
+): string | "";
+export const defaultLocaleLabels: Record<string, string>;
+export const RTL_LANGUAGE_TAGS: ReadonlySet<string>;
+export const RTL_SCRIPT_SUBTAGS: ReadonlySet<string>;
+```
+
+All pure functions are side-effect-free; consumers can call them
+from tests, server code, or other components without instantiating
+the picker.
+
+## Custom rendering by subclassing
+
+`<locale-picker>` doesn't expose Vue-style scoped slots or Svelte
+snippets. The customisation surface is subclassing:
+
+```ts
+import { LocalePicker } from "./locale-picker";
+
+class SelectLocalePicker extends LocalePicker {
+    connectedCallback(): void {
+        super.connectedCallback();
+        // Replace the rendered radios with a native <select>.
+    }
+}
+customElements.define("select-locale-picker", SelectLocalePicker);
+```
+
+See [`../docs/concepts.md`](../docs/concepts.md) and the
+`examples/02-select.html` example.
+
+## DOM contract
+
+Host element:
+
+```html
+<locale-picker
+    label="Language"
+    locales="en,fr,ar"
+    value="fr"
+></locale-picker>
+```
+
+Rendered children (recreated on every `#render()`):
+
+```html
+<fieldset class="locale-picker {class}" role="radiogroup" aria-label="{label}">
+    <label class="locale-picker-option" lang="en">
+        <input type="radio" name="{name}" value="en">
+        <span class="locale-picker-option-label">English</span>
+    </label>
+    <label class="locale-picker-option" lang="fr">
+        <input type="radio" name="{name}" value="fr" checked>
+        <span class="locale-picker-option-label">French</span>
+    </label>
+    <label class="locale-picker-option" lang="ar">
+        <input type="radio" name="{name}" value="ar">
+        <span class="locale-picker-option-label">Arabic</span>
+    </label>
+</fieldset>
+```
+
+Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form)
+so assistive technology pronounces the option name in its own
+language (WCAG 3.1.2, Language of Parts).
+
+Document mutations (only inside `connectedCallback` /
+`attributeChangedCallback`):
+
+```html
+<html lang="{tagFor(locale)}" dir="rtl|ltr">
+```
+
+`dir` is only written when `applyDir` is `true` (the default).
+
+## Type re-exports
+
+`LocalePickerProps` and `LocalePickerChangeDetail` are re-exported
+from `index.ts`:
+
+```ts
+import type {
+    LocalePickerProps,
+    LocalePickerChangeDetail,
+} from "./lily-design-system-html-locale-picker";
+
+const config: Pick<LocalePickerProps, "locales" | "storageKey" | "detectFromNavigator"> = {
+    locales: ["en", "fr", "ar"],
+    storageKey: "my-app:locale",
+    detectFromNavigator: true,
+};
+```
+
+## Versioning
+
+The API surface above is the v0.1.0 contract. Any breaking change
+bumps the minor version while v0.x; once v1.0 ships, breaking
+changes bump the major.

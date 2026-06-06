@@ -1,0 +1,110 @@
+<!doctype html>
+<!--
+    Example 7 — Native Intl.* formatters.
+
+    For apps with no formal i18n library, the built-in Intl.*
+    APIs cover dates, numbers, currencies, relative time, list
+    formatting, and plural rules. Every formatter takes a locale
+    string identical to what the picker emits.
+
+    The localechange listener rebuilds the formatters with the new
+    locale and re-renders the affected DOM. Intl.* accepts both
+    "en-US" and "en_US" — the picker normalises to hyphens for the
+    document <html lang> but the bindable value round-trips
+    whichever form the consumer wrote into locales=.
+
+    Note: locale-picker.ts may need compilation to .js — adjust the
+    <script src=…> per your build output.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>locale-picker — Intl</title>
+    <script type="module" src="../../locale-picker.js"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 2rem; max-inline-size: 50rem; }
+        .locale-picker { border: 1px solid #d8dde0; padding: 1rem; }
+        .locale-picker-option { display: inline-block; margin-inline-end: 1rem; }
+        dl { display: grid; grid-template-columns: max-content 1fr; gap: 0.5rem 1.5rem; }
+        dt { font-weight: 600; }
+        dd { margin: 0; font-variant-numeric: tabular-nums; }
+    </style>
+</head>
+<body>
+    <h1>Locale picker — Intl.* formatters</h1>
+
+    <locale-picker
+        id="picker"
+        label="Locale"
+        locales="en,en-US,en-GB,fr,fr-CA,de,de-AT,ar,ja,zh-Hans"
+        storage-key="intl-demo-locale"
+    ></locale-picker>
+
+    <dl>
+        <dt>Date (long):</dt>
+        <dd id="date">—</dd>
+
+        <dt>Date (relative):</dt>
+        <dd id="relative">—</dd>
+
+        <dt>Number (large):</dt>
+        <dd id="number">—</dd>
+
+        <dt>Currency (GBP):</dt>
+        <dd id="currency-gbp">—</dd>
+
+        <dt>Currency (JPY):</dt>
+        <dd id="currency-jpy">—</dd>
+
+        <dt>List:</dt>
+        <dd id="list">—</dd>
+
+        <dt>Plural rule (3):</dt>
+        <dd id="plural">—</dd>
+    </dl>
+
+    <script type="module">
+        await customElements.whenDefined("locale-picker");
+        const picker = document.querySelector("#picker");
+
+        function refresh() {
+            const locale = picker.value || "en";
+
+            const date = new Date();
+            const yesterday = new Date(Date.now() - 24 * 3600 * 1000);
+
+            document.querySelector("#date").textContent =
+                new Intl.DateTimeFormat(locale, { dateStyle: "long" }).format(date);
+
+            document.querySelector("#relative").textContent =
+                new Intl.RelativeTimeFormat(locale, { numeric: "auto" })
+                    .format(-1, "day");
+
+            document.querySelector("#number").textContent =
+                new Intl.NumberFormat(locale).format(67_330_000);
+
+            document.querySelector("#currency-gbp").textContent =
+                new Intl.NumberFormat(locale, {
+                    style: "currency",
+                    currency: "GBP",
+                }).format(1234.56);
+
+            document.querySelector("#currency-jpy").textContent =
+                new Intl.NumberFormat(locale, {
+                    style: "currency",
+                    currency: "JPY",
+                }).format(98765);
+
+            document.querySelector("#list").textContent =
+                new Intl.ListFormat(locale, { type: "conjunction" })
+                    .format(["apple", "orange", "banana"]);
+
+            document.querySelector("#plural").textContent =
+                new Intl.PluralRules(locale).select(3);
+        }
+
+        picker.addEventListener("localechange", refresh);
+        refresh();
+    </script>
+</body>
+</html>

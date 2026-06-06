@@ -1,0 +1,41 @@
+{#
+  localePickerCustom — a fork of locale-picker.njk that delegates the
+  per-option rendering to a `{% call %}` caller block.
+
+  This file is shipped with the examples directory so examples 02
+  (select), 03 (buttons), and 10 (combobox) have something to import.
+  In a real project, copy this macro into your own template directory
+  and call it instead of the default localePicker macro.
+
+  Behaviour:
+    - Emits the same <fieldset role="radiogroup"> root with all the
+      same `data-lily-locale-picker-*` hooks as the canonical macro.
+    - Replaces the per-option `{% for %}` body with `{{ caller() }}`.
+    - The caller block renders whatever markup it wants: a <select>,
+      <button>s, a combobox, a swatch grid, etc.
+    - The client.js still wires the fieldset by reading the data
+      hooks. The caller is responsible for forwarding click / change
+      events to `ctrl.setLocale(code)`.
+#}
+{%- macro localePickerCustom(opts) -%}
+{%- set name = opts.name | default("locale") -%}
+{%- set value = opts.value | default("") -%}
+{%- set storageKey = opts.storageKey | default("") -%}
+{%- set defaultValue = opts.defaultValue | default("") -%}
+{%- set detectFromNavigator = opts.detectFromNavigator | default(false) -%}
+{%- set applyDir = opts.applyDir if opts.applyDir is sameas(false) else true -%}
+<fieldset
+  class="locale-picker{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  role="radiogroup"
+  aria-label="{{ opts.label }}"
+  data-lily-locale-picker-root
+  data-lily-locale-picker-name="{{ name }}"
+  data-lily-locale-picker-storage-key="{{ storageKey }}"
+  data-lily-locale-picker-default-value="{{ defaultValue }}"
+  data-lily-locale-picker-detect-from-navigator="{{ 'true' if detectFromNavigator else 'false' }}"
+  data-lily-locale-picker-apply-dir="{{ 'true' if applyDir else 'false' }}"
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{{ caller() if caller else "" }}
+</fieldset>
+{%- endmacro -%}

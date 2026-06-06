@@ -1,0 +1,113 @@
+<!doctype html>
+<!--
+    Example 3 — Buttons with aria-pressed.
+
+    A row of toggle buttons (one per locale) is a common pattern for
+    short locale lists (2–5). Each button:
+      - exposes its pressed state via aria-pressed,
+      - carries lang so screen-reader pronunciation is correct,
+      - sits in a role="group" so assistive tech announces the
+        whole row as one widget.
+
+    The subclass replaces the default radios with buttons; the
+    base class still owns lang / dir / storage / localechange.
+
+    Note: locale-picker.ts may need compilation to .js — adjust
+    the <script src=…> per your build output.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>locale-picker — buttons</title>
+    <script type="module" src="../../locale-picker.js"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 2rem; }
+        .locale-picker { border: 0; padding: 0; }
+        .locale-picker-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .locale-picker-buttons button {
+            font: inherit;
+            padding: 0.5rem 1rem;
+            border: 2px solid #4c6272;
+            background: #ffffff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .locale-picker-buttons button[aria-pressed="true"] {
+            background: #005eb8;
+            color: #ffffff;
+            border-color: #005eb8;
+        }
+        .locale-picker-buttons button:focus-visible {
+            outline: 3px solid #ffeb3b;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Locale picker — toggle buttons</h1>
+
+    <button-locale-picker
+        label="Language"
+        locales="en,fr,de,es,nl"
+    ></button-locale-picker>
+
+    <p>Current: <code id="out">en</code></p>
+
+    <script type="module">
+        import { LocalePicker, defaultLocaleLabels } from "../../locale-picker.js";
+
+        const NATIVE = {
+            en: "English",
+            fr: "Français",
+            de: "Deutsch",
+            es: "Español",
+            nl: "Nederlands",
+        };
+
+        class ButtonLocalePicker extends LocalePicker {
+            connectedCallback() {
+                super.connectedCallback();
+                this._rerender();
+            }
+            attributeChangedCallback(name, oldVal, newVal) {
+                super.attributeChangedCallback(name, oldVal, newVal);
+                if (name === "value" || name === "locales") this._rerender();
+            }
+            _rerender() {
+                const fieldset = this.querySelector("fieldset");
+                if (!fieldset) return;
+                fieldset.innerHTML = "";
+
+                const row = document.createElement("div");
+                row.className = "locale-picker-buttons";
+                row.setAttribute("role", "group");
+                row.setAttribute("aria-label", this.label);
+
+                for (const locale of this.locales) {
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.setAttribute("aria-pressed", String(this.value === locale));
+                    btn.setAttribute("lang", locale.replace(/_/g, "-"));
+                    btn.textContent =
+                        NATIVE[locale] ?? defaultLocaleLabels[locale] ?? locale;
+                    btn.addEventListener("click", () => { this.value = locale; });
+                    row.appendChild(btn);
+                }
+                fieldset.appendChild(row);
+            }
+        }
+        customElements.define("button-locale-picker", ButtonLocalePicker);
+
+        await customElements.whenDefined("button-locale-picker");
+        document
+            .querySelector("button-locale-picker")
+            .addEventListener("localechange", (e) => {
+                document.querySelector("#out").textContent = e.detail.locale;
+            });
+    </script>
+</body>
+</html>

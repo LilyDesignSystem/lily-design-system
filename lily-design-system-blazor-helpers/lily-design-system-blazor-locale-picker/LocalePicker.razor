@@ -1,0 +1,39 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+
+@*
+    LocalePicker — Blazor helper component.
+    Single source of truth: spec.md (§1–§9).
+
+    Renders an accessible radio group of available locales. On every
+    selection it sets `lang` (BCP 47 hyphen form) and `dir`
+    (`ltr`/`rtl`) on the document root, optionally persists to
+    `localStorage`, and invokes OnChange / ValueChanged with the
+    original consumer-form code.
+
+    All DOM writes happen through IJSRuntime inside OnAfterRenderAsync,
+    so the component is SSR / prerender safe.
+*@
+
+<fieldset class="@RootClass"
+          role="radiogroup"
+          aria-label="@Label"
+          @attributes="AdditionalAttributes">
+    @if (ChildContent is not null)
+    {
+        @ChildContent(BuildContext())
+    }
+    else
+    {
+        @foreach (var locale in Locales)
+        {
+            <label class="locale-picker-option" lang="@TagFor(locale)">
+                <input type="radio"
+                       name="@Name"
+                       value="@locale"
+                       checked="@(Value == locale)"
+                       @onchange="@(_ => OnInputChangeAsync(locale))" />
+                <span class="locale-picker-option-label">@LabelFor(locale)</span>
+            </label>
+        }
+    }
+</fieldset>

@@ -1,0 +1,87 @@
+# Changelog — Lily Design System Nunjucks Helpers
+
+All notable changes to this catalog are documented in this file. The
+catalog version mirrors the highest-versioned helper at release time.
+
+The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
+and the project follows
+[Semantic Versioning](https://semver.org/).
+
+## 0.1.0 — 2026-06-05
+
+Initial release. Two helpers ported from the Svelte canonical
+catalog, each split into a Nunjucks macro and a companion
+client-side ES module.
+
+### Added
+
+- `lily-design-system-nunjucks-theme-picker` v0.1.0 — runtime-loading
+  theme picker. The `themePicker(opts)` macro emits a fieldset with
+  `data-lily-theme-picker-*` hooks; the companion
+  `theme-picker.client.js` injects a managed `<link rel="stylesheet">`
+  in `<head>`, sets `data-theme="{slug}"` on the document root,
+  optionally persists to `localStorage`, and mirrors the active slug
+  onto the radio.checked state. 13 acceptance criteria covered.
+- `lily-design-system-nunjucks-locale-picker` v0.1.0 — BCP 47 locale
+  picker. The `localePicker(opts)` macro emits a fieldset with per-
+  option `lang="{tag}"` attributes; the client.js writes `lang` and
+  `dir` on the document root, with optional `localStorage`
+  persistence and `navigator.languages` detection. Built-in 436-row
+  locale-name table and RTL detection. 23 acceptance criteria
+  covered.
+- Parent-level `AGENTS/` with `conventions.md`, `testing.md`,
+  `accessibility.md`, `ssr.md`.
+- Parent-level `AGENTS/shared/` with `headless-principles.md`,
+  `i18n-principles.md`, `theme-principles.md` adapted from the
+  Lily-wide root `AGENTS/`.
+- Each helper subproject ships `AGENTS/`, `docs/`, and `examples/`
+  subdirectories mirroring the Svelte canonical depth.
+
+### Conventions established
+
+- Nunjucks 3 macro syntax with a single `opts` parameter object.
+- camelCase macro names (Nunjucks identifier rules); kebab-case
+  file paths and CSS class hooks.
+- Companion `*.client.js` ES module per macro, framework-agnostic.
+- `data-lily-{name}-*` attribute contract between macro and
+  client.js — no inline `<script>` tags in the macro output.
+- SSR-safe: the macro is pure; the client.js guards every DOM
+  access behind `typeof document !== "undefined"`.
+- Zero CSS shipped — consumer styles the kebab-case class hook.
+- Tests use vitest + jsdom; the macro is rendered via
+  `nunjucks.renderString` and the client.js is exercised against
+  the resulting jsdom document.
+
+### Differences from sibling catalogs
+
+| Concept                 | Svelte canonical                       | Nunjucks port                          |
+| ----------------------- | -------------------------------------- | -------------------------------------- |
+| Single file             | `.svelte` SFC                          | `.njk` macro + `.client.js` ES module  |
+| Two-way binding         | `bind:value` / `$bindable()`           | `opts.value` + `onChange` callback     |
+| Reactive state          | `$state`                               | DOM mutation in client.js              |
+| Reactive side-effects   | `$effect`                              | `change` event listener + `setTheme()` |
+| Render props / slots    | Snippet (`{#snippet children(...)}`)   | `{% call %}` caller block              |
+| Stylesheet head         | `<svelte:head>`                        | `document.head.appendChild` in client.js |
+| Cookie / SSR            | `hooks.server.ts` + `transformPageChunk` | Eleventy edge function or Express middleware |
+| Storybook integration   | `*.stories.svelte`                     | n/a — Nunjucks doesn't have Storybook  |
+| Component test runner   | vitest + svelte-testing-library        | vitest + jsdom + `nunjucks.renderString` |
+
+The DOM contract and behaviour are otherwise identical; the tests
+match clause-for-clause against the Svelte canonical's `spec.md`
+§7.
+
+### Why the split?
+
+Nunjucks is a server-side / build-time template language. It cannot
+read `localStorage`, mutate `document.head`, or hook `change`
+events. The split between macro and client.js is the cleanest way
+to ship both halves of the contract without inventing inline
+`<script>` tags.
+
+The macro alone is a valid, accessible static fieldset that works
+without JavaScript (radios remain selectable; form submission would
+carry the chosen value). The client.js adds the apply-on-the-fly
+behaviour the other framework helpers handle in a single component.
+
+[Unreleased]: https://github.com/lilydesignsystem/lily-design-system
+[0.1.0]: https://github.com/lilydesignsystem/lily-design-system

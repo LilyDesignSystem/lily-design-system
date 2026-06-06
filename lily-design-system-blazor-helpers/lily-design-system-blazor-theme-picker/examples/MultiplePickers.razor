@@ -1,0 +1,34 @@
+@*
+    Example 7 — Multiple pickers in one page.
+
+    Each picker gets a distinct `Name`. The `Name` plays two roles:
+      1. It is the radio-input `name`, so the two groups don't share state.
+      2. It is the discriminator on the managed <link> element, so each
+         picker swaps its own stylesheet without stepping on the other.
+
+    Note: the active `data-theme` attribute on <html> is set by whichever
+    picker fires last. If you want two truly independent regions, scope
+    your theme CSS to a wrapping data-theme attribute via OnChange.
+*@
+
+@page "/examples/theme-picker/multiple-pickers"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<section>
+    <h2>Region A</h2>
+    <ThemePicker
+        Label="Region A theme"
+        Name="region-a"
+        ThemesUrl="/assets/themes/"
+        Themes="@(new[] { "light", "dark" })" />
+</section>
+
+<section>
+    <h2>Region B</h2>
+    <ThemePicker
+        Label="Region B theme"
+        Name="region-b"
+        ThemesUrl="/assets/themes/"
+        Themes="@(new[] { "abyss", "cupcake", "dracula" })" />
+</section>

@@ -1,0 +1,81 @@
+<!doctype html>
+<!--
+    Example 6 — FormatJS IntlMessageFormat from CDN.
+
+    FormatJS ships the standards-compliant ICU MessageFormat
+    compiler. It handles plurals, gender, ordinals, and embedded
+    number / date formatters in a single library.
+
+    Loading via esm.sh keeps this example self-contained (no
+    npm install). The picker fires localechange; the listener
+    recompiles the message format with the new locale and
+    re-renders the affected DOM nodes.
+
+    Note: locale-picker.ts may need compilation to .js — adjust the
+    <script src=…> per your build output.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>locale-picker — FormatJS</title>
+    <script type="module" src="../../locale-picker.js"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 2rem; max-inline-size: 40rem; }
+        .locale-picker { border: 1px solid #d8dde0; padding: 1rem; }
+        .locale-picker-option { display: inline-block; margin-inline-end: 1rem; }
+        .row { display: flex; align-items: center; gap: 1rem; margin-block: 1rem; }
+        input[type="number"] {
+            font: inherit; padding: 0.25rem 0.5rem;
+            border: 1px solid #4c6272; border-radius: 4px; inline-size: 6rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Locale picker — FormatJS messages</h1>
+
+    <locale-picker
+        id="picker"
+        label="Language"
+        locales="en,fr,ar"
+    ></locale-picker>
+
+    <div class="row">
+        <label for="count">Unread:</label>
+        <input id="count" type="number" min="0" value="3">
+    </div>
+
+    <p id="greeting">…</p>
+
+    <script type="module">
+        const IntlMessageFormat = (
+            await import("https://esm.sh/intl-messageformat@10")
+        ).default;
+        await customElements.whenDefined("locale-picker");
+
+        const messages = {
+            en: "Hello, {name}! You have {count, plural, one {# unread message} other {# unread messages}}.",
+            fr: "Bonjour {name} ! Vous avez {count, plural, one {# message non lu} other {# messages non lus}}.",
+            ar: "مرحبا {name}! لديك {count, plural, zero {لا توجد رسائل} one {# رسالة غير مقروءة} two {رسالتان غير مقروءتين} few {# رسائل غير مقروءة} many {# رسالة غير مقروءة} other {# رسالة غير مقروءة}}.",
+        };
+
+        const picker = document.querySelector("#picker");
+        const out = document.querySelector("#greeting");
+        const countInput = document.querySelector("#count");
+
+        function render() {
+            const locale = picker.value || "en";
+            const tmpl = messages[locale] ?? messages.en;
+            const fmt = new IntlMessageFormat(tmpl, locale);
+            out.lang = locale.replace(/_/g, "-");
+            out.textContent = fmt.format({
+                name: "Alex",
+                count: Number(countInput.value) || 0,
+            });
+        }
+
+        picker.addEventListener("localechange", render);
+        countInput.addEventListener("input", render);
+        render();
+    </script>
+</body>
+</html>

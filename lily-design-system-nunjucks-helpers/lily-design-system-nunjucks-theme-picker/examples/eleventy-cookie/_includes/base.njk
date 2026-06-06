@@ -1,0 +1,46 @@
+{#
+  base.njk — Eleventy layout with the theme picker.
+
+  Uses __THEME__ as a placeholder the edge middleware substitutes
+  with the cookie value. At static-build time (no edge function),
+  the placeholder remains and the page falls back to the picker's
+  client-side localStorage resolution.
+#}
+<!doctype html>
+<html lang="en" data-theme="__THEME__">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/assets/themes/__THEME__.css">
+        <title>{{ title }}</title>
+    </head>
+    <body>
+        <header>
+            {% from "lily/theme-picker.njk" import themePicker %}
+            {{ themePicker({
+                label: "Theme",
+                themesUrl: "/assets/themes/",
+                themes: site.supportedThemes,
+                value: "__THEME__",
+                storageKey: "lily-theme"
+            }) }}
+        </header>
+
+        <main>
+            {{ content | safe }}
+        </main>
+
+        <script type="module">
+            import { autoInit } from "/lily/theme-picker.client.js";
+            autoInit({
+                onChange(slug) {
+                    fetch("/api/theme", {
+                        method: "POST",
+                        headers: { "content-type": "application/json" },
+                        body: JSON.stringify({ theme: slug }),
+                    }).catch(() => {});
+                },
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,38 @@
+@*
+    Example 5 — Custom rendering via RenderFragment<ThemePickerContext>.
+
+    When the default radio-list markup isn't enough, take over completely.
+    The fragment receives a ThemePickerContext with:
+      - Themes:   the slug list
+      - Value:    the active slug
+      - SetTheme: imperatively apply a slug (also updates Value)
+      - Name:     the radio `name` (shared identity for the picker)
+      - LabelFor: the resolved display label for a slug
+
+    Below, we render a row of swatch buttons. Each button:
+      - exposes its pressed state via aria-pressed,
+      - sets data-theme on itself so consumer CSS can preview the swatch
+        colours via the same :root[data-theme] cascade.
+*@
+
+@page "/examples/theme-picker/custom-rendering"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<ThemePicker
+    Label="Theme"
+    ThemesUrl="/assets/themes/"
+    Themes="@(new[] { "light", "dark", "abyss", "cupcake", "dracula" })">
+    <ChildContent Context="ctx">
+        @foreach (var t in ctx.Themes)
+        {
+            <button type="button"
+                    class="theme-picker-swatch"
+                    data-theme="@t"
+                    aria-pressed="@(ctx.Value == t)"
+                    @onclick="@(async () => await ctx.SetTheme(t))">
+                @ctx.LabelFor(t)
+            </button>
+        }
+    </ChildContent>
+</ThemePicker>

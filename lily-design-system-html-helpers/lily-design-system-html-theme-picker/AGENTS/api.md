@@ -1,0 +1,210 @@
+# API — `<theme-picker>` (HTML helper)
+
+Authoritative API surface lives in [`../spec.md`](../spec.md) §4.
+This file documents the custom-element-flavoured shape of the
+contract.
+
+## Exports
+
+The barrel (`index.ts`) re-exports:
+
+```ts
+export {
+    ThemePicker,
+    normalizeThemesUrl,
+    themeHref,
+    type ThemePickerProps,
+    type ThemePickerChangeDetail,
+} from "./theme-picker";
+```
+
+It additionally performs the side-effectful registration:
+
+```ts
+if (typeof customElements !== "undefined" && !customElements.get("theme-picker")) {
+    customElements.define("theme-picker", ThemePicker);
+}
+```
+
+A consumer can import either form:
+
+```ts
+// Side-effect only — registers <theme-picker> globally:
+import "./lily-design-system-html-theme-picker";
+
+// Or grab the class + helpers + types:
+import {
+    ThemePicker,
+    normalizeThemesUrl,
+    themeHref,
+    type ThemePickerProps,
+    type ThemePickerChangeDetail,
+} from "./lily-design-system-html-theme-picker";
+```
+
+## Observed attributes
+
+| Attribute       | Type            | Required | Default                                          |
+| --------------- | --------------- | -------- | ------------------------------------------------ |
+| `label`         | `string`        | yes      | —                                                |
+| `themes-url`    | `string`        | yes      | —                                                |
+| `themes`        | `string` (CSV)  | yes      | —                                                |
+| `value`         | `string`        | no       | `""`                                             |
+| `default-value` | `string`        | no       | resolves to `"light"` or `themes[0]`             |
+| `storage-key`   | `string`        | no       | absent                                           |
+| `name`          | `string`        | no       | `"theme"`                                        |
+| `extension`     | `string`        | no       | `".css"`                                         |
+| `theme-labels`  | `string` (JSON) | no       | `"{}"`                                           |
+| `class`         | `string`        | no       | `""`                                             |
+
+`label`, `themes-url`, and `themes` are required; the picker silently
+no-ops if any is missing at render time, but the spec only
+guarantees behaviour when all three are set.
+
+## JS property mirrors
+
+| Property          | Type                     | Notes                                              |
+| ----------------- | ------------------------ | -------------------------------------------------- |
+| `el.label`        | `string`                 | round-trips with `label` attribute                 |
+| `el.themesUrl`    | `string`                 | round-trips with `themes-url`                      |
+| `el.themes`       | `string[]`               | CSV-encoded in the `themes` attribute              |
+| `el.value`        | `string`                 | round-trips with `value`                           |
+| `el.defaultValue` | `string`                 | round-trips with `default-value`                   |
+| `el.storageKey`   | `string`                 | round-trips with `storage-key`                     |
+| `el.name`         | `string`                 | round-trips with `name`                            |
+| `el.extension`    | `string`                 | round-trips with `extension`                       |
+| `el.themeLabels`  | `Record<string, string>` | JSON-encoded in `theme-labels`                     |
+| `el.target`       | `HTMLElement \| null`    | no attribute form — JS-only                        |
+
+Setting an array property writes back the CSV-encoded attribute,
+which feeds back through `attributeChangedCallback`. Setting an
+object property writes back the JSON-encoded attribute.
+
+## Events
+
+The element fires `themechange` after every successful apply:
+
+```ts
+el.addEventListener("themechange", (e) => {
+    const { theme } = (e as CustomEvent<ThemePickerChangeDetail>).detail;
+});
+```
+
+| Property     | Value                                       |
+| ------------ | ------------------------------------------- |
+| `type`       | `"themechange"`                             |
+| `detail`     | `{ theme: string }`                         |
+| `bubbles`    | `true`                                      |
+| `composed`   | `true`                                      |
+| `cancelable` | `false`                                     |
+
+`bubbles: true` enables event delegation; `composed: true` lets the
+event cross shadow-DOM boundaries (for consumers who wrap the
+picker in their own shadow root).
+
+## Custom rendering by subclassing
+
+`<theme-picker>` doesn't expose Vue-style scoped slots or Svelte
+snippets. The customisation surface is subclassing:
+
+```ts
+import { ThemePicker } from "./theme-picker";
+
+class SwatchPicker extends ThemePicker {
+    // Override how options render; the lifecycle (link swap,
+    // data-theme write, themechange event) stays on the superclass.
+    //
+    // Implementation: override the private #render() via a protected
+    // hook, OR override connectedCallback / attributeChangedCallback
+    // to call super and then post-process the children.
+}
+customElements.define("swatch-picker", SwatchPicker);
+```
+
+See [`../docs/custom-rendering.md`](../docs/custom-rendering.md) for
+the full pattern.
+
+## Pure helpers
+
+Two pure helpers exported from `theme-picker.ts`:
+
+```ts
+export function normalizeThemesUrl(themesUrl: string): string;
+export function themeHref(themesUrl: string, slug: string, extension: string): string;
+```
+
+`normalizeThemesUrl(s)` ensures `s` ends with exactly one `/`.
+`themeHref(url, slug, ext)` concatenates the three to build the
+final stylesheet href.
+
+Both are pure and side-effect-free; consumers can call them from
+tests, server code, or other components without instantiating the
+picker.
+
+## DOM contract
+
+Host element (lifecycle container):
+
+```html
+<theme-picker
+    label="Theme"
+    themes-url="/assets/themes/"
+    themes="light,dark"
+    value="light"
+>
+    <!-- rendered children below -->
+</theme-picker>
+```
+
+Rendered children (recreated on every `#render()`):
+
+```html
+<fieldset class="theme-picker {class}" role="radiogroup" aria-label="{label}">
+    <label class="theme-picker-option">
+        <input type="radio" name="{name}" value="light" checked>
+        <span class="theme-picker-option-label">Light</span>
+    </label>
+    <label class="theme-picker-option">
+        <input type="radio" name="{name}" value="dark">
+        <span class="theme-picker-option-label">Dark</span>
+    </label>
+</fieldset>
+```
+
+Document mutations (only inside `connectedCallback` /
+`attributeChangedCallback`):
+
+```html
+<link rel="stylesheet" data-lily-theme-picker="{name}" href="{themesUrl}{slug}{extension}">
+```
+
+And on the resolved target:
+
+```html
+<html data-theme="{slug}">
+```
+
+## Type re-exports
+
+`ThemePickerProps` and `ThemePickerChangeDetail` are re-exported
+from `index.ts` so consumers can type their wrapping code:
+
+```ts
+import type {
+    ThemePickerProps,
+    ThemePickerChangeDetail,
+} from "./lily-design-system-html-theme-picker";
+
+const config: Pick<ThemePickerProps, "themesUrl" | "themes" | "storageKey"> = {
+    themesUrl: "/assets/themes/",
+    themes: ["light", "dark"],
+    storageKey: "my-app:theme",
+};
+```
+
+## Versioning
+
+The API surface above is the v0.1.0 contract. Any breaking change
+(rename, removal, type narrowing of an existing attribute) bumps
+the minor version while v0.x; once v1.0 ships, breaking changes
+bump the major.

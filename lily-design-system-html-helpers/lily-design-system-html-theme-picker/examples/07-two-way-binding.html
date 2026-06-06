@@ -1,0 +1,60 @@
+<!doctype html>
+<!--
+    Example 7 — Two-way "binding" via attribute / property mirroring.
+
+    Custom elements don't have framework-style two-way binding, but
+    every observed attribute mirrors a JS property. Reading the
+    current value:
+
+        picker.value                          // string
+        picker.getAttribute("value")          // same string
+
+    Writing the current value:
+
+        picker.value = "dark"                 // triggers apply
+        picker.setAttribute("value", "dark")  // also triggers apply
+
+    The `themechange` CustomEvent fires after every successful apply
+    — wire it for analytics, server sync, or telling siblings.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>theme-picker — two-way</title>
+    <script type="module" src="/dist/theme-picker.js"></script>
+</head>
+<body>
+    <h1>Theme picker — two-way</h1>
+
+    <theme-picker
+        id="picker"
+        label="Theme"
+        themes-url="/assets/themes/"
+        themes="light,dark,abyss"
+        value="light"
+    ></theme-picker>
+
+    <p>Current theme: <strong id="current">light</strong></p>
+
+    <button id="toggle" type="button">Toggle light/dark from outside</button>
+
+    <script type="module">
+        await customElements.whenDefined("theme-picker");
+
+        const picker = document.querySelector("#picker");
+        const current = document.querySelector("#current");
+        const toggle = document.querySelector("#toggle");
+
+        // Read every change via the CustomEvent.
+        picker.addEventListener("themechange", (e) => {
+            current.textContent = e.detail.theme;
+            // e.g. fetch("/api/preferences", { method: "POST", body: JSON.stringify({ theme: e.detail.theme }) });
+        });
+
+        // Write from outside via the JS property.
+        toggle.addEventListener("click", () => {
+            picker.value = picker.value === "dark" ? "light" : "dark";
+        });
+    </script>
+</body>
+</html>

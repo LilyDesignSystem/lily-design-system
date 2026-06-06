@@ -1,0 +1,30 @@
+{#
+  themePickerCustom — a fork of theme-picker.njk that delegates the
+  per-option rendering to a `{% call %}` caller block.
+
+  This file is shipped with the examples directory so example 09
+  has something to import. In a real project, copy this macro into
+  your own template directory and call it instead of the default
+  themePicker macro.
+#}
+{%- macro themePickerCustom(opts) -%}
+{%- set name = opts.name | default("theme") -%}
+{%- set extension = opts.extension | default(".css") -%}
+{%- set value = opts.value | default("") -%}
+{%- set storageKey = opts.storageKey | default("") -%}
+{%- set defaultValue = opts.defaultValue | default("") -%}
+<fieldset
+  class="theme-picker{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  role="radiogroup"
+  aria-label="{{ opts.label }}"
+  data-lily-theme-picker-root
+  data-lily-theme-picker-name="{{ name }}"
+  data-lily-theme-picker-themes-url="{{ opts.themesUrl }}"
+  data-lily-theme-picker-extension="{{ extension }}"
+  data-lily-theme-picker-storage-key="{{ storageKey }}"
+  data-lily-theme-picker-default-value="{{ defaultValue }}"
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{{ caller() if caller else "" }}
+</fieldset>
+{%- endmacro -%}

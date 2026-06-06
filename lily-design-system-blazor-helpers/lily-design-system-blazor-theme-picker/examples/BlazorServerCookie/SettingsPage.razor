@@ -1,0 +1,50 @@
+@*
+    SettingsPage.razor — page that hosts the picker.
+
+    Receives InitialTheme via cascade from App.razor, mounts the picker
+    with Value=InitialTheme so prerender matches first interactive render.
+    On every selection, POSTs to /api/theme so the next request paints
+    with the new theme.
+*@
+
+@page "/settings"
+@using LilyDesignSystem.Blazor.Helpers
+@inject HttpClient Http
+
+<h1>Settings</h1>
+
+<ThemePicker
+    Label="Theme"
+    ThemesUrl="/assets/themes/"
+    Themes="@(new[] { "light", "dark", "abyss" })"
+    @bind-Value="theme"
+    StorageKey="lily-theme"
+    OnChange="OnThemeChange" />
+
+<p>Active theme: <strong>@theme</strong></p>
+
+@code {
+    [CascadingParameter(Name = "InitialTheme")]
+    public string InitialTheme { get; set; } = "light";
+
+    private string theme = "";
+
+    protected override void OnInitialized()
+    {
+        theme = InitialTheme;
+    }
+
+    private async Task OnThemeChange(string slug)
+    {
+        try
+        {
+            await Http.PostAsJsonAsync("/api/theme", new { theme = slug });
+        }
+        catch
+        {
+            // Silently swallow — the localStorage StorageKey still persists
+            // the choice client-side. Production code may want to surface a
+            // toast.
+        }
+    }
+}

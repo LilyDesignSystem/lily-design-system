@@ -1,0 +1,71 @@
+{#
+  ThemePicker macro — accessible radio group of available themes.
+
+  HTML tag: <fieldset>
+  CSS class: theme-picker
+  Companion runtime: theme-picker.client.js
+
+  Params (single `opts` object):
+    label         — string, required. aria-label for the radiogroup.
+    themesUrl     — string, required. Base URL of the themes directory.
+    themes        — array<string>, required. Available theme slugs.
+    value         — string. Initial selected slug (rendered checked).
+    defaultValue  — string. Initial slug when nothing else is supplied.
+    storageKey    — string. If non-empty, client.js persists to localStorage.
+    name          — string. Radio `name` attribute (default "theme").
+    extension     — string. Appended to slug for URL (default ".css").
+    themeLabels   — object<string,string>. Pretty label per slug.
+    classes       — string. Extra CSS classes on the <fieldset> root.
+    attributes    — object. Extra HTML attributes spread onto the root.
+
+  Usage:
+    {% from "./theme-picker.njk" import themePicker %}
+    {{ themePicker({
+      label: "Theme",
+      themesUrl: "/assets/themes/",
+      themes: ["light", "dark", "abyss"],
+      storageKey: "lily-theme"
+    }) }}
+
+  Then load theme-picker.client.js once and call autoInit().
+
+  Spec: spec.md §4.1 (macro parameters), §4.2 (DOM contract).
+#}
+{%- macro themePicker(opts) -%}
+{%- set name = opts.name | default("theme") -%}
+{%- set extension = opts.extension | default(".css") -%}
+{%- set value = opts.value | default("") -%}
+{%- set storageKey = opts.storageKey | default("") -%}
+{%- set defaultValue = opts.defaultValue | default("") -%}
+{%- set themeLabels = opts.themeLabels | default({}) -%}
+<fieldset
+  class="theme-picker{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  role="radiogroup"
+  aria-label="{{ opts.label }}"
+  data-lily-theme-picker-root
+  data-lily-theme-picker-name="{{ name }}"
+  data-lily-theme-picker-themes-url="{{ opts.themesUrl }}"
+  data-lily-theme-picker-extension="{{ extension }}"
+  data-lily-theme-picker-storage-key="{{ storageKey }}"
+  data-lily-theme-picker-default-value="{{ defaultValue }}"
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- for slug in opts.themes -%}
+  <label class="theme-picker-option">
+    <input
+      type="radio"
+      name="{{ name }}"
+      value="{{ slug }}"
+      {%- if value == slug %} checked{% endif %}
+    />
+    <span class="theme-picker-option-label">
+      {%- if themeLabels[slug] -%}
+        {{ themeLabels[slug] }}
+      {%- else -%}
+        {{ slug | capitalize }}
+      {%- endif -%}
+    </span>
+  </label>
+{%- endfor -%}
+</fieldset>
+{%- endmacro -%}

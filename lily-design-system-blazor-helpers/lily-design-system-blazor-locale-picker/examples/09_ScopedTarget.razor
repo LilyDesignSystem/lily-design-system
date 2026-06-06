@@ -1,0 +1,49 @@
+@*
+    09. Scoped panels — multiple pickers, each one applies to <html>.
+
+    Note: unlike the Vue helper, the Blazor LocalePicker always writes
+    lang/dir to <html> (no per-panel `target` parameter). For per-region
+    scoping you can use multiple pickers with distinct Names, but they
+    will fight over <html>. To get true per-region behaviour, wrap each
+    panel and write its own lang/dir via OnChange, leaving the document
+    root alone (pass ApplyDir="false" and write lang yourself).
+
+    This example shows two pickers that share <html>, with the last
+    selection winning. For region-scoped state without DOM conflicts,
+    use distinct StorageKey values per panel.
+*@
+
+@page "/examples/locale-picker/scoped-target"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<article>
+    <h1>Document language is shared; each panel tracks its own picker value.</h1>
+
+    <section class="panel">
+        <h2>Panel A</h2>
+        <LocalePicker
+            Label="Panel A language"
+            Name="panel-a-locale"
+            Locales="@(new[] { "en", "fr", "ar" })"
+            StorageKey="panel-a"
+            @bind-Value="aLocale" />
+        <p>Current Panel A locale: <code>@aLocale</code></p>
+    </section>
+
+    <section class="panel">
+        <h2>Panel B</h2>
+        <LocalePicker
+            Label="Panel B language"
+            Name="panel-b-locale"
+            Locales="@(new[] { "en", "fr", "ar" })"
+            StorageKey="panel-b"
+            @bind-Value="bLocale" />
+        <p>Current Panel B locale: <code>@bLocale</code></p>
+    </section>
+</article>
+
+@code {
+    private string aLocale = "en";
+    private string bLocale = "fr";
+}

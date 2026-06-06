@@ -1,0 +1,80 @@
+{#
+  Example 06 — Wiring eleventy-i18n.
+
+  The Eleventy i18n plugin renders each page at multiple URLs
+  (/en/about/, /fr/about/, /ar/about/) and exposes the current
+  language via `page.lang`. The picker drives URL navigation from
+  its onChange callback.
+
+  Prerequisites — in `.eleventy.js`:
+
+    import EleventyI18nPlugin from "@11ty/eleventy-plugin-i18n";
+
+    export default function (eleventyConfig) {
+        eleventyConfig.addPlugin(EleventyI18nPlugin, {
+            defaultLanguage: "en",
+            errorMode: "allow-fallback",
+        });
+        eleventyConfig.addPassthroughCopy("src/lily");
+    }
+
+  And in your front matter, set `lang` per source file (the plugin
+  generates the URL-prefixed routes automatically). The macro reads
+  `page.lang` to pre-select the matching radio.
+
+  Outcome: choosing a locale calls location.assign("/<code>/<rest>"),
+  Eleventy serves the new locale's HTML, and the i18n filter
+  resolves messages from the loaded message bundle.
+#}
+{% from "../locale-picker.njk" import localePicker %}
+
+{# Demo: `page.lang` is set by Eleventy. Fall back to "en" so this
+   example renders in a vanilla Nunjucks host too. #}
+{% set currentLang = page.lang or "en" %}
+
+<!doctype html>
+<html lang="{{ currentLang | replace('_', '-') }}">
+    <head>
+        <meta charset="utf-8" />
+        <title>Site</title>
+    </head>
+    <body>
+        <header>
+            {{ localePicker({
+                label: "Language",
+                locales: ["en", "fr", "ar"],
+                localeLabels: {
+                    en: "English", fr: "Français", ar: "العربية"
+                },
+                value: currentLang
+            }) }}
+        </header>
+
+        <main>
+            {# In a real Eleventy + i18n template:
+                 <h1>{{ "home.heading" | i18n }}</h1>
+                 <p>{{ "home.body" | i18n }}</p>
+               …gets rendered as English / French / Arabic depending
+               on the URL prefix.
+            #}
+            <h1 id="heading">Home</h1>
+            <p id="body">Loading…</p>
+        </main>
+
+        <script type="module">
+            import { autoInit } from "../locale-picker.client.js";
+            autoInit({
+                onChange(code) {
+                    // Navigate to the locale-prefixed URL. Eleventy
+                    // serves `/en/about/`, `/fr/about/`, etc.
+                    const next = location.pathname.replace(
+                        /^\/[a-z][a-z0-9-]*/, `/${code}`
+                    );
+                    if (next !== location.pathname) {
+                        location.assign(next);
+                    }
+                },
+            });
+        </script>
+    </body>
+</html>

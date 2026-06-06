@@ -1,0 +1,37 @@
+<!doctype html>
+<!--
+    Example 2 — Custom labels.
+
+    Default labels title-case the slug ("light" → "Light"). Pass
+    `theme-labels` (JSON-encoded object) to override per-slug —
+    useful for i18n or for slugs that don't gracefully title-case
+    (e.g. long country-prefixed Lily theme slugs).
+
+    The JS property `el.themeLabels` accepts a native object; use
+    whichever form fits.
+-->
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>theme-picker — labels personnalisés</title>
+    <script type="module" src="/dist/theme-picker.js"></script>
+</head>
+<body>
+    <h1>Sélecteur de thème — étiquettes personnalisées</h1>
+
+    <theme-picker
+        label="Thème"
+        themes-url="/assets/themes/"
+        themes="light,dark,united-kingdom-national-health-service-england-for-patients,united-kingdom-national-health-service-england-for-practitioners"
+        theme-labels='{"light":"Clair","dark":"Sombre","united-kingdom-national-health-service-england-for-patients":"NHS England (patients)","united-kingdom-national-health-service-england-for-practitioners":"NHS England (practitioners)"}'
+    ></theme-picker>
+
+    <p>Or set the labels via the JS property:</p>
+    <script type="module">
+        await customElements.whenDefined("theme-picker");
+        // Equivalent assignment (overwrites the attribute):
+        // const picker = document.querySelector("theme-picker");
+        // picker.themeLabels = { light: "Clair", dark: "Sombre" };
+    </script>
+</body>
+</html>

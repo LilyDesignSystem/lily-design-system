@@ -1,0 +1,112 @@
+<!doctype html>
+<!--
+    Example 9 — Scoped target (panel-only lang / dir).
+
+    By default the picker writes lang / dir to <html>. Sometimes you
+    want to localise only a subtree of the page — e.g. a widget,
+    iframe-like panel, or sidebar.
+
+    Pass an HTMLElement to the JS property `el.target` (no
+    attribute form — DOM references can't be serialised). The
+    picker writes lang / dir to that element instead of <html>.
+    The rest of the page stays in its existing language.
+
+    Useful for:
+      - Multilingual product catalogues
+      - In-page translation widgets
+      - Embedded help panels that mirror an external service
+
+    Note: locale-picker.ts may need compilation to .js — adjust the
+    <script src=…> per your build output.
+-->
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>locale-picker — scoped target</title>
+    <script type="module" src="../../locale-picker.js"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 2rem; max-inline-size: 60rem; }
+        .locale-picker { border: 1px solid #d8dde0; padding: 1rem; max-inline-size: 30rem; }
+        .locale-picker-option { display: inline-block; margin-inline-end: 1rem; }
+        .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-block-start: 1.5rem; }
+        .panel {
+            border: 2px solid #005eb8; padding: 1rem; border-radius: 4px;
+        }
+        .panel h2 { margin-block-start: 0; }
+        :lang(ar) .panel, :lang(he) .panel {
+            font-family: "Noto Sans Arabic", "Frank Ruhl Libre", serif;
+        }
+    </style>
+</head>
+<body>
+    <h1>Page heading stays English</h1>
+
+    <p>
+        The picker below only affects the right-hand panel. The page
+        <code>&lt;html&gt;</code> stays at <code>lang="en"</code>.
+    </p>
+
+    <locale-picker
+        id="picker"
+        label="Panel language"
+        locales="en,fr,ar,he,ja"
+        locale-labels='{"en":"English","fr":"Français","ar":"العربية","he":"עברית","ja":"日本語"}'
+    ></locale-picker>
+
+    <div class="layout">
+        <article>
+            <h2>This article stays English</h2>
+            <p>
+                Document <code>&lt;html lang&gt;</code> is unchanged. Read
+                this in English regardless of what the panel shows.
+            </p>
+        </article>
+
+        <article id="panel" class="panel" lang="en">
+            <h2 id="panel-title">Quick reference</h2>
+            <p id="panel-body">
+                Use the picker to localise this panel without affecting
+                the surrounding page.
+            </p>
+        </article>
+    </div>
+
+    <script type="module">
+        await customElements.whenDefined("locale-picker");
+        const picker = document.querySelector("#picker");
+        const panel = document.querySelector("#panel");
+
+        // Wire the target — only this element will receive lang / dir.
+        picker.target = panel;
+
+        const translations = {
+            en: {
+                title: "Quick reference",
+                body: "Use the picker to localise this panel without affecting the surrounding page.",
+            },
+            fr: {
+                title: "Référence rapide",
+                body: "Utilisez le sélecteur pour traduire ce panneau sans toucher au reste de la page.",
+            },
+            ar: {
+                title: "مرجع سريع",
+                body: "استخدم المنتقي لترجمة هذه اللوحة دون التأثير على باقي الصفحة.",
+            },
+            he: {
+                title: "מדריך מהיר",
+                body: "השתמש בבורר כדי לתרגם את הלוח הזה מבלי להשפיע על שאר העמוד.",
+            },
+            ja: {
+                title: "クイックリファレンス",
+                body: "周りのページに影響を与えずに、このパネルだけを翻訳します。",
+            },
+        };
+
+        picker.addEventListener("localechange", (e) => {
+            const t = translations[e.detail.locale] ?? translations.en;
+            document.querySelector("#panel-title").textContent = t.title;
+            document.querySelector("#panel-body").textContent = t.body;
+        });
+    </script>
+</body>
+</html>

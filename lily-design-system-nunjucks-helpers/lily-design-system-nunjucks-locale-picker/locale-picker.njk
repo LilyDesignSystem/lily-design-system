@@ -1,0 +1,67 @@
+{#
+  LocalePicker macro — accessible radio group of available locales.
+
+  HTML tag: <fieldset>
+  CSS class: locale-picker
+  Companion runtime: locale-picker.client.js
+
+  Params (single `opts` object):
+    label                — string, required. aria-label for the radiogroup.
+    locales              — array<string>, required. Available locale codes.
+    value                — string. Initial selected code (rendered checked).
+    defaultValue         — string. Initial code when nothing else is supplied.
+    storageKey           — string. If non-empty, client.js persists to localStorage.
+    detectFromNavigator  — boolean. If true, client.js resolves navigator.languages.
+    name                 — string. Radio `name` (default "locale").
+    applyDir             — boolean. If false, client.js never writes `dir`.
+    localeLabels         — object<string,string>. Pretty label per code.
+    classes              — string. Extra CSS classes on the <fieldset> root.
+    attributes           — object. Extra HTML attributes spread onto the root.
+
+  Each option <label> carries `lang="{tagFor(code)}"` (BCP 47 hyphen
+  form) so assistive technology pronounces the option text in the
+  appropriate language even when the document language differs (WCAG
+  3.1.2, Language of Parts).
+
+  Spec: spec.md §4.1, §4.2.
+#}
+{%- macro localePicker(opts) -%}
+{%- set name = opts.name | default("locale") -%}
+{%- set value = opts.value | default("") -%}
+{%- set storageKey = opts.storageKey | default("") -%}
+{%- set defaultValue = opts.defaultValue | default("") -%}
+{%- set detectFromNavigator = opts.detectFromNavigator | default(false) -%}
+{%- set applyDir = opts.applyDir if opts.applyDir is sameas(false) else true -%}
+{%- set localeLabels = opts.localeLabels | default({}) -%}
+<fieldset
+  class="locale-picker{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  role="radiogroup"
+  aria-label="{{ opts.label }}"
+  data-lily-locale-picker-root
+  data-lily-locale-picker-name="{{ name }}"
+  data-lily-locale-picker-storage-key="{{ storageKey }}"
+  data-lily-locale-picker-default-value="{{ defaultValue }}"
+  data-lily-locale-picker-detect-from-navigator="{{ 'true' if detectFromNavigator else 'false' }}"
+  data-lily-locale-picker-apply-dir="{{ 'true' if applyDir else 'false' }}"
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- for locale in opts.locales -%}
+  {%- set tag = locale | replace("_", "-") -%}
+  <label class="locale-picker-option" lang="{{ tag }}">
+    <input
+      type="radio"
+      name="{{ name }}"
+      value="{{ locale }}"
+      {%- if value == locale %} checked{% endif %}
+    />
+    <span class="locale-picker-option-label">
+      {%- if localeLabels[locale] -%}
+        {{ localeLabels[locale] }}
+      {%- else -%}
+        {{ locale }}
+      {%- endif -%}
+    </span>
+  </label>
+{%- endfor -%}
+</fieldset>
+{%- endmacro -%}

@@ -1,0 +1,90 @@
+<!doctype html>
+<!--
+    Example 9 — Custom rendering via subclassing.
+
+    The HTML helpers don't have Vue scoped slots or Svelte snippets.
+    Custom rendering happens by extending the ThemePicker class and
+    post-processing the children after super.connectedCallback() has
+    laid down the default fieldset+radios.
+
+    Below, we replace the default radio markup with a row of swatch
+    buttons. Each button:
+      - exposes its pressed state via aria-pressed,
+      - sets data-theme on itself so consumer CSS can preview the
+        swatch colours via the same :root[data-theme] cascade.
+
+    The picker's lifecycle (managed <link>, data-theme, themechange
+    event, localStorage) is untouched — only the option markup
+    changes.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>theme-picker — swatches</title>
+    <script type="module" src="/dist/theme-picker.js"></script>
+    <style>
+        .theme-picker-swatch {
+            inline-size: 3rem;
+            block-size: 3rem;
+            border-radius: 0.5rem;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        .theme-picker-swatch[aria-pressed="true"] {
+            border-color: currentColor;
+        }
+        .theme-picker-swatch[data-theme="light"]  { background: #ffffff; }
+        .theme-picker-swatch[data-theme="dark"]   { background: #0b1220; }
+        .theme-picker-swatch[data-theme="abyss"]  { background: #001a33; }
+    </style>
+</head>
+<body>
+    <h1>Theme picker — swatches</h1>
+
+    <swatch-picker
+        label="Theme"
+        themes-url="/assets/themes/"
+        themes="light,dark,abyss"
+    ></swatch-picker>
+
+    <script type="module">
+        import { ThemePicker } from "/dist/theme-picker.js";
+
+        class SwatchPicker extends ThemePicker {
+            connectedCallback() {
+                super.connectedCallback();
+                this.#renderSwatches();
+            }
+            attributeChangedCallback(name, oldValue, newValue) {
+                super.attributeChangedCallback(name, oldValue, newValue);
+                if (name === "value" || name === "themes" || name === "theme-labels") {
+                    this.#renderSwatches();
+                }
+            }
+            #renderSwatches() {
+                const fieldset = this.querySelector("fieldset");
+                if (!fieldset) return;
+                fieldset.innerHTML = "";
+                const themes = this.themes;
+                const current = this.value;
+                const labels = this.themeLabels;
+                for (const theme of themes) {
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.className = "theme-picker-swatch";
+                    btn.dataset.theme = theme;
+                    btn.setAttribute("aria-pressed", String(current === theme));
+                    btn.setAttribute(
+                        "aria-label",
+                        labels[theme] ?? theme.charAt(0).toUpperCase() + theme.slice(1),
+                    );
+                    btn.addEventListener("click", () => { this.value = theme; });
+                    fieldset.appendChild(btn);
+                }
+            }
+        }
+
+        customElements.define("swatch-picker", SwatchPicker);
+    </script>
+</body>
+</html>

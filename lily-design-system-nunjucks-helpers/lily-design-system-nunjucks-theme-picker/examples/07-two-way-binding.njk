@@ -1,0 +1,41 @@
+{#
+  Example 07 — Two-way binding equivalent (onChange callback).
+
+  Nunjucks doesn't have reactive bindings like Svelte / Vue / React.
+  The closest equivalent is the `onChange` callback on the client.js,
+  combined with the consumer maintaining whatever store they want to
+  keep in sync. Below, we mirror the active theme into a `<output>`
+  element and a hidden form input that can be submitted to the
+  server.
+
+  This is the recipe for "use the picker like v-model:value" without
+  a framework.
+#}
+{% from "../theme-picker.njk" import themePicker %}
+
+{{ themePicker({
+    label: "Theme",
+    themesUrl: "/assets/themes/",
+    themes: ["light", "dark", "abyss"],
+    storageKey: "my-app:theme"
+}) }}
+
+<p>
+    Current theme:
+    <output id="theme-output">(resolving…)</output>
+</p>
+
+<form id="prefs">
+    <input type="hidden" name="theme" id="theme-hidden" />
+    <button type="submit">Save preferences</button>
+</form>
+
+<script type="module">
+    import { autoInit } from "../theme-picker.client.js";
+    autoInit({
+        onChange(slug) {
+            document.getElementById("theme-output").textContent = slug;
+            document.getElementById("theme-hidden").value = slug;
+        },
+    });
+</script>
