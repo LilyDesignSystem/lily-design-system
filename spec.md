@@ -866,6 +866,32 @@ overhead that the project hasn't chosen to pay.
         file an Analog upstream issue, or switch the example app
         off Analog onto a vanilla Angular + Vite + esbuild +
         prerender pipeline.
+      - **2026-06-14 — root cause narrowed.** The failure is broader
+        than an emptied SSR entry: `@analogjs/vite-plugin-angular@1.19.4`
+        emits **no compiled Angular output at all** under Angular 20,
+        for the client build as well as SSR. After `pnpm build` the
+        client entry `dist/client/assets/index-*.js` is ~0.7 KB and
+        contains only Vite's `modulepreload` polyfill — no
+        `bootstrapApplication`, no `@angular/*` runtime, no `main.ts`
+        code; `dist/client` totals ~8 KB and `dist/ssr/main.server.js`
+        is one byte (`\n`). The plugin's `fileEmitter` returns empty
+        for every project `.ts` (not just `main.server.ts`), so this
+        is an Analog 1.19.4 ↔ Angular 20 compiler-integration
+        incompatibility, not an SSR-entry bug. Fixes ruled out, each
+        leaving the bundle empty: (a) adding
+        `files: ["src/main.ts", "src/main.server.ts"]` to
+        `tsconfig.json` (the Analog template shape — kept, since it is
+        the correct config and a prerequisite once the plugin works,
+        but insufficient alone); (b) the earlier `transformFilter`
+        bypass; (c) SPA mode (`analog({ ssr: false })`) — builds green
+        (exit 0) but still emits an empty client app. Resolution
+        requires a dependency-line change, not a config tweak. Options,
+        in rough order of preference: (1) move Analog to the Vite-6
+        line (1.22+) that targets Angular 20 and bump Vite 5 → 6;
+        (2) pin Angular to 18/19 to match Analog 1.19.4; or (3) drop
+        Analog for the first-party `@angular/build:application` builder
+        plus a prerender step (loses Analog file-based routing —
+        `provideFileRouter()` would become explicit routes).
       - Playwright e2e suites not yet exercised against either app.
 - [x] Angular headless Storybook coverage. Wired `@storybook/angular`
       9.1 with the webpack-based `@storybook/angular:build-storybook`
