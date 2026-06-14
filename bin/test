@@ -88,7 +88,10 @@ test_implementations_with_vite() {
 }
 
 test_implementations_with_svelte() {
-    "$top/bin/list-implementations" | grep svelte- |
+    # Only the svelte component libraries follow the src/lib/components
+    # layout. Exclude the *-helpers catalogs, which hold a couple of
+    # opinionated helper subprojects rather than the 492-component set.
+    "$top/bin/list-implementations" | grep svelte- | grep -v -- '-helpers' |
     while read -r implementation; do
         "$top/bin/list-components-as-pascal-case" | 
         while read -r component; do
