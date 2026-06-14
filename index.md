@@ -7,7 +7,8 @@ This is brand new work and we welcome collaboration, guidance, and feedback.
 Contact <joel@joelparkerhenderson.com>
 
 The living specification is [spec.md](spec.md). The modular reference docs are in
-[AGENTS.md](AGENTS.md) and [AGENTS/](AGENTS/).
+[AGENTS.md](AGENTS.md) and [AGENTS/](AGENTS/). For a topic-by-topic walkthrough,
+see the modular specification docs under [spec/](spec/index.md).
 
 ## Examples
 

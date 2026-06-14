@@ -19,6 +19,14 @@ The companion AGENTS files (`AGENTS.md`, `AGENTS/*.md`) are the modular referenc
 that AI coding agents and humans should read; this spec links to and binds together
 those references rather than duplicating them in full.
 
+For a topic-by-topic walkthrough, see the modular specification docs under
+[`spec/`](spec/index.md): one focused `spec/{topic}/index.md` per topic
+(overview, architecture, headless, accessibility, internationalization, theme,
+components, examples, tooling, testing, frameworks, helpers,
+national-identifiers, citations). They reorganise and expand this file's
+contents into cross-linked references; this file remains the single source of
+truth.
+
 ---
 
 ## 1. Vision
