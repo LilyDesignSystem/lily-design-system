@@ -1,0 +1,17 @@
+{
+  "name": "lily-design-system-nunjucks-locale-picker",
+  "version": "0.1.0",
+  "description": "Lily Design System - Nunjucks 3 locale picker",
+  "type": "module",
+  "main": "./locale-picker.client.js",
+  "keywords": [
+    "lily",
+    "design",
+    "system",
+    "nunjucks",
+    "locale",
+    "picker"
+  ],
+  "author": "joel@joelparkerhenderson.com",
+  "license": "MIT"
+}

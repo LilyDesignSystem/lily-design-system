@@ -1,0 +1,19 @@
+{
+  "name": "lily-design-system-react-locale-picker",
+  "version": "0.1.0",
+  "description": "Lily Design System - React 19 locale picker",
+  "type": "module",
+  "main": "./index.ts",
+  "module": "./index.ts",
+  "types": "./index.ts",
+  "keywords": [
+    "lily",
+    "design",
+    "system",
+    "react",
+    "locale",
+    "picker"
+  ],
+  "author": "joel@joelparkerhenderson.com",
+  "license": "MIT"
+}

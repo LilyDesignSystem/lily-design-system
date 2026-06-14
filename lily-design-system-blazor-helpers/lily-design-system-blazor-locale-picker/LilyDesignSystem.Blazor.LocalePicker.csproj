@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>LilyDesignSystem.Blazor.Helpers</RootNamespace>
+    <AssemblyName>LilyDesignSystem.Blazor.LocalePicker</AssemblyName>
+    <PackageId>LilyDesignSystem.Blazor.LocalePicker</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Joel Parker Henderson</Authors>
+    <Description>Lily Design System - Blazor 10 locale picker</Description>
+    <PackageLicenseExpression>MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause</PackageLicenseExpression>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <!-- Tests, examples, and docs are not part of the published package. -->
+  <ItemGroup>
+    <Compile Remove="**/*Tests.cs" />
+    <Compile Remove="examples/**/*.cs" />
+    <Content Remove="examples/**" />
+    <Content Remove="docs/**" />
+    <None Remove="examples/**" />
+    <None Remove="docs/**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.0" />
+  </ItemGroup>
+
+</Project>

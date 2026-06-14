@@ -1,0 +1,19 @@
+{
+  "name": "lily-design-system-vue-theme-picker",
+  "version": "0.1.0",
+  "description": "Lily Design System - Vue 3 theme picker",
+  "type": "module",
+  "main": "./index.ts",
+  "module": "./index.ts",
+  "types": "./index.ts",
+  "keywords": [
+    "lily",
+    "design",
+    "system",
+    "vue",
+    "theme",
+    "picker"
+  ],
+  "author": "joel@joelparkerhenderson.com",
+  "license": "MIT"
+}
