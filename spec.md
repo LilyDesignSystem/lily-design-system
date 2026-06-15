@@ -913,16 +913,28 @@ overhead that the project hasn't chosen to pay.
         `(context) => bootstrapApplication(App, config, context)`.
         Result: `pnpm build` now exits 0 and prerenders **506/506**
         routes with **0 errors** (`dist/analog/public`, ~2.4 MB; was a
-        1-byte SSR entry + failed build). **Remaining issue:** the
-        file-based routes are not discovered/bundled — every
-        prerendered page is the 905-byte app shell with an empty
-        `<router-outlet>`, and the page components' text is absent from
-        the client bundle too, so the router registers no routes. The
-        Analog `routerPlugin` is active and its default glob
-        (`src/app/pages/**/*.page.ts`) matches the existing page files,
-        so the next step is to debug why `provideFileRouter()` resolves
-        an empty route set under 1.22.5 (virtual-module/glob root, or a
-        `provideFileRouter` API change) before the e2e suites can run.
+        1-byte SSR entry + failed build). **Route discovery — root
+        caused to an upstream Analog bug.** Analog's `analog-glob-routes`
+        plugin globs the page files (confirmed: `routeFiles=15`, correct
+        `root`) and injects them by a *brittle string* replace,
+        `code.replace('ANALOG_ROUTE_FILES = {};', …)`, on the
+        `@analogjs/router` module. The transform runs in every build
+        pass, but in some passes an earlier transform reformats /
+        minifies that exact literal first, so the replace silently
+        misses and the route set stays empty (instrumented: the same
+        pass shows `routeFiles=15` yet `hasExactTarget=false`). Adding
+        `optimizeDeps.exclude: ['@analogjs/router']` (plus
+        `ssr.noExternal`) keeps the literal intact for the **client**
+        build — the page components now bundle and the app renders
+        client-side after bootstrap — but the **SSR/prerender** pass
+        still reformats it (the identifier is renamed there, so no
+        string-replace workaround applies), leaving the prerendered
+        HTML as the app shell that hydrates to full content on the
+        client. Net: the example app builds and works as a client-
+        rendered SPA; static SSG content is still shell-only. Closing
+        it fully needs an upstream fix (make Analog's replace robust /
+        AST-based) — file an `@analogjs/platform` issue — or moving the
+        SSG step onto `@angular/build:application`'s prerenderer.
       - Playwright e2e suites not yet exercised against either app.
 - [x] Angular headless Storybook coverage. Wired `@storybook/angular`
       9.1 with the webpack-based `@storybook/angular:build-storybook`

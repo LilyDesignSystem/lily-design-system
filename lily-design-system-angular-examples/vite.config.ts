@@ -45,6 +45,16 @@ export default defineConfig(() => ({
   resolve: {
     mainFields: ["module"],
   },
+  // Keep Analog's router module out of dep pre-bundling/optimisation so the
+  // `ANALOG_ROUTE_FILES = {}` placeholder reaches the analog-glob-routes
+  // transform un-reformatted; otherwise its brittle string replace misses and
+  // the file-based routes resolve to an empty set.
+  optimizeDeps: {
+    exclude: ["@analogjs/router"],
+  },
+  ssr: {
+    noExternal: ["@analogjs/router"],
+  },
   plugins: [
     analog({
       prerender: {
