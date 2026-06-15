@@ -41,14 +41,14 @@ the default rendering because:
    `{#snippet children(...)}` block:
 
    ```svelte
-   <ThemePicker label="Theme">
+   <ThemeSelect label="Theme">
        {#snippet children({ themes, value, setTheme, name, labelFor })}
            <legend>Theme</legend>
            {#each themes as theme}
                <!-- … -->
            {/each}
        {/snippet}
-   </ThemePicker>
+   </ThemeSelect>
    ```
 
 3. `aria-label` is the WAI-ARIA APG-recommended fallback when no
@@ -109,7 +109,7 @@ The helpers spread `{...restProps}` onto the root element. Consumers
 can override the default ARIA wiring by passing their own attribute:
 
 ```svelte
-<ThemePicker label="X" themesUrl="/t/" themes={["a"]} aria-labelledby="legend-id" />
+<ThemeSelect label="X" themesUrl="/t/" themes={["a"]} aria-labelledby="legend-id" />
 ```
 
 The `aria-label="X"` baked into the markup loses to the spread
@@ -127,7 +127,7 @@ snippet stays inside the announced group.
 If a consumer needs to drop the fieldset entirely (e.g. to render a
 single `<select>` without group semantics), they should write a
 thin wrapper around the helper or use the upstream headless
-`ThemePicker` (which has no opinion at all).
+`ThemeSelect` (which has no opinion at all).
 
 ### `{@render}` is not a live region
 

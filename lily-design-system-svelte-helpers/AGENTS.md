@@ -8,8 +8,8 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-svelte-theme-picker`](./lily-design-system-svelte-theme-picker/) — dynamic theme CSS loader.
-- [`lily-design-system-svelte-locale-picker`](./lily-design-system-svelte-locale-picker/) — `lang` + `dir` locale picker.
+- [`lily-design-system-svelte-theme-select`](./lily-design-system-svelte-theme-select/) — dynamic theme CSS loader.
+- [`lily-design-system-svelte-locale-select`](./lily-design-system-svelte-locale-select/) — `lang` + `dir` locale picker.
 
 ## Working rules
 

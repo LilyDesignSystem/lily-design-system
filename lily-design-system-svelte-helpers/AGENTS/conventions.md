@@ -114,7 +114,7 @@ The bindable selection is a `$bindable("")` prop named `value`.
 Consumers use Svelte's `bind:value`:
 
 ```svelte
-<ThemePicker label="Theme" themesUrl="/t/" themes={["light","dark"]} bind:value={theme} />
+<ThemeSelect label="Theme" themesUrl="/t/" themes={["light","dark"]} bind:value={theme} />
 ```
 
 Inside the component:
@@ -134,11 +134,11 @@ Custom rendering uses a `children` prop typed as `Snippet<[ChildArgs]>`.
 Consumers pass a `{#snippet children(args)}` block:
 
 ```svelte
-<ThemePicker label="Theme" themesUrl="/t/" themes={["light","dark"]}>
+<ThemeSelect label="Theme" themesUrl="/t/" themes={["light","dark"]}>
     {#snippet children({ themes, value, setTheme, name, labelFor })}
         <!-- custom markup -->
     {/snippet}
-</ThemePicker>
+</ThemeSelect>
 ```
 
 Inside the component the default is rendered when no snippet is
@@ -164,7 +164,7 @@ rest in `...restProps`. The rest object is spread onto the root
 element:
 
 ```svelte
-<fieldset class={`theme-picker ${className}`.trim()} {...restProps}>
+<fieldset class={`theme-select ${className}`.trim()} {...restProps}>
 ```
 
 This lets consumers pass `id`, `data-*`, `aria-*`, and arbitrary
@@ -214,9 +214,9 @@ Everything visual and locale-specific is the consumer's. See
 ## Naming
 
 - Class hooks are kebab-case derivatives of the file name:
-  `theme-picker`, `theme-picker-option`, `theme-picker-option-label`.
+  `theme-select`, `theme-select-option`, `theme-select-option-label`.
 - Data attributes the consumer / CSS may want to observe use
-  `data-*` (e.g. `data-theme`, `data-lily-theme-picker`).
+  `data-*` (e.g. `data-theme`, `data-lily-theme-select`).
 - Don't introduce new ARIA attributes — use the platform's.
 - Module-level helper names are camelCase (`bcp47LocaleTag`,
   `normaliseThemesUrl`).

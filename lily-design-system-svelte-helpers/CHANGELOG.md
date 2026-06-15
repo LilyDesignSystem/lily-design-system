@@ -16,11 +16,11 @@ disagree, the Svelte side wins and the others are patched.
 
 ### Added
 
-- `lily-design-system-svelte-theme-picker` v0.1.0 — runtime-loading
+- `lily-design-system-svelte-theme-select` v0.1.0 — runtime-loading
   theme picker with `data-theme` swap, managed `<link>`-based
   stylesheet injection, `localStorage` persistence, and a `children`
   snippet for custom rendering. 13 acceptance criteria covered.
-- `lily-design-system-svelte-locale-picker` v0.1.0 — BCP 47 locale
+- `lily-design-system-svelte-locale-select` v0.1.0 — BCP 47 locale
   picker that writes `lang` and `dir` on the document root, with
   optional `localStorage` persistence and `navigator.languages`
   detection. Built-in 436-row locale-name table, RTL detection set,

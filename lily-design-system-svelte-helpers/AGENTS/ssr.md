@@ -25,7 +25,7 @@ recipes for pre-resolving server state.
 SvelteKit's `event.cookies` + `hooks.server.ts` is the canonical
 recipe for both pickers. The end-to-end working example for the
 theme picker lives under
-[`lily-design-system-svelte-theme-picker/examples/sveltekit-cookie/`](../lily-design-system-svelte-theme-picker/examples/sveltekit-cookie/).
+[`lily-design-system-svelte-theme-select/examples/sveltekit-cookie/`](../lily-design-system-svelte-theme-select/examples/sveltekit-cookie/).
 
 ### `hooks.server.ts`
 
@@ -83,8 +83,8 @@ export const load: LayoutServerLoad = ({ locals }) => ({
 
 ```svelte
 <script lang="ts">
-    import { ThemePicker } from "lily-design-system-svelte-theme-picker";
-    import { LocalePicker } from "lily-design-system-svelte-locale-picker";
+    import { ThemeSelect } from "lily-design-system-svelte-theme-select";
+    import { LocaleSelect } from "lily-design-system-svelte-locale-select";
 
     let { data, children } = $props();
     let theme = $state(data.theme);
@@ -99,7 +99,7 @@ export const load: LayoutServerLoad = ({ locals }) => ({
     }
 </script>
 
-<ThemePicker
+<ThemeSelect
     label="Theme"
     themesUrl="/assets/themes/"
     themes={["light", "dark", "abyss"]}
@@ -107,7 +107,7 @@ export const load: LayoutServerLoad = ({ locals }) => ({
     onChange={persistTheme}
 />
 
-<LocalePicker
+<LocaleSelect
     label="Language"
     locales={["en", "fr", "ar"]}
     bind:value={locale}
@@ -149,9 +149,9 @@ preference store.
 
 ```ts
 import { render } from "svelte/server";
-import ThemePicker from "./ThemePicker.svelte";
+import ThemeSelect from "./ThemeSelect.svelte";
 
-const { html } = render(ThemePicker, {
+const { html } = render(ThemeSelect, {
     props: {
         label: "Theme",
         themesUrl: "/themes/",
@@ -179,7 +179,7 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
         <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
     </head>
     <body>
-        <ThemePicker
+        <ThemeSelect
             client:load
             label="Theme"
             themesUrl="/assets/themes/"

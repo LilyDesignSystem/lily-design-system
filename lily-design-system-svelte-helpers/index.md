@@ -10,8 +10,8 @@ DOM application) for one small, common job.
 
 | Helper                                                                                  | Purpose                                                        |
 | --------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`lily-design-system-svelte-theme-picker`](./lily-design-system-svelte-theme-picker/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
-| [`lily-design-system-svelte-locale-picker`](./lily-design-system-svelte-locale-picker/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-svelte-theme-select`](./lily-design-system-svelte-theme-select/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
+| [`lily-design-system-svelte-locale-select`](./lily-design-system-svelte-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
 
 ## Conventions
 
@@ -51,7 +51,7 @@ Shared design decisions across the catalog:
 
 The headless library mirrors the canonical 492-component catalog.
 Each component is a pure container with no lifecycle. A consumer
-typing on top of `ThemePicker` from `lily-design-system-svelte-headless`
+typing on top of `ThemeSelect` from `lily-design-system-svelte-headless`
 writes their own radio markup, their own persistence, and their own
 loading.
 

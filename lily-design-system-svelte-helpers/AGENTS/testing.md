@@ -46,7 +46,7 @@ afterEach(() => cleanup());
 ```ts
 import { describe, it, expect, beforeEach } from "vitest";
 import { render } from "@testing-library/svelte";
-import ThemePicker from "./ThemePicker.svelte";
+import ThemeSelect from "./ThemeSelect.svelte";
 
 beforeEach(() => {
     document.head.innerHTML = "";
@@ -57,7 +57,7 @@ beforeEach(() => {
 });
 
 it("§7.1 renders a fieldset with role=radiogroup", () => {
-    const { container } = render(ThemePicker, {
+    const { container } = render(ThemeSelect, {
         props: {
             label: "Theme",
             themesUrl: "/themes/",
@@ -96,7 +96,7 @@ component instance Svelte returns:
 import { tick } from "svelte";
 
 it("§7.6 resolves the initial theme to 'light'", async () => {
-    const { component } = render(ThemePicker, {
+    const { component } = render(ThemeSelect, {
         props: {
             label: "Theme",
             themesUrl: "/t/",
@@ -126,7 +126,7 @@ it("§7.13 children snippet receives ChildArgs", async () => {
         captured = args();
         return { render: () => "<div data-testid='custom'></div>" };
     });
-    render(ThemePicker, {
+    render(ThemeSelect, {
         props: {
             label: "Theme",
             themesUrl: "/t/",
@@ -152,10 +152,10 @@ DOM-only call ran:
 
 ```ts
 import { render as ssrRender } from "svelte/server";
-import ThemePicker from "./ThemePicker.svelte";
+import ThemeSelect from "./ThemeSelect.svelte";
 
 it("renders cleanly under SSR", () => {
-    const { html } = ssrRender(ThemePicker, {
+    const { html } = ssrRender(ThemeSelect, {
         props: {
             label: "Theme",
             themesUrl: "/t/",
