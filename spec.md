@@ -892,6 +892,37 @@ overhead that the project hasn't chosen to pay.
         Analog for the first-party `@angular/build:application` builder
         plus a prerender step (loses Analog file-based routing —
         `provideFileRouter()` would become explicit routes).
+      - **2026-06-15 — build fixed (option 1 taken); one issue
+        remains.** Upgraded Analog `1.19.4 → 1.22.5` and Vite
+        `5 → 6.4.3` (workspace overrides bumped to `1.22.5`), then
+        fixed four real defects the working compiler then surfaced.
+        (1) **Root cause was a missing `tsconfig.app.json`** — the
+        Angular Vite plugin defaults to that filename and logged
+        `Unable to resolve tsconfig at .../tsconfig.app.json`, so its
+        program had no root files and emitted nothing; adding
+        `tsconfig.app.json` (extends `tsconfig.json`,
+        `files: ["src/main.ts","src/main.server.ts"]`) made it compile
+        (1 → 323 client + 105 SSR modules). The earlier `files`-in-
+        `tsconfig.json` edit was reverted in favour of this. (2)
+        `provideExperimentalZonelessChangeDetection` →
+        `provideZonelessChangeDetection` (graduated in Angular 20). (3)
+        Dropped `import "zone.js/node"` from `main.server.ts` (the app
+        is zoneless). (4) **NG0401 (`PLATFORM_NOT_FOUND`)** during
+        prerender — Angular 20 passes a `BootstrapContext` to the SSR
+        bootstrap and requires it forwarded:
+        `(context) => bootstrapApplication(App, config, context)`.
+        Result: `pnpm build` now exits 0 and prerenders **506/506**
+        routes with **0 errors** (`dist/analog/public`, ~2.4 MB; was a
+        1-byte SSR entry + failed build). **Remaining issue:** the
+        file-based routes are not discovered/bundled — every
+        prerendered page is the 905-byte app shell with an empty
+        `<router-outlet>`, and the page components' text is absent from
+        the client bundle too, so the router registers no routes. The
+        Analog `routerPlugin` is active and its default glob
+        (`src/app/pages/**/*.page.ts`) matches the existing page files,
+        so the next step is to debug why `provideFileRouter()` resolves
+        an empty route set under 1.22.5 (virtual-module/glob root, or a
+        `provideFileRouter` API change) before the e2e suites can run.
       - Playwright e2e suites not yet exercised against either app.
 - [x] Angular headless Storybook coverage. Wired `@storybook/angular`
       9.1 with the webpack-based `@storybook/angular:build-storybook`

@@ -5,5 +5,5 @@ allowBuilds:
   msgpackr-extract: set this to true or false
   nx: set this to true or false
 overrides:
-  "@analogjs/vite-plugin-angular": "1.19.4"
-  "@analogjs/vite-plugin-nitro": "1.19.4"
+  "@analogjs/vite-plugin-angular": "1.22.5"
+  "@analogjs/vite-plugin-nitro": "1.22.5"
