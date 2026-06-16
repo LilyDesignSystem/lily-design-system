@@ -1,18 +1,25 @@
 {
   "name": "lily-design-system-svelte-locale-select",
   "version": "0.1.0",
-  "description": "Lily Design System - Svelte 5 locale picker",
+  "description": "Lily Design System - Svelte 5 locale select",
   "type": "module",
   "svelte": "./index.ts",
   "main": "./index.ts",
   "types": "./index.ts",
+  "exports": {
+    ".": {
+      "types": "./index.ts",
+      "svelte": "./index.ts",
+      "default": "./index.ts"
+    }
+  },
   "keywords": [
     "lily",
     "design",
     "system",
     "svelte",
     "locale",
-    "picker"
+    "select"
   ],
   "author": "joel@joelparkerhenderson.com",
   "license": "MIT"

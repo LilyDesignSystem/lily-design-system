@@ -1,18 +1,25 @@
 {
   "name": "lily-design-system-svelte-theme-select",
   "version": "0.1.0",
-  "description": "Lily Design System - Svelte 5 theme picker",
+  "description": "Lily Design System - Svelte 5 theme select",
   "type": "module",
   "svelte": "./index.ts",
   "main": "./index.ts",
   "types": "./index.ts",
+  "exports": {
+    ".": {
+      "types": "./index.ts",
+      "svelte": "./index.ts",
+      "default": "./index.ts"
+    }
+  },
   "keywords": [
     "lily",
     "design",
     "system",
     "svelte",
     "theme",
-    "picker"
+    "select"
   ],
   "author": "joel@joelparkerhenderson.com",
   "license": "MIT"
