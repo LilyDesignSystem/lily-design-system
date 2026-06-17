@@ -8,8 +8,8 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-vue-theme-picker`](./lily-design-system-vue-theme-picker/) — dynamic theme CSS loader.
-- [`lily-design-system-vue-locale-picker`](./lily-design-system-vue-locale-picker/) — `lang` + `dir` locale picker.
+- [`lily-design-system-vue-theme-select`](./lily-design-system-vue-theme-select/) — dynamic theme CSS loader.
+- [`lily-design-system-vue-locale-select`](./lily-design-system-vue-locale-select/) — `lang` + `dir` locale picker.
 
 ## Working rules
 

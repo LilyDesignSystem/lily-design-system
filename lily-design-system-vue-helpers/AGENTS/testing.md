@@ -33,7 +33,7 @@ export default defineConfig({
 ```ts
 import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
-import ThemePicker from "./ThemePicker.vue";
+import ThemeSelect from "./ThemeSelect.vue";
 
 beforeEach(() => {
     document.head.innerHTML = "";
@@ -43,8 +43,8 @@ beforeEach(() => {
     localStorage.clear();
 });
 
-it("renders a fieldset with role=radiogroup", async () => {
-    const wrapper = mount(ThemePicker, {
+it("renders a select with the consumer's aria-label", async () => {
+    const wrapper = mount(ThemeSelect, {
         props: {
             label: "Theme",
             themesUrl: "/themes/",
@@ -52,9 +52,10 @@ it("renders a fieldset with role=radiogroup", async () => {
         },
     });
     await wrapper.vm.$nextTick();
-    const root = wrapper.find("fieldset");
+    const root = wrapper.find("select");
     expect(root.exists()).toBe(true);
-    expect(root.attributes("role")).toBe("radiogroup");
+    expect(root.attributes("aria-label")).toBe("Theme");
+    expect(wrapper.findAll("option")).toHaveLength(2);
 });
 ```
 
@@ -63,8 +64,8 @@ it("renders a fieldset with role=radiogroup", async () => {
 | Goal                                | Pattern                                                              |
 | ----------------------------------- | -------------------------------------------------------------------- |
 | Wait for `onMounted` + `watch`      | `await wrapper.vm.$nextTick(); await flushPromises();`               |
-| Find a radio by value               | `wrapper.find('input[type="radio"][value="dark"]')`                  |
-| Toggle a radio                      | `await wrapper.find('…').setValue(true)` *or* `.trigger("change")`   |
+| Find an option by value             | `wrapper.find('option[value="dark"]')`                              |
+| Change the selection                | `await wrapper.find("select").setValue("dark")` *or* `.trigger("change")` |
 | Assert `update:value` was emitted   | `expect(wrapper.emitted("update:value")?.[0]).toEqual(["dark"])`     |
 | Assert `change` was emitted         | `expect(wrapper.emitted("change")?.[0]).toEqual(["dark"])`           |
 | Inspect document mutations          | `document.documentElement.dataset.theme`                              |
@@ -77,7 +78,7 @@ it("renders a fieldset with role=radiogroup", async () => {
 sides like so:
 
 ```ts
-const wrapper = mount(ThemePicker, {
+const wrapper = mount(ThemeSelect, {
     props: {
         label: "Theme",
         themesUrl: "/themes/",
@@ -89,7 +90,7 @@ const wrapper = mount(ThemePicker, {
 ```
 
 This makes the wrapper behave as if it were rendered inside a parent
-with `<ThemePicker v-model:value="theme" />`.
+with `<ThemeSelect v-model:value="theme" />`.
 
 ## Scoped-slot tests
 
@@ -98,7 +99,7 @@ args:
 
 ```ts
 let captured: any = null;
-const wrapper = mount(ThemePicker, {
+const wrapper = mount(ThemeSelect, {
     props: { label: "T", themesUrl: "/t/", themes: ["a", "b"] },
     slots: {
         default: (args: any) => {
@@ -123,14 +124,14 @@ import { renderToString } from "vue/server-renderer";
 import { createSSRApp } from "vue";
 
 const html = await renderToString(
-    createSSRApp(ThemePicker, {
+    createSSRApp(ThemeSelect, {
         label: "Theme",
         themesUrl: "/t/",
         themes: ["light", "dark"],
         value: "light",
     }),
 );
-expect(html).toContain('role="radiogroup"');
+expect(html).toContain('aria-label="Theme"');
 expect(html).toContain('value="light"');
 ```
 

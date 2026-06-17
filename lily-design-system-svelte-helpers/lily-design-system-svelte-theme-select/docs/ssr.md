@@ -10,16 +10,13 @@ Under SSR, no `$effect` runs and the picker does not touch the DOM.
 The rendered HTML looks like:
 
 ```html
-<fieldset class="theme-select" role="radiogroup" aria-label="Theme">
-  <label class="theme-select-option">
-    <input type="radio" name="theme" value="light" />
-    <span class="theme-select-option-label">Light</span>
-  </label>
+<select class="theme-select" aria-label="Theme" name="theme">
+  <option class="theme-select-option" value="light">Light</option>
   …
-</fieldset>
+</select>
 ```
 
-No radio is checked unless the consumer supplied a non-empty `value`.
+No option is selected unless the consumer supplied a non-empty `value`.
 
 ## What happens on hydration
 

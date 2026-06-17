@@ -120,9 +120,9 @@ this.dispatchEvent(
 ```
 
 - `bubbles: true` lets event delegation work — a single
-  `addEventListener` on `document.body` catches every picker.
+  `addEventListener` on `document.body` catches every select.
 - `composed: true` lets the event cross shadow-DOM boundaries — for
-  consumers who wrap the picker in their own shadow root.
+  consumers who wrap the select in their own shadow root.
 - `detail` is the payload; the event name lives in spec.md §4.4.
 
 Consumers listen via `el.addEventListener("themechange", (e) => {
@@ -143,13 +143,13 @@ or imperative `appendChild`. No Shadow DOM. The reasons:
 ## Class hooks
 
 The kebab-case base class lives on the rendered root child
-(`<fieldset class="theme-picker">`), not on the custom-element
+(`<select class="theme-select">`), not on the custom-element
 itself. The custom element is the container that owns the lifecycle;
-the rendered `<fieldset>` is what the consumer styles.
+the rendered `<select>` is what the consumer styles.
 
 The consumer's optional `class` attribute on the custom element is
-re-applied to the rendered `<fieldset>` so `<theme-picker
-class="extra-class">` produces `<fieldset class="theme-picker
+re-applied to the rendered `<select>` so `<theme-select
+class="extra-class">` produces `<select class="theme-select
 extra-class">`.
 
 ## SSR
@@ -173,9 +173,9 @@ Everything visual and locale-specific is the consumer's. See
 ## Naming
 
 - Class hooks are kebab-case derivatives of the tag name:
-  `theme-picker`, `theme-picker-option`, `theme-picker-option-label`.
+  `theme-select`, `theme-select-option`.
 - Data attributes the consumer / CSS may want to observe use
-  `data-*` (e.g. `data-theme`, `data-lily-theme-picker`).
+  `data-*` (e.g. `data-theme`, `data-lily-theme-select`).
 - Don't introduce new ARIA attributes — use the platform's.
 
 ## Pure helpers exported from each module

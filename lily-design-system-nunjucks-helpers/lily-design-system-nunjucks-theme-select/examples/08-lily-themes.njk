@@ -1,0 +1,39 @@
+{#
+  Example 08 — All 41 Lily / DaisyUI themes.
+
+  This is the full catalog shipped in `../../themes/`. Drop them
+  all into your `assets/themes/` and the picker will swap between
+  them. "light" remains the default because it is in the list.
+
+  In Eleventy you can also pull this list from a data file (e.g.
+  read the file system at build time) — see
+  `_data/themes.js` in the catalog parent docs.
+#}
+{% from "../theme-select.njk" import themeSelect %}
+
+{% set lilyThemes = [
+    "abyss", "acid", "aqua", "autumn", "black", "bumblebee", "business",
+    "caramellatte", "cmyk", "coffee", "corporate", "cupcake", "cyberpunk",
+    "dark", "dim", "dracula", "emerald", "fantasy", "forest", "garden",
+    "halloween", "lemonade", "light", "lofi", "luxury", "night", "nord",
+    "pastel", "retro", "silk", "sunset", "synthwave", "valentine", "winter",
+    "wireframe",
+    "united-kingdom-national-health-service-england-for-patients",
+    "united-kingdom-national-health-service-england-for-practitioners",
+    "united-kingdom-national-health-service-scotland-for-patients",
+    "united-kingdom-national-health-service-scotland-for-practitioners",
+    "united-kingdom-national-health-service-wales-for-patients",
+    "united-kingdom-national-health-service-wales-for-practitioners"
+] %}
+
+{{ themeSelect({
+    label: "Lily theme",
+    themesUrl: "/assets/themes/",
+    themes: lilyThemes,
+    storageKey: "lily:theme"
+}) }}
+
+<script type="module">
+    import { autoInit } from "../theme-select.client.js";
+    autoInit();
+</script>

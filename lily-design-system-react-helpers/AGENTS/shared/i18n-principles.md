@@ -17,7 +17,7 @@ Stable across frameworks and across helpers:
 
 | Prop name         | Purpose                                                  |
 | ----------------- | -------------------------------------------------------- |
-| `label`           | Accessible name (radiogroup, dialog, region).            |
+| `label`           | Accessible name (select, dialog, region).                |
 | `description`    | Supplementary descriptive text.                          |
 | `placeholder`     | Input placeholder text.                                  |
 | `error`           | Validation error string.                                 |
@@ -38,7 +38,7 @@ etc.) as a prop and either pass it through to `Intl.*` formatters
 or expose it via a data attribute so consumers can format. The
 helpers do not pick a default locale.
 
-`LocalePicker` is itself the producer of the locale; everything
+`LocaleSelect` is itself the producer of the locale; everything
 else in the catalog (and downstream Lily components) consume it
 via the `lang` attribute on `<html>`.
 
@@ -50,8 +50,8 @@ accept the announced text and ARIA labels as props. The role /
 `aria-live` / `aria-atomic` attributes are baked in but the
 content is always consumer-supplied.
 
-The current React helper catalog has no live regions; the pickers
-announce via native radio semantics.
+The current React helper catalog has no live regions; the selects
+announce via native `<select>` semantics.
 
 ## Anchors and links
 
@@ -70,9 +70,9 @@ string.
 ## RTL / bidirectional text
 
 Right-to-left and bidirectional text are inherited from the
-consumer's `dir` attribute and CSS. `LocalePicker` writes
+consumer's `dir` attribute and CSS. `LocaleSelect` writes
 `dir="rtl"` or `dir="ltr"` to `<html>` based on the chosen locale
-(see `../../lily-design-system-react-locale-picker/docs/rtl.md`).
+(see `../../lily-design-system-react-locale-select/docs/rtl.md`).
 Other helpers do not assume LTR layout.
 
 ## React-specific application
@@ -85,7 +85,7 @@ plus the underlying state. They wrap or replace the default
 markup with their own i18n strings.
 
 ```tsx
-<ThemePicker label="主题" themesUrl="/t/" themes={["light", "dark"]}>
+<ThemeSelect label="主题" themesUrl="/t/" themes={["light", "dark"]}>
     {({ themes, value, setTheme, labelFor }) =>
         themes.map((t) => (
             <button
@@ -97,7 +97,7 @@ markup with their own i18n strings.
             </button>
         ))
     }
-</ThemePicker>
+</ThemeSelect>
 ```
 
 `labelFor` is the helper's resolution chain (override map → built-in
@@ -136,11 +136,11 @@ data flows into client props; the i18n library runs server-side.
 Two cases where the React helpers ship default English text — both
 intentional and overridable:
 
-1. `LocalePicker`'s built-in `defaultLocaleLabels` table (in
+1. `LocaleSelect`'s built-in `defaultLocaleLabels` table (in
    `locales.ts`, derived from `locales.tsv`). This is the
    English-name list — overridable per-locale via the
    `localeLabels` prop.
-2. `ThemePicker`'s default `labelFor` title-cases the slug. This
+2. `ThemeSelect`'s default `labelFor` title-cases the slug. This
    is a deterministic transformation, not a translation —
    overridable via the `themeLabels` prop.
 
@@ -157,7 +157,7 @@ Each helper's test suite covers:
 - No hardcoded English appears in the rendered output unless the
   consumer passes English.
 
-The pickers do not ship a full i18n testing matrix (every locale
+The selects do not ship a full i18n testing matrix (every locale
 × every prop); the principle is that the helper never injects
 strings, so testing one locale path covers all of them.
 
@@ -165,7 +165,7 @@ strings, so testing one locale path covers all of them.
 
 - Repo root `AGENTS/internationalization.md` — canonical
   cross-framework rules.
-- `lily-design-system-react-locale-picker/docs/i18n-integration.md`
+- `lily-design-system-react-locale-select/docs/i18n-integration.md`
   — wiring react-intl, react-i18next, Paraglide, Tolgee.
-- `lily-design-system-react-locale-picker/docs/bcp47.md` — BCP 47
+- `lily-design-system-react-locale-select/docs/bcp47.md` — BCP 47
   tag composition and `Intl.DisplayNames`.

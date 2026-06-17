@@ -10,8 +10,8 @@ DOM application) for one small, common job.
 
 | Helper                                                                                  | Purpose                                                        |
 | --------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`lily-design-system-blazor-theme-picker`](./lily-design-system-blazor-theme-picker/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
-| [`lily-design-system-blazor-locale-picker`](./lily-design-system-blazor-locale-picker/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-blazor-theme-select`](./lily-design-system-blazor-theme-select/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
+| [`lily-design-system-blazor-locale-select`](./lily-design-system-blazor-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
 
 ## Conventions
 
@@ -70,8 +70,8 @@ Shared design decisions across the catalog:
 
 The headless library mirrors the canonical 492-component catalog.
 Each component is a pure container with no lifecycle — a consumer
-typing on top of `ThemePicker` from `lily-design-system-blazor-headless`
-writes their own radio markup, their own persistence, and their own
+typing on top of `ThemeSelect` from `lily-design-system-blazor-headless`
+writes their own option markup, their own persistence, and their own
 loading.
 
 The helpers in this directory are higher-level: they own the
@@ -116,7 +116,7 @@ models:
 | ---------------------------------- | --------------------- | -------------- | ---------------------------------------------- |
 | **Blazor Server**                  | via SignalR + JS      | server         | Markup renders server-side. `OnAfterRenderAsync(true)` fires once the circuit is established; JS interop runs and the DOM mutations land. |
 | **Blazor WebAssembly**             | direct, after WASM    | client         | Markup renders client-side after the WASM module loads. `OnAfterRenderAsync(true)` fires; JS interop runs synchronously. |
-| **Blazor Web App (static SSR)**    | none (prerender only) | server         | Markup renders during prerender. No JS interop. The picker waits for interactivity. |
+| **Blazor Web App (static SSR)**    | none (prerender only) | server         | Markup renders during prerender. No JS interop. The select waits for interactivity. |
 | **Blazor Web App (interactive)**   | via SignalR / WASM    | server, then hydrates | Prerender renders the markup; hydration fires `OnAfterRenderAsync(true)`; interop lands. |
 
 See [`AGENTS/ssr.md`](./AGENTS/ssr.md) for the strategy each helper
@@ -139,7 +139,7 @@ per numbered item, named with the section number for fast
 cross-referencing.
 
 ```bash
-cd lily-design-system-blazor-theme-picker
+cd lily-design-system-blazor-theme-select
 dotnet test
 ```
 

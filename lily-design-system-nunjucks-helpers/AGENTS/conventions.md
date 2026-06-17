@@ -85,7 +85,7 @@ applied so the output has no spurious leading / trailing whitespace.
 export function pureHelper(arg) { /* … */ }
 
 /**
- * Wire one rendered HelperName fieldset.
+ * Wire one rendered HelperName select.
  *
  * @param {HTMLElement} root - The [data-lily-kebab-name-root] node.
  * @param {{onChange?: (slug:string)=>void, target?: HTMLElement|null}=} opts
@@ -123,7 +123,7 @@ and lets consumers compose options via plain JavaScript objects in
 Eleventy data files:
 
 ```js
-// _data/themePickerOptions.js
+// _data/themeSelectOptions.js
 export default {
     label: "Theme",
     themesUrl: "/assets/themes/",
@@ -132,19 +132,19 @@ export default {
 ```
 
 ```njk
-{{ themePicker(themePickerOptions) }}
+{{ themeSelect(themeSelectOptions) }}
 ```
 
 ## camelCase macro / kebab-case path / kebab-case class
 
 | Aspect              | Convention                                     | Example                |
 | ------------------- | ---------------------------------------------- | ---------------------- |
-| Macro name          | camelCase (Nunjucks rejects hyphens in idents) | `themePicker`          |
-| File path           | kebab-case                                     | `theme-picker.njk`     |
-| Client.js path      | kebab-case + `.client.js`                      | `theme-picker.client.js` |
-| Root CSS class      | kebab-case                                     | `theme-picker`         |
-| Sub-element classes | kebab-case derivatives                         | `theme-picker-option`  |
-| `data-*` hooks      | `data-lily-<kebab>-…`                          | `data-lily-theme-picker-root` |
+| Macro name          | camelCase (Nunjucks rejects hyphens in idents) | `themeSelect`          |
+| File path           | kebab-case                                     | `theme-select.njk`     |
+| Client.js path      | kebab-case + `.client.js`                      | `theme-select.client.js` |
+| Root CSS class      | kebab-case                                     | `theme-select`         |
+| Sub-element classes | kebab-case derivatives                         | `theme-select-option`  |
+| `data-*` hooks      | `data-lily-<kebab>-…`                          | `data-lily-theme-select-root` |
 
 ## `data-lily-*` hook attributes
 
@@ -194,9 +194,9 @@ allow-listed; if a consumer wants `id="my-picker"`, they pass
 
 ## Custom rendering
 
-The default macro body emits a sensible default (radio fieldset for
-both helpers). When a consumer needs different markup, they have
-two choices:
+The default macro body emits a sensible default (a native
+`<select>` for both helpers). When a consumer needs different
+markup, they have two choices:
 
 1. **Caller block** — the macro can be wrapped with `{% call %}` so
    the caller's markup replaces the default option rendering. The
@@ -233,7 +233,7 @@ Everything visual and locale-specific is the consumer's. See
 ## Naming
 
 - Class hooks are kebab-case derivatives of the macro name:
-  `theme-picker`, `theme-picker-option`, `theme-picker-option-label`.
+  `theme-select`, `theme-select-option`.
 - Data attributes the consumer / CSS may want to observe use
-  `data-*` (e.g. `data-theme`, `data-lily-theme-picker`).
+  `data-*` (e.g. `data-theme`, `data-lily-theme-select`).
 - Don't introduce new ARIA attributes — use the platform's.

@@ -10,8 +10,8 @@ DOM application) for one small, common job.
 
 | Helper                                                                                      | Purpose                                                          |
 | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| [`lily-design-system-nunjucks-theme-picker`](./lily-design-system-nunjucks-theme-picker/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.       |
-| [`lily-design-system-nunjucks-locale-picker`](./lily-design-system-nunjucks-locale-picker/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.  |
+| [`lily-design-system-nunjucks-theme-select`](./lily-design-system-nunjucks-theme-select/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.       |
+| [`lily-design-system-nunjucks-locale-select`](./lily-design-system-nunjucks-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.  |
 
 ## The split: macro + client.js
 
@@ -26,8 +26,8 @@ into two files:
 | `{kebab-name}.njk`         | Nunjucks render time      | Markup, ARIA, class hooks, `data-lily-*` hooks.       |
 | `{kebab-name}.client.js`   | Browser (after page load) | Storage, attribute set, dynamic loading, change events. |
 
-The macro emits a static fieldset with `data-lily-*` attributes that
-describe the picker's configuration; the companion ES module finds
+The macro emits a static native `<select>` with `data-lily-*`
+attributes that describe the picker's configuration; the companion ES module finds
 those roots in the DOM at runtime and wires the apply lifecycle.
 Consumers load the client.js once per page (typically via
 `<script type="module">`) and call `autoInit()` to bind every picker
@@ -40,7 +40,7 @@ This split exists because:
    browser.
 2. Build-time renderers (Eleventy, plain `nunjucks.render`) produce
    static HTML that survives without a JS bundle — the macro alone
-   ships a perfectly usable radio fieldset.
+   ships a perfectly usable native `<select>`.
 3. The runtime is a tiny ES module with zero framework dependency
    that any consumer can drop into their template.
 
@@ -104,7 +104,7 @@ Shared design decisions across the catalog:
 
 The headless library mirrors the canonical 492-component catalog.
 Each component is a pure macro with no lifecycle — the consumer
-writes their own radio markup, their own persistence, and their own
+writes their own control markup, their own persistence, and their own
 loading on top.
 
 The helpers in this directory are higher-level: they own the
@@ -118,7 +118,7 @@ layers can coexist in one app; the helpers are not a replacement.
 The helpers commit to a small set of Nunjucks 3 conventions:
 
 - A single `{% macro foo(opts) %}` … `{% endmacro %}` per file.
-- camelCase macro names: `themePicker`, `localePicker`.
+- camelCase macro names: `themeSelect`, `localeSelect`.
 - kebab-case file paths and CSS class hooks.
 - All defaults resolved with `{% set x = opts.x | default("…") %}`
   at the top of the macro body.
@@ -163,7 +163,7 @@ the runtime. The acceptance criteria are listed in each `spec.md` §7
 and the test file matches one `test(...)` per numbered item.
 
 ```bash
-cd lily-design-system-nunjucks-theme-picker
+cd lily-design-system-nunjucks-theme-select
 pnpm test
 ```
 

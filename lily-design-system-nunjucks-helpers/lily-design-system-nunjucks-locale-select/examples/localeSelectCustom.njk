@@ -1,0 +1,48 @@
+{#
+  localeSelectCustom — a fork of locale-select.njk that delegates the
+  rendering to a `{% call %}` caller block.
+
+  This file is shipped with the examples directory so examples 03
+  (buttons) and 10 (combobox) have something to import. In a real
+  project, copy this macro into your own template directory and call
+  it instead of the default localeSelect macro when you want a
+  rendering other than the default native <select>.
+
+  Behaviour:
+    - Emits a <div role="group"> root carrying all the same
+      `data-lily-locale-select-*` hooks as the canonical macro. The
+      neutral group wrapper lets the caller render controls a
+      <select> can't contain (a button group, a combobox input,
+      a swatch grid, etc.).
+    - Replaces the macro body with `{{ caller() }}`.
+    - The client.js still wires the root by reading the data hooks.
+      The caller is responsible for forwarding click / change
+      events to `ctrl.setLocale(code)`.
+
+  For a custom <select> with bespoke <option> markup, the default
+  localeSelect macro is usually enough — pass `localeLabels` to
+  control the option text. Reach for this fork only when you need a
+  non-<select> control.
+#}
+{%- macro localeSelectCustom(opts) -%}
+{%- set name = opts.name | default("locale") -%}
+{%- set value = opts.value | default("") -%}
+{%- set storageKey = opts.storageKey | default("") -%}
+{%- set defaultValue = opts.defaultValue | default("") -%}
+{%- set detectFromNavigator = opts.detectFromNavigator | default(false) -%}
+{%- set applyDir = opts.applyDir if opts.applyDir is sameas(false) else true -%}
+<div
+  class="locale-select{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  role="group"
+  aria-label="{{ opts.label }}"
+  data-lily-locale-select-root
+  data-lily-locale-select-name="{{ name }}"
+  data-lily-locale-select-storage-key="{{ storageKey }}"
+  data-lily-locale-select-default-value="{{ defaultValue }}"
+  data-lily-locale-select-detect-from-navigator="{{ 'true' if detectFromNavigator else 'false' }}"
+  data-lily-locale-select-apply-dir="{{ 'true' if applyDir else 'false' }}"
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{{ caller() if caller else "" }}
+</div>
+{%- endmacro -%}

@@ -117,7 +117,7 @@ selection. The custom-named model (`value` rather than the default
 `bind:value`:
 
 ```html
-<lily-theme-picker [(value)]="theme" ... />
+<lily-theme-select [(value)]="theme" ... />
 ```
 
 The component reads via `this.value()` and writes via
@@ -130,10 +130,13 @@ The component reads via `this.value()` and writes via
 When reading the changed-input value inside a template event binding:
 
 ```html
-<input
-  type="radio"
+<select
   (change)="onInputChange($any($event.target).value)"
-/>
+>
+  @for (item of items(); track item) {
+    <option [value]="item">{{ labelFor(item) }}</option>
+  }
+</select>
 ```
 
 The `$any()` form is **required**. Angular's template parser rejects
@@ -158,8 +161,8 @@ Consumers wanting to forward additional `data-*` attributes or event
 handlers attach them directly on the host:
 
 ```html
-<lily-theme-picker
-  data-testid="theme-picker"
+<lily-theme-select
+  data-testid="theme-select"
   (click)="trackClick($event)"
   ...
 />
@@ -167,8 +170,8 @@ handlers attach them directly on the host:
 
 Angular forwards host bindings to the component's root element via
 the host element itself; the consumer's bindings sit on the
-`<lily-theme-picker>` host tag, not on the inner `<fieldset>`. CSS
-selectors that target the helper's class hook (`.theme-picker`) still
+`<lily-theme-select>` host tag, not on the inner `<select>`. CSS
+selectors that target the helper's class hook (`.theme-select`) still
 work because the inner root has that class.
 
 ## SSR
@@ -197,14 +200,15 @@ Everything visual and locale-specific is the consumer's. See
 
 ## Naming
 
-- **Selector**: `lily-{kebab-name}` — e.g. `lily-theme-picker`,
-  `lily-locale-picker`. The `lily-` prefix avoids collisions with
+- **Selector**: `lily-{kebab-name}` — e.g. `lily-theme-select`,
+  `lily-locale-select`. The `lily-` prefix avoids collisions with
   consumer components.
 - **Class hooks** on the inner root are kebab-case derivatives of
-  the file name: `theme-picker`, `theme-picker-option`,
-  `theme-picker-option-label`.
+  the file name: `theme-select`, `theme-select-option`,
+  `locale-select`, `locale-select-option` (locale options also carry
+  a `lang` attribute).
 - **Data attributes** the consumer / CSS may want to observe use
-  `data-*` (e.g. `data-theme`, `data-lily-theme-picker`).
+  `data-*` (e.g. `data-theme`, `data-lily-theme-select`).
 - **Don't introduce new ARIA attributes** — use the platform's.
 
 ## What we don't use

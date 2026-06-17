@@ -1,0 +1,26 @@
+@*
+    01. Default select.
+
+    The simplest possible mount. Each option renders with its locale's
+    pretty name (from the built-in `locales.tsv` table), carrying a
+    `lang="…"` attribute so screen readers pronounce each in the right
+    language.
+
+    Outcome: a select with three options. Picking one writes
+    <html lang="…" dir="…"> and updates the bindable Value.
+*@
+
+@page "/examples/locale-select/radios"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<LocaleSelect
+    Label="Choose your language"
+    Locales="@(new[] { "en", "fr", "ar" })"
+    @bind-Value="locale" />
+
+<p>Selected locale: <code>@locale</code></p>
+
+@code {
+    private string locale = "en";
+}

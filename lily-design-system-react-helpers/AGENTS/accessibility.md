@@ -11,54 +11,54 @@ specific pattern.
 | Standard / pattern             | Where it applies                                       |
 | ------------------------------ | ------------------------------------------------------ |
 | WCAG 2.2 AAA                   | Every helper, every demo, every example.               |
-| WAI-ARIA APG 1.2 — Radio Group | `ThemePicker`, `LocalePicker` default rendering.       |
+| HTML Living Standard — `<select>` | `ThemeSelect`, `LocaleSelect` default rendering.    |
 | WAI-ARIA APG 1.2 — Combobox    | Optional rendering via `children` render prop.         |
-| HTML Living Standard           | `lang`, `dir`, `fieldset`, `input[type=radio]`.        |
-| RFC 5646 (BCP 47)              | `LocalePicker` `lang` attribute output.                |
+| HTML Living Standard           | `lang`, `dir`, `select`, `option`.                     |
+| RFC 5646 (BCP 47)              | `LocaleSelect` `lang` attribute output.                |
 
 ## Required commitments
 
-- **Semantic HTML first.** Pickers default to `<fieldset>` + native
-  `<input type="radio">`. ARIA is added where native semantics do
-  not suffice (`role="radiogroup"`, `aria-label`, `aria-checked`
-  implicit on the radios).
+- **Semantic HTML first.** Selects default to a native `<select>`
+  with `<option>` children. ARIA is limited to `aria-label`; the
+  `<select>` carries an implicit combobox role and each `<option>`
+  an implicit option role, so no extra ARIA is needed.
 - **Accessible name.** Every interactive container has an accessible
   name supplied by the required `label` prop. The component does
   NOT default the label to English; it requires the prop so
   consumers always supply localised text.
-- **Keyboard contract.** Tab into the group, Arrow keys move
-  selection between radios, Space re-selects the focused radio.
-  This contract is the platform default for `<input type="radio">`;
-  the components do not override it.
+- **Keyboard contract.** Tab focuses the select, Arrow keys move
+  selection between options, Home/End jump to first/last, and
+  typeahead jumps to a matching option. This contract is the
+  platform default for `<select>`; the components do not override it.
 - **Visible focus.** The components never set `outline: none`. The
   consumer's CSS supplies the focus ring. Lily's reference themes
   ship a 2px AAA-grade ring.
-- **No colour-only meaning.** Selection state is conveyed via
-  `aria-checked` (implicit on radios), via the controlled `value`,
-  and via the `data-*` / `lang` / `dir` attribute the helper
-  writes to the DOM. Colour is purely cosmetic.
-- **Live regions are deliberate.** The pickers do not declare
+- **No colour-only meaning.** Selection state is conveyed via the
+  native `<select>` value (the selected `<option>`), via the
+  controlled `value`, and via the `data-*` / `lang` / `dir`
+  attribute the helper writes to the DOM. Colour is purely cosmetic.
+- **Live regions are deliberate.** The selects do not declare
   `aria-live` regions. Selection changes propagate via the native
-  radio checked state, which screen readers announce automatically.
+  `<select>` value, which screen readers announce automatically.
 
 ## ARIA contract
 
-| Element                       | Attribute                  | Source            |
-| ----------------------------- | -------------------------- | ----------------- |
-| `<fieldset>`                  | `role="radiogroup"`        | Component         |
-| `<fieldset>`                  | `aria-label={label}`       | Consumer prop     |
-| `<input type="radio">`        | Implicit `role="radio"`    | Browser           |
-| `<input type="radio">`        | Implicit `aria-checked`    | Browser           |
-| `<input type="radio">` × N    | Shared `name`              | Component         |
-| `<label>` (LocalePicker only) | `lang="{tagFor(locale)}"`  | Component         |
+| Element                        | Attribute                  | Source            |
+| ------------------------------ | -------------------------- | ----------------- |
+| `<select>`                     | Implicit `role="combobox"` | Browser           |
+| `<select>`                     | `aria-label={label}`       | Consumer prop     |
+| `<select>`                     | `name`                     | Component         |
+| `<option>`                     | Implicit `role="option"`   | Browser           |
+| `<option>` (LocaleSelect only) | `lang="{tagFor(locale)}"`  | Component         |
 
-The components do not add a roving `tabindex`, no manual focus
-management, no `aria-activedescendant`. Native radio inputs already
-implement the Radio Group APG pattern.
+The components do not add any manual focus management or
+`aria-activedescendant`. The native `<select>` element already
+implements the listbox/combobox behaviour the operating system
+provides.
 
-## Per-option language (LocalePicker)
+## Per-option language (LocaleSelect)
 
-`LocalePicker` carries `lang` on each option `<label>` so screen
+`LocaleSelect` carries `lang` on each `<option>` so screen
 readers pronounce the option text in the correct language. This is
 WCAG 3.1.2 (Language of Parts).
 
@@ -68,22 +68,24 @@ WCAG 3.1.2 (Language of Parts).
 | "العربية"        | "Al-arab-eye-ya" (mangled)          | Native Arabic pronunciation             |
 | "繁體中文"       | character-by-character (garbled)     | Native Mandarin pronunciation           |
 
-The same logic applies when a consumer renders a `<select>` via the
-`children` render prop. Always carry the BCP 47 tag onto each
-`<option>` via `tagFor(locale)`.
+The same logic applies when a consumer renders custom `<option>`
+elements via the `children` render prop. Always carry the BCP 47 tag
+onto each `<option>` via `tagFor(locale)`.
 
 ## Keyboard contract
 
-Provided by the platform's native radio inputs:
+Provided by the platform's native `<select>`:
 
 | Key                | Action                                                         |
 | ------------------ | -------------------------------------------------------------- |
-| `Tab`              | Move focus into the group, landing on the checked option (or the first option if none is checked). |
-| `Shift+Tab`        | Move focus backwards out of the group.                         |
-| `Arrow Down/Right` | Move selection to the next option (selection follows focus).   |
-| `Arrow Up/Left`    | Move selection to the previous option.                         |
-| `Space`            | Re-select the focused option (rarely needed).                  |
-| `Home` / `End`     | Move to first / last option (most browsers).                   |
+| `Tab`              | Move focus onto the select (one tab stop).                     |
+| `Shift+Tab`        | Move focus backwards off the select.                           |
+| `Arrow Down`       | Select the next option.                                        |
+| `Arrow Up`         | Select the previous option.                                    |
+| `Home` / `End`     | Select the first / last option.                                |
+| typeahead          | Type characters to jump to a matching option.                  |
+| `Enter` / `Space`  | Open the option list (platform-dependent).                     |
+| `Escape`           | Close the option list.                                         |
 
 When the consumer overrides the default markup via `children`, they
 take responsibility for the keyboard contract of whichever pattern
@@ -123,12 +125,12 @@ Tested against the major combinations:
 
 | Reader     | OS       | Browser   | What's announced                                |
 | ---------- | -------- | --------- | ----------------------------------------------- |
-| VoiceOver  | macOS 14 | Safari 17 | "{label}, radiogroup" → "{option}, radio button, selected, 1 of N". |
-| NVDA       | Windows  | Firefox   | "{label} grouping" → "{option} radio button checked 1 of N". |
-| JAWS       | Windows  | Chrome    | "{label} group, {option} radio button checked, 1 of N". |
-| TalkBack   | Android  | Chrome    | "{label}, {option}, radio button, 1 of N, double-tap to activate". |
+| VoiceOver  | macOS 14 | Safari 17 | "{label}, pop-up button" → "{option}, selected, 1 of N". |
+| NVDA       | Windows  | Firefox   | "{label} combo box" → "{option} 1 of N". |
+| JAWS       | Windows  | Chrome    | "{label} combo box, {option}, 1 of N". |
+| TalkBack   | Android  | Chrome    | "{label}, {option}, drop-down list, 1 of N, double-tap to activate". |
 
-For `LocalePicker`, "lang-correct pronunciation" depends on the
+For `LocaleSelect`, "lang-correct pronunciation" depends on the
 reader having a matching voice package installed. NVDA's default
 ships with English only; users add other voices through eSpeak NG
 or commercial voice packs.
@@ -137,11 +139,11 @@ or commercial voice packs.
 
 The helpers ship no colour. WCAG 1.4.3 contrast (4.5:1 normal, 3:1
 large, 7:1 AAA) is the consumer's CSS responsibility. Safe defaults
-for an active radio's label:
+for the selected option:
 
 ```css
-.theme-picker-option:has(input:checked),
-.locale-picker-option:has(input:checked) {
+.theme-select option:checked,
+.locale-select option:checked {
     color: var(--theme-color-primary, #003087);
     font-weight: 600;
 }
@@ -153,23 +155,28 @@ the background.
 
 ## Common mistakes to avoid
 
-- **Replacing the fieldset with a div in custom rendering.** The
-  `children` render prop renders *inside* the fieldset; do not
-  wrap a div *around* the picker if you need group semantics.
-- **Hiding the radio inputs with `display: none`.** That removes
-  them from the accessibility tree. Use a visually-hidden pattern
-  (`clip-path: inset(50%)` or the `.sr-only` recipe).
+- **Wrapping the select in a redundant container.** The
+  `children` render prop renders *inside* the `<select>`; do not
+  wrap a container *around* the select expecting it to add the
+  accessible name — that comes from `aria-label` on the `<select>`.
+- **Hiding the native `<select>` with `display: none`.** That
+  removes it from the accessibility tree. Style the `<select>`
+  directly, or use a visually-hidden pattern
+  (`clip-path: inset(50%)` or the `.sr-only` recipe) only when an
+  alternative visible control is wired up.
 - **Forgetting to translate `themeLabels` / `localeLabels`.** The
-  pickers only know what the consumer tells them; locale-aware
+  selects only know what the consumer tells them; locale-aware
   copy is the consumer's responsibility.
 - **Suppressing `aria-label` when adding a visible heading.** If
-  the heading is the picker's label, use `aria-labelledby` instead
+  the heading is the select's label, use `aria-labelledby` instead
   of dropping the label entirely.
 
 ## References
 
-- WAI-ARIA APG — Radio Group pattern:
-  <https://www.w3.org/WAI/ARIA/apg/patterns/radio/>
+- HTML Living Standard — `<select>`:
+  <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select>
+- WAI-ARIA APG — Combobox pattern:
+  <https://www.w3.org/WAI/ARIA/apg/patterns/combobox/>
 - WCAG 2.2 AAA quick reference:
   <https://www.w3.org/WAI/WCAG22/quickref/?levels=aaa>
 - WCAG 3.1.1 Language of Page:

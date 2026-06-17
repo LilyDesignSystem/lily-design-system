@@ -41,7 +41,7 @@ import nunjucks from "nunjucks";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { autoInit, initThemePicker } from "./theme-picker.client.js";
+import { autoInit, initThemeSelect } from "./theme-select.client.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const env = nunjucks.configure(__dirname, {
@@ -53,15 +53,15 @@ const env = nunjucks.configure(__dirname, {
 
 function renderMacro(opts: Record<string, unknown>): string {
     const src =
-        `{% from "./theme-picker.njk" import themePicker %}` +
-        `{{ themePicker(opts) }}`;
+        `{% from "./theme-select.njk" import themeSelect %}` +
+        `{{ themeSelect(opts) }}`;
     return env.renderString(src, { opts });
 }
 
 function mountIntoBody(html: string): HTMLElement {
     document.body.innerHTML = html;
     return document.body.querySelector(
-        "[data-lily-theme-picker-root]",
+        "[data-lily-theme-select-root]",
     ) as HTMLElement;
 }
 
@@ -94,26 +94,25 @@ that doesn't go through Nunjucks at all.
 
 | Goal                                | Pattern                                                              |
 | ----------------------------------- | -------------------------------------------------------------------- |
-| Find the root                       | `document.querySelector("[data-lily-theme-picker-root]")`            |
-| Find a radio by value               | `root.querySelector('input[type="radio"][value="dark"]')`            |
-| Toggle a radio                      | `radio.checked = true; radio.dispatchEvent(new Event("change", { bubbles: true }));` |
+| Find the root                       | `document.querySelector("[data-lily-theme-select-root]")`            |
+| Find an option by value             | `root.querySelector('option[value="dark"]')`                        |
+| Select an option                    | `root.value = "dark"; root.dispatchEvent(new Event("change", { bubbles: true }));` |
 | Inspect document mutations          | `document.documentElement.dataset.theme`                              |
 | `localStorage` round-trip           | `localStorage.setItem(...); /* re-init */`                            |
-| Assert managed `<link>`             | `document.head.querySelector('link[data-lily-theme-picker="theme"]')` |
+| Assert managed `<link>`             | `document.head.querySelector('link[data-lily-theme-select="theme"]')` |
 | Assert spread attribute             | `root.getAttribute("data-testid")`                                    |
 
-## Driving a radio change
+## Driving a selection change
 
 ```ts
-const dark = root.querySelector('input[value="dark"]') as HTMLInputElement;
-dark.checked = true;
-dark.dispatchEvent(new Event("change", { bubbles: true }));
+const select = root as HTMLSelectElement;
+select.value = "dark";
+select.dispatchEvent(new Event("change", { bubbles: true }));
 ```
 
-The client.js attaches a `change` listener at the root (event
-delegation), so the event must bubble. `dispatchEvent(new
-Event("change", { bubbles: true }))` is the cleanest cross-jsdom
-approach.
+The client.js attaches a `change` listener at the root `<select>`,
+so the event must bubble. `dispatchEvent(new Event("change", {
+bubbles: true }))` is the cleanest cross-jsdom approach.
 
 ## Pure-helper tests
 
@@ -131,15 +130,15 @@ test("§7.7 bcp47LocaleTag(en_US) === en-US", () => {
 ## Asserting the macro output (without client.js)
 
 ```ts
-test("§7.1 macro renders fieldset with role=radiogroup", () => {
+test("§7.1 macro renders a <select> with aria-label", () => {
     const html = renderMacro({
         label: "Theme",
         themesUrl: "/t/",
         themes: ["light", "dark"],
     });
-    expect(html).toContain('<fieldset');
-    expect(html).toContain('role="radiogroup"');
+    expect(html).toContain('<select');
     expect(html).toContain('aria-label="Theme"');
+    expect(html).toContain('<option');
 });
 ```
 
@@ -159,7 +158,7 @@ test("§7.20 detectFromNavigator picks exact match", () => {
         locales: ["en", "fr_FR", "ar"],
         detectFromNavigator: true,
     });
-    initLocalePicker(document.querySelector("[data-lily-locale-picker-root]")!);
+    initLocaleSelect(document.querySelector("[data-lily-locale-select-root]")!);
     expect(document.documentElement.lang).toBe("fr-FR");
 });
 ```
@@ -176,7 +175,7 @@ is the sanity check.
 test("macro is pure: does not touch DOM during render", () => {
     // Render outside of jsdom — assert no throw.
     const html = env.renderString(src, { opts });
-    expect(html).toContain('role="radiogroup"');
+    expect(html).toContain('<select');
 });
 ```
 

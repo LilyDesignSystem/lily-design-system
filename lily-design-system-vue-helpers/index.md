@@ -10,8 +10,8 @@ DOM application) for one small, common job.
 
 | Helper                                                                            | Purpose                                                        |
 | --------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`lily-design-system-vue-theme-picker`](./lily-design-system-vue-theme-picker/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
-| [`lily-design-system-vue-locale-picker`](./lily-design-system-vue-locale-picker/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-vue-theme-select`](./lily-design-system-vue-theme-select/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
+| [`lily-design-system-vue-locale-select`](./lily-design-system-vue-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
 
 ## Conventions
 
@@ -61,8 +61,8 @@ Shared design decisions across the catalog:
 
 The headless library mirrors the canonical 492-component catalog.
 Each component is a pure container with no lifecycle. A consumer
-typing on top of `ThemePicker` from `lily-design-system-vue-headless`
-writes their own radio markup, their own persistence, and their own
+typing on top of `ThemeSelect` from `lily-design-system-vue-headless`
+writes their own option markup, their own persistence, and their own
 loading.
 
 The helpers in this directory are higher-level: they own the
@@ -103,7 +103,7 @@ Each helper ships a vitest suite that runs under jsdom +
 item, named with the section number for fast cross-referencing.
 
 ```bash
-cd lily-design-system-vue-theme-picker
+cd lily-design-system-vue-theme-select
 pnpm test
 ```
 

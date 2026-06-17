@@ -13,19 +13,19 @@ the cookie / header / URL-prefix strategies.
 - No DOM access during render. `document`, `window`, `localStorage`,
   `navigator` are only touched inside `useEffect`.
 - The first render produces deterministic HTML based purely on
-  props. If the consumer supplies a `value` prop, the corresponding
-  radio is rendered with `checked={true}`; otherwise no radio is
-  checked.
+  props. If the consumer supplies a `value` prop, the `<select>` is
+  rendered with that option selected; otherwise the first option is
+  selected.
 - After hydration the first effect runs and resolves the actual
   initial value (from storage, navigator, etc.). If the resolved
   value differs from what the server rendered, the consumer sees
-  one frame of unchecked radios before the picker hydrates them.
+  one frame of the default selection before the select hydrates it.
   This is the "flash of default state" — fix by pre-resolving on
   the server and passing as `value`.
 
 ## Why the helpers are client components
 
-The pickers need DOM access for the lifecycle (setting
+The selects need DOM access for the lifecycle (setting
 `data-theme`, `lang`, `dir` on `<html>`, managing the `<link>` in
 `<head>`, reading `localStorage`). In RSC vocabulary that makes
 them client components — the `"use client"` directive is mandatory.
@@ -68,14 +68,14 @@ export default async function RootLayout({
 The `<html lang dir>` arrives in the HTTP response from byte zero
 — no flash.
 
-### 2. Client component renders the picker
+### 2. Client component renders the select
 
 ```tsx
 // app/locale-client.tsx — CLIENT component
 "use client";
 
 import * as React from "react";
-import { LocalePicker } from "../lily-design-system-react-locale-picker";
+import { LocaleSelect } from "../lily-design-system-react-locale-select";
 
 export function LocaleClient({
     initialLocale,
@@ -92,7 +92,7 @@ export function LocaleClient({
 
     return (
         <>
-            <LocalePicker
+            <LocaleSelect
                 label="Language"
                 locales={["en", "fr", "ar"]}
                 value={locale}
@@ -129,7 +129,7 @@ export async function setLocaleCookie(locale: string) {
 And call from `onChange`:
 
 ```tsx
-<LocalePicker
+<LocaleSelect
     onChange={(code) => {
         setLocale(code);
         setLocaleCookie(code); // server action
@@ -172,7 +172,7 @@ export default function App() {
 ## Vite SSR / plain React
 
 Without a server framework, there's no first-paint problem worth
-solving — the picker hydrates from `localStorage` or `navigator`
+solving — the select hydrates from `localStorage` or `navigator`
 before content renders if you mount it at the top of `<body>`.
 Avoid styles depending on `data-theme` for the first paint, or
 hard-code the default theme's `<link>` in `index.html`.
@@ -181,10 +181,10 @@ hard-code the default theme's `<link>` in `index.html`.
 
 ### "Hydration mismatch: server rendered X but client rendered Y"
 
-**Cause.** The picker's effect resolved a different value than the
+**Cause.** The select's effect resolved a different value than the
 one that came down in the server-rendered HTML.
 
-**Fix.** Pass a server-resolved `value` to the picker so the SSR
+**Fix.** Pass a server-resolved `value` to the select so the SSR
 markup matches what the effect will set. Cookie is the easiest
 transport.
 
@@ -214,29 +214,29 @@ keep the directive first.
 ## React 19-specific notes
 
 - `useFormStatus` / `useFormState` are React 19 form hooks; the
-  pickers don't use them because they're not form helpers.
+  selects don't use them because they're not form helpers.
 - `use(promise)` for unwrapping async values is not used; the
-  pickers' effects are synchronous from the start.
+  selects' effects are synchronous from the start.
 - `useTransition` is not used; selection is instant.
 
 ## Streaming SSR
 
 React 19's streaming SSR fires effects only after the relevant
-chunk hydrates. The pickers' first-mount effect runs once per
+chunk hydrates. The selects' first-mount effect runs once per
 component instance, after that chunk's hydration completes. No
 special handling needed.
 
 If you stream a fragment that needs its own `lang`/`dir`, wrap it
 in an element with explicit `lang` and `dir` attributes — don't
-rely on the picker's `<html>` write because the stream may arrive
+rely on the select's `<html>` write because the stream may arrive
 before hydration.
 
 ## RSC boundary checklist
 
 | Question                                              | Answer                                  |
 | ----------------------------------------------------- | --------------------------------------- |
-| Does the picker run on the server?                    | No — it's a client component.           |
-| Can a server component import the picker?             | Yes — the import boundary is implicit.  |
+| Does the select run on the server?                    | No — it's a client component.           |
+| Can a server component import the select?             | Yes — the import boundary is implicit.  |
 | Can a server component import pure helpers?           | Yes — `themeHref`, `bcp47LocaleTag`, … |
 | Does `useState`/`useEffect` work?                     | Yes, after hydration.                   |
 | Does `localStorage` work during render?               | No — only inside `useEffect`.           |

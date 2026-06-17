@@ -1,0 +1,39 @@
+{#
+  Example 09 — Custom rendering via the `{% call %}` block.
+
+  When the default <option> markup isn't enough, take over the
+  inside of the select with a caller block. The outer <select> root
+  is preserved so the helper's data-lily-* hooks still apply.
+
+  Below, we render a set of <option>s by hand. Each option's value
+  is the theme slug, so the client.js resolves and applies it the
+  same way as the default rendering.
+
+  Note: the shipped theme-select.njk does not currently inspect
+  `caller`. To use this pattern, copy the macro into your project
+  and replace its `{% for slug in opts.themes %}…{% endfor %}` body
+  with `{{ caller() if caller else "" }}`. See docs/custom-rendering.md
+  for the full recipe.
+#}
+{% from "./themeSelectCustom.njk" import themeSelectCustom %}
+
+{% call themeSelectCustom({
+    label: "Theme",
+    themesUrl: "/assets/themes/",
+    themes: ["light", "dark", "abyss", "cupcake", "dracula"],
+    storageKey: "lily:theme"
+}) %}
+    {% for slug in ["light", "dark", "abyss", "cupcake", "dracula"] %}
+    <option
+        class="theme-select-option"
+        value="{{ slug }}"
+    >{{ slug | capitalize }}</option>
+    {% endfor %}
+{% endcall %}
+
+<script type="module">
+    import { initThemeSelect } from "../theme-select.client.js";
+    document
+        .querySelectorAll("[data-lily-theme-select-root]")
+        .forEach((root) => initThemeSelect(root));
+</script>

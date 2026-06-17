@@ -42,45 +42,46 @@ pure markup contract.
 ### Whitespace control
 
 The macros use `{%-` / `-%}` everywhere to avoid spurious
-whitespace between elements. Whitespace inside `<label>` doesn't
+whitespace between elements. Whitespace inside `<option>` doesn't
 affect accessibility, but the consistent style keeps test
 assertions stable.
 
 ### Per-option `lang` (locale picker)
 
-The locale-picker macro emits `<label lang="{tagFor(locale)}">`
-around each radio so screen readers pronounce the option text in
+The locale-select macro emits `<option lang="{tagFor(locale)}">`
+for each locale so screen readers pronounce the option text in
 its own language (WCAG 3.1.2). Custom-rendering paths must keep
 this attribute on the rendered element; the
 `docs/accessibility.md` of the locale picker walks through the
 patterns.
 
-### `aria-label` vs visible `<legend>`
+### `aria-label` vs visible label
 
-The helpers carry the consumer's group name as
-`aria-label="{label}"` on the root `<fieldset>`. There is no
-visible legend by default; consumers who want one render their own
+The helpers carry the consumer's control name as
+`aria-label="{label}"` on the root `<select>`. There is no
+visible label by default; consumers who want one render their own
 markup using the caller-block pattern. See each helper's
 `docs/custom-rendering.md`.
 
-### `caller()` block and the radiogroup contract
+### `caller()` block and the combobox contract
 
 When a consumer wraps the macro with `{% call %}` to replace the
-default option rendering, the outer `<fieldset
-role="radiogroup">` is preserved. The caller's markup goes
-**inside** the fieldset; it must not introduce a competing
-`role="group"` or `role="listbox"` on the same node.
+default option rendering, the outer `<select>` (implicit
+`combobox` role) is preserved. The caller's markup goes
+**inside** the select as `<option>` elements; it must not
+introduce a competing `role="group"` or `role="listbox"` on the
+same node.
 
-If a custom rendering drops the native radios entirely, the
-consumer must add `aria-pressed` (button group) or rely on
-`<select>`'s implicit combobox role.
+If a custom rendering replaces the native `<select>` entirely with
+a button group, the consumer must add `aria-pressed`; otherwise
+rely on the `<select>`'s implicit combobox role.
 
 ## Keyboard
 
-Native `<input type="radio">` provides Tab / Shift+Tab / Arrow /
-Space / Home / End for free. None of the helpers add keyboard
-handlers; if a custom rendering drops the radios, the consumer
-becomes responsible for keyboard behaviour.
+The native `<select>` provides Tab / Shift+Tab / Arrow Up / Arrow
+Down / Home / End / typeahead for free. None of the helpers add
+keyboard handlers; if a custom rendering replaces the `<select>`,
+the consumer becomes responsible for keyboard behaviour.
 
 ## Focus management
 
@@ -91,7 +92,7 @@ position and avoid focus jumps.
 
 ## Screen-reader pronunciation (locale picker)
 
-Each `<label>` carries `lang="…"` so screen readers switch
+Each `<option>` carries `lang="…"` so screen readers switch
 pronunciation per option (WCAG 3.1.2, Language of Parts). Custom
 renderings must keep this attribute on the rendered element.
 

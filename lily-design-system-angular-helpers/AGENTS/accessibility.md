@@ -13,6 +13,48 @@ from Svelte to Angular.
 - Semantic HTML first; ARIA only where the canonical helper's
   `spec.md` calls it out.
 
+## The select + combobox contract
+
+Each helper renders a native HTML `<select>`, which carries the
+WAI-ARIA `combobox` semantics for free. The helper relies entirely
+on the platform `<select>` / `<option>` pairing and adds no grouping
+wrapper, no manual selection role, and no manual focus management —
+the native control is exactly the combobox widget.
+
+| Element    | Role / Property            | Source        |
+| ---------- | -------------------------- | ------------- |
+| `<select>` | implicit `role="combobox"` | Browser       |
+| `<select>` | `aria-label` (the name)    | Consumer prop |
+| `<select>` | `name`                     | Helper        |
+| `<option>` | implicit `role="option"`   | Browser       |
+| `<option>` | selected state (implicit)  | Browser       |
+
+The helpers do not add ARIA where native semantics already cover the
+need. There is no `aria-pressed`, no `aria-checked`, and no manual
+focus management — the native `<select>` behaviour is the platform
+combobox.
+
+The active state is exposed through independent channels, so no
+colour-only meaning is required: the selected `<option>` in the
+`<select>`, the `data-*` attribute the helper writes on the document
+root (`data-theme`, or `lang` / `dir` for the locale helper), and
+the `value` model signal.
+
+## Keyboard contract
+
+Provided entirely by the platform's native `<select>`:
+
+| Key               | Action                                        |
+| ----------------- | --------------------------------------------- |
+| `Tab`             | Move focus to the select (one stop).          |
+| `Shift+Tab`       | Move focus away from the select.              |
+| `Arrow Down`      | Select the next option.                       |
+| `Arrow Up`        | Select the previous option.                   |
+| `Home` / `End`    | Select the first / last option.               |
+| Typeahead         | Type characters to jump to a matching option. |
+| `Enter` / `Space` | Open the option list (platform-dependent).    |
+| `Escape`          | Close the option list.                        |
+
 ## Angular-specific gotchas
 
 ### `[attr.aria-label]` vs `aria-label`
@@ -25,45 +67,42 @@ is the literal string `""` or the literal string `"null"`.
 
 ```html
 <!-- Correct -->
-<fieldset role="radiogroup" [attr.aria-label]="label() || null">
+<select [attr.aria-label]="label() || null">
 
 <!-- Incorrect — emits aria-label="" or aria-label="null" -->
-<fieldset role="radiogroup" aria-label="{{ label() }}">
+<select aria-label="{{ label() }}">
 ```
 
 The signal-input form returns a literal `string` (not `string |
 undefined`) when the input is required, but the `|| null` guard
 protects against an unset optional input case.
 
-### `[disabled]` and `[checked]`
+### `[disabled]` and `[selected]`
 
-Use the property bindings (`[checked]`, `[disabled]`) rather than
-the attribute bindings (`[attr.checked]`, `[attr.disabled]`) for
+Use the property bindings (`[selected]`, `[disabled]`) rather than
+the attribute bindings (`[attr.selected]`, `[attr.disabled]`) for
 boolean DOM properties. The property form correctly toggles the
-runtime state without leaving stale attributes in the DOM.
+runtime state without leaving stale attributes in the DOM. The
+native `<select>` already reflects the selected option from its
+own `value`, so an explicit per-option binding is rarely needed:
 
 ```html
-<input
-  type="radio"
-  [name]="name()"
-  [value]="theme"
-  [checked]="value() === theme"
-/>
+<option [value]="theme">{{ labelFor(theme) }}</option>
 ```
 
 ### `host` bindings vs root element bindings
 
 Angular forwards `class`, `style`, and `(event)` bindings declared
-on the host element (`<lily-theme-picker>`) onto a host node, not
-onto the inner `<fieldset>` the helper renders. This means a
-consumer who writes `<lily-theme-picker class="my-extra">` ends up
+on the host element (`<lily-theme-select>`) onto a host node, not
+onto the inner `<select>` the helper renders. This means a
+consumer who writes `<lily-theme-select class="my-extra">` ends up
 with `class="my-extra"` on the *outer* host node, not on the
-fieldset. To get a single class hook the consumer can style, the
+select. To get a single class hook the consumer can style, the
 helpers expose a `className` input that the consumer threads through
-to the inner fieldset:
+to the inner select:
 
 ```html
-<lily-theme-picker [className]="'my-extra'" ... />
+<lily-theme-select [className]="'my-extra'" ... />
 ```
 
 This is the Angular equivalent of Vue's `inheritAttrs`-driven
@@ -84,20 +123,21 @@ a multi-item navigation that needs it, set it via an `[attr.aria-current]`
 binding inside your own template (or inside a custom slot, when one
 exists).
 
-### `lang` and `dir` on inner labels
+### `lang` and `dir` on inner options
 
-The `LocalePicker`'s default template carries `[attr.lang]="tagFor(locale)"`
-on each `<label>` so screen readers switch pronunciation per option.
+The `LocaleSelect`'s default template carries `[attr.lang]="tagFor(locale)"`
+on each `<option>` so screen readers switch pronunciation per option.
 A custom template (when the helpers gain `ng-template`/`ng-content`
 slots) must preserve this; the `tagFor` helper is part of the public
 contract for that reason.
 
 ## Keyboard
 
-Native `<input type="radio">` provides Tab / Shift+Tab / Arrow /
-Space / Home / End for free. None of the helpers add keyboard
-handlers; if a future helper drops the native radios, the consumer
-becomes responsible for keyboard behaviour.
+The native `<select>` provides Tab / Shift+Tab / Arrow Down / Arrow
+Up / Home / End / typeahead / Enter / Space / Escape for free. None
+of the helpers add keyboard handlers; if a future helper drops the
+native `<select>`, the consumer becomes responsible for keyboard
+behaviour.
 
 ## Focus management
 
@@ -107,9 +147,9 @@ On Input). When wiring `(themeChange)` to navigation (`router.navigate`,
 imperative `Router.navigateByUrl`), preserve scroll position and
 avoid focus jumps.
 
-## Screen-reader pronunciation (locale picker)
+## Screen-reader pronunciation (locale select)
 
-Each `<label>` carries `lang="…"` so screen readers switch
+Each `<option>` carries `lang="…"` so screen readers switch
 pronunciation per option (WCAG 3.1.2, Language of Parts). Custom
 rendering must keep this attribute on the rendered element.
 

@@ -1,44 +1,45 @@
 # Accessibility — ThemeSelect (Svelte)
 
-The picker targets WCAG 2.2 AAA and follows the WAI-ARIA Authoring
-Practices 1.2 Radio Group pattern. This file is the Svelte 5 view of
-the contract; the canonical contract is in
+The picker targets WCAG 2.2 AAA and uses a native HTML `<select>`,
+which carries the WAI-ARIA `combobox` semantics for free. This file
+is the Svelte 5 view of the contract; the canonical contract is in
 [`../spec.md`](../spec.md) §6.
 
 ## Roles and properties
 
-| Element                       | Role / Property            | Source        |
-| ----------------------------- | -------------------------- | ------------- |
-| `<fieldset>`                  | `role="radiogroup"`        | Picker        |
-| `<fieldset>`                  | `aria-label={label}`       | Consumer prop |
-| `<input type="radio">`        | implicit `role="radio"`    | Browser       |
-| `<input type="radio">`        | `aria-checked` (implicit)  | Browser       |
-| `<input type="radio">` × N    | shared `name`              | Picker        |
+| Element        | Role / Property            | Source        |
+| -------------- | -------------------------- | ------------- |
+| `<select>`     | implicit `role="combobox"` | Browser       |
+| `<select>`     | `aria-label={label}`       | Consumer prop |
+| `<select>`     | `name`                     | Picker        |
+| `<option>`     | implicit `role="option"`   | Browser       |
+| `<option>`     | selected state (implicit)  | Browser       |
 
 The picker does not add ARIA where native semantics already cover
-the need. There is no `aria-pressed`, no roving tabindex, no manual
-focus management — the native radio behaviour is exactly the
-WAI-ARIA Authoring Practices pattern.
+the need. There is no `aria-pressed`, no manual focus management —
+the native `<select>` behaviour is exactly the platform combobox.
 
 ## Keyboard contract
 
-Provided entirely by the platform's native radio inputs:
+Provided entirely by the platform's native `<select>`:
 
-| Key                | Action                                            |
-| ------------------ | ------------------------------------------------- |
-| `Tab`              | Move focus into / out of the group (one stop).    |
-| `Shift+Tab`        | Move focus backwards out of the group.            |
-| `Arrow Down/Right` | Move selection to the next option.                |
-| `Arrow Up/Left`    | Move selection to the previous option.            |
-| `Space`            | Re-select the focused option (rarely needed).     |
-| `Home` / `End`     | Move to first / last option (most browsers).      |
+| Key                  | Action                                            |
+| -------------------- | ------------------------------------------------- |
+| `Tab`                | Move focus to the select (one stop).              |
+| `Shift+Tab`          | Move focus away from the select.                  |
+| `Arrow Down`         | Select the next option.                           |
+| `Arrow Up`           | Select the previous option.                       |
+| `Home` / `End`       | Select the first / last option.                   |
+| Typeahead            | Type characters to jump to a matching option.     |
+| `Enter` / `Space`    | Open the option list (platform-dependent).        |
+| `Escape`             | Close the option list.                            |
 
 ## State signals
 
 The active state is exposed in three independent channels — no
 colour-only meaning is required:
 
-1. `aria-checked` on the selected radio.
+1. The selected `<option>` in the `<select>`.
 2. `data-theme="<slug>"` on the target element (default `<html>`).
 3. The `value` prop (bound via `bind:value`).
 
@@ -64,20 +65,19 @@ transitions on the `data-theme` swap.
 
 ## Screen-reader smoke test
 
-- VoiceOver (macOS) announces the group as "{label}, radio group"
-  and each option as "{labelFor(slug)}, radio button, selected /
-  not selected".
-- NVDA announces "{label} grouping" and each option similarly.
+- VoiceOver (macOS) announces the control as "{label}, pop-up
+  button" and each option as "{labelFor(slug)}, selected / N of M".
+- NVDA announces "{label} combo box" and each option similarly.
 - Selection changes are announced because the underlying control
-  state (checked) changes.
+  value changes.
 
 ## Common mistakes to avoid
 
-- **Replacing the fieldset with a div in custom-rendering.** The
-  `children` snippet renders inside the fieldset; do not wrap a div
-  *around* the picker if you need group semantics.
-- **Hiding the radio inputs with `display: none`.** That removes
-  them from the accessibility tree. Use a visually-hidden pattern
+- **Replacing the `<select>` with a div in custom-rendering.** The
+  `children` snippet renders inside the `<select>`; do not wrap a div
+  *around* the picker if you need combobox semantics.
+- **Hiding the `<select>` with `display: none`.** That removes it
+  from the accessibility tree. Use a visually-hidden pattern
   (`clip-path: inset(50%)` or the `.sr-only` recipe) instead.
 - **Forgetting to translate `themeLabels`.** The picker only knows
   what the consumer tells it; locale-aware copy is the consumer's
@@ -91,8 +91,8 @@ transitions on the `data-theme` swap.
   twice (e.g. once as a baked-in attribute and once through
   `restProps`); the spread wins by template-attribute order.
 - When a consumer scopes the picker via a `children` snippet, the
-  fieldset and its `role="radiogroup"` + `aria-label` still apply.
-  The snippet replaces the **inside**, not the wrapping group.
+  `<select>` and its `aria-label` still apply. The snippet replaces
+  the **inside** (the options), not the wrapping control.
 - `{@render children(args)}` is not a live region. If a consumer's
   snippet needs to announce "Theme changed to Dark", they have to
   write the live region themselves.
@@ -103,10 +103,9 @@ transitions on the `data-theme` swap.
 const { container } = render(ThemeSelect, {
     props: { label: "Theme", themesUrl: "/t/", themes: ["light", "dark"] },
 });
-const root = container.querySelector("fieldset");
-expect(root!.getAttribute("role")).toBe("radiogroup");
+const root = container.querySelector("select");
 expect(root!.getAttribute("aria-label")).toBe("Theme");
-expect(container.querySelectorAll('input[type="radio"]')).toHaveLength(2);
+expect(container.querySelectorAll("option")).toHaveLength(2);
 ```
 
 For broader a11y testing run axe-core in a real Svelte host. See
@@ -115,8 +114,8 @@ for the catalog-wide guidance.
 
 ## References
 
-- WAI-ARIA APG — Radio Group pattern:
-  <https://www.w3.org/WAI/ARIA/apg/patterns/radio/>
+- WAI-ARIA APG — Combobox pattern:
+  <https://www.w3.org/WAI/ARIA/apg/patterns/combobox/>
 - WCAG 2.2 AAA quick reference:
   <https://www.w3.org/WAI/WCAG22/quickref/?levels=aaa>
 - WCAG 1.4.1 Use of Color:

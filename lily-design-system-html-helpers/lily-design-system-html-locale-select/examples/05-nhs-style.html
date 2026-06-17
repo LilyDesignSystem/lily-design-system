@@ -1,0 +1,154 @@
+<!doctype html>
+<!--
+    Example 5 — NHS UK-style language banner.
+
+    Mirrors the NHS UK Design System's pattern of placing a language
+    chooser in a top utility banner. The banner uses native button-
+    group markup but with the `locale-select` kebab-case class hook
+    so consumer CSS can target it without duplication.
+
+    Endonyms (each language in its own script) are passed via the
+    locale-labels attribute. The select still owns lang / dir
+    application on the document root.
+
+    Note: locale-select.ts may need compilation to .js — adjust the
+    <script src=…> per your build output.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>locale-select — NHS-style banner</title>
+    <script type="module" src="../../locale-select.js"></script>
+    <style>
+        :root {
+            --nhs-blue: #005eb8;
+            --nhs-dark-blue: #003087;
+            --nhs-white: #ffffff;
+            --nhs-grey-1: #4c6272;
+            --nhs-grey-5: #f0f4f5;
+            --nhs-yellow: #ffeb3b;
+            --nhs-warm-yellow: #ffb81c;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: "Frutiger W01", Arial, sans-serif;
+            margin: 0;
+            background: var(--nhs-grey-5);
+        }
+        .utility-banner {
+            background: var(--nhs-dark-blue);
+            color: var(--nhs-white);
+            padding: 0.5rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .utility-banner-brand {
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+        .utility-banner .locale-select {
+            border: 0;
+            margin: 0;
+            padding: 0;
+            display: contents;
+        }
+        .nhs-locale-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+        }
+        .nhs-locale-list button {
+            font: inherit;
+            background: transparent;
+            color: var(--nhs-white);
+            border: 2px solid transparent;
+            padding: 0.25rem 0.75rem;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .nhs-locale-list button[aria-pressed="true"] {
+            background: var(--nhs-white);
+            color: var(--nhs-dark-blue);
+        }
+        .nhs-locale-list button:focus-visible {
+            outline: 3px solid var(--nhs-warm-yellow);
+            outline-offset: 2px;
+        }
+        main {
+            padding: 2rem 1.5rem;
+            max-inline-size: 50rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="utility-banner" aria-label="Site utilities">
+        <span class="utility-banner-brand">NHS</span>
+        <nhs-locale-select
+            label="Language"
+            locales="en,cy,gd,ga,fr,pl,ur,bn,zh-Hant"
+            locale-labels='{"en":"English","cy":"Cymraeg","gd":"Gàidhlig","ga":"Gaeilge","fr":"Français","pl":"Polski","ur":"اردو","bn":"বাংলা","zh-Hant":"繁體中文"}'
+            storage-key="nhs-locale"
+            class="utility-banner-languages"
+        ></nhs-locale-select>
+    </header>
+
+    <main>
+        <h1>Welcome</h1>
+        <p>Current locale: <code id="out">en</code></p>
+    </main>
+
+    <script type="module">
+        import { LocaleSelect, defaultLocaleLabels } from "../../locale-select.js";
+
+        class NhsLocaleSelect extends LocaleSelect {
+            connectedCallback() {
+                super.connectedCallback();
+                this._rerender();
+            }
+            attributeChangedCallback(name, oldVal, newVal) {
+                super.attributeChangedCallback(name, oldVal, newVal);
+                if (name === "value" || name === "locales" || name === "locale-labels") {
+                    this._rerender();
+                }
+            }
+            _rerender() {
+                const select = this.querySelector("select.locale-select");
+                if (!select) return;
+                // Replace the default <select> with a list of buttons.
+                select.hidden = true;
+                this.querySelector(".nhs-locale-list")?.remove();
+                const ul = document.createElement("ul");
+                ul.className = "nhs-locale-list";
+                ul.setAttribute("role", "list");
+                const labels = this.localeLabels;
+                for (const locale of this.locales) {
+                    const li = document.createElement("li");
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.setAttribute("aria-pressed", String(this.value === locale));
+                    btn.setAttribute("lang", locale.replace(/_/g, "-"));
+                    btn.textContent =
+                        labels[locale] ?? defaultLocaleLabels[locale] ?? locale;
+                    btn.addEventListener("click", () => { this.value = locale; });
+                    li.appendChild(btn);
+                    ul.appendChild(li);
+                }
+                this.appendChild(ul);
+            }
+        }
+        customElements.define("nhs-locale-select", NhsLocaleSelect);
+
+        await customElements.whenDefined("nhs-locale-select");
+        document
+            .querySelector("nhs-locale-select")
+            .addEventListener("localechange", (e) => {
+                document.querySelector("#out").textContent = e.detail.locale;
+            });
+    </script>
+</body>
+</html>

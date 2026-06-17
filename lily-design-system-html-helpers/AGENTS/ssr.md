@@ -77,23 +77,23 @@ module.exports = {
 <html lang="en" data-theme="{{ theme.defaultTheme }}">
     <head>
         <link rel="stylesheet" href="/assets/themes/{{ theme.defaultTheme }}.css">
-        <script type="module" src="/dist/theme-picker.js"></script>
+        <script type="module" src="/dist/theme-select.js"></script>
     </head>
     <body>
         {{ content | safe }}
-        <theme-picker
+        <theme-select
             label="Theme"
             themes-url="/assets/themes/"
             themes="{{ theme.available | join(',') }}"
             value="{{ theme.defaultTheme }}"
             storage-key="lily-theme"
-        ></theme-picker>
+        ></theme-select>
     </body>
 </html>
 ```
 
 The static HTML arrives with `<html data-theme="light">` and the
-matching `<link>` in `<head>`. The picker upgrades on hydration,
+matching `<link>` in `<head>`. The select upgrades on hydration,
 takes over the lifecycle, and reads back `localStorage` on
 subsequent visits.
 
@@ -109,23 +109,23 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
 <html lang="en" data-theme={theme}>
     <head>
         <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
-        <script type="module" src="/scripts/theme-picker.js"></script>
+        <script type="module" src="/scripts/theme-select.js"></script>
     </head>
     <body>
-        <theme-picker
+        <theme-select
             label="Theme"
             themes-url="/assets/themes/"
             themes="light,dark,abyss"
             value={theme}
             storage-key="lily-theme"
-        ></theme-picker>
+        ></theme-select>
         <slot />
     </body>
 </html>
 ```
 
-Astro renders the literal `<theme-picker>` tag with its attributes;
-the picker upgrades on the client. Because the attributes already
+Astro renders the literal `<theme-select>` tag with its attributes;
+the select upgrades on the client. Because the attributes already
 encode the resolved value, the upgrade is invisible — no flash.
 
 ## Hugo
@@ -137,15 +137,15 @@ Hugo's templates inline data the same way:
 <html lang="en" data-theme="{{ .Site.Params.defaultTheme | default "light" }}">
     <head>
         <link rel="stylesheet" href="/assets/themes/{{ .Site.Params.defaultTheme | default "light" }}.css">
-        <script type="module" src="/dist/theme-picker.js"></script>
+        <script type="module" src="/dist/theme-select.js"></script>
     </head>
     <body>
-        <theme-picker
+        <theme-select
             label="Theme"
             themes-url="/assets/themes/"
             themes="light,dark,abyss"
             value="{{ .Site.Params.defaultTheme | default "light" }}"
-        ></theme-picker>
+        ></theme-select>
     </body>
 </html>
 ```
@@ -155,17 +155,17 @@ Hugo's templates inline data the same way:
 ```njk
 <html lang="{{ locale.tag }}" dir="{{ locale.dir }}">
     <body>
-        <locale-picker
+        <locale-select
             label="Language"
             locales="en,fr,ar"
             value="{{ locale.code }}"
             storage-key="lily-locale"
-        ></locale-picker>
+        ></locale-select>
     </body>
 </html>
 ```
 
-The pre-rendered `<html lang dir>` arrives correct. The picker
+The pre-rendered `<html lang dir>` arrives correct. The select
 hydrates without changing anything visible.
 
 ## Plain HTML (no SSG)
@@ -178,21 +178,21 @@ file:
 <html lang="en" data-theme="light">
     <head>
         <link rel="stylesheet" href="/assets/themes/light.css">
-        <script type="module" src="/dist/theme-picker.js"></script>
+        <script type="module" src="/dist/theme-select.js"></script>
     </head>
     <body>
-        <theme-picker
+        <theme-select
             label="Theme"
             themes-url="/assets/themes/"
             themes="light,dark,abyss"
-        ></theme-picker>
+        ></theme-select>
     </body>
 </html>
 ```
 
 This is the simplest deployment path; flicker-free first paint
 requires that the inline `<html data-theme="light">` matches the
-default theme the picker will resolve.
+default theme the select will resolve.
 
 ## Hydration mismatch (avoided by construction)
 
@@ -201,10 +201,10 @@ inflate (`connectedCallback` runs once on first attach). The result
 is no virtual-DOM diffing and no hydration warning.
 
 The only "mismatch" possible is visual: the pre-rendered HTML
-includes `<html data-theme="light">` but the picker resolves
+includes `<html data-theme="light">` but the select resolves
 `localStorage["theme"] === "dark"` on first visit. The result is
 one frame of `light` followed by a re-paint to `dark`. Fix by
-having the consumer pre-resolve the same value the picker will
+having the consumer pre-resolve the same value the select will
 read (cookie, build-time data, etc.).
 
 ## Why not declarative shadow DOM
@@ -218,7 +218,7 @@ attributes is simpler and works in every SSG.
 
 ## What "SSG" effectively delivers
 
-- Search-engine-crawlable markup including the `<theme-picker>` host.
+- Search-engine-crawlable markup including the `<theme-select>` host.
 - Browser-default rendering even if the JS bundle fails to load
   (the host is empty, but the rest of the page is untouched).
 - A deterministic initial state (the attributes the SSG wrote).
@@ -228,8 +228,8 @@ attributes is simpler and works in every SSG.
 
 ## Why not auto-resolve from the request
 
-The picker is transport-agnostic. Cookies, headers, and URL
+The select is transport-agnostic. Cookies, headers, and URL
 parameters are all valid transports; the right answer depends on
 the host (Eleventy is build-time, Astro can be dynamic, Hugo is
-strictly static). The picker accepts the resolved value via an
+strictly static). The select accepts the resolved value via an
 attribute and lets the SSG wire the integration.

@@ -43,15 +43,15 @@ calls `onChange(slug)`. SSR-safe — all DOM writes happen inside
 
 ## HTML
 
-`<fieldset class="theme-select {class}" role="radiogroup" aria-label="{label}">`
-with one native `<input type="radio">` per slug. Custom rendering via
+`<select class="theme-select {class}" aria-label="{label}" name="{name}">`
+with one native `<option>` per slug. Custom rendering via
 the `children` snippet receiving `{ themes, value, setTheme, name, labelFor }`.
 
 ## Accessibility
 
 - WCAG 2.2 AAA target.
-- Native radio inputs provide Arrow / Space / Tab semantics.
-- `aria-label` carries the consumer-supplied group name.
+- The native `<select>` provides Arrow / Home / End / typeahead semantics.
+- `aria-label` carries the consumer-supplied accessible name.
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
 

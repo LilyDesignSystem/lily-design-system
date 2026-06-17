@@ -33,8 +33,8 @@ Out of scope:
 
 | Helper | Purpose |
 | ------ | ------- |
-| [`lily-design-system-react-theme-picker`](./lily-design-system-react-theme-picker/) | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence. |
-| [`lily-design-system-react-locale-picker`](./lily-design-system-react-locale-picker/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-react-theme-select`](./lily-design-system-react-theme-select/) | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence. |
+| [`lily-design-system-react-locale-select`](./lily-design-system-react-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
 
 ## 4. Conventions
 
@@ -61,7 +61,7 @@ Every helper subproject follows the same shape:
 
 ## 6. Acceptance criteria
 
-- [x] Catalog ships `theme-picker` and `locale-picker` helper subprojects.
+- [x] Catalog ships `theme-select` and `locale-select` helper subprojects.
 - [x] Each helper has its component source, tests, `spec.md`, and package.json.
 - [x] Each helper is headless (no bundled CSS/fonts/icons) and i18n-clean.
 - [x] Catalog dir has `index.md`, `README.md` symlink, `AGENTS.md`,

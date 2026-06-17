@@ -50,14 +50,14 @@ it("§7.12 localeName looks up the English name", () => {
 ## Standard render
 
 ```ts
-it("§7.1 renders a fieldset with role=radiogroup", async () => {
+it("§7.1 renders a select", async () => {
     const { container } = render(LocaleSelect, {
         props: { label: "Language", locales: ["en", "fr"] },
     });
     await tick();
-    const root = container.querySelector("fieldset");
+    const root = container.querySelector("select");
     expect(root).not.toBeNull();
-    expect(root!.getAttribute("role")).toBe("radiogroup");
+    expect(root!.getAttribute("aria-label")).toBe("Language");
 });
 ```
 
@@ -71,18 +71,19 @@ expect(document.documentElement.dir).toBe("rtl");
 ## Asserting per-option `lang`
 
 ```ts
-const labels = container.querySelectorAll("label.locale-select-option");
-expect(labels[0].getAttribute("lang")).toBe("en");
-expect(labels[1].getAttribute("lang")).toBe("fr-CA");
+const options = container.querySelectorAll("option.locale-select-option");
+expect(options[0].getAttribute("lang")).toBe("en");
+expect(options[1].getAttribute("lang")).toBe("fr-CA");
 ```
 
-## Driving a radio change
+## Driving a select change
 
 ```ts
 import { fireEvent } from "@testing-library/svelte";
 
-const fr = container.querySelector('input[value="fr"]') as HTMLInputElement;
-await fireEvent.click(fr);
+const select = container.querySelector("select") as HTMLSelectElement;
+select.value = "fr";
+await fireEvent.change(select);
 expect(document.documentElement.lang).toBe("fr");
 ```
 
@@ -187,7 +188,7 @@ it("renders cleanly under SSR", () => {
             value: "fr",
         },
     });
-    expect(html).toContain('role="radiogroup"');
+    expect(html).toContain("<select");
     expect(html).toContain('aria-label="Language"');
     expect(html).toContain('value="fr"');
 });
@@ -198,14 +199,14 @@ This guarantees no `document.*` access leaked into the render path.
 ## One test per §7 acceptance
 
 Each `it(...)` description starts with the clause number, e.g.
-`it("§7.16 selecting a radio updates lang and dir …", …)`. Keep
+`it("§7.16 selecting an option updates lang and dir …", …)`. Keep
 the naming convention so a reviewer can spot a missing clause.
 
 Section map:
 
 | §7 group        | Test focus                                              |
 | --------------- | ------------------------------------------------------- |
-| 7.1 markup      | DOM contract: fieldset, role, name, value, lang         |
+| 7.1 markup      | DOM contract: select, name, option value, lang          |
 | 7.2 pure helpers| bcp47LocaleTag, isRtlLocale, localeName                 |
 | 7.3 application | target.lang, target.dir, applyDir, onChange             |
 | 7.4 init value  | storage / value / navigator / defaultValue ordering     |

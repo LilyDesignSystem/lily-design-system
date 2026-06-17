@@ -1,0 +1,36 @@
+@*
+    App.razor — Blazor Web App root component.
+
+    Reads the `theme` cookie server-side via IHttpContextAccessor and
+    emits <html data-theme="…"> + the matching <link> so the first paint
+    arrives with the right theme. The resolved value is cascaded down to
+    descendants as InitialTheme.
+
+    No flicker: the select mounts later with Value=InitialTheme and its
+    OnAfterRenderAsync resolves to the same slug, so the apply is a no-op.
+*@
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var cookieTheme = HttpContextAccessor.HttpContext?
+        .Request.Cookies["theme"] ?? "light";
+}
+
+<!DOCTYPE html>
+<html lang="en" data-theme="@cookieTheme">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="@($"/assets/themes/{cookieTheme}.css")"
+          data-lily-theme-select="theme" />
+    <HeadOutlet />
+</head>
+<body>
+    <CascadingValue Value="@cookieTheme" Name="InitialTheme">
+        <Routes @rendermode="InteractiveServer" />
+    </CascadingValue>
+    <script src="_framework/blazor.web.js"></script>
+</body>
+</html>

@@ -10,13 +10,12 @@ Every example assumes:
 
 - Svelte 5 with runes (`$state`, `$props`, `$bindable`, `$effect`).
 - No CSS dependency — the picker is headless. Consumers style the
-  `locale-select`, `locale-select-option`, and
-  `locale-select-option-label` class hooks.
+  `locale-select` and `locale-select-option` class hooks.
 
 | #  | File                                                  | Demonstrates                                                       |
 |----|-------------------------------------------------------|--------------------------------------------------------------------|
-| 1  | [`01-radios.svelte`](./01-radios.svelte)              | Default `<fieldset role="radiogroup">` rendering.                  |
-| 2  | [`02-select.svelte`](./02-select.svelte)              | Native `<select>` dropdown via the children snippet.               |
+| 1  | [`01-radios.svelte`](./01-radios.svelte)              | Default native `<select>` rendering.                              |
+| 2  | [`02-select.svelte`](./02-select.svelte)              | Custom `<select>` markup via the children snippet.                |
 | 3  | [`03-buttons.svelte`](./03-buttons.svelte)            | Toggle-button group with short codes / glyphs and `aria-pressed`.  |
 | 4  | [`04-rtl-demo.svelte`](./04-rtl-demo.svelte)          | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
 | 5  | [`05-nhs-style.svelte`](./05-nhs-style.svelte)        | NHS UK-style language banner with endonyms and a `class` hook.     |
@@ -53,7 +52,7 @@ type ChildArgs = {
     locales: string[];        // The locale codes to render.
     value: string;            // Currently selected code (consumer form).
     setLocale: (code: string) => void; // Apply imperatively.
-    name: string;             // Shared `name` attribute for radios.
+    name: string;             // `name` attribute of the `<select>`.
     labelFor: (code: string) => string; // Display label.
     tagFor: (code: string) => string;   // BCP 47 hyphen form.
     isRtl: (code: string) => boolean;   // RTL detection.

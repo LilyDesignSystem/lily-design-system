@@ -15,7 +15,7 @@ Sibling files in this directory:
 
 The companion headless catalog entry
 (`lily-design-system-svelte-headless/components/ThemeSelect/`) is a pure
-container — fieldset + `role="radiogroup"` + children. This helper is the
+container — a native `<select>` + `<option>` children. This helper is the
 opinionated, reusable counterpart that owns the dynamic loading lifecycle.
 
 ---
@@ -24,7 +24,7 @@ opinionated, reusable counterpart that owns the dynamic loading lifecycle.
 
 Give a Svelte 5 application a drop-in, headless theme picker that:
 
-1. Renders an accessible radio group of available themes.
+1. Renders an accessible native `<select>` of available themes.
 2. **Loads themes dynamically at runtime** from a developer-specified
    directory URL (e.g. `/assets/themes/`).
 3. Applies the chosen theme by injecting / swapping one
@@ -84,20 +84,20 @@ Give a Svelte 5 application a drop-in, headless theme picker that:
 
 | Prop            | Type                                      | Required | Default                  | Purpose |
 | --------------- | ----------------------------------------- | -------- | ------------------------ | ------- |
-| `label`         | `string`                                  | yes      | —                        | Accessible name for the radiogroup. |
+| `label`         | `string`                                  | yes      | —                        | Accessible name for the `<select>`. |
 | `themesUrl`     | `string`                                  | yes      | —                        | Base URL of the themes directory. Trailing `/` is auto-normalised. |
 | `themes`        | `string[]`                                | yes      | —                        | Available theme slugs (e.g. `["light", "dark", "abyss"]`). |
 | `value`         | `string` (bindable)                       | no       | `""`                     | Currently selected theme slug. |
 | `defaultValue`  | `string`                                  | no       | `"light"` if present in `themes`, else first item | Initial theme when nothing else is supplied. |
 | `storageKey`    | `string`                                  | no       | `undefined`              | If set, persist the selection to `localStorage` under this key. |
-| `name`          | `string`                                  | no       | `"theme"`                | `name` attribute shared by the radio inputs. |
+| `name`          | `string`                                  | no       | `"theme"`                | `name` attribute of the `<select>`. |
 | `extension`     | `string`                                  | no       | `".css"`                 | File extension appended to each slug when constructing the URL. |
 | `target`        | `HTMLElement \| null`                     | no       | `document.documentElement` | Element that receives `data-theme`. |
 | `themeLabels`   | `Record<string, string>`                  | no       | `{}`                     | Optional pretty labels per slug. |
-| `children`      | `Snippet<[ChildArgs]>`                    | no       | default radio markup     | Custom rendering of the options. |
+| `children`      | `Snippet<[ChildArgs]>`                    | no       | default `<option>` markup | Custom rendering of the options. |
 | `onChange`      | `(theme: string) => void`                 | no       | `undefined`              | Fires after the picker applies a new theme. |
-| `class`         | `string`                                  | no       | `""`                     | Extra CSS class on the `<fieldset>` root. |
-| `...restProps`  | any HTML `<fieldset>` attributes          | no       | —                        | Spread onto the root. |
+| `class`         | `string`                                  | no       | `""`                     | Extra CSS class on the `<select>` root. |
+| `...restProps`  | any HTML `<select>` attributes            | no       | —                        | Spread onto the root. |
 
 `ChildArgs` shape:
 
@@ -113,12 +113,11 @@ type ChildArgs = {
 
 ### 4.2 DOM contract
 
-- Root element: `<fieldset class="theme-select {class}" role="radiogroup"
-  aria-label="{label}">`.
-- Default children: one `<label class="theme-select-option">` per theme
-  slug containing `<input type="radio" name="{name}" value="{slug}"
-  checked={value === slug}>` followed by
-  `<span class="theme-select-option-label">{labelFor(slug)}</span>`.
+- Root element: `<select class="theme-select {class}" aria-label="{label}"
+  name="{name}">`.
+- Default children: one `<option class="theme-select-option"
+  value="{slug}">{labelFor(slug)}</option>` per theme slug. The option's
+  text content is the label.
 - `labelFor(slug)` returns `themeLabels[slug]` when supplied; otherwise
   the slug with its first character upper-cased (e.g. `"light"` →
   `"Light"`). The picker never emits the word "default".
@@ -140,7 +139,7 @@ type ChildArgs = {
 
 ### 5.1 URL construction
 
-For a theme slug `slug`, the loaded URL is exactly:
+For a theme slug, the loaded URL is exactly:
 
 ```
 normalise(themesUrl) + slug + extension
@@ -206,20 +205,25 @@ Consumers wanting flicker-free first paint pass a server-resolved
 
 ### 6.1 Roles and properties
 
-- `<fieldset>` with `role="radiogroup"` is the announced container.
-- `aria-label={label}` supplies the group name.
-- Native `<input type="radio">` elements get the radio role, checked
-  state, and keyboard semantics for free.
+- The native `<select>` has an implicit `combobox` role and is the
+  announced control.
+- `aria-label={label}` supplies the control's accessible name.
+- Each native `<option>` has an implicit `option` role and gets its
+  selected state and keyboard semantics for free.
 
 ### 6.2 Keyboard contract
 
-Provided by the platform (native radio inputs):
+Provided by the platform (native `<select>`):
 
-| Key            | Action                                           |
-| -------------- | ------------------------------------------------ |
-| `Tab`          | Move focus into / out of the group.              |
-| `Arrow` keys   | Move selection between options inside the group. |
-| `Space`        | Select the focused option (when not already).    |
+| Key                  | Action                                                |
+| -------------------- | ----------------------------------------------------- |
+| `Tab` / `Shift+Tab`  | Move focus to / from the select.                      |
+| `Arrow Down`         | Select the next option.                               |
+| `Arrow Up`           | Select the previous option.                           |
+| `Home` / `End`       | Select the first / last option.                       |
+| Typeahead            | Type characters to jump to a matching option.         |
+| `Enter` / `Space`    | Open the option list (platform-dependent).            |
+| `Escape`             | Close the option list.                                |
 
 ### 6.3 Internationalisation
 
@@ -248,11 +252,11 @@ zero-flicker switching.
 `ThemeSelect.test.ts` must assert every numbered item below. Tests run
 under vitest + jsdom + `@testing-library/svelte`.
 
-1. Renders a `<fieldset>` with `role="radiogroup"`.
+1. Renders a native `<select>` (implicit `combobox` role).
 2. `aria-label` is the supplied `label`.
-3. Renders one radio input per entry in `themes`, sharing the supplied
-   `name` attribute.
-4. Each radio's `value` attribute is the theme slug.
+3. Renders one `<option>` per entry in `themes`; the `<select>` carries
+   the supplied `name` attribute.
+4. Each option's `value` attribute is the theme slug.
 5. The default rendering shows `themeLabels[slug]` when supplied, or
    the slug with its first character upper-cased otherwise (e.g.
    `"light"` → `"Light"`). The word `"default"` never appears.
@@ -263,7 +267,7 @@ under vitest + jsdom + `@testing-library/svelte`.
 7. After mount, a `<link rel="stylesheet"
    data-lily-theme-select="{name}">` exists in `document.head` and its
    `href` equals `${normalise(themesUrl)}${initial}${extension}`.
-8. Selecting a different radio updates the link `href`,
+8. Selecting a different option updates the link `href`,
    `document.documentElement.dataset.theme`, and fires `onChange` with
    the new slug.
 9. When `storageKey` is set, the active slug is written to
@@ -272,7 +276,7 @@ under vitest + jsdom + `@testing-library/svelte`.
     skips storage and defaults and uses the supplied value.
 11. When `themesUrl` does not end with `/`, the constructed URL still
     has exactly one `/` between the directory and the slug.
-12. Extra attributes spread through onto the `<fieldset>` (e.g.
+12. Extra attributes spread through onto the `<select>` (e.g.
     `data-testid`).
 13. A custom `children` snippet is rendered with the `ChildArgs`
     contract.

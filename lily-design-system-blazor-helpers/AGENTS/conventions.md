@@ -43,7 +43,7 @@ namespace LilyDesignSystem.Blazor.Helpers;
 
 No exceptions. A consumer adds one `@using LilyDesignSystem.Blazor.Helpers`
 to a `_Imports.razor` and all helpers are reachable as
-`<ThemePicker …>` / `<LocalePicker …>`.
+`<ThemeSelect …>` / `<LocaleSelect …>`.
 
 ## Partial class shape
 
@@ -162,7 +162,7 @@ Inside the component, write to `Value` and then fire
 `await ValueChanged.InvokeAsync(Value)`. Consumers write:
 
 ```razor
-<ThemePicker @bind-Value="theme" … />
+<ThemeSelect @bind-Value="theme" … />
 ```
 
 ## EventCallback vs Action
@@ -215,14 +215,14 @@ The `*Context` record is a `sealed class` with `required init` fields,
 typed for clarity. Consumers write:
 
 ```razor
-<ThemePicker Label="Theme" ThemesUrl="/t/" Themes="…">
+<ThemeSelect Label="Theme" ThemesUrl="/t/" Themes="…">
     <ChildContent Context="ctx">
         @foreach (var t in ctx.Themes)
         {
             <button @onclick="@(() => ctx.SetTheme(t))">@t</button>
         }
     </ChildContent>
-</ThemePicker>
+</ThemeSelect>
 ```
 
 ## OnAfterRenderAsync
@@ -297,9 +297,9 @@ Everything visual and locale-specific is the consumer's. See
 ## Naming
 
 - Class hooks are kebab-case derivatives of the file name:
-  `theme-picker`, `theme-picker-option`, `theme-picker-option-label`.
+  `theme-select`, `theme-select-option`.
 - Data attributes the consumer / CSS may want to observe use
-  `data-*` (e.g. `data-theme`, `data-lily-theme-picker`).
+  `data-*` (e.g. `data-theme`, `data-lily-theme-select`).
 - Don't introduce new ARIA attributes — use the platform's.
 - C# names are PascalCase; field names are `_camelCase`.
 

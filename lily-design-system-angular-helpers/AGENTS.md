@@ -8,8 +8,8 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-angular-theme-picker`](./lily-design-system-angular-theme-picker/) — dynamic theme CSS loader.
-- [`lily-design-system-angular-locale-picker`](./lily-design-system-angular-locale-picker/) — `lang` + `dir` locale picker.
+- [`lily-design-system-angular-theme-select`](./lily-design-system-angular-theme-select/) — dynamic theme CSS loader.
+- [`lily-design-system-angular-locale-select`](./lily-design-system-angular-locale-select/) — `lang` + `dir` locale picker.
 
 ## Working rules
 

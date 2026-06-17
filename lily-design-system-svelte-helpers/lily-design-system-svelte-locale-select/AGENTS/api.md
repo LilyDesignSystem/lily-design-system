@@ -50,13 +50,13 @@ import LocaleSelect, {
 | `target`              | `HTMLElement \| null`    | no       | `undefined` (resolves to `document.documentElement`) |
 | `applyDir`            | `boolean`                | no       | `true`                                               |
 | `localeLabels`        | `Record<string, string>` | no       | `{}`                                                 |
-| `children`            | `Snippet<[ChildArgs]>`   | no       | default radio markup                                 |
+| `children`            | `Snippet<[ChildArgs]>`   | no       | default `<option>` markup                            |
 | `onChange`            | `(locale: string) => void` | no     | `undefined`                                          |
 | `class`               | `string`                 | no       | `""`                                                 |
 
 `value` is two-way bindable via `bind:value`. Other attributes
 (`id`, `data-*`, event handlers, ARIA overrides) fall through to
-the root `<fieldset>` via the `{...restProps}` spread.
+the root `<select>` via the `{...restProps}` spread.
 
 ## Callbacks
 
@@ -69,7 +69,7 @@ onChange?: (locale: string) => void;
 `onChange` fires every time the picker successfully applies a
 locale:
 
-- after a radio-input change, with the new code,
+- after a `<select>` change, with the new code,
 - once when `$effect` resolves the initial value, with the resolved
   code.
 
@@ -94,7 +94,7 @@ export type ChildArgs = {
     value: string;
     /** Apply a locale imperatively (also writes back to `value`). */
     setLocale: (locale: string) => void;
-    /** Shared `name` attribute for the radio inputs. */
+    /** `name` attribute of the `<select>`. */
     name: string;
     /** Resolve a locale code to its display label. */
     labelFor: (locale: string) => string;
@@ -125,8 +125,8 @@ Consumers consume it via a `{#snippet}` block:
 </LocaleSelect>
 ```
 
-When no snippet is supplied, the picker renders the default radio
-markup documented in `spec.md §4.3`.
+When no snippet is supplied, the picker renders the default
+`<option>` markup documented in `spec.md §4.3`.
 
 ## Pure helpers
 
@@ -166,18 +166,17 @@ without instantiating the picker.
 Root element:
 
 ```html
-<fieldset class="locale-select {class}" role="radiogroup" aria-label="{label}">
+<select class="locale-select {class}" aria-label="{label}" name="{name}">
     <!-- children snippet output, or default markup -->
-</fieldset>
+</select>
 ```
 
 Default option markup (one per `locales` entry):
 
 ```html
-<label class="locale-select-option" lang="{tagFor(locale)}">
-    <input type="radio" name="{name}" value="{locale}" checked={value === locale} />
-    <span class="locale-select-option-label">{labelFor(locale)}</span>
-</label>
+<option class="locale-select-option" value="{locale}" lang="{tagFor(locale)}">
+    {labelFor(locale)}
+</option>
 ```
 
 Document mutations (only inside `$effect`):

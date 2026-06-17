@@ -139,10 +139,10 @@ mirrored CSS:
 
 ## Mixing LTR and RTL on one page
 
-The picker's default rendering already does this: each option's
-`<label>` carries its own `lang` attribute, so the browser's bidi
+The picker's default rendering already does this: each `<option>`
+carries its own `lang` attribute, so the browser's bidi
 algorithm renders "Français" left-to-right and "العربية"
-right-to-left within the same fieldset.
+right-to-left within the same `<select>`.
 
 If you embed user-supplied text whose language you don't know, wrap it
 with a `<bdi>` element. `<bdi>` isolates a span from the surrounding

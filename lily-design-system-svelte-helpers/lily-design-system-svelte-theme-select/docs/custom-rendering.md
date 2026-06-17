@@ -1,8 +1,8 @@
 # Custom rendering
 
-The default `children` is a row of native radio inputs. When you need
-a different visual — swatch buttons, a dropdown, a segmented control,
-a flyout menu — pass your own snippet.
+The default `children` is a set of native `<option>` elements inside
+the `<select>`. When you need a different visual — swatch buttons, a
+segmented control, a flyout menu — pass your own snippet.
 
 ## The ChildArgs contract
 
@@ -45,61 +45,37 @@ picker's `$effect` then performs the four steps in
 ```
 
 `aria-pressed` carries the active state; the picker no longer renders
-radios, so `aria-checked` is gone. The `data-theme` on each button
-lets your CSS preview the swatch colours by hooking into the same
-`:root[data-theme]` cascade.
+a native `<select>` of options, so the implicit option selection is
+gone. The `data-theme` on each button lets your CSS preview the
+swatch colours by hooking into the same `:root[data-theme]` cascade.
 
-### Native `<select>` dropdown
+Note: because the snippet replaces the default `<option>`s, rendering
+non-`<option>` markup means you are no longer inside a native
+`<select>`. If you want button or segmented-control semantics, render
+your custom controls outside the picker and call `setTheme` from a
+wrapper component instead.
 
-```svelte
-<ThemeSelect label="Theme" themesUrl="/assets/themes/" themes={["light", "dark", "abyss"]}>
-  {#snippet children({ themes, value, setTheme, labelFor })}
-    <label class="theme-select-select-label">
-      <select
-        value={value}
-        onchange={(e) => setTheme((e.currentTarget as HTMLSelectElement).value)}
-      >
-        {#each themes as t (t)}
-          <option value={t}>{labelFor(t)}</option>
-        {/each}
-      </select>
-    </label>
-  {/snippet}
-</ThemeSelect>
-```
+### Custom option markup
 
-Note: the outer `<fieldset role="radiogroup">` is still present. If
-you don't want radiogroup semantics, render a `<select>` outside the
-picker and call `setTheme` from a wrapper component instead.
-
-### Custom radio markup
-
-If you want native radio semantics but a custom visual layout:
+If you want the native `<select>` semantics but custom option labels:
 
 ```svelte
 <ThemeSelect label="Theme" themesUrl="/assets/themes/" themes={["light", "dark"]}>
-  {#snippet children({ themes, value, setTheme, name, labelFor })}
+  {#snippet children({ themes, value, labelFor })}
     {#each themes as t (t)}
-      <label class={`my-radio ${value === t ? "is-active" : ""}`}>
-        <input
-          type="radio"
-          {name}
-          value={t}
-          checked={value === t}
-          onchange={() => setTheme(t)}
-        />
-        <span class="my-radio-swatch" aria-hidden="true"></span>
-        <span class="my-radio-label">{labelFor(t)}</span>
-      </label>
+      <option value={t} selected={value === t}>{labelFor(t)}</option>
     {/each}
   {/snippet}
 </ThemeSelect>
 ```
 
+The picker's `<select>` owns the `onchange` handler, so the snippet
+only needs to render `<option>` elements.
+
 ## What the snippet should *not* do
 
 - Don't mutate `document.head` or `data-theme` directly; let the
   picker own that lifecycle.
-- Don't add a competing `name` to your inputs — use the one provided.
-- Don't render outside the `<fieldset>`; the picker assumes its
-  children are inside the radiogroup container.
+- Don't render non-`<option>` markup directly inside the picker — the
+  root is a native `<select>`. For a non-`<select>` UI, render your
+  controls outside the picker and call `setTheme` from a wrapper.

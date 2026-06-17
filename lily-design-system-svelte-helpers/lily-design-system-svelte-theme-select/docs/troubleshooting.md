@@ -27,8 +27,8 @@ real file. Check that:
 
 ## "SSR hydration mismatch"
 
-**Likely cause.** The picker rendered on the server with no checked
-radio (because `value` was empty), but on the client the picker's
+**Likely cause.** The picker rendered on the server with no selected
+option (because `value` was empty), but on the client the picker's
 effect resolved a non-empty initial value from `localStorage` or
 `defaultValue`. Svelte logs a hydration warning when the resulting
 DOM differs.

@@ -1,0 +1,34 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+
+@*
+    ThemeSelect — Blazor helper component.
+    Single source of truth: spec.md (§1–§9).
+
+    Renders an accessible native <select> of available themes. On every
+    selection it (1) swaps the href of a managed <link> in <head>,
+    (2) sets data-theme on <html>, (3) optionally persists to
+    localStorage, and (4) invokes OnChange / ValueChanged.
+
+    All DOM writes happen through IJSRuntime inside OnAfterRenderAsync,
+    so the component is SSR / prerender safe.
+*@
+
+<select class="@RootClass"
+        aria-label="@Label"
+        name="@Name"
+        @onchange="OnSelectAsync"
+        @attributes="AdditionalAttributes">
+    @if (ChildContent is not null)
+    {
+        @ChildContent(BuildContext())
+    }
+    else
+    {
+        @foreach (var theme in Themes)
+        {
+            <option class="theme-select-option"
+                    value="@theme"
+                    selected="@(Value == theme)">@LabelFor(theme)</option>
+        }
+    }
+</select>

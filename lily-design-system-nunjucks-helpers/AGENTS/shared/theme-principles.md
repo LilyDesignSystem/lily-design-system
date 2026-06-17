@@ -39,10 +39,10 @@ The theme is exposed as a flat object whose keys flatten into
 Consumer CSS reads `var(--theme-color-primary)`,
 `var(--theme-space-md)`, etc.
 
-## How the Nunjucks theme-picker fits in
+## How the Nunjucks theme-select fits in
 
-The Nunjucks `themePicker` macro emits a fieldset; the companion
-`theme-picker.client.js` writes one signal to the document root: a
+The Nunjucks `themeSelect` macro emits a native `<select>`; the companion
+`theme-select.client.js` writes one signal to the document root: a
 `data-theme="<slug>"` attribute. Theme CSS files scope their rules
 to `:root[data-theme="<slug>"]` so the picker's attribute mutation
 is enough to switch the live theme.
@@ -116,7 +116,7 @@ export default readdirSync(dir)
 ```
 
 ```njk
-{{ themePicker({
+{{ themeSelect({
     label: "Theme",
     themesUrl: "/assets/themes/",
     themes: themes

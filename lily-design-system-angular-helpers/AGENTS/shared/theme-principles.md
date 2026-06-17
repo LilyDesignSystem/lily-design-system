@@ -38,9 +38,9 @@ The theme is exposed as a flat object whose keys flatten into
 Consumer CSS reads `var(--theme-color-primary)`,
 `var(--theme-space-md)`, etc.
 
-## How the Angular theme-picker fits in
+## How the Angular theme-select fits in
 
-The Angular `ThemePicker` helper writes one extra signal to the
+The Angular `ThemeSelect` helper writes one extra signal to the
 document root: a `data-theme="<slug>"` attribute. Theme CSS files
 scope their rules to `:root[data-theme="<slug>"]` so the picker's
 attribute mutation is enough to switch the live theme.
@@ -72,7 +72,7 @@ const initial = prefersDark ? "dark" : "light";
 ```
 
 Pass `initial` as `defaultValue`. See
-`lily-design-system-angular-theme-picker/examples/system-preference.component.ts`.
+`lily-design-system-angular-theme-select/examples/system-preference.component.ts`.
 
 ## Forbidden in the headless layer
 
@@ -132,7 +132,7 @@ contexts without an injection.
 
 A future variant could use `@HostBinding('attr.data-theme')` so the
 attribute lives on the host element rather than on
-`document.documentElement`. The current `ThemePicker` writes to
+`document.documentElement`. The current `ThemeSelect` writes to
 the document root because:
 
 - Theme CSS files conventionally scope to `:root[data-theme="..."]`.
@@ -142,4 +142,4 @@ the document root because:
   `<html data-theme>` server-side.
 
 If a host-bound variant ever ships, it'll live alongside the
-current `ThemePicker` as a separate helper, not as a replacement.
+current `ThemeSelect` as a separate helper, not as a replacement.

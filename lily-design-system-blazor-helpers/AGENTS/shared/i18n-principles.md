@@ -33,7 +33,7 @@ these rules without exception.
   string.
 - Right-to-left and bidirectional text are inherited from the
   consumer's `dir` attribute and CSS — helpers do not assume LTR
-  layout in their structural HTML. The `locale-picker` helper goes
+  layout in their structural HTML. The `locale-select` helper goes
   one step further: it auto-detects the script direction and writes
   `dir="rtl"` / `dir="ltr"` to the document root on every change.
 
@@ -51,7 +51,7 @@ other library. They expose:
   data, navigate to a localised URL, set
   `CultureInfo.DefaultThreadCurrentCulture`).
 
-The locale-picker also writes `<html lang>` and `<html dir>`, which
+The locale-select also writes `<html lang>` and `<html dir>`, which
 many i18n libraries read on initialisation; that integration usually
 needs no extra wiring.
 
@@ -60,7 +60,7 @@ needs no extra wiring.
 ```razor
 @inject IStringLocalizer<SharedResources> Localizer
 
-<LocalePicker
+<LocaleSelect
     Label="@Localizer["chooseLanguage"]"
     Locales="@(new[]{ "en", "fr", "ar" })"
     @bind-Value="locale"
@@ -84,8 +84,8 @@ needs no extra wiring.
 }
 ```
 
-The `Localizer["…"]` calls feed the picker localised labels; the
-picker emits no English (or any other) hardcoded strings.
+The `Localizer["…"]` calls feed the select localised labels; the
+select emits no English (or any other) hardcoded strings.
 
 ### ResX integration
 
@@ -95,7 +95,7 @@ is the per-component `.resx` file. For example, `MyComponent.resx`,
 `MyComponent.razor`. The helpers don't add anything to this story —
 they're consumed by your component, and your component's
 `IStringLocalizer<MyComponent>` injects translated strings into the
-picker's parameters.
+select's parameters.
 
 ### `IDataAnnotationsLocalizationProvider`
 
@@ -104,9 +104,9 @@ messages are localised by `IDataAnnotationsLocalizationProvider`.
 The helpers don't participate in validation — they're presentation,
 not form controls — so this story doesn't apply.
 
-### `CultureInfo` and the locale picker
+### `CultureInfo` and the locale select
 
-The locale picker's `OnChange` is the right hook for switching the
+The locale select's `OnChange` is the right hook for switching the
 CLR culture so `IStringLocalizer<T>` resolves the right resource
 set:
 
@@ -128,13 +128,13 @@ For Blazor WebAssembly culture switching, see
 | `Intl.RelativeTimeFormat` | No direct equivalent; use a NuGet package (e.g. `Humanizer`)    |
 | `Intl.PluralRules`    | `Humanizer.ToWords`, or `IStringLocalizer<T>` with `.resx` plurals |
 
-The locale-picker's `Locales.LocaleName(code)` consults a built-in
+The locale-select's `Locales.LocaleName(code)` consults a built-in
 table; for richer names use `CultureInfo.GetCultureInfo(tag).DisplayName`
 from the consumer's code.
 
 ### Locale negotiation
 
-The locale picker implements a simple two-step exact-then-prefix
+The locale select implements a simple two-step exact-then-prefix
 matcher in `Locales.MatchNavigatorLanguage`. It does not implement
 RFC 4647 best-fit lookup. If you need full RFC 4647 matching, run
 your own resolver and pass the result as `Value`.
@@ -143,7 +143,7 @@ your own resolver and pass the result as `Value`.
 
 The catalog has no `Accept-Language` parsing helper. Blazor servers
 read it via `HttpContext.Request.Headers["Accept-Language"]`; see
-the locale-picker's `docs/ssr.md` for the recipe.
+the locale-select's `docs/ssr.md` for the recipe.
 
 ### What "i18n-clean" looks like in a test
 
@@ -151,11 +151,11 @@ the locale-picker's `docs/ssr.md` for the recipe.
 [Fact]
 public void Has_No_Hardcoded_English_In_Markup()
 {
-    var cut = RenderComponent<LocalePicker>(p => p
+    var cut = RenderComponent<LocaleSelect>(p => p
         .Add(x => x.Label, "Langue")
         .Add(x => x.Locales, new[] { "en", "fr" }));
 
-    Assert.Equal("Langue", cut.Find("fieldset").GetAttribute("aria-label"));
+    Assert.Equal("Langue", cut.Find("select").GetAttribute("aria-label"));
     // The component renders no other natural-language strings of
     // its own — only the locale codes from the built-in table.
 }

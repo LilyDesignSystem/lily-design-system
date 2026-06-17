@@ -6,8 +6,8 @@ common usage.
 
 ## `label` — required, string
 
-`aria-label` on the `<fieldset role="radiogroup">`. Always supplied,
-always translatable. Screen readers announce it as the group's name.
+`aria-label` on the `<select>`. Always supplied, always translatable.
+Screen readers announce it as the control's accessible name.
 
 ## `themesUrl` — required, string
 
@@ -26,7 +26,7 @@ Acceptable values:
 ## `themes` — required, string[]
 
 The slugs of the themes the picker exposes as options. The slug is
-used both as the radio `value` and as the URL path segment when
+used both as the `<option>` `value` and as the URL path segment when
 constructing the stylesheet href. Choose slugs that are safe URL path
 segments — kebab-case ASCII is recommended.
 
@@ -58,7 +58,7 @@ Errors (private mode, quota, disabled storage) are silently swallowed
 
 ## `name` — optional, string — defaults to `"theme"`
 
-The `name` attribute shared by the radio inputs. It also serves as the
+The `name` attribute of the `<select>`. It also serves as the
 discriminator on the managed `<link>` element
 (`data-lily-theme-select="{name}"`), so multiple pickers can coexist
 by giving each a distinct `name`.
@@ -90,7 +90,8 @@ analytics, server sync, or notifying sibling components.
 
 ## `children` — optional, Snippet<[ChildArgs]>
 
-Custom rendering of the options. The snippet receives:
+Custom rendering of the options (custom `<option>` elements by
+default). The snippet receives:
 
 ```ts
 type ChildArgs = {
@@ -106,10 +107,10 @@ See [custom-rendering.md](./custom-rendering.md) for patterns.
 
 ## `class` — optional, string
 
-Extra CSS class hook on the `<fieldset>`. Always emitted after
+Extra CSS class hook on the `<select>`. Always emitted after
 `"theme-select"`, so consumer styles can use either selector.
 
-## `...restProps` — any `<fieldset>` attributes
+## `...restProps` — any `<select>` attributes
 
 Spread onto the root. Use to attach `data-*`, `id`, event handlers,
 and ARIA overrides.

@@ -11,7 +11,7 @@ decision.
 
 - Choose the most specific semantic HTML element that fits
   (`<button>`, `<dialog>`, `<details>`, `<nav>`, `<article>`,
-  `<figure>`, `<fieldset>`, etc.) before reaching for `<div>` or
+  `<figure>`, `<select>`, etc.) before reaching for `<div>` or
   `<span>`. The canonical HTML tag for each helper is fixed in its
   `spec.md` "DOM contract" section.
 - The first attribute on the root element is always the kebab-case
@@ -19,8 +19,8 @@ decision.
   consumer CSS can target any helper with one selector. No
   additional component-defined classes appear on the root unless
   the spec calls them out.
-- Inner sub-classes (e.g. `theme-picker-option`,
-  `locale-picker-option-label`) are kebab-case derivatives of the
+- Inner sub-classes (e.g. `theme-select-option`,
+  `locale-select-option`) are kebab-case derivatives of the
   base class. Sub-classes are stable contracts: consumers can rely
   on them, so don't rename or remove them between versions.
 - Angular has no implicit attribute-spread. Each helper accepts the
@@ -79,7 +79,7 @@ decision.
 - `data-*` attributes are used for state that the consumer's CSS or
   JS may want to observe — e.g. `data-visible`, `data-active`,
   `data-step-index`, `data-currency-code`, `data-width`,
-  `data-remaining-seconds`, `data-theme`, `data-lily-theme-picker`.
+  `data-remaining-seconds`, `data-theme`, `data-lily-theme-select`.
   Use `data-*` rather than inventing new ARIA attributes when a
   state is for the consumer, not assistive technology.
 

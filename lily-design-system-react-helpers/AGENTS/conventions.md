@@ -11,14 +11,14 @@ extend or override specific items.
 
 import * as React from "react";
 
-export type ChildArgs = { /* picker-specific contract */ };
+export type ChildArgs = { /* select-specific contract */ };
 
 export type Props = Omit<
-    React.FieldsetHTMLAttributes<HTMLFieldSetElement>,
+    React.SelectHTMLAttributes<HTMLSelectElement>,
     "onChange" | "children"
 > & {
     label: string;
-    /* picker-specific props */
+    /* select-specific props */
     value?: string;
     defaultValue?: string;
     onChange?: (next: string) => void;
@@ -26,7 +26,7 @@ export type Props = Omit<
     className?: string;
 };
 
-export function MyPicker({
+export function MySelect({
     label,
     value,
     defaultValue,
@@ -37,18 +37,17 @@ export function MyPicker({
 }: Props): React.ReactElement {
     // hooks, helpers, effects...
     return (
-        <fieldset
-            className={`my-picker ${className}`.trim()}
-            role="radiogroup"
+        <select
+            className={`my-select ${className}`.trim()}
             aria-label={label}
             {...restProps}
         >
-            {/* children or default radio markup */}
-        </fieldset>
+            {/* children or default <option> markup */}
+        </select>
     );
 }
 
-export default MyPicker;
+export default MySelect;
 ```
 
 ## "use client" directive
@@ -58,8 +57,8 @@ practice) starts with the `"use client"` directive so it runs as a
 client component under the Next.js App Router and other React Server
 Component frameworks.
 
-Pure helper modules (e.g. `bcp47LocaleTag` in `LocalePicker.tsx` or
-`themeHref` in `ThemePicker.tsx`) live in the same `.tsx` file
+Pure helper modules (e.g. `bcp47LocaleTag` in `LocaleSelect.tsx` or
+`themeHref` in `ThemeSelect.tsx`) live in the same `.tsx` file
 because they are exported alongside the component. They are still
 safe to import from a server component because importing them does
 not pull in the rest of the file's runtime — the React 19 bundler
@@ -110,7 +109,7 @@ the state machine.
 ```tsx
 {children
     ? children({ /* ChildArgs */ })
-    : /* default radio markup */ }
+    : /* default <option> markup */ }
 ```
 
 `ChildArgs` always carries at minimum:
@@ -121,7 +120,7 @@ the state machine.
 - The shared `name` attribute.
 - A `labelFor(item)` resolver.
 
-Picker-specific helpers (e.g. `tagFor`, `isRtl` for LocalePicker)
+Select-specific helpers (e.g. `tagFor`, `isRtl` for LocaleSelect)
 are added as needed.
 
 ## Effects
@@ -167,14 +166,14 @@ retroactively.
 
 ## Rest-prop spread
 
-The root `<fieldset>` always carries:
+The root `<select>` always carries:
 
 1. `className="{kebab-base} {consumerClass}"`.
-2. `role="radiogroup"`.
-3. `aria-label={label}`.
+2. `aria-label={label}`.
+3. `name={name}`.
 4. Whatever else the consumer spreads via `...restProps`.
 
-`restProps` is typed as `Omit<FieldsetHTMLAttributes, "onChange" |
+`restProps` is typed as `Omit<SelectHTMLAttributes, "onChange" |
 "children">` because the helper takes those two slots for its own
 contract.
 
@@ -202,9 +201,9 @@ contract.
 `index.ts` mirrors the Svelte helpers' barrel pattern:
 
 ```ts
-export { MyPicker, /* pure helpers */ } from "./MyPicker.js";
-export type { Props, ChildArgs } from "./MyPicker.js";
-export { default } from "./MyPicker.js";
+export { MySelect, /* pure helpers */ } from "./MySelect.js";
+export type { Props, ChildArgs } from "./MySelect.js";
+export { default } from "./MySelect.js";
 ```
 
 The `.js` extension is the canonical ESM resolution form; bundlers

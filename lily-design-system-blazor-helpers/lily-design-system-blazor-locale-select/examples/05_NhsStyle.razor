@@ -1,0 +1,66 @@
+@*
+    05. NHS UK-style language banner.
+
+    Mirrors the NHS UK Design System's pattern of placing a language
+    chooser in a top utility banner. The banner uses native button-
+    group markup but with the `locale-select` class hook so consumer
+    CSS can target it without duplication.
+
+    Outcome: a <header> banner with the select rendered as a horizontal
+    button list. Each entry shows the language in its own script.
+*@
+
+@page "/examples/locale-select/nhs-style"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<header class="utility-banner" aria-label="Site utilities">
+    <span>NHS</span>
+
+    <LocaleSelect
+        Label="Language"
+        Locales="@(new[] { "en", "cy", "gd", "ga", "fr", "pl", "ur", "bn", "zh_Hant" })"
+        LocaleLabels="@NATIVE"
+        @bind-Value="locale"
+        StorageKey="nhs-locale"
+        CssClass="utility-banner-languages">
+        <ChildContent Context="ctx">
+            <ul class="locale-select-list" role="list">
+                @foreach (var l in ctx.Locales)
+                {
+                    <li>
+                        <button type="button"
+                                aria-pressed="@(ctx.Value == l)"
+                                lang="@ctx.TagFor(l)"
+                                @onclick="@(async () => await ctx.SetLocale(l))">
+                            @ctx.LabelFor(l)
+                        </button>
+                    </li>
+                }
+            </ul>
+        </ChildContent>
+    </LocaleSelect>
+</header>
+
+<main lang="@locale.Replace("_", "-")">
+    <h1>Welcome</h1>
+    <p>Current locale: <code>@locale</code></p>
+</main>
+
+@code {
+    private string locale = "en";
+
+    // Endonyms — each language in its own script.
+    private static readonly Dictionary<string, string> NATIVE = new()
+    {
+        ["en"] = "English",
+        ["cy"] = "Cymraeg",
+        ["gd"] = "Gàidhlig",
+        ["ga"] = "Gaeilge",
+        ["fr"] = "Français",
+        ["pl"] = "Polski",
+        ["ur"] = "اردو",
+        ["bn"] = "বাংলা",
+        ["zh_Hant"] = "繁體中文",
+    };
+}

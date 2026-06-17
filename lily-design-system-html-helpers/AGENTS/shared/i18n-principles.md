@@ -33,7 +33,7 @@ these rules without exception.
   : "item"` logic; they accept the rendered string.
 - Right-to-left and bidirectional text are inherited from the
   consumer's `dir` attribute and CSS — helpers do not assume LTR
-  layout in their structural HTML. The `locale-picker` helper goes
+  layout in their structural HTML. The `locale-select` helper goes
   one step further: it auto-detects the script direction and writes
   `dir="rtl"` / `dir="ltr"` to the document root on every change.
 
@@ -48,17 +48,17 @@ or any other library. They expose:
   consumer's locale store can both feed and receive the current
   selection.
 - A `localechange` `CustomEvent` (or `themechange` for the theme
-  picker) so the consumer can run side effects (load message
+  select) so the consumer can run side effects (load message
   bundles, refetch locale-dependent data, navigate to a localised
   URL).
 
-The locale picker also writes `<html lang>` and `<html dir>`, which
+The locale select also writes `<html lang>` and `<html dir>`, which
 many i18n libraries read on initialisation; that integration
 usually needs no extra wiring.
 
 ### `Intl.DisplayNames`
 
-The locale picker uses `Intl.DisplayNames` opportunistically (third
+The locale select uses `Intl.DisplayNames` opportunistically (third
 fallback in `labelFor`). It never throws — calls are wrapped in a
 try/catch so SSR (Node) and older environments degrade silently.
 
@@ -71,7 +71,7 @@ and uses `Intl.DateTimeFormat` / `Intl.NumberFormat` directly — no
 
 ### Locale negotiation
 
-The locale picker implements a simple two-step exact-then-prefix
+The locale select implements a simple two-step exact-then-prefix
 matcher in `matchNavigatorLanguage`. It does not implement RFC
 4647 best-fit lookup. If you need full RFC 4647 matching, run your
 own resolver (`@formatjs/intl-localematcher`, `negotiator`) and pass
@@ -82,12 +82,12 @@ the result as the `value` attribute.
 The catalog has no `Accept-Language` parsing helper. Static-site
 generators read it via their own pipeline (Eleventy lacks a
 request context; Astro and dynamic SSG hosts have one); see the
-locale-picker's `docs/ssr.md` for recipes.
+locale-select's `docs/ssr.md` for recipes.
 
 ### What "i18n-clean" looks like in a test
 
 ```ts
-const el = document.createElement("locale-picker");
+const el = document.createElement("locale-select");
 el.setAttribute("label", "Langue");
 el.setAttribute("locales", "en,fr");
 document.body.appendChild(el);

@@ -8,8 +8,8 @@ follows the file shape in [AGENTS/conventions.md](./AGENTS/conventions.md).
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-blazor-theme-picker`](./lily-design-system-blazor-theme-picker/) — dynamic theme CSS loader.
-- [`lily-design-system-blazor-locale-picker`](./lily-design-system-blazor-locale-picker/) — `lang` + `dir` locale picker.
+- [`lily-design-system-blazor-theme-select`](./lily-design-system-blazor-theme-select/) — dynamic theme CSS loader.
+- [`lily-design-system-blazor-locale-select`](./lily-design-system-blazor-locale-select/) — `lang` + `dir` locale select.
 
 ## Working rules
 
@@ -48,8 +48,8 @@ lily-design-system-blazor-helpers/
 ├── CLAUDE.md                ← `@AGENTS.md`
 ├── index.md                 ← catalog overview
 ├── CHANGELOG.md             ← parent-level version history
-├── lily-design-system-blazor-theme-picker/    ← helper 1
-└── lily-design-system-blazor-locale-picker/   ← helper 2
+├── lily-design-system-blazor-theme-select/    ← helper 1
+└── lily-design-system-blazor-locale-select/   ← helper 2
 ```
 
 ## Topic index (parent)

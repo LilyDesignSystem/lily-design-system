@@ -27,7 +27,7 @@ choice.
 
 Give a Svelte 5 application a drop-in, headless locale picker that:
 
-1. Renders an accessible radio group of available locales.
+1. Renders an accessible native `<select>` of available locales.
 2. **Applies the chosen locale** by setting `lang="…"` and `dir="ltr|rtl"`
    on the document root (or on a consumer-supplied target).
 3. Auto-detects script direction: RTL for locales using Arabic, Hebrew,
@@ -61,11 +61,11 @@ Give a Svelte 5 application a drop-in, headless locale picker that:
 - **SvelteKit-only features**. The component only depends on Svelte 5
   + DOM APIs and runs in any Svelte 5 host (SvelteKit, plain Vite +
   Svelte, Astro, Storybook).
-- **A `<select>` default rendering**. The default is
-  `<fieldset role="radiogroup">` for symmetry with `ThemeSelect` and
-  because radios surface the full option list to assistive technology
-  on first focus. Consumers who want a `<select>` dropdown (or
-  buttons, or a combobox) use the `children` snippet — see §4.4.
+- **Custom default rendering**. The default is a native `<select>`
+  for symmetry with `ThemeSelect` and because a native `<select>`
+  scales to long locale lists and pops the OS-native picker on mobile.
+  Consumers who want radios, buttons, or a combobox use the `children`
+  snippet — see §4.4.
 
 ## 3. Architectural decisions
 
@@ -106,20 +106,20 @@ Give a Svelte 5 application a drop-in, headless locale picker that:
 
 | Prop                | Type                                  | Required | Default                  | Purpose |
 | ------------------- | ------------------------------------- | -------- | ------------------------ | ------- |
-| `label`             | `string`                              | yes      | —                        | Accessible name for the radiogroup. |
+| `label`             | `string`                              | yes      | —                        | Accessible name for the `<select>`. |
 | `locales`           | `string[]`                            | yes      | —                        | Available locale codes (e.g. `["en", "en_US", "fr", "ar"]`). |
 | `value`             | `string` (bindable)                   | no       | `""`                     | Currently selected locale code. |
 | `defaultValue`      | `string`                              | no       | `"en"` if present in `locales`, else first item | Initial locale when nothing else is supplied. |
 | `storageKey`        | `string`                              | no       | `undefined`              | If set, persist the selection to `localStorage` under this key. |
 | `detectFromNavigator` | `boolean`                           | no       | `false`                  | If true and no value/storage entry exists, resolve `navigator.language` to a supported locale. |
-| `name`              | `string`                              | no       | `"locale"`               | `name` attribute shared by the radio inputs. |
+| `name`              | `string`                              | no       | `"locale"`               | `name` attribute of the `<select>`. |
 | `target`            | `HTMLElement \| null`                 | no       | `document.documentElement` | Element that receives `lang` and `dir`. |
 | `applyDir`          | `boolean`                             | no       | `true`                   | If false, the picker only writes `lang` and never touches `dir`. |
 | `localeLabels`      | `Record<string, string>`              | no       | `{}`                     | Optional pretty labels per locale code. |
-| `children`          | `Snippet<[ChildArgs]>`                | no       | default radio markup     | Custom rendering of the options. |
+| `children`          | `Snippet<[ChildArgs]>`                | no       | default `<option>` markup | Custom rendering of the options. |
 | `onChange`          | `(locale: string) => void`            | no       | `undefined`              | Fires after the picker applies a new locale. |
-| `class`             | `string`                              | no       | `""`                     | Extra CSS class on the `<fieldset>` root. |
-| `...restProps`      | any HTML `<fieldset>` attributes      | no       | —                        | Spread onto the root. |
+| `class`             | `string`                              | no       | `""`                     | Extra CSS class on the `<select>` root. |
+| `...restProps`      | any HTML `<select>` attributes        | no       | —                        | Spread onto the `<select>`. |
 
 ### 4.2 `ChildArgs`
 
@@ -131,7 +131,7 @@ type ChildArgs = {
   value: string;
   /** Apply a locale imperatively (also writes back to `value`). */
   setLocale: (locale: string) => void;
-  /** Shared `name` attribute for the radio inputs. */
+  /** `name` attribute of the `<select>`. */
   name: string;
   /** Resolve a locale code to its display label. */
   labelFor: (locale: string) => string;
@@ -144,14 +144,11 @@ type ChildArgs = {
 
 ### 4.3 DOM contract
 
-- Root element: `<fieldset class="locale-select {class}"
-  role="radiogroup" aria-label="{label}">`.
-- Default children: one `<label class="locale-select-option">` per
-  locale code containing `<input type="radio" name="{name}"
-  value="{locale}" checked={value === locale}
-  lang="{tagFor(locale)}">` followed by
-  `<span class="locale-select-option-label"
-  lang="{tagFor(locale)}">{labelFor(locale)}</span>`.
+- Root element: `<select class="locale-select {class}"
+  aria-label="{label}" name="{name}">`.
+- Default children: one `<option class="locale-select-option"
+  value="{locale}" lang="{tagFor(locale)}">{labelFor(locale)}</option>`
+  per locale code.
 - Each option carries `lang="{tagFor(locale)}"` so assistive technology
   pronounces the option text in the appropriate language even when the
   document language differs.
@@ -278,10 +275,12 @@ Consumers wanting flicker-free first paint pass a server-resolved
 
 ### 6.1 Roles and properties
 
-- `<fieldset>` with `role="radiogroup"` is the announced container.
-- `aria-label={label}` supplies the group name.
-- Native `<input type="radio">` elements get the radio role, checked
-  state, and keyboard semantics for free.
+- `<select>` has an implicit `combobox` role and is the announced
+  control.
+- `aria-label={label}` supplies the accessible name.
+- The native `<select>` and its `<option>` children get the
+  `combobox` / `option` roles, current-value state, and keyboard
+  semantics for free.
 - Each option carries `lang="{tagFor(locale)}"` so assistive technology
   can switch pronunciation for the option text. WCAG 3.1.2 (Language
   of Parts).
@@ -290,13 +289,16 @@ Consumers wanting flicker-free first paint pass a server-resolved
 
 ### 6.2 Keyboard contract
 
-Provided by the platform (native radio inputs):
+Provided by the platform (native `<select>`):
 
-| Key            | Action                                           |
-| -------------- | ------------------------------------------------ |
-| `Tab`          | Move focus into / out of the group.              |
-| `Arrow` keys   | Move selection between options inside the group. |
-| `Space`        | Select the focused option (when not already).    |
+| Key                  | Action                                           |
+| -------------------- | ------------------------------------------------ |
+| `Tab` / `Shift+Tab`  | Move focus to / from the select.                 |
+| `Arrow Down` / `Arrow Up` | Select the next / previous option.          |
+| `Home` / `End`       | Select the first / last option.                  |
+| Typeahead            | Type characters to jump to a matching option.    |
+| `Enter` / `Space`    | Open the option list (platform-dependent).       |
+| `Escape`             | Close the option list.                           |
 
 ### 6.3 Internationalisation
 
@@ -342,8 +344,8 @@ References this helper relies on:
   <https://html.spec.whatwg.org/multipage/dom.html#the-lang-and-xml:lang-attributes>
 - HTML Living Standard — `dir` attribute:
   <https://html.spec.whatwg.org/multipage/dom.html#the-dir-attribute>
-- WAI-ARIA APG — Radio Group pattern:
-  <https://www.w3.org/WAI/ARIA/apg/patterns/radio/>
+- HTML Living Standard — the `<select>` element:
+  <https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element>
 - WCAG 2.2 SC 3.1.1 (Language of Page) and 3.1.2 (Language of Parts):
   <https://www.w3.org/WAI/WCAG22/Understanding/language-of-page>
   <https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts>
@@ -355,11 +357,11 @@ run under vitest + jsdom + `@testing-library/svelte`.
 
 ### 7.1 Markup contract (mirrors §4.3)
 
-1. Renders a `<fieldset>` with `role="radiogroup"`.
+1. Renders a `<select>` (implicit `combobox` role).
 2. `aria-label` is the supplied `label`.
-3. Renders one radio input per entry in `locales`, sharing the
-   supplied `name` attribute.
-4. Each radio's `value` attribute is the locale code.
+3. Renders one `<option>` per entry in `locales`; the `<select>`
+   carries the supplied `name` attribute.
+4. Each option's `value` attribute is the locale code.
 5. Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form).
 6. The default rendering shows `localeLabels[code]
    ?? defaultLocaleLabels[code] ?? code` as the visible option text.
@@ -382,7 +384,7 @@ run under vitest + jsdom + `@testing-library/svelte`.
 14. After mount, `target.dir` is `"rtl"` for an RTL initial locale and
     `"ltr"` otherwise (when `applyDir` is unspecified / true).
 15. When `applyDir` is `false`, the `dir` attribute is not written.
-16. Selecting a different radio updates `target.lang`, updates
+16. Selecting a different option updates `target.lang`, updates
     `target.dir`, and fires `onChange` with the new locale code in its
     consumer form (not the BCP 47-normalised tag).
 17. A custom `target` element receives `lang` and `dir` instead of
@@ -402,7 +404,7 @@ run under vitest + jsdom + `@testing-library/svelte`.
 
 ### 7.5 Spread + custom children (mirrors §4.1, §4.2)
 
-22. Extra attributes spread through onto the `<fieldset>` (e.g.
+22. Extra attributes spread through onto the `<select>` (e.g.
     `data-testid`).
 23. A custom `children` snippet receives `ChildArgs` with `locales`,
     `name`, `tagFor`, and `isRtl` exposed.
@@ -411,8 +413,8 @@ run under vitest + jsdom + `@testing-library/svelte`.
 
 - A complementary `LocaleView` helper that displays the active
   locale's pretty name. Would parallel the upstream `ThemeView`.
-- A `LocaleSelect` sibling that defaults to `<select>` markup. For
-  now the `children` snippet covers this case — see
+- A `LocaleSelect` sibling that defaults to radio-group markup. For
+  now the `children` snippet covers that case — see
   `index.md` §"Customising the option rendering".
 - An `Intl.LocaleMatcher` / RFC 4647 lookup integration. Would replace
   the simple two-step navigator match in §5.3.

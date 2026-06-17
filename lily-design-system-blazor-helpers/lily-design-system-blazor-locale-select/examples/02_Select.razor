@@ -1,0 +1,52 @@
+@*
+    02. Custom native <select> via ChildContent.
+
+    The select still owns the lifecycle (lang/dir/storage/change) but
+    delegates the markup to a custom <select>. Use this when you want
+    to add your own class hooks or attributes to the control.
+
+    Outcome: a single <select> populated with one <option> per locale,
+    each carrying its own BCP 47 `lang`. The select's OnAfterRenderAsync
+    runs the same way as the default rendering.
+*@
+
+@page "/examples/locale-select/select"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<LocaleSelect
+    Label="Language"
+    Locales="@(new[]
+    {
+        "en", "en_US", "en_GB",
+        "fr", "fr_CA",
+        "es", "es_419",
+        "de",
+        "zh_Hans", "zh_Hant",
+        "ja", "ko",
+        "ar", "he", "fa", "ur",
+        "hi", "bn",
+        "pt", "pt_BR",
+        "ru", "tr", "vi",
+    })"
+    @bind-Value="locale"
+    StorageKey="app-locale"
+    DetectFromNavigator="true">
+    <ChildContent Context="ctx">
+        <select class="locale-select-select"
+                aria-label="Language"
+                value="@ctx.Value"
+                @onchange="@(async e => await ctx.SetLocale(e.Value?.ToString() ?? ""))">
+            @foreach (var l in ctx.Locales)
+            {
+                <option value="@l" lang="@ctx.TagFor(l)">@ctx.LabelFor(l)</option>
+            }
+        </select>
+    </ChildContent>
+</LocaleSelect>
+
+<p>Selected locale: <code>@locale</code></p>
+
+@code {
+    private string locale = "en";
+}

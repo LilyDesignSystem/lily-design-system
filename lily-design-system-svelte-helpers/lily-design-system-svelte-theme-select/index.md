@@ -130,13 +130,13 @@ The complete table is in [spec.md §4.1](./spec.md#41-props). Highlights:
 
 | Prop          | Type                     | Required | Notes                                      |
 | ------------- | ------------------------ | -------- | ------------------------------------------ |
-| `label`       | `string`                 | yes      | `aria-label` on the radiogroup.            |
+| `label`       | `string`                 | yes      | `aria-label` on the `<select>`.            |
 | `themesUrl`   | `string`                 | yes      | Trailing `/` is auto-added.                |
 | `themes`      | `string[]`               | yes      | Available slugs.                           |
 | `value`       | `string` (bindable)      | no       | Two-way bind for the current slug.         |
 | `defaultValue`| `string`                 | no       | Initial when nothing else applies.         |
 | `storageKey`  | `string`                 | no       | `localStorage` persistence.                |
-| `name`        | `string`                 | no       | Radio `name`; defaults to `"theme"`.       |
+| `name`        | `string`                 | no       | `<select>` `name`; defaults to `"theme"`.  |
 | `extension`   | `string`                 | no       | Defaults to `".css"`.                      |
 | `target`      | `HTMLElement \| null`    | no       | `data-theme` target; defaults to `<html>`. |
 | `themeLabels` | `Record<string, string>` | no       | Per-slug display label override.           |
@@ -191,14 +191,14 @@ first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
 
 ## Accessibility
 
-- The root is a `<fieldset>` with `role="radiogroup"` and
-  `aria-label={label}`.
-- Native `<input type="radio">` elements give Arrow / Space / Tab
+- The root is a native `<select>` (implicit `combobox` role) with
+  `aria-label={label}` and a `name`.
+- The native `<select>` gives Arrow / Home / End / typeahead
   semantics for free; the picker does not override any keyboard
   behaviour.
-- The active state is exposed in three independent channels:
-  `aria-checked` on the radio, `data-theme` on the root, and the
-  `value` binding. No colour-only meaning is required.
+- The active state is exposed in three independent channels: the
+  selected `<option>`, `data-theme` on the root, and the `value`
+  binding. No colour-only meaning is required.
 - WCAG 2.2 AAA is the target; visible focus styling is the
   consumer's CSS responsibility.
 
@@ -238,9 +238,8 @@ example: [`examples/preloaded.svelte`](./examples/preloaded.svelte).
 ## Multiple pickers in one app
 
 Pass a distinct `name` prop to each picker. The `name` is used as
-both the radio-input `name` (so the radios form separate groups) and
-the discriminator on the managed `<link>` element
-(`data-lily-theme-select="{name}"`).
+both the `<select>` `name` and the discriminator on the managed
+`<link>` element (`data-lily-theme-select="{name}"`).
 
 Example: [`examples/multiple-pickers.svelte`](./examples/multiple-pickers.svelte).
 

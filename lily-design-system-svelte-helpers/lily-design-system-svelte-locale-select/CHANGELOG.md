@@ -14,10 +14,9 @@ and HTML ports port from this contract clause-for-clause.
 
 - `LocaleSelect.svelte` — Svelte 5 component using runes throughout
   (`$props`, `$bindable`, `$effect`). Implements:
-  - Renders `<fieldset role="radiogroup" aria-label="…">` with one
-    `<input type="radio">` per locale code, wrapped in a
-    `<label lang="{tagFor(locale)}">` per WCAG 3.1.2 (Language of
-    Parts).
+  - Renders `<select aria-label="…" name="…">` with one
+    `<option lang="{tagFor(locale)}">` per locale code per WCAG 3.1.2
+    (Language of Parts).
   - Sets `lang="{bcp47LocaleTag(code)}"` on the resolved target
     element (defaults to `document.documentElement`).
   - Sets `dir="rtl"` / `dir="ltr"` on the target element via
@@ -39,7 +38,8 @@ and HTML ports port from this contract clause-for-clause.
   `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`, and the `Props` +
   `ChildArgs` types.
 - `LocaleSelect.test.ts` — vitest suite asserting every numbered
-  acceptance criterion in `spec.md` §7 (23 items).
+  acceptance criterion in `spec.md` §7 (23 items). The markup-contract
+  tests assert a `<select>` with `<option>` children.
 - `spec.md` — spec-driven contract, version 0.1.0.
 - `AGENTS.md` — fast-index pointer for AI agents.
 - `AGENTS/` subdirectory with `api.md`, `lifecycle.md`,

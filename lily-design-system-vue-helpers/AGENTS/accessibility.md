@@ -22,7 +22,7 @@ fall-through-attrs behaviour so consumers can pass `id`,
 `data-testid`, event handlers, and ARIA overrides without the
 component blocking them. Setting `inheritAttrs: false` removes the
 guarantee and silently breaks tests that rely on
-`<ThemePicker data-testid="x">`.
+`<ThemeSelect data-testid="x">`.
 
 ### `v-bind="$attrs"`
 
@@ -38,41 +38,35 @@ escaping. None of the helpers in this catalog use it; if a future
 helper needs to render markdown, the rendering belongs to the
 consumer.
 
-### Scoped slots and the radiogroup contract
+### Scoped slots and the select contract
 
-The default rendering wraps each option in a `<label>` containing a
-native `<input type="radio">`. A scoped slot replaces only the
-inside of the `<fieldset role="radiogroup">`, so the group container
-is preserved even when consumers render `<button>` swatches or a
-`<select>` dropdown.
+The default rendering is a native `<select>` whose children are
+`<option>` elements. A scoped slot replaces only the inside of the
+`<select>`, so the combobox container is preserved even when
+consumers render their own `<option>` set.
 
-If a custom slot drops the radios entirely, the consumer must add
-`aria-pressed` (button group) or rely on `<select>`'s implicit
-combobox role. See the per-helper `docs/accessibility.md` for
-patterns.
+If a custom slot renders non-`<option>` markup (e.g. `<button>`
+swatches), the consumer is no longer inside a native `<select>` and
+must add `aria-pressed` (button group) themselves, or render those
+controls outside the helper and call `setTheme` / `setLocale` from a
+wrapper. See the per-helper `docs/accessibility.md` for patterns.
 
 ### Label vs aria-label
 
-The helpers carry the consumer's group name as `aria-label={label}`
-on the root `<fieldset role="radiogroup">`. There is no separate
-visible legend by default; consumers who want a visible legend can
-add one inside the fieldset via the scoped slot:
-
-```vue
-<ThemePicker label="Theme">
-    <template #default="{ themes, value, setTheme, labelFor, name }">
-        <legend>Theme</legend>
-        <!-- options … -->
-    </template>
-</ThemePicker>
-```
+The helpers carry the consumer's name as `aria-label={label}` on the
+root `<select>`, which exposes the implicit `combobox` role. There is
+no separate visible label by default; consumers who want a visible
+label can pair the `<select>` with their own `<label>` element
+outside the helper and point it at the helper via `id` /
+`aria-labelledby`.
 
 ## Keyboard
 
-Native `<input type="radio">` provides Tab / Shift+Tab / Arrow /
-Space / Home / End for free. None of the helpers add keyboard
-handlers; if a scoped slot drops the radios, the consumer becomes
-responsible for keyboard behaviour.
+The native `<select>` provides Tab / Shift+Tab, Arrow Down / Up to
+move selection, Home / End, typeahead, Enter / Space to open, and
+Escape to close — all for free. None of the helpers add keyboard
+handlers; if a scoped slot renders non-`<option>` controls, the
+consumer becomes responsible for keyboard behaviour.
 
 ## Focus management
 
@@ -83,7 +77,7 @@ On Input). When wiring `onChange` to navigation (`router.push`,
 
 ## Screen-reader pronunciation (locale picker)
 
-Each `<label>` carries `lang="…"` so screen readers switch
+Each `<option>` carries `lang="…"` so screen readers switch
 pronunciation per option (WCAG 3.1.2, Language of Parts). Custom
 scoped-slot renderings must keep this attribute on the rendered
 element.

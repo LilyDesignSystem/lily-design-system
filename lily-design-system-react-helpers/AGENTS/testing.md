@@ -44,7 +44,7 @@ afterEach(() => {
 ```
 
 `cleanup()` is critical for the helpers because they write to
-`document.head` (the managed `<link>` for ThemePicker) and to
+`document.head` (the managed `<link>` for ThemeSelect) and to
 `document.documentElement` (the `lang`/`dir`/`data-theme`
 attributes). Each test resets the document between cases.
 
@@ -57,7 +57,7 @@ Both helpers mutate global state (`document.head`,
 beforeEach(() => {
     // Reset document.head — remove managed <link> from previous tests.
     document.head
-        .querySelectorAll("link[data-lily-theme-picker]")
+        .querySelectorAll("link[data-lily-theme-select]")
         .forEach((el) => el.remove());
 
     // Reset document.documentElement.
@@ -75,15 +75,15 @@ beforeEach(() => {
 Tests are numbered to match `spec.md §7`. The shape is:
 
 ```ts
-describe("ThemePicker — §7 acceptance", () => {
-    test("7.1 — renders fieldset role=radiogroup", () => {
-        render(<ThemePicker label="Theme" themesUrl="/t/" themes={["light", "dark"]} />);
-        const fs = screen.getByRole("radiogroup");
-        expect(fs.tagName).toBe("FIELDSET");
+describe("ThemeSelect — §7 acceptance", () => {
+    test("7.1 — renders a select with the base class", () => {
+        render(<ThemeSelect label="Theme" themesUrl="/t/" themes={["light", "dark"]} />);
+        const select = screen.getByRole("combobox", { name: "Theme" });
+        expect(select.tagName).toBe("SELECT");
     });
 
     test("7.6 — initial value resolves to light when present", async () => {
-        render(<ThemePicker label="Theme" themesUrl="/t/" themes={["light", "dark"]} />);
+        render(<ThemeSelect label="Theme" themesUrl="/t/" themes={["light", "dark"]} />);
         await waitFor(() => {
             expect(document.documentElement.dataset.theme).toBe("light");
         });
@@ -97,16 +97,16 @@ the assertion has to wait for it.
 
 ## Driving user input
 
-Use `@testing-library/user-event` to simulate clicks:
+Use `@testing-library/user-event` to drive the select:
 
 ```ts
 import userEvent from "@testing-library/user-event";
 
-test("7.8 — selecting a radio updates link and data-theme", async () => {
+test("7.8 — choosing an option updates link and data-theme", async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
     render(
-        <ThemePicker
+        <ThemeSelect
             label="Theme"
             themesUrl="/t/"
             themes={["light", "dark"]}
@@ -117,7 +117,10 @@ test("7.8 — selecting a radio updates link and data-theme", async () => {
         expect(document.documentElement.dataset.theme).toBe("light");
     });
 
-    await user.click(screen.getByRole("radio", { name: "Dark" }));
+    await user.selectOptions(
+        screen.getByRole("combobox", { name: "Theme" }),
+        "dark"
+    );
 
     await waitFor(() => {
         expect(document.documentElement.dataset.theme).toBe("dark");
@@ -126,9 +129,10 @@ test("7.8 — selecting a radio updates link and data-theme", async () => {
 });
 ```
 
-Note: `userEvent.click` on a radio inside a `<label>` toggles the
-correct radio because the label semantics propagate. Using
-`fireEvent.click(radio)` directly also works.
+Note: `userEvent.selectOptions` fires the native `change` event on
+the `<select>`, which the component's `onChange` handler reads.
+Passing `fireEvent.change(select, { target: { value: "dark" } })`
+directly also works.
 
 ## Controlled vs uncontrolled
 
@@ -138,7 +142,7 @@ Test both modes:
 test("controlled — value prop wins over storage", () => {
     localStorage.setItem("k", "dark");
     render(
-        <ThemePicker
+        <ThemeSelect
             label="t" themesUrl="/t/" themes={["light", "dark"]}
             value="light" storageKey="k"
         />
@@ -149,7 +153,7 @@ test("controlled — value prop wins over storage", () => {
 test("uncontrolled — storage wins over default", () => {
     localStorage.setItem("k", "dark");
     render(
-        <ThemePicker
+        <ThemeSelect
             label="t" themesUrl="/t/" themes={["light", "dark"]}
             storageKey="k"
         />
@@ -160,7 +164,7 @@ test("uncontrolled — storage wins over default", () => {
 
 ## Asserting DOM contract
 
-The picker writes to three places. Each assertion type:
+The component writes to three places. Each assertion type:
 
 ```ts
 // 1. data-theme on root.
@@ -168,7 +172,7 @@ expect(document.documentElement.dataset.theme).toBe("dark");
 
 // 2. Managed <link> in head.
 const link = document.head.querySelector<HTMLLinkElement>(
-    'link[data-lily-theme-picker="theme"]'
+    'link[data-lily-theme-select="theme"]'
 );
 expect(link?.href).toContain("/t/dark.css");
 
@@ -178,7 +182,7 @@ expect(onChange).toHaveBeenCalledWith("dark");
 
 ## Mocking navigator.languages
 
-For `LocalePicker.detectFromNavigator` tests:
+For `LocaleSelect.detectFromNavigator` tests:
 
 ```ts
 beforeEach(() => {
@@ -199,7 +203,7 @@ afterEach(() => {
 ## React 19 StrictMode
 
 When the consumer wraps with `<React.StrictMode>`, every effect runs
-twice. The picker's `initialisedRef` guards against this:
+twice. The component's `initialisedRef` guards against this:
 
 ```tsx
 const initialisedRef = React.useRef(false);
@@ -215,7 +219,7 @@ Test under StrictMode to catch double-mount bugs:
 ```tsx
 render(
     <React.StrictMode>
-        <ThemePicker {...props} />
+        <ThemeSelect {...props} />
     </React.StrictMode>
 );
 ```
@@ -249,7 +253,7 @@ enforce per-§ coverage. Reviewers do.
 
 ## What NOT to test
 
-- Don't test React's own rendering pipeline. The picker assumes
+- Don't test React's own rendering pipeline. The component assumes
   `useState` works.
 - Don't snapshot. The DOM is the contract; named assertions are
   clearer than blobs.

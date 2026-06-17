@@ -10,8 +10,8 @@ DOM application) for one small, common job.
 
 | Helper                                                                                  | Purpose                                                        |
 | --------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`lily-design-system-react-theme-picker`](./lily-design-system-react-theme-picker/)     | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
-| [`lily-design-system-react-locale-picker`](./lily-design-system-react-locale-picker/)   | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-react-theme-select`](./lily-design-system-react-theme-select/)     | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
+| [`lily-design-system-react-locale-select`](./lily-design-system-react-locale-select/)   | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
 
 ## Conventions
 
@@ -56,17 +56,17 @@ Shared design decisions across the catalog:
   references; tests assert against those numbers; docs link back.
 - **Render-prop children**: when consumers need to override the
   default markup, they pass a `children` function that receives the
-  picker's `ChildArgs` (state + setter + helpers).
+  select's `ChildArgs` (state + setter + helpers).
 - **Rest-prop spread**: every helper spreads `...restProps` onto the
-  root `<fieldset>` so consumers can pass arbitrary HTML attributes
+  root `<select>` so consumers can pass arbitrary HTML attributes
   (`id`, `data-*`, event handlers, ARIA overrides).
 
 ## Differences from the headless library
 
 The headless library mirrors the canonical 492-component catalog.
 Each component is a pure container with no lifecycle. A consumer
-typing on top of `ThemePicker` from `lily-design-system-react-headless`
-writes their own radio markup, their own persistence, and their own
+typing on top of `ThemeSelect` from `lily-design-system-react-headless`
+writes their own select markup, their own persistence, and their own
 loading.
 
 The helpers in this directory are higher-level: they own the
@@ -116,18 +116,18 @@ entrypoint. Per-topic AGENTS files live in
 
 ## Cross-helper compatibility
 
-The two pickers in the current catalog are deliberately compatible:
+The two selects in the current catalog are deliberately compatible:
 
-- `ThemePicker` and `LocalePicker` both render a
-  `<fieldset role="radiogroup" aria-label="…">` so a row of pickers
-  in the same banner has consistent semantics.
-- The two pickers do not share state. Each owns its own
+- `ThemeSelect` and `LocaleSelect` both render a
+  `<select aria-label="…">` so a row of selects in the same banner
+  has consistent semantics.
+- The two selects do not share state. Each owns its own
   `localStorage` key, its own `data-*` attribute, and its own
   managed DOM nodes.
-- The class hooks (`theme-picker`, `locale-picker`) are independent
+- The class hooks (`theme-select`, `locale-select`) are independent
   so a single stylesheet rule can target either.
 
-Mounting both pickers in one banner is the recommended pattern when
+Mounting both selects in one banner is the recommended pattern when
 your app has both a colour scheme and a language preference.
 
 ## License

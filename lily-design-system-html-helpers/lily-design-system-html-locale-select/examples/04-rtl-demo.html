@@ -1,0 +1,83 @@
+<!doctype html>
+<!--
+    Example 4 — RTL demo: Arabic, Hebrew, Persian, Urdu, Pashto.
+
+    Visualises the select's auto-detection in action. Switching to
+    any of the RTL locales writes dir="rtl" to <html> and the entire
+    page mirrors. Switching back to English restores LTR.
+
+    Each <option> already carries its own lang attribute, so the
+    per-language script renders correctly in the option list even
+    while the overall document direction is LTR or RTL.
+
+    Note: locale-select.ts may need compilation to .js — adjust the
+    <script src=…> per your build output.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>locale-select — RTL demo</title>
+    <script type="module" src="../../locale-select.js"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 2rem; }
+        :lang(ar), :lang(fa), :lang(ur), :lang(ps) {
+            font-family: "Noto Sans Arabic", "Segoe UI", sans-serif;
+        }
+        :lang(he) {
+            font-family: "Frank Ruhl Libre", "Segoe UI", serif;
+        }
+        .locale-select { font: inherit; padding: 0.5rem 0.75rem; max-inline-size: 30rem; }
+        .locale-select-option { font: inherit; }
+        .preview {
+            margin-block-start: 1.5rem;
+            padding: 1rem;
+            border-inline-start: 4px solid #005eb8;
+            padding-inline-start: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Locale select — direction</h1>
+
+    <locale-select
+        id="select"
+        label="Direction demo"
+        locales="en,ar,he,fa,ur,ps"
+        locale-labels='{"en":"English","ar":"العربية","he":"עברית","fa":"فارسی","ur":"اردو","ps":"پښتو"}'
+    ></locale-select>
+
+    <section id="preview" class="preview" lang="en">
+        <h2 id="preview-heading">English</h2>
+        <p id="preview-body">The quick brown fox jumps over the lazy dog.</p>
+        <p>
+            Direction: <code id="preview-dir">ltr</code> · Tag:
+            <code id="preview-tag">en</code>
+        </p>
+    </section>
+
+    <script type="module">
+        await customElements.whenDefined("locale-select");
+        const samples = {
+            en: { name: "English", body: "The quick brown fox jumps over the lazy dog." },
+            ar: { name: "العربية", body: "نص تجريبي يقرأ من اليمين إلى اليسار." },
+            he: { name: "עברית", body: "טקסט לדוגמה הנקרא מימין לשמאל." },
+            fa: { name: "فارسی", body: "متن نمونه‌ای که از راست به چپ خوانده می‌شود." },
+            ur: { name: "اردو", body: "نمونہ متن جو دائیں سے بائیں پڑھا جاتا ہے۔" },
+            ps: { name: "پښتو", body: "د ښي خوا څخه کیڼ خوا ته د نمونې متن." },
+        };
+        const select = document.querySelector("#select");
+        select.addEventListener("localechange", (e) => {
+            const code = e.detail.locale;
+            const tag = code.replace(/_/g, "-");
+            const s = samples[code] ?? samples.en;
+            const preview = document.querySelector("#preview");
+            preview.lang = tag;
+            document.querySelector("#preview-heading").textContent = s.name;
+            document.querySelector("#preview-body").textContent = s.body;
+            document.querySelector("#preview-tag").textContent = tag;
+            document.querySelector("#preview-dir").textContent =
+                document.documentElement.dir || "ltr";
+        });
+    </script>
+</body>
+</html>

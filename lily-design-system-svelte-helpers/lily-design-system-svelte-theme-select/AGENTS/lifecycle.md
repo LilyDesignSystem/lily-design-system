@@ -28,10 +28,10 @@ applyTheme:
   3. if storageKey: localStorage.setItem(storageKey, slug)
   4. onChange?.(slug)
 
-user clicks a radio
+user picks an option
   │
   ▼
-onInputChange ─► value = next
+onSelectChange ─► value = next
   │                  │
   │                  ▼
   │                $effect re-runs (value changed)
@@ -166,8 +166,8 @@ This forces the picker's `$effect` to fire.
 ## SSR
 
 During server rendering, `$effect` is a no-op. The template renders
-the radios using whatever `value` was passed; the managed `<link>`
-is not created (no DOM); `data-theme` is not written.
+the `<option>`s using whatever `value` was passed; the managed
+`<link>` is not created (no DOM); `data-theme` is not written.
 
 That's the recipe for flicker-free SSR: pre-resolve the theme on
 the server, write `data-theme="…"` on `<html>` via SvelteKit's

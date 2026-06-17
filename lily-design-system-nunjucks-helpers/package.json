@@ -1,0 +1,23 @@
+{
+  "name": "lily-design-system-nunjucks-helpers",
+  "private": true,
+  "type": "module",
+  "description": "Lily Design System - Nunjucks helpers catalog (dev/test harness)",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui"
+  },
+  "devDependencies": {
+    "@vitest/ui": "^4.0.18",
+    "jsdom": "^28.0.0",
+    "nunjucks": "^3.2.4",
+    "typescript": "^5.6.0",
+    "vitest": "^4.0.18"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  },
+  "author": "joel@joelparkerhenderson.com",
+  "license": "MIT"
+}

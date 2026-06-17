@@ -38,9 +38,9 @@ The theme is exposed as a flat object whose keys flatten into
 Consumer CSS reads `var(--theme-color-primary)`,
 `var(--theme-space-md)`, etc.
 
-## How the Vue theme-picker fits in
+## How the Vue theme-select fits in
 
-The Vue `ThemePicker` helper writes one extra signal to the document
+The Vue `ThemeSelect` helper writes one extra signal to the document
 root: a `data-theme="<slug>"` attribute. Theme CSS files scope their
 rules to `:root[data-theme="<slug>"]` so the picker's attribute
 mutation is enough to switch the live theme.
@@ -71,7 +71,7 @@ const initial = prefersDark ? "dark" : "light";
 ```
 
 Pass `initial` as `defaultValue`. See
-`lily-design-system-vue-theme-picker/examples/system-preference.vue`.
+`lily-design-system-vue-theme-select/examples/system-preference.vue`.
 
 ## Forbidden in the headless layer
 
@@ -111,7 +111,7 @@ the common case; a reactive token store is the consumer's choice.
 
 Vue's `<Teleport to="head">` is an alternative to the picker's
 `document.head.appendChild` for the managed `<link>`. The catalog's
-`ThemePicker` uses imperative DOM mutation because:
+`ThemeSelect` uses imperative DOM mutation because:
 
 - It works during SSR (`<Teleport>` requires a hydrated DOM).
 - It's a single element managed across the component's lifetime, not

@@ -16,9 +16,9 @@ recipes.
    hook only runs when the component is interactive (in a Blazor
    Server circuit or after the WASM module loads). Under static
    SSR / prerender, it never fires.
-3. **Initial state comes from parameters.** The picker renders the
+3. **Initial state comes from parameters.** The select renders the
    markup using whatever `Value` the consumer supplied. With no
-   `Value`, no radio is checked on the server.
+   `Value`, no option is selected on the server.
 4. **Interop is wrapped in try/catch.** A prerender circuit can
    throw `InvalidOperationException` if it hasn't established
    interactivity yet; the helpers swallow that so the first paint
@@ -42,9 +42,9 @@ difference is *when* the post-render hook fires.
 ## Static SSR (no interactivity)
 
 Under fully-static SSR, `OnAfterRenderAsync` never fires and no JS
-interop is possible. The picker:
+interop is possible. The select:
 
-- Renders its `<fieldset>` markup with whatever `Value` the consumer
+- Renders its `<select>` markup with whatever `Value` the consumer
   supplied (a server-resolved cookie value is the common pattern).
 - Does **not** write `<link>` / `data-theme` / `lang` / `dir` — the
   consumer is responsible for those on the server side.
@@ -109,12 +109,12 @@ record ThemeBody(string Theme);
 </html>
 ```
 
-### Wiring the picker
+### Wiring the select
 
 ```razor
 @inject NavigationManager Nav
 
-<ThemePicker
+<ThemeSelect
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[]{ "light", "dark", "abyss" })"
@@ -140,7 +140,7 @@ record ThemeBody(string Theme);
 ```
 
 Result: the first paint arrives with `<html data-theme="dark">` and
-the right `<link>`. The picker hydrates with `Value="dark"` so no
+the right `<link>`. The select hydrates with `Value="dark"` so no
 attribute swap happens; subsequent picks call the endpoint, which
 writes the cookie so the next request paints with the new theme.
 
@@ -153,7 +153,7 @@ Same shape; substitute `lang` and `dir`:
 @{
     var cookieLocale = HttpContextAccessor.HttpContext?
         .Request.Cookies["locale"] ?? "en";
-    var dir = LocalePickerDirection(cookieLocale);
+    var dir = LocaleSelectDirection(cookieLocale);
 }
 <html lang="@cookieLocale" dir="@dir">
     <head>…</head>
@@ -163,23 +163,23 @@ Same shape; substitute `lang` and `dir`:
 </html>
 ```
 
-Where `LocalePickerDirection` can call the public helper
-`Locales.IsRtlLocale(code)` from `lily-design-system-blazor-locale-picker`.
+Where `LocaleSelectDirection` can call the public helper
+`Locales.IsRtlLocale(code)` from `lily-design-system-blazor-locale-select`.
 
 ```csharp
-private static string LocalePickerDirection(string code) =>
+private static string LocaleSelectDirection(string code) =>
     LilyDesignSystem.Blazor.Helpers.Locales.IsRtlLocale(code) ? "rtl" : "ltr";
 ```
 
-## CultureInfo and the locale picker
+## CultureInfo and the locale select
 
 For a Blazor app that also switches CLR culture (so
 `Microsoft.Extensions.Localization` and `IStringLocalizer<T>` resolve
-the right resource set), wire the picker's `OnChange` to set
+the right resource set), wire the select's `OnChange` to set
 `CultureInfo.DefaultThreadCurrentCulture`:
 
 ```razor
-<LocalePicker
+<LocaleSelect
     Label="Language"
     Locales="@(new[]{ "en", "fr", "ar" })"
     @bind-Value="locale"
@@ -219,10 +219,10 @@ consistent because:
 ## Static SSR without a cookie
 
 If you don't want to deal with cookies and accept a one-frame
-flash, the picker still works under static SSR — the user gets the
+flash, the select still works under static SSR — the user gets the
 default theme on first paint, and the moment they interact (which
 implicitly triggers interactivity in Blazor Web App "auto" mode),
-the picker's `OnAfterRenderAsync` fires and the theme switches.
+the select's `OnAfterRenderAsync` fires and the theme switches.
 
 The flash is small but visible. Cookies are the right answer for
 production.
@@ -235,7 +235,7 @@ production.
   on `localStorage` writes (client-side); see
   [Microsoft Learn — JavaScript interop with Blazor](https://learn.microsoft.com/aspnet/core/blazor/javascript-interoperability/).
 - **OIDC-claim-based personalisation.** That belongs in the
-  consumer's authentication pipeline; the picker still works on
+  consumer's authentication pipeline; the select still works on
   top.
 
 ## Diagnostics

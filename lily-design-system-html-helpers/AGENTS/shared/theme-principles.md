@@ -38,12 +38,12 @@ The theme is exposed as a flat object whose keys flatten into
 Consumer CSS reads `var(--theme-color-primary)`,
 `var(--theme-space-md)`, etc.
 
-## How the HTML theme-picker fits in
+## How the HTML theme-select fits in
 
-The HTML `<theme-picker>` custom element writes one extra signal to
+The HTML `<theme-select>` custom element writes one extra signal to
 the document root: a `data-theme="<slug>"` attribute. Theme CSS
 files scope their rules to `:root[data-theme="<slug>"]` so the
-picker's attribute mutation is enough to switch the live theme.
+select's attribute mutation is enough to switch the live theme.
 
 ```css
 :root[data-theme="dark"] {
@@ -53,14 +53,14 @@ picker's attribute mutation is enough to switch the live theme.
 }
 ```
 
-The picker does not write CSS custom properties directly. Theme
-authors do, via the `<link>` the picker swaps into `<head>`.
+The select does not write CSS custom properties directly. Theme
+authors do, via the `<link>` the select swaps into `<head>`.
 
 ## Light / dark / high-contrast
 
-The picker's `value` is just a string. Convention says `light`,
+The select's `value` is just a string. Convention says `light`,
 `dark`, and `high-contrast` slugs map to those three modes, but the
-picker doesn't enforce that — any slug is valid.
+select doesn't enforce that — any slug is valid.
 
 A `prefers-color-scheme: dark` integration is one-line in the
 consumer:
@@ -68,11 +68,11 @@ consumer:
 ```ts
 const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
 const initial = prefersDark ? "dark" : "light";
-document.querySelector("theme-picker")!.setAttribute("default-value", initial);
+document.querySelector("theme-select")!.setAttribute("default-value", initial);
 ```
 
 See
-`lily-design-system-html-theme-picker/examples/06-system-preference.html`.
+`lily-design-system-html-theme-select/examples/06-system-preference.html`.
 
 ## Forbidden in the headless layer
 
@@ -91,33 +91,33 @@ class hooks, and `data-*` attributes.
 ### Imperative `document.head.appendChild`
 
 The HTML helpers manage a single `<link rel="stylesheet"
-data-lily-theme-picker="{name}">` in `document.head` via imperative
+data-lily-theme-select="{name}">` in `document.head` via imperative
 DOM mutation. This is simpler than any framework abstraction
 (`<svelte:head>`, `useHead`, `<Teleport to="head">`) because the
 helper *is* vanilla JS — there is no framework boundary to cross.
 
-The `data-lily-theme-picker` attribute disambiguates the managed
+The `data-lily-theme-select` attribute disambiguates the managed
 link from any other `<link>` the consumer or framework has
 inserted; the helper never touches a `<link>` it didn't create.
 
-### Multiple pickers via `name`
+### Multiple selects via `name`
 
 The host element's `name` attribute (default `"theme"`) doubles as:
 
-- The `name` shared by the radio inputs (so multiple radiogroups
+- The `name` set on the rendered `<select>` (so multiple selects
   don't conflict).
-- The discriminator on the managed `<link>` (so multiple pickers
+- The discriminator on the managed `<link>` (so multiple selects
   manage their own stylesheets).
 
-When two pickers share a `name`, they manage the same `<link>` and
-the same radio group — useful for paired UI but rarely what you
+When two selects share a `name`, they manage the same `<link>` and
+the same theme — useful for paired UI but rarely what you
 want. Pass distinct names for independent operation.
 
 ### Disconnect cleanup
 
 `disconnectedCallback` removes the managed `<link>` *only* when no
-other `<theme-picker>` with the same `name` remains in the document.
-This lets two pickers coordinate while still cleaning up when both
+other `<theme-select>` with the same `name` remains in the document.
+This lets two selects coordinate while still cleaning up when both
 unmount.
 
 ### Reactive token swap

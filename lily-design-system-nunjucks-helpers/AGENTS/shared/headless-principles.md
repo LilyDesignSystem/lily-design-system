@@ -11,7 +11,7 @@ decision.
 
 - Choose the most specific semantic HTML element that fits
   (`<button>`, `<dialog>`, `<details>`, `<nav>`, `<article>`,
-  `<figure>`, `<fieldset>`, etc.) before reaching for `<div>` or
+  `<figure>`, `<select>`, etc.) before reaching for `<div>` or
   `<span>`. The canonical HTML tag for each helper is fixed in its
   `spec.md` "DOM contract" section.
 - The first attribute on the root element is always the kebab-case
@@ -19,8 +19,8 @@ decision.
   CSS can target any helper with one selector. No additional
   component-defined classes appear on the root unless the spec calls
   them out.
-- Inner sub-classes (e.g. `theme-picker-option`,
-  `locale-picker-option-label`) are kebab-case derivatives of the
+- Inner sub-classes (e.g. `theme-select-option`,
+  `locale-select-option`) are kebab-case derivatives of the
   base class. Sub-classes are stable contracts: consumers can rely
   on them, so don't rename or remove them between versions.
 - `opts.attributes` spreads arbitrary HTML attributes onto the root
@@ -50,11 +50,12 @@ decision.
 ## Behaviour boundaries
 
 - **Macro handles.** ARIA, role, class hooks, `data-lily-*`
-  configuration, initial `checked` from `opts.value`, per-option
-  `lang` on locale labels.
+  configuration, the initial `selected` option from `opts.value`,
+  per-option `lang` on locale labels.
 - **Client.js handles.** Focus management inside the component (none
-  by default — the platform does it via native radios), bindable
-  selection state, `IntersectionObserver` and scroll listeners that
+  by default — the platform does it via the native `<select>`),
+  bindable selection state, `IntersectionObserver` and scroll
+  listeners that
   belong to the component, storage and apply lifecycle.
 - **Neither handles.** Data fetching, network state, locale-specific
   formatting (currency / dates / measurement), persistence (beyond
@@ -78,7 +79,7 @@ decision.
 - `data-lily-{name}-{kebab-cased-opt}` carries serialised
   configuration from macro to client.js.
 - `data-*` attributes are used for state that the consumer's CSS or
-  JS may want to observe — e.g. `data-theme`, `data-lily-theme-picker`.
+  JS may want to observe — e.g. `data-theme`, `data-lily-theme-select`.
   Use `data-*` rather than inventing new ARIA attributes when a
   state is for the consumer, not assistive technology.
 

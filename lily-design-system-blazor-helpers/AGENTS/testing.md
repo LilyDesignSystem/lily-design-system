@@ -48,9 +48,9 @@ using Xunit;
 
 namespace LilyDesignSystem.Blazor.Helpers.Tests;
 
-public class ThemePickerTests : TestContext
+public class ThemeSelectTests : TestContext
 {
-    public ThemePickerTests()
+    public ThemeSelectTests()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
         JSInterop.SetupVoid("eval", _ => true).SetVoidResult();
@@ -67,15 +67,15 @@ sure `eval`-based DOM mutations don't blow up.
 
 ```csharp
 [Fact]
-public void Section_7_1_Renders_Fieldset_With_Radiogroup_Role()
+public void Section_7_1_Renders_Select_With_Options()
 {
-    var cut = RenderComponent<ThemePicker>(p => p
+    var cut = RenderComponent<ThemeSelect>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, "/assets/themes/")
         .Add(x => x.Themes, new[] { "light", "dark" }));
 
-    var root = cut.Find("fieldset");
-    Assert.Equal("radiogroup", root.GetAttribute("role"));
+    var root = cut.Find("select");
+    Assert.Equal(2, cut.FindAll("option").Count);
 }
 ```
 
@@ -84,9 +84,9 @@ public void Section_7_1_Renders_Fieldset_With_Radiogroup_Role()
 | Goal                                     | Pattern                                                              |
 | ---------------------------------------- | -------------------------------------------------------------------- |
 | Wait for `OnAfterRenderAsync`            | `await Task.Yield();` (bUnit pumps the render queue synchronously).  |
-| Find a radio by value                    | `cut.Find("input[value=\"dark\"]")`                                  |
-| Find all radios                          | `cut.FindAll("input[type=radio]")`                                   |
-| Trigger a radio change                   | `await radio.ChangeAsync(new() { Value = "dark" })`                  |
+| Find an option by value                  | `cut.Find("option[value=\"dark\"]")`                                 |
+| Find all options                         | `cut.FindAll("option")`                                              |
+| Trigger a select change                  | `await cut.Find("select").ChangeAsync(new() { Value = "dark" })`     |
 | Assert `ValueChanged` fired              | Capture into a closure variable via `EventCallback.Factory.Create`   |
 | Inspect a captured JS interop call       | `JSInterop.Invocations` (a list of `JSRuntimeInvocation`)            |
 | Spread an unmatched attribute            | `p.AddUnmatched("data-testid", "x")`                                 |
@@ -99,7 +99,7 @@ wire the callback explicitly:
 
 ```csharp
 var captured = "";
-var cut = RenderComponent<ThemePicker>(p => p
+var cut = RenderComponent<ThemeSelect>(p => p
     .Add(x => x.Label, "Theme")
     .Add(x => x.ThemesUrl, "/t/")
     .Add(x => x.Themes, new[] { "light", "dark" })
@@ -137,7 +137,7 @@ without a `TestContext`.
 ## RenderFragment<TContext> tests
 
 ```csharp
-RenderFragment<ThemePickerContext> custom = ctx => builder =>
+RenderFragment<ThemeSelectContext> custom = ctx => builder =>
 {
     builder.OpenElement(0, "div");
     builder.AddAttribute(1, "data-testid", "custom");
@@ -146,7 +146,7 @@ RenderFragment<ThemePickerContext> custom = ctx => builder =>
     builder.CloseElement();
 };
 
-var cut = RenderComponent<ThemePicker>(p => p
+var cut = RenderComponent<ThemeSelect>(p => p
     .Add(x => x.Label, "Theme")
     .Add(x => x.ThemesUrl, "/t/")
     .Add(x => x.Themes, new[] { "light", "dark" })
@@ -211,7 +211,7 @@ flushes the message loop and lets those continuations land:
 [Fact]
 public async Task Section_7_7_Interop_Fires_With_Constructed_Href()
 {
-    var cut = RenderComponent<ThemePicker>(p => p
+    var cut = RenderComponent<ThemeSelect>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, "/assets/themes/")
         .Add(x => x.Themes, new[] { "light" }));

@@ -31,7 +31,7 @@ follows these rules without exception.
   : "item"` logic; they accept the rendered string.
 - Right-to-left and bidirectional text are inherited from the
   consumer's `dir` attribute and CSS — helpers do not assume LTR
-  layout in their structural HTML. The `locale-picker` helper goes
+  layout in their structural HTML. The `locale-select` helper goes
   one step further: its client.js auto-detects the script direction
   and writes `dir="rtl"` / `dir="ltr"` to the document root on
   every change.
@@ -45,9 +45,9 @@ The helpers don't depend on `i18next`, `gettext`,
 
 - An `opts.value` and an `onChange` callback on the client.js so the
   consumer can both feed and receive the current selection.
-- A `change` event on the root fieldset (delegated; bubbles).
+- A `change` event on the root `<select>` (bubbles).
 
-The locale-picker also writes `<html lang>` and `<html dir>`, which
+The locale-select also writes `<html lang>` and `<html dir>`, which
 many i18n libraries read on initialisation; that integration usually
 needs no extra wiring beyond an `autoInit({ onChange: setLocale })`.
 
@@ -67,7 +67,7 @@ export default Object.fromEntries(
 ```
 
 ```njk
-{{ localePicker({locales: [...], localeLabels: localeLabels}) }}
+{{ localeSelect({locales: [...], localeLabels: localeLabels}) }}
 ```
 
 ### Date / number / currency formatting
@@ -110,14 +110,14 @@ don't change the test.
 
 [`@11ty/eleventy-plugin-i18n`](https://www.11ty.dev/docs/plugins/i18n/)
 gives Eleventy a `locale_url` filter and locale-aware data
-cascading. The Nunjucks locale-picker pairs cleanly with it:
+cascading. The Nunjucks locale-select pairs cleanly with it:
 
 ```njk
 {# layouts/base.njk #}
 <html lang="{{ lang | replace('_', '-') }}">
     <body>
-        {% from "./locale-picker.njk" import localePicker %}
-        {{ localePicker({
+        {% from "./locale-select.njk" import localeSelect %}
+        {{ localeSelect({
             label: "Language",
             locales: ["en", "fr", "ar"],
             value: lang,
@@ -130,5 +130,5 @@ cascading. The Nunjucks locale-picker pairs cleanly with it:
 
 The picker's `change` handler then needs to call
 `window.location.href = locale_url(window.location.pathname, code)`
-to navigate to the localised URL. See the locale-picker's
+to navigate to the localised URL. See the locale-select's
 `docs/i18n-integration.md` for the full Eleventy recipe.

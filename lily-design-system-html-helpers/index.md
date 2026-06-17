@@ -12,8 +12,8 @@ as a registered custom element you drop into any page.
 
 | Helper                                                                              | Custom element     | Purpose                                                        |
 | ----------------------------------------------------------------------------------- | ------------------ | -------------------------------------------------------------- |
-| [`lily-design-system-html-theme-picker`](./lily-design-system-html-theme-picker/)   | `<theme-picker>`   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
-| [`lily-design-system-html-locale-picker`](./lily-design-system-html-locale-picker/) | `<locale-picker>`  | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-html-theme-select`](./lily-design-system-html-theme-select/)   | `<theme-select>`   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
+| [`lily-design-system-html-locale-select`](./lily-design-system-html-locale-select/) | `<locale-select>`  | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
 
 ## Conventions
 
@@ -90,7 +90,7 @@ The helpers commit to a small set of platform features:
 - `connectedCallback()` resolves the initial value (per spec §5) and
   renders.
 - `disconnectedCallback()` runs deliberate cleanup (e.g.
-  garbage-collecting the managed `<link>` only when no other picker
+  garbage-collecting the managed `<link>` only when no other select
   with the same `name` remains in the document).
 - JS-property setters: kebab-case attributes are mirrored by
   camelCase JS properties (`label`, `themesUrl`, `defaultValue`,
@@ -101,7 +101,7 @@ The helpers commit to a small set of platform features:
   objects).
 - `CustomEvent` for change notifications: `bubbles: true`,
   `composed: true`, `detail` typed via an exported helper type
-  (`ThemePickerChangeDetail`, `LocalePickerChangeDetail`).
+  (`ThemeSelectChangeDetail`, `LocaleSelectChangeDetail`).
 - Imperative DOM mutation in the element body — no template
   libraries, no Shadow DOM, no string templating helpers.
 
@@ -112,7 +112,7 @@ and tests stay in lock-step across frameworks.
 
 The HTML headless library mirrors the canonical 492-component
 catalog. Each entry is a static HTML snippet plus a minimal
-initialisation hook. A consumer typing on top of `theme-picker.html`
+initialisation hook. A consumer typing on top of `theme-select.html`
 from `lily-design-system-html-headless` writes their own radio
 markup, their own persistence, and their own dynamic loading.
 
@@ -162,7 +162,7 @@ file matches one `it(...)` per numbered item, named with the section
 number for fast cross-referencing.
 
 ```bash
-cd lily-design-system-html-theme-picker
+cd lily-design-system-html-theme-select
 pnpm test
 ```
 

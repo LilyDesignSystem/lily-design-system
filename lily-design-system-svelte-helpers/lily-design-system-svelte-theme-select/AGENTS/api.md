@@ -42,13 +42,13 @@ import ThemeSelect, {
 | `extension`    | `string`                 | no       | `".css"`                                               |
 | `target`       | `HTMLElement \| null`    | no       | `undefined` (resolves to `document.documentElement`)   |
 | `themeLabels`  | `Record<string, string>` | no       | `{}`                                                   |
-| `children`     | `Snippet<[ChildArgs]>`   | no       | default radio markup                                   |
+| `children`     | `Snippet<[ChildArgs]>`   | no       | default `<option>` markup                              |
 | `onChange`     | `(theme: string) => void`| no       | `undefined`                                            |
 | `class`        | `string`                 | no       | `""`                                                   |
 
 The `value` prop is two-way bindable via `bind:value`. Other
 attributes (`id`, `data-*`, event handlers, ARIA overrides) fall
-through to the root `<fieldset>` via the `{...restProps}` spread.
+through to the root `<select>` via the `{...restProps}` spread.
 
 ## Callbacks
 
@@ -60,7 +60,7 @@ onChange?: (theme: string) => void;
 
 `onChange` fires every time the picker successfully applies a theme:
 
-- after a radio-input change, with the new slug,
+- after a `<select>` change, with the new slug,
 - once when `$effect` resolves the initial value, with the resolved
   slug.
 
@@ -107,7 +107,7 @@ Consumers consume it via a `{#snippet}` block:
 </ThemeSelect>
 ```
 
-When no snippet is supplied, the picker renders the default radio
+When no snippet is supplied, the picker renders the default `<option>`
 markup documented in `spec.md §4.2`.
 
 ## Pure helpers
@@ -133,18 +133,15 @@ instantiating the picker.
 Root element:
 
 ```html
-<fieldset class="theme-select {class}" role="radiogroup" aria-label="{label}">
+<select class="theme-select {class}" aria-label="{label}" name="{name}">
     <!-- children snippet output, or default markup -->
-</fieldset>
+</select>
 ```
 
 Default option markup (one per `themes` entry):
 
 ```html
-<label class="theme-select-option">
-    <input type="radio" name="{name}" value="{slug}" checked={value === slug} />
-    <span class="theme-select-option-label">{labelFor(slug)}</span>
-</label>
+<option class="theme-select-option" value="{slug}">{labelFor(slug)}</option>
 ```
 
 Document mutations (only inside `$effect`):

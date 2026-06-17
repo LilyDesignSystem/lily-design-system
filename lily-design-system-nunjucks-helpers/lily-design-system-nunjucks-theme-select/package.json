@@ -1,0 +1,17 @@
+{
+  "name": "lily-design-system-nunjucks-theme-select",
+  "version": "0.1.0",
+  "description": "Lily Design System - Nunjucks 3 theme select",
+  "type": "module",
+  "main": "./theme-select.client.js",
+  "keywords": [
+    "lily",
+    "design",
+    "system",
+    "nunjucks",
+    "theme",
+    "select"
+  ],
+  "author": "joel@joelparkerhenderson.com",
+  "license": "MIT"
+}

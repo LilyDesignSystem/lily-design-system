@@ -1,0 +1,58 @@
+{#
+  Example 09 — Scoped target (change locale of one region, not the
+  whole page).
+
+  Useful for multilingual content panels: a single page with two
+  cards each in a different language. Pass `target: panelEl` so
+  the picker writes lang/dir to that element instead of <html>.
+
+  Outcome: the surrounding page stays in its document language;
+  the chosen panel switches independently. Two panels each scoped
+  to their own picker.
+#}
+{% from "../locale-select.njk" import localeSelect %}
+
+<article>
+    <h1>Document language stays English; panels switch independently.</h1>
+
+    <section id="panel-a" class="panel" lang="en">
+        <h2>Panel A</h2>
+        {{ localeSelect({
+            label: "Panel A language",
+            locales: ["en", "fr", "ar"],
+            value: "en",
+            attributes: { "data-scope": "a" }
+        }) }}
+        <p class="panel-body">Sample content scoped to Panel A.</p>
+        <p>Current locale: <code class="panel-locale">en</code></p>
+    </section>
+
+    <section id="panel-b" class="panel" lang="fr">
+        <h2>Panel B</h2>
+        {{ localeSelect({
+            label: "Panel B language",
+            locales: ["en", "fr", "ar"],
+            value: "fr",
+            attributes: { "data-scope": "b" }
+        }) }}
+        <p class="panel-body">Contenu d'exemple limité au Panneau B.</p>
+        <p>Current locale: <code class="panel-locale">fr</code></p>
+    </section>
+</article>
+
+<script type="module">
+    import { initLocaleSelect } from "../locale-select.client.js";
+
+    // Wire each picker to its enclosing <section> as the target.
+    document
+        .querySelectorAll("[data-lily-locale-select-root]")
+        .forEach((root) => {
+            const panel = root.closest(".panel");
+            initLocaleSelect(root, {
+                target: panel,
+                onChange(code) {
+                    panel.querySelector(".panel-locale").textContent = code;
+                },
+            });
+        });
+</script>

@@ -70,9 +70,10 @@ for the full recipe.
 
 ## Build a flyout / dropdown UI
 
-Use [custom-rendering](./custom-rendering.md) to swap the radio list
-for a button-triggered popover. Keep the picker's fieldset around the
-flyout *trigger* so screen readers still hear the group label.
+Use [custom-rendering](./custom-rendering.md) to swap the native
+`<select>` for a button-triggered popover rendered outside the picker.
+Call `setTheme` from your custom controls so the picker still owns the
+loading lifecycle.
 
 ## Serve themes from a CDN
 
@@ -106,6 +107,6 @@ the slug works.
 ## Multiple regions with independent themes
 
 See [`../examples/multiple-pickers.svelte`](../examples/multiple-pickers.svelte).
-Each picker gets a distinct `name` (so the radios and managed
-`<link>`s don't collide) and a distinct `target` (so `data-theme`
-goes on the section root rather than `<html>`).
+Each picker gets a distinct `name` (so the `<select>` names and
+managed `<link>`s don't collide) and a distinct `target` (so
+`data-theme` goes on the section root rather than `<html>`).

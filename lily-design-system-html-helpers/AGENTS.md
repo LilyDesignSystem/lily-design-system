@@ -10,8 +10,8 @@ Each helper follows the file shape in
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-html-theme-picker`](./lily-design-system-html-theme-picker/) — `<theme-picker>` dynamic theme CSS loader.
-- [`lily-design-system-html-locale-picker`](./lily-design-system-html-locale-picker/) — `<locale-picker>` `lang` + `dir` locale picker.
+- [`lily-design-system-html-theme-select`](./lily-design-system-html-theme-select/) — `<theme-select>` dynamic theme CSS loader.
+- [`lily-design-system-html-locale-select`](./lily-design-system-html-locale-select/) — `<locale-select>` `lang` + `dir` locale select.
 
 ## Working rules
 
@@ -27,8 +27,8 @@ Each helper follows the file shape in
   attributes or properties.
 - Light DOM only — no Shadow DOM, no scoped styling. The
   consumer's CSS targets the rendered children directly via the
-  kebab-case class hooks the element emits (`theme-picker-option`,
-  `locale-picker-option-label`, etc.).
+  kebab-case class hooks the element emits (`theme-select-option`,
+  `locale-select-option`, etc.).
 - Attributes are kebab-case; observed attributes trigger
   `attributeChangedCallback`. Array attributes are
   comma-separated strings; the matching JS property accepts an
@@ -46,7 +46,7 @@ Each helper follows the file shape in
 - [`AGENTS/testing.md`](./AGENTS/testing.md) — vitest + jsdom harness,
   attribute timing, CustomEvent capture, mocking.
 - [`AGENTS/accessibility.md`](./AGENTS/accessibility.md) — WCAG 2.2 AAA,
-  WAI-ARIA Radio Group, light-DOM rationale.
+  native `<select>` (combobox) semantics, light-DOM rationale.
 - [`AGENTS/ssr.md`](./AGENTS/ssr.md) — Eleventy / Astro / Hugo
   prerender + client upgrade.
 - [`AGENTS/shared/`](./AGENTS/shared/) — Lily-wide headless / i18n /

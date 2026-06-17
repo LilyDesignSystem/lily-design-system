@@ -1,0 +1,29 @@
+{#
+  Example 01 — Default native <select>.
+
+  The simplest possible mount. Each <option> renders with its
+  locale's pretty name (from the `localeLabels` opt; falls back to
+  the bare code if not provided) and its own `lang="…"` so screen
+  readers pronounce each in the right language.
+
+  Outcome: a single <select> with three <option>s. Picking one
+  writes `<html lang="…" dir="…">` and fires `onChange`.
+#}
+{% from "../locale-select.njk" import localeSelect %}
+
+{{ localeSelect({
+    label: "Choose your language",
+    locales: ["en", "fr", "ar"],
+    value: "en"
+}) }}
+
+<p>Selected locale: <code id="current-locale">en</code></p>
+
+<script type="module">
+    import { autoInit } from "../locale-select.client.js";
+    autoInit({
+        onChange(code) {
+            document.getElementById("current-locale").textContent = code;
+        },
+    });
+</script>

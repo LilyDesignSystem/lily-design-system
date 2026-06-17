@@ -1,0 +1,113 @@
+@*
+    08. Blazor Web App SSR with cookie persistence.
+
+    No flash of default locale: the server reads the cookie, fills
+    <html lang dir> in App.razor, and seeds the select with Value via
+    a CascadingParameter. Selecting a new locale POSTs to /api/locale,
+    which writes the cookie so the next request paints with the right
+    locale.
+
+    The companion server-side pieces (App.razor, Program.cs endpoint)
+    are shown as comments below; they live in their own files.
+
+    Outcome: every request paints with the right lang/dir from byte
+    zero. Choosing a locale rewrites the cookie and updates the DOM in
+    the same tick.
+*@
+
+@page "/examples/locale-select/ssr-cookie"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+@inject HttpClient Http
+
+<LocaleSelect
+    Label="Language"
+    Locales="@(new[] { "en", "fr", "ar" })"
+    @bind-Value="locale"
+    OnChange="OnLocaleChange" />
+
+<p>Selected locale: <code>@locale</code></p>
+
+@code {
+    @* InitialLocale arrives via CascadingValue from App.razor. *@
+    [CascadingParameter(Name = "InitialLocale")]
+    public string InitialLocale { get; set; } = "en";
+
+    private string locale = "";
+
+    protected override void OnInitialized() => locale = InitialLocale;
+
+    private async Task OnLocaleChange(string code)
+    {
+        try
+        {
+            await Http.PostAsJsonAsync("/api/locale", new { locale = code });
+        }
+        catch
+        {
+            // Silently swallow — the select's localStorage StorageKey could
+            // also persist the choice client-side if set.
+        }
+    }
+}
+
+@*
+    Companion files (place in your Blazor Web App):
+
+    Components/App.razor ─────────────────────────────────────────────
+    @inject IHttpContextAccessor HttpContextAccessor
+    @using LilyDesignSystem.Blazor.Helpers
+
+    @{
+        var cookieLocale = HttpContextAccessor.HttpContext?
+            .Request.Cookies["locale"] ?? "en";
+        var lang = Locales.Bcp47LocaleTag(cookieLocale);
+        var dir = Locales.IsRtlLocale(cookieLocale) ? "rtl" : "ltr";
+    }
+
+    <!DOCTYPE html>
+    <html lang="@lang" dir="@dir">
+        <head>
+            <link rel="stylesheet" href="/css/site.css" />
+            <HeadOutlet />
+        </head>
+        <body>
+            <CascadingValue Value="@cookieLocale" Name="InitialLocale">
+                <Routes @rendermode="InteractiveServer" />
+            </CascadingValue>
+            <script src="_framework/blazor.web.js"></script>
+        </body>
+    </html>
+
+    Program.cs ───────────────────────────────────────────────────────
+    var builder = WebApplication.CreateBuilder(args);
+    builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+    builder.Services.AddHttpContextAccessor();
+    builder.Services.AddScoped(sp => new HttpClient
+    {
+        BaseAddress = new Uri(sp.GetRequiredService<NavigationManager>().BaseUri),
+    });
+
+    var app = builder.Build();
+
+    app.MapPost("/api/locale", async (HttpContext ctx) =>
+    {
+        var body = await ctx.Request.ReadFromJsonAsync<LocaleBody>();
+        var code = body?.Locale ?? "en";
+        if (code is not ("en" or "fr" or "ar"))
+            return Results.BadRequest();
+        ctx.Response.Cookies.Append("locale", code, new CookieOptions
+        {
+            Path = "/",
+            SameSite = SameSiteMode.Lax,
+            MaxAge = TimeSpan.FromDays(365),
+            HttpOnly = false,
+        });
+        return Results.NoContent();
+    });
+
+    app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
+    app.Run();
+
+    record LocaleBody(string Locale);
+*@

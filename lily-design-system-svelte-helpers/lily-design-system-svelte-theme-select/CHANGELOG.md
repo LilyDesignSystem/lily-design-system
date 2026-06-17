@@ -14,8 +14,8 @@ and HTML ports port from this contract clause-for-clause.
 
 - `ThemeSelect.svelte` — Svelte 5 component using runes throughout
   (`$props`, `$bindable`, `$effect`). Implements:
-  - Renders `<fieldset role="radiogroup" aria-label="…">` with one
-    `<input type="radio">` per theme slug.
+  - Renders a native `<select aria-label="…" name="…">` with one
+    `<option>` per theme slug.
   - Manages a single `<link rel="stylesheet" data-lily-theme-select="{name}">`
     in `document.head` and swaps its `href` on each apply.
   - Sets `data-theme="{slug}"` on the resolved target element
@@ -31,7 +31,7 @@ and HTML ports port from this contract clause-for-clause.
   types.
 - `ThemeSelect.test.ts` — vitest suite asserting every numbered
   acceptance criterion in `spec.md` §7 (13 items + extras).
-- `ThemeSelect.stories.svelte` — Storybook story for the picker.
+- `ThemeSelect.stories.svelte` — Storybook story for the select.
 - `spec.md` — spec-driven contract, version 0.1.0.
 - `AGENTS.md` — fast-index pointer for AI agents.
 - `AGENTS/` subdirectory with `api.md`, `lifecycle.md`,

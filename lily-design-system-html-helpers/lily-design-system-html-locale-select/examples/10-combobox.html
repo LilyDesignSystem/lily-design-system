@@ -1,0 +1,138 @@
+<!doctype html>
+<!--
+    Example 10 — Combobox with type-ahead via <input list> + <datalist>.
+
+    For long locale lists (50+) where scrolling a plain <select> is
+    tedious. Uses native <datalist> for accessible type-ahead. The
+    select validates the typed value against the supported set
+    before applying.
+
+    Type "Fr" — the datalist filters to "Français", "Français
+    (Canada)", "Frisian", etc. Pick one and the select applies.
+
+    Browser support note: native <datalist> is widely supported but
+    iOS Safari's UX is limited. For fully APG-compliant combobox
+    semantics, build a custom one or use Lily's headless Combobox
+    primitive.
+
+    Note: locale-select.ts may need compilation to .js — adjust the
+    <script src=…> per your build output.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>locale-select — combobox</title>
+    <script type="module" src="../../locale-select.js"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 2rem; max-inline-size: 40rem; }
+        .locale-select { border: 0; padding: 0; }
+        .locale-select-combobox label {
+            display: flex; flex-direction: column; gap: 0.25rem;
+        }
+        .locale-select-combobox input {
+            font: inherit; padding: 0.5rem 0.75rem;
+            border: 1px solid #4c6272; border-radius: 4px;
+            min-inline-size: 20rem;
+        }
+        .meta { margin-block-start: 1rem; font-family: ui-monospace, monospace; }
+    </style>
+</head>
+<body>
+    <h1>Locale select — combobox</h1>
+
+    <combobox-locale-select
+        id="select"
+        label="Language"
+        storage-key="combobox-locale"
+    ></combobox-locale-select>
+
+    <p class="meta">
+        Selected: <code id="out">en</code> ·
+        BCP 47: <code id="tag">en</code>
+    </p>
+
+    <script type="module">
+        import {
+            LocaleSelect,
+            defaultLocaleLabels,
+            bcp47LocaleTag,
+        } from "../../locale-select.js";
+
+        // All 436 locale codes from the built-in table.
+        const ALL_LOCALES = Object.keys(defaultLocaleLabels);
+
+        class ComboboxLocaleSelect extends LocaleSelect {
+            constructor() {
+                super();
+                // Seed locales from the built-in table.
+                this.locales = ALL_LOCALES;
+            }
+            connectedCallback() {
+                super.connectedCallback();
+                this._rerender();
+            }
+            attributeChangedCallback(name, oldVal, newVal) {
+                super.attributeChangedCallback(name, oldVal, newVal);
+                if (name === "value" || name === "locales") this._rerender();
+            }
+            _rerender() {
+                const select = this.querySelector("select.locale-select");
+                if (!select) return;
+                // Replace the default <select> with a datalist combobox.
+                select.hidden = true;
+                this.querySelector(".locale-select-combobox")?.remove();
+
+                const wrapper = document.createElement("div");
+                wrapper.className = "locale-select-combobox";
+
+                const label = document.createElement("label");
+                const labelText = document.createElement("span");
+                labelText.textContent = this.label;
+                label.appendChild(labelText);
+
+                const input = document.createElement("input");
+                input.type = "text";
+                input.setAttribute("list", "locale-options");
+                input.setAttribute("autocomplete", "off");
+                input.setAttribute("aria-label", this.label);
+                input.placeholder = "Start typing a language…";
+                input.value = defaultLocaleLabels[this.value] ?? this.value;
+                label.appendChild(input);
+
+                const datalist = document.createElement("datalist");
+                datalist.id = "locale-options";
+                for (const locale of this.locales) {
+                    const opt = document.createElement("option");
+                    opt.value = defaultLocaleLabels[locale] ?? locale;
+                    opt.setAttribute("lang", bcp47LocaleTag(locale));
+                    opt.textContent = locale;
+                    datalist.appendChild(opt);
+                }
+
+                input.addEventListener("change", () => {
+                    const typed = input.value.toLowerCase();
+                    const match = this.locales.find((l) => {
+                        const lbl = (defaultLocaleLabels[l] ?? l).toLowerCase();
+                        return lbl === typed || l.toLowerCase() === typed;
+                    });
+                    if (match) this.value = match;
+                });
+
+                wrapper.appendChild(label);
+                wrapper.appendChild(datalist);
+                this.appendChild(wrapper);
+            }
+        }
+        customElements.define("combobox-locale-select", ComboboxLocaleSelect);
+
+        await customElements.whenDefined("combobox-locale-select");
+        document
+            .querySelector("#select")
+            .addEventListener("localechange", (e) => {
+                document.querySelector("#out").textContent = e.detail.locale;
+                document.querySelector("#tag").textContent =
+                    e.detail.locale.replace(/_/g, "-");
+            });
+    </script>
+</body>
+</html>

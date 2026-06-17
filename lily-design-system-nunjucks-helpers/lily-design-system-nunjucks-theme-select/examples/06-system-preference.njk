@@ -1,0 +1,40 @@
+{#
+  Example 06 — Follow the OS `prefers-color-scheme`.
+
+  The macro has no opinion about light vs. dark; it just owns the
+  selection contract. To make the first-visit default follow the OS,
+  resolve `prefers-color-scheme` in your Nunjucks host and pass the
+  resolved slug as `defaultValue`. The user can still pick anything
+  they like afterwards, and the choice persists via `storageKey`.
+
+  In Express:
+
+      const prefersDark =
+          req.headers["sec-ch-prefers-color-scheme"] === "dark";
+      res.render("page.njk", { prefersDark });
+
+  In the template, `prefersDark` is a boolean we use to pick the
+  defaultValue.
+#}
+{% from "../theme-select.njk" import themeSelect %}
+
+{{ themeSelect({
+    label: "Theme",
+    themesUrl: "/assets/themes/",
+    themes: ["light", "dark"],
+    defaultValue: "dark" if prefersDark else "light",
+    storageKey: "my-app:theme"
+}) }}
+
+<script type="module">
+    import { autoInit } from "../theme-select.client.js";
+    const [controller] = autoInit();
+
+    // Track OS preference changes live:
+    if (window.matchMedia) {
+        const mql = window.matchMedia("(prefers-color-scheme: dark)");
+        mql.addEventListener("change", (e) => {
+            controller?.setTheme(e.matches ? "dark" : "light");
+        });
+    }
+</script>

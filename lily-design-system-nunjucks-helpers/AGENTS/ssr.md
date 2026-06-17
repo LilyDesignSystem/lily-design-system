@@ -17,12 +17,12 @@ Nunjucks hosts.
 3. **`value` is the SSR bridge.** When you want a flicker-free first
    paint, resolve the value server-side (cookie, header, session
    store) and pass it as `opts.value`. The macro renders the
-   matching radio as `checked`, the client.js notices that on init
-   and applies without changing the DOM.
+   matching `<option>` as `selected`, the client.js notices that on
+   init and applies without changing the DOM.
 4. **The macro never emits `<script>`.** The consumer loads the
    client.js separately. This keeps the macro output usable even
-   when JS is disabled — the user sees a static radio group with
-   the right initial selection.
+   when JS is disabled — the user sees a static native `<select>`
+   with the right initial selection.
 
 ## Eleventy
 
@@ -58,8 +58,8 @@ export async function onRequest(context) {
 
 ```njk
 {# index.njk #}
-{% from "./theme-picker.njk" import themePicker %}
-{{ themePicker({
+{% from "./theme-select.njk" import themeSelect %}
+{{ themeSelect({
   label: "Theme",
   themesUrl: "/assets/themes/",
   themes: ["light", "dark", "abyss"],
@@ -68,8 +68,8 @@ export async function onRequest(context) {
 }) }}
 ```
 
-The macro renders with the cookie's theme already `checked`. On
-hydration, the client.js sees the checked radio, runs `applyTheme`,
+The macro renders with the cookie's theme already `selected`. On
+hydration, the client.js sees the selected option, runs `applyTheme`,
 and the user never sees a flash.
 
 ### Adding Eleventy data files
@@ -79,12 +79,12 @@ locale labels in `_data/`:
 
 ```js
 // _data/localeLabels.js
-import { defaultLocaleLabels } from "../../lily-design-system-nunjucks-locale-picker/locale-picker.client.js";
+import { defaultLocaleLabels } from "../../lily-design-system-nunjucks-locale-select/locale-select.client.js";
 export default defaultLocaleLabels;
 ```
 
 ```njk
-{{ localePicker({
+{{ localeSelect({
   label: "Language",
   locales: ["en", "fr", "ar"],
   localeLabels: localeLabels
@@ -98,7 +98,7 @@ Eleventy passthrough copies the client.js to the output:
 ```js
 // .eleventy.js
 eleventyConfig.addPassthroughCopy(
-    "lily-design-system-nunjucks-theme-picker/theme-picker.client.js",
+    "lily-design-system-nunjucks-theme-select/theme-select.client.js",
 );
 ```
 
@@ -106,12 +106,12 @@ Then in your base layout:
 
 ```njk
 <script type="module">
-  import { autoInit } from "/lily-design-system-nunjucks-theme-picker/theme-picker.client.js";
+  import { autoInit } from "/lily-design-system-nunjucks-theme-select/theme-select.client.js";
   autoInit();
 </script>
 ```
 
-`autoInit()` wires every `[data-lily-theme-picker-root]` it finds on
+`autoInit()` wires every `[data-lily-theme-select-root]` it finds on
 the page.
 
 ## Express + nunjucks
@@ -175,7 +175,7 @@ const html = nunjucks.render("page.njk", { theme: "dark" });
 console.log(html);
 ```
 
-The macro outputs a complete fieldset; no DOM was touched, no
+The macro outputs a complete `<select>`; no DOM was touched, no
 errors thrown.
 
 ## Hydration consistency
@@ -184,9 +184,9 @@ There is no "hydration mismatch" in this catalog because the macro
 is one-shot HTML, not a virtual DOM diff. The only cross-render
 gotcha is:
 
-- The server renders `value=""` (no radio checked), but the client
+- The server renders `value=""` (no option selected), but the client
   picks a non-empty value from `localStorage`. The user briefly
-  sees an unchecked group, then the chosen radio fills in.
+  sees no option selected, then the chosen option fills in.
 - **Fix.** Resolve the value server-side and pass it as
   `opts.value`.
 

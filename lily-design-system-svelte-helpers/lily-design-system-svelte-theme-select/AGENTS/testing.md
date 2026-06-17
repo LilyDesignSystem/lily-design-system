@@ -57,20 +57,18 @@ it("themeHref builds the full URL", () => {
 });
 ```
 
-## Triggering a radio change
+## Triggering a select change
 
 ```ts
 import { fireEvent } from "@testing-library/svelte";
 
-const dark = container.querySelector('input[value="dark"]') as HTMLInputElement;
-await fireEvent.click(dark);
-// Or, equivalently:
-dark.checked = true;
-await fireEvent.change(dark);
+const select = container.querySelector("select") as HTMLSelectElement;
+select.value = "dark";
+await fireEvent.change(select);
 ```
 
 The picker reads `e.target.value` inside its `onchange` handler, so
-either approach drives the same code path.
+setting the value and firing `change` drives the same code path.
 
 ## Asserting the managed `<link>`
 
@@ -174,7 +172,7 @@ it("renders cleanly under SSR", () => {
             value: "light",
         },
     });
-    expect(html).toContain('role="radiogroup"');
+    expect(html).toContain("<select");
     expect(html).toContain('aria-label="Theme"');
     expect(html).toContain('value="light"');
 });

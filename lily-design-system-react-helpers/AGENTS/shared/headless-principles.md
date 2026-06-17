@@ -12,19 +12,19 @@ keyboard semantics. Consumers ship every visual decision.
 ## Markup
 
 - Choose the most specific semantic HTML element that fits
-  (`<fieldset>`, `<input type="radio">`, `<button>`, `<select>`).
-  Reach for `<div>` and `<span>` only when no semantic element fits.
+  (`<select>`, `<option>`, `<button>`). Reach for `<div>` and
+  `<span>` only when no semantic element fits.
 - The first attribute on the root element is the kebab-case base
   class plus the consumer's optional `className`. For the current
   catalog this means
-  `className={\`theme-picker ${className}\`.trim()}` and
-  `className={\`locale-picker ${className}\`.trim()}`. Consumer
+  `className={\`theme-select ${className}\`.trim()}` and
+  `className={\`locale-select ${className}\`.trim()}`. Consumer
   CSS targets either form with a single selector.
-- Inner sub-classes (`theme-picker-option`, `locale-picker-option`,
-  `theme-picker-option-label`) are kebab-case derivatives of the
-  base class. They are stable contracts: consumers can rely on
-  them, so don't rename or remove them between versions.
-- Spread `{...restProps}` onto the root `<fieldset>` so consumers
+- Inner sub-classes (`theme-select-option`, `locale-select-option`)
+  are kebab-case derivatives of the base class. They are stable
+  contracts: consumers can rely on them, so don't rename or remove
+  them between versions.
+- Spread `{...restProps}` onto the root `<select>` so consumers
   can pass `id`, `data-*`, event handlers, and ARIA overrides
   without the helper blocking them.
 
@@ -38,9 +38,9 @@ keyboard semantics. Consumers ship every visual decision.
   `aria-live`) are the helper's responsibility. The helper renders
   them based on its props.
 - Keyboard interaction patterns (Arrow / Enter / Space / Escape /
-  Home / End / Tab) follow the WAI-ARIA Authoring Practices for the
-  relevant pattern. For the current catalog, that's the Radio Group
-  pattern, fully provided by the native `<input type="radio">`.
+  Home / End / Tab) follow the native control's platform behaviour.
+  For the current catalog, that's the native `<select>` element,
+  which provides the full keyboard contract.
 - WCAG 2.2 AAA is the target. Colour contrast and focus-ring
   visibility are the consumer's CSS concern; semantic structure
   and keyboard reachability are the helper's concern.
@@ -50,7 +50,7 @@ keyboard semantics. Consumers ship every visual decision.
 The helpers handle:
 
 - Focus management inside the component (default: none, because
-  native radios already implement the APG pattern).
+  the native `<select>` already implements the platform pattern).
 - Keyboard navigation between own children (default: provided by
   the platform).
 - Opening / closing internal state with controlled/uncontrolled
@@ -86,11 +86,11 @@ JS may want to observe:
 
 | Attribute                          | On                          | Set by                            |
 | ---------------------------------- | --------------------------- | --------------------------------- |
-| `data-theme="<slug>"`              | `target` (default `<html>`) | `ThemePicker`                     |
-| `data-lily-theme-picker="<name>"`  | the managed `<link>`        | `ThemePicker` (discriminator)     |
+| `data-theme="<slug>"`              | `target` (default `<html>`) | `ThemeSelect`                     |
+| `data-lily-theme-select="<name>"`  | the managed `<link>`        | `ThemeSelect` (discriminator)     |
 
-For state that's purely for assistive technology (`aria-checked`,
-`aria-pressed`), use the ARIA attribute, not `data-*`.
+For state that's purely for assistive technology (`aria-pressed`,
+`aria-expanded`), use the ARIA attribute, not `data-*`.
 
 ## React-specific application
 
@@ -109,16 +109,16 @@ For state that's purely for assistive technology (`aria-checked`,
 
 ## What "headless" specifically means in this catalog
 
-The pickers own the **behaviour** (when to apply, where to write,
-how to persist) and the **semantic structure** (fieldset +
-radiogroup + radios). They do not own:
+The selects own the **behaviour** (when to apply, where to write,
+how to persist) and the **semantic structure** (a native `<select>`
+with `<option>` children). They do not own:
 
-- How the radios look (consumer CSS).
+- How the select looks (consumer CSS).
 - What labels appear (`label`, `themeLabels`, `localeLabels` props).
-- How errors / validation surface (not applicable — pickers don't
+- How errors / validation surface (not applicable — selects don't
   validate).
-- Where the picker sits on the page (consumer layout).
-- Whether the picker is wrapped in a flyout, drawer, or banner
+- Where the select sits on the page (consumer layout).
+- Whether the select is wrapped in a flyout, drawer, or banner
   (consumer composition).
 
 The split is what makes the helpers framework-portable and

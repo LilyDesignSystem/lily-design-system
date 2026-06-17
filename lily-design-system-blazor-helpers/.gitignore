@@ -1,6 +1,2 @@
-# .NET / Blazor build outputs
-**/bin/
-**/obj/
-*.user
-*.suo
-.vs/
+bin/
+obj/

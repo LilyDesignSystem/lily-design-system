@@ -1,0 +1,36 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+
+@*
+    LocaleSelect — Blazor helper component.
+    Single source of truth: spec.md (§1–§9).
+
+    Renders an accessible native <select> of available locales. On every
+    selection it sets `lang` (BCP 47 hyphen form) and `dir`
+    (`ltr`/`rtl`) on the document root, optionally persists to
+    `localStorage`, and invokes OnChange / ValueChanged with the
+    original consumer-form code.
+
+    All DOM writes happen through IJSRuntime inside OnAfterRenderAsync,
+    so the component is SSR / prerender safe.
+*@
+
+<select class="@RootClass"
+        aria-label="@Label"
+        name="@Name"
+        @onchange="OnSelectAsync"
+        @attributes="AdditionalAttributes">
+    @if (ChildContent is not null)
+    {
+        @ChildContent(BuildContext())
+    }
+    else
+    {
+        @foreach (var locale in Locales)
+        {
+            <option class="locale-select-option"
+                    value="@locale"
+                    lang="@TagFor(locale)"
+                    selected="@(Value == locale)">@LabelFor(locale)</option>
+        }
+    }
+</select>

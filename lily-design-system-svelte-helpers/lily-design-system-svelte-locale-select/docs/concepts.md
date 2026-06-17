@@ -25,12 +25,11 @@ zero string tables, zero dependencies beyond Svelte.
 
 The picker:
 
-- Renders semantic HTML (`<fieldset>` + `<input type="radio">`) with
-  exactly the ARIA the WAI-ARIA APG specifies for a radio group.
-- Carries a stable kebab-case class hook (`locale-select`,
-  `locale-select-option`, `locale-select-option-label`) on every
-  element so your CSS can target it without prefixes or specificity
-  tricks.
+- Renders semantic HTML (`<select>` + `<option>`) — a native combobox
+  with no extra ARIA needed.
+- Carries a stable kebab-case class hook (`locale-select` on the
+  `<select>`, `locale-select-option` on each `<option>`) so your CSS
+  can target it without prefixes or specificity tricks.
 - Ships **no** colour, spacing, typography, font, icon, or animation
   decisions. You supply all of that.
 - Ships **no** translated strings. The `label` prop and `localeLabels`
@@ -63,23 +62,22 @@ Each instance manages a single bindable `value`:
 The effect is intentional — both DOM mutation and storage are side
 effects, so they belong in `$effect`, not `$derived`.
 
-## Why `<fieldset role="radiogroup">` by default
+## Why a native `<select>` by default
 
 Three reasons:
 
-1. **Discoverability**. The full set of options surfaces to assistive
-   tech on first focus into the group, while a `<select>` requires the
-   user to open the popover before the choices are announced.
+1. **Scales**. A native `<select>` stays compact regardless of how
+   many locales you list, and pops the OS-native picker on mobile.
 2. **Symmetry with `ThemeSelect`**. The sibling helper in this
    directory uses the same shape, so the two compose visually and
    semantically without surprises.
 3. **Escape hatch is one snippet away**. The `children` snippet hands
    you the full state machine — locales, value, `setLocale`, `tagFor`,
-   `isRtl`, `labelFor` — so a `<select>` or button group is a 10-line
+   `isRtl`, `labelFor` — so a radio group or button group is a 10-line
    rewrite, not a fork.
 
-For long locale lists (>~12), use the children snippet to render a
-`<select>` or combobox. See [examples/02-select.svelte](../examples/02-select.svelte).
+For an always-visible list of a few locales, use the children snippet
+to render radios or buttons. See [examples/03-buttons.svelte](../examples/03-buttons.svelte).
 
 ## Why a separate `value` and `target.lang`
 
@@ -127,7 +125,7 @@ Three layers, mirroring the lifecycle:
    `matchNavigatorLanguage` are pure functions. Unit-test them in
    isolation.
 2. **DOM contract** — after mount, assert `document.documentElement.lang`
-   and `.dir`. Drive a `click` to a radio and assert again.
+   and `.dir`. Drive a `change` on the `<select>` and assert again.
 3. **Bindable + onChange** — drive `value` programmatically and assert
    the same DOM observations.
 

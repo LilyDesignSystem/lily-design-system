@@ -30,31 +30,28 @@ public Dictionary<string, object>? AdditionalAttributes { get; set; }
 This is the Blazor equivalent of React's `...rest` and Vue's
 `v-bind="$attrs"`.
 
-`@bind` works on `<input type="radio">` differently from Vue's
+`@bind` works on `<select>` differently from Vue's
 `v-model`. The helpers use explicit `@onchange` handlers so the
-event payload (the radio's `value`) is what flows to the picker's
-internal `SetValueAsync`, not the radio's `checked` boolean.
+event payload (the selected `<option>`'s `value`) is what flows to
+the select's internal `SetValueAsync`.
 
-### `RenderFragment<TContext>` and the radiogroup contract
+### `RenderFragment<TContext>` and the select contract
 
-The default rendering wraps each option in a `<label>` containing a
-native `<input type="radio">`. A custom `ChildContent` replaces only
-the inside of the `<fieldset role="radiogroup">`, so the group
-container is preserved even when consumers render `<button>` swatches
-or a `<select>` dropdown.
+The default rendering emits one native `<option>` per slug inside the
+`<select>`. A custom `ChildContent` replaces only the inside of the
+`<select>` (the options), so the combobox container is preserved even
+when consumers render their own `<option>` elements.
 
-If a custom render fragment drops the radios entirely, the consumer
-must add `aria-pressed` (button group) or rely on `<select>`'s
-implicit combobox role. See the per-helper `docs/accessibility.md`
-for patterns.
+If a custom render fragment renders `<button>` swatches instead of
+options, the consumer must add `aria-pressed` (button group). See the
+per-helper `docs/accessibility.md` for patterns.
 
 ### Label vs aria-label
 
-The helpers carry the consumer's group name as `aria-label="@Label"`
-on the root `<fieldset role="radiogroup">`. There is no separate
-visible `<legend>` by default; consumers who want a visible legend
-can add one inside the fieldset via the `ChildContent` render
-fragment.
+The helpers carry the consumer's accessible name as
+`aria-label="@Label"` on the root `<select>`. There is no separate
+visible `<label>` by default; consumers who want a visible label can
+associate one via `id` / `for` and the `AdditionalAttributes` spread.
 
 ### `MarkupString` and XSS
 
@@ -65,10 +62,11 @@ ThemeLabels`) and Razor escapes them by default. Don't change this —
 
 ## Keyboard
 
-Native `<input type="radio">` provides Tab / Shift+Tab / Arrow /
-Space / Home / End for free. None of the helpers add keyboard
-handlers; if a `ChildContent` fragment drops the radios, the
-consumer becomes responsible for keyboard behaviour.
+The native `<select>` provides Tab / Shift+Tab / Arrow Up / Arrow
+Down / Home / End / typeahead / Enter / Space / Escape for free.
+None of the helpers add keyboard handlers; if a `ChildContent`
+fragment renders custom controls (e.g. `<button>` swatches) instead
+of options, the consumer becomes responsible for keyboard behaviour.
 
 ## Focus management
 
@@ -78,9 +76,9 @@ On Input). When wiring `OnChange` to navigation
 (`NavigationManager.NavigateTo`), preserve scroll position and avoid
 focus jumps.
 
-## Screen-reader pronunciation (locale picker)
+## Screen-reader pronunciation (locale select)
 
-Each `<label>` carries `lang="…"` so screen readers switch
+Each `<option>` carries `lang="…"` so screen readers switch
 pronunciation per option (WCAG 3.1.2, Language of Parts). Custom
 `ChildContent` renderings must keep this attribute on the rendered
 element.
@@ -106,13 +104,13 @@ bUnit + xUnit is enough for ARIA-attribute assertions:
 [Fact]
 public void Has_Aria_Label()
 {
-    var cut = RenderComponent<ThemePicker>(p => p
+    var cut = RenderComponent<ThemeSelect>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, "/t/")
         .Add(x => x.Themes, new[] { "light" }));
 
-    Assert.Equal("Theme", cut.Find("fieldset").GetAttribute("aria-label"));
-    Assert.Equal("radiogroup", cut.Find("fieldset").GetAttribute("role"));
+    Assert.Equal("Theme", cut.Find("select").GetAttribute("aria-label"));
+    Assert.Equal(1, cut.FindAll("option").Count);
 }
 ```
 
@@ -128,17 +126,17 @@ default — they're standalone widgets, not form controls. Consumers
 wiring them into a form can bind `@bind-Value` to a model property
 and the rest is conventional Blazor data binding.
 
-## InputRadio vs raw `<input type="radio">`
+## InputSelect vs raw `<select>`
 
-The helpers use raw `<input type="radio">` rather than Blazor's
-`InputRadio<T>` component because:
+The helpers use a raw `<select>` rather than Blazor's
+`InputSelect<T>` component because:
 
-1. `InputRadio<T>` requires an `EditContext` ancestor.
+1. `InputSelect<T>` requires an `EditContext` ancestor.
 2. The helpers want explicit control of the `name` attribute (for
-   multi-picker scenarios).
-3. Raw radios keep the markup framework-agnostic so consumers can
-   apply their own CSS without fighting `InputRadio<T>`'s baked-in
-   class hooks.
+   multi-select scenarios).
+3. A raw `<select>` keeps the markup framework-agnostic so consumers
+   can apply their own CSS without fighting `InputSelect<T>`'s
+   baked-in class hooks.
 
 If you need `EditForm` integration, write a thin wrapper that
 delegates `@bind-Value` to the helper.
@@ -146,7 +144,7 @@ delegates `@bind-Value` to the helper.
 ## High contrast mode
 
 Windows High Contrast Mode (and the newer Forced Colors Mode) overrides
-the consumer's CSS. The helpers' raw `<input type="radio">` elements
-get the OS-supplied focus and selected styling automatically; no
-extra work is needed. Don't override `forced-color-adjust` in
-consumer CSS unless you've measured the trade-off.
+the consumer's CSS. The helpers' raw `<select>` element gets the
+OS-supplied focus and selected styling automatically; no extra work
+is needed. Don't override `forced-color-adjust` in consumer CSS
+unless you've measured the trade-off.

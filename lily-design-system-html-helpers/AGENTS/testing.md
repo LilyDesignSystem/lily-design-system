@@ -35,8 +35,8 @@ and letting the platform call `connectedCallback`:
 
 ```ts
 import { describe, it, expect, beforeEach } from "vitest";
-import "./index"; // side-effectfully registers <theme-picker>
-import type { ThemePicker } from "./theme-picker";
+import "./index"; // side-effectfully registers <theme-select>
+import type { ThemeSelect } from "./theme-select";
 
 beforeEach(() => {
     document.head.innerHTML = "";
@@ -47,16 +47,16 @@ beforeEach(() => {
     localStorage.clear();
 });
 
-it("renders a fieldset with role=radiogroup", () => {
-    const el = document.createElement("theme-picker") as ThemePicker;
+it("renders a select with an accessible name", () => {
+    const el = document.createElement("theme-select") as ThemeSelect;
     el.setAttribute("label", "Theme");
     el.setAttribute("themes-url", "/themes/");
     el.setAttribute("themes", "light,dark");
     document.body.appendChild(el); // triggers connectedCallback
 
-    const root = el.querySelector("fieldset");
+    const root = el.querySelector("select");
     expect(root).not.toBeNull();
-    expect(root!.getAttribute("role")).toBe("radiogroup");
+    expect(root!.getAttribute("aria-label")).toBe("Theme");
 });
 ```
 
@@ -68,7 +68,7 @@ Attributes set before `appendChild` are picked up in
 
 ```ts
 // Pre-append:
-const el = document.createElement("theme-picker") as ThemePicker;
+const el = document.createElement("theme-select") as ThemeSelect;
 el.setAttribute("themes", "light,dark");
 document.body.appendChild(el);
 
@@ -89,12 +89,12 @@ el.themeLabels = { light: "Bright" };   // writes theme-labels='{"light":"Bright
 Tests verify both setter forms produce the same DOM:
 
 ```ts
-const a = createPicker({ "themes": "light,dark" });
-const b = createPicker({});
+const a = createSelect({ "themes": "light,dark" });
+const b = createSelect({});
 b.themes = ["light", "dark"];
 
-expect(a.querySelectorAll("input").length).toBe(2);
-expect(b.querySelectorAll("input").length).toBe(2);
+expect(a.querySelectorAll("option").length).toBe(2);
+expect(b.querySelectorAll("option").length).toBe(2);
 ```
 
 ## Common assertions
@@ -102,8 +102,8 @@ expect(b.querySelectorAll("input").length).toBe(2);
 | Goal                                | Pattern                                                                       |
 | ----------------------------------- | ----------------------------------------------------------------------------- |
 | Wait for `connectedCallback`        | Append; the callback is synchronous in jsdom.                                 |
-| Find a radio by value               | `el.querySelector('input[type="radio"][value="dark"]')`                       |
-| Toggle a radio                      | `radio.checked = true; radio.dispatchEvent(new Event("change"))`              |
+| Find an option by value             | `el.querySelector('option[value="dark"]')`                                    |
+| Change the selection                | `select.value = "dark"; select.dispatchEvent(new Event("change"))`            |
 | Capture a CustomEvent               | `let detail; el.addEventListener("themechange", (e) => detail = e.detail);`   |
 | Inspect document mutations          | `document.documentElement.dataset.theme`                                      |
 | Re-mount fresh                      | `el.remove(); document.body.appendChild(otherEl);`                            |
@@ -112,9 +112,9 @@ expect(b.querySelectorAll("input").length).toBe(2);
 ## Capturing CustomEvents
 
 ```ts
-const events: ThemePickerChangeDetail[] = [];
+const events: ThemeSelectChangeDetail[] = [];
 el.addEventListener("themechange", (e) => {
-    events.push((e as CustomEvent<ThemePickerChangeDetail>).detail);
+    events.push((e as CustomEvent<ThemeSelectChangeDetail>).detail);
 });
 el.value = "dark"; // triggers attributeChangedCallback → applyTheme → dispatchEvent
 expect(events.at(-1)).toEqual({ theme: "dark" });
@@ -127,23 +127,23 @@ also works:
 document.body.addEventListener("themechange", (e) => { /* … */ });
 ```
 
-## Triggering a radio change
+## Triggering a select change
 
 ```ts
-const radio = el.querySelector<HTMLInputElement>('input[value="dark"]')!;
-radio.checked = true;
-radio.dispatchEvent(new Event("change", { bubbles: true }));
+const select = el.querySelector<HTMLSelectElement>("select")!;
+select.value = "dark";
+select.dispatchEvent(new Event("change", { bubbles: true }));
 ```
 
 The element's `change` listener (attached in `#render()`) writes to
 `el.value`, which feeds back through `attributeChangedCallback` →
 `#applyTheme()` → `dispatchEvent`.
 
-## Asserting the managed `<link>` (theme picker)
+## Asserting the managed `<link>` (theme select)
 
 ```ts
 const link = document.head.querySelector<HTMLLinkElement>(
-    'link[data-lily-theme-picker="theme"]',
+    'link[data-lily-theme-select="theme"]',
 );
 expect(link).not.toBeNull();
 expect(link!.href).toMatch(/\/themes\/light\.css$/);
@@ -188,7 +188,7 @@ Object.defineProperty(navigator, "languages", {
 mount needed:
 
 ```ts
-import { normalizeThemesUrl, themeHref } from "./theme-picker";
+import { normalizeThemesUrl, themeHref } from "./theme-select";
 
 it("§7.7 normalizeThemesUrl appends a slash", () => {
     expect(normalizeThemesUrl("/x")).toBe("/x/");
@@ -206,9 +206,9 @@ The HTML helpers expose "custom rendering" by subclassing the class
 and overriding `#render()`. The pattern is:
 
 ```ts
-import { ThemePicker } from "./theme-picker";
+import { ThemeSelect } from "./theme-select";
 
-class SwatchPicker extends ThemePicker {
+class SwatchPicker extends ThemeSelect {
     // Override the private render via a public hook.
     // (See per-helper API.md for the exact extension surface.)
 }
@@ -233,7 +233,7 @@ it("the class module is import-safe under SSR", async () => {
     try {
         // Importing the barrel must not throw.
         const mod = await import("./index");
-        expect(mod.ThemePicker).toBeDefined();
+        expect(mod.ThemeSelect).toBeDefined();
     } finally {
         (globalThis as any).customElements = original;
     }

@@ -8,8 +8,8 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-react-theme-picker`](./lily-design-system-react-theme-picker/) — dynamic theme CSS loader.
-- [`lily-design-system-react-locale-picker`](./lily-design-system-react-locale-picker/) — `lang` + `dir` locale picker.
+- [`lily-design-system-react-theme-select`](./lily-design-system-react-theme-select/) — dynamic theme CSS loader.
+- [`lily-design-system-react-locale-select`](./lily-design-system-react-locale-select/) — `lang` + `dir` locale select.
 
 ## Working rules
 

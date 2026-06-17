@@ -1,42 +1,43 @@
 # Accessibility
 
-The picker targets WCAG 2.2 AAA and follows the WAI-ARIA Authoring
-Practices 1.2 Radio Group pattern.
+The picker targets WCAG 2.2 AAA and uses a native HTML `<select>`,
+which carries the platform combobox semantics for free.
 
 ## Roles and properties
 
-| Element                       | Role / Property            | Source        |
-| ----------------------------- | -------------------------- | ------------- |
-| `<fieldset>`                  | `role="radiogroup"`        | Picker        |
-| `<fieldset>`                  | `aria-label={label}`       | Consumer prop |
-| `<input type="radio">`        | implicit `role="radio"`    | Browser       |
-| `<input type="radio">`        | `aria-checked` (implicit)  | Browser       |
-| `<input type="radio">` × N    | shared `name`              | Picker        |
+| Element        | Role / Property            | Source        |
+| -------------- | -------------------------- | ------------- |
+| `<select>`     | implicit `role="combobox"` | Browser       |
+| `<select>`     | `aria-label={label}`       | Consumer prop |
+| `<select>`     | `name`                     | Picker        |
+| `<option>`     | implicit `role="option"`   | Browser       |
+| `<option>`     | selected state (implicit)  | Browser       |
 
 The picker does not add ARIA where native semantics already cover the
-need. There is no `aria-pressed`, no roving tabindex, no manual focus
-management — the native radio behaviour is exactly the WAI-ARIA
-Authoring Practices pattern.
+need. There is no `aria-pressed`, no manual focus management — the
+native `<select>` behaviour is exactly the platform combobox.
 
 ## Keyboard contract
 
-Provided entirely by the platform's native radio inputs:
+Provided entirely by the platform's native `<select>`:
 
-| Key             | Action                                            |
-| --------------- | ------------------------------------------------- |
-| `Tab`           | Move focus into / out of the group.               |
-| `Shift+Tab`     | Move focus backwards out of the group.            |
-| `Arrow Down/Right` | Move selection to the next option.            |
-| `Arrow Up/Left` | Move selection to the previous option.            |
-| `Space`         | Re-select the focused option (rarely needed).     |
-| `Home` / `End`  | Move to first / last option (most browsers).      |
+| Key                  | Action                                            |
+| -------------------- | ------------------------------------------------- |
+| `Tab`                | Move focus to the select.                         |
+| `Shift+Tab`          | Move focus away from the select.                  |
+| `Arrow Down`         | Select the next option.                           |
+| `Arrow Up`           | Select the previous option.                       |
+| `Home` / `End`       | Select the first / last option.                   |
+| Typeahead            | Type characters to jump to a matching option.     |
+| `Enter` / `Space`    | Open the option list (platform-dependent).        |
+| `Escape`             | Close the option list.                            |
 
 ## State signals
 
 The active state is exposed in three independent channels — no
 colour-only meaning is required:
 
-1. `aria-checked` on the selected radio.
+1. The selected `<option>` in the `<select>`.
 2. `data-theme="<slug>"` on the target element (default `<html>`).
 3. The bindable `value` prop in user code.
 
@@ -61,19 +62,18 @@ the `data-theme` swap.
 
 ## Screen-reader smoke test
 
-- VoiceOver (macOS) announces the group as "{label}, radiogroup" and
-  each option as "{labelFor(slug)}, radio button, selected / not
-  selected".
-- NVDA announces "{label} grouping" and each option similarly.
+- VoiceOver (macOS) announces the control as "{label}, pop-up button"
+  and each option as "{labelFor(slug)}, selected / N of M".
+- NVDA announces "{label} combo box" and each option similarly.
 - Selection changes are announced because the underlying control
-  state (checked) changes.
+  value changes.
 
 ## Common mistakes to avoid
 
-- **Replacing the fieldset with a div in custom-rendering.** The
-  `children` snippet renders inside the fieldset; do not wrap a div
-  *around* the picker if you need group semantics.
-- **Hiding the radio inputs with `display: none`.** That removes them
+- **Replacing the `<select>` with a div in custom-rendering.** The
+  `children` snippet renders inside the `<select>`; do not wrap a div
+  *around* the picker if you need combobox semantics.
+- **Hiding the `<select>` with `display: none`.** That removes it
   from the accessibility tree. Use a visually-hidden pattern
   (`clip-path: inset(50%)` or the `.sr-only` recipe) instead.
 - **Forgetting to translate `themeLabels`.** The picker only knows

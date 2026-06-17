@@ -104,7 +104,7 @@ Pass `applyDir={false}` if you want full control of `dir` yourself.
 
 ## Examples
 
-### Default radio group with NHS-style markup
+### Default select with NHS-style markup
 
 ```svelte
 <script lang="ts">
@@ -115,20 +115,14 @@ Pass `applyDir={false}` if you want full control of `dir` yourself.
 <LocaleSelect label="Language" locales={["en", "cy"]} bind:value={locale} />
 
 <!-- Renders:
-<fieldset class="locale-select" role="radiogroup" aria-label="Language">
-    <label class="locale-select-option" lang="en">
-        <input type="radio" name="locale" value="en" checked />
-        <span class="locale-select-option-label">English</span>
-    </label>
-    <label class="locale-select-option" lang="cy">
-        <input type="radio" name="locale" value="cy" />
-        <span class="locale-select-option-label">Welsh</span>
-    </label>
-</fieldset>
+<select class="locale-select" aria-label="Language" name="locale">
+    <option class="locale-select-option" value="en" lang="en">English</option>
+    <option class="locale-select-option" value="cy" lang="cy">Welsh</option>
+</select>
 -->
 ```
 
-Each option is wrapped with its own `lang` attribute so a screen reader
+Each option carries its own `lang` attribute so a screen reader
 pronounces "Cymraeg" with a Welsh voice (WCAG 3.1.2, Language of
 Parts).
 
@@ -147,10 +141,10 @@ Override per-code with `localeLabels`:
 />
 ```
 
-Each label is rendered inside a `lang="…"` block so each one is
+Each option carries a `lang="…"` attribute so each one is
 announced in its own language.
 
-### Driving a `<select>` instead of radios
+### Driving custom `<option>` markup
 
 Use the `children` snippet for full markup control. The picker still
 owns the apply lifecycle:
@@ -244,9 +238,9 @@ cookie or `Accept-Language`) and pass it as `value`:
 />
 ```
 
-During SSR the component renders the radios with the supplied value
-checked, and the document already arrives with the correct `lang`
-attribute on `<html>`.
+During SSR the component renders the `<select>` with the supplied
+value selected, and the document already arrives with the correct
+`lang` attribute on `<html>`.
 
 ### Render into a scoped target instead of `<html>`
 
@@ -304,17 +298,17 @@ Common optional props: `value` (bindable), `defaultValue`,
 
 ## Accessibility
 
-- `<fieldset role="radiogroup" aria-label="…">` is the announced
-  container.
-- Native `<input type="radio">` gives Arrow / Space / Tab semantics for
-  free (WAI-ARIA APG, Radio Group pattern).
-- Each visible option carries `lang="…"` so its name is pronounced in
+- `<select aria-label="…">` is the announced control (implicit
+  `combobox` role).
+- The native `<select>` gives Arrow / Home / End / typeahead semantics
+  for free.
+- Each `<option>` carries `lang="…"` so its name is pronounced in
   the right language (WCAG 3.1.2, Language of Parts).
 - The document root carries `lang` and (by default) `dir` so the page
   satisfies WCAG 3.1.1 (Language of Page) and bidi text/layout
   inverts correctly for RTL locales.
 - No colour-only meaning; the active state is also visible in the
-  resolved `lang` attribute and in `aria-checked` on the radios.
+  resolved `lang` attribute and in the `<select>`'s current value.
 
 ## Tests
 
@@ -356,8 +350,8 @@ you can copy into your project.
 
 | Example                                                                                 | Demonstrates                                                       |
 | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [01-radios.svelte](./examples/01-radios.svelte)                                         | The default `<fieldset role="radiogroup">` rendering.              |
-| [02-select.svelte](./examples/02-select.svelte)                                         | Native `<select>` dropdown via the `children` snippet.             |
+| [01-radios.svelte](./examples/01-radios.svelte)                                         | The default native `<select>` rendering.                          |
+| [02-select.svelte](./examples/02-select.svelte)                                         | Custom `<select>` markup via the `children` snippet.              |
 | [03-buttons.svelte](./examples/03-buttons.svelte)                                       | Toggle-button group with short codes / glyphs.                     |
 | [04-rtl-demo.svelte](./examples/04-rtl-demo.svelte)                                     | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
 | [05-nhs-style.svelte](./examples/05-nhs-style.svelte)                                   | NHS UK-style language banner with endonyms.                        |

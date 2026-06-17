@@ -39,17 +39,17 @@ new
 Consumer CSS reads `var(--theme-color-primary)`,
 `var(--theme-space-md)`, etc.
 
-## How the Blazor theme-picker fits in
+## How the Blazor theme-select fits in
 
-The Blazor `ThemePicker` helper writes two signals via a single
+The Blazor `ThemeSelect` helper writes two signals via a single
 `IJSRuntime` call:
 
-1. A managed `<link rel="stylesheet" data-lily-theme-picker="{Name}">`
+1. A managed `<link rel="stylesheet" data-lily-theme-select="{Name}">`
    in `document.head` whose `href` swaps on every change.
 2. A `data-theme="<slug>"` attribute on the document root.
 
 Theme CSS files scope their rules to `:root[data-theme="<slug>"]` so
-the picker's attribute mutation is enough to switch the live theme.
+the select's attribute mutation is enough to switch the live theme.
 
 ```css
 :root[data-theme="dark"] {
@@ -59,14 +59,14 @@ the picker's attribute mutation is enough to switch the live theme.
 }
 ```
 
-The picker does not write CSS custom properties directly. Theme
-authors do, via the `<link>` the picker swaps into `<head>`.
+The select does not write CSS custom properties directly. Theme
+authors do, via the `<link>` the select swaps into `<head>`.
 
 ## Light / dark / high-contrast
 
-The picker's `Value` is just a string. Convention says `light`,
+The select's `Value` is just a string. Convention says `light`,
 `dark`, and `high-contrast` slugs map to those three modes, but the
-picker doesn't enforce that — any slug is valid.
+select doesn't enforce that — any slug is valid.
 
 A `prefers-color-scheme: dark` integration is one-line in the
 consumer (server-side, e.g. via a media-query hint header
@@ -88,7 +88,7 @@ sent by the client, or client-side via JS interop):
 ```
 
 Pass `defaultTheme` as `DefaultValue`. See
-`lily-design-system-blazor-theme-picker/examples/SystemPreference.razor`.
+`lily-design-system-blazor-theme-select/examples/SystemPreference.razor`.
 
 ## Forbidden in the headless layer
 
@@ -109,7 +109,7 @@ structure, class hooks, and `data-*` attributes.
 The cleanest theme strategy on Blazor Server / Blazor Web App is to
 resolve the user's theme cookie server-side, emit
 `<html data-theme="{slug}">` and the matching `<link>` in
-`App.razor` / `_Host.cshtml`, then pass the slug as the picker's
+`App.razor` / `_Host.cshtml`, then pass the slug as the select's
 `Value` parameter so hydration is a no-op. See
 [`../ssr.md`](../ssr.md) for the recipe.
 
@@ -133,7 +133,7 @@ choice.
 ### Why imperative DOM mutation vs `<HeadContent>`
 
 Blazor 10 ships `<HeadContent>` and `<PageTitle>` components for
-declarative `<head>` manipulation. The catalog's `ThemePicker` uses
+declarative `<head>` manipulation. The catalog's `ThemeSelect` uses
 imperative DOM mutation via `IJSRuntime` because:
 
 - The managed `<link>` is a single element managed across the
@@ -146,7 +146,7 @@ imperative DOM mutation via `IJSRuntime` because:
   that not all consumers have.
 
 Consumers who already manage `<head>` via `<HeadContent>` can leave
-the picker to its own `<link>` — the two coexist without conflict.
+the select to its own `<link>` — the two coexist without conflict.
 
 ### Theme switching across SignalR (Blazor Server)
 

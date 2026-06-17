@@ -48,19 +48,20 @@ detection (if enabled) > `defaultValue` > `"en"` (if present) >
 
 ## HTML
 
-`<fieldset class="locale-select {class}" role="radiogroup"
-aria-label="{label}">` with one native `<input type="radio">` per
-locale code. Each option is wrapped in a `<label lang="{tagFor(…)}">`
-so its name is pronounced in its own language. Custom rendering via
-the `children` snippet receiving
+`<select class="locale-select {class}" aria-label="{label}"
+name="{name}">` with one native `<option>` per locale code. Each
+option carries `lang="{tagFor(…)}"` so its name is pronounced in its
+own language. Custom rendering via the `children` snippet receiving
 `{ locales, value, setLocale, name, labelFor, tagFor, isRtl }`.
 
 ## Accessibility
 
 - WCAG 2.2 AAA target. WCAG 3.1.1 (Language of Page) and 3.1.2
   (Language of Parts).
-- Native radio inputs provide Arrow / Space / Tab semantics.
-- `aria-label` carries the consumer-supplied group name.
+- The native `<select>` provides Arrow / Home / End / typeahead
+  semantics.
+- `aria-label` carries the consumer-supplied accessible name on the
+  `<select>` (implicit `combobox` role).
 
 ## Conventions this package follows
 

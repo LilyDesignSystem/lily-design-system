@@ -127,7 +127,7 @@ Result:
 
 - First paint: `<html lang="fr" dir="ltr">` arrives in the HTML
   response. No flash, no layout shift.
-- Picker mounts already showing the right radio checked.
+- Picker mounts already showing the right option selected.
 - User picks `ar`. Picker writes `<html lang="ar" dir="rtl">`,
   callback writes the cookie. Next request re-paints the page in
   Arabic from the very first byte.
@@ -287,9 +287,9 @@ tests:
   for each locale, snapshot the first 200 bytes.
 
 The picker itself has no SSR-specific code path to test beyond "the
-component compiles in SSR mode and renders the checked radio for the
+component compiles in SSR mode and renders the selected option for the
 seeded `value`". The reference test suite covers that under jsdom by
-asserting that `value` controls which radio is checked on mount.
+asserting that `value` controls which option is selected on mount.
 
 ---
 

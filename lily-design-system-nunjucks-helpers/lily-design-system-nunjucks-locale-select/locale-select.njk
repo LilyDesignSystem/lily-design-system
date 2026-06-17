@@ -1,0 +1,59 @@
+{#
+  LocaleSelect macro — accessible native <select> of available locales.
+
+  HTML tag: <select>
+  CSS class: locale-select
+  Companion runtime: locale-select.client.js
+
+  Params (single `opts` object):
+    label                — string, required. aria-label for the <select>.
+    locales              — array<string>, required. Available locale codes.
+    value                — string. Initial selected code (rendered checked).
+    defaultValue         — string. Initial code when nothing else is supplied.
+    storageKey           — string. If non-empty, client.js persists to localStorage.
+    detectFromNavigator  — boolean. If true, client.js resolves navigator.languages.
+    name                 — string. <select> `name` (default "locale").
+    applyDir             — boolean. If false, client.js never writes `dir`.
+    localeLabels         — object<string,string>. Pretty label per code.
+    classes              — string. Extra CSS classes on the <select> root.
+    attributes           — object. Extra HTML attributes spread onto the root.
+
+  Each <option> carries `lang="{tagFor(code)}"` (BCP 47 hyphen form)
+  so assistive technology pronounces the option text in the
+  appropriate language even when the document language differs (WCAG
+  3.1.2, Language of Parts).
+
+  Spec: spec.md §4.1, §4.2.
+#}
+{%- macro localeSelect(opts) -%}
+{%- set name = opts.name | default("locale") -%}
+{%- set value = opts.value | default("") -%}
+{%- set storageKey = opts.storageKey | default("") -%}
+{%- set defaultValue = opts.defaultValue | default("") -%}
+{%- set detectFromNavigator = opts.detectFromNavigator | default(false) -%}
+{%- set applyDir = opts.applyDir if opts.applyDir is sameas(false) else true -%}
+{%- set localeLabels = opts.localeLabels | default({}) -%}
+<select
+  class="locale-select{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  aria-label="{{ opts.label }}"
+  name="{{ name }}"
+  data-lily-locale-select-root
+  data-lily-locale-select-name="{{ name }}"
+  data-lily-locale-select-storage-key="{{ storageKey }}"
+  data-lily-locale-select-default-value="{{ defaultValue }}"
+  data-lily-locale-select-detect-from-navigator="{{ 'true' if detectFromNavigator else 'false' }}"
+  data-lily-locale-select-apply-dir="{{ 'true' if applyDir else 'false' }}"
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+{%- for locale in opts.locales -%}
+  {%- set tag = locale | replace("_", "-") -%}
+  <option class="locale-select-option" value="{{ locale }}" lang="{{ tag }}"{% if value == locale %} selected{% endif %}>
+    {%- if localeLabels[locale] -%}
+      {{ localeLabels[locale] }}
+    {%- else -%}
+      {{ locale }}
+    {%- endif -%}
+  </option>
+{%- endfor -%}
+</select>
+{%- endmacro -%}

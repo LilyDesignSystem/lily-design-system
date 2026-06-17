@@ -80,7 +80,7 @@ name (rather than the default `modelValue`) keeps the API symmetric
 with the Svelte canonical's `bind:value` and reads naturally:
 
 ```vue
-<ThemePicker v-model:value="theme" ... />
+<ThemeSelect v-model:value="theme" ... />
 ```
 
 Inside the component:
@@ -118,11 +118,11 @@ default scoped slot:
 Consumers use kebab-case attribute names on the template side:
 
 ```vue
-<ThemePicker>
+<ThemeSelect>
     <template #default="{ themes, value, setTheme, labelFor }">
         <!-- … -->
     </template>
-</ThemePicker>
+</ThemeSelect>
 ```
 
 Vue automatically converts kebab-case slot props to camelCase in the
@@ -162,7 +162,7 @@ Everything visual and locale-specific is the consumer's. See
 ## Naming
 
 - Class hooks are kebab-case derivatives of the file name:
-  `theme-picker`, `theme-picker-option`, `theme-picker-option-label`.
+  `theme-select`, `theme-select-option`.
 - Data attributes the consumer / CSS may want to observe use
-  `data-*` (e.g. `data-theme`, `data-lily-theme-picker`).
+  `data-*` (e.g. `data-theme`, `data-lily-theme-select`).
 - Don't introduce new ARIA attributes — use the platform's.

@@ -1,0 +1,44 @@
+<!doctype html>
+<!--
+    Example 1 — Default native <select> rendering.
+
+    The minimum viable select: a label and a CSV list of locales.
+    The select resolves "en" as the initial locale (since "en" is
+    in the list), writes <html lang="en"> and <html dir="ltr">,
+    and dispatches a localechange CustomEvent. The element renders
+    a native <select> with one <option> per locale.
+
+    Consumers may need to compile locale-select.ts to .js before
+    loading. The path "../../locale-select.js" is illustrative;
+    adjust the <script src=…> to point at your build output.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>locale-select — native select (default)</title>
+    <script type="module" src="../../locale-select.js"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 2rem; }
+        .locale-select { padding: 0.5rem 0.75rem; font: inherit; }
+        .locale-select-option { font: inherit; }
+    </style>
+</head>
+<body>
+    <h1>Locale select — default native &lt;select&gt;</h1>
+
+    <locale-select
+        label="Language"
+        locales="en,fr,de,es"
+    ></locale-select>
+
+    <p>Current document language: <code id="current">en</code></p>
+
+    <script type="module">
+        await customElements.whenDefined("locale-select");
+        document.querySelector("locale-select")
+            .addEventListener("localechange", (e) => {
+                document.querySelector("#current").textContent = e.detail.locale;
+            });
+    </script>
+</body>
+</html>

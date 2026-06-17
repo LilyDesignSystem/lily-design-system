@@ -1,0 +1,29 @@
+<!doctype html>
+<!--
+    Example 1 — Basic usage.
+
+    The minimum viable select: a label, a themes directory, and a slug
+    list. The select resolves "light" as the initial active theme
+    (since "light" is in the list), sets data-theme="light" on <html>,
+    and injects a <link rel="stylesheet"> pointing at
+    /assets/themes/light.css.
+
+    The host element has no children until connectedCallback runs;
+    the page may briefly look unstyled before the JS bundle loads.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>theme-select — basic</title>
+    <script type="module" src="/dist/theme-select.js"></script>
+</head>
+<body>
+    <h1>Theme select — basic</h1>
+
+    <theme-select
+        label="Theme"
+        themes-url="/assets/themes/"
+        themes="light,dark,abyss"
+    ></theme-select>
+</body>
+</html>

@@ -15,16 +15,18 @@ client-side ES module.
 
 ### Added
 
-- `lily-design-system-nunjucks-theme-picker` v0.1.0 — runtime-loading
-  theme picker. The `themePicker(opts)` macro emits a fieldset with
-  `data-lily-theme-picker-*` hooks; the companion
-  `theme-picker.client.js` injects a managed `<link rel="stylesheet">`
-  in `<head>`, sets `data-theme="{slug}"` on the document root,
-  optionally persists to `localStorage`, and mirrors the active slug
-  onto the radio.checked state. 13 acceptance criteria covered.
-- `lily-design-system-nunjucks-locale-picker` v0.1.0 — BCP 47 locale
-  picker. The `localePicker(opts)` macro emits a fieldset with per-
-  option `lang="{tag}"` attributes; the client.js writes `lang` and
+- `lily-design-system-nunjucks-theme-select` v0.1.0 — runtime-loading
+  theme picker. The `themeSelect(opts)` macro emits a native
+  `<select class="theme-select">` with `data-lily-theme-select-*`
+  hooks; the companion `theme-select.client.js` injects a managed
+  `<link rel="stylesheet">` in `<head>`, sets `data-theme="{slug}"`
+  on the document root, optionally persists to `localStorage`, and
+  mirrors the active slug onto the `<select>` value. 13 acceptance
+  criteria covered.
+- `lily-design-system-nunjucks-locale-select` v0.1.0 — BCP 47 locale
+  picker. The `localeSelect(opts)` macro emits a native
+  `<select class="locale-select">` whose `<option>`s carry per-option
+  `lang="{tag}"` attributes; the client.js writes `lang` and
   `dir` on the document root, with optional `localStorage`
   persistence and `navigator.languages` detection. Built-in 436-row
   locale-name table and RTL detection. 23 acceptance criteria
@@ -78,9 +80,9 @@ events. The split between macro and client.js is the cleanest way
 to ship both halves of the contract without inventing inline
 `<script>` tags.
 
-The macro alone is a valid, accessible static fieldset that works
-without JavaScript (radios remain selectable; form submission would
-carry the chosen value). The client.js adds the apply-on-the-fly
+The macro alone is a valid, accessible static native `<select>` that
+works without JavaScript (options remain selectable; form submission
+would carry the chosen value). The client.js adds the apply-on-the-fly
 behaviour the other framework helpers handle in a single component.
 
 [Unreleased]: https://github.com/lilydesignsystem/lily-design-system

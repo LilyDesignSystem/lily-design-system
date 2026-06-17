@@ -1,35 +1,35 @@
 # Accessibility — LocaleSelect (Svelte)
 
-The picker targets WCAG 2.2 AAA and follows the WAI-ARIA Authoring
-Practices 1.2 Radio Group pattern. The canonical contract is in
-[`../spec.md`](../spec.md) §6.
+The picker targets WCAG 2.2 AAA and uses a native `<select>`, whose
+keyboard and role semantics the browser provides. The canonical
+contract is in [`../spec.md`](../spec.md) §6.
 
 ## Roles and properties
 
 | Element                       | Role / Property            | Source        |
 | ----------------------------- | -------------------------- | ------------- |
-| `<fieldset>`                  | `role="radiogroup"`        | Picker        |
-| `<fieldset>`                  | `aria-label={label}`       | Consumer prop |
-| `<label>`                     | `lang={tagFor(locale)}`    | Picker        |
-| `<input type="radio">`        | implicit `role="radio"`    | Browser       |
-| `<input type="radio">`        | `aria-checked` (implicit)  | Browser       |
-| `<input type="radio">` × N    | shared `name`              | Picker        |
+| `<select>`                    | implicit `role="combobox"` | Browser       |
+| `<select>`                    | `aria-label={label}`       | Consumer prop |
+| `<select>`                    | `name`                     | Picker        |
+| `<option>`                    | implicit `role="option"`   | Browser       |
+| `<option>`                    | `lang={tagFor(locale)}`    | Picker        |
 
-The `lang` attribute on each `<label>` satisfies WCAG 3.1.2
+The `lang` attribute on each `<option>` satisfies WCAG 3.1.2
 (Language of Parts) — screen readers switch pronunciation per
 option.
 
 ## Keyboard contract
 
-Provided entirely by the platform's native radio inputs:
+Provided entirely by the platform's native `<select>`:
 
 | Key                    | Action                                                                |
 | ---------------------- | --------------------------------------------------------------------- |
-| Tab                    | Move focus into the radio group, landing on the checked option (or the first option if none is checked). |
-| Tab again              | Move focus out of the group entirely; the group counts as one stop.    |
-| Arrow keys (`↑ ↓ ← →`) | Move selection between options inside the group. Selection follows focus by default in native radios. |
-| Space                  | Select the focused option if it isn't already.                         |
-| Home / End             | (Some browsers) Select first / last option.                            |
+| Tab / Shift+Tab        | Move focus to / from the select.                                      |
+| Arrow Down / Arrow Up  | Select the next / previous option.                                    |
+| Home / End             | Select the first / last option.                                       |
+| Typeahead              | Type characters to jump to a matching option.                         |
+| Enter / Space          | Open the option list (platform-dependent).                            |
+| Escape                 | Close the option list.                                                |
 
 This is all native behaviour. The picker does not add JS keyboard
 handlers — it doesn't need to.
@@ -39,25 +39,25 @@ handlers — it doesn't need to.
 The active state is exposed in four independent channels — no
 colour-only meaning is required:
 
-1. `aria-checked` on the selected radio.
+1. The selected `<option>` (the `<select>`'s current value).
 2. `lang="<tag>"` on the target element (default `<html>`).
 3. `dir="rtl|ltr"` on the target (skipped if `applyDir=false`).
 4. The `bind:value` binding in user code.
 
 ## Per-option `lang` is important
 
-The default rendering wraps each option in a `<label lang="…">`.
-This satisfies WCAG 3.1.2 (Language of Parts): when a screen reader
-encounters the option "Français" inside an English page, the
-`lang` attribute makes the reader switch to a French voice for the
-duration of that span.
+The default rendering carries a `lang="…"` attribute on each
+`<option>`. This satisfies WCAG 3.1.2 (Language of Parts): when a
+screen reader encounters the option "Français" inside an English
+page, the `lang` attribute makes the reader switch to a French voice
+for the duration of that option.
 
 Without the per-option `lang`, "Français" gets pronounced
 "Franc-ess" in an English voice — comprehensible but ugly. With
 it, the reader says "Fran-SAY".
 
-The same logic applies when you render a `<select>` via the
-snippet. Always carry the locale's BCP 47 tag onto each `<option>`:
+The same logic applies when you render custom `<option>` markup via
+the snippet. Always carry the locale's BCP 47 tag onto each `<option>`:
 
 ```svelte
 <select>
@@ -82,12 +82,12 @@ choosing.
 
 Tested against the major combinations:
 
-| Reader     | OS       | Browser   | What's announced when user lands on the group |
+| Reader     | OS       | Browser   | What's announced when user lands on the select |
 | ---------- | -------- | --------- | ---------------------------------------------- |
-| VoiceOver  | macOS 14 | Safari 17 | "Language, radio group" → "English, selected, radio button, 1 of 5". |
-| NVDA       | Windows  | Firefox   | "Language grouping" → "English radio button checked 1 of 5". |
-| JAWS       | Windows  | Chrome    | "Language group, English radio button checked, 1 of 5". |
-| TalkBack   | Android  | Chrome    | "Language, English, radio button, 1 of 5, double-tap to activate". |
+| VoiceOver  | macOS 14 | Safari 17 | "Language, pop-up button, English" → on open, "English, 1 of 5". |
+| NVDA       | Windows  | Firefox   | "Language combo box, English, 1 of 5". |
+| JAWS       | Windows  | Chrome    | "Language combo box, English, 1 of 5". |
+| TalkBack   | Android  | Chrome    | "Language, English, drop-down list, double-tap to activate". |
 
 The "lang-correct pronunciation" depends on the reader having a
 matching voice package installed.
@@ -102,18 +102,11 @@ using a custom `children` snippet:
 
 ```svelte
 <LocaleSelect label="Language" locales={["en", "fr", "ar"]}>
-    {#snippet children({ locales, value, setLocale, labelFor, name })}
+    {#snippet children({ locales, value, setLocale, labelFor })}
         {#each locales as l}
-            <label class="locale-select-option">
-                <input
-                    type="radio"
-                    {name}
-                    value={l}
-                    checked={value === l}
-                    onchange={() => setLocale(l)}
-                />
+            <option class="locale-select-option" value={l} selected={value === l}>
                 {labelFor(l)}
-            </label>
+            </option>
         {/each}
     {/snippet}
 </LocaleSelect>
@@ -121,7 +114,7 @@ using a custom `children` snippet:
 
 ## Native `<select>` accessibility
 
-The `children` snippet supports a `<select>` rendering (see
+The picker renders a native `<select>` by default (see
 [examples/02-select.svelte](../examples/02-select.svelte)). Native
 `<select>` is fully accessible:
 
@@ -132,24 +125,25 @@ The `children` snippet supports a `<select>` rendering (see
 - Mobile: pops the OS-native picker (iOS scroll wheel, Android
   dialog).
 
-The tradeoff vs radios:
+The tradeoff:
 
-- Compact (one widget instead of N).
+- Compact (one widget).
 - Scales to 100+ locales.
-- Choices hidden until opened (worse discoverability).
+- Choices hidden until opened (worse discoverability than an
+  always-visible list).
 - Can't show option text in mixed scripts as easily (some OS
   pickers don't honour per-option `lang`).
 
-For 2–8 locales, prefer the radio default. For 9+, prefer
-`<select>` or combobox.
+For an always-visible list of 2–8 locales, render radios or buttons
+via the `children` snippet. For 9+, the native `<select>` default or
+a combobox is the better fit.
 
 ## RTL focus order
 
 In RTL layout, focus moves **visually right-to-left** but
 **logically** in source order — which is the same source order as
-LTR. So Tab still moves through the radios in the order they
-appear in your `locales` array, and Arrow Right (in RTL) moves to
-the previous option, not the next. This is the browser's job, not
+LTR. So Tab still moves to and from the `<select>` in source order,
+and the option list mirrors visually. This is the browser's job, not
 yours.
 
 ## Svelte-specific notes
@@ -157,7 +151,7 @@ yours.
 - The `aria-label` is rendered via `aria-label={label}`. The
   `{...restProps}` spread runs *after* the static attributes, so a
   consumer can override the picker's `aria-label` by passing one
-  explicitly: `<LocaleSelect label="…" aria-labelledby="legend-id" />`.
+  explicitly: `<LocaleSelect label="…" aria-labelledby="heading-id" />`.
 - `{@render children(args)}` does not announce updates. If a
   consumer's snippet needs to announce "Language changed to
   French", they have to write the `aria-live` region themselves.
@@ -167,8 +161,8 @@ yours.
 
 ## References
 
-- WAI-ARIA APG — Radio Group pattern:
-  <https://www.w3.org/WAI/ARIA/apg/patterns/radio/>
+- HTML Living Standard — the `<select>` element:
+  <https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element>
 - WCAG 2.2 AAA quick reference:
   <https://www.w3.org/WAI/WCAG22/quickref/?levels=aaa>
 - WCAG 3.1.1 Language of Page:

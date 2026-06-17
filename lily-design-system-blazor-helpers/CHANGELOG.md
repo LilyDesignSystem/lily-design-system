@@ -14,13 +14,13 @@ catalog:
 
 ### Added
 
-- `lily-design-system-blazor-theme-picker` v0.1.0 — runtime-loading
-  theme picker with `data-theme` swap, `<link>`-based stylesheet
-  injection, `localStorage` persistence, and a `RenderFragment<ThemePickerContext>`
+- `lily-design-system-blazor-theme-select` v0.1.0 — runtime-loading
+  theme select with `data-theme` swap, `<link>`-based stylesheet
+  injection, `localStorage` persistence, and a `RenderFragment<ThemeSelectContext>`
   for custom rendering. Fully mirrors the Svelte canonical contract;
   13 acceptance criteria covered.
-- `lily-design-system-blazor-locale-picker` v0.1.0 — BCP 47 locale
-  picker that writes `lang` and `dir` on the document root, with
+- `lily-design-system-blazor-locale-select` v0.1.0 — BCP 47 locale
+  select that writes `lang` and `dir` on the document root, with
   optional `localStorage` persistence and `navigator.languages`
   detection. Built-in 436-row locale-name table and RTL detection.
   23 acceptance criteria covered.

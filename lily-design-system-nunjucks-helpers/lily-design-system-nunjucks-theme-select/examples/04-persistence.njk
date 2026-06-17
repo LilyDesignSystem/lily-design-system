@@ -1,0 +1,21 @@
+{#
+  Example 04 — localStorage persistence.
+
+  Pass `storageKey` to make the client.js remember the user's choice
+  across reloads. On a fresh page load the client.js reads the
+  stored slug as the first step of initial-value resolution.
+  Quota / private-mode errors are silently swallowed.
+#}
+{% from "../theme-select.njk" import themeSelect %}
+
+{{ themeSelect({
+    label: "Theme",
+    themesUrl: "/assets/themes/",
+    themes: ["light", "dark", "abyss"],
+    storageKey: "my-app:theme"
+}) }}
+
+<script type="module">
+    import { autoInit } from "../theme-select.client.js";
+    autoInit();
+</script>

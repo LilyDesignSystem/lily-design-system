@@ -54,7 +54,7 @@ getTestBed().initTestEnvironment(
 ```ts
 import { describe, it, expect, beforeEach } from "vitest";
 import { TestBed, type ComponentFixture } from "@angular/core/testing";
-import { ThemePicker } from "./theme-picker.component";
+import { ThemeSelect } from "./theme-select.component";
 
 beforeEach(() => {
     document.head.innerHTML = "";
@@ -64,8 +64,8 @@ beforeEach(() => {
     localStorage.clear();
 });
 
-function mount(inputs: Partial<ThemePicker>): ComponentFixture<ThemePicker> {
-    const fixture = TestBed.createComponent(ThemePicker);
+function mount(inputs: Partial<ThemeSelect>): ComponentFixture<ThemeSelect> {
+    const fixture = TestBed.createComponent(ThemeSelect);
     Object.assign(fixture.componentRef.instance as any, {});
     for (const [key, value] of Object.entries(inputs)) {
         fixture.componentRef.setInput(key, value);
@@ -74,15 +74,16 @@ function mount(inputs: Partial<ThemePicker>): ComponentFixture<ThemePicker> {
     return fixture;
 }
 
-it("§7.1 renders a fieldset with role=radiogroup", () => {
+it("§7.1 renders a select with the accessible name and options", () => {
     const fixture = mount({
         label: "Theme",
         themesUrl: "/themes/",
         themes: ["light", "dark"],
     });
-    const root = fixture.nativeElement.querySelector("fieldset");
+    const root = fixture.nativeElement.querySelector("select");
     expect(root).not.toBeNull();
-    expect(root.getAttribute("role")).toBe("radiogroup");
+    expect(root.getAttribute("aria-label")).toBe("Theme");
+    expect(fixture.nativeElement.querySelectorAll("option")).toHaveLength(2);
 });
 ```
 
@@ -96,8 +97,8 @@ signal inputs are read-only references.
 | Goal                                    | Pattern                                                              |
 | --------------------------------------- | -------------------------------------------------------------------- |
 | Trigger initial `effect()` ticks        | `fixture.detectChanges();` — sometimes twice in a row for two-step resolution. |
-| Find a radio by value                   | `fixture.nativeElement.querySelector('input[type="radio"][value="dark"]')` |
-| Toggle a radio                          | `radio.checked = true; radio.dispatchEvent(new Event("change", { bubbles: true })); fixture.detectChanges();` |
+| Find an option by value                 | `fixture.nativeElement.querySelector('option[value="dark"]')`        |
+| Change the selection                    | `select.value = "dark"; select.dispatchEvent(new Event("change", { bubbles: true })); fixture.detectChanges();` |
 | Read the `value` model signal           | `fixture.componentRef.instance.value()`                              |
 | Inspect document mutations              | `document.documentElement.dataset.theme`                              |
 | Re-mount fresh                          | `fixture.destroy(); /* TestBed.createComponent again */`            |
@@ -115,9 +116,9 @@ const emissions: string[] = [];
 fixture.componentRef.instance.value.subscribe(v => emissions.push(v));
 
 // trigger change
-const radio = fixture.nativeElement.querySelector('input[value="b"]') as HTMLInputElement;
-radio.checked = true;
-radio.dispatchEvent(new Event("change", { bubbles: true }));
+const select = fixture.nativeElement.querySelector("select") as HTMLSelectElement;
+select.value = "b";
+select.dispatchEvent(new Event("change", { bubbles: true }));
 fixture.detectChanges();
 
 expect(emissions.at(-1)).toBe("b");
@@ -143,7 +144,7 @@ expect(events).toEqual(["dark"]);
 needed:
 
 ```ts
-import { normaliseThemesUrl, themeHref } from "./theme-picker.component";
+import { normaliseThemesUrl, themeHref } from "./theme-select.component";
 
 it("§7.13 normaliseThemesUrl appends a slash", () => {
     expect(normaliseThemesUrl("/x")).toBe("/x/");
@@ -166,8 +167,8 @@ is enough:
 
 ```ts
 it("imports cleanly without DOM access", async () => {
-    const mod = await import("./theme-picker.component");
-    expect(mod.ThemePicker).toBeDefined();
+    const mod = await import("./theme-select.component");
+    expect(mod.ThemeSelect).toBeDefined();
 });
 ```
 

@@ -10,10 +10,10 @@ their package changes.
 ### Added
 
 - Initial catalog scaffold with two helpers:
-  - [`lily-design-system-react-theme-picker`](./lily-design-system-react-theme-picker/)
+  - [`lily-design-system-react-theme-select`](./lily-design-system-react-theme-select/)
     — dynamic theme CSS loader (`<link>` swap + `data-theme`).
-  - [`lily-design-system-react-locale-picker`](./lily-design-system-react-locale-picker/)
-    — `lang` + `dir` locale picker with BCP 47 normalisation and
+  - [`lily-design-system-react-locale-select`](./lily-design-system-react-locale-select/)
+    — `lang` + `dir` locale select with BCP 47 normalisation and
     optional `navigator.languages` detection.
 - Parent README (`index.md`) describing the catalog conventions:
   React 19 function components, `"use client"` directive, controlled
@@ -26,7 +26,7 @@ their package changes.
   - [`AGENTS/testing.md`](./AGENTS/testing.md) — vitest + jsdom +
     `@testing-library/react` conventions.
   - [`AGENTS/accessibility.md`](./AGENTS/accessibility.md) — WCAG
-    2.2 AAA and WAI-ARIA Radio Group contract.
+    2.2 AAA and the native `<select>` contract.
   - [`AGENTS/ssr.md`](./AGENTS/ssr.md) — Next.js App Router, Remix,
     Vite SSR, React Server Components.
   - [`AGENTS/shared/headless-principles.md`](./AGENTS/shared/headless-principles.md)

@@ -14,14 +14,14 @@ catalog to vanilla web-component (custom-element) idioms:
 
 ### Added
 
-- `lily-design-system-html-theme-picker` v0.1.0 — `<theme-picker>`
-  runtime-loading theme picker. Imperatively swaps a managed
-  `<link rel="stylesheet" data-lily-theme-picker="{name}">` in
+- `lily-design-system-html-theme-select` v0.1.0 — `<theme-select>`
+  runtime-loading theme select. Imperatively swaps a managed
+  `<link rel="stylesheet" data-lily-theme-select="{name}">` in
   `<head>`, writes `data-theme` to `<html>`, optionally persists to
   `localStorage`, dispatches a `themechange` `CustomEvent`. 13
   acceptance criteria covered.
-- `lily-design-system-html-locale-picker` v0.1.0 — `<locale-picker>`
-  BCP 47 locale picker that writes `lang` and `dir` on the document
+- `lily-design-system-html-locale-select` v0.1.0 — `<locale-select>`
+  BCP 47 locale select that writes `lang` and `dir` on the document
   root, with optional `localStorage` persistence and
   `navigator.languages` detection. Built-in 436-row locale-name
   table and RTL detection. Dispatches a `localechange`

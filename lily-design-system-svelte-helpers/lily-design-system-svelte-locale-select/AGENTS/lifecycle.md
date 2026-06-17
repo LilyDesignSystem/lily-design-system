@@ -28,10 +28,10 @@ applyLocale:
   3. if storageKey: localStorage.setItem(storageKey, code)
   4. onChange?.(code) — consumer-form, not BCP 47 normalised
 
-user clicks a radio
+user picks an option
   │
   ▼
-onInputChange ─► value = next
+select change ─► value = next
   │                  │
   │                  ▼
   │                $effect re-runs (value changed)
@@ -165,7 +165,7 @@ write back to `value`:
 ## SSR
 
 During server rendering, `$effect` is a no-op. The template renders
-the radios using whatever `value` was passed; the `lang` and `dir`
+the `<select>` using whatever `value` was passed; the `lang` and `dir`
 attributes are not written to `<html>` (no DOM).
 
 That's the recipe for flicker-free SSR: pre-resolve the locale on

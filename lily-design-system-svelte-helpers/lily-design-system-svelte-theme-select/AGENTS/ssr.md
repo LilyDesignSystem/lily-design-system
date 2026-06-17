@@ -16,17 +16,14 @@ for the form-action cookie write.
 Under SSR, `$effect` is a no-op. The picker renders:
 
 ```html
-<fieldset class="theme-select" role="radiogroup" aria-label="Theme">
-    <label class="theme-select-option">
-        <input type="radio" name="theme" value="light" />
-        <span class="theme-select-option-label">Light</span>
-    </label>
+<select class="theme-select" aria-label="Theme" name="theme">
+    <option class="theme-select-option" value="light">Light</option>
     …
-</fieldset>
+</select>
 ```
 
-If the consumer passes `value="light"`, the corresponding radio
-gets `checked` rendered server-side.
+If the consumer passes `value="light"`, the corresponding option
+gets `selected` rendered server-side.
 
 The managed `<link>` is **not** created on the server. `data-theme`
 is **not** written to `<html>` on the server. Those happen on
@@ -203,7 +200,7 @@ export function renderApp(req) {
 If you see a Svelte warning like "hydration_mismatch", the most
 common cause is:
 
-- The server rendered no `checked` on any radio (because `value`
+- The server rendered no `selected` on any option (because `value`
   was empty), but the client picked a non-empty value from
   `localStorage`.
 - **Fix.** Resolve the theme server-side and pass it as `value`.

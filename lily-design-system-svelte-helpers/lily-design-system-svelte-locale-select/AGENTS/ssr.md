@@ -15,17 +15,14 @@ the in-file comments show the matching `hooks.server.ts`,
 Under SSR, `$effect` is a no-op. The picker renders:
 
 ```html
-<fieldset class="locale-select" role="radiogroup" aria-label="Language">
-    <label class="locale-select-option" lang="en">
-        <input type="radio" name="locale" value="en" />
-        <span class="locale-select-option-label">English</span>
-    </label>
+<select class="locale-select" aria-label="Language" name="locale">
+    <option class="locale-select-option" value="en" lang="en">English</option>
     …
-</fieldset>
+</select>
 ```
 
-If the consumer passes `value="ar"`, the corresponding radio gets
-`checked` rendered server-side.
+If the consumer passes `value="ar"`, the corresponding `<option>` is
+rendered selected server-side.
 
 The `lang` and `dir` attributes on the document root are **not**
 written on the server. Those happen on hydration unless the consumer
@@ -234,7 +231,7 @@ const isRtl = /^(ar|he|fa|ur)/.test(locale);
 If you see a Svelte warning like "hydration_mismatch", the most
 common cause is:
 
-- The server rendered no `checked` on any radio (because `value`
+- The server rendered no `selected` option (because `value`
   was empty), but the client picked a non-empty value from
   `localStorage`.
 - **Fix.** Resolve the locale server-side and pass it as `value`.
@@ -254,5 +251,5 @@ const { html } = render(LocaleSelect, {
 });
 ```
 
-The resulting string contains the rendered fieldset with the `fr`
-radio checked. No DOM touched.
+The resulting string contains the rendered `<select>` with the `fr`
+option selected. No DOM touched.
