@@ -14,6 +14,7 @@ as a registered custom element you drop into any page.
 | ----------------------------------------------------------------------------------- | ------------------ | -------------------------------------------------------------- |
 | [`lily-design-system-html-theme-select`](./lily-design-system-html-theme-select/)   | `<theme-select>`   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
 | [`lily-design-system-html-locale-select`](./lily-design-system-html-locale-select/) | `<locale-select>`  | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-html-text-size-select`](./lily-design-system-html-text-size-select/) | `<text-size-select>` | Pick a text size; sets `data-text-size` on the document root. |
 
 ## Conventions
 

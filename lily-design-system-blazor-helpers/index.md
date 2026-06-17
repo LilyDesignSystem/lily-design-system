@@ -12,6 +12,7 @@ DOM application) for one small, common job.
 | --------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
 | [`lily-design-system-blazor-theme-select`](./lily-design-system-blazor-theme-select/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
 | [`lily-design-system-blazor-locale-select`](./lily-design-system-blazor-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-blazor-text-size-select`](./lily-design-system-blazor-text-size-select/) | Pick a text size; sets `data-text-size` on the document root. |
 
 ## Conventions
 

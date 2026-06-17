@@ -1,3 +1,4 @@
 AGENTS/.claude/
 **/AGENTS/.claude/
 .DS_Store
+dist-nuget/

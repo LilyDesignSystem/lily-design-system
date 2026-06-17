@@ -1,0 +1,34 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+
+@*
+    TextSizeSelect — Blazor helper component.
+    Single source of truth: spec.md (§1–§9).
+
+    Renders an accessible native <select> of text-size slugs. On every
+    selection it sets `data-text-size="{slug}"` on the document root,
+    optionally persists to `localStorage`, and invokes OnChange /
+    ValueChanged with the chosen slug.
+
+    All DOM writes happen through IJSRuntime inside OnAfterRenderAsync,
+    so the component is SSR / prerender safe.
+*@
+
+<select class="@RootClass"
+        aria-label="@Label"
+        name="@Name"
+        @onchange="OnSelectAsync"
+        @attributes="AdditionalAttributes">
+    @if (ChildContent is not null)
+    {
+        @ChildContent(BuildContext())
+    }
+    else
+    {
+        @foreach (var size in Sizes)
+        {
+            <option class="text-size-select-option"
+                    value="@size"
+                    selected="@(Value == size)">@LabelFor(size)</option>
+        }
+    }
+</select>

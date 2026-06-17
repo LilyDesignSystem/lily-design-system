@@ -2,10 +2,15 @@
   "name": "lily-design-system-angular-locale-select",
   "version": "0.1.0",
   "description": "Lily Design System - Angular 20 locale picker",
-  "type": "module",
-  "main": "./index.ts",
-  "module": "./index.ts",
-  "types": "./index.ts",
+  "peerDependencies": {
+    "@angular/core": ">=20.0.0 <22.0.0",
+    "@angular/common": ">=20.0.0 <22.0.0"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "cd .. && pnpm build",
+    "prepublishOnly": "cd .. && pnpm build"
+  },
   "keywords": [
     "lily",
     "design",

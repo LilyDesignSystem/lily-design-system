@@ -10,6 +10,7 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 - [`lily-design-system-nunjucks-theme-select`](./lily-design-system-nunjucks-theme-select/) — dynamic theme CSS loader.
 - [`lily-design-system-nunjucks-locale-select`](./lily-design-system-nunjucks-locale-select/) — `lang` + `dir` locale picker.
+- [`lily-design-system-nunjucks-text-size-select`](./lily-design-system-nunjucks-text-size-select/) — `data-text-size` text-size picker.
 
 ## Working rules
 

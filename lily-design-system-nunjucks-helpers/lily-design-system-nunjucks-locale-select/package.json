@@ -3,7 +3,24 @@
   "version": "0.1.0",
   "description": "Lily Design System - Nunjucks 3 locale select",
   "type": "module",
-  "main": "./locale-select.client.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./template": "./dist/locale-select.njk"
+  },
+  "files": [
+    "dist",
+    "index.md",
+    "README.md"
+  ],
+  "scripts": {
+    "prepublishOnly": "cd .. && npm run build"
+  },
   "keywords": [
     "lily",
     "design",

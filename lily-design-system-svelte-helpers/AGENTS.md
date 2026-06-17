@@ -10,6 +10,7 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 - [`lily-design-system-svelte-theme-select`](./lily-design-system-svelte-theme-select/) — dynamic theme CSS loader.
 - [`lily-design-system-svelte-locale-select`](./lily-design-system-svelte-locale-select/) — `lang` + `dir` locale picker.
+- [`lily-design-system-svelte-text-size-select`](./lily-design-system-svelte-text-size-select/) — `data-text-size` text-size select.
 
 ## Working rules
 

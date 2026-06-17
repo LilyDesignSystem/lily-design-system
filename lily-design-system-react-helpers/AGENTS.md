@@ -10,6 +10,7 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 - [`lily-design-system-react-theme-select`](./lily-design-system-react-theme-select/) — dynamic theme CSS loader.
 - [`lily-design-system-react-locale-select`](./lily-design-system-react-locale-select/) — `lang` + `dir` locale select.
+- [`lily-design-system-react-text-size-select`](./lily-design-system-react-text-size-select/) — `data-text-size` text-size select.
 
 ## Working rules
 

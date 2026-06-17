@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\lily-design-system-blazor-theme-select\LilyDesignSystem.Blazor.ThemeSelect.csproj" />
     <ProjectReference Include="..\..\lily-design-system-blazor-locale-select\LilyDesignSystem.Blazor.LocaleSelect.csproj" />
+    <ProjectReference Include="..\..\lily-design-system-blazor-text-size-select\LilyDesignSystem.Blazor.TextSizeSelect.csproj" />
   </ItemGroup>
 
   <!-- The per-helper *Tests.cs files live inside the package dirs (and are
@@ -28,6 +29,7 @@
   <ItemGroup>
     <Compile Include="..\..\lily-design-system-blazor-theme-select\ThemeSelectTests.cs" />
     <Compile Include="..\..\lily-design-system-blazor-locale-select\LocaleSelectTests.cs" />
+    <Compile Include="..\..\lily-design-system-blazor-text-size-select\TextSizeSelectTests.cs" />
   </ItemGroup>
 
 </Project>

@@ -10,6 +10,7 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 - [`lily-design-system-vue-theme-select`](./lily-design-system-vue-theme-select/) — dynamic theme CSS loader.
 - [`lily-design-system-vue-locale-select`](./lily-design-system-vue-locale-select/) — `lang` + `dir` locale picker.
+- [`lily-design-system-vue-text-size-select`](./lily-design-system-vue-text-size-select/) — `data-text-size` text-size select.
 
 ## Working rules
 
