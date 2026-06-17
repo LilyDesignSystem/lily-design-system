@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./ThemePicker";
+import Subject from "./ThemeSelect";
 
-describe("ThemePicker", () => {
+describe("ThemeSelect", () => {
     test("renders a radiogroup", () => {
         render(<Subject label="Theme">options</Subject>);
         expect(screen.getByRole("radiogroup")).toBeTruthy();

@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/vue";
 import { describe, expect, test } from "vitest";
 
-import Subject from "../../components/ThemePicker.vue";
+import Subject from "../../components/ThemeSelect.vue";
 
 
-describe("ThemePicker", () => {
+describe("ThemeSelect", () => {
     test("renders a radiogroup", () => {
         render(Subject, { props: { label: "Theme" }, slots: { default: "options" } });
         expect(screen.getByRole("radiogroup")).toBeTruthy();

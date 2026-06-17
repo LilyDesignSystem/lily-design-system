@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import ThemePickerButton from './ThemePickerButton.vue';
+import ThemeSelectButton from './ThemeSelectButton.vue';
 
 const meta = {
-  title: 'Headless/ThemePickerButton',
-  component: ThemePickerButton,
+  title: 'Headless/ThemeSelectButton',
+  component: ThemeSelectButton,
   tags: ['autodocs']
-} satisfies Meta<typeof ThemePickerButton>;
+} satisfies Meta<typeof ThemeSelectButton>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

@@ -4,7 +4,7 @@
     //
     // A headless display component that shows the current theme name as inline
     // text. Renders the theme value in a <span> element with an accessible label.
-    // Commonly paired with ThemePicker in an Input/View pattern: ThemePicker
+    // Commonly paired with ThemeSelect in an Input/View pattern: ThemeSelect
     // allows selection while ThemeView displays the active theme. Useful in
     // settings panels, status bars, or anywhere the current theme needs to be
     // communicated visually and programmatically.
@@ -34,7 +34,7 @@
     //
     // Claude rules:
     //   - Headless: no CSS, no styles -- consumer provides all styling
-    //   - Read-only display; pairs with ThemePicker for editing
+    //   - Read-only display; pairs with ThemeSelect for editing
     //
     // References:
     //   - WAI-ARIA Accessible Name: https://www.w3.org/TR/accname-1.2/

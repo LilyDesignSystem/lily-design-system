@@ -1,4 +1,4 @@
-# ThemePickerButton
+# ThemeSelectButton
 
 One button in a theme picker, representing a single theme. Rendered as a `<button>` with `aria-pressed` reflecting whether this theme is currently active.
 
@@ -16,7 +16,7 @@ One button in a theme picker, representing a single theme. Rendered as a `<butto
 ## Usage
 
 ```vue
-<ThemePickerButton
+<ThemeSelectButton
   label="Light theme"
   :pressed="theme === 'light'"
   @click="theme = 'light'"

@@ -1,4 +1,4 @@
-// ThemePicker component
+// ThemeSelect component
 //
 // A headless theme picker that renders a <fieldset> with the radiogroup role,
 // providing an accessible container for radio button options to select between
@@ -13,15 +13,15 @@
 //   ...restProps — additional HTML attributes spread onto the <fieldset>.
 //
 // Syntax:
-//   <ThemePicker label="Theme">...</ThemePicker>
+//   <ThemeSelect label="Theme">...</ThemeSelect>
 //
 // Examples:
 //   
-//   <ThemePicker label="Theme">
+//   <ThemeSelect label="Theme">
 //     <label><input type="radio" name="theme" value="light" /> Light</label>
 //     <label><input type="radio" name="theme" value="dark" /> Dark</label>
 //     <label><input type="radio" name="theme" value="system" /> System</label>
-//   </ThemePicker>
+//   </ThemeSelect>
 //
 // Keyboard:
 //   - Arrow keys: navigate between radio options (native radio behavior)
@@ -45,7 +45,7 @@
 
 import React from "react";
 
-export interface ThemePickerProps {
+export interface ThemeSelectProps {
     className?: string;
     /** Accessible label. */
     label: string;
@@ -54,15 +54,15 @@ export interface ThemePickerProps {
     [key: string]: unknown;
 }
 
-export default function ThemePicker({
+export default function ThemeSelect({
     className = "",
     label,
     children,
     ...restProps
-}: ThemePickerProps) {
+}: ThemeSelectProps) {
     return (
         <fieldset
-        className={`theme-picker ${className}`}
+        className={`theme-select ${className}`}
         role="radiogroup"
         aria-label={label}
         {...restProps}

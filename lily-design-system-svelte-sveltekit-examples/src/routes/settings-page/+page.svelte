@@ -6,7 +6,7 @@
     import Option from "$lib/components/Option/Option.svelte";
     import Fieldset from "$lib/components/Fieldset/Fieldset.svelte";
     import Banner from "$lib/components/Banner/Banner.svelte";
-    import ThemePicker from "$lib/components/ThemePicker/ThemePicker.svelte";
+    import ThemeSelect from "$lib/components/ThemeSelect/ThemeSelect.svelte";
     import ThemeSelect from "$lib/components/ThemeSelect/ThemeSelect.svelte";
     import ThemeSelectOption from "$lib/components/ThemeSelectOption/ThemeSelectOption.svelte";
     import ThemeView from "$lib/components/ThemeView/ThemeView.svelte";

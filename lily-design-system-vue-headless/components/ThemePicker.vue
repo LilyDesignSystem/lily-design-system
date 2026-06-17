@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-    // ThemePicker component
+    // ThemeSelect component
     //
     // A headless theme picker that renders a <fieldset> with the radiogroup role,
     // providing an accessible container for radio button options to select between
@@ -15,15 +15,15 @@
     //   ...restProps — additional HTML attributes spread onto the <fieldset>.
     //
     // Syntax:
-    //   <ThemePicker label="Theme">...</ThemePicker>
+    //   <ThemeSelect label="Theme">...</ThemeSelect>
     //
     // Examples:
     //   <!-- Theme picker with radio options -->
-    //   <ThemePicker label="Theme">
+    //   <ThemeSelect label="Theme">
     //     <label><input type="radio" name="theme" value="light" /> Light</label>
     //     <label><input type="radio" name="theme" value="dark" /> Dark</label>
     //     <label><input type="radio" name="theme" value="system" /> System</label>
-    //   </ThemePicker>
+    //   </ThemeSelect>
     //
     // Keyboard:
     //   - Arrow keys: navigate between radio options (native radio behavior)
@@ -53,9 +53,9 @@
 </script>
 
 <template>
-    <!-- ThemePicker.vue -->
+    <!-- ThemeSelect.vue -->
     <fieldset
-        class="theme-picker"
+        class="theme-select"
         role="radiogroup"
         :aria-label="label"
     >

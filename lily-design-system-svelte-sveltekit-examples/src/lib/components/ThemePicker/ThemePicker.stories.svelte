@@ -1,10 +1,10 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import ThemePicker from './ThemePicker.svelte';
+  import ThemeSelect from './ThemeSelect.svelte';
 
   const { Story } = defineMeta({
-    title: 'Examples/ThemePicker',
-    component: ThemePicker,
+    title: 'Examples/ThemeSelect',
+    component: ThemeSelect,
   });
 </script>
 

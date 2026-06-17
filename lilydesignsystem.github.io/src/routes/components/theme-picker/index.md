@@ -1,6 +1,6 @@
 # Theme Picker
 
-ThemePicker is a headless theme selection component that renders a `<fieldset>` with the `radiogroup` role. It provides an accessible container for radio button options that let users choose between themes such as light, dark, or system preference.
+ThemeSelect is a headless theme selection component that renders a `<fieldset>` with the `radiogroup` role. It provides an accessible container for radio button options that let users choose between themes such as light, dark, or system preference.
 
 This component is useful for settings pages, preference panels, or any interface where users need to select from a set of theme options. Consumers provide the radio button markup as children, allowing full control over the option labels and values.
 
@@ -23,36 +23,36 @@ This component is useful for settings pages, preference panels, or any interface
 Basic light/dark theme selection using radio buttons:
 
 ```html
-<ThemePicker label="Theme">
+<ThemeSelect label="Theme">
   <label><input type="radio" name="theme" value="light" checked /> Light</label>
   <label><input type="radio" name="theme" value="dark" /> Dark</label>
-</ThemePicker>
+</ThemeSelect>
 ```
 
-Settings page with multiple themes using ThemePickerButton:
+Settings page with multiple themes using ThemeSelectButton:
 
 ```html
-<ThemePicker label="Choose theme">
-  <ThemePickerButton pressed={theme === 'light'} label="Light theme" onclick={() => setTheme('light')}>
+<ThemeSelect label="Choose theme">
+  <ThemeSelectButton pressed={theme === 'light'} label="Light theme" onclick={() => setTheme('light')}>
     Light
-  </ThemePickerButton>
-  <ThemePickerButton pressed={theme === 'dark'} label="Dark theme" onclick={() => setTheme('dark')}>
+  </ThemeSelectButton>
+  <ThemeSelectButton pressed={theme === 'dark'} label="Dark theme" onclick={() => setTheme('dark')}>
     Dark
-  </ThemePickerButton>
-  <ThemePickerButton pressed={theme === 'high-contrast'} label="High contrast theme" onclick={() => setTheme('high-contrast')}>
+  </ThemeSelectButton>
+  <ThemeSelectButton pressed={theme === 'high-contrast'} label="High contrast theme" onclick={() => setTheme('high-contrast')}>
     High Contrast
-  </ThemePickerButton>
-</ThemePicker>
+  </ThemeSelectButton>
+</ThemeSelect>
 ```
 
 With system preference option:
 
 ```html
-<ThemePicker label="Appearance">
+<ThemeSelect label="Appearance">
   <label><input type="radio" name="appearance" value="system" checked /> System</label>
   <label><input type="radio" name="appearance" value="light" /> Light</label>
   <label><input type="radio" name="appearance" value="dark" /> Dark</label>
-</ThemePicker>
+</ThemeSelect>
 ```
 
 ## Keyboard Interactions
@@ -86,13 +86,13 @@ This headless component provides a semantic `<fieldset>` with `role="radiogroup"
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.theme-picker` class for targeting. No default styles are included — this is a fully headless component.
+The consumer provides all CSS styling. The component renders with a `.theme-select` class for targeting. No default styles are included — this is a fully headless component.
 
 
 ## Testing
 
 
-- Verify the component renders a `<div>` element with class `theme-picker`
+- Verify the component renders a `<div>` element with class `theme-select`
 - Verify role="radiogroup"` -- identifies the fieldset as a group of related radio buttons
 - Verify aria-label={label}` -- provides an accessible name describing the purpose of the theme selection
 - Verify pass-through attributes are applied
@@ -104,11 +104,11 @@ The consumer provides all CSS styling. The component renders with a `.theme-pick
 
 ## Composition
 
-ThemePicker is a standalone picker component that contains consumer-provided radio buttons. It is related to ThemeSelect (dropdown approach) and ThemeView (read-only display). Use ThemePicker when you want visible radio options; use ThemeSelect for a compact dropdown.
+ThemeSelect is a standalone picker component that contains consumer-provided radio buttons. It is related to ThemeSelect (dropdown approach) and ThemeView (read-only display). Use ThemeSelect when you want visible radio options; use ThemeSelect for a compact dropdown.
 
 ## Related components
 
-- `theme-picker-button` — a picker button for selecting a visual theme
+- `theme-select-button` — a picker button for selecting a visual theme
 
 ## References
 

@@ -1,10 +1,10 @@
-# ThemePickerButton
+# ThemeSelectButton
 
 One button in a theme picker, representing a single theme. Rendered as a `<button>` with `aria-pressed` reflecting whether this theme is currently active.
 
 ## Props
 
-- `className`: string (optional) -- CSS class appended to `theme-picker-button`
+- `className`: string (optional) -- CSS class appended to `theme-select-button`
 - `label`: string (required) -- accessible label describing the theme
 - `pressed`: boolean (default false) -- whether this theme is currently selected
 - `disabled`: boolean (default false) -- whether the button is disabled
@@ -15,7 +15,7 @@ One button in a theme picker, representing a single theme. Rendered as a `<butto
 ## Usage
 
 ```tsx
-<ThemePickerButton
+<ThemeSelectButton
   label="Light theme"
   pressed={theme === "light"}
   onClick={() => setTheme("light")}

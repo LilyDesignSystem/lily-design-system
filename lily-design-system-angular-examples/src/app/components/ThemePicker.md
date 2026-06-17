@@ -1,17 +1,17 @@
-# ThemePicker
+# ThemeSelect
 
 a picker for selecting a visual theme
 
-This is the Angular headless implementation. See `components/theme-picker/index.md`
+This is the Angular headless implementation. See `components/theme-select/index.md`
 in the canonical repo root for the cross-framework documentation.
 
 ## Selector
 
 ```html
-<lily-theme-picker></lily-theme-picker>
+<lily-theme-select></lily-theme-select>
 ```
 
 ## Files
 
-- `ThemePicker.ts` — standalone Angular 20 component (signal inputs, OnPush)
-- `ThemePicker.spec.ts` — vitest + TestBed render test
+- `ThemeSelect.ts` — standalone Angular 20 component (signal inputs, OnPush)
+- `ThemeSelect.spec.ts` — vitest + TestBed render test

@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/angular";
-import { ThemePickerButton } from "./ThemePickerButton";
+import { ThemeSelectButton } from "./ThemeSelectButton";
 
-const meta: Meta<ThemePickerButton> = {
-  title: "Headless/ThemePickerButton",
-  component: ThemePickerButton,
+const meta: Meta<ThemeSelectButton> = {
+  title: "Headless/ThemeSelectButton",
+  component: ThemeSelectButton,
   tags: ["autodocs"],
 };
 
 export default meta;
-type Story = StoryObj<ThemePickerButton>;
+type Story = StoryObj<ThemeSelectButton>;
 
 export const Default: Story = {};

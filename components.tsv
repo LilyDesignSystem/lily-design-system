@@ -445,8 +445,8 @@ text-area-input	TextAreaInput	a multi-line text input area
 text-area-input-with-character-counter	TextAreaInputWithCharacterCounter	a multi-line text area input with a caption below that is a character counter "[number] of [maximum] characters"
 text-input	TextInput	a single-line text input field <input type="text">
 text-input-with-search	TextInputWithSearch	a single-line text input field <input type="text"> with search capability
-theme-picker	ThemePicker	a picker for selecting a visual theme
-theme-picker-button	ThemePickerButton	a picker button for selecting a visual theme
+theme-select	ThemeSelect	a picker for selecting a visual theme
+theme-select-button	ThemeSelectButton	a picker button for selecting a visual theme
 theme-provider	ThemeProvider	a container that applies CSS custom properties from a theme object to its children
 theme-select	ThemeSelect	a select dropdown for choosing a theme
 theme-select-option	ThemeSelectOption	one option in a theme select dropdown

@@ -4,9 +4,9 @@ title: Theme Picker Button
 description: a picker button for selecting a theme
 ---
 
-{% from "components/theme-picker-button/macro.njk" import themePickerButton %}
+{% from "components/theme-select-button/macro.njk" import themePickerButton %}
 
-<div class="theme-picker" role="radiogroup" aria-label="Demo">
+<div class="theme-select" role="radiogroup" aria-label="Demo">
   {{ themePickerButton({ theme: "light", text: "Light", checked: true }) }}
   {{ themePickerButton({ theme: "dark", text: "Dark" }) }}
   {{ themePickerButton({ theme: "disabled", text: "Disabled", disabled: true }) }}

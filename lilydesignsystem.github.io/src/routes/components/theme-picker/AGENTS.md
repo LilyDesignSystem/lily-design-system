@@ -1,12 +1,12 @@
-# ThemePicker
+# ThemeSelect
 
 ## Metadata
 
-- Component: theme-picker
-- PascalCase: ThemePicker
+- Component: theme-select
+- PascalCase: ThemeSelect
 - Description: a picker for selecting a visual theme
 - HTML tag: <div>
-- CSS class: .theme-picker
+- CSS class: .theme-select
 - Interactive: no
 
 ## Key Behaviors
@@ -34,7 +34,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <div> element with class="theme-picker"
+- [ ] Renders <div> element with class="theme-select"
 - [ ] Has aria-label attribute
 - [ ] Has role="radiogroup"
 - [ ] WCAG 2.2 AAA compliant
@@ -43,7 +43,7 @@
 ## References
 
 - Documentation: index.md
-- CSS class: .theme-picker in css-style-sheet-template.css
-- HTML headless: lily-design-system-html-headless/components/theme-picker.html
+- CSS class: .theme-select in css-style-sheet-template.css
+- HTML headless: lily-design-system-html-headless/components/theme-select.html
 - WAI-ARIA radiogroup role: https://www.w3.org/TR/wai-aria-1.2/#radiogroup
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/

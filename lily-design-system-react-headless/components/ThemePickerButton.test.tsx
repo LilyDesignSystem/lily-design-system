@@ -2,12 +2,12 @@ import { render, screen } from "@testing-library/react";
 import userEvent, { type UserEvent } from "@testing-library/user-event";
 import { describe, expect, test, vi } from "vitest";
 
-import Subject from "./ThemePickerButton";
+import Subject from "./ThemeSelectButton";
 
-describe("ThemePickerButton", () => {
-    test("renders a button with class theme-picker-button", () => {
+describe("ThemeSelectButton", () => {
+    test("renders a button with class theme-select-button", () => {
         const { container } = render(<Subject label="Light theme" />);
-        const btn = container.querySelector(".theme-picker-button");
+        const btn = container.querySelector(".theme-select-button");
         expect(btn).toBeTruthy();
         expect(btn?.tagName).toBe("BUTTON");
     });

@@ -1,19 +1,19 @@
-# ThemePickerButton — Specification
+# ThemeSelectButton — Specification
 
-Single source of truth for spec-driven development of the ThemePickerButton component. Consolidates the prior `plan.md` and `tasks.md`.
+Single source of truth for spec-driven development of the ThemeSelectButton component. Consolidates the prior `plan.md` and `tasks.md`.
 
 ## Goal
 
-Implement the ThemePickerButton component: a picker button for selecting a visual theme.
+Implement the ThemeSelectButton component: a picker button for selecting a visual theme.
 
 ## HTML Tag and CSS Class
 
 - HTML tag: <button>
-- CSS class: .theme-picker-button
+- CSS class: .theme-select-button
 
 ## Approach
 
-1. Use semantic <button> element with class="theme-picker-button"
+1. Use semantic <button> element with class="theme-select-button"
 2. Add ARIA attributes for accessibility
 3. Implement keyboard navigation
 4. Add vanilla JavaScript for interactive behavior
@@ -24,7 +24,7 @@ Implement the ThemePickerButton component: a picker button for selecting a visua
 
 ## Acceptance Criteria
 
-- [ ] Renders <button> with class="theme-picker-button"
+- [ ] Renders <button> with class="theme-select-button"
 - [ ] `aria-pressed` -- indicates selected state
 - [ ] `aria-label` -- describes the theme
 - [ ] Keyboard: Tab, Enter, Space
@@ -38,12 +38,12 @@ Implement the ThemePickerButton component: a picker button for selecting a visua
 
 - [x] Create component directory with index.md and README.md symlink
 - [x] Document props, usage, keyboard interactions, and ARIA in index.md
-- [x] Add CSS class .theme-picker-button to css-style-sheet-template.css
+- [x] Add CSS class .theme-select-button to css-style-sheet-template.css
 
 ### In Progress
 
-- [ ] Implement HTML headless component (theme-picker-button.html)
-- [ ] Implement HTML headless test (theme-picker-button.test.js)
+- [ ] Implement HTML headless component (theme-select-button.html)
+- [ ] Implement HTML headless test (theme-select-button.test.js)
 
 ### Backlog
 

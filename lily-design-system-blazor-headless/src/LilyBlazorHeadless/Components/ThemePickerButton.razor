@@ -1,11 +1,11 @@
 @namespace LilyBlazorHeadless.Components
 
 @*
-    ThemePickerButton component
+    ThemeSelectButton component
     a picker button for selecting a visual theme
 *@
 
-<button class="@($"theme-picker-button {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
+<button class="@($"theme-select-button {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import ThemePicker from './ThemePicker.vue';
+import ThemeSelect from './ThemeSelect.vue';
 
 const meta = {
-  title: 'Examples/ThemePicker',
-  component: ThemePicker,
+  title: 'Examples/ThemeSelect',
+  component: ThemeSelect,
   tags: ['autodocs']
-} satisfies Meta<typeof ThemePicker>;
+} satisfies Meta<typeof ThemeSelect>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

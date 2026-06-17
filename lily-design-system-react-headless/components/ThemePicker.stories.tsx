@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import ThemePicker from './ThemePicker';
+import ThemeSelect from './ThemeSelect';
 
 const meta = {
-  title: 'Headless/ThemePicker',
-  component: ThemePicker,
+  title: 'Headless/ThemeSelect',
+  component: ThemeSelect,
   tags: ['autodocs']
-} satisfies Meta<typeof ThemePicker>;
+} satisfies Meta<typeof ThemeSelect>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

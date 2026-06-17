@@ -1,14 +1,14 @@
 <script module lang="ts">
     import { defineMeta } from "@storybook/addon-svelte-csf";
-    import ThemePickerButton from "./ThemePickerButton.svelte";
+    import ThemeSelectButton from "./ThemeSelectButton.svelte";
     const { Story } = defineMeta({
-        title: "Headless/ThemePickerButton",
-        component: ThemePickerButton,
+        title: "Headless/ThemeSelectButton",
+        component: ThemeSelectButton,
     });
 </script>
 
 <Story name="Default" tags={["autodocs", "!dev"]}>
-    <ThemePickerButton label="ThemePickerButton example">
-        <span>ThemePickerButton example</span>
-    </ThemePickerButton>
+    <ThemeSelectButton label="ThemeSelectButton example">
+        <span>ThemeSelectButton example</span>
+    </ThemeSelectButton>
 </Story>

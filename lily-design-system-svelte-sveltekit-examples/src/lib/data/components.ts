@@ -1200,8 +1200,8 @@ export const components = [
     description: "a multi-line text input area",
   },
   {
-    slug: "theme-picker",
-    name: "ThemePicker",
+    slug: "theme-select",
+    name: "ThemeSelect",
     description: "a picker for selecting a visual theme",
   },
   {
@@ -2174,8 +2174,8 @@ export const components = [
       'a single-line text input field <input type="text"> with search capability',
   },
   {
-    slug: "theme-picker-button",
-    name: "ThemePickerButton",
+    slug: "theme-select-button",
+    name: "ThemeSelectButton",
     description:
       "a picker button for selecting a visual theme",
   },

@@ -1,20 +1,20 @@
-# ThemePicker
+# ThemeSelect
 
 A picker for selecting a visual theme.
 
-See `components/theme-picker/index.md` for canonical documentation.
+See `components/theme-select/index.md` for canonical documentation.
 
 ## Parameters
 
 - `Label`: string (required) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `theme-picker`
+- `CssClass`: string — extra CSS classes appended to `theme-select`
 - `ChildContent`: RenderFragment — component content
 - `AdditionalAttributes`: catches unmatched HTML attributes
 
 ## Usage
 
 ```razor
-<ThemePicker Label="...">
+<ThemeSelect Label="...">
     Content
-</ThemePicker>
+</ThemeSelect>
 ```

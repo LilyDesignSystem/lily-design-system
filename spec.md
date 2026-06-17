@@ -316,7 +316,7 @@ Catalog category overview (counts approximate; the TSV is authoritative):
 |                                | net-promoter-score-view, red-amber-green-picker,           |
 |                                | red-amber-green-picker-button, red-amber-green-view,       |
 |                                | red-orange-yellow-green-blue-picker (+button, view),       |
-|                                | theme-picker, theme-picker-button, theme-view, theme-select|
+|                                | theme-select, theme-select-button, theme-view, theme-select|
 |                                | theme-select-option                                        |
 | Progress                       | progress, progress-bar, progress-circle, progress-spinner, |
 |                                | loading, skeleton, meter                                   |
@@ -338,7 +338,7 @@ Catalog category overview (counts approximate; the TSV is authoritative):
 |                                | task-list, task-list-item                                  |
 | Table (plain)                  | table + head/body/foot/row/th/td                           |
 | Tabs                           | tab-bar, tab-bar-button, tab-panel                         |
-| Theme                          | theme-provider, theme-picker, theme-picker-button,         |
+| Theme                          | theme-provider, theme-select, theme-select-button,         |
 |                                | theme-view, theme-select, theme-select-option              |
 | Tile map / Visualization extra | tile-map, diff, sparkline                                  |
 | Timer / Time                   | timer, timer-button, timeout-dialog                        |
@@ -413,7 +413,7 @@ Stable compound-component name patterns (full list in
   MeasurementInstanceInput/MeasurementInstanceView.
 - `*Picker` + `*PickerButton` — ColorPicker, FiveFaceRatingPicker,
   FiveStarRatingPicker, NetPromoterScorePicker, RedAmberGreenPicker,
-  RedOrangeYellowGreenBluePicker, ThemePicker.
+  RedOrangeYellowGreenBluePicker, ThemeSelect.
 - `ContainerWith*` — ContainerWithFixedWidth, ContainerWithFluidWidth.
 - Table sub-elements (`*TableHead/Body/Foot/Row/TH/TD`) — Table, CalendarTable,
   DataTable, KanbanTable.

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./ThemePicker.svelte";
+import Subject from "./ThemeSelect.svelte";
 
 function textSnippet(text: string) {
     return (($anchor: Comment) => {
@@ -10,7 +10,7 @@ function textSnippet(text: string) {
     }) as any;
 }
 
-describe("ThemePicker", () => {
+describe("ThemeSelect", () => {
     test("renders a radiogroup", () => {
         render(Subject, { props: { label: "Theme", children: textSnippet("options") } });
         expect(screen.getByRole("radiogroup")).toBeTruthy();

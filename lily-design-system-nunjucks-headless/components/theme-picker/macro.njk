@@ -1,8 +1,8 @@
 {#
-  ThemePicker macro — a picker for selecting a visual theme.
+  ThemeSelect macro — a picker for selecting a visual theme.
 
   HTML tag: <div role="radiogroup">
-  CSS class: theme-picker
+  CSS class: theme-select
 
   Params:
     label        string   Accessible name. Default "Theme".
@@ -11,12 +11,12 @@
     classes      string
     attributes   object
 
-  Body content: ThemePickerButton children via caller().
+  Body content: ThemeSelectButton children via caller().
 #}
 {%- macro themePicker(params) -%}
 {%- set p = params | default({}) -%}
 <div
-  class="theme-picker{% if p.classes %} {{ p.classes }}{% endif %}"
+  class="theme-select{% if p.classes %} {{ p.classes }}{% endif %}"
   role="radiogroup"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% else %} aria-label="{{ p.label | default('Theme') }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}

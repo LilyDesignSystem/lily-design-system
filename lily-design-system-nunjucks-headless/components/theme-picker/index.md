@@ -1,15 +1,15 @@
-# ThemePicker
+# ThemeSelect
 
 A picker for selecting a visual theme.
 
 ## Canonical documentation
 
-See [components/theme-picker/index.md](../../../components/theme-picker/index.md) for the full component documentation, including ARIA, keyboard interactions, params, and usage guidance.
+See [components/theme-select/index.md](../../../components/theme-select/index.md) for the full component documentation, including ARIA, keyboard interactions, params, and usage guidance.
 
 ## Nunjucks usage
 
 ```njk
-{% from "components/theme-picker/macro.njk" import themePicker %}
+{% from "components/theme-select/macro.njk" import themePicker %}
 
 {{ themePicker({ }) }}
 ```

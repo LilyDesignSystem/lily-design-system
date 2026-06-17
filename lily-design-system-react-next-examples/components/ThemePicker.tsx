@@ -1,2 +1,2 @@
-export { default } from "@pgds/ThemePicker";
-export type * from "@pgds/ThemePicker";
+export { default } from "@pgds/ThemeSelect";
+export type * from "@pgds/ThemeSelect";

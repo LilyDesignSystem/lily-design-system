@@ -1,6 +1,6 @@
-# ThemePicker
+# ThemeSelect
 
-ThemePicker is a headless theme selection component that renders a `<fieldset>` with the `radiogroup` role. It provides an accessible container for radio button options that let users choose between themes such as light, dark, or system preference.
+ThemeSelect is a headless theme selection component that renders a `<fieldset>` with the `radiogroup` role. It provides an accessible container for radio button options that let users choose between themes such as light, dark, or system preference.
 
 This component is useful for settings pages, preference panels, or any interface where users need to select from a set of theme options. Consumers provide the radio button markup as children, allowing full control over the option labels and values.
 
@@ -21,10 +21,10 @@ This component is useful for settings pages, preference panels, or any interface
 ## Usage
 
 ```svelte
-<ThemePicker label="Theme">
+<ThemeSelect label="Theme">
   <label><input type="radio" name="theme" value="light" /> Light</label>
   <label><input type="radio" name="theme" value="dark" /> Dark</label>
-</ThemePicker>
+</ThemeSelect>
 ```
 
 ## Keyboard Interactions

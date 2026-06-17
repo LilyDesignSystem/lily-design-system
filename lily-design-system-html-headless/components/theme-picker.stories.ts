@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
 const html = `<div
-  class="theme-picker"
+  class="theme-select"
   role="radiogroup"
   aria-label=""
 >
@@ -9,18 +9,18 @@ const html = `<div
 </div>
 
 <script>
-  // ThemePicker behavior
+  // ThemeSelect behavior
   (function() {
     'use strict';
-    // ThemePicker: consumer implements interactive behavior
-    document.querySelectorAll('.theme-picker').forEach(function(el) {
+    // ThemeSelect: consumer implements interactive behavior
+    document.querySelectorAll('.theme-select').forEach(function(el) {
       // Interactive behavior initialization
     });
   })();
 </script>`;
 
 const meta = {
-  title: 'Headless/ThemePicker',
+  title: 'Headless/ThemeSelect',
   render: () => html,
   tags: ['autodocs']
 } satisfies Meta;

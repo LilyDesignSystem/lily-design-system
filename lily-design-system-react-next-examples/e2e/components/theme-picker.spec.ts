@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-const slug = 'theme-picker';
-const name = 'ThemePicker';
+const slug = 'theme-select';
+const name = 'ThemeSelect';
 
 test.describe('component page: ' + slug, () => {
   test.beforeEach(async ({ page }) => {
@@ -16,7 +16,7 @@ test.describe('component page: ' + slug, () => {
 
   test('renders the H1 with the component name', async ({ page }) => {
     await expect(
-      page.getByRole('heading', { level: 1, name: new RegExp('^ThemePicker$') })
+      page.getByRole('heading', { level: 1, name: new RegExp('^ThemeSelect$') })
     ).toBeVisible();
   });
 

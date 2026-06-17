@@ -484,8 +484,8 @@ slug below links to the per-component documentation.
 - [text-area-input-with-character-counter](components/text-area-input-with-character-counter): a multi-line text area input with a caption below that is a character counter "[number] of [maximum] characters"
 - [text-input](components/text-input): a single-line text input field <input type="text">
 - [text-input-with-search](components/text-input-with-search): a single-line text input field <input type="text"> with search capability
-- [theme-picker](components/theme-picker): a picker for selecting a visual theme
-- [theme-picker-button](components/theme-picker-button): a picker button for selecting a visual theme
+- [theme-select](components/theme-select): a picker for selecting a visual theme
+- [theme-select-button](components/theme-select-button): a picker button for selecting a visual theme
 - [theme-provider](components/theme-provider): a container that applies CSS custom properties from a theme object to its children
 - [theme-select](components/theme-select): a select dropdown for choosing a theme
 - [theme-select-option](components/theme-select-option): one option in a theme select dropdown
@@ -585,7 +585,7 @@ slug below links to the per-component documentation.
   - NetPromoterScorePicker NetPromoterScorePickerButton
   - RedAmberGreenPicker RedAmberGreenPickerButton
   - RedOrangeYellowGreenBluePicker RedOrangeYellowGreenBluePickerButton
-  - ThemePicker ThemePickerButton
+  - ThemeSelect ThemeSelectButton
 - \*Input \*View
   - PostalCodeInput PostalCodeView
   - MeasurementInstanceInput MeasurementInstanceView

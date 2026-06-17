@@ -4,7 +4,7 @@ A read-only inline display of the current theme name, rendered as a `<span>` wit
 
 ## What it is
 
-`ThemeView` is a headless Svelte 5 component that shows the name of the currently active theme as plain text inside a `<span>`. It is the read-only counterpart in an Input/View pattern alongside `ThemePicker` or `ThemeSelect`.
+`ThemeView` is a headless Svelte 5 component that shows the name of the currently active theme as plain text inside a `<span>`. It is the read-only counterpart in an Input/View pattern alongside `ThemeSelect` or `ThemeSelect`.
 
 ## What it does
 
@@ -20,9 +20,9 @@ A read-only inline display of the current theme name, rendered as a `<span>` wit
 
 ## When not to use it
 
-- Don't use it to change the theme — use `ThemePicker` or `ThemeSelect`.
+- Don't use it to change the theme — use `ThemeSelect` or `ThemeSelect`.
 - Don't use it to show arbitrary read-only text — use a plain `<span>` or `Character`.
-- Don't use it for theme swatches — use `ThemePickerButton`.
+- Don't use it for theme swatches — use `ThemeSelectButton`.
 
 ## How to use it
 
@@ -93,7 +93,7 @@ Import and pass the `label` (for accessibility) and the `value` (the theme name 
 
 ## Related components
 
-- `ThemePicker` — interactive radio-group for theme selection.
+- `ThemeSelect` — interactive radio-group for theme selection.
 - `ThemeSelect` / `ThemeSelectOption` — dropdown alternative.
-- `ThemePickerButton` — swatch-button alternative.
+- `ThemeSelectButton` — swatch-button alternative.
 - `Character` — single-character display element.

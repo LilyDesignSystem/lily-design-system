@@ -21,7 +21,7 @@ A dropdown `<select>` for choosing a visual theme, with `aria-label`, bindable `
 
 ## When not to use it
 
-- Don't use it when you want always-visible radio options — use `ThemePicker`.
+- Don't use it when you want always-visible radio options — use `ThemeSelect`.
 - Don't use it for read-only display — use `ThemeView`.
 - Don't use it for non-theme selects — use the generic `Select` component.
 - Don't use it for multiple simultaneous selections — `<select>` by default is single-select.
@@ -120,6 +120,6 @@ Import both `ThemeSelect` and `ThemeSelectOption`. Pass a `label`, bind `value`,
 ## Related components
 
 - `ThemeSelectOption` — option child used inside `ThemeSelect`.
-- `ThemePicker` — radio-group alternative.
+- `ThemeSelect` — radio-group alternative.
 - `ThemeView` — read-only display of the current theme.
 - `Select` — generic select for non-theme use cases.

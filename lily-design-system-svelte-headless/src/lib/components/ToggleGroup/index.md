@@ -23,7 +23,7 @@ A container grouping related toggle buttons, rendered as a `<div role="group">` 
 
 - Don't use it for mutually exclusive choices — use `RadioGroup` or `SegmentGroup`.
 - Don't use it for primary-action buttons — use plain buttons or a `TaskBar`.
-- Don't use it for radio-like theme selection — use `ThemePicker`.
+- Don't use it for radio-like theme selection — use `ThemeSelect`.
 - Don't use it for keyboard roving-focus toolbars — use `ToolBar`, which handles arrow-key navigation.
 
 ## How to use it

@@ -61,7 +61,7 @@ Headless libraries ship unstyled, accessible components; example apps demonstrat
 
 ## Helper catalogs
 
-Seven per-framework helper subprojects (`lily-design-system-{framework}-helpers`, one each for html, svelte, react, vue, angular, blazor, nunjucks) carry framework-specific helper packages (for example theme-picker and locale-picker). Like the implementation subprojects, each helper catalog is its own git subtree with its own standalone remotes. See [helpers](../helpers/index.md).
+Seven per-framework helper subprojects (`lily-design-system-{framework}-helpers`, one each for html, svelte, react, vue, angular, blazor, nunjucks) carry framework-specific helper packages (for example theme-select and locale-select). Like the implementation subprojects, each helper catalog is its own git subtree with its own standalone remotes. See [helpers](../helpers/index.md).
 
 ## Git subtree publishing model
 

@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const slug = 'theme-picker';
+const slug = 'theme-select';
 const title = 'Theme Picker';
 
 test.describe('component page: ' + slug, () => {

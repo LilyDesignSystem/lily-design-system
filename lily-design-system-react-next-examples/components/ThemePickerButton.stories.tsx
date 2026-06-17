@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import ThemePickerButton from './ThemePickerButton';
+import ThemeSelectButton from './ThemeSelectButton';
 
 const meta = {
-  title: 'Examples/ThemePickerButton',
-  component: ThemePickerButton,
+  title: 'Examples/ThemeSelectButton',
+  component: ThemeSelectButton,
   tags: ['autodocs']
-} satisfies Meta<typeof ThemePickerButton>;
+} satisfies Meta<typeof ThemeSelectButton>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
 const html = `<div
-  class="theme-picker"
+  class="theme-select"
   role="radiogroup" aria-label="Theme"></div>`;
 
 const meta = {
-  title: 'Headless/ThemePicker',
+  title: 'Headless/ThemeSelect',
   render: () => html,
   tags: ['autodocs']
 } satisfies Meta;

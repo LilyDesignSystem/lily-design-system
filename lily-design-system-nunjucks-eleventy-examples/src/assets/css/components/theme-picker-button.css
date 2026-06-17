@@ -1,4 +1,4 @@
-.theme-picker-button {
+.theme-select-button {
   padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);
   background: var(--nhsuk-white);
   border: 2px solid var(--nhsuk-mid-grey);
@@ -9,7 +9,7 @@
   cursor: pointer;
 }
 
-.theme-picker-button[aria-checked="true"] {
+.theme-select-button[aria-checked="true"] {
   background: var(--nhsuk-blue);
   color: var(--nhsuk-white);
   border-color: var(--nhsuk-blue);

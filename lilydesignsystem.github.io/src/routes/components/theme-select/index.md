@@ -92,13 +92,13 @@ With theme application:
 ## When to Use
 
 - Use for selecting a visual theme from a dropdown when space is limited.
-- Use as a compact alternative to ThemePicker when there are many theme options.
+- Use as a compact alternative to ThemeSelect when there are many theme options.
 - Use in navigation bars, toolbars, or sidebars where a dropdown fits the layout better than radio buttons.
 - Use when theme options do not need visual previews or swatches.
 
 ## When Not to Use
 
-- Do not use when visual preview of themes is important -- use [ThemePicker](../theme-picker/) with swatches instead.
+- Do not use when visual preview of themes is important -- use [ThemeSelect](../theme-select/) with swatches instead.
 - Do not use for non-theme selections -- use [Select](../select/) with custom options instead.
 - Do not use for a simple binary light/dark toggle -- use [SwitchButton](../switch-button/) or [ToggleButton](../toggle-button/) instead.
 
@@ -127,7 +127,7 @@ The consumer provides all CSS styling. The component renders with a `.theme-sele
 
 ## Composition
 
-ThemeSelect contains ThemeSelectOption children (or plain `<option>` elements) following the Select/SelectOption pattern. ThemeSelect is also related to ThemePicker (radio-based approach) and ThemeView (read-only display).
+ThemeSelect contains ThemeSelectOption children (or plain `<option>` elements) following the Select/SelectOption pattern. ThemeSelect is also related to ThemeSelect (radio-based approach) and ThemeView (read-only display).
 
 ## Related components
 

@@ -12,7 +12,7 @@
     } = $props();
 </script>
 
-<!-- ThemePickerButton.svelte -->
-<div class={`theme-picker-button ${className}`} aria-label={label} {...restProps}>
+<!-- ThemeSelectButton.svelte -->
+<div class={`theme-select-button ${className}`} aria-label={label} {...restProps}>
     {@render children?.()}
 </div>

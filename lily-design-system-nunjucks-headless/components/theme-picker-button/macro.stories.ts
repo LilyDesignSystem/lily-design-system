@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
 const html = `<button
-  class="theme-picker-button"
+  class="theme-select-button"
   type="button"
   role="radio"
   aria-checked="false"
@@ -9,7 +9,7 @@ const html = `<button
   data-theme=""></button>`;
 
 const meta = {
-  title: 'Headless/ThemePickerButton',
+  title: 'Headless/ThemeSelectButton',
   render: () => html,
   tags: ['autodocs']
 } satisfies Meta;

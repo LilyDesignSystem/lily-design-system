@@ -1884,8 +1884,8 @@ article[class*="card"] {
     border-color: var(--nhs-black);
 }
 
-/* theme-picker, theme-view */
-.theme-picker {
+/* theme-select, theme-view */
+.theme-select {
     display: flex;
     gap: var(--nhs-space-2);
 }

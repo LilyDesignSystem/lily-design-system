@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-const slug = 'theme-picker-button';
-const title = 'ThemePickerButton';
+const slug = 'theme-select-button';
+const title = 'ThemeSelectButton';
 
 test.describe('component page: ' + slug, () => {
   test.beforeEach(async ({ page }) => {
@@ -15,7 +15,7 @@ test.describe('component page: ' + slug, () => {
   });
 
   test('document title contains the component name', async ({ page }) => {
-    await expect(page).toHaveTitle(/ThemePickerButton\s+\u2014\s+Lily Design System/);
+    await expect(page).toHaveTitle(/ThemeSelectButton\s+\u2014\s+Lily Design System/);
   });
 
   test('renders the H1 heading', async ({ page }) => {

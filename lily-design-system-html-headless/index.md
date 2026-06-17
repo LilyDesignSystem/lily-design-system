@@ -299,8 +299,8 @@ A headless plain HTML component library with 492 components. All components are 
 - **text-input-with-search**: a single-line text input field with search capability
 - **text-area-input**: a multi-line text input area
 - **text-area-input-with-character-counter**: a multi-line text area with character counter
-- **theme-picker**: a picker for selecting a visual theme
-- **theme-picker-button**: a picker button for selecting a visual theme
+- **theme-select**: a picker for selecting a visual theme
+- **theme-select-button**: a picker button for selecting a visual theme
 - **theme-select**: a select dropdown for choosing a theme
 - **theme-select-option**: one option in a theme select dropdown
 - **theme-view**: a read-only display of the current theme

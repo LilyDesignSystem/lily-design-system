@@ -1,4 +1,4 @@
-# ThemePicker
+# ThemeSelect
 
 ## Overview
 
@@ -23,7 +23,7 @@ A picker for selecting a visual theme.
 ## Usage
 
 ```svelte
-<ThemePicker label="Theme">...</ThemePicker>
+<ThemeSelect label="Theme">...</ThemeSelect>
 ```
 
 ## Props
@@ -39,11 +39,11 @@ A picker for selecting a visual theme.
 
 ```svelte
 <!-- Theme picker with radio options -->
-<ThemePicker label="Theme">
+<ThemeSelect label="Theme">
   <label><input type="radio" name="theme" value="light" /> Light</label>
   <label><input type="radio" name="theme" value="dark" /> Dark</label>
   <label><input type="radio" name="theme" value="system" /> System</label>
-</ThemePicker>
+</ThemeSelect>
 ```
 
 ## SvelteKit example
@@ -51,10 +51,10 @@ A picker for selecting a visual theme.
 ```svelte
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import ThemePicker from "$lib/components/ThemePicker/ThemePicker.svelte";
+  import ThemeSelect from "$lib/components/ThemeSelect/ThemeSelect.svelte";
 </script>
 
-<ThemePicker label="Theme">...</ThemePicker>
+<ThemeSelect label="Theme">...</ThemeSelect>
 ```
 
 ## Keyboard

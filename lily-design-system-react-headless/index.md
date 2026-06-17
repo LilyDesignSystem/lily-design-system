@@ -206,7 +206,7 @@ Every component's root element includes a semantic CSS class matching its kebab-
 | TelInput                    | Telephone number input                                                    |
 | TextInput                   | Single-line text input                                                    |
 | TextAreaInput                    | Multi-line text area                                                      |
-| ThemePicker                 | Visual theme picker                                                       |
+| ThemeSelect                 | Visual theme picker                                                       |
 | ThemeSelect                 | Theme select dropdown                                                     |
 | ThemeSelectOption           | One option in theme select                                                |
 | TimeInput                   | Time value input                                                          |
@@ -416,7 +416,7 @@ Every component's root element includes a semantic CSS class matching its kebab-
 | Tile                        | Structured content grouping container         |
 | Timer                       | Countdown/elapsed time display                |
 | TimerButton                 | Button with auto-click timer                  |
-| ThemePickerButton           | Picker button for selecting a visual theme    |
+| ThemeSelectButton           | Picker button for selecting a visual theme    |
 | ThemeView                   | Current theme display                         |
 | Tour                        | Step-by-step guide                            |
 | TourList                    | Tour steps list                               |

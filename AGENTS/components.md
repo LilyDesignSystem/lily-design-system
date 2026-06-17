@@ -95,7 +95,7 @@ Use the bin tools to query the catalog programmatically:
   - NetPromoterScorePicker NetPromoterScorePickerButton
   - RedAmberGreenPicker RedAmberGreenPickerButton
   - RedOrangeYellowGreenBluePicker RedOrangeYellowGreenBluePickerButton
-  - ThemePicker ThemePickerButton
+  - ThemeSelect ThemeSelectButton
 - `*Input` `*View`
   - PostalCodeInput PostalCodeView
   - MeasurementInstanceInput MeasurementInstanceView

@@ -9,11 +9,11 @@ Implement the Theme Picker component: a picker for selecting a visual theme.
 ## HTML Tag and CSS Class
 
 - HTML tag: <div>
-- CSS class: .theme-picker
+- CSS class: .theme-select
 
 ## Approach
 
-1. Use semantic <div> element with class="theme-picker"
+1. Use semantic <div> element with class="theme-select"
 2. Add ARIA attributes for accessibility
 3. Implement in HTML headless (plain HTML + vanilla JS)
 4. Implement in Svelte headless (Svelte 5 + runes)
@@ -22,7 +22,7 @@ Implement the Theme Picker component: a picker for selecting a visual theme.
 
 ## Acceptance Criteria
 
-- [ ] Renders <div> with class="theme-picker"
+- [ ] Renders <div> with class="theme-select"
 - [ ] `role="radiogroup"` -- identifies the fieldset as a group of related radio buttons
 - [ ] `aria-label={label}` -- provides an accessible name describing the purpose of the theme selection
 - [ ] WCAG 2.2 AAA compliant
@@ -35,12 +35,12 @@ Implement the Theme Picker component: a picker for selecting a visual theme.
 
 - [x] Create component directory with index.md and README.md symlink
 - [x] Document props, usage, keyboard interactions, and ARIA in index.md
-- [x] Add CSS class .theme-picker to css-style-sheet-template.css
+- [x] Add CSS class .theme-select to css-style-sheet-template.css
 
 ### In Progress
 
-- [ ] Implement HTML headless component (theme-picker.html)
-- [ ] Implement HTML headless test (theme-picker.test.js)
+- [ ] Implement HTML headless component (theme-select.html)
+- [ ] Implement HTML headless test (theme-select.test.js)
 
 ### Backlog
 

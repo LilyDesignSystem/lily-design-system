@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-    // ThemePickerButton component
+    // ThemeSelectButton component
     //
     // One button in a theme picker, representing a single theme. Renders
     // as a <button> with aria-pressed reflecting whether this theme is
@@ -43,10 +43,10 @@
 </script>
 
 <template>
-    <!-- ThemePickerButton.vue -->
+    <!-- ThemeSelectButton.vue -->
     <button
         type="button"
-        class="theme-picker-button"
+        class="theme-select-button"
         :aria-pressed="pressed"
         :aria-label="label"
         :disabled="disabled"

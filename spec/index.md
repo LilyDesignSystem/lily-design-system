@@ -24,7 +24,7 @@ references for humans and AI coding agents.
 | [tooling](tooling/index.md) | The `bin/` scripts, the rsync sync model, `bin/test` verification, subtree push. |
 | [testing](testing/index.md) | Per-framework test suites, Storybook coverage, Playwright e2e, axe, responsive sweep. |
 | [frameworks](frameworks/index.md) | The seven framework pairs, per-framework file shapes and idioms, the copy-pattern. |
-| [helpers](helpers/index.md) | The `*-helpers` catalogs — theme-picker and locale-picker — and their per-framework manifests. |
+| [helpers](helpers/index.md) | The `*-helpers` catalogs — theme-select and locale-select — and their per-framework manifests. |
 | [national-identifiers](national-identifiers/index.md) | The 80 national personal identifier components, normalization, validation algorithms. |
 | [citations](citations/index.md) | Design systems Lily learns from, the NHS UK reference, Reuters Graphics influence. |
 

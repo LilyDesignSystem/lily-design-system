@@ -1,6 +1,6 @@
-# ThemePickerButton
+# ThemeSelectButton
 
-A theme picker button is a button for selecting a visual theme within a ThemePicker component. Each button represents one theme option and shows a preview or label for that theme.
+A theme picker button is a button for selecting a visual theme within a ThemeSelect component. Each button represents one theme option and shows a preview or label for that theme.
 
 This headless component uses a `<button>` element with `aria-pressed` to indicate the currently selected theme, following the toggle button pattern within a picker group.
 
@@ -9,7 +9,7 @@ This headless component uses a `<button>` element with `aria-pressed` to indicat
 - Uses `<button>` element for native keyboard and accessibility support
 - `aria-pressed` indicates whether this theme is currently selected
 - `aria-label` describes the theme this button represents
-- Part of the ThemePicker composition pattern
+- Part of the ThemeSelect composition pattern
 
 ## Props
 
@@ -25,30 +25,30 @@ This headless component uses a `<button>` element with `aria-pressed` to indicat
 Basic theme picker with light and dark options:
 
 ```html
-<ThemePicker label="Choose theme">
-  <ThemePickerButton pressed={theme === 'light'} label="Light theme" onclick={() => setTheme('light')}>
+<ThemeSelect label="Choose theme">
+  <ThemeSelectButton pressed={theme === 'light'} label="Light theme" onclick={() => setTheme('light')}>
     Light
-  </ThemePickerButton>
-  <ThemePickerButton pressed={theme === 'dark'} label="Dark theme" onclick={() => setTheme('dark')}>
+  </ThemeSelectButton>
+  <ThemeSelectButton pressed={theme === 'dark'} label="Dark theme" onclick={() => setTheme('dark')}>
     Dark
-  </ThemePickerButton>
-</ThemePicker>
+  </ThemeSelectButton>
+</ThemeSelect>
 ```
 
 With high-contrast option and visual swatches:
 
 ```html
-<ThemePicker label="Appearance">
-  <ThemePickerButton pressed={theme === 'light'} label="Light theme" onclick={() => setTheme('light')}>
+<ThemeSelect label="Appearance">
+  <ThemeSelectButton pressed={theme === 'light'} label="Light theme" onclick={() => setTheme('light')}>
     <span class="swatch swatch-light"></span> Light
-  </ThemePickerButton>
-  <ThemePickerButton pressed={theme === 'dark'} label="Dark theme" onclick={() => setTheme('dark')}>
+  </ThemeSelectButton>
+  <ThemeSelectButton pressed={theme === 'dark'} label="Dark theme" onclick={() => setTheme('dark')}>
     <span class="swatch swatch-dark"></span> Dark
-  </ThemePickerButton>
-  <ThemePickerButton pressed={theme === 'high-contrast'} label="High contrast theme" onclick={() => setTheme('high-contrast')}>
+  </ThemeSelectButton>
+  <ThemeSelectButton pressed={theme === 'high-contrast'} label="High contrast theme" onclick={() => setTheme('high-contrast')}>
     <span class="swatch swatch-high-contrast"></span> High Contrast
-  </ThemePickerButton>
-</ThemePicker>
+  </ThemeSelectButton>
+</ThemeSelect>
 ```
 
 ## Keyboard Interactions
@@ -66,13 +66,13 @@ With high-contrast option and visual swatches:
 
 ## When to Use
 
-- Use inside a ThemePicker to represent one selectable theme option.
+- Use inside a ThemeSelect to represent one selectable theme option.
 - Use when you want button-based theme selection with visual previews or swatches.
 - Use when each theme option needs custom content such as icons or colour samples.
 
 ## When Not to Use
 
-- Do not use outside of a ThemePicker -- the button relies on the picker for grouping and context.
+- Do not use outside of a ThemeSelect -- the button relies on the picker for grouping and context.
 - Do not use for non-theme selections -- use [SegmentGroupItem](../segment-group-item/) instead.
 - Do not use for standalone toggle actions -- use [ToggleButton](../toggle-button/) instead.
 
@@ -82,11 +82,11 @@ This component provides a `<button>` element with `aria-pressed` for toggle stat
 
 ## Styles
 
-The consumer provides all CSS styling. The component renders with a `.theme-picker-button` class for targeting. No default styles are included -- this is a fully headless component.
+The consumer provides all CSS styling. The component renders with a `.theme-select-button` class for targeting. No default styles are included -- this is a fully headless component.
 
 ## Testing
 
-- Verify the component renders a `<button>` element with class `theme-picker-button`
+- Verify the component renders a `<button>` element with class `theme-select-button`
 - Verify `aria-pressed` reflects the selected state
 - Verify `aria-label` is applied
 - Verify keyboard interactions work correctly
@@ -95,15 +95,15 @@ The consumer provides all CSS styling. The component renders with a `.theme-pick
 ## Advice
 
 - **Designers**: Show a visual preview of each theme (color swatches, mini layout). Clearly indicate the selected theme with a visual marker.
-- **Developers**: Manage the pressed state from the parent ThemePicker component. Use `aria-pressed` to communicate selection state.
+- **Developers**: Manage the pressed state from the parent ThemeSelect component. Use `aria-pressed` to communicate selection state.
 
 ## Composition
 
-ThemePickerButton is used within a ThemePicker component following the Picker/PickerButton pattern.
+ThemeSelectButton is used within a ThemeSelect component following the Picker/PickerButton pattern.
 
 ## Related components
 
-- `theme-picker` — a picker for selecting a visual theme
+- `theme-select` — a picker for selecting a visual theme
 
 ## References
 

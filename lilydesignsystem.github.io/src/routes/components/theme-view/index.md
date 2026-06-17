@@ -2,7 +2,7 @@
 
 ThemeView is a headless component that displays the current theme name as inline text. It renders the theme value in a `<span>` element with an accessible label, making the current theme selection readable by screen readers.
 
-This component is commonly paired with ThemePicker in an Input/View pattern. While ThemePicker allows the user to select a theme, ThemeView displays the currently active theme. It is useful in settings panels, status bars, or anywhere the current theme needs to be communicated visually and programmatically.
+This component is commonly paired with ThemeSelect in an Input/View pattern. While ThemeSelect allows the user to select a theme, ThemeView displays the currently active theme. It is useful in settings panels, status bars, or anywhere the current theme needs to be communicated visually and programmatically.
 
 ## Implementation Notes
 
@@ -66,7 +66,7 @@ None -- this component is a passive display element with no interactive behavior
 
 ## When Not to Use
 
-- Do not use when users need to select or change the theme -- use [ThemePicker](../theme-picker/) or [ThemeSelect](../theme-select/) instead.
+- Do not use when users need to select or change the theme -- use [ThemeSelect](../theme-select/) or [ThemeSelect](../theme-select/) instead.
 - Do not use for general-purpose text display -- use a `<span>` or [Badge](../badge/) instead.
 
 ## Headless
@@ -93,11 +93,11 @@ The consumer provides all CSS styling. The component renders with a `.theme-view
 
 ## Composition
 
-ThemeView is the read-only display counterpart to ThemePicker and ThemeSelect. Use ThemeView to show the current theme, and pair it with ThemePicker or ThemeSelect for editing.
+ThemeView is the read-only display counterpart to ThemeSelect and ThemeSelect. Use ThemeView to show the current theme, and pair it with ThemeSelect or ThemeSelect for editing.
 
 ## Related components
 
-- `theme-picker` — a picker for selecting a visual theme
+- `theme-select` — a picker for selecting a visual theme
 
 ## References
 

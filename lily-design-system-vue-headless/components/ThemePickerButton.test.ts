@@ -1,12 +1,12 @@
 import { describe, expect, test } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/vue";
 
-import Subject from "./ThemePickerButton.vue";
+import Subject from "./ThemeSelectButton.vue";
 
-describe("ThemePickerButton", () => {
-    test("renders a button with class theme-picker-button", () => {
+describe("ThemeSelectButton", () => {
+    test("renders a button with class theme-select-button", () => {
         const { container } = render(Subject, { props: { label: "Light theme" } });
-        const btn = container.querySelector(".theme-picker-button");
+        const btn = container.querySelector(".theme-select-button");
         expect(btn).toBeTruthy();
         expect(btn?.tagName).toBe("BUTTON");
     });
@@ -18,11 +18,11 @@ describe("ThemePickerButton", () => {
 
     test("aria-pressed reflects the pressed prop", async () => {
         const { rerender, container } = render(Subject, { props: { label: "Light theme" } });
-        let btn = container.querySelector(".theme-picker-button")!;
+        let btn = container.querySelector(".theme-select-button")!;
         expect(btn.getAttribute("aria-pressed")).toBe("false");
 
         await rerender({ label: "Light theme", pressed: true });
-        btn = container.querySelector(".theme-picker-button")!;
+        btn = container.querySelector(".theme-select-button")!;
         expect(btn.getAttribute("aria-pressed")).toBe("true");
     });
 

@@ -1,12 +1,12 @@
-# ThemePickerButton
+# ThemeSelectButton
 
 ## Metadata
 
-- Component: theme-picker-button
-- PascalCase: ThemePickerButton
+- Component: theme-select-button
+- PascalCase: ThemeSelectButton
 - Description: a picker button for selecting a visual theme
 - HTML tag: <button>
-- CSS class: .theme-picker-button
+- CSS class: .theme-select-button
 - Interactive: yes
 
 ## Key Behaviors
@@ -38,7 +38,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <button> element with class="theme-picker-button"
+- [ ] Renders <button> element with class="theme-select-button"
 - [ ] Has aria-pressed attribute
 - [ ] Has aria-label attribute
 - [ ] Keyboard navigation works correctly
@@ -48,5 +48,5 @@
 ## References
 
 - Documentation: index.md
-- CSS class: .theme-picker-button in css-style-sheet-template.css
-- HTML headless: lily-design-system-html-headless/components/theme-picker-button.html
+- CSS class: .theme-select-button in css-style-sheet-template.css
+- HTML headless: lily-design-system-html-headless/components/theme-select-button.html

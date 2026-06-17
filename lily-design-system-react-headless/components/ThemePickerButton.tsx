@@ -1,8 +1,8 @@
-// ThemePickerButton component
+// ThemeSelectButton component
 //
 // One button in a theme picker, representing a single theme that the user
 // can select. Renders as a <button> with aria-pressed reflecting whether
-// this theme is currently the active one. Used inside a ThemePicker to
+// this theme is currently the active one. Used inside a ThemeSelect to
 // provide one button per theme.
 //
 // Props:
@@ -25,7 +25,7 @@
 
 import React from "react";
 
-export interface ThemePickerButtonProps {
+export interface ThemeSelectButtonProps {
     className?: string;
     /** Accessible label describing the theme. */
     label: string;
@@ -40,7 +40,7 @@ export interface ThemePickerButtonProps {
     [key: string]: unknown;
 }
 
-export default function ThemePickerButton({
+export default function ThemeSelectButton({
     className = "",
     label,
     pressed = false,
@@ -48,11 +48,11 @@ export default function ThemePickerButton({
     onClick = undefined,
     children,
     ...restProps
-}: ThemePickerButtonProps) {
+}: ThemeSelectButtonProps) {
     return (
         <button
             type="button"
-            className={`theme-picker-button ${className}`}
+            className={`theme-select-button ${className}`}
             aria-pressed={pressed}
             aria-label={label}
             disabled={disabled}

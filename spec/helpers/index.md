@@ -2,18 +2,18 @@
 
 > Lily Design System specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Each framework ships a `*-helpers` catalog of small, opinionated, reusable packages that sit alongside the headless library; where a headless component is a pure container, a helper owns one user-preference lifecycle end to end (selection + DOM application + optional persistence). The two helpers in every catalog today are `theme-picker` and `locale-picker`.
+**Summary.** Each framework ships a `*-helpers` catalog of small, opinionated, reusable packages that sit alongside the headless library; where a headless component is a pure container, a helper owns one user-preference lifecycle end to end (selection + DOM application + optional persistence). The two helpers in every catalog today are `theme-select` and `locale-select`.
 
 ## Scope
 
-This topic covers the seven `*-helpers` catalogs (angular, blazor, html, nunjucks, react, svelte, vue), the two helpers each one currently contains (theme-picker, locale-picker), their behaviour contracts, how helpers differ from the headless layer, the canonical-reference role of the svelte-helpers catalog, the per-package manifest convention (npm `package.json` vs. NuGet `.csproj` for Blazor), and the per-helper subtree/remote layout.
+This topic covers the seven `*-helpers` catalogs (angular, blazor, html, nunjucks, react, svelte, vue), the two helpers each one currently contains (theme-select, locale-select), their behaviour contracts, how helpers differ from the headless layer, the canonical-reference role of the svelte-helpers catalog, the per-package manifest convention (npm `package.json` vs. NuGet `.csproj` for Blazor), and the per-helper subtree/remote layout.
 
 It does **not** cover: the headless 492-component catalog and its rules (see [headless](../headless/index.md) and [components](../components/index.md)), the seven framework pairs and their stacks (see [frameworks](../frameworks/index.md)), theme-CSS tokens and `data-theme` semantics (see [theme](../theme/index.md)), or the `lang`/`dir` internationalisation contract (see [internationalization](../internationalization/index.md)).
 
 ## Principles and rules
 
 - **One job per helper.** Each helper owns the entire lifecycle of one user-preference dimension (theme, language) and composes cleanly with the others.
-- **Higher-level than headless, not a replacement.** The headless `ThemePicker` is a pure `fieldset` + `role="radiogroup"` container; the helper adds dynamic loading, attribute application, and persistence. Both layers can coexist in one app.
+- **Higher-level than headless, not a replacement.** The headless `ThemeSelect` is a pure `fieldset` + `role="radiogroup"` container; the helper adds dynamic loading, attribute application, and persistence. Both layers can coexist in one app.
 - **Headless still.** No bundled CSS, fonts, icons, or images — the consumer styles every visual aspect via a kebab-case class hook.
 - **SSR-safe.** No DOM writes outside the framework's mount/effect lifecycle (`$effect` / `onMount` / equivalent).
 - **i18n-clean.** Every user-facing string comes from a prop.
@@ -24,15 +24,15 @@ It does **not** cover: the headless 492-component catalog and its rules (see [he
 
 | Catalog | Manifest per package | Helpers |
 | ------- | -------------------- | ------- |
-| `lily-design-system-svelte-helpers` (canonical reference) | npm `package.json` | theme-picker, locale-picker |
-| `lily-design-system-react-helpers` | npm `package.json` | theme-picker, locale-picker |
-| `lily-design-system-vue-helpers` | npm `package.json` | theme-picker, locale-picker |
-| `lily-design-system-angular-helpers` | npm `package.json` | theme-picker, locale-picker |
-| `lily-design-system-html-helpers` | npm `package.json` | theme-picker, locale-picker |
-| `lily-design-system-nunjucks-helpers` | npm `package.json` | theme-picker, locale-picker |
-| `lily-design-system-blazor-helpers` | NuGet `.csproj` (Razor class library) | theme-picker, locale-picker |
+| `lily-design-system-svelte-helpers` (canonical reference) | npm `package.json` | theme-select, locale-select |
+| `lily-design-system-react-helpers` | npm `package.json` | theme-select, locale-select |
+| `lily-design-system-vue-helpers` | npm `package.json` | theme-select, locale-select |
+| `lily-design-system-angular-helpers` | npm `package.json` | theme-select, locale-select |
+| `lily-design-system-html-helpers` | npm `package.json` | theme-select, locale-select |
+| `lily-design-system-nunjucks-helpers` | npm `package.json` | theme-select, locale-select |
+| `lily-design-system-blazor-helpers` | NuGet `.csproj` (Razor class library) | theme-select, locale-select |
 
-Blazor is .NET rather than npm, so its helpers ship as Razor class libraries with a `.csproj` (e.g. `LilyDesignSystem.Blazor.ThemePicker.csproj`) instead of a `package.json`.
+Blazor is .NET rather than npm, so its helpers ship as Razor class libraries with a `.csproj` (e.g. `LilyDesignSystem.Blazor.ThemeSelect.csproj`) instead of a `package.json`.
 
 ## Per-package shape
 
@@ -52,28 +52,28 @@ Each helper subproject follows the same spec-driven shape (Svelte example; other
 
 Each `*-helpers` catalog directory, and each helper inside it, is its own `git subtree` pushed to a standalone remote.
 
-## theme-picker contract
+## theme-select contract
 
 A drop-in headless theme picker that **loads theme CSS dynamically at runtime**.
 
 | Aspect | Contract |
 | ------ | -------- |
-| Markup | `<fieldset class="theme-picker {class}" role="radiogroup" aria-label="{label}">` with one native `<input type="radio">` per theme slug. |
+| Markup | `<fieldset class="theme-select {class}" role="radiogroup" aria-label="{label}">` with one native `<input type="radio">` per theme slug. |
 | Required props | `label`, `themesUrl`, `themes`. |
-| CSS load | Mutates `href` on one managed `<link rel="stylesheet" data-lily-theme-picker="{name}">` in `document.head`; only the active theme is fetched. URL is `normalise(themesUrl) + slug + extension`. |
+| CSS load | Mutates `href` on one managed `<link rel="stylesheet" data-lily-theme-select="{name}">` in `document.head`; only the active theme is fetched. URL is `normalise(themesUrl) + slug + extension`. |
 | Activation | Sets `data-theme="{slug}"` on `target` (defaults to `document.documentElement`). |
 | Persistence | Optional `localStorage[storageKey]`, written in try/catch so private-mode/quota errors are swallowed. |
 | Initial value | Resolves `value` > storage > `defaultValue` > `"light"` (if present) > `themes[0]`; the word "default" is never emitted (labels are title-cased slugs or `themeLabels`). |
 | SSR | All DOM writes inside the mount/effect lifecycle; server render touches no DOM. |
 | Keyboard | Native radio semantics — Tab in/out, Arrow to move selection, Space to select. |
 
-## locale-picker contract
+## locale-select contract
 
 A drop-in headless locale picker that applies a BCP 47 locale to the document.
 
 | Aspect | Contract |
 | ------ | -------- |
-| Markup | `<fieldset class="locale-picker …" role="radiogroup">` with one radio per locale code. |
+| Markup | `<fieldset class="locale-select …" role="radiogroup">` with one radio per locale code. |
 | Application | Sets `lang="…"` and `dir="ltr|rtl"` on the document root (or a consumer target). |
 | Direction | Auto-detects RTL for Arabic, Hebrew, Thaana, Mongolian (traditional), N'Ko, Syriac, and Adlam scripts. |
 | BCP 47 | Underscores in codes (`en_US`) are converted to hyphens (`en-US`) per RFC 5646 when written to `lang`. |
@@ -91,11 +91,11 @@ A drop-in headless locale picker that applies a BCP 47 locale to the document.
 
 ## Acceptance criteria
 
-- [ ] Each of the seven framework catalogs ships a `theme-picker` and a `locale-picker` helper.
+- [ ] Each of the seven framework catalogs ships a `theme-select` and a `locale-select` helper.
 - [ ] Every helper has a numbered `spec.md` and a test file asserting each acceptance clause.
 - [ ] JS-framework helpers ship an npm `package.json`; Blazor helpers ship a NuGet `.csproj` (Razor class library).
-- [ ] theme-picker swaps a managed `<link>` href, sets `data-theme` on the document root, persists optionally to `localStorage`, is SSR-safe, and renders a `role="radiogroup"`.
-- [ ] locale-picker sets `lang` + `dir`, auto-detects RTL scripts, emits BCP 47 hyphenated tags, and performs no translation.
+- [ ] theme-select swaps a managed `<link>` href, sets `data-theme` on the document root, persists optionally to `localStorage`, is SSR-safe, and renders a `role="radiogroup"`.
+- [ ] locale-select sets `lang` + `dir`, auto-detects RTL scripts, emits BCP 47 hyphenated tags, and performs no translation.
 - [ ] Helpers ship no bundled CSS, fonts, icons, or images and take no hardcoded user-facing strings.
 - [ ] The svelte-helpers catalog is the canonical reference; the other six are idiom-faithful ports.
 - [ ] Each `*-helpers` catalog and each helper is a git subtree with a standalone remote.
@@ -104,13 +104,13 @@ A drop-in headless locale picker that applies a BCP 47 locale to the document.
 
 - [headless](../headless/index.md) — the pure-container layer the helpers sit alongside and build on
 - [frameworks](../frameworks/index.md) — the seven framework pairs whose idioms the helper ports follow
-- [theme](../theme/index.md) — theme-CSS tokens and `data-theme` semantics the theme-picker drives
-- [internationalization](../internationalization/index.md) — the `lang` / `dir` and consumer-supplied-string contract the locale-picker honours
+- [theme](../theme/index.md) — theme-CSS tokens and `data-theme` semantics the theme-select drives
+- [internationalization](../internationalization/index.md) — the `lang` / `dir` and consumer-supplied-string contract the locale-select honours
 
 ## Sources
 
 - [lily-design-system-svelte-helpers/index.md](../../lily-design-system-svelte-helpers/index.md) — canonical catalog and conventions
 - [lily-design-system-svelte-helpers/AGENTS.md](../../lily-design-system-svelte-helpers/AGENTS.md)
-- [lily-design-system-svelte-helpers/lily-design-system-svelte-theme-picker/spec.md](../../lily-design-system-svelte-helpers/lily-design-system-svelte-theme-picker/spec.md) — theme-picker contract
-- [lily-design-system-svelte-helpers/lily-design-system-svelte-locale-picker/spec.md](../../lily-design-system-svelte-helpers/lily-design-system-svelte-locale-picker/spec.md) — locale-picker contract
+- [lily-design-system-svelte-helpers/lily-design-system-svelte-theme-select/spec.md](../../lily-design-system-svelte-helpers/lily-design-system-svelte-theme-select/spec.md) — theme-select contract
+- [lily-design-system-svelte-helpers/lily-design-system-svelte-locale-select/spec.md](../../lily-design-system-svelte-helpers/lily-design-system-svelte-locale-select/spec.md) — locale-select contract
 - [spec.md](../../spec.md) §3 (subproject architecture)

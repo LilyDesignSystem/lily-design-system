@@ -1,8 +1,8 @@
 {#
-  ThemePickerButton macro — one button inside a ThemePicker.
+  ThemeSelectButton macro — one button inside a ThemeSelect.
 
   HTML tag: <button role="radio">
-  CSS class: theme-picker-button
+  CSS class: theme-select-button
 
   Params:
     theme        string   Theme identifier (required).
@@ -18,7 +18,7 @@
 {%- macro themePickerButton(params) -%}
 {%- set p = params | default({}) -%}
 <button
-  class="theme-picker-button{% if p.classes %} {{ p.classes }}{% endif %}"
+  class="theme-select-button{% if p.classes %} {{ p.classes }}{% endif %}"
   type="button"
   role="radio"
   aria-checked="{{ 'true' if p.checked else 'false' }}"

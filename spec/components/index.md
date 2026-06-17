@@ -112,7 +112,7 @@ Compound components follow stable name patterns. The PascalCase prefix is shared
 - **`*Menu` + `*MenuItem`** — Menu/MenuItem, ContextMenu/ContextMenuItem.
 - **`*Input` + `*Link`** — TelInput/TelLink, EmailInput/EmailLink.
 - **`*Input` + `*View`** — PostalCodeInput/PostalCodeView, MeasurementInstanceInput/MeasurementInstanceView, and the national-identifier `*-input`/`*-view` pairs.
-- **`*Picker` + `*PickerButton`** — ColorPicker, FiveFaceRatingPicker, FiveStarRatingPicker, NetPromoterScorePicker, RedAmberGreenPicker, RedOrangeYellowGreenBluePicker, ThemePicker (each with its `*PickerButton`).
+- **`*Picker` + `*PickerButton`** — ColorPicker, FiveFaceRatingPicker, FiveStarRatingPicker, NetPromoterScorePicker, RedAmberGreenPicker, RedOrangeYellowGreenBluePicker, ThemeSelect (each with its `*PickerButton`).
 - **`ContainerWith*`** — ContainerWithFixedWidth, ContainerWithFluidWidth.
 - **Table sub-elements** (`*TableHead`/`*TableBody`/`*TableFoot`/`*TableRow`/`*TableTH`/`*TableTD`) — Table, CalendarTable, DataTable, KanbanTable.
 - **Gantt sub-elements** (HTML names directly: `*TableThead`/`*TableTbody`/`*TableTfoot`/`*TableTr`/`*TableTH`/`*TableTD`) — GanttTable.

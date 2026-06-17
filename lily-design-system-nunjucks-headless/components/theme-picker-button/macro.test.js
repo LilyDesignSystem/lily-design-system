@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
-describe("theme-picker-button", () => {
+describe("theme-select-button", () => {
   it("renders a <button role=radio> with the base class", () => {
-    const { document } = render("theme-picker-button", { theme: "dark" });
-    const el = document.querySelector("button.theme-picker-button");
+    const { document } = render("theme-select-button", { theme: "dark" });
+    const el = document.querySelector("button.theme-select-button");
     expect(el).toBeTruthy();
     expect(el.getAttribute("role")).toBe("radio");
     expect(el.getAttribute("data-theme")).toBe("dark");
@@ -12,7 +12,7 @@ describe("theme-picker-button", () => {
   });
 
   it("sets aria-checked and tabindex when checked", () => {
-    const { document } = render("theme-picker-button", {
+    const { document } = render("theme-select-button", {
       theme: "dark",
       checked: true,
     });
@@ -22,7 +22,7 @@ describe("theme-picker-button", () => {
   });
 
   it("uses text override when provided", () => {
-    const { document } = render("theme-picker-button", {
+    const { document } = render("theme-select-button", {
       theme: "dark",
       text: "Dark mode",
     });
@@ -30,7 +30,7 @@ describe("theme-picker-button", () => {
   });
 
   it("contains no <style> or <script> tags", () => {
-    const { html } = render("theme-picker-button", { theme: "x" });
+    const { html } = render("theme-select-button", { theme: "x" });
     expect(html).not.toContain("<style");
     expect(html).not.toContain("<script");
   });

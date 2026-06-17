@@ -118,4 +118,4 @@ Render one button per value (1–5) and track selection in the parent.
 
 - `FiveFaceRatingPicker` — complete radio-based picker using these semantics.
 - `FiveFaceRatingView` — read-only face rating display.
-- `FiveStarRatingPickerButton`, `NetPromoterScorePickerButton`, `RedAmberGreenPickerButton`, `RedOrangeYellowGreenBluePickerButton`, `ThemePickerButton`, `ColorPickerButton` — analogous per-option picker buttons.
+- `FiveStarRatingPickerButton`, `NetPromoterScorePickerButton`, `RedAmberGreenPickerButton`, `RedOrangeYellowGreenBluePickerButton`, `ThemeSelectButton`, `ColorPickerButton` — analogous per-option picker buttons.

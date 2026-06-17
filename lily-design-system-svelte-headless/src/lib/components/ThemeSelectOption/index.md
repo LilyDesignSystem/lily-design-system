@@ -21,7 +21,7 @@ A single `<option>` element designed to be used inside a `ThemeSelect`, carrying
 ## When not to use it
 
 - Don't use it outside of a `<select>` — an `<option>` element is invalid elsewhere.
-- Don't use it for radio-style theme choice — use `ThemePicker` instead.
+- Don't use it for radio-style theme choice — use `ThemeSelect` instead.
 - Don't use it for generic non-theme options — use the generic `Option` component.
 - Don't add ARIA roles — the native `<option>` provides all semantics through its parent `<select>`.
 
@@ -118,5 +118,5 @@ Import and place inside `ThemeSelect`. Provide a unique `value` and label conten
 
 - `ThemeSelect` — the parent `<select>` container.
 - `Option` — generic option for use with the generic `Select`.
-- `ThemePicker` — radio-group alternative.
-- `ThemePickerButton` — swatch-button alternative.
+- `ThemeSelect` — radio-group alternative.
+- `ThemeSelectButton` — swatch-button alternative.
