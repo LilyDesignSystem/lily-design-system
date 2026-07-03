@@ -91,6 +91,16 @@ pre code {
   padding: 0;
 }
 
+kbd {
+  font-family: var(--lily-font-mono);
+  font-size: 0.85em;
+  background: var(--lily-card-bg);
+  border: 1px solid var(--lily-border-strong);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+}
+
 /* Header & navigation */
 
 .site-header {

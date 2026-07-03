@@ -14,6 +14,20 @@
 </section>
 
 <section class="section prose" style="margin: 0 auto;">
+  <h2>What you'll build</h2>
+  <p>
+    A settings panel where users pick their language and text size — choices
+    that apply to the whole document, persist across visits, and cost you
+    two components and a few lines of CSS. About 15 minutes.
+  </p>
+
+  <h2>Before you start</h2>
+  <p>
+    Finish the <a href="/tutorials/">framework tutorial</a> for your stack.
+    The samples below are Svelte; the React, Vue, Angular, HTML, Nunjucks,
+    and Blazor helpers match contract-for-contract.
+  </p>
+
   <h2>The shape they share</h2>
   <ul>
     <li>A native <code>&lt;select&gt;</code> with one <code>&lt;option&gt;</code> per choice — native keyboard, mobile OS picker for free.</li>
@@ -82,6 +96,14 @@
     user's choice. Labels are title-cased from the slugs
     ("X Large") or overridden with <code>sizeLabels</code>.
   </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Check your work:</strong> pick "Large" in the select, and the
+      page text grows. Reload — it's still large: the choice persisted to
+      <code>localStorage</code>. Switch your language select to Arabic and
+      <code>dir="rtl"</code> lands on the document automatically.
+    </p>
+  </div>
 
   <h2>A settings panel in one place</h2>
   <p>The three helpers compose naturally:</p>
@@ -108,4 +130,9 @@
     <li><a href="/help/">Help</a> — troubleshooting and FAQ.</li>
     <li><a href="/why/">Why Lily</a> — and how to support the project.</li>
   </ul>
+  <p>
+    Stuck, or was a step confusing? That's a bug in the tutorial — check the
+    <a href="/help/#troubleshooting">troubleshooting guide</a> or
+    <a href="https://github.com/LilyDesignSystem">open an issue</a>.
+  </p>
 </section>

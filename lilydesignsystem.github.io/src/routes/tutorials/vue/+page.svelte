@@ -13,6 +13,19 @@
 </section>
 
 <section class="section prose" style="margin: 0 auto;">
+  <h2>What you'll build</h2>
+  <p>
+    A small contact form — labelled input, submit button, <code>v-model</code>
+    binding, real keyboard and screen-reader behaviour — first bare, then
+    styled, in about 10 minutes.
+  </p>
+
+  <h2>Before you start</h2>
+  <p>
+    You need git, Node 22 or later, and pnpm 10 or later. Any Vue 3 project
+    works — Nuxt, Vite, or plain Vue.
+  </p>
+
   <h2>Step 1 — Get the code</h2>
   <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-vue-headless
 cd lily-design-system-vue-headless
@@ -66,6 +79,15 @@ const name = ref("");
     <code>TextInput</code> uses <code>defineModel</code>, so plain
     <code>v-model</code> works out of the box.
   </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Check your work:</strong> run the app and the form looks
+      plain — that's correct! No CSS has shipped yet. But press
+      <kbd>Tab</kbd>: focus moves through every control, the label is
+      announced, and submit works. The behaviour is done; the look is yours,
+      and it's next.
+    </p>
+  </div>
 
   <h2>Step 4 — Style it</h2>
   <p>
@@ -90,4 +112,9 @@ pnpm install && pnpm run dev`}</code></pre>
     <li><a href="/tutorials/helpers/">Preference helpers</a> — language and text size.</li>
     <li><a href="/components/">Component catalog</a> — props, ARIA, and keyboard per component.</li>
   </ul>
+  <p>
+    Stuck, or was a step confusing? That's a bug in the tutorial — check the
+    <a href="/help/#troubleshooting">troubleshooting guide</a> or
+    <a href="https://github.com/LilyDesignSystem">open an issue</a>.
+  </p>
 </section>

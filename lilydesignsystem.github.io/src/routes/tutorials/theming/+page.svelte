@@ -14,6 +14,20 @@
 </section>
 
 <section class="section prose" style="margin: 0 auto;">
+  <h2>What you'll build</h2>
+  <p>
+    An app whose entire look the user can change — starting with one linked
+    stylesheet, ending with a persisted runtime theme switcher — in about
+    15 minutes.
+  </p>
+
+  <h2>Before you start</h2>
+  <p>
+    Finish the <a href="/tutorials/">framework tutorial</a> for your stack
+    first, so you have a small Lily form to theme. Everything here works in
+    all seven frameworks; code samples show Svelte and plain HTML.
+  </p>
+
   <h2>Step 1 — Link a ready-made theme</h2>
   <p>
     The <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
@@ -36,6 +50,13 @@
       <code>corporate</code>, <code>synthwave</code>, and many more.
     </li>
   </ul>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Check your work:</strong> reload the page. The same markup you
+      built in the framework tutorial is now fully styled — buttons, inputs,
+      labels, focus rings. One line of HTML did that; no component changed.
+    </p>
+  </div>
 
   <h2>Step 2 — Override anything</h2>
   <p>
@@ -101,4 +122,9 @@
       class hooks; see <a href="/help/#contributing">contributing</a>.
     </li>
   </ul>
+  <p>
+    Stuck, or was a step confusing? That's a bug in the tutorial — check the
+    <a href="/help/#troubleshooting">troubleshooting guide</a> or
+    <a href="https://github.com/LilyDesignSystem">open an issue</a>.
+  </p>
 </section>
