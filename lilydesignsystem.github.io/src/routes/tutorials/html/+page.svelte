@@ -1,6 +1,6 @@
 <svelte:head>
   <title>HTML tutorial — Lily Design System</title>
-  <meta name="description" content="Build an accessible, styled form with Lily's HTML headless components — no build step required." />
+  <meta name="description" content="Build an accessible, styled form with Lily's HTML headless components — plain markup, straight from a file." />
 </svelte:head>
 
 <section class="hero">
@@ -8,7 +8,7 @@
   <h1>HTML tutorial</h1>
   <p class="hero-tagline">
     The simplest possible start: copy semantic HTML with Lily's class hooks,
-    add one stylesheet, ship. No build step, no framework, no install.
+    add one stylesheet, ship. Plain files that work anywhere HTML works.
   </p>
 </section>
 
@@ -34,8 +34,8 @@ cd lily-design-system-html-headless`}</code></pre>
     Every component is a standalone file in <code>components/</code> —
     <code>button.html</code>, <code>text-input.html</code>, and so on — with a
     header comment documenting its HTML tag, class hook, keyboard behaviour,
-    and accessibility contract. There is nothing to install: the files
-    <em>are</em> the library.
+    and accessibility contract. The files <em>are</em> the library — copy
+    what you need and go.
   </p>
 
   <h2>Step 2 — Your first component</h2>
@@ -68,7 +68,7 @@ cd lily-design-system-html-headless`}</code></pre>
   <div class="callout">
     <p style="margin: 0;">
       <strong>Check your work:</strong> open the page in a browser. It looks
-      plain — that's correct! No CSS has shipped yet. But press
+      plain — exactly as intended: styling is still ahead. Press
       <kbd>Tab</kbd>: focus moves through every control, the labels are
       announced, and submit works. The behaviour is done; the look is yours,
       and it's next.
@@ -114,8 +114,10 @@ cd lily-design-system-html-headless`}</code></pre>
     <li><a href="/components/">Component catalog</a> — the full reference.</li>
   </ul>
   <p>
-    Stuck, or was a step confusing? That's a bug in the tutorial — check the
-    <a href="/help/#troubleshooting">troubleshooting guide</a> or
-    <a href="https://github.com/LilyDesignSystem">open an issue</a>.
+    Questions along the way? The
+    <a href="/help/#troubleshooting">help page</a> is full of answers — and
+    if a step could be clearer,
+    <a href="https://github.com/LilyDesignSystem">tell us</a> and we'll
+    gladly improve the tutorial.
   </p>
 </section>

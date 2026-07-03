@@ -10,27 +10,26 @@
   <p class="hero-eyebrow">Why Lily</p>
   <h1>The case for Lily</h1>
   <p class="hero-tagline">
-    Most design systems hand you their look and their limits. Lily hands you
-    the hard parts — semantics, accessibility, keyboard behaviour,
-    internationalization — and leaves the look entirely to you.
+    Lily hands you the hard parts — semantics, accessibility, keyboard
+    behaviour, internationalization — and leaves the look entirely,
+    happily, to you.
   </p>
 </section>
 
 <section class="section prose" style="margin: 0 auto;">
-  <h2>The problem with pre-styled components</h2>
+  <h2>Start from your design</h2>
   <p>
-    Every team that adopts a styled component library eventually fights it.
-    The buttons don't quite match the brand, so you override. The overrides
-    conflict with an upgrade, so you fork. Two years in, you own a patched
-    copy of someone else's design decisions — and the accessibility work
-    underneath got damaged along the way.
+    Your team already knows how your product should look. Lily starts from
+    exactly that place: it supplies the parts that are genuinely hard to get
+    right and expensive to re-do — the correct semantic element, the ARIA
+    states, the keyboard contract, focus management — and leaves every
+    visual decision entirely, joyfully, yours. Your CSS is the design
+    system's look, from day one.
   </p>
   <p>
-    Headless flips that. Lily components ship the parts that are genuinely
-    hard to get right and expensive to re-do — the correct semantic element,
-    the ARIA states, the keyboard contract, focus management — and ship
-    <em>zero</em> visual decisions. There is nothing to fight. Your CSS is
-    the design system's look, from day one.
+    Because every component carries a stable class hook and pure structure,
+    your styling stays cleanly yours through every upgrade — and the
+    accessibility underneath keeps working, version after version.
   </p>
 
   <h2>What Lily commits to</h2>
@@ -42,11 +41,11 @@
       contract; the example apps hold a clean axe-core baseline.
     </li>
     <li>
-      <strong>Internationalizable by construction.</strong> There are no
-      hardcoded user-facing strings — every label, error, and announcement is
-      a prop with stable names across frameworks. RTL and bidirectional text
+      <strong>Internationalizable by construction.</strong> Every user-facing
+      string — each label, error, and announcement — is a prop with stable
+      names across frameworks, so translation flows naturally. RTL and bidirectional text
       inherit from your <code>dir</code>. Locale-aware components take the
-      locale as a prop and never guess.
+      locale as a prop, always explicitly.
     </li>
     <li>
       <strong>One catalog, seven frameworks.</strong> The same 490 components
@@ -57,7 +56,8 @@
     <li>
       <strong>CSS-strategy agnostic.</strong> One stable kebab-case class per
       component root. Semantic CSS, Tailwind utilities, CSS-in-JS, or one of
-      the 45 ready-made themes — Lily doesn't care, and never conflicts.
+      the 45 ready-made themes — Lily welcomes them all and stays gracefully
+      out of the way.
     </li>
     <li>
       <strong>Free, forever, on your terms.</strong> Open source under your
@@ -68,8 +68,8 @@
 
   <h2>Depth where it matters</h2>
   <p>
-    Beyond the usual buttons and dialogs, the catalog goes places most
-    libraries don't:
+    Beyond the usual buttons and dialogs, the catalog reaches further than
+    most:
   </p>
   <ul>
     <li>
@@ -135,8 +135,8 @@
     </li>
     <li>
       <strong>Build something and tell us.</strong> Real-world usage reports —
-      what worked, what fought you — shape the roadmap more than anything
-      else.
+      what worked, what could be smoother — shape the roadmap more than
+      anything else.
     </li>
     <li>
       <strong>Audit accessibility.</strong> Screen-reader passes (VoiceOver,
@@ -148,8 +148,8 @@
       self-contained, well-scoped first contributions.
     </li>
     <li>
-      <strong>Report bugs with a minimal reproduction</strong> on the
-      relevant repo, or email
+      <strong>Share what you find, with a minimal reproduction,</strong> on
+      the relevant repo, or email
       <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>.
     </li>
   </ul>

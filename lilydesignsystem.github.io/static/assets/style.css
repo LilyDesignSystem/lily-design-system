@@ -171,15 +171,19 @@ kbd {
 
 .hero {
   text-align: center;
-  padding: 4rem 1rem 2rem;
+  padding: 2.5rem 1rem 1rem;
   max-width: 48rem;
   margin: 0 auto;
 }
 .hero-logo {
   display: block;
-  width: clamp(8rem, 20vw, 12rem);
+  width: clamp(5rem, 12vw, 7.5rem);
   height: auto;
-  margin: 0 auto 1.5rem;
+  margin: 0 auto 1rem;
+}
+.hero .stat-row {
+  margin: 1.5rem 0 0;
+  gap: 1rem;
 }
 .hero-eyebrow {
   display: inline-block;

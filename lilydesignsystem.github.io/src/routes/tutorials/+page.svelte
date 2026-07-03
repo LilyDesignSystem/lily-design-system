@@ -10,7 +10,7 @@
   <p class="hero-eyebrow">Tutorials</p>
   <h1>Learn Lily, step by step</h1>
   <p class="hero-tagline">
-    No prior Lily knowledge needed. Every tutorial builds the same small
+    Welcome! Every tutorial starts from scratch and builds the same small
     thing — an accessible, styled form — in about 10 minutes, so you can
     compare frameworks apples-to-apples. Then go deeper with theming and
     user preferences.
@@ -23,7 +23,7 @@
   <ul>
     <li>
       <strong>For the HTML tutorial</strong> — just a browser and a text
-      editor. No install, no build step, no account.
+      editor. That's the entire toolkit.
     </li>
     <li>
       <strong>For Svelte, React, Vue, Angular, or Nunjucks</strong> —
@@ -36,7 +36,7 @@
     </li>
   </ul>
   <p>
-    If Lily's headless approach is new to you, don't worry — each tutorial
+    New to headless components? You're in the right place — each tutorial
     explains what's happening as you go, and every step shows the exact code
     to copy.
   </p>
@@ -80,7 +80,7 @@
   <div class="card-grid">
     <a class="card" href="/tutorials/html/">
       <h3 class="card-heading">HTML</h3>
-      <p class="card-description">No build step, no install — copy semantic HTML with the class hooks and go.</p>
+      <p class="card-description">Copy semantic HTML with the class hooks and go — a browser and an editor are all it takes.</p>
       <p class="card-meta">~10 minutes · easiest start</p>
     </a>
     <a class="card" href="/tutorials/svelte/">
@@ -115,9 +115,9 @@
     </a>
   </div>
   <p class="prose" style="margin: 0 auto;">
-    Can't decide? Start with <a href="/tutorials/html/">HTML</a> — it teaches
-    the class-hook contract that every other framework shares, and there is
-    nothing to install.
+    Torn between them? Start with <a href="/tutorials/html/">HTML</a> — it
+    teaches the class-hook contract every other framework shares, and it
+    runs straight from a file.
   </p>
 </section>
 
@@ -156,14 +156,16 @@
       component documents its props, ARIA contract, and keyboard behaviour.
     </li>
     <li>
-      Clone an <a href="/examples/">example app</a> to see all the pieces
-      working together with full styling.
+      Clone an <a href="/examples/">example app</a> to see all 490
+      components styled and working together — the CSS targets the same
+      class hooks you just used, so copy any of it into your project and
+      adjust it as you wish.
     </li>
     <li>
-      Stuck? The <a href="/help/">help page</a> has troubleshooting, an FAQ,
-      and ways to reach a human. Something confusing in a tutorial is a bug —
-      <a href="https://github.com/LilyDesignSystem">open an issue</a> and
-      we'll fix the tutorial.
+      Questions? The <a href="/help/">help page</a> has answers, an FAQ, and
+      ways to reach a friendly human. And if a tutorial could be clearer,
+      <a href="https://github.com/LilyDesignSystem">tell us</a> — we'll
+      gladly improve it.
     </li>
   </ul>
 </section>

@@ -46,8 +46,8 @@
     Lets the user pick a locale, then writes <code>lang</code> and
     <code>dir</code> to the document root so your i18n library, your CSS,
     and assistive technology all follow. RTL is detected automatically for
-    Arabic, Hebrew, and other right-to-left scripts. It performs
-    <em>no translation</em> — it signals; your i18n library reacts.
+    Arabic, Hebrew, and other right-to-left scripts. It focuses purely on
+    signalling — your i18n library handles the translation.
   </p>
   <!-- `<` + `script>` keeps the literal tag out of the Svelte compiler's view. -->
   <pre><code>{`<` + `script>
@@ -131,8 +131,10 @@
     <li><a href="/why/">Why Lily</a> — and how to support the project.</li>
   </ul>
   <p>
-    Stuck, or was a step confusing? That's a bug in the tutorial — check the
-    <a href="/help/#troubleshooting">troubleshooting guide</a> or
-    <a href="https://github.com/LilyDesignSystem">open an issue</a>.
+    Questions along the way? The
+    <a href="/help/#troubleshooting">help page</a> is full of answers — and
+    if a step could be clearer,
+    <a href="https://github.com/LilyDesignSystem">tell us</a> and we'll
+    gladly improve the tutorial.
   </p>
 </section>

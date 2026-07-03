@@ -8,8 +8,8 @@
   <h1>React tutorial</h1>
   <p class="hero-tagline">
     Typed function components, one file each, controlled with the standard
-    <code>value</code> + <code>onChange</code> pattern — nothing to learn
-    beyond React itself.
+    <code>value</code> + <code>onChange</code> pattern — everything works
+    the way React already does.
   </p>
 </section>
 
@@ -77,7 +77,7 @@ export function ContactForm() {
   <div class="callout">
     <p style="margin: 0;">
       <strong>Check your work:</strong> run the app and the form looks
-      plain — that's correct! No CSS has shipped yet. But press
+      plain — exactly as intended: styling is still ahead. Press
       <kbd>Tab</kbd>: focus moves through every control, the label is
       announced, and submit works. The behaviour is done; the look is yours,
       and it's next.
@@ -86,7 +86,8 @@ export function ContactForm() {
 
   <h2>Step 4 — Style it</h2>
   <p>
-    Nothing above ships CSS. Style the hooks — <code>.button</code>,
+    Everything above renders as pure structure, ready for your styles.
+    Style the hooks — <code>.button</code>,
     <code>.text-input</code>, <code>.label</code>, <code>.field</code> — in
     your stylesheet, layer Tailwind utilities via <code>className</code>, or
     link a ready-made theme:
@@ -109,8 +110,10 @@ pnpm install && pnpm run dev`}</code></pre>
     <li><a href="/components/">Component catalog</a> — props, ARIA, and keyboard per component.</li>
   </ul>
   <p>
-    Stuck, or was a step confusing? That's a bug in the tutorial — check the
-    <a href="/help/#troubleshooting">troubleshooting guide</a> or
-    <a href="https://github.com/LilyDesignSystem">open an issue</a>.
+    Questions along the way? The
+    <a href="/help/#troubleshooting">help page</a> is full of answers — and
+    if a step could be clearer,
+    <a href="https://github.com/LilyDesignSystem">tell us</a> and we'll
+    gladly improve the tutorial.
   </p>
 </section>

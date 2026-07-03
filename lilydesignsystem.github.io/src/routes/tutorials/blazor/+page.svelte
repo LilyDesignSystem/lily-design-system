@@ -65,7 +65,7 @@ dotnet test      # bUnit — 1,400+ cases across the catalog`}</code></pre>
   <div class="callout">
     <p style="margin: 0;">
       <strong>Check your work:</strong> run the app and the form looks
-      plain — that's correct! No CSS has shipped yet. But press
+      plain — exactly as intended: styling is still ahead. Press
       <kbd>Tab</kbd>: focus moves through every control, the label is
       announced, and submit works. The behaviour is done; the look is yours,
       and it's next.
@@ -97,8 +97,10 @@ dotnet run --project src/LilyBlazorWebExamples`}</code></pre>
     <li><a href="/components/">Component catalog</a> — props, ARIA, and keyboard per component.</li>
   </ul>
   <p>
-    Stuck, or was a step confusing? That's a bug in the tutorial — check the
-    <a href="/help/#troubleshooting">troubleshooting guide</a> or
-    <a href="https://github.com/LilyDesignSystem">open an issue</a>.
+    Questions along the way? The
+    <a href="/help/#troubleshooting">help page</a> is full of answers — and
+    if a step could be clearer,
+    <a href="https://github.com/LilyDesignSystem">tell us</a> and we'll
+    gladly improve the tutorial.
   </p>
 </section>

@@ -54,15 +54,15 @@
     <p style="margin: 0;">
       <strong>Check your work:</strong> reload the page. The same markup you
       built in the framework tutorial is now fully styled — buttons, inputs,
-      labels, focus rings. One line of HTML did that; no component changed.
+      labels, focus rings. One line of HTML did that — every component
+      stayed exactly as it was.
     </p>
   </div>
 
   <h2>Step 2 — Override anything</h2>
   <p>
     Theme selectors are wrapped in <code>:where(...)</code>, which has zero
-    specificity — so any rule you write wins, no <code>!important</code>
-    needed:
+    specificity — so any rule you write wins, plain and simple:
   </p>
   <pre><code>{`/* After the theme link: your brand button, everything else themed */
 .button {
@@ -123,8 +123,10 @@
     </li>
   </ul>
   <p>
-    Stuck, or was a step confusing? That's a bug in the tutorial — check the
-    <a href="/help/#troubleshooting">troubleshooting guide</a> or
-    <a href="https://github.com/LilyDesignSystem">open an issue</a>.
+    Questions along the way? The
+    <a href="/help/#troubleshooting">help page</a> is full of answers — and
+    if a step could be clearer,
+    <a href="https://github.com/LilyDesignSystem">tell us</a> and we'll
+    gladly improve the tutorial.
   </p>
 </section>
