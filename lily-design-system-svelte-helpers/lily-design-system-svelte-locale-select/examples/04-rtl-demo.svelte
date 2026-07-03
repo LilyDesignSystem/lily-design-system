@@ -1,7 +1,7 @@
 <!--
     04. RTL demo — Arabic, Hebrew, Persian, Urdu.
 
-    Visualises the picker's auto-detection in action. Switching to any
+    Visualises the select's auto-detection in action. Switching to any
     of the four RTL locales writes `dir="rtl"` to <html> and the entire
     page mirrors. Switching back to English restores LTR.
 

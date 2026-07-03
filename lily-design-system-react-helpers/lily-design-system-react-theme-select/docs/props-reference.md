@@ -1,7 +1,7 @@
 # Props reference
 
 Field-by-field reference for every public prop. The contract is owned
-by [`../spec.md`](../spec.md) §4; this file expands the rationale and
+by [`../spec/index.md`](../spec/index.md) §4; this file expands the rationale and
 common usage.
 
 ## `label` — required, string
@@ -62,13 +62,13 @@ falls back to `"light"` (when present in `themes`) and then to
 
 ## `storageKey` — optional, string
 
-`localStorage` key for persistence. When set, the picker:
+`localStorage` key for persistence. When set, the select:
 
 - Reads the stored slug during initial-value resolution.
 - Writes the slug to storage after every successful apply.
 
 Errors (private mode, quota, disabled storage) are silently swallowed
-— the picker continues to work in-memory.
+— the select continues to work in-memory.
 
 ```tsx
 <ThemeSelect storageKey="lily-theme" {...required} />
@@ -102,7 +102,7 @@ const ref = useRef<HTMLDivElement>(null);
 ```
 
 Note: in React, `ref.current` is null on first render and populated
-after the first commit. The picker handles the null case by falling
+after the first commit. The select handles the null case by falling
 back to `document.documentElement` until the ref resolves.
 
 ## `themeLabels` — optional, Record<string, string>

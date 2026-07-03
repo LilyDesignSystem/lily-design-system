@@ -63,14 +63,14 @@ default "swap-link" strategy.
 }
 ```
 
-The picker does not write CSS custom properties directly. Theme
-authors do, via the `<link>` the picker swaps into `<head>`.
+The select does not write CSS custom properties directly. Theme
+authors do, via the `<link>` the select swaps into `<head>`.
 
 ## Light / dark / high-contrast
 
-The picker's `value` is just a string. Convention says `light`,
+The select's `value` is just a string. Convention says `light`,
 `dark`, and `high-contrast` slugs map to those three modes, but the
-picker doesn't enforce that — any slug is valid.
+select doesn't enforce that — any slug is valid.
 
 A `prefers-color-scheme: dark` integration is one-line in the
 consumer:
@@ -122,10 +122,10 @@ consumer's choice.
 catalog's `ThemeSelect` uses imperative `document.head.appendChild`
 for the managed `<link>` because:
 
-- The managed `<link>` is a singleton across the picker's lifetime,
+- The managed `<link>` is a singleton across the select's lifetime,
   not a render-bound element. Putting it in `<svelte:head>` would
   destroy and recreate the `<link>` on every render.
-- The picker writes `link.href` directly on every change, which is
+- The select writes `link.href` directly on every change, which is
   cheap and avoids any chance of duplicate `<link>` tags from
   concurrent renders.
 - SSR-safe: the imperative mutation only happens inside `$effect`,
@@ -140,14 +140,14 @@ without conflict.
 SvelteKit's `app.html` accepts a placeholder that
 `hooks.server.ts`'s `transformPageChunk` substitutes with the
 cookie-resolved theme. See the parent [`ssr.md`](../ssr.md) for the
-end-to-end recipe. The picker hydrates over the pre-set
+end-to-end recipe. The select hydrates over the pre-set
 `data-theme` without writing anything visible.
 
-### Multiple pickers in one app
+### Multiple selects in one app
 
 A consumer can mount more than one `ThemeSelect` (e.g. a quick
 toggle in the header, a full radio list in the settings page) by
-passing distinct `name` props. Each picker manages its own `<link>`
+passing distinct `name` props. Each select manages its own `<link>`
 identified by `data-lily-theme-select="{name}"`. Selections do not
-sync between pickers unless the consumer wires them together via
+sync between selects unless the consumer wires them together via
 the bindable `value`.

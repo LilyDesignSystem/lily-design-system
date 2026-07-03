@@ -33,8 +33,8 @@ Initial release.
     private-mode-safe try/catch.
   - `onChange(slug)` callback for post-apply side effects.
 - `theme-select.test.ts` — vitest suite asserting every numbered
-  acceptance criterion in `spec.md` §7 (13 items + extras).
-- `spec.md` — spec-driven contract, version 0.1.0.
+  acceptance criterion in `spec/index.md` §7 (13 items + extras).
+- `spec/index.md` — spec-driven contract, version 0.1.0.
 - `AGENTS/` subdirectory with `api.md`, `lifecycle.md`,
   `accessibility.md`, `testing.md`, `ssr.md`.
 - `docs/` subdirectory with topic guides:
@@ -49,7 +49,7 @@ Initial release.
 - `examples/` subdirectory:
   - `01-basic.njk`
   - `02-custom-labels.njk`
-  - `03-multiple-pickers.njk`
+  - `03-multiple-selects.njk`
   - `04-persistence.njk`
   - `05-preloaded.njk`
   - `06-system-preference.njk`

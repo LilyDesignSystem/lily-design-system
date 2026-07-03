@@ -1,6 +1,6 @@
 # API — ThemeSelect (Angular)
 
-Authoritative API surface lives in [`../spec.md`](../spec.md) §4.
+Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Angular-flavoured shape of the contract.
 
 ## Exports
@@ -63,7 +63,7 @@ component back to the parent. It fires:
 - once on first `effect()` run if the resolved initial value
   differs from the supplied `value` input.
 
-`themeChange` fires every time the picker successfully applies a
+`themeChange` fires every time the select successfully applies a
 theme. Use it for analytics, server sync, or cookie writes.
 
 ## Pure helpers
@@ -81,7 +81,7 @@ final stylesheet href.
 
 Both are pure and side-effect-free; consumers can call them from
 tests, server code, or other components without instantiating the
-picker.
+select.
 
 ## DOM contract
 
@@ -126,7 +126,7 @@ labelFor(theme: string): string {
 }
 ```
 
-The word "default" is never emitted. The picker uppercases only
+The word "default" is never emitted. The select uppercases only
 the first character of a slug — `"abyss"` becomes `"Abyss"`,
 `"high-contrast"` becomes `"High-contrast"` (hyphens preserved).
 

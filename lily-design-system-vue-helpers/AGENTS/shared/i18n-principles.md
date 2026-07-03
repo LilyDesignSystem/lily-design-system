@@ -55,7 +55,7 @@ needs no extra wiring.
 
 ### `Intl.DisplayNames`
 
-The locale picker uses `Intl.DisplayNames` opportunistically (third
+The locale select uses `Intl.DisplayNames` opportunistically (third
 fallback in `labelFor`). It never throws — calls are wrapped in a
 try/catch so SSR and older environments degrade silently.
 
@@ -68,7 +68,7 @@ When a future helper does, it accepts the locale as a prop and uses
 
 ### Locale negotiation
 
-The locale picker implements a simple two-step exact-then-prefix
+The locale select implements a simple two-step exact-then-prefix
 matcher in `matchNavigatorLanguage`. It does not implement RFC
 4647 best-fit lookup. If you need full RFC 4647 matching, run your
 own resolver (`@formatjs/intl-localematcher`, `negotiator`) and pass

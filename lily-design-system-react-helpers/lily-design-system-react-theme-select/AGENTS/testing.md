@@ -7,12 +7,12 @@ catalog-wide stack; this file is the per-helper contract.
 ## Test file
 
 [`../ThemeSelect.test.tsx`](../ThemeSelect.test.tsx) — one numbered
-test per [`spec.md §7`](../spec.md#7-testing-acceptance-criteria)
+test per [`spec/index.md §7`](../spec/index.md#7-testing-acceptance-criteria)
 acceptance criterion.
 
 ## Required reset between tests
 
-The picker mutates `document.head` and `document.documentElement`.
+The select mutates `document.head` and `document.documentElement`.
 Reset both, plus `localStorage`:
 
 ```ts

@@ -2,7 +2,7 @@
 
 Every helper ships a vitest suite that runs under jsdom. This page
 lists the test harness expectations common to all helpers;
-per-helper acceptance criteria live in the helper's own `spec.md`
+per-helper acceptance criteria live in the helper's own `spec/index.md`
 §7.
 
 ## Stack

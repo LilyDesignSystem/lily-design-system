@@ -1,6 +1,6 @@
 ## Components
 
-The canonical catalog of 492 components lives in [components.tsv](../components.tsv) — tab-separated rows of `slug	PascalCase	description`. Read that file for the full listing rather than maintaining a duplicate here.
+The canonical catalog of 490 components lives in [components.tsv](../components.tsv) — tab-separated rows of `slug	PascalCase	description`. Read that file for the full listing rather than maintaining a duplicate here.
 
 Use the bin tools to query the catalog programmatically:
 
@@ -95,7 +95,6 @@ Use the bin tools to query the catalog programmatically:
   - NetPromoterScorePicker NetPromoterScorePickerButton
   - RedAmberGreenPicker RedAmberGreenPickerButton
   - RedOrangeYellowGreenBluePicker RedOrangeYellowGreenBluePickerButton
-  - ThemeSelect ThemeSelectButton
 - `*Input` `*View`
   - PostalCodeInput PostalCodeView
   - MeasurementInstanceInput MeasurementInstanceView

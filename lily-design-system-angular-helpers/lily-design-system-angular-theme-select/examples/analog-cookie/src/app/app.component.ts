@@ -1,7 +1,7 @@
 // src/app/app.component.ts
 //
 // Root component that reads the server-resolved initial theme via the
-// INITIAL_THEME injection token, binds it to the picker via
+// INITIAL_THEME injection token, binds it to the select via
 // [(value)], and POSTs to /api/theme on (themeChange) so the next
 // SSR request sees the new cookie.
 

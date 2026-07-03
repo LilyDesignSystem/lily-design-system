@@ -10,47 +10,47 @@ Svelte-specific notes that are easy to miss.
 - **WCAG 2.2 AAA** is the target.
 - **WAI-ARIA Authoring Practices 1.2** patterns are the reference.
 - Semantic HTML first; ARIA only where the canonical helper's
-  `spec.md` calls it out.
+  `spec/index.md` calls it out.
 
-## The fieldset + radiogroup contract
+## The native `<select>` contract
 
-Every current helper roots at `<fieldset role="radiogroup"
-aria-label={label}>` with native `<input type="radio">` children.
+Every current helper roots at `<select class="{helper} {class}"
+aria-label={label}>` with one native `<option>` child per choice.
 This combination gives:
 
-- The group's accessible name from `aria-label` (or `aria-labelledby`
-  if the consumer's slot adds a `<legend id="…">`).
-- Implicit `role="radio"` and `aria-checked` on each input.
-- Native keyboard handling — Arrow keys cycle selection, Tab moves
-  in / out of the group as one stop, Space re-selects.
-- A single focus stop in the page's Tab order.
+- The control's accessible name from `aria-label` (or
+  `aria-labelledby` / a consumer `<label for>` via rest-prop spread).
+- An implicit `role="combobox"` (per the HTML-AAM mapping for
+  `<select>`) with `role="option"` children — no explicit ARIA
+  needed.
+- Native keyboard handling — Arrow keys move through options, Home /
+  End jump, first-letter typeahead works, Enter/collapse behaviour is
+  the platform's.
+- One focus stop in the page's Tab order.
+- On touch devices the OS-native picker UI (iOS scroll wheel,
+  Android sheet) opens for free.
 
-The `<fieldset>` element is special: it announces its content as a
-group, and assistive technology reads the `aria-label` before the
-first option name. WCAG passes on the strength of this pattern
-without any JS keyboard handling on Lily's side.
+WCAG passes on the strength of the native element without any JS
+keyboard handling on Lily's side.
 
-## Why `aria-label` instead of `<legend>`
+## Why `aria-label` instead of a visible `<label>`
 
-The catalog uses `aria-label` rather than a visible `<legend>` for
+The catalog uses `aria-label` rather than a visible `<label>` for
 the default rendering because:
 
-1. The default markup is minimal and unstyled. A visible legend
+1. The default markup is minimal and unstyled. A visible label
    would suggest a visual decision the headless layer doesn't own.
-2. Consumers who want a visible legend can render one inside their
-   `{#snippet children(...)}` block:
+2. Consumers who want a visible label can render one themselves and
+   point it at the select:
 
    ```svelte
-   <ThemeSelect label="Theme">
-       {#snippet children({ themes, value, setTheme, name, labelFor })}
-           <legend>Theme</legend>
-           {#each themes as theme}
-               <!-- … -->
-           {/each}
-       {/snippet}
-   </ThemeSelect>
+   <label for="theme">Theme</label>
+   <ThemeSelect id="theme" label="Theme" themesUrl="/themes/" themes={themes} />
    ```
 
+   (The spread `id` lands on the `<select>`; a consumer-supplied
+   `aria-labelledby` or `<label for>` takes precedence for the
+   accessible name.)
 3. `aria-label` is the WAI-ARIA APG-recommended fallback when no
    visible label exists. It matches every other helper catalog
    (Vue, React, Angular, Blazor, Nunjucks, HTML).
@@ -62,17 +62,17 @@ selection does not move focus elsewhere on the page (WCAG 3.2.2,
 On Input). When wiring `onChange` to navigation (`goto`,
 `router.push`), preserve scroll position and avoid focus jumps.
 
-If a custom snippet drops the native radios in favour of buttons,
-the consumer becomes responsible for the keyboard contract — pair
-each `<button>` with `aria-pressed` or implement a roving tabindex
-as documented in the APG Toolbar pattern.
+If a consumer builds a custom widget on top of the helper's state
+(swatch buttons, a listbox), the consumer becomes responsible for
+the keyboard contract — pair each `<button>` with `aria-pressed` or
+implement a roving tabindex as documented in the APG patterns.
 
-## Per-option `lang` (locale picker)
+## Per-option `lang` (locale select)
 
-Each `<label>` in the locale picker carries `lang="{tagFor(locale)}"`
+Each `<option>` in the locale select carries `lang="{tagFor(locale)}"`
 so screen readers switch pronunciation per option (WCAG 3.1.2,
 Language of Parts). The same rule applies to any custom snippet
-rendering — preserve the `lang` attribute on the visible element so
+rendering — preserve the `lang` attribute on each `<option>` so
 "Français" gets pronounced "Fran-SAY" inside an English page.
 
 If `localeLabels` is written in the viewer's language (e.g. the
@@ -117,21 +117,22 @@ The `aria-label="X"` baked into the markup loses to the spread
 which is the desired behaviour: consumers retain final ARIA
 authority.
 
-### Snippets do not break the fieldset
+### Snippets render options, not the root
 
 A custom `children` snippet replaces the **inside** of the
-`<fieldset>`. The `role="radiogroup"` and `aria-label` always
-remain on the fieldset, so even a `<select>` rendering inside the
-snippet stays inside the announced group.
+`<select>` — it must render `<option>` (or `<optgroup>`) elements,
+because that is all HTML allows inside a select. The root
+`<select>`, its class hook, and its `aria-label` always remain, so
+custom option rendering never loses the accessible name.
 
-If a consumer needs to drop the fieldset entirely (e.g. to render a
-single `<select>` without group semantics), they should write a
-thin wrapper around the helper or use the upstream headless
-`ThemeSelect` (which has no opinion at all).
+If a consumer needs a different widget entirely (swatch buttons, a
+command palette), they should drive the helper's state via
+`bind:value` / `setTheme` from their own markup, or use the upstream
+headless `ThemeSelect` (which has no opinion at all).
 
 ### `{@render}` is not a live region
 
-`{@render children(args)}` does not announce updates the way a
+`{@render children(args)}` does not announce updates the way an
 `aria-live="polite"` region does. If a consumer's snippet needs to
 announce a "Theme changed to Dark" toast, they have to write that
 live region themselves.
@@ -140,22 +141,23 @@ live region themselves.
 
 | Key                | Action                                            |
 | ------------------ | ------------------------------------------------- |
-| `Tab`              | Move focus into / out of the group (one stop).    |
-| `Shift+Tab`        | Move focus backwards out of the group.            |
-| `Arrow Down/Right` | Move selection to the next option.                |
-| `Arrow Up/Left`    | Move selection to the previous option.            |
-| `Space`            | Re-select the focused option (rarely needed).     |
-| `Home` / `End`     | Move to first / last option (most browsers).      |
+| `Tab`              | Move focus to / from the select (one stop).       |
+| `Arrow Down/Up`    | Move through the options.                         |
+| `Home` / `End`     | Jump to first / last option (most browsers).      |
+| `Enter` / `Space`  | Open / commit, per platform convention.           |
+| Printable keys     | First-letter typeahead to a matching option.      |
 
 All native. The helpers add zero key handlers.
 
 ## Testing for a11y
 
-vitest + jsdom is enough for ARIA-attribute assertions:
+vitest + jsdom is enough for ARIA-attribute assertions (jsdom maps
+`<select>` to the implicit `combobox` role):
 
 ```ts
-expect(root!.getAttribute("role")).toBe("radiogroup");
-expect(root!.getAttribute("aria-label")).toBe("Theme");
+const root = screen.getByRole("combobox");
+expect(root.getAttribute("aria-label")).toBe("Theme");
+expect(screen.getAllByRole("option").length).toBe(3);
 ```
 
 For full audits run axe-core (e.g. via

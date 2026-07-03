@@ -3,7 +3,7 @@
 Every helper ships a vitest suite that runs under jsdom +
 `@testing-library/svelte`. This page lists the test harness
 expectations common to all helpers; per-helper acceptance criteria
-live in the helper's own `spec.md` §7.
+live in the helper's own `spec/index.md` §7.
 
 ## Stack
 
@@ -56,7 +56,7 @@ beforeEach(() => {
     localStorage.clear();
 });
 
-it("§7.1 renders a fieldset with role=radiogroup", () => {
+it("§7.1 renders a <select> with the base class and label", () => {
     const { container } = render(ThemeSelect, {
         props: {
             label: "Theme",
@@ -64,27 +64,27 @@ it("§7.1 renders a fieldset with role=radiogroup", () => {
             themes: ["light", "dark"],
         },
     });
-    const root = container.querySelector("fieldset");
+    const root = container.querySelector("select.theme-select");
     expect(root).not.toBeNull();
-    expect(root!.getAttribute("role")).toBe("radiogroup");
+    expect(root!.getAttribute("aria-label")).toBe("Theme");
 });
 ```
 
 `render` returns `{ container, component, ... }`; `container` is a
 `<div>` parented in `document.body`, so DOM queries from
 `document.documentElement` see the rendered component plus any
-side-effect mutations the picker performs.
+side-effect mutations the select performs.
 
 ## Common assertions
 
 | Goal                                | Pattern                                                              |
 | ----------------------------------- | -------------------------------------------------------------------- |
 | Wait for `$effect` to fire          | `await tick()` or `await Promise.resolve()`                          |
-| Find a radio by value               | `container.querySelector('input[type="radio"][value="dark"]')`       |
-| Toggle a radio                      | `await fireEvent.click(radio)` or set `.checked` + dispatch          |
+| Find an option by value             | `container.querySelector('option[value="dark"]')`                    |
+| Change the selection                | `await fireEvent.change(select, { target: { value: "dark" } })`      |
 | Assert `onChange` was called        | `expect(onChange).toHaveBeenCalledWith("dark")`                      |
 | Inspect document mutations          | `document.documentElement.dataset.theme`                              |
-| Re-render fresh                     | `cleanup(); render(Picker, { props })`                               |
+| Re-render fresh                     | `cleanup(); render(Select, { props })`                               |
 | `localStorage` round-trip           | `localStorage.setItem(...); /* re-render */`                         |
 
 ## Driving a `bind:value` test
@@ -163,7 +163,7 @@ it("renders cleanly under SSR", () => {
             value: "light",
         },
     });
-    expect(html).toContain('role="radiogroup"');
+    expect(html).toContain('class="theme-select');
     expect(html).toContain('value="light"');
 });
 ```
@@ -173,7 +173,7 @@ The component must not throw during SSR — that's the canonical
 
 ## One test per spec § acceptance
 
-Each helper's `spec.md` §7 numbers its acceptance criteria, and the
+Each helper's `spec/index.md` §7 numbers its acceptance criteria, and the
 test file names each `it(...)` after the section number so a
 reviewer can cross-reference the spec without scrolling:
 

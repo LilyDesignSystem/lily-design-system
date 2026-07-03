@@ -1,7 +1,7 @@
 # Lifecycle — LocaleSelect (Vue)
 
-The Vue-flavoured walk-through of the picker's lifecycle. The
-canonical contract is in [`../spec.md`](../spec.md) §5; this file
+The Vue-flavoured walk-through of the select's lifecycle. The
+canonical contract is in [`../spec/index.md`](../spec/index.md) §5; this file
 maps the Svelte canonical's `$effect` lifecycle to Vue's
 `onMounted` + `watch`.
 
@@ -40,7 +40,7 @@ onInputChange ─► emit("update:value", next)
 ## Why `onMounted` + `watch`, not `watchEffect`
 
 `watchEffect` would auto-track every prop it reads. We don't want
-the picker to re-apply when `target` or `applyDir` change without a
+the select to re-apply when `target` or `applyDir` change without a
 corresponding `value` change. An explicit
 `watch(() => props.value, …)` keeps the dependency graph small and
 predictable.
@@ -158,7 +158,7 @@ the server, write `lang="…"` and `dir="…"` on `<html>` via Nuxt's
 ## Unmount
 
 The component does not clean up `lang` / `dir` on unmount. That's
-intentional: the picker may be unmounted because the consumer
+intentional: the select may be unmounted because the consumer
 navigated away from a settings page; the locale should stay
 applied.
 
@@ -168,7 +168,7 @@ If a consumer wants to fully reset, they can do it in
 ## Watch vs the navigator-detection helper
 
 `matchNavigatorLanguage` is only called inside `onMounted`. The
-picker never re-runs detection mid-session — the user's choice
+select never re-runs detection mid-session — the user's choice
 should win over `navigator.languages` once expressed. If a consumer
 wants to re-detect (e.g. on a settings reset), they can call the
 exported helper manually and write the result to the bound `value`.

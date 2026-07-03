@@ -43,7 +43,7 @@
 
 ## Directory structure
 
-See `spec.md` for the full tree. Key paths:
+See `spec/index.md` for the full tree. Key paths:
 
 - `src/` — Eleventy input
 - `src/_data/` — site and component data
@@ -101,4 +101,4 @@ See `spec.md` for the full tree. Key paths:
 
 - `pnpm build` must exit zero
 - `pnpm test` must pass
-- See `spec.md` acceptance criteria and verification section
+- See `spec/index.md` acceptance criteria and verification section

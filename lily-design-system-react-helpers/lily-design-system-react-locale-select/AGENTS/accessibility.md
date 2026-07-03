@@ -174,7 +174,7 @@ the browser handles the visual flip. This is the browser's job.
 - **Don't replace the `<select>` with a div.** The native `<select>` IS
   the combobox; removing it breaks announcement and keyboard support.
 - **Don't hide the `<option>`s.** Native `<option>` styling is limited;
-  style the `<select>` and rely on the OS picker for the open list.
+  style the `<select>` and rely on the OS select for the open list.
 - **Don't strip the `name` attribute.** It identifies the control in a
   submitted form.
 - **Don't manage focus manually.** The browser already does it.

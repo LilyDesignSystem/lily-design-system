@@ -54,8 +54,8 @@ Initial release.
     `navigator.languages` on a fresh mount with no stored value.
   - `onChange(code)` callback for post-apply side effects.
 - `locale-select.test.ts` — vitest suite asserting every numbered
-  acceptance criterion in `spec.md` §7.
-- `spec.md` — spec-driven contract, version 0.1.0.
+  acceptance criterion in `spec/index.md` §7.
+- `spec/index.md` — spec-driven contract, version 0.1.0.
 - `locales.ts` / `locales.tsv` — built-in locale code → English-name
   table and RTL sets (436-row table; verbatim copy of the Svelte
   canonical).

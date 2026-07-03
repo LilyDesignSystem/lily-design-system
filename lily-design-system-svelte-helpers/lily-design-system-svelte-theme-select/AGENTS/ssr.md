@@ -1,6 +1,6 @@
 # SSR — ThemeSelect (Svelte)
 
-The picker runs cleanly under Svelte 5 SSR (SvelteKit, plain Vite +
+The select runs cleanly under Svelte 5 SSR (SvelteKit, plain Vite +
 Svelte, Astro Svelte islands). This page lists the SvelteKit-specific
 recipes; the canonical rules live in
 [`../../AGENTS/ssr.md`](../../AGENTS/ssr.md).
@@ -11,9 +11,9 @@ ships `hooks.server.ts`, an `app.html` snippet, `+layout.server.ts`,
 `+layout.svelte`, `+page.svelte`, and an `api+server.ts` endpoint
 for the form-action cookie write.
 
-## What the picker does on the server
+## What the select does on the server
 
-Under SSR, `$effect` is a no-op. The picker renders:
+Under SSR, `$effect` is a no-op. The select renders:
 
 ```html
 <select class="theme-select" aria-label="Theme" name="theme">
@@ -33,7 +33,7 @@ hydration.
 
 If `<html>` arrives with no `data-theme` and the theme CSS
 references `:root[data-theme="dark"] { … }`, the first paint shows
-the default browser styles, then on hydration the picker sets
+the default browser styles, then on hydration the select sets
 `data-theme="dark"` and the page repaints. That's the flash of
 unstyled theme (FOUT).
 
@@ -111,7 +111,7 @@ export const load: LayoutServerLoad = ({ locals }) => ({
 {@render children?.()}
 ```
 
-The picker hydrates over the pre-resolved value without writing
+The select hydrates over the pre-resolved value without writing
 anything visible.
 
 ## Form-action cookie write (alternative)
@@ -212,9 +212,9 @@ FOUC.
 
 ## Why not auto-resolve from the cookie?
 
-The picker has no opinion about transport (cookie? header?
+The select has no opinion about transport (cookie? header?
 IndexedDB? URL parameter?). Cookies are the right answer for
 SvelteKit, but not for Cloudflare-Workers-based hosts, embedded
 contexts, or apps that already have a server-side preference
-store. The picker stays transport-agnostic and lets the consumer
+store. The select stays transport-agnostic and lets the consumer
 wire the integration.

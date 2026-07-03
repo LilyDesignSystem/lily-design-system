@@ -1,7 +1,7 @@
 # Lifecycle — ThemeSelect (Svelte)
 
-The Svelte 5 walk-through of the picker's lifecycle. The canonical
-contract is in [`../spec.md`](../spec.md) §5; this file expands the
+The Svelte 5 walk-through of the select's lifecycle. The canonical
+contract is in [`../spec/index.md`](../spec/index.md) §5; this file expands the
 `$effect` body so you can read it without scrolling.
 
 ## Lifecycle diagram
@@ -131,9 +131,9 @@ function getManagedLink(): HTMLLinkElement {
 }
 ```
 
-One `<link>` per picker `name`. Switching themes only mutates
-`href`. Two pickers with different `name`s coexist (e.g. a quick
-toggle in the header and a full picker in settings); two pickers
+One `<link>` per select `name`. Switching themes only mutates
+`href`. Two selects with different `name`s coexist (e.g. a quick
+toggle in the header and a full select in settings); two selects
 with the same `name` share the same managed `<link>` and will
 fight if their `value`s diverge — so don't do that.
 
@@ -142,7 +142,7 @@ fight if their `value`s diverge — so don't do that.
 Only `value` is tracked by `$effect`. Other props are read inside
 the apply function on every fire, so changes take effect on the
 next value change, not retroactively. This matches the contract in
-`spec.md §5.4`.
+`spec/index.md §5.4`.
 
 If a consumer wants to re-apply when `themesUrl` changes
 mid-session, they can write back to `value`:
@@ -161,7 +161,7 @@ mid-session, they can write back to `value`:
 </script>
 ```
 
-This forces the picker's `$effect` to fire.
+This forces the select's `$effect` to fire.
 
 ## SSR
 
@@ -179,9 +179,9 @@ the server, write `data-theme="…"` on `<html>` via SvelteKit's
 The component does not clean up the managed `<link>` or the
 `data-theme` attribute on unmount. That's intentional:
 
-- The picker may be unmounted because the consumer navigated away
+- The select may be unmounted because the consumer navigated away
   from the settings page; the theme should stay applied.
-- The next picker mount reuses the same managed `<link>` (located
+- The next select mount reuses the same managed `<link>` (located
   by `data-lily-theme-select="{name}"`).
 
 If a consumer wants to fully tear down the theme on unmount, they
@@ -198,4 +198,4 @@ can do it themselves:
 </script>
 ```
 
-This is rare. Most apps want the theme to outlive the picker.
+This is rare. Most apps want the theme to outlive the select.

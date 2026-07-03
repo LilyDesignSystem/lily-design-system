@@ -3,18 +3,18 @@
 Catalog and conventions: [index.md](./index.md).
 
 Each sibling directory is a self-contained helper. Find the helper's
-`spec.md` for the canonical contract before changing it. Each helper
+`spec/index.md` for the canonical contract before changing it. Each helper
 follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
 
 - [`lily-design-system-svelte-theme-select`](./lily-design-system-svelte-theme-select/) — dynamic theme CSS loader.
-- [`lily-design-system-svelte-locale-select`](./lily-design-system-svelte-locale-select/) — `lang` + `dir` locale picker.
+- [`lily-design-system-svelte-locale-select`](./lily-design-system-svelte-locale-select/) — `lang` + `dir` locale select.
 - [`lily-design-system-svelte-text-size-select`](./lily-design-system-svelte-text-size-select/) — `data-text-size` text-size select.
 
 ## Working rules
 
-- Treat each helper's `spec.md` as the single source of truth.
+- Treat each helper's `spec/index.md` as the single source of truth.
 - Match the upstream Svelte conventions in
   [`../lily-design-system-svelte-headless/AGENTS/sveltekit.md`](../lily-design-system-svelte-headless/AGENTS/sveltekit.md)
   where they apply (runes, snippets, rest-prop spread, no `<style>`

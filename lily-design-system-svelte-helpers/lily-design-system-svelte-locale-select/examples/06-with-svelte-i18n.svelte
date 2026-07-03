@@ -1,7 +1,7 @@
 <!--
     06. Wiring svelte-i18n.
 
-    The picker's bindable `value` is wired directly to svelte-i18n's
+    The select's bindable `value` is wired directly to svelte-i18n's
     `locale` store. Every `$_("key")` call in your templates re-evaluates
     automatically when the user picks a different locale.
 

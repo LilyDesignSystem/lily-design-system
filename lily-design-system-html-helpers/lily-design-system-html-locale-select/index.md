@@ -5,7 +5,7 @@ chosen locale to the document root via `lang` and `dir`, with
 optional `localStorage` persistence and `navigator.languages`
 detection. Packaged as a **web component (custom element)**.
 
-The single source of truth is [spec.md](./spec.md). This file is the
+The single source of truth is [spec/index.md](./spec/index.md). This file is the
 comprehensive user guide. For topic deep-dives see [docs/](./docs/)
 and for working code see [examples/](./examples/).
 
@@ -149,7 +149,7 @@ The default locale is `"en"` whenever `"en"` appears in your
 
 ## Attributes
 
-The complete table is in [spec.md §4.1](./spec.md#41-observed-attributes).
+The complete table is in [spec/index.md §4.1](./spec/index.md#41-observed-attributes).
 Highlights:
 
 | Attribute                | Type           | Required | Notes                                |
@@ -325,13 +325,13 @@ pnpm test
 ```
 
 Exercises every numbered acceptance criterion in
-[spec.md §7](./spec.md#7-testing-acceptance-criteria).
+[spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria).
 
 ## Files in this directory
 
 | File                    | Purpose                                          |
 | ----------------------- | ------------------------------------------------ |
-| `spec.md`               | Single source of truth.                          |
+| `spec/index.md`               | Single source of truth.                          |
 | `AGENTS.md`             | Fast-index pointer; loads the AGENTS bundle.     |
 | `AGENTS/`               | Topic-by-topic agent files.                      |
 | `CLAUDE.md`             | `@AGENTS.md`.                                    |

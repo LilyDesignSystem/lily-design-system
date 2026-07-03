@@ -1,6 +1,6 @@
 # AGENTS — `<theme-select>` (HTML helper)
 
-Single source of truth: [spec.md](./spec.md). Read it first; everything
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
@@ -15,7 +15,7 @@ children.
 
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
-| `spec.md`                  | Specification-driven contract (canonical).       |
+| `spec/index.md`                  | Specification-driven contract (canonical).       |
 | `theme-select.ts`          | Implementation (TypeScript class).               |
 | `theme-select.test.ts`     | Vitest + jsdom spec, one assertion per §7 item.  |
 | `index.ts`                 | Barrel re-export + side-effectful registration.  |
@@ -29,7 +29,7 @@ children.
 - Type exports: `ThemeSelectProps`, `ThemeSelectChangeDetail`.
 
 Required attributes: `label`, `themes-url`, `themes`. Full table in
-[spec.md §4.1](./spec.md#41-observed-attributes).
+[spec/index.md §4.1](./spec/index.md#41-observed-attributes).
 
 ## Behaviour contract (one paragraph)
 

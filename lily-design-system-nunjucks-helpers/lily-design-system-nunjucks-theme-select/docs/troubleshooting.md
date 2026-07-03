@@ -47,18 +47,18 @@ Checklist:
 - The client.js is actually loaded (check the Network panel for
   the script request and the Console for any module-load errors).
 
-## "The word 'default' appears in my picker"
+## "The word 'default' appears in my select"
 
 It does not come from this helper. The macro only emits the slug
 (title-cased) or the value from `opts.themeLabels`. Check the
-consumer markup wrapping the picker for hardcoded "(default)"
+consumer markup wrapping the select for hardcoded "(default)"
 annotations.
 
-## "Multiple pickers fight over `<html data-theme>`"
+## "Multiple selects fight over `<html data-theme>`"
 
-When two pickers share `document.documentElement` as the target,
-the last apply wins. Either pass a per-picker `target` via the
-client.js `opts`, or designate one picker as the "global" one and
+When two selects share `document.documentElement` as the target,
+the last apply wins. Either pass a per-select `target` via the
+client.js `opts`, or designate one select as the "global" one and
 have the others apply their themes to a wrapping element.
 
 ```html
@@ -74,30 +74,30 @@ have the others apply their themes to a wrapping element.
 </script>
 ```
 
-## "The picker re-fetches the same CSS file on every render"
+## "The select re-fetches the same CSS file on every render"
 
 It shouldn't — the managed `<link>` is reused, and the macro is
 idempotent. If you observe re-fetches:
 
-- Confirm the page isn't full-reloading between picker
+- Confirm the page isn't full-reloading between select
   interactions (a 304 still shows up in the Network panel).
 - Confirm the consumer isn't manually removing the managed `<link>`
   before the next apply.
 - Check the cache headers on the theme CSS files; a `Cache-Control:
   no-store` response forces a refetch every time.
 
-## "autoInit() doesn't find my picker"
+## "autoInit() doesn't find my select"
 
 **Likely cause.** The macro hasn't rendered the
 `data-lily-theme-select-root` attribute, or the client.js runs
-before the picker is in the DOM.
+before the select is in the DOM.
 
 **Fixes.**
 
-- Render the picker in the body, then load the client.js after.
+- Render the select in the body, then load the client.js after.
   `<script type="module">` runs deferred by default, so this is
   usually correct.
-- If you mount the picker dynamically (after page load), call
+- If you mount the select dynamically (after page load), call
   `initThemeSelect(root)` on the new root directly instead of
   relying on `autoInit()`.
 
@@ -136,7 +136,7 @@ statement is wrong, or the macro file uses an old syntax.
 
 ## "CSP error: Refused to load stylesheet"
 
-The picker injects a `<link rel="stylesheet">` in `<head>`. The
+The select injects a `<link rel="stylesheet">` in `<head>`. The
 CSP `style-src` directive must allow the themes URL.
 
 **Fix.** Add the themes URL to `style-src` and (if the CSS uses

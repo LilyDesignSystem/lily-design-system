@@ -14,7 +14,7 @@ export type ChildArgs = {
     labelFor: (size: string) => string;
 };
 
-/** Public props for TextSizeSelect. See `spec.md` §4 for the contract. */
+/** Public props for TextSizeSelect. See `spec/index.md` §4 for the contract. */
 export type Props = Omit<
     React.SelectHTMLAttributes<HTMLSelectElement>,
     "onChange" | "children" | "value" | "defaultValue"

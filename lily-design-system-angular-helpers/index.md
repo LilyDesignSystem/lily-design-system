@@ -21,7 +21,7 @@ Every helper subproject follows the same shape:
 
 ```
 lily-design-system-angular-<name>/
-├── spec.md                          ← single source of truth (SDD)
+├── spec/index.md                          ← single source of truth (SDD)
 ├── AGENTS.md                        ← AI-agent metadata pointer
 ├── AGENTS/                          ← topic-by-topic agent files
 │   ├── api.md
@@ -65,7 +65,7 @@ Shared design decisions across the catalog:
 - **One job per helper**: each helper owns the entire lifecycle of
   one user-preference dimension (theme, language, etc.) and composes
   cleanly with the others.
-- **Spec-driven**: every helper has a `spec.md` numbered with §
+- **Spec-driven**: every helper has a `spec/index.md` numbered with §
   references; tests assert against those numbers; docs link back.
 - **Template-cast pattern**: when reading event-target values in a
   template expression, use `$any($event.target).value` (NOT
@@ -75,7 +75,7 @@ Shared design decisions across the catalog:
 
 ## Differences from the headless library
 
-The headless library mirrors the canonical 492-component catalog.
+The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle. A consumer
 typing on top of `ThemeSelect` from
 `lily-design-system-angular-headless` writes their own select markup,
@@ -135,7 +135,7 @@ and tests stay in lock-step across frameworks.
 
 Each helper ships a vitest suite that runs under jsdom +
 `@angular/core/testing` `TestBed`. The acceptance criteria are
-listed in each `spec.md` §7 and the test file matches one
+listed in each `spec/index.md` §7 and the test file matches one
 `it(...)` per numbered item, named with the section number for fast
 cross-referencing.
 

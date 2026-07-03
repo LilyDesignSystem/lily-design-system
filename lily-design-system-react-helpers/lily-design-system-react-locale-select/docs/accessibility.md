@@ -137,7 +137,7 @@ The tradeoff:
 - Compact (one widget regardless of list length).
 - Scales to 100+ locales.
 - Choices hidden until opened (worse discoverability).
-- Can't show option text in mixed scripts as easily (some OS pickers
+- Can't show option text in mixed scripts as easily (some OS selects
   don't honour per-option `lang`).
 
 For very long lists (50+), prefer a combobox with type-ahead.

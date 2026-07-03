@@ -1,7 +1,7 @@
 # Styling
 
-The picker is headless: it ships no CSS. Every visual decision belongs
-to the consumer. This guide lists the hooks the picker exposes.
+The select is headless: it ships no CSS. Every visual decision belongs
+to the consumer. This guide lists the hooks the select exposes.
 
 ## Class hooks
 
@@ -19,7 +19,7 @@ on the root; the inner classes are up to your markup.
 | Attribute                          | On                  | Purpose                          |
 | ---------------------------------- | ------------------- | -------------------------------- |
 | `data-theme="<slug>"`              | `target` (default `<html>`) | Active theme indicator for theme CSS files. |
-| `data-lily-theme-select="<name>"`  | the managed `<link>`        | Discriminator for multiple pickers. |
+| `data-lily-theme-select="<name>"`  | the managed `<link>`        | Discriminator for multiple selects. |
 
 ## Suggested baseline CSS
 
@@ -46,5 +46,5 @@ Drop into the consumer's app stylesheet:
 - Don't hide the `<select>` with `display: none`. It is the
   accessibility tree's anchor point. Use `clip-path` or a
   `.sr-only` recipe if you need to visually replace it.
-- Don't override the picker's `aria-*` attributes from CSS. They are
+- Don't override the select's `aria-*` attributes from CSS. They are
   part of the accessibility contract.

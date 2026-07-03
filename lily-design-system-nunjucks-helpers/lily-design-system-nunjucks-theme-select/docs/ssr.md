@@ -62,7 +62,7 @@ For sites where the default theme is acceptable on first paint:
 </html>
 ```
 
-The picker still flips to the user's `localStorage` value when
+The select still flips to the user's `localStorage` value when
 the client.js runs, so returning users see a one-frame flash
 unless you also store the choice in a cookie or use the edge
 function pattern below.

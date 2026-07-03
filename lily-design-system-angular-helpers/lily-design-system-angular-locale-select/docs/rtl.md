@@ -1,6 +1,6 @@
 # RTL — Right-to-left scripts, in practice
 
-The picker auto-detects right-to-left locales and writes
+The select auto-detects right-to-left locales and writes
 `dir="rtl"` to the document root. This page explains what gets
 detected, what doesn't, and what `dir="rtl"` actually changes in
 the browser.
@@ -142,7 +142,7 @@ mirrored CSS:
 
 ## Mixing LTR and RTL on one page
 
-The picker's default rendering already does this: each `<option>`
+The select's default rendering already does this: each `<option>`
 carries its own `lang` attribute, so the browser's bidi algorithm
 renders "Français" left-to-right and "العربية" right-to-left within
 the same `<select>`.
@@ -155,32 +155,32 @@ surrounding bidi context:
 <p>Welcome, <bdi>{{ userName() }}</bdi>!</p>
 ```
 
-This is independent of the picker, but it's the right tool for
+This is independent of the select, but it's the right tool for
 username, place name, and similar untrusted text.
 
 ## When to opt out
 
 Pass `[applyDir]="false"` when:
 
-- You manage `dir` server-side and don't want the picker to
+- You manage `dir` server-side and don't want the select to
   clobber it on hydration.
 - You need vertical writing mode for Mongolian or traditional
   Chinese.
 - Your design intentionally pins layout direction (e.g. a Hebrew
   marketing page that flows LTR for brand reasons).
 
-The picker still writes `lang` — only `dir` is suppressed.
+The select still writes `lang` — only `dir` is suppressed.
 
 ## Testing RTL behaviour
 
 Three approaches:
 
-1. **Manual** — pick an RTL locale in the picker and visually
+1. **Manual** — pick an RTL locale in the select and visually
    verify the layout mirrors. Check that no element overlaps, no
    text is cut off, and no chevron points the wrong way.
 2. **DevTools** — Chrome's element panel can toggle `dir="rtl"`
    on `<html>` directly. Firefox has the same in its inspector.
-3. **Automated** — add a Playwright spec that flips the picker
+3. **Automated** — add a Playwright spec that flips the select
    and asserts `document.documentElement.dir === "rtl"` and (e.g.)
    that a visually-critical element's bounding box is on the
    right side of its parent.
@@ -191,7 +191,7 @@ Three approaches:
 
 When pre-resolving the locale server-side, write `dir` via a
 server-only environment initializer (see [./ssr.md](./ssr.md)).
-The picker still writes `dir` on client-side mutation, but the
+The select still writes `dir` on client-side mutation, but the
 SSR-side write keeps the first-paint markup correct.
 
 ### `:dir()` selector in Angular component styles

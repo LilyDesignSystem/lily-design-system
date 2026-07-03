@@ -1,6 +1,6 @@
 # API — LocaleSelect (Vue)
 
-Authoritative API surface lives in [`../spec.md`](../spec.md) §4.
+Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Vue-flavoured shape of the contract.
 
 ## Exports
@@ -69,7 +69,7 @@ component back to the parent. It fires:
 - once on `onMounted` if the resolved initial value differs from
   the supplied `value` prop.
 
-`change` fires every time the picker successfully applies a locale.
+`change` fires every time the select successfully applies a locale.
 Use it for analytics, server cookie writes, or for telling your
 i18n library to load message bundles.
 
@@ -99,8 +99,8 @@ Consumers consume it via `<template #default="{ … }">`:
 </LocaleSelect>
 ```
 
-When no slot is supplied, the picker renders the default `<select>`
-markup documented in `spec.md §4.4`.
+When no slot is supplied, the select renders the default `<select>`
+markup documented in `spec/index.md §4.4`.
 
 ## Pure helpers
 
@@ -123,7 +123,7 @@ export const RTL_SCRIPT_SUBTAGS: ReadonlySet<string>;
 
 All pure functions are side-effect-free; consumers can call them
 from tests, server code, or other components without instantiating
-the picker.
+the select.
 
 ## DOM contract
 

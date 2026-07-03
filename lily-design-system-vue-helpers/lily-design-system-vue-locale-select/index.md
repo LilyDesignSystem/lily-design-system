@@ -1,10 +1,10 @@
 # LocaleSelect (Vue helper)
 
-A reusable, headless Vue 3 locale picker that applies the chosen
+A reusable, headless Vue 3 locale select that applies the chosen
 locale to the document root via `lang` and `dir`, with optional
 `localStorage` persistence and `navigator.languages` detection.
 
-For the full contract see [spec.md](./spec.md) — it is the single
+For the full contract see [spec/index.md](./spec/index.md) — it is the single
 source of truth for the API, behaviour, and tests. For topic
 deep-dives see [docs/](./docs/) and for working code see
 [examples/](./examples/).
@@ -51,8 +51,8 @@ import LocaleSelect, {
 
 ## Quick start
 
-Render the picker with a `label` and the list of locales your app
-supports. The picker writes `lang` and `dir` onto `<html>` so your
+Render the select with a `label` and the list of locales your app
+supports. The select writes `lang` and `dir` onto `<html>` so your
 i18n library, your CSS (`html[dir="rtl"]`), and assistive
 technology all see the change.
 
@@ -83,7 +83,7 @@ When the user picks `ar`, the component:
 - emits `update:value` (driving `v-model:value`),
 - emits `change` with the new code.
 
-The picker does NOT translate strings — that is the consumer's i18n
+The select does NOT translate strings — that is the consumer's i18n
 library (e.g. `vue-i18n`, Tolgee, Paraglide, raw `Intl.*`). Wire
 the bindable `value` or the `change` event to your library so it
 loads the right messages.
@@ -93,7 +93,7 @@ loads the right messages.
 Language tags follow **BCP 47** (RFC 5646). The `lang` attribute on
 HTML elements must use hyphens, while many applications carry
 locale identifiers with underscores (`en_US`, `zh_Hant_TW`). The
-picker accepts whichever form you prefer in the `locales` array
+select accepts whichever form you prefer in the `locales` array
 and converts to the hyphen form when writing to the DOM. The
 bindable `value` preserves your original form, so round-trips are
 lossless.
@@ -157,7 +157,7 @@ Parts).
 
 ### Pretty labels for the option text
 
-By default the picker uses the English names from `locales.tsv`
+By default the select uses the English names from `locales.tsv`
 (and falls back to `Intl.DisplayNames` if available, then to the
 raw code). Override per-code with `localeLabels`:
 
@@ -172,7 +172,7 @@ raw code). Override per-code with `localeLabels`:
 
 ### Driving custom `<option>` markup
 
-Use the default scoped slot for full markup control. The picker
+Use the default scoped slot for full markup control. The select
 still owns the apply lifecycle:
 
 ```vue
@@ -324,7 +324,7 @@ console.log(RTL_LANGUAGE_TAGS.has("ar"));  // true
 
 ## Props
 
-See [spec.md §4](./spec.md#4-public-api) for the full table.
+See [spec/index.md §4](./spec/index.md#4-public-api) for the full table.
 
 Required props: `label`, `locales`.
 
@@ -337,7 +337,7 @@ Common optional props: `value` (bindable via `v-model:value`),
 | Event           | Payload  | When                                                  |
 | --------------- | -------- | ----------------------------------------------------- |
 | `update:value`  | `string` | After selection, drives `v-model:value`.              |
-| `change`        | `string` | After the picker applies a new locale (consumer-form code). |
+| `change`        | `string` | After the select applies a new locale (consumer-form code). |
 
 ## Accessibility
 
@@ -355,7 +355,7 @@ Common optional props: `value` (bindable via `v-model:value`),
 
 ## SSR
 
-The picker is SSR-safe — all DOM writes happen inside `onMounted` /
+The select is SSR-safe — all DOM writes happen inside `onMounted` /
 `watch`. For flicker-free first paint, resolve the locale on the
 server (cookie / `Accept-Language`) and pass it as `value`. See
 [docs/ssr.md](./docs/ssr.md) for the Nuxt 3 recipe.
@@ -364,7 +364,7 @@ server (cookie / `Accept-Language`) and pass it as `value`. See
 
 | File                          | Purpose                                          |
 | ----------------------------- | ------------------------------------------------ |
-| `spec.md`                     | Single source of truth — API, behaviour, tests.  |
+| `spec/index.md`                     | Single source of truth — API, behaviour, tests.  |
 | `AGENTS.md`                   | Fast-index pointer; loads the AGENTS bundle.     |
 | `AGENTS/`                     | Topic-by-topic agent files.                      |
 | `CLAUDE.md`                   | `@AGENTS.md`.                                    |
@@ -404,5 +404,5 @@ copy into your project.
 | [06-with-vue-i18n.vue](./examples/06-with-vue-i18n.vue)                                 | Binding to vue-i18n's `locale` ref.                                |
 | [07-with-paraglide.vue](./examples/07-with-paraglide.vue)                               | Driving Paraglide JS's `setLocale()` from `@change`.               |
 | [08-ssr-cookie.vue](./examples/08-ssr-cookie.vue)                                       | Nuxt 3 cookie-based SSR — no flash of default locale.              |
-| [09-scoped-target.vue](./examples/09-scoped-target.vue)                                 | Multiple per-region pickers, each scoped to its own panel.         |
+| [09-scoped-target.vue](./examples/09-scoped-target.vue)                                 | Multiple per-region selects, each scoped to its own panel.         |
 | [10-combobox.vue](./examples/10-combobox.vue)                                           | Native `<datalist>` type-ahead for 436 locales.                    |

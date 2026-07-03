@@ -27,14 +27,14 @@ real file. Check that:
 
 ## "SSR hydration mismatch"
 
-**Likely cause.** The picker rendered on the server with no selected
-option (because `value` was empty), but on the client the picker's
+**Likely cause.** The select rendered on the server with no selected
+option (because `value` was empty), but on the client the select's
 effect resolved a non-empty initial value from `localStorage` or
 `defaultValue`. Svelte logs a hydration warning when the resulting
 DOM differs.
 
 **Fix.** Resolve the theme on the server (cookie, header, or session
-store) and pass it to the picker via `value`. See [ssr.md](./ssr.md).
+store) and pass it to the select via `value`. See [ssr.md](./ssr.md).
 
 ## "Theme does not persist across reloads"
 
@@ -45,27 +45,27 @@ Checklist:
   browser extensions).
 - No other component is overwriting the same key on mount.
 
-## "The word 'default' appears in my picker"
+## "The word 'default' appears in my select"
 
-It does not come from this component. The picker only emits the
+It does not come from this component. The select only emits the
 slug (title-cased) or the value from `themeLabels`. Check the
-consumer markup wrapping the picker for hardcoded "(default)"
+consumer markup wrapping the select for hardcoded "(default)"
 annotations.
 
-## "Multiple pickers fight over `<html data-theme>`"
+## "Multiple selects fight over `<html data-theme>`"
 
-When two pickers share `document.documentElement` as the target, the
-last apply wins. Either pass a per-picker `target` element, or
-designate one picker as the "global" one and have the others apply
+When two selects share `document.documentElement` as the target, the
+last apply wins. Either pass a per-select `target` element, or
+designate one select as the "global" one and have the others apply
 their themes to a wrapping element via `target`.
 
-## "The picker re-fetches the same CSS file on every render"
+## "The select re-fetches the same CSS file on every render"
 
 It shouldn't — the managed `<link>` is reused, and changing
 `themesUrl` is not enough to re-trigger `applyTheme`. If you observe
 re-fetches:
 
-- Confirm the surrounding component isn't remounting the picker every
+- Confirm the surrounding component isn't remounting the select every
   render (e.g. inside a keyed `{#each}` whose key is unstable).
 - Confirm the consumer isn't manually removing the managed `<link>`
   on each render.

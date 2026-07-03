@@ -1,7 +1,7 @@
 /**
  * `<locale-select>` — Lily Design System HTML helper.
  *
- * See `./spec.md` for the canonical contract. This file implements
+ * See `./spec/index.md` for the canonical contract. This file implements
  * the custom-element class but does NOT register it. The `index.ts`
  * barrel registers it on import.
  */
@@ -43,7 +43,7 @@ export function bcp47LocaleTag(locale: string): string {
     return locale.replace(/_/g, "-");
 }
 
-/** Detect whether a locale is right-to-left. See spec.md §5.6. */
+/** Detect whether a locale is right-to-left. See spec/index.md §5.6. */
 export function isRtlLocale(locale: string): boolean {
     if (!locale) return false;
     const parts = locale.split(/[-_]/);

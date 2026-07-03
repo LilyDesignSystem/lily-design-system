@@ -3,7 +3,7 @@
 Catalog and conventions: [index.md](./index.md).
 
 Each sibling directory is a self-contained helper. Find the helper's
-`spec.md` for the canonical contract before changing it. Each helper
+`spec/index.md` for the canonical contract before changing it. Each helper
 follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
@@ -14,7 +14,7 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Working rules
 
-- Treat each helper's `spec.md` as the single source of truth.
+- Treat each helper's `spec/index.md` as the single source of truth.
 - React 19 function components, TypeScript, hooks only
   (`useState`, `useEffect`, `useRef`). No class components, no legacy
   lifecycle methods.

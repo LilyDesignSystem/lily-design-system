@@ -6,7 +6,7 @@ This is brand new work and we welcome collaboration, guidance, and feedback.
 
 Contact <joel@joelparkerhenderson.com>
 
-The living specification is [spec.md](spec.md). The modular reference docs are in
+The living specification is [spec/index.md](spec/index.md). The modular reference docs are in
 [AGENTS.md](AGENTS.md) and [AGENTS/](AGENTS/). For a topic-by-topic walkthrough,
 see the modular specification docs under [spec/](spec/index.md).
 
@@ -20,7 +20,7 @@ Batteries-included web examples that demonstrate components in real apps:
 - [Vue Nuxt.js examples](lily-design-system-vue-nuxt-examples)
 - [Angular Analog examples](lily-design-system-angular-examples)
 - [Blazor Web examples](lily-design-system-blazor-web-examples)
-- [Nunjucks Eleventy example](lily-design-system-nunjucks-eleventy-examples)
+- [Nunjucks Eleventy examples](lily-design-system-nunjucks-eleventy-examples)
 
 Headless versions if you want to use components with all your own styles:
 
@@ -32,9 +32,32 @@ Headless versions if you want to use components with all your own styles:
 - [Blazor headless](lily-design-system-blazor-headless)
 - [Nunjucks headless](lily-design-system-nunjucks-headless)
 
+## Helpers
+
+Per-framework helper catalogs of small, opinionated packages. Each catalog
+ships three native-`<select>` helpers — theme-select, locale-select, and
+text-size-select — that own one user-preference lifecycle end to end
+(selection + DOM application + optional persistence):
+
+- [HTML helpers](lily-design-system-html-helpers)
+- [Svelte helpers](lily-design-system-svelte-helpers) (canonical reference)
+- [React helpers](lily-design-system-react-helpers)
+- [Vue helpers](lily-design-system-vue-helpers)
+- [Angular helpers](lily-design-system-angular-helpers)
+- [Blazor helpers](lily-design-system-blazor-helpers)
+- [Nunjucks helpers](lily-design-system-nunjucks-helpers)
+
+## Themes
+
+The [themes/](themes) directory ships 45 standalone reference theme
+stylesheets that target the Lily class hooks — NHS England, NHS Scotland,
+and NHS Wales (patient and practitioner variants), GOV.UK GDS, USWDS,
+Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark themes.
+The theme-select helper loads them at runtime.
+
 ## Components
 
-The canonical catalog is [components.tsv](components.tsv) — 492 components. Each
+The canonical catalog is [components.tsv](components.tsv) — 490 components. Each
 slug below links to the per-component documentation.
 
 - [accordion-checkbox](components/accordion-checkbox): a checkbox option that reveals an accordion panel when checked
@@ -484,8 +507,6 @@ slug below links to the per-component documentation.
 - [text-area-input-with-character-counter](components/text-area-input-with-character-counter): a multi-line text area input with a caption below that is a character counter "[number] of [maximum] characters"
 - [text-input](components/text-input): a single-line text input field <input type="text">
 - [text-input-with-search](components/text-input-with-search): a single-line text input field <input type="text"> with search capability
-- [theme-select](components/theme-select): a picker for selecting a visual theme
-- [theme-select-button](components/theme-select-button): a picker button for selecting a visual theme
 - [theme-provider](components/theme-provider): a container that applies CSS custom properties from a theme object to its children
 - [theme-select](components/theme-select): a select dropdown for choosing a theme
 - [theme-select-option](components/theme-select-option): one option in a theme select dropdown
@@ -585,7 +606,6 @@ slug below links to the per-component documentation.
   - NetPromoterScorePicker NetPromoterScorePickerButton
   - RedAmberGreenPicker RedAmberGreenPickerButton
   - RedOrangeYellowGreenBluePicker RedOrangeYellowGreenBluePickerButton
-  - ThemeSelect ThemeSelectButton
 - \*Input \*View
   - PostalCodeInput PostalCodeView
   - MeasurementInstanceInput MeasurementInstanceView

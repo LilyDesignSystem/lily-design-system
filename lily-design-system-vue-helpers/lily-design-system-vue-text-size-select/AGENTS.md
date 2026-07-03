@@ -1,6 +1,6 @@
 # AGENTS — TextSizeSelect (Vue helper)
 
-Single source of truth: [spec.md](./spec.md). Read it first; everything
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
@@ -15,7 +15,7 @@ maps each `[data-text-size="…"]` slug to real typography.
 
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
-| `spec.md`                  | Specification-driven contract (canonical).       |
+| `spec/index.md`                  | Specification-driven contract (canonical).       |
 | `TextSizeSelect.vue`       | Implementation. `<script setup lang="ts">`.      |
 | `TextSizeSelect.test.ts`   | Vitest spec, one assertion per §7 acceptance.    |
 | `index.ts`                 | Barrel re-export.                                |
@@ -28,7 +28,7 @@ maps each `[data-text-size="…"]` slug to real typography.
 - Type exports: `Props`, `SlotArgs`.
 
 Required props: `label`, `sizes`. Full table in
-[spec.md §4](./spec.md#4-props).
+[spec/index.md §4](./spec/index.md#4-props).
 
 ## Behaviour contract (one paragraph)
 

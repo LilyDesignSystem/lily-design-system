@@ -19,13 +19,13 @@ attribute (which most i18n libraries don't read directly — they
 react to the bindable).
 
 The split matters because it lets you swap your i18n library
-without rewriting the picker, and it lets the picker stay
+without rewriting the select, and it lets the select stay
 headless: zero CSS, zero string tables, zero dependencies beyond
 Angular.
 
 ## What "headless" means here
 
-The picker:
+The select:
 
 - Renders semantic HTML (`<select>` + `<option>`) — a native
   combobox with no extra ARIA needed.
@@ -106,7 +106,7 @@ Keeping them separate means:
 - On a fresh mount with no `value` input, the stored value is
   read back.
 - Storage errors (private mode, quota) are swallowed silently;
-  the picker degrades to the default.
+  the select degrades to the default.
 
 If you have a server (Analog, Universal, Astro SSR, etc.), prefer
 a cookie instead — it survives the round-trip and avoids a flash
@@ -138,14 +138,14 @@ Three layers, mirroring the lifecycle:
    DOM observations; assert that `localeChange` was emitted.
 
 See [../locale-select.component.spec.ts](../locale-select.component.spec.ts)
-for the reference suite that covers every `spec.md` §7 acceptance
+for the reference suite that covers every `spec/index.md` §7 acceptance
 item.
 
 ## Angular-specific notes
 
 ### `model()` vs explicit `input()` + `output()`
 
-The picker uses `model<string>("")` for the bindable so it can
+The select uses `model<string>("")` for the bindable so it can
 suppress the bind-back during initial-value resolution (when the
 resolved value matches the supplied value — guarded by the
 `initialised` flag). A plain `input()` + `output()` pair would
@@ -155,7 +155,7 @@ as Vue's `v-model` and Svelte's `bind:`.
 
 ### `[(value)]` vs separate `[value]` + `(valueChange)`
 
-The picker exposes its bindable on `value`. Always use
+The select exposes its bindable on `value`. Always use
 `[(value)]="locale"`. This matches the Svelte canonical's
 `bind:value` semantics and keeps the API symmetric across
 frameworks.

@@ -38,8 +38,8 @@ Initial release.
   `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`,
   `RTL_SCRIPT_SUBTAGS`.
 - `locale-select.component.spec.ts` — vitest suite asserting every
-  numbered acceptance criterion in `spec.md` §7 (23 items).
-- `spec.md` — spec-driven contract, version 0.1.0.
+  numbered acceptance criterion in `spec/index.md` §7 (23 items).
+- `spec/index.md` — spec-driven contract, version 0.1.0.
 - `AGENTS/` subdirectory with `api.md`, `lifecycle.md`,
   `accessibility.md`, `ssr.md`, `testing.md`.
 - `docs/` subdirectory with topic guides: `accessibility.md`,

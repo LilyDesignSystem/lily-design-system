@@ -4,7 +4,7 @@ Catalog and conventions: [index.md](./index.md).
 
 Each sibling directory is a self-contained helper, packaged as a
 vanilla HTML/JS **web component** (custom element). Find the
-helper's `spec.md` for the canonical contract before changing it.
+helper's `spec/index.md` for the canonical contract before changing it.
 Each helper follows the file shape in
 [index.md § Conventions](./index.md#conventions).
 
@@ -16,12 +16,12 @@ Each helper follows the file shape in
 
 ## Working rules
 
-- Treat each helper's `spec.md` as the single source of truth.
+- Treat each helper's `spec/index.md` as the single source of truth.
 - The custom-element class is defined on import (side-effectful
   registration via `customElements.define(...)`). The class itself
   remains exported so consumers who want to control registration
   themselves can import it without the auto-define — see each
-  helper's spec.md §3 (Architectural decisions) for the exact
+  helper's spec/index.md §3 (Architectural decisions) for the exact
   rule.
 - Tests use vitest + jsdom.
 - No hardcoded user-facing strings; everything comes from

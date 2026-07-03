@@ -2,7 +2,7 @@
 
 > Lily Design System specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily is a monorepo holding a canonical 492-component catalog plus 14 implementation subprojects (7 headless libraries + 7 example apps) and 7 per-framework helper catalogs, where every subproject is also a `git subtree` that pushes to its own standalone remote.
+**Summary.** Lily is a monorepo holding a canonical 490-component catalog plus 14 implementation subprojects (7 headless libraries + 7 example apps) and 7 per-framework helper catalogs, where every subproject is also a `git subtree` that pushes to its own standalone remote.
 
 ## Scope
 
@@ -23,11 +23,11 @@ It does not cover the vision or scope split (see [overview](../overview/index.md
 ```
 lily-design-system/                              ← canonical catalog + tools
 ├── AGENTS.md, AGENTS/*.md                       ← modular reference docs
-├── components.tsv                               ← canonical 492-component list
-├── components/{slug}/                           ← per-component docs (492 dirs)
+├── components.tsv                               ← canonical 490-component list
+├── components/{slug}/                           ← per-component docs (490 dirs)
 ├── css-style-sheet-template.css                 ← class-hook stylesheet template
 ├── bin/                                         ← scaffolding, listing, sync, test
-├── spec.md, spec/{topic}/index.md               ← spec + modular topic docs
+├── spec/index.md, spec/{topic}/index.md               ← spec + modular topic docs
 ├── lily-design-system-html-headless/            ← headless: HTML
 ├── lily-design-system-svelte-headless/          ← headless: Svelte 5
 ├── lily-design-system-react-headless/           ← headless: React
@@ -61,7 +61,9 @@ Headless libraries ship unstyled, accessible components; example apps demonstrat
 
 ## Helper catalogs
 
-Seven per-framework helper subprojects (`lily-design-system-{framework}-helpers`, one each for html, svelte, react, vue, angular, blazor, nunjucks) carry framework-specific helper packages (for example theme-select and locale-select). Like the implementation subprojects, each helper catalog is its own git subtree with its own standalone remotes. See [helpers](../helpers/index.md).
+Seven per-framework helper subprojects (`lily-design-system-{framework}-helpers`, one each for html, svelte, react, vue, angular, blazor, nunjucks) carry framework-specific helper packages — theme-select, locale-select, and text-size-select. Like the implementation subprojects, each helper catalog is its own git subtree with its own standalone remotes. See [helpers](../helpers/index.md).
+
+The root `themes/` directory ships 45 reference theme stylesheets (NHS England/Scotland/Wales patient and practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark themes) that target the Lily class hooks and pair with the theme-select helper. See [theme](../theme/index.md).
 
 ## Git subtree publishing model
 
@@ -84,12 +86,12 @@ The same one-fetch / three-push pattern applies to every subproject remote (e.g.
 | `README.md` | Symlink to `index.md` |
 | `AGENTS.md` | AI coding help; loads modular `AGENTS/*.md` |
 | `CLAUDE.md` | Loads `AGENTS.md` |
-| `spec.md` / `plan.md` + `tasks.md` | Spec-driven plan and task list |
+| `spec/index.md` | Spec-driven plan + tasks (replaces the older split `plan.md` / `tasks.md`) |
 | `.git-subtree-push` | Subtree remote configuration |
 
 ## Required files per component directory
 
-Every `components/{slug}/` directory (492 of them) carries:
+Every `components/{slug}/` directory (490 of them) carries:
 
 | File | Purpose |
 | --- | --- |
@@ -97,13 +99,13 @@ Every `components/{slug}/` directory (492 of them) carries:
 | `README.md` | Symlink to `index.md` |
 | `AGENTS.md` | Canonical metadata (HTML tag, ARIA, keyboard, props) |
 | `CLAUDE.md` | Loads `AGENTS.md` |
-| `spec.md` / `plan.md` + `tasks.md` | Per-component plan and task list |
+| `spec/index.md` | Per-component spec-driven plan + tasks (replaces the older split `plan.md` / `tasks.md`) |
 
 ## Acceptance criteria
 
 - [ ] All 7 headless and 7 example subprojects exist at the documented paths.
 - [ ] All 7 per-framework helper catalogs exist.
-- [ ] All 492 component directories carry the required component files.
+- [ ] All 490 component directories carry the required component files.
 - [ ] Every subproject carries `index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md`, spec/plan/tasks, and `.git-subtree-push`.
 - [ ] `AGENTS.md` / `AGENTS/*.md` are canonical at the root and rsynced (not symlinked) into subprojects.
 - [ ] Each subproject is a git subtree pushable to its own standalone remote via `bin/git-subtree-push`.
@@ -121,6 +123,6 @@ Every `components/{slug}/` directory (492 of them) carries:
 
 ## Sources
 
-- [spec.md](../../spec.md) — §3 Architecture, §9 Tooling, §14 Tracking
+- [spec/index.md](../index.md) — §3 Architecture, §9 Tooling, §14 Tracking
 - [AGENTS.md](../../AGENTS.md)
 - [AGENTS/lily.md](../../AGENTS/lily.md)

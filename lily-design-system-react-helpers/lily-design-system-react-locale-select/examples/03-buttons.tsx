@@ -8,7 +8,7 @@
     tap-friendly affordance than the default `<select>` on small
     screens, or when you want to render flags / abbreviations.
 
-    Outcome: a horizontal <ul> of <button>s. The picker still drives
+    Outcome: a horizontal <ul> of <button>s. The select still drives
     lang/dir/onChange.
 */
 

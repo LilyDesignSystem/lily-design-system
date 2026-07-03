@@ -84,4 +84,4 @@ axe-core / Playwright integration ships across all six example apps. Rule set: *
 
 - [AGENTS/accessibility.md](../../AGENTS/accessibility.md)
 - [AGENTS/headless.md](../../AGENTS/headless.md)
-- [spec.md](../../spec.md) §4.2 (Accessibility), §11.5 (axe-core audit)
+- [spec/index.md](../index.md) §4.2 (Accessibility), §11.5 (axe-core audit)

@@ -1,6 +1,6 @@
 # API — `<locale-select>` (HTML helper)
 
-Authoritative API surface lives in [`../spec.md`](../spec.md) §4.
+Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the custom-element-flavoured shape of the
 contract.
 

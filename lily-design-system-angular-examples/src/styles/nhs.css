@@ -1884,12 +1884,7 @@ article[class*="card"] {
     border-color: var(--nhs-black);
 }
 
-/* theme-select, theme-view */
-.theme-select {
-    display: flex;
-    gap: var(--nhs-space-2);
-}
-
+/* theme-view */
 .theme-view {
     font-size: var(--nhs-font-size-16);
     color: var(--nhs-dark-grey);

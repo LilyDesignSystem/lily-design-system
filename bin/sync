@@ -2,7 +2,12 @@
 set -euf
 top="$(git rev-parse --show-toplevel)"
 
-"$top/bin/list-implementations" | 
-while read -r implementation; do 
+"$top/bin/list-implementations" |
+while read -r implementation; do
+    # Helpers catalogs keep their own AGENTS/ (conventions, testing, ssr,
+    # shared principles) rather than the canonical root AGENTS/ set.
+    case "$implementation" in
+        *-helpers) continue ;;
+    esac
     rsync -av "$top/AGENTS/" "$top/$implementation/AGENTS/"
 done

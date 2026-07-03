@@ -2,7 +2,7 @@
 
 The select targets WCAG 2.2 AAA and uses a native HTML `<select>`.
 This file is the Blazor-flavoured view of the contract; the canonical
-contract is in [`../spec.md`](../spec.md) §6.
+contract is in [`../spec/index.md`](../spec/index.md) §6.
 
 ## Roles and properties
 
@@ -134,6 +134,6 @@ you've measured the trade-off.
 ## Mobile
 
 On iOS and Android, the native `<select>` renders as the platform-
-appropriate widget (a wheel picker on iOS, a Material Design menu on
+appropriate widget (a wheel select on iOS, a Material Design menu on
 Android). Both are fully accessible via TalkBack / VoiceOver mobile
 screen readers.

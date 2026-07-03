@@ -14,7 +14,7 @@ export type ChildArgs = {
     labelFor: (theme: string) => string;
 };
 
-/** Public props for ThemeSelect. See `spec.md` §4 for the contract. */
+/** Public props for ThemeSelect. See `spec/index.md` §4 for the contract. */
 export type Props = Omit<
     React.SelectHTMLAttributes<HTMLSelectElement>,
     "onChange" | "children" | "value" | "defaultValue"
@@ -41,7 +41,7 @@ export type Props = Omit<
     themeLabels?: Record<string, string>;
     /** Custom render prop for the `<option>` elements; rendered inside the `<select>`. */
     children?: (args: ChildArgs) => React.ReactNode;
-    /** Called after the picker applies a new theme. */
+    /** Called after the select applies a new theme. */
     onChange?: (theme: string) => void;
     /** Extra CSS class on the `<select>` root. */
     className?: string;

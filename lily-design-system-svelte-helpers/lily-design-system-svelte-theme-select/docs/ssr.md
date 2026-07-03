@@ -1,12 +1,12 @@
 # SSR and hydration
 
-The picker is SSR-safe out of the box but does not, on its own,
+The select is SSR-safe out of the box but does not, on its own,
 deliver a flicker-free first paint. This guide explains why and how
 to close the gap.
 
-## What the picker does on the server
+## What the select does on the server
 
-Under SSR, no `$effect` runs and the picker does not touch the DOM.
+Under SSR, no `$effect` runs and the select does not touch the DOM.
 The rendered HTML looks like:
 
 ```html
@@ -20,10 +20,10 @@ No option is selected unless the consumer supplied a non-empty `value`.
 
 ## What happens on hydration
 
-On the client the picker's `$effect` runs once after mount:
+On the client the select's `$effect` runs once after mount:
 
 1. Resolves the initial slug per
-   [spec.md §5.2](../spec.md#52-initial-value-resolution).
+   [spec/index.md §5.2](../spec/index.md#52-initial-value-resolution).
 2. Writes the resolved slug back to the bindable `value`.
 3. Injects / sets the managed `<link>` href.
 4. Sets `data-theme` on the target.
@@ -39,7 +39,7 @@ The fix is to **resolve the theme on the server** and inline both:
 - `<html data-theme="<slug>">` in the document shell, and
 - the `<link rel="stylesheet" href="/assets/themes/<slug>.css">`
 
-so that CSS is in place before any pixel is painted. The picker can
+so that CSS is in place before any pixel is painted. The select can
 then hydrate without changing anything visible.
 
 ### SvelteKit recipe
@@ -53,9 +53,9 @@ The shape is:
    `app.html`.
 2. `src/app.html` has `<html lang="en" data-theme="%theme%">` so the
    attribute is in place before parsing.
-3. The picker is mounted with `value={data.theme}` (forwarded from a
+3. The select is mounted with `value={data.theme}` (forwarded from a
    layout `load` function).
-4. When the user picks a new theme, the picker's `onChange` posts to a
+4. When the user picks a new theme, the select's `onChange` posts to a
    small endpoint that writes the cookie.
 
 ### Astro recipe
@@ -80,15 +80,15 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
 ### Plain Vite + Svelte recipe
 
 Without SSR, there is no first-paint problem worth solving — the
-picker hydrates from `localStorage` before content renders if you
+select hydrates from `localStorage` before content renders if you
 mount it at the top of `<body>`. Avoid styles depending on
 `data-theme` for the first paint, or hard-code the default theme's
 `<link>` in `index.html`.
 
 ## Why we don't auto-resolve from the cookie
 
-The picker has no opinion about transport (cookie? header? IndexedDB?
+The select has no opinion about transport (cookie? header? IndexedDB?
 URL parameter?). Cookies are the right answer for SvelteKit, but not
 for Cloudflare-Workers-based hosts, embedded contexts, or apps that
-already have a server-side preference store. The picker stays
+already have a server-side preference store. The select stays
 transport-agnostic and lets the consumer wire the integration.

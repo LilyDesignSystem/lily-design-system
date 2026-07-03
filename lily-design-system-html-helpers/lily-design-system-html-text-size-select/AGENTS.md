@@ -1,6 +1,6 @@
 # AGENTS — `<text-size-select>` (HTML helper)
 
-Single source of truth: [spec.md](./spec.md). Read it first; everything
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
@@ -16,7 +16,7 @@ children and maps each `[data-text-size="…"]` slug to real typography.
 
 | File                        | Purpose                                          |
 | --------------------------- | ------------------------------------------------ |
-| `spec.md`                   | Specification-driven contract (canonical).       |
+| `spec/index.md`                   | Specification-driven contract (canonical).       |
 | `text-size-select.ts`       | Implementation (TypeScript class).               |
 | `text-size-select.test.ts`  | Vitest + jsdom spec, one assertion per §7 item.  |
 | `index.ts`                  | Barrel re-export + side-effectful registration.  |
@@ -29,7 +29,7 @@ children and maps each `[data-text-size="…"]` slug to real typography.
 - Type exports: `TextSizeSelectProps`, `TextSizeSelectChangeDetail`.
 
 Required attributes: `label`, `sizes`. Full table in
-[spec.md §4.1](./spec.md#41-observed-attributes).
+[spec/index.md §4.1](./spec/index.md#41-observed-attributes).
 
 ## Behaviour contract (one paragraph)
 

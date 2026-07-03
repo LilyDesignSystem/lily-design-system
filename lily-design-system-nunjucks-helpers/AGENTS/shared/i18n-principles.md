@@ -53,7 +53,7 @@ needs no extra wiring beyond an `autoInit({ onChange: setLocale })`.
 
 ### `Intl.DisplayNames`
 
-The locale picker doesn't use `Intl.DisplayNames` in the macro
+The locale select doesn't use `Intl.DisplayNames` in the macro
 (Nunjucks doesn't have a hook for it), but consumers can populate
 `opts.localeLabels` with the output of `Intl.DisplayNames` in their
 Eleventy data file:
@@ -79,7 +79,7 @@ client.js — no `day.js`, no `moment`, no `numeral`.
 
 ### Locale negotiation
 
-The locale picker's client.js implements a simple two-step
+The locale select's client.js implements a simple two-step
 exact-then-prefix matcher in `matchNavigatorLanguage`. It does not
 implement RFC 4647 best-fit lookup. If you need full RFC 4647
 matching, run your own resolver
@@ -128,7 +128,7 @@ cascading. The Nunjucks locale-select pairs cleanly with it:
 </html>
 ```
 
-The picker's `change` handler then needs to call
+The select's `change` handler then needs to call
 `window.location.href = locale_url(window.location.pathname, code)`
 to navigate to the localised URL. See the locale-select's
 `docs/i18n-integration.md` for the full Eleventy recipe.

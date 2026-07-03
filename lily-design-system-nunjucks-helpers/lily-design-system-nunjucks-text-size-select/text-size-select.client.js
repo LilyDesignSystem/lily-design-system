@@ -12,7 +12,7 @@
 // The consumer owns the actual typography via CSS keyed on
 // `[data-text-size="{slug}"]`. This module makes no visual decisions.
 //
-// See spec.md §4.3 (client.js exports), §5 (behaviour).
+// See spec/index.md §4.3 (client.js exports), §5 (behaviour).
 
 // ---------------------------------------------------------------
 // Storage helpers

@@ -28,7 +28,7 @@ clause.
   with `detail: { theme: string }`.
 - Pure exports: `normalizeThemesUrl`, `themeHref`.
 - Type exports: `ThemeSelectProps`, `ThemeSelectChangeDetail`.
-- 13 acceptance criteria in `spec.md` §7; one vitest test per
+- 13 acceptance criteria in `spec/index.md` §7; one vitest test per
   clause in `theme-select.test.ts`.
 
 ### Conventions

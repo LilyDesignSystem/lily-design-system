@@ -64,7 +64,7 @@ keyboard contract of whichever pattern they build:
 
 ## Focus management
 
-The picker never calls `.focus()` or `.blur()`. The focused element
+The select never calls `.focus()` or `.blur()`. The focused element
 on each render is whichever the browser puts focus on.
 
 This satisfies WCAG 3.2.2 (On Input): changing the selected option
@@ -72,7 +72,7 @@ must not cause a focus or context change.
 
 ## Live regions
 
-The picker has no `aria-live`. Selection changes propagate through
+The select has no `aria-live`. Selection changes propagate through
 the native select's value change, which screen readers announce
 automatically.
 
@@ -94,7 +94,7 @@ return (
 
 ## Visible focus
 
-The picker does not suppress `:focus` or `:focus-visible`. The
+The select does not suppress `:focus` or `:focus-visible`. The
 consumer's CSS supplies the focus ring. NHS-UK and Lily themes
 ship a high-contrast focus outline that meets AAA.
 
@@ -107,7 +107,7 @@ ship a high-contrast focus outline that meets AAA.
 
 ## Reduced motion
 
-The picker performs no animation. Theme CSS files are responsible
+The select performs no animation. Theme CSS files are responsible
 for respecting `prefers-reduced-motion` if they introduce transitions
 on the `data-theme` swap.
 
@@ -126,7 +126,7 @@ Selection changes are announced because the select's value changes.
 
 - `label` is consumer-supplied; pass a translated string.
 - `themeLabels` entries are consumer-supplied; localise the values.
-- The picker never emits hardcoded English (or any other natural
+- The select never emits hardcoded English (or any other natural
   language), including the word "default".
 
 ## Common mistakes to avoid (when forking / extending)

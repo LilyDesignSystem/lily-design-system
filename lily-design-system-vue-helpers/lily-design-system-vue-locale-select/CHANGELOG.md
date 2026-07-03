@@ -13,7 +13,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
   with one `<option class="locale-select-option" value="…" lang="…">`
   per locale code, replacing the previous grouped-control markup.
   The `<select>` carries the implicit `combobox` role and provides
-  Arrow / Home / End / typeahead semantics natively, so the picker
+  Arrow / Home / End / typeahead semantics natively, so the select
   scales to long locale lists and pops the OS-native picker on
   mobile. Each `<option>` keeps its `lang` attribute for WCAG 3.1.2
   (Language of Parts) pronunciation. The previous per-option label
@@ -56,8 +56,8 @@ Initial release.
   `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`, and the `Props` +
   `SlotArgs` types.
 - `LocaleSelect.test.ts` — vitest suite asserting every numbered
-  acceptance criterion in `spec.md` §7 (23 items).
-- `spec.md` — spec-driven contract, version 0.1.0.
+  acceptance criterion in `spec/index.md` §7 (23 items).
+- `spec/index.md` — spec-driven contract, version 0.1.0.
 - `AGENTS/` subdirectory with `api.md`, `lifecycle.md`,
   `accessibility.md`, `ssr.md`, `testing.md`.
 - `docs/` subdirectory with topic guides: `accessibility.md`,

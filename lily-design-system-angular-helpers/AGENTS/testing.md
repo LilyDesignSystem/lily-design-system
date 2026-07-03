@@ -3,7 +3,7 @@
 Every helper ships a vitest suite that runs under jsdom +
 `@angular/core/testing` `TestBed`. This page lists the test harness
 expectations common to all helpers; per-helper acceptance criteria
-live in the helper's own `spec.md` §7.
+live in the helper's own `spec/index.md` §7.
 
 ## Stack
 
@@ -178,7 +178,7 @@ plain import does no DOM work.
 ## One test per spec § acceptance
 
 The convention from the Svelte canonical applies: each helper's
-`spec.md` §7 numbers its acceptance criteria, and the test file
+`spec/index.md` §7 numbers its acceptance criteria, and the test file
 names each `it(...)` after the section number so a reviewer can
 cross-reference the spec without scrolling:
 

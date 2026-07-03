@@ -66,7 +66,7 @@ None -- this component is a passive display element with no interactive behavior
 
 ## When Not to Use
 
-- Do not use when users need to select or change the theme -- use [ThemeSelect](../theme-select/) or [ThemeSelect](../theme-select/) instead.
+- Do not use when users need to select or change the theme -- use [ThemeSelect](../theme-select/) instead.
 - Do not use for general-purpose text display -- use a `<span>` or [Badge](../badge/) instead.
 
 ## Headless
@@ -93,11 +93,11 @@ The consumer provides all CSS styling. The component renders with a `.theme-view
 
 ## Composition
 
-ThemeView is the read-only display counterpart to ThemeSelect and ThemeSelect. Use ThemeView to show the current theme, and pair it with ThemeSelect or ThemeSelect for editing.
+ThemeView is the read-only display counterpart to ThemeSelect. Use ThemeView to show the current theme, and pair it with ThemeSelect for editing.
 
 ## Related components
 
-- `theme-select` — a picker for selecting a visual theme
+- `theme-select` — a select dropdown for choosing a theme
 
 ## References
 

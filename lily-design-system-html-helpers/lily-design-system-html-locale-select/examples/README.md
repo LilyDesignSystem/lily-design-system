@@ -110,4 +110,4 @@ pattern.
   wiring up native `Intl.*`, FormatJS, gettext, vanilla state.
 - [`../docs/ssr.md`](../docs/ssr.md) — Eleventy / Astro / Hugo
   static-site generation and cookie pre-seed.
-- [`../spec.md`](../spec.md) — the canonical contract.
+- [`../spec/index.md`](../spec/index.md) — the canonical contract.

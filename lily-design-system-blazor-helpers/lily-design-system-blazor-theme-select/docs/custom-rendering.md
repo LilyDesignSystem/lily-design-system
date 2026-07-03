@@ -21,7 +21,7 @@ public sealed class ThemeSelectContext
 ```
 
 `SetTheme(slug)` performs the four-step apply in
-[spec.md §5.3](../spec.md#53-applying-a-theme).
+[spec/index.md §5.3](../spec/index.md#53-applying-a-theme).
 
 In Razor, the fragment is declared with `<ChildContent Context="ctx">`:
 

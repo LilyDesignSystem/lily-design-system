@@ -1,9 +1,9 @@
 # Accessibility — ThemeSelect (Angular)
 
-The picker targets WCAG 2.2 AAA and uses a native HTML `<select>`,
+The select targets WCAG 2.2 AAA and uses a native HTML `<select>`,
 which carries the WAI-ARIA `combobox` semantics for free. This file
 is the Angular-flavoured view of the contract; the canonical
-contract is in [`../spec.md`](../spec.md) §6.
+contract is in [`../spec/index.md`](../spec/index.md) §6.
 
 ## Roles and properties
 
@@ -11,11 +11,11 @@ contract is in [`../spec.md`](../spec.md) §6.
 | -------------- | -------------------------- | -------------- |
 | `<select>`     | implicit `role="combobox"` | Browser        |
 | `<select>`     | `aria-label={label}`       | Consumer input |
-| `<select>`     | `name`                     | Picker         |
+| `<select>`     | `name`                     | Select         |
 | `<option>`     | implicit `role="option"`   | Browser        |
 | `<option>`     | selected state (implicit)  | Browser        |
 
-The picker does not add ARIA where native semantics already cover
+The select does not add ARIA where native semantics already cover
 the need. There is no `aria-pressed`, no manual focus management —
 the native `<select>` behaviour is exactly the platform combobox.
 
@@ -52,14 +52,14 @@ colour-only meaning is required:
 
 ## Visible focus
 
-The picker does not suppress `:focus` or `:focus-visible` styling.
+The select does not suppress `:focus` or `:focus-visible` styling.
 The consumer's CSS is responsible for the visible focus ring.
 NHS-UK and Lily themes ship a high-contrast focus outline that
 meets AAA.
 
 ## Reduced motion
 
-The picker performs no animation. Theme CSS files are responsible
+The select performs no animation. Theme CSS files are responsible
 for respecting `prefers-reduced-motion` if they introduce
 transitions on the `data-theme` swap.
 
@@ -76,20 +76,20 @@ transitions on the `data-theme` swap.
 - **Hiding the `<select>` with `display: none`.** That removes it
   from the accessibility tree. Use a visually-hidden pattern
   (`clip-path: inset(50%)` or the `.sr-only` recipe) instead.
-- **Forgetting to translate `themeLabels`.** The picker only knows
+- **Forgetting to translate `themeLabels`.** The select only knows
   what the consumer tells it; locale-aware copy is the consumer's
   responsibility.
 - **Binding `aria-label` via interpolation instead of `[attr.…]`.**
   `aria-label="{{ label() }}"` always emits the attribute (even as
   `""` or `"null"`); `[attr.aria-label]="label() || null"` removes
-  it when empty. The picker uses the latter.
+  it when empty. The select uses the latter.
 - **Wrapping the host in a div to "scope" the select.** The
   `<select>` is already the labelled control. Adding a wrapper
   duplicates the semantic.
 
 ## Angular-specific notes
 
-- The picker is a standalone component; consumers add it via the
+- The select is a standalone component; consumers add it via the
   `imports: [ThemeSelect]` array on their own standalone component
   rather than declaring it in an `NgModule`.
 - `OnPush` change detection is in effect. Signal changes (input

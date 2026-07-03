@@ -1,8 +1,8 @@
 /*
     Example 3 — localStorage persistence.
 
-    Pass `storageKey` to make the picker remember the user's choice
-    across reloads. On a fresh mount the picker reads the stored slug
+    Pass `storageKey` to make the select remember the user's choice
+    across reloads. On a fresh mount the select reads the stored slug
     and re-applies it before the user interacts. Quota / private-mode
     errors are silently swallowed.
 */

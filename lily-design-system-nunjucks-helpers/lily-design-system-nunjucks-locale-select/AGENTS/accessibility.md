@@ -1,8 +1,8 @@
 # Accessibility — LocaleSelect (Nunjucks)
 
-The picker targets WCAG 2.2 AAA and uses a native `<select>`, whose
+The select targets WCAG 2.2 AAA and uses a native `<select>`, whose
 keyboard and role semantics the browser provides. The canonical
-contract is in [`../spec.md`](../spec.md) §6.
+contract is in [`../spec/index.md`](../spec/index.md) §6.
 
 ## Roles and properties
 
@@ -62,7 +62,7 @@ By default the focused element stays focused when the locale
 changes. This is the WCAG 3.2.2 (On Input) contract: changing a
 setting must not cause a focus or context change. Avoid hard
 navigations in `onChange` that scroll the page; if you must
-navigate, scroll-restore to the picker's position.
+navigate, scroll-restore to the select's position.
 
 ## Screen-reader behaviour matrix
 
@@ -88,11 +88,11 @@ attribute using the caller-block pattern (see
 
 ## Native `<select>` accessibility
 
-The picker renders a native `<select>` by default (see
+The select renders a native `<select>` by default (see
 [examples/02-select.njk](../examples/02-select.njk)).
 Native `<select>` is fully accessible:
 
-- Keyboard: Enter / Space / Down arrow open the picker; typing
+- Keyboard: Enter / Space / Down arrow open the select; typing
   searches; Escape closes.
 - Screen reader: announces "combobox" + label + current value +
   count.
@@ -106,7 +106,7 @@ The tradeoff:
 - Choices hidden until opened (worse discoverability than an
   always-visible list).
 - Can't show option text in mixed scripts as easily (some OS
-  pickers don't honour per-option `lang`).
+  selects don't honour per-option `lang`).
 
 For an always-visible list of 2–8 locales, render buttons via the
 caller block. For 9+, the native `<select>` default or a combobox is

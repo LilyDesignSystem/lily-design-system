@@ -3,18 +3,18 @@
 Catalog and conventions: [index.md](./index.md).
 
 Each sibling directory is a self-contained helper. Find the helper's
-`spec.md` for the canonical contract before changing it. Each helper
+`spec/index.md` for the canonical contract before changing it. Each helper
 follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
 
 - [`lily-design-system-nunjucks-theme-select`](./lily-design-system-nunjucks-theme-select/) — dynamic theme CSS loader.
-- [`lily-design-system-nunjucks-locale-select`](./lily-design-system-nunjucks-locale-select/) — `lang` + `dir` locale picker.
-- [`lily-design-system-nunjucks-text-size-select`](./lily-design-system-nunjucks-text-size-select/) — `data-text-size` text-size picker.
+- [`lily-design-system-nunjucks-locale-select`](./lily-design-system-nunjucks-locale-select/) — `lang` + `dir` locale select.
+- [`lily-design-system-nunjucks-text-size-select`](./lily-design-system-nunjucks-text-size-select/) — `data-text-size` text-size select.
 
 ## Working rules
 
-- Treat each helper's `spec.md` as the single source of truth.
+- Treat each helper's `spec/index.md` as the single source of truth.
 - Match the upstream Nunjucks conventions in
   [`../lily-design-system-nunjucks-headless/AGENTS/nunjucks.md`](../lily-design-system-nunjucks-headless/AGENTS/nunjucks.md)
   where they apply (camelCase macro names, kebab-case file paths and

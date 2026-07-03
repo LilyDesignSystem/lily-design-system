@@ -17,11 +17,11 @@ disagree, the Svelte side wins and the others are patched.
 ### Added
 
 - `lily-design-system-svelte-theme-select` v0.1.0 — runtime-loading
-  theme picker with `data-theme` swap, managed `<link>`-based
+  theme select with `data-theme` swap, managed `<link>`-based
   stylesheet injection, `localStorage` persistence, and a `children`
   snippet for custom rendering. 13 acceptance criteria covered.
 - `lily-design-system-svelte-locale-select` v0.1.0 — BCP 47 locale
-  picker that writes `lang` and `dir` on the document root, with
+  select that writes `lang` and `dir` on the document root, with
   optional `localStorage` persistence and `navigator.languages`
   detection. Built-in 436-row locale-name table, RTL detection set,
   and lossless underscore-vs-hyphen round-tripping. 23 acceptance
@@ -32,7 +32,7 @@ disagree, the Svelte side wins and the others are patched.
   `i18n-principles.md`, `theme-principles.md` adapted from the
   Lily-wide root `AGENTS/`.
 - Each helper subproject ships `AGENTS/`, `docs/`, and `examples/`
-  subdirectories. Theme picker ships a runnable SvelteKit cookie
+  subdirectories. Theme select ships a runnable SvelteKit cookie
   example under `examples/sveltekit-cookie/`.
 
 ### Conventions established
@@ -51,11 +51,11 @@ disagree, the Svelte side wins and the others are patched.
 - **SSR-safe** — all DOM writes inside `$effect`, never at the top
   level of the instance `<script>`.
 - **Tests** under vitest + jsdom + `@testing-library/svelte`. One
-  `it(...)` per numbered `spec.md` §7 acceptance criterion.
+  `it(...)` per numbered `spec/index.md` §7 acceptance criterion.
 
 ### Why Svelte is canonical
 
-The pickers were written first in Svelte 5 because the runes-based
+The selects were written first in Svelte 5 because the runes-based
 reactivity model maps cleanly to every other framework's pattern:
 
 - `$bindable` ↔ Vue `v-model:value` ↔ React `value`+`onChange` ↔

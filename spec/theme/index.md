@@ -75,6 +75,14 @@ Consumer CSS reads these:
 </ThemeProvider>
 ```
 
+## Reference theme stylesheets (`themes/`)
+
+The root [`themes/`](../../themes/) directory ships 45 ready-to-use theme stylesheets that target the Lily class hooks directly. They cover public-sector reference designs (NHS England, NHS Scotland, and NHS Wales — each with `-for-patients` and `-for-practitioners` variants — GOV.UK GDS as `united-kingdom-government-digital-service`, USWDS as `united-states-web-design-system`), vendor-inspired palettes (`adobe-spectrum`, `mozilla-protocol`), and general-purpose themes (`light`, `dark`, `nord`, `dracula`, `wireframe`, and others).
+
+- Each file is standalone: link one stylesheet, get one complete theme.
+- Selectors use `:where(...)` so consumer overrides always win on specificity.
+- The [`theme-select` helper](../helpers/index.md) loads these at runtime by swapping a managed `<link>` href and setting `data-theme` on the document root.
+
 ## Forbidden in the headless layer
 
 None of the following may appear in headless markup; they live in example CSS and consume the theme custom properties.
@@ -124,5 +132,5 @@ Editorial / scrollytelling primitives use CSS custom properties for column width
 ## Sources
 
 - [AGENTS/theme.md](../../AGENTS/theme.md)
-- [spec.md](../../spec.md) §4.4 Theme, §10.1 Reuters column-width convention
+- [spec/index.md](../index.md) §4.4 Theme, §10.1 Reuters column-width convention
 - [AGENTS/examples.md](../../AGENTS/examples.md)

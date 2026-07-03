@@ -22,7 +22,7 @@ export function bcp47LocaleTag(locale: string): string {
   return locale.replace(/_/g, "-");
 }
 
-/** Detect whether a locale is right-to-left. See spec.md §5.6. */
+/** Detect whether a locale is right-to-left. See spec/index.md §5.6. */
 export function isRtlLocale(locale: string): boolean {
   if (!locale) return false;
   const parts = locale.split(/[-_]/);
@@ -77,11 +77,11 @@ export function matchNavigatorLanguage(
 }
 
 /**
- * LocaleSelect — `lang` + `dir` locale picker.
+ * LocaleSelect — `lang` + `dir` locale select.
  *
  * Renders an accessible native `<select>` of locales. On every locale
- * change the picker writes `lang` (and, by default, `dir`) to the
- * document root or a consumer-supplied target. See `spec.md` for the
+ * change the select writes `lang` (and, by default, `dir`) to the
+ * document root or a consumer-supplied target. See `spec/index.md` for the
  * full contract.
  */
 @Component({

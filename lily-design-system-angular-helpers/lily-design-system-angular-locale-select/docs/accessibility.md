@@ -1,20 +1,20 @@
 # Accessibility
 
-The picker targets **WCAG 2.2 AAA** using a native `<select>`,
+The select targets **WCAG 2.2 AAA** using a native `<select>`,
 whose role and keyboard semantics the browser provides. This page
 lists what's built in and what remains the consumer's
 responsibility.
 
 ## Built-in
 
-| WCAG item | How the picker satisfies it |
+| WCAG item | How the select satisfies it |
 | --------------- | --------------------------- |
 | WCAG 3.1.1 Language of Page | Writes `lang` to the document root on every locale change. |
 | WCAG 3.1.2 Language of Parts | Each option carries its own `lang` attribute so option text is announced in the right language. |
 | WCAG 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales so layout, scrollbar, and text inversion are correct. |
 | WCAG 4.1.2 Name, Role, Value | `<select aria-label>` exposes the combobox; `<option>` exposes each choice. |
 | WCAG 2.1.1 Keyboard | Tab to the select; Arrow / Home / End / typeahead move selection — all from native `<select>` semantics. |
-| WCAG 2.4.7 Focus Visible | The browser's default focus ring is preserved; the picker never sets `outline: none`. |
+| WCAG 2.4.7 Focus Visible | The browser's default focus ring is preserved; the select never sets `outline: none`. |
 | WCAG 1.4.1 Use of Color | Selection state is exposed via the `<select>`'s current value and reflected in the `lang` attribute — not colour alone. |
 | Native `<select>` | Single-selection combobox with full keyboard and screen-reader support — provided by the platform. |
 
@@ -55,7 +55,7 @@ widget. Always carry the locale's BCP 47 tag onto each
 | Enter / Space          | Open the option list (platform-dependent).                      |
 | Escape                 | Close the option list.                                          |
 
-This is all native behaviour. The picker does not add JS keyboard
+This is all native behaviour. The select does not add JS keyboard
 handlers — it doesn't need to.
 
 ## Focus management on locale change
@@ -64,7 +64,7 @@ By default the focused element stays focused when the locale
 changes. This is the WCAG 3.2.2 (On Input) contract: changing a
 setting must not cause a focus or context change. Avoid
 `router.navigate()` calls in `(localeChange)` that scroll the
-page; if you must navigate, scroll-restore to the picker's
+page; if you must navigate, scroll-restore to the select's
 position so the user can keep choosing.
 
 ## Screen-reader behaviour matrix
@@ -89,7 +89,7 @@ user recognises them), the per-option `lang` attribute is
 technically incorrect (the visible text is English even though
 the attribute says French).
 
-In that case, the picker still emits `lang` faithfully — consider
+In that case, the select still emits `lang` faithfully — consider
 switching the visible labels to endonyms instead. The default
 rendering's tradeoff is: the labels show **in their own language**
 (English / Français / العربية), so per-option `lang` is correct
@@ -97,10 +97,10 @@ and helpful.
 
 ## Native `<select>` accessibility
 
-The picker renders a native `<select>` by default. Native
+The select renders a native `<select>` by default. Native
 `<select>` is fully accessible:
 
-- Keyboard: Enter / Space / Down arrow open the picker; typing
+- Keyboard: Enter / Space / Down arrow open the select; typing
   searches; Escape closes.
 - Screen reader: announces "combobox" + label + current value +
   count.
@@ -114,7 +114,7 @@ fit.
 
 ## Colour contrast
 
-The picker ships no colour. WCAG 1.4.3 contrast (4.5:1 normal,
+The select ships no colour. WCAG 1.4.3 contrast (4.5:1 normal,
 3:1 large, 7:1 AAA) is your CSS's responsibility. A safe default
 for the select's text and border:
 
@@ -140,7 +140,7 @@ browser's job, not yours.
 
 ## Angular-specific notes
 
-- The picker binds `aria-label` via `[attr.aria-label]="label()"`
+- The select binds `aria-label` via `[attr.aria-label]="label()"`
   on the `<select>`.
 - `[attr.lang]` (not `lang`) is used on each `<option>` so empty
   tags don't emit `lang=""`.

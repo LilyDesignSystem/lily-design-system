@@ -3,7 +3,7 @@
 The select targets WCAG 2.2 AAA and uses a native `<select>`, which
 maps to the platform combobox (Listbox / Combobox) model. This file
 is the custom-element-flavoured view; the canonical contract is in
-[`../spec.md`](../spec.md) §6.
+[`../spec/index.md`](../spec/index.md) §6.
 
 ## Roles and properties
 

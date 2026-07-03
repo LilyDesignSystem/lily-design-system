@@ -1,11 +1,11 @@
 <!doctype html>
 {# Layout: inlines <html data-theme> and the matching <link>.   #}
-{# The picker is mounted with the same `value` so it does NOT     #}
+{# The select is mounted with the same `value` so it does NOT     #}
 {# re-resolve from localStorage and clobber the inlined attribute. #}
 <html lang="en" data-theme="{{ theme.defaultTheme }}">
     <head>
         <meta charset="utf-8">
-        <title>{{ title or "Lily Theme Picker — Eleventy" }}</title>
+        <title>{{ title or "Lily Theme Select — Eleventy" }}</title>
         <link rel="stylesheet" href="/assets/themes/{{ theme.defaultTheme }}.css">
         <script type="module" src="/dist/theme-select.js"></script>
     </head>

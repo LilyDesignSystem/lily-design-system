@@ -42,7 +42,7 @@ Consumer CSS reads `var(--theme-color-primary)`,
 
 The Angular `ThemeSelect` helper writes one extra signal to the
 document root: a `data-theme="<slug>"` attribute. Theme CSS files
-scope their rules to `:root[data-theme="<slug>"]` so the picker's
+scope their rules to `:root[data-theme="<slug>"]` so the select's
 attribute mutation is enough to switch the live theme.
 
 ```css
@@ -53,14 +53,14 @@ attribute mutation is enough to switch the live theme.
 }
 ```
 
-The picker does not write CSS custom properties directly. Theme
-authors do, via the `<link>` the picker swaps into `<head>`.
+The select does not write CSS custom properties directly. Theme
+authors do, via the `<link>` the select swaps into `<head>`.
 
 ## Light / dark / high-contrast
 
-The picker's `value` is just a string. Convention says `light`,
+The select's `value` is just a string. Convention says `light`,
 `dark`, and `high-contrast` slugs map to those three modes, but the
-picker doesn't enforce that — any slug is valid.
+select doesn't enforce that — any slug is valid.
 
 A `prefers-color-scheme: dark` integration is one-line in the
 consumer's signal computation:
@@ -136,7 +136,7 @@ attribute lives on the host element rather than on
 the document root because:
 
 - Theme CSS files conventionally scope to `:root[data-theme="..."]`.
-- Multiple pickers can coexist by writing to different `target`
+- Multiple selects can coexist by writing to different `target`
   elements (passed via the `target` input).
 - The document-root write composes with SSR cookie bridges that set
   `<html data-theme>` server-side.

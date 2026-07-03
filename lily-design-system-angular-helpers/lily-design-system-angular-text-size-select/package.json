@@ -1,7 +1,7 @@
 {
   "name": "lily-design-system-angular-text-size-select",
   "version": "0.1.0",
-  "description": "Lily Design System - Angular 20 text-size picker",
+  "description": "Lily Design System - Angular 20 text-size select",
   "peerDependencies": {
     "@angular/core": ">=20.0.0 <22.0.0",
     "@angular/common": ">=20.0.0 <22.0.0"
@@ -17,7 +17,7 @@
     "system",
     "angular",
     "text-size",
-    "picker"
+    "select"
   ],
   "author": "joel@joelparkerhenderson.com",
   "license": "MIT"

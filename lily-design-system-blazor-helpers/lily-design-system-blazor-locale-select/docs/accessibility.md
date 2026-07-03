@@ -127,7 +127,7 @@ The tradeoffs:
 - Scales to 100+ locales.
 - Choices hidden until opened (worse discoverability).
 - Can't show option text in mixed scripts as easily (some OS
-  pickers don't honour per-option `lang`).
+  selects don't honour per-option `lang`).
 
 For a handful of locales, a custom button group via `ChildContent`
 can improve discoverability; for 9+, the native `<select>` is

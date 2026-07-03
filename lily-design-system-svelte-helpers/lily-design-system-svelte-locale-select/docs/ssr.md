@@ -1,6 +1,6 @@
 # SSR — Server-side rendering, cookies, and Accept-Language
 
-The picker compiles cleanly under SSR but renders nothing locale-
+The select compiles cleanly under SSR but renders nothing locale-
 specific on the server unless the consumer pre-resolves the locale.
 This page covers the three resolution strategies, ordered by quality.
 
@@ -31,7 +31,7 @@ arrives with `lang="en"` and the client picks `ar`, the page jumps:
    `<html lang="ar" dir="rtl">`.
 4. Browser repaints in RTL → layout shift.
 
-Steps 2–4 cause a visible flash. The picker can't avoid it on its own
+Steps 2–4 cause a visible flash. The select can't avoid it on its own
 because `localStorage` and `navigator.languages` aren't accessible
 server-side. The consumer fixes it by pre-resolving the locale on the
 server and seeding `value`.
@@ -97,7 +97,7 @@ export const load: LayoutServerLoad = async ({ locals }) => ({
 
 ### Layout component
 
-Seed the picker with the server-resolved value and write the cookie on
+Seed the select with the server-resolved value and write the cookie on
 change:
 
 ```svelte
@@ -127,8 +127,8 @@ Result:
 
 - First paint: `<html lang="fr" dir="ltr">` arrives in the HTML
   response. No flash, no layout shift.
-- Picker mounts already showing the right option selected.
-- User picks `ar`. Picker writes `<html lang="ar" dir="rtl">`,
+- Select mounts already showing the right option selected.
+- User picks `ar`. Select writes `<html lang="ar" dir="rtl">`,
   callback writes the cookie. Next request re-paints the page in
   Arabic from the very first byte.
 
@@ -227,7 +227,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 };
 ```
 
-The picker is unchanged — same `value`/`bind:value` pattern.
+The select is unchanged — same `value`/`bind:value` pattern.
 
 If you need RFC 4647-quality negotiation, replace the loop with the
 `negotiator` npm package or the standards-compliant
@@ -237,7 +237,7 @@ If you need RFC 4647-quality negotiation, replace the loop with the
 
 ## Strategy 4: client-only (`localStorage` / navigator)
 
-The fallback when there is no server. The picker flickers (default
+The fallback when there is no server. The select flickers (default
 paints first, then the resolved locale takes over) but everything
 else works.
 
@@ -275,7 +275,7 @@ race.
 
 ## Tests for SSR
 
-The picker's vitest suite runs in jsdom (client-side). For full SSR
+The select's vitest suite runs in jsdom (client-side). For full SSR
 tests:
 
 - **Compile check** — `svelte-check` will catch invalid SSR usage
@@ -286,7 +286,7 @@ tests:
 - **Snapshot** — capture `app.html` after `transformPageChunk` runs
   for each locale, snapshot the first 200 bytes.
 
-The picker itself has no SSR-specific code path to test beyond "the
+The select itself has no SSR-specific code path to test beyond "the
 component compiles in SSR mode and renders the selected option for the
 seeded `value`". The reference test suite covers that under jsdom by
 asserting that `value` controls which option is selected on mount.

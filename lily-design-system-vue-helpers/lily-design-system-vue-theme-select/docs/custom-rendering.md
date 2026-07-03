@@ -13,14 +13,14 @@ type SlotArgs = {
     themes: string[];                    // the available slugs
     value: string;                       // the active slug
     setTheme: (theme: string) => void;   // imperative apply (writes value)
-    name: string;                        // shared identity for the picker
+    name: string;                        // shared identity for the select
     labelFor: (theme: string) => string; // resolved display label
 };
 ```
 
 `setTheme(slug)` emits `update:value` (driving `v-model:value`).
-The picker's `watch` on `value` then performs the four steps in
-[spec.md §5.3](../spec.md#53-applying-a-theme).
+The select's `watch` on `value` then performs the four steps in
+[spec/index.md §5.3](../spec/index.md#53-applying-a-theme).
 
 In Vue templates, the slot props arrive in camelCase via the
 `#default="…"` destructure:
@@ -57,7 +57,7 @@ In Vue templates, the slot props arrive in camelCase via the
 </ThemeSelect>
 ```
 
-`aria-pressed` carries the active state; the picker no longer
+`aria-pressed` carries the active state; the select no longer
 renders a native `<select>` of options, so the implicit option
 selection is gone. The `data-theme` on each button lets your CSS
 preview the swatch colours by hooking into the same
@@ -66,7 +66,7 @@ preview the swatch colours by hooking into the same
 Note: because the slot replaces the default `<option>`s, rendering
 non-`<option>` markup means you are no longer inside a native
 `<select>`. If you want button or segmented-control semantics,
-render your custom controls outside the picker and call `setTheme`
+render your custom controls outside the select and call `setTheme`
 from a wrapper component instead.
 
 ### Custom option markup
@@ -93,16 +93,16 @@ labels:
 </ThemeSelect>
 ```
 
-The picker's `<select>` owns the `change` handler, so the slot only
+The select's `<select>` owns the `change` handler, so the slot only
 needs to render `<option>` elements.
 
 ## What the slot should *not* do
 
 - Don't mutate `document.head` or `data-theme` directly; let the
-  picker own that lifecycle.
-- Don't render non-`<option>` markup directly inside the picker —
+  select own that lifecycle.
+- Don't render non-`<option>` markup directly inside the select —
   the root is a native `<select>`. For a non-`<select>` UI, render
-  your controls outside the picker and call `setTheme` from a
+  your controls outside the select and call `setTheme` from a
   wrapper.
 
 ## Why Vue slot props arrive camelCase

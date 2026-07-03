@@ -1,8 +1,8 @@
 # Testing — ThemeSelect (Vue)
 
-The picker's test suite lives in
+The select's test suite lives in
 [`../ThemeSelect.test.ts`](../ThemeSelect.test.ts) and asserts every
-numbered acceptance criterion in `spec.md` §7. This file documents
+numbered acceptance criterion in `spec/index.md` §7. This file documents
 the test harness and the conventions specific to this helper. For
 the catalog-wide test rules see
 [`../../AGENTS/testing.md`](../../AGENTS/testing.md).
@@ -27,7 +27,7 @@ Each test re-runs the whole `onMounted` lifecycle by calling
 
 ## Async waits
 
-The picker's `onMounted` and `watch` callbacks fire across one or
+The select's `onMounted` and `watch` callbacks fire across one or
 two micro-task ticks. Use `await wrapper.vm.$nextTick()` after
 mount and after any `setProps` to settle the DOM:
 
@@ -40,7 +40,7 @@ await wrapper.vm.$nextTick();
 ```
 
 When the watch chain is longer (e.g. a `update:value` triggers a
-parent prop change which feeds back into the picker), add
+parent prop change which feeds back into the select), add
 `await flushPromises()`:
 
 ```ts
@@ -82,7 +82,7 @@ await select.trigger("change");
 ```
 
 `setValue("dark")` on a `<select>` sets its `value` and dispatches
-`change`. Use either; the picker reads from `e.target.value`.
+`change`. Use either; the select reads from `e.target.value`.
 
 ## Asserting the managed `<link>`
 
@@ -174,7 +174,7 @@ This guarantees no `document.*` access leaked into the render path.
 ## What every §7 test asserts
 
 See the per-clause map in
-[`../spec.md` §7](../spec.md#7-testing-acceptance-criteria). Each
+[`../spec/index.md` §7](../spec/index.md#7-testing-acceptance-criteria). Each
 `it(...)` description starts with the clause number, e.g.
 `it("§7.6 resolves the initial theme to 'light' …", …)`. Keep the
 naming convention so a reviewer can spot a missing clause.

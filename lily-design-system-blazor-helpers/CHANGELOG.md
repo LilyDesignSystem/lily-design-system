@@ -46,7 +46,7 @@ catalog:
 - All DOM writes go through `IJSRuntime` inside `OnAfterRenderAsync`
   so the components are SSR / prerender safe.
 - Zero CSS shipped — consumer styles the kebab-case class hook.
-- Tests use bUnit + xUnit, one `[Fact]` per `spec.md` §7 clause.
+- Tests use bUnit + xUnit, one `[Fact]` per `spec/index.md` §7 clause.
 
 ### Differences from the Svelte canonical
 

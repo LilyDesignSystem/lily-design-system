@@ -19,7 +19,7 @@ The example subprojects show what the headless components look like when paired 
 Every example subproject ships these three routes:
 
 - `/` — home page welcoming the visitor and explaining the project. Links to the components index and to any composed page demonstrations.
-- `/components` — the components index. Lists every component in the catalog (492 entries), is searchable / filterable, and links each entry to its detail page.
+- `/components` — the components index. Lists every component in the catalog (490 entries), is searchable / filterable, and links each entry to its detail page.
 - `/components/{slug}` — one detail page per component. Renders one component (not a grid of many), shows a usable demo, and surfaces the canonical metadata (description, props, ARIA, keyboard, references).
 
 Composed page demonstrations (`/dashboard`, `/contact-form`, `/page-layout`, `/timeline-and-cards`, `/dialog-flow`, `/file-upload-form`, `/navigation-and-menus`, `/rating-and-feedback`, `/search-and-filter`, `/settings-page`, `/tabbed-interface`, `/task-management`) are encouraged on top of the required routes; they exercise multiple components together to validate the system as a whole.

@@ -1,6 +1,6 @@
 # SSR — Server-side rendering, cookies, and Accept-Language
 
-The picker compiles cleanly under Angular SSR (Analog v1 + Nitro,
+The select compiles cleanly under Angular SSR (Analog v1 + Nitro,
 `@angular/ssr` for Angular CLI, Astro Angular islands) but renders
 nothing locale-specific on the server unless the consumer
 pre-resolves the locale. This page covers the four resolution
@@ -34,7 +34,7 @@ client picks `ar`, the page jumps:
    `<html lang="ar" dir="rtl">`.
 4. Browser repaints in RTL → layout shift.
 
-Steps 2–4 cause a visible flash. The picker can't avoid it on its
+Steps 2–4 cause a visible flash. The select can't avoid it on its
 own because `localStorage` and `navigator.languages` aren't
 accessible server-side. The consumer fixes it by pre-resolving
 the locale on the server and seeding `value`.
@@ -175,9 +175,9 @@ Result:
 
 - First paint: `<html lang="fr" dir="ltr">` arrives in the HTML
   response. No flash, no layout shift.
-- Picker mounts already showing the right `<option>` selected
+- Select mounts already showing the right `<option>` selected
   because `locale()` was hydrated from `INITIAL_LOCALE`.
-- User picks `ar`. The fetch writes the cookie and the picker's
+- User picks `ar`. The fetch writes the cookie and the select's
   `effect()` writes `<html lang="ar" dir="rtl">`. Next request
   re-paints the page in Arabic from the very first byte.
 
@@ -205,7 +205,7 @@ src/app/pages/
 ```
 
 Set `<html lang dir>` from the route param via a server-side
-middleware that inspects the URL, and drive the picker from
+middleware that inspects the URL, and drive the select from
 `useRoute().params.locale` (Analog) or `ActivatedRoute.params`
 (Angular CLI):
 
@@ -242,7 +242,7 @@ export class Layout {
 
 ## Strategy 4: client-only (`localStorage` / navigator)
 
-The fallback when there is no server. The picker flickers
+The fallback when there is no server. The select flickers
 (default paints first, then the resolved locale takes over) but
 everything else works.
 
@@ -267,7 +267,7 @@ Acceptable for:
 ## Hydration considerations
 
 Angular's hydration matcher compares the SSR DOM to the client
-virtual DOM and warns on any mismatch. The picker is safe by
+virtual DOM and warns on any mismatch. The select is safe by
 default because:
 
 - `effect()` callbacks honour the `typeof document` guard, so no
@@ -310,7 +310,7 @@ const RTL = /^(ar|he|fa|ur|ps)/.test(locale);
 </html>
 ```
 
-`client:load` mounts the picker on the client. Because the
+`client:load` mounts the select on the client. Because the
 surrounding `<html>` already has the right `lang`/`dir`, there's
 no flash.
 
@@ -346,13 +346,13 @@ export default defineEventHandler((event) => {
 });
 ```
 
-The picker stays unchanged.
+The select stays unchanged.
 
 ---
 
 ## Tests for SSR
 
-The picker's vitest suite runs in jsdom (client-side). For full
+The select's vitest suite runs in jsdom (client-side). For full
 SSR tests:
 
 - **Compile check** — `tsc` will catch invalid SSR usage (e.g.
@@ -364,7 +364,7 @@ SSR tests:
   `renderApplication` from `@angular/platform-server` and
   snapshot the first 200 bytes of the output.
 
-The picker itself has no SSR-specific code path to test beyond
+The select itself has no SSR-specific code path to test beyond
 "the component compiles in SSR mode and renders the selected
 `<option>` for the seeded `value`". The reference test suite
 covers that under jsdom by asserting that `value` controls which

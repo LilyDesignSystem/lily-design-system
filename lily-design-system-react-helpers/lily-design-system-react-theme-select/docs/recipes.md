@@ -71,7 +71,7 @@ export function ThemeChooser() {
 See [`../examples/next-cookie/`](../examples/next-cookie/) for the
 full recipe.
 
-## Migrate from a localStorage-only picker to a cookie-backed one
+## Migrate from a localStorage-only select to a cookie-backed one
 
 1. Keep `storageKey` for now so existing users don't lose their
    preference.

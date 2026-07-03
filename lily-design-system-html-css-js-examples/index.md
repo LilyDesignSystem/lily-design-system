@@ -15,7 +15,7 @@ Styled example pages demonstrating headless components with Plain HTML + vanilla
 | Route                    | Description                                              |
 | ------------------------ | -------------------------------------------------------- |
 | `/`                      | Home page with links to all examples                     |
-| `/components`            | Lists all 492 components with links to individual demos  |
+| `/components`            | Lists all 490 components with links to individual demos  |
 | `/components/{slug}`     | Demonstrates one component with a live interactive demo  |
 | `/contact-form`          | Contact form example page                                |
 | `/dashboard`             | Dashboard example page                                   |
@@ -45,7 +45,7 @@ Styled example pages demonstrating headless components with Plain HTML + vanilla
 ## Related Projects
 
 - [Lily Design System](https://github.com/LilyDesignSystem/lily) — Parent project
-- [HTML Headless](../lily-design-system-html-headless/) — 492 headless HTML components
+- [HTML Headless](../lily-design-system-html-headless/) — 490 headless HTML components
 - [Svelte SvelteKit Examples](../lily-design-system-svelte-sveltekit-examples/) — Svelte equivalent
 - [React Next.js Examples](../lily-design-system-react-next-examples/) — React equivalent
 - [Vue Nuxt Examples](../lily-design-system-vue-nuxt-examples/) — Vue equivalent

@@ -29,8 +29,8 @@ Initial release.
 - `index.ts` barrel re-exporting `ThemeSelect`, `normaliseThemesUrl`,
   `themeHref`.
 - `theme-select.component.spec.ts` — vitest suite asserting every
-  numbered acceptance criterion in `spec.md` §7 (13 items + extras).
-- `spec.md` — spec-driven contract, version 0.1.0.
+  numbered acceptance criterion in `spec/index.md` §7 (13 items + extras).
+- `spec/index.md` — spec-driven contract, version 0.1.0.
 - `AGENTS/` subdirectory with `api.md`, `lifecycle.md`,
   `accessibility.md`, `testing.md`, `ssr.md`.
 - `docs/` subdirectory with topic guides: `accessibility.md`,
@@ -39,7 +39,7 @@ Initial release.
   `troubleshooting.md`.
 - `examples/` subdirectory: `basic.component.ts`,
   `custom-labels.component.ts`, `custom-rendering.component.ts`,
-  `lily-themes.component.ts`, `multiple-pickers.component.ts`,
+  `lily-themes.component.ts`, `multiple-selects.component.ts`,
   `persistence.component.ts`, `preloaded.component.ts`,
   `system-preference.component.ts`, `two-way-binding.component.ts`,
   plus `analog-cookie/` with `app.component.ts`,

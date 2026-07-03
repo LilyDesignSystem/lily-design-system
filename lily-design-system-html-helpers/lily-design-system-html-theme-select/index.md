@@ -4,7 +4,7 @@ A reusable, headless vanilla HTML/JS theme select that **loads themes
 dynamically at runtime** from a developer-specified directory,
 packaged as a **web component (custom element)**.
 
-The single source of truth is [spec.md](./spec.md). This file is the
+The single source of truth is [spec/index.md](./spec/index.md). This file is the
 comprehensive user guide. For topic deep-dives see
 [docs/](./docs/) and for working code see [examples/](./examples/).
 
@@ -144,7 +144,7 @@ to the slug with its first letter upper-cased
 
 ## Attributes
 
-The complete table is in [spec.md §4.1](./spec.md#41-observed-attributes).
+The complete table is in [spec/index.md §4.1](./spec/index.md#41-observed-attributes).
 Highlights:
 
 | Attribute       | Type           | Required | Notes                                      |
@@ -338,13 +338,13 @@ pnpm test
 
 Runs the vitest + jsdom suite that exercises every numbered
 acceptance criterion in
-[spec.md §7](./spec.md#7-testing-acceptance-criteria).
+[spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria).
 
 ## Files in this directory
 
 | File                  | Purpose                                          |
 | --------------------- | ------------------------------------------------ |
-| `spec.md`             | Single source of truth — API, behaviour, tests.  |
+| `spec/index.md`             | Single source of truth — API, behaviour, tests.  |
 | `AGENTS.md`           | Fast-index pointer; loads the AGENTS bundle.     |
 | `AGENTS/`             | Topic-by-topic agent files.                      |
 | `CLAUDE.md`           | `@AGENTS.md`.                                    |

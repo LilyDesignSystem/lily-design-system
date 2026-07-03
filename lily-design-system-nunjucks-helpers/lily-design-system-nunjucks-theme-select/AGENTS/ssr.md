@@ -192,10 +192,10 @@ Put a single `<script type="module">` near the bottom of `<body>`:
 </script>
 ```
 
-The browser deduplicates module imports, so multiple picker
+The browser deduplicates module imports, so multiple select
 instances on the same page only fetch the script once.
 
-To run a custom `onChange` callback across all pickers:
+To run a custom `onChange` callback across all selects:
 
 ```html
 <script type="module">

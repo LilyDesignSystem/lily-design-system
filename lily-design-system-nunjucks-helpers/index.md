@@ -28,10 +28,10 @@ into two files:
 | `{kebab-name}.client.js`   | Browser (after page load) | Storage, attribute set, dynamic loading, change events. |
 
 The macro emits a static native `<select>` with `data-lily-*`
-attributes that describe the picker's configuration; the companion ES module finds
+attributes that describe the select's configuration; the companion ES module finds
 those roots in the DOM at runtime and wires the apply lifecycle.
 Consumers load the client.js once per page (typically via
-`<script type="module">`) and call `autoInit()` to bind every picker
+`<script type="module">`) and call `autoInit()` to bind every select
 present in the document.
 
 This split exists because:
@@ -51,7 +51,7 @@ Every helper subproject follows the same shape:
 
 ```
 lily-design-system-nunjucks-<name>/
-├── spec.md                  ← single source of truth (SDD)
+├── spec/index.md                  ← single source of truth (SDD)
 ├── AGENTS.md                ← AI-agent metadata pointer
 ├── CLAUDE.md                ← loads AGENTS.md
 ├── AGENTS/                  ← topic-by-topic agent files
@@ -98,12 +98,12 @@ Shared design decisions across the catalog:
 - **One job per helper** — each helper owns the entire lifecycle of
   one user-preference dimension (theme, language, etc.) and composes
   cleanly with the others.
-- **Spec-driven** — every helper has a `spec.md` numbered with §
+- **Spec-driven** — every helper has a `spec/index.md` numbered with §
   references; tests assert against those numbers; docs link back.
 
 ## Differences from the headless library
 
-The headless library mirrors the canonical 492-component catalog.
+The headless library mirrors the canonical 490-component catalog.
 Each component is a pure macro with no lifecycle — the consumer
 writes their own control markup, their own persistence, and their own
 loading on top.
@@ -140,7 +140,7 @@ The Nunjucks port is one of several framework ports of the same
 contract. The canonical reference is the Svelte 5 implementation in
 [`lily-design-system-svelte-helpers`](../lily-design-system-svelte-helpers/);
 all other framework helpers (Vue, React, Angular, Blazor, Nunjucks)
-mirror it clause-for-clause in `spec.md` §7.
+mirror it clause-for-clause in `spec/index.md` §7.
 
 - [`lily-design-system-svelte-helpers`](../lily-design-system-svelte-helpers/)
   — canonical reference.
@@ -160,7 +160,7 @@ DOM the user sees) is identical across frameworks.
 Each helper ships a vitest suite that runs under jsdom. The macro
 half of every test renders via `nunjucks.renderString`; the
 client.js half mounts that HTML into the jsdom document and exercises
-the runtime. The acceptance criteria are listed in each `spec.md` §7
+the runtime. The acceptance criteria are listed in each `spec/index.md` §7
 and the test file matches one `test(...)` per numbered item.
 
 ```bash

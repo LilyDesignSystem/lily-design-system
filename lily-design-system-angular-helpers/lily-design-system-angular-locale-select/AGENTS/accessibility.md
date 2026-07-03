@@ -1,8 +1,8 @@
 # Accessibility — LocaleSelect (Angular)
 
-The picker targets WCAG 2.2 AAA and uses a native `<select>`, whose
+The select targets WCAG 2.2 AAA and uses a native `<select>`, whose
 keyboard and role semantics the browser provides. The canonical
-contract is in [`../spec.md`](../spec.md) §6.
+contract is in [`../spec/index.md`](../spec/index.md) §6.
 
 ## Roles and properties
 
@@ -10,9 +10,9 @@ contract is in [`../spec.md`](../spec.md) §6.
 | ----------------------------- | -------------------------- | -------------- |
 | `<select>`                    | implicit `role="combobox"` | Browser        |
 | `<select>`                    | `aria-label={label}`       | Consumer input |
-| `<select>`                    | `name`                     | Picker         |
+| `<select>`                    | `name`                     | Select         |
 | `<option>`                    | implicit `role="option"`   | Browser        |
-| `<option>`                    | `lang={tagFor(locale)}`    | Picker         |
+| `<option>`                    | `lang={tagFor(locale)}`    | Select         |
 
 The `lang` attribute on each `<option>` satisfies WCAG 3.1.2
 (Language of Parts) — screen readers switch pronunciation per
@@ -31,7 +31,7 @@ Provided entirely by the platform's native `<select>`:
 | Enter / Space          | Open the option list (platform-dependent).                            |
 | Escape                 | Close the option list.                                                |
 
-This is all native behaviour. The picker does not add JS keyboard
+This is all native behaviour. The select does not add JS keyboard
 handlers — it doesn't need to.
 
 ## State signals
@@ -76,7 +76,7 @@ By default the focused element stays focused when the locale
 changes. This is the WCAG 3.2.2 (On Input) contract: changing a
 setting must not cause a focus or context change. Avoid
 `router.navigate()` calls in `(localeChange)` that scroll the
-page; if you must navigate, scroll-restore to the picker's
+page; if you must navigate, scroll-restore to the select's
 position so the user can keep choosing.
 
 ## Screen-reader behaviour matrix
@@ -96,7 +96,7 @@ matching voice package installed.
 If your `localeLabels` are all in the **viewer's** language (e.g.
 you show "English", "French", "Arabic" — all in English so the
 user recognises them), the per-option `lang` attribute is
-technically incorrect. In that case, the picker still emits it (it
+technically incorrect. In that case, the select still emits it (it
 honours your stored locale codes faithfully) — consider switching
 the *visible* labels to endonyms.
 
@@ -106,10 +106,10 @@ own language** (English / Français / العربية), so per-option
 
 ## Native `<select>` accessibility
 
-The picker renders a native `<select>` by default. Native
+The select renders a native `<select>` by default. Native
 `<select>` is fully accessible:
 
-- Keyboard: Enter / Space / Down arrow open the picker; typing
+- Keyboard: Enter / Space / Down arrow open the select; typing
   searches; Escape closes.
 - Screen reader: announces "combobox" + label + current value +
   count.

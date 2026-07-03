@@ -31,7 +31,7 @@ In an Angular CLI app, write the `<link>` tags directly in
 In Analog, the same goes in `index.html` (the static shell file
 the Vite plugin serves).
 
-The picker's managed `<link>` also exists, but its href resolves
+The select's managed `<link>` also exists, but its href resolves
 to a URL that is already cached — the cost is a 304.
 
 Pros:
@@ -57,7 +57,7 @@ pay the cost up front for every other theme:
 ```
 
 The browser fetches the preloaded files but doesn't parse / apply
-them. When the picker swaps the managed `<link>` href to one of
+them. When the select swaps the managed `<link>` href to one of
 the preloaded URLs, the browser uses the cached response.
 
 Pros:
@@ -73,7 +73,7 @@ Cons:
 
 Inline every theme into a single CSS file. Each theme's rules stay
 scoped to `:root[data-theme="<slug>"]` so they don't fight. The
-picker then doesn't need to swap stylesheets at all — only
+select then doesn't need to swap stylesheets at all — only
 `data-theme` changes.
 
 ```html
@@ -81,7 +81,7 @@ picker then doesn't need to swap stylesheets at all — only
 ```
 
 ```html
-<!-- The picker still emits a managed <link>; you can point it at a
+<!-- The select still emits a managed <link>; you can point it at a
      no-op file, or ignore it entirely. -->
 <lily-theme-select
     label="Theme"
@@ -114,7 +114,7 @@ block with a stylesheet `<link>`:
 }
 ```
 
-Theme CSS arrives with the feature; the picker's `data-theme`
+Theme CSS arrives with the feature; the select's `data-theme`
 attribute flips when the user selects the new theme.
 
 Pros:

@@ -32,7 +32,7 @@ On the client the element's `connectedCallback` runs once after the
 HTML parser hits the closing tag:
 
 1. Resolves the initial slug per
-   [spec.md §5.2](../spec.md#52-initial-value-resolution).
+   [spec/index.md §5.2](../spec/index.md#52-initial-value-resolution).
 2. Renders the `<select>` and options as children.
 3. Injects the managed `<link>` into `<head>` (or reuses an
    existing one).

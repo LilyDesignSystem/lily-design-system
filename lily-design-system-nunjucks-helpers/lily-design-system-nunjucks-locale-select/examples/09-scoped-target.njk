@@ -4,11 +4,11 @@
 
   Useful for multilingual content panels: a single page with two
   cards each in a different language. Pass `target: panelEl` so
-  the picker writes lang/dir to that element instead of <html>.
+  the select writes lang/dir to that element instead of <html>.
 
   Outcome: the surrounding page stays in its document language;
   the chosen panel switches independently. Two panels each scoped
-  to their own picker.
+  to their own select.
 #}
 {% from "../locale-select.njk" import localeSelect %}
 
@@ -43,7 +43,7 @@
 <script type="module">
     import { initLocaleSelect } from "../locale-select.client.js";
 
-    // Wire each picker to its enclosing <section> as the target.
+    // Wire each select to its enclosing <section> as the target.
     document
         .querySelectorAll("[data-lily-locale-select-root]")
         .forEach((root) => {

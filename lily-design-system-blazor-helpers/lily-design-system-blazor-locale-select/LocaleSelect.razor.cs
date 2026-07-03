@@ -1,4 +1,4 @@
-// LocaleSelect — code-behind. See spec.md for the contract.
+// LocaleSelect — code-behind. See spec/index.md for the contract.
 
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace LilyDesignSystem.Blazor.Helpers;
 
 /// <summary>
 /// Context passed to a custom <c>ChildContent</c> render fragment.
-/// See <c>spec.md §4.2</c>.
+/// See <c>spec/index.md §4.2</c>.
 /// </summary>
 public sealed class LocaleSelectContext
 {
@@ -26,7 +26,7 @@ public sealed class LocaleSelectContext
 public partial class LocaleSelect : ComponentBase
 {
     // -------------------------------------------------------------------
-    // Parameters — see spec.md §4.1.
+    // Parameters — see spec/index.md §4.1.
     // -------------------------------------------------------------------
 
     /// <summary>Accessible name for the &lt;select&gt;. Required.</summary>
@@ -53,7 +53,7 @@ public partial class LocaleSelect : ComponentBase
     /// <summary>Shared <c>name</c> attribute for the &lt;select&gt;.</summary>
     [Parameter] public string Name { get; set; } = "locale";
 
-    /// <summary>If false, the picker only writes <c>lang</c> and never touches <c>dir</c>.</summary>
+    /// <summary>If false, the select only writes <c>lang</c> and never touches <c>dir</c>.</summary>
     [Parameter] public bool ApplyDir { get; set; } = true;
 
     /// <summary>Optional pretty labels per locale code.</summary>
@@ -63,7 +63,7 @@ public partial class LocaleSelect : ComponentBase
     /// <summary>Custom rendering of the options.</summary>
     [Parameter] public RenderFragment<LocaleSelectContext>? ChildContent { get; set; }
 
-    /// <summary>Called after the picker applies a new locale (consumer-form code, not BCP 47).</summary>
+    /// <summary>Called after the select applies a new locale (consumer-form code, not BCP 47).</summary>
     [Parameter] public EventCallback<string> OnChange { get; set; }
 
     /// <summary>Extra CSS class merged into the &lt;select&gt; root.</summary>

@@ -1,7 +1,7 @@
 # AGENTS / api — LocaleSelect
 
 API surface contract. The canonical contract is in
-[`../spec.md §4`](../spec.md#4-public-api); this file is a fast index
+[`../spec/index.md §4`](../spec/index.md#4-public-api); this file is a fast index
 plus React-specific application notes.
 
 ## Required imports
@@ -142,4 +142,4 @@ After mount and on every locale change:
 ## Versioning
 
 The API is at spec version 0.1.0. Any breaking change bumps the
-helper's `CHANGELOG.md` and `spec.md §9` version.
+helper's `CHANGELOG.md` and `spec/index.md §9` version.

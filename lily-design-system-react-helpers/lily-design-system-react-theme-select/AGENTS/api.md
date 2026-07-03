@@ -1,7 +1,7 @@
 # AGENTS / api — ThemeSelect
 
 API surface contract. The canonical contract is in
-[`../spec.md §4`](../spec.md#4-public-api); this file is a fast index
+[`../spec/index.md §4`](../spec/index.md#4-public-api); this file is a fast index
 plus React-specific application notes.
 
 ## Required imports
@@ -47,7 +47,7 @@ Omit any required prop and TypeScript errors at the call site.
 
 ## Controlled vs uncontrolled
 
-**Controlled.** Consumer passes `value`. The picker treats it as
+**Controlled.** Consumer passes `value`. The select treats it as
 authoritative; consumer is responsible for updating it from `onChange`.
 
 ```tsx
@@ -55,14 +55,14 @@ const [theme, setTheme] = useState("");
 <ThemeSelect value={theme} onChange={setTheme} {...required} />
 ```
 
-**Uncontrolled.** Consumer omits `value`. The picker manages internal
+**Uncontrolled.** Consumer omits `value`. The select manages internal
 state. Use `defaultValue` to seed.
 
 ```tsx
 <ThemeSelect defaultValue="dark" {...required} />
 ```
 
-The picker decides at first render based on whether `value !==
+The select decides at first render based on whether `value !==
 undefined`; switching mid-lifecycle is not supported (React's
 controlled/uncontrolled warning fires).
 
@@ -114,7 +114,7 @@ After mount and on every theme change:
 ## Type-level invariants
 
 - `Props` extends `SelectHTMLAttributes<HTMLSelectElement>` minus
-  the `onChange` and `children` keys, which the picker reserves.
+  the `onChange` and `children` keys, which the select reserves.
 - `ChildArgs.themes` is the same array reference passed in via
   `themes`; not a copy.
 - `ChildArgs.setTheme` is stable across renders (no useCallback
@@ -123,4 +123,4 @@ After mount and on every theme change:
 ## Versioning
 
 The API is at spec version 0.1.0. Any breaking change bumps the
-helper's `CHANGELOG.md` and `spec.md §9` version.
+helper's `CHANGELOG.md` and `spec/index.md §9` version.

@@ -23,15 +23,17 @@ repo_setup_exists_or_err() (
 )
 
 ai_exists_or_err() (
-    # dir="$1" — the spec-driven-development convention is to keep
-    # implementation plan and task list together in a single spec.md
-    # per directory; older plan.md / tasks.md splits have been merged.
+    # dir="$1" — the spec-driven-development convention is a spec/
+    # directory of specification files per directory, entered via
+    # spec/index.md; older single-file spec/index.md (and the still-older
+    # plan.md / tasks.md split) have been merged into it.
     directory_exists_or_err "$1"
     file_size_or_err "$1/index.md"
     symlink_exists_or_err "$1/README.md"
     file_size_or_err "$1/AGENTS.md" && implemented_or_err "$1/AGENTS.md"
     file_size_or_err "$1/CLAUDE.md"
-    file_size_or_err "$1/spec.md" && implemented_or_err "$1/spec.md"
+    directory_exists_or_err "$1/spec"
+    file_size_or_err "$1/spec/index.md" && implemented_or_err "$1/spec/index.md"
 )
 
 ## Main
@@ -39,7 +41,7 @@ ai_exists_or_err() (
 top="$(git rev-parse --show-toplevel)"
 
 # repo_root_ai_exists_or_err is identical to ai_exists_or_err now that
-# every dir uses spec.md; kept as an alias for callers that read more
+# every dir uses spec/index.md; kept as an alias for callers that read more
 # naturally with the repo-root phrasing.
 repo_root_ai_exists_or_err() (
     ai_exists_or_err "$1"

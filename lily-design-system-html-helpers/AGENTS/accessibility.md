@@ -10,7 +10,7 @@ custom-element-specific notes that are easy to miss.
 - **WCAG 2.2 AAA** is the target.
 - **WAI-ARIA Authoring Practices 1.2** patterns are the reference.
 - Semantic HTML first; ARIA only where the canonical helper's
-  `spec.md` calls it out.
+  `spec/index.md` calls it out.
 
 ## Custom-element-specific gotchas
 

@@ -1,9 +1,9 @@
 # ThemeSelect (React helper)
 
-A reusable, headless React 19 theme picker that **loads themes
+A reusable, headless React 19 theme select that **loads themes
 dynamically at runtime** from a developer-specified directory.
 
-The single source of truth is [spec.md](./spec.md). This file is the
+The single source of truth is [spec/index.md](./spec/index.md). This file is the
 human-readable guide. For topic deep-dives see [docs/](./docs/) and
 for working code see [examples/](./examples/).
 
@@ -20,21 +20,21 @@ for working code see [examples/](./examples/).
 - [Accessibility](#accessibility)
 - [SSR and hydration](#ssr-and-hydration)
 - [Preloading for zero-flicker switching](#preloading-for-zero-flicker-switching)
-- [Multiple pickers in one app](#multiple-pickers-in-one-app)
+- [Multiple selects in one app](#multiple-selects-in-one-app)
 - [Recipes](#recipes)
 - [Troubleshooting](#troubleshooting)
 - [Testing](#testing)
 
 ## Why this exists
 
-Most theme pickers couple selection, persistence, and styling into one
+Most theme selects couple selection, persistence, and styling into one
 opinionated widget. This one splits the contract cleanly:
 
 - **Authors** drop theme CSS files (e.g. `light.css`, `dark.css`) into
   a directory served by the app.
 - **This component** owns selection, dynamic loading, persistence, and
   accessibility.
-- **Consumers** own the visual style of the picker via the
+- **Consumers** own the visual style of the select via the
   `theme-select` class hook.
 
 The result is a small reusable widget that works in any React 19 host
@@ -59,7 +59,7 @@ import type { Props, ChildArgs } from "./lily-design-system-react-theme-select";
    `public/assets/themes/light.css`, `public/assets/themes/dark.css`.
    Each theme scopes its tokens to `:root[data-theme="<slug>"]`
    (the convention every Lily theme uses).
-2. Render the picker, pointing it at the directory and listing the
+2. Render the select, pointing it at the directory and listing the
    available slugs.
 
 ```tsx
@@ -93,7 +93,7 @@ When the user picks `dark`, the component:
 
 ## How it works
 
-On every theme change the picker performs four steps, in order:
+On every theme change the select performs four steps, in order:
 
 1. **Locate or create** a managed
    `<link rel="stylesheet" data-lily-theme-select="{name}">` in
@@ -121,15 +121,15 @@ The default theme is `"light"` whenever `"light"` appears in your
 3. `defaultValue` prop
 4. `"light"` (if present in `themes`)
 5. `themes[0]`
-6. `""` — nothing is applied; the picker waits for user interaction
+6. `""` — nothing is applied; the select waits for user interaction
 
-The picker never displays the word `"default"`. Option labels default
+The select never displays the word `"default"`. Option labels default
 to the slug with its first letter upper-cased
 (e.g. `"light"` → `"Light"`); override with `themeLabels`.
 
 ## Props
 
-The complete table is in [spec.md §4.1](./spec.md#41-props). Highlights:
+The complete table is in [spec/index.md §4.1](./spec/index.md#41-props). Highlights:
 
 | Prop           | Type                                     | Required | Notes                                      |
 | -------------- | ---------------------------------------- | -------- | ------------------------------------------ |
@@ -183,11 +183,11 @@ Topic guide: [`docs/custom-rendering.md`](./docs/custom-rendering.md).
 ## Persistence
 
 Pass a `storageKey` to persist the active slug to `localStorage`. On a
-fresh mount the picker reads back the stored slug as part of the
+fresh mount the select reads back the stored slug as part of the
 initial-value resolution (§ Default theme).
 
 Errors writing to or reading from `localStorage` (private mode, quota,
-disabled storage) are silently swallowed — the picker continues to
+disabled storage) are silently swallowed — the select continues to
 work in-memory.
 
 If you need cookie-based persistence (so SSR can read the theme before
@@ -210,7 +210,7 @@ Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 
 ## SSR and hydration
 
-The picker compiles cleanly under Next.js App Router (server +
+The select compiles cleanly under Next.js App Router (server +
 client components), Remix, and Vite SSR. On the server no effects
 run and no DOM is touched, so the markup renders using whatever
 `value` the consumer supplies.
@@ -222,7 +222,7 @@ cookie via `cookies()` in Next.js) and pass it as `value`. See
 
 ## Preloading for zero-flicker switching
 
-By default the picker swaps one `<link>` href, so the active theme is
+By default the select swaps one `<link>` href, so the active theme is
 fetched on demand. To switch instantly between themes, preload them
 all yourself:
 
@@ -232,14 +232,14 @@ all yourself:
 <link rel="stylesheet" href="/assets/themes/abyss.css" />
 ```
 
-The picker still mutates `data-theme`, and since every theme's CSS is
+The select still mutates `data-theme`, and since every theme's CSS is
 scoped to `:root[data-theme="…"]`, the active rules switch
 instantly with the attribute change — no network round-trip.
 
 Topic guide: [`docs/preloading.md`](./docs/preloading.md). Working
 example: [`examples/preloaded.tsx`](./examples/preloaded.tsx).
 
-## Multiple pickers in one app
+## Multiple selects in one app
 
 Pass a distinct `name` prop to each select. The `name` is used as
 both the `<select>` `name` and the discriminator on the managed
@@ -253,8 +253,8 @@ Quick cookbook in [`docs/recipes.md`](./docs/recipes.md):
 
 - Following the OS colour scheme via `prefers-color-scheme`.
 - Reading a theme cookie in Next.js before render.
-- Migrating from a `localStorage`-only picker to a cookie-backed one.
-- Building a flyout / dropdown UI around the picker.
+- Migrating from a `localStorage`-only select to a cookie-backed one.
+- Building a flyout / dropdown UI around the select.
 - Loading themes from a CDN.
 
 ## Troubleshooting
@@ -272,20 +272,20 @@ pitfalls:
 - **Theme does not persist.** Confirm `storageKey` is set and that
   `localStorage` is available (not blocked by private mode).
 - **"useEffect / useState is null" or similar React errors.** Confirm
-  the file using the picker carries `"use client"` at the top —
-  pickers run as client components.
+  the file using the select carries `"use client"` at the top —
+  selects run as client components.
 
 ## Testing
 
 `pnpm test` under a vitest + jsdom + `@testing-library/react` setup
 exercises every numbered acceptance criterion in
-[spec.md §7](./spec.md#7-testing-acceptance-criteria).
+[spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria).
 
 ## Files in this directory
 
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
-| `spec.md`                  | Single source of truth — API, behaviour, tests.  |
+| `spec/index.md`                  | Single source of truth — API, behaviour, tests.  |
 | `ThemeSelect.tsx`          | The component implementation.                    |
 | `ThemeSelect.test.tsx`     | vitest suite covering every spec §7 item.        |
 | `index.ts`                 | Re-export barrel.                                |
@@ -314,13 +314,13 @@ exercises every numbered acceptance criterion in
 
 | #  | File                                                       | Demonstrates                              |
 | -- | ---------------------------------------------------------- | ----------------------------------------- |
-| 1  | [`basic.tsx`](./examples/basic.tsx)                        | Minimal three-theme picker.               |
+| 1  | [`basic.tsx`](./examples/basic.tsx)                        | Minimal three-theme select.               |
 | 2  | [`two-way-binding.tsx`](./examples/two-way-binding.tsx)    | Controlled `value` + `onChange`.          |
 | 3  | [`persistence.tsx`](./examples/persistence.tsx)            | `localStorage` survival across reloads.   |
 | 4  | [`custom-labels.tsx`](./examples/custom-labels.tsx)        | `themeLabels` for i18n / display names.   |
 | 5  | [`custom-rendering.tsx`](./examples/custom-rendering.tsx)  | `children` render prop — swatch buttons.  |
 | 6  | [`preloaded.tsx`](./examples/preloaded.tsx)                | Zero-flicker switching via preloading.    |
-| 7  | [`multiple-selects.tsx`](./examples/multiple-selects.tsx)  | Two pickers in one page via `name`.       |
+| 7  | [`multiple-selects.tsx`](./examples/multiple-selects.tsx)  | Two selects in one page via `name`.       |
 | 8  | [`system-preference.tsx`](./examples/system-preference.tsx) | Follow `prefers-color-scheme`.           |
 | 9  | [`lily-themes.tsx`](./examples/lily-themes.tsx)            | All 41 Lily / DaisyUI themes at once.     |
 | 10 | [`next-cookie/`](./examples/next-cookie/)                  | Next.js App Router SSR-resolved cookie.   |

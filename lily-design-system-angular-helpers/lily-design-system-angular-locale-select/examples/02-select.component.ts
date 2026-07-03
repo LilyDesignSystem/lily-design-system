@@ -2,7 +2,7 @@
     02. Native <select> rendered as a sibling widget bound to the same
     [(value)] signal.
 
-    The picker still owns the lifecycle (lang/dir/storage/change) but
+    The select still owns the lifecycle (lang/dir/storage/change) but
     we visually hide its UI and present a <select> instead. Best for
     >~12 locales or when the design system uses dropdowns for setting
     controls.
@@ -30,7 +30,7 @@ import { defaultLocaleLabels } from "../locales";
     imports: [LocaleSelect],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-        <!-- The hidden picker owns the lifecycle. -->
+        <!-- The hidden select owns the lifecycle. -->
         <lily-locale-select
             label="Language"
             [locales]="locales"

@@ -27,13 +27,13 @@ namespace LilyDesignSystem.Blazor.Helpers;
 public static class Locales
 {
     /// <summary>
-    /// Convert a locale code to its BCP 47 hyphen form. See spec.md §5.1.
+    /// Convert a locale code to its BCP 47 hyphen form. See spec/index.md §5.1.
     /// </summary>
     public static string Bcp47LocaleTag(string locale)
         => string.IsNullOrEmpty(locale) ? locale : locale.Replace('_', '-');
 
     /// <summary>
-    /// Detect whether a locale is right-to-left. See spec.md §5.6.
+    /// Detect whether a locale is right-to-left. See spec/index.md §5.6.
     /// </summary>
     public static bool IsRtlLocale(string? locale)
     {
@@ -57,7 +57,7 @@ public static class Locales
     /// <summary>
     /// Match a navigator preference list against a supported-locales list.
     /// Returns the first hit (exact, then language-only fallback) or empty
-    /// string when nothing matches. See spec.md §5.3.
+    /// string when nothing matches. See spec/index.md §5.3.
     /// </summary>
     public static string MatchNavigatorLanguage(
         IReadOnlyList<string> navLangs,

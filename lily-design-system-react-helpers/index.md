@@ -20,7 +20,7 @@ Every helper subproject follows the same shape:
 
 ```
 lily-design-system-react-<name>/
-├── spec.md                  ← single source of truth (SDD)
+├── spec/index.md                  ← single source of truth (SDD)
 ├── AGENTS.md                ← AI-agent metadata pointer
 ├── AGENTS/                  ← topic guides for AI coding agents
 ├── CLAUDE.md                ← loads AGENTS.md
@@ -53,7 +53,7 @@ Shared design decisions across the catalog:
 - **One job per helper**: each helper owns the entire lifecycle of
   one user-preference dimension (theme, language, etc.) and composes
   cleanly with the others.
-- **Spec-driven**: every helper has a `spec.md` numbered with §
+- **Spec-driven**: every helper has a `spec/index.md` numbered with §
   references; tests assert against those numbers; docs link back.
 - **Render-prop children**: when consumers need to override the
   default markup, they pass a `children` function that receives the
@@ -64,7 +64,7 @@ Shared design decisions across the catalog:
 
 ## Differences from the headless library
 
-The headless library mirrors the canonical 492-component catalog.
+The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle. A consumer
 typing on top of `ThemeSelect` from `lily-design-system-react-headless`
 writes their own select markup, their own persistence, and their own

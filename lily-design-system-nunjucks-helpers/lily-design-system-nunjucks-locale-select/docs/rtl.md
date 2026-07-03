@@ -1,6 +1,6 @@
 # RTL — Right-to-left scripts, in practice
 
-The picker auto-detects right-to-left locales and writes
+The select auto-detects right-to-left locales and writes
 `dir="rtl"` to the document root (or to your scoped `target`).
 This page explains what gets detected, what doesn't, and what
 `dir="rtl"` actually changes in the browser.
@@ -97,13 +97,13 @@ inspection, but the runtime apply loop skips the `dir` line:
 Use cases:
 
 - You manage `dir` server-side (in your Eleventy / Express layout)
-  and don't want the picker to clobber it on hydration.
+  and don't want the select to clobber it on hydration.
 - You need vertical writing mode for Mongolian or traditional
   Chinese.
 - Your design intentionally pins layout direction (e.g. a Hebrew
   marketing page that flows LTR for brand reasons).
 
-The picker still writes `lang` — only `dir` is suppressed.
+The select still writes `lang` — only `dir` is suppressed.
 
 ## What `dir="rtl"` actually changes
 
@@ -167,9 +167,9 @@ mirrored CSS:
 
 …or use a `:dir(rtl)` selector to swap the source asset.
 
-## CSS implications inside the picker
+## CSS implications inside the select
 
-The picker emits each `<option>` with its own `lang`
+The select emits each `<option>` with its own `lang`
 attribute, so the browser's bidi algorithm renders "Français"
 left-to-right and "العربية" right-to-left within the same
 `<select>` — even when the document is in the other direction.
@@ -206,18 +206,18 @@ surrounding bidi context:
 <p>Welcome, <bdi>{{ userName }}</bdi>!</p>
 ```
 
-This is independent of the picker, but it's the right tool for
+This is independent of the select, but it's the right tool for
 username, place name, and similar untrusted text.
 
 ## Testing RTL behaviour
 
 Three approaches:
 
-1. **Manual** — pick an RTL locale in the picker and visually
+1. **Manual** — pick an RTL locale in the select and visually
    verify the layout mirrors. Check that no element overlaps, no
    text is cut off, and no chevron points the wrong way.
 2. **DevTools** — use the element panel to toggle `dir="rtl"` on
-   `<html>` directly to preview without touching the picker.
+   `<html>` directly to preview without touching the select.
 3. **Automated** — add a Playwright spec that selects an RTL option
    and asserts `document.documentElement.dir === "rtl"` and (e.g.)
    that a visually-critical element's bounding box is on the right

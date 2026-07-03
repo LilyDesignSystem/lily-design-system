@@ -1,7 +1,7 @@
 # Lifecycle — LocaleSelect (Angular)
 
-The Angular-flavoured walk-through of the picker's lifecycle. The
-canonical contract is in [`../spec.md`](../spec.md) §5; this file
+The Angular-flavoured walk-through of the select's lifecycle. The
+canonical contract is in [`../spec/index.md`](../spec/index.md) §5; this file
 maps the Svelte canonical's `$effect` lifecycle to Angular's
 `effect()`.
 
@@ -195,7 +195,7 @@ the server, bridge it via an injection token, and use it as the
 ## Destroy
 
 The component does not clean up `lang` / `dir` on destroy. That's
-intentional: the picker may be destroyed because the consumer
+intentional: the select may be destroyed because the consumer
 navigated away from a settings page; the locale should stay
 applied.
 
@@ -220,7 +220,7 @@ If a consumer wants to fully reset, they can do it via
 ## Watch vs the navigator-detection helper
 
 `matchNavigatorLanguage` is only called on the first effect run.
-The picker never re-runs detection mid-session — the user's choice
+The select never re-runs detection mid-session — the user's choice
 should win over `navigator.languages` once expressed. If a
 consumer wants to re-detect (e.g. on a settings reset), they can
 call the exported helper manually and write the result to the

@@ -48,7 +48,7 @@ pre-resolution.
 
 The first `useEffect` runs and:
 
-1. Resolves the initial code per `spec.md §5.2`
+1. Resolves the initial code per `spec/index.md §5.2`
    (`value` > storage > navigator > `defaultValue` > `"en"` > `locales[0]`).
 2. If uncontrolled and the resolved code differs from current state,
    `setInternalValue(resolved)` triggers a re-render.

@@ -21,9 +21,9 @@ export function themeHref(themesUrl: string, slug: string, extension: string): s
  * ThemeSelect — dynamic theme CSS loader.
  *
  * Renders an accessible native `<select>` of themes. On every theme
- * change the picker swaps `href` on a managed `<link rel="stylesheet">`
+ * change the select swaps `href` on a managed `<link rel="stylesheet">`
  * in `document.head` and sets `data-theme="{slug}"` on the document root
- * (or on a consumer-supplied target). See `spec.md` for the full
+ * (or on a consumer-supplied target). See `spec/index.md` for the full
  * contract.
  */
 @Component({

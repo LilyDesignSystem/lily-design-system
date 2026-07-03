@@ -2,7 +2,7 @@
 
 > Lily Design System specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily defines a canonical catalog of 492 components in a single tab-separated file (`components.tsv`), each named and shaped by deterministic suffix-to-HTML-element and compound-name rules, composed via stable parent/child patterns, and documented per component through a fixed nine-section contract.
+**Summary.** Lily defines a canonical catalog of 490 components in a single tab-separated file (`components.tsv`), each named and shaped by deterministic suffix-to-HTML-element and compound-name rules, composed via stable parent/child patterns, and documented per component through a fixed nine-section contract.
 
 ## Scope
 
@@ -22,12 +22,12 @@ Out of scope here: the headless implementation contract ([headless](../headless/
 - **Deterministic markup.** A component's root HTML element is fixed by its slug suffix (see the mapping table). The canonical HTML tag for each component is also recorded in `components/{slug}/AGENTS.md` under "HTML tag" as the single source of truth.
 - **Semantic HTML first.** Choose the most specific element (`<button>`, `<dialog>`, `<nav>`, `<figure>`, `<table>`, …) before reaching for `<div>` or `<span>`. ARIA augments only where native semantics fall short.
 - **Stable contracts.** Slugs, PascalCase names, base classes, and inner sub-classes are stable across versions. Consumers rely on them; do not rename or remove between versions.
-- **Consistent voice.** All 492 component docs follow the same nine-section order and the same headless, framework-agnostic, i18n-clean voice.
-- **Count is exact.** The catalog holds exactly 492 components. Any change to the count is a catalog change that must propagate across all 14 implementation subprojects.
+- **Consistent voice.** All 490 component docs follow the same nine-section order and the same headless, framework-agnostic, i18n-clean voice.
+- **Count is exact.** The catalog holds exactly 490 components. Any change to the count is a catalog change that must propagate across all 14 implementation subprojects.
 
 ## The canonical catalog
 
-The catalog lives in [`components.tsv`](../../components.tsv) at the repo root: 492 tab-separated rows, three columns per row:
+The catalog lives in [`components.tsv`](../../components.tsv) at the repo root: 490 tab-separated rows, three columns per row:
 
 ```
 slug    PascalCaseName    description
@@ -45,7 +45,7 @@ accordion-list        AccordionList        an accordion ordered list of list ite
 - **name** — PascalCase identifier (e.g., `BreadcrumbListItem`), used for component symbols in every framework.
 - **description** — one-sentence summary; the same sentence opens each component's `index.md`.
 
-**Mirrors.** [`AGENTS/components.md`](../../AGENTS/components.md) carries the naming/mapping/composition rules (but points to the TSV for the listing); the repo-root `index.md` provides a linked listing. The seven headless libraries and seven example apps each implement all 492 entries.
+**Mirrors.** [`AGENTS/components.md`](../../AGENTS/components.md) carries the naming/mapping/composition rules (but points to the TSV for the listing); the repo-root `index.md` provides a linked listing. The seven headless libraries and seven example apps each implement all 490 entries.
 
 **Querying the catalog.** Use the `bin/` tools rather than re-parsing the TSV by hand:
 
@@ -189,7 +189,7 @@ Each `components/{slug}/` directory carries:
 - `README.md` — symlink to `index.md`.
 - `AGENTS.md` — canonical machine-readable metadata (HTML tag, ARIA, keyboard contract, props).
 - `CLAUDE.md` — loads `AGENTS.md`.
-- `spec.md` — spec-driven per-component plan + tasks (replaces the older split `plan.md` / `tasks.md`).
+- `spec/index.md` — spec-driven per-component plan + tasks (replaces the older split `plan.md` / `tasks.md`).
 
 `bin/test` verifies that every component directory and every subproject has its required files. See [testing](../testing/index.md).
 
@@ -214,7 +214,7 @@ Each `components/{slug}/index.md` includes these sections, in this order:
 - "When Not to Use" always names specific Lily alternatives.
 - Code examples use semantic HTML with proper ARIA.
 - No hardcoded user-facing strings in examples — use realistic placeholder content.
-- Consistent voice across all 492 components.
+- Consistent voice across all 490 components.
 
 ### Example-app demo strategy
 
@@ -241,13 +241,13 @@ Each framework injects the generated demo HTML via its native escape hatch: HTML
 
 ## Acceptance criteria
 
-- [ ] `components.tsv` holds exactly 492 rows of `slug\tPascalCase\tdescription`.
+- [ ] `components.tsv` holds exactly 490 rows of `slug\tPascalCase\tdescription`.
 - [ ] Every component's root HTML element matches the suffix → element mapping and its `components/{slug}/AGENTS.md` "HTML tag" field.
 - [ ] Every compound component follows the documented name patterns; no orphan parts.
-- [ ] Every `components/{slug}/` has `index.md`, `README.md` (symlink), `AGENTS.md`, `CLAUDE.md`, and `spec.md`.
+- [ ] Every `components/{slug}/` has `index.md`, `README.md` (symlink), `AGENTS.md`, `CLAUDE.md`, and `spec/index.md`.
 - [ ] Every `index.md` follows the nine-section order with separate "When to Use" and "When Not to Use" sections.
 - [ ] Every "When Not to Use" section names a specific Lily alternative.
-- [ ] `bin/list-components-as-kebab-case` and `-as-pascal-case` enumerate all 492 entries.
+- [ ] `bin/list-components-as-kebab-case` and `-as-pascal-case` enumerate all 490 entries.
 - [ ] `bin/test` passes for the catalog, all components, and all subprojects.
 - [ ] Each example app's `/components/{slug}` page renders a suffix-appropriate live demo for every component.
 
@@ -267,8 +267,8 @@ Each framework injects the generated demo HTML via its native escape hatch: HTML
 
 ## Sources
 
-- [`components.tsv`](../../components.tsv) — canonical 492-row catalog.
+- [`components.tsv`](../../components.tsv) — canonical 490-row catalog.
 - [`AGENTS/components.md`](../../AGENTS/components.md) — suffix mapping, name patterns, composition patterns.
 - [`AGENTS/components-helpers/`](../../AGENTS/components-helpers/) — composition templates (avatar, calendar-table, data-table, gantt-table, grail-layout, kanban-table).
-- [`spec.md`](../../spec.md) — §5 catalog, §6 naming, §7 composition, §8 per-component documentation.
+- [`spec/index.md`](../index.md) — §5 catalog, §6 naming, §7 composition, §8 per-component documentation.
 - [`bin/list-components-as-kebab-case`](../../bin/list-components-as-kebab-case), [`bin/list-components-as-pascal-case`](../../bin/list-components-as-pascal-case) — catalog query tools.

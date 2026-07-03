@@ -11,7 +11,7 @@ Svelte to Vue.
 - **WCAG 2.2 AAA** is the target.
 - **WAI-ARIA Authoring Practices 1.2** patterns are the reference.
 - Semantic HTML first; ARIA only where the canonical helper's
-  `spec.md` calls it out.
+  `spec/index.md` calls it out.
 
 ## Vue-specific gotchas
 
@@ -75,7 +75,7 @@ selection does not move focus elsewhere on the page (WCAG 3.2.2,
 On Input). When wiring `onChange` to navigation (`router.push`,
 `vue-router`), preserve scroll position and avoid focus jumps.
 
-## Screen-reader pronunciation (locale picker)
+## Screen-reader pronunciation (locale select)
 
 Each `<option>` carries `lang="…"` so screen readers switch
 pronunciation per option (WCAG 3.1.2, Language of Parts). Custom

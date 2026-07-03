@@ -3,12 +3,12 @@
 
     For long locale lists (50+) where a radio group is impractical and
     a `<select>` is too tedious to scroll. Uses an `<input list>` +
-    `<datalist>` for native, accessible type-ahead. The picker
+    `<datalist>` for native, accessible type-ahead. The select
     validates the typed value against the supported set before
     applying.
 
     Outcome: type "Fr" — the combobox shows "Français", "Français
-    (Canada)", "Frisian", etc. Pick one and the picker applies.
+    (Canada)", "Frisian", etc. Pick one and the select applies.
 
     Browser support note: native <datalist> is widely supported but
     iOS Safari's UX is limited. For a fully APG-compliant combobox,

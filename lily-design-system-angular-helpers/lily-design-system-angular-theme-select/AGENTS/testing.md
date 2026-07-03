@@ -1,8 +1,8 @@
 # Testing — ThemeSelect (Angular)
 
-The picker's test suite lives in
+The select's test suite lives in
 [`../theme-select.component.spec.ts`](../theme-select.component.spec.ts)
-and asserts every numbered acceptance criterion in `spec.md` §7.
+and asserts every numbered acceptance criterion in `spec/index.md` §7.
 This file documents the test harness and the conventions specific
 to this helper. For the catalog-wide test rules see
 [`../../AGENTS/testing.md`](../../AGENTS/testing.md).
@@ -42,7 +42,7 @@ Each test re-runs the whole `effect()` lifecycle by calling
 
 ## Async waits
 
-The picker's `effect()` callback fires synchronously inside
+The select's `effect()` callback fires synchronously inside
 `fixture.detectChanges()`. When the effect writes back to `value`
 (initial-value resolution), a second `detectChanges()` flushes the
 follow-up tick:
@@ -182,7 +182,7 @@ protection.
 ## What every §7 test asserts
 
 See the per-clause map in
-[`../spec.md` §7](../spec.md#7-testing-acceptance-criteria). Each
+[`../spec/index.md` §7](../spec/index.md#7-testing-acceptance-criteria). Each
 `it(...)` description starts with the clause number, e.g.
 `it("§7.6 resolves the initial theme to 'light' …", …)`. Keep the
 naming convention so a reviewer can spot a missing clause.

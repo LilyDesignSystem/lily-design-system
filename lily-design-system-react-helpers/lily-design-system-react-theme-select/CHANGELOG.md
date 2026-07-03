@@ -9,14 +9,14 @@
   (`useState`, `useEffect`, `useRef`). Carries the `"use client"`
   directive.
 - `ThemeSelect.test.tsx` — vitest spec with one assertion per
-  acceptance criterion in `spec.md §7` (criteria 1–13).
+  acceptance criterion in `spec/index.md §7` (criteria 1–13).
 - `index.ts` — barrel re-export of `ThemeSelect`, `normalizeThemesUrl`,
   `themeHref`, `Props`, `ChildArgs`, and the default export.
-- `spec.md` — canonical specification mirroring the Svelte
+- `spec/index.md` — canonical specification mirroring the Svelte
   counterpart's contract; spec version 0.1.0.
 - `index.md` — comprehensive user guide with table of contents,
   quick start, props, custom rendering, persistence, accessibility,
-  SSR, preloading, multiple-pickers, recipes, troubleshooting.
+  SSR, preloading, multiple-selects, recipes, troubleshooting.
 - `AGENTS.md` — AI-coding entrypoint.
 - `AGENTS/` — five topic files for AI agents:
   `api.md`, `lifecycle.md`, `accessibility.md`, `testing.md`,
@@ -54,7 +54,7 @@ This helper mirrors
   mode).
 - `children` is a render prop function, not a `Snippet`.
 - `className` not `class`.
-- The picker carries `"use client"` for the React Server Components
+- The select carries `"use client"` for the React Server Components
   boundary.
 - SSR recipe uses Next.js App Router `cookies()` + a client component
   wrapper, not SvelteKit's `transformPageChunk`.

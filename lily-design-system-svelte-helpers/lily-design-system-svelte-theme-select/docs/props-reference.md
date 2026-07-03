@@ -1,7 +1,7 @@
 # Props reference
 
 Field-by-field reference for every public prop. The contract is owned
-by [`../spec.md`](../spec.md) §4; this file expands the rationale and
+by [`../spec/index.md`](../spec/index.md) §4; this file expands the rationale and
 common usage.
 
 ## `label` — required, string
@@ -25,7 +25,7 @@ Acceptable values:
 
 ## `themes` — required, string[]
 
-The slugs of the themes the picker exposes as options. The slug is
+The slugs of the themes the select exposes as options. The slug is
 used both as the `<option>` `value` and as the URL path segment when
 constructing the stylesheet href. Choose slugs that are safe URL path
 segments — kebab-case ASCII is recommended.
@@ -35,7 +35,7 @@ segments — kebab-case ASCII is recommended.
 The active slug. Two-way bindable with `bind:value={slug}` so the
 surrounding code can read and write the selection.
 
-When supplied as a non-empty string, the picker treats it as the
+When supplied as a non-empty string, the select treats it as the
 authoritative initial value — `storageKey` and `defaultValue` are
 both skipped on first mount.
 
@@ -48,19 +48,19 @@ falls back to `"light"` (when present in `themes`) and then to
 
 ## `storageKey` — optional, string
 
-`localStorage` key for persistence. When set, the picker:
+`localStorage` key for persistence. When set, the select:
 
 - Reads the stored slug during initial-value resolution.
 - Writes the slug to storage after every successful apply.
 
 Errors (private mode, quota, disabled storage) are silently swallowed
-— the picker continues to work in-memory.
+— the select continues to work in-memory.
 
 ## `name` — optional, string — defaults to `"theme"`
 
 The `name` attribute of the `<select>`. It also serves as the
 discriminator on the managed `<link>` element
-(`data-lily-theme-select="{name}"`), so multiple pickers can coexist
+(`data-lily-theme-select="{name}"`), so multiple selects can coexist
 by giving each a distinct `name`.
 
 ## `extension` — optional, string — defaults to `".css"`

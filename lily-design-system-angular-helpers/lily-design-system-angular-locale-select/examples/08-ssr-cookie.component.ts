@@ -3,7 +3,7 @@
 
     No flash of default locale: the server reads the cookie via the
     INITIAL_LOCALE injection token, fills <html lang dir> via a
-    server-only environment initializer, and seeds the picker with
+    server-only environment initializer, and seeds the select with
     `value` via the same token on the client.
 
     This file is the root component. The companion server-side

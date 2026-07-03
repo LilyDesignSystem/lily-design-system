@@ -8,7 +8,7 @@
   :root[data-theme="<slug>"], so only the rules whose attribute matches
   the live one are applied.
 
-  The picker still mutates data-theme; the network round-trip is gone.
+  The select still mutates data-theme; the network round-trip is gone.
 
   IMPORTANT: when you preload, you can skip the managed <link> entirely
   by using a `target` that already has data-theme set, OR you can leave

@@ -1,7 +1,7 @@
 # Lifecycle — `<theme-select>` (HTML helper)
 
 The custom-element-flavoured walk-through of the select's
-lifecycle. The canonical contract is in [`../spec.md`](../spec.md)
+lifecycle. The canonical contract is in [`../spec/index.md`](../spec/index.md)
 §5; this file maps the Svelte canonical's `$effect` lifecycle to
 the custom-element callbacks (`connectedCallback`,
 `attributeChangedCallback`, `disconnectedCallback`).

@@ -4,14 +4,14 @@
 document language and tells you when the user changed it; the actual
 string substitution is your i18n library's job.
 
-This page shows how to wire the picker to the four most common
+This page shows how to wire the select to the four most common
 Nunjucks-rendering i18n stacks: **eleventy-i18n** (the Eleventy
 plugin), **native `Intl.*`**, **gettext via `i18next-server`**, and
 generic **ICU MessageFormat APIs**.
 
 The wiring pattern is always the same:
 
-1. Render the picker with `opts.value` set to the server-resolved
+1. Render the select with `opts.value` set to the server-resolved
    locale (so the right `<option>` is `selected` on first paint).
 2. In `initLocaleSelect(root, { onChange })`, push the chosen code
    into your i18n runtime (often via a cookie + reload, sometimes
@@ -42,7 +42,7 @@ export default function (eleventyConfig) {
 }
 ```
 
-The picker drives URL navigation from the `onChange` handler:
+The select drives URL navigation from the `onChange` handler:
 
 ```njk
 {# _includes/base.njk #}
@@ -83,7 +83,7 @@ Eleventy's `i18n` filter then resolves messages per locale:
 ```
 
 Define your own `localeDir` filter to derive `rtl` / `ltr` from a
-language tag — or skip it and let the picker write `dir` to
+language tag — or skip it and let the select write `dir` to
 `<html>` on hydration via the client.js (accepting a one-frame
 flash).
 
@@ -95,7 +95,7 @@ See [examples/06-with-eleventy-i18n.njk](../examples/06-with-eleventy-i18n.njk).
 
 For apps with a handful of strings and no formal i18n library,
 store the locale and pass it to `Intl` formatters directly. The
-picker still owns the `lang` / `dir` lifecycle:
+select still owns the `lang` / `dir` lifecycle:
 
 ```njk
 {% from "lily/locale-select.njk" import localeSelect %}
@@ -136,7 +136,7 @@ picker still owns the `lang` / `dir` lifecycle:
 ```
 
 `Intl.*` formatters accept both `en_US` and `en-US`; they normalise
-internally. The picker's `onChange` fires with the consumer-form
+internally. The select's `onChange` fires with the consumer-form
 code, so call `.replace(/_/g, "-")` if you need the BCP 47 form.
 
 See [examples/07-with-intl.njk](../examples/07-with-intl.njk).
@@ -242,7 +242,7 @@ and call `i18next.changeLanguage(code)` from `onChange` instead.
 
 Apps that need plurals, gender, and ordinal handling typically use
 ICU MessageFormat (`messageformat`, `@formatjs/intl-messageformat`,
-or `@messageformat/runtime`). The picker is unchanged; you just
+or `@messageformat/runtime`). The select is unchanged; you just
 swap which message function you call:
 
 ```njk
@@ -278,7 +278,7 @@ swap which message function you call:
 </script>
 ```
 
-The picker fires `onChange` once on mount (with the resolved
+The select fires `onChange` once on mount (with the resolved
 initial locale) and again on every change. The pattern handles
 both.
 
@@ -292,11 +292,11 @@ both.
 | One page with a few `Intl.*` formatters    | `onChange` + native `Intl.DateTimeFormat` |
 | Existing JSON gettext bundles              | i18next + Express + cookie + reload     |
 | Plurals, gender, ordinal                   | ICU MessageFormat + in-page swap        |
-| Multi-tenant, locale per panel             | Multiple pickers with `target` option   |
+| Multi-tenant, locale per panel             | Multiple selects with `target` option   |
 | SEO-friendly URLs per locale               | Eleventy URL prefix (above)             |
 | No FOUC, cookie-backed, server-rendered    | Cookie + Express / Eleventy edge function (see [./ssr.md](./ssr.md)) |
 
-The picker is the same in every case. Only the `onChange` body and
+The select is the same in every case. Only the `onChange` body and
 the i18n runtime change.
 
 ## What if my i18n library writes `lang` itself?
@@ -305,12 +305,12 @@ Some libraries (notably `i18next-browser-languagedetector` with
 `detection.caches: ["htmlTag"]`) write the `lang` attribute on
 `<html>` themselves. Two paths:
 
-1. **Let the picker win.** Don't enable the htmlTag cache in the
-   library; the picker writes `lang` on every change.
+1. **Let the select win.** Don't enable the htmlTag cache in the
+   library; the select writes `lang` on every change.
 2. **Let the library win.** Pass `applyDir: false` to suppress the
-   picker's `dir` write, and the library writes both. The picker
+   select's `dir` write, and the library writes both. The select
    still fires `onChange` for any other side effects.
 
-There is no race in practice — the picker's `applyLocale` is
+There is no race in practice — the select's `applyLocale` is
 synchronous, and the consumer's `onChange` runs after, so whoever
 runs last wins.

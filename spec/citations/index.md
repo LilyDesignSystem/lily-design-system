@@ -127,4 +127,4 @@ Reuters-specific branding, third-party integrations, or already-covered componen
 
 - [AGENTS/citations.md](../../AGENTS/citations.md)
 - [AGENTS/nhs-uk-design-system-references.md](../../AGENTS/nhs-uk-design-system-references.md)
-- [spec.md](../../spec.md) §10 (References), §10.1 (Reuters Graphics influence)
+- [spec/index.md](../index.md) §10 (References), §10.1 (Reuters Graphics influence)

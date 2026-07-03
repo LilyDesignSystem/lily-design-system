@@ -197,7 +197,17 @@
       "Bash(/Users/jph/git/lilydesignsystem/lily-design-system/bin/list-implementations *)",
       "Bash(cp -r /Users/jph/git/lilydesignsystem/lily-design-system/components/answer /Users/jph/git/lilydesignsystem/lily-design-system/lilydesignsystem.github.io/src/routes/components/)",
       "Bash(cp -r /Users/jph/git/lilydesignsystem/lily-design-system/components/question /Users/jph/git/lilydesignsystem/lily-design-system/lilydesignsystem.github.io/src/routes/components/)",
-      "Bash(tee /tmp/lily-test.out)"
+      "Bash(tee /tmp/lily-test.out)",
+      "WebFetch(domain:abuhb.nhs.wales)",
+      "WebFetch(domain:www.health2049.com)",
+      "WebFetch(domain:bylines.cymru)",
+      "Bash(git push *)",
+      "Bash(pnpm view *)",
+      "mcp__svelte__svelte-autofixer",
+      "Bash(cd /Users/jph/git/lilydesignsystem/lily-design-system/lily-design-system-svelte-helpers/lily-design-system-svelte-theme-picker)",
+      "Bash(ls AGENTS docs *.md)",
+      "Bash(perl -0pi -e 's/\\\\bpickers\\\\b/selects/g; s/\\\\bpicker\\\\b/select/g; s/\\\\bpicker\\(?=\\\\047s|’s\\)/select/g' AGENTS/ssr.md)",
+      "Bash(perl -0pi -e \"s/picker's/select's/g; s/pickers'/selects'/g\" AGENTS/ssr.md)"
     ]
   }
 }

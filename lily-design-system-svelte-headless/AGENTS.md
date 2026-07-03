@@ -27,7 +27,7 @@
 - Headless design
 - Comprehensive comments with syntax, usage, examples, explanations, etc.
 - Input/View pattern for paired -Input/-View components
-- All tasks reference spec.md for implementation details
+- All tasks reference spec/index.md for implementation details
 - Set HTML tag class by using className props
 
 ## NO

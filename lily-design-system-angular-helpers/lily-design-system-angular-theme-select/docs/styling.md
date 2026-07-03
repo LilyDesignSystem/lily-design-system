@@ -1,7 +1,7 @@
 # Styling
 
-The picker is headless: it ships no CSS. Every visual decision
-belongs to the consumer. This guide lists the hooks the picker
+The select is headless: it ships no CSS. Every visual decision
+belongs to the consumer. This guide lists the hooks the select
 exposes.
 
 ## Class hooks
@@ -21,7 +21,7 @@ implicit attribute spread; the helper exposes an explicit input.
 | Attribute                          | On                          | Purpose                          |
 | ---------------------------------- | --------------------------- | -------------------------------- |
 | `data-theme="<slug>"`              | `target` (default `<html>`) | Active theme indicator for theme CSS files. |
-| `data-lily-theme-select="<name>"`  | the managed `<link>`        | Discriminator for multiple pickers. |
+| `data-lily-theme-select="<name>"`  | the managed `<link>`        | Discriminator for multiple selects. |
 
 ## Suggested baseline CSS
 
@@ -52,12 +52,12 @@ render the dropdown list with OS chrome. Style the closed
 - Don't hide the `<select>` with `display: none`. It is the
   accessibility tree's anchor point. Use `clip-path` or a
   `.sr-only` recipe if you need to visually hide it.
-- Don't override the picker's `aria-*` attributes from CSS. They
+- Don't override the select's `aria-*` attributes from CSS. They
   are part of the accessibility contract.
 - Don't add `styles` / `styleUrls` to a wrapping component that
-  imports the picker if the goal is to style the picker — Angular
+  imports the select if the goal is to style the select — Angular
   view encapsulation (`Emulated`) prefixes the styles with a
-  scoping attribute, so they won't reach the picker. Use a global
+  scoping attribute, so they won't reach the select. Use a global
   stylesheet (or `ViewEncapsulation.None` on a wrapper component)
   instead.
 
@@ -68,9 +68,9 @@ selectors to include a unique scoping attribute (`_nghost-xyz`).
 This means styles declared in a component's `styles` field don't
 reach child components by default.
 
-The picker is a standalone component with no `styles`, so emulation
-doesn't bite the helper itself. But a consumer wrapping the picker
-in another component must publish their picker-targeting styles
+The select is a standalone component with no `styles`, so emulation
+doesn't bite the helper itself. But a consumer wrapping the select
+in another component must publish their select-targeting styles
 either globally or with `ViewEncapsulation.None`:
 
 ```ts
@@ -93,13 +93,13 @@ import { Component, ViewEncapsulation } from "@angular/core";
 export class MySettings { /* … */ }
 ```
 
-Or, more idiomatically, put the picker CSS in a global stylesheet
+Or, more idiomatically, put the select CSS in a global stylesheet
 referenced from `angular.json`'s `styles` array.
 
 ## `:host` pseudo-class
 
-If you wrap the picker in your own component, the outer host element
-is a `<my-settings>` tag, not the picker's `<select>`. To style
+If you wrap the select in your own component, the outer host element
+is a `<my-settings>` tag, not the select's `<select>`. To style
 the host:
 
 ```css

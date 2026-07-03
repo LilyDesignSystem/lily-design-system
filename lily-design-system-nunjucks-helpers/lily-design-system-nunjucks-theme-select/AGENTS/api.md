@@ -1,6 +1,6 @@
 # API — ThemeSelect (Nunjucks)
 
-Authoritative API surface lives in [`../spec.md`](../spec.md) §4.
+Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Nunjucks-flavoured shape of the contract,
 split between the macro (server-side) and the client.js (browser).
 
@@ -78,7 +78,7 @@ themeHref("/x",  "dark", ".css"); // "/x/dark.css"  (normaliseThemesUrl applied 
 ```
 
 Both are side-effect-free; consumers can call them from tests,
-server code, or other modules without instantiating the picker.
+server code, or other modules without instantiating the select.
 
 ### Controller
 
@@ -90,7 +90,7 @@ server code, or other modules without instantiating the picker.
 | `destroy`   | `() => void`               | Remove the `change` listener; keeps applied DOM.   |
 
 `destroy()` does **not** restore the previous theme or remove the
-managed `<link>`. The intent is that a picker can be unmounted
+managed `<link>`. The intent is that a select can be unmounted
 (e.g. when navigating away from a settings page) without
 visually reverting the theme.
 

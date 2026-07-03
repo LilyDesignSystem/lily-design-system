@@ -1,6 +1,6 @@
 # AGENTS / lifecycle — ThemeSelect
 
-Implementation lifecycle. Read [`../spec.md §5`](../spec.md#5-behaviour)
+Implementation lifecycle. Read [`../spec/index.md §5`](../spec/index.md#5-behaviour)
 for the formal contract; this file documents the React 19 mechanics.
 
 ## Mount order
@@ -76,7 +76,7 @@ Properties:
 - Empty-string guard skips the initial render's empty value.
 - Only `currentValue` in deps. Other props (`themesUrl`, `target`,
   etc.) are deliberately not dependencies — they take effect on the
-  next slug change, not retroactively, per [`spec.md §5.4`](../spec.md#54-reactivity).
+  next slug change, not retroactively, per [`spec/index.md §5.4`](../spec/index.md#54-reactivity).
 
 ## resolveInitialTheme
 
@@ -102,7 +102,7 @@ function resolveInitialTheme(
 }
 ```
 
-Order matches [`spec.md §5.2`](../spec.md#52-initial-value-resolution):
+Order matches [`spec/index.md §5.2`](../spec/index.md#52-initial-value-resolution):
 
 1. consumer `value` (controlled)
 2. `localStorage[storageKey]` (try/catch)
@@ -129,7 +129,7 @@ function applyTheme(slug: string): void {
 }
 ```
 
-Four ordered steps from [`spec.md §5.3`](../spec.md#53-applying-a-theme):
+Four ordered steps from [`spec/index.md §5.3`](../spec/index.md#53-applying-a-theme):
 
 1. Link href swap.
 2. data-theme attribute write.
@@ -158,7 +158,7 @@ function getManagedLink(): HTMLLinkElement {
 
 Idempotent. On the first apply for a given `name`, creates a fresh
 `<link>`. On every subsequent apply, returns the existing one.
-Multiple pickers with distinct `name` values each get their own
+Multiple selects with distinct `name` values each get their own
 managed link.
 
 ## setTheme
@@ -185,7 +185,7 @@ The native `<select>`'s onChange handler:
 onChange={(e) => setTheme(e.target.value)}
 ```
 
-A plain inline function (no `useCallback`) because the picker's render
+A plain inline function (no `useCallback`) because the select's render
 identity changes with every state update anyway, so memoising
 this handler doesn't reduce work meaningfully.
 
@@ -218,10 +218,10 @@ No StrictMode-specific code needed beyond the guard.
 
 The managed `<link>` is **not** removed on unmount. This is
 intentional: removing it would unload the active theme CSS during
-the unmount/remount transition (e.g. when the picker is conditionally
+the unmount/remount transition (e.g. when the select is conditionally
 rendered) and cause a visible flash.
 
-If a consumer needs to clean up (e.g. when fully removing the picker
+If a consumer needs to clean up (e.g. when fully removing the select
 from the app), they remove the `<link>` themselves:
 
 ```tsx
@@ -234,7 +234,7 @@ useEffect(() => () => {
 
 ## Re-render frequency
 
-The picker re-renders on:
+The select re-renders on:
 
 - `value` prop change (controlled mode).
 - `internalValue` state change (uncontrolled mode, only during

@@ -1,8 +1,8 @@
 # Accessibility — ThemeSelect (Nunjucks)
 
-The picker targets WCAG 2.2 AAA using a native HTML `<select>`. This
+The select targets WCAG 2.2 AAA using a native HTML `<select>`. This
 file is the Nunjucks-flavoured view; the canonical contract is in
-[`../spec.md`](../spec.md) §6.
+[`../spec/index.md`](../spec/index.md) §6.
 
 ## Roles and properties
 

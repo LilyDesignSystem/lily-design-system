@@ -1,13 +1,13 @@
 # SSR — LocaleSelect (Vue)
 
-The picker runs cleanly under Vue 3 SSR (Nuxt 3, plain
+The select runs cleanly under Vue 3 SSR (Nuxt 3, plain
 `vue/server-renderer`, Astro Vue islands). This page lists the
 Vue-specific recipes; the canonical rules live in
 [`../../AGENTS/ssr.md`](../../AGENTS/ssr.md).
 
-## What the picker does on the server
+## What the select does on the server
 
-Under SSR, `onMounted` and `watch` are no-ops. The picker renders:
+Under SSR, `onMounted` and `watch` are no-ops. The select renders:
 
 ```html
 <select class="locale-select" aria-label="Language" name="locale">
@@ -30,7 +30,7 @@ the page jumps:
 
 1. Browser parses `<html lang="en">` → default LTR layout.
 2. Browser fetches CSS, paints English page.
-3. JS hydrates, picker's `onMounted` runs, reads
+3. JS hydrates, select's `onMounted` runs, reads
    `localStorage["app-locale"] === "ar"`, writes
    `<html lang="ar" dir="rtl">`.
 4. Browser repaints in RTL → layout shift.
@@ -131,13 +131,13 @@ export default defineEventHandler(async (event) => {
 ```
 
 Result: first paint arrives with the right `lang` and `dir`. The
-picker hydrates without writing anything visible.
+select hydrates without writing anything visible.
 
 ## Nuxt 3 URL-prefix strategy
 
 For SEO-friendly URLs (`/en/about`, `/fr/about`), use Nuxt's file-
 based dynamic routes. Define `[locale]/*` route segments, validate
-in middleware, and drive the picker from `useRoute().params.locale`.
+in middleware, and drive the select from `useRoute().params.locale`.
 
 ```vue
 <script setup lang="ts">
@@ -195,7 +195,7 @@ export default defineEventHandler((event) => {
 });
 ```
 
-The picker stays unchanged.
+The select stays unchanged.
 
 ## Astro Vue islands
 

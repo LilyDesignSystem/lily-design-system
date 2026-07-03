@@ -3,7 +3,7 @@
 
     Paraglide compiles each translation to a tree-shakeable function.
     Locale is set via `setLocale()` and read via `getLocale()`. The
-    picker calls `setLocale` from its `onChange` callback.
+    select calls `setLocale` from its `onChange` callback.
 
     Prerequisites:
         pnpm add @inlang/paraglide-js

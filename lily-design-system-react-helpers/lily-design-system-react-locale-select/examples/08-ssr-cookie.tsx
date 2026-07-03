@@ -5,7 +5,7 @@
 
     No flash of default locale: the server reads the cookie, writes
     `<html lang dir>`, and seeds the client component with `initialLocale`.
-    The picker's `onChange` writes the cookie back.
+    The select's `onChange` writes the cookie back.
 
     This file is the CLIENT component. The companion SERVER component
     (the layout) is shown in the block-comment below.

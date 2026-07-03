@@ -1,6 +1,6 @@
 # Accessibility
 
-The picker targets WCAG 2.2 AAA using a native HTML `<select>`.
+The select targets WCAG 2.2 AAA using a native HTML `<select>`.
 
 ## Roles and properties
 

@@ -4,7 +4,7 @@ A reusable, headless React 19 locale select that applies the chosen
 locale to the document root via `lang` and `dir`, with optional
 `localStorage` persistence and `navigator.languages` detection.
 
-For the full contract see [spec.md](./spec.md) — it is the single
+For the full contract see [spec/index.md](./spec/index.md) — it is the single
 source of truth for the API, behaviour, and tests.
 
 ## Install
@@ -27,7 +27,7 @@ import {
 ## Quick start
 
 Render the select with a `label` and the list of locales your app
-supports. The picker writes `lang` and `dir` onto `<html>` so your
+supports. The select writes `lang` and `dir` onto `<html>` so your
 i18n library, your CSS (`html[dir="rtl"]`), and assistive technology
 all see the change.
 
@@ -59,7 +59,7 @@ When the user picks `ar`, the component:
 - writes `"ar"` to `localStorage["lily-locale"]`,
 - fires `onChange("ar")` if provided.
 
-The picker does NOT translate strings — that is the consumer's i18n
+The select does NOT translate strings — that is the consumer's i18n
 library (e.g. `react-intl`, `react-i18next`, Paraglide, Inlang, Tolgee,
 raw `Intl.*`). Wire the controlled `value` or `onChange` to your
 library so it loads the right messages.
@@ -68,7 +68,7 @@ library so it loads the right messages.
 
 Language tags follow **BCP 47** (RFC 5646). The `lang` attribute on
 HTML elements must use hyphens, while many applications carry locale
-identifiers with underscores (`en_US`, `zh_Hant_TW`). The picker
+identifiers with underscores (`en_US`, `zh_Hant_TW`). The select
 accepts whichever form you prefer in the `locales` array and converts
 to the hyphen form when writing to the DOM. The controlled `value`
 preserves your original form, so round-trips are lossless.
@@ -323,7 +323,7 @@ console.log(RTL_LANGUAGE_TAGS.has("ar"));  // true
 
 ## Props
 
-See [spec.md §4](./spec.md#4-public-api) for the full table.
+See [spec/index.md §4](./spec/index.md#4-public-api) for the full table.
 
 Required props: `label`, `locales`.
 
@@ -349,7 +349,7 @@ Common optional props: `value` (controlled), `defaultValue`,
 
 `pnpm test` under a vitest + jsdom + `@testing-library/react` setup
 exercises every numbered acceptance criterion in
-[spec.md §7](./spec.md#7-testing-acceptance-criteria) — 23 numbered
+[spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria) — 23 numbered
 items plus extras for case-insensitive RTL detection and the
 navigator-matcher helper.
 
@@ -357,7 +357,7 @@ navigator-matcher helper.
 
 | File                          | Purpose                                          |
 | ----------------------------- | ------------------------------------------------ |
-| `spec.md`                     | Single source of truth — API, behaviour, tests.  |
+| `spec/index.md`                     | Single source of truth — API, behaviour, tests.  |
 | `LocaleSelect.tsx`            | The component implementation.                    |
 | `LocaleSelect.test.tsx`       | vitest suite covering every spec §7 item.        |
 | `locales.ts`                  | Built-in code → English-name map and RTL sets.   |

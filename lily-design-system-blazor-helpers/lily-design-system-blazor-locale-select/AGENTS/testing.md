@@ -2,7 +2,7 @@
 
 The select's test suite lives in
 [`../LocaleSelectTests.cs`](../LocaleSelectTests.cs) and asserts
-every numbered acceptance criterion in `spec.md` §7. This file
+every numbered acceptance criterion in `spec/index.md` §7. This file
 documents the test harness and the conventions specific to this
 helper. For the catalog-wide test rules see
 [`../../AGENTS/testing.md`](../../AGENTS/testing.md).

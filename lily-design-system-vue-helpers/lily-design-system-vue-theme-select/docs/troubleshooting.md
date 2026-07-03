@@ -27,14 +27,14 @@ to a real file. Check that:
 
 ## "SSR hydration mismatch"
 
-**Likely cause.** The picker rendered on the server with no
+**Likely cause.** The select rendered on the server with no
 selected `<option>` (because `value` was empty), but on the client
 the lifecycle resolved a non-empty initial value from `localStorage`
 or `defaultValue`. Vue logs a hydration warning when the resulting
 DOM differs.
 
 **Fix.** Resolve the theme on the server (cookie, header, or
-session store) and pass it to the picker via `value`. See
+session store) and pass it to the select via `value`. See
 [ssr.md](./ssr.md).
 
 ## "Theme does not persist across reloads"
@@ -46,27 +46,27 @@ Checklist:
   browser extensions).
 - No other component is overwriting the same key on mount.
 
-## "The word 'default' appears in my picker"
+## "The word 'default' appears in my select"
 
-It does not come from this component. The picker only emits the
+It does not come from this component. The select only emits the
 slug (title-cased) or the value from `themeLabels`. Check the
-consumer markup wrapping the picker for hardcoded "(default)"
+consumer markup wrapping the select for hardcoded "(default)"
 annotations.
 
-## "Multiple pickers fight over `<html data-theme>`"
+## "Multiple selects fight over `<html data-theme>`"
 
-When two pickers share `document.documentElement` as the target,
-the last apply wins. Either pass a per-picker `target` element, or
-designate one picker as the "global" one and have the others apply
+When two selects share `document.documentElement` as the target,
+the last apply wins. Either pass a per-select `target` element, or
+designate one select as the "global" one and have the others apply
 their themes to a wrapping element via `target`.
 
-## "The picker re-fetches the same CSS file on every render"
+## "The select re-fetches the same CSS file on every render"
 
 It shouldn't — the managed `<link>` is reused, and changing
 `themesUrl` is not enough to re-trigger `applyTheme`. If you
 observe re-fetches:
 
-- Confirm the surrounding component isn't remounting the picker
+- Confirm the surrounding component isn't remounting the select
   every render (e.g. inside a `v-if` whose condition toggles
   rapidly, or a `<KeepAlive>` configuration that detaches /
   reattaches).
@@ -106,7 +106,7 @@ Almost always a caching issue. Either:
 ## "Nuxt's useHead clobbers my data-theme"
 
 `useHead({ htmlAttrs: { "data-theme": "…" } })` overwrites the
-attribute on every navigation. The picker sets it once on
+attribute on every navigation. The select sets it once on
 hydration, then `useHead` overwrites it on the next route change.
 
 **Fix.** Bind `useHead` to the same reactive ref that
@@ -117,11 +117,11 @@ const theme = ref<string>("");
 useHead({ htmlAttrs: { "data-theme": theme } });
 ```
 
-Now both Nuxt and the picker write the same source of truth.
+Now both Nuxt and the select write the same source of truth.
 
-## "Inside `<Suspense>` the picker shows the default for a frame"
+## "Inside `<Suspense>` the select shows the default for a frame"
 
 `<Suspense>` defers `onMounted` until the async dependency
-resolves. The picker still works but the FOUT window grows. Move
-the picker outside the `<Suspense>` boundary, or pre-resolve the
+resolves. The select still works but the FOUT window grows. Move
+the select outside the `<Suspense>` boundary, or pre-resolve the
 theme on the server and pass it as `value`.

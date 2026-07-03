@@ -1,6 +1,6 @@
 # API — LocaleSelect (Nunjucks)
 
-Authoritative API surface lives in [`../spec.md`](../spec.md) §4.
+Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Nunjucks-flavoured shape of the contract,
 split between the macro (server-side) and the client.js (browser).
 
@@ -98,7 +98,7 @@ matchNavigatorLanguage(["es"], ["en", "fr"]);                    // ""
 
 All pure functions are side-effect-free; consumers can call them
 from tests, server code, or other modules without instantiating
-the picker.
+the select.
 
 ### Controller
 

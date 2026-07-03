@@ -1,10 +1,10 @@
 # ThemeSelect (Nunjucks helper)
 
-A reusable, headless Nunjucks 3 + vanilla-JS theme picker that
+A reusable, headless Nunjucks 3 + vanilla-JS theme select that
 **loads themes dynamically at runtime** from a developer-specified
 directory.
 
-The single source of truth is [spec.md](./spec.md). This file is
+The single source of truth is [spec/index.md](./spec/index.md). This file is
 the comprehensive user guide. For topic deep-dives see [docs/](./docs/)
 and for working code see [examples/](./examples/).
 
@@ -23,14 +23,14 @@ and for working code see [examples/](./examples/).
 - [Accessibility](#accessibility)
 - [SSR and the first paint](#ssr-and-the-first-paint)
 - [Preloading for zero-flicker switching](#preloading-for-zero-flicker-switching)
-- [Multiple pickers in one page](#multiple-pickers-in-one-page)
+- [Multiple selects in one page](#multiple-selects-in-one-page)
 - [Recipes](#recipes)
 - [Troubleshooting](#troubleshooting)
 - [Testing](#testing)
 
 ## Why this exists
 
-Most theme pickers couple selection, persistence, and styling into
+Most theme selects couple selection, persistence, and styling into
 one opinionated widget. This one splits the contract cleanly:
 
 - **Authors** drop theme CSS files (e.g. `light.css`, `dark.css`)
@@ -38,7 +38,7 @@ one opinionated widget. This one splits the contract cleanly:
 - **This helper** owns selection, dynamic loading, persistence, and
   accessibility — via a Nunjucks macro for the markup and a small
   ES module for the runtime.
-- **Consumers** own the visual style of the picker via the
+- **Consumers** own the visual style of the select via the
   `theme-select` class hook.
 
 The result is a tiny reusable widget that works in any Nunjucks
@@ -95,7 +95,7 @@ dependency:
 | `theme-select.njk`         | The Nunjucks macro.                              |
 | `theme-select.client.js`   | The ES-module runtime.                           |
 | `index.ts` (optional)      | Re-export of the client.js for ESM imports.      |
-| `spec.md` / `index.md`     | Documentation.                                   |
+| `spec/index.md` / `index.md`     | Documentation.                                   |
 
 Runtime dependencies: `nunjucks` ≥ 3 server-side and standard DOM
 APIs client-side. No bundler required.
@@ -178,7 +178,7 @@ default to the slug with its first letter upper-cased
 
 ## Macro parameters
 
-Full table in [spec.md §4.1](./spec.md#41-macro-parameters).
+Full table in [spec/index.md §4.1](./spec/index.md#41-macro-parameters).
 Required: `label`, `themesUrl`, `themes`. Optional: `value`,
 `defaultValue`, `storageKey`, `name`, `extension`, `themeLabels`,
 `classes`, `attributes`.
@@ -251,7 +251,7 @@ On a fresh page load the client.js reads back the stored slug as
 the first step of initial-value resolution (§ Default theme).
 
 Errors writing to or reading from `localStorage` (private mode,
-quota, disabled storage) are silently swallowed — the picker
+quota, disabled storage) are silently swallowed — the select
 continues to work in-memory.
 
 If you need cookie-based persistence (so the server can read the
@@ -290,7 +290,7 @@ Cloudflare Workers handler) and pass it as `opts.value`. See
 
 ## Preloading for zero-flicker switching
 
-By default the picker swaps one `<link>` href, so the active theme
+By default the select swaps one `<link>` href, so the active theme
 is fetched on demand. To switch instantly between themes, preload
 them all in your layout `<head>`:
 
@@ -300,14 +300,14 @@ them all in your layout `<head>`:
 <link rel="stylesheet" href="/assets/themes/abyss.css">
 ```
 
-The picker still mutates `data-theme`, and since every theme's CSS
+The select still mutates `data-theme`, and since every theme's CSS
 is scoped to `:root[data-theme="…"]`, the active rules switch
 instantly with the attribute change — no network round-trip.
 
 Topic guide: [`docs/preloading.md`](./docs/preloading.md). Working
 example: [`examples/05-preloaded.njk`](./examples/05-preloaded.njk).
 
-## Multiple pickers in one page
+## Multiple selects in one page
 
 Pass a distinct `name` to each macro call. The `name` is used as
 both the `<select>` `name` attribute and the discriminator on the
@@ -321,8 +321,8 @@ Quick cookbook in [`docs/recipes.md`](./docs/recipes.md):
 
 - Following the OS colour scheme via `prefers-color-scheme`.
 - Reading a theme cookie in an Eleventy edge function before render.
-- Migrating from a `localStorage`-only picker to a cookie-backed one.
-- Building a flyout / dropdown UI around the picker.
+- Migrating from a `localStorage`-only select to a cookie-backed one.
+- Building a flyout / dropdown UI around the select.
 - Loading themes from a CDN.
 
 ## Troubleshooting
@@ -343,13 +343,13 @@ pitfalls:
 
 `pnpm test` under a vitest + jsdom setup exercises every numbered
 acceptance criterion in
-[spec.md §7](./spec.md#7-testing-acceptance-criteria).
+[spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria).
 
 ## Files in this directory
 
 | File                      | Purpose                                          |
 | ------------------------- | ------------------------------------------------ |
-| `spec.md`                 | Single source of truth — API, behaviour, tests.  |
+| `spec/index.md`                 | Single source of truth — API, behaviour, tests.  |
 | `AGENTS.md`               | Fast-index pointer; loads the AGENTS bundle.     |
 | `AGENTS/`                 | Topic-by-topic agent files.                      |
 | `CLAUDE.md`               | `@AGENTS.md`.                                    |

@@ -6,7 +6,7 @@ root via `data-text-size`, with optional `localStorage` persistence.
 Ships no CSS — you style the `text-size-select` class hook and map
 each `[data-text-size="{slug}"]` to real typography.
 
-Single source of truth: [spec.md](./spec.md).
+Single source of truth: [spec/index.md](./spec/index.md).
 
 ## Install
 

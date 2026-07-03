@@ -97,13 +97,13 @@ export class App {
 ```
 
 The token's factory resolves on the server (from `event.context`) so
-the picker mounts with the right value on the first paint. On the
+the select mounts with the right value on the first paint. On the
 client, the same token reads `document.cookie` directly — no
 round-trip needed.
 
 ### Writing `lang` and `dir` server-side
 
-The picker writes `lang` and `dir` to `<html>` once mounted, but on
+The select writes `lang` and `dir` to `<html>` once mounted, but on
 the very first SSR pass nothing has mounted yet. To avoid the FOUC,
 write them on the server via Analog's `Meta` / `Title` services or
 via a route resolver:
@@ -145,7 +145,7 @@ through inputs. The `REQUEST` token import path is
 ## Plain Angular CLI (no SSR)
 
 Without SSR there is no first-paint problem worth solving — the
-picker mounts and immediately runs its `effect()`, reading
+select mounts and immediately runs its `effect()`, reading
 `localStorage` and applying the saved selection before the user
 sees the page. The catalog ships no Universal-specific code paths.
 
@@ -196,7 +196,7 @@ anything at all. Only use it if you accept the FOUC.
 The helpers stay transport-agnostic. Cookies are the right answer
 for Analog and Universal, but not for Cloudflare-Workers-based
 hosts, embedded contexts, or apps that already have a server-side
-preference store. The picker stays transport-agnostic and lets the
+preference store. The select stays transport-agnostic and lets the
 consumer wire the integration.
 
 ## What we do NOT use

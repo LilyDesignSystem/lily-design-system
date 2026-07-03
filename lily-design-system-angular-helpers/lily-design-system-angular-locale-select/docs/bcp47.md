@@ -194,7 +194,7 @@ Angular's own `LOCALE_ID` token controls the default locale for
 helpers write only `<html lang>` (and optionally `<html dir>`),
 which CSS `:lang()` selectors and screen readers honour.
 
-If you want `DatePipe` to follow the picker's choice, register a
+If you want `DatePipe` to follow the select's choice, register a
 custom `LOCALE_ID` factory in your `providers` array that reads
 from the same signal:
 

@@ -3,7 +3,7 @@
 /*
     06. Wiring react-intl (FormatJS).
 
-    The picker's `value` + `onChange` pair drives the locale prop on
+    The select's `value` + `onChange` pair drives the locale prop on
     `<IntlProvider>`. Every `<FormattedMessage>` in the tree
     re-evaluates against the new dictionary on locale change.
 
@@ -12,7 +12,7 @@
         // Create per-locale JSON files exported as Record<string,string>.
 
     Outcome: choosing a locale flips the message dictionary; the
-    document root also gets the new lang/dir from the picker.
+    document root also gets the new lang/dir from the select.
 */
 
 import { useState } from "react";

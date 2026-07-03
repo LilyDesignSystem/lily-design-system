@@ -1,7 +1,7 @@
 # Styling
 
-The picker is headless: it ships no CSS. Every visual decision belongs
-to the consumer. This guide lists the hooks the picker exposes.
+The select is headless: it ships no CSS. Every visual decision belongs
+to the consumer. This guide lists the hooks the select exposes.
 
 ## Class hooks
 
@@ -19,7 +19,7 @@ guaranteed on the root; the inner classes are up to your markup.
 | Attribute                          | On                          | Purpose                          |
 | ---------------------------------- | --------------------------- | -------------------------------- |
 | `data-theme="<slug>"`              | `target` (default `<html>`) | Active theme indicator for theme CSS files. |
-| `data-lily-theme-select="<name>"`  | the managed `<link>`        | Discriminator for multiple pickers. |
+| `data-lily-theme-select="<name>"`  | the managed `<link>`        | Discriminator for multiple selects. |
 
 ## Suggested baseline CSS
 
@@ -46,7 +46,7 @@ Drop into the consumer's app stylesheet:
 
 ## CSS-in-JS
 
-The picker ships zero CSS, so it works with any CSS-in-JS solution
+The select ships zero CSS, so it works with any CSS-in-JS solution
 the consumer prefers (styled-components, emotion, vanilla-extract,
 CSS modules). Target the kebab-case class hooks above.
 
@@ -68,13 +68,13 @@ const StyledPicker = styled(ThemeSelect)`
 `;
 ```
 
-`styled(Component)` passes a `className` prop through; the picker
+`styled(Component)` passes a `className` prop through; the select
 accepts and forwards it onto the `<select>` after the
 `theme-select` base class.
 
 ## Tailwind CSS
 
-The picker's class hook is plain, so Tailwind utilities apply via
+The select's class hook is plain, so Tailwind utilities apply via
 the consumer-supplied `className` prop:
 
 ```tsx

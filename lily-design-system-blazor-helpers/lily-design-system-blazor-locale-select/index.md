@@ -4,7 +4,7 @@ A reusable, headless Blazor locale select that applies the chosen
 locale to the document root via `lang` and `dir`, with optional
 `localStorage` persistence and `navigator.languages` detection.
 
-For the full contract see [spec.md](./spec.md) — it is the single
+For the full contract see [spec/index.md](./spec/index.md) — it is the single
 source of truth for the API, behaviour, and tests. For topic
 deep-dives see [docs/](./docs/) and for working code see
 [examples/](./examples/).
@@ -270,7 +270,7 @@ var rtl = Locales.RtlLanguageTags.Contains("ar");  // true
 
 ## Parameters
 
-See [spec.md §4](./spec.md#4-public-api) for the full table.
+See [spec/index.md §4](./spec/index.md#4-public-api) for the full table.
 
 Required parameters: `Label`, `Locales`.
 
@@ -312,7 +312,7 @@ paint, resolve the locale on the server (cookie /
 
 | File                          | Purpose                                          |
 | ----------------------------- | ------------------------------------------------ |
-| `spec.md`                     | Single source of truth — API, behaviour, tests.  |
+| `spec/index.md`                     | Single source of truth — API, behaviour, tests.  |
 | `AGENTS.md`                   | Fast-index pointer; loads the AGENTS bundle.     |
 | `AGENTS/`                     | Topic-by-topic agent files.                      |
 | `CLAUDE.md`                   | `@AGENTS.md`.                                    |

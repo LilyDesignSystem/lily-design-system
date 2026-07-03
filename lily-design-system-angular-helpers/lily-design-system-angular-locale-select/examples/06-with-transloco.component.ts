@@ -1,7 +1,7 @@
 /*
     06. Wiring Transloco.
 
-    The picker's bindable `value` is mirrored into Transloco's
+    The select's bindable `value` is mirrored into Transloco's
     `TranslocoService.setActiveLang()` via the `(localeChange)` output.
     Every `{{ key | transloco }}` call in your templates re-evaluates
     automatically when the user picks a different locale.

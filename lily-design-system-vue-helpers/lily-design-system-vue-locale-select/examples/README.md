@@ -22,7 +22,7 @@ Every example assumes:
 | 6  | [`06-with-vue-i18n.vue`](./06-with-vue-i18n.vue) | Binding to vue-i18n's `locale` ref.                              |
 | 7  | [`07-with-paraglide.vue`](./07-with-paraglide.vue) | Driving Paraglide JS's `setLocale()` from `@change`.            |
 | 8  | [`08-ssr-cookie.vue`](./08-ssr-cookie.vue)      | Nuxt 3 `useCookie()` + `useHead()` for flicker-free SSR.           |
-| 9  | [`09-scoped-target.vue`](./09-scoped-target.vue) | Multiple per-region pickers, each scoped to its own panel.        |
+| 9  | [`09-scoped-target.vue`](./09-scoped-target.vue) | Multiple per-region selects, each scoped to its own panel.        |
 | 10 | [`10-combobox.vue`](./10-combobox.vue)          | Native `<datalist>` type-ahead for all 436 built-in locales.       |
 
 ## Running the examples
@@ -38,7 +38,7 @@ one is:
 
 ## v-model conventions
 
-The picker exposes its bindable on `value` (not the default
+The select exposes its bindable on `value` (not the default
 `modelValue`). Always use `v-model:value="locale"` in templates,
 and pair with `@change` for one-shot side effects (cookie writes,
 imperative i18n-library calls, analytics).
@@ -66,7 +66,7 @@ type SlotArgs = {
 };
 ```
 
-The picker still owns the apply lifecycle (lang/dir/storage/change)
+The select still owns the apply lifecycle (lang/dir/storage/change)
 regardless of what markup the slot emits.
 
 ## See also
@@ -79,4 +79,4 @@ regardless of what markup the slot emits.
   changes and CSS tips.
 - [`../docs/i18n-integration.md`](../docs/i18n-integration.md) —
   wiring vue-i18n, @nuxtjs/i18n, Paraglide JS, raw `Intl.*`.
-- [`../spec.md`](../spec.md) — the canonical contract.
+- [`../spec/index.md`](../spec/index.md) — the canonical contract.

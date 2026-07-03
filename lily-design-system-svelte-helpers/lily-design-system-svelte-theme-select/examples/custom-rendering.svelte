@@ -6,7 +6,7 @@
     - themes:   the slug list
     - value:    the active slug
     - setTheme: imperatively apply a slug (also updates `value`)
-    - name:     the radio `name` (shared identity for the picker)
+    - name:     the radio `name` (shared identity for the select)
     - labelFor: the resolved display label for a slug
 
   Below, we render a row of swatch buttons. Each button:

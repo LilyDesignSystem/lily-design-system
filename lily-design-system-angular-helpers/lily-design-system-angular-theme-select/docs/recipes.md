@@ -72,7 +72,7 @@ export class Settings {
 See [`../examples/analog-cookie/`](../examples/analog-cookie/) for
 the full recipe.
 
-## Migrate from a localStorage-only picker to a cookie-backed one
+## Migrate from a localStorage-only select to a cookie-backed one
 
 1. Keep `storageKey` for now so existing users don't lose their
    preference.
@@ -114,8 +114,8 @@ after the slug works.
 
 ## Multiple regions with independent themes
 
-See [`../examples/multiple-pickers.component.ts`](../examples/multiple-pickers.component.ts).
-Each picker gets a distinct `name` (so the radios and managed
+See [`../examples/multiple-selects.component.ts`](../examples/multiple-selects.component.ts).
+Each select gets a distinct `name` (so the radios and managed
 `<link>`s don't collide) and a distinct `target` (so `data-theme`
 goes on the section root rather than `<html>`).
 
@@ -134,7 +134,7 @@ export class ThemeStore {
 ```
 
 ```ts
-// in the picker host
+// in the select host
 @Component({
     standalone: true,
     imports: [ThemeSelect],

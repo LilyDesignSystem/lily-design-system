@@ -1,7 +1,7 @@
 # Lifecycle — ThemeSelect (Nunjucks)
 
-The Nunjucks-flavoured walk-through of the picker's lifecycle. The
-canonical contract is in [`../spec.md`](../spec.md) §5; this file
+The Nunjucks-flavoured walk-through of the select's lifecycle. The
+canonical contract is in [`../spec/index.md`](../spec/index.md) §5; this file
 maps the Svelte canonical's `$effect` lifecycle to the Nunjucks
 macro + client.js split.
 
@@ -81,7 +81,7 @@ if (initial) applyTheme(initial);
 ```
 
 The resolution order is documented in
-[`../spec.md` §5.2](../spec.md#52-initial-value-resolution).
+[`../spec/index.md` §5.2](../spec/index.md#52-initial-value-resolution).
 Putting storage **first** matters: a user who picked "dark" two
 weeks ago should land on "dark" today, even if the consumer
 re-rendered the macro with `opts.value = ""` because the cookie
@@ -143,7 +143,7 @@ again.
 - clear `data-theme` from the target;
 - clear the `localStorage` entry.
 
-Those are intentional: the picker can be unmounted because the
+Those are intentional: the select can be unmounted because the
 user navigated away from a settings page; the theme should stay
 applied.
 
@@ -155,4 +155,4 @@ document.documentElement.removeAttribute("data-theme");
 localStorage.removeItem("my-app:theme");
 ```
 
-This is rare. Most apps want the theme to outlive the picker.
+This is rare. Most apps want the theme to outlive the select.

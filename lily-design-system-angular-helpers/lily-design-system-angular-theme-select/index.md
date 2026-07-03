@@ -1,9 +1,9 @@
 # ThemeSelect (Angular helper)
 
-A reusable, headless Angular 20 theme picker that **loads themes
+A reusable, headless Angular 20 theme select that **loads themes
 dynamically at runtime** from a developer-specified directory.
 
-The single source of truth is [spec.md](./spec.md). This file is the
+The single source of truth is [spec/index.md](./spec/index.md). This file is the
 comprehensive user guide. For topic deep-dives see
 [docs/](./docs/) and for working code see [examples/](./examples/).
 
@@ -21,21 +21,21 @@ comprehensive user guide. For topic deep-dives see
 - [Accessibility](#accessibility)
 - [SSR and hydration](#ssr-and-hydration)
 - [Preloading for zero-flicker switching](#preloading-for-zero-flicker-switching)
-- [Multiple pickers in one app](#multiple-pickers-in-one-app)
+- [Multiple selects in one app](#multiple-selects-in-one-app)
 - [Recipes](#recipes)
 - [Troubleshooting](#troubleshooting)
 - [Testing](#testing)
 
 ## Why this exists
 
-Most theme pickers couple selection, persistence, and styling into
+Most theme selects couple selection, persistence, and styling into
 one opinionated widget. This one splits the contract cleanly:
 
 - **Authors** drop theme CSS files (e.g. `light.css`, `dark.css`)
   into a directory served by the app.
 - **This component** owns selection, dynamic loading, persistence,
   and accessibility.
-- **Consumers** own the visual style of the picker via the
+- **Consumers** own the visual style of the select via the
   `theme-select` class hook.
 
 The result is a small reusable widget that works in any Angular 20
@@ -104,7 +104,7 @@ When the user picks `dark`, the component:
 
 ## How it works
 
-On every theme change the picker performs four steps, in order:
+On every theme change the select performs four steps, in order:
 
 1. **Locate or create** a managed
    `<link rel="stylesheet" data-lily-theme-select="{name}">` in
@@ -132,15 +132,15 @@ The default theme is `"light"` whenever `"light"` appears in your
 3. `defaultValue` input
 4. `"light"` (if present in `themes`)
 5. `themes[0]`
-6. `""` — nothing is applied; the picker waits for user interaction
+6. `""` — nothing is applied; the select waits for user interaction
 
-The picker never displays the word `"default"`. Option labels
+The select never displays the word `"default"`. Option labels
 default to the slug with its first letter upper-cased
 (e.g. `"light"` → `"Light"`); override with `themeLabels`.
 
 ## Inputs
 
-The complete table is in [spec.md §4.1](./spec.md#41-inputs--outputs).
+The complete table is in [spec/index.md §4.1](./spec/index.md#41-inputs--outputs).
 Highlights:
 
 | Input          | Type                         | Required | Notes                                      |
@@ -165,7 +165,7 @@ field-by-field reference.
 | Output         | Payload  | When                                                  |
 | -------------- | -------- | ----------------------------------------------------- |
 | `valueChange`  | `string` | Implicit on the `value` `model` signal — drives `[(value)]`. |
-| `themeChange`  | `string` | After the picker applies a new theme (post-DOM-write). |
+| `themeChange`  | `string` | After the select applies a new theme (post-DOM-write). |
 
 ## Custom rendering
 
@@ -175,7 +175,7 @@ projection slot and an `@ContentChild(TemplateRef)` for the option
 template. In the interim, consumers who need bespoke rendering build
 a thin wrapper around the pure helpers (`normaliseThemesUrl`,
 `themeHref`) and the behavioural contract documented in
-[spec.md §5](./spec.md#5-behaviour).
+[spec/index.md §5](./spec/index.md#5-behaviour).
 
 ```ts
 // Sketch of the swatch-button pattern with a future ng-template slot.
@@ -196,11 +196,11 @@ Topic guide: [`docs/custom-rendering.md`](./docs/custom-rendering.md).
 ## Persistence
 
 Pass a `storageKey` to persist the active slug to `localStorage`.
-On a fresh mount the picker reads back the stored slug as part of
+On a fresh mount the select reads back the stored slug as part of
 the initial-value resolution (§ Default theme).
 
 Errors writing to or reading from `localStorage` (private mode,
-quota, disabled storage) are silently swallowed — the picker
+quota, disabled storage) are silently swallowed — the select
 continues to work in-memory.
 
 If you need cookie-based persistence (so SSR can read the theme
@@ -212,7 +212,7 @@ before first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
 - The root is a native `<select>` (implicit `combobox` role) with
   `[attr.aria-label]="label"` and a `name`.
 - The native `<select>` gives Arrow / Home / End / typeahead
-  semantics for free; the picker does not override any keyboard
+  semantics for free; the select does not override any keyboard
   behaviour.
 - The active state is exposed in three independent channels: the
   selected `<option>`, `data-theme` on the root, and the `value`
@@ -224,7 +224,7 @@ Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 
 ## SSR and hydration
 
-The picker compiles cleanly under Angular SSR (Analog v1 + Nitro,
+The select compiles cleanly under Angular SSR (Analog v1 + Nitro,
 Angular CLI's `@angular/ssr`). On the server no `effect()` writes
 DOM (guarded by `typeof document !== "undefined"`), so the markup
 renders using whatever `value` the consumer supplies via the input.
@@ -236,7 +236,7 @@ cookie) and pass it as `value`. See
 
 ## Preloading for zero-flicker switching
 
-By default the picker swaps one `<link>` href, so the active theme
+By default the select swaps one `<link>` href, so the active theme
 is fetched on demand. To switch instantly between themes, preload
 them all yourself in `index.html`:
 
@@ -246,20 +246,20 @@ them all yourself in `index.html`:
 <link rel="stylesheet" href="/assets/themes/abyss.css">
 ```
 
-The picker still mutates `data-theme`, and since every theme's CSS
+The select still mutates `data-theme`, and since every theme's CSS
 is scoped to `:root[data-theme="…"]`, the active rules switch
 instantly with the attribute change — no network round-trip.
 
 Topic guide: [`docs/preloading.md`](./docs/preloading.md). Working
 example: [`examples/preloaded.component.ts`](./examples/preloaded.component.ts).
 
-## Multiple pickers in one app
+## Multiple selects in one app
 
-Pass a distinct `name` input to each picker. The `name` is used as
+Pass a distinct `name` input to each select. The `name` is used as
 both the `<select>` `name` and the discriminator on the managed
 `<link>` element (`data-lily-theme-select="{name}"`).
 
-Example: [`examples/multiple-pickers.component.ts`](./examples/multiple-pickers.component.ts).
+Example: [`examples/multiple-selects.component.ts`](./examples/multiple-selects.component.ts).
 
 ## Recipes
 
@@ -267,7 +267,7 @@ Quick cookbook in [`docs/recipes.md`](./docs/recipes.md):
 
 - Following the OS colour scheme via `prefers-color-scheme`.
 - Reading a theme cookie in Analog before render.
-- Migrating from a `localStorage`-only picker to a cookie-backed
+- Migrating from a `localStorage`-only select to a cookie-backed
   one.
 - Loading themes from a CDN.
 - Cache-busting via `extension`.
@@ -296,13 +296,13 @@ pitfalls:
 
 `pnpm test` under a vitest + jsdom + `@angular/core/testing`
 `TestBed` setup exercises every numbered acceptance criterion in
-[spec.md §7](./spec.md#7-testing-acceptance-criteria).
+[spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria).
 
 ## Files in this directory
 
 | File                                | Purpose                                          |
 | ----------------------------------- | ------------------------------------------------ |
-| `spec.md`                           | Single source of truth — API, behaviour, tests.  |
+| `spec/index.md`                           | Single source of truth — API, behaviour, tests.  |
 | `AGENTS.md`                         | Fast-index pointer; loads the AGENTS bundle.     |
 | `AGENTS/`                           | Topic-by-topic agent files.                      |
 | `CLAUDE.md`                         | `@AGENTS.md`.                                    |

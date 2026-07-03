@@ -1,7 +1,7 @@
 # Attributes reference
 
 Field-by-field reference for every public attribute. The contract
-is owned by [`../spec.md`](../spec.md) §4; this file expands the
+is owned by [`../spec/index.md`](../spec/index.md) §4; this file expands the
 rationale and common usage.
 
 ## `label` — required, string

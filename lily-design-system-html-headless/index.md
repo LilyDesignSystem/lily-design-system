@@ -1,12 +1,12 @@
 # Lily Design System - HTML Headless
 
-A headless plain HTML component library with 492 components. All components are headless (no built-in styles), fully accessible (WCAG 2.2 AAA), and use vanilla JavaScript for interactivity.
+A headless plain HTML component library with 490 components. All components are headless (no built-in styles), fully accessible (WCAG 2.2 AAA), and use vanilla JavaScript for interactivity.
 
 **Headless** means zero CSS, zero styles, zero opinions about appearance. You provide all styling. Components provide structure, semantics, accessibility, and behavior.
 
 ## Features
 
-- 492 headless HTML components
+- 490 headless HTML components
 - Plain HTML and vanilla JavaScript — no frameworks required
 - WCAG 2.2 AAA accessibility compliance
 - Full keyboard navigation support
@@ -299,8 +299,6 @@ A headless plain HTML component library with 492 components. All components are 
 - **text-input-with-search**: a single-line text input field with search capability
 - **text-area-input**: a multi-line text input area
 - **text-area-input-with-character-counter**: a multi-line text area with character counter
-- **theme-select**: a picker for selecting a visual theme
-- **theme-select-button**: a picker button for selecting a visual theme
 - **theme-select**: a select dropdown for choosing a theme
 - **theme-select-option**: one option in a theme select dropdown
 - **theme-view**: a read-only display of the current theme

@@ -1,6 +1,6 @@
 # AGENTS — ThemeSelect (Nunjucks helper)
 
-Single source of truth: [spec.md](./spec.md). Read it first; everything
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
@@ -20,7 +20,7 @@ The helper is a **macro + client.js pair**:
 
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
-| `spec.md`                  | Specification-driven contract (canonical).       |
+| `spec/index.md`                  | Specification-driven contract (canonical).       |
 | `theme-select.njk`         | Nunjucks macro (`themeSelect(opts)`).            |
 | `theme-select.client.js`   | ES module — `initThemeSelect`, `autoInit`, helpers. |
 | `theme-select.test.ts`     | Vitest spec, one assertion per §7 acceptance.    |
@@ -33,7 +33,7 @@ The helper is a **macro + client.js pair**:
 - Import: `{% from "./theme-select.njk" import themeSelect %}`
 - Call:   `{{ themeSelect({label, themesUrl, themes, …}) }}`
 - Required `opts` keys: `label`, `themesUrl`, `themes`.
-- Full table in [spec.md §4.1](./spec.md#41-macro-parameters).
+- Full table in [spec/index.md §4.1](./spec/index.md#41-macro-parameters).
 
 ### Client.js
 
@@ -45,7 +45,7 @@ The helper is a **macro + client.js pair**:
 ## Behaviour contract (one paragraph)
 
 The macro emits a `<select class="theme-select">` carrying the `name`
-attribute and `data-lily-theme-select-*` hooks describing the picker's
+attribute and `data-lily-theme-select-*` hooks describing the select's
 name, themes URL, extension, storage key, and default value. On
 `initThemeSelect(root)`, the client (1) resolves the initial slug
 from storage > selected option > default-value > `"light"` >

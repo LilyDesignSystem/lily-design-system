@@ -19,13 +19,13 @@ attribute (which most i18n libraries don't read directly — they
 react to the bindable).
 
 The split matters because it lets you swap your i18n library
-without rewriting the picker, and it lets the picker stay
+without rewriting the select, and it lets the select stay
 headless: zero CSS, zero string tables, zero dependencies beyond
 Vue.
 
 ## What "headless" means here
 
-The picker:
+The select:
 
 - Renders semantic HTML (`<select>` + `<option>`) with the
   implicit `combobox` / `option` ARIA the browser provides for a
@@ -107,7 +107,7 @@ Keeping them separate means:
 - On a fresh mount with no `value` prop, the stored value is read
   back.
 - Storage errors (private mode, quota) are swallowed silently;
-  the picker degrades to the default.
+  the select degrades to the default.
 
 If you have a server (Nuxt 3, Astro SSR, etc.), prefer a cookie
 instead — it survives the round-trip and avoids a flash of default
@@ -138,19 +138,19 @@ Three layers, mirroring the lifecycle:
    emitted.
 
 See [../LocaleSelect.test.ts](../LocaleSelect.test.ts) for the
-reference suite that covers every `spec.md` §7 acceptance item.
+reference suite that covers every `spec/index.md` §7 acceptance item.
 
 ## Vue-specific notes
 
 ### `defineModel` vs explicit `update:value`
 
-The picker uses `defineProps` + `defineEmits` rather than
+The select uses `defineProps` + `defineEmits` rather than
 `defineModel` so it can suppress the bind-back during initial-value
 resolution (when the resolved value matches the supplied value).
 `defineModel` would write back unconditionally on every internal
 change, which is fine for most components but breaks the
 "controlled when supplied non-empty" contract documented in
-`spec.md` §3.
+`spec/index.md` §3.
 
 ### Scoped slot props in templates
 
@@ -161,7 +161,7 @@ for autocomplete; the template uses kebab-case. Both are correct.
 
 ### `v-model:value` vs `v-model`
 
-The picker exposes its bindable on `value`, not the default
+The select exposes its bindable on `value`, not the default
 `modelValue`. Always use `v-model:value="locale"`. This matches
 the Svelte canonical's `bind:value` semantics and keeps the
 API symmetric across frameworks.

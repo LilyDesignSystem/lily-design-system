@@ -9,8 +9,8 @@ mkdir_with_ai() {
   ln -sfn index.md README.md
   touch AGENTS.md
   echo "@AGENTS.md" > CLAUDE.md
-  touch plan.md
-  touch tasks.md
+  mkdir spec
+  touch spec/index.md
 }
 
 mkdir_with_ai "$top/$1"

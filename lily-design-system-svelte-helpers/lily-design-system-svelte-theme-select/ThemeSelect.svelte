@@ -15,7 +15,7 @@
         labelFor: (theme: string) => string;
     };
 
-    /** Public props for ThemeSelect. See `spec.md` §4 for the contract. */
+    /** Public props for ThemeSelect. See `spec/index.md` §4 for the contract. */
     export type Props = {
         /** Accessible label for the `<select>`. */
         label: string;

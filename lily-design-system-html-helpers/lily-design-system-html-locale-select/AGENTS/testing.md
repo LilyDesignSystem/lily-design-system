@@ -2,7 +2,7 @@
 
 The select's test suite lives in
 [`../locale-select.test.ts`](../locale-select.test.ts) and asserts
-every numbered acceptance criterion in `spec.md` §7. This file
+every numbered acceptance criterion in `spec/index.md` §7. This file
 documents the test harness and conventions specific to this helper.
 For the catalog-wide rules see
 [`../../AGENTS/testing.md`](../../AGENTS/testing.md).

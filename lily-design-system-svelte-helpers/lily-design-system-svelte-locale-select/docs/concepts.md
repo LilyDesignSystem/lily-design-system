@@ -18,12 +18,12 @@ The helper owns the first two and signals the third via a bindable
 most i18n libraries don't read directly — they react to the bindable).
 
 The split matters because it lets you swap your i18n library without
-rewriting the picker, and it lets the picker stay headless: zero CSS,
+rewriting the select, and it lets the select stay headless: zero CSS,
 zero string tables, zero dependencies beyond Svelte.
 
 ## What "headless" means here
 
-The picker:
+The select:
 
 - Renders semantic HTML (`<select>` + `<option>`) — a native combobox
   with no extra ARIA needed.
@@ -101,7 +101,7 @@ Keeping them separate means:
 - Selection writes synchronously to `localStorage`.
 - On a fresh mount with no `value` prop, the stored value is read back.
 - Storage errors (private mode, quota) are swallowed silently; the
-  picker degrades to the default.
+  select degrades to the default.
 
 If you have a server (SvelteKit, Next + Svelte islands, etc.), prefer a
 cookie instead — it survives the round-trip and avoids a flash of
@@ -130,4 +130,4 @@ Three layers, mirroring the lifecycle:
    the same DOM observations.
 
 See [../LocaleSelect.test.ts](../LocaleSelect.test.ts) for the
-30-case reference suite that covers every `spec.md` §7 acceptance item.
+30-case reference suite that covers every `spec/index.md` §7 acceptance item.

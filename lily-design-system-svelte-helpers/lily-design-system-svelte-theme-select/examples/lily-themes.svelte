@@ -2,7 +2,7 @@
   Example 9 — All 41 Lily / DaisyUI themes.
 
   This is the full catalog shipped in `../../themes/`. Drop them all
-  into `static/assets/themes/` and the picker will swap between them.
+  into `static/assets/themes/` and the select will swap between them.
   "light" remains the default because it is in the list.
 -->
 <script lang="ts">

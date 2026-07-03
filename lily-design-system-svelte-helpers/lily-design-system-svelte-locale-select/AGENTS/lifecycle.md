@@ -1,7 +1,7 @@
 # Lifecycle — LocaleSelect (Svelte)
 
-The Svelte 5 walk-through of the picker's lifecycle. The canonical
-contract is in [`../spec.md`](../spec.md) §5; this file expands the
+The Svelte 5 walk-through of the select's lifecycle. The canonical
+contract is in [`../spec/index.md`](../spec/index.md) §5; this file expands the
 `$effect` body so you can read it without scrolling.
 
 ## Lifecycle diagram
@@ -176,7 +176,7 @@ SvelteKit's `transformPageChunk`, and pass the resolved code as
 ## Unmount
 
 The component does not clean up `lang` / `dir` on unmount. That's
-intentional: the picker may be unmounted because the consumer
+intentional: the select may be unmounted because the consumer
 navigated away from a settings page; the locale should stay
 applied.
 
@@ -187,7 +187,7 @@ themselves with `onDestroy`.
 
 `matchNavigatorLanguage` is only called inside the resolution
 branch of `$effect`, which only runs once (the `initialised`
-latch). The picker never re-runs detection mid-session — the
+latch). The select never re-runs detection mid-session — the
 user's choice should win over `navigator.languages` once
 expressed. If a consumer wants to re-detect (e.g. on a settings
 reset), they can call the exported helper manually and write the
@@ -203,7 +203,7 @@ Three legitimate failure modes are silently swallowed:
 3. `localStorage` being undefined entirely (some embedded WebView
    contexts).
 
-The picker degrades to "no persistence" — the user's choice
+The select degrades to "no persistence" — the user's choice
 applies for the session but doesn't survive a reload. That's
 acceptable; the alternative would be a thrown error that breaks
 the whole component tree.

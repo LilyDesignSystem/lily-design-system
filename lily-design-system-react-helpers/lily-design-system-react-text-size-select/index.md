@@ -18,7 +18,7 @@ This supports WCAG 2.2 — 1.4.4 (Resize Text) and 1.4.12 (Text
 Spacing) — by letting users pick a comfortable reading size that the
 app remembers.
 
-For the full contract see [spec.md](./spec.md) — it is the single
+For the full contract see [spec/index.md](./spec/index.md) — it is the single
 source of truth for the API, behaviour, and tests.
 
 ## Install
@@ -160,7 +160,7 @@ Initial value resolves from `value` > storage > `defaultValue` >
 
 | File                          | Purpose                                          |
 | ----------------------------- | ------------------------------------------------ |
-| `spec.md`                     | Single source of truth — API, behaviour, tests.  |
+| `spec/index.md`                     | Single source of truth — API, behaviour, tests.  |
 | `TextSizeSelect.tsx`          | The component implementation.                    |
 | `TextSizeSelect.test.tsx`     | vitest suite covering every spec §7 item.        |
 | `index.ts`                    | Re-export barrel.                                |

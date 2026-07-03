@@ -1,11 +1,11 @@
 # LocaleSelect (Angular helper)
 
-A reusable, headless Angular 20 locale picker that applies the
+A reusable, headless Angular 20 locale select that applies the
 chosen locale to the document root via `lang` and `dir`, with
 optional `localStorage` persistence and `navigator.languages`
 detection.
 
-For the full contract see [spec.md](./spec.md) — it is the single
+For the full contract see [spec/index.md](./spec/index.md) — it is the single
 source of truth for the API, behaviour, and tests. For topic
 deep-dives see [docs/](./docs/) and for working code see
 [examples/](./examples/).
@@ -52,8 +52,8 @@ import {
 
 ## Quick start
 
-Render the picker with a `label` and the list of locales your app
-supports. The picker writes `lang` and `dir` onto `<html>` so your
+Render the select with a `label` and the list of locales your app
+supports. The select writes `lang` and `dir` onto `<html>` so your
 i18n library, your CSS (`html[dir="rtl"]`), and assistive
 technology all see the change.
 
@@ -94,7 +94,7 @@ When the user picks `ar`, the component:
 - updates the `value` signal,
 - emits `localeChange("ar")`.
 
-The picker does NOT translate strings — that is the consumer's i18n
+The select does NOT translate strings — that is the consumer's i18n
 library (e.g. `@angular/localize`, Transloco, ngx-translate, raw
 `Intl.*`). Wire the bindable `value` or the `localeChange` event to
 your library so it loads the right messages.
@@ -104,7 +104,7 @@ your library so it loads the right messages.
 Language tags follow **BCP 47** (RFC 5646). The `lang` attribute on
 HTML elements must use hyphens, while many applications carry
 locale identifiers with underscores (`en_US`, `zh_Hant_TW`). The
-picker accepts whichever form you prefer in the `locales` array and
+select accepts whichever form you prefer in the `locales` array and
 converts to the hyphen form when writing to the DOM. The bindable
 `value` preserves your original form, so round-trips are lossless.
 
@@ -177,7 +177,7 @@ Parts).
 
 ### Pretty labels for the option text
 
-By default the picker uses the English names from `locales.tsv`
+By default the select uses the English names from `locales.tsv`
 (and falls back to `Intl.DisplayNames` if available, then to the
 raw code). Override per-code with `localeLabels`:
 
@@ -275,7 +275,7 @@ console.log(RTL_LANGUAGE_TAGS.has("ar"));  // true
 
 ## Inputs
 
-See [spec.md §4](./spec.md#4-public-api) for the full table.
+See [spec/index.md §4](./spec/index.md#4-public-api) for the full table.
 
 Required inputs: `label`, `locales`.
 
@@ -288,7 +288,7 @@ Common optional inputs: `value` (bindable via `[(value)]`),
 | Output         | Payload  | When                                                  |
 | -------------- | -------- | ----------------------------------------------------- |
 | `valueChange`  | `string` | Implicit on the `value` model signal — drives `[(value)]`. |
-| `localeChange` | `string` | After the picker applies a new locale (consumer-form code). |
+| `localeChange` | `string` | After the select applies a new locale (consumer-form code). |
 
 ## Accessibility
 
@@ -306,7 +306,7 @@ Common optional inputs: `value` (bindable via `[(value)]`),
 
 ## SSR
 
-The picker is SSR-safe — all DOM writes happen inside an `effect()`
+The select is SSR-safe — all DOM writes happen inside an `effect()`
 that's guarded by `typeof document !== "undefined"`. For
 flicker-free first paint, resolve the locale on the server (cookie
 / `Accept-Language`) and pass it via an injection token. See
@@ -316,7 +316,7 @@ flicker-free first paint, resolve the locale on the server (cookie
 
 | File                              | Purpose                                          |
 | --------------------------------- | ------------------------------------------------ |
-| `spec.md`                         | Single source of truth — API, behaviour, tests.  |
+| `spec/index.md`                         | Single source of truth — API, behaviour, tests.  |
 | `AGENTS.md`                       | Fast-index pointer; loads the AGENTS bundle.     |
 | `AGENTS/`                         | Topic-by-topic agent files.                      |
 | `CLAUDE.md`                       | `@AGENTS.md`.                                    |
@@ -356,7 +356,7 @@ standalone component you can copy into your project.
 | [06-with-transloco.component.ts](./examples/06-with-transloco.component.ts)            | Binding to Transloco's active language.                            |
 | [07-with-ngx-translate.component.ts](./examples/07-with-ngx-translate.component.ts)    | Driving `TranslateService.use()` from `(localeChange)`.            |
 | [08-ssr-cookie.component.ts](./examples/08-ssr-cookie.component.ts)                    | Analog cookie-based SSR — no flash of default locale.              |
-| [09-scoped-target.component.ts](./examples/09-scoped-target.component.ts)              | Multiple per-region pickers, each scoped to its own panel.         |
+| [09-scoped-target.component.ts](./examples/09-scoped-target.component.ts)              | Multiple per-region selects, each scoped to its own panel.         |
 | [10-combobox.component.ts](./examples/10-combobox.component.ts)                        | Native `<datalist>` type-ahead for 436 locales.                    |
 
 ## License

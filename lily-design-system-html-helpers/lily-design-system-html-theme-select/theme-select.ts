@@ -1,7 +1,7 @@
 /**
  * `<theme-select>` — Lily Design System HTML helper.
  *
- * See `./spec.md` for the canonical contract. This file implements
+ * See `./spec/index.md` for the canonical contract. This file implements
  * the custom-element class but does NOT register it. The `index.ts`
  * barrel registers it on import.
  */

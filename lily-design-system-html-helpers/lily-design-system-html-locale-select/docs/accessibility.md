@@ -120,7 +120,7 @@ The tradeoffs of the `<select>` model:
 - Scales to 100+ locales.
 - Choices hidden until opened (worse discoverability).
 - Can't show option text in mixed scripts as easily (some OS
-  pickers don't honour per-option `lang`).
+  selects don't honour per-option `lang`).
 
 For very long lists (50+), prefer a combobox with type-ahead.
 

@@ -28,7 +28,7 @@ type ChildArgs = {
 `setTheme(slug)` writes the new slug to internal state (uncontrolled)
 or calls `onChange` so the consumer can update `value` (controlled),
 then performs the four steps in
-[spec.md §5.3](../spec.md#53-applying-a-theme).
+[spec/index.md §5.3](../spec/index.md#53-applying-a-theme).
 
 ## Patterns
 
@@ -63,7 +63,7 @@ the native `<select>` does it for you.
 
 A `<select>` only accepts `<option>` / `<optgroup>` children, so a
 button group is built standalone and driven by `setTheme`. Wrap the
-picker so you can call `setTheme` imperatively, or lift the state into
+select so you can call `setTheme` imperatively, or lift the state into
 your own component and call the exported helpers. The simplest form
 uses a controlled `value` and your own buttons:
 
@@ -130,7 +130,7 @@ function ThemeSegments({ value, setTheme, themes, labelFor }: {
 ## What the render prop should *not* do
 
 - Don't mutate `document.head` or `data-theme` directly; let the
-  picker own that lifecycle.
+  select own that lifecycle.
 - Don't return non-`<option>` children from the render prop — they
   render inside the `<select>`, which only accepts `<option>` /
   `<optgroup>`. For other controls, render outside the select and
@@ -142,7 +142,7 @@ function ThemeSegments({ value, setTheme, themes, labelFor }: {
 
 ### Stable function identity
 
-The picker doesn't memoize `setTheme` with `useCallback`. If a
+The select doesn't memoize `setTheme` with `useCallback`. If a
 deeply nested child relies on referential equality for memo
 optimisations, wrap with `useCallback` yourself in the render prop:
 

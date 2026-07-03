@@ -9,17 +9,17 @@ A future revision will expose customisable rendering via two
 Angular patterns. This page documents both so consumers and
 contributors can plan ahead, and explains the v0.1.0 workaround.
 
-Note: the picker's root is a native `<select>`, so the only valid
+Note: the select's root is a native `<select>`, so the only valid
 children are `<option>` (and `<optgroup>`) elements. If you want a
 non-`<select>` UI (swatch buttons, a segmented control), render
-your custom controls *outside* the picker and call `setTheme` from
+your custom controls *outside* the select and call `setTheme` from
 a wrapper — see the v0.1.0 workaround below.
 
 ## Future pattern 1 — custom `<option>` projection
 
-The picker's `<select>` will accept projected `<option>` content.
+The select's `<select>` will accept projected `<option>` content.
 Consumers will pass their own option markup as children, and the
-picker will own only the `<select>` container plus the
+select will own only the `<select>` container plus the
 `effect()`-driven lifecycle.
 
 ```html
@@ -35,13 +35,13 @@ picker will own only the `<select>` container plus the
 
 The consumer's template would receive the same args the Svelte
 canonical snippet exposes: `{ themes, value, setTheme, name,
-labelFor }`. The picker's `<select>` would still wrap the projected
+labelFor }`. The select's `<select>` would still wrap the projected
 options so combobox semantics are preserved.
 
 ## Future pattern 2 — `@ContentChild(TemplateRef)`
 
 For repeated content, an `@ContentChild` query against a named
-template will give the picker an `ng-template` it can stamp out per
+template will give the select an `ng-template` it can stamp out per
 slug:
 
 ```html
@@ -74,9 +74,9 @@ rendering have two options:
 
 ### Option A — Subclass / wrap
 
-Build a thin wrapper component around the picker's pure helpers
+Build a thin wrapper component around the select's pure helpers
 (`normaliseThemesUrl`, `themeHref`) and the behavioural contract in
-[spec.md §5](../spec.md#5-behaviour). Re-implement the markup with
+[spec/index.md §5](../spec/index.md#5-behaviour). Re-implement the markup with
 your preferred elements; the lifecycle is ~30 lines of code:
 
 ```ts
@@ -136,9 +136,9 @@ export class MyThemeSwatches {
 }
 ```
 
-### Option B — Render the picker hidden + a custom UI sibling
+### Option B — Render the select hidden + a custom UI sibling
 
-Keep the picker mounted (so it owns the lifecycle) but visually
+Keep the select mounted (so it owns the lifecycle) but visually
 hide its `<select>`. Add your own button group that writes to the
 same signal:
 
@@ -147,7 +147,7 @@ same signal:
     standalone: true,
     imports: [ThemeSelect],
     template: `
-        <!-- Hidden but accessible — the picker still owns the lifecycle. -->
+        <!-- Hidden but accessible — the select still owns the lifecycle. -->
         <lily-theme-select
             label="Theme"
             themesUrl="/assets/themes/"
@@ -174,15 +174,15 @@ export class Custom {
 }
 ```
 
-Both your buttons and the hidden picker share the `theme` signal,
-so the picker's `effect()` applies the theme whenever your buttons
+Both your buttons and the hidden select share the `theme` signal,
+so the select's `effect()` applies the theme whenever your buttons
 write to it. Two accessible controls exist, but a screen reader
 sees both — usually a bug. Hide one from AT with
 `aria-hidden="true"` plus `tabindex="-1"` on the `<select>`.
 
 ### Option C — Two-way binding to a shared signal
 
-If you only need to react to the picker's `themeChange` from a
+If you only need to react to the select's `themeChange` from a
 sibling component, hoist the `theme` signal to a service:
 
 ```ts
@@ -210,14 +210,14 @@ export class Settings {
 ```
 
 Sibling components write to `store.current` from anywhere; the
-picker reacts via its `effect()`.
+select reacts via its `effect()`.
 
 ## What the projection / template patterns won't change
 
-- The native `<select>` will remain the picker's outermost element
+- The native `<select>` will remain the select's outermost element
   so screen readers always hear the control name.
 - The `effect()` lifecycle (initial-value resolution + apply) will
-  stay inside the picker; consumers will not be able to opt out of
+  stay inside the select; consumers will not be able to opt out of
   it.
 - The `data-theme` / managed-`<link>` contract will not move.
 

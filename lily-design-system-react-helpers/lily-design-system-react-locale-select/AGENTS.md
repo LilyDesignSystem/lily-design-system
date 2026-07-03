@@ -1,11 +1,11 @@
 # AGENTS — LocaleSelect (React helper)
 
-Single source of truth: [spec.md](./spec.md). Read it first; everything
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable React 19 headless locale picker that applies the chosen
+A reusable React 19 headless locale select that applies the chosen
 locale to the document root via `lang` and `dir`, with optional
 `localStorage` persistence and `navigator.languages` detection. Ships
 no CSS; consumer styles the `locale-select` class hook.
@@ -14,7 +14,7 @@ no CSS; consumer styles the `locale-select` class hook.
 
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
-| `spec.md`                  | Specification-driven contract (canonical).       |
+| `spec/index.md`                  | Specification-driven contract (canonical).       |
 | `LocaleSelect.tsx`         | Implementation. TypeScript + React 19 hooks.    |
 | `LocaleSelect.test.tsx`    | Vitest spec, one assertion per §7 acceptance.    |
 | `locales.ts`               | Built-in locale-code → English-name table.       |
@@ -31,7 +31,7 @@ no CSS; consumer styles the `locale-select` class hook.
 - Type exports: `Props`, `ChildArgs`.
 
 Required props: `label`, `locales`. Full table in
-[spec.md §4.1](./spec.md#41-props).
+[spec/index.md §4.1](./spec/index.md#41-props).
 
 ## Behaviour contract (one paragraph)
 

@@ -1,6 +1,6 @@
 # API — ThemeSelect (Vue)
 
-Authoritative API surface lives in [`../spec.md`](../spec.md) §4.
+Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Vue-flavoured shape of the contract.
 
 ## Exports
@@ -60,7 +60,7 @@ component back to the parent. It fires:
 - once on `onMounted` if the resolved initial value differs from
   the supplied `value` prop.
 
-`change` fires every time the picker successfully applies a theme.
+`change` fires every time the select successfully applies a theme.
 Use it for analytics, server sync, or cookie writes.
 
 ## Default scoped slot
@@ -87,8 +87,8 @@ Consumers consume it via `<template #default="{ … }">`:
 </ThemeSelect>
 ```
 
-When no slot is supplied, the picker renders the default `<option>`
-markup documented in `spec.md §4.4`.
+When no slot is supplied, the select renders the default `<option>`
+markup documented in `spec/index.md §4.4`.
 
 ## Pure helpers
 
@@ -105,7 +105,7 @@ final stylesheet href.
 
 Both are pure and side-effect-free; consumers can call them from
 tests, server code, or other components without instantiating the
-picker.
+select.
 
 ## DOM contract
 

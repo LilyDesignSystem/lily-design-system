@@ -18,7 +18,7 @@ This supports WCAG 2.2 — 1.4.4 (Resize Text) and 1.4.12 (Text
 Spacing) — by letting users pick a comfortable reading size that the
 app remembers.
 
-For the full contract see [spec.md](./spec.md) — it is the single
+For the full contract see [spec/index.md](./spec/index.md) — it is the single
 source of truth for the API, behaviour, and tests.
 
 ## Install
@@ -67,7 +67,7 @@ When the user picks `x-large`, the component:
 - emits `update:value` (driving `v-model:value`),
 - emits `change` with the new slug.
 
-The picker does NOT change any typography itself — that is the
+The select does NOT change any typography itself — that is the
 consumer's CSS, keyed on `[data-text-size="…"]`.
 
 ## Examples
@@ -88,7 +88,7 @@ consumer's CSS, keyed on `[data-text-size="…"]`.
 
 ### Pretty labels for the option text
 
-By default the picker title-cases each hyphen-word of the slug
+By default the select title-cases each hyphen-word of the slug
 (`x-large` → `X Large`). Override per-slug with `sizeLabels`:
 
 ```vue
@@ -102,7 +102,7 @@ By default the picker title-cases each hyphen-word of the slug
 
 ### Driving custom `<option>` markup
 
-Use the default scoped slot for full markup control. The picker still
+Use the default scoped slot for full markup control. The select still
 owns the apply lifecycle:
 
 ```vue
@@ -151,7 +151,7 @@ const panelSize = ref("large");
 
 ## Props
 
-See [spec.md §4](./spec.md#4-props) for the full table.
+See [spec/index.md §4](./spec/index.md#4-props) for the full table.
 
 Required props: `label`, `sizes`.
 
@@ -163,7 +163,7 @@ Common optional props: `value` (bindable via `v-model:value`),
 | Event           | Payload  | When                                                  |
 | --------------- | -------- | ----------------------------------------------------- |
 | `update:value`  | `string` | After selection, drives `v-model:value`.              |
-| `change`        | `string` | After the picker applies a new size (the slug).       |
+| `change`        | `string` | After the select applies a new size (the slug).       |
 
 ## Accessibility
 
@@ -178,7 +178,7 @@ Common optional props: `value` (bindable via `v-model:value`),
 
 ## SSR
 
-The picker is SSR-safe — all DOM writes happen inside `onMounted` /
+The select is SSR-safe — all DOM writes happen inside `onMounted` /
 `watch`. For flicker-free first paint, resolve the size on the server
 (from a cookie) and pass it as `value`.
 
@@ -186,7 +186,7 @@ The picker is SSR-safe — all DOM writes happen inside `onMounted` /
 
 | File                          | Purpose                                          |
 | ----------------------------- | ------------------------------------------------ |
-| `spec.md`                     | Single source of truth — API, behaviour, tests.  |
+| `spec/index.md`                     | Single source of truth — API, behaviour, tests.  |
 | `AGENTS.md`                   | Fast-index pointer for AI agents.                |
 | `CLAUDE.md`                   | `@AGENTS.md`.                                    |
 | `TextSizeSelect.vue`          | The component implementation.                    |

@@ -90,7 +90,6 @@ The consumer provides all CSS styling. The component renders with a `.theme-prov
 
 ## Related components
 
-- `theme-select` — a picker for selecting a visual theme
 - `theme-select` — a select dropdown for choosing a theme
 - `theme-view` — a read-only display of the current theme
 

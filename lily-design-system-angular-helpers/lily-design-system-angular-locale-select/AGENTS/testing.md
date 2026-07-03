@@ -1,8 +1,8 @@
 # Testing — LocaleSelect (Angular)
 
-The picker's test suite lives in
+The select's test suite lives in
 [`../locale-select.component.spec.ts`](../locale-select.component.spec.ts)
-and asserts every numbered acceptance criterion in `spec.md` §7.
+and asserts every numbered acceptance criterion in `spec/index.md` §7.
 This file documents the test harness and the conventions specific
 to this helper. For the catalog-wide test rules see
 [`../../AGENTS/testing.md`](../../AGENTS/testing.md).
@@ -141,7 +141,7 @@ Storage.prototype.getItem = () => { throw new Error("private mode"); };
 Storage.prototype.getItem = original;
 ```
 
-The picker swallows the error inside try/catch.
+The select swallows the error inside try/catch.
 
 ## `[(value)]` emulation
 

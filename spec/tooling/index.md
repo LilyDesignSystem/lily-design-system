@@ -13,7 +13,7 @@ Covers the `bin/` toolchain: catalog listers, directory scaffolders, the verific
 - **`components.tsv` is the catalog source of truth.** `list-components-as-kebab-case` and `-as-pascal-case` derive their output from it; nothing maintains a duplicate list.
 - **AGENTS files at the repo root are canonical.** `bin/sync` rsyncs `AGENTS/` into each subproject. It uses rsync (file copies), **not** symlinks, because `git subtree push` does not follow symlinks across project boundaries — a symlinked AGENTS dir would break the standalone subtree repos.
 - **`bin/test` is the single verification gate.** It checks required files across the repository, all components, the github.io site, and all implementation subprojects, and fails on missing or stub ("Not yet implemented.") files.
-- **Scaffolders produce the standard file set.** Both `create-*-directory` scripts emit `index.md`, a `README.md` symlink to it, `AGENTS.md`, a `CLAUDE.md` that loads `@AGENTS.md`, plus `plan.md` / `tasks.md`.
+- **Scaffolders produce the standard file set.** Both `create-*-directory` scripts emit `index.md`, a `README.md` symlink to it, `AGENTS.md`, a `CLAUDE.md` that loads `@AGENTS.md`, plus `spec/index.md` (the spec-driven plan + tasks file that replaced the older `plan.md` / `tasks.md`).
 
 ## bin/ scripts
 
@@ -29,10 +29,11 @@ Covers the `bin/` toolchain: catalog listers, directory scaffolders, the verific
 | `update`                             | Drive an end-to-end audit/harmonise/test pass (invokes `claude` over every subproject).  |
 | `git-subtree-push`                    | Push each subproject subtree to its standalone GitHub remote.                             |
 | `generate-storybook-stories.mjs`      | Generate Storybook stories for the headless libraries.                                    |
+| `publish-helpers`                     | Build (`build.js` per catalog) and publish the 21 helper packages — npm for the JS catalogs, NuGet for Blazor. |
 
 ## Verification: bin/test
 
-`bin/test` resolves the repo root via `git rev-parse --show-toplevel`, then runs a series of checks. Each subject must have `index.md`, a `README.md` symlink, a non-empty `AGENTS.md`, a `CLAUDE.md`, and a non-empty `spec.md`; `AGENTS.md` and `spec.md` must not contain the "Not yet implemented." marker.
+`bin/test` resolves the repo root via `git rev-parse --show-toplevel`, then runs a series of checks. Each subject must have `index.md`, a `README.md` symlink, a non-empty `AGENTS.md`, a `CLAUDE.md`, and a non-empty `spec/index.md`; `AGENTS.md` and `spec/index.md` must not contain the "Not yet implemented." marker.
 
 | Check function                       | What it verifies                                                                         |
 | ------------------------------------ | ---------------------------------------------------------------------------------------- |
@@ -75,7 +76,7 @@ Each subproject is a `git subtree`. `bin/git-subtree-push` publishes each one to
 ## Acceptance criteria
 - [ ] `list-components-as-kebab-case` and `-as-pascal-case` derive output from `components.tsv`.
 - [ ] `list-implementations` lists every `lily-*` subproject, sorted.
-- [ ] `create-component-directory` and `create-implementation-directory` scaffold the standard file set (`index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md` loading `@AGENTS.md`, `plan.md`, `tasks.md`).
+- [x] `create-component-directory` and `create-implementation-directory` scaffold the standard file set (`index.md`, `README.md` symlink, `AGENTS.md`, `CLAUDE.md` loading `@AGENTS.md`, `spec/index.md`).
 - [ ] `bin/test` passes against repo + all components + github.io + all subprojects.
 - [ ] `bin/sync` rsyncs root `AGENTS/` into every subproject (copies, not symlinks).
 - [ ] `bin/git-subtree-push` pushes each subtree to its `LilyDesignSystem/{impl}` remote.
@@ -89,4 +90,4 @@ Each subproject is a `git subtree`. `bin/git-subtree-push` publishes each one to
 
 ## Sources
 - [bin/](../../bin/) — `list-components-as-kebab-case`, `list-components-as-pascal-case`, `list-implementations`, `create-component-directory`, `create-implementation-directory`, `test`, `sync`, `update`, `git-subtree-push`, `generate-storybook-stories.mjs`
-- [spec.md](../../spec.md) — §9 (Tooling table), §3 (subtree layout)
+- [spec/index.md](../index.md) — §9 (Tooling table), §3 (subtree layout)

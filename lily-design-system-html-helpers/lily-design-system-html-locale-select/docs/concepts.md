@@ -140,7 +140,7 @@ Three layers, mirroring the lifecycle:
    `localechange` CustomEvent's detail.
 
 See `../locale-select.test.ts` for the reference suite that covers
-every `spec.md` §7 acceptance item.
+every `spec/index.md` §7 acceptance item.
 
 ## Custom-element-specific notes
 

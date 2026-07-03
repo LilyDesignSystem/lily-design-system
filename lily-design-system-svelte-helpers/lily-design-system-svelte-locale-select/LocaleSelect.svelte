@@ -24,7 +24,7 @@
         isRtl: (locale: string) => boolean;
     };
 
-    /** Public props for LocaleSelect. See `spec.md` §4 for the contract. */
+    /** Public props for LocaleSelect. See `spec/index.md` §4 for the contract. */
     export type Props = {
         /** Accessible label for the `<select>`. */
         label: string;
@@ -65,7 +65,7 @@
         return locale.replace(/_/g, "-");
     }
 
-    /** Detect whether a locale is right-to-left. See spec.md §5.6. */
+    /** Detect whether a locale is right-to-left. See spec/index.md §5.6. */
     export function isRtlLocale(locale: string): boolean {
         if (!locale) return false;
         const parts = locale.split(/[-_]/);

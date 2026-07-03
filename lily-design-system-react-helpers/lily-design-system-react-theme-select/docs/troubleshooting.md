@@ -33,7 +33,7 @@ effect resolved a non-empty initial value from `localStorage` or
 differs.
 
 **Fix.** Resolve the theme on the server (cookie, header, or session
-store) and pass it to the picker via `value`. See [ssr.md](./ssr.md).
+store) and pass it to the select via `value`. See [ssr.md](./ssr.md).
 
 ## "Theme does not persist across reloads"
 
@@ -44,27 +44,27 @@ Checklist:
   browser extensions).
 - No other component is overwriting the same key on mount.
 
-## "The word 'default' appears in my picker"
+## "The word 'default' appears in my select"
 
-It does not come from this component. The picker only emits the
+It does not come from this component. The select only emits the
 slug (title-cased) or the value from `themeLabels`. Check the
-consumer markup wrapping the picker for hardcoded "(default)"
+consumer markup wrapping the select for hardcoded "(default)"
 annotations.
 
-## "Multiple pickers fight over `<html data-theme>`"
+## "Multiple selects fight over `<html data-theme>`"
 
-When two pickers share `document.documentElement` as the target, the
-last apply wins. Either pass a per-picker `target` element, or
-designate one picker as the "global" one and have the others apply
+When two selects share `document.documentElement` as the target, the
+last apply wins. Either pass a per-select `target` element, or
+designate one select as the "global" one and have the others apply
 their themes to a wrapping element via `target`.
 
-## "The picker re-fetches the same CSS file on every render"
+## "The select re-fetches the same CSS file on every render"
 
 It shouldn't — the managed `<link>` is reused, and changing
 `themesUrl` is not enough to re-trigger `applyTheme`. If you observe
 re-fetches:
 
-- Confirm the surrounding component isn't remounting the picker every
+- Confirm the surrounding component isn't remounting the select every
   render (e.g. inside a list whose key is unstable).
 - Confirm the consumer isn't manually removing the managed `<link>`
   on each render.
@@ -87,13 +87,13 @@ Almost always a caching issue. Either:
 
 ## "Error: useState is not a function" / "Cannot read property 'useState' of null"
 
-**Likely cause.** The picker's `.tsx` file is being imported into a
-server component or a non-React context. The picker is a client
+**Likely cause.** The select's `.tsx` file is being imported into a
+server component or a non-React context. The select is a client
 component.
 
 **Fix.** Confirm `ThemeSelect.tsx` starts with `"use client"`. The
 consumer file (the one that renders `<ThemeSelect>`) does NOT need
-the directive — Next.js follows the import graph and the picker's
+the directive — Next.js follows the import graph and the select's
 own directive is sufficient.
 
 If the consumer's file ALSO needs to call `useState` /

@@ -1,7 +1,7 @@
 <!--
     03. Toggle-button group via the default scoped slot.
 
-    By default the picker renders a native `<select>` with one
+    By default the select renders a native `<select>` with one
     `<option>` per locale. This example overrides that default
     rendering: a button group renders the locales inline with
     `aria-pressed` to indicate the active locale. These buttons sit
@@ -10,7 +10,7 @@
     affordance than a dropdown on small screens, or when you want to
     render flags / abbreviations.
 
-    Outcome: a horizontal <ul> of <button>s. The picker still drives
+    Outcome: a horizontal <ul> of <button>s. The select still drives
     lang/dir/change.
 -->
 <script setup lang="ts">

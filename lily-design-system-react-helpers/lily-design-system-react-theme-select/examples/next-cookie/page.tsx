@@ -9,7 +9,7 @@
     Alternative patterns: read from a context provider, from a server-
     supplied prop, or from cookies via the client cookie API.
 
-    On theme change, the picker's onChange handler writes the cookie so
+    On theme change, the select's onChange handler writes the cookie so
     the next SSR request paints in the new theme from byte zero.
 */
 
@@ -33,7 +33,7 @@ export default function ThemeSelectPage() {
     const [theme, setTheme] = useState("");
 
     // Pull initial value out of the server-rendered DOM on mount so the
-    // picker hydrates with the same value the server used.
+    // select hydrates with the same value the server used.
     useEffect(() => {
         const initial = readInitialThemeFromDom();
         if (initial) setTheme(initial);
@@ -55,7 +55,7 @@ export default function ThemeSelectPage() {
             />
 
             <p>
-                The picker writes the active theme to a cookie. On the
+                The select writes the active theme to a cookie. On the
                 next request, the server reads the cookie and inlines{" "}
                 <code>data-theme</code> on <code>&lt;html&gt;</code>{" "}
                 plus the active theme&apos;s{" "}

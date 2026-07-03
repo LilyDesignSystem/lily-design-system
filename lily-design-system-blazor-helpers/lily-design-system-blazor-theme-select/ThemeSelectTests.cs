@@ -1,4 +1,4 @@
-// ThemeSelect tests — one [Fact] per spec.md §7 acceptance criterion.
+// ThemeSelect tests — one [Fact] per spec/index.md §7 acceptance criterion.
 
 using System.Collections.Generic;
 using System.Threading.Tasks;

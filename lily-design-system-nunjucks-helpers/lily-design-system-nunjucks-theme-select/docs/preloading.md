@@ -29,7 +29,7 @@ In an Eleventy layout:
 ```
 
 with `themes` either inlined or pulled from `_data/themes.js`. The
-picker's managed `<link>` also exists, but its href resolves to a
+select's managed `<link>` also exists, but its href resolves to a
 URL that is already cached — the cost is a 304.
 
 Pros:
@@ -61,7 +61,7 @@ pay the cost up front for every other theme:
 ```
 
 The browser fetches the preloaded files but doesn't parse / apply
-them. When the picker swaps the managed `<link>` href to one of
+them. When the select swaps the managed `<link>` href to one of
 the preloaded URLs, the browser uses the cached response.
 
 Pros:
@@ -77,7 +77,7 @@ Cons:
 
 Inline every theme into a single CSS file. Each theme's rules stay
 scoped to `:root[data-theme="<slug>"]` so they don't fight. The
-picker then doesn't need to swap stylesheets at all — only
+select then doesn't need to swap stylesheets at all — only
 `data-theme` changes.
 
 ```njk
@@ -85,7 +85,7 @@ picker then doesn't need to swap stylesheets at all — only
     <link rel="stylesheet" href="/assets/themes/all.css">
 </head>
 <body>
-    {# The picker still emits a managed <link>; you can point it at a
+    {# The select still emits a managed <link>; you can point it at a
        no-op file, or ignore it entirely by reading value and setting
        data-theme yourself. #}
     {{ themeSelect({

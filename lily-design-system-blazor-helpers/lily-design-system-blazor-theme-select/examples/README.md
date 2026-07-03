@@ -25,7 +25,7 @@ Every example assumes:
 | 4 | [`CustomLabels.razor`](./CustomLabels.razor)       | `ThemeLabels` for i18n / display names.         |
 | 5 | [`CustomRendering.razor`](./CustomRendering.razor) | `RenderFragment<ThemeSelectContext>` — swatch buttons. |
 | 6 | [`Preloaded.razor`](./Preloaded.razor)             | Zero-flicker switching via `<HeadContent>` preloads. |
-| 7 | [`MultiplePickers.razor`](./MultiplePickers.razor) | Two selects in one page via distinct `Name`.    |
+| 7 | [`MultipleSelects.razor`](./MultipleSelects.razor) | Two selects in one page via distinct `Name`.    |
 | 8 | [`SystemPreference.razor`](./SystemPreference.razor) | Follow OS `prefers-color-scheme`.             |
 | 9 | [`LilyThemes.razor`](./LilyThemes.razor)           | All 41 Lily / DaisyUI themes at once.           |
 | 10 | [`BlazorServerCookie/`](./BlazorServerCookie/)    | SSR-resolved theme via a cookie (Blazor Web App). |

@@ -58,7 +58,7 @@ The user's explicit choice (via `storageKey`) wins on later visits.
 See [`../examples/sveltekit-cookie/`](../examples/sveltekit-cookie/)
 for the full recipe.
 
-## Migrate from a localStorage-only picker to a cookie-backed one
+## Migrate from a localStorage-only select to a cookie-backed one
 
 1. Keep `storageKey` for now so existing users don't lose their
    preference.
@@ -71,8 +71,8 @@ for the full recipe.
 ## Build a flyout / dropdown UI
 
 Use [custom-rendering](./custom-rendering.md) to swap the native
-`<select>` for a button-triggered popover rendered outside the picker.
-Call `setTheme` from your custom controls so the picker still owns the
+`<select>` for a button-triggered popover rendered outside the select.
+Call `setTheme` from your custom controls so the select still owns the
 loading lifecycle.
 
 ## Serve themes from a CDN
@@ -106,7 +106,7 @@ the slug works.
 
 ## Multiple regions with independent themes
 
-See [`../examples/multiple-pickers.svelte`](../examples/multiple-pickers.svelte).
-Each picker gets a distinct `name` (so the `<select>` names and
+See [`../examples/multiple-selects.svelte`](../examples/multiple-selects.svelte).
+Each select gets a distinct `name` (so the `<select>` names and
 managed `<link>`s don't collide) and a distinct `target` (so
 `data-theme` goes on the section root rather than `<html>`).

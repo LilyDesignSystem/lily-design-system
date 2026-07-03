@@ -1,14 +1,14 @@
 # SSR — LocaleSelect (Angular)
 
-The picker runs cleanly under Angular SSR (Analog v1 + Nitro,
+The select runs cleanly under Angular SSR (Analog v1 + Nitro,
 `@angular/ssr` for Angular CLI, Astro Angular islands). This page
 lists the Angular-specific recipes; the canonical rules live in
 [`../../AGENTS/ssr.md`](../../AGENTS/ssr.md).
 
-## What the picker does on the server
+## What the select does on the server
 
 Under SSR, `effect()` callbacks may run but the `typeof document
-!== "undefined"` guard prevents any DOM mutation. The picker
+!== "undefined"` guard prevents any DOM mutation. The select
 renders:
 
 ```html
@@ -32,7 +32,7 @@ the page jumps:
 
 1. Browser parses `<html lang="en">` → default LTR layout.
 2. Browser fetches CSS, paints English page.
-3. JS hydrates, picker's `effect()` runs, reads
+3. JS hydrates, select's `effect()` runs, reads
    `localStorage["app-locale"] === "ar"`, writes
    `<html lang="ar" dir="rtl">`.
 4. Browser repaints in RTL → layout shift.
@@ -171,13 +171,13 @@ export const config = mergeApplicationConfig(appConfig, {
 ```
 
 Result: first paint arrives with the right `lang` and `dir`. The
-picker hydrates without writing anything visible.
+select hydrates without writing anything visible.
 
 ## Analog URL-prefix strategy
 
 For SEO-friendly URLs (`/en/about`, `/fr/about`), use Analog's
 file-based dynamic routes. Define `[locale]/*` route segments,
-validate in middleware, and drive the picker from the route param:
+validate in middleware, and drive the select from the route param:
 
 ```ts
 import { Component, computed, inject, signal } from "@angular/core";
@@ -239,7 +239,7 @@ export default defineEventHandler((event) => {
 });
 ```
 
-The picker stays unchanged.
+The select stays unchanged.
 
 ## Astro Angular islands
 
@@ -273,7 +273,7 @@ mismatch", the most common cause is:
 ## Plain Angular CLI (no SSR)
 
 Without SSR there is no first-paint problem worth solving — the
-picker hydrates from `localStorage` (or detects from
+select hydrates from `localStorage` (or detects from
 `navigator.languages` if `detectFromNavigator=true`) and applies
 `lang`/`dir` before content renders if you mount it at the top of
 the layout.

@@ -1,19 +1,19 @@
 # Accessibility
 
-The picker targets **WCAG 2.2 AAA** using a native `<select>`, whose
+The select targets **WCAG 2.2 AAA** using a native `<select>`, whose
 role and keyboard semantics the browser provides. This page lists
 what's built in and what remains the consumer's responsibility.
 
 ## Built-in
 
-| WCAG item | How the picker satisfies it |
+| WCAG item | How the select satisfies it |
 | --------------- | --------------------------- |
 | WCAG 3.1.1 Language of Page | Writes `lang` to the document root on every locale change. |
 | WCAG 3.1.2 Language of Parts | Each option carries its own `lang` attribute so option text is announced in the right language. |
 | WCAG 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales so layout, scrollbar, and text inversion are correct. |
 | WCAG 4.1.2 Name, Role, Value | `<select aria-label>` exposes the combobox; `<option>` exposes each choice. |
 | WCAG 2.1.1 Keyboard | Tab to the select; Arrow / Home / End / typeahead move selection — all from native `<select>` semantics. |
-| WCAG 2.4.7 Focus Visible | The browser's default focus ring is preserved; the picker never sets `outline: none`. |
+| WCAG 2.4.7 Focus Visible | The browser's default focus ring is preserved; the select never sets `outline: none`. |
 | WCAG 1.4.1 Use of Color | Selection state is exposed via the `<select>`'s current value and reflected in the `lang` attribute — not colour alone. |
 | Native `<select>` | Single-selection combobox with full keyboard and screen-reader support — provided by the platform. |
 
@@ -52,7 +52,7 @@ the children snippet. Always carry the locale's BCP 47 tag onto each
 | Enter / Space          | Open the option list (platform-dependent).                      |
 | Escape                 | Close the option list.                                          |
 
-This is all native behaviour. The picker does not add JS keyboard
+This is all native behaviour. The select does not add JS keyboard
 handlers — it doesn't need to.
 
 ## Focus management on locale change
@@ -61,7 +61,7 @@ By default the focused element stays focused when the locale changes.
 This is the WCAG 3.2.2 (On Input) contract: changing a setting must
 not cause a focus or context change. Avoid `goto()` calls in
 `onChange` that scroll the page; if you must navigate, scroll-restore
-to the picker's position so the user can keep choosing.
+to the select's position so the user can keep choosing.
 
 ## Screen-reader behaviour matrix
 
@@ -105,11 +105,11 @@ viewer's language, drop the per-option `lang` attribute too.
 
 ## Native `<select>` accessibility
 
-The picker renders a native `<select>` by default (see
+The select renders a native `<select>` by default (see
 [examples/02-select.svelte](../examples/02-select.svelte)). Native
 `<select>` is fully accessible:
 
-- Keyboard: Enter / Space / Down arrow open the picker; typing
+- Keyboard: Enter / Space / Down arrow open the select; typing
   searches; Escape closes.
 - Screen reader: announces "combobox" + label + current value + count.
 - Mobile: pops the OS-native picker (iOS scroll wheel, Android dialog).
@@ -121,7 +121,7 @@ The tradeoff:
 - ❌ Choices hidden until opened (worse discoverability than an
   always-visible list).
 - ❌ Can't show option text in mixed scripts as easily (some OS
-  pickers don't honour per-option `lang`).
+  selects don't honour per-option `lang`).
 
 For an always-visible list of 2–8 locales, render radios or buttons
 via the `children` snippet. For 9+, the native `<select>` default or
@@ -142,7 +142,7 @@ List Autocomplete and Manual Selection).
 
 ## Colour contrast
 
-The picker ships no colour. WCAG 1.4.3 contrast (4.5:1 normal, 3:1
+The select ships no colour. WCAG 1.4.3 contrast (4.5:1 normal, 3:1
 large, 7:1 AAA) is your CSS's responsibility. A safe default for the
 select's text and border:
 

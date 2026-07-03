@@ -1,7 +1,7 @@
 // src/app/app.config.server.ts
 //
 // Server-only Angular config: writes <html data-theme="…"> via the
-// DOCUMENT injection token before the picker hydrates, so the very
+// DOCUMENT injection token before the select hydrates, so the very
 // first paint already shows the user's chosen theme.
 
 import {

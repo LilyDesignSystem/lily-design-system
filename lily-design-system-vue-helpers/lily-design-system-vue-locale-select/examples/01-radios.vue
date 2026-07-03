@@ -1,7 +1,7 @@
 <!--
     01. Default native <select> rendering.
 
-    The simplest possible mount. The picker renders a native
+    The simplest possible mount. The select renders a native
     `<select>` with one `<option>` per locale, each option showing its
     locale's pretty name (from the built-in `locales.tsv` table). Each
     `<option>` carries `lang="…"` so screen readers pronounce the name

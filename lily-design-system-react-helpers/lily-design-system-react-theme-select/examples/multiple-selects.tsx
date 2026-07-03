@@ -1,7 +1,7 @@
 "use client";
 
 /*
-    Example 7 — Multiple pickers in one page.
+    Example 7 — Multiple selects in one page.
 
     Each select gets a distinct `name`. The `name` plays two roles:
       1. It is the <select> `name`, so the two controls submit separately.
@@ -13,8 +13,8 @@
     themes side-by-side.
 
     Note: the active `data-theme` attribute on <html> is set by whichever
-    picker fires last. If you want two independent regions, pass a
-    per-picker `target` so each updates a different DOM subtree.
+    select fires last. If you want two independent regions, pass a
+    per-select `target` so each updates a different DOM subtree.
 */
 
 import { useRef, useState, useEffect } from "react";

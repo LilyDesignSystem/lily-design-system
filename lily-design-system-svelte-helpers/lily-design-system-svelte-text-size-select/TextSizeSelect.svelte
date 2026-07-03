@@ -15,7 +15,7 @@
         labelFor: (size: string) => string;
     };
 
-    /** Public props for TextSizeSelect. See `spec.md` §4 for the contract. */
+    /** Public props for TextSizeSelect. See `spec/index.md` §4 for the contract. */
     export type Props = {
         /** Accessible label for the `<select>`. */
         label: string;

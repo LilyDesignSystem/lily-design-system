@@ -13,7 +13,7 @@ export type SlotArgs = {
     labelFor: (size: string) => string;
 };
 
-/** Public props for TextSizeSelect. See `spec.md` §4 for the contract. */
+/** Public props for TextSizeSelect. See `spec/index.md` §4 for the contract. */
 export type Props = {
     /** Accessible label for the `<select>`. */
     label: string;
@@ -79,9 +79,9 @@ function applySize(slug: string): void {
     emit("change", slug);
 }
 
-// Internal source of truth so the picker works both controlled
+// Internal source of truth so the select works both controlled
 // (consumer drives `v-model:value`) and uncontrolled (no binding —
-// the picker resolves and applies a default itself, per spec §5).
+// the select resolves and applies a default itself, per spec §5).
 const current = ref(props.value ?? "");
 
 function setSize(slug: string): void {

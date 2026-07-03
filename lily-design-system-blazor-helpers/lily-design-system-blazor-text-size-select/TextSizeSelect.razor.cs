@@ -1,4 +1,4 @@
-// TextSizeSelect — code-behind. See spec.md for the contract.
+// TextSizeSelect — code-behind. See spec/index.md for the contract.
 
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace LilyDesignSystem.Blazor.Helpers;
 
 /// <summary>
 /// Context passed to a custom <c>ChildContent</c> render fragment.
-/// See <c>spec.md §4.2</c>.
+/// See <c>spec/index.md §4.2</c>.
 /// </summary>
 public sealed class TextSizeSelectContext
 {
@@ -24,7 +24,7 @@ public sealed class TextSizeSelectContext
 public partial class TextSizeSelect : ComponentBase
 {
     // -------------------------------------------------------------------
-    // Parameters — see spec.md §4.1.
+    // Parameters — see spec/index.md §4.1.
     // -------------------------------------------------------------------
 
     /// <summary>Accessible name for the &lt;select&gt;. Required.</summary>
@@ -55,7 +55,7 @@ public partial class TextSizeSelect : ComponentBase
     /// <summary>Custom rendering of the options.</summary>
     [Parameter] public RenderFragment<TextSizeSelectContext>? ChildContent { get; set; }
 
-    /// <summary>Called after the picker applies a new size.</summary>
+    /// <summary>Called after the select applies a new size.</summary>
     [Parameter] public EventCallback<string> OnChange { get; set; }
 
     /// <summary>Extra CSS class merged into the &lt;select&gt; root.</summary>

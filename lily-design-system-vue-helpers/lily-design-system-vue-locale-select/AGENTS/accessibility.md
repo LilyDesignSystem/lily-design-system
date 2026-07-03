@@ -1,8 +1,8 @@
 # Accessibility — LocaleSelect (Vue)
 
-The picker targets WCAG 2.2 AAA and uses a native HTML `<select>`,
+The select targets WCAG 2.2 AAA and uses a native HTML `<select>`,
 which carries WAI-ARIA `combobox` semantics for free. The canonical
-contract is in [`../spec.md`](../spec.md) §6.
+contract is in [`../spec/index.md`](../spec/index.md) §6.
 
 ## Roles and properties
 
@@ -10,9 +10,9 @@ contract is in [`../spec.md`](../spec.md) §6.
 | ----------------------------- | -------------------------- | ------------- |
 | `<select>`                    | implicit `role="combobox"` | Browser       |
 | `<select>`                    | `aria-label={label}`       | Consumer prop |
-| `<select>`                    | `name`                     | Picker        |
+| `<select>`                    | `name`                     | Select        |
 | `<option>`                    | implicit `role="option"`   | Browser       |
-| `<option>`                    | `lang={bcp47}`             | Picker        |
+| `<option>`                    | `lang={bcp47}`             | Select        |
 | `<option>`                    | selected state (implicit)  | Browser       |
 
 The `lang` attribute on each `<option>` satisfies WCAG 3.1.2
@@ -34,7 +34,7 @@ Provided entirely by the platform's native `<select>`:
 | Enter / Space          | Open the option list (platform-dependent).                          |
 | Escape                 | Close the option list.                                               |
 
-This is all native behaviour. The picker does not add JS keyboard
+This is all native behaviour. The select does not add JS keyboard
 handlers — it doesn't need to.
 
 ## State signals
@@ -76,7 +76,7 @@ By default the focused element stays focused when the locale
 changes. This is the WCAG 3.2.2 (On Input) contract: changing a
 setting must not cause a focus or context change. Avoid
 `router.push` calls in `@change` that scroll the page; if you must
-navigate, scroll-restore to the picker's position so the user can
+navigate, scroll-restore to the select's position so the user can
 keep choosing.
 
 ## Screen-reader behaviour matrix
@@ -117,7 +117,7 @@ The default rendering is a native `<select>` (see
 [examples/02-select.vue](../examples/02-select.vue)). Native
 `<select>` is fully accessible:
 
-- Keyboard: Enter / Space / Down arrow open the picker; typing
+- Keyboard: Enter / Space / Down arrow open the select; typing
   searches; Escape closes.
 - Screen reader: announces "combobox" + label + current value +
   count.
@@ -131,7 +131,7 @@ The tradeoff:
 - Choices hidden until opened (worse discoverability than an
   always-visible list).
 - Can't show option text in mixed scripts as easily (some OS
-  pickers don't honour per-option `lang`).
+  selects don't honour per-option `lang`).
 
 For an always-visible list of 2–8 locales, render buttons via the
 default slot. For 9+, the native `<select>` default or a combobox is

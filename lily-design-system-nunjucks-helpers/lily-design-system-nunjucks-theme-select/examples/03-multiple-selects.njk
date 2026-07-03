@@ -1,11 +1,11 @@
 {#
-  Example 03 — Multiple pickers in one page.
+  Example 03 — Multiple selects in one page.
 
-  Each picker gets a distinct `name`. The `name` plays two roles:
+  Each select gets a distinct `name`. The `name` plays two roles:
     1. It is the <select> `name` attribute, so the two controls
        don't share state.
     2. It is the discriminator on the managed <link> element, so
-       each picker swaps its own stylesheet without stepping on the
+       each select swaps its own stylesheet without stepping on the
        other.
 
   This is useful for: a "global" theme + a per-section accent theme;
@@ -13,8 +13,8 @@
   themes side-by-side.
 
   Note: the active `data-theme` attribute on <html> is set by
-  whichever picker fires last. To make two independent regions, pass
-  a per-picker `target` via the client.js init opts (see the script
+  whichever select fires last. To make two independent regions, pass
+  a per-select `target` via the client.js init opts (see the script
   below).
 #}
 {% from "../theme-select.njk" import themeSelect %}

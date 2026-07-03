@@ -1,11 +1,11 @@
 # AGENTS — TextSizeSelect (Angular helper)
 
-Single source of truth: [spec.md](./spec.md). Read it first; everything
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable Angular 20 headless text-size picker. Applies the chosen
+A reusable Angular 20 headless text-size select. Applies the chosen
 size to the document root via `data-text-size`, with optional
 `localStorage` persistence. Ships no CSS; consumer styles the
 `text-size-select` class hook and maps each `[data-text-size="…"]`
@@ -15,7 +15,7 @@ slug to real typography.
 
 | File                                   | Purpose                                          |
 | -------------------------------------- | ------------------------------------------------ |
-| `spec.md`                              | Specification-driven contract (canonical).       |
+| `spec/index.md`                              | Specification-driven contract (canonical).       |
 | `text-size-select.component.ts`        | Implementation. Standalone, signal-based, OnPush.|
 | `text-size-select.component.spec.ts`   | Vitest spec, one assertion per §7 acceptance.    |
 | `index.ts`                             | Barrel re-export.                                |
@@ -26,11 +26,11 @@ slug to real typography.
 - `TextSizeSelect` (component class, selector `lily-text-size-select`).
 
 Required inputs: `label`, `sizes`. Full table in
-[spec.md §4.1](./spec.md#41-inputs--outputs).
+[spec/index.md §4.1](./spec/index.md#41-inputs--outputs).
 
 ## Behaviour contract (one paragraph)
 
-On every size change the picker (1) sets
+On every size change the select (1) sets
 `data-text-size="{slug}"` on `target` (defaults to
 `document.documentElement`), (2) optionally writes the slug to
 `localStorage[storageKey]`, and (3) emits `sizeChange(slug)`. SSR-safe

@@ -94,4 +94,4 @@ emits.
   changes and CSS tips.
 - [`../docs/i18n-integration.md`](../docs/i18n-integration.md) —
   wiring `IStringLocalizer<T>`, ResX, custom culture switching.
-- [`../spec.md`](../spec.md) — the canonical contract.
+- [`../spec/index.md`](../spec/index.md) — the canonical contract.

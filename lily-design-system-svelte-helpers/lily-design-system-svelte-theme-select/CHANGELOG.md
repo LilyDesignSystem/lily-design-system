@@ -7,7 +7,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ## 0.1.0 — 2026-06-05
 
 Initial release. This is the **canonical reference implementation**
-for Lily's theme picker; the Vue, React, Angular, Blazor, Nunjucks,
+for Lily's theme select; the Vue, React, Angular, Blazor, Nunjucks,
 and HTML ports port from this contract clause-for-clause.
 
 ### Added
@@ -30,9 +30,9 @@ and HTML ports port from this contract clause-for-clause.
   `normaliseThemesUrl`, `themeHref`, and the `Props` + `ChildArgs`
   types.
 - `ThemeSelect.test.ts` — vitest suite asserting every numbered
-  acceptance criterion in `spec.md` §7 (13 items + extras).
+  acceptance criterion in `spec/index.md` §7 (13 items + extras).
 - `ThemeSelect.stories.svelte` — Storybook story for the select.
-- `spec.md` — spec-driven contract, version 0.1.0.
+- `spec/index.md` — spec-driven contract, version 0.1.0.
 - `AGENTS.md` — fast-index pointer for AI agents.
 - `AGENTS/` subdirectory with `api.md`, `lifecycle.md`,
   `accessibility.md`, `testing.md`, `ssr.md`.
@@ -41,7 +41,7 @@ and HTML ports port from this contract clause-for-clause.
   `recipes.md`, `ssr.md`, `styling.md`, `troubleshooting.md`.
 - `examples/` subdirectory: `basic.svelte`, `custom-labels.svelte`,
   `custom-rendering.svelte`, `lily-themes.svelte`,
-  `multiple-pickers.svelte`, `persistence.svelte`,
+  `multiple-selects.svelte`, `persistence.svelte`,
   `preloaded.svelte`, `system-preference.svelte`,
   `two-way-binding.svelte`, plus a `sveltekit-cookie/` directory
   with `hooks.server.ts`, `app.html.snippet`, `+layout.server.ts`,

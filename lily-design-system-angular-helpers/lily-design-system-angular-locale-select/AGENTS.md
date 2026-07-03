@@ -1,11 +1,11 @@
 # AGENTS — LocaleSelect (Angular helper)
 
-Single source of truth: [spec.md](./spec.md). Read it first; everything
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable Angular 20 headless locale picker. Applies the chosen
+A reusable Angular 20 headless locale select. Applies the chosen
 locale to the document root via `lang` and `dir`, with optional
 `localStorage` persistence and `navigator.languages` detection. Ships
 no CSS; consumer styles the `locale-select` class hook.
@@ -14,7 +14,7 @@ no CSS; consumer styles the `locale-select` class hook.
 
 | File                                | Purpose                                          |
 | ----------------------------------- | ------------------------------------------------ |
-| `spec.md`                           | Specification-driven contract (canonical).       |
+| `spec/index.md`                           | Specification-driven contract (canonical).       |
 | `locale-select.component.ts`        | Implementation. Standalone, signal-based, OnPush.|
 | `locale-select.component.spec.ts`   | Vitest spec, one assertion per §7 acceptance.    |
 | `locales.ts`                        | Code → English-name map and RTL sets.            |
@@ -31,11 +31,11 @@ no CSS; consumer styles the `locale-select` class hook.
   (constants).
 
 Required inputs: `label`, `locales`. Full table in
-[spec.md §4.1](./spec.md#41-inputs--outputs).
+[spec/index.md §4.1](./spec/index.md#41-inputs--outputs).
 
 ## Behaviour contract (one paragraph)
 
-On every locale change the picker (1) sets
+On every locale change the select (1) sets
 `target.lang = bcp47LocaleTag(code)`, (2) optionally sets
 `target.dir = isRtlLocale(code) ? "rtl" : "ltr"`, (3) optionally
 writes `code` to `localStorage[storageKey]`, and (4) emits

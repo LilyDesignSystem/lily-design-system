@@ -17,13 +17,13 @@ Every example assumes:
 
 | # | File                                                          | Demonstrates                              |
 |---|---------------------------------------------------------------|-------------------------------------------|
-| 1 | [`basic.component.ts`](./basic.component.ts)                  | Minimal three-theme picker.               |
+| 1 | [`basic.component.ts`](./basic.component.ts)                  | Minimal three-theme select.               |
 | 2 | [`two-way-binding.component.ts`](./two-way-binding.component.ts) | `[(value)]` and `(themeChange)`.       |
 | 3 | [`persistence.component.ts`](./persistence.component.ts)      | `localStorage` survival across reloads.   |
 | 4 | [`custom-labels.component.ts`](./custom-labels.component.ts)  | `themeLabels` for i18n / display names.   |
 | 5 | [`custom-rendering.component.ts`](./custom-rendering.component.ts) | v0.1.0 sibling-button workaround.    |
 | 6 | [`preloaded.component.ts`](./preloaded.component.ts)          | Zero-flicker switching via preloading.    |
-| 7 | [`multiple-pickers.component.ts`](./multiple-pickers.component.ts) | Two pickers in one page via `name`.   |
+| 7 | [`multiple-selects.component.ts`](./multiple-selects.component.ts) | Two selects in one page via `name`.   |
 | 8 | [`system-preference.component.ts`](./system-preference.component.ts) | Follow `prefers-color-scheme`.      |
 | 9 | [`lily-themes.component.ts`](./lily-themes.component.ts)      | All 41 Lily / DaisyUI themes at once.     |
 | 10 | [`analog-cookie/`](./analog-cookie/)                         | SSR-resolved theme via a cookie (Analog). |
@@ -41,7 +41,7 @@ one is:
 
 ## `[(value)]` conventions
 
-The picker exposes its bindable on `value`. Always use
+The select exposes its bindable on `value`. Always use
 `[(value)]="theme"` in templates, and pair with `(themeChange)`
 for one-shot side effects.
 
@@ -75,4 +75,4 @@ angular-headless library.
 - [`../docs/`](../docs/) — topic guides (props reference,
   accessibility, SSR, preloading, custom rendering, recipes,
   troubleshooting, styling).
-- [`../spec.md`](../spec.md) — the canonical contract.
+- [`../spec/index.md`](../spec/index.md) — the canonical contract.

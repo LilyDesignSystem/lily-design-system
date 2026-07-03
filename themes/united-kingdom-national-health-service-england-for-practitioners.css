@@ -2079,7 +2079,6 @@
     /* Picker baseline — inline row of selectable chips/buttons. */
     :where(
         .color-picker,
-        .theme-select,
         .five-face-rating-picker,
         .five-star-rating-picker,
         .net-promoter-score-picker,
@@ -2099,7 +2098,6 @@
     /* Picker buttons — small alt-surface chips. */
     :where(
         .color-picker-button,
-        .theme-select-button,
         .five-face-rating-picker-button,
         .five-star-rating-picker-button,
         .net-promoter-score-picker-button,

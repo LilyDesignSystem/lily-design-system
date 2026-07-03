@@ -14,7 +14,7 @@ this file is the per-helper contract.
 ## Test file
 
 [`../LocaleSelect.test.tsx`](../LocaleSelect.test.tsx) — one numbered
-test per [`spec.md §7`](../spec.md#7-testing-acceptance-criteria)
+test per [`spec/index.md §7`](../spec/index.md#7-testing-acceptance-criteria)
 acceptance criterion.
 
 ## Required reset between tests

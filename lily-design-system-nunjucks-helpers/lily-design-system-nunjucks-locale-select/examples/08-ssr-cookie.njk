@@ -1,11 +1,11 @@
 {#
   Example 08 — Cookie-resolved value, server-rendered.
 
-  The picker accepts `opts.value` so the matching option renders
+  The select accepts `opts.value` so the matching option renders
   `selected` server-side. Combine with a cookie-resolved value in
   the template context and you get a flicker-free render: the
   `<html lang dir>` arrives with the right values from byte zero,
-  and the picker shows the right option selected from the first
+  and the select shows the right option selected from the first
   paint.
 
   This example assumes the consumer's host (Express, Eleventy

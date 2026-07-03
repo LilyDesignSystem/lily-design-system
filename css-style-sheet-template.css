@@ -1804,14 +1804,6 @@
 .text-input-with-search {
 }
 
-/* theme-select: a picker for selecting a visual theme */
-.theme-select {
-}
-
-/* theme-select-button: a picker button for selecting a visual theme */
-.theme-select-button {
-}
-
 /* theme-provider: a container that applies CSS custom properties from a theme object */
 .theme-provider {
 }

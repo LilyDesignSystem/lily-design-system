@@ -9,7 +9,7 @@ file lists the custom-element-specific decisions layered on top.
 
 ```
 lily-design-system-html-<name>/
-├── spec.md             ← single source of truth, numbered with §
+├── spec/index.md             ← single source of truth, numbered with §
 ├── AGENTS.md           ← fast-index pointer for agents
 ├── AGENTS/             ← per-helper topic agent files
 │   ├── api.md
@@ -123,7 +123,7 @@ this.dispatchEvent(
   `addEventListener` on `document.body` catches every select.
 - `composed: true` lets the event cross shadow-DOM boundaries — for
   consumers who wrap the select in their own shadow root.
-- `detail` is the payload; the event name lives in spec.md §4.4.
+- `detail` is the payload; the event name lives in spec/index.md §4.4.
 
 Consumers listen via `el.addEventListener("themechange", (e) => {
 const { theme } = (e as CustomEvent).detail; })`.

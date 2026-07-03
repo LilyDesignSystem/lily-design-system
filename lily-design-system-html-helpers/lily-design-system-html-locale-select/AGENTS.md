@@ -1,6 +1,6 @@
 # AGENTS — `<locale-select>` (HTML helper)
 
-Single source of truth: [spec.md](./spec.md). Read it first; everything
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
@@ -15,7 +15,7 @@ consumer styles the `locale-select` class hook on rendered children.
 
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
-| `spec.md`                  | Specification-driven contract (canonical).       |
+| `spec/index.md`                  | Specification-driven contract (canonical).       |
 | `locale-select.ts`         | Implementation (TypeScript class).               |
 | `locale-select.test.ts`    | Vitest + jsdom spec, one assertion per §7 item.  |
 | `locales.ts`               | Built-in code → English-name map and RTL sets.   |
@@ -33,7 +33,7 @@ consumer styles the `locale-select` class hook on rendered children.
 - Type exports: `LocaleSelectProps`, `LocaleSelectChangeDetail`.
 
 Required attributes: `label`, `locales`. Full table in
-[spec.md §4.1](./spec.md#41-observed-attributes).
+[spec/index.md §4.1](./spec/index.md#41-observed-attributes).
 
 ## Behaviour contract (one paragraph)
 

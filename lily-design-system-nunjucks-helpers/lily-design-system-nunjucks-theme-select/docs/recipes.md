@@ -64,7 +64,7 @@ theme via the controller:
 See [`../examples/eleventy-cookie/`](../examples/eleventy-cookie/)
 for the full recipe.
 
-## Migrate from a localStorage-only picker to a cookie-backed one
+## Migrate from a localStorage-only select to a cookie-backed one
 
 1. Keep `storageKey` for now so existing users don't lose their
    preference.
@@ -78,7 +78,7 @@ for the full recipe.
 ## Build a flyout / dropdown UI
 
 Use [custom-rendering](./custom-rendering.md) to swap the native
-select for a button-triggered popover. Keep the picker's `<select>`
+select for a button-triggered popover. Keep the select's `<select>`
 around the flyout *trigger* so screen readers still hear the
 control label.
 
@@ -114,7 +114,7 @@ after the slug works.
 ## Multiple regions with independent themes
 
 See [`../examples/03-multiple-selects.njk`](../examples/03-multiple-selects.njk).
-Each picker gets a distinct `name` (so the selects and managed
+Each select gets a distinct `name` (so the selects and managed
 `<link>`s don't collide) and a distinct `target` (so `data-theme`
 goes on the section root rather than `<html>`).
 
@@ -143,7 +143,7 @@ Hoist it to a shared module:
 <script type="module">
     import { autoInit } from "/path/to/theme-select.client.js";
     const controllers = autoInit();
-    window.__themeController = controllers[0]; // singleton picker
+    window.__themeController = controllers[0]; // singleton select
 </script>
 
 <script type="module">
@@ -170,7 +170,7 @@ Hoist it to a shared module:
 </script>
 ```
 
-## Lazy-load the picker
+## Lazy-load the select
 
 The macro renders the `<select>` eagerly. To delay the runtime, put
 the client.js import inside an `IntersectionObserver`:
@@ -194,5 +194,5 @@ the client.js import inside an `IntersectionObserver`:
 ```
 
 The `<select>` remains interactive without JS (form-submission
-level), and the apply lifecycle kicks in once the picker scrolls
+level), and the apply lifecycle kicks in once the select scrolls
 into view.

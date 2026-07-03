@@ -9,7 +9,7 @@ file lists the Vue-specific decisions layered on top.
 
 ```
 lily-design-system-vue-<name>/
-├── spec.md             ← single source of truth, numbered with §
+├── spec/index.md             ← single source of truth, numbered with §
 ├── AGENTS.md           ← fast-index pointer for agents
 ├── AGENTS/             ← per-helper topic agent files
 │   ├── api.md
@@ -36,7 +36,7 @@ Every helper SFC follows this template:
 /** Public scoped-slot args. */
 export type SlotArgs = { /* … */ };
 
-/** Public props — see spec.md §4. */
+/** Public props — see spec/index.md §4. */
 export type Props = { /* … */ };
 
 /** Pure helpers exported for consumer reuse. */

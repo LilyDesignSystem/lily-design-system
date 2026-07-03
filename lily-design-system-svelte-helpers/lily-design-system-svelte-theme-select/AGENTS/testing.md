@@ -1,8 +1,8 @@
 # Testing — ThemeSelect (Svelte)
 
-The picker's test suite lives in
+The select's test suite lives in
 [`../ThemeSelect.test.ts`](../ThemeSelect.test.ts) and asserts every
-numbered acceptance criterion in `spec.md` §7. This file documents
+numbered acceptance criterion in `spec/index.md` §7. This file documents
 the test harness and the conventions specific to this helper. For
 the catalog-wide test rules see
 [`../../AGENTS/testing.md`](../../AGENTS/testing.md).
@@ -28,7 +28,7 @@ Each test re-runs the whole `$effect` lifecycle by calling
 
 ## Async waits
 
-The picker's `$effect` fires on the next microtask after mount. Use
+The select's `$effect` fires on the next microtask after mount. Use
 `await tick()` to let it run:
 
 ```ts
@@ -67,7 +67,7 @@ select.value = "dark";
 await fireEvent.change(select);
 ```
 
-The picker reads `e.target.value` inside its `onchange` handler, so
+The select reads `e.target.value` inside its `onchange` handler, so
 setting the value and firing `change` drives the same code path.
 
 ## Asserting the managed `<link>`
@@ -119,7 +119,7 @@ await tick();
 expect(onChange).toHaveBeenCalledWith("light");
 ```
 
-To observe the bind-back side, mount the picker inside a tiny
+To observe the bind-back side, mount the select inside a tiny
 wrapper `.svelte` fixture that does `bind:value` and asserts the
 new value on its own `$state`. Most tests don't need this — the
 `onChange` spy is enough.
@@ -183,7 +183,7 @@ This guarantees no `document.*` access leaked into the render path.
 ## What every §7 test asserts
 
 See the per-clause map in
-[`../spec.md` §7](../spec.md#7-testing-acceptance-criteria). Each
+[`../spec/index.md` §7](../spec/index.md#7-testing-acceptance-criteria). Each
 `it(...)` description starts with the clause number, e.g.
 `it("§7.6 resolves the initial theme to 'light' …", …)`. Keep the
 naming convention so a reviewer can spot a missing clause.

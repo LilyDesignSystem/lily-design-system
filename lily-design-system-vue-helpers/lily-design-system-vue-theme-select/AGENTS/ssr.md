@@ -1,13 +1,13 @@
 # SSR — ThemeSelect (Vue)
 
-The picker runs cleanly under Vue 3 SSR (Nuxt, plain
+The select runs cleanly under Vue 3 SSR (Nuxt, plain
 `vue/server-renderer`, Astro Vue islands). This page lists the
 Vue-specific recipes; the canonical rules live in
 [`../../AGENTS/ssr.md`](../../AGENTS/ssr.md).
 
-## What the picker does on the server
+## What the select does on the server
 
-Under SSR, `onMounted` and `watch` are no-ops. The picker renders:
+Under SSR, `onMounted` and `watch` are no-ops. The select renders:
 
 ```html
 <select class="theme-select" aria-label="Theme" name="theme">
@@ -27,7 +27,7 @@ hydration.
 
 If `<html>` arrives with no `data-theme` and the theme CSS
 references `:root[data-theme="dark"] { … }`, the first paint shows
-the default browser styles, then on hydration the picker sets
+the default browser styles, then on hydration the select sets
 `data-theme="dark"` and the page repaints. That's the flash of
 unstyled theme (FOUT).
 
@@ -44,9 +44,9 @@ End-to-end code lives in
    `event.context.theme`.
 2. `app.vue` (or a layout) calls `useHead({ htmlAttrs: { "data-theme": theme }})`
    so `<html data-theme="…">` arrives in the response.
-3. The picker is mounted with `value="…"` (forwarded from the
+3. The select is mounted with `value="…"` (forwarded from the
    middleware via a plugin or `useState`).
-4. When the user changes themes, the picker's `change` event writes
+4. When the user changes themes, the select's `change` event writes
    a cookie via `document.cookie = …`.
 
 ### Plugin to forward the cookie
@@ -156,8 +156,8 @@ all. Only use `<ClientOnly>` if you accept the FOUC.
 
 ## Why not auto-resolve from the cookie?
 
-The picker has no opinion about transport (cookie? header? IndexedDB?
+The select has no opinion about transport (cookie? header? IndexedDB?
 URL parameter?). Cookies are the right answer for Nuxt, but not for
 Cloudflare-Workers-based hosts, embedded contexts, or apps that
-already have a server-side preference store. The picker stays
+already have a server-side preference store. The select stays
 transport-agnostic and lets the consumer wire the integration.

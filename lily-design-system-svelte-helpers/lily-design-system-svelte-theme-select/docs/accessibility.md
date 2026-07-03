@@ -1,6 +1,6 @@
 # Accessibility
 
-The picker targets WCAG 2.2 AAA and uses a native HTML `<select>`,
+The select targets WCAG 2.2 AAA and uses a native HTML `<select>`,
 which carries the platform combobox semantics for free.
 
 ## Roles and properties
@@ -9,11 +9,11 @@ which carries the platform combobox semantics for free.
 | -------------- | -------------------------- | ------------- |
 | `<select>`     | implicit `role="combobox"` | Browser       |
 | `<select>`     | `aria-label={label}`       | Consumer prop |
-| `<select>`     | `name`                     | Picker        |
+| `<select>`     | `name`                     | Select        |
 | `<option>`     | implicit `role="option"`   | Browser       |
 | `<option>`     | selected state (implicit)  | Browser       |
 
-The picker does not add ARIA where native semantics already cover the
+The select does not add ARIA where native semantics already cover the
 need. There is no `aria-pressed`, no manual focus management — the
 native `<select>` behaviour is exactly the platform combobox.
 
@@ -50,13 +50,13 @@ colour-only meaning is required:
 
 ## Visible focus
 
-The picker does not suppress `:focus` or `:focus-visible` styling. The
+The select does not suppress `:focus` or `:focus-visible` styling. The
 consumer's CSS is responsible for the visible focus ring. NHS-UK and
 Lily themes ship a high-contrast focus outline that meets AAA.
 
 ## Reduced motion
 
-The picker performs no animation. Theme CSS files are responsible for
+The select performs no animation. Theme CSS files are responsible for
 respecting `prefers-reduced-motion` if they introduce transitions on
 the `data-theme` swap.
 
@@ -72,10 +72,10 @@ the `data-theme` swap.
 
 - **Replacing the `<select>` with a div in custom-rendering.** The
   `children` snippet renders inside the `<select>`; do not wrap a div
-  *around* the picker if you need combobox semantics.
+  *around* the select if you need combobox semantics.
 - **Hiding the `<select>` with `display: none`.** That removes it
   from the accessibility tree. Use a visually-hidden pattern
   (`clip-path: inset(50%)` or the `.sr-only` recipe) instead.
-- **Forgetting to translate `themeLabels`.** The picker only knows
+- **Forgetting to translate `themeLabels`.** The select only knows
   what the consumer tells it; locale-aware copy is the consumer's
   responsibility.

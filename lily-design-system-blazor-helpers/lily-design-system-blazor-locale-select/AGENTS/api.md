@@ -1,6 +1,6 @@
 # API — LocaleSelect (Blazor)
 
-Authoritative API surface lives in [`../spec.md`](../spec.md) §4.
+Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Blazor-flavoured shape of the contract.
 
 ## Exports

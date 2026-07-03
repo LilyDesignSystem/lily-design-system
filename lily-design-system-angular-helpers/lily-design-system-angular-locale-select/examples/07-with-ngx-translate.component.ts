@@ -2,7 +2,7 @@
     07. Wiring ngx-translate.
 
     `TranslateService.use(code)` is the imperative locale switcher.
-    The picker calls it from its `(localeChange)` handler. Templates
+    The select calls it from its `(localeChange)` handler. Templates
     use the `translate` pipe.
 
     Prerequisites:

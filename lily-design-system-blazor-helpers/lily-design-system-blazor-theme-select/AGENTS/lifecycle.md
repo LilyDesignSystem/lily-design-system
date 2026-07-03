@@ -1,7 +1,7 @@
 # Lifecycle — ThemeSelect (Blazor)
 
 The Blazor-flavoured walk-through of the select's lifecycle. The
-canonical contract is in [`../spec.md`](../spec.md) §5; this file
+canonical contract is in [`../spec/index.md`](../spec/index.md) §5; this file
 maps the Svelte canonical's `$effect` lifecycle to Blazor's
 `OnAfterRenderAsync`.
 
@@ -158,7 +158,7 @@ Only `Value` triggers re-apply. Other parameters
 (`ThemesUrl`, `Extension`, `Name`) are read inside the apply
 function on every fire, so changes take effect on the next theme
 change, not retroactively. This matches the Svelte canonical's
-contract (spec.md §5.4).
+contract (spec/index.md §5.4).
 
 If a consumer wants to re-apply when, e.g., `ThemesUrl` changes
 mid-session, they can write back to `Value`:

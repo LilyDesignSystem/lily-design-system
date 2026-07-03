@@ -12,7 +12,7 @@ project.
 | --------------------------------------- | ------------------------------------------------------------- |
 | `src/server/middleware/theme.ts`        | Reads the `theme` cookie into `event.context.theme`.          |
 | `src/app/tokens/initial-theme.ts`       | Injection token bridging SSR + client.                        |
-| `src/app/app.component.ts`              | Renders the picker; subscribes to `(themeChange)` for cookie. |
+| `src/app/app.component.ts`              | Renders the select; subscribes to `(themeChange)` for cookie. |
 | `src/app/app.config.server.ts`          | Writes `<html data-theme>` via DOCUMENT during SSR.           |
 | `src/server/routes/api/theme.post.ts`   | Tiny endpoint that writes the cookie on change.               |
 
@@ -31,10 +31,10 @@ browser → server: GET /  (Cookie: theme=dark)
                  INITIAL_THEME factory reads context → "dark"
                  app.config.server.ts writes <html data-theme="dark">
                  app.component.ts seeds theme signal with "dark"
-                 picker mounts with value="dark" — no flicker
+                 select mounts with value="dark" — no flicker
 ```
 
-When the user changes themes, the picker's `(themeChange)` calls
+When the user changes themes, the select's `(themeChange)` calls
 `fetch("/api/theme", { method: "POST", body: { theme } })` so the
 next SSR request sees the new cookie.
 

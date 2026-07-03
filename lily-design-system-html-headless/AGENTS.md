@@ -23,7 +23,7 @@
 - Headless design: no CSS, no styles — consumers provide all styling
 - Comprehensive comments with syntax, usage, examples, explanations
 - Input/View pattern for paired -Input/-View components
-- All tasks reference spec.md for implementation details
+- All tasks reference spec/index.md for implementation details
 - Set HTML tag class using the component kebab-case name
 
 ## NO

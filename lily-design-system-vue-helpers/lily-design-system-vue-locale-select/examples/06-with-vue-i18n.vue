@@ -1,7 +1,7 @@
 <!--
     06. Wiring vue-i18n (Intlify).
 
-    The picker's bindable `value` is mirrored into vue-i18n's `locale`
+    The select's bindable `value` is mirrored into vue-i18n's `locale`
     ref via the `change` event. Every `$t("key")` / `t("key")` call
     in your templates re-evaluates automatically when the user picks a
     different locale.

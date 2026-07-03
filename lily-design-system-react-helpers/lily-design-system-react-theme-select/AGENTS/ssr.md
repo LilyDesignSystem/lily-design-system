@@ -21,12 +21,12 @@ import * as React from "react";
 ```
 
 The directive is enforced by the bundler under Next.js / Remix /
-Vite SSR. Without it, the picker compiles to a server boundary and
+Vite SSR. Without it, the select compiles to a server boundary and
 errors at runtime when `useState` / `useEffect` are called.
 
 ## What renders on the server
 
-The picker outputs deterministic HTML based purely on the resolved
+The select outputs deterministic HTML based purely on the resolved
 `value`:
 
 ```html
@@ -43,7 +43,7 @@ is rendered selected. Otherwise no option is selected.
 
 The first useEffect runs and:
 
-1. Resolves the initial slug per `spec.md §5.2`.
+1. Resolves the initial slug per `spec/index.md §5.2`.
 2. If uncontrolled and the resolved slug differs from the current
    state, `setInternalValue(resolved)` triggers a re-render.
 3. `applyTheme(slug)` injects/updates the managed `<link>` and
@@ -126,9 +126,9 @@ Result:
 - First paint: `<html data-theme="dark">` arrives in the HTML
   response with the dark theme's stylesheet already linked. No
   flash.
-- Picker mounts with `value="dark"` already correct; first-mount
+- Select mounts with `value="dark"` already correct; first-mount
   effect re-applies (no visible change).
-- User picks `light`. Picker writes `data-theme="light"` and the
+- User picks `light`. Select writes `data-theme="light"` and the
   cookie; next request re-paints the page in light from byte zero.
 
 ## Remix loader recipe
@@ -165,7 +165,7 @@ example.
 ## Vite SSR / plain React
 
 Without a server framework there's no first-paint problem worth
-solving — the picker hydrates from `localStorage` before content
+solving — the select hydrates from `localStorage` before content
 renders if you mount it at the top of `<body>`. Avoid styles
 depending on `data-theme` for the first paint, or hard-code the
 default theme's `<link>` in `index.html`.
@@ -174,11 +174,11 @@ default theme's `<link>` in `index.html`.
 
 ### "Hydration mismatch: Server rendered X but client rendered Y"
 
-**Cause.** The picker's effect resolved a slug different from what
+**Cause.** The select's effect resolved a slug different from what
 the server rendered (because the server used `value="light"` but
 `localStorage` has `"dark"`).
 
-**Fix.** The picker must mount with the value that the server
+**Fix.** The select must mount with the value that the server
 rendered. If you're using `localStorage`, switch to a cookie so the
 server can read it.
 
@@ -187,7 +187,7 @@ server can read it.
 **Cause.** Helper code accessed `document` outside `useEffect`.
 
 **Fix.** Wrap with `typeof document !== "undefined"` or move into
-`useEffect`. The Lily picker already does this; if you fork, keep
+`useEffect`. The Lily select already does this; if you fork, keep
 the guards.
 
 ### "use client must be at the top of the file"
@@ -199,7 +199,7 @@ the guards.
 ## Streaming SSR
 
 React 19's streaming SSR fires effects only after the relevant
-chunk hydrates. The picker's first-mount effect runs once per
+chunk hydrates. The select's first-mount effect runs once per
 component instance after that chunk's hydration completes. No
 special handling needed.
 
@@ -213,7 +213,7 @@ fragment is themed correctly before hydration completes.
 - [ ] Server reads the cookie and writes `<html data-theme>`.
 - [ ] Server inlines the active theme's `<link rel="stylesheet">`.
 - [ ] Client component receives the resolved theme via props and
-      passes it as `value` to the picker.
+      passes it as `value` to the select.
 - [ ] `onChange` writes the cookie (via `document.cookie` or a
       server action).
 - [ ] Storage key (if used) is for cross-tab convenience only, not

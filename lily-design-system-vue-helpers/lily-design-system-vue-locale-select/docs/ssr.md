@@ -1,6 +1,6 @@
 # SSR — Server-side rendering, cookies, and Accept-Language
 
-The picker compiles cleanly under Vue 3 SSR (Nuxt 3, plain
+The select compiles cleanly under Vue 3 SSR (Nuxt 3, plain
 `vue/server-renderer`, Astro Vue islands, Vite + Vue with a custom
 SSR setup) but renders nothing locale-specific on the server unless
 the consumer pre-resolves the locale. This page covers the four
@@ -33,7 +33,7 @@ with `lang="en"` and the client picks `ar`, the page jumps:
    `<html lang="ar" dir="rtl">`.
 4. Browser repaints in RTL → layout shift.
 
-Steps 2–4 cause a visible flash. The picker can't avoid it on its
+Steps 2–4 cause a visible flash. The select can't avoid it on its
 own because `localStorage` and `navigator.languages` aren't
 accessible server-side. The consumer fixes it by pre-resolving the
 locale on the server and seeding `value`.
@@ -90,10 +90,10 @@ Result:
 
 - First paint: `<html lang="fr" dir="ltr">` arrives in the HTML
   response. No flash, no layout shift.
-- Picker mounts already showing the right option selected because
+- Select mounts already showing the right option selected because
   `locale.value` was hydrated from the cookie.
 - User picks `ar`. `useCookie()` writes `document.cookie` and the
-  picker writes `<html lang="ar" dir="rtl">`. Next request re-paints
+  select writes `<html lang="ar" dir="rtl">`. Next request re-paints
   the page in Arabic from the very first byte.
 
 ### Why `useCookie()` is the cleanest answer
@@ -251,7 +251,7 @@ request URL).
 
 ## Strategy 4: client-only (`localStorage` / navigator)
 
-The fallback when there is no server. The picker flickers (default
+The fallback when there is no server. The select flickers (default
 paints first, then the resolved locale takes over) but everything
 else works.
 
@@ -276,7 +276,7 @@ Acceptable for:
 ## Hydration considerations
 
 Vue's hydration matcher compares the SSR DOM to the client virtual
-DOM and warns on any mismatch. The picker is safe by default
+DOM and warns on any mismatch. The select is safe by default
 because:
 
 - `onMounted` never fires during SSR, so no DOM writes happen
@@ -340,7 +340,7 @@ const RTL = /^(ar|he|fa|ur|ps)/.test(locale);
 </html>
 ```
 
-`client:load` mounts the picker on the client. Because the
+`client:load` mounts the select on the client. Because the
 surrounding `<html>` already has the right `lang`/`dir`, there's no
 flash.
 
@@ -348,7 +348,7 @@ flash.
 
 ## Tests for SSR
 
-The picker's vitest suite runs in jsdom (client-side). For full SSR
+The select's vitest suite runs in jsdom (client-side). For full SSR
 tests:
 
 - **Compile check** — `vue-tsc` will catch invalid SSR usage
@@ -360,7 +360,7 @@ tests:
   `vue/server-renderer` for each locale, snapshot the first 200
   bytes.
 
-The picker itself has no SSR-specific code path to test beyond "the
+The select itself has no SSR-specific code path to test beyond "the
 component compiles in SSR mode and renders the selected option for
 the seeded `value`". The reference test suite covers that under
 jsdom by asserting that `value` controls which option is selected on

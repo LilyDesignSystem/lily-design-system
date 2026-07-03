@@ -83,7 +83,7 @@ input, a swatch grid); you wire click / change events to
 ## See also
 
 - [../index.md](../index.md) — user-facing readme.
-- [../spec.md](../spec.md) — canonical contract.
+- [../spec/index.md](../spec/index.md) — canonical contract.
 - [../docs/concepts.md](../docs/concepts.md) — macro / client.js
   split, lifecycle, persistence.
 - [../docs/i18n-integration.md](../docs/i18n-integration.md) —

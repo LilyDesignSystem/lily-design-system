@@ -13,7 +13,7 @@ wins when contracts disagree.
 
 ```
 lily-design-system-svelte-<name>/
-├── spec.md                  ← single source of truth, numbered with §
+├── spec/index.md                  ← single source of truth, numbered with §
 ├── AGENTS.md                ← fast-index pointer for agents
 ├── AGENTS/                  ← per-helper topic agent files
 │   ├── api.md
@@ -43,7 +43,7 @@ Every helper component follows this template:
     /** Public children-snippet args. */
     export type ChildArgs = { /* … */ };
 
-    /** Public props — see spec.md §4. */
+    /** Public props — see spec/index.md §4. */
     export type Props = {
         label: string;
         value?: string;

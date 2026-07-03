@@ -44,7 +44,7 @@ Consumer CSS reads `var(--theme-color-primary)`,
 The Nunjucks `themeSelect` macro emits a native `<select>`; the companion
 `theme-select.client.js` writes one signal to the document root: a
 `data-theme="<slug>"` attribute. Theme CSS files scope their rules
-to `:root[data-theme="<slug>"]` so the picker's attribute mutation
+to `:root[data-theme="<slug>"]` so the select's attribute mutation
 is enough to switch the live theme.
 
 ```css
@@ -55,14 +55,14 @@ is enough to switch the live theme.
 }
 ```
 
-The picker does not write CSS custom properties directly. Theme
-authors do, via the `<link>` the picker swaps into `<head>`.
+The select does not write CSS custom properties directly. Theme
+authors do, via the `<link>` the select swaps into `<head>`.
 
 ## Light / dark / high-contrast
 
-The picker's `value` is just a string. Convention says `light`,
+The select's `value` is just a string. Convention says `light`,
 `dark`, and `high-contrast` slugs map to those three modes, but the
-picker doesn't enforce that — any slug is valid.
+select doesn't enforce that — any slug is valid.
 
 A `prefers-color-scheme: dark` integration is two lines in the
 consumer's host code:
@@ -73,7 +73,7 @@ const prefersDark = req.headers["sec-ch-prefers-color-scheme"] === "dark";
 const initial = prefersDark ? "dark" : "light";
 ```
 
-Pass `initial` as `opts.defaultValue`. See the theme picker's
+Pass `initial` as `opts.defaultValue`. See the theme select's
 `examples/06-system-preference.njk`.
 
 ## Forbidden in the headless layer
@@ -101,7 +101,7 @@ or watch for the `data-theme` mutation via `MutationObserver`.
 ### Eleventy-data theme catalog
 
 A common pattern: store the list of available themes in an Eleventy
-data file so the picker auto-renders every theme that exists on
+data file so the select auto-renders every theme that exists on
 disk:
 
 ```js
@@ -141,6 +141,6 @@ round-trip, they preload all theme CSS files in the document head:
 </head>
 ```
 
-The picker still swaps its managed `<link>` href; the browser
-serves the preloaded response from cache. See the theme picker's
+The select still swaps its managed `<link>` href; the browser
+serves the preloaded response from cache. See the theme select's
 `docs/preloading.md`.

@@ -11,7 +11,7 @@ Drop them under `src/routes/` in a SvelteKit project.
 | -------------------- | --------------------------------------------------- |
 | `hooks.server.ts`    | Reads the `theme` cookie into `event.locals.theme`. |
 | `+layout.server.ts`  | Exposes the resolved theme to all routes.           |
-| `+layout.svelte`     | Renders the picker, reflects `data-theme` on `<html>` before paint via `app.html`. |
+| `+layout.svelte`     | Renders the select, reflects `data-theme` on `<html>` before paint via `app.html`. |
 | `+page.svelte`       | A trivial page that demonstrates the result.        |
 | `app.html.snippet`   | Snippet to inline `data-theme="…"` on `<html>` before first paint. |
 
@@ -28,9 +28,9 @@ browser → server: GET /  (Cookie: theme=dark)
                  hooks.server.ts reads cookie → event.locals.theme = "dark"
                  +layout.server.ts returns { theme: "dark" } to client
                  +layout.svelte renders <html data-theme="dark"> immediately
-                 the picker mounts with value="dark" — no flicker
+                 the select mounts with value="dark" — no flicker
 ```
 
-When the user changes themes, the picker's `onChange` writes the new
+When the user changes themes, the select's `onChange` writes the new
 slug to a cookie via `fetch("/api/theme", { method: "POST", … })` so
 the next SSR request sees it.

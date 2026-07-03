@@ -2,15 +2,15 @@
     02. Customizing the <select> / <option> markup via the default
     scoped slot.
 
-    The picker already renders a native `<select>` by default, so this
+    The select already renders a native `<select>` by default, so this
     example shows how to take full control of that markup — supplying
     your own `<select>` and `<option>` elements (e.g. to add a class
-    hook, group options, or change the option text) while the picker
+    hook, group options, or change the option text) while the select
     still owns the lifecycle (lang/dir/storage/change). Best when the
     design system needs bespoke dropdown markup.
 
     Outcome: a single <select> populated with one <option> per locale,
-    each carrying its own BCP 47 `lang`. The picker's watch/onMounted
+    each carrying its own BCP 47 `lang`. The select's watch/onMounted
     runs the same way as the default rendering.
 -->
 <script setup lang="ts">

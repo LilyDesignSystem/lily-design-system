@@ -1,6 +1,6 @@
 # AGENTS — TextSizeSelect (Blazor helper)
 
-Single source of truth: [spec.md](./spec.md). Read it first; everything
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
@@ -15,7 +15,7 @@ slug to real typography.
 
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
-| `spec.md`                  | Specification-driven contract (canonical).       |
+| `spec/index.md`                  | Specification-driven contract (canonical).       |
 | `TextSizeSelect.razor`     | Razor markup.                                    |
 | `TextSizeSelect.razor.cs`  | C# code-behind (partial class).                  |
 | `TextSizeSelectTests.cs`   | bUnit + xUnit spec, one `[Fact]` per §7 item.    |

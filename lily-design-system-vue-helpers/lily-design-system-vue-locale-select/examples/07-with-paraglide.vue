@@ -3,7 +3,7 @@
 
     Paraglide compiles each translation to a tree-shakeable function.
     Locale is set via `setLocale()` and read via `getLocale()`. The
-    picker calls `setLocale` from its `@change` handler.
+    select calls `setLocale` from its `@change` handler.
 
     Inlang ships an official Paraglide adapter for Vue (often used via
     `@inlang/paraglide-js`). The Vue integration story is the same as

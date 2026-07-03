@@ -1,9 +1,9 @@
 # ThemeSelect (Vue helper)
 
-A reusable, headless Vue 3 theme picker that **loads themes
+A reusable, headless Vue 3 theme select that **loads themes
 dynamically at runtime** from a developer-specified directory.
 
-The single source of truth is [spec.md](./spec.md). This file is the
+The single source of truth is [spec/index.md](./spec/index.md). This file is the
 comprehensive user guide. For topic deep-dives see
 [docs/](./docs/) and for working code see [examples/](./examples/).
 
@@ -21,21 +21,21 @@ comprehensive user guide. For topic deep-dives see
 - [Accessibility](#accessibility)
 - [SSR and hydration](#ssr-and-hydration)
 - [Preloading for zero-flicker switching](#preloading-for-zero-flicker-switching)
-- [Multiple pickers in one app](#multiple-pickers-in-one-app)
+- [Multiple selects in one app](#multiple-selects-in-one-app)
 - [Recipes](#recipes)
 - [Troubleshooting](#troubleshooting)
 - [Testing](#testing)
 
 ## Why this exists
 
-Most theme pickers couple selection, persistence, and styling into one
+Most theme selects couple selection, persistence, and styling into one
 opinionated widget. This one splits the contract cleanly:
 
 - **Authors** drop theme CSS files (e.g. `light.css`, `dark.css`) into
   a directory served by the app.
 - **This component** owns selection, dynamic loading, persistence, and
   accessibility.
-- **Consumers** own the visual style of the picker via the
+- **Consumers** own the visual style of the select via the
   `theme-select` class hook.
 
 The result is a small reusable widget that works in any Vue 3 host
@@ -67,7 +67,7 @@ import type { Props, SlotArgs } from "./lily-design-system-vue-theme-select";
    `public/assets/themes/dark.css`. Each theme scopes its tokens to
    `:root[data-theme="<slug>"]` (the convention every Lily theme
    uses).
-2. Render the picker, pointing it at the directory and listing the
+2. Render the select, pointing it at the directory and listing the
    available slugs.
 
 ```vue
@@ -100,7 +100,7 @@ When the user picks `dark`, the component:
 
 ## How it works
 
-On every theme change the picker performs four steps, in order:
+On every theme change the select performs four steps, in order:
 
 1. **Locate or create** a managed
    `<link rel="stylesheet" data-lily-theme-select="{name}">` in
@@ -128,15 +128,15 @@ The default theme is `"light"` whenever `"light"` appears in your
 3. `defaultValue` prop
 4. `"light"` (if present in `themes`)
 5. `themes[0]`
-6. `""` — nothing is applied; the picker waits for user interaction
+6. `""` — nothing is applied; the select waits for user interaction
 
-The picker never displays the word `"default"`. Option labels default
+The select never displays the word `"default"`. Option labels default
 to the slug with its first letter upper-cased
 (e.g. `"light"` → `"Light"`); override with `themeLabels`.
 
 ## Props
 
-The complete table is in [spec.md §4.1](./spec.md#41-props). Highlights:
+The complete table is in [spec/index.md §4.1](./spec/index.md#41-props). Highlights:
 
 | Prop           | Type                     | Required | Notes                                      |
 | -------------- | ------------------------ | -------- | ------------------------------------------ |
@@ -160,7 +160,7 @@ field-by-field reference.
 | Event           | Payload  | When                                                  |
 | --------------- | -------- | ----------------------------------------------------- |
 | `update:value`  | `string` | After selection, drives `v-model:value`.              |
-| `change`        | `string` | After the picker applies a new theme (post-DOM-write). |
+| `change`        | `string` | After the select applies a new theme (post-DOM-write). |
 
 ## Custom option rendering
 
@@ -196,11 +196,11 @@ Topic guide: [`docs/custom-rendering.md`](./docs/custom-rendering.md).
 ## Persistence
 
 Pass a `storageKey` to persist the active slug to `localStorage`. On
-a fresh mount the picker reads back the stored slug as part of the
+a fresh mount the select reads back the stored slug as part of the
 initial-value resolution (§ Default theme).
 
 Errors writing to or reading from `localStorage` (private mode,
-quota, disabled storage) are silently swallowed — the picker
+quota, disabled storage) are silently swallowed — the select
 continues to work in-memory.
 
 If you need cookie-based persistence (so SSR can read the theme
@@ -212,7 +212,7 @@ before first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
 - The root is a native `<select>` with `aria-label={label}`,
   carrying the implicit `role="combobox"`.
 - The native `<select>` gives Arrow / Home / End / typeahead
-  semantics for free; the picker does not override any keyboard
+  semantics for free; the select does not override any keyboard
   behaviour.
 - The active state is exposed in three independent channels: the
   selected `<option>`, `data-theme` on the root, and the `value`
@@ -224,7 +224,7 @@ Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 
 ## SSR and hydration
 
-The picker compiles cleanly under Vue 3 SSR (Nuxt, plain
+The select compiles cleanly under Vue 3 SSR (Nuxt, plain
 `vue/server-renderer`, Astro Vue islands). On the server no
 lifecycle hook runs and no DOM is touched, so the markup renders
 using whatever `value` (or empty string) the consumer supplies.
@@ -236,7 +236,7 @@ cookie) and pass it as `value`. See
 
 ## Preloading for zero-flicker switching
 
-By default the picker swaps one `<link>` href, so the active theme
+By default the select swaps one `<link>` href, so the active theme
 is fetched on demand. To switch instantly between themes, preload
 them all yourself:
 
@@ -246,16 +246,16 @@ them all yourself:
 <link rel="stylesheet" href="/assets/themes/abyss.css">
 ```
 
-The picker still mutates `data-theme`, and since every theme's CSS
+The select still mutates `data-theme`, and since every theme's CSS
 is scoped to `:root[data-theme="…"]`, the active rules switch
 instantly with the attribute change — no network round-trip.
 
 Topic guide: [`docs/preloading.md`](./docs/preloading.md). Working
 example: [`examples/preloaded.vue`](./examples/preloaded.vue).
 
-## Multiple pickers in one app
+## Multiple selects in one app
 
-Pass a distinct `name` prop to each picker. The `name` is used as
+Pass a distinct `name` prop to each select. The `name` is used as
 both the `<select>` `name` (so the controls stay distinct) and the
 discriminator on the managed `<link>` element
 (`data-lily-theme-select="{name}"`).
@@ -268,8 +268,8 @@ Quick cookbook in [`docs/recipes.md`](./docs/recipes.md):
 
 - Following the OS colour scheme via `prefers-color-scheme`.
 - Reading a theme cookie in Nuxt before render.
-- Migrating from a `localStorage`-only picker to a cookie-backed one.
-- Building a flyout / dropdown UI around the picker.
+- Migrating from a `localStorage`-only select to a cookie-backed one.
+- Building a flyout / dropdown UI around the select.
 - Loading themes from a CDN.
 
 ## Troubleshooting
@@ -292,13 +292,13 @@ pitfalls:
 
 `pnpm test` under a vitest + jsdom + `@vue/test-utils` setup
 exercises every numbered acceptance criterion in
-[spec.md §7](./spec.md#7-testing-acceptance-criteria).
+[spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria).
 
 ## Files in this directory
 
 | File                  | Purpose                                          |
 | --------------------- | ------------------------------------------------ |
-| `spec.md`             | Single source of truth — API, behaviour, tests.  |
+| `spec/index.md`             | Single source of truth — API, behaviour, tests.  |
 | `AGENTS.md`           | Fast-index pointer; loads the AGENTS bundle.     |
 | `AGENTS/`             | Topic-by-topic agent files.                      |
 | `CLAUDE.md`           | `@AGENTS.md`.                                    |

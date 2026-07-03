@@ -143,7 +143,7 @@ out of the box (the helper writes to `document.documentElement`); for
 per-region scoping use a wrapping `data-theme="…"` attribute that
 your CSS selectors target, applied via a custom `OnChange` handler.
 
-See [`../examples/MultiplePickers.razor`](../examples/MultiplePickers.razor).
+See [`../examples/MultipleSelects.razor`](../examples/MultipleSelects.razor).
 
 ## Programmatically switch themes from a sibling component
 

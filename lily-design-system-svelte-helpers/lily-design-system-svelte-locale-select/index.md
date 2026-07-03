@@ -1,10 +1,10 @@
 # LocaleSelect (Svelte helper)
 
-A reusable, headless Svelte 5 locale picker that applies the chosen
+A reusable, headless Svelte 5 locale select that applies the chosen
 locale to the document root via `lang` and `dir`, with optional
 `localStorage` persistence and `navigator.languages` detection.
 
-For the full contract see [spec.md](./spec.md) — it is the single source
+For the full contract see [spec/index.md](./spec/index.md) — it is the single source
 of truth for the API, behaviour, and tests.
 
 ## Install
@@ -31,8 +31,8 @@ import LocaleSelect, {
 
 ## Quick start
 
-Render the picker with a `label` and the list of locales your app
-supports. The picker writes `lang` and `dir` onto `<html>` so your
+Render the select with a `label` and the list of locales your app
+supports. The select writes `lang` and `dir` onto `<html>` so your
 i18n library, your CSS (`html[dir="rtl"]`), and assistive technology
 all see the change.
 
@@ -59,7 +59,7 @@ When the user picks `ar`, the component:
 - writes `"ar"` to `localStorage["lily-locale"]`,
 - fires `onChange("ar")` if provided.
 
-The picker does NOT translate strings — that is the consumer's
+The select does NOT translate strings — that is the consumer's
 i18n library (e.g. `svelte-i18n`, Paraglide, Inlang, Tolgee, raw
 `Intl.*`). Wire the bindable `value` or `onChange` to your library so
 it loads the right messages.
@@ -68,7 +68,7 @@ it loads the right messages.
 
 Language tags follow **BCP 47** (RFC 5646). The `lang` attribute on
 HTML elements must use hyphens, while many applications carry locale
-identifiers with underscores (`en_US`, `zh_Hant_TW`). The picker
+identifiers with underscores (`en_US`, `zh_Hant_TW`). The select
 accepts whichever form you prefer in the `locales` array and converts
 to the hyphen form when writing to the DOM. The bindable `value`
 preserves your original form, so round-trips are lossless.
@@ -128,7 +128,7 @@ Parts).
 
 ### Pretty labels for the option text
 
-By default the picker uses the English names from `locales.tsv` (and
+By default the select uses the English names from `locales.tsv` (and
 falls back to `Intl.DisplayNames` if available, then to the raw code).
 Override per-code with `localeLabels`:
 
@@ -146,7 +146,7 @@ announced in its own language.
 
 ### Driving custom `<option>` markup
 
-Use the `children` snippet for full markup control. The picker still
+Use the `children` snippet for full markup control. The select still
 owns the apply lifecycle:
 
 ```svelte
@@ -288,7 +288,7 @@ console.log(RTL_LANGUAGE_TAGS.has("ar"));  // true
 
 ## Props
 
-See [spec.md §4](./spec.md#4-public-api) for the full table.
+See [spec/index.md §4](./spec/index.md#4-public-api) for the full table.
 
 Required props: `label`, `locales`.
 
@@ -314,7 +314,7 @@ Common optional props: `value` (bindable), `defaultValue`,
 
 `pnpm test` under a vitest + jsdom + `@testing-library/svelte` setup
 exercises every numbered acceptance criterion in
-[spec.md §7](./spec.md#7-testing-acceptance-criteria) — 23 numbered
+[spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria) — 23 numbered
 items plus extras for case-insensitive RTL detection and the
 navigator-matcher helper.
 
@@ -322,7 +322,7 @@ navigator-matcher helper.
 
 | File                          | Purpose                                          |
 | ----------------------------- | ------------------------------------------------ |
-| `spec.md`                     | Single source of truth — API, behaviour, tests.  |
+| `spec/index.md`                     | Single source of truth — API, behaviour, tests.  |
 | `LocaleSelect.svelte`       | The component implementation.                    |
 | `LocaleSelect.test.ts`      | vitest suite covering every spec §7 item.        |
 | `locales.ts`                  | Built-in code → English-name map and RTL sets.   |
@@ -358,5 +358,5 @@ you can copy into your project.
 | [06-with-svelte-i18n.svelte](./examples/06-with-svelte-i18n.svelte)                     | Binding to svelte-i18n's `locale` store.                           |
 | [07-with-paraglide.svelte](./examples/07-with-paraglide.svelte)                         | Driving Paraglide JS's `setLocale()` from `onChange`.              |
 | [08-ssr-cookie.svelte](./examples/08-ssr-cookie.svelte)                                 | SvelteKit cookie-based SSR — no flash of default locale.           |
-| [09-scoped-target.svelte](./examples/09-scoped-target.svelte)                           | Multiple per-region pickers, each scoped to its own panel.         |
+| [09-scoped-target.svelte](./examples/09-scoped-target.svelte)                           | Multiple per-region selects, each scoped to its own panel.         |
 | [10-combobox.svelte](./examples/10-combobox.svelte)                                     | Native `<datalist>` type-ahead for 436 locales.                    |

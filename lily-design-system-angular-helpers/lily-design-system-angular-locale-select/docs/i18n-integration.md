@@ -4,7 +4,7 @@
 the document language and tells you when the user changed it; the
 actual string substitution is your i18n library's job.
 
-This page shows how to wire the picker to the three most common
+This page shows how to wire the select to the three most common
 Angular i18n stacks: **@angular/localize** (the built-in),
 **Transloco** (most popular runtime library), and
 **ngx-translate** (older alternative).
@@ -28,9 +28,9 @@ substitutes them at runtime. The `LOCALE_ID` injection token
 controls everything; changing it requires re-bootstrapping the
 app.
 
-The picker can't dynamically switch `LOCALE_ID` (that's an Angular
+The select can't dynamically switch `LOCALE_ID` (that's an Angular
 limitation, not a helper limitation). The common pattern is to
-build one bundle per locale and let the picker drive a hard
+build one bundle per locale and let the select drive a hard
 navigation:
 
 ```ts
@@ -110,7 +110,7 @@ export class LanguageMenu {
 }
 ```
 
-Wire `current` to Transloco's `activeLang$` if you want the picker
+Wire `current` to Transloco's `activeLang$` if you want the select
 to react to programmatic locale changes from elsewhere in the
 app:
 
@@ -171,7 +171,7 @@ reacts via the `translate` pipe (or `TranslateService.onLangChange`).
 
 For apps with a handful of strings and no formal i18n library,
 store the locale in a signal and pass it to `Intl` formatters
-directly. The picker still owns the `lang` / `dir` lifecycle:
+directly. The select still owns the `lang` / `dir` lifecycle:
 
 ```ts
 import { Component, computed, signal } from "@angular/core";
@@ -298,5 +298,5 @@ The page arrives with the correct `lang` and `dir` already on
 | SEO-friendly URLs per locale                      | URL-prefix routing      |
 | No FOUC, cookie-backed, server-rendered           | Cookie + injection token |
 
-The picker is the same in every case. Only the
+The select is the same in every case. Only the
 `[(value)]` target and the `(localeChange)` body change.

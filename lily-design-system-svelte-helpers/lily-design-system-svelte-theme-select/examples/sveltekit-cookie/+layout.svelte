@@ -1,5 +1,5 @@
 <!--
-  Layout that renders the theme picker and writes the user's choice
+  Layout that renders the theme select and writes the user's choice
   back to a cookie so the next SSR pass sees it.
 -->
 <script lang="ts">

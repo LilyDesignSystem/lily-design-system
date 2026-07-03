@@ -10,7 +10,7 @@
   directive. Writes `lang` (BCP 47 hyphen form) and `dir` (`"rtl"` /
   `"ltr"`) to a target element (defaults to `document.documentElement`).
 - `LocaleSelect.test.tsx` — vitest spec with one assertion per
-  acceptance criterion in `spec.md §7`. Covers pure helpers, the
+  acceptance criterion in `spec/index.md §7`. Covers pure helpers, the
   markup contract, the DOM apply contract, persistence, custom
   `target`, `applyDir={false}`, `children` render prop, navigator
   detection, and rest-prop spread.
@@ -25,7 +25,7 @@
   `matchNavigatorLanguage`), the static data exports
   (`defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`),
   the `Props` and `ChildArgs` types, and the default export.
-- `spec.md` — canonical specification mirroring the Svelte
+- `spec/index.md` — canonical specification mirroring the Svelte
   counterpart's contract; spec version 0.1.0.
 - `index.md` — comprehensive user guide with table of contents,
   quick start, props, custom rendering, persistence, navigator

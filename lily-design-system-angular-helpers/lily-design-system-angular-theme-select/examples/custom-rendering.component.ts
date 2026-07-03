@@ -4,7 +4,7 @@
     The v0.1.0 ThemeSelect doesn't yet expose a content-projection
     slot, so this example illustrates the recommended workaround:
     a sibling button group that writes to the same `theme` signal the
-    picker reads via `[(value)]`. The picker is visually hidden but
+    select reads via `[(value)]`. The select is visually hidden but
     still owns the lifecycle.
 
     A future revision will expose <ng-content> + <ng-template>
@@ -19,7 +19,7 @@ import { ThemeSelect } from "../theme-select.component";
     imports: [ThemeSelect],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-        <!-- The picker owns the lifecycle; we hide its UI. -->
+        <!-- The select owns the lifecycle; we hide its UI. -->
         <lily-theme-select
             label="Theme (hidden)"
             themesUrl="/assets/themes/"

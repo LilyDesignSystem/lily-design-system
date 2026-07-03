@@ -135,8 +135,6 @@ const explicitDemos = {
   'red-orange-yellow-green-blue-picker-button': '<button class="red-orange-yellow-green-blue-picker-button" role="radio">Green</button>',
   'color-picker': '<div class="color-picker" aria-label="Color picker"><button class="color-picker-button" style="background:#ff0000" aria-label="Red"></button><button class="color-picker-button" style="background:#00ff00" aria-label="Green"></button><button class="color-picker-button" style="background:#0000ff" aria-label="Blue"></button></div>',
   'color-picker-button': '<button class="color-picker-button" style="background:#ff0000" aria-label="Red"></button>',
-  'theme-select': '<div class="theme-select" role="radiogroup" aria-label="Theme"><button class="theme-select-button" role="radio" aria-checked="true">Light</button><button class="theme-select-button" role="radio">Dark</button></div>',
-  'theme-select-button': '<button class="theme-select-button" role="radio">Light</button>',
   'emoji-character-picker': '<div class="emoji-character-picker" aria-label="Emoji picker"><button>\ud83d\ude00</button><button>\u2764\ufe0f</button><button>\ud83d\udc4d</button><button>\ud83c\udf89</button></div>',
   'calendar-range-picker': '<div class="calendar-range-picker" aria-label="Date range"><input type="date" aria-label="Start date" value="2026-01-01" /> to <input type="date" aria-label="End date" value="2026-01-31" /></div>',
 

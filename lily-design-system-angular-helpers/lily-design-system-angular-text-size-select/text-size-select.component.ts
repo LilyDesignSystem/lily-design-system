@@ -8,13 +8,13 @@ import {
 } from "@angular/core";
 
 /**
- * TextSizeSelect — `data-text-size` text-size picker.
+ * TextSizeSelect — `data-text-size` text-size select.
  *
  * Renders an accessible native `<select>` of size slugs. On every size
- * change the picker writes `data-text-size="{slug}"` to the document
+ * change the select writes `data-text-size="{slug}"` to the document
  * root (or a consumer-supplied target), with optional `localStorage`
  * persistence. Ships no CSS; the consumer maps each
- * `[data-text-size="…"]` slug to real typography. See `spec.md` for the
+ * `[data-text-size="…"]` slug to real typography. See `spec/index.md` for the
  * full contract.
  */
 @Component({

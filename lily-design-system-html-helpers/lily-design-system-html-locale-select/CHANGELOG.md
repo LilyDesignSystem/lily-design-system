@@ -34,7 +34,7 @@ clause.
 - Type exports: `LocaleSelectProps`, `LocaleSelectChangeDetail`.
 - Built-in 436-row English-name table (`locales.ts`, sourced from
   `locales.tsv`).
-- Acceptance criteria in `spec.md` §7; one vitest test per clause
+- Acceptance criteria in `spec/index.md` §7; one vitest test per clause
   in `locale-select.test.ts`.
 - Documentation: `docs/concepts.md`, `docs/accessibility.md`,
   `docs/bcp47.md`, `docs/rtl.md`, `docs/ssr.md`,

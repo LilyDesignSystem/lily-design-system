@@ -25,7 +25,7 @@
             <body>{children}</body>
         </html>
 
-    The picker's managed <link> still exists, but its href resolves to
+    The select's managed <link> still exists, but its href resolves to
     one of the already-cached stylesheets — the network cost is just a
     304.
 */

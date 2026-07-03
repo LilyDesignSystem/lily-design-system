@@ -32,7 +32,7 @@ useHead({
 In a plain Vite + Vue 3 app, write the `<link>` tags directly in
 `index.html` so they ship server-side.
 
-The picker's managed `<link>` also exists, but its href resolves to
+The select's managed `<link>` also exists, but its href resolves to
 a URL that is already cached — the cost is a 304.
 
 Pros:
@@ -61,7 +61,7 @@ useHead({
 ```
 
 The browser fetches the preloaded files but doesn't parse / apply
-them. When the picker swaps the managed `<link>` href to one of the
+them. When the select swaps the managed `<link>` href to one of the
 preloaded URLs, the browser uses the cached response.
 
 Pros:
@@ -76,7 +76,7 @@ Cons:
 
 Inline every theme into a single CSS file. Each theme's rules stay
 scoped to `:root[data-theme="<slug>"]` so they don't fight. The
-picker then doesn't need to swap stylesheets at all — only
+select then doesn't need to swap stylesheets at all — only
 `data-theme` changes.
 
 ```ts
@@ -86,7 +86,7 @@ useHead({
 ```
 
 ```vue
-<!-- The picker still emits a managed <link>; you can point it at a
+<!-- The select still emits a managed <link>; you can point it at a
      no-op file, or ignore it entirely by reading `value` and setting
      data-theme yourself. -->
 <ThemeSelect

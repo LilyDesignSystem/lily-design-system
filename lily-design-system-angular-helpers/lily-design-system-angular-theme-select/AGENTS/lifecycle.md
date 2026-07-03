@@ -1,7 +1,7 @@
 # Lifecycle — ThemeSelect (Angular)
 
-The Angular-flavoured walk-through of the picker's lifecycle. The
-canonical contract is in [`../spec.md`](../spec.md) §5; this file
+The Angular-flavoured walk-through of the select's lifecycle. The
+canonical contract is in [`../spec/index.md`](../spec/index.md) §5; this file
 maps the Svelte canonical's `$effect` lifecycle to Angular's
 `effect()`.
 
@@ -154,7 +154,7 @@ private getManagedLink(): HTMLLinkElement | null {
 }
 ```
 
-One `<link>` per picker `name`. The `name()` signal is read on
+One `<link>` per select `name`. The `name()` signal is read on
 every apply (not cached) so consumers who change `name` mid-session
 get a new managed link automatically.
 
@@ -212,9 +212,9 @@ and use it as the `value` input. See
 The component does not clean up the managed `<link>` or the
 `data-theme` attribute on destroy. That's intentional:
 
-- The picker may be destroyed because the consumer navigated away
+- The select may be destroyed because the consumer navigated away
   from the settings page; the theme should stay applied.
-- The next picker mount reuses the same managed `<link>` (located
+- The next select mount reuses the same managed `<link>` (located
   by `data-lily-theme-select="{name}"`).
 
 If a consumer wants to fully tear down the theme on destroy, they
@@ -238,7 +238,7 @@ export class Settings {
 }
 ```
 
-This is rare. Most apps want the theme to outlive the picker.
+This is rare. Most apps want the theme to outlive the select.
 
 ## Watch graph
 

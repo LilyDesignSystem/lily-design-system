@@ -4,7 +4,7 @@
 document language and tells you when the user changed it; the actual
 string substitution is your i18n library's job.
 
-This page shows how to wire the picker to the four most common Svelte
+This page shows how to wire the select to the four most common Svelte
 i18n stacks: **svelte-i18n**, **Paraglide JS** (Inlang), **Tolgee**,
 and **raw `Intl.*`**.
 
@@ -19,7 +19,7 @@ The wiring pattern is always the same:
 ## svelte-i18n
 
 [svelte-i18n](https://github.com/kaisermann/svelte-i18n) exposes a
-writable `locale` store. The picker writes to it via `bind:value`.
+writable `locale` store. The select writes to it via `bind:value`.
 
 ```svelte
 <script lang="ts">
@@ -44,7 +44,7 @@ writable `locale` store. The picker writes to it via `bind:value`.
 />
 ```
 
-The picker writes to `$i18nLocale`, which svelte-i18n watches; every
+The select writes to `$i18nLocale`, which svelte-i18n watches; every
 `$_("…")` call in your templates immediately re-evaluates against the
 new locale.
 
@@ -97,7 +97,7 @@ need Svelte to re-render every node when the locale changes:
 ```
 
 For SvelteKit + Paraglide's URL-based locale strategy, drive the
-picker from `$page.params.locale` and `onChange` calls
+select from `$page.params.locale` and `onChange` calls
 `goto(\`/${code}\${$page.url.pathname.replace(/^\/[a-z-]+/, "")}\`)`
 instead of `setLocale`.
 
@@ -126,7 +126,7 @@ instead of `setLocale`.
 />
 ```
 
-Tolgee handles message loading and re-render internally; the picker
+Tolgee handles message loading and re-render internally; the select
 only needs to call `changeLanguage`.
 
 ---
@@ -135,7 +135,7 @@ only needs to call `changeLanguage`.
 
 For apps with a handful of strings and no formal i18n library, store
 the locale in a `$state` rune and pass it to `Intl` formatters
-directly. The picker still owns the `lang` / `dir` lifecycle:
+directly. The select still owns the `lang` / `dir` lifecycle:
 
 ```svelte
 <script lang="ts">
@@ -173,7 +173,7 @@ internally. The bindable `value` works either way.
 ## SvelteKit URL-prefix strategies
 
 If your app uses URL-prefixed locales (`/en/about`, `/fr/about`), the
-picker's `onChange` calls `goto`:
+select's `onChange` calls `goto`:
 
 ```svelte
 <script lang="ts">
@@ -199,7 +199,7 @@ picker's `onChange` calls `goto`:
 ```
 
 `value={current}` (one-way) + `bind:value={current}` (two-way) means
-the picker reflects the URL on every navigation but also writes back
+the select reflects the URL on every navigation but also writes back
 when the user picks a new locale. The `goto` call invalidates loaders
 so the new locale's data fetches re-run.
 
@@ -272,5 +272,5 @@ The page arrives with the correct `lang` and `dir` already on
 | SEO-friendly URLs per locale               | SvelteKit URL prefix      |
 | No FOUC, cookie-backed, server-rendered    | Cookie + `hooks.server.ts`|
 
-The picker is the same in every case. Only the `bind:value` target and
+The select is the same in every case. Only the `bind:value` target and
 the `onChange` body change.

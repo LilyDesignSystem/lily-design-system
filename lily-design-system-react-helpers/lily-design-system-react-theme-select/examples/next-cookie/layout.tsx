@@ -5,7 +5,7 @@
     data-theme="…">` plus the active theme's `<link>` so the first
     paint matches the user's choice — no flash.
 
-    The picker itself lives in page.tsx (client component); this
+    The select itself lives in page.tsx (client component); this
     server component supplies the resolved theme as a prop.
 */
 

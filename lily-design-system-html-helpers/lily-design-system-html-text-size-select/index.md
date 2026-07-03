@@ -6,7 +6,7 @@ text-size slugs and, on every change, sets `data-text-size="{slug}"` on
 a target element (default `document.documentElement`), optionally
 persisting the choice to `localStorage`.
 
-The single source of truth is [spec.md](./spec.md). This file is the
+The single source of truth is [spec/index.md](./spec/index.md). This file is the
 comprehensive user guide.
 
 ## Why this exists
@@ -90,7 +90,7 @@ The default slug is `"medium"` whenever `"medium"` appears in your
 
 ## Attributes
 
-The complete table is in [spec.md §4.1](./spec.md#41-observed-attributes).
+The complete table is in [spec/index.md §4.1](./spec/index.md#41-observed-attributes).
 Highlights:
 
 | Attribute       | Type          | Required | Notes                                |
@@ -160,13 +160,13 @@ pnpm test
 ```
 
 Exercises every numbered acceptance criterion in
-[spec.md §7](./spec.md#7-testing-acceptance-criteria).
+[spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria).
 
 ## Files in this directory
 
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
-| `spec.md`                  | Single source of truth.                          |
+| `spec/index.md`                  | Single source of truth.                          |
 | `AGENTS.md`                | Fast-index pointer; loads the AGENTS bundle.     |
 | `CLAUDE.md`                | `@AGENTS.md`.                                    |
 | `text-size-select.ts`      | The custom-element class.                        |

@@ -1,11 +1,11 @@
 # AGENTS — TextSizeSelect (Nunjucks helper)
 
-Single source of truth: [spec.md](./spec.md). Read it first; everything
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable Nunjucks 3 + vanilla-JS headless text-size picker that
+A reusable Nunjucks 3 + vanilla-JS headless text-size select that
 applies the chosen size to the document root via `data-text-size`,
 with optional `localStorage` persistence. Ships no CSS; consumer
 styles the `text-size-select` class hook and maps each
@@ -22,7 +22,7 @@ The helper is a **macro + client.js pair**:
 
 | File                          | Purpose                                          |
 | ----------------------------- | ------------------------------------------------ |
-| `spec.md`                     | Specification-driven contract (canonical).       |
+| `spec/index.md`                     | Specification-driven contract (canonical).       |
 | `text-size-select.njk`        | Nunjucks macro (`textSizeSelect(opts)`).         |
 | `text-size-select.client.js`  | ES module — `initTextSizeSelect`, `autoInit`.    |
 | `text-size-select.test.ts`    | Vitest spec, one assertion per §7 acceptance.    |
@@ -35,7 +35,7 @@ The helper is a **macro + client.js pair**:
 - Import: `{% from "./text-size-select.njk" import textSizeSelect %}`
 - Call:   `{{ textSizeSelect({label, sizes, …}) }}`
 - Required `opts` keys: `label`, `sizes`.
-- Full table in [spec.md §4.1](./spec.md#41-macro-parameters).
+- Full table in [spec/index.md §4.1](./spec/index.md#41-macro-parameters).
 
 ### Client.js
 
@@ -46,7 +46,7 @@ The helper is a **macro + client.js pair**:
 ## Behaviour contract (one paragraph)
 
 The macro emits a `<select class="text-size-select">` with
-`data-lily-text-size-select-*` hooks describing the picker's name,
+`data-lily-text-size-select-*` hooks describing the select's name,
 storage key, and default value. On `initTextSizeSelect(root)`, the
 client (1) resolves the initial slug from selected-option > storage >
 default-value > `"medium"` > first-option, (2) sets

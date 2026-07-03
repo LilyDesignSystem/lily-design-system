@@ -1,14 +1,14 @@
 # SSR — ThemeSelect (Angular)
 
-The picker runs cleanly under Angular SSR (Analog v1 + Nitro,
+The select runs cleanly under Angular SSR (Analog v1 + Nitro,
 `@angular/ssr`, Angular Universal). This page lists the
 Angular-specific recipes; the canonical rules live in
 [`../../AGENTS/ssr.md`](../../AGENTS/ssr.md).
 
-## What the picker does on the server
+## What the select does on the server
 
 Under SSR, the `effect()` callback's `typeof document` guard
-prevents any DOM mutation. The picker renders:
+prevents any DOM mutation. The select renders:
 
 ```html
 <select class="theme-select " aria-label="Theme" name="theme">
@@ -29,7 +29,7 @@ hydration.
 
 If `<html>` arrives with no `data-theme` and the theme CSS
 references `:root[data-theme="dark"] { … }`, the first paint shows
-the default browser styles, then on hydration the picker sets
+the default browser styles, then on hydration the select sets
 `data-theme="dark"` and the page repaints. That's the flash of
 unstyled theme (FOUT).
 
@@ -47,9 +47,9 @@ shape:
    `event.context.theme`.
 2. An injection token bridges the server-resolved value into the
    Angular tree via `inject(REQUEST)`.
-3. The root component reads the token and binds it to the picker's
+3. The root component reads the token and binds it to the select's
    `value` via `[(value)]`.
-4. When the user changes themes, the picker's `(themeChange)` event
+4. When the user changes themes, the select's `(themeChange)` event
    writes a cookie via `document.cookie = …` (or POSTs to a
    `/api/theme` endpoint).
 
@@ -186,17 +186,17 @@ right theme. Only use `@defer` if you accept the FOUC.
 
 ## Why we don't auto-resolve from the cookie
 
-The picker has no opinion about transport (cookie? header?
+The select has no opinion about transport (cookie? header?
 IndexedDB? URL parameter?). Cookies are the right answer for Analog
 and Universal, but not for Cloudflare-Workers-based hosts, embedded
 contexts, or apps that already have a server-side preference store.
-The picker stays transport-agnostic and lets the consumer wire the
+The select stays transport-agnostic and lets the consumer wire the
 integration.
 
 ## Plain Angular CLI (no SSR)
 
 Without SSR there is no first-paint problem worth solving — the
-picker hydrates from `localStorage` before content renders if you
+select hydrates from `localStorage` before content renders if you
 mount it at the top of the layout. Avoid styles depending on
 `data-theme` for the first paint, or hard-code the default theme's
 `<link>` in `index.html`.

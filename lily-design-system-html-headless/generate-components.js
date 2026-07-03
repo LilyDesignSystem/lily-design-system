@@ -533,7 +533,6 @@ const COMPONENTS = [
   ["tel-link", "a tel hyperlink for a telephone number"],
   ["text-input", "a single-line text input field"],
   ["text-area-input", "a multi-line text input area"],
-  ["theme-select", "a picker for selecting a visual theme"],
   ["theme-select", "a select dropdown for choosing a theme"],
   ["theme-select-option", "one option in a theme select dropdown"],
   ["theme-view", "a read-only display of the current theme"],

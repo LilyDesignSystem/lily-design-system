@@ -13,7 +13,7 @@ decision.
   (`<button>`, `<dialog>`, `<details>`, `<nav>`, `<article>`,
   `<figure>`, `<select>`, etc.) before reaching for `<div>` or
   `<span>`. The canonical HTML tag for each helper is fixed in its
-  `spec.md` "DOM contract" section.
+  `spec/index.md` "DOM contract" section.
 - The first attribute on the root element is always the kebab-case
   base class plus the consumer's optional `CssClass` parameter, so
   consumer CSS can target any helper with one selector. No

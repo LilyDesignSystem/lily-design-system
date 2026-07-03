@@ -1,6 +1,6 @@
 # API — LocaleSelect (Angular)
 
-Authoritative API surface lives in [`../spec.md`](../spec.md) §4.
+Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Angular-flavoured shape of the contract.
 
 ## Exports
@@ -73,7 +73,7 @@ fires:
 - once on first `effect()` run if the resolved initial value
   differs from the supplied `value` input.
 
-`localeChange` fires every time the picker successfully applies a
+`localeChange` fires every time the select successfully applies a
 locale. The payload is the consumer-form code (e.g. `"en_US"`),
 not the BCP 47-normalised tag (`"en-US"`).
 
@@ -99,7 +99,7 @@ export const RTL_SCRIPT_SUBTAGS: ReadonlySet<string>;
 
 All pure functions are side-effect-free; consumers can call them
 from tests, server code, or other components without instantiating
-the picker.
+the select.
 
 ## DOM contract
 

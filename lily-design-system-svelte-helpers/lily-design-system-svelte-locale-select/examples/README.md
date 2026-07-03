@@ -9,7 +9,7 @@ story).
 Every example assumes:
 
 - Svelte 5 with runes (`$state`, `$props`, `$bindable`, `$effect`).
-- No CSS dependency — the picker is headless. Consumers style the
+- No CSS dependency — the select is headless. Consumers style the
   `locale-select` and `locale-select-option` class hooks.
 
 | #  | File                                                  | Demonstrates                                                       |
@@ -22,7 +22,7 @@ Every example assumes:
 | 6  | [`06-with-svelte-i18n.svelte`](./06-with-svelte-i18n.svelte) | Binding to `svelte-i18n`'s `locale` store.                 |
 | 7  | [`07-with-paraglide.svelte`](./07-with-paraglide.svelte) | Driving Paraglide JS's `setLocale()` from `onChange`.           |
 | 8  | [`08-ssr-cookie.svelte`](./08-ssr-cookie.svelte)      | SvelteKit `cookies` + `transformPageChunk` for flicker-free SSR.   |
-| 9  | [`09-scoped-target.svelte`](./09-scoped-target.svelte) | Multiple per-region pickers, each scoped to its own panel.        |
+| 9  | [`09-scoped-target.svelte`](./09-scoped-target.svelte) | Multiple per-region selects, each scoped to its own panel.        |
 | 10 | [`10-combobox.svelte`](./10-combobox.svelte)          | Native `<datalist>` type-ahead for all 436 built-in locales.       |
 
 ## Running the examples
@@ -38,7 +38,7 @@ one is:
 
 ## bind:value conventions
 
-The picker exposes its bindable on `value` via `$bindable("")`.
+The select exposes its bindable on `value` via `$bindable("")`.
 Always use `bind:value={locale}` in templates, and pair with
 `onChange` for one-shot side effects (cookie writes, imperative
 i18n-library calls, analytics).
@@ -59,7 +59,7 @@ type ChildArgs = {
 };
 ```
 
-The picker still owns the apply lifecycle (lang/dir/storage/onChange)
+The select still owns the apply lifecycle (lang/dir/storage/onChange)
 regardless of what markup the snippet emits.
 
 ## See also
@@ -71,4 +71,4 @@ regardless of what markup the snippet emits.
   changes and CSS tips.
 - [`../docs/i18n-integration.md`](../docs/i18n-integration.md) —
   wiring `svelte-i18n`, Paraglide JS, Inlang, raw `Intl.*`.
-- [`../spec.md`](../spec.md) — the canonical contract.
+- [`../spec/index.md`](../spec/index.md) — the canonical contract.

@@ -1,13 +1,13 @@
 # SSR and hydration
 
-The picker is SSR-safe out of the box but does not, on its own,
+The select is SSR-safe out of the box but does not, on its own,
 deliver a flicker-free first paint. This guide explains why and
 how to close the gap.
 
-## What the picker does on the server
+## What the select does on the server
 
 Under SSR, the `effect()` callback's `typeof document !==
-"undefined"` guard prevents any DOM mutation. The picker renders:
+"undefined"` guard prevents any DOM mutation. The select renders:
 
 ```html
 <select class="theme-select " aria-label="Theme" name="theme">
@@ -21,11 +21,11 @@ No option is selected unless the consumer supplied a non-empty
 
 ## What happens on hydration
 
-On the client the picker's `effect()` runs for the first time
+On the client the select's `effect()` runs for the first time
 shortly after mount:
 
 1. Resolves the initial slug per
-   [spec.md §5.2](../spec.md#52-initial-value-resolution).
+   [spec/index.md §5.2](../spec/index.md#52-initial-value-resolution).
 2. Writes back to the `value` model signal (which drives `[(value)]`
    back to the parent) so the bound variable reflects the resolved
    value.
@@ -44,7 +44,7 @@ The fix is to **resolve the theme on the server** and inline both:
 - `<html data-theme="<slug>">` in the document shell, and
 - the `<link rel="stylesheet" href="/assets/themes/<slug>.css">`
 
-so that CSS is in place before any pixel is painted. The picker
+so that CSS is in place before any pixel is painted. The select
 can then hydrate without changing anything visible.
 
 ### Analog v1 recipe
@@ -57,9 +57,9 @@ shape:
    `event.context.theme`.
 2. An injection token (`INITIAL_THEME`) bridges the server-resolved
    value into the Angular tree.
-3. The root component reads the token and binds it to the picker's
+3. The root component reads the token and binds it to the select's
    `value` via `[(value)]`.
-4. The picker's `(themeChange)` writes a cookie via
+4. The select's `(themeChange)` writes a cookie via
    `document.cookie = …` (or POSTs to a `/api/theme` endpoint).
 
 ### Writing `<html data-theme>` server-side
@@ -127,18 +127,18 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
 ### Plain Angular CLI (no SSR)
 
 Without SSR, there is no first-paint problem worth solving — the
-picker hydrates from `localStorage` before content renders if you
+select hydrates from `localStorage` before content renders if you
 mount it at the top of the layout. Avoid styles depending on
 `data-theme` for the first paint, or hard-code the default theme's
 `<link>` in `index.html`.
 
 ## Why we don't auto-resolve from the cookie
 
-The picker has no opinion about transport (cookie? header?
+The select has no opinion about transport (cookie? header?
 IndexedDB? URL parameter?). Cookies are the right answer for
 Analog and Universal, but not for Cloudflare-Workers-based hosts,
 embedded contexts, or apps that already have a server-side
-preference store. The picker stays transport-agnostic and lets
+preference store. The select stays transport-agnostic and lets
 the consumer wire the integration.
 
 ## Analog-specific tips
@@ -150,7 +150,7 @@ the consumer wire the integration.
 - Server middleware files live under `src/server/middleware/`. The
   Vite plugin auto-registers them.
 - For static-site generation (`analog build`), there's no request
-  context — the picker falls back to `localStorage` like a SPA.
+  context — the select falls back to `localStorage` like a SPA.
 - The `DOCUMENT` token from `@angular/common` returns the
   server-rendered HTMLDocument during SSR, so
   `doc.documentElement.setAttribute("data-theme", …)` works on
@@ -183,7 +183,7 @@ the right theme. Only use `@defer` if you accept the FOUC.
 ## Inside `@defer` blocks
 
 `@defer (on viewport) { <lily-theme-select ... /> }` defers the
-picker until it enters the viewport. The FOUT window grows because
-the effect doesn't run on the first paint. Move the picker outside
+select until it enters the viewport. The FOUT window grows because
+the effect doesn't run on the first paint. Move the select outside
 the `@defer` boundary, or pre-resolve the theme on the server and
 pass it as `value`.

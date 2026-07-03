@@ -1,10 +1,10 @@
 # TextSizeSelect (Nunjucks helper)
 
-A reusable, headless Nunjucks 3 + vanilla-JS text-size picker that
+A reusable, headless Nunjucks 3 + vanilla-JS text-size select that
 applies the chosen size to the document root via `data-text-size`,
 with optional `localStorage` persistence.
 
-The single source of truth is [spec.md](./spec.md). This file is the
+The single source of truth is [spec/index.md](./spec/index.md). This file is the
 user guide.
 
 ## Why this exists
@@ -18,7 +18,7 @@ contract cleanly:
   ES module for the runtime.
 - **Your CSS** owns the actual typography, keyed on
   `[data-text-size="{slug}"]`.
-- **Consumers** own the visual style of the picker via the
+- **Consumers** own the visual style of the select via the
   `text-size-select` class hook.
 
 The helper is a direct port of the Svelte canonical
@@ -107,7 +107,7 @@ When the user picks `large`, the client:
 - writes `"large"` to `localStorage["lily-text-size"]`,
 - fires `onChange("large")` if provided.
 
-The picker does NOT define the typographic scale — that is the
+The select does NOT define the typographic scale — that is the
 consumer's CSS job.
 
 ## Initial size
@@ -125,7 +125,7 @@ non-empty value of:
 
 ## Macro parameters
 
-Full table in [spec.md §4.1](./spec.md#41-macro-parameters).
+Full table in [spec/index.md §4.1](./spec/index.md#41-macro-parameters).
 Required: `label`, `sizes`. Optional: `value`, `defaultValue`,
 `storageKey`, `name` (default `"text-size"`), `sizeLabels`,
 `classes`, `attributes`.
@@ -164,7 +164,7 @@ Optional `opts`:
 ## Testing
 
 `pnpm test` under a vitest + jsdom setup exercises every numbered
-acceptance criterion in [spec.md §7](./spec.md#7-testing-acceptance-criteria).
+acceptance criterion in [spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria).
 
 ## License
 

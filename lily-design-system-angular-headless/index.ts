@@ -449,8 +449,6 @@ export { TextAreaInput } from "./components/TextAreaInput";
 export { TextAreaInputWithCharacterCounter } from "./components/TextAreaInputWithCharacterCounter";
 export { TextInput } from "./components/TextInput";
 export { TextInputWithSearch } from "./components/TextInputWithSearch";
-export { ThemeSelect } from "./components/ThemeSelect";
-export { ThemeSelectButton } from "./components/ThemeSelectButton";
 export { ThemeProvider } from "./components/ThemeProvider";
 export { ThemeSelect } from "./components/ThemeSelect";
 export { ThemeSelectOption } from "./components/ThemeSelectOption";

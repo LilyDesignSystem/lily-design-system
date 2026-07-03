@@ -2,7 +2,7 @@
 
 Field-by-field reference for every key the `themeSelect(opts)`
 macro understands. The contract is owned by
-[`../spec.md`](../spec.md) §4; this file expands the rationale and
+[`../spec/index.md`](../spec/index.md) §4; this file expands the rationale and
 common usage.
 
 ## `label` — required, string
@@ -27,7 +27,7 @@ Acceptable values:
 
 ## `themes` — required, array of strings
 
-The slugs of the themes the picker exposes as options. The slug is
+The slugs of the themes the select exposes as options. The slug is
 used both as the `<option>` `value` and as the URL path segment when
 the client.js constructs the stylesheet href. Choose slugs that
 are safe URL path segments — kebab-case ASCII is recommended.
@@ -61,7 +61,7 @@ on the root.
 - Writes the slug to storage after every successful apply.
 
 Errors (private mode, quota, disabled storage) are silently
-swallowed — the picker continues to work in-memory.
+swallowed — the select continues to work in-memory.
 
 The macro serialises this as
 `data-lily-theme-select-storage-key` on the root.
@@ -70,7 +70,7 @@ The macro serialises this as
 
 The `<select>` `name` attribute (default `"theme"`). It also serves
 as the discriminator on the managed `<link>` element
-(`data-lily-theme-select="{name}"`), so multiple pickers can
+(`data-lily-theme-select="{name}"`), so multiple selects can
 coexist by giving each a distinct `name`.
 
 ## `extension` — optional, string — defaults to `".css"`

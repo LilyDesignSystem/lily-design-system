@@ -6,7 +6,7 @@
     group markup but with the `locale-select` class hook so consumer
     CSS can target it without duplication.
 
-    Outcome: a <header> banner with the picker rendered as a horizontal
+    Outcome: a <header> banner with the select rendered as a horizontal
     button list. Each entry shows the language in its own script.
 -->
 <script lang="ts">

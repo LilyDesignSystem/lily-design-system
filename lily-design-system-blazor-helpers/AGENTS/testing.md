@@ -3,7 +3,7 @@
 Every helper ships a [bUnit](https://bunit.dev/) + xUnit suite.
 This page lists the test harness expectations common to all helpers;
 per-helper acceptance criteria live in the helper's own
-`spec.md` §7.
+`spec/index.md` §7.
 
 ## Stack
 
@@ -175,7 +175,7 @@ There isn't an isolated "render under static SSR" mode in bUnit
 
 ## One test per spec § acceptance
 
-Each helper's `spec.md` §7 numbers its acceptance criteria, and the
+Each helper's `spec/index.md` §7 numbers its acceptance criteria, and the
 test file names each `[Fact]` after the section number so a reviewer
 can cross-reference the spec without scrolling:
 

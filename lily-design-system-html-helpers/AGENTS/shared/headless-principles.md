@@ -13,7 +13,7 @@ decision.
   (`<button>`, `<dialog>`, `<details>`, `<nav>`, `<article>`,
   `<figure>`, `<fieldset>`, etc.) before reaching for `<div>` or
   `<span>`. The canonical HTML tag for each helper's rendered
-  children is fixed in its `spec.md` "DOM contract" section.
+  children is fixed in its `spec/index.md` "DOM contract" section.
 - The first attribute on the **rendered** root child is always the
   kebab-case base class plus the consumer's optional `class`
   attribute, so consumer CSS can target any helper with one

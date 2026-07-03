@@ -22,7 +22,7 @@ Every helper subproject follows the same shape:
 
 ```
 lily-design-system-html-<name>/
-├── spec.md                  ← single source of truth (SDD)
+├── spec/index.md                  ← single source of truth (SDD)
 ├── AGENTS.md                ← AI-agent metadata pointer
 ├── CLAUDE.md                ← loads AGENTS.md
 ├── AGENTS/                  ← topic-by-topic agent files
@@ -75,7 +75,7 @@ Shared design decisions across the catalog:
 - **One job per helper**: each helper owns the entire lifecycle of
   one user-preference dimension (theme, language, etc.) and composes
   cleanly with the others.
-- **Spec-driven**: every helper has a `spec.md` numbered with §
+- **Spec-driven**: every helper has a `spec/index.md` numbered with §
   references; tests assert against those numbers; docs link back.
 
 ## Vanilla web-component idioms used throughout
@@ -111,7 +111,7 @@ and tests stay in lock-step across frameworks.
 
 ## Differences from the headless library
 
-The HTML headless library mirrors the canonical 492-component
+The HTML headless library mirrors the canonical 490-component
 catalog. Each entry is a static HTML snippet plus a minimal
 initialisation hook. A consumer typing on top of `theme-select.html`
 from `lily-design-system-html-headless` writes their own radio
@@ -158,7 +158,7 @@ match clause-for-clause.
 ## Testing
 
 Each helper ships a vitest suite that runs under jsdom. The
-acceptance criteria are listed in each `spec.md` §7 and the test
+acceptance criteria are listed in each `spec/index.md` §7 and the test
 file matches one `it(...)` per numbered item, named with the section
 number for fast cross-referencing.
 

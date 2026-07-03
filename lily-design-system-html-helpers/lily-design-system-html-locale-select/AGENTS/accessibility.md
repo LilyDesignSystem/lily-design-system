@@ -2,7 +2,7 @@
 
 The select targets WCAG 2.2 AAA and uses the native `<select>`
 (platform combobox / listbox) model. The canonical contract is in
-[`../spec.md`](../spec.md) §6.
+[`../spec/index.md`](../spec/index.md) §6.
 
 ## Roles and properties
 
@@ -134,7 +134,7 @@ The tradeoffs of the `<select>` model:
 - Choices hidden until opened (worse discoverability than an
   always-visible list).
 - Can't show option text in mixed scripts as easily (some OS
-  pickers don't honour per-option `lang`).
+  selects don't honour per-option `lang`).
 
 For very long lists (50+), prefer a combobox with type-ahead (see
 `examples/10-combobox.html`).

@@ -23,7 +23,7 @@ export type ChildArgs = {
     isRtl: (locale: string) => boolean;
 };
 
-/** Public props for LocaleSelect. See `spec.md` §4 for the contract. */
+/** Public props for LocaleSelect. See `spec/index.md` §4 for the contract. */
 export type Props = Omit<
     React.SelectHTMLAttributes<HTMLSelectElement>,
     "onChange" | "children" | "value" | "defaultValue"
@@ -44,13 +44,13 @@ export type Props = Omit<
     name?: string;
     /** Element that receives `lang` and `dir`. Defaults to document.documentElement. */
     target?: HTMLElement | null;
-    /** If false, the picker only writes `lang` and never touches `dir`. */
+    /** If false, the select only writes `lang` and never touches `dir`. */
     applyDir?: boolean;
     /** Optional pretty labels per locale code. */
     localeLabels?: Record<string, string>;
     /** Custom render prop for the `<option>` elements; rendered inside the `<select>`. */
     children?: (args: ChildArgs) => React.ReactNode;
-    /** Called after the picker applies a new locale. */
+    /** Called after the select applies a new locale. */
     onChange?: (locale: string) => void;
     /** Extra CSS class on the `<select>` root. */
     className?: string;
@@ -65,7 +65,7 @@ export function bcp47LocaleTag(locale: string): string {
     return locale.replace(/_/g, "-");
 }
 
-/** Detect whether a locale is right-to-left. See spec.md §5.6. */
+/** Detect whether a locale is right-to-left. See spec/index.md §5.6. */
 export function isRtlLocale(locale: string): boolean {
     if (!locale) return false;
     const parts = locale.split(/[-_]/);

@@ -3,11 +3,11 @@
 
     Useful for multilingual content panels: a single page with three
     cards each in a different language. Pass `target={cardEl}` so the
-    picker writes lang/dir to that element instead of <html>.
+    select writes lang/dir to that element instead of <html>.
 
     Outcome: the surrounding page stays in its document language; the
     chosen panel switches independently. Three panels each scoped to
-    their own picker.
+    their own select.
 -->
 <script lang="ts">
     import LocaleSelect from "../LocaleSelect.svelte";

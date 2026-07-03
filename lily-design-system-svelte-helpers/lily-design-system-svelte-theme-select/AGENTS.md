@@ -1,11 +1,11 @@
 # AGENTS — ThemeSelect (Svelte helper)
 
-Single source of truth: [spec.md](./spec.md). Read it first; everything
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable Svelte 5 headless theme picker that **loads theme CSS files
+A reusable Svelte 5 headless theme select that **loads theme CSS files
 dynamically at runtime** from a developer-supplied directory URL. Ships
 no CSS; consumer styles the `theme-select` class hook.
 
@@ -13,7 +13,7 @@ no CSS; consumer styles the `theme-select` class hook.
 
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
-| `spec.md`                  | Specification-driven contract (canonical).       |
+| `spec/index.md`                  | Specification-driven contract (canonical).       |
 | `ThemeSelect.svelte`       | Implementation. TypeScript + Svelte 5 runes.     |
 | `ThemeSelect.test.ts`      | Vitest spec, one assertion per §7 acceptance.    |
 | `index.ts`                 | Barrel re-export.                                |
@@ -28,11 +28,11 @@ no CSS; consumer styles the `theme-select` class hook.
 - Type exports: `Props`, `ChildArgs`.
 
 Required props: `label`, `themesUrl`, `themes`. Full table in
-[spec.md §4.1](./spec.md#41-props).
+[spec/index.md §4.1](./spec/index.md#41-props).
 
 ## Behaviour contract (one paragraph)
 
-On every theme change the picker (1) sets the `href` of one managed
+On every theme change the select (1) sets the `href` of one managed
 `<link rel="stylesheet" data-lily-theme-select="{name}">` in
 `document.head` to `${themesUrl}${slug}${extension}`, (2) sets
 `data-theme="{slug}"` on `target` (defaults to `document.documentElement`),

@@ -23,8 +23,8 @@ recipes for pre-resolving server state.
 ## SvelteKit cookie strategy (recommended)
 
 SvelteKit's `event.cookies` + `hooks.server.ts` is the canonical
-recipe for both pickers. The end-to-end working example for the
-theme picker lives under
+recipe for both selects. The end-to-end working example for the
+theme select lives under
 [`lily-design-system-svelte-theme-select/examples/sveltekit-cookie/`](../lily-design-system-svelte-theme-select/examples/sveltekit-cookie/).
 
 ### `hooks.server.ts`
@@ -65,7 +65,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 The `transformPageChunk` substitution writes `lang`, `dir`, and
 `data-theme` on `<html>` plus the stylesheet `<link>` before the
-first byte leaves the server. The pickers hydrate without writing
+first byte leaves the server. The selects hydrate without writing
 anything visible.
 
 ### `+layout.server.ts`
@@ -207,9 +207,9 @@ all. Only skip SSR for the helper if you accept the FOUC.
 
 ## Why not auto-resolve from the cookie?
 
-The pickers have no opinion about transport (cookie? header?
+The selects have no opinion about transport (cookie? header?
 IndexedDB? URL parameter?). Cookies are the right answer for
 SvelteKit, but not for Cloudflare-Workers-based hosts, embedded
 contexts, or apps that already have a server-side preference store.
-The pickers stay transport-agnostic and let the consumer wire the
+The selects stay transport-agnostic and let the consumer wire the
 integration.

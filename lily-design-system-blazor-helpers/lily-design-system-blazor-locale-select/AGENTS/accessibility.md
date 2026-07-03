@@ -2,7 +2,7 @@
 
 The select targets WCAG 2.2 AAA and uses the native `<select>`
 form control. The canonical contract is in
-[`../spec.md`](../spec.md) §6.
+[`../spec/index.md`](../spec/index.md) §6.
 
 ## Roles and properties
 
@@ -134,7 +134,7 @@ The tradeoffs:
 - Scales to 100+ locales.
 - Choices hidden until opened (worse discoverability).
 - Can't show option text in mixed scripts as easily (some OS
-  pickers don't honour per-option `lang`).
+  selects don't honour per-option `lang`).
 
 For 9+ locales the native `<select>` is ideal; for a handful of
 locales a custom button group via `ChildContent` can improve

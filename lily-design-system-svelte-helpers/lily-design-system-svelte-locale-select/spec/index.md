@@ -25,7 +25,7 @@ choice.
 
 ## 1. Goal
 
-Give a Svelte 5 application a drop-in, headless locale picker that:
+Give a Svelte 5 application a drop-in, headless locale select that:
 
 1. Renders an accessible native `<select>` of available locales.
 2. **Applies the chosen locale** by setting `lang="…"` and `dir="ltr|rtl"`
@@ -72,14 +72,14 @@ Give a Svelte 5 application a drop-in, headless locale picker that:
 - **The `lang` attribute is the source of truth**. Every Lily helper
   and every i18n library agrees that `document.documentElement.lang`
   is the authoritative signal for current document language (WCAG
-  3.1.1, HTML Living Standard, all major screen readers). The picker
+  3.1.1, HTML Living Standard, all major screen readers). The select
   writes there.
 - **The `dir` attribute is the secondary switch**. Setting `dir` on
   the document root is what causes browsers to mirror layout, scrollbar
-  position, and bidi text. The picker derives it from the locale.
+  position, and bidi text. The select derives it from the locale.
 - **BCP 47 hyphen form on the wire**. Locale codes are stored in the
   consumer's array using whichever form they prefer (`en_US`, `en-US`,
-  or `en`). When the picker writes to the DOM, it normalises to the
+  or `en`). When the select writes to the DOM, it normalises to the
   BCP 47 hyphen form (`en-US`). The bindable `value` mirrors back the
   original consumer form, so round-trips are lossless.
 - **TypeScript everywhere**. Public surface is fully typed via a `Props`
@@ -114,10 +114,10 @@ Give a Svelte 5 application a drop-in, headless locale picker that:
 | `detectFromNavigator` | `boolean`                           | no       | `false`                  | If true and no value/storage entry exists, resolve `navigator.language` to a supported locale. |
 | `name`              | `string`                              | no       | `"locale"`               | `name` attribute of the `<select>`. |
 | `target`            | `HTMLElement \| null`                 | no       | `document.documentElement` | Element that receives `lang` and `dir`. |
-| `applyDir`          | `boolean`                             | no       | `true`                   | If false, the picker only writes `lang` and never touches `dir`. |
+| `applyDir`          | `boolean`                             | no       | `true`                   | If false, the select only writes `lang` and never touches `dir`. |
 | `localeLabels`      | `Record<string, string>`              | no       | `{}`                     | Optional pretty labels per locale code. |
 | `children`          | `Snippet<[ChildArgs]>`                | no       | default `<option>` markup | Custom rendering of the options. |
-| `onChange`          | `(locale: string) => void`            | no       | `undefined`              | Fires after the picker applies a new locale. |
+| `onChange`          | `(locale: string) => void`            | no       | `undefined`              | Fires after the select applies a new locale. |
 | `class`             | `string`                              | no       | `""`                     | Extra CSS class on the `<select>` root. |
 | `...restProps`      | any HTML `<select>` attributes        | no       | —                        | Spread onto the `<select>`. |
 
@@ -195,7 +195,7 @@ non-empty value of:
    true) — see §5.3.
 4. `defaultValue`.
 5. `"en"` if present in `locales`, else `locales[0]`.
-6. `""` (no apply happens — the picker waits for user interaction).
+6. `""` (no apply happens — the select waits for user interaction).
 
 Resolution writes back to `value` (via the bindable) so consumers
 observing the bound variable see the resolved value.
@@ -397,10 +397,10 @@ run under vitest + jsdom + `@testing-library/svelte`.
 19. When `value` is supplied as a non-empty prop, the initial-value
     resolution skips storage, navigator detection, and defaults.
 20. When `detectFromNavigator` is true and `navigator.languages`
-    contains a supported locale, the picker resolves to that locale.
+    contains a supported locale, the select resolves to that locale.
 21. When `detectFromNavigator` is true and only a language-only match
     is available (`navigator.language === "fr-CA"`,
-    `locales === ["en", "fr"]`), the picker resolves to `"fr"`.
+    `locales === ["en", "fr"]`), the select resolves to `"fr"`.
 
 ### 7.5 Spread + custom children (mirrors §4.1, §4.2)
 
@@ -421,7 +421,7 @@ run under vitest + jsdom + `@testing-library/svelte`.
 - A built-in `Accept-Language`-header server helper for SSR locale
   negotiation. Would live in a sibling SvelteKit-only helper.
 - A `prefersReducedMotion` integration. Out of scope for a locale
-  picker.
+  select.
 
 ## 9. Tracking
 

@@ -13,14 +13,14 @@ type ChildArgs = {
   themes: string[];                    // the available slugs
   value: string;                       // the active slug
   setTheme: (theme: string) => void;   // imperative apply (writes value)
-  name: string;                        // shared identity for the picker
+  name: string;                        // shared identity for the select
   labelFor: (theme: string) => string; // resolved display label
 };
 ```
 
 `setTheme(slug)` writes the new slug to the bindable `value`. The
-picker's `$effect` then performs the four steps in
-[spec.md §5.3](../spec.md#53-applying-a-theme).
+select's `$effect` then performs the four steps in
+[spec/index.md §5.3](../spec/index.md#53-applying-a-theme).
 
 ## Patterns
 
@@ -44,7 +44,7 @@ picker's `$effect` then performs the four steps in
 </ThemeSelect>
 ```
 
-`aria-pressed` carries the active state; the picker no longer renders
+`aria-pressed` carries the active state; the select no longer renders
 a native `<select>` of options, so the implicit option selection is
 gone. The `data-theme` on each button lets your CSS preview the
 swatch colours by hooking into the same `:root[data-theme]` cascade.
@@ -52,7 +52,7 @@ swatch colours by hooking into the same `:root[data-theme]` cascade.
 Note: because the snippet replaces the default `<option>`s, rendering
 non-`<option>` markup means you are no longer inside a native
 `<select>`. If you want button or segmented-control semantics, render
-your custom controls outside the picker and call `setTheme` from a
+your custom controls outside the select and call `setTheme` from a
 wrapper component instead.
 
 ### Custom option markup
@@ -69,13 +69,13 @@ If you want the native `<select>` semantics but custom option labels:
 </ThemeSelect>
 ```
 
-The picker's `<select>` owns the `onchange` handler, so the snippet
+The select's `<select>` owns the `onchange` handler, so the snippet
 only needs to render `<option>` elements.
 
 ## What the snippet should *not* do
 
 - Don't mutate `document.head` or `data-theme` directly; let the
-  picker own that lifecycle.
-- Don't render non-`<option>` markup directly inside the picker — the
+  select own that lifecycle.
+- Don't render non-`<option>` markup directly inside the select — the
   root is a native `<select>`. For a non-`<select>` UI, render your
-  controls outside the picker and call `setTheme` from a wrapper.
+  controls outside the select and call `setTheme` from a wrapper.

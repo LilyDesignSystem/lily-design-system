@@ -22,7 +22,7 @@ opinionated, reusable counterpart that owns the dynamic loading lifecycle.
 
 ## 1. Goal
 
-Give a Svelte 5 application a drop-in, headless theme picker that:
+Give a Svelte 5 application a drop-in, headless theme select that:
 
 1. Renders an accessible native `<select>` of available themes.
 2. **Loads themes dynamically at runtime** from a developer-specified
@@ -53,10 +53,10 @@ Give a Svelte 5 application a drop-in, headless theme picker that:
 
 ## 3. Architectural decisions
 
-- **One `<link>` per picker name.** Switching themes mutates `href` on a
+- **One `<link>` per select name.** Switching themes mutates `href` on a
   single `<link rel="stylesheet" data-lily-theme-select="{name}">`. Only
   the active theme is fetched; previously-active CSS is unloaded when the
-  href changes. Multiple pickers can coexist by passing distinct `name`
+  href changes. Multiple selects can coexist by passing distinct `name`
   props.
 - **`data-theme` attribute is the activation switch.** Theme CSS files
   scope their `:root[data-theme="slug"]` rules so that authors can
@@ -95,7 +95,7 @@ Give a Svelte 5 application a drop-in, headless theme picker that:
 | `target`        | `HTMLElement \| null`                     | no       | `document.documentElement` | Element that receives `data-theme`. |
 | `themeLabels`   | `Record<string, string>`                  | no       | `{}`                     | Optional pretty labels per slug. |
 | `children`      | `Snippet<[ChildArgs]>`                    | no       | default `<option>` markup | Custom rendering of the options. |
-| `onChange`      | `(theme: string) => void`                 | no       | `undefined`              | Fires after the picker applies a new theme. |
+| `onChange`      | `(theme: string) => void`                 | no       | `undefined`              | Fires after the select applies a new theme. |
 | `class`         | `string`                                  | no       | `""`                     | Extra CSS class on the `<select>` root. |
 | `...restProps`  | any HTML `<select>` attributes            | no       | —                        | Spread onto the root. |
 
@@ -120,7 +120,7 @@ type ChildArgs = {
   text content is the label.
 - `labelFor(slug)` returns `themeLabels[slug]` when supplied; otherwise
   the slug with its first character upper-cased (e.g. `"light"` →
-  `"Light"`). The picker never emits the word "default".
+  `"Light"`). The select never emits the word "default".
 - Custom children: rendered via the `children` snippet with `ChildArgs`.
 - A single managed `<link rel="stylesheet" data-lily-theme-select="{name}">`
   in `document.head`. Created on first apply, reused thereafter.
@@ -161,10 +161,10 @@ non-empty value of:
 3. `defaultValue`
 4. `"light"` (if `"light"` is in `themes`)
 5. `themes[0]`
-6. `""` (no apply happens — the picker waits for user interaction)
+6. `""` (no apply happens — the select waits for user interaction)
 
 Rationale: `"light"` is the conventional baseline theme for Lily and
-for the broader DaisyUI palette this helper draws from. The picker
+for the broader DaisyUI palette this helper draws from. The select
 never displays the word "default" — option labels are derived from the
 slugs (title-cased) or from `themeLabels`.
 
@@ -239,7 +239,7 @@ who wants instant switching can:
 1. Drop their own `<link rel="stylesheet"
    href="/assets/themes/{slug}.css">` tags for every theme in the
    document `<head>` (so all theme CSS files are preloaded and parsed).
-2. Continue to use this picker — the picker still updates `data-theme`,
+2. Continue to use this select — the select still updates `data-theme`,
    and because every theme's CSS rule set is scoped to
    `:root[data-theme="{slug}"]`, the active rules switch instantly with
    the attribute.

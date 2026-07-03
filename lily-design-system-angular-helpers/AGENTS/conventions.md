@@ -9,7 +9,7 @@ file lists the Angular-specific decisions layered on top.
 
 ```
 lily-design-system-angular-<name>/
-├── spec.md                          ← single source of truth, numbered with §
+├── spec/index.md                          ← single source of truth, numbered with §
 ├── AGENTS.md                        ← fast-index pointer for agents
 ├── AGENTS/                          ← per-helper topic agent files
 │   ├── api.md

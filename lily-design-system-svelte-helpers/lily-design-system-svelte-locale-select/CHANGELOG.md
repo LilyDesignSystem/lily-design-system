@@ -7,7 +7,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ## 0.1.0 — 2026-06-05
 
 Initial release. This is the **canonical reference implementation**
-for Lily's locale picker; the Vue, React, Angular, Blazor, Nunjucks,
+for Lily's locale select; the Vue, React, Angular, Blazor, Nunjucks,
 and HTML ports port from this contract clause-for-clause.
 
 ### Added
@@ -38,9 +38,9 @@ and HTML ports port from this contract clause-for-clause.
   `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`, and the `Props` +
   `ChildArgs` types.
 - `LocaleSelect.test.ts` — vitest suite asserting every numbered
-  acceptance criterion in `spec.md` §7 (23 items). The markup-contract
+  acceptance criterion in `spec/index.md` §7 (23 items). The markup-contract
   tests assert a `<select>` with `<option>` children.
-- `spec.md` — spec-driven contract, version 0.1.0.
+- `spec/index.md` — spec-driven contract, version 0.1.0.
 - `AGENTS.md` — fast-index pointer for AI agents.
 - `AGENTS/` subdirectory with `api.md`, `lifecycle.md`,
   `accessibility.md`, `ssr.md`, `testing.md`.

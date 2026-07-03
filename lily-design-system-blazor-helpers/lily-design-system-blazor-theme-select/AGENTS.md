@@ -1,6 +1,6 @@
 # AGENTS — ThemeSelect (Blazor helper)
 
-Single source of truth: [spec.md](./spec.md). Read it first; everything
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
@@ -13,7 +13,7 @@ no CSS; consumer styles the `theme-select` class hook.
 
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
-| `spec.md`                  | Specification-driven contract (canonical).       |
+| `spec/index.md`                  | Specification-driven contract (canonical).       |
 | `ThemeSelect.razor`        | Razor markup.                                    |
 | `ThemeSelect.razor.cs`     | C# code-behind (partial class).                  |
 | `ThemeSelectTests.cs`      | bUnit + xUnit spec, one `[Fact]` per §7 item.    |

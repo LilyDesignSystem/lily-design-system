@@ -3,7 +3,7 @@
 All helpers in this directory use the same vitest + jsdom +
 `@testing-library/react` test stack. Per-helper `{Pascal}.test.tsx`
 files contain one numbered test per acceptance criterion in
-`spec.md §7`.
+`spec/index.md §7`.
 
 ## Stack
 
@@ -72,7 +72,7 @@ beforeEach(() => {
 
 ## Asserting against the spec
 
-Tests are numbered to match `spec.md §7`. The shape is:
+Tests are numbered to match `spec/index.md §7`. The shape is:
 
 ```ts
 describe("ThemeSelect — §7 acceptance", () => {
@@ -246,7 +246,7 @@ test("isRtlLocale detects RTL languages", () => {
 
 ## Coverage target
 
-Each helper's test file must contain at least one assertion per `spec.md
+Each helper's test file must contain at least one assertion per `spec/index.md
 §7` numbered item. `bin/test` (the repo-wide verifier) checks for the
 presence of `{Pascal}.test.tsx` in each helper directory but does not
 enforce per-§ coverage. Reviewers do.

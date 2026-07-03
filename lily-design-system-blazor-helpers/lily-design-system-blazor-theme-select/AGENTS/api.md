@@ -1,6 +1,6 @@
 # API — ThemeSelect (Blazor)
 
-Authoritative API surface lives in [`../spec.md`](../spec.md) §4.
+Authoritative API surface lives in [`../spec/index.md`](../spec/index.md) §4.
 This file documents the Blazor-flavoured shape of the contract.
 
 ## Exports
@@ -103,7 +103,7 @@ Consumers use it via `<ChildContent Context="ctx">`:
 ```
 
 When no `ChildContent` is supplied, the select renders the default
-option markup documented in `spec.md §4.2`.
+option markup documented in `spec/index.md §4.2`.
 
 ## Pure helpers
 

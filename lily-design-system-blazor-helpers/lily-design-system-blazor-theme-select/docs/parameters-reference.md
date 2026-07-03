@@ -1,7 +1,7 @@
 # Parameters reference
 
 Field-by-field reference for every public parameter. The contract is
-owned by [`../spec.md`](../spec.md) §4; this file expands the
+owned by [`../spec/index.md`](../spec/index.md) §4; this file expands the
 rationale and common usage.
 
 ## `Label` — required, `string`

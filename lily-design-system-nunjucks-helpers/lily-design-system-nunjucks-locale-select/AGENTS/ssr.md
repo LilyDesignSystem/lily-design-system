@@ -25,7 +25,7 @@ the page jumps:
 
 1. Browser parses `<html lang="en">` → default LTR layout.
 2. Browser fetches CSS, paints the page in English / LTR.
-3. JS hydrates, picker's client.js reads `localStorage["app-locale"]
+3. JS hydrates, select's client.js reads `localStorage["app-locale"]
    === "ar"`, writes `<html lang="ar" dir="rtl">`.
 4. Browser repaints in RTL → layout shift.
 
@@ -121,7 +121,7 @@ export async function onRequestPost({ request }) {
 ```
 
 Result: first paint arrives with the right `lang` and `dir`. The
-picker hydrates without writing anything visible.
+select hydrates without writing anything visible.
 
 ## Express + cookie-parser recipe
 
@@ -188,7 +188,7 @@ app.get("/:lang/*", (req, res) => {
 });
 ```
 
-The picker's `onChange` handler navigates:
+The select's `onChange` handler navigates:
 
 ```html
 <script type="module">

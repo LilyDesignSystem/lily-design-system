@@ -9,7 +9,7 @@ file lists the Blazor-specific decisions layered on top.
 
 ```
 lily-design-system-blazor-<name>/
-├── spec.md             ← single source of truth, numbered with §
+├── spec/index.md             ← single source of truth, numbered with §
 ├── AGENTS.md           ← fast-index pointer for agents
 ├── AGENTS/             ← per-helper topic agent files
 │   ├── api.md
@@ -56,7 +56,7 @@ Every helper SFC follows this template.
 
 @*
     {Pascal} — Blazor helper component.
-    Single source of truth: spec.md (§1–§9).
+    Single source of truth: spec/index.md (§1–§9).
 *@
 
 <root-element class="@RootClass"
@@ -86,7 +86,7 @@ using Microsoft.JSInterop;
 namespace LilyDesignSystem.Blazor.Helpers;
 
 /// <summary>
-/// Context for the ChildContent render fragment. See spec.md §4.
+/// Context for the ChildContent render fragment. See spec/index.md §4.
 /// </summary>
 public sealed class {Pascal}Context
 {
@@ -98,7 +98,7 @@ public sealed class {Pascal}Context
 
 public partial class {Pascal} : ComponentBase
 {
-    // Parameters — see spec.md §4.1.
+    // Parameters — see spec/index.md §4.1.
 
     [Parameter, EditorRequired] public string Label { get; set; } = "";
     [Parameter, EditorRequired] public IReadOnlyList<string> Items { get; set; }

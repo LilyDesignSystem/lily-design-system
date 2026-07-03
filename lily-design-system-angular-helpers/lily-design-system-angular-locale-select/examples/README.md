@@ -8,7 +8,7 @@ standalone component that can be dropped into any Angular 20 host
 Every example assumes:
 
 - Angular 20 with standalone components and signal inputs.
-- No CSS dependency — the picker is headless. Consumers style the
+- No CSS dependency — the select is headless. Consumers style the
   `locale-select`, `locale-select-option`, `locale-select-list`,
   `locale-select-select`, and `locale-select-combobox-label` class
   hooks.
@@ -23,7 +23,7 @@ Every example assumes:
 | 6  | [`06-with-transloco.component.ts`](./06-with-transloco.component.ts) | Binding to Transloco's `setActiveLang()`.                  |
 | 7  | [`07-with-ngx-translate.component.ts`](./07-with-ngx-translate.component.ts) | Driving `TranslateService.use()` from `(localeChange)`. |
 | 8  | [`08-ssr-cookie.component.ts`](./08-ssr-cookie.component.ts)  | Analog v1 cookie-based SSR — no flash of default locale.           |
-| 9  | [`09-scoped-target.component.ts`](./09-scoped-target.component.ts) | Multiple per-region pickers, each scoped to its own panel.    |
+| 9  | [`09-scoped-target.component.ts`](./09-scoped-target.component.ts) | Multiple per-region selects, each scoped to its own panel.    |
 | 10 | [`10-combobox.component.ts`](./10-combobox.component.ts)      | Native `<datalist>` type-ahead for all 436 built-in locales.       |
 
 ## Running the examples
@@ -39,7 +39,7 @@ one is:
 
 ## `[(value)]` conventions
 
-The picker exposes its bindable on `value` (Angular 17+ `model()`
+The select exposes its bindable on `value` (Angular 17+ `model()`
 signal). Always use `[(value)]="locale"` in templates, and pair
 with `(localeChange)` for one-shot side effects (cookie writes,
 imperative i18n-library calls, analytics).
@@ -67,7 +67,7 @@ the angular-headless library.
 Because v0.1.0 doesn't yet expose `ng-content` projection inside
 the `<select>`, the recommended pattern for custom affordances
 (button group, combobox) is a sibling widget bound to the same
-`[(value)]` signal. The picker still owns:
+`[(value)]` signal. The select still owns:
 
 - `lang` / `dir` writes to the target
 - `localStorage` persistence (if `storageKey` is set)
@@ -79,7 +79,7 @@ The sibling widget owns:
 - The custom markup (button group, `<select>`, combobox).
 - The click → `signal.set(...)` plumbing.
 
-This split lets the picker stay headless while consumers pick any
+This split lets the select stay headless while consumers pick any
 UI affordance.
 
 ## See also
@@ -92,4 +92,4 @@ UI affordance.
   changes and CSS tips.
 - [`../docs/i18n-integration.md`](../docs/i18n-integration.md) —
   wiring @angular/localize, Transloco, ngx-translate, raw `Intl.*`.
-- [`../spec.md`](../spec.md) — the canonical contract.
+- [`../spec/index.md`](../spec/index.md) — the canonical contract.

@@ -34,7 +34,7 @@ The headless layer is the contract; the example layer is the proof. Adopters can
 
 **In scope**
 
-- A canonical catalog of **492 components** (`components.tsv`).
+- A canonical catalog of **490 components** (`components.tsv`).
 - **Seven headless component libraries**: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks.
 - **Seven example applications**: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Angular Analog, Blazor Web, Nunjucks Eleventy.
 - A CSS style-sheet template (`css-style-sheet-template.css`) declaring every component class hook.
@@ -56,7 +56,7 @@ The headless layer is the contract; the example layer is the proof. Adopters can
 
 | Fact | Value |
 | --- | --- |
-| Canonical components | 492 |
+| Canonical components | 490 |
 | Headless libraries | 7 (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks) |
 | Example applications | 7 (HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Angular Analog, Blazor Web, Nunjucks Eleventy) |
 | Accessibility target | WCAG 2.2 AAA; WAI-ARIA APG 1.2 |
@@ -76,13 +76,13 @@ The headless layer is the contract; the example layer is the proof. Adopters can
 
 ## Acceptance criteria
 
-- [ ] Canonical component list defines exactly 492 components in `components.tsv`.
+- [ ] Canonical component list defines exactly 490 components in `components.tsv`.
 - [ ] All 7 headless subprojects exist and implement the full catalog.
 - [ ] All 7 example subprojects exist and implement the full catalog.
 - [ ] The headless layer bundles no stylesheets, fonts, images, or icons.
 - [ ] No component embeds a hardcoded user-facing string.
 - [ ] WCAG 2.2 AAA is the stated target across every component, demo, and framework.
-- [ ] Tracking metadata (version, license, contact) is current and matches `spec.md` §14.
+- [ ] Tracking metadata (version, license, contact) is current and matches `spec/index.md` §14.
 
 ## Related topics
 
@@ -95,6 +95,6 @@ The headless layer is the contract; the example layer is the proof. Adopters can
 
 ## Sources
 
-- [spec.md](../../spec.md) — §1 Vision, §2 Scope, §14 Tracking
+- [spec/index.md](../index.md) — §1 Vision, §2 Scope, §14 Tracking
 - [AGENTS.md](../../AGENTS.md)
 - [AGENTS/lily.md](../../AGENTS/lily.md)

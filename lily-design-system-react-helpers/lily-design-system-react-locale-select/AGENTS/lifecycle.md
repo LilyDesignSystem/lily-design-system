@@ -1,6 +1,6 @@
 # AGENTS / lifecycle — LocaleSelect
 
-Implementation lifecycle. Read [`../spec.md §5`](../spec.md#5-behaviour)
+Implementation lifecycle. Read [`../spec/index.md §5`](../spec/index.md#5-behaviour)
 for the formal contract; this file documents the React 19 mechanics.
 
 ## Mount order
@@ -104,7 +104,7 @@ function resolveInitialLocale(
 }
 ```
 
-Order matches [`spec.md §5.2`](../spec.md#52-initial-value-resolution):
+Order matches [`spec/index.md §5.2`](../spec/index.md#52-initial-value-resolution):
 
 1. consumer `value` (controlled)
 2. `localStorage[storageKey]`
@@ -161,7 +161,7 @@ function applyLocale(code: string): void {
 }
 ```
 
-Five ordered steps from [`spec.md §5.5`](../spec.md#55-applying-a-locale):
+Five ordered steps from [`spec/index.md §5.5`](../spec/index.md#55-applying-a-locale):
 
 1. Resolve target (`target ?? document.documentElement`).
 2. Set `lang` to BCP 47 form.
@@ -185,7 +185,7 @@ function labelFor(locale: string): string {
 }
 ```
 
-Four-step resolution per [`spec.md §5.4`](../spec.md#54-default-labels):
+Four-step resolution per [`spec/index.md §5.4`](../spec/index.md#54-default-labels):
 
 1. `localeLabels[code]` — consumer override.
 2. `defaultLocaleLabels[code]` — built-in English table.

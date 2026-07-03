@@ -9,7 +9,7 @@ convention plus a Cloudflare Pages Functions middleware.
 
 | File                            | Role                                                      |
 | ------------------------------- | --------------------------------------------------------- |
-| `_includes/base.njk`            | Eleventy layout that emits `<html data-theme>` + picker.  |
+| `_includes/base.njk`            | Eleventy layout that emits `<html data-theme>` + select.  |
 | `index.njk`                     | A page that consumes the layout.                          |
 | `_data/site.js`                 | Default theme + supported set (Eleventy global data).     |
 | `functions/_middleware.js`      | Cloudflare Pages edge middleware that substitutes theme.  |
@@ -18,7 +18,7 @@ convention plus a Cloudflare Pages Functions middleware.
 Required setup in your project:
 
 1. Have theme CSS files at `assets/themes/<slug>.css`.
-2. Drop the picker's `theme-select.njk` + `theme-select.client.js`
+2. Drop the select's `theme-select.njk` + `theme-select.client.js`
    somewhere Eleventy can reach (e.g.
    `_includes/lily/theme-select.njk`).
 3. Wire `eleventyConfig.addPassthroughCopy` for both the themes
@@ -36,7 +36,7 @@ browser → edge: GET /  (Cookie: theme=dark)
 browser receives <html data-theme="dark"> + light.css = no flash
 ```
 
-When the user changes themes, the picker's `onChange` calls
+When the user changes themes, the select's `onChange` calls
 `fetch("/api/theme", { method: "POST", body: { theme } })` so the
 next SSR request sees the new cookie.
 

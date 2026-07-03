@@ -125,8 +125,8 @@ Result:
 
 - First paint: `<html lang="fr" dir="ltr">` arrives in the HTML
   response. No flash, no layout shift.
-- Picker mounts already showing the right option selected.
-- User picks `ar`. Picker writes `<html lang="ar" dir="rtl">`,
+- Select mounts already showing the right option selected.
+- User picks `ar`. Select writes `<html lang="ar" dir="rtl">`,
   callback writes the cookie, page reloads. Next request re-paints
   the page in Arabic from the very first byte.
 
@@ -144,7 +144,7 @@ needs the per-request swap.
 
 ## Client.js is progressive enhancement
 
-The picker renders without the client.js loading: a `<select>`
+The select renders without the client.js loading: a `<select>`
 is a fully functional `<form>` control. Submit it
 inside a `<form method="POST" action="/locale">` and the server
 sees `locale=fr` in the body. The client.js layers in
@@ -153,11 +153,11 @@ updates, and the `onChange` callback — it never breaks the
 no-JavaScript path.
 
 This is the **single biggest ergonomic difference** vs
-SvelteKit / Next: the picker is a real HTML form control first,
+SvelteKit / Next: the select is a real HTML form control first,
 and a JS-enhanced widget second. Search engines, screen readers
 in JS-disabled mode, and curl users all see the `<select>`.
 
-If you want a fully no-JS locale switch, render the picker inside
+If you want a fully no-JS locale switch, render the select inside
 a `<form>` and let the server own the cookie:
 
 ```njk
@@ -224,7 +224,7 @@ app.get("/", (req, res) => {
 });
 ```
 
-The picker is unchanged — same `opts.value` pattern.
+The select is unchanged — same `opts.value` pattern.
 
 If you need RFC 4647-quality negotiation, replace the loop with
 the `negotiator` npm package or the standards-compliant

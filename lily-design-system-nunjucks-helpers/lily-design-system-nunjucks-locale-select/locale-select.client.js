@@ -10,7 +10,7 @@
 //   4. Mirror the active code onto the <select> value (select the option).
 //   5. Call opts.onChange(code).
 //
-// See spec.md §4.3 (client.js exports), §5 (behaviour).
+// See spec/index.md §4.3 (client.js exports), §5 (behaviour).
 //
 // `defaultLocaleLabels` and the RTL sets are re-exported from
 // `./locales.js` (TypeScript-emitted; vitest / Vite resolves to
@@ -35,7 +35,7 @@ export function bcp47LocaleTag(locale) {
     return (locale || "").replace(/_/g, "-");
 }
 
-/** Detect whether a locale is right-to-left. See spec.md §5.6. */
+/** Detect whether a locale is right-to-left. See spec/index.md §5.6. */
 export function isRtlLocale(locale) {
     if (!locale) return false;
     const parts = locale.split(/[-_]/);

@@ -12,10 +12,340 @@ export const components: Component[] = [
       "a checkbox option that reveals an accordion panel when checked",
   },
   {
+    slug: "alba-community-health-index-input",
+    name: "AlbaCommunityHealthIndexInput",
+    description: "an input for entering Scotland's Community Health Index (CHI)",
+  },
+  {
+    slug: "alba-community-health-index-view",
+    name: "AlbaCommunityHealthIndexView",
+    description: "a read-only display of Scotland's Community Health Index (CHI)",
+  },
+  {
+    slug: "australia-individual-healthcare-identifier-input",
+    name: "AustraliaIndividualHealthcareIdentifierInput",
+    description: "an input for entering Australia's Individual Healthcare Identifier (IHI)",
+  },
+  {
+    slug: "australia-individual-healthcare-identifier-view",
+    name: "AustraliaIndividualHealthcareIdentifierView",
+    description: "a read-only display of Australia's Individual Healthcare Identifier (IHI)",
+  },
+  {
+    slug: "belgique-numero-de-registre-national-input",
+    name: "BelgiqueNumeroDeRegistreNationalInput",
+    description: "an input for entering Belgium's Numéro de Registre National / Rijksregisternummer (NRN)",
+  },
+  {
+    slug: "belgique-numero-de-registre-national-view",
+    name: "BelgiqueNumeroDeRegistreNationalView",
+    description: "a read-only display of Belgium's Numéro de Registre National / Rijksregisternummer (NRN)",
+  },
+  {
+    slug: "bulgaria-edinen-grazhdanski-nomer-input",
+    name: "BulgariaEdinenGrazhdanskiNomerInput",
+    description: "an input for entering Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)",
+  },
+  {
+    slug: "bulgaria-edinen-grazhdanski-nomer-view",
+    name: "BulgariaEdinenGrazhdanskiNomerView",
+    description: "a read-only display of Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN)",
+  },
+  {
+    slug: "cesko-cestovni-pas-input",
+    name: "CeskoCestovniPasInput",
+    description: "an input for entering Czech Republic's Cestovní pas",
+  },
+  {
+    slug: "cesko-cestovni-pas-view",
+    name: "CeskoCestovniPasView",
+    description: "a read-only display of Czech Republic's Cestovní pas",
+  },
+  {
+    slug: "cesko-rodne-cislo-input",
+    name: "CeskoRodneCisloInput",
+    description: "an input for entering Czech Republic's Rodné číslo (RČ)",
+  },
+  {
+    slug: "cesko-rodne-cislo-view",
+    name: "CeskoRodneCisloView",
+    description: "a read-only display of Czech Republic's Rodné číslo (RČ)",
+  },
+  {
+    slug: "cymru-rhif-y-gwasanaeth-iechyd-gwladol-input",
+    name: "CymruRhifYGwasanaethIechydGwladolInput",
+    description: "an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)",
+  },
+  {
+    slug: "cymru-rhif-y-gwasanaeth-iechyd-gwladol-view",
+    name: "CymruRhifYGwasanaethIechydGwladolView",
+    description: "a read-only display of Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)",
+  },
+  {
+    slug: "cyprus-national-passport-number-input",
+    name: "CyprusNationalPassportNumberInput",
+    description: "an input for entering Cyprus's National Passport Number",
+  },
+  {
+    slug: "cyprus-national-passport-number-view",
+    name: "CyprusNationalPassportNumberView",
+    description: "a read-only display of Cyprus's National Passport Number",
+  },
+  {
+    slug: "danmark-personnummer-input",
+    name: "DanmarkPersonnummerInput",
+    description: "an input for entering Denmark's Personnummer (CPR-nummer) (CPR)",
+  },
+  {
+    slug: "danmark-personnummer-view",
+    name: "DanmarkPersonnummerView",
+    description: "a read-only display of Denmark's Personnummer (CPR-nummer) (CPR)",
+  },
+  {
+    slug: "deutschland-krankenversichertennummer-input",
+    name: "DeutschlandKrankenversichertennummerInput",
+    description: "an input for entering Germany's Krankenversichertennummer (KVNR)",
+  },
+  {
+    slug: "deutschland-krankenversichertennummer-view",
+    name: "DeutschlandKrankenversichertennummerView",
+    description: "a read-only display of Germany's Krankenversichertennummer (KVNR)",
+  },
+  {
+    slug: "eesti-isikukood-input",
+    name: "EestiIsikukoodInput",
+    description: "an input for entering Estonia's Isikukood (IK)",
+  },
+  {
+    slug: "eesti-isikukood-view",
+    name: "EestiIsikukoodView",
+    description: "a read-only display of Estonia's Isikukood (IK)",
+  },
+  {
+    slug: "ellada-dematerialised-securities-system-input",
+    name: "ElladaDematerialisedSecuritiesSystemInput",
+    description: "an input for entering Greece's Dematerialised Securities System (DSS)",
+  },
+  {
+    slug: "ellada-dematerialised-securities-system-view",
+    name: "ElladaDematerialisedSecuritiesSystemView",
+    description: "a read-only display of Greece's Dematerialised Securities System (DSS)",
+  },
+  {
+    slug: "england-national-health-service-number-input",
+    name: "EnglandNationalHealthServiceNumberInput",
+    description: "an input for entering England's National Health Service Number (NHS)",
+  },
+  {
+    slug: "england-national-health-service-number-view",
+    name: "EnglandNationalHealthServiceNumberView",
+    description: "a read-only display of England's National Health Service Number (NHS)",
+  },
+  {
+    slug: "espana-codigo-de-identificacion-fiscal-input",
+    name: "EspanaCodigoDeIdentificacionFiscalInput",
+    description: "an input for entering Spain's Código de Identificación Fiscal (CIF)",
+  },
+  {
+    slug: "espana-codigo-de-identificacion-fiscal-view",
+    name: "EspanaCodigoDeIdentificacionFiscalView",
+    description: "a read-only display of Spain's Código de Identificación Fiscal (CIF)",
+  },
+  {
+    slug: "hrvatska-osobni-identifikacijski-broj-input",
+    name: "HrvatskaOsobniIdentifikacijskiBrojInput",
+    description: "an input for entering Croatia's Osobni identifikacijski broj (OIB)",
+  },
+  {
+    slug: "hrvatska-osobni-identifikacijski-broj-view",
+    name: "HrvatskaOsobniIdentifikacijskiBrojView",
+    description: "a read-only display of Croatia's Osobni identifikacijski broj (OIB)",
+  },
+  {
+    slug: "input",
+    name: "Input",
+    description: "a generic HTML input element",
+  },
+  {
+    slug: "island-kennitala-input",
+    name: "IslandKennitalaInput",
+    description: "an input for entering Iceland's Kennitala",
+  },
+  {
+    slug: "island-kennitala-view",
+    name: "IslandKennitalaView",
+    description: "a read-only display of Iceland's Kennitala",
+  },
+  {
+    slug: "italia-codice-fiscale-input",
+    name: "ItaliaCodiceFiscaleInput",
+    description: "an input for entering Italy's Codice fiscale (CF)",
+  },
+  {
+    slug: "italia-codice-fiscale-view",
+    name: "ItaliaCodiceFiscaleView",
+    description: "a read-only display of Italy's Codice fiscale (CF)",
+  },
+  {
+    slug: "latvija-personas-kods-input",
+    name: "LatvijaPersonasKodsInput",
+    description: "an input for entering Latvia's Personas kods",
+  },
+  {
+    slug: "latvija-personas-kods-view",
+    name: "LatvijaPersonasKodsView",
+    description: "a read-only display of Latvia's Personas kods",
+  },
+  {
+    slug: "liechtenstein-national-identity-card-number-input",
+    name: "LiechtensteinNationalIdentityCardNumberInput",
+    description: "an input for entering Liechtenstein's Liechtenstein National Identity Card Number",
+  },
+  {
+    slug: "liechtenstein-national-identity-card-number-view",
+    name: "LiechtensteinNationalIdentityCardNumberView",
+    description: "a read-only display of Liechtenstein's Liechtenstein National Identity Card Number",
+  },
+  {
+    slug: "liechtenstein-passport-number-input",
+    name: "LiechtensteinPassportNumberInput",
+    description: "an input for entering Liechtenstein's Liechtenstein Passport Number",
+  },
+  {
+    slug: "liechtenstein-passport-number-view",
+    name: "LiechtensteinPassportNumberView",
+    description: "a read-only display of Liechtenstein's Liechtenstein Passport Number",
+  },
+  {
+    slug: "lietuva-asmens-kodas-input",
+    name: "LietuvaAsmensKodasInput",
+    description: "an input for entering Lithuania's Asmens kodas",
+  },
+  {
+    slug: "lietuva-asmens-kodas-view",
+    name: "LietuvaAsmensKodasView",
+    description: "a read-only display of Lithuania's Asmens kodas",
+  },
+  {
+    slug: "lietuva-pasas-input",
+    name: "LietuvaPasasInput",
+    description: "an input for entering Lithuania's Pasas",
+  },
+  {
+    slug: "lietuva-pasas-view",
+    name: "LietuvaPasasView",
+    description: "a read-only display of Lithuania's Pasas",
+  },
+  {
+    slug: "malta-national-identification-number-input",
+    name: "MaltaNationalIdentificationNumberInput",
+    description: "an input for entering Malta's Malta National Identification Number",
+  },
+  {
+    slug: "malta-national-identification-number-view",
+    name: "MaltaNationalIdentificationNumberView",
+    description: "a read-only display of Malta's Malta National Identification Number",
+  },
+  {
+    slug: "malta-passport-number-input",
+    name: "MaltaPassportNumberInput",
+    description: "an input for entering Malta's Malta Passport Number",
+  },
+  {
+    slug: "malta-passport-number-view",
+    name: "MaltaPassportNumberView",
+    description: "a read-only display of Malta's Malta Passport Number",
+  },
+  {
+    slug: "menu-item",
+    name: "MenuItem",
+    description: "one item in a menu",
+  },
+  {
     slug: "mockup-phone-landscape",
     name: "MockupPhoneLandscape",
     description:
       "a box area that looks like a mobile phone in landscape orientation",
+  },
+  {
+    slug: "nederland-burgerservice-nummer-input",
+    name: "NederlandBurgerserviceNummerInput",
+    description: "an input for entering Netherlands's Burgerservicenummer (BSN)",
+  },
+  {
+    slug: "nederland-burgerservice-nummer-view",
+    name: "NederlandBurgerserviceNummerView",
+    description: "a read-only display of Netherlands's Burgerservicenummer (BSN)",
+  },
+  {
+    slug: "nederland-identiteitskaart-nummer-input",
+    name: "NederlandIdentiteitskaartNummerInput",
+    description: "an input for entering Netherlands's Identiteitskaart Nummer",
+  },
+  {
+    slug: "nederland-identiteitskaart-nummer-view",
+    name: "NederlandIdentiteitskaartNummerView",
+    description: "a read-only display of Netherlands's Identiteitskaart Nummer",
+  },
+  {
+    slug: "nederland-paspoort-nummer-input",
+    name: "NederlandPaspoortNummerInput",
+    description: "an input for entering Netherlands's Paspoort Nummer",
+  },
+  {
+    slug: "nederland-paspoort-nummer-view",
+    name: "NederlandPaspoortNummerView",
+    description: "a read-only display of Netherlands's Paspoort Nummer",
+  },
+  {
+    slug: "norge-fodselsnummer-input",
+    name: "NorgeFodselsnummerInput",
+    description: "an input for entering Norway's Fødselsnummer",
+  },
+  {
+    slug: "norge-fodselsnummer-view",
+    name: "NorgeFodselsnummerView",
+    description: "a read-only display of Norway's Fødselsnummer",
+  },
+  {
+    slug: "polska-numer-identyfikacji-podatkowej-input",
+    name: "PolskaNumerIdentyfikacjiPodatkowejInput",
+    description: "an input for entering Poland's Numer Identyfikacji Podatkowej (NIP)",
+  },
+  {
+    slug: "polska-numer-identyfikacji-podatkowej-view",
+    name: "PolskaNumerIdentyfikacjiPodatkowejView",
+    description: "a read-only display of Poland's Numer Identyfikacji Podatkowej (NIP)",
+  },
+  {
+    slug: "polska-pesel-input",
+    name: "PolskaPeselInput",
+    description: "an input for entering Poland's PESEL",
+  },
+  {
+    slug: "polska-pesel-view",
+    name: "PolskaPeselView",
+    description: "a read-only display of Poland's PESEL",
+  },
+  {
+    slug: "portugal-numero-de-identificacao-fiscal-input",
+    name: "PortugalNumeroDeIdentificacaoFiscalInput",
+    description: "an input for entering Portugal's Número de Identificação Fiscal (NIF)",
+  },
+  {
+    slug: "portugal-numero-de-identificacao-fiscal-view",
+    name: "PortugalNumeroDeIdentificacaoFiscalView",
+    description: "a read-only display of Portugal's Número de Identificação Fiscal (NIF)",
+  },
+  {
+    slug: "portugal-passaporte-input",
+    name: "PortugalPassaporteInput",
+    description: "an input for entering Portugal's Passaporte",
+  },
+  {
+    slug: "portugal-passaporte-view",
+    name: "PortugalPassaporteView",
+    description: "a read-only display of Portugal's Passaporte",
   },
   {
     slug: "progress-bar",
@@ -1005,6 +1335,26 @@ export const components: Component[] = [
     description: "a display of a content review date",
   },
   {
+    slug: "romania-cod-numeric-personal-input",
+    name: "RomaniaCodNumericPersonalInput",
+    description: "an input for entering Romania's Cod Numeric Personal (CNP)",
+  },
+  {
+    slug: "romania-cod-numeric-personal-view",
+    name: "RomaniaCodNumericPersonalView",
+    description: "a read-only display of Romania's Cod Numeric Personal (CNP)",
+  },
+  {
+    slug: "romania-pasaport-input",
+    name: "RomaniaPasaportInput",
+    description: "an input for entering Romania's Paşaport",
+  },
+  {
+    slug: "romania-pasaport-view",
+    name: "RomaniaPasaportView",
+    description: "a read-only display of Romania's Paşaport",
+  },
+  {
     slug: "scroll-area",
     name: "ScrollArea",
     description: "a scrollable container with custom scrollbar support",
@@ -1081,6 +1431,36 @@ export const components: Component[] = [
     description: "a draggable control for selecting a value along a track",
   },
   {
+    slug: "slovenija-emso-input",
+    name: "SlovenijaEmsoInput",
+    description: "an input for entering Slovenia's Enotna Matična Številka Občana (EMŠO)",
+  },
+  {
+    slug: "slovenija-emso-view",
+    name: "SlovenijaEmsoView",
+    description: "a read-only display of Slovenia's Enotna Matična Številka Občana (EMŠO)",
+  },
+  {
+    slug: "slovensko-pas-input",
+    name: "SlovenskoPasInput",
+    description: "an input for entering Slovakia's Pas",
+  },
+  {
+    slug: "slovensko-pas-view",
+    name: "SlovenskoPasView",
+    description: "a read-only display of Slovakia's Pas",
+  },
+  {
+    slug: "slovensko-rodne-cislo-input",
+    name: "SlovenskoRodneCisloInput",
+    description: "an input for entering Slovakia's Rodné číslo (RČ)",
+  },
+  {
+    slug: "slovensko-rodne-cislo-view",
+    name: "SlovenskoRodneCisloView",
+    description: "a read-only display of Slovakia's Rodné číslo (RČ)",
+  },
+  {
     slug: "sonner",
     name: "Sonner",
     description: "a toast notification manager",
@@ -1109,6 +1489,26 @@ export const components: Component[] = [
     slug: "summary-list-item",
     name: "SummaryListItem",
     description: "one key-value pair in a summary list",
+  },
+  {
+    slug: "suomi-henkilotunnus-input",
+    name: "SuomiHenkilotunnusInput",
+    description: "an input for entering Finland's Henkilötunnus (HETU)",
+  },
+  {
+    slug: "suomi-henkilotunnus-view",
+    name: "SuomiHenkilotunnusView",
+    description: "a read-only display of Finland's Henkilötunnus (HETU)",
+  },
+  {
+    slug: "sverige-personnummer-input",
+    name: "SverigePersonnummerInput",
+    description: "an input for entering Sweden's Personnummer",
+  },
+  {
+    slug: "sverige-personnummer-view",
+    name: "SverigePersonnummerView",
+    description: "a read-only display of Sweden's Personnummer",
   },
   {
     slug: "switch-button",
@@ -1214,11 +1614,6 @@ export const components: Component[] = [
     slug: "text-area-input",
     name: "TextAreaInput",
     description: "a multi-line text input area",
-  },
-  {
-    slug: "theme-select",
-    name: "ThemeSelect",
-    description: "a picker for selecting a visual theme",
   },
   {
     slug: "theme-select",
@@ -1335,6 +1730,16 @@ export const components: Component[] = [
     slug: "united-kingdom-national-health-service-number-view",
     name: "UnitedKingdomNationalHealthServiceNumberView",
     description: "a read-only display of a UK NHS number",
+  },
+  {
+    slug: "united-kingdom-national-insurance-number-input",
+    name: "UnitedKingdomNationalInsuranceNumberInput",
+    description: "an input for entering United Kingdom's National Insurance Number (NINO)",
+  },
+  {
+    slug: "united-kingdom-national-insurance-number-view",
+    name: "UnitedKingdomNationalInsuranceNumberView",
+    description: "a read-only display of United Kingdom's National Insurance Number (NINO)",
   },
   {
     slug: "united-states-social-security-number-input",
@@ -2170,12 +2575,6 @@ export const components: Component[] = [
     name: "TextInputWithSearch",
     description:
       'a single-line text input field <input type="text"> with search capability',
-  },
-  {
-    slug: "theme-select-button",
-    name: "ThemeSelectButton",
-    description:
-      "a picker button for selecting a visual theme",
   },
   {
     slug: "theme-provider",

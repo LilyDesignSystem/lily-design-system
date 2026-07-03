@@ -26,13 +26,13 @@ The helper owns the first two and signals the third via:
   carries the chosen locale to the server).
 
 The split matters because it lets you swap your i18n library without
-rewriting the picker, and it lets the picker stay headless: zero CSS,
+rewriting the select, and it lets the select stay headless: zero CSS,
 zero string tables, zero dependencies beyond Nunjucks server-side and
 DOM APIs client-side.
 
 ## What "headless" means here
 
-The picker:
+The select:
 
 - Renders semantic HTML (`<select>` + `<option>`) — a native combobox
   whose role and keyboard semantics the browser provides.
@@ -123,7 +123,7 @@ Keeping them separate means:
 - On a fresh mount with no `value` opt (no `<option>` rendered
   `selected`), the stored value is read back.
 - Storage errors (private mode, quota) are swallowed silently; the
-  picker degrades to the navigator / default / `"en"` / first-option
+  select degrades to the navigator / default / `"en"` / first-option
   fallback chain.
 
 If you have a Nunjucks-rendering server (Express, Eleventy, Astro,
@@ -162,13 +162,13 @@ Three layers, mirroring the lifecycle:
    and `.dir`. Drive a `change` on the `<select>` and assert again.
 
 See [../locale-select.test.ts](../locale-select.test.ts) for the
-reference suite that covers every `spec.md` §7 acceptance item.
+reference suite that covers every `spec/index.md` §7 acceptance item.
 
 ## Symmetry with `ThemeSelect`
 
 The sibling [`lily-design-system-nunjucks-theme-select`](../../lily-design-system-nunjucks-theme-select/)
 ships with the same shape: a macro that emits a `<select>` with
 `data-lily-*-root` hooks, and a client.js
-that owns the apply lifecycle. Mount both pickers on the same page
+that owns the apply lifecycle. Mount both selects on the same page
 to expose theme + language preferences side-by-side; they share
 zero state and cannot collide.

@@ -1,7 +1,7 @@
 # Lifecycle — ThemeSelect (Vue)
 
-The Vue-flavoured walk-through of the picker's lifecycle. The
-canonical contract is in [`../spec.md`](../spec.md) §5; this file
+The Vue-flavoured walk-through of the select's lifecycle. The
+canonical contract is in [`../spec/index.md`](../spec/index.md) §5; this file
 maps the Svelte canonical's `$effect` lifecycle to Vue's
 `onMounted` + `watch`.
 
@@ -40,7 +40,7 @@ onSelectChange ─► emit("update:value", next)
 ## Why `onMounted` + `watch`, not `watchEffect`
 
 `watchEffect` would auto-track every prop it reads. We don't want
-the picker to re-apply when `themesUrl` or `extension` changes
+the select to re-apply when `themesUrl` or `extension` changes
 without a corresponding `value` change — that would re-fetch the
 stylesheet for no user-visible reason. An explicit
 `watch(() => props.value, …)` keeps the dependency graph small and
@@ -102,7 +102,7 @@ client.
 Only `props.value` is watched. Other props are read inside the
 apply function on every fire, so changes take effect on the next
 value change, not retroactively. This matches the Svelte canonical's
-contract (see spec.md §5.4).
+contract (see spec/index.md §5.4).
 
 If a consumer wants to re-apply when, e.g., `themesUrl` changes
 mid-session, they can write back to `value`:
@@ -140,9 +140,9 @@ the server, write `data-theme="…"` on `<html>` via Nuxt's
 The component does not clean up the managed `<link>` or the
 `data-theme` attribute on unmount. That's intentional:
 
-- The picker may be unmounted because the consumer navigated away
+- The select may be unmounted because the consumer navigated away
   from the settings page; the theme should stay applied.
-- The next picker mount reuses the same managed `<link>` (located
+- The next select mount reuses the same managed `<link>` (located
   by `data-lily-theme-select="{name}"`).
 
 If a consumer wants to fully tear down the theme on unmount, they
@@ -159,4 +159,4 @@ onBeforeUnmount(() => {
 </script>
 ```
 
-This is rare. Most apps want the theme to outlive the picker.
+This is rare. Most apps want the theme to outlive the select.

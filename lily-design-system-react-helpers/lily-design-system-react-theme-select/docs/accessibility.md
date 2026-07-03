@@ -49,13 +49,13 @@ colour-only meaning is required:
 
 ## Visible focus
 
-The picker does not suppress `:focus` or `:focus-visible` styling. The
+The select does not suppress `:focus` or `:focus-visible` styling. The
 consumer's CSS is responsible for the visible focus ring. NHS-UK and
 Lily themes ship a high-contrast focus outline that meets AAA.
 
 ## Reduced motion
 
-The picker performs no animation. Theme CSS files are responsible for
+The select performs no animation. Theme CSS files are responsible for
 respecting `prefers-reduced-motion` if they introduce transitions on
 the `data-theme` swap.
 
@@ -68,10 +68,10 @@ the `data-theme` swap.
 
 ## React 19 specifics
 
-- The picker file is a client component (`"use client"`). The
-  consumer file importing the picker must also be a client component
+- The select file is a client component (`"use client"`). The
+  consumer file importing the select must also be a client component
   if it manages controlled state with `useState`.
-- React 19's StrictMode double-invokes effects. The picker's
+- React 19's StrictMode double-invokes effects. The select's
   `initialisedRef` guards against double-application; tests should
   cover the StrictMode path.
 

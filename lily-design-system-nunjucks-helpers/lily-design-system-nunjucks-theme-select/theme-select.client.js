@@ -10,7 +10,7 @@
 //   4. Mirror the active slug onto the <select> value (select the option).
 //   5. Call opts.onChange(slug).
 //
-// See spec.md §4.3 (client.js exports), §5 (behaviour).
+// See spec/index.md §4.3 (client.js exports), §5 (behaviour).
 
 /** Normalise a themes-directory URL to end with exactly one "/". */
 export function normaliseThemesUrl(themesUrl) {

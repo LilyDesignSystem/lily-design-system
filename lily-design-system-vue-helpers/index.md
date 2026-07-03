@@ -20,7 +20,7 @@ Every helper subproject follows the same shape:
 
 ```
 lily-design-system-vue-<name>/
-├── spec.md                  ← single source of truth (SDD)
+├── spec/index.md                  ← single source of truth (SDD)
 ├── AGENTS.md                ← AI-agent metadata pointer
 ├── CLAUDE.md                ← loads AGENTS.md
 ├── index.md                 ← comprehensive user guide
@@ -55,12 +55,12 @@ Shared design decisions across the catalog:
 - **One job per helper**: each helper owns the entire lifecycle of
   one user-preference dimension (theme, language, etc.) and composes
   cleanly with the others.
-- **Spec-driven**: every helper has a `spec.md` numbered with §
+- **Spec-driven**: every helper has a `spec/index.md` numbered with §
   references; tests assert against those numbers; docs link back.
 
 ## Differences from the headless library
 
-The headless library mirrors the canonical 492-component catalog.
+The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle. A consumer
 typing on top of `ThemeSelect` from `lily-design-system-vue-headless`
 writes their own option markup, their own persistence, and their own
@@ -100,7 +100,7 @@ and tests stay in lock-step across frameworks.
 
 Each helper ships a vitest suite that runs under jsdom +
 `@vue/test-utils`. The acceptance criteria are listed in each
-`spec.md` §7 and the test file matches one `it(...)` per numbered
+`spec/index.md` §7 and the test file matches one `it(...)` per numbered
 item, named with the section number for fast cross-referencing.
 
 ```bash

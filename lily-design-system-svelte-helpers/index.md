@@ -19,7 +19,7 @@ Every helper subproject follows the same shape:
 
 ```
 lily-design-system-svelte-<name>/
-├── spec.md                  ← single source of truth (SDD)
+├── spec/index.md                  ← single source of truth (SDD)
 ├── AGENTS.md                ← AI-agent metadata pointer
 ├── CLAUDE.md                ← loads AGENTS.md
 ├── index.md                 ← human-readable guide
@@ -44,12 +44,12 @@ Shared design decisions across the catalog:
 - **One job per helper**: each helper owns the entire lifecycle of
   one user-preference dimension (theme, language, etc.) and composes
   cleanly with the others.
-- **Spec-driven**: every helper has a `spec.md` numbered with §
+- **Spec-driven**: every helper has a `spec/index.md` numbered with §
   references; tests assert against those numbers; docs link back.
 
 ## Differences from the headless library
 
-The headless library mirrors the canonical 492-component catalog.
+The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle. A consumer
 typing on top of `ThemeSelect` from `lily-design-system-svelte-headless`
 writes their own radio markup, their own persistence, and their own

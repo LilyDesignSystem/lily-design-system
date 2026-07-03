@@ -90,4 +90,4 @@ also works.
   recipes (Eleventy, Astro, Hugo).
 - [`../docs/styling.md`](../docs/styling.md) — class hooks and a
   suggested baseline CSS.
-- [`../spec.md`](../spec.md) — the canonical contract.
+- [`../spec/index.md`](../spec/index.md) — the canonical contract.

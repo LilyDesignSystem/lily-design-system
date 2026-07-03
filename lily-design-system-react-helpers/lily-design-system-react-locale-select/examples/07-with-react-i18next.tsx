@@ -4,7 +4,7 @@
     07. Wiring react-i18next.
 
     react-i18next exposes a `useTranslation()` hook returning `t` (the
-    translator) and `i18n` (the runtime). The picker's `onChange` calls
+    translator) and `i18n` (the runtime). The select's `onChange` calls
     `i18n.changeLanguage(code)`. Subscribed components re-render
     automatically.
 

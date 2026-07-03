@@ -2,7 +2,7 @@
 
 The select's test suite lives in
 [`../theme-select.test.ts`](../theme-select.test.ts) and asserts
-every numbered acceptance criterion in `spec.md` §7. This file
+every numbered acceptance criterion in `spec/index.md` §7. This file
 documents the test harness and the conventions specific to this
 helper. For the catalog-wide test rules see
 [`../../AGENTS/testing.md`](../../AGENTS/testing.md).
@@ -176,7 +176,7 @@ it("module is import-safe under SSR", async () => {
 ## What every §7 test asserts
 
 See the per-clause map in
-[`../spec.md` §7](../spec.md#7-testing-acceptance-criteria). Each
+[`../spec/index.md` §7](../spec/index.md#7-testing-acceptance-criteria). Each
 `it(...)` description starts with the clause number, e.g.
 `it("§7.6 resolves the initial theme to 'light' …", …)`. Keep the
 naming convention so a reviewer can spot a missing clause.

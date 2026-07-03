@@ -1,11 +1,11 @@
 # AGENTS — LocaleSelect (Vue helper)
 
-Single source of truth: [spec.md](./spec.md). Read it first; everything
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable Vue 3 headless locale picker that applies the chosen
+A reusable Vue 3 headless locale select that applies the chosen
 locale to the document root via `lang` and `dir`, with optional
 `localStorage` persistence and `navigator.languages` detection. Ships
 no CSS; consumer styles the `locale-select` class hook.
@@ -14,7 +14,7 @@ no CSS; consumer styles the `locale-select` class hook.
 
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
-| `spec.md`                  | Specification-driven contract (canonical).       |
+| `spec/index.md`                  | Specification-driven contract (canonical).       |
 | `LocaleSelect.vue`         | Implementation. `<script setup lang="ts">`.      |
 | `LocaleSelect.test.ts`     | Vitest spec, one assertion per §7 acceptance.    |
 | `locales.ts`               | Built-in code → English-name map and RTL sets.   |
@@ -31,11 +31,11 @@ no CSS; consumer styles the `locale-select` class hook.
 - Type exports: `Props`, `SlotArgs`.
 
 Required props: `label`, `locales`. Full table in
-[spec.md §4.1](./spec.md#41-props).
+[spec/index.md §4.1](./spec/index.md#41-props).
 
 ## Behaviour contract (one paragraph)
 
-On every locale change the picker (1) sets `target.lang` to the
+On every locale change the select (1) sets `target.lang` to the
 BCP 47 hyphen form of the code, (2) sets `target.dir` to `"rtl"` /
 `"ltr"` (skipped if `applyDir=false`), (3) optionally writes to
 `localStorage[storageKey]`, and (4) emits the `change` event with the

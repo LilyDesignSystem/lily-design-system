@@ -1,12 +1,12 @@
 <!--
     02. Native <select> via the children snippet.
 
-    The picker still owns the lifecycle (lang/dir/storage/onChange) but
+    The select still owns the lifecycle (lang/dir/storage/onChange) but
     delegates the markup to a <select>. Best for >~12 locales or when
     the design system uses dropdowns for setting controls.
 
     Outcome: a single <select> populated with one <option> per locale,
-    each carrying its own BCP 47 `lang`. The picker's $effect runs the
+    each carrying its own BCP 47 `lang`. The select's $effect runs the
     same way as the default rendering.
 -->
 <script lang="ts">

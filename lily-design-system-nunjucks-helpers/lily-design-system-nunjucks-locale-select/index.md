@@ -1,11 +1,11 @@
 # LocaleSelect (Nunjucks helper)
 
-A reusable, headless Nunjucks 3 + vanilla-JS locale picker that
+A reusable, headless Nunjucks 3 + vanilla-JS locale select that
 applies the chosen locale to the document root via `lang` and
 `dir`, with optional `localStorage` persistence and
 `navigator.languages` detection.
 
-The single source of truth is [spec.md](./spec.md). This file is
+The single source of truth is [spec/index.md](./spec/index.md). This file is
 the comprehensive user guide. For topic deep-dives see
 [docs/](./docs/) and for working code see [examples/](./examples/).
 
@@ -31,7 +31,7 @@ the comprehensive user guide. For topic deep-dives see
 
 ## Why this exists
 
-Most locale pickers couple selection, persistence, and string
+Most locale selects couple selection, persistence, and string
 translation into one opinionated widget. This one splits the
 contract cleanly:
 
@@ -41,7 +41,7 @@ contract cleanly:
 - **Your i18n library** (i18next, gettext, eleventy-plugin-i18n,
   etc.) owns the actual string translation. It picks up the
   `lang` attribute or the `onChange` callback.
-- **Consumers** own the visual style of the picker via the
+- **Consumers** own the visual style of the select via the
   `locale-select` class hook.
 
 The result is a small reusable widget that works in any Nunjucks
@@ -136,7 +136,7 @@ When the user picks `ar`, the client:
 - writes `"ar"` to `localStorage["lily-locale"]`,
 - fires `onChange("ar")` if provided.
 
-The picker does NOT translate strings — that is the consumer's
+The select does NOT translate strings — that is the consumer's
 i18n library's job. Wire `onChange` (or `MutationObserver` on
 `<html lang>`) to your library so it loads the right messages.
 
@@ -177,7 +177,7 @@ non-empty value of:
 
 ## Macro parameters
 
-Full table in [spec.md §4.1](./spec.md#41-macro-parameters).
+Full table in [spec/index.md §4.1](./spec/index.md#41-macro-parameters).
 Required: `label`, `locales`. Optional: `value`, `defaultValue`,
 `storageKey`, `detectFromNavigator`, `name`, `applyDir`,
 `localeLabels`, `classes`, `attributes`.
@@ -242,7 +242,7 @@ export default defaultLocaleLabels;
 
 The `lang` attribute on HTML elements must use hyphens
 (`en-US`), while many applications carry locale identifiers with
-underscores (`en_US`). The picker accepts either form in
+underscores (`en_US`). The select accepts either form in
 `locales` and converts to the hyphen form when writing to the
 DOM. `onChange` receives the consumer-form code.
 
@@ -305,7 +305,7 @@ Express middleware, Cloudflare Workers handler) and pass it as
 
 ## i18n library integration
 
-The picker doesn't translate strings — your i18n library does.
+The select doesn't translate strings — your i18n library does.
 See [`docs/i18n-integration.md`](./docs/i18n-integration.md) for
 recipes with:
 
@@ -318,22 +318,22 @@ recipes with:
 - Setting initial locale from `Accept-Language` header.
 - Cookie-based persistence so the next request paints in the
   right language.
-- URL-prefix locales (`/en/about`, `/fr/about`) with the picker
+- URL-prefix locales (`/en/about`, `/fr/about`) with the select
   driving navigation.
-- Wiring the picker to a button group for short lists.
-- Wiring the picker to a combobox + `<datalist>` for long lists.
+- Wiring the select to a button group for short lists.
+- Wiring the select to a combobox + `<datalist>` for long lists.
 
 ## Testing
 
 `pnpm test` under a vitest + jsdom setup exercises every numbered
 acceptance criterion in
-[spec.md §7](./spec.md#7-testing-acceptance-criteria).
+[spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria).
 
 ## Files in this directory
 
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
-| `spec.md`                  | Single source of truth — API, behaviour, tests.  |
+| `spec/index.md`                  | Single source of truth — API, behaviour, tests.  |
 | `AGENTS.md`                | Fast-index pointer; loads the AGENTS bundle.     |
 | `AGENTS/`                  | Topic-by-topic agent files.                      |
 | `CLAUDE.md`                | `@AGENTS.md`.                                    |

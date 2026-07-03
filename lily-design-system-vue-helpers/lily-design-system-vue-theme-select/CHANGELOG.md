@@ -8,7 +8,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- **Root markup migrated to a native `<select>`.** The picker now
+- **Root markup migrated to a native `<select>`.** The select now
   renders `<select class="theme-select" aria-label="…" name="…">`
   with one `<option class="theme-select-option">` per theme slug,
   replacing the previous grouped-control markup. This matches the
@@ -45,8 +45,8 @@ Initial release.
   `normaliseThemesUrl`, `themeHref`, and the `Props` + `SlotArgs`
   types.
 - `ThemeSelect.test.ts` — vitest suite asserting every numbered
-  acceptance criterion in `spec.md` §7 (13 items + extras).
-- `spec.md` — spec-driven contract, version 0.1.0.
+  acceptance criterion in `spec/index.md` §7 (13 items + extras).
+- `spec/index.md` — spec-driven contract, version 0.1.0.
 - `AGENTS/` subdirectory with `api.md`, `lifecycle.md`,
   `accessibility.md`, `testing.md`, `ssr.md`.
 - `docs/` subdirectory with topic guides: `accessibility.md`,
@@ -54,7 +54,7 @@ Initial release.
   `recipes.md`, `ssr.md` (Nuxt notes), `styling.md`,
   `troubleshooting.md`.
 - `examples/` subdirectory: `basic.vue`, `custom-labels.vue`,
-  `custom-rendering.vue`, `lily-themes.vue`, `multiple-pickers.vue`,
+  `custom-rendering.vue`, `lily-themes.vue`, `multiple-selects.vue`,
   `persistence.vue`, `preloaded.vue`, `system-preference.vue`,
   `two-way-binding.vue`, plus `nuxt-cookie/` with `app.vue`,
   `plugins/theme.ts`, `server/middleware/theme.ts`,

@@ -2,8 +2,8 @@
     08. SvelteKit SSR with cookie persistence.
 
     No flash of default locale: the server reads the cookie, fills
-    `<html lang dir>` placeholders in app.html, and seeds the picker
-    with `value`. The picker's `onChange` writes the cookie back.
+    `<html lang dir>` placeholders in app.html, and seeds the select
+    with `value`. The select's `onChange` writes the cookie back.
 
     This file is the layout component. The other three pieces are
     shown as comments below; they live in their own files.

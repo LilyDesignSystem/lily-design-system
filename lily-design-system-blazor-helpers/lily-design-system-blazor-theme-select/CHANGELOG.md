@@ -32,8 +32,8 @@ Initial release.
   static helpers for URL construction.
 - `ThemeSelect.BuildApplyScript` — `internal static` for tests.
 - `ThemeSelectTests.cs` — bUnit + xUnit suite asserting every
-  numbered acceptance criterion in `spec.md` §7 (13 items).
-- `spec.md` — spec-driven contract, version 0.1.0.
+  numbered acceptance criterion in `spec/index.md` §7 (13 items).
+- `spec/index.md` — spec-driven contract, version 0.1.0.
 - `AGENTS/` subdirectory with `api.md`, `lifecycle.md`,
   `accessibility.md`, `testing.md`, `ssr.md`.
 - `docs/` subdirectory with topic guides: `accessibility.md`,
@@ -41,7 +41,7 @@ Initial release.
   `recipes.md`, `ssr.md`, `styling.md`, `troubleshooting.md`.
 - `examples/` subdirectory: `Basic.razor`, `TwoWayBinding.razor`,
   `Persistence.razor`, `CustomLabels.razor`, `CustomRendering.razor`,
-  `Preloaded.razor`, `MultiplePickers.razor`, `SystemPreference.razor`,
+  `Preloaded.razor`, `MultipleSelects.razor`, `SystemPreference.razor`,
   `LilyThemes.razor`, plus `BlazorServerCookie/` with `App.razor`,
   `SettingsPage.razor`, and a `Program.snippet.cs` outline.
 

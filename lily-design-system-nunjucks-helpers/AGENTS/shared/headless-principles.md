@@ -13,7 +13,7 @@ decision.
   (`<button>`, `<dialog>`, `<details>`, `<nav>`, `<article>`,
   `<figure>`, `<select>`, etc.) before reaching for `<div>` or
   `<span>`. The canonical HTML tag for each helper is fixed in its
-  `spec.md` "DOM contract" section.
+  `spec/index.md` "DOM contract" section.
 - The first attribute on the root element is always the kebab-case
   base class plus the consumer's optional `classes` opt, so consumer
   CSS can target any helper with one selector. No additional
@@ -75,7 +75,7 @@ decision.
 
 ## Data attributes
 
-- `data-lily-{name}-root` identifies a picker root for `autoInit()`.
+- `data-lily-{name}-root` identifies a select root for `autoInit()`.
 - `data-lily-{name}-{kebab-cased-opt}` carries serialised
   configuration from macro to client.js.
 - `data-*` attributes are used for state that the consumer's CSS or

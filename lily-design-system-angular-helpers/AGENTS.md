@@ -3,18 +3,18 @@
 Catalog and conventions: [index.md](./index.md).
 
 Each sibling directory is a self-contained helper. Find the helper's
-`spec.md` for the canonical contract before changing it. Each helper
+`spec/index.md` for the canonical contract before changing it. Each helper
 follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
 
 - [`lily-design-system-angular-theme-select`](./lily-design-system-angular-theme-select/) — dynamic theme CSS loader.
-- [`lily-design-system-angular-locale-select`](./lily-design-system-angular-locale-select/) — `lang` + `dir` locale picker.
+- [`lily-design-system-angular-locale-select`](./lily-design-system-angular-locale-select/) — `lang` + `dir` locale select.
 - [`lily-design-system-angular-text-size-select`](./lily-design-system-angular-text-size-select/) — `data-text-size` text-size select.
 
 ## Working rules
 
-- Treat each helper's `spec.md` as the single source of truth.
+- Treat each helper's `spec/index.md` as the single source of truth.
 - Match the upstream Angular conventions in
   [`../lily-design-system-angular-headless/AGENTS.md`](../lily-design-system-angular-headless/AGENTS.md)
   where they apply: standalone components, signal-based inputs,

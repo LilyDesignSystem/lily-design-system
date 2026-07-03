@@ -108,5 +108,5 @@ Live-region components own the ARIA plumbing but never the words.
 ## Sources
 
 - [AGENTS/internationalization.md](../../AGENTS/internationalization.md)
-- [spec.md](../../spec.md) §4.3 Internationalisation
+- [spec/index.md](../index.md) §4.3 Internationalisation
 - [AGENTS/accessibility.md](../../AGENTS/accessibility.md)

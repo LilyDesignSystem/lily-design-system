@@ -1,8 +1,8 @@
 # Testing — ThemeSelect (Nunjucks)
 
-The picker's test suite lives in
+The select's test suite lives in
 [`../theme-select.test.ts`](../theme-select.test.ts) and asserts
-every numbered acceptance criterion in `spec.md` §7. This file
+every numbered acceptance criterion in `spec/index.md` §7. This file
 documents the test harness and the conventions specific to this
 helper. For the catalog-wide test rules see
 [`../../AGENTS/testing.md`](../../AGENTS/testing.md).

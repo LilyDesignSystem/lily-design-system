@@ -2,7 +2,7 @@
 
 > Lily Design System specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily implements one canonical 492-component catalog across seven framework pairs — a headless library plus a styled example app per framework — so the same semantic, accessible markup is expressed in each framework's native idiom. This topic maps the pairs, their stacks, and their per-framework component file shapes.
+**Summary.** Lily implements one canonical 490-component catalog across seven framework pairs — a headless library plus a styled example app per framework — so the same semantic, accessible markup is expressed in each framework's native idiom. This topic maps the pairs, their stacks, and their per-framework component file shapes.
 
 ## Scope
 
@@ -12,7 +12,7 @@ It does **not** cover: the binding markup/ARIA rules every framework obeys (see 
 
 ## Principles and rules
 
-- **One catalog, seven idioms.** Every framework implements the same 492 components with the same kebab-case base classes and the same semantic HTML; only the language and file shape differ.
+- **One catalog, seven idioms.** Every framework implements the same 490 components with the same kebab-case base classes and the same semantic HTML; only the language and file shape differ.
 - **Headless libraries ship components only.** They do not depend on their sibling app framework — e.g. svelte-headless does not depend on SvelteKit; angular-headless ships standalone components, not an Analog app.
 - **Example apps consume by copy.** Each example app copies the headless components into its own source tree rather than taking an npm/NuGet dependency, so the demos always track the in-repo headless source.
 - **Framework idioms, not framework lock-in.** Rest-props spread, two-way binding, and slots/children each use the framework's native mechanism (see [headless](../headless/index.md) for the rest-props table).
@@ -72,12 +72,12 @@ Every library renders the same semantic element with the same kebab-case base cl
 
 ## Angular + Analog.js status (spec §11.2, §11.8)
 
-- **angular-headless** is verified end-to-end: `pnpm install` resolves with `@analogjs/vite-plugin-angular` pinned to `1.19.4` and `@angular/build` as a direct devDep; `vitest run` passes 974 / 974 across 492 / 492 spec files; `ng-packagr` emits a clean APF bundle; `@storybook/angular` 9.1 builds 492 / 492 stories. Source fix: `($event.target as HTMLInputElement).value` rewritten to `$any($event.target).value` because Angular template parsing rejects parenthesised TS casts inside method calls.
+- **angular-headless** is verified end-to-end: `pnpm install` resolves with `@analogjs/vite-plugin-angular` pinned to `1.19.4` and `@angular/build` as a direct devDep; `vitest run` passes 974 / 974 across 490 / 490 spec files; `ng-packagr` emits a clean APF bundle; `@storybook/angular` 9.1 builds 490 / 490 stories. Source fix: `($event.target as HTMLInputElement).value` rewritten to `$any($event.target).value` because Angular template parsing rejects parenthesised TS casts inside method calls.
 - **angular-examples** installs and builds the client bundle cleanly (with `@analogjs/{platform,router,vite-plugin-angular}` pinned to `1.19.4` via `pnpm-workspace.yaml` overrides), but the **SSR/SSG build is blocked**: the Analog vite-plugin-angular transform consumes `src/main.server.ts` and emits a 1-byte bundle. Confirmed in isolation — a plain `vite build --ssr` without the Analog plugin produces a working 2 KB bundle. Likely cause: the plugin's `fileEmitter(id)` returns no compiled content for the SSR entry. Remaining work: file an Analog upstream issue or switch the example app to a vanilla Angular + Vite + esbuild + prerender pipeline. Playwright e2e suites are not yet exercised against either Angular app.
 
 ## Acceptance criteria
 
-- [ ] All 7 headless subprojects exist and implement all 492 canonical components (spec §11.2, §11.4).
+- [ ] All 7 headless subprojects exist and implement all 490 canonical components (spec §11.2, §11.4).
 - [ ] All 7 example subprojects exist and consume the headless components via the copy-pattern (spec §11.2).
 - [ ] Each headless library expresses components in its native file shape (`.svelte`, `.tsx`, `.vue`, `.component.ts`, `.razor`, `macro.njk`, web components) with the canonical kebab-case base class.
 - [ ] Each example app ships the three required routes and renders the real copied component on `/components/{slug}` (see [examples](../examples/index.md)).
@@ -88,14 +88,14 @@ Every library renders the same semantic element with the same kebab-case base cl
 ## Related topics
 
 - [headless](../headless/index.md) — the markup/ARIA rules every framework obeys, including the rest-props mechanism table
-- [components](../components/index.md) — the canonical 492-component catalog and suffix-to-element mapping each framework implements
+- [components](../components/index.md) — the canonical 490-component catalog and suffix-to-element mapping each framework implements
 - [examples](../examples/index.md) — the styled reference apps, required routes, and copy-pattern target
 - [testing](../testing/index.md) — per-framework vitest / bUnit / Playwright / Storybook coverage
 - [helpers](../helpers/index.md) — the reusable helper packages shipped per framework alongside the headless libraries
 
 ## Sources
 
-- [spec.md](../../spec.md) §3 (architecture, the 7 + 7 subprojects), §11.2 (subproject status, Angular notes), §11.8 (Angular SSR blocker)
+- [spec/index.md](../index.md) §3 (architecture, the 7 + 7 subprojects), §11.2 (subproject status, Angular notes), §11.8 (Angular SSR blocker)
 - [AGENTS/sveltekit.md](../../AGENTS/sveltekit.md) — Svelte 5 + SvelteKit 2 conventions
 - [AGENTS/nunjucks.md](../../AGENTS/nunjucks.md) — Nunjucks macro conventions
 - [AGENTS/lily.md](../../AGENTS/lily.md) — subproject directory listing

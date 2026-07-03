@@ -2,3 +2,5 @@ AGENTS/.claude/
 **/AGENTS/.claude/
 .DS_Store
 dist-nuget/
+dist/
+node_modules/

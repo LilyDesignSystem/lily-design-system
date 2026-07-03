@@ -1,6 +1,6 @@
 # Styling
 
-The picker is headless: it ships no CSS. Every visual decision
+The select is headless: it ships no CSS. Every visual decision
 belongs to the consumer. This guide lists the hooks the macro
 exposes.
 
@@ -20,7 +20,7 @@ guaranteed on the root; the inner classes are up to your markup.
 | Attribute                          | On                          | Purpose                          |
 | ---------------------------------- | --------------------------- | -------------------------------- |
 | `data-theme="<slug>"`              | `target` (default `<html>`) | Active theme indicator for theme CSS files. |
-| `data-lily-theme-select="<name>"`  | the managed `<link>`        | Discriminator for multiple pickers. |
+| `data-lily-theme-select="<name>"`  | the managed `<link>`        | Discriminator for multiple selects. |
 | `data-lily-theme-select-root`      | the `<select>`              | `autoInit()` selector.            |
 
 ## Suggested baseline CSS
@@ -69,7 +69,7 @@ For an NHS UK-aligned utility banner look:
 - Don't hide the `<select>` with `display: none`. It is the
   accessibility tree's anchor point. Use `clip-path` or a
   `.sr-only` recipe if you need to render only a custom trigger.
-- Don't override the picker's `aria-*` attributes from CSS. They
+- Don't override the select's `aria-*` attributes from CSS. They
   are part of the accessibility contract.
 - Don't write CSS inside the macro file. The helper is headless.
 
@@ -93,7 +93,7 @@ Each theme CSS file scopes its rules to its `data-theme` slug:
 }
 ```
 
-The picker's role is to swap which file is loaded (via the
+The select's role is to swap which file is loaded (via the
 managed `<link>`) and which slug is active (via the `data-theme`
 attribute). The rules above ensure only the active theme's
 properties apply, regardless of how many theme files are
@@ -122,6 +122,6 @@ button {
 }
 ```
 
-With the picker active, switching themes swaps every variable in
+With the select active, switching themes swaps every variable in
 one tick — no JavaScript involvement beyond the `data-theme`
 attribute write.

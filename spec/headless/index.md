@@ -88,7 +88,7 @@ The framework-specific rest-props mechanism:
 - [ ] No component ships a stylesheet, font, icon asset, or CSS framework dependency; no inline `style` except the structurally-required cases (e.g. `display: contents` on `ThemeProvider`).
 - [ ] No component performs data fetching, network state, locale formatting, persistence, animation choreography, or page-level routing.
 - [ ] Consumer-observable state uses `data-*`; assistive-technology state uses ARIA.
-- [ ] Per-framework CSS class-name audit: 492 / 492 components in every headless subproject reference their canonical kebab-case base class (spec §11.4).
+- [ ] Per-framework CSS class-name audit: 490 / 490 components in every headless subproject reference their canonical kebab-case base class (spec §11.4).
 
 ## Related topics
 
@@ -102,4 +102,4 @@ The framework-specific rest-props mechanism:
 
 - [AGENTS/headless.md](../../AGENTS/headless.md)
 - [AGENTS/accessibility.md](../../AGENTS/accessibility.md)
-- [spec.md](../../spec.md) §4.1 (Headless), §11.4 (per-framework class-name audit)
+- [spec/index.md](../index.md) §4.1 (Headless), §11.4 (per-framework class-name audit)

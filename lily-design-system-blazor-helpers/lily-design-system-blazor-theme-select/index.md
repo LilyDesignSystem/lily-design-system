@@ -3,7 +3,7 @@
 A reusable, headless Blazor theme select that **loads themes
 dynamically at runtime** from a developer-specified directory.
 
-The single source of truth is [spec.md](./spec.md). This file is the
+The single source of truth is [spec/index.md](./spec/index.md). This file is the
 comprehensive user guide. For topic deep-dives see
 [docs/](./docs/) and for working code see [examples/](./examples/).
 
@@ -135,7 +135,7 @@ to the slug with its first letter upper-cased
 
 ## Parameters
 
-The complete table is in [spec.md §4.1](./spec.md#41-parameters). Highlights:
+The complete table is in [spec/index.md §4.1](./spec/index.md#41-parameters). Highlights:
 
 | Parameter      | Type                                  | Required | Notes                                      |
 | -------------- | ------------------------------------- | -------- | ------------------------------------------ |
@@ -265,7 +265,7 @@ as both the `<select>` `name` (so the selects stay independent) and
 the discriminator on the managed `<link>` element
 (`data-lily-theme-select="{Name}"`).
 
-Example: [`examples/MultiplePickers.razor`](./examples/MultiplePickers.razor).
+Example: [`examples/MultipleSelects.razor`](./examples/MultipleSelects.razor).
 
 ## Recipes
 
@@ -301,13 +301,13 @@ pitfalls:
 
 `dotnet test` against the bUnit suite exercises every numbered
 acceptance criterion in
-[spec.md §7](./spec.md#7-testing-acceptance-criteria).
+[spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria).
 
 ## Files in this directory
 
 | File                  | Purpose                                          |
 | --------------------- | ------------------------------------------------ |
-| `spec.md`             | Single source of truth — API, behaviour, tests.  |
+| `spec/index.md`             | Single source of truth — API, behaviour, tests.  |
 | `AGENTS.md`           | Fast-index pointer; loads the AGENTS bundle.     |
 | `AGENTS/`             | Topic-by-topic agent files.                      |
 | `CLAUDE.md`           | `@AGENTS.md`.                                    |

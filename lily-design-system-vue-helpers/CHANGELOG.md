@@ -15,12 +15,12 @@ catalog:
 ### Added
 
 - `lily-design-system-vue-theme-select` v0.1.0 — runtime-loading
-  theme picker with `data-theme` swap, `<link>`-based stylesheet
+  theme select with `data-theme` swap, `<link>`-based stylesheet
   injection, `localStorage` persistence, and a scoped slot for custom
   rendering. Fully mirrors the Svelte canonical contract; 13
   acceptance criteria covered.
 - `lily-design-system-vue-locale-select` v0.1.0 — BCP 47 locale
-  picker that writes `lang` and `dir` on the document root, with
+  select that writes `lang` and `dir` on the document root, with
   optional `localStorage` persistence and `navigator.languages`
   detection. Built-in 436-row locale-name table and RTL detection.
   23 acceptance criteria covered.

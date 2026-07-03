@@ -1,7 +1,7 @@
 # Lifecycle — LocaleSelect (Nunjucks)
 
-The Nunjucks-flavoured walk-through of the picker's lifecycle. The
-canonical contract is in [`../spec.md`](../spec.md) §5; this file
+The Nunjucks-flavoured walk-through of the select's lifecycle. The
+canonical contract is in [`../spec/index.md`](../spec/index.md) §5; this file
 maps the Svelte canonical's `$effect` lifecycle to the Nunjucks
 macro + client.js split.
 
@@ -100,7 +100,7 @@ if (initial) applyLocale(initial);
 ```
 
 The resolution order is documented in
-[`../spec.md` §5.2](../spec.md#52-initial-value-resolution).
+[`../spec/index.md` §5.2](../spec/index.md#52-initial-value-resolution).
 Putting the selected option (consumer's `value`) first means a
 server-resolved cookie always wins — important for flicker-free SSR.
 
@@ -162,7 +162,7 @@ attribute after init, the client.js does **not** re-read it.
 - clear the `localStorage` entry;
 - reset the `<select>` value to a default.
 
-The picker may be unmounted because the user navigated away
+The select may be unmounted because the user navigated away
 from a settings page; the chosen locale should stay applied.
 
 If a consumer wants to fully reset, they do it themselves:
@@ -173,12 +173,12 @@ document.documentElement.removeAttribute("dir");
 localStorage.removeItem("my-app:locale");
 ```
 
-This is rare. Most apps want the locale to outlive the picker.
+This is rare. Most apps want the locale to outlive the select.
 
 ## Navigator-detection runs once
 
 `matchNavigatorLanguage` is only called inside
-`initLocaleSelect`. The picker never re-runs detection mid-
+`initLocaleSelect`. The select never re-runs detection mid-
 session — the user's choice should win over `navigator.languages`
 once expressed. To re-detect (e.g. on a settings reset), call the
 exported helper manually and pass the result to

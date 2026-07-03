@@ -23,7 +23,7 @@ export type SlotArgs = {
     isRtl: (locale: string) => boolean;
 };
 
-/** Public props for LocaleSelect. See `spec.md` §4 for the contract. */
+/** Public props for LocaleSelect. See `spec/index.md` §4 for the contract. */
 export type Props = {
     /** Accessible label for the `<select>`. */
     label: string;
@@ -41,7 +41,7 @@ export type Props = {
     name?: string;
     /** Element that receives `lang` and `dir`. Defaults to document.documentElement. */
     target?: HTMLElement | null;
-    /** If false, the picker only writes `lang` and never touches `dir`. */
+    /** If false, the select only writes `lang` and never touches `dir`. */
     applyDir?: boolean;
     /** Optional pretty labels per locale code. */
     localeLabels?: Record<string, string>;
@@ -58,7 +58,7 @@ export function bcp47LocaleTag(locale: string): string {
     return locale.replace(/_/g, "-");
 }
 
-/** Detect whether a locale is right-to-left. See spec.md §5.6. */
+/** Detect whether a locale is right-to-left. See spec/index.md §5.6. */
 export function isRtlLocale(locale: string): boolean {
     if (!locale) return false;
     const parts = locale.split(/[-_]/);
@@ -162,9 +162,9 @@ function applyLocale(code: string): void {
     emit("change", code);
 }
 
-// Internal source of truth so the picker works both controlled
+// Internal source of truth so the select works both controlled
 // (consumer drives `v-model:value`) and uncontrolled (no binding —
-// the picker resolves and applies a default itself, per spec §7.4).
+// the select resolves and applies a default itself, per spec §7.4).
 const current = ref(props.value ?? "");
 
 function setLocale(code: string): void {

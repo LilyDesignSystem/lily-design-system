@@ -142,7 +142,7 @@ Three layers, mirroring the lifecycle:
    was invoked.
 
 See [../LocaleSelectTests.cs](../LocaleSelectTests.cs) for the
-reference suite that covers every `spec.md` §7 acceptance item.
+reference suite that covers every `spec/index.md` §7 acceptance item.
 
 ## Blazor-specific notes
 

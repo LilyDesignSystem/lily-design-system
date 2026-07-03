@@ -10,7 +10,7 @@ Every example assumes:
 
 - The consumer file carries `"use client"` if it manages controlled
   state (every file in this directory does).
-- The host page allows the picker to write to `document.documentElement`
+- The host page allows the select to write to `document.documentElement`
   (the default). Examples that target a panel ref instead pass an
   explicit `target` prop.
 
@@ -42,7 +42,7 @@ These files are illustrations, not a build. The fastest way to try one:
 Examples 06 and 07 mock the i18n libraries (`react-intl`,
 `react-i18next`) with tiny inline stand-ins so they compile without
 their dependencies installed. In your real app, replace the stand-ins
-with the real imports — the picker wiring stays the same.
+with the real imports — the select wiring stays the same.
 
 Example 08 is split: the client portion (`LocaleClient`) is the
 exported component, and the companion server component (`app/layout.tsx`)

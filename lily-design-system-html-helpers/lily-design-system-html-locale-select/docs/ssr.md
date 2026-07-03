@@ -50,7 +50,7 @@ On the client the element's `connectedCallback` runs once after the
 HTML parser hits the closing tag:
 
 1. Resolves the initial locale per
-   [spec.md §5.2](../spec.md). The value attribute wins, then
+   [spec/index.md §5.2](../spec/index.md). The value attribute wins, then
    `localStorage[storageKey]`, then navigator detection, then
    `default-value`, then `"en"`, then `locales[0]`.
 2. Renders the `<select>` and `<option>` children.

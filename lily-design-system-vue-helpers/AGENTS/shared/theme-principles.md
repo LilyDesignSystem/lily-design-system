@@ -42,7 +42,7 @@ Consumer CSS reads `var(--theme-color-primary)`,
 
 The Vue `ThemeSelect` helper writes one extra signal to the document
 root: a `data-theme="<slug>"` attribute. Theme CSS files scope their
-rules to `:root[data-theme="<slug>"]` so the picker's attribute
+rules to `:root[data-theme="<slug>"]` so the select's attribute
 mutation is enough to switch the live theme.
 
 ```css
@@ -53,14 +53,14 @@ mutation is enough to switch the live theme.
 }
 ```
 
-The picker does not write CSS custom properties directly. Theme
-authors do, via the `<link>` the picker swaps into `<head>`.
+The select does not write CSS custom properties directly. Theme
+authors do, via the `<link>` the select swaps into `<head>`.
 
 ## Light / dark / high-contrast
 
-The picker's `value` is just a string. Convention says `light`,
+The select's `value` is just a string. Convention says `light`,
 `dark`, and `high-contrast` slugs map to those three modes, but the
-picker doesn't enforce that — any slug is valid.
+select doesn't enforce that — any slug is valid.
 
 A `prefers-color-scheme: dark` integration is one-line in the
 consumer:
@@ -109,7 +109,7 @@ the common case; a reactive token store is the consumer's choice.
 
 ### `<Teleport to="head">`
 
-Vue's `<Teleport to="head">` is an alternative to the picker's
+Vue's `<Teleport to="head">` is an alternative to the select's
 `document.head.appendChild` for the managed `<link>`. The catalog's
 `ThemeSelect` uses imperative DOM mutation because:
 

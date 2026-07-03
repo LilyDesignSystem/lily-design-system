@@ -2,7 +2,7 @@
 
 Every helper ships a vitest suite that runs under jsdom. This page
 lists the test harness expectations common to all helpers; per-helper
-acceptance criteria live in the helper's own `spec.md` §7.
+acceptance criteria live in the helper's own `spec/index.md` §7.
 
 ## Stack
 
@@ -240,12 +240,12 @@ it("the class module is import-safe under SSR", async () => {
 });
 ```
 
-In practice the spec.md §7 list is exhaustive; subclass and SSR
+In practice the spec/index.md §7 list is exhaustive; subclass and SSR
 checks are recommended but optional.
 
 ## One test per §7 acceptance
 
-Each helper's `spec.md` §7 numbers its acceptance criteria; the test
+Each helper's `spec/index.md` §7 numbers its acceptance criteria; the test
 file names each `it(...)` after the section number so a reviewer
 can cross-reference the spec without scrolling:
 

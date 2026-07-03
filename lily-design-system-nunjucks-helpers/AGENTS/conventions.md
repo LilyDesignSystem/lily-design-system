@@ -9,7 +9,7 @@ file lists the Nunjucks-specific decisions layered on top.
 
 ```
 lily-design-system-nunjucks-<name>/
-├── spec.md                  ← single source of truth, numbered with §
+├── spec/index.md                  ← single source of truth, numbered with §
 ├── AGENTS.md                ← fast-index pointer for agents
 ├── AGENTS/                  ← per-helper topic agent files
 │   ├── api.md
@@ -50,7 +50,7 @@ Every macro file follows this template:
 
   Then load kebab-name.client.js once and call autoInit().
 
-  Spec: spec.md §4.1, §4.2.
+  Spec: spec/index.md §4.1, §4.2.
 #}
 {%- macro camelCaseName(opts) -%}
 {%- set defaultedKey = opts.defaultedKey | default("default-value") -%}
@@ -78,7 +78,7 @@ applied so the output has no spurious leading / trailing whitespace.
 ```js
 // HelperName client-side runtime.
 //
-// Pairs with kebab-name.njk. See spec.md §4.3 (client.js exports),
+// Pairs with kebab-name.njk. See spec/index.md §4.3 (client.js exports),
 // §5 (behaviour).
 
 /** Pure helpers — exported for consumer reuse and tests. */
@@ -149,14 +149,14 @@ export default {
 ## `data-lily-*` hook attributes
 
 Each macro emits a small set of `data-lily-*` attributes on the
-root element that describe the picker's configuration. The
+root element that describe the select's configuration. The
 companion `*.client.js` reads them on `initHelperName(root)`:
 
 - `data-lily-{name}-root` — identifies the root for `autoInit()`.
 - `data-lily-{name}-{kebab-cased-opt}="{value}"` — one per non-empty
   configuration option (storage key, default value, etc.).
-- `data-lily-{name}` on the managed `<link>` (theme picker only)
-  serves as a discriminator when multiple pickers coexist.
+- `data-lily-{name}` on the managed `<link>` (theme select only)
+  serves as a discriminator when multiple selects coexist.
 
 Boolean opts are serialised as the strings `"true"` / `"false"`.
 String opts are emitted verbatim (so `themesUrl` round-trips with
@@ -189,8 +189,8 @@ Macros never invent classes that aren't in the spec. Consumers add
 extra classes via `opts.classes` (which the macro appends to the
 root) and arbitrary attributes via `opts.attributes` (an object
 spread onto the root). Other attribute names are deliberately not
-allow-listed; if a consumer wants `id="my-picker"`, they pass
-`attributes: { id: "my-picker" }`.
+allow-listed; if a consumer wants `id="my-select"`, they pass
+`attributes: { id: "my-select" }`.
 
 ## Custom rendering
 

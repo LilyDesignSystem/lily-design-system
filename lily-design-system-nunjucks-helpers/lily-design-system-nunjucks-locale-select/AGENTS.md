@@ -1,11 +1,11 @@
 # AGENTS — LocaleSelect (Nunjucks helper)
 
-Single source of truth: [spec.md](./spec.md). Read it first; everything
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
 below is a fast index.
 
 ## What this package is
 
-A reusable Nunjucks 3 + vanilla-JS headless locale picker that
+A reusable Nunjucks 3 + vanilla-JS headless locale select that
 applies the chosen locale to the document root via `lang` and `dir`,
 with optional `localStorage` persistence and `navigator.languages`
 detection. Ships no CSS; consumer styles the `locale-select` class
@@ -22,7 +22,7 @@ The helper is a **macro + client.js pair**:
 
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
-| `spec.md`                  | Specification-driven contract (canonical).       |
+| `spec/index.md`                  | Specification-driven contract (canonical).       |
 | `locale-select.njk`        | Nunjucks macro (`localeSelect(opts)`).           |
 | `locale-select.client.js`  | ES module — `initLocaleSelect`, `autoInit`, helpers. |
 | `locale-select.test.ts`    | Vitest spec, one assertion per §7 acceptance.    |
@@ -37,7 +37,7 @@ The helper is a **macro + client.js pair**:
 - Import: `{% from "./locale-select.njk" import localeSelect %}`
 - Call:   `{{ localeSelect({label, locales, …}) }}`
 - Required `opts` keys: `label`, `locales`.
-- Full table in [spec.md §4.1](./spec.md#41-macro-parameters).
+- Full table in [spec/index.md §4.1](./spec/index.md#41-macro-parameters).
 
 ### Client.js
 
@@ -48,7 +48,7 @@ The helper is a **macro + client.js pair**:
 ## Behaviour contract (one paragraph)
 
 The macro emits a `<select class="locale-select">` with
-`data-lily-locale-select-*` hooks describing the picker's name,
+`data-lily-locale-select-*` hooks describing the select's name,
 storage key, default value, navigator flag, and apply-dir flag. On
 `initLocaleSelect(root)`, the client
 (1) resolves the initial code from selected-option > storage >

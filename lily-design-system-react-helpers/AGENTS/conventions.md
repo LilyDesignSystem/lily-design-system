@@ -214,7 +214,7 @@ require it (Node ESM) need it.
 
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
-| `spec.md`                  | Specification-driven contract (canonical).       |
+| `spec/index.md`                  | Specification-driven contract (canonical).       |
 | `{Pascal}.tsx`             | Implementation. TypeScript + React 19 hooks.     |
 | `{Pascal}.test.tsx`        | Vitest spec, one assertion per §7 acceptance.    |
 | `index.ts`                 | Barrel re-export.                                |

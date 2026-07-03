@@ -1,10 +1,10 @@
 # Lily Design System
 
-Living specification: [spec.md](../spec.md)
+Living specification: [spec/index.md](../spec/index.md)
 
 [CSS style sheet template](../css-style-sheet-template.css)
 
-Canonical component list: [components.tsv](../components.tsv) — 492 components.
+Canonical component list: [components.tsv](../components.tsv) — 490 components.
 
 ## Subprojects for headless components
 
@@ -26,6 +26,22 @@ Canonical component list: [components.tsv](../components.tsv) — 492 components
 - [Lily Design System: Blazor Web examples](../lily-design-system-blazor-web-examples)
 - [Lily Design System: Nunjucks Eleventy examples](../lily-design-system-nunjucks-eleventy-examples)
 
+## Subprojects for framework helpers
+
+Each catalog ships three native-`<select>` helpers — theme-select, locale-select, text-size-select. Svelte is the canonical reference; the other six are idiom ports.
+
+- [Lily Design System: HTML helpers](../lily-design-system-html-helpers)
+- [Lily Design System: Svelte helpers](../lily-design-system-svelte-helpers)
+- [Lily Design System: React helpers](../lily-design-system-react-helpers)
+- [Lily Design System: Vue helpers](../lily-design-system-vue-helpers)
+- [Lily Design System: Angular helpers](../lily-design-system-angular-helpers)
+- [Lily Design System: Blazor helpers](../lily-design-system-blazor-helpers)
+- [Lily Design System: Nunjucks helpers](../lily-design-system-nunjucks-helpers)
+
+## Reference themes
+
+The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS England/Scotland/Wales patient + practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose themes) that target the Lily class hooks; the theme-select helper loads them at runtime.
+
 ## Tools
 
 - [list-components-as-kebab-case](../bin/list-components-as-kebab-case): List components as kebab case
@@ -37,6 +53,8 @@ Canonical component list: [components.tsv](../components.tsv) — 492 components
 - [sync](../bin/sync): Sync files across subprojects
 - [update](../bin/update): Update shared files
 - [git-subtree-push](../bin/git-subtree-push): Push each subtree to its remote
+- [generate-storybook-stories.mjs](../bin/generate-storybook-stories.mjs): Generate Storybook stories
+- [publish-helpers](../bin/publish-helpers): Build and publish the 21 helper packages (npm / NuGet)
 
 ## Inspirations
 
@@ -62,7 +80,7 @@ See [citations.md](citations.md) for the full list of design systems Lily draws 
 - `AGENTS.md` with AI coding help
 - `AGENTS/` directory with modular agent files
 - `CLAUDE.md` that loads `AGENTS.md`
-- `spec.md` — spec-driven plan + tasks (replaces the older split plan.md / tasks.md)
+- `spec/index.md` — spec-driven plan + tasks (replaces the older split plan.md / tasks.md)
 - `.git-subtree-push`
 
 ## For each component directory
@@ -71,7 +89,7 @@ See [citations.md](citations.md) for the full list of design systems Lily draws 
 - `README.md` symlink to `index.md`
 - `AGENTS.md`
 - `CLAUDE.md`
-- `spec.md` — spec-driven plan + tasks (replaces the older split plan.md / tasks.md)
+- `spec/index.md` — spec-driven plan + tasks (replaces the older split plan.md / tasks.md)
 
 ## Verify
 

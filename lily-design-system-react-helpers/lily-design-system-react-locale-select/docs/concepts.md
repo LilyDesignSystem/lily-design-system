@@ -165,7 +165,7 @@ Three layers, mirroring the lifecycle:
    assert the same DOM observations.
 
 See [../LocaleSelect.test.tsx](../LocaleSelect.test.tsx) for the
-reference suite that covers every `spec.md` §7 acceptance item.
+reference suite that covers every `spec/index.md` §7 acceptance item.
 
 ## Where this helper sits in Lily
 

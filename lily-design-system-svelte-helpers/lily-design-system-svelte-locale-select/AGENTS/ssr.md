@@ -1,6 +1,6 @@
 # SSR — LocaleSelect (Svelte)
 
-The picker runs cleanly under Svelte 5 SSR (SvelteKit, plain Vite +
+The select runs cleanly under Svelte 5 SSR (SvelteKit, plain Vite +
 Svelte, Astro Svelte islands). This page lists the SvelteKit-specific
 recipes; the canonical rules live in
 [`../../AGENTS/ssr.md`](../../AGENTS/ssr.md).
@@ -10,9 +10,9 @@ A complete runnable SvelteKit example for the layout side lives in
 the in-file comments show the matching `hooks.server.ts`,
 `app.html`, and POST endpoint code.
 
-## What the picker does on the server
+## What the select does on the server
 
-Under SSR, `$effect` is a no-op. The picker renders:
+Under SSR, `$effect` is a no-op. The select renders:
 
 ```html
 <select class="locale-select" aria-label="Language" name="locale">
@@ -35,7 +35,7 @@ the page jumps:
 
 1. Browser parses `<html lang="en">` → default LTR layout.
 2. Browser fetches CSS, paints English page.
-3. JS hydrates, picker's `$effect` runs, reads
+3. JS hydrates, select's `$effect` runs, reads
    `localStorage["app-locale"] === "ar"`, writes
    `<html lang="ar" dir="rtl">`.
 4. Browser repaints in RTL → layout shift.
@@ -143,13 +143,13 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 ```
 
 Result: first paint arrives with the right `lang` and `dir`. The
-picker hydrates without writing anything visible.
+select hydrates without writing anything visible.
 
 ## SvelteKit URL-prefix strategy
 
 For SEO-friendly URLs (`/en/about`, `/fr/about`), use SvelteKit's
 parameter-matching routes. Define `[locale]/*` route segments,
-validate in middleware, and drive the picker from
+validate in middleware, and drive the select from
 `$page.params.locale`.
 
 ```svelte
@@ -204,7 +204,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 };
 ```
 
-The picker stays unchanged.
+The select stays unchanged.
 
 ## Astro Svelte islands
 

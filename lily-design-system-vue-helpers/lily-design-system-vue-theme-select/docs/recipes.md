@@ -67,7 +67,7 @@ onBeforeUnmount(() => {
 See [`../examples/nuxt-cookie/`](../examples/nuxt-cookie/) for the
 full recipe.
 
-## Migrate from a localStorage-only picker to a cookie-backed one
+## Migrate from a localStorage-only select to a cookie-backed one
 
 1. Keep `storageKey` for now so existing users don't lose their
    preference.
@@ -116,7 +116,7 @@ after the slug works.
 ## Multiple regions with independent themes
 
 See [`../examples/multiple-selects.vue`](../examples/multiple-selects.vue).
-Each picker gets a distinct `name` (so the `<select>`s and managed
+Each select gets a distinct `name` (so the `<select>`s and managed
 `<link>`s don't collide) and a distinct `target` (so `data-theme`
 goes on the section root rather than `<html>`).
 
@@ -133,7 +133,7 @@ const themeRef = inject<Ref<string>>("theme");
 function goNight() { themeRef!.value = "dark"; }
 ```
 
-The picker reacts via its `watch` on `props.value`.
+The select reacts via its `watch` on `props.value`.
 
 ## Sync theme across multiple tabs
 

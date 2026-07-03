@@ -26,7 +26,7 @@ or WebAssembly module loaded), the select's `OnAfterRenderAsync`
 callback runs once:
 
 1. Resolves the initial slug per
-   [spec.md §5.2](../spec.md#52-initial-value-resolution).
+   [spec/index.md §5.2](../spec/index.md#52-initial-value-resolution).
 2. Fires `ValueChanged` (driving `@bind-Value` back to the parent).
 3. Injects / sets the managed `<link>` href.
 4. Sets `data-theme` on `<html>`.

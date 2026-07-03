@@ -16,7 +16,7 @@ client-side ES module.
 ### Added
 
 - `lily-design-system-nunjucks-theme-select` v0.1.0 — runtime-loading
-  theme picker. The `themeSelect(opts)` macro emits a native
+  theme select. The `themeSelect(opts)` macro emits a native
   `<select class="theme-select">` with `data-lily-theme-select-*`
   hooks; the companion `theme-select.client.js` injects a managed
   `<link rel="stylesheet">` in `<head>`, sets `data-theme="{slug}"`
@@ -24,7 +24,7 @@ client-side ES module.
   mirrors the active slug onto the `<select>` value. 13 acceptance
   criteria covered.
 - `lily-design-system-nunjucks-locale-select` v0.1.0 — BCP 47 locale
-  picker. The `localeSelect(opts)` macro emits a native
+  select. The `localeSelect(opts)` macro emits a native
   `<select class="locale-select">` whose `<option>`s carry per-option
   `lang="{tag}"` attributes; the client.js writes `lang` and
   `dir` on the document root, with optional `localStorage`
@@ -69,7 +69,7 @@ client-side ES module.
 | Component test runner   | vitest + svelte-testing-library        | vitest + jsdom + `nunjucks.renderString` |
 
 The DOM contract and behaviour are otherwise identical; the tests
-match clause-for-clause against the Svelte canonical's `spec.md`
+match clause-for-clause against the Svelte canonical's `spec/index.md`
 §7.
 
 ### Why the split?
