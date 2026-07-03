@@ -30,6 +30,8 @@ Covers the `bin/` toolchain: catalog listers, directory scaffolders, the verific
 | `git-subtree-push`                    | Push each subproject subtree to its standalone GitHub remote.                             |
 | `generate-storybook-stories.mjs`      | Generate Storybook stories for the headless libraries.                                    |
 | `publish-helpers`                     | Build (`build.js` per catalog) and publish the 21 helper packages — npm for the JS catalogs, NuGet for Blazor. |
+| `generate-registries`                 | Regenerate every example-app catalog registry from `components.tsv` + the canonical SvelteKit demo map, so hand-copied registries cannot drift. |
+| `check-links`                         | Verify every relative markdown link in tracked `*.md` files resolves (synced AGENTS copies excluded); exits non-zero on breakage. |
 
 ## Verification: bin/test
 

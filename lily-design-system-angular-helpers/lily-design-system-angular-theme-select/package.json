@@ -1,6 +1,6 @@
 {
   "name": "lily-design-system-angular-theme-select",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Lily Design System - Angular 20 theme select",
   "peerDependencies": {
     "@angular/core": ">=20.0.0 <22.0.0",

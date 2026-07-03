@@ -4,7 +4,7 @@ A loading indicator, such as text, or image, or animation.
 
 ## Canonical documentation
 
-See [components/loading/index.md](../../../../components/loading/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/loading/index.md](../../../components/loading/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

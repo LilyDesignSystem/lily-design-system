@@ -4,7 +4,7 @@ An answer is anything that responds to a question, request, action, etc.
 
 ## Canonical documentation
 
-See [components/answer/index.md](../../../../components/answer/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/answer/index.md](../../../../../components/answer/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

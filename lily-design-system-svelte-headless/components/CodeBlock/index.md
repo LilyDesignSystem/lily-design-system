@@ -4,7 +4,7 @@ A block of formatted code with optional line numbers and line highlighting.
 
 ## Canonical documentation
 
-See [components/code-block/index.md](../../../../components/code-block/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/code-block/index.md](../../../components/code-block/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

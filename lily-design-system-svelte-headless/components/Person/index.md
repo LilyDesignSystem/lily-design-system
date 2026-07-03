@@ -4,7 +4,7 @@ A person component that contains other person-related information.
 
 ## Canonical documentation
 
-See [components/person/index.md](../../../../components/person/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/person/index.md](../../../components/person/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

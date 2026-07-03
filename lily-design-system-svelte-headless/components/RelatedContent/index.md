@@ -4,7 +4,7 @@ A section providing links to related or supporting information.
 
 ## Canonical documentation
 
-See [components/related-content/index.md](../../../../components/related-content/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/related-content/index.md](../../../components/related-content/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

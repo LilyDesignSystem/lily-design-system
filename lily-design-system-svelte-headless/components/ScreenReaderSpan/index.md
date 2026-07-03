@@ -4,7 +4,7 @@ A visually hidden span of text intended for screen readers to provide more descr
 
 ## Canonical documentation
 
-See [components/screen-reader-span/index.md](../../../../components/screen-reader-span/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/screen-reader-span/index.md](../../../components/screen-reader-span/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

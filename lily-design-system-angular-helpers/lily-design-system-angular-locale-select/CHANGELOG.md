@@ -4,6 +4,30 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-07-03
+
+### Changed (BREAKING)
+
+- Migrated from the radio-group "picker" rendering to a native
+  `<select>` (landed in-tree 2026-06-17): the root element is now
+  `<select class="locale-select">` with one `<option class="locale-select-option">`
+  per choice, replacing the former `<fieldset role="radiogroup">` with
+  `<input type="radio">` children. The package was renamed from the
+  `*-picker` name to `*-select` accordingly.
+- Class-hook contract changed: `locale-select` now names the `<select>` root
+  and `locale-select-option` is the only sub-class; the radio/label sub-class
+  hooks are gone.
+- Keyboard interaction is the native `<select>` contract (Arrow keys,
+  Home / End, first-letter typeahead) instead of radio-group cycling.
+- Custom rendering (snippet / render prop / slot / template) now renders
+  `<option>` elements inside the `<select>`.
+
+### Unchanged
+
+- The behaviour contract: DOM application (`lang` / `dir`), optional
+  `localStorage` persistence, SSR safety, and the no-hardcoded-strings
+  i18n rule are as in 0.1.0.
+
 ## 0.1.0 — 2026-06-05
 
 Initial release.

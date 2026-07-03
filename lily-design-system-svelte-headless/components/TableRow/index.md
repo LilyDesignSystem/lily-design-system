@@ -4,7 +4,7 @@ A table interactive grid row <tr>.
 
 ## Canonical documentation
 
-See [components/table-row/index.md](../../../../components/table-row/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/table-row/index.md](../../../components/table-row/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

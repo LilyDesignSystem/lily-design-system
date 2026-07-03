@@ -4,7 +4,7 @@ One item in a tree navigation list.
 
 ## Canonical documentation
 
-See [components/tree-list-item/index.md](../../../../components/tree-list-item/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/tree-list-item/index.md](../../../components/tree-list-item/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

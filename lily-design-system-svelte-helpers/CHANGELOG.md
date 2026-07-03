@@ -7,6 +7,24 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows
 [Semantic Versioning](https://semver.org/).
 
+## 0.2.0 — 2026-07-03
+
+### Changed (BREAKING)
+
+- `theme-select` and `locale-select` bumped to **0.2.0**: migrated from
+  the radio-group "picker" rendering to a native `<select>` with
+  `<option>` children (landed in-tree 2026-06-17), with renamed packages
+  (`*-picker` → `*-select`), changed class hooks, and native `<select>`
+  keyboard semantics. Behaviour contracts (DOM application, persistence,
+  SSR safety, i18n) are unchanged.
+
+### Added
+
+- `text-size-select` **0.1.0** — native-`<select>` text-size helper that
+  sets `data-text-size` on the document root, with optional
+  `localStorage` persistence (added 2026-06-17; born select-based, so it
+  carries no picker migration).
+
 ## 0.1.0 — 2026-06-05
 
 Initial release. This is the **canonical reference catalog** for

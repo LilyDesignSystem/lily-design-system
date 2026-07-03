@@ -4,7 +4,7 @@ A modal dialog warning users before session timeout.
 
 ## Canonical documentation
 
-See [components/timeout-dialog/index.md](../../../../components/timeout-dialog/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/timeout-dialog/index.md](../../../components/timeout-dialog/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

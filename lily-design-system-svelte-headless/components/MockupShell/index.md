@@ -4,7 +4,7 @@ A box area that looks like a terminal shell.
 
 ## Canonical documentation
 
-See [components/mockup-shell/index.md](../../../../components/mockup-shell/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/mockup-shell/index.md](../../../components/mockup-shell/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

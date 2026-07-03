@@ -4,7 +4,7 @@ A definition list displaying information in key-value format <dl>.
 
 ## Canonical documentation
 
-See [components/description-list/index.md](../../../../components/description-list/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/description-list/index.md](../../../components/description-list/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

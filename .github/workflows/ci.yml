@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    name: bin/test + link check + junk guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: No tracked node_modules or dist
+        run: |
+          junk="$(git ls-files | grep -E '(^|/)(node_modules|dist)/' || true)"
+          if [ -n "$junk" ]; then
+            echo "Tracked build/dependency artifacts found:" >&2
+            echo "$junk" | head -20 >&2
+            exit 1
+          fi
+
+      - name: bin/test (required files + catalog/registry consistency)
+        run: bin/test
+
+      - name: bin/check-links (markdown link integrity)
+        run: bin/check-links
+
+      - name: Registries are freshly generated
+        run: |
+          bin/generate-registries
+          if ! git diff --quiet; then
+            echo "bin/generate-registries produced changes; commit regenerated registries:" >&2
+            git diff --stat >&2
+            exit 1
+          fi
+
+  helpers:
+    name: helpers tests (${{ matrix.catalog }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        catalog:
+          - lily-design-system-svelte-helpers
+          - lily-design-system-react-helpers
+          - lily-design-system-vue-helpers
+          - lily-design-system-angular-helpers
+          - lily-design-system-html-helpers
+          - lily-design-system-nunjucks-helpers
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install
+        working-directory: ${{ matrix.catalog }}
+        run: pnpm install --no-frozen-lockfile
+      - name: Test
+        working-directory: ${{ matrix.catalog }}
+        run: pnpm exec vitest run

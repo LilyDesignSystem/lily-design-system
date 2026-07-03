@@ -4,7 +4,7 @@ A permanent hyperlink for a Digital Object Identifier (DOI) to an electronic sou
 
 ## Canonical documentation
 
-See [components/digital-object-identifier-link/index.md](../../../../components/digital-object-identifier-link/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/digital-object-identifier-link/index.md](../../../components/digital-object-identifier-link/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

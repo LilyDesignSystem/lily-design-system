@@ -4,7 +4,7 @@ A tag showing the current status of a task.
 
 ## Canonical documentation
 
-See [components/status-tag/index.md](../../../../components/status-tag/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/status-tag/index.md](../../../components/status-tag/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

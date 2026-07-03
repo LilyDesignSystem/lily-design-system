@@ -4,7 +4,7 @@ A list displaying documents with titles and metadata.
 
 ## Canonical documentation
 
-See [components/document-list/index.md](../../../../components/document-list/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/document-list/index.md](../../../components/document-list/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

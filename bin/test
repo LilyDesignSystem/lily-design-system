@@ -3,7 +3,13 @@ set -euf
 
 ## https://github.com/sixarm/unix-shell-script-kit
 
-err() { >&2 printf %s\\n "Error: ${*}"; }
+# Errors are collected via a flag file (functions below run in
+# subshells, so a plain variable would not survive); the script
+# exits non-zero if any check failed.
+ERRFLAG="$(mktemp)"
+trap 'rm -f "$ERRFLAG"' EXIT
+
+err() { >&2 printf %s\\n "Error: ${*}"; printf 1 >> "$ERRFLAG"; }
 
 directory_exists_or_err() { test -d "$1" || err "Directory should exist: $1"; }
 file_exists_or_err() { test -f "$1" || err "File should exist: $1"; }
@@ -25,7 +31,7 @@ repo_setup_exists_or_err() (
 ai_exists_or_err() (
     # dir="$1" — the spec-driven-development convention is a spec/
     # directory of specification files per directory, entered via
-    # spec/index.md; older single-file spec/index.md (and the still-older
+    # spec/index.md; older single-file spec.md (and the still-older
     # plan.md / tasks.md split) have been merged into it.
     directory_exists_or_err "$1"
     file_size_or_err "$1/index.md"
@@ -41,8 +47,8 @@ ai_exists_or_err() (
 top="$(git rev-parse --show-toplevel)"
 
 # repo_root_ai_exists_or_err is identical to ai_exists_or_err now that
-# every dir uses spec/index.md; kept as an alias for callers that read more
-# naturally with the repo-root phrasing.
+# every dir uses spec/index.md; kept as an alias for callers that read
+# more naturally with the repo-root phrasing.
 repo_root_ai_exists_or_err() (
     ai_exists_or_err "$1"
 )
@@ -52,15 +58,64 @@ test_repository() {
     repo_root_ai_exists_or_err "$top"
 }
 
+# The canonical catalog must be internally consistent, and every
+# hand-off copy of it (component dirs, CSS hooks, example-app
+# registries) must carry exactly one entry per catalog row. Every
+# defect class here has occurred in practice.
+test_catalog_consistency() {
+    tsv="$top/components.tsv"
+    count="$(wc -l < "$tsv" | tr -d ' ')"
+
+    dups="$(cut -f1 "$tsv" | sort | uniq -d)"
+    test -z "$dups" || err "duplicate slugs in components.tsv: $dups"
+    dup_names="$(cut -f2 "$tsv" | sort | uniq -d)"
+    test -z "$dup_names" || err "duplicate PascalCase names in components.tsv: $dup_names"
+
+    # components/ directories <-> catalog rows, both directions.
+    cut -f1 "$tsv" | sort > "${ERRFLAG}.slugs"
+    find "$top/components" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -exec basename {} \; | sort > "${ERRFLAG}.dirs"
+    missing_dirs="$(comm -23 "${ERRFLAG}.slugs" "${ERRFLAG}.dirs")"
+    test -z "$missing_dirs" || err "catalog slugs without components/ dir: $missing_dirs"
+    orphan_dirs="$(comm -13 "${ERRFLAG}.slugs" "${ERRFLAG}.dirs")"
+    test -z "$orphan_dirs" || err "components/ dirs not in catalog: $orphan_dirs"
+
+    # css-style-sheet-template.css: exactly one hook per slug.
+    while read -r slug; do
+        hooks="$(grep -c "^\.$slug {" "$top/css-style-sheet-template.css" || true)"
+        test "$hooks" = "1" || err "css-style-sheet-template.css has $hooks hooks for: $slug"
+    done < "${ERRFLAG}.slugs"
+
+    rm -f "${ERRFLAG}.slugs" "${ERRFLAG}.dirs"
+
+    # Example-app registries carry one entry per catalog row.
+    registry_count_or_err() {
+        # file="$1" pattern="$2"
+        n="$(grep -c "$2" "$1" || true)"
+        test "$n" = "$count" || err "registry $1 has $n entries; catalog has $count"
+    }
+    registry_count_or_err "$top/lily-design-system-svelte-sveltekit-examples/src/lib/data/components.ts" 'slug: "'
+    registry_count_or_err "$top/lily-design-system-react-next-examples/app/data/components.ts" 'slug: "'
+    registry_count_or_err "$top/lily-design-system-vue-nuxt-examples/data/components.ts" 'slug: "'
+    registry_count_or_err "$top/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Data/ComponentData.cs" '^        new("'
+    registry_count_or_err "$top/lily-design-system-html-css-js-examples/pages/components/index.html" 'slug: "'
+    registry_count_or_err "$top/lily-design-system-html-css-js-examples/pages/components/component.html" 'slug: "'
+    registry_count_or_err "$top/lilydesignsystem.github.io/src/lib/components.ts" 'name: "'
+    registry_count_or_err "$top/lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts" "^  '"
+    registry_count_or_err "$top/lily-design-system-react-next-examples/app/data/component-demos.ts" "^  '"
+    registry_count_or_err "$top/lily-design-system-vue-nuxt-examples/data/component-demos.ts" "^  '"
+    registry_count_or_err "$top/lily-design-system-angular-examples/src/app/component-demos.ts" "^  '"
+    registry_count_or_err "$top/index.md" '^- \[.*\](components/'
+}
+
 test_components() {
-    "$top/bin/list-components-as-kebab-case" | 
+    "$top/bin/list-components-as-kebab-case" |
     while read -r component; do
         ai_exists_or_err "$top/components/$component"
     done
 }
 
 test_lilydesignsystem_github_io() {
-    "$top/bin/list-components-as-kebab-case" | 
+    "$top/bin/list-components-as-kebab-case" |
     while read -r component; do
         dir="$top/lilydesignsystem.github.io/src/routes/components/$component"
         ai_exists_or_err "$dir"
@@ -69,7 +124,7 @@ test_lilydesignsystem_github_io() {
 }
 
 test_implementations() {
-    "$top/bin/list-implementations" | 
+    "$top/bin/list-implementations" |
     while read -r implementation; do
         dir="$top/$implementation"
         ai_exists_or_err "$dir"
@@ -92,10 +147,10 @@ test_implementations_with_vite() {
 test_implementations_with_svelte() {
     # Only the svelte component libraries follow the src/lib/components
     # layout. Exclude the *-helpers catalogs, which hold a couple of
-    # opinionated helper subprojects rather than the 492-component set.
+    # opinionated helper subprojects rather than the full component set.
     "$top/bin/list-implementations" | grep svelte- | grep -v -- '-helpers' |
     while read -r implementation; do
-        "$top/bin/list-components-as-pascal-case" | 
+        "$top/bin/list-components-as-pascal-case" |
         while read -r component; do
             dir="$top/$implementation/src/lib/components/$component"
             file_size_or_err "$dir/index.md"
@@ -110,7 +165,7 @@ test_implementations_with_svelte() {
 test_implementation_nunjucks_headless() {
     "$top/bin/list-implementations" | grep nunjucks-headless |
     while read -r implementation; do
-        "$top/bin/list-components-as-kebab-case" | 
+        "$top/bin/list-components-as-kebab-case" |
         while read -r component; do
             dir="$top/$implementation/components/$component"
             file_size_or_err "$dir/macro.njk"
@@ -123,7 +178,7 @@ test_implementation_nunjucks_headless() {
 test_implementation_nunjucks_example() {
     "$top/bin/list-implementations" | grep nunjucks-example |
     while read -r implementation; do
-        "$top/bin/list-components-as-kebab-case" | 
+        "$top/bin/list-components-as-kebab-case" |
         while read -r component; do
             dir="$top/$implementation/components"
             file_size_or_err "$dir/$component.njk"
@@ -132,6 +187,7 @@ test_implementation_nunjucks_example() {
 }
 
 test_repository
+test_catalog_consistency
 test_components
 test_lilydesignsystem_github_io
 test_implementations
@@ -139,3 +195,8 @@ test_implementations_with_vite
 test_implementations_with_svelte
 test_implementation_nunjucks_headless
 test_implementation_nunjucks_example
+
+if test -s "$ERRFLAG"; then
+    >&2 printf %s\\n "bin/test: FAILED"
+    exit 1
+fi

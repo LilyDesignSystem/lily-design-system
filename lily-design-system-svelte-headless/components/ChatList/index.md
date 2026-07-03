@@ -4,7 +4,7 @@ An ordered list of chat list item components.
 
 ## Canonical documentation
 
-See [components/chat-list/index.md](../../../../components/chat-list/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/chat-list/index.md](../../../components/chat-list/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

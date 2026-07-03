@@ -4,7 +4,7 @@ A box that shows a person's identification details, such as name, tracking infor
 
 ## Canonical documentation
 
-See [components/addressograph-box/index.md](../../../../components/addressograph-box/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/addressograph-box/index.md](../../../components/addressograph-box/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

@@ -10,7 +10,7 @@ Every example assumes:
 - A directory of theme CSS files served at `/assets/themes/`
   (typically `static/assets/themes/light.css`,
   `static/assets/themes/dark.css`, …). The
-  [Lily themes](../../themes/) catalog ships 41 ready-to-use themes.
+  [Lily themes](../../../themes/) catalog ships 41 ready-to-use themes.
 - Each theme CSS file scopes its tokens with
   `:root[data-theme="<slug>"]`.
 
@@ -35,5 +35,5 @@ is:
 1. Inside any SvelteKit project, drop the example into
    `src/routes/+page.svelte`.
 2. Copy a couple of theme CSS files from
-   [`../../themes/`](../../themes/) into `static/assets/themes/`.
+   [`../../themes/`](../../../themes/) into `static/assets/themes/`.
 3. `pnpm dev` and visit the route.

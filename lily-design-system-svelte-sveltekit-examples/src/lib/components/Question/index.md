@@ -4,7 +4,7 @@ A question is anything that asks for information, invites a response, tests know
 
 ## Canonical documentation
 
-See [components/question/index.md](../../../../components/question/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/question/index.md](../../../../../components/question/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

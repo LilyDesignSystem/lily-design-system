@@ -4,7 +4,7 @@ An event component that contains other event-related information.
 
 ## Canonical documentation
 
-See [components/event/index.md](../../../../components/event/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/event/index.md](../../../components/event/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

@@ -4,7 +4,7 @@ A box area that looks like a mobile phone.
 
 ## Canonical documentation
 
-See [components/mockup-phone-portrait/index.md](../../../../components/mockup-phone-portrait/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/mockup-phone-portrait/index.md](../../../components/mockup-phone-portrait/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

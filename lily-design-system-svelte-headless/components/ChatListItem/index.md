@@ -4,7 +4,7 @@ One chat list item component, typically containing one chat message component.
 
 ## Canonical documentation
 
-See [components/chat-list-item/index.md](../../../../components/chat-list-item/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/chat-list-item/index.md](../../../components/chat-list-item/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

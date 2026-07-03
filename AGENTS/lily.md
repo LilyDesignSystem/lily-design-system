@@ -55,6 +55,8 @@ The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS En
 - [git-subtree-push](../bin/git-subtree-push): Push each subtree to its remote
 - [generate-storybook-stories.mjs](../bin/generate-storybook-stories.mjs): Generate Storybook stories
 - [publish-helpers](../bin/publish-helpers): Build and publish the 21 helper packages (npm / NuGet)
+- [generate-registries](../bin/generate-registries): Regenerate example-app catalog registries from components.tsv
+- [check-links](../bin/check-links): Verify relative markdown links resolve
 
 ## Inspirations
 

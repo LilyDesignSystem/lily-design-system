@@ -4,7 +4,7 @@ A table interactive grid thead <thead>.
 
 ## Canonical documentation
 
-See [components/table-head/index.md](../../../../components/table-head/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/table-head/index.md](../../../components/table-head/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

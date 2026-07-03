@@ -4,7 +4,7 @@ One document entry in a document list.
 
 ## Canonical documentation
 
-See [components/document-list-item/index.md](../../../../components/document-list-item/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/document-list-item/index.md](../../../components/document-list-item/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

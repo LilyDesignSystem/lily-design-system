@@ -183,306 +183,94 @@ standalone remote via `bin/git-subtree-push`.
 
 ## 4. Design principles
 
-The four principle documents in `AGENTS/` are the binding rules. Summary here;
-read the file for the full contract.
+The principle documents in `AGENTS/` are the binding rules; each has a
+topic deep-dive under `spec/`. Summary:
 
-### 4.1 Headless ([AGENTS/headless.md](../AGENTS/headless.md))
+### 4.1 Headless ([AGENTS/headless.md](../AGENTS/headless.md), [topic](headless/index.md))
 
-- Most specific semantic HTML element first; ARIA only where semantics fall short.
-- Root element carries kebab-case base class + the consumer's optional class hook.
-- Inner sub-classes are stable contracts (`{base}-{part}` kebab-case).
-- Components spread "rest props" onto the root so consumers can pass arbitrary
-  attributes and event handlers.
-- Components own: focus management, keyboard navigation, ARIA, bindable open/close
-  state, `IntersectionObserver` and scroll listeners that belong to the component.
-- Components do NOT own: data fetching, network state, locale formatting,
-  persistence, animation choreography, page-level routing.
-- No bundled stylesheets, fonts, images, or icons. No inline `style="..."` except
-  where structurally required (e.g., `display: contents` on `ThemeProvider`).
-- `data-*` attributes are for consumer CSS/JS; ARIA attributes are for assistive
-  technology.
+Most specific semantic element first; ARIA only where semantics fall
+short. Root carries the kebab-case base class + the consumer's class
+hook; inner sub-classes are stable contracts; rest-props spread onto
+the root. Components own focus, keyboard, ARIA, and bindable open/close
+state — never data fetching, routing, locale formatting, persistence,
+or animation. No stylesheets, fonts, images, or icons; no inline styles
+except where structurally required (`display: contents` on
+`ThemeProvider`). `data-*` is for consumer CSS/JS; ARIA is for
+assistive technology.
 
-### 4.2 Accessibility ([AGENTS/accessibility.md](../AGENTS/accessibility.md))
+### 4.2 Accessibility ([AGENTS/accessibility.md](../AGENTS/accessibility.md), [topic](accessibility/index.md))
 
-- WCAG 2.2 AAA target across every component, demo, and framework.
-- WAI-ARIA Authoring Practices 1.2 patterns are the reference for keyboard,
-  roles, states, and properties.
-- Every interactive component is reachable and operable with Tab, Shift+Tab,
-  Enter, Space, Arrow keys, Home, End, Escape — keyboard contract documented in
-  each component's `AGENTS.md`.
-- Every interactive element has an accessible name via visible text,
-  `aria-label`, or `aria-labelledby`. Required `label` props enforce this where
-  text content alone is insufficient.
-- No colour-only meaning (WCAG 1.4.1). Status, validity, selection conveyed via
-  text/icon/ARIA/position too.
-- Live regions are deliberate: `role="alert"` and `aria-live` reserved for
-  dynamic content the user must hear.
-- Headless components do not auto-animate; consumers respect
-  `prefers-reduced-motion` in their CSS.
+WCAG 2.2 AAA target; WAI-ARIA APG 1.2 patterns for keyboard, roles,
+states. Every interactive component is keyboard-operable with a
+documented contract and an accessible name; no colour-only meaning;
+live regions are deliberate; headless components never auto-animate.
 
-### 4.3 Internationalisation ([AGENTS/internationalization.md](../AGENTS/internationalization.md))
+### 4.3 Internationalisation ([AGENTS/internationalization.md](../AGENTS/internationalization.md), [topic](internationalization/index.md))
 
-- No hardcoded user-facing strings inside components.
-- Stable text-prop names across frameworks: `label`, `description`,
-  `placeholder`, `error`, `helpText`, `dismissLabel`, `loadingLabel`,
-  `confirmLabel`, `cancelLabel`.
-- Locale-aware components (currency, date, measurement) accept the locale
-  identifier as a prop; they do not pick a default locale.
-- Anchors/links never embed default visible text — content comes from
-  `children`/slots or an explicit `label` prop for icon-only links.
-- Plural forms, gendered phrasing, conditional copy are the consumer's concern.
-- RTL/bidi inherits from the consumer's `dir` attribute and CSS.
+No hardcoded user-facing strings; stable text-prop names (`label`,
+`description`, `placeholder`, `error`, …); locale-aware components take
+the locale as a prop and never pick a default; anchors never embed
+default text; plural/gender logic belongs to the consumer; RTL/bidi
+inherits from the consumer's `dir`.
 
-### 4.4 Theme ([AGENTS/theme.md](../AGENTS/theme.md))
+### 4.4 Theme ([AGENTS/theme.md](../AGENTS/theme.md), [topic](theme/index.md))
 
-- Themes live entirely in example-subproject CSS and the optional `ThemeProvider`.
-- Headless components do not bake colour, spacing, typography, or breakpoints
-  into their markup.
-- Token shape: flat object → `--theme-{path}` CSS custom properties.
-- Light / dark / high-contrast variants via `data-theme` on the wrapper.
-- Forbidden in the headless layer: hardcoded hex/RGB/HSL, `font-family`,
-  `font-size`, `line-height`, `padding`, `margin`, `gap`, `width`, `height`
-  literals, breakpoint media queries, shadow/border-radius/opacity values.
-- The root [`themes/`](../themes/) directory ships 45 ready-to-use reference
-  theme stylesheets targeting the Lily class hooks — public-sector
-  references (NHS England/Scotland/Wales for patients and practitioners,
-  GOV.UK GDS, USWDS), vendor-inspired palettes (Adobe Spectrum, Mozilla
-  Protocol), and general-purpose light/dark/high-character themes. The
-  `theme-select` helper loads them at runtime by swapping a managed
-  `<link>` and setting `data-theme` on the document root.
+Themes live in example CSS and the optional `ThemeProvider` (flat token
+object → `--theme-{path}` custom properties; variants via `data-theme`).
+The headless layer bakes in no colour, spacing, typography, or
+breakpoints — the forbidden-literal list is in the AGENTS file. The
+root [`themes/`](../themes/) directory ships 45 ready-to-use reference
+stylesheets (NHS England/Scotland/Wales patient + practitioner
+variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and
+general-purpose themes) that the `theme-select` helper loads at runtime
+by swapping a managed `<link>` and setting `data-theme`.
 
-### 4.5 Examples ([AGENTS/examples.md](../AGENTS/examples.md))
+### 4.5 Examples ([AGENTS/examples.md](../AGENTS/examples.md), [topic](examples/index.md))
 
-- Each example subproject ships a complete stylesheet; current default visual
-  reference is the NHS UK design system applied to Lily class names.
-- CSS targets the kebab-case Lily class names directly (no `nhsuk-` prefixes).
-- CSS custom properties carry the design tokens.
-- No CSS framework dependency.
-- Three required routes per example subproject:
-  - `/` — home page describing the project.
-  - `/components` — index of every component in the catalog (490 entries),
-    searchable / filterable.
-  - `/components/{slug}` — per-component detail page with live demo.
-- Composed-page demos (e.g., `/dashboard`, `/contact-form`, `/file-upload-form`,
-  `/settings-page`, `/tabbed-interface`) are encouraged on top of the required
-  routes.
-- Accessibility: skip-link first, standard landmarks wrap every page, visible
-  focus on every focusable element, keyboard-only completion of every demo.
+Each example app ships a complete stylesheet (NHS UK is the default
+visual reference) targeting the kebab-case Lily class names, with CSS
+custom properties for tokens and no CSS framework. Three required
+routes: `/`, `/components` (full searchable catalog), and
+`/components/{slug}` (live demo per component); composed-page demos are
+encouraged. Skip-link first, landmark structure, visible focus, and
+keyboard-only completion on every page.
 
 ## 5. Component catalog
 
 The canonical catalog is `components.tsv` — one row per component, three
 tab-separated columns: slug, PascalCase name, description. Mirrored by
-[AGENTS/components.md](../AGENTS/components.md) (with patterns), [index.md](../index.md)
-(linked listing), and the per-framework implementations.
+[AGENTS/components.md](../AGENTS/components.md) (with patterns),
+[index.md](../index.md) (linked listing), and the per-framework
+implementations; the example-app registries are regenerated from it by
+`bin/generate-registries`.
 
 **Current count: 490 components.**
 
-The most recent additions (May 2026) are 80 national personal identifier
-components (40 identifier types × `-input` + `-view`) spanning 30+ countries,
-covering healthcare, national-ID, tax, and passport identifiers. The catalog
-rows, per-component docs, and CSS class hooks landed in Phase 1; per-subproject
-implementations (Svelte, React, Vue, HTML, Blazor, Nunjucks headless +
-6 example apps) are deferred to Phase 2.
-
-Catalog category overview (counts approximate; the TSV is authoritative):
-
-| Group                          | Examples                                                   |
-| ------------------------------ | ---------------------------------------------------------- |
-| Accordion                      | accordion-nav, accordion-list, accordion-list-item         |
-| Action                         | action-bar, action-bar-button, action-group, action-link   |
-| Alert & Dialog                 | alert, alert-dialog, dialog, popup, popconfirm-dialog      |
-| Avatar                         | avatar, avatar-group, avatar-image, avatar-text            |
-| Banner & Callout               | banner, banner-box, announcement-banner, phase-banner,     |
-|                                | government-banner, super-banner, medical-banner,           |
-|                                | information-callout, warning-callout                       |
-| Breadcrumb                     | breadcrumb-nav, breadcrumb-list, breadcrumb-list-item,     |
-|                                | breadcrumb-link                                            |
-| Button                         | button, button-input, button-group, icon-button,           |
-|                                | toggle-button, switch-button, split-button, float-button,  |
-|                                | download-button, clipboard-copy-button                     |
-| Calendar (table)               | calendar-table + head/body/foot/row/th/td,                 |
-|                                | calendar-range-picker                                      |
-| Card                           | card, feature-card, product-card, care-card, hover-card    |
-| Chart                          | area-chart, bar-chart, column-chart, line-chart,           |
-|                                | scatter-chart, sparkline, graphic-block                    |
-| Chat                           | chat-nav, chat-list, chat-list-item, chat-message          |
-| Code                           | code, code-block                                           |
-| Color                          | color-input, color-picker, color-picker-button             |
-| Container & Layout             | container, container-with-fixed-width,                     |
-|                                | container-with-fluid-width, content-block, article-layout, |
-|                                | aspect-ratio-container, padding-reset, framer, grid,       |
-|                                | flex-stack, masonry, sidebar, tile, separator              |
-| Contents                       | contents-nav, contents-list, contents-list-item,           |
-|                                | contents-link                                              |
-| Data Table                     | data-table + head/body/foot/row/th/td, data-filter-form    |
-| Date & Time                    | date-input, date-field, date-range, date-time-local-input, |
-|                                | date-time-now-input, date-time-view, time-input,           |
-|                                | time-picker-input, month-input, week-input                 |
-| Description / Summary lists    | description-list, description-list-item, summary-list,     |
-|                                | summary-list-item, summary-box                             |
-| Drawer / Sheet / Panel         | drawer, slide-out-drawer, sheet, floating-panel, panel,    |
-|                                | success-panel                                              |
-| Editorial                      | byline, headline, hero-headline, body-text, blockquote,    |
-|                                | end-notes, related-content                                 |
-| Emoji                          | emoji, emoji-character-picker                              |
-| Email & Tel                    | email-input, email-link, tel-input, tel-link               |
-| Error & Validation             | error-message, error-summary, validation-list,             |
-|                                | validation-list-item, hint, character-counter              |
-| Feature flag                   | ai-label, badge, flair, status-light, status-tag, tag,     |
-|                                | tag-group, tag-input                                       |
-| File                           | file-input, file-upload, file-dialog, file-manager,        |
-|                                | image-file-input                                           |
-| Footer / Header                | footer, header                                             |
-| Form                           | form, field, fieldset, label, input, hidden-input,         |
-|                                | reset-input, submit-input, input-group, input-with-mask    |
-| Gantt (table)                  | gantt-table + thead/tbody/tfoot/tr/th/td                   |
-| Go-to                          | go-to-top, go-to-next-section, go-to-previous-section,     |
-|                                | skip-link, back-link                                       |
-| Grail layout                   | grail-layout + top-header/left-aside/center-main/          |
-|                                | right-aside/bottom-footer                                  |
-| Government                     | government-banner, government-identifier                   |
-| Healthcare identifiers         | espana-tarjeta-sanitaria-individual-{input,view},          |
-|                                | france-numero-d-identification-au-repertoire-{input,view}, |
-|                                | ireland-individual-health-identifier-{input,view},         |
-|                                | northern-ireland-health-and-care-number-{input,view},      |
-|                                | united-kingdom-national-health-service-number-{input,view},|
-|                                | united-states-social-security-number-{input,view}          |
-| Hero / Mockup / Pictogram      | hero, hero-headline, mockup-{browser,laptop,phone-…,       |
-|                                | shell,tablet-…,watch,window}, pictogram                    |
-| Interactive controls           | slider, slider-button, dial, dial-group, range-input,      |
-|                                | angle-slider-range-input, switch-button, toggle-button,    |
-|                                | toggle-group, segment-group, segment-group-item            |
-| Kanban (table)                 | kanban-table + head/body/foot/row/th/td                    |
-| List patterns                  | check-list, check-list-item, icon-list, icon-list-item,    |
-|                                | step-list, step-list-item, timeline-list,                  |
-|                                | timeline-list-item, collection-list, collection-list-item, |
-|                                | document-list, document-list-item, transfer-list,          |
-|                                | do-list, do-list-item, dont-list, dont-list-item           |
-| Measurement                    | measurement-instance-{input,view},                         |
-|                                | measurement-system-{input,view},                           |
-|                                | measurement-unit-{input,view}                              |
-| Media                          | image, image-input, feature-photo, photo-pack, figure,     |
-|                                | caption, video-player, qr-code, signature-pad              |
-| Menu                           | menu, menu-item, menu-group, menu-bar, menu-bar-button,    |
-|                                | context-menu, context-menu-item, dropdown-menu,            |
-|                                | hamburger-menu, navigation-menu, command, cascader         |
-| Notification & Toast           | notification, toast, sonner, sticky-promo-banner           |
-| Overlay                        | popover, hover-card, tooltip, coachmark, contextual-help,  |
-|                                | overlay-container                                          |
-| Pagination                     | pagination-nav, pagination-list, pagination-list-item,     |
-|                                | pagination-link                                            |
-| Password & PIN                 | password-input, password-input-or-text-input-div,          |
-|                                | pin-input-div                                              |
-| Picker & Rating                | five-face-rating-picker, five-face-rating-picker-button,   |
-|                                | five-face-rating-view, five-star-rating-picker,            |
-|                                | five-star-rating-picker-button, five-star-rating-view,     |
-|                                | net-promoter-score-picker, net-promoter-score-picker-button|
-|                                | net-promoter-score-view, red-amber-green-picker,           |
-|                                | red-amber-green-picker-button, red-amber-green-view,       |
-|                                | red-orange-yellow-green-blue-picker (+button, view),       |
-|                                | theme-select, theme-select-option, theme-view              |
-| Progress                       | progress, progress-bar, progress-circle, progress-spinner, |
-|                                | loading, skeleton, meter                                   |
-| Radio & Checkbox               | radio-input, radio-group, checkbox-input, checkbox-group,  |
-|                                | accordion-checkbox, mutually-exclusive                     |
-| Scroll & Resize                | scroll-area, scroll-bar, scroller, scroller-base,          |
-|                                | scroller-video, horizontal-scroller, resizable, splitter,  |
-|                                | split-view, affix, visible                                 |
-| Search & Combobox              | search-input, text-input-with-search, combobox, listbox,   |
-|                                | select, select-with-extras, option, autosuggest,           |
-|                                | mentions-input, tree-select                                |
-| Section navigation             | section-nav, section-list, section-list-item, section-link,|
-|                                | section-heading                                            |
-| Semantic entities              | person, organization, place, event                         |
-| Special text                   | citation, digital-object-identifier-link, footnote, kbd,   |
-|                                | character, screen-reader-span, clamp-text                  |
-| Statistic                      | statistic, watermark, beach-ball                           |
-| Step / Tour / Task list        | step-list (+item), tour, tour-list, tour-list-item,        |
-|                                | task-list, task-list-item                                  |
-| Table (plain)                  | table + head/body/foot/row/th/td                           |
-| Tabs                           | tab-bar, tab-bar-button, tab-panel                         |
-| Theme                          | theme-provider, theme-select, theme-select-option,         |
-|                                | theme-view                                                 |
-| Tile map / Visualization extra | tile-map, diff, sparkline                                  |
-| Timer / Time                   | timer, timer-button, timeout-dialog                        |
-| Toolbar / Taskbar              | tool-bar, tool-bar-button, task-bar, task-bar-button       |
-| Tree                           | tree-nav, tree-list, tree-list-item, tree-link, tree-menu, |
-|                                | tree-select                                                |
-| Editable                       | editable, editable-form                                    |
-| Currency / Number / URL        | currency-input, number-input, url-input, postal-code-input,|
-|                                | postal-code-view                                           |
-| Misc                           | beach-ball, call-to-action, carousel, comment,             |
-|                                | info-state, newsletter-signup, share-page, expander,       |
-|                                | collapsible, details                                       |
+The catalog spans forms, navigation, tables, layout, editorial /
+scrollytelling, data visualisation, media, overlays, pickers and
+ratings, semantic entities, and 80 national personal identifier
+components (40 identifier types × `-input` + `-view` across 30+
+countries). The full category walkthrough lives in
+[spec/components/](components/index.md); the national identifiers in
+[spec/national-identifiers/](national-identifiers/index.md).
 
 ## 6. Naming conventions
 
-See [AGENTS/components.md](../AGENTS/components.md) for full detail.
+The binding reference is [AGENTS/components.md](../AGENTS/components.md),
+expanded in [spec/components/](components/index.md). Two rule families:
 
-### 6.1 Suffix → HTML element mapping
-
-| Suffix          | Element      | Example                                       |
-| --------------- | ------------ | --------------------------------------------- |
-| `-article`      | `<article>`  |                                               |
-| `-aside`        | `<aside>`    | grail-layout-left-aside                       |
-| `-button`       | `<button>`   | button, toggle-button, switch-button          |
-| `-dialog`       | `<dialog>`   | dialog, alert-dialog, file-dialog             |
-| `-div`          | `<div>`      | pin-input-div                                 |
-| `-fieldset`     | `<fieldset>` | fieldset                                      |
-| `-figure`       | `<figure>`   | figure                                        |
-| `-footer`       | `<footer>`   | footer                                        |
-| `-header`       | `<header>`   | header                                        |
-| `-input`        | `<input>`    | text-input, date-input, email-input           |
-| `-kbd`          | `<kbd>`      | kbd                                           |
-| `-list`         | `<ol>`/`<ul>`| check-list, task-list (do-list uses `<ul>`)   |
-| `-list-item`    | `<li>`       | check-list-item, task-list-item               |
-| `-main`         | `<main>`     | grail-layout-center-main                      |
-| `-meter`        | `<meter>`    | meter                                         |
-| `-nav`          | `<nav>`      | breadcrumb-nav, tree-nav                      |
-| `-option`       | `<option>`   | option, theme-select-option                   |
-| `-picker`       | `<div>`      | color-picker, five-star-rating-picker         |
-| `-progress`     | `<progress>` | progress                                      |
-| `-select`       | `<select>`   | select, theme-select                          |
-| `-span`         | `<span>`     | flair, character, screen-reader-span          |
-| `-table`        | `<table>`    | table, data-table, calendar-table             |
-| `-table-head`   | `<thead>`    | table-head, data-table-head, calendar-…       |
-| `-table-body`   | `<tbody>`    | table-body, data-table-body, calendar-…       |
-| `-table-foot`   | `<tfoot>`    | table-foot, data-table-foot, calendar-…       |
-| `-table-row`    | `<tr>`       | table-row, data-table-row, calendar-…         |
-| `-table-th`     | `<th>`       | table-th, data-table-th, calendar-…           |
-| `-table-td`     | `<td>`       | table-td, data-table-td, calendar-…           |
-| `-table-thead`  | `<thead>`    | gantt-table-thead (gantt only)                |
-| `-table-tbody`  | `<tbody>`    | gantt-table-tbody (gantt only)                |
-| `-table-tfoot`  | `<tfoot>`    | gantt-table-tfoot (gantt only)                |
-| `-table-tr`     | `<tr>`       | gantt-table-tr (gantt only)                   |
-
-### 6.2 Name patterns
-
-Stable compound-component name patterns (full list in
-[AGENTS/components.md](../AGENTS/components.md)):
-
-- `*Bar` + `*BarButton` — ActionBar/ActionBarButton, MenuBar/MenuBarButton,
-  TabBar/TabBarButton, TaskBar/TaskBarButton, ToolBar/ToolBarButton.
-- `*Group` + `*GroupItem` — SegmentGroup/SegmentGroupItem.
-- `*List` + `*ListItem` — many: CheckList, CollectionList, ContentsList,
-  DescriptionList, DocumentList, DoList, DontList, IconList, PaginationList,
-  SectionList, StepList, SummaryList, ValidationList.
-- `*Nav` + `*List` + `*ListItem` — AccordionNav, BreadcrumbNav, ChatNav,
-  ContentsNav, PaginationNav, SectionNav, TreeNav.
-- `*Menu` + `*MenuItem` — Menu/MenuItem, ContextMenu/ContextMenuItem.
-- `*Select` + `*SelectOption` — ThemeSelect/ThemeSelectOption.
-- `*Input` + `*Link` — EmailInput/EmailLink, TelInput/TelLink.
-- `*Input` + `*View` — PostalCodeInput/PostalCodeView,
-  MeasurementInstanceInput/MeasurementInstanceView.
-- `*Picker` + `*PickerButton` — ColorPicker, FiveFaceRatingPicker,
-  FiveStarRatingPicker, NetPromoterScorePicker, RedAmberGreenPicker,
-  RedOrangeYellowGreenBluePicker.
-- `ContainerWith*` — ContainerWithFixedWidth, ContainerWithFluidWidth.
-- Table sub-elements (`*TableHead/Body/Foot/Row/TH/TD`) — Table, CalendarTable,
-  DataTable, KanbanTable.
-- Gantt sub-elements use HTML names — GanttTable, GanttTableThead,
-  GanttTableTbody, GanttTableTfoot, GanttTableTr, GanttTableTH, GanttTableTD.
+- **Suffix → HTML element mapping.** Each slug suffix fixes the root
+  element: `-button` → `<button>`, `-input` → `<input>`, `-select` →
+  `<select>`, `-nav` → `<nav>`, `-list` → `<ol>`/`<ul>`, `-list-item` →
+  `<li>`, `-table` (+ `-table-head/-body/-foot/-row/-th/-td`) → table
+  elements (gantt uses HTML names: `-table-thead` etc.), `-dialog` →
+  `<dialog>`, `-picker` → `<div>`, and so on. The full table is in
+  [spec/components/](components/index.md#suffix--element-mapping).
+- **Compound name patterns.** Stable families compose predictably:
+  `*Bar`+`*BarButton`, `*List`+`*ListItem`, `*Nav`+`*List`+`*ListItem`,
+  `*Menu`+`*MenuItem`, `*Select`+`*SelectOption`, `*Picker`+
+  `*PickerButton`, `*Input`+`*View`, `*Input`+`*Link`, `ContainerWith*`,
+  and the table sub-element families.
 
 ## 7. Composition patterns
 
@@ -535,41 +323,15 @@ The companion `AGENTS.md` carries the canonical machine-readable metadata
 
 ### 8.2 Component demo strategy (example subprojects)
 
-Each `/components/{slug}` page in an example app renders:
-
-- Component metadata (name, slug, description).
-- A **live demo** rendering the actual component with sample data and styled CSS.
-- A usage code snippet.
-- An import statement.
-
-Demo HTML is generated based on component suffix patterns (full mapping table in
-the previous plan):
-
-- `*-input` → labeled input with appropriate `type` attribute.
-- `*-button` → button element with sample text.
-- `*-nav` → nav element with `aria-label`.
-- `*-list` → ordered list with sample items.
-- `*-list-item` → list item with sample content.
-- `*-table` → table with head/body/row structure.
-- `*-table-head/body/foot/row/td/th` → table sub-elements.
-- `*-view` → span with `role="img"` and sample data.
-- `*-picker` → div with `role="radiogroup"` and sample options.
-- `*-picker-button` → button within a picker.
-- `*-link` → anchor element with `href`.
-- `*-menu` → div with `role="menu"`.
-- `*-menu-item` → div with `role="menuitem"`.
-- Standalone components → semantic HTML based on component type.
-
-Rendering approach per framework:
-
-| Framework | Mechanism                      |
-| --------- | ------------------------------ |
-| HTML/JS   | `element.innerHTML = demo`     |
-| Svelte    | `{@html demo}`                 |
-| React     | `dangerouslySetInnerHTML`      |
-| Vue       | `v-html` directive             |
-| Blazor    | `MarkupString`                 |
-| Nunjucks  | `{{ demo | safe }}`            |
+Each `/components/{slug}` page renders the component metadata, a live
+demo with sample data, a usage snippet, and an import statement. Demo
+HTML is keyed by slug in the canonical SvelteKit
+`component-demos.ts` map (seeded by `generate-component-demos.js` from
+suffix patterns, then curated); `bin/generate-registries` copies it into
+the other apps. Rendering mechanism per framework: HTML/JS `innerHTML`,
+Svelte `{@html}`, React `dangerouslySetInnerHTML`, Vue `v-html`, Blazor
+`MarkupString`, Nunjucks `| safe`. Details:
+[spec/examples/](examples/index.md).
 
 ## 9. Tooling
 
@@ -588,6 +350,8 @@ Scripts live in `bin/`:
 | `bin/git-subtree-push`                | Push each subtree to its standalone remote.          |
 | `bin/generate-storybook-stories.mjs`  | Generate Storybook stories.                          |
 | `bin/publish-helpers`                 | Build + publish the 21 helper packages (npm / NuGet).|
+| `bin/generate-registries`             | Regenerate example-app registries from the catalog.  |
+| `bin/check-links`                     | Verify relative markdown links resolve.              |
 
 Note on syncing: AGENTS files at the repo root are canonical; `bin/sync` copies
 them into subprojects with `rsync` (not symlinks, because `git subtree push`
@@ -613,76 +377,17 @@ Framework-specific notes:
 ### 10.1 Reuters Graphics — editorial / scrollytelling influence
 
 The [Reuters Graphics components](https://github.com/reuters-graphics/graphics-components)
-library inspired Lily's editorial, scrollytelling, and layout primitives.
-Reuters is Svelte-specific with SCSS; Lily adapts the patterns to its headless,
-framework-plural, zero-CSS approach. The following Reuters-influenced components
-are in the catalog and follow the adaptations below:
-
-| Reuters source       | Lily slug(s)                                                              |
-| -------------------- | ------------------------------------------------------------------------- |
-| Article              | `article-layout`                                                          |
-| Block                | `content-block`                                                           |
-| PaddingReset         | `padding-reset`                                                           |
-| Headline             | `headline`                                                                |
-| HeroHeadline         | `hero-headline`                                                           |
-| BodyText             | `body-text`                                                               |
-| Byline               | `byline`                                                                  |
-| EndNotes             | `end-notes`                                                               |
-| InfoBox              | `information-callout`                                                     |
-| Scroller             | `scroller`                                                                |
-| ScrollerBase         | `scroller-base`                                                           |
-| ScrollerVideo        | `scroller-video`                                                          |
-| HorizontalScroller   | `horizontal-scroller`                                                     |
-| GraphicBlock         | `graphic-block`                                                           |
-| FeaturePhoto         | `feature-photo`                                                           |
-| PhotoPack            | `photo-pack`                                                              |
-| Video                | `video-player`                                                            |
-| Visible              | `visible`                                                                 |
-| Theme                | `theme-provider`                                                          |
-| SimpleTimeline       | `timeline-list`, `timeline-list-item`                                     |
-| TileMap              | `tile-map`                                                                |
-| Framer               | `framer`                                                                  |
-| Table, SearchInput,  | already covered by `data-table`+sub-elements, `text-input-with-search` /  |
-| Spinner, BeforeAfter | `search-input`, `loading` / `progress-spinner`, `diff`                    |
-
-Key adaptations from Reuters:
-
-| Reuters pattern                | Lily adaptation                                                          |
-| ------------------------------ | ------------------------------------------------------------------------ |
-| `Block` with named widths      | CSS custom properties (`--content-width-*`) set by `article-layout`,     |
-|                                | read by `content-block`. Consumer owns the values.                       |
-| SCSS mixins for typography     | Consumer provides typography via CSS targeting the kebab-case classes.   |
-| `Markdown` component           | Props accept plain text or `children` slots; rendering is the consumer's.|
-| String-or-Snippet duality      | Props accept content via slots/children; consumer decides rendering.     |
-| `IntersectionObserver` baked in| Documented behaviour; the headless implementation wires the observer.    |
-| `display: contents` on Theme   | Recommended pattern for `theme-provider`; only allowed inline style.     |
-| Svelte 5 `$bindable()`         | Documented as two-way binding props where applicable.                    |
-
-Reuters column-width system (CSS custom property convention):
-
-```css
-.article-layout {
-  --content-width-narrower: 330px;
-  --content-width-narrow:   510px;
-  --content-width-normal:   660px;
-  --content-width-wide:     930px;
-  --content-width-wider:    1200px;
-}
-
-.content-block {
-  max-width: var(--content-width-normal);
-  margin-inline: auto;
-}
-
-.content-block[data-width="wide"]  { max-width: var(--content-width-wide); }
-.content-block[data-width="wider"] { max-width: var(--content-width-wider); }
-```
-
-Excluded from Lily (Reuters-specific branding, third-party integrations, or
-already covered): SiteHeader, SiteFooter, ToolsHeader, ReutersLogo,
-ReutersGraphicsLogo, KinesisLogo, Analytics, AdSlot, SEO, PymChild,
-EmbedPreviewerLink, DatawrapperChart, DocumentCloud, Lottie, ReferralBlock,
-BlogPost, BlogTOC, ClockWall, Headpile, LanguageButton, SiteHeadline.
+library inspired Lily's editorial, scrollytelling, and layout primitives
+(`article-layout`, `content-block`, `headline`, `byline`, `scroller*`,
+`feature-photo`, `tile-map`, `visible`, `theme-provider`, and more).
+Reuters is Svelte-specific with SCSS; Lily adapts the patterns to its
+headless, framework-plural, zero-CSS approach — SCSS typography becomes
+consumer CSS on class hooks, named block widths become the
+`--content-width-*` custom-property convention set by `article-layout`
+and read by `content-block`, and Reuters-specific branding/integrations
+are excluded. The full source-to-slug mapping, adaptation table, and
+column-width CSS live in [spec/citations/](citations/index.md) and
+[spec/theme/](theme/index.md).
 
 ## 11. Acceptance criteria
 
@@ -727,8 +432,10 @@ checked is considered live work; anything unchecked is queued in §12.
 - [x] All 7 helper subprojects exist (Svelte canonical, plus React, Vue,
       Angular, HTML, Nunjucks, Blazor ports). Each catalog ships the
       `theme-select`, `locale-select`, and `text-size-select` helpers as
-      native `<select>` controls (v0.1.0, 2026-06-05; converted from the
-      earlier radio-group pickers on 2026-06-17), with per-package
+      native `<select>` controls (initial release 0.1.0 on 2026-06-05;
+      converted from the earlier radio-group pickers on 2026-06-17 and
+      released as the breaking 0.2.0 for theme-select and locale-select
+      on 2026-07-03; text-size-select stays 0.1.0), with per-package
       manifests (npm `package.json`, or NuGet `.csproj` for Blazor),
       dist build pipelines (`build.js`), and CHANGELOGs.
 - [x] All 21 subprojects have required files (`index.md`, `README.md`
@@ -753,7 +460,10 @@ checked is considered live work; anything unchecked is queued in §12.
 - [x] `bin/sync` keeps shared files in sync (rsync, not symlink).
 - [x] `bin/git-subtree-push` pushes each subtree to its remote.
 
-### 11.4 Verified
+### 11.4 Verified (snapshot as of 2026-05-30; catalog counts updated to 490 on 2026-07-03)
+
+> The exact case counts in §11.4–§11.7 are point-in-time verification
+> records, not live claims; re-run the suites for current numbers.
 
 - [x] `css-style-sheet-template.css` audit: 490 / 490 canonical slugs have
       a class hook; 3 additional documented sub-element hooks
@@ -799,7 +509,7 @@ checked is considered live work; anything unchecked is queued in §12.
       - html-css-js-examples: 814 specs.
       - nunjucks-eleventy-examples: 612 specs.
 
-### 11.5 Accessibility audit (axe-core via Playwright)
+### 11.5 Accessibility audit (axe-core via Playwright; snapshot as of 2026-05-30)
 
 axe-core / Playwright integration shipped across all 6 example apps.
 Per-app baseline (axe-clean routes / total checked):
@@ -815,7 +525,7 @@ Per-app baseline (axe-clean routes / total checked):
 
 axe rule set: WCAG 2.0 A+AA, 2.1 A+AA, 2.2 AA.
 
-### 11.6 Responsive viewport sweep
+### 11.6 Responsive viewport sweep (snapshot as of 2026-05-30)
 
 Responsive smoke check across 4 viewport sizes (mobile 375×667,
 tablet 768×1024, desktop 1280×800, 4K 2560×1440) ported to all 6
@@ -839,7 +549,7 @@ The nunjucks-eleventy app skips composed-page routes (only catalog
 + component-detail pages are built), and tests skip individually if
 a built route 404s.
 
-### 11.7 Storybook coverage
+### 11.7 Storybook coverage (snapshot as of 2026-05-30)
 
 | Library              | Storybook    | Stories       |
 | -------------------- | ------------ | ------------- |
@@ -868,258 +578,48 @@ overhead that the project hasn't chosen to pay.
 
 ### 11.8 Open backlog
 
-- [x] axe-core: all 6 example apps now hit their full route baseline
-      clean. html-css-js-examples reached 29/29 in commit 27fefce9 by
-      fixing a stylesheet-404 routing bug (symlinking `pages/assets`),
-      correcting trailing-slash composed-page URLs, bumping nhs-green
-      and switch-button contrast, rebuilding the components-index
-      cards via DOM APIs to avoid orphan-element rendering, and
-      switching the timeline summary-list to <dl>/<div>.
-- [x] Port the responsive viewport sweep from svelte-sveltekit to the
-      other 5 example apps. Specs land in
-      `{app}/e2e/responsive.spec.ts` with route paths adjusted per
-      app (see §11.6 for the per-app route table). Runtime baselines
-      still need to be captured per-app once each app's playwright
-      runner is exercised.
-- [x] National personal identifier Phase 2: implemented the 80 newly-
-      catalogued components in all 6 headless subprojects (Svelte 5,
-      React 19, Vue 3, plain HTML, Blazor 10, Nunjucks 3) and all 6
-      example apps. Each follows the existing
-      `france-numero-d-identification-au-repertoire-{input,view}`
-      pattern: `<input type="text" autocomplete="off">` for the input
-      variant, `<span aria-label=...>` for the view variant. Tests,
-      demo registry entries, and Storybook stories landed in commits
-      50841648..490282db.
-- [/] Angular subprojects end-to-end verification — partial:
-      - **angular-headless** (2026-05-29): `pnpm install` works once
-        `@analogjs/vite-plugin-angular` is pinned to `1.19.4` (the
-        1.22+ line requires Vite 6 via `defaultClientConditions`) and
-        `@angular/build` is added as a direct devDep. `vitest run`
-        passes **974 / 974** across **490 / 490** spec files. `pnpm
-        build` (ng-packagr) emits the APF bundle cleanly. Source fix:
-        all `($event.target as HTMLInputElement).value` patterns
-        rewritten to `$any($event.target).value` because Angular
-        template parsing rejects parenthesised TS casts inside method
-        calls.
-      - **angular-examples** (2026-05-30): `pnpm install` resolves
-        with both `@analogjs/{platform,router,vite-plugin-angular}`
-        pinned to `1.19.4` plus `pnpm-workspace.yaml` overrides
-        (pnpm 11 ignores `pnpm.overrides` in package.json — they
-        must live in `pnpm-workspace.yaml`) forcing both
-        `@analogjs/vite-plugin-{angular,nitro}` onto `1.19.4`. Same
-        template-cast fix applied to the copied components. SSR
-        scaffolding shipped: `index.html`, `src/main.server.ts`
-        (default-exports `render(url, document)` per the Analog
-        renderer contract documented in
-        `@analogjs/vite-plugin-nitro/src/lib/runtime/renderer.ts`),
-        `src/app/app.config.server.ts`, `vite.config.ts` with
-        explicit `build.outDir: "dist/client"` (the analog plugin
-        reads `config.build?.outDir || 'dist/client'` but Vite's
-        default `"dist"` already wins, so the explicit override is
-        needed). `pnpm run build` now: (a) builds the client into
-        `dist/client/` cleanly, (b) tries to bundle SSR but the
-        analog vite-plugin-angular transform consumes
-        `main.server.ts` and returns empty code — output is exactly
-        1 byte regardless of source. Confirmed isolation: a plain
-        `vite build --ssr src/main.server.ts` without the analog
-        plugin produces a working 2 KB bundle with the default
-        export intact. Likely root cause: the angular plugin's
-        `fileEmitter(id)` returns no compiled content for files not
-        in the Angular project's initial compilation set, despite
-        `src/main.server.ts` being inside the tsconfig's `src/**/*.ts`
-        include. Tried `analog({ vite: { transformFilter } })` to
-        bypass the plugin transform for the SSR entry — that lets
-        Rollup parse main.server.ts directly, but then the
-        transitive `./app/app` import fails because the same plugin
-        state issue empties `app.ts`'s `App` export inside the
-        separate Vite instance `buildSSRApp` spawns. Remaining work:
-        file an Analog upstream issue, or switch the example app
-        off Analog onto a vanilla Angular + Vite + esbuild +
-        prerender pipeline.
-      - **2026-06-14 — root cause narrowed.** The failure is broader
-        than an emptied SSR entry: `@analogjs/vite-plugin-angular@1.19.4`
-        emits **no compiled Angular output at all** under Angular 20,
-        for the client build as well as SSR. After `pnpm build` the
-        client entry `dist/client/assets/index-*.js` is ~0.7 KB and
-        contains only Vite's `modulepreload` polyfill — no
-        `bootstrapApplication`, no `@angular/*` runtime, no `main.ts`
-        code; `dist/client` totals ~8 KB and `dist/ssr/main.server.js`
-        is one byte (`\n`). The plugin's `fileEmitter` returns empty
-        for every project `.ts` (not just `main.server.ts`), so this
-        is an Analog 1.19.4 ↔ Angular 20 compiler-integration
-        incompatibility, not an SSR-entry bug. Fixes ruled out, each
-        leaving the bundle empty: (a) adding
-        `files: ["src/main.ts", "src/main.server.ts"]` to
-        `tsconfig.json` (the Analog template shape — kept, since it is
-        the correct config and a prerequisite once the plugin works,
-        but insufficient alone); (b) the earlier `transformFilter`
-        bypass; (c) SPA mode (`analog({ ssr: false })`) — builds green
-        (exit 0) but still emits an empty client app. Resolution
-        requires a dependency-line change, not a config tweak. Options,
-        in rough order of preference: (1) move Analog to the Vite-6
-        line (1.22+) that targets Angular 20 and bump Vite 5 → 6;
-        (2) pin Angular to 18/19 to match Analog 1.19.4; or (3) drop
-        Analog for the first-party `@angular/build:application` builder
-        plus a prerender step (loses Analog file-based routing —
-        `provideFileRouter()` would become explicit routes).
-      - **2026-06-15 — build fixed (option 1 taken); one issue
-        remains.** Upgraded Analog `1.19.4 → 1.22.5` and Vite
-        `5 → 6.4.3` (workspace overrides bumped to `1.22.5`), then
-        fixed four real defects the working compiler then surfaced.
-        (1) **Root cause was a missing `tsconfig.app.json`** — the
-        Angular Vite plugin defaults to that filename and logged
-        `Unable to resolve tsconfig at .../tsconfig.app.json`, so its
-        program had no root files and emitted nothing; adding
-        `tsconfig.app.json` (extends `tsconfig.json`,
-        `files: ["src/main.ts","src/main.server.ts"]`) made it compile
-        (1 → 323 client + 105 SSR modules). The earlier `files`-in-
-        `tsconfig.json` edit was reverted in favour of this. (2)
-        `provideExperimentalZonelessChangeDetection` →
-        `provideZonelessChangeDetection` (graduated in Angular 20). (3)
-        Dropped `import "zone.js/node"` from `main.server.ts` (the app
-        is zoneless). (4) **NG0401 (`PLATFORM_NOT_FOUND`)** during
-        prerender — Angular 20 passes a `BootstrapContext` to the SSR
-        bootstrap and requires it forwarded:
-        `(context) => bootstrapApplication(App, config, context)`.
-        Result: `pnpm build` now exits 0 and prerenders **506/506**
-        routes with **0 errors** (`dist/analog/public`, ~2.4 MB; was a
-        1-byte SSR entry + failed build). **Route discovery — root
-        caused to an upstream Analog bug.** Analog's `analog-glob-routes`
-        plugin globs the page files (confirmed: `routeFiles=15`, correct
-        `root`) and injects them by a *brittle string* replace,
-        `code.replace('ANALOG_ROUTE_FILES = {};', …)`, on the
-        `@analogjs/router` module. The transform runs in every build
-        pass, but in some passes an earlier transform reformats /
-        minifies that exact literal first, so the replace silently
-        misses and the route set stays empty (instrumented: the same
-        pass shows `routeFiles=15` yet `hasExactTarget=false`). Adding
-        `optimizeDeps.exclude: ['@analogjs/router']` (plus
-        `ssr.noExternal`) keeps the literal intact for the **client**
-        build — the page components now bundle and the app renders
-        client-side after bootstrap — but the **SSR/prerender** pass
-        still reformats it (the identifier is renamed there, so no
-        string-replace workaround applies), leaving the prerendered
-        HTML as the app shell that hydrates to full content on the
-        client. Net: the example app builds and works as a client-
-        rendered SPA; static SSG content is still shell-only. Closing
-        it fully needs an upstream fix (make Analog's replace robust /
-        AST-based) — file an `@analogjs/platform` issue — or moving the
-        SSG step onto `@angular/build:application`'s prerenderer.
-      - Playwright e2e suites not yet exercised against either app.
-- [x] Angular headless Storybook coverage. Wired `@storybook/angular`
-      9.1 with the webpack-based `@storybook/angular:build-storybook`
-      Angular builder (the Vite-builder path isn't first-class for
-      Angular yet in Storybook 9). Scaffolded `angular.json` to
-      declare the storybook + build-storybook architect targets,
-      `.storybook/main.ts`, `.storybook/preview.ts`, and
-      `.storybook/tsconfig.json` (so `@ngtools/webpack` sees
-      preview.ts and the stories). Generated 490 / 490
-      `components/*.stories.ts` files matching the svelte / react /
-      vue / html / nunjucks pattern: `title: "Headless/{Pascal}"`,
-      `component`, `tags: ["autodocs"]`, one `Default` story.
-      `pnpm run build-storybook` emits all 490 story bundles into
-      `storybook-static/`. Vitest still passes 974 / 974.
+Completed items are recorded in [CHANGELOG.md](../CHANGELOG.md) and §12;
+this list holds only what is genuinely open.
+
+- [/] Angular subprojects end-to-end verification — mostly done.
+      angular-headless is fully verified (§11.2). The angular-examples
+      app builds, prerenders 506/506 routes, and works as a
+      client-rendered SPA, but static SSG output is shell-only: Analog's
+      `analog-glob-routes` plugin injects routes via a brittle string
+      replace that other transforms can break, so the prerendered HTML
+      hydrates to full content on the client instead of shipping it.
+      Root cause, fixes tried, and the dependency history are logged in
+      [lily-design-system-angular-examples/docs/analog-ssg-notes.md](../lily-design-system-angular-examples/docs/analog-ssg-notes.md);
+      the distilled upstream report is
+      [analog-ssg-issue.md](../lily-design-system-angular-examples/docs/analog-ssg-issue.md).
+      Next step: file that issue upstream, or move the SSG step onto
+      `@angular/build:application`'s prerenderer.
+- [ ] Playwright e2e suites not yet exercised against the two Angular
+      subprojects.
 
 ## 12. Implementation status
 
-### 12.1 Completed work (carried over from prior tasks.md)
+### 12.1 Completed work
 
-#### Catalog & infrastructure
+The full release-by-release record lives in
+[CHANGELOG.md](../CHANGELOG.md) (and §14.1 highlights). Summary of the
+completed epochs:
 
-- [x] Create canonical component list (now 490 components after the
-      May 2026 national-identifier additions).
-- [x] Create CSS style sheet template.
-- [x] Create scaffolding/listing/testing tools.
-- [x] Create `AGENTS.md` with component patterns and composition patterns.
-- [x] Create all 7 headless subprojects (HTML, Svelte, React, Vue,
-      Angular, Blazor, Nunjucks).
-- [x] Create all 7 example subprojects (HTML+CSS+JS, SvelteKit, Next.js,
-      Nuxt.js, Angular + Analog.js, Blazor Web, Nunjucks Eleventy).
-- [x] Document suffix-to-HTML-element mapping.
-- [x] Document component name patterns and composition patterns.
-- [x] Document accessibility standards (WCAG 2.2 AAA, WAI-ARIA APG).
-- [x] Document internationalisation principles.
-- [x] Document theming approach (token shape, `ThemeProvider`, `data-theme`).
-
-#### Repairs
-
-- [x] Fix duplicate entries in `AGENTS/components.md` (chat-nav, chat-list,
-      chat-list-item, chat-message).
-- [x] Fix wrong links in `index.md` (accordion-link, pagination-link).
-- [x] Fix typo in `AGENTS/accessibility.md` filename across all subprojects.
-- [x] Harmonise component count across `plan.md`, `tasks.md`, and subprojects.
-- [x] Remove non-existent "thing" entry from semantic concepts.
-- [x] Create 26 missing component directories with documentation.
-- [x] Populate 8 empty component files (chat-nav, chat-list, chat-list-item,
-      chat-message, citation, diff, digital-object-identifier-link,
-      mockup-phone-portrait).
-- [x] Deduplicate `components.csv` (325 → 364 → 407 over time).
-
-#### Per-component demos
-
-- [x] Create `generate-component-demos.js` script for demo-HTML generation.
-- [x] Add live component demos to `/components/{slug}` pages in all example
-      subprojects:
-  - [x] `component-demos.ts` for SvelteKit examples.
-  - [x] `component-demos.ts` for Next.js examples.
-  - [x] `component-demos.ts` for Nuxt.js examples.
-  - [x] SvelteKit `/components/[slug]` page renders via `{@html}`.
-  - [x] Next.js `/components/[slug]` page renders via
-        `dangerouslySetInnerHTML`.
-  - [x] Nuxt.js `/components/[slug]` page renders via `v-html`.
-  - [x] Blazor Web `ComponentData.cs` + `ComponentDetail.razor` render via
-        `MarkupString`.
-  - [x] HTML+CSS+JS `component.html` renders via `innerHTML`.
-
-#### Subproject harmonisation
-
-- [x] Harmonise all subproject `index.md`, `AGENTS.md`, `plan.md`, `tasks.md`.
-- [x] Update component counts across all subproject `index.md` and `AGENTS.md`.
-- [x] Add `@AGENTS/examples.md` reference to all example subproject
-      `AGENTS.md`.
-- [x] Update plan/tasks acceptance criteria across all subprojects.
-- [x] Update tasks to reflect `/components` route work in all example
-      subprojects.
-
-#### Per-component documentation (490 components)
-
-- [x] All 407 long-standing component `index.md` files enhanced
-      with separate "When to Use" and "When Not to Use" sections
-      plus improved realistic code examples.
-- [x] Phase 1: NHS-researched component enhancements (65 Lily components mapped
-      to 37 NHS components).
-- [x] Phase 2: Original guidance for the remaining ~340 components grouped by
-      category.
-- [x] The 80 national personal identifier components added in May
-      2026 follow the same `index.md` shape: each documents its
-      country, identifier name, format, validation algorithm
-      (Luhn / Modulus-11 / etc.), where to find it, and the
-      input/view rendering pattern.
-
-#### Recent (May 2026)
-
-- [x] Extend component catalogs from 259 to 407 entries across 3 example apps
-      (commit `26c11ae0`).
-- [x] Add Playwright e2e to svelte-sveltekit-examples and fix broken Header
-      imports (commit `6f297650`).
-- [x] Add per-component bUnit tests for Blazor headless library and example
-      app (commit `1b8600d4`).
-- [x] Add Playwright e2e tests across 5 example apps and Storybook for Vue/React
-      example apps (commit `7a51013b`).
-- [x] Add `.gitignore` entries for build artifacts and test outputs across all
-      13 projects (commit `624bbb94`).
-- [x] Catalog 80 national personal identifier components (40 types
-      × `-input` / `-view` across 30+ countries) — bumping the
-      canonical count from 407 to 492. Per-subproject
-      implementations followed in commits 50841648..490282db
-      (May 2026).
-- [x] Add Angular headless library and Angular + Analog.js example
-      app as the 7th framework pair (2026-05-28, commits 832dce3e
-      + bcf649f5). Angular headless verified end-to-end
-      (974 / 974 vitest, ng-packagr APF build, Storybook 490/490)
-      in commits 8185610a + c84ae81c (2026-05-29).
-- [x] Wire `@storybook/angular` 9.1 into angular-headless with
-      490 / 490 generated stories (commit `c84ae81c`).
+- **Catalog & infrastructure** — canonical list (now 490), CSS
+  class-hook template, `bin/` toolchain, modular AGENTS docs, all 7
+  headless + 7 example + 7 helper subprojects.
+- **Per-component docs** — all components carry `index.md` with
+  When-to-Use / When-Not-to-Use guidance (NHS-researched where an NHS
+  equivalent exists), plus canonical `AGENTS.md` metadata and a
+  spec-driven `spec/index.md`.
+- **Demos & registries** — per-slug live demos in every example app;
+  registries generated from the catalog.
+- **Test infrastructure** — per-framework unit suites, Storybook
+  coverage, Playwright e2e, axe-core baselines, responsive sweeps
+  (verified state in §11.4–§11.7).
+- **May–July 2026** — 80 national identifiers (0.2.0), Angular pair
+  (0.3.0), catalog 492 (0.4.0), helpers layer + themes + spec/
+  directories + catalog 490 (0.5.0), tooling hardening (0.6.0).
 
 ### 12.2 Open backlog
 
@@ -1147,13 +647,14 @@ Medium-term:
 Long-term:
 
 - Versioned releases per subproject npm/NuGet package (started: the 21
-  helper packages publish at 0.1.0 via `bin/publish-helpers`).
+  helper packages publish via `bin/publish-helpers`; theme-select and
+  locale-select at 0.2.0, text-size-select at 0.1.0).
 - Contributor onboarding documentation (currently informal).
 
 ## 14. Tracking
 
 - Package: lily
-- Version: 0.5.0
+- Version: 0.6.0
 - Created: 2025-08-09
 - Updated: 2026-07-03
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or contact
@@ -1167,6 +668,16 @@ Long-term:
 
 ### 14.1 Changelog highlights
 
+- **0.6.0 (2026-07-03)** — Tooling hardening and release hygiene.
+  `bin/test` now exits non-zero on failure and cross-checks the catalog
+  against component dirs, CSS hooks, and all twelve example-app
+  registries; `bin/generate-registries` regenerates every registry from
+  `components.tsv` + the canonical demo map; `bin/check-links` verifies
+  markdown links (89 broken links fixed); CI added. theme-select and
+  locale-select released as the breaking 0.2.0. This file slimmed from
+  76 KB to under 40 KB; the Analog SSG engineering log relocated to the
+  angular-examples docs with a ready-to-file upstream issue draft. Full
+  record: [CHANGELOG.md](../CHANGELOG.md).
 - **0.5.0 (2026-07-03)** — Spec-driven development moves from single
   `spec.md` files to `spec/` directories entered via `spec/index.md`,
   across the repo root (this file — the former monolith merged with the

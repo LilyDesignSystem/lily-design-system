@@ -45,7 +45,7 @@ Each helper subproject follows the same spec-driven shape (Svelte example; other
 | `AGENTS.md` | AI-agent metadata pointer to `spec/index.md`. |
 | `CLAUDE.md` | Loads `AGENTS.md`. |
 | `index.md` | Human-readable guide. |
-| `CHANGELOG.md` | Keep-a-Changelog history; catalogs at 0.1.0 (2026-06-05). |
+| `CHANGELOG.md` | Keep-a-Changelog history; catalogs at 0.2.0 (2026-07-03; initial release 0.1.0, 2026-06-05). |
 | `{Pascal}.{ext}` | The component (`.svelte`, `.tsx`, `.vue`, `.component.ts`, `.razor`+`.razor.cs`, `macro.njk`). |
 | `{Pascal}.test.{ext}` / `Tests.cs` | One test per acceptance clause. |
 | Manifest | `package.json` (JS frameworks) or `.csproj` (Blazor). |
@@ -53,7 +53,7 @@ Each helper subproject follows the same spec-driven shape (Svelte example; other
 | `dist/` | Build output (`build.js` per catalog; `files`/`exports` maps, `svelte` condition where relevant). |
 | `docs/`, `examples/` | Topic guides and runnable examples (optional). |
 
-Each `*-helpers` catalog directory, and each helper inside it, is its own `git subtree` pushed to a standalone remote. All 21 helper packages (7 catalogs × 3 helpers) are versioned 0.1.0 and publish via [`bin/publish-helpers`](../../bin/publish-helpers) (npm registries for the JS frameworks, NuGet for Blazor).
+Each `*-helpers` catalog directory, and each helper inside it, is its own `git subtree` pushed to a standalone remote. All 21 helper packages (7 catalogs × 3 helpers) publish via [`bin/publish-helpers`](../../bin/publish-helpers) (npm registries for the JS frameworks, NuGet for Blazor). theme-select and locale-select are at 0.2.0 (the breaking radio-group → `<select>` migration); text-size-select is at 0.1.0 (born select-based).
 
 ## theme-select contract
 

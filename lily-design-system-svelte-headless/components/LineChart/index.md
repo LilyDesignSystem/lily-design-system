@@ -4,7 +4,7 @@ A line chart visualization connecting data points to display data.
 
 ## Canonical documentation
 
-See [components/line-chart/index.md](../../../../components/line-chart/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/line-chart/index.md](../../../components/line-chart/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

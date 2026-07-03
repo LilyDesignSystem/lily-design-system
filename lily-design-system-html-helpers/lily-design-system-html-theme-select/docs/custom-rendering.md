@@ -164,7 +164,7 @@ classes / data-attributes to its options.
 
 Native HTML's `<slot>` element is a Shadow DOM mechanism. The
 helpers commit to light DOM (for the reasons in
-[`../AGENTS/conventions.md`](../AGENTS/conventions.md)), so
+[`../AGENTS/conventions.md`](../../AGENTS/conventions.md)), so
 `<slot>` isn't available without opting into Shadow DOM.
 
 Subclassing is the platform-native customisation surface for custom

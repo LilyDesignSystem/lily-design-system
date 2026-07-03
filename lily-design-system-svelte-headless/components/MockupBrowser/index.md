@@ -4,7 +4,7 @@ A box area that looks like a web browser.
 
 ## Canonical documentation
 
-See [components/mockup-browser/index.md](../../../../components/mockup-browser/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/mockup-browser/index.md](../../../components/mockup-browser/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

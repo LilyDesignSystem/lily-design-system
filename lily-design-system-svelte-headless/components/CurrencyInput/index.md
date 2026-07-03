@@ -4,7 +4,7 @@ A locale-aware currency input with automatic formatting, symbols, separators.
 
 ## Canonical documentation
 
-See [components/currency-input/index.md](../../../../components/currency-input/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/currency-input/index.md](../../../components/currency-input/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

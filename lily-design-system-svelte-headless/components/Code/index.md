@@ -4,7 +4,7 @@ An inline code span for displaying short code snippets within surrounding text.
 
 ## Canonical documentation
 
-See [components/code/index.md](../../../../components/code/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/code/index.md](../../../components/code/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

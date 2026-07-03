@@ -4,7 +4,7 @@ A place component that contains other place-related information.
 
 ## Canonical documentation
 
-See [components/place/index.md](../../../../components/place/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/place/index.md](../../../components/place/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

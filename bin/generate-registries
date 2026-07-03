@@ -1,0 +1,241 @@
+#!/usr/bin/env node
+// bin/generate-registries
+//
+// Regenerate every example-app catalog registry from the two canonical
+// sources, so the hand-copied registries can never drift again:
+//
+//   - components.tsv                                  → slug, name, description
+//   - lily-design-system-svelte-sveltekit-examples/
+//     src/lib/data/component-demos.ts                 → slug → demo HTML
+//       (the curated demo map; regenerate its baseline with
+//       generate-component-demos.js, then curate in place)
+//
+// Outputs (overwritten in full or region-replaced):
+//   - {svelte-sveltekit,react-next,vue-nuxt} components registry .ts
+//   - {react-next,vue-nuxt,angular} component-demos.ts (copies of canonical)
+//   - blazor-web ComponentData.cs (slug/name/description + demo HTML)
+//   - html-css-js pages/components/{index,component}.html embedded arrays
+//   - lilydesignsystem.github.io/src/lib/components.ts
+//   - root index.md component listing section
+//
+// Run bin/test afterwards; it asserts every registry matches the catalog.
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const read = (p) => fs.readFileSync(path.join(top, p), "utf-8");
+const write = (p, s) => {
+  fs.writeFileSync(path.join(top, p), s);
+  console.log("wrote", p);
+};
+
+// ---------- canonical sources ----------
+
+const components = read("components.tsv")
+  .split("\n")
+  .filter((l) => l.trim())
+  .map((l) => {
+    const [slug, name, description] = l.split("\t");
+    return { slug, name, description: description || "" };
+  });
+
+const demosSource = read(
+  "lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts"
+);
+const demos = {};
+for (const m of demosSource.matchAll(/^ {2}'([^']+)': '((?:[^'\\]|\\.)*)',$/gm)) {
+  demos[m[1]] = m[2]; // value kept in its JS-escaped form
+}
+const missingDemos = components.filter((c) => !(c.slug in demos));
+if (missingDemos.length) {
+  console.error(
+    "canonical demo map is missing:",
+    missingDemos.map((c) => c.slug).join(", ")
+  );
+  process.exit(1);
+}
+
+const jsStr = (s) => JSON.stringify(s); // double-quoted JS/TS/JSON string
+const csStr = (s) => '"' + s.replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
+const unescapeJs = (s) =>
+  s.replace(/\\'/g, "'").replace(/\\\\/g, "\\"); // demo map value → raw HTML
+
+// ---------- TS/JS components arrays ----------
+
+const tsEntry = (c, indent) => {
+  const i = " ".repeat(indent);
+  const f = " ".repeat(indent + 4);
+  return [
+    `${i}{`,
+    `${f}slug: ${jsStr(c.slug)},`,
+    `${f}name: ${jsStr(c.name)},`,
+    `${f}description: ${jsStr(c.description)},`,
+    `${i}},`,
+  ].join("\n");
+};
+const tsEntries = (indent) => components.map((c) => tsEntry(c, indent)).join("\n");
+
+write(
+  "lily-design-system-svelte-sveltekit-examples/src/lib/data/components.ts",
+  `export const components = [\n${tsEntries(2)}\n];\n`
+);
+
+write(
+  "lily-design-system-react-next-examples/app/data/components.ts",
+  `export interface Component {
+  slug: string;
+  name: string;
+  description: string;
+}
+
+export const components: Component[] = [
+${tsEntries(2)}
+];
+`
+);
+
+write(
+  "lily-design-system-vue-nuxt-examples/data/components.ts",
+  `export interface ComponentMeta {
+  slug: string;
+  name: string;
+  description: string;
+}
+
+export const components: ComponentMeta[] = [
+${tsEntries(2)}
+];
+`
+);
+
+// ---------- github.io registry ----------
+
+write(
+  "lilydesignsystem.github.io/src/lib/components.ts",
+  `// Lily component catalog — generated from components.tsv
+// Components across HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks headless
+
+export type LilyComponent = {
+  name: string;
+  pascal: string;
+  description: string;
+};
+
+export const LILY_COMPONENTS: LilyComponent[] = [
+${components
+  .map(
+    (c) =>
+      `  { name: ${jsStr(c.slug)}, pascal: ${jsStr(c.name)}, description: ${jsStr(c.description)} },`
+  )
+  .join("\n")}
+];
+`
+);
+
+// ---------- component-demos.ts copies ----------
+
+for (const p of [
+  "lily-design-system-react-next-examples/app/data/component-demos.ts",
+  "lily-design-system-vue-nuxt-examples/data/component-demos.ts",
+  "lily-design-system-angular-examples/src/app/component-demos.ts",
+]) {
+  write(p, demosSource);
+}
+
+// ---------- blazor ComponentData.cs ----------
+
+write(
+  "lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Data/ComponentData.cs",
+  `namespace LilyBlazorWebExamples.Data;
+
+public record ComponentInfo(string Slug, string Name, string Description, string DemoHtml);
+public static class ComponentData
+{
+    public static readonly List<ComponentInfo> Components = new()
+    {
+${components
+  .map(
+    (c) =>
+      `        new(${csStr(c.slug)}, ${csStr(c.name)}, ${csStr(c.description)}, ${csStr(unescapeJs(demos[c.slug]))}),`
+  )
+  .join("\n")}
+    };
+}
+`
+);
+
+// ---------- embedded HTML arrays (region replace) ----------
+
+function replaceRegion(text, startMarker, endMarker, body, label) {
+  const start = text.indexOf(startMarker);
+  if (start < 0) throw new Error(`start marker not found in ${label}`);
+  const from = start + startMarker.length;
+  const end = text.indexOf(endMarker, from);
+  if (end < 0) throw new Error(`end marker not found in ${label}`);
+  return text.slice(0, from) + "\n" + body + "\n" + text.slice(end);
+}
+
+const htmlEntry = (c, indent) => {
+  const i = " ".repeat(indent);
+  const f = " ".repeat(indent + 4);
+  return [
+    `${i}{`,
+    `${f}slug: ${jsStr(c.slug)},`,
+    `${f}name: ${jsStr(c.name)},`,
+    `${f}description: ${jsStr(c.description)},`,
+    `${i}},`,
+  ].join("\n");
+};
+
+{
+  const p = "lily-design-system-html-css-js-examples/pages/components/index.html";
+  let t = read(p);
+  t = replaceRegion(
+    t,
+    "var components = [",
+    "                ];",
+    components.map((c) => htmlEntry(c, 20)).join("\n"),
+    p
+  );
+  write(p, t);
+}
+
+{
+  const p = "lily-design-system-html-css-js-examples/pages/components/component.html";
+  let t = read(p);
+  t = replaceRegion(
+    t,
+    "var components = [",
+    "                ];",
+    components.map((c) => htmlEntry(c, 20)).join("\n"),
+    p
+  );
+  t = replaceRegion(
+    t,
+    "var componentDemos = {",
+    "            };",
+    components.map((c) => `                '${c.slug}': '${demos[c.slug]}',`).join("\n"),
+    p
+  );
+  write(p, t);
+}
+
+// ---------- root index.md listing ----------
+
+{
+  const p = "index.md";
+  const lines = read(p).split("\n");
+  const first = lines.findIndex((l) => /^- \[.*\]\(components\//.test(l));
+  let last = first;
+  for (let i = first; i < lines.length && /^- \[.*\]\(components\//.test(lines[i]); i++) {
+    last = i;
+  }
+  if (first < 0) throw new Error("index.md listing not found");
+  const listing = components.map(
+    (c) => `- [${c.slug}](components/${c.slug}): ${c.description}`
+  );
+  write(p, [...lines.slice(0, first), ...listing, ...lines.slice(last + 1)].join("\n"));
+}
+
+console.log(`done: ${components.length} components across all registries`);

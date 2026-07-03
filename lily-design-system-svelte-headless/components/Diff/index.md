@@ -4,7 +4,7 @@ A side-by-side comparison of two items.
 
 ## Canonical documentation
 
-See [components/diff/index.md](../../../../components/diff/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/diff/index.md](../../../components/diff/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

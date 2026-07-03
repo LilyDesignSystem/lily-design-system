@@ -4,7 +4,7 @@ One section link in the navigation.
 
 ## Canonical documentation
 
-See [components/section-link/index.md](../../../../components/section-link/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/section-link/index.md](../../../components/section-link/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

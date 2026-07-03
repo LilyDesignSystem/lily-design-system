@@ -4,7 +4,7 @@ A panel confirming a task has been completed.
 
 ## Canonical documentation
 
-See [components/success-panel/index.md](../../../../components/success-panel/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/success-panel/index.md](../../../components/success-panel/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

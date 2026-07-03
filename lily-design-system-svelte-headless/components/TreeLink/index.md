@@ -4,7 +4,7 @@ One link in the tree.
 
 ## Canonical documentation
 
-See [components/tree-link/index.md](../../../../components/tree-link/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/tree-link/index.md](../../../components/tree-link/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

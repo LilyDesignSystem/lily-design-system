@@ -4,7 +4,7 @@ A button with a timer that will automatically click after a given amount of time
 
 ## Canonical documentation
 
-See [components/timer-button/index.md](../../../../components/timer-button/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/timer-button/index.md](../../../components/timer-button/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

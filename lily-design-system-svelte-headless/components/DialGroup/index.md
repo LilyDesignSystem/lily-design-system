@@ -4,7 +4,7 @@ A group of dial components.
 
 ## Canonical documentation
 
-See [components/dial-group/index.md](../../../../components/dial-group/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/dial-group/index.md](../../../components/dial-group/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

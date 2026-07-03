@@ -4,7 +4,7 @@ A citation acknowledges the relevance of a work of another to the topic of discu
 
 ## Canonical documentation
 
-See [components/citation/index.md](../../../../components/citation/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/citation/index.md](../../../components/citation/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

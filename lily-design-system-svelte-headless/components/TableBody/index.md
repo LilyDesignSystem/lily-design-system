@@ -4,7 +4,7 @@ A table interactive grid tbody <tbody>.
 
 ## Canonical documentation
 
-See [components/table-body/index.md](../../../../components/table-body/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/table-body/index.md](../../../components/table-body/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

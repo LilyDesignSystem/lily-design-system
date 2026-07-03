@@ -4,7 +4,7 @@ A box area that looks like a smart watch.
 
 ## Canonical documentation
 
-See [components/mockup-watch/index.md](../../../../components/mockup-watch/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/mockup-watch/index.md](../../../components/mockup-watch/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

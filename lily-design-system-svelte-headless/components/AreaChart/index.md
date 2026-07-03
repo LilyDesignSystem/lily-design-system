@@ -4,7 +4,7 @@ An area chart visualization showing sized components in continuous data.
 
 ## Canonical documentation
 
-See [components/area-chart/index.md](../../../../components/area-chart/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/area-chart/index.md](../../../components/area-chart/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

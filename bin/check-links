@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+"""bin/check-links — verify relative markdown links resolve.
+
+Scans every git-tracked *.md file and checks that each relative link
+target exists on disk (anchors and external URLs are ignored).
+Exits non-zero and lists the broken links if any are found.
+"""
+import os
+import re
+import subprocess
+import sys
+
+TOP = subprocess.run(
+    ["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True, check=True
+).stdout.strip()
+
+LINK = re.compile(r"\]\((?!https?://|#|mailto:)([^)\s]+?)(#[^)]*)?\)")
+
+files = subprocess.run(
+    ["git", "ls-files", "*.md"], capture_output=True, text=True, check=True, cwd=TOP
+).stdout.split()
+
+# The AGENTS/ trees inside subprojects are rsync copies of the repo-root
+# AGENTS/ (see bin/sync), and the github.io components-route AGENTS.md is
+# a copy of components/AGENTS.md; their relative links are written for
+# the repo root and are expected not to resolve from the copy location.
+SYNCED = re.compile(
+    r"^lily[^/]*/AGENTS/"
+    r"|^lilydesignsystem\.github\.io/src/routes/components/AGENTS\.md$"
+)
+files = [f for f in files if not SYNCED.match(f)]
+
+broken = []
+for rel in files:
+    p = os.path.join(TOP, rel)
+    try:
+        with open(p, encoding="utf-8") as f:
+            text = f.read()
+    except (OSError, UnicodeDecodeError):
+        continue
+    base = os.path.dirname(p)
+    for m in LINK.finditer(text):
+        target = m.group(1)
+        if not os.path.exists(os.path.normpath(os.path.join(base, target))):
+            broken.append(f"{rel}: {target}")
+
+if broken:
+    print(f"broken links: {len(broken)}", file=sys.stderr)
+    for b in broken:
+        print(f"  {b}", file=sys.stderr)
+    sys.exit(1)
+print(f"check-links: OK ({len(files)} markdown files)")

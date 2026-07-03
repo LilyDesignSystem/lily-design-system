@@ -4,7 +4,7 @@ An accordion link.
 
 ## Canonical documentation
 
-See [components/accordion-link/index.md](../../../../components/accordion-link/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/accordion-link/index.md](../../../components/accordion-link/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

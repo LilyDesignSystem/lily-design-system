@@ -11,7 +11,7 @@ unset.
 
 **Fix.** Scope every rule in every theme to
 `:where(:root, :root[data-theme="<slug>"])`. The Lily themes follow
-this convention; see [`../../themes/light.css`](../../themes/light.css)
+this convention; see [`../../themes/light.css`](../../../themes/light.css)
 for an example.
 
 ## "404 on the theme href"

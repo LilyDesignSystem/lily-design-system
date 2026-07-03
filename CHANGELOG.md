@@ -9,6 +9,61 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## 0.6.0 — 2026-07-03
+
+### Added
+
+- **`bin/generate-registries`** — regenerates every example-app catalog
+  registry (three `components.ts` files, `ComponentData.cs`, the two
+  embedded HTML arrays, the github.io registry, the four
+  `component-demos.ts` copies, and the root `index.md` listing) from
+  `components.tsv` plus the canonical SvelteKit demo map, so hand-copied
+  registries can no longer drift.
+- **`bin/check-links`** — verifies every relative markdown link in
+  tracked `*.md` files resolves (rsync-synced AGENTS copies excluded);
+  exits non-zero on breakage.
+- **CI** (`.github/workflows/ci.yml`) — runs `bin/test`,
+  `bin/check-links`, a tracked-`node_modules`/`dist` guard, a
+  registries-are-freshly-generated check, and the six JS-framework
+  helpers test suites.
+- **Upstream issue draft** for the Analog SSG route-injection bug
+  (`lily-design-system-angular-examples/docs/analog-ssg-issue.md`), with
+  the full engineering log relocated from the spec to
+  `docs/analog-ssg-notes.md`.
+
+### Changed
+
+- **`bin/test` now fails.** Errors previously printed to stderr while
+  the script exited 0; failures now set a flag and the script exits
+  non-zero. New consistency checks: duplicate slugs / PascalCase names
+  in `components.tsv`, `components/` directory ↔ catalog parity, exactly
+  one CSS hook per slug in `css-style-sheet-template.css`, and
+  entry-count parity for all twelve example-app registries.
+- **Helpers released as 0.2.0** (`theme-select`, `locale-select` — the
+  breaking radio-group → native-`<select>` migration, with CHANGELOG
+  entries per package and per catalog); `text-size-select` stays 0.1.0
+  (born select-based). 14 manifests bumped.
+- **`spec/index.md` slimmed from 76 KB to under 40 KB** — the category
+  table, naming tables, Reuters detail, demo-strategy table, and
+  completed-work history now defer to topic docs and `CHANGELOG.md`;
+  §11.4–§11.7 test counts are labelled as dated verification snapshots.
+
+### Fixed
+
+- The new `bin/test` checks immediately caught and led to fixing: a
+  duplicate `.date-time-local-input` hook in the CSS template, and
+  duplicate single-line `input` / `menu-item` entries in the three
+  JS-framework registries.
+- `bin/check-links` caught and led to fixing 89 genuinely broken
+  markdown links: 75 wrong-depth `components/{slug}` links in Svelte
+  component copies, wrong-depth `themes/` and `AGENTS/` links in helper
+  docs, a `locales.tsv` link from the relocated locale-select spec, and
+  a malformed Mozilla link in `comparisons/index.md`.
+- `.claude/settings.local.json` untracked and ignored.
+- Verified this release: `bin/test` and `bin/check-links` green; 372 JS
+  helper tests, 1,497 Blazor headless bUnit tests, and 51 Blazor helpers
+  tests pass.
+
 ## 0.5.0 — 2026-07-03
 
 ### Added

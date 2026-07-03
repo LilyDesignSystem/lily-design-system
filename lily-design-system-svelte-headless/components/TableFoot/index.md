@@ -4,7 +4,7 @@ A table interactive grid tfoot <tfoot>.
 
 ## Canonical documentation
 
-See [components/table-foot/index.md](../../../../components/table-foot/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/table-foot/index.md](../../../components/table-foot/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

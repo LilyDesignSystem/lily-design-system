@@ -4,7 +4,7 @@ A banner showing service development phase and inviting feedback.
 
 ## Canonical documentation
 
-See [components/phase-banner/index.md](../../../../components/phase-banner/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/phase-banner/index.md](../../../components/phase-banner/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

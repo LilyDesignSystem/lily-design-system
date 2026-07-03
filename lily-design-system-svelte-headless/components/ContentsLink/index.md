@@ -4,7 +4,7 @@ One table of contents link.
 
 ## Canonical documentation
 
-See [components/contents-link/index.md](../../../../components/contents-link/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/contents-link/index.md](../../../components/contents-link/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

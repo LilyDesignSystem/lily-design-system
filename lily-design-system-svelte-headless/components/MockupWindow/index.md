@@ -4,7 +4,7 @@ A box area that looks like a desktop window.
 
 ## Canonical documentation
 
-See [components/mockup-window/index.md](../../../../components/mockup-window/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/mockup-window/index.md](../../../components/mockup-window/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

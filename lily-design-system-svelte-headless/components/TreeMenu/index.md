@@ -4,7 +4,7 @@ A hierarchical tree menu with expandable branches.
 
 ## Canonical documentation
 
-See [components/tree-menu/index.md](../../../../components/tree-menu/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/tree-menu/index.md](../../../components/tree-menu/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

@@ -4,7 +4,7 @@ One pagination link in the trail.
 
 ## Canonical documentation
 
-See [components/pagination-link/index.md](../../../../components/pagination-link/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/pagination-link/index.md](../../../components/pagination-link/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

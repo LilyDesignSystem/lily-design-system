@@ -4,7 +4,7 @@ One section navigation item.
 
 ## Canonical documentation
 
-See [components/section-list-item/index.md](../../../../components/section-list-item/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/section-list-item/index.md](../../../components/section-list-item/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

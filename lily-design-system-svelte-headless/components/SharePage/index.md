@@ -4,7 +4,7 @@ A component for sharing the page on social media.
 
 ## Canonical documentation
 
-See [components/share-page/index.md](../../../../components/share-page/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/share-page/index.md](../../../components/share-page/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

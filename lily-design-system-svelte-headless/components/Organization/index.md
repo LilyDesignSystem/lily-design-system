@@ -4,7 +4,7 @@ An organization component that contains other organization-related information.
 
 ## Canonical documentation
 
-See [components/organization/index.md](../../../../components/organization/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
+See [components/organization/index.md](../../../components/organization/index.md) for the full component documentation, including ARIA, keyboard interactions, props, and usage guidance.
 
 ## Svelte usage
 

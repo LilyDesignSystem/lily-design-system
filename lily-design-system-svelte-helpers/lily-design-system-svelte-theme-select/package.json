@@ -1,6 +1,6 @@
 {
   "name": "lily-design-system-svelte-theme-select",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Lily Design System - Svelte 5 theme select",
   "type": "module",
   "svelte": "./dist/index.js",

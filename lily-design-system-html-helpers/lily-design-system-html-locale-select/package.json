@@ -1,6 +1,6 @@
 {
   "name": "lily-design-system-html-locale-select",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Lily Design System - HTML custom element locale select",
   "type": "module",
   "main": "./dist/index.js",
