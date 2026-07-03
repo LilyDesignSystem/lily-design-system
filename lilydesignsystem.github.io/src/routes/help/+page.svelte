@@ -2,7 +2,7 @@
   <title>Help — Lily Design System</title>
   <meta
     name="description"
-    content="Get started with Lily: install the headless package for your framework, copy a component, style it, ship it."
+    content="Get started with Lily: install the headless package for your framework, copy a component, style it, theme it, ship it. Troubleshooting, FAQ, and support."
   />
 </svelte:head>
 
@@ -11,7 +11,8 @@
   <h1>Getting started with Lily</h1>
   <p class="hero-tagline">
     Pick a framework, clone the headless repo or the example app, and start
-    composing your own pages.
+    composing your own pages. Prefer a guided path? Start with the
+    <a href="/tutorials/">tutorials</a>.
   </p>
 </section>
 
@@ -22,10 +23,14 @@
     <li><a href="#use-headless">Use a headless component</a></li>
     <li><a href="#use-styled">Use a styled example</a></li>
     <li><a href="#styling">Styling and design tokens</a></li>
+    <li><a href="#themes">Ready-made themes</a></li>
+    <li><a href="#helpers">Preference helpers</a></li>
     <li><a href="#a11y">Accessibility</a></li>
     <li><a href="#i18n">Internationalization</a></li>
     <li><a href="#testing">Testing</a></li>
+    <li><a href="#troubleshooting">Troubleshooting</a></li>
     <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#community">Community and support</a></li>
     <li><a href="#faq">FAQ</a></li>
   </ul>
 </nav>
@@ -45,13 +50,16 @@ pnpm install`}</code></pre>
     <li><code>lily-design-system-svelte-headless</code> — <code>pnpm install</code></li>
     <li><code>lily-design-system-react-headless</code> — <code>pnpm install</code></li>
     <li><code>lily-design-system-vue-headless</code> — <code>pnpm install</code></li>
+    <li><code>lily-design-system-angular-headless</code> — <code>pnpm install</code></li>
     <li><code>lily-design-system-nunjucks-headless</code> — <code>pnpm install</code></li>
-    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code> (in progress)</li>
+    <li><code>lily-design-system-blazor-headless</code> — <code>dotnet build</code></li>
   </ul>
   <p>
-    Lily is being released bit-by-bit; npm/PyPI/NuGet packaging is on the
-    roadmap. For now, treat the source as the source of truth and copy what you
-    need.
+    The headless libraries are designed to be cloned or vendored — treat the
+    source as the source of truth and copy what you need. The
+    <a href="#helpers">preference helpers</a> additionally ship as installable
+    packages with a build and publish pipeline (npm for the JS frameworks,
+    NuGet for Blazor).
   </p>
 </section>
 
@@ -90,6 +98,17 @@ pnpm install`}</code></pre>
 
 <Button @click="save">Save</Button>`}</code></pre>
 
+  <h3>Angular</h3>
+  <pre><code>{`import { Button } from "lily-design-system-angular-headless";
+
+@Component({
+  imports: [Button],
+  template: \`<lily-button (click)="save()">Save</lily-button>\`,
+})`}</code></pre>
+
+  <h3>Blazor</h3>
+  <pre><code>{`<Button OnClick="Save">Save</Button>`}</code></pre>
+
   <h3>Nunjucks</h3>
   <pre><code>{`{% from "components/button/macro.njk" import button %}
 
@@ -100,8 +119,8 @@ pnpm install`}</code></pre>
   <h2>Use a styled example</h2>
   <p>
     The example apps include CSS, routes, and full demo pages. The fastest way
-    to experiment is to start the SvelteKit, Next, Nuxt, or Eleventy example
-    app and view the demo at <code>/components</code>.
+    to experiment is to start the SvelteKit, Next, Nuxt, Analog, or Eleventy
+    example app and view the demo at <code>/components</code>.
   </p>
   <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-sveltekit-examples
 cd lily-design-system-svelte-sveltekit-examples
@@ -141,6 +160,69 @@ pnpm run dev`}</code></pre>
   </p>
 </section>
 
+<section class="section prose" id="themes" style="margin: 0 auto;">
+  <h2>Ready-made themes</h2>
+  <p>
+    Don't want to write CSS from scratch? Lily ships
+    <strong>45 standalone reference themes</strong> in the
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/themes">themes/</a>
+    directory. Each is one stylesheet targeting the Lily class hooks — link it
+    and you're styled:
+  </p>
+  <pre><code>{`<link rel="stylesheet" href="/themes/united-kingdom-government-digital-service.css" />`}</code></pre>
+  <p>The set covers:</p>
+  <ul>
+    <li>
+      <strong>Public sector</strong> — NHS England, NHS Scotland, and NHS Wales
+      (patient-facing and practitioner-facing variants each), GOV.UK GDS, and
+      the U.S. Web Design System.
+    </li>
+    <li><strong>Vendor-inspired</strong> — Adobe Spectrum, Mozilla Protocol.</li>
+    <li>
+      <strong>General purpose</strong> — light, dark, nord, dracula, wireframe,
+      and thirty-odd more.
+    </li>
+  </ul>
+  <p>
+    Theme selectors use <code>:where(...)</code>, so your own CSS always wins
+    on specificity. Pair them with the <code>theme-select</code> helper below
+    for runtime switching, or follow the
+    <a href="/tutorials/theming/">theming tutorial</a>.
+  </p>
+</section>
+
+<section class="section prose" id="helpers" style="margin: 0 auto;">
+  <h2>Preference helpers</h2>
+  <p>
+    Each framework has a companion <code>*-helpers</code> catalog with three
+    small packages that each own one user preference end to end — selection,
+    DOM application, and optional <code>localStorage</code> persistence. Each
+    renders a native <code>&lt;select&gt;</code>, is SSR-safe, and ships no CSS:
+  </p>
+  <ul>
+    <li>
+      <strong>theme-select</strong> — loads theme stylesheets at runtime by
+      swapping a managed <code>&lt;link&gt;</code>, and sets
+      <code>data-theme</code> on the document.
+    </li>
+    <li>
+      <strong>locale-select</strong> — sets <code>lang</code> and
+      <code>dir</code> (with automatic RTL detection) so your i18n library
+      can follow; performs no translation itself.
+    </li>
+    <li>
+      <strong>text-size-select</strong> — sets <code>data-text-size</code> on
+      the document; your CSS maps each value to font sizing.
+    </li>
+  </ul>
+  <pre><code>{`git clone https://github.com/LilyDesignSystem/lily-design-system-svelte-helpers`}</code></pre>
+  <p>
+    The Svelte catalog is the canonical reference; React, Vue, Angular, HTML,
+    Nunjucks, and Blazor ports match it contract-for-contract. See the
+    <a href="/tutorials/helpers/">helpers tutorial</a>.
+  </p>
+</section>
+
 <section class="section prose" id="a11y" style="margin: 0 auto;">
   <h2>Accessibility</h2>
   <p>Components target <strong>WCAG 2.2 AAA</strong>. They follow these patterns:</p>
@@ -155,7 +237,8 @@ pnpm run dev`}</code></pre>
   </ul>
   <p>
     Focus indicators are intentionally consumer-supplied — Lily never paints a
-    default focus ring that conflicts with your design.
+    default focus ring that conflicts with your design. The example apps hold
+    a clean axe-core baseline across their routes.
   </p>
 </section>
 
@@ -171,6 +254,11 @@ pnpm run dev`}</code></pre>
     strings: you format with <code>Intl.DateTimeFormat</code> /
     <code>Intl.NumberFormat</code> / your preferred library and pass the result.
   </p>
+  <p>
+    The <code>locale-select</code> helper signals the chosen locale to your
+    i18n library by setting <code>lang</code> and <code>dir</code> on the
+    document root.
+  </p>
 </section>
 
 <section class="section prose" id="testing" style="margin: 0 auto;">
@@ -181,20 +269,89 @@ pnpm run dev`}</code></pre>
     <li><strong>Svelte</strong>: Vitest + <code>@testing-library/svelte</code>.</li>
     <li><strong>React</strong>: Vitest + <code>@testing-library/react</code>.</li>
     <li><strong>Vue</strong>: Vitest + <code>@testing-library/vue</code>.</li>
+    <li><strong>Angular</strong>: Vitest + TestBed (via the Analog Vite plugin).</li>
     <li><strong>Nunjucks</strong>: Vitest with a render helper.</li>
-    <li><strong>Blazor</strong>: bUnit (planned).</li>
+    <li><strong>Blazor</strong>: bUnit.</li>
   </ul>
   <p>
     Tests use <strong>Vitest's built-in matchers only</strong> — never
     <code>jest-dom</code> matchers. This keeps the test suites portable.
+    The example apps add Playwright end-to-end suites, axe-core accessibility
+    baselines, and a responsive viewport sweep.
   </p>
+</section>
+
+<section class="section prose" id="troubleshooting" style="margin: 0 auto;">
+  <h2>Troubleshooting</h2>
+
+  <details class="faq-item">
+    <summary>A component renders but looks unstyled</summary>
+    <p>
+      That's headless working as intended — no CSS ships with the component.
+      Either write CSS against the component's kebab-case class (shown on
+      every <a href="/components/">catalog page</a>) or link one of the
+      <a href="#themes">45 ready-made themes</a>.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>My CSS doesn't seem to apply over a theme</summary>
+    <p>
+      It should — theme selectors are wrapped in <code>:where(...)</code>,
+      which has zero specificity. If a rule still loses, check that your
+      stylesheet loads after the theme's <code>&lt;link&gt;</code> and that
+      the selector actually matches the component's class hook.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>pnpm install fails with a peer or version error</summary>
+    <p>
+      Use a current pnpm (v10+) and Node 22+. Each repo pins its framework
+      versions in <code>package.json</code>; if your global toolchain is
+      older, <code>pnpm env use --global lts</code> is the quickest fix.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Screen reader announces the wrong name for a control</summary>
+    <p>
+      Check the component's required <code>label</code> prop — components
+      that lack visible text require one, and consumer-supplied
+      <code>aria-label</code> / <code>aria-labelledby</code> passed through
+      rest-props intentionally win over the built-in wiring. Each catalog
+      page documents the component's ARIA contract.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>The theme-select helper doesn't switch stylesheets</summary>
+    <p>
+      Confirm <code>themesUrl</code> points at a directory the browser can
+      fetch (serve the <code>themes/</code> files as static assets) and that
+      the theme slugs in your <code>themes</code> prop match the file names.
+      The helper swaps the <code>href</code> of one managed
+      <code>&lt;link data-lily-theme-select&gt;</code> — inspect it in
+      devtools to see the URL being requested.
+    </p>
+  </details>
+
+  <details class="faq-item">
+    <summary>Something else is broken</summary>
+    <p>
+      Open an issue with a minimal reproduction on the relevant repo at
+      <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a> —
+      or see <a href="#community">community and support</a>.
+    </p>
+  </details>
 </section>
 
 <section class="section prose" id="contributing" style="margin: 0 auto;">
   <h2>Contributing</h2>
-  <p>Lily is brand-new and welcomes collaboration. The most useful contributions right now are:</p>
+  <p>Lily is young and welcomes collaboration. The most useful contributions right now are:</p>
   <ul>
     <li>New components (especially patterns from established design systems).</li>
+    <li>New themes — each is one standalone stylesheet, a well-scoped first PR.</li>
     <li>Better example styling — show off what's possible.</li>
     <li>Translations of example app strings.</li>
     <li>Bug reports with a minimal reproduction.</li>
@@ -206,6 +363,32 @@ pnpm run dev`}</code></pre>
   </p>
 </section>
 
+<section class="section prose" id="community" style="margin: 0 auto;">
+  <h2>Community and support</h2>
+  <ul>
+    <li>
+      <strong>Questions and bug reports</strong> — open an issue on the
+      relevant repo at
+      <a href="https://github.com/LilyDesignSystem">github.com/LilyDesignSystem</a>.
+    </li>
+    <li>
+      <strong>Email</strong> — the maintainer reads
+      <a href="mailto:joel@joelparkerhenderson.com">joel@joelparkerhenderson.com</a>
+      and welcomes collaboration, guidance, and feedback.
+    </li>
+    <li>
+      <strong>Mirrors</strong> — Lily is also pushed to
+      <a href="https://codeberg.org/LilyDesignSystem">Codeberg</a> and
+      <a href="https://gitlab.com/LilyDesignSystem">GitLab</a>, so you can
+      participate from the forge you prefer.
+    </li>
+    <li>
+      <strong>Conduct</strong> — the project follows a standard code of
+      conduct; be kind, assume good faith.
+    </li>
+  </ul>
+</section>
+
 <section class="section prose" id="faq" style="margin: 0 auto;">
   <h2>FAQ</h2>
 
@@ -214,8 +397,9 @@ pnpm run dev`}</code></pre>
     <p>
       Pre-styled components are convenient — until they don't match your brand.
       Headless components are slightly more work up front but give you total
-      control over the visual design. The example apps show one way to style
-      them; you can take that or replace it entirely.
+      control over the visual design. The example apps and the 45 themes show
+      ways to style them; you can take those or replace them entirely.
+      The longer argument is on <a href="/why/">Why Lily</a>.
     </p>
   </details>
 
@@ -223,8 +407,9 @@ pnpm run dev`}</code></pre>
     <summary>Why so many components?</summary>
     <p>
       Lily aims to cover the patterns most apps need without forcing you to build
-      them from scratch. The catalog draws from a dozen established design
-      systems plus original work — see <a href="/about/#inspirations">About</a>.
+      them from scratch — including deep cuts like national identifier inputs
+      and editorial scrollytelling. The catalog draws from a dozen established
+      design systems plus original work — see <a href="/about/">About</a>.
     </p>
   </details>
 
@@ -249,9 +434,11 @@ pnpm run dev`}</code></pre>
   <details class="faq-item">
     <summary>Is there an npm package?</summary>
     <p>
-      Not yet. The headless repos are intended to be cloned and used directly,
-      or vendored into your project. npm/PyPI/NuGet publishing is on the
-      roadmap.
+      The <a href="#helpers">preference helpers</a> ship as packages with an
+      npm/NuGet publish pipeline. The headless component libraries are
+      designed to be cloned or vendored — the source is the deliverable, so
+      you can read, trim, and own exactly what you ship. Registry publishing
+      for the headless libraries remains on the roadmap.
     </p>
   </details>
 

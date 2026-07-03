@@ -6,10 +6,12 @@
   type NavLink = { href: string; label: string };
   const navLinks: NavLink[] = [
     { href: '/', label: 'Home' },
-    { href: '/about/', label: 'About' },
+    { href: '/why/', label: 'Why Lily' },
     { href: '/components/', label: 'Components' },
+    { href: '/tutorials/', label: 'Tutorials' },
     { href: '/examples/', label: 'Examples' },
-    { href: '/help/', label: 'Help' }
+    { href: '/help/', label: 'Help' },
+    { href: '/about/', label: 'About' }
   ];
 
   function isCurrent(href: string): boolean {
@@ -50,8 +52,10 @@
     <p>© Lily Design System. Free open source — BSD, MIT, Apache-2.0, GPL-2.0, or GPL-3.0.</p>
     <div class="site-footer-links">
       <a href="https://github.com/LilyDesignSystem">GitHub</a>
-      <a href="/about/">About</a>
+      <a href="/why/">Why Lily</a>
+      <a href="/tutorials/">Tutorials</a>
       <a href="/help/">Help</a>
+      <a href="/about/">About</a>
     </div>
   </div>
 </footer>
