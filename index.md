@@ -57,7 +57,7 @@ The theme-select helper loads them at runtime.
 
 ## Components
 
-The canonical catalog is [components.tsv](components.tsv) — 490 components. Each
+The canonical catalog is [components.tsv](components.tsv) — 491 components. Each
 slug below links to the per-component documentation.
 
 - [accordion-checkbox](components/accordion-checkbox): a checkbox option that reveals an accordion panel when checked
@@ -289,6 +289,7 @@ slug below links to the per-component documentation.
 - [icon-list](components/icon-list): an ordered list of icon list item components
 - [icon-list-item](components/icon-list-item): one item in an icon list with a leading icon slot
 - [image](components/image): an image element with alt text
+- [image-cropper](components/image-cropper): a container for cropping and resizing an image to a selected region
 - [image-file-input](components/image-file-input): an input for selecting image files with preview
 - [image-input](components/image-input): a graphical submit button that displays an image <input type="image">
 - [info-state](components/info-state): a composition of illustration, title, description, and action for empty, error, or info states

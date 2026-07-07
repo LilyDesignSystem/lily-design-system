@@ -228,6 +228,7 @@ export const componentDemos: Record<string, string> = {
   'icon-list': '<div class="icon-list" aria-label="an ordered list of icon list item components">IconList</div>',
   'icon-list-item': '<div class="icon-list-item" aria-label="one item in an icon list with a leading icon slot">IconListItem</div>',
   'image': '<img class="image" alt="Placeholder image" src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'100\'%3E%3Crect fill=\'%23e5e7eb\' width=\'200\' height=\'100\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23666\'%3EImage%3C/text%3E%3C/svg%3E" />',
+  'image-cropper': '<div class="image-cropper" role="img" aria-label="Crop image" style="position:relative;width:200px;height:120px;border:1px solid #d1d5db;background:#e5e7eb;display:flex;align-items:center;justify-content:center;color:#666;"><span>Image</span><span style="position:absolute;inset:16px;border:2px dashed #005eb8;"></span></div>',
   'image-file-input': '<input class="image-file-input" type="file" accept="image/*" aria-label="Choose image" />',
   'image-input': '<input class="image-input" type="image" alt="Submit" />',
   'info-state': '<div class="info-state" aria-label="a composition of illustration, title, description, and action for empty, error, or info states">InfoState</div>',

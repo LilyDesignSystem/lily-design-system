@@ -4,7 +4,7 @@ Living specification: [spec/index.md](../spec/index.md)
 
 [CSS style sheet template](../css-style-sheet-template.css)
 
-Canonical component list: [components.tsv](../components.tsv) — 490 components.
+Canonical component list: [components.tsv](../components.tsv) — 491 components.
 
 ## Subprojects for headless components
 

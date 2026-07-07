@@ -227,6 +227,7 @@ icon-button	IconButton	a button containing only an icon with a required accessib
 icon-list	IconList	an ordered list of icon list item components
 icon-list-item	IconListItem	one item in an icon list with a leading icon slot
 image	Image	an image element with alt text
+image-cropper	ImageCropper	a container for cropping and resizing an image to a selected region
 image-file-input	ImageFileInput	an input for selecting image files with preview
 image-input	ImageInput	a graphical submit button that displays an image <input type="image">
 info-state	InfoState	a composition of illustration, title, description, and action for empty, error, or info states
