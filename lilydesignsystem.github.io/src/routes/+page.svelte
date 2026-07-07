@@ -11,43 +11,17 @@
 </svelte:head>
 
 <section class="hero">
-  <img
-    class="hero-logo"
-    src="/assets/images/lily-design-system-icon/lily-design-system-icon.svg"
-    alt=""
-    aria-hidden="true"
-  />
-  <p class="hero-eyebrow">Free · Open source · Accessible</p>
-  <h1>Build accessible products faster.</h1>
+  <h1>Build your web designs faster.</h1>
   <p class="hero-tagline">
-    Welcome to Lily — a free, open-source design system with
-    {LILY_COMPONENTS.length} headless components for HTML, Svelte, React,
-    Vue, Angular, Blazor, and Nunjucks. You bring the CSS; the semantics,
-    keyboard behaviour, accessibility, and internationalization arrive
-    ready-made.
+    Lily is a free open-source design system with
+    hundreds of components. Lily provides versions for HTML, Svelte, React,
+    Vue, Angular, Blazor, and Nunjucks. Lily provides headless versions
+    where you can bring your own CSS, and also provides styled examples.
   </p>
   <div class="button-row">
     <a class="button button-primary" href="/tutorials/">Start the tutorial</a>
-    <a class="button button-secondary" href="/components/">Browse {LILY_COMPONENTS.length} components</a>
+    <a class="button button-secondary" href="/components/">Browse headless components</a>
     <a class="button button-secondary" href="/examples/">Explore styled examples</a>
-  </div>
-  <div class="stat-row" aria-label="Lily by the numbers">
-    <div class="stat">
-      <span class="stat-value">{LILY_COMPONENTS.length}</span>
-      <span class="stat-label">components</span>
-    </div>
-    <div class="stat">
-      <span class="stat-value">7</span>
-      <span class="stat-label">frameworks</span>
-    </div>
-    <div class="stat">
-      <span class="stat-value">45</span>
-      <span class="stat-label">ready-made themes</span>
-    </div>
-    <div class="stat">
-      <span class="stat-value">AAA</span>
-      <span class="stat-label">WCAG 2.2 target</span>
-    </div>
   </div>
 </section>
 
@@ -59,15 +33,9 @@
 
   <div class="prose" style="margin: 0 auto;">
     <p>
-      Your team already knows how your product should look. Lily starts from
-      that happy premise: it supplies everything underneath the look — the
-      right semantic element, the ARIA states, the keyboard contract, focus
-      management — and leaves every visual decision joyfully open for you.
-    </p>
-    <p>
-      Every component ships as pure structure, freeing you to style it
-      exactly the way your brand deserves — while the parts that take real
-      expertise arrive ready-made:
+      Your team has ideas about how your product should look. Lily provides
+      semantic elements, ARIA states, keyboard contracts, focus
+      management, and more - and you can style all the components as you wish.
     </p>
     <pre><code>{`<!-- What Lily renders: semantic HTML, correct ARIA, one class hook -->
 <button class="button" type="button">Save</button>`}</code></pre>
@@ -79,7 +47,7 @@
 }`}</code></pre>
     <p>
       One stable class hook per component. Zero CSS shipped. Your styles
-      apply cleanly and stay cleanly yours, upgrade after upgrade.
+      apply cleanly and stay cleanly yours.
     </p>
   </div>
 </section>
@@ -127,7 +95,7 @@
   <div class="prose" style="margin: 0 auto;">
     <p>
       Curious what Lily looks like fully dressed? Seven complete example apps
-      show every one of the {LILY_COMPONENTS.length} components live and
+      show the} components live and
       styled — one app per framework: plain HTML+CSS+JS, SvelteKit, Next.js,
       Nuxt, Angular + Analog, Blazor Web, and Nunjucks + Eleventy.
     </p>
