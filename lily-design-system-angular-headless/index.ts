@@ -231,6 +231,7 @@ export { IconButton } from "./components/IconButton";
 export { IconList } from "./components/IconList";
 export { IconListItem } from "./components/IconListItem";
 export { Image } from "./components/Image";
+export { ImageCropper } from "./components/ImageCropper";
 export { ImageFileInput } from "./components/ImageFileInput";
 export { ImageInput } from "./components/ImageInput";
 export { InfoState } from "./components/InfoState";

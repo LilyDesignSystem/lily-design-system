@@ -36,7 +36,7 @@ coding agents.
 | [accessibility](accessibility/index.md) | WCAG 2.2 AAA target, WAI-ARIA APG patterns, ARIA reference table, axe-core baselines. |
 | [internationalization](internationalization/index.md) | No hardcoded strings, stable text-prop names, locale-aware props, RTL/bidi. |
 | [theme](theme/index.md) | Token shape, `--theme-*` custom properties, `data-theme` variants, the headless forbidden-list. |
-| [components](components/index.md) | The 490-component catalog, suffix→element mapping, name patterns, composition, per-component docs. |
+| [components](components/index.md) | The 491-component catalog, suffix→element mapping, name patterns, composition, per-component docs. |
 | [examples](examples/index.md) | Example apps, the three required routes, NHS reference styling, demo render mechanisms. |
 | [tooling](tooling/index.md) | The `bin/` scripts, the rsync sync model, `bin/test` verification, subtree push. |
 | [testing](testing/index.md) | Per-framework test suites, Storybook coverage, Playwright e2e, axe, responsive sweep. |
@@ -80,7 +80,7 @@ committing.
 
 ### In scope
 
-- A canonical catalog of 490 components (`components.tsv`).
+- A canonical catalog of 491 components (`components.tsv`).
 - Seven headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks.
 - Seven example applications: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js,
   Angular Analog, Blazor Web, Nunjucks Eleventy.
@@ -110,8 +110,8 @@ committing.
 ```
 lily-design-system/                            ← canonical catalog + tools
 ├── AGENTS.md, AGENTS/*.md                     ← modular reference docs
-├── components.tsv                             ← canonical 490-component list
-├── components/{slug}/                         ← per-component docs (490 dirs)
+├── components.tsv                             ← canonical 491-component list
+├── components/{slug}/                         ← per-component docs (491 dirs)
 ├── css-style-sheet-template.css               ← class-hook stylesheet template
 ├── bin/                                       ← scaffolding, listing, sync, test, publish
 ├── spec/                                      ← the specification (this file is spec/index.md
@@ -146,7 +146,7 @@ standalone remote via `bin/git-subtree-push`.
 ### The three subproject layers
 
 - **Headless** (7 subprojects) — framework libraries mirroring the full
-  490-component catalog: unstyled, accessible, zero CSS.
+  491-component catalog: unstyled, accessible, zero CSS.
 - **Examples** (7 subprojects) — complete styled reference applications
   demonstrating every component with the NHS UK visual reference.
 - **Helpers** (7 subprojects) — small catalogs of opinionated packages that
@@ -244,7 +244,7 @@ tab-separated columns: slug, PascalCase name, description. Mirrored by
 implementations; the example-app registries are regenerated from it by
 `bin/generate-registries`.
 
-**Current count: 490 components.**
+**Current count: 491 components.**
 
 The catalog spans forms, navigation, tables, layout, editorial /
 scrollytelling, data visualisation, media, overlays, pickers and
@@ -319,7 +319,7 @@ The companion `AGENTS.md` carries the canonical machine-readable metadata
 - Code examples use semantic HTML with proper ARIA.
 - No hardcoded user-facing strings in examples — use realistic placeholder
   content.
-- Consistent voice across all 490 components.
+- Consistent voice across all 491 components.
 
 ### 8.2 Component demo strategy (example subprojects)
 
@@ -396,11 +396,11 @@ checked is considered live work; anything unchecked is queued in §12.
 
 ### 11.1 Catalog & docs
 
-- [x] Canonical component list defined (490 components in `components.tsv`).
+- [x] Canonical component list defined (491 components in `components.tsv`).
 - [x] CSS style sheet template covers every component class hook.
-- [x] All 490 components have a directory in `components/` with `index.md`,
+- [x] All 491 components have a directory in `components/` with `index.md`,
       `README.md` (symlink), `AGENTS.md`, `CLAUDE.md`, `spec/index.md`.
-- [x] All 490 components have separate "When to Use" and "When Not to Use"
+- [x] All 491 components have separate "When to Use" and "When Not to Use"
       sections (not combined).
 - [x] All "When Not to Use" sections name specific Lily component alternatives.
 - [x] All 37 NHS-equivalent components enhanced with NHS-researched guidance.

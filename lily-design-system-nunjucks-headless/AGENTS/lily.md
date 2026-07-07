@@ -4,7 +4,7 @@ Living specification: [spec/index.md](../spec/index.md)
 
 [CSS style sheet template](../css-style-sheet-template.css)
 
-Canonical component list: [components.tsv](../components.tsv) — 490 components.
+Canonical component list: [components.tsv](../components.tsv) — 491 components.
 
 ## Subprojects for headless components
 
@@ -55,6 +55,8 @@ The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS En
 - [git-subtree-push](../bin/git-subtree-push): Push each subtree to its remote
 - [generate-storybook-stories.mjs](../bin/generate-storybook-stories.mjs): Generate Storybook stories
 - [publish-helpers](../bin/publish-helpers): Build and publish the 21 helper packages (npm / NuGet)
+- [generate-registries](../bin/generate-registries): Regenerate example-app catalog registries from components.tsv
+- [check-links](../bin/check-links): Verify relative markdown links resolve
 
 ## Inspirations
 

@@ -9,6 +9,9 @@ Design systems and headless component libraries that Lily learns from. Each is a
 - [Melt UI](https://www.melt-ui.com/) — Svelte headless builders
 - [Radix UI](https://www.radix-ui.com/) — React headless primitives
 - [shadcn/ui](https://ui.shadcn.com/) — copy-paste React components on top of Radix
+- [Origin UI](https://originui.com/) — copy-paste Tailwind CSS components (React)
+- [Origin UI Angular (originui-ng)](https://www.originui-ng.com/) — Angular + Tailwind CSS port built on RadixNG and Angular CDK
+- [Coss UI](https://coss.com/ui) — modern component library built on Base UI (successor to Origin UI)
 - [Reuters Graphics components](https://github.com/reuters-graphics/graphics-components) — Svelte components for editorial graphics
 
 ## Styled / opinionated design systems

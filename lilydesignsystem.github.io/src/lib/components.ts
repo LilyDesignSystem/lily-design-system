@@ -237,6 +237,7 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "icon-list", pascal: "IconList", description: "an ordered list of icon list item components" },
   { name: "icon-list-item", pascal: "IconListItem", description: "one item in an icon list with a leading icon slot" },
   { name: "image", pascal: "Image", description: "an image element with alt text" },
+  { name: "image-cropper", pascal: "ImageCropper", description: "a container for cropping and resizing an image to a selected region" },
   { name: "image-file-input", pascal: "ImageFileInput", description: "an input for selecting image files with preview" },
   { name: "image-input", pascal: "ImageInput", description: "a graphical submit button that displays an image <input type=\"image\">" },
   { name: "info-state", pascal: "InfoState", description: "a composition of illustration, title, description, and action for empty, error, or info states" },

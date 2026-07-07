@@ -1,0 +1,12 @@
+---
+layout: layouts/component-demo.njk
+title: Image Cropper
+description: a container for cropping and resizing an image to a selected region
+---
+
+{% from "components/image-cropper/macro.njk" import imageCropper %}
+
+<p><label>Crop your profile photo</label></p>
+{% call imageCropper({ label: "Crop your profile photo" }) %}
+  <img src="https://placehold.co/400x300" alt="Photo to crop">
+{% endcall %}

@@ -928,6 +928,10 @@
 .image {
 }
 
+/* image-cropper: a container for cropping and resizing an image to a selected region */
+.image-cropper {
+}
+
 /* image-file-input: an input for selecting image files with preview */
 .image-file-input {
 }

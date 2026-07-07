@@ -1151,6 +1151,11 @@ export const components: Component[] = [
       description: "an image element with alt text",
   },
   {
+      slug: "image-cropper",
+      name: "ImageCropper",
+      description: "a container for cropping and resizing an image to a selected region",
+  },
+  {
       slug: "image-file-input",
       name: "ImageFileInput",
       description: "an input for selecting image files with preview",
