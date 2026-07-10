@@ -14,9 +14,9 @@
   <h1>Build web designs better.</h1>
   <p class="hero-tagline">
     Lily™ is a free open-source design system with
-    hundreds of components. Lily provides versions for HTML, Svelte, React,
-    Vue, Angular, Blazor, and more, with headless versions
-    where you can bring your own CSS, and styled examples with customizable themes.
+    hundreds of components. Lily provides versions for Svelte, React,
+    Vue, Angular, Blazor, Nunjucks, and HTML. You can use headless 
+    where you bring your own CSS, or styled customizable themes.
   </p>
   <div class="button-row">
     <a class="button button-primary" href="/tutorials/">Start the tutorial</a>
