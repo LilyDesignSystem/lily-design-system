@@ -122,3 +122,7 @@ classes for fine-grained control.
 - US Web Design System Collection: https://designsystem.digital.gov/components/collection/
 - HTML `<li>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li
 - WCAG 1.1.1 Non-text Content: https://www.w3.org/WAI/WCAG22/Understanding/non-text-content
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

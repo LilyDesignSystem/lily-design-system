@@ -223,3 +223,7 @@ select reacts via its `effect()`.
 
 The projection slot is purely a markup escape hatch; it does not
 change the behavioural contract.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

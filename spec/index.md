@@ -1,4 +1,4 @@
-# Lily Design System — Specification
+# Lily Design System™ — Specification
 
 Living, comprehensive specification for the Lily Design System. The `spec/`
 directory is the single source of truth for spec-driven development: this
@@ -16,7 +16,7 @@ Conventions used in this document:
 - "Name" = PascalCase identifier (e.g., `BreadcrumbListItem`).
 - "Headless subproject" = a framework library shipping unstyled, accessible components.
 - "Example subproject" = a framework app demonstrating components with full styling.
-- "Consumer" = the application or library that depends on a Lily headless package.
+- "Consumer" = the application or library that depends on a Lily™ headless package.
 
 The companion AGENTS files (`AGENTS.md`, `AGENTS/*.md`) are the modular reference docs
 that AI coding agents and humans should read; this spec links to and binds together
@@ -44,6 +44,7 @@ coding agents.
 | [helpers](helpers/index.md) | The `*-helpers` catalogs — theme-select, locale-select, text-size-select — their `<select>` contracts, manifests, and publish pipeline. |
 | [national-identifiers](national-identifiers/index.md) | The 80 national personal identifier components, normalization, validation algorithms. |
 | [citations](citations/index.md) | Design systems Lily learns from, the NHS UK reference, Reuters Graphics influence. |
+| [trademarks](trademarks.md) | The Lily™ / Lily Design System™ marks, the first-occurrence ™ convention, the standard footer. |
 
 ### How the topic docs are organised
 
@@ -734,3 +735,7 @@ Long-term:
   count from 407 to 492. axe-core baseline reaches 29/29 on every
   example app. Responsive viewport sweep ported to all 6 example
   apps. spec.md replaces the older split plan.md / tasks.md.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

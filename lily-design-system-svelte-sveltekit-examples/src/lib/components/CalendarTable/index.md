@@ -79,3 +79,7 @@ A calendar table interactive grid for managing dates, days, etc. <table>.
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

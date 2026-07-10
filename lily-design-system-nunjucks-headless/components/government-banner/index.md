@@ -81,3 +81,7 @@ attribute, and prop pass-through.
 
 - [USWDS: Banner](https://designsystem.digital.gov/components/banner/)
 - [WAI-ARIA: aria-expanded](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-expanded)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

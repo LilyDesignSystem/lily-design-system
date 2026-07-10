@@ -95,3 +95,7 @@ ContextMenuItem is the child component in the ContextMenu/ContextMenuItem compos
 ## References
 
 - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

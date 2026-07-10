@@ -68,3 +68,7 @@ The National Health Service Number (NHS) is England's healthcare identifier. For
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/NHS_number
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

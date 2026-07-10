@@ -94,3 +94,7 @@ The consumer provides all CSS styling. The component renders with a `.file-input
 ## References
 
 - MDN input type="file": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

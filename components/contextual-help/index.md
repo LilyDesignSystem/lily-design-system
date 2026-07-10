@@ -100,3 +100,7 @@ indicator on the trigger and ensure the panel is reachable by keyboard.
 - WAI-ARIA Dialog: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 - Adobe Spectrum Contextual Help: https://spectrum.adobe.com/page/contextual-help/
 - WCAG 1.3.1 Info and Relationships: https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

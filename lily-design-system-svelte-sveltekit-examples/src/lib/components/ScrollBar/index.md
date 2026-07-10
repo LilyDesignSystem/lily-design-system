@@ -86,3 +86,7 @@ A custom scrollbar element.
 ## References
 
 - WAI-ARIA scrollbar role: https://www.w3.org/TR/wai-aria-1.2/#scrollbar
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

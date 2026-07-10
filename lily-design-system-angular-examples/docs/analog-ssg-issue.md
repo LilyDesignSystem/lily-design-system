@@ -63,3 +63,7 @@ against the hydrated DOM: the HTML contains only the shell.
 - Vite 6.4.3, pnpm workspace with `pnpm-workspace.yaml` overrides
 - Bootstrap forwards the Angular 20 `BootstrapContext`:
   `(context) => bootstrapApplication(App, config, context)`
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

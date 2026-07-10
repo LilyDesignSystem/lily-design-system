@@ -71,3 +71,7 @@ rendering, and ordering.
 ## References
 
 - [Mozilla Protocol: Section Heading](https://protocol.mozilla.org/components/detail/section-heading)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

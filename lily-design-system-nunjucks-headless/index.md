@@ -1,4 +1,4 @@
-# Lily Design System - Nunjucks Headless
+# Lily Design System™ - Nunjucks Headless
 
 A headless Nunjucks component library with 490 components. All
 components are Nunjucks macros that render semantic HTML; they have no
@@ -191,3 +191,7 @@ MIT or Apache-2.0 or GPL-2.0 or GPL-3.0, or contact us for more.
 ## Contact
 
 Joel Parker Henderson (joel@joelparkerhenderson.com)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

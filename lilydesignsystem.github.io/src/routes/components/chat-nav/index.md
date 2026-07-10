@@ -111,3 +111,7 @@ ChatNav follows the Nav / List / ListItem composition pattern:
 ## References
 
 - WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apg/patterns/landmark/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

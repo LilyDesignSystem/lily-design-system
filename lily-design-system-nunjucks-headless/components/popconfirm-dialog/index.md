@@ -81,3 +81,7 @@ attribute reflecting `open`, and pass-through.
 
 - [WAI-ARIA: alertdialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/)
 - [Ant Design: Popconfirm](https://ant.design/components/popconfirm)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

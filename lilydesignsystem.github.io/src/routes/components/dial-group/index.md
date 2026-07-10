@@ -91,3 +91,7 @@ DialGroup is a container for Dial components.
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

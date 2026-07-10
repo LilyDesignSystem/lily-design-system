@@ -83,3 +83,7 @@ An ordered list of task list items.
 ## References
 
 - WAI-ARIA list role: https://www.w3.org/TR/wai-aria-1.2/#list
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -117,3 +117,7 @@ on both buttons.
 
 - [WAI-ARIA: button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/)
 - [WAI-ARIA: menu button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menubutton/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

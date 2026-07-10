@@ -18,3 +18,7 @@ See [components/malta-passport-number-input/index.md](../../../components/malta-
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

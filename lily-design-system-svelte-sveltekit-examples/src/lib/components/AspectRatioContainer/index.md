@@ -82,3 +82,7 @@ A container that maintains a fixed aspect ratio.
 ## References
 
 - CSS aspect-ratio-container: https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio-container
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

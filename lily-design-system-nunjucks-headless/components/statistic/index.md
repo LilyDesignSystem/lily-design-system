@@ -90,3 +90,7 @@ text and HTML, and pass-through.
 ## References
 
 - [Ant Design: Statistic](https://ant.design/components/statistic)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

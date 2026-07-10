@@ -1,6 +1,6 @@
 # Examples
 
-> Lily Design System specification — topic doc. All topics: [spec index](../index.md).
+> Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
 **Summary.** The example subprojects are complete, styled reference applications that show what the headless components look like with real CSS, real interactivity, and a working app shell — every visual decision made and every user-facing string supplied.
 
@@ -10,7 +10,7 @@ Covers the seven example apps (HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js, Angular
 
 ## Principles and rules
 
-- **Complete stylesheet, no framework dependency.** Each app ships a full stylesheet. The current default visual reference is the NHS UK design system applied to Lily class names. No Tailwind, DaisyUI, Bootstrap, or other CSS-framework dependency.
+- **Complete stylesheet, no framework dependency.** Each app ships a full stylesheet. The current default visual reference is the NHS UK design system applied to Lily™ class names. No Tailwind, DaisyUI, Bootstrap, or other CSS-framework dependency.
 - **Target Lily kebab-case classes directly.** CSS selectors hit the kebab-case Lily base classes (e.g. `.breadcrumb-nav`) — no `nhsuk-` or other framework prefixes appear in the markup.
 - **CSS custom properties carry tokens.** Colour, spacing, typography, breakpoints, and focus are expressed as CSS custom properties so a team can swap the reference theme without touching component code. Alternative reference designs (GOV.UK, USWDS, Mozilla Protocol, Adobe Spectrum) can be added in parallel as `theme-*` layers.
 - **Example-only additions stay confined.** Apps may add extra class hooks or `data-*` attributes to drive variant styling, but those additions live only in the example subproject, never in the headless layer.
@@ -91,3 +91,7 @@ Demo HTML is generated from the component's suffix pattern (`*-input` → labele
 ## Sources
 - [AGENTS/examples.md](../../AGENTS/examples.md)
 - [spec/index.md](../index.md) — §4.5 (Examples), §8.2 (demo strategy), §11.5 (axe), §11.6 (responsive sweep)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

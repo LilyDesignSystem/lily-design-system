@@ -2,4 +2,8 @@
 
 a read-only display of Slovenia's Enotna Matična Številka Občana (EMŠO)
 
-See the canonical documentation at `components/slovenija-emso-view/index.md` in the Lily Design System repo.
+See the canonical documentation at `components/slovenija-emso-view/index.md` in the Lily Design System™ repo.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

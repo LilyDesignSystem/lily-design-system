@@ -102,3 +102,7 @@ The consumer provides all CSS styling. The component renders with a `.horizontal
 - Reuters Graphics HorizontalScroller
 - WAI-ARIA carousel pattern: https://www.w3.org/WAI/ARIA/apg/patterns/carousel/
 - CSS scroll snap: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_scroll_snap
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

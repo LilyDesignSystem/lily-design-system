@@ -68,3 +68,7 @@ The Paspoort Nummer is Netherlands's passport identifier. Format: 9 characters: 
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Dutch_passport
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

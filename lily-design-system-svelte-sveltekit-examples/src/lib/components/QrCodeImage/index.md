@@ -80,3 +80,7 @@ A QR code image generated from text or URL data.
 ## References
 
 - WAI-ARIA img Role: https://www.w3.org/TR/wai-aria-1.2/#img
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -1,4 +1,4 @@
-# Lily Design System - Svelte SvelteKit Examples
+# Lily Design System™ - Svelte SvelteKit Examples
 
 Svelte 5 + SvelteKit 2 example application demonstrating all 490 components from the [Lily Design System](https://github.com/LilyDesignSystem/lily) headless component library, styled with [NHS UK design system](https://service-manual.nhs.uk/design-system) colors, typography, spacing, and focus states.
 
@@ -202,3 +202,7 @@ MIT or Apache-2.0 or GPL-2.0 or GPL-3.0, or contact us for more options.
 ## Contact
 
 Joel Parker Henderson (joel@joelparkerhenderson.com)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

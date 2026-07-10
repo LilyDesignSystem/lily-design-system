@@ -103,3 +103,7 @@ The consumer provides all CSS styling. The component renders with a `.kbd` class
 ## References
 
 - MDN kbd element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/kbd
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

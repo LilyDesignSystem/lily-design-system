@@ -150,3 +150,7 @@ React 19 hoists `<link>` and `<style>` elements rendered inside
 components into `<head>`. The hoisting is automatic but happens
 after hydration — for first-paint preload, still prefer the
 server-rendered `<head>` declaration in `app/layout.tsx`.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -98,3 +98,7 @@ needed.
 
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
 - Ant Design Steps: https://ant.design/components/steps
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

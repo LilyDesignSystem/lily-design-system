@@ -75,3 +75,7 @@ An input for entering a España Tarjeta Sanitaria Individual (TSI) unique nation
 ## References
 
 - Ministerio de Sanidad: https://www.sanidad.gob.es/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -18,3 +18,7 @@ See [components/sverige-personnummer-input/index.md](../../../components/sverige
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -1,4 +1,4 @@
-# Changelog — Lily Design System
+# Changelog — Lily Design System™
 
 All notable changes to the canonical catalog and monorepo are documented
 here. Per-catalog helper changelogs live in each
@@ -76,7 +76,7 @@ highlights.
   first written as radio-group "pickers" (2026-06-05) and converted to
   native `<select>` controls (2026-06-17).
 - **Reference themes.** A root `themes/` directory with 45 standalone
-  theme stylesheets targeting the Lily class hooks: NHS England, NHS
+  theme stylesheets targeting the Lily™ class hooks: NHS England, NHS
   Scotland, and NHS Wales (patient + practitioner variants), GOV.UK GDS,
   USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose themes.
 - **`bin/publish-helpers`** release script for the 21 helper packages.
@@ -175,3 +175,7 @@ highlights.
 - axe-core baseline reaches full pass on every example app; responsive
   viewport sweep ported to all 6 example apps.
 - `spec/index.md` replaces the older split `plan.md` / `tasks.md`.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

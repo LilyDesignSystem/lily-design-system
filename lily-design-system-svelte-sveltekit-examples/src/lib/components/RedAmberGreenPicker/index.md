@@ -75,3 +75,7 @@ A picker for selecting a red/amber/green status.
 ## References
 
 - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

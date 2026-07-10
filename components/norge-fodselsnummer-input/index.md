@@ -68,3 +68,7 @@ The Fødselsnummer is Norway's national-id identifier. Format: 11 digits where t
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Norway
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

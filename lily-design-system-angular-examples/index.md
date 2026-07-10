@@ -1,4 +1,4 @@
-# Lily Design System - Angular Examples
+# Lily Design System™ - Angular Examples
 
 A reference application demonstrating every component in the Lily Design System using headless Angular components (copied from `lily-design-system-angular-headless`) plus the NHS UK visual reference styling.
 
@@ -33,3 +33,7 @@ pnpm test:e2e   # Playwright accessibility + responsive specs
 ## Status
 
 Initial scaffold. Infrastructure (package.json, vite + Analog config, tsconfig, app shell, file-based pages) and all required routes are in place. `pnpm install` + `pnpm dev` end-to-end verification deferred.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

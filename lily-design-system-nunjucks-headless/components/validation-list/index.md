@@ -66,3 +66,7 @@ pass-through.
 
 - [USWDS: Validation](https://designsystem.digital.gov/components/validation/)
 - [WAI-ARIA: aria-live](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-live)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

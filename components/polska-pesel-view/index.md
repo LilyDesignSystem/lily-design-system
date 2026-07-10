@@ -63,3 +63,7 @@ The PESEL is Poland's national-id identifier. Format: 11 numeric digits; assigne
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/PESEL
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

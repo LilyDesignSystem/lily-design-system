@@ -63,3 +63,7 @@ prop pass-through.
 ## References
 
 - [USWDS: Icon list](https://designsystem.digital.gov/components/icon-list/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

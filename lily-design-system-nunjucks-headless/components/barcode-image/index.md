@@ -22,3 +22,7 @@ See [components/barcode-image/index.md](../../../components/barcode-image/index.
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
 - `macro.stories.ts` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

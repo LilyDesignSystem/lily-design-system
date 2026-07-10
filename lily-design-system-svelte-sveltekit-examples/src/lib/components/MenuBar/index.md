@@ -83,3 +83,7 @@ A horizontal bar of menu triggers.
 ## References
 
 - WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -100,3 +100,7 @@ The consumer provides all CSS styling. The component renders with a `.date-input
 ## References
 
 - MDN date input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

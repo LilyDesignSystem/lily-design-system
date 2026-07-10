@@ -1,4 +1,4 @@
-# Lily Design System - Blazor Headless
+# Lily Design System™ - Blazor Headless
 
 A comprehensive headless Blazor component library with accessible, unstyled Razor components for building design systems. Every component follows WCAG 2.2 AAA guidelines with full ARIA support, keyboard navigation, and internationalization readiness.
 
@@ -166,3 +166,7 @@ MIT or Apache-2.0 or GPL-2.0 or GPL-3.0, or contact us for more options.
 ## Contact
 
 Joel Parker Henderson (joel@joelparkerhenderson.com)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

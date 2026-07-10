@@ -18,3 +18,7 @@ See [components/five-face-rating-view/index.md](../../../components/five-face-ra
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

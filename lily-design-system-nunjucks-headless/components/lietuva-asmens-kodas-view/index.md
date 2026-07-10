@@ -18,3 +18,7 @@ See [components/lietuva-asmens-kodas-view/index.md](../../../components/lietuva-
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

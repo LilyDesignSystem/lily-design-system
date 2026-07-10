@@ -86,3 +86,7 @@ The consumer provides all CSS styling. The component renders with a `.email-inpu
 ## References
 
 - MDN `<input type="email">`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

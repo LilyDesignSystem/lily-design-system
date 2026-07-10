@@ -103,3 +103,7 @@ The consumer provides all CSS styling. The component renders with a `.tile-map` 
 ## References
 
 - [Reuters Graphics TileMap component](https://github.com/reuters-graphics/graphics-components)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

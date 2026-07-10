@@ -156,3 +156,7 @@ Cons:
 
 The select's behaviour is identical under every strategy — only
 the surrounding HTML / service worker / build pipeline changes.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

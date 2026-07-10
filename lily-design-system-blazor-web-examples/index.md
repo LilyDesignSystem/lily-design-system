@@ -1,4 +1,4 @@
-# Lily Design System - Blazor Web Examples
+# Lily Design System™ - Blazor Web Examples
 
 Blazor Web App (.NET 10) example application demonstrating headless components from the [Lily Design System](https://github.com/LilyDesignSystem/lily) Blazor headless component library, styled with [NHS UK design system](https://service-manual.nhs.uk/design-system) colors, typography, spacing, and focus states.
 
@@ -172,3 +172,7 @@ MIT or Apache-2.0 or GPL-2.0 or GPL-3.0, or contact us for more options.
 ## Contact
 
 Joel Parker Henderson (joel@joelparkerhenderson.com)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

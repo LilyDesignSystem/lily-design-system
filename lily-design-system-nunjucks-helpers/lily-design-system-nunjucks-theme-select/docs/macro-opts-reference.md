@@ -141,3 +141,7 @@ order:
 If a key in `opts.attributes` collides with one above, the spread
 attribute wins (HTML uses the last occurrence). Use this to
 override `aria-label` (rare) or any `data-lily-*` field.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -100,3 +100,7 @@ component to apply font-variant-numeric or letter-spacing for tabular dates.
 
 - MDN time element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time
 - ISO 8601: https://www.iso.org/iso-8601-date-and-time-format.html
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

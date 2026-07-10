@@ -74,3 +74,7 @@ A read-only display of a red/amber/green status.
 
 - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status
 - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

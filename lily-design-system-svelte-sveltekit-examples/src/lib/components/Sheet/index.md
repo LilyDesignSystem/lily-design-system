@@ -86,3 +86,7 @@ A panel that slides in from a screen edge as an overlay.
 ## References
 
 - WAI-ARIA Dialog (Modal) Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

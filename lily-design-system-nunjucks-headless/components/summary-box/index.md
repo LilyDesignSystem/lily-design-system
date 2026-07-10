@@ -65,3 +65,7 @@ heading and body rendering, and prop pass-through.
 ## References
 
 - [USWDS: Summary box](https://designsystem.digital.gov/components/summary-box/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

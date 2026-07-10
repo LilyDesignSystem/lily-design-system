@@ -77,3 +77,7 @@ The component renders with `.autosuggest` as the root class. No default styles a
 ## References
 
 - [WAI-ARIA Combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

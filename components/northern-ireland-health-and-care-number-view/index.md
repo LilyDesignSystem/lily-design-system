@@ -74,3 +74,7 @@ The Northern Ireland Health and Care (H&C) Number is a 10-digit numeric identifi
 ## References
 
 - HSC NI: https://online.hscni.net/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

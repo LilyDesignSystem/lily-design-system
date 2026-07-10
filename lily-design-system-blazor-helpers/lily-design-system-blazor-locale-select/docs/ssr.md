@@ -333,3 +333,7 @@ The select itself has no SSR-specific code path to test beyond
   <https://www.rfc-editor.org/rfc/rfc4647>
 - MDN — Cookies (`document.cookie`):
   <https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies>
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

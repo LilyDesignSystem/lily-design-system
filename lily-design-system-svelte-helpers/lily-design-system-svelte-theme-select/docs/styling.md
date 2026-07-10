@@ -48,3 +48,7 @@ Drop into the consumer's app stylesheet:
   `.sr-only` recipe if you need to visually replace it.
 - Don't override the select's `aria-*` attributes from CSS. They are
   part of the accessibility contract.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

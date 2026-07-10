@@ -23,3 +23,7 @@ See [components/draft/index.md](../../../components/draft/index.md) for the full
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
 - `macro.stories.ts` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

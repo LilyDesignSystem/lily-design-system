@@ -80,3 +80,7 @@ clear button, classes, and attributes.
 
 - [WAI-ARIA: toolbar pattern](https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/)
 - [Adobe Spectrum: Action bar](https://spectrum.adobe.com/page/action-bar/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

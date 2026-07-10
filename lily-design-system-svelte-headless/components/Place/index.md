@@ -21,3 +21,7 @@ See [components/place/index.md](../../../components/place/index.md) for the full
 - `Place.svelte` — Svelte 5 implementation using runes
 - `Place.test.ts` — vitest + @testing-library/svelte tests
 - `Place.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

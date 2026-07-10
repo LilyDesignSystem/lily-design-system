@@ -21,3 +21,7 @@ See [components/pagination-link/index.md](../../../components/pagination-link/in
 - `PaginationLink.svelte` — Svelte 5 implementation using runes
 - `PaginationLink.test.ts` — vitest + @testing-library/svelte tests
 - `PaginationLink.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -63,3 +63,7 @@ The Pas is Slovakia's passport identifier. Format: 9 characters in the format XX
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Slovak_passport
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

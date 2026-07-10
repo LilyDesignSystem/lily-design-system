@@ -78,3 +78,7 @@ A drag-and-drop area for uploading files.
 ## References
 
 - MDN input type="file": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

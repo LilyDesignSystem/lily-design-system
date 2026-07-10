@@ -51,3 +51,7 @@ A read-only display of a España Tarjeta Sanitaria Individual (TSI) unique natio
 ## Accessibility
 
 - aria-label provides the accessible name for screen readers
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

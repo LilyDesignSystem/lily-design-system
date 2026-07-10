@@ -108,3 +108,7 @@ The consumer provides all CSS styling. The component renders with a `.banner` cl
 - WAI-ARIA banner role: https://www.w3.org/TR/wai-aria-1.2/#banner
 - WAI-ARIA alert role (for urgent banners): https://www.w3.org/TR/wai-aria-1.2/#alert
 - WAI-ARIA live regions: https://www.w3.org/TR/wai-aria-1.2/#aria-live
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

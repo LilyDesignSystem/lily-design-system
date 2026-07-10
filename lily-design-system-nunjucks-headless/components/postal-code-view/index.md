@@ -18,3 +18,7 @@ See [components/postal-code-view/index.md](../../../components/postal-code-view/
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -1,8 +1,8 @@
 # Headless
 
-> Lily Design System specification — topic doc. All topics: [spec index](../index.md).
+> Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily's headless layer ships semantic HTML, ARIA, focus management, and keyboard behaviour with zero visual decisions; consumers supply every stylesheet, font, icon, and string.
+**Summary.** Lily™'s headless layer ships semantic HTML, ARIA, focus management, and keyboard behaviour with zero visual decisions; consumers supply every stylesheet, font, icon, and string.
 
 ## Scope
 
@@ -103,3 +103,7 @@ The framework-specific rest-props mechanism:
 - [AGENTS/headless.md](../../AGENTS/headless.md)
 - [AGENTS/accessibility.md](../../AGENTS/accessibility.md)
 - [spec/index.md](../index.md) §4.1 (Headless), §11.4 (per-framework class-name audit)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

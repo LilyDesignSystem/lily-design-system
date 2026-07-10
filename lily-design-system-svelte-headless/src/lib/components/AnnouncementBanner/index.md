@@ -21,3 +21,7 @@ See [components/announcement-banner/index.md](../../../../../components/announce
 - `AnnouncementBanner.svelte` — Svelte 5 implementation using runes
 - `AnnouncementBanner.test.ts` — vitest + @testing-library/svelte tests
 - `AnnouncementBanner.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

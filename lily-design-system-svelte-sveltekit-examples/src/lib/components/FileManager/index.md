@@ -77,3 +77,7 @@ A file browser for navigating and managing files.
 
 - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region
 - WAI-ARIA Landmark Regions: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

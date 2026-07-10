@@ -63,3 +63,7 @@ The Codice fiscale (CF) is Italy's tax/healthcare identifier. Format: 16 alphanu
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Italian_fiscal_code
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

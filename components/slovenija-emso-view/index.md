@@ -63,3 +63,7 @@ The Enotna Matična Številka Občana (EMŠO) is Slovenia's national-id identifi
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Unique_Master_Citizen_Number
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

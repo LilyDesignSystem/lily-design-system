@@ -1,4 +1,4 @@
-# Lily Design System - Nunjucks Eleventy Examples
+# Lily Design System™ - Nunjucks Eleventy Examples
 
 A browsable example website that demonstrates every Lily Design System
 component rendered through the
@@ -8,7 +8,7 @@ macros and dressed in the NHS UK Design System's look and feel.
 ## What it is
 
 - A static site built with [Eleventy](https://www.11ty.dev/)
-- Every Lily component styled with CSS that recreates NHS UK visual
+- Every Lily™ component styled with CSS that recreates NHS UK visual
   tokens: colours, typography, spacing, focus state, page template
 - One demo page per component, plus composed page templates showing
   components working together
@@ -79,3 +79,7 @@ MIT or Apache-2.0 or GPL-2.0 or GPL-3.0, or contact us for more.
 ## Contact
 
 Joel Parker Henderson (joel@joelparkerhenderson.com)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

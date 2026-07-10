@@ -98,3 +98,7 @@ Tour is the parent container in the Tour pattern: Tour > TourList > TourListItem
 ## References
 
 - WAI-ARIA Practices: https://www.w3.org/WAI/ARIA/apg/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -209,3 +209,7 @@ export async function setThemeCookie(slug: string) {
     {...required}
 />
 ```
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -424,3 +424,7 @@ and lets the consumer wire the integration.
   <https://docs.astro.build/en/guides/middleware/>
 - Hugo `.Site.Params`:
   <https://gohugo.io/methods/site/params/>
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

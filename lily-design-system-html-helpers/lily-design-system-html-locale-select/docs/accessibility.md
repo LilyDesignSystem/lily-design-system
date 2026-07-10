@@ -129,7 +129,7 @@ For very long lists (50+), prefer a combobox with type-ahead.
 For 50+ locales, a combobox with type-ahead is the right pattern.
 The APG Combobox specification is intricate (focus-on-listbox vs
 focus-on-input, auto-complete vs none). This helper doesn't ship a
-combobox; build one via subclassing or use an upstream Lily
+combobox; build one via subclassing or use an upstream Lily™
 `Combobox` headless primitive.
 
 See `examples/10-combobox.html` for a minimal in-line combobox
@@ -176,3 +176,7 @@ yours.
   <https://www.w3.org/WAI/WCAG22/Understanding/on-input>
 - MDN — `lang` attribute and `:lang()` selector:
   <https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang>
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

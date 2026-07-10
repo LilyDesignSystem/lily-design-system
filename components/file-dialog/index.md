@@ -102,3 +102,7 @@ The consumer provides all CSS styling. The component renders with a `.file-dialo
 
 - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 - MDN dialog element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

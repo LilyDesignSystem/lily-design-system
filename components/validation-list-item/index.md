@@ -113,3 +113,7 @@ Consumer CSS targets the `validation-list-item` class with
 - US Web Design System Validation: https://designsystem.digital.gov/components/validation/
 - HTML `<li>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li
 - WCAG 1.4.1 Use of Color: https://www.w3.org/WAI/WCAG22/Understanding/use-of-color
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

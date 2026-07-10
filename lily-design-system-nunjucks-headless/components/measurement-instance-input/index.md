@@ -18,3 +18,7 @@ See [components/measurement-instance-input/index.md](../../../components/measure
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -73,3 +73,7 @@ using the `input-group`, `input-group-prefix`, and
 
 `components/input-group/macro.test.js` verifies the base class,
 `role="group"`, `aria-label`, prefix and suffix rendering, and order.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

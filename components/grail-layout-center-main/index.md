@@ -80,3 +80,7 @@ GrailLayoutCenterMain is used as a child of GrailLayout. Place a semantic `<main
 ## References
 
 - CSS Grid Layout: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

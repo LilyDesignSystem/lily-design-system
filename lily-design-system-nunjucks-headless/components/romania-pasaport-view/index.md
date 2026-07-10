@@ -18,3 +18,7 @@ See [components/romania-pasaport-view/index.md](../../../components/romania-pasa
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

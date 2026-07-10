@@ -63,3 +63,7 @@ The Paşaport is Romania's passport identifier. Format: 8 characters: positions 
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Romanian_passport
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

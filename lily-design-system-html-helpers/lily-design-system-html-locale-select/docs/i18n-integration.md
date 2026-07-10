@@ -344,3 +344,7 @@ The page arrives with the correct `lang` and `dir` already on
 
 The select is the same in every case. Only the `localechange`
 handler body changes.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

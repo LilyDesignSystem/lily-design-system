@@ -68,3 +68,7 @@ The component renders with `.related-content` as the root class. No default styl
 ## References
 
 - [MDN aside element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

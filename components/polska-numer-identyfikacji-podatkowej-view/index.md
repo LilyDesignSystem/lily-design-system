@@ -63,3 +63,7 @@ The Numer Identyfikacji Podatkowej (NIP) is Poland's tax identifier. Format: 10 
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Poland
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

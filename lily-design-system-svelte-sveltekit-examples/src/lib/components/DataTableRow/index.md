@@ -60,3 +60,7 @@ A data table interactive grid row for displaying and sorting tabular data <tr>.
 ## References
 
 - HTML tr element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tr
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

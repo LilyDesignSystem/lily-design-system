@@ -102,3 +102,7 @@ The consumer provides all CSS styling. The component renders with a `.resizable`
 
 - WAI-ARIA Region Role: https://www.w3.org/TR/wai-aria-1.2/#region
 - WAI-ARIA Authoring Practices - Window Splitter: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

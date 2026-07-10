@@ -72,3 +72,7 @@ content slots, classes, and attributes.
 
 - [WAI-ARIA: button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/)
 - [Adobe Spectrum: Action bar](https://spectrum.adobe.com/page/action-bar/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -80,3 +80,7 @@ An input for entering a UK NHS number.
 ## References
 
 - NHS Number format: https://www.nhs.uk/nhs-services/online-services/find-nhs-number/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

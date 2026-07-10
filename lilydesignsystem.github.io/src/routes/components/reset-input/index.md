@@ -95,3 +95,7 @@ The consumer provides all CSS styling. The component renders with a `.reset-inpu
 ## References
 
 - MDN input type="reset": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/reset
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

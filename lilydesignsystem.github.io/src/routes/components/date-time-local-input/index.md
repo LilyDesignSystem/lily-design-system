@@ -97,3 +97,7 @@ The consumer provides all CSS styling. The component renders with a `.date-time-
 ## References
 
 - MDN datetime-local input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

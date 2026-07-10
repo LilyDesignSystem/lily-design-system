@@ -61,3 +61,7 @@ A calendar table interactive grid tfoot for managing dates, days, etc. <tfoot>.
 ## References
 
 - HTML tfoot element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tfoot
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

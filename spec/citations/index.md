@@ -1,8 +1,8 @@
 # Citations
 
-> Lily Design System specification — topic doc. All topics: [spec index](../index.md).
+> Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily learns from headless/unstyled component libraries, styled/opinionated design systems, and public-sector reference designs; the example apps' current default visual reference is the NHS UK design system, and the editorial/scrollytelling primitives are adapted from the Reuters Graphics components.
+**Summary.** Lily™ learns from headless/unstyled component libraries, styled/opinionated design systems, and public-sector reference designs; the example apps' current default visual reference is the NHS UK design system, and the editorial/scrollytelling primitives are adapted from the Reuters Graphics components.
 
 ## Scope
 
@@ -131,3 +131,7 @@ Reuters-specific branding, third-party integrations, or already-covered componen
 - [AGENTS/citations.md](../../AGENTS/citations.md)
 - [AGENTS/nhs-uk-design-system-references.md](../../AGENTS/nhs-uk-design-system-references.md)
 - [spec/index.md](../index.md) §10 (References), §10.1 (Reuters Graphics influence)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

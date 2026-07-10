@@ -209,3 +209,7 @@ HTML template, not a render function. SSG hosts simply render the
 host tag verbatim. The `customElements.define` call in `index.ts`
 is skipped under Node (the guard reads `typeof customElements !==
 "undefined"`).
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

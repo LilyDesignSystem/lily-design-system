@@ -57,3 +57,7 @@ The component renders with `.description-list-item` as the root class. No defaul
 
 - [MDN dt element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt)
 - [MDN dd element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

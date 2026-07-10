@@ -168,3 +168,7 @@ Initial value resolves from `value` > storage > `defaultValue` >
 | `AGENTS.md`                   | AI-agent metadata pointer.                       |
 | `CLAUDE.md`                   | Loads `AGENTS.md`.                               |
 | `README.md`                   | Symlink to `index.md`.                           |
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

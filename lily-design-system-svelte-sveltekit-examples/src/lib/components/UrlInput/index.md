@@ -71,3 +71,7 @@ An input for entering a URL <input type="url">.
 ## References
 
 - MDN input type="url": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/url
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

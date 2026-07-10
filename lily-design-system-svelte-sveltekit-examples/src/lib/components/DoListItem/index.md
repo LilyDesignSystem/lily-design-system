@@ -86,3 +86,7 @@ An encouraged-practice item in a do-list guideline list.
 
 - MDN li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li
 - Material Design Do/Don't guidelines: https://m3.material.io/foundations/content-design/style-guide/overview
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

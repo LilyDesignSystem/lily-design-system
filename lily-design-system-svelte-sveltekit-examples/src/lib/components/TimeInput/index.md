@@ -71,3 +71,7 @@ An input for entering a time value <input type="time">.
 ## References
 
 - MDN input type="time": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

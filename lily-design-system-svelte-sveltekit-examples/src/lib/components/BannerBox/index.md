@@ -72,3 +72,7 @@ A banner box that is inside a banner component, using flexbox horizontal.
 ## References
 
 - CSS Flexbox: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

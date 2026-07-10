@@ -2,7 +2,7 @@
 
 A continuous-data visualization that connects ordered points with line segments, emphasising the shape of the trend rather than its magnitude. The standard choice for showing change over time — temperatures, prices, response times — and for comparing the trend of multiple series side by side.
 
-The component is a headless wrapper around an inline `<svg>`: it renders a `<figure role="img">` containing the chart, names the figure via `aria-label` (from `label`), and references an extended `description` and an optional `dataTable` slot via `aria-describedby`. The data table is the canonical accessible alternative — screen readers and exports both benefit from a real `<table>` rendering of the same numbers, and Lily encourages always providing it.
+The component is a headless wrapper around an inline `<svg>`: it renders a `<figure role="img">` containing the chart, names the figure via `aria-label` (from `label`), and references an extended `description` and an optional `dataTable` slot via `aria-describedby`. The data table is the canonical accessible alternative — screen readers and exports both benefit from a real `<table>` rendering of the same numbers, and Lily™ encourages always providing it.
 
 When the cumulative magnitude beneath the line matters more than the shape, use `AreaChart`. For categorical comparison use `BarChart` or `ColumnChart`. For tiny inline trends use `Sparkline`.
 
@@ -70,3 +70,7 @@ The component renders with `.line-chart` as the root class. No default styles ar
 ## References
 
 - [MDN figure element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

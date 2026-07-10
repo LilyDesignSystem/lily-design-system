@@ -198,3 +198,7 @@ doesn't directly exercise the static-SSR path. To test:
 - **Integration tests**: run a real Blazor Web App with the select
   on a static-render page and check the HTTP response body for the
   expected `<select>` markup.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

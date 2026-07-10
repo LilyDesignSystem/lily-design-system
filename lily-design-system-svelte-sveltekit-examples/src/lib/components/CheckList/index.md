@@ -78,3 +78,7 @@ An ordered list of check list item components.
 ## References
 
 - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

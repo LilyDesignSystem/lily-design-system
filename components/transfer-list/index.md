@@ -105,3 +105,7 @@ flex layout with the actions column between the two lists.
 
 - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 - Ant Design Transfer: https://ant.design/components/transfer
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

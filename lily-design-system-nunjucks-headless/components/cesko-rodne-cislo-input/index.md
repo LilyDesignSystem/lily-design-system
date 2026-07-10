@@ -18,3 +18,7 @@ See [components/cesko-rodne-cislo-input/index.md](../../../components/cesko-rodn
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

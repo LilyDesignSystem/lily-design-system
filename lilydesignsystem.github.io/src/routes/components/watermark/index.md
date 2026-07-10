@@ -98,3 +98,7 @@ properties.
 
 - WAI-ARIA aria-hidden: https://www.w3.org/TR/wai-aria-1.2/#aria-hidden
 - Ant Design Watermark: https://ant.design/components/watermark
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

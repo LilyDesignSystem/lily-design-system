@@ -93,3 +93,7 @@ state if a visual cue is desired.
 
 - MDN position: sticky: https://developer.mozilla.org/docs/Web/CSS/position#sticky
 - Ant Design Affix: https://ant.design/components/affix
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

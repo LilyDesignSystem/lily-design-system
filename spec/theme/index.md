@@ -1,6 +1,6 @@
 # Theme
 
-> Lily Design System specification — topic doc. All topics: [spec index](../index.md).
+> Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
 **Summary.** Themes live entirely in the example subprojects' CSS and the optional `ThemeProvider`; the headless components bake in no colour, spacing, typography, or breakpoints — only ARIA, semantic structure, class hooks, and `data-*` attributes.
 
@@ -77,7 +77,7 @@ Consumer CSS reads these:
 
 ## Reference theme stylesheets (`themes/`)
 
-The root [`themes/`](../../themes/) directory ships 45 ready-to-use theme stylesheets that target the Lily class hooks directly. They cover public-sector reference designs (NHS England, NHS Scotland, and NHS Wales — each with `-for-patients` and `-for-practitioners` variants — GOV.UK GDS as `united-kingdom-government-digital-service`, USWDS as `united-states-web-design-system`), vendor-inspired palettes (`adobe-spectrum`, `mozilla-protocol`), and general-purpose themes (`light`, `dark`, `nord`, `dracula`, `wireframe`, and others).
+The root [`themes/`](../../themes/) directory ships 45 ready-to-use theme stylesheets that target the Lily™ class hooks directly. They cover public-sector reference designs (NHS England, NHS Scotland, and NHS Wales — each with `-for-patients` and `-for-practitioners` variants — GOV.UK GDS as `united-kingdom-government-digital-service`, USWDS as `united-states-web-design-system`), vendor-inspired palettes (`adobe-spectrum`, `mozilla-protocol`), and general-purpose themes (`light`, `dark`, `nord`, `dracula`, `wireframe`, and others).
 
 - Each file is standalone: link one stylesheet, get one complete theme.
 - Selectors use `:where(...)` so consumer overrides always win on specificity.
@@ -134,3 +134,7 @@ Editorial / scrollytelling primitives use CSS custom properties for column width
 - [AGENTS/theme.md](../../AGENTS/theme.md)
 - [spec/index.md](../index.md) §4.4 Theme, §10.1 Reuters column-width convention
 - [AGENTS/examples.md](../../AGENTS/examples.md)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

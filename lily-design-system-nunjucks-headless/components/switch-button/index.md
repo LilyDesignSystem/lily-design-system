@@ -18,3 +18,7 @@ See [components/switch-button/index.md](../../../components/switch-button/index.
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

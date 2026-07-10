@@ -113,3 +113,7 @@ The consumer provides all CSS styling. The component renders with a `.currency-i
 - HTML text input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
 - Intl.NumberFormat: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
 - ISO 4217 Currency Codes: https://www.iso.org/iso-4217-currency-codes.html
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

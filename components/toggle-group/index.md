@@ -99,3 +99,7 @@ ToggleGroup contains ToggleButton children (or plain buttons with `aria-pressed`
 
 - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
 - WAI-ARIA Button Pattern (toggle): https://www.w3.org/WAI/ARIA/apg/patterns/button/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

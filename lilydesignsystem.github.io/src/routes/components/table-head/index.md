@@ -78,3 +78,7 @@ TableHead is a child of Table, following the Table pattern: Table > TableHead/Ta
 ## References
 
 - MDN thead element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

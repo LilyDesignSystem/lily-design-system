@@ -106,3 +106,7 @@ KanbanTable → KanbanTableBody → column (role="list") → KanbanTableTD (role
 ## References
 
 - WAI-ARIA Listitem Role: https://www.w3.org/TR/wai-aria-1.2/#listitem
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

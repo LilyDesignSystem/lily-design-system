@@ -21,3 +21,7 @@ See [components/address-input/index.md](../../../components/address-input/index.
 - `AddressInput.svelte` — Svelte 5 implementation using runes
 - `AddressInput.test.ts` — vitest + @testing-library/svelte tests
 - `AddressInput.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

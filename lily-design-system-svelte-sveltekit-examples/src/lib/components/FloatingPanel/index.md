@@ -76,3 +76,7 @@ A panel that floats above page content.
 ## References
 
 - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

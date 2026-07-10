@@ -125,3 +125,7 @@ ThemeSelectOption is a child of ThemeSelect, following the Select/SelectOption p
 
 - MDN option element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option
 - MDN select element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

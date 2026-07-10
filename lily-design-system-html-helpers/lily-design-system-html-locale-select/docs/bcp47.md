@@ -200,3 +200,7 @@ fallbacks exist.
 ranking, date/number formatting if you read it back via JS, browser
 spellcheck. WCAG 3.1.1 requires it on the page; WCAG 3.1.2 requires
 it on subtrees whose language differs.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

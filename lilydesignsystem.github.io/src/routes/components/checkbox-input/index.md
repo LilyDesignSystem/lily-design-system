@@ -101,3 +101,7 @@ The consumer provides all CSS styling. The component renders with a `.checkbox-i
 
 - MDN checkbox input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 - WAI-ARIA Checkbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -88,3 +88,7 @@ The consumer provides all CSS styling. The component renders with an `.event` cl
 ## References
 
 - [MDN article element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -21,3 +21,7 @@ See [components/timer-button/index.md](../../../../../components/timer-button/in
 - `TimerButton.svelte` — Svelte 5 implementation using runes
 - `TimerButton.test.ts` — vitest + @testing-library/svelte tests
 - `TimerButton.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

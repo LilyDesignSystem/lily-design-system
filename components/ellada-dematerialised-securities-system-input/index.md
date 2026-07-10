@@ -68,3 +68,7 @@ The Dematerialised Securities System (DSS) is Greece's securities identifier. Fo
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Central_Securities_Depository
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -360,3 +360,7 @@ you can copy into your project.
 | [08-ssr-cookie.svelte](./examples/08-ssr-cookie.svelte)                                 | SvelteKit cookie-based SSR — no flash of default locale.           |
 | [09-scoped-target.svelte](./examples/09-scoped-target.svelte)                           | Multiple per-region selects, each scoped to its own panel.         |
 | [10-combobox.svelte](./examples/10-combobox.svelte)                                     | Native `<datalist>` type-ahead for 436 locales.                    |
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

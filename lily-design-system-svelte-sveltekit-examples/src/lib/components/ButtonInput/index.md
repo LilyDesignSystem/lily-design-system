@@ -79,3 +79,7 @@ An input element of type button for form actions <input type="button">.
 
 - MDN input type="button": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/button
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

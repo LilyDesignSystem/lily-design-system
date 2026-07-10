@@ -18,3 +18,7 @@ See [components/chat-message/index.md](../../../components/chat-message/index.md
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

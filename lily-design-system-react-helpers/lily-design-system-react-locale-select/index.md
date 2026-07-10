@@ -399,3 +399,7 @@ you can copy into your project.
 | [08-ssr-cookie.tsx](./examples/08-ssr-cookie.tsx)                                       | Next.js App Router cookie-based SSR — no flash of default locale.  |
 | [09-scoped-target.tsx](./examples/09-scoped-target.tsx)                                 | Multiple per-region selects, each scoped to its own panel.         |
 | [10-combobox.tsx](./examples/10-combobox.tsx)                                           | Native `<datalist>` type-ahead for 436 locales.                    |
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

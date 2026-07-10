@@ -53,7 +53,7 @@ colour-only meaning is required:
 
 The helper does not suppress `:focus` or `:focus-visible` styling.
 The consumer's CSS is responsible for the visible focus ring.
-NHS-UK and Lily themes ship a high-contrast focus outline that
+NHS-UK and Lily™ themes ship a high-contrast focus outline that
 meets AAA.
 
 ## Reduced motion
@@ -86,3 +86,7 @@ transitions on the `data-theme` swap.
 - **Emitting `<script>` from the macro.** Forbidden. CSP
   `script-src` policies that forbid inline scripts must continue
   to work.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

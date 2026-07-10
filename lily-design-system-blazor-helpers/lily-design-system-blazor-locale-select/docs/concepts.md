@@ -170,3 +170,7 @@ that the select uses internally and that consumers may want to
 call from server-side code or other components. An interface
 (`ILocaleNormaliser`) would be over-engineered: there's no
 substitutability scenario.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -81,3 +81,7 @@ Your selector still needs to use the base class:
 
 `:deep()` is the Vue 3 scoped-styles way to reach into the inner
 markup without breaking encapsulation for other components.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

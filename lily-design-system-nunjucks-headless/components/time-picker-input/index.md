@@ -18,3 +18,7 @@ See [components/time-picker-input/index.md](../../../components/time-picker-inpu
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

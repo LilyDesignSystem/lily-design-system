@@ -81,3 +81,7 @@ An input for entering a postal or ZIP code.
 
 - HTML autocomplete attribute: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
 - MDN input type="text": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

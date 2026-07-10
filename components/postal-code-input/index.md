@@ -115,3 +115,7 @@ PostalCodeInput is the editable counterpart of PostalCodeView. Use PostalCodeInp
 
 - HTML autocomplete attribute: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
 - MDN input type="text": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

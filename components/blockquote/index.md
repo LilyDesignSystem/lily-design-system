@@ -100,3 +100,7 @@ attribution.
 - MDN `<blockquote>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote
 - HTML Living Standard — The blockquote element: https://html.spec.whatwg.org/multipage/grouping-content.html#the-blockquote-element
 - Mozilla Protocol Design System: https://protocol.mozilla.org/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -1,4 +1,4 @@
-# Lily Design System — Svelte Helpers
+# Lily Design System™ — Svelte Helpers
 
 A catalog of opinionated, reusable Svelte 5 helper components that sit
 alongside the headless [`lily-design-system-svelte-headless`](../lily-design-system-svelte-headless/)
@@ -65,3 +65,7 @@ in one app; the helpers are not a replacement.
 Each helper is dual-licensed under MIT or Apache-2.0 or GPL-2.0 or
 GPL-3.0 or BSD-3-Clause. Contact joel@joelparkerhenderson.com for
 other terms.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

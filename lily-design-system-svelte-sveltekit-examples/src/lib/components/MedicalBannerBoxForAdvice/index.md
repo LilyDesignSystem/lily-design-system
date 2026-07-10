@@ -57,3 +57,7 @@ A medical record banner box for advice information e.g. contacts, contexts, plan
 ## Internationalization
 
 - label prop is the only user-facing string; no hardcoded strings
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

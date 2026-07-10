@@ -119,3 +119,7 @@ References:
 - `ImageFileInput` - select and preview an image file.
 - `Image` - display an image without editing.
 - `SignaturePad` - capture a handwritten signature.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

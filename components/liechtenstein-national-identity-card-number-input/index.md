@@ -68,3 +68,7 @@ The Liechtenstein National Identity Card Number is Liechtenstein's national-id i
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identity_card
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

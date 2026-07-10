@@ -79,3 +79,7 @@ A guideline list of discouraged dont-list-item components.
 
 - MDN ul element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul
 - WAI list role: https://www.w3.org/WAI/ARIA/apd/roles/list/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -121,3 +121,7 @@ The consumer provides all CSS styling. The component renders with a `.video-play
 - [IntersectionObserver API](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver)
 - [HTML video element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video)
 - [Autoplay guide for media](https://developer.mozilla.org/en-US/docs/Web/Media/Autoplay_guide)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

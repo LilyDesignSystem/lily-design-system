@@ -101,3 +101,7 @@ EditableForm composes with Editable and form input components. EditableForm prov
 ## References
 
 - WAI-ARIA Form Role: https://www.w3.org/WAI/ARIA/apd/roles/form/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

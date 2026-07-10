@@ -89,3 +89,7 @@ The consumer provides all CSS styling. The component renders with a `.icon` clas
 
 - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
 - WAI-ARIA Practices - Images: https://www.w3.org/WAI/tutorials/images/decorative/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

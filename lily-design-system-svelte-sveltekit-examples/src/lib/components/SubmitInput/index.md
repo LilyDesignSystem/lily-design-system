@@ -74,3 +74,7 @@ A button input that submits a form <input type="submit">.
 ## References
 
 - MDN input type="submit": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/submit
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -63,3 +63,7 @@ A Gantt chart table interactive grid column for planning schedule visualization 
 ## References
 
 - HTML col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

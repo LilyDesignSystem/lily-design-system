@@ -91,3 +91,7 @@ ChatList is part of the ChatNav composition pattern:
 ## References
 
 - MDN HTML ol element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

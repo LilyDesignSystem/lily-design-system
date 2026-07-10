@@ -21,3 +21,7 @@ See [components/tree-link/index.md](../../../components/tree-link/index.md) for 
 - `TreeLink.svelte` — Svelte 5 implementation using runes
 - `TreeLink.test.ts` — vitest + @testing-library/svelte tests
 - `TreeLink.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

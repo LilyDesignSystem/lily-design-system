@@ -101,3 +101,7 @@ The consumer provides all CSS styling. The component renders with a `.caption` c
 ## References
 
 - [MDN caption element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/caption)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

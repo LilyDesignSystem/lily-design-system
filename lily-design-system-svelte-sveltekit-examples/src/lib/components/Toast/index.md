@@ -81,3 +81,7 @@ A brief auto-dismissing notification message.
 - WAI-ARIA Alert Role: https://www.w3.org/TR/wai-aria-1.2/#alert
 - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status
 - WAI-ARIA Live Regions: https://www.w3.org/TR/wai-aria-1.2/#aria-live
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -98,3 +98,7 @@ The consumer provides all CSS styling. The component renders with a `.button-inp
 
 - MDN input type="button": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/button
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

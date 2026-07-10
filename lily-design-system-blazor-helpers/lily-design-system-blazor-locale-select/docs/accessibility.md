@@ -196,3 +196,7 @@ CSS unless you've measured the trade-off.
   <https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang>
 - Microsoft Learn — Accessibility in ASP.NET Core Blazor:
   <https://learn.microsoft.com/aspnet/core/blazor/accessibility>
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

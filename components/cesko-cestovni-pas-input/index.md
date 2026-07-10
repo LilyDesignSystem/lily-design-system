@@ -68,3 +68,7 @@ The Cestovní pas is Czech Republic's passport identifier. Format: usually 8 dig
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Czech_passport
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

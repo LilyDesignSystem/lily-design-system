@@ -18,3 +18,7 @@ See [components/screen-reader-span/index.md](../../../components/screen-reader-s
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

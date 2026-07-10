@@ -111,3 +111,7 @@ classes as needed.
 - MDN `<figcaption>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figcaption
 - MDN `aria-hidden`: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-hidden
 - Mozilla Protocol Design System: https://protocol.mozilla.org/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -130,3 +130,7 @@ and `sticky-promo-banner-dismiss` classes for layout and the dismiss icon.
 - MDN `<aside>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside
 - MDN `position: fixed`: https://developer.mozilla.org/en-US/docs/Web/CSS/position#fixed_positioning
 - Mozilla Protocol Design System: https://protocol.mozilla.org/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

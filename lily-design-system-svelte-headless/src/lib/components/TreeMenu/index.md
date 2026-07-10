@@ -21,3 +21,7 @@ See [components/tree-menu/index.md](../../../../../components/tree-menu/index.md
 - `TreeMenu.svelte` — Svelte 5 implementation using runes
 - `TreeMenu.test.ts` — vitest + @testing-library/svelte tests
 - `TreeMenu.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

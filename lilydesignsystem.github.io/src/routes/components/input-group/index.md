@@ -114,3 +114,7 @@ addon backgrounds, and connected radii.
 
 - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
 - WCAG 1.3.1 Info and Relationships: https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

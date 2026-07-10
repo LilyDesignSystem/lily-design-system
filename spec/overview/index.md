@@ -1,8 +1,8 @@
 # Overview
 
-> Lily Design System specification — topic doc. All topics: [spec index](../index.md).
+> Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily is a free, open-source, framework-plural design system whose headless layer ships semantic HTML, ARIA, focus, and keyboard behaviour with zero visual decisions, and whose example layer ships complete, styled reference applications.
+**Summary.** Lily™ is a free, open-source, framework-plural design system whose headless layer ships semantic HTML, ARIA, focus, and keyboard behaviour with zero visual decisions, and whose example layer ships complete, styled reference applications.
 
 ## Scope
 
@@ -98,3 +98,7 @@ The headless layer is the contract; the example layer is the proof. Adopters can
 - [spec/index.md](../index.md) — §1 Vision, §2 Scope, §14 Tracking
 - [AGENTS.md](../../AGENTS.md)
 - [AGENTS/lily.md](../../AGENTS/lily.md)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

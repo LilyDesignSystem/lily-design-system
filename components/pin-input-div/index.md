@@ -127,3 +127,7 @@ The consumer provides all CSS styling. The component renders with a `.pin-input-
 ## References
 
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -60,3 +60,7 @@ variant via `[data-variant]` selectors.
 
 - [Adobe Spectrum: Status light](https://spectrum.adobe.com/page/status-light/)
 - [WAI-ARIA: status role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/status_role)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

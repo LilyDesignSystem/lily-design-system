@@ -21,3 +21,7 @@ See [components/table-foot/index.md](../../../../../components/table-foot/index.
 - `TableFoot.svelte` — Svelte 5 implementation using runes
 - `TableFoot.test.ts` — vitest + @testing-library/svelte tests
 - `TableFoot.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

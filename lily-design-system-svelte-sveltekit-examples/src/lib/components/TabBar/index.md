@@ -83,3 +83,7 @@ A group of tabs for switching between content panels.
 ## References
 
 - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

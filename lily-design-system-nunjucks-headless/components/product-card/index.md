@@ -80,3 +80,7 @@ and price using the listed class names.
 `components/product-card/macro.test.js` verifies the base class,
 default and custom `aria-label`, name and price rendering, image
 rendering and alt fallback, and caller composition.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

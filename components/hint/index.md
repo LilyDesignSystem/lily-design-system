@@ -92,3 +92,7 @@ The consumer provides all CSS styling. The component renders with a `.hint` clas
 ## References
 
 - WAI Forms Tutorial - Instructions: https://www.w3.org/WAI/tutorials/forms/instructions/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

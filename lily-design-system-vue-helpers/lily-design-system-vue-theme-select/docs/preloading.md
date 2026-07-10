@@ -115,3 +115,7 @@ Cons:
 | Designer / preview UI                 | Strategy 1           |
 | Mobile-conscious, mostly-light apps   | Strategy 2           |
 | Small catalog (2–4 themes), CDN-cached | Strategy 3          |
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

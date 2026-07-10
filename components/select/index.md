@@ -107,3 +107,7 @@ The consumer provides all CSS styling. The component renders with a `.select` cl
 ## References
 
 - MDN select element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

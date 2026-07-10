@@ -1,4 +1,4 @@
-# Lily Design System - Svelte Headless
+# Lily Design System™ - Svelte Headless
 
 A headless Svelte 5 component library with 490 components. All components are headless (no built-in styles), fully accessible (WCAG 2.2 AAA), and use Svelte 5 runes.
 
@@ -447,3 +447,7 @@ MIT or Apache-2.0 or GPL-2.0 or GPL-3.0, or contact us for more options.
 ## Contact
 
 Joel Parker Henderson (joel@joelparkerhenderson.com)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

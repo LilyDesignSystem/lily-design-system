@@ -71,3 +71,7 @@ Only the inline column-count / column-gap styles are emitted.
 
 `components/masonry/macro.test.js` verifies the base class,
 `data-columns`, and the inline `column-count` / `column-gap` styles.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

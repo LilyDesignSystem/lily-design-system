@@ -91,3 +91,7 @@ The consumer provides all CSS styling. The component renders with an `.article-l
 - Documentation: index.md
 - CSS class: .article-layout in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/article-layout.html
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

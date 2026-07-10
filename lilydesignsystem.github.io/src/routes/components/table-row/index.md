@@ -76,3 +76,7 @@ TableRow is a child of TableHead/TableBody/TableFoot, following the Table patter
 ## References
 
 - MDN tr element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tr
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

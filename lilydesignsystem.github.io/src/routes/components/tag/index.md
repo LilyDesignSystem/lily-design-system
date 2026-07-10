@@ -97,3 +97,7 @@ Tag is designed to be used as a child of TagGroup. The TagGroup provides a `role
 ## References
 
 - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

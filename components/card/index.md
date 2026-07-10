@@ -104,3 +104,7 @@ Card supports header, body, and footer content areas through its children slot. 
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

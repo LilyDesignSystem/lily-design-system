@@ -63,3 +63,7 @@ The Personnummer is Sweden's national-id identifier. Format: 12 digits in the fo
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Personal_identity_number_(Sweden)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

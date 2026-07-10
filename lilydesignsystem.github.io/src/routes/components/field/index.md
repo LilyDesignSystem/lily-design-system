@@ -110,3 +110,7 @@ Field composes with Label, input components (TextInput, Select, etc.), ErrorMess
 
 - WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/
 - WAI-ARIA Error Handling: https://www.w3.org/WAI/WCAG22/Techniques/aria/ARIA21
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

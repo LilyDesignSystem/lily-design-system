@@ -18,3 +18,7 @@ See [components/alba-community-health-index-view/index.md](../../../components/a
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

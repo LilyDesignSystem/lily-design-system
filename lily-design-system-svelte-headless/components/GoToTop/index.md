@@ -21,3 +21,7 @@ See [components/go-to-top/index.md](../../../components/go-to-top/index.md) for 
 - `GoToTop.svelte` — Svelte 5 implementation using runes
 - `GoToTop.test.ts` — vitest + @testing-library/svelte tests
 - `GoToTop.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -98,3 +98,7 @@ The consumer provides all CSS styling. The component renders with a `.label` cla
 
 - WAI Forms Tutorial - Labels: https://www.w3.org/WAI/tutorials/forms/labels/
 - HTML label element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

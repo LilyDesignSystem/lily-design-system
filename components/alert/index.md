@@ -124,3 +124,7 @@ The consumer provides all CSS styling. The component renders with a `.alert` cla
 - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/
 - WAI-ARIA alert role: https://www.w3.org/TR/wai-aria-1.2/#alert
 - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

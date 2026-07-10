@@ -67,3 +67,7 @@ The component renders with `.section-nav` as the root class. No default styles a
 ## References
 
 - [MDN nav element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

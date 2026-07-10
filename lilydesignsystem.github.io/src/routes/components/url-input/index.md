@@ -109,3 +109,7 @@ The consumer provides all CSS styling. The component renders with a `.url-input`
 ## References
 
 - MDN input type="url": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/url
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

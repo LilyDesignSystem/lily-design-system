@@ -85,3 +85,7 @@ linkage.
 
 - [WAI-ARIA: group role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/group_role)
 - [Adobe Spectrum: Action group](https://spectrum.adobe.com/page/action-group/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

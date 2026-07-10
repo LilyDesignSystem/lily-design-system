@@ -205,3 +205,7 @@ it("subclass still fires themechange", () => {
 
 The base class's lifecycle continues to fire because
 `super.connectedCallback()` runs first.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

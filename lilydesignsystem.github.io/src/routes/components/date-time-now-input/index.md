@@ -104,3 +104,7 @@ The consumer provides all CSS styling. The component renders with a `.date-time-
 
 - MDN date input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
 - MDN time input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

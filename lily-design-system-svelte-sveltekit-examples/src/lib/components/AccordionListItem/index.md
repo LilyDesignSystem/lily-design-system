@@ -86,3 +86,7 @@ An accordion list item component.
 ## References
 
 - HTML details element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

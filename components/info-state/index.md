@@ -126,3 +126,7 @@ variants.
 
 - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status
 - Nielsen Norman empty state guidance: https://www.nngroup.com/articles/empty-state-interface-design/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

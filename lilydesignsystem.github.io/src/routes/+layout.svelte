@@ -30,7 +30,7 @@
         alt=""
         aria-hidden="true"
       />
-      <span>Lily Design System</span>
+      <span>Lily Design System™</span>
     </a>
     <nav class="site-nav" aria-label="Main">
       {#each navLinks as link}
@@ -50,6 +50,7 @@
 <footer class="site-footer">
   <div class="site-footer-inner">
     <p>© Lily Design System. Free open source — BSD, MIT, Apache-2.0, GPL-2.0, or GPL-3.0.</p>
+    <p class="site-footer-trademark">Lily™ and Lily Design System™ are trademarks.</p>
     <div class="site-footer-links">
       <a href="https://github.com/LilyDesignSystem">GitHub</a>
       <a href="/why/">Why Lily</a>

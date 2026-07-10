@@ -1,8 +1,8 @@
 # Components
 
-> Lily Design System specification — topic doc. All topics: [spec index](../index.md).
+> Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily defines a canonical catalog of 490 components in a single tab-separated file (`components.tsv`), each named and shaped by deterministic suffix-to-HTML-element and compound-name rules, composed via stable parent/child patterns, and documented per component through a fixed nine-section contract.
+**Summary.** Lily™ defines a canonical catalog of 490 components in a single tab-separated file (`components.tsv`), each named and shaped by deterministic suffix-to-HTML-element and compound-name rules, composed via stable parent/child patterns, and documented per component through a fixed nine-section contract.
 
 ## Scope
 
@@ -272,3 +272,7 @@ Each framework injects the generated demo HTML via its native escape hatch: HTML
 - [`AGENTS/components-helpers/`](../../AGENTS/components-helpers/) — composition templates (avatar, calendar-table, data-table, gantt-table, grail-layout, kanban-table).
 - [`spec/index.md`](../index.md) — §5 catalog, §6 naming, §7 composition, §8 per-component documentation.
 - [`bin/list-components-as-kebab-case`](../../bin/list-components-as-kebab-case), [`bin/list-components-as-pascal-case`](../../bin/list-components-as-pascal-case) — catalog query tools.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

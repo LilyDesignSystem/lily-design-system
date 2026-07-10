@@ -18,3 +18,7 @@ See [components/island-kennitala-view/index.md](../../../components/island-kenni
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -94,3 +94,7 @@ optional dividers between items.
 - US Web Design System Collection: https://designsystem.digital.gov/components/collection/
 - HTML `<ul>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul
 - WCAG 1.3.1 Info and Relationships: https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

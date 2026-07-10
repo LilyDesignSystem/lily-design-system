@@ -21,3 +21,7 @@ See [components/chat-message/index.md](../../../../../components/chat-message/in
 - `ChatMessage.svelte` — Svelte 5 implementation using runes
 - `ChatMessage.test.ts` — vitest + @testing-library/svelte tests
 - `ChatMessage.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

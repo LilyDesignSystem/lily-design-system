@@ -96,3 +96,7 @@ CheckListItem is used within a CheckList component.
 ## References
 
 - [MDN li element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

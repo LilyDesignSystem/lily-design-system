@@ -75,3 +75,7 @@ A decorative animated beach ball element.
 
 - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status
 - ARIA aria-busy: https://www.w3.org/TR/wai-aria-1.2/#aria-busy
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

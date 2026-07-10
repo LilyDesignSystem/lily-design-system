@@ -83,3 +83,7 @@ A container for cropping and resizing an image to a selected region.
 ## References
 
 - WAI-ARIA application role: https://www.w3.org/TR/wai-aria-1.2/#application
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

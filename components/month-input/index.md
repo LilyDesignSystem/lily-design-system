@@ -91,3 +91,7 @@ The consumer provides all CSS styling. The component renders with a `.month-inpu
 ## References
 
 - HTML month input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/month
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

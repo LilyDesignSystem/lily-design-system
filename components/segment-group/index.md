@@ -99,3 +99,7 @@ SegmentGroup is the container for SegmentGroupItem children. Use `<SegmentGroup>
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
 - WAI-ARIA Authoring Practices - Toolbar: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -95,3 +95,7 @@ The consumer provides all CSS styling. The component renders with a `.password-i
 
 - MDN input type="password": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/password
 - HTML autocomplete attribute: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

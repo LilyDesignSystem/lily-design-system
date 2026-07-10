@@ -73,3 +73,7 @@ A read-only display of a measurement unit.
 ## References
 
 - HTML span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -63,3 +63,7 @@ The Isikukood (IK) is Estonia's national-id identifier. Format: 11 digits in the
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Estonia
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

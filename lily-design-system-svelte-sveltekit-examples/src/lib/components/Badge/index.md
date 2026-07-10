@@ -82,3 +82,7 @@ A small label for counts, statuses, or categories.
 ## References
 
 - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

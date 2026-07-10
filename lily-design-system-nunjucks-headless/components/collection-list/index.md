@@ -64,3 +64,7 @@ attributes pass-through.
 ## References
 
 - [USWDS: Collection](https://designsystem.digital.gov/components/collection/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

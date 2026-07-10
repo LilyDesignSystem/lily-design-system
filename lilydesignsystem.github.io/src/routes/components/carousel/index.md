@@ -116,3 +116,7 @@ The consumer provides all CSS styling. The component renders with a `.carousel` 
 
 - WAI-ARIA Carousel Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/carousel/
 - WAI-ARIA Authoring Practices Carousel: https://www.w3.org/WAI/tutorials/carousels/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

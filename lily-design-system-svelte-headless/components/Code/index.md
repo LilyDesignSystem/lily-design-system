@@ -21,3 +21,7 @@ See [components/code/index.md](../../../components/code/index.md) for the full c
 - `Code.svelte` — Svelte 5 implementation using runes
 - `Code.test.ts` — vitest + @testing-library/svelte tests
 - `Code.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

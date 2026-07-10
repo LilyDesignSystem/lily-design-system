@@ -85,3 +85,7 @@ SummaryListItem is designed to be used as a child of SummaryList. The SummaryLis
 - MDN dt element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dt
 - MDN dd element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dd
 - HTML spec div in dl: https://html.spec.whatwg.org/multipage/grouping-content.html#the-dl-element
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

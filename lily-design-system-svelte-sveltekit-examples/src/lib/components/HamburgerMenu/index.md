@@ -91,3 +91,7 @@ A toggle button that opens a mobile navigation menu.
 
 - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 - WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

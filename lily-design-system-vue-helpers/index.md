@@ -1,4 +1,4 @@
-# Lily Design System — Vue Helpers
+# Lily Design System™ — Vue Helpers
 
 A catalog of opinionated, reusable Vue 3 helper components that sit
 alongside the headless [`lily-design-system-vue-headless`](../lily-design-system-vue-headless/)
@@ -39,7 +39,7 @@ lily-design-system-vue-<name>/
 
 The catalog parent shares its own `AGENTS/` and `AGENTS/shared/`
 directories with conventions, testing, accessibility, and SSR rules,
-plus the Lily-wide headless / i18n / theme principles ported from
+plus the Lily™-wide headless / i18n / theme principles ported from
 the root canonical AGENTS files.
 
 Shared design decisions across the catalog:
@@ -117,3 +117,7 @@ The shared rules around test setup (jsdom, `@vue/test-utils`,
 Each helper is dual-licensed under MIT or Apache-2.0 or GPL-2.0 or
 GPL-3.0 or BSD-3-Clause. Contact joel@joelparkerhenderson.com for
 other terms.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

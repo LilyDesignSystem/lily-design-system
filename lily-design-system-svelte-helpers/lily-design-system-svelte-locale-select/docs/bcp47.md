@@ -236,3 +236,7 @@ exist.
 date/number formatting if you read it back via JS, browser spellcheck.
 WCAG 3.1.1 (Language of Page) requires it. WCAG 3.1.2 (Language of
 Parts) requires it on subtrees whose language differs from the page.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

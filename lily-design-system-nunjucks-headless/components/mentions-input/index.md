@@ -93,3 +93,7 @@ slot/attribute pass-through.
 
 - [WAI-ARIA: combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/)
 - [Ant Design: Mentions](https://ant.design/components/mentions)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

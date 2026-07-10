@@ -18,3 +18,7 @@ See [components/grail-layout-bottom-footer/index.md](../../../components/grail-l
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

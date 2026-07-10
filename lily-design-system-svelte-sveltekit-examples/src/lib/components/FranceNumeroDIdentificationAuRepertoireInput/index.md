@@ -79,3 +79,7 @@ An input for entering a France numéro d'identification au répertoire (NIR) uni
 ## References
 
 - Ameli.fr: https://www.ameli.fr/assure/droits-demarches/principes/numero-securite-sociale
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

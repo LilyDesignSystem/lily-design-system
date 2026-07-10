@@ -116,3 +116,7 @@ input, with monospace typography so the characters align.
 - HTML `<input type="text">`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
 - WAI-ARIA aria-hidden: https://www.w3.org/TR/wai-aria-1.2/#aria-hidden
 - WCAG 1.3.5 Identify Input Purpose: https://www.w3.org/WAI/WCAG22/Understanding/identify-input-purpose
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

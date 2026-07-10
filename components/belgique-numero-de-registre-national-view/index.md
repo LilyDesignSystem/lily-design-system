@@ -63,3 +63,7 @@ The Numéro de Registre National / Rijksregisternummer (NRN) is Belgium's nation
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Belgium
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

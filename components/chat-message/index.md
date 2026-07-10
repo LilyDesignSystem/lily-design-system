@@ -111,3 +111,7 @@ ChatMessage is part of the ChatNav composition pattern:
 ## References
 
 - MDN HTML article element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

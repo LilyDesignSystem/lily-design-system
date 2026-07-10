@@ -467,7 +467,7 @@ Port the existing `index.html` body — hero, quick-start, and the "all componen
 </script>
 
 <svelte:head>
-  <title>Lily Design System</title>
+  <title>Lily Design System&trade;</title>
   <meta
     name="description"
     content="Lily is a free, open-source, accessible, headless design system with components across HTML, Svelte, React, Vue, Blazor, and Nunjucks."
@@ -1304,7 +1304,7 @@ These pages currently exist as 1- to 11-line markdown stubs (the markdown is not
 
 The legacy markdown content for each stub is:
 
-- `comparisons/index.md` — heading "Comparisons" plus a 7-row markdown table comparing Lily to other design systems.
+- `comparisons/index.md` — heading "Comparisons" plus a 7-row markdown table comparing Lily™ to other design systems.
 - `lily-claude-code/index.md` — heading "Lily + Claude Code", no body.
 - `lily-claude-design/index.md` — heading "Lily + Claude Design", no body.
 - `lily-figma/index.md` — heading "Lily + Figma", no body.
@@ -1801,3 +1801,7 @@ The following spec requirements were checked against the plan above:
 - **GitHub Actions workflow** — Task 11 ✓
 - **One-time manual Pages source switch documented** — Task 15.3 ✓
 - **Subtree-push compatibility unchanged** — `bin/git-subtree-push` not modified; plan only adds files inside `lilydesignsystem.github.io/` ✓
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

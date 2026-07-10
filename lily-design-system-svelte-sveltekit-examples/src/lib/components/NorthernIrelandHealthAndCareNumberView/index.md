@@ -42,3 +42,7 @@ A read-only display of Northern Ireland Health and Care (H&C) Number unique nati
 
 <NorthernIrelandHealthAndCareNumberView label="H&C Number" value="320 000 0001" />
 ```
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

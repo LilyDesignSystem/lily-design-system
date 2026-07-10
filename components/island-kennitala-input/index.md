@@ -68,3 +68,7 @@ The Kennitala is Iceland's national-id identifier. Format: 10 digits where the f
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Kennitala
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

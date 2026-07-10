@@ -108,3 +108,7 @@ The consumer provides all CSS styling. The component renders with a `.date-range
 
 - MDN input type="date": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
 - MDN fieldset element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

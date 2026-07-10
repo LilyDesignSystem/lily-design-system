@@ -21,3 +21,7 @@ See [components/line-chart/index.md](../../../components/line-chart/index.md) fo
 - `LineChart.svelte` — Svelte 5 implementation using runes
 - `LineChart.test.ts` — vitest + @testing-library/svelte tests
 - `LineChart.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

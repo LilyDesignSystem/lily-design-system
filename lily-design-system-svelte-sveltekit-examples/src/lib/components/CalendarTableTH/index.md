@@ -62,3 +62,7 @@ A calendar table interactive grid column for managing dates, days, etc. <th>.
 ## References
 
 - HTML col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -113,3 +113,7 @@ The consumer provides all CSS styling. The component renders with a `.tree-menu`
 ## References
 
 - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

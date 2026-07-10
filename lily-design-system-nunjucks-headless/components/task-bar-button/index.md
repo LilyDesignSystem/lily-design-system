@@ -18,3 +18,7 @@ See [components/task-bar-button/index.md](../../../components/task-bar-button/in
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

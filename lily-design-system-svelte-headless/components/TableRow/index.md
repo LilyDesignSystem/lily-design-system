@@ -21,3 +21,7 @@ See [components/table-row/index.md](../../../components/table-row/index.md) for 
 - `TableRow.svelte` — Svelte 5 implementation using runes
 - `TableRow.test.ts` — vitest + @testing-library/svelte tests
 - `TableRow.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

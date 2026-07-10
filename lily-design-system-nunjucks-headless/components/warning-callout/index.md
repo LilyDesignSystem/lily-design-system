@@ -18,3 +18,7 @@ See [components/warning-callout/index.md](../../../components/warning-callout/in
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

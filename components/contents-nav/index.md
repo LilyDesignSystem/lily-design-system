@@ -97,3 +97,7 @@ ContentsNav follows the Nav/List/ListItem composition pattern. Use ContentsNav a
 
 - WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
 - MDN nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

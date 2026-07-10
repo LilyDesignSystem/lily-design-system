@@ -82,3 +82,7 @@ attribute pass-through.
 
 - [MDN: `<blockquote>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote)
 - [Mozilla Protocol: Blockquote](https://protocol.mozilla.org/components/detail/blockquote)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

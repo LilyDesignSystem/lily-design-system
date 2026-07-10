@@ -87,3 +87,7 @@ SummaryList uses the List/ListItem composition pattern. Place SummaryListItem co
 
 - MDN dl element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl
 - WAI-ARIA landmark regions: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

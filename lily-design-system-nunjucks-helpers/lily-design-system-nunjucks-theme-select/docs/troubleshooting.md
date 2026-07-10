@@ -10,7 +10,7 @@ first-loaded theme then sets values that the next-loaded theme
 cannot unset.
 
 **Fix.** Scope every rule in every theme to
-`:where(:root, :root[data-theme="<slug>"])`. The Lily themes
+`:where(:root, :root[data-theme="<slug>"])`. The Lily™ themes
 follow this convention.
 
 ## "404 on the theme href"
@@ -180,3 +180,7 @@ export function autoInit(
     opts?: { onChange?: (slug: string) => void; target?: HTMLElement | null },
 ): Array<{ setTheme: (slug: string) => void; destroy: () => void }>;
 ```
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

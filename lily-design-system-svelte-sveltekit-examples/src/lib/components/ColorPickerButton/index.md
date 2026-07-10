@@ -77,3 +77,7 @@ A button showing a color swatch in a color picker.
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

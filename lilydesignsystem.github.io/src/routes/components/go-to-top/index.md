@@ -62,3 +62,7 @@ The component renders with `.go-to-top` as the root class. No default styles are
 
 - [MDN anchor element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a)
 - [WAI-ARIA Authoring Practices: landmarks](https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

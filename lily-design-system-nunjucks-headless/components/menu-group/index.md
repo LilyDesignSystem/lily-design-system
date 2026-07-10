@@ -62,3 +62,7 @@ content slots, classes, and attributes.
 
 - [WAI-ARIA: menu pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menubar/)
 - [Adobe Spectrum: Menu](https://spectrum.adobe.com/page/menu/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

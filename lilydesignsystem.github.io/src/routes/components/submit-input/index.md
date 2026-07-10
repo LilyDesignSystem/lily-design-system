@@ -99,3 +99,7 @@ The consumer provides all CSS styling. The component renders with a `.submit-inp
 ## References
 
 - MDN input type="submit": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/submit
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

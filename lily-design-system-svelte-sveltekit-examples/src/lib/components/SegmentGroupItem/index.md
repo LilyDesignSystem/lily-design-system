@@ -77,3 +77,7 @@ One selectable segment in a segment group.
 ## References
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

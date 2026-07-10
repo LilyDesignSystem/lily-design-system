@@ -112,3 +112,7 @@ The consumer provides all CSS styling. The component renders with a `.medical-ba
 
 - Parent component: MedicalBanner
 - CSS Flexbox: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -73,3 +73,7 @@ A read-only display of a five-face satisfaction rating.
 ## References
 
 - WAI-ARIA img role: https://www.w3.org/WAI/ARIA/apd/roles/img/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

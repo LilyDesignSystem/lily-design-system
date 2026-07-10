@@ -21,3 +21,7 @@ See [components/mockup-tablet-landscape/index.md](../../../components/mockup-tab
 - `MockupTabletLandscape.svelte` — Svelte 5 implementation using runes
 - `MockupTabletLandscape.test.ts` — vitest + @testing-library/svelte tests
 - `MockupTabletLandscape.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

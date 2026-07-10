@@ -80,3 +80,7 @@ An input for entering a numeric value with validation <input type="number">.
 
 - HTML number input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/number
 - WAI-ARIA spinbutton role: https://www.w3.org/TR/wai-aria-1.2/#spinbutton
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

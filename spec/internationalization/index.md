@@ -1,8 +1,8 @@
 # Internationalization
 
-> Lily Design System specification — topic doc. All topics: [spec index](../index.md).
+> Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily headless components ship zero hardcoded user-facing strings: every label, message, and announcement is supplied by the consumer through stable prop names, and locale-specific formatting and bidi layout are the consumer's concern.
+**Summary.** Lily™ headless components ship zero hardcoded user-facing strings: every label, message, and announcement is supplied by the consumer through stable prop names, and locale-specific formatting and bidi layout are the consumer's concern.
 
 ## Scope
 
@@ -110,3 +110,7 @@ Live-region components own the ARIA plumbing but never the words.
 - [AGENTS/internationalization.md](../../AGENTS/internationalization.md)
 - [spec/index.md](../index.md) §4.3 Internationalisation
 - [AGENTS/accessibility.md](../../AGENTS/accessibility.md)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

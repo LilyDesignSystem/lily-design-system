@@ -58,3 +58,7 @@ The component renders with `.document-list` as the root class. No default styles
 ## References
 
 - [MDN ol element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -109,3 +109,7 @@ The consumer provides all CSS styling. The component renders with a `.care-card`
 ## References
 
 - NHS England Care Cards: https://service-manual.nhs.uk/design-system/components/care-cards
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

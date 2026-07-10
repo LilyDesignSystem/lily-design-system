@@ -78,3 +78,7 @@ A grouped content container with header, body, and footer areas.
 ## References
 
 - MDN article element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

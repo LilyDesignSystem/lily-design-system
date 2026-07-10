@@ -60,3 +60,7 @@ The component renders with `.go-to-next-section` as the root class. No default s
 
 - Documentation: index.md
 - CSS class: `.go-to-next-section` in css-style-sheet-template.css
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

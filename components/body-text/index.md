@@ -97,3 +97,7 @@ The consumer provides all CSS styling. The component renders with a `.body-text`
 ## References
 
 - [MDN HTML elements reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

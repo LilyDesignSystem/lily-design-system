@@ -134,3 +134,7 @@ Cons:
 | Mobile-conscious, mostly-light apps     | Strategy 2           |
 | Small catalog (2–4 themes), CDN-cached  | Strategy 3           |
 | Themes tied to lazy-loaded features     | Strategy 4           |
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

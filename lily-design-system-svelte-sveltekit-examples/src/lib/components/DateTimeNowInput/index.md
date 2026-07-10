@@ -88,3 +88,7 @@ An input for entering a date and time and "now" button <input type="date"><input
 
 - MDN date input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
 - MDN time input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -18,3 +18,7 @@ See [components/tour-list/index.md](../../../components/tour-list/index.md) for 
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

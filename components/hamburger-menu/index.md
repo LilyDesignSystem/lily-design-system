@@ -111,3 +111,7 @@ The consumer provides all CSS styling. The component renders with a `.hamburger-
 
 - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 - WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

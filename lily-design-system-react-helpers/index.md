@@ -1,4 +1,4 @@
-# Lily Design System — React Helpers
+# Lily Design System™ — React Helpers
 
 A catalog of opinionated, reusable React 19 helper components that sit
 alongside the headless [`lily-design-system-react-headless`](../lily-design-system-react-headless/)
@@ -97,7 +97,7 @@ intentional divergences are framework idioms:
 
 The behavioural contract, the §7 acceptance criteria, the DOM the
 helpers produce, and the `data-theme` / `lang` / `dir` attribute
-they write are all identical. Code that depends on a Lily helper's
+they write are all identical. Code that depends on a Lily™ helper's
 DOM contract works across both frameworks.
 
 ## AGENTS files
@@ -142,3 +142,7 @@ other terms.
 - Catalog version: 0.1.0
 - Created: 2026-06-05
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

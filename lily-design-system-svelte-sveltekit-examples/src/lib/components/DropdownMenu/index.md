@@ -94,3 +94,7 @@ A menu that opens below a trigger button.
 - WAI-ARIA Menu Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubutton/
 - WAI-ARIA menu role: https://www.w3.org/TR/wai-aria-1.2/#menu
 - WAI-ARIA menuitem role: https://www.w3.org/TR/wai-aria-1.2/#menuitem
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

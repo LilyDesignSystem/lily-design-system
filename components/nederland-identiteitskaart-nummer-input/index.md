@@ -68,3 +68,7 @@ The Identiteitskaart Nummer is Netherlands's national-id identifier. Format: 9 c
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Dutch_identity_card
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

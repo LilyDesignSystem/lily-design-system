@@ -108,3 +108,7 @@ The consumer provides all CSS styling. The component renders with a `.sheet` cla
 
 - WAI-ARIA Dialog (Modal) Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 - WAI-ARIA Authoring Practices - Dialog: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/dialog/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

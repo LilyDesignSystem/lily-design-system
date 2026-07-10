@@ -124,3 +124,7 @@ RedAmberGreenPicker is the container for RedAmberGreenPickerButton children. Use
 ## References
 
 - RAG Status: https://en.wikipedia.org/wiki/Traffic_light_rating_system
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

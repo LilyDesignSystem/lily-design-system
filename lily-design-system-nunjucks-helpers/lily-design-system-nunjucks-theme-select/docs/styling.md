@@ -125,3 +125,7 @@ button {
 With the select active, switching themes swaps every variable in
 one tick — no JavaScript involvement beyond the `data-theme`
 attribute write.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

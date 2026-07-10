@@ -82,3 +82,7 @@ A slider input for selecting a value within a range <input type="range">.
 
 - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 - MDN input type="range": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

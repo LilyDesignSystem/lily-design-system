@@ -92,3 +92,7 @@ URL parameter?). Cookies are the right answer for SvelteKit, but not
 for Cloudflare-Workers-based hosts, embedded contexts, or apps that
 already have a server-side preference store. The select stays
 transport-agnostic and lets the consumer wire the integration.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

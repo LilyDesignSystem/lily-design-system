@@ -129,3 +129,7 @@ The consumer provides all CSS styling. The component renders with a `.sidebar` c
 - WAI-ARIA Complementary Role: https://www.w3.org/TR/wai-aria-1.2/#complementary
 - WAI-ARIA Landmark Regions: https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/
 - HTML `<aside>` element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

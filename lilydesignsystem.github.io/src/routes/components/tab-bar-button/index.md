@@ -102,3 +102,7 @@ TabBarButton is designed to be used as a child of TabBar. The TabBar provides th
 
 - WAI-ARIA TabBarButtons Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 - WAI-ARIA TabBarButton Role: https://www.w3.org/TR/wai-aria-1.2/#tab
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

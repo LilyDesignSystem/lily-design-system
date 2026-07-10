@@ -73,3 +73,7 @@ One check list item component with a checkbox.
 ## References
 
 - MDN checkbox: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

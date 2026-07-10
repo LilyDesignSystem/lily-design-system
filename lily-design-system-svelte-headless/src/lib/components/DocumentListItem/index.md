@@ -21,3 +21,7 @@ See [components/document-list-item/index.md](../../../../../components/document-
 - `DocumentListItem.svelte` — Svelte 5 implementation using runes
 - `DocumentListItem.test.ts` — vitest + @testing-library/svelte tests
 - `DocumentListItem.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

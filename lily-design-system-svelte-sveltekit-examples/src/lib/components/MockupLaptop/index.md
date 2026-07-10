@@ -1,3 +1,7 @@
 # MockupLaptop
 
 a box area that looks like a laptop computer
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

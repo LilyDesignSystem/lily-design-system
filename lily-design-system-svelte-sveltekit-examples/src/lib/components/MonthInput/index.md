@@ -75,3 +75,7 @@ An input for selecting a month and year <input type="month">.
 ## References
 
 - HTML month input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/month
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

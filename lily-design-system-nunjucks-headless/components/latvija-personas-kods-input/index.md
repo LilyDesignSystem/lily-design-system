@@ -18,3 +18,7 @@ See [components/latvija-personas-kods-input/index.md](../../../components/latvij
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

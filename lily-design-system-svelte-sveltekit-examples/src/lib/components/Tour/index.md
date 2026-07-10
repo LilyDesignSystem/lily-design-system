@@ -97,3 +97,7 @@ A tour guide, such as for sightseeing, or pathways, or demonstrations, etc.
 ## References
 
 - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

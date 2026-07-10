@@ -63,3 +63,7 @@ The Malta National Identification Number is Malta's national-id identifier. Form
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Malta
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

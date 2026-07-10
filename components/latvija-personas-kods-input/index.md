@@ -68,3 +68,7 @@ The Personas kods is Latvia's national-id identifier. Format: 11 digits in the f
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Latvia
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

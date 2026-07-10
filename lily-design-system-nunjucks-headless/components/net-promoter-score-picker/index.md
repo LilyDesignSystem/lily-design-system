@@ -18,3 +18,7 @@ See [components/net-promoter-score-picker/index.md](../../../components/net-prom
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -94,3 +94,7 @@ Sonner serves as the container region that manages Toast notification components
 
 - WAI-ARIA Live Regions: https://www.w3.org/TR/wai-aria-1.2/#aria-live
 - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

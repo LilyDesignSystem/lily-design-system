@@ -79,3 +79,7 @@ only needs to render `<option>` elements.
 - Don't render non-`<option>` markup directly inside the select — the
   root is a native `<select>`. For a non-`<select>` UI, render your
   controls outside the select and call `setTheme` from a wrapper.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

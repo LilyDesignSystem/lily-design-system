@@ -2,4 +2,8 @@
 
 an input for entering Denmark's Personnummer (CPR-nummer) (CPR)
 
-See the canonical documentation at `components/danmark-personnummer-input/index.md` in the Lily Design System repo.
+See the canonical documentation at `components/danmark-personnummer-input/index.md` in the Lily Design System™ repo.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

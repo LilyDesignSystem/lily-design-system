@@ -18,3 +18,7 @@ See [components/task-list-item/index.md](../../../components/task-list-item/inde
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -91,3 +91,7 @@ DataTableTD is part of the DataTable composition pattern: DataTable > DataTableH
 
 - WAI-ARIA Table Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/table/
 - MDN th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -89,3 +89,7 @@ in addition to color.
 - WAI-ARIA `status` role: https://www.w3.org/TR/wai-aria-1.2/#status
 - WCAG 1.4.1 Use of Color: https://www.w3.org/WAI/WCAG22/Understanding/use-of-color
 - Adobe Spectrum Status Light: https://spectrum.adobe.com/page/status-light/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

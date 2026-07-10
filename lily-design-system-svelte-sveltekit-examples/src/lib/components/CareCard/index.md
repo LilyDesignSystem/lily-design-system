@@ -84,3 +84,7 @@ A medical care instruction card with urgency levels.
 ## References
 
 - NHS England Care Cards: https://service-manual.nhs.uk/design-system/components/care-cards
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

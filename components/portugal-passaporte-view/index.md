@@ -63,3 +63,7 @@ The Passaporte is Portugal's passport identifier. Format: 1 letter [A-Z] and 6 d
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Portuguese_passport
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

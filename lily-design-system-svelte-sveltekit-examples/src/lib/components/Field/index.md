@@ -83,3 +83,7 @@ A form field wrapper with label, input, and error message.
 
 - WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/
 - WAI-ARIA Error Handling: https://www.w3.org/WAI/WCAG22/Techniques/aria/ARIA21
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

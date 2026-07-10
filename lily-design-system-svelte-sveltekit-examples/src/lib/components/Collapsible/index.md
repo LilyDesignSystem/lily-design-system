@@ -74,3 +74,7 @@ A container that can be expanded or collapsed.
 ## References
 
 - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

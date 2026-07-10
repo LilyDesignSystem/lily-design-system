@@ -68,3 +68,7 @@ The National Insurance Number (NINO) is United Kingdom's tax/welfare identifier.
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_Insurance_number
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

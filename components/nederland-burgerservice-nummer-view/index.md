@@ -63,3 +63,7 @@ The Burgerservicenummer (BSN) is Netherlands's national-id identifier. Format: 9
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Burgerservicenummer
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -74,3 +74,7 @@ A button input that resets a form to default values <input type="reset">.
 ## References
 
 - MDN input type="reset": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/reset
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

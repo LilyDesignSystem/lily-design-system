@@ -73,3 +73,7 @@ A single-line text input field <input type="text">.
 ## References
 
 - MDN input type="text": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

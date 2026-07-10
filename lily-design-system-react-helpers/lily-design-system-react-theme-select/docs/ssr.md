@@ -200,3 +200,7 @@ the consumer wire the integration.
 - Server Components cannot directly render `ThemeSelect` — they
   render a client wrapper that renders the select. This is the
   canonical RSC boundary pattern.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

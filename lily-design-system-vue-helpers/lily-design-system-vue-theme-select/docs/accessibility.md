@@ -52,7 +52,7 @@ colour-only meaning is required:
 
 The select does not suppress `:focus` or `:focus-visible` styling.
 The consumer's CSS is responsible for the visible focus ring. NHS-UK
-and Lily themes ship a high-contrast focus outline that meets AAA.
+and Lily™ themes ship a high-contrast focus outline that meets AAA.
 
 ## Reduced motion
 
@@ -82,3 +82,7 @@ transitions on the `data-theme` swap.
 - **Setting `inheritAttrs: false` on a wrapping component.** Don't
   break the attribute fall-through; consumers rely on it for
   `data-testid`, `id`, and event handlers.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

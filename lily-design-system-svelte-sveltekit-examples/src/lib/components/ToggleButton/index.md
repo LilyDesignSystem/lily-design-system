@@ -78,3 +78,7 @@ A button that toggles between pressed and unpressed states.
 
 - WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
 - WAI-ARIA Switch Role: https://www.w3.org/TR/wai-aria-1.2/#switch
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

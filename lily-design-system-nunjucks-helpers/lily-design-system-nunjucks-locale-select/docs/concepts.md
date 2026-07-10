@@ -172,3 +172,7 @@ ships with the same shape: a macro that emits a `<select>` with
 that owns the apply lifecycle. Mount both selects on the same page
 to expose theme + language preferences side-by-side; they share
 zero state and cannot collide.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

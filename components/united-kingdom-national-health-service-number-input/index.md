@@ -98,3 +98,7 @@ UnitedKingdomNationalHealthServiceNumberInput is the editable input counterpart 
 ## References
 
 - NHS Number format: https://www.nhs.uk/nhs-services/online-services/find-nhs-number/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -114,3 +114,7 @@ Extra CSS class hook on the `<select>`. Always emitted after
 
 Spread onto the root. Use to attach `data-*`, `id`, event handlers,
 and ARIA overrides.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

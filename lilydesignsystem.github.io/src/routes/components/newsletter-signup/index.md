@@ -125,3 +125,7 @@ for status messaging.
 - WAI-ARIA `role="alert"`: https://www.w3.org/TR/wai-aria-1.2/#alert
 - MDN `aria-live`: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-live
 - Mozilla Protocol Design System: https://protocol.mozilla.org/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

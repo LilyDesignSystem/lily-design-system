@@ -40,7 +40,7 @@ A generic block-level content container.
 
 - Do not use when a fixed reading width is required — use `container-with-fixed-width` instead.
 - Do not use when full-bleed horizontal padding is required — use `container-with-fluid-width` instead.
-- Do not use as a substitute for a semantic landmark — use `<header>`, `<main>`, `<nav>`, `<footer>`, or `<section>` (or the corresponding Lily components) when the content has a clear role.
+- Do not use as a substitute for a semantic landmark — use `<header>`, `<main>`, `<nav>`, `<footer>`, or `<section>` (or the corresponding Lily™ components) when the content has a clear role.
 
 ## Headless
 
@@ -59,3 +59,7 @@ The component renders with `.container` as the root class. No default styles are
 
 - Documentation: index.md
 - CSS class: `.container` in css-style-sheet-template.css
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

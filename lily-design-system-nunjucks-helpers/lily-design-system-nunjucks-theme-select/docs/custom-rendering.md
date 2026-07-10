@@ -160,3 +160,7 @@ framework helpers in this catalog (Svelte snippets, React render
 props, Vue scoped slots) all bottom out to the same DOM contract
 — the markup hands the consumer access to a function that calls
 `setTheme(slug)`.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

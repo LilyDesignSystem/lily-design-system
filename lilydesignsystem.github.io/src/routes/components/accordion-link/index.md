@@ -105,3 +105,7 @@ AccordionLink follows the Nav / List / ListItem composition pattern:
 ## References
 
 - WAI-ARIA Accordion Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/accordion/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

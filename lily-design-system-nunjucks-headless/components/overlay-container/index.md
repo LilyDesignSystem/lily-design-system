@@ -78,3 +78,7 @@ No CSS or JavaScript shipped. Consumers handle:
 `components/overlay-container/macro.test.js` verifies the base class,
 `role="presentation"`, and the open/closed state attributes
 (`data-open`, `aria-hidden`, `hidden`).
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

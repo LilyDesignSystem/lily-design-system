@@ -87,3 +87,7 @@ One event in a timeline list.
 
 - HTML <time> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time
 - WAI-ARIA listitem role: https://www.w3.org/TR/wai-aria-1.2/#listitem
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

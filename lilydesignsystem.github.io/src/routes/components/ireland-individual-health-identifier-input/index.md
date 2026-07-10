@@ -76,3 +76,7 @@ The Ireland Individual Health Identifier (IHI) is a 10-digit clinical identifier
 ## References
 
 - HSE: https://www.hse.ie/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

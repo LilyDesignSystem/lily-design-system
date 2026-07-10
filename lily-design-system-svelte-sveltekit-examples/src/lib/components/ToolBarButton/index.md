@@ -76,3 +76,7 @@ One action button in a tool bar.
 ## References
 
 - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

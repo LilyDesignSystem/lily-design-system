@@ -43,3 +43,7 @@ A read-only display of Ireland Individual Health Identifier (IHI) unique nationa
 
 <IrelandIndividualHealthIdentifierView label="IHI" value="1234567890" />
 ```
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

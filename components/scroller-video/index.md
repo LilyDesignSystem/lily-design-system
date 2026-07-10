@@ -112,3 +112,7 @@ The consumer provides all CSS styling. The component renders with a `.scroller-v
 - Reuters Graphics ScrollerVideo
 - WebCodecs API: https://developer.mozilla.org/en-US/docs/Web/API/WebCodecs_API
 - ScrollerBase component: ../scroller-base/index.md
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

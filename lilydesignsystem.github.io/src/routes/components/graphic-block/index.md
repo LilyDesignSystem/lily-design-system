@@ -107,3 +107,7 @@ The consumer provides all CSS styling. The component renders with a `.graphic-bl
 - Reuters Graphics GraphicBlock component
 - [HTML figure element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure)
 - [HTML figcaption element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figcaption)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -99,3 +99,7 @@ TelInput and TelLink follow the Input/Link pattern. TelInput provides the editab
 ## References
 
 - HTML tel input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/tel
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

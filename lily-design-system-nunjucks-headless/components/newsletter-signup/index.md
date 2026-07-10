@@ -111,3 +111,7 @@ conditional visibility based on state.
 
 - [WAI-ARIA: form pattern](https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/form.html)
 - [Mozilla Protocol: Newsletter](https://protocol.mozilla.org/components/detail/newsletter)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

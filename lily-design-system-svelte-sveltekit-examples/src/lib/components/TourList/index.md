@@ -82,3 +82,7 @@ An ordered list of tour guide steps.
 ## References
 
 - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

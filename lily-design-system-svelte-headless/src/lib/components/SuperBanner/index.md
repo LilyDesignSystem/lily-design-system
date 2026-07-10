@@ -21,3 +21,7 @@ See [components/super-banner/index.md](../../../../../components/super-banner/in
 - `SuperBanner.svelte` — Svelte 5 implementation using runes
 - `SuperBanner.test.ts` — vitest + @testing-library/svelte tests
 - `SuperBanner.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

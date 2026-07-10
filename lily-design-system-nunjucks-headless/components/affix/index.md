@@ -77,3 +77,7 @@ pass-through.
 
 - [MDN: position: sticky](https://developer.mozilla.org/en-US/docs/Web/CSS/position#sticky_positioning)
 - [Ant Design: Affix](https://ant.design/components/affix)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

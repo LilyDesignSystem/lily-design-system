@@ -67,3 +67,7 @@ A kanban board table interactive grid column for organizing items by status <th>
 ## References
 
 - HTML col element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/col
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

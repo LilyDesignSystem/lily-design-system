@@ -21,3 +21,7 @@ See [components/tile/index.md](../../../components/tile/index.md) for the full c
 - `Tile.svelte` — Svelte 5 implementation using runes
 - `Tile.test.ts` — vitest + @testing-library/svelte tests
 - `Tile.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

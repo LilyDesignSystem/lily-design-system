@@ -79,3 +79,7 @@ A callout box highlighting a warning message.
 
 - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/
 - WAI-ARIA alert role: https://www.w3.org/TR/wai-aria-1.2/#alert
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

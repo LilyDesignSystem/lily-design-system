@@ -109,3 +109,7 @@ DataTable follows the Table/Head/Body/Foot/Row/Data composition pattern. Use Dat
 
 - WAI-ARIA Table Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/table/
 - WAI Tutorial on Tables: https://www.w3.org/WAI/tutorials/tables/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -79,3 +79,7 @@ The consumer provides all CSS styling. The component renders with a `.sparkline`
 ## References
 
 - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

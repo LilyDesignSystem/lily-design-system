@@ -10,7 +10,7 @@ first-loaded theme then sets values that the next-loaded theme
 cannot unset.
 
 **Fix.** Scope every rule in every theme to
-`:where(:root, :root[data-theme="<slug>"])`. The Lily themes
+`:where(:root, :root[data-theme="<slug>"])`. The Lily™ themes
 follow this convention.
 
 ## "404 on the theme href"
@@ -125,3 +125,7 @@ Now both Nuxt and the select write the same source of truth.
 resolves. The select still works but the FOUT window grows. Move
 the select outside the `<Suspense>` boundary, or pre-resolve the
 theme on the server and pass it as `value`.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

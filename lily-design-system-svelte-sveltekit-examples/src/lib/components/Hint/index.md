@@ -73,3 +73,7 @@ Hint text providing guidance for a form field.
 ## References
 
 - WAI Forms Tutorial - Instructions: https://www.w3.org/WAI/tutorials/forms/instructions/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

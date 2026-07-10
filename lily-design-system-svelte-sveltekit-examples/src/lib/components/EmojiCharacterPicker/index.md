@@ -81,3 +81,7 @@ A picker for browsing and selecting emoji characters.
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

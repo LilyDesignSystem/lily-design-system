@@ -97,3 +97,7 @@ The consumer provides all CSS styling. The component renders with a `.text-input
 ## References
 
 - MDN input type="text": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

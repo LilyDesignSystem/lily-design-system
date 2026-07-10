@@ -18,3 +18,7 @@ See [components/norge-fodselsnummer-input/index.md](../../../components/norge-fo
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

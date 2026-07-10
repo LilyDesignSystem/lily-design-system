@@ -21,3 +21,7 @@ See [components/section-link/index.md](../../../components/section-link/index.md
 - `SectionLink.svelte` — Svelte 5 implementation using runes
 - `SectionLink.test.ts` — vitest + @testing-library/svelte tests
 - `SectionLink.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

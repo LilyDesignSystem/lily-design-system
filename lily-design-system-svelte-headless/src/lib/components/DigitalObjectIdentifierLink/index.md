@@ -21,3 +21,7 @@ See [components/digital-object-identifier-link/index.md](../../../../../componen
 - `DigitalObjectIdentifierLink.svelte` — Svelte 5 implementation using runes
 - `DigitalObjectIdentifierLink.test.ts` — vitest + @testing-library/svelte tests
 - `DigitalObjectIdentifierLink.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

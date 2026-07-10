@@ -68,3 +68,7 @@ The National Passport Number is Cyprus's passport identifier. Format: passports 
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Cypriot_passport
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

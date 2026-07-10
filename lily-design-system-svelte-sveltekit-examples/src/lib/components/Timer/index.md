@@ -78,3 +78,7 @@ A countdown or elapsed time display.
 - WAI-ARIA timer role: https://www.w3.org/TR/wai-aria-1.2/#timer
 - HTML <time> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time
 - ISO 8601 Duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

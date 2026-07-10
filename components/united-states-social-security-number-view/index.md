@@ -90,3 +90,7 @@ UnitedStatesSocialSecurityNumberView is the read-only display counterpart to Uni
 ## References
 
 - Social Security Number: https://www.ssa.gov/history/ssn/geocard.html
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

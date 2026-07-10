@@ -187,3 +187,7 @@ select until it enters the viewport. The FOUT window grows because
 the effect doesn't run on the first paint. Move the select outside
 the `@defer` boundary, or pre-resolve the theme on the server and
 pass it as `value`.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

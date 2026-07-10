@@ -109,3 +109,7 @@ The consumer provides all CSS styling. The component renders with a `.signature-
 ## References
 
 - WAI-ARIA application Role: https://www.w3.org/TR/wai-aria-1.2/#application
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

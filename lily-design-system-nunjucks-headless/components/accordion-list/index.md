@@ -18,3 +18,7 @@ See [components/accordion-list/index.md](../../../components/accordion-list/inde
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

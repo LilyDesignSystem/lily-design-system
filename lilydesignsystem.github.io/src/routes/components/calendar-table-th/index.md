@@ -93,3 +93,7 @@ CalendarTableTD is part of the CalendarTable composition pattern: CalendarTable 
 ## References
 
 - MDN th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

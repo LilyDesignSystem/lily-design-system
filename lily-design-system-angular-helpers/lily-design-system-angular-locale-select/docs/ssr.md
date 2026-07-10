@@ -388,3 +388,7 @@ option is selected on mount.
   <https://www.rfc-editor.org/rfc/rfc4647>
 - `@formatjs/intl-localematcher` — RFC 4647 best-fit matcher:
   <https://formatjs.github.io/docs/polyfills/intl-localematcher/>
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -95,3 +95,7 @@ The consumer provides all CSS styling. The component renders with a `.character-
 ## References
 
 - [MDN span element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

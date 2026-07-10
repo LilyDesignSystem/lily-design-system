@@ -73,3 +73,7 @@ A caption for a table or figure element.
 ## References
 
 - MDN figcaption: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figcaption
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

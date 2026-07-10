@@ -21,3 +21,7 @@ See [components/kbd/index.md](../../../components/kbd/index.md) for the full com
 - `Kbd.svelte` — Svelte 5 implementation using runes
 - `Kbd.test.ts` — vitest + @testing-library/svelte tests
 - `Kbd.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -81,3 +81,7 @@ A horizontal bar of task shortcuts or actions.
 ## References
 
 - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

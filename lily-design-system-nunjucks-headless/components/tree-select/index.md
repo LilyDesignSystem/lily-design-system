@@ -97,3 +97,7 @@ trigger placeholder/value, hidden panel, and pass-through.
 - [WAI-ARIA: combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/)
 - [WAI-ARIA: tree pattern](https://www.w3.org/WAI/ARIA/apg/patterns/treeview/)
 - [Ant Design: TreeSelect](https://ant.design/components/tree-select)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

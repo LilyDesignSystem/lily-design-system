@@ -148,7 +148,7 @@ For 50+ locales, a combobox with type-ahead is the right pattern. The
 APG Combobox specification is intricate (focus-on-listbox vs
 focus-on-input, auto-complete vs none, vertical vs grid). This helper
 doesn't ship a combobox; use the `children` render prop to render the
-upstream Lily `Combobox` headless primitive or an established library
+upstream Lily™ `Combobox` headless primitive or an established library
 (Radix UI, Ark UI, Headless UI).
 
 See [examples/10-combobox.tsx](../examples/10-combobox.tsx) for a
@@ -206,3 +206,7 @@ browser's job, not yours.
   <https://www.w3.org/WAI/WCAG22/Understanding/on-input>
 - MDN — `lang` attribute and `:lang()` selector:
   <https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang>
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

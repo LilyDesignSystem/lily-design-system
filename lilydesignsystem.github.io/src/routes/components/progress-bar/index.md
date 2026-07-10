@@ -66,3 +66,7 @@ The component renders with `.progress-bar` as the root class. No default styles 
 
 - Documentation: index.md
 - CSS class: `.progress-bar` in css-style-sheet-template.css
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

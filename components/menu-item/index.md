@@ -116,3 +116,7 @@ Menu (role="menu") → MenuItem (role="menuitem")
 
 - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
 - WAI-ARIA menuitem role: https://www.w3.org/TR/wai-aria-1.2/#menuitem
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

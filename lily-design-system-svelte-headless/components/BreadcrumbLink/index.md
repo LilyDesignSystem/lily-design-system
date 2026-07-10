@@ -21,3 +21,7 @@ See [components/breadcrumb-link/index.md](../../../components/breadcrumb-link/in
 - `BreadcrumbLink.svelte` — Svelte 5 implementation using runes
 - `BreadcrumbLink.test.ts` — vitest + @testing-library/svelte tests
 - `BreadcrumbLink.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

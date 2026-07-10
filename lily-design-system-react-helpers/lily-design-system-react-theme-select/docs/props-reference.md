@@ -171,3 +171,7 @@ and ARIA overrides.
 The select's TypeScript surface accepts any
 `React.SelectHTMLAttributes<HTMLSelectElement>` except `onChange`
 and `children`, which are reserved for the select's own contract.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

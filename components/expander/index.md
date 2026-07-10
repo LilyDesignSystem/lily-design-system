@@ -105,3 +105,7 @@ The consumer provides all CSS styling. The component renders with a `.expander` 
 ## References
 
 - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

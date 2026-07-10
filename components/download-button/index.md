@@ -112,3 +112,7 @@ and `data-file-format` attributes to render badges or pseudo-element labels.
 - MDN `<a>` download attribute: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download
 - WAI-ARIA Link Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/link/
 - Mozilla Protocol Design System: https://protocol.mozilla.org/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

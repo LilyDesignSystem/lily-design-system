@@ -101,3 +101,7 @@ control.
 - US Web Design System Icon List: https://designsystem.digital.gov/components/icon-list/
 - HTML `<li>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li
 - WAI-ARIA aria-hidden: https://www.w3.org/TR/wai-aria-1.2/#aria-hidden
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

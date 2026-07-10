@@ -21,3 +21,7 @@ See [components/column-chart/index.md](../../../../../components/column-chart/in
 - `ColumnChart.svelte` — Svelte 5 implementation using runes
 - `ColumnChart.test.ts` — vitest + @testing-library/svelte tests
 - `ColumnChart.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

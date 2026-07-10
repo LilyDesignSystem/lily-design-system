@@ -65,3 +65,7 @@ Only the inline styles needed for the flex behavior are emitted.
 `components/flex-stack/macro.test.js` verifies the base class,
 `data-direction`, and the inline `display`, `flex-direction`,
 `gap`, `align-items`, and `justify-content` styles.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

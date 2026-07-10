@@ -57,3 +57,7 @@ A kanban board table interactive grid thead for organizing items by status <thea
 ## References
 
 - HTML thead element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

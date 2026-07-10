@@ -52,7 +52,7 @@ colour-only meaning is required:
 
 The select does not suppress `:focus` or `:focus-visible` styling.
 The consumer's CSS is responsible for the visible focus ring. NHS-UK
-and Lily themes ship a high-contrast focus outline that meets AAA.
+and Lily™ themes ship a high-contrast focus outline that meets AAA.
 
 ## Reduced motion
 
@@ -117,3 +117,7 @@ expect(fixture.nativeElement.querySelectorAll("option").length).toBe(2);
 For broader a11y testing run axe-core in a real Angular host. The
 catalog has no built-in axe runner because the helpers ship no CSS
 — a meaningful audit must run against the consumer's styled markup.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

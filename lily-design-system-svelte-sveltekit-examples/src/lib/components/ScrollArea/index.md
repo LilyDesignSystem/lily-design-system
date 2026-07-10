@@ -85,3 +85,7 @@ A scrollable container with custom scrollbar support.
 
 - WAI-ARIA Region Role: https://www.w3.org/TR/wai-aria-1.2/#region
 - WCAG 2.1 Reflow: https://www.w3.org/WAI/WCAG21/Understanding/reflow.html
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

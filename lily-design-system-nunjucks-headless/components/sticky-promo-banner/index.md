@@ -5,7 +5,7 @@ a fixed-position promotional banner with a dismiss button
 ## Description
 
 StickyPromoBanner pins promotional content to the top or bottom of
-the viewport. The component is the only Lily headless macro that
+the viewport. The component is the only Lily™ headless macro that
 emits inline `style` (`position: fixed; left: 0; right: 0;` plus
 `top: 0` or `bottom: 0`) — without it, consumers cannot pin the
 banner without their own CSS framework. All other visual styling is
@@ -108,3 +108,7 @@ and `hidden` behaviour.
 ## References
 
 - [Mozilla Protocol: Sticky Promo Banner](https://protocol.mozilla.org/components/detail/sticky-promo-banner)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -76,3 +76,7 @@ An input for entering a Northern Ireland Health and Care (H&C) Number unique nat
 ## References
 
 - HSC NI: https://online.hscni.net/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

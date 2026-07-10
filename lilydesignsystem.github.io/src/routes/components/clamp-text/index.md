@@ -107,3 +107,7 @@ hooks the `--clamp-text-lines` custom property:
 
 - MDN line-clamp: https://developer.mozilla.org/en-US/docs/Web/CSS/line-clamp
 - WCAG 1.4.4 Resize Text: https://www.w3.org/WAI/WCAG22/Understanding/resize-text
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

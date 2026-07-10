@@ -21,3 +21,7 @@ See [components/loading/index.md](../../../../../components/loading/index.md) fo
 - `Loading.svelte` — Svelte 5 implementation using runes
 - `Loading.test.ts` — vitest + @testing-library/svelte tests
 - `Loading.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

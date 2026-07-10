@@ -73,3 +73,7 @@ An input with a dropdown for picking a time.
 ## References
 
 - MDN input type="time": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

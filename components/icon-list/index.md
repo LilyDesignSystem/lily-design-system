@@ -94,3 +94,7 @@ consistent vertical spacing.
 - US Web Design System Icon List: https://designsystem.digital.gov/components/icon-list/
 - HTML `<ul>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul
 - WCAG 1.3.1 Info and Relationships: https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

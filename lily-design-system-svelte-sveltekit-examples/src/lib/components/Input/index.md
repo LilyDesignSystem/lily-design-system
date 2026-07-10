@@ -79,3 +79,7 @@ A generic HTML input element.
 
 - MDN Input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
 - WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

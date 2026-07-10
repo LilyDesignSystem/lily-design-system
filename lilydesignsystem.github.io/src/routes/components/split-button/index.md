@@ -134,3 +134,7 @@ positioning.
 - WAI-ARIA Disclosure pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 - WAI-ARIA Menu Button pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/
 - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

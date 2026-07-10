@@ -100,3 +100,7 @@ The consumer provides all CSS styling. The component renders with a `.date-field
 
 - ARIA Error Handling: https://www.w3.org/WAI/WCAG22/Techniques/aria/ARIA21
 - WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

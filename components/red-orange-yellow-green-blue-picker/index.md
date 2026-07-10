@@ -116,3 +116,7 @@ RedOrangeYellowGreenBluePicker is the container for RedOrangeYellowGreenBluePick
 ## References
 
 - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

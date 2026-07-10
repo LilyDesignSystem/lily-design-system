@@ -83,3 +83,7 @@ A generic clickable button element.
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

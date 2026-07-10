@@ -117,7 +117,7 @@ For 50+ locales, a combobox with type-ahead is the right pattern.
 The APG Combobox specification is intricate (focus-on-listbox vs
 focus-on-input, auto-complete vs none, vertical vs grid). This
 helper doesn't ship a combobox; use the caller block to render
-your own combobox markup or use the upstream Lily
+your own combobox markup or use the upstream Lily™
 `Combobox` headless primitive.
 
 See [examples/10-combobox.njk](../examples/10-combobox.njk) for a
@@ -166,3 +166,7 @@ yours.
   <https://www.w3.org/WAI/WCAG22/Understanding/on-input>
 - MDN — `lang` attribute and `:lang()` selector:
   <https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang>
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

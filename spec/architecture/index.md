@@ -1,8 +1,8 @@
 # Architecture
 
-> Lily Design System specification — topic doc. All topics: [spec index](../index.md).
+> Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily is a monorepo holding a canonical 490-component catalog plus 14 implementation subprojects (7 headless libraries + 7 example apps) and 7 per-framework helper catalogs, where every subproject is also a `git subtree` that pushes to its own standalone remote.
+**Summary.** Lily™ is a monorepo holding a canonical 490-component catalog plus 14 implementation subprojects (7 headless libraries + 7 example apps) and 7 per-framework helper catalogs, where every subproject is also a `git subtree` that pushes to its own standalone remote.
 
 ## Scope
 
@@ -126,3 +126,7 @@ Every `components/{slug}/` directory (490 of them) carries:
 - [spec/index.md](../index.md) — §3 Architecture, §9 Tooling, §14 Tracking
 - [AGENTS.md](../../AGENTS.md)
 - [AGENTS/lily.md](../../AGENTS/lily.md)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

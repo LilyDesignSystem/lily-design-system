@@ -1,3 +1,7 @@
 # SliderButton
 
 a button with a slider that the user needs to slide to confirm
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

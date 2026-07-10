@@ -81,3 +81,7 @@ The French NIR (Numéro d'Inscription au Répertoire) is structured as 15 digits
 ## References
 
 - Ameli.fr: https://www.ameli.fr/assure/droits-demarches/principes/numero-securite-sociale
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

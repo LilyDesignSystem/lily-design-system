@@ -78,3 +78,7 @@ A container for displaying an icon.
 
 - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
 - WAI-ARIA Images Tutorial: https://www.w3.org/WAI/tutorials/images/decorative/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

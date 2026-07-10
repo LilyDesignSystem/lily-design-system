@@ -179,3 +179,7 @@ The DOM has a `change` event already; emitting `change` from a
 custom element would compete with native control events. The
 namespaced `localechange` is unambiguous, and parallels the
 `themechange` event from `<theme-select>`.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

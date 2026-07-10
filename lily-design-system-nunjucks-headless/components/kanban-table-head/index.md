@@ -18,3 +18,7 @@ See [components/kanban-table-head/index.md](../../../components/kanban-table-hea
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

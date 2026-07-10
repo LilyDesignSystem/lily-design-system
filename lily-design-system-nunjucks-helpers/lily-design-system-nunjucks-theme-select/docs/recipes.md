@@ -196,3 +196,7 @@ the client.js import inside an `IntersectionObserver`:
 The `<select>` remains interactive without JS (form-submission
 level), and the apply lifecycle kicks in once the select scrolls
 into view.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -85,3 +85,7 @@ A data table interactive grid for displaying and sorting tabular data <table>.
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

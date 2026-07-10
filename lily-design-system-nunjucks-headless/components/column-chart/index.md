@@ -18,3 +18,7 @@ See [components/column-chart/index.md](../../../components/column-chart/index.md
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

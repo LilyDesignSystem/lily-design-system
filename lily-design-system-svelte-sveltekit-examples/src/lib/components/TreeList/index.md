@@ -78,3 +78,7 @@ A hierarchical list with nested expandable items.
 
 - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/TreeList/
 - WAI-ARIA tree role: https://www.w3.org/TR/wai-aria-1.2/#tree
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

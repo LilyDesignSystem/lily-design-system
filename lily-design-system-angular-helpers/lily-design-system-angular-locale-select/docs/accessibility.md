@@ -163,3 +163,7 @@ browser's job, not yours.
   <https://www.w3.org/WAI/WCAG22/Understanding/on-input>
 - MDN — `lang` attribute and `:lang()` selector:
   <https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang>
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

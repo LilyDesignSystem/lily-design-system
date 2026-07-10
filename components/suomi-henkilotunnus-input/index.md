@@ -68,3 +68,7 @@ The Henkilötunnus (HETU) is Finland's national-id identifier. Format: 11 charac
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Personal_identity_code_(Finland)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

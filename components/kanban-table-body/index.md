@@ -109,3 +109,7 @@ KanbanTable → KanbanTableHead + KanbanTableBody + KanbanTableFoot
 
 - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

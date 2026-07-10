@@ -1,4 +1,4 @@
-# Lily Design System
+# Lily Design System™
 
 Lily Design System is a free open source design system that anyone can use and improve.
 
@@ -50,7 +50,7 @@ text-size-select — that own one user-preference lifecycle end to end
 ## Themes
 
 The [themes/](themes) directory ships 45 standalone reference theme
-stylesheets that target the Lily class hooks — NHS England, NHS Scotland,
+stylesheets that target the Lily™ class hooks — NHS England, NHS Scotland,
 and NHS Wales (patient and practitioner variants), GOV.UK GDS, USWDS,
 Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark themes.
 The theme-select helper loads them at runtime.
@@ -629,3 +629,7 @@ slug below links to the per-component documentation.
 - Updated: 2026-05-30T00:00:00Z
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause or contact us for more
 - Contact: Joel Parker Henderson (joel@joelparkerhenderson.com)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -92,3 +92,7 @@ The consumer provides all CSS styling. The component renders with a `.file-uploa
 ## References
 
 - MDN `<input type="file">`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

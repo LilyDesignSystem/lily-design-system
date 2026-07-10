@@ -106,3 +106,7 @@ The consumer provides all CSS styling. The component renders with a `.command` c
 
 - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

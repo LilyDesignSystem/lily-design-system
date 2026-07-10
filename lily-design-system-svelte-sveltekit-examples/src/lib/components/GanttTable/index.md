@@ -93,3 +93,7 @@ A Gantt chart table interactive grid for planning schedule visualization <table>
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

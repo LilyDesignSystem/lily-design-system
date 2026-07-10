@@ -78,3 +78,7 @@ An image element with alt text.
 
 - WAI Images Tutorial: https://www.w3.org/WAI/tutorials/images/
 - HTML figure element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

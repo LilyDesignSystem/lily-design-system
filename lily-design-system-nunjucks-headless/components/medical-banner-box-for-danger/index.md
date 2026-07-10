@@ -18,3 +18,7 @@ See [components/medical-banner-box-for-danger/index.md](../../../components/medi
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

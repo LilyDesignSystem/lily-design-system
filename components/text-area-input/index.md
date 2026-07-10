@@ -89,3 +89,7 @@ The consumer provides all CSS styling. The component renders with a `.text-area-
 ## References
 
 - MDN text-area-input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/text-area-input
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -73,3 +73,7 @@ A read-only display of a postal or ZIP code.
 ## References
 
 - MDN span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

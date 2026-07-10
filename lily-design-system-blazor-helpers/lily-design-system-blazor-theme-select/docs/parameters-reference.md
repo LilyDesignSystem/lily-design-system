@@ -224,3 +224,7 @@ See [custom-rendering.md](./custom-rendering.md) for usage.
 <!-- Two-way bind + explicit ValueChanged (rarely needed) -->
 <ThemeSelect Value="@theme" ValueChanged="@(v => theme = v)" ... />
 ```
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

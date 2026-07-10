@@ -87,3 +87,7 @@ The consumer provides all CSS styling. The component renders with a `.hidden-inp
 ## References
 
 - HTML hidden input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/hidden
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -163,3 +163,7 @@ Multiple consumers can pass `ChildContent`; the select doesn't keep
 state across instances. Selects with `Name="theme-a"` and
 `Name="theme-b"` render independent `<select>` controls whose managed
 `<link>` elements don't conflict.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

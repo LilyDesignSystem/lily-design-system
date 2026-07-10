@@ -115,3 +115,7 @@ touch target, a clear focus indicator, and hover/active visual feedback.
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 - WCAG 4.1.2 Name, Role, Value: https://www.w3.org/WAI/WCAG22/Understanding/name-role-value
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

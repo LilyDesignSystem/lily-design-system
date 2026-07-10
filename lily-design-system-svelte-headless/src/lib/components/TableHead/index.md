@@ -21,3 +21,7 @@ See [components/table-head/index.md](../../../../../components/table-head/index.
 - `TableHead.svelte` — Svelte 5 implementation using runes
 - `TableHead.test.ts` — vitest + @testing-library/svelte tests
 - `TableHead.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

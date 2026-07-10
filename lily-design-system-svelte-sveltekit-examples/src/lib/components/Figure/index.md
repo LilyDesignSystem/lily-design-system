@@ -81,3 +81,7 @@ A self-contained figure with optional caption.
 
 - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
 - MDN figure element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

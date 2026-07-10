@@ -18,3 +18,7 @@ See [components/tab-bar-button/index.md](../../../components/tab-bar-button/inde
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

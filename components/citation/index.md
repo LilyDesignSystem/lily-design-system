@@ -92,3 +92,7 @@ The consumer provides all CSS styling. The component renders with a `.citation` 
 ## References
 
 - MDN HTML cite element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

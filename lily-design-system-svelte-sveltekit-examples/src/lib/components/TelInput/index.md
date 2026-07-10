@@ -72,3 +72,7 @@ An input for entering a telephone number <input type="tel">.
 ## References
 
 - HTML tel input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/tel
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

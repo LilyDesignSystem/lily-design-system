@@ -147,3 +147,7 @@ your CSS:
     color: var(--color-base-content);
 }
 ```
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

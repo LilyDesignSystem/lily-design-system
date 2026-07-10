@@ -94,3 +94,7 @@ ContentsLink is used within ContentsListItem, which is part of ContentsList and 
 ## References
 
 - [MDN a element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

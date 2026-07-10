@@ -337,3 +337,7 @@ form-control identities don't collide:
 
 See [examples/09-scoped-target.tsx](../examples/09-scoped-target.tsx)
 for the scoped-target pattern.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

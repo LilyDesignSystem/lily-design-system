@@ -58,3 +58,7 @@ A Gantt chart table interactive grid thead for planning schedule visualization <
 ## References
 
 - HTML thead element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

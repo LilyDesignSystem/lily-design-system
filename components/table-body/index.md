@@ -78,3 +78,7 @@ TableBody is a child of Table, following the Table pattern: Table > TableHead/Ta
 ## References
 
 - MDN tbody element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -82,3 +82,7 @@ An ordered list of chronological events or milestones.
 
 - HTML <time> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time
 - WAI-ARIA list role: https://www.w3.org/TR/wai-aria-1.2/#list
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

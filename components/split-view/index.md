@@ -104,3 +104,7 @@ proportions and divider direction.
 - WAI-ARIA Separator: https://www.w3.org/TR/wai-aria-1.2/#separator
 - WAI-ARIA Window Splitter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/
 - Adobe Spectrum Split View: https://spectrum.adobe.com/page/split-view/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

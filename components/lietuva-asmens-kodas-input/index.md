@@ -68,3 +68,7 @@ The Asmens kodas is Lithuania's national-id identifier. Format: 11 digits in the
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Lithuania
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

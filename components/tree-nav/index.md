@@ -133,3 +133,7 @@ TreeNav contains a TreeList, which in turn contains TreeListItem children, follo
 
 - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
 - WAI-ARIA Navigation Role: https://www.w3.org/TR/wai-aria-1.2/#navigation
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

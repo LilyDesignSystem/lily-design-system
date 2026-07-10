@@ -21,3 +21,7 @@ See [components/hero/index.md](../../../../../components/hero/index.md) for the 
 - `Hero.svelte` — Svelte 5 implementation using runes
 - `Hero.test.ts` — vitest + @testing-library/svelte tests
 - `Hero.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

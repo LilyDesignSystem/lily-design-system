@@ -18,3 +18,7 @@ See [components/bulgaria-edinen-grazhdanski-nomer-input/index.md](../../../compo
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

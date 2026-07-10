@@ -70,3 +70,7 @@ A multi-line text area with a caption below that is a character counter "[number
 ## References
 
 - MDN text-area-input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/text-area-input
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

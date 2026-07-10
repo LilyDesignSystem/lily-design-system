@@ -97,3 +97,7 @@ The consumer provides all CSS styling. The component renders with a `.scroller-b
 
 - Reuters Graphics ScrollerBase
 - IntersectionObserver API: https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -131,3 +131,7 @@ Three layers, mirroring the lifecycle:
 
 See [../LocaleSelect.test.ts](../LocaleSelect.test.ts) for the
 30-case reference suite that covers every `spec/index.md` §7 acceptance item.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

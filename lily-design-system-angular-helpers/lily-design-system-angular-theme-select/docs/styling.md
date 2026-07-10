@@ -126,3 +126,7 @@ brittle — prefer global stylesheets. If you must use it:
 
 A safer alternative is to drop the styles into the global stylesheet
 referenced from `angular.json`.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

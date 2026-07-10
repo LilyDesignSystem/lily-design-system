@@ -74,3 +74,7 @@ A keyword label for categorizing content.
 ## References
 
 - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

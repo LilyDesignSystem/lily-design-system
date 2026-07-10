@@ -70,3 +70,7 @@ A single-line text input field <input type="text"> with search capability.
 ## References
 
 - WAI-ARIA search role: https://www.w3.org/TR/wai-aria-1.2/#search
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -122,3 +122,7 @@ issue draft.
         AST-based) — file an `@analogjs/platform` issue — or moving the
         SSG step onto `@angular/build:application`'s prerenderer.
       - Playwright e2e suites not yet exercised against either app.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

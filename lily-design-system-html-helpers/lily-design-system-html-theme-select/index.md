@@ -42,7 +42,7 @@ opinionated widget. This one splits the contract cleanly:
 
 The result is a small reusable widget that works in any HTML host
 (static HTML, Eleventy, Astro, Hugo, plain Vite, any framework that
-emits HTML) and against any theme catalog — Lily's 41
+emits HTML) and against any theme catalog — Lily™'s 41
 DaisyUI-inspired themes, NHS-aligned themes, or your own bespoke set.
 
 The element is a direct port of the Svelte canonical
@@ -360,3 +360,7 @@ acceptance criterion in
 
 MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause. Contact
 joel@joelparkerhenderson.com for other terms.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

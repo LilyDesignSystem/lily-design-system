@@ -103,3 +103,7 @@ The consumer provides all CSS styling. The component renders with a `.slider-but
 ## References
 
 - [MDN button element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

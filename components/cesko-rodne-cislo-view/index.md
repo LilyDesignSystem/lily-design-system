@@ -63,3 +63,7 @@ The Rodné číslo (RČ) is Czech Republic's national-id identifier. Format: nin
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Czech_Republic
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

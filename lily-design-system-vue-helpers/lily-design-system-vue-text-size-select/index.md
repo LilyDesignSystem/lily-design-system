@@ -193,3 +193,7 @@ The select is SSR-safe — all DOM writes happen inside `onMounted` /
 | `TextSizeSelect.test.ts`      | vitest suite covering every spec §7 item.        |
 | `index.ts`                    | Re-export barrel.                                |
 | `index.md`                    | This file.                                       |
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

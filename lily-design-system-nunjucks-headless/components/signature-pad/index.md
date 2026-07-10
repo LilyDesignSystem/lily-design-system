@@ -18,3 +18,7 @@ See [components/signature-pad/index.md](../../../components/signature-pad/index.
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

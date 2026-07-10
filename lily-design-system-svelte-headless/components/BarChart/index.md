@@ -21,3 +21,7 @@ See [components/bar-chart/index.md](../../../components/bar-chart/index.md) for 
 - `BarChart.svelte` — Svelte 5 implementation using runes
 - `BarChart.test.ts` — vitest + @testing-library/svelte tests
 - `BarChart.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

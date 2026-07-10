@@ -70,3 +70,7 @@ A read-only display of the current theme.
 ## References
 
 - WAI-ARIA Accessible Name: https://www.w3.org/TR/accname-1.2/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

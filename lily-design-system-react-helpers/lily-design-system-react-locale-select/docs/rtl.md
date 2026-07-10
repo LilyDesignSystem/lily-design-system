@@ -242,3 +242,7 @@ await expect(page.locator("html")).toHaveAttribute("lang", "ar");
   <https://www.unicode.org/reports/tr9/>
 - CLDR — Likely Subtags (full mapping `xx` → `xx-Script-RR`):
   <https://cldr.unicode.org/index/cldr-spec/likely-subtags>
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

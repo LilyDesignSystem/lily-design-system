@@ -108,3 +108,7 @@ control.
 - US Web Design System Summary Box: https://designsystem.digital.gov/components/summary-box/
 - HTML `<aside>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside
 - WAI-ARIA complementary role: https://www.w3.org/TR/wai-aria-1.2/#complementary
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

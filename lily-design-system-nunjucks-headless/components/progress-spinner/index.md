@@ -18,3 +18,7 @@ See [components/progress-spinner/index.md](../../../components/progress-spinner/
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

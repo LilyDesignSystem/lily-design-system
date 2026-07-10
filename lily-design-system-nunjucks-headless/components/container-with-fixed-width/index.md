@@ -61,3 +61,7 @@ the consumer's responsibility.
 `components/container-with-fixed-width/macro.test.js` verifies the
 base class, `data-max-width`, and the inline `max-width` /
 `margin-inline` styles.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

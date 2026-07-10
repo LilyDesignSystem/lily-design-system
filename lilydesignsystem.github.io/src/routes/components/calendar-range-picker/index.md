@@ -102,3 +102,7 @@ The consumer provides all CSS styling. The component renders with a `.calendar-r
 
 - WAI-ARIA Application Role: https://www.w3.org/TR/wai-aria-1.2/#application
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

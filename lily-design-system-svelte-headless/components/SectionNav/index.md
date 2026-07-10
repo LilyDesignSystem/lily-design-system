@@ -21,3 +21,7 @@ See [components/section-nav/index.md](../../../components/section-nav/index.md) 
 - `SectionNav.svelte` — Svelte 5 implementation using runes
 - `SectionNav.test.ts` — vitest + @testing-library/svelte tests
 - `SectionNav.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

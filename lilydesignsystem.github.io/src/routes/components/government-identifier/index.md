@@ -114,3 +114,7 @@ classes for fine-grained control.
 - 21st Century IDEA Act: https://www.congress.gov/bill/115th-congress/house-bill/5759
 - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region
 - WAI-ARIA navigation role: https://www.w3.org/TR/wai-aria-1.2/#navigation
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -21,3 +21,7 @@ See [components/mutually-exclusive/index.md](../../../../../components/mutually-
 - `MutuallyExclusive.svelte` — Svelte 5 implementation using runes
 - `MutuallyExclusive.test.ts` — vitest + @testing-library/svelte tests
 - `MutuallyExclusive.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

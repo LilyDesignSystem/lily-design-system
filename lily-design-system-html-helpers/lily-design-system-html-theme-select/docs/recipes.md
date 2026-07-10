@@ -202,3 +202,7 @@ document.body.addEventListener("themechange", (e) => {
 
 Because the event has `bubbles: true`, a single listener on
 `document.body` catches every select on the page.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

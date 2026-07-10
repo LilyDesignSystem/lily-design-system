@@ -21,3 +21,7 @@ See [components/tree-list-item/index.md](../../../components/tree-list-item/inde
 - `TreeListItem.svelte` — Svelte 5 implementation using runes
 - `TreeListItem.test.ts` — vitest + @testing-library/svelte tests
 - `TreeListItem.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

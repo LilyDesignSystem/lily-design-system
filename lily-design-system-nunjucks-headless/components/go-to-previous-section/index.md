@@ -18,3 +18,7 @@ See [components/go-to-previous-section/index.md](../../../components/go-to-previ
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

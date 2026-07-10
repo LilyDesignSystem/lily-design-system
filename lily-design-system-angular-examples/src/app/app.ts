@@ -22,6 +22,7 @@ import { RouterOutlet } from "@angular/router";
     <footer class="footer" aria-label="Site footer">
       <div class="page-wrapper">
         <p>Lily Design System — Angular + Analog.js</p>
+        <p>Lily™ and Lily Design System™ are trademarks.</p>
       </div>
     </footer>
   `,

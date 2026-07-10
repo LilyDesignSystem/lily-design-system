@@ -18,3 +18,7 @@ See [components/checkbox-group/index.md](../../../components/checkbox-group/inde
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

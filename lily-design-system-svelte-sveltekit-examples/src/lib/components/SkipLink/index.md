@@ -76,3 +76,7 @@ A hidden link for keyboard users to skip to main content.
 
 - WCAG 2.1 Bypass Blocks: https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html
 - WebAIM Skip Navigation Links: https://webaim.org/techniques/skipnav/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

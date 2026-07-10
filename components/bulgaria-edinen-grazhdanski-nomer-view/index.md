@@ -63,3 +63,7 @@ The Единен граждански номер / Edinen grazhdanski nomer (EGN
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Unique_citizenship_number
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

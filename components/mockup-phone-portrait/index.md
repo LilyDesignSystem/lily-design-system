@@ -96,3 +96,7 @@ The consumer provides all CSS styling. The component renders with a `.mockup-pho
 ## References
 
 - WAI-ARIA img Role: https://www.w3.org/TR/wai-aria-1.2/#img
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

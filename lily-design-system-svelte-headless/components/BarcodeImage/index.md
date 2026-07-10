@@ -21,3 +21,7 @@ See [components/barcode-image/index.md](../../../components/barcode-image/index.
 - `BarcodeImage.svelte` — Svelte 5 implementation using runes
 - `BarcodeImage.test.ts` — vitest + @testing-library/svelte tests
 - `BarcodeImage.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -167,7 +167,7 @@ Three layers, mirroring the lifecycle:
 See [../LocaleSelect.test.tsx](../LocaleSelect.test.tsx) for the
 reference suite that covers every `spec/index.md` §7 acceptance item.
 
-## Where this helper sits in Lily
+## Where this helper sits in Lily™
 
 `LocaleSelect` is **not** part of the headless component catalog yet.
 It lives in `lily-design-system-react-helpers/` as a sibling to
@@ -181,3 +181,7 @@ Both share the native `<select>` shape, the
 controlled-value pattern. Drop both at the top of your layout and the
 two together cover the entire "visual personalisation + linguistic
 personalisation" surface for a public-sector or healthcare app.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -75,3 +75,7 @@ An contents ordered list of contents list item components.
 ## References
 
 - MDN ol element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

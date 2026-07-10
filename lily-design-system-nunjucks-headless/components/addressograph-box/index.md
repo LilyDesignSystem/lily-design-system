@@ -19,3 +19,7 @@ See [components/addressograph-box/index.md](../../../components/addressograph-bo
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
 - `macro.stories.ts` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

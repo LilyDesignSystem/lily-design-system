@@ -1,4 +1,4 @@
-# Lily Design System - React Headless
+# Lily Design System™ - React Headless
 
 A comprehensive headless React component library with 490 accessible, unstyled components for building design systems. Every component follows WCAG 2.2 AAA guidelines with full ARIA support, keyboard navigation, and internationalization readiness.
 
@@ -1155,3 +1155,7 @@ MIT or Apache-2.0 or GPL-2.0 or GPL-3.0, or contact us for more options.
 ## Contact
 
 Joel Parker Henderson (joel@joelparkerhenderson.com)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

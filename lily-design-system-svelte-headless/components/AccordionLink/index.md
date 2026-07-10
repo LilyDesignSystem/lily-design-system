@@ -21,3 +21,7 @@ See [components/accordion-link/index.md](../../../components/accordion-link/inde
 - `AccordionLink.svelte` — Svelte 5 implementation using runes
 - `AccordionLink.test.ts` — vitest + @testing-library/svelte tests
 - `AccordionLink.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

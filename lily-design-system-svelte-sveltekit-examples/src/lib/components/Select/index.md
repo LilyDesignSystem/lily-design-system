@@ -91,3 +91,7 @@ A dropdown select element for choosing one option.
 ## References
 
 - MDN select element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

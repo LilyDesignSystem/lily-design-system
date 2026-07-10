@@ -80,3 +80,7 @@ A gauge displaying a scalar value within a known range.
 
 - HTML meter element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meter
 - WAI-ARIA meter role: https://www.w3.org/TR/wai-aria-1.2/#meter
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

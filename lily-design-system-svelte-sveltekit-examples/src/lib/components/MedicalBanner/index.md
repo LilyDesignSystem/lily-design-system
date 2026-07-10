@@ -60,3 +60,7 @@ A prominent message bar across the top of a page, with medical information.
 - role="region" for landmark identification
 - aria-live="polite" for announcing content changes
 - data-context="medical" for medical context
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

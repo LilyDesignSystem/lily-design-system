@@ -21,3 +21,7 @@ See [components/mockup-laptop/index.md](../../../../../components/mockup-laptop/
 - `MockupLaptop.svelte` — Svelte 5 implementation using runes
 - `MockupLaptop.test.ts` — vitest + @testing-library/svelte tests
 - `MockupLaptop.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

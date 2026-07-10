@@ -1,6 +1,6 @@
 # Helpers
 
-> Lily Design System specification — topic doc. All topics: [spec index](../index.md).
+> Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
 **Summary.** Each framework ships a `*-helpers` catalog of small, opinionated, reusable packages that sit alongside the headless library; where a headless component is a pure container, a helper owns one user-preference lifecycle end to end (selection + DOM application + optional persistence). The three helpers in every catalog today are `theme-select`, `locale-select`, and `text-size-select`, each rendered as a native `<select>` control.
 
@@ -138,3 +138,7 @@ A drop-in headless text-size selector for reader-preference sizing.
 - [lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-select/](../../lily-design-system-svelte-helpers/lily-design-system-svelte-text-size-select/) — text-size-select contract
 - [bin/publish-helpers](../../bin/publish-helpers) — release pipeline
 - [spec/index.md](../index.md) §3 (subproject architecture)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

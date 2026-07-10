@@ -21,3 +21,7 @@ See [components/autosuggest/index.md](../../../components/autosuggest/index.md) 
 - `Autosuggest.svelte` — Svelte 5 implementation using runes
 - `Autosuggest.test.ts` — vitest + @testing-library/svelte tests
 - `Autosuggest.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

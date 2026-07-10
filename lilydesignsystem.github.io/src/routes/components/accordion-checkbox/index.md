@@ -110,3 +110,7 @@ No default styles are included — this is a fully headless component.
 - MDN input type=checkbox: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 - MDN aria-controls: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-controls
 - MDN hidden attribute: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

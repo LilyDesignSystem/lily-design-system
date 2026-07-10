@@ -86,3 +86,7 @@ The consumer provides all CSS styling. The component renders with a `.action-lin
 
 - Inspired by NHS England action link pattern
 - WAI-ARIA link role: https://www.w3.org/TR/wai-aria-1.2/#link
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

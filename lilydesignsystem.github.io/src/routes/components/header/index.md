@@ -103,3 +103,7 @@ The consumer provides all CSS styling. The component renders with a `.header` cl
 
 - MDN header element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header
 - WAI-ARIA Banner Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

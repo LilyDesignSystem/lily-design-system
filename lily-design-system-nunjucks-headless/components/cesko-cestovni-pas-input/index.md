@@ -18,3 +18,7 @@ See [components/cesko-cestovni-pas-input/index.md](../../../components/cesko-ces
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

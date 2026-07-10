@@ -86,3 +86,7 @@ A series of single-digit inputs for entering a PIN or OTP code.
 ## References
 
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

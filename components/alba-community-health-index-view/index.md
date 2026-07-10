@@ -63,3 +63,7 @@ The Community Health Index (CHI) is Scotland's healthcare identifier. Format: 10
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_Health_Service_Central_Register
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

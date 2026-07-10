@@ -71,3 +71,7 @@ A read-only display of a UK NHS number.
 ## References
 
 - NHS Number: https://www.nhs.uk/using-the-nhs/about-the-nhs/what-is-an-nhs-number/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

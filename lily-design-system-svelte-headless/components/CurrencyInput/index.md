@@ -21,3 +21,7 @@ See [components/currency-input/index.md](../../../components/currency-input/inde
 - `CurrencyInput.svelte` — Svelte 5 implementation using runes
 - `CurrencyInput.test.ts` — vitest + @testing-library/svelte tests
 - `CurrencyInput.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

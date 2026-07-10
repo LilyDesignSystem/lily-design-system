@@ -78,3 +78,7 @@ class, trigger ARIA attributes, panel `role="dialog"` and id, the
 
 - [WAI-ARIA: dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)
 - [Adobe Spectrum: Contextual help](https://spectrum.adobe.com/page/contextual-help/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

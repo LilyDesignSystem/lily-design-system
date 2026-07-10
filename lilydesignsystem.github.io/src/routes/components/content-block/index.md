@@ -100,3 +100,7 @@ The consumer provides all CSS styling. The component renders with a `.content-bl
 - Documentation: index.md
 - CSS class: .content-block in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/content-block.html
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

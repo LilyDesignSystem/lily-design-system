@@ -93,3 +93,7 @@ PaginationNav → PaginationList → PaginationListItem (li) → link or button
 ## References
 
 - [MDN li element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -234,3 +234,7 @@ imperatively to the DOM, so it doesn't depend on the CDK.
   <https://www.unicode.org/reports/tr9/>
 - CLDR — Likely Subtags (full mapping `xx` → `xx-Script-RR`):
   <https://cldr.unicode.org/index/cldr-spec/likely-subtags>
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

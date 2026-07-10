@@ -18,3 +18,7 @@ See [components/five-star-rating-picker/index.md](../../../components/five-star-
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

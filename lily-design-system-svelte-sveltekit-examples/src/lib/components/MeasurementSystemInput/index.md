@@ -75,3 +75,7 @@ An input for selecting a measurement system.
 ## References
 
 - HTML input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

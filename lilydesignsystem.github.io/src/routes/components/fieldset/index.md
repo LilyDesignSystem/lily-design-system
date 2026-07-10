@@ -100,3 +100,7 @@ Fieldset groups multiple Field components together. Each Field wraps a label and
 ## References
 
 - HTML Specification fieldset: https://html.spec.whatwg.org/multipage/form-elements.html#the-fieldset-element
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

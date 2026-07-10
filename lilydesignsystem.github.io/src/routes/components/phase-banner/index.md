@@ -66,3 +66,7 @@ The component renders with `.phase-banner` as the root class. No default styles 
 ## References
 
 - [GOV.UK Phase banners pattern](https://design-system.service.gov.uk/components/phase-banner/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

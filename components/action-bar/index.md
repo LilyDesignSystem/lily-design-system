@@ -114,3 +114,7 @@ indicator on every interactive descendant.
 - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 - Adobe Spectrum Action Bar: https://spectrum.adobe.com/page/action-bar/
 - WCAG 4.1.2 Name, Role, Value: https://www.w3.org/WAI/WCAG22/Understanding/name-role-value
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

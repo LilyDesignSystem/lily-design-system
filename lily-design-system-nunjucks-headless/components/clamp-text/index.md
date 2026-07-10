@@ -78,3 +78,7 @@ This component ships no CSS. Consumers apply truncation:
 ## References
 
 - [MDN: line-clamp](https://developer.mozilla.org/en-US/docs/Web/CSS/line-clamp)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

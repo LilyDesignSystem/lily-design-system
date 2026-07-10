@@ -79,3 +79,7 @@ A picker for selecting a date range on a calendar.
 
 - WAI-ARIA Application Role: https://www.w3.org/TR/wai-aria-1.2/#application
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

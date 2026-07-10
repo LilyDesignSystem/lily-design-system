@@ -142,3 +142,7 @@ theme-select { padding: 1rem; }     /* specificity 0,0,1 */
 
 This is the same cascade everyone else's CSS plays by; no
 custom-element-specific quirks.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

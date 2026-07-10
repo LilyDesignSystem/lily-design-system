@@ -76,3 +76,7 @@ An input for selecting files from the file system <input type="file">.
 ## References
 
 - MDN input type="file": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -76,3 +76,7 @@ An input for entering a date and time without time zone <input type="datetime-lo
 ## References
 
 - MDN datetime-local input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

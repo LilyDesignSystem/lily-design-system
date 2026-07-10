@@ -72,3 +72,7 @@ An input for entering an email address <input type="email">.
 ## References
 
 - MDN input type="email": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

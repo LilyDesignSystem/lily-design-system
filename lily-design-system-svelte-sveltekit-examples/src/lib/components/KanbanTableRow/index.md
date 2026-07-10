@@ -68,3 +68,7 @@ A kanban board table interactive grid row for organizing items by status <tr>.
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -89,3 +89,7 @@ imageUrl, gap, and rotate, document order, and pass-through.
 
 - [WAI-ARIA: aria-hidden](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-hidden)
 - [Ant Design: Watermark](https://ant.design/components/watermark)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

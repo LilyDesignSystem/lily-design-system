@@ -97,3 +97,7 @@ The consumer provides all CSS styling. The component renders with a `.skeleton` 
 
 - WAI-ARIA `aria-busy`: https://www.w3.org/WAI/ARIA/apd/states/aria-busy/
 - MDN `aria-hidden`: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-hidden
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

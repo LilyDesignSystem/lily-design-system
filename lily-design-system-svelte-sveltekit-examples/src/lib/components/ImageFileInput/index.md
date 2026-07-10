@@ -74,3 +74,7 @@ An input for selecting image files with preview.
 ## References
 
 - MDN Input type="file": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

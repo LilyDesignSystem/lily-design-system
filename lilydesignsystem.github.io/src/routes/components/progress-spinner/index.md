@@ -94,3 +94,7 @@ The consumer provides all CSS styling. The component renders with a `.progress-s
 
 - WAI-ARIA `status` role: https://www.w3.org/WAI/ARIA/apd/roles/status/
 - MDN `aria-live`: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-live
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

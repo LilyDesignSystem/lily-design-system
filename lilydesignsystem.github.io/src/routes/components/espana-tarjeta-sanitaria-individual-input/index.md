@@ -73,3 +73,7 @@ The España Tarjeta Sanitaria Individual (TSI) uses a CIP-SNS code that typicall
 ## References
 
 - Ministerio de Sanidad: https://www.sanidad.gob.es/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

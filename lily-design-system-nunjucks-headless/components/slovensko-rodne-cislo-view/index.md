@@ -18,3 +18,7 @@ See [components/slovensko-rodne-cislo-view/index.md](../../../components/slovens
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -21,3 +21,7 @@ See [components/chat-nav/index.md](../../../components/chat-nav/index.md) for th
 - `ChatNav.svelte` — Svelte 5 implementation using runes
 - `ChatNav.test.ts` — vitest + @testing-library/svelte tests
 - `ChatNav.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

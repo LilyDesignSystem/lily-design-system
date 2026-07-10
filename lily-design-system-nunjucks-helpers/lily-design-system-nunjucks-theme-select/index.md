@@ -43,7 +43,7 @@ one opinionated widget. This one splits the contract cleanly:
 
 The result is a tiny reusable widget that works in any Nunjucks
 host (Eleventy, Express, Cloudflare Workers, plain
-`nunjucks.render`) and against any theme catalog — Lily's 41
+`nunjucks.render`) and against any theme catalog — Lily™'s 41
 DaisyUI-inspired themes, NHS-aligned themes, or your own bespoke
 set.
 
@@ -365,3 +365,7 @@ acceptance criterion in
 
 MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause. Contact
 joel@joelparkerhenderson.com for other terms.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

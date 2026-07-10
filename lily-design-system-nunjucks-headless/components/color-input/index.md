@@ -18,3 +18,7 @@ See [components/color-input/index.md](../../../components/color-input/index.md) 
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

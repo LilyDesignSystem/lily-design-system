@@ -120,3 +120,7 @@ The consumer provides all CSS styling. The component renders with a `.text-input
 
 - MDN text input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
 - WAI-ARIA search role: https://www.w3.org/TR/wai-aria-1.2/#search
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

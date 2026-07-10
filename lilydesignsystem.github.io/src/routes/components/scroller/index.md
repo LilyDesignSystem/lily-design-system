@@ -121,3 +121,7 @@ The consumer provides all CSS styling. The component renders with a `.scroller` 
 - Reuters Graphics Scroller
 - Scrollytelling best practices
 - ScrollerBase component: ../scroller-base/index.md
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

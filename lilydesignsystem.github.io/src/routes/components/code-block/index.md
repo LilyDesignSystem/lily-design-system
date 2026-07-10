@@ -96,3 +96,7 @@ The consumer provides all CSS styling. The component renders with a `.code-block
 ## References
 
 - MDN `<pre>` element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/pre
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

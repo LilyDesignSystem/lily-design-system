@@ -21,3 +21,7 @@ See [components/area-chart/index.md](../../../../../components/area-chart/index.
 - `AreaChart.svelte` — Svelte 5 implementation using runes
 - `AreaChart.test.ts` — vitest + @testing-library/svelte tests
 - `AreaChart.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

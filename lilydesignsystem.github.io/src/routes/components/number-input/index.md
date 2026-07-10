@@ -114,3 +114,7 @@ The consumer provides all CSS styling. The component renders with a `.number-inp
 
 - HTML number input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/number
 - WAI-ARIA spinbutton role (implicit): https://www.w3.org/TR/wai-aria-1.2/#spinbutton
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

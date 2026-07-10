@@ -75,3 +75,7 @@ TableTD is a child of TableRow, following the Table pattern: Table > TableHead/T
 ## References
 
 - MDN td element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

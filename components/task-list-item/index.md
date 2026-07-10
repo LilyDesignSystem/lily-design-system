@@ -107,3 +107,7 @@ TaskListItem is designed to be used as a child of TaskList. The TaskList provide
 ## References
 
 - MDN li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

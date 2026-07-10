@@ -9,3 +9,7 @@
 <div id="content">
     {@render children()}
 </div>
+
+<footer class="site-footer">
+    <p>Lily™ and Lily Design System™ are trademarks.</p>
+</footer>

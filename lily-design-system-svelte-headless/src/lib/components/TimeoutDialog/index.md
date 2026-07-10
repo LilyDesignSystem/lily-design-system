@@ -21,3 +21,7 @@ See [components/timeout-dialog/index.md](../../../../../components/timeout-dialo
 - `TimeoutDialog.svelte` — Svelte 5 implementation using runes
 - `TimeoutDialog.test.ts` — vitest + @testing-library/svelte tests
 - `TimeoutDialog.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

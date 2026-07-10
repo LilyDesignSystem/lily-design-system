@@ -64,3 +64,7 @@ The component renders with `.mockup-phone-landscape` as the root class. No defau
 
 - Documentation: index.md
 - CSS class: `.mockup-phone-landscape` in css-style-sheet-template.css
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

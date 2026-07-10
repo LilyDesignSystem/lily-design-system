@@ -118,3 +118,7 @@ TimelineListItem is a child of TimelineList, following the List/ListItem pattern
 
 - HTML `<li>` element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li
 - HTML `<time>` element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

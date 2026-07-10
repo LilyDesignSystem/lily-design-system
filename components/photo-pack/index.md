@@ -106,3 +106,7 @@ The consumer provides all CSS styling. The component renders with a `.photo-pack
 
 - Reuters Graphics PhotoPack component
 - [WAI-ARIA group role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/group_role)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

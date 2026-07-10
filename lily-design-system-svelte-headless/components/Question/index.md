@@ -21,3 +21,7 @@ See [components/question/index.md](../../../components/question/index.md) for th
 - `Question.svelte` — Svelte 5 implementation using runes
 - `Question.test.ts` — vitest + @testing-library/svelte tests
 - `Question.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

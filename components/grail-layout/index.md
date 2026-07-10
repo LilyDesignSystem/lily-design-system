@@ -96,3 +96,7 @@ GrailLayout is the container for GrailLayoutTopHeader, GrailLayoutLeftAside, Gra
 
 - CSS Grid Layout: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout
 - Holy Grail Layout: https://en.wikipedia.org/wiki/Holy_grail_(web_design)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

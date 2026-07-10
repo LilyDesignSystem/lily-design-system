@@ -171,3 +171,7 @@ Each rendered option needs a stable `key`. The slug is canonical.
 `children` is typed as `(args: ChildArgs) => React.ReactNode`, not
 `React.ReactNode`. Passing a raw element (not a function) is a
 TypeScript error, by design.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

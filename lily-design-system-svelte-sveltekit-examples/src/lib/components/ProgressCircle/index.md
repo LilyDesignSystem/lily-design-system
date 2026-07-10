@@ -82,3 +82,7 @@ A circular progress indicator.
 
 - WAI-ARIA Meter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/meter/
 - MDN role="progressbar": https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/progressbar_role
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

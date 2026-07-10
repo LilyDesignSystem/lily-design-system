@@ -85,3 +85,7 @@ The consumer provides all CSS styling. The component renders with a `.net-promot
 ## References
 
 - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

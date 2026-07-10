@@ -57,3 +57,7 @@ The component renders with `.section-link` as the root class. No default styles 
 ## References
 
 - [MDN aria-current](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-current)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

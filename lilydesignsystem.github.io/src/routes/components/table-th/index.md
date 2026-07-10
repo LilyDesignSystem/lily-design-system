@@ -91,3 +91,7 @@ TableTH is a child of TableRow within TableHead, following the Table pattern: Ta
 ## References
 
 - MDN th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

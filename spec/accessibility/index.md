@@ -1,8 +1,8 @@
 # Accessibility
 
-> Lily Design System specification — topic doc. All topics: [spec index](../index.md).
+> Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily targets WCAG 2.2 AAA and follows WAI-ARIA Authoring Practices 1.2, with semantic HTML first and ARIA second, verified by axe-core via Playwright across all six example apps.
+**Summary.** Lily™ targets WCAG 2.2 AAA and follows WAI-ARIA Authoring Practices 1.2, with semantic HTML first and ARIA second, verified by axe-core via Playwright across all six example apps.
 
 ## Scope
 
@@ -85,3 +85,7 @@ axe-core / Playwright integration ships across all six example apps. Rule set: *
 - [AGENTS/accessibility.md](../../AGENTS/accessibility.md)
 - [AGENTS/headless.md](../../AGENTS/headless.md)
 - [spec/index.md](../index.md) §4.2 (Accessibility), §11.5 (axe-core audit)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

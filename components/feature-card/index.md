@@ -119,3 +119,7 @@ and `feature-card-description` classes as needed.
 - MDN `<article>`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article
 - WAI-ARIA `article` role: https://www.w3.org/TR/wai-aria-1.2/#article
 - Mozilla Protocol Design System: https://protocol.mozilla.org/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -21,3 +21,7 @@ See [components/mockup-watch/index.md](../../../../../components/mockup-watch/in
 - `MockupWatch.svelte` — Svelte 5 implementation using runes
 - `MockupWatch.test.ts` — vitest + @testing-library/svelte tests
 - `MockupWatch.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

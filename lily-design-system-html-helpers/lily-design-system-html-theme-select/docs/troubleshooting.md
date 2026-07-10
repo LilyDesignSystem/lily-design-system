@@ -10,7 +10,7 @@ first-loaded theme then sets values that the next-loaded theme
 cannot unset.
 
 **Fix.** Scope every rule in every theme to
-`:where(:root, :root[data-theme="<slug>"])`. The Lily themes
+`:where(:root, :root[data-theme="<slug>"])`. The Lily™ themes
 follow this convention.
 
 ## "404 on the theme href"
@@ -168,3 +168,7 @@ appeared after the framework's hydration pass. To silence:
 - Better: pre-render the host with all the right attributes; the
   upgraded children don't appear in the framework's virtual DOM, so
   there's nothing to reconcile.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

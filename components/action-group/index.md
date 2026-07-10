@@ -120,3 +120,7 @@ interactive descendant.
 - WAI-ARIA Group: https://www.w3.org/TR/wai-aria-1.2/#group
 - Adobe Spectrum Action Group: https://spectrum.adobe.com/page/action-group/
 - WCAG 4.1.2 Name, Role, Value: https://www.w3.org/WAI/WCAG22/Understanding/name-role-value
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

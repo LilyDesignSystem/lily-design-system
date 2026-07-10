@@ -92,3 +92,7 @@ attribute pass-through.
 
 - [WAI-ARIA: combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/)
 - [Ant Design: Cascader](https://ant.design/components/cascader)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

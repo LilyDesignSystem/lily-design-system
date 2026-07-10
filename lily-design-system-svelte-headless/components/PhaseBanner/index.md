@@ -21,3 +21,7 @@ See [components/phase-banner/index.md](../../../components/phase-banner/index.md
 - `PhaseBanner.svelte` — Svelte 5 implementation using runes
 - `PhaseBanner.test.ts` — vitest + @testing-library/svelte tests
 - `PhaseBanner.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

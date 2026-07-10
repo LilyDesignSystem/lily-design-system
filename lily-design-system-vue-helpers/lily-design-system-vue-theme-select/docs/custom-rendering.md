@@ -128,3 +128,7 @@ The component template uses the kebab-case form:
 
 Consumers destructure in camelCase regardless. This is the same
 convention every Vue 3 scoped-slot library uses.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

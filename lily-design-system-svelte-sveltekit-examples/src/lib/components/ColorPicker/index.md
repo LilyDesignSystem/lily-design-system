@@ -79,3 +79,7 @@ A two-dimensional board for picking colors by hue and saturation.
 ## References
 
 - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

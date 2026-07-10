@@ -40,7 +40,7 @@ one opinionated widget. This one splits the contract cleanly:
 
 The result is a small reusable widget that works in any Angular 20
 host (Analog v1, Angular CLI app, Storybook) and against any theme
-catalog — Lily's 41 DaisyUI-inspired themes, NHS-aligned themes, or
+catalog — Lily™'s 41 DaisyUI-inspired themes, NHS-aligned themes, or
 your own bespoke set.
 
 The component is a direct port of the Svelte canonical
@@ -318,3 +318,7 @@ pitfalls:
 
 MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause. Contact
 joel@joelparkerhenderson.com for other terms.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

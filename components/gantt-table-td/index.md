@@ -90,3 +90,7 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 - WAI-ARIA gridcell role: https://www.w3.org/TR/wai-aria-1.2/#gridcell
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -73,3 +73,7 @@ pass-through.
 
 - [WAI-ARIA: aria-current](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-current)
 - [Ant Design: Steps](https://ant.design/components/steps)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

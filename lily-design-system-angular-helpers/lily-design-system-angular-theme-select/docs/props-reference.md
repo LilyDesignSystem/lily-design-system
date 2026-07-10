@@ -234,3 +234,7 @@ inside the `<select>`. The contract will mirror the Svelte
 canonical's snippet args and the Vue port's scoped-slot args:
 `{ themes, value, setTheme, name, labelFor }`. See
 [custom-rendering.md](./custom-rendering.md).
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

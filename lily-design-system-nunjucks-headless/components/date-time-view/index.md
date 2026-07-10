@@ -72,3 +72,7 @@ element, `datetime` attribute, and the display fallback order.
 ## References
 
 - [MDN: `<time>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

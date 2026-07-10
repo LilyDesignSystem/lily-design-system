@@ -80,3 +80,7 @@ An input for entering a US Social Security number.
 ## References
 
 - Social Security Number format: https://www.ssa.gov/employer/randomization.html
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

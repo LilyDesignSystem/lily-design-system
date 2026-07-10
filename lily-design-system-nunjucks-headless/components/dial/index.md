@@ -18,3 +18,7 @@ See [components/dial/index.md](../../../components/dial/index.md) for the full c
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

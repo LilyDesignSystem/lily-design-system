@@ -107,3 +107,7 @@ PaginationNav → PaginationList (nav + ul) → PaginationListItem (li)
 
 - WAI-ARIA Practices - Pagination: https://www.w3.org/WAI/ARIA/apg/patterns/navigation/
 - WAI-ARIA navigation role: https://www.w3.org/TR/wai-aria-1.2/#navigation
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

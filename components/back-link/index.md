@@ -85,3 +85,7 @@ The consumer provides all CSS styling. The component renders with a `.back-link`
 ## References
 
 - [MDN a element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

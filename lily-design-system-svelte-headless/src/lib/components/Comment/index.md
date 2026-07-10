@@ -21,3 +21,7 @@ See [components/comment/index.md](../../../../../components/comment/index.md) fo
 - `Comment.svelte` — Svelte 5 implementation using runes
 - `Comment.test.ts` — vitest + @testing-library/svelte tests
 - `Comment.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

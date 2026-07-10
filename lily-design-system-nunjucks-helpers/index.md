@@ -1,4 +1,4 @@
-# Lily Design System — Nunjucks Helpers
+# Lily Design System™ — Nunjucks Helpers
 
 A catalog of opinionated, reusable Nunjucks 3 helper packages that
 sit alongside the headless [`lily-design-system-nunjucks-headless`](../lily-design-system-nunjucks-headless/)
@@ -17,7 +17,7 @@ DOM application) for one small, common job.
 ## The split: macro + client.js
 
 Nunjucks is, fundamentally, a server-side / build-time template
-language. Most Lily helpers in sibling framework catalogs (Svelte,
+language. Most Lily™ helpers in sibling framework catalogs (Svelte,
 React, Vue, Angular) live as a single component that owns both
 markup and runtime. The Nunjucks port deliberately **splits** that
 into two files:
@@ -177,3 +177,7 @@ live in [`AGENTS/testing.md`](./AGENTS/testing.md).
 Each helper is dual-licensed under MIT or Apache-2.0 or GPL-2.0 or
 GPL-3.0 or BSD-3-Clause. Contact joel@joelparkerhenderson.com for
 other terms.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

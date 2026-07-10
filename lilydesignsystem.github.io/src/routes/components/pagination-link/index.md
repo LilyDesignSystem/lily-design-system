@@ -124,3 +124,7 @@ PaginationLink follows the Nav / List / ListItem composition pattern:
 ## References
 
 - WAI-ARIA Navigation Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/landmarks/examples/navigation.html
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

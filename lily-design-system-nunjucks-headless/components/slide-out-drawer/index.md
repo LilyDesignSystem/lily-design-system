@@ -18,3 +18,7 @@ See [components/slide-out-drawer/index.md](../../../components/slide-out-drawer/
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -115,3 +115,7 @@ BreadcrumbNav follows the Nav / List / ListItem composition pattern:
 
 - WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/
   umb/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

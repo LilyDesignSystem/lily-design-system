@@ -101,3 +101,7 @@ for selective styling. Provide a clear focus indicator on the dismiss button.
 - WAI-ARIA Dialog: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 - Adobe Spectrum Coachmark: https://spectrum.adobe.com/page/coach-mark/
 - WCAG 1.4.13 Content on Hover or Focus: https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

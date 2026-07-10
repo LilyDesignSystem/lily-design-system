@@ -94,3 +94,7 @@ A select dropdown with additional features like search or groups.
 
 - HTML <select> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
 - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

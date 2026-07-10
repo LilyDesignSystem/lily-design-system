@@ -18,3 +18,7 @@ See [components/calendar-table-th/index.md](../../../components/calendar-table-t
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

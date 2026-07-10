@@ -63,3 +63,7 @@ A data table interactive grid tbody for displaying and sorting tabular data <tbo
 ## References
 
 - HTML tbody element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

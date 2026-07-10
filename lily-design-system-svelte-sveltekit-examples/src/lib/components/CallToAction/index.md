@@ -81,3 +81,7 @@ A prominent prompt encouraging user action.
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 - WAI-ARIA Link Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/link/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

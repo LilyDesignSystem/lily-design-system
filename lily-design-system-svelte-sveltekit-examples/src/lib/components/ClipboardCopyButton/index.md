@@ -77,3 +77,7 @@ A button that copies text to the clipboard.
 ## References
 
 - Clipboard API: https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

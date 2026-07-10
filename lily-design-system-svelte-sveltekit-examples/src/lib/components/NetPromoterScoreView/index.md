@@ -74,3 +74,7 @@ A read-only display of a Net Promoter Score.
 ## References
 
 - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

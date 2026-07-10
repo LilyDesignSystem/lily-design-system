@@ -18,3 +18,7 @@ See [components/slovenija-emso-view/index.md](../../../components/slovenija-emso
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

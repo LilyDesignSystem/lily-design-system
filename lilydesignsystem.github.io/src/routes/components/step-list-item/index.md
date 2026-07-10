@@ -90,3 +90,7 @@ distinguish waiting/in-progress/finished/error visual states.
 
 - WAI-ARIA aria-current: https://www.w3.org/TR/wai-aria-1.2/#aria-current
 - Ant Design Steps: https://ant.design/components/steps
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

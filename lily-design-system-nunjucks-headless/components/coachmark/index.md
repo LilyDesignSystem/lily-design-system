@@ -80,3 +80,7 @@ button, classes, and attributes.
 
 - [WAI-ARIA: dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/)
 - [Adobe Spectrum: Coach mark](https://spectrum.adobe.com/page/coach-mark/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

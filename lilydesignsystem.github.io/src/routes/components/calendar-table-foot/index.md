@@ -114,3 +114,7 @@ CalendarTableFoot is part of the CalendarTable composition pattern:
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

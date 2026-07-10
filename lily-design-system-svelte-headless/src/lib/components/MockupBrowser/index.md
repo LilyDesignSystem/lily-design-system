@@ -21,3 +21,7 @@ See [components/mockup-browser/index.md](../../../../../components/mockup-browse
 - `MockupBrowser.svelte` — Svelte 5 implementation using runes
 - `MockupBrowser.test.ts` — vitest + @testing-library/svelte tests
 - `MockupBrowser.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

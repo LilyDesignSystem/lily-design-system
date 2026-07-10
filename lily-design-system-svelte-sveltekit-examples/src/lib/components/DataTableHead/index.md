@@ -57,3 +57,7 @@ A data table interactive grid thead for displaying and sorting tabular data <the
 ## References
 
 - HTML thead element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

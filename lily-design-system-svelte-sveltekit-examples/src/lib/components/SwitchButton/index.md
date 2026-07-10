@@ -74,3 +74,7 @@ A toggle switch for turning a setting on or off.
 
 - WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
 - WAI-ARIA Switch Role: https://www.w3.org/TR/wai-aria-1.2/#switch
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

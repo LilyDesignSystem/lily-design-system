@@ -108,3 +108,7 @@ for direction-specific styles.
 
 - MDN flexbox: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout
 - MDN gap: https://developer.mozilla.org/en-US/docs/Web/CSS/gap
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

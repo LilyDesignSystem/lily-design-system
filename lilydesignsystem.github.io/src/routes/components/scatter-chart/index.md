@@ -4,7 +4,7 @@ A two-variable visualization where each observation is plotted as a single dot a
 
 Unlike a line or area chart, the x-axis isn't ordered as a sequence and points aren't connected; each dot stands on its own. Multiple series can be plotted as distinct sets of dots so groups can be compared visually.
 
-The component is a headless wrapper around an inline `<svg>`: it renders a `<figure role="img">` containing the dots, names the figure via `aria-label` (from `label`), and references an extended `description` and an optional `dataTable` slot via `aria-describedby`. The data table is the canonical accessible alternative — screen readers and exports both benefit from a real `<table>` rendering of the same numbers, and Lily encourages always providing it.
+The component is a headless wrapper around an inline `<svg>`: it renders a `<figure role="img">` containing the dots, names the figure via `aria-label` (from `label`), and references an extended `description` and an optional `dataTable` slot via `aria-describedby`. The data table is the canonical accessible alternative — screen readers and exports both benefit from a real `<table>` rendering of the same numbers, and Lily™ encourages always providing it.
 
 For ordered continuous data use `LineChart` or `AreaChart`. For categorical comparison use `BarChart` or `ColumnChart`.
 
@@ -68,3 +68,7 @@ The component renders with `.scatter-chart` as the root class. No default styles
 ## References
 
 - [MDN figure element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

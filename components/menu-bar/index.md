@@ -112,3 +112,7 @@ MenuBar (role="menubar") → MenuBarItem (role="menuitem")
 ## References
 
 - WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

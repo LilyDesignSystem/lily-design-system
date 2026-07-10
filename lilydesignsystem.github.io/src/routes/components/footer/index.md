@@ -84,3 +84,7 @@ The consumer provides all CSS styling. The component renders with a `.footer` cl
 ## References
 
 - [MDN footer element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

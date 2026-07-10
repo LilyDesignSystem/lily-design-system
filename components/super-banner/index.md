@@ -98,3 +98,7 @@ The consumer provides all CSS styling. The component renders with a `.super-bann
 ## References
 
 - [MDN div element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -67,3 +67,7 @@ A decorative highlight or emphasis element.
 ## Internationalization
 
 - All text content comes through the children snippet and label prop; no hardcoded strings
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

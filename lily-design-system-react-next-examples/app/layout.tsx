@@ -14,7 +14,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <footer className="site-footer">
+          <p>Lily™ and Lily Design System™ are trademarks.</p>
+        </footer>
+      </body>
     </html>
   );
 }

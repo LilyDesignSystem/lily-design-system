@@ -77,3 +77,7 @@ A small popup showing descriptive text on hover or focus.
 
 - WAI-ARIA Tooltip Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/
 - MDN aria-describedby: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

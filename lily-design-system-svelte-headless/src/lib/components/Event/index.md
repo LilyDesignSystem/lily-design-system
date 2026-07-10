@@ -21,3 +21,7 @@ See [components/event/index.md](../../../../../components/event/index.md) for th
 - `Event.svelte` — Svelte 5 implementation using runes
 - `Event.test.ts` — vitest + @testing-library/svelte tests
 - `Event.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

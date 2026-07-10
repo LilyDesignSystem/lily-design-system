@@ -66,3 +66,7 @@ class, default and explicit `data-status` values, optional
 ## References
 
 - [USWDS: Validation](https://designsystem.digital.gov/components/validation/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

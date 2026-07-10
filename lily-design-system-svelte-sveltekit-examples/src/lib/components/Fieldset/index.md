@@ -84,3 +84,7 @@ A group of related form fields with a legend.
 ## References
 
 - HTML Specification fieldset: https://html.spec.whatwg.org/multipage/form-elements.html#the-fieldset-element
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

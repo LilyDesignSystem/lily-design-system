@@ -67,3 +67,7 @@ The component renders with `.share-page` as the root class. No default styles ar
 
 - [MDN Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)
 - [MDN Web Share API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

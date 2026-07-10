@@ -1,6 +1,6 @@
 # Tooling
 
-> Lily Design System specification — topic doc. All topics: [spec index](../index.md).
+> Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
 **Summary.** The `bin/` scripts list and scaffold the catalog, verify required files across the repo and every subproject, sync the canonical AGENTS docs into subprojects, and push each subproject to its standalone git remote.
 
@@ -93,3 +93,7 @@ Each subproject is a `git subtree`. `bin/git-subtree-push` publishes each one to
 ## Sources
 - [bin/](../../bin/) — `list-components-as-kebab-case`, `list-components-as-pascal-case`, `list-implementations`, `create-component-directory`, `create-implementation-directory`, `test`, `sync`, `update`, `git-subtree-push`, `generate-storybook-stories.mjs`
 - [spec/index.md](../index.md) — §9 (Tooling table), §3 (subtree layout)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

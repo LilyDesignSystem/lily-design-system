@@ -105,3 +105,7 @@ The consumer provides all CSS styling. The component renders with a `.table` cla
 
 - WAI-ARIA Table Role: https://www.w3.org/WAI/ARIA/apg/patterns/table/
 - HTML Table Element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

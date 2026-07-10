@@ -86,3 +86,7 @@ One task item with a checkbox and label.
 
 - MDN checkbox input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 - WAI checkbox pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

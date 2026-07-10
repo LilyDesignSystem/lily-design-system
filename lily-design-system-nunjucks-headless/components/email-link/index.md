@@ -18,3 +18,7 @@ See [components/email-link/index.md](../../../components/email-link/index.md) fo
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

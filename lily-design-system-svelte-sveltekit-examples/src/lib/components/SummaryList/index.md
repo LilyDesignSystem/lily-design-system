@@ -77,3 +77,7 @@ An ordered list of key-value summary pairs.
 
 - MDN dl element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl
 - WAI-ARIA landmark regions: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

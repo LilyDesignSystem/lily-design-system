@@ -80,3 +80,7 @@ on the agency name, nav landmark, and prop pass-through.
 ## References
 
 - [USWDS: Identifier](https://designsystem.digital.gov/components/identifier/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

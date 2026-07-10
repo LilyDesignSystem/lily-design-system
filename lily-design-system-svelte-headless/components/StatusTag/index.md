@@ -21,3 +21,7 @@ See [components/status-tag/index.md](../../../components/status-tag/index.md) fo
 - `StatusTag.svelte` — Svelte 5 implementation using runes
 - `StatusTag.test.ts` — vitest + @testing-library/svelte tests
 - `StatusTag.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

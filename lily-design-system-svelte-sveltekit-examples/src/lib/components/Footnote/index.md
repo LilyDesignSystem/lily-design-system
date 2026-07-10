@@ -77,3 +77,7 @@ A footnote reference and content element.
 
 - WAI-ARIA note role: https://www.w3.org/TR/wai-aria-1.2/#note
 - MDN aside element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

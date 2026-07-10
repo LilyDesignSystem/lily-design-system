@@ -18,3 +18,7 @@ See [components/red-amber-green-picker-button/index.md](../../../components/red-
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

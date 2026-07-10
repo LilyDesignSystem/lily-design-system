@@ -215,3 +215,7 @@ language differs from the page.
   <https://html.spec.whatwg.org/multipage/dom.html#the-dir-attribute>
 - Microsoft Learn — `System.Globalization.CultureInfo`:
   <https://learn.microsoft.com/dotnet/api/system.globalization.cultureinfo>
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

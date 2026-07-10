@@ -21,3 +21,7 @@ See [components/chat-list-item/index.md](../../../components/chat-list-item/inde
 - `ChatListItem.svelte` — Svelte 5 implementation using runes
 - `ChatListItem.test.ts` — vitest + @testing-library/svelte tests
 - `ChatListItem.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

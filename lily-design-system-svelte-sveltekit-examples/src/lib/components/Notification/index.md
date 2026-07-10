@@ -83,3 +83,7 @@ A brief message about an event or update.
 - WAI-ARIA alert role: https://www.w3.org/TR/wai-aria-1.2/#alert
 - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status
 - WAI-ARIA Live Regions: https://www.w3.org/WAI/ARIA/apd/practices/live-regions/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

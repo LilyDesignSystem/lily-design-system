@@ -76,3 +76,7 @@ hooks only.
 ## References
 
 - [USWDS: Input mask](https://designsystem.digital.gov/components/input-mask/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

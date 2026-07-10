@@ -18,3 +18,7 @@ See [components/inset-text/index.md](../../../components/inset-text/index.md) fo
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

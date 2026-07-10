@@ -95,3 +95,7 @@ The consumer provides all CSS styling. The component renders with a `.red-orange
 ## References
 
 - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

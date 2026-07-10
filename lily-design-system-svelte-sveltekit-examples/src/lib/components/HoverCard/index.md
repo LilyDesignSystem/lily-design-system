@@ -81,3 +81,7 @@ A card that appears on hover over a trigger element.
 
 - WAI-ARIA tooltip role: https://www.w3.org/TR/wai-aria-1.2/#tooltip
 - WAI-ARIA Tooltip Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

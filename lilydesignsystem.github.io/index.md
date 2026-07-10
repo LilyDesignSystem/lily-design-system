@@ -1,6 +1,6 @@
 # lilydesignsystem.github.io
 
-The public website for the [Lily Design System](https://github.com/LilyDesignSystem) at <https://lilydesignsystem.github.io>.
+The public website for the [Lily Design System™](https://github.com/LilyDesignSystem) at <https://lilydesignsystem.github.io>.
 
 ## What's here
 
@@ -77,6 +77,10 @@ cd ~/git/lilydesignsystem/lily-design-system
 
 ## License
 
-The site content (text, layout, CSS) is multi-licensed under BSD, MIT, Apache-2.0, GPL-2.0, or GPL-3.0 — same as the rest of Lily. Pick whichever fits your needs.
+The site content (text, layout, CSS) is multi-licensed under BSD, MIT, Apache-2.0, GPL-2.0, or GPL-3.0 — same as the rest of Lily™. Pick whichever fits your needs.
 
 Contact: Joel Parker Henderson — <joel@joelparkerhenderson.com>.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

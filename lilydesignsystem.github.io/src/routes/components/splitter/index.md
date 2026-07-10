@@ -104,3 +104,7 @@ The consumer provides all CSS styling. The component renders with a `.splitter` 
 
 - WAI-ARIA Window Splitter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/
 - WAI-ARIA Separator Role: https://www.w3.org/TR/wai-aria-1.2/#separator
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

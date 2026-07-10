@@ -18,3 +18,7 @@ See [components/hamburger-menu/index.md](../../../components/hamburger-menu/inde
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

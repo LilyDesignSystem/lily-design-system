@@ -68,3 +68,7 @@ The Personnummer (CPR-nummer) (CPR) is Denmark's national-id identifier. Format:
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Personal_identification_number_(Denmark)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

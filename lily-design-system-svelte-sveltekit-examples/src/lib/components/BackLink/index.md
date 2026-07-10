@@ -80,3 +80,7 @@ A navigation link to return to a previous page.
 ## References
 
 - GOV.UK back link pattern: https://design-system.service.gov.uk/components/back-link/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

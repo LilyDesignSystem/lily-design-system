@@ -98,3 +98,7 @@ The consumer provides all CSS styling. The component renders with a `.week-input
 ## References
 
 - MDN input type="week": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/week
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

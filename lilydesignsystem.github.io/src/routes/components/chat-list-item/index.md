@@ -93,3 +93,7 @@ ChatListItem is part of the ChatNav composition pattern:
 ## References
 
 - MDN HTML li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

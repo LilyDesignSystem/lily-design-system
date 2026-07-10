@@ -97,3 +97,7 @@ The consumer provides all CSS styling. The component renders with a `.theme-prov
 
 - [Reuters Graphics Theme component](https://github.com/reuters-graphics/graphics-components)
 - [CSS Custom Properties (MDN)](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

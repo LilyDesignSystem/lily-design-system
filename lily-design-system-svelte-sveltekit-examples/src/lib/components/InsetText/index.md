@@ -75,3 +75,7 @@ Indented text to distinguish it from surrounding content.
 - WAI-ARIA Note Role: https://www.w3.org/TR/wai-aria-1.2/#note
 - GOV.UK Inset Text: https://design-system.service.gov.uk/components/inset-text/
 - NHS England Inset Text: https://service-manual.nhs.uk/design-system/components/inset-text
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

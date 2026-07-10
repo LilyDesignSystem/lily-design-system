@@ -85,3 +85,7 @@ KanbanTableRow is a child of KanbanTableHead/KanbanTableBody/KanbanTableFoot, fo
 ## References
 
 - MDN tr element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tr
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

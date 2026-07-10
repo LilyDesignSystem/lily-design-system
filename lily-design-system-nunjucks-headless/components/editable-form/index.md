@@ -18,3 +18,7 @@ See [components/editable-form/index.md](../../../components/editable-form/index.
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -23,3 +23,7 @@ See [components/addressograph-box/index.md](../../../components/addressograph-bo
 - `AddressographBox.svelte` — Svelte 5 implementation using runes
 - `AddressographBox.test.ts` — vitest + @testing-library/svelte tests
 - `AddressographBox.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

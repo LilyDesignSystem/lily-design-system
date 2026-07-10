@@ -104,3 +104,7 @@ FiveStarRatingPicker uses the Picker/PickerButton pattern. It contains FiveStarR
 ## References
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

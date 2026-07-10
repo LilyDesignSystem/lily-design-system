@@ -98,3 +98,7 @@ UnitedStatesSocialSecurityNumberInput is the editable input counterpart to Unite
 ## References
 
 - Social Security Number format: https://www.ssa.gov/employer/randomization.html
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

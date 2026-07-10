@@ -18,3 +18,7 @@ See [components/check-list-item/index.md](../../../components/check-list-item/in
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

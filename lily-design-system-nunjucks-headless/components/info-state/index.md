@@ -75,3 +75,7 @@ that consumers style at will.
 `components/info-state/macro.test.js` verifies the base class,
 `role="status"`, `data-level`, `aria-label` defaulting, and the
 title / description / illustration / action composition.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

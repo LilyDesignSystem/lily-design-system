@@ -71,3 +71,7 @@ An input for adding and removing tags.
 ## References
 
 - WAI-ARIA textbox role: https://www.w3.org/TR/wai-aria-1.2/#textbox
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

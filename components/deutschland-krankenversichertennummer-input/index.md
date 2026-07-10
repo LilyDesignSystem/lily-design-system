@@ -68,3 +68,7 @@ The Krankenversichertennummer (KVNR) is Germany's healthcare identifier. Format:
 ## References
 
 - Wikipedia: https://de.wikipedia.org/wiki/Krankenversichertennummer
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

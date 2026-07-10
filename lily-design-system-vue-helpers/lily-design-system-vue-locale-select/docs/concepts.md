@@ -165,3 +165,7 @@ The select exposes its bindable on `value`, not the default
 `modelValue`. Always use `v-model:value="locale"`. This matches
 the Svelte canonical's `bind:value` semantics and keeps the
 API symmetric across frameworks.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

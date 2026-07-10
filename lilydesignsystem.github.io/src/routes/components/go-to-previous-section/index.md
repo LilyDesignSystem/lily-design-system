@@ -60,3 +60,7 @@ The component renders with `.go-to-previous-section` as the root class. No defau
 
 - Documentation: index.md
 - CSS class: `.go-to-previous-section` in css-style-sheet-template.css
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -68,3 +68,7 @@ The Liechtenstein Passport Number is Liechtenstein's passport identifier. Format
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Liechtenstein_passport
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

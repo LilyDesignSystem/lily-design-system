@@ -92,3 +92,7 @@ The consumer provides all CSS styling. The component renders with a `.floating-p
 ## References
 
 - WAI-ARIA Practices - Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

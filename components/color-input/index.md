@@ -74,3 +74,7 @@ The consumer provides all CSS styling. The component renders with a `.color-inpu
 ## References
 
 - MDN `<input type="color">`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

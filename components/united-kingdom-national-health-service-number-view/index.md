@@ -91,3 +91,7 @@ UnitedKingdomNationalHealthServiceNumberView is the read-only display counterpar
 ## References
 
 - NHS Number: https://www.nhs.uk/using-the-nhs/about-the-nhs/what-is-an-nhs-number/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

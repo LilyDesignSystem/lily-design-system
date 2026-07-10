@@ -60,3 +60,7 @@ the consumer.
 `components/container-with-fluid-width/macro.test.js` verifies the
 base class, `data-padding-inline`, and the inline `width` /
 `padding-inline` styles.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

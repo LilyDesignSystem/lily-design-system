@@ -21,3 +21,7 @@ See [components/screen-reader-span/index.md](../../../components/screen-reader-s
 - `ScreenReaderSpan.svelte` — Svelte 5 implementation using runes
 - `ScreenReaderSpan.test.ts` — vitest + @testing-library/svelte tests
 - `ScreenReaderSpan.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -289,3 +289,7 @@ synchronous library calls are safe.
 
 The select is the same in every case. Only the `@bind-Value`
 target and the `OnChange` body change.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

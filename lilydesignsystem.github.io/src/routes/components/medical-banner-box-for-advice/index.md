@@ -100,3 +100,7 @@ In clinical systems, advice-level information includes care team contacts, care 
 ## References
 
 - NHS UK Design System: https://service-manual.nhs.uk/design-system
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

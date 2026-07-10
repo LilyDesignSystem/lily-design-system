@@ -71,3 +71,7 @@ A mailto hyperlink for an email address.
 ## References
 
 - MDN mailto links: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#linking_to_an_email_address
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

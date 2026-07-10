@@ -59,3 +59,7 @@ The component renders with `.description-list` as the root class. No default sty
 ## References
 
 - [MDN dl element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -94,3 +94,7 @@ The consumer provides all CSS styling. The component renders with a `.hero` clas
 ## References
 
 - [MDN section element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -95,3 +95,7 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 - MDN th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

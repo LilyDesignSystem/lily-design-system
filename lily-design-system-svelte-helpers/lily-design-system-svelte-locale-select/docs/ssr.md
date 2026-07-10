@@ -305,3 +305,7 @@ asserting that `value` controls which option is selected on mount.
   <https://formatjs.github.io/docs/polyfills/intl-localematcher/>
 - MDN — Cookies (`document.cookie`):
   <https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies>
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

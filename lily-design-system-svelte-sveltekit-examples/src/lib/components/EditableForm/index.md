@@ -89,3 +89,7 @@ A form wrapper for inline editing of content.
 ## References
 
 - WAI-ARIA Form Role: https://www.w3.org/WAI/ARIA/apd/roles/form/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

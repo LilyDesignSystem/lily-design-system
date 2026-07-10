@@ -21,3 +21,7 @@ See [components/organization/index.md](../../../../../components/organization/in
 - `Organization.svelte` — Svelte 5 implementation using runes
 - `Organization.test.ts` — vitest + @testing-library/svelte tests
 - `Organization.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

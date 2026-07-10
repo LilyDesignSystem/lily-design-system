@@ -21,3 +21,7 @@ See [components/dial-group/index.md](../../../components/dial-group/index.md) fo
 - `DialGroup.svelte` — Svelte 5 implementation using runes
 - `DialGroup.test.ts` — vitest + @testing-library/svelte tests
 - `DialGroup.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

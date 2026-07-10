@@ -130,3 +130,7 @@ AccordionList follows the Nav / List / ListItem composition pattern:
 - WAI-ARIA Accordion Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/accordion/
 - HTML `<ol>` element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol
   a.org/en-US/docs/Web/HTML/Element/ol
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

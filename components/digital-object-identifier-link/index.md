@@ -100,3 +100,7 @@ A Digital Object Identifier (DOI) is a persistent identifier used to uniquely id
 
 - DOI Handbook: https://www.doi.org/hb.html
 - MDN HTML a element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

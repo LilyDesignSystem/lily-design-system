@@ -21,3 +21,7 @@ See [components/success-panel/index.md](../../../../../components/success-panel/
 - `SuccessPanel.svelte` — Svelte 5 implementation using runes
 - `SuccessPanel.test.ts` — vitest + @testing-library/svelte tests
 - `SuccessPanel.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

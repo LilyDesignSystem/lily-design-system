@@ -76,3 +76,7 @@ An input for entering Ireland Individual Health Identifier (IHI) unique national
 ## References
 
 - HSE: https://www.hse.ie/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

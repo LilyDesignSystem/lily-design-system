@@ -90,3 +90,7 @@ boolean/string variants of the `download` attribute.
 
 - [MDN: `download` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download)
 - [Mozilla Protocol: Download Button](https://protocol.mozilla.org/components/detail/download-button)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

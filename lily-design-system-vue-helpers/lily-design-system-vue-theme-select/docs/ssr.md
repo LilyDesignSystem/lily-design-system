@@ -113,3 +113,7 @@ integration.
   picks them up via the bound `value`.
 - For static-site generation (`nuxi generate`), there's no request
   context — the select falls back to `localStorage` like a SPA.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

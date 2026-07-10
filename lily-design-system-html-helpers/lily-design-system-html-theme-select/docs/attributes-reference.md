@@ -170,3 +170,7 @@ rendered children are recreated on every render.
 
 If you need an attribute to land on the rendered `<select>`, write a
 consumer wrapper or subclass and post-process the children.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

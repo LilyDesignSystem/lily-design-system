@@ -68,3 +68,7 @@ The Rodné číslo (RČ) is Slovakia's national-id identifier. Format: 10 digits
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Slovakia
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

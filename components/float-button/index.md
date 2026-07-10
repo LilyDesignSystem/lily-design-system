@@ -108,3 +108,7 @@ indicator, and elevation that matches the surrounding theme.
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 - WCAG 4.1.2 Name, Role, Value: https://www.w3.org/WAI/WCAG22/Understanding/name-role-value
 - Ant Design FloatButton: https://ant.design/components/float-button
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

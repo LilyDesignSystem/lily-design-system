@@ -79,3 +79,7 @@ A select dropdown for choosing a theme.
 
 - MDN select element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
 - WCAG 1.4.12 Text Spacing: https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

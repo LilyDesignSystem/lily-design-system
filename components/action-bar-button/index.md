@@ -109,3 +109,7 @@ indicator and hover/active visual feedback. Maintain a 44×44 px touch target.
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 - Adobe Spectrum Action Bar: https://spectrum.adobe.com/page/action-bar/
 - WCAG 4.1.2 Name, Role, Value: https://www.w3.org/WAI/WCAG22/Understanding/name-role-value
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

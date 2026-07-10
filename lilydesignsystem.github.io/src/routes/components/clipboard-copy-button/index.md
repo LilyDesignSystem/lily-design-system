@@ -117,3 +117,7 @@ The consumer provides all CSS styling. The component renders with a `.clipboard-
 ## References
 
 - ClipboardCopyButton API: https://developer.mozilla.org/en-US/docs/Web/API/ClipboardCopyButton/writeText
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

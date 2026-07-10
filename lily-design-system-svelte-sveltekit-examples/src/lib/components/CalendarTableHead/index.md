@@ -57,3 +57,7 @@ A calendar table interactive grid thead for managing dates, days, etc. <thead>.
 ## References
 
 - HTML thead element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/thead
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

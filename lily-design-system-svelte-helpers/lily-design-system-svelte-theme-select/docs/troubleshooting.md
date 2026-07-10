@@ -10,7 +10,7 @@ first-loaded theme then sets values that the next-loaded theme cannot
 unset.
 
 **Fix.** Scope every rule in every theme to
-`:where(:root, :root[data-theme="<slug>"])`. The Lily themes follow
+`:where(:root, :root[data-theme="<slug>"])`. The Lily™ themes follow
 this convention; see [`../../themes/light.css`](../../../themes/light.css)
 for an example.
 
@@ -84,3 +84,7 @@ Almost always a caching issue. Either:
 - Add a cache-busting suffix via `extension` (e.g. `.css?v=1`), or
 - Configure the static asset server to send `Cache-Control:
   must-revalidate` for theme CSS files.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -115,3 +115,7 @@ The consumer provides all CSS styling. The component renders with a `.feature-ph
 - [HTML img loading attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#loading)
 - [HTML figure element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure)
 - [Cumulative Layout Shift](https://web.dev/cls/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

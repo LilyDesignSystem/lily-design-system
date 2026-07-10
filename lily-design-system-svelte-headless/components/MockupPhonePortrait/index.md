@@ -21,3 +21,7 @@ See [components/mockup-phone-portrait/index.md](../../../components/mockup-phone
 - `MockupPhonePortrait.svelte` — Svelte 5 implementation using runes
 - `MockupPhonePortrait.test.ts` — vitest + @testing-library/svelte tests
 - `MockupPhonePortrait.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

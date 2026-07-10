@@ -76,3 +76,7 @@ An input for entering a date value <input type="date">.
 ## References
 
 - MDN date input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

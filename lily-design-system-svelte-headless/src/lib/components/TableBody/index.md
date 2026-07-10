@@ -21,3 +21,7 @@ See [components/table-body/index.md](../../../../../components/table-body/index.
 - `TableBody.svelte` — Svelte 5 implementation using runes
 - `TableBody.test.ts` — vitest + @testing-library/svelte tests
 - `TableBody.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

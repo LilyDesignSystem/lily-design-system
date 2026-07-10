@@ -18,3 +18,7 @@ See [components/date-time-now-input/index.md](../../../components/date-time-now-
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

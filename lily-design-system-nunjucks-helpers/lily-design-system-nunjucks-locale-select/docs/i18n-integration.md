@@ -314,3 +314,7 @@ Some libraries (notably `i18next-browser-languagedetector` with
 There is no race in practice — the select's `applyLocale` is
 synchronous, and the consumer's `onChange` runs after, so whoever
 runs last wins.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

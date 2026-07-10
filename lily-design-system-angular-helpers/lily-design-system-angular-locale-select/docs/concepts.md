@@ -177,3 +177,7 @@ to the document root because:
   set `<html lang>` server-side.
 - Per-region locale scoping is still possible via the `target`
   input.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

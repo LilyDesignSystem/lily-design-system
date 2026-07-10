@@ -89,3 +89,7 @@ section spacing, or responsive padding overrides.
 ## References
 
 - MDN padding-inline: https://developer.mozilla.org/en-US/docs/Web/CSS/padding-inline
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

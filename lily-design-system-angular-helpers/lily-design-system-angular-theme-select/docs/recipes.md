@@ -239,3 +239,7 @@ export class Settings {
     }
 }
 ```
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

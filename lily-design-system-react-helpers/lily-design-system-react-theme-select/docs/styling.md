@@ -98,3 +98,7 @@ internally-rendered options.
   part of the accessibility contract.
 - Don't set `outline: none` on the select. Visible focus is required
   by WCAG 2.4.7.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

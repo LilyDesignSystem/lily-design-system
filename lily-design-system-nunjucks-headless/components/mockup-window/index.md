@@ -18,3 +18,7 @@ See [components/mockup-window/index.md](../../../components/mockup-window/index.
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

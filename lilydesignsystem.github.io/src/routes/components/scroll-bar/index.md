@@ -108,3 +108,7 @@ The consumer provides all CSS styling. The component renders with a `.scroll-bar
 
 - WAI-ARIA scrollbar role: https://www.w3.org/TR/wai-aria-1.2/#scrollbar
 - WAI-ARIA Practices - ScrollBar: https://www.w3.org/WAI/ARIA/apg/patterns/scrollbar/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

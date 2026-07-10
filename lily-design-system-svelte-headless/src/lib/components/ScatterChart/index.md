@@ -21,3 +21,7 @@ See [components/scatter-chart/index.md](../../../../../components/scatter-chart/
 - `ScatterChart.svelte` — Svelte 5 implementation using runes
 - `ScatterChart.test.ts` — vitest + @testing-library/svelte tests
 - `ScatterChart.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

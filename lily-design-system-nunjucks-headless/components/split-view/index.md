@@ -90,3 +90,7 @@ classes, and attributes.
 
 - [WAI-ARIA: separator role](https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/)
 - [Adobe Spectrum: Split view](https://spectrum.adobe.com/page/split-view/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

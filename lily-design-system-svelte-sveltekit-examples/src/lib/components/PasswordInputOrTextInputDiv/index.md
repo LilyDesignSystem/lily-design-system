@@ -84,3 +84,7 @@ An input for entering a password <input type="password"> or text <input type="te
 
 - HTML password input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/password
 - WAI-ARIA Button Pattern (toggle): https://www.w3.org/WAI/ARIA/apg/patterns/button/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

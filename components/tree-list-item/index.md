@@ -130,3 +130,7 @@ TreeListItem is a child of TreeList, following the Nav/List/ListItem pattern. Ex
 
 - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
 - WAI-ARIA treeitem role: https://www.w3.org/TR/wai-aria-1.2/#treeitem
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

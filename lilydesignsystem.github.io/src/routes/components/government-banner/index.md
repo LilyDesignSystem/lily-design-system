@@ -119,3 +119,7 @@ Consumer CSS targets the `government-banner` class plus the inner
 - US Web Design System Banner: https://designsystem.digital.gov/components/banner/
 - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 - WCAG 4.1.2 Name, Role, Value: https://www.w3.org/WAI/WCAG22/Understanding/name-role-value
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -118,3 +118,7 @@ AvatarImage is a child component within the Avatar composition pattern:
 
 - HTML img element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img
 - WAI-ARIA Img Role: https://www.w3.org/TR/wai-aria-1.2/#img
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

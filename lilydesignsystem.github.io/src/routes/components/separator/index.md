@@ -118,3 +118,7 @@ The consumer provides all CSS styling. The component renders with a `.separator`
 
 - WAI-ARIA Separator Role: https://www.w3.org/TR/wai-aria-1.2/#separator
 - MDN hr element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/hr
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

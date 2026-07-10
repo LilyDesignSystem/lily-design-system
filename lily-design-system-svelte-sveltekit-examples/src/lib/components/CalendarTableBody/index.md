@@ -63,3 +63,7 @@ A calendar table interactive grid tbody for managing dates, days, etc. <tbody>.
 ## References
 
 - HTML tbody element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

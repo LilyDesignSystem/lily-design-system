@@ -108,3 +108,7 @@ color alone.
 - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/
 - WAI-ARIA Group: https://www.w3.org/TR/wai-aria-1.2/#group
 - Adobe Spectrum Menu: https://spectrum.adobe.com/page/menu/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

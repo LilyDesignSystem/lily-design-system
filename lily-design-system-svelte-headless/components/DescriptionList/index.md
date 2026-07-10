@@ -21,3 +21,7 @@ See [components/description-list/index.md](../../../components/description-list/
 - `DescriptionList.svelte` — Svelte 5 implementation using runes
 - `DescriptionList.test.ts` — vitest + @testing-library/svelte tests
 - `DescriptionList.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

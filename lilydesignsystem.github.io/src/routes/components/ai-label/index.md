@@ -94,3 +94,7 @@ The consumer provides all CSS styling. The component renders with an `.ai-label`
 
 - Carbon Design System AI Label: https://carbondesignsystem.com/components/ai-label/usage/
 - Carbon for AI Guidelines: https://carbondesignsystem.com/guidelines/carbon-for-ai/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

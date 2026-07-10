@@ -80,3 +80,7 @@ The component renders with `.announcement-banner` as the root class. No default 
 
 - [WAI-ARIA region role](https://www.w3.org/TR/wai-aria-1.2/#region)
 - [MDN aria-live](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-live)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

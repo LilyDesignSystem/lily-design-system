@@ -96,3 +96,7 @@ MeasurementSystemInput is part of the measurement component family. It works alo
 ## References
 
 - [MDN input element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

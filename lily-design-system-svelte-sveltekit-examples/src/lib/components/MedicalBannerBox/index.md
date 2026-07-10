@@ -53,3 +53,7 @@ A medical banner box that is inside a medical-banner component, using flexbox ho
 - No additional ARIA required; parent MedicalBanner provides landmark
 - Optional aria-label via label prop
 - data-context="medical" for medical context
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -102,3 +102,7 @@ TabBar uses the Bar/BarButton composition pattern. Place TabBarButton components
 
 - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 - WAI-ARIA Authoring Practices - Tabs Example: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/examples/tabs-automatic/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

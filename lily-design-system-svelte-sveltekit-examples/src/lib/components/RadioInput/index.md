@@ -81,3 +81,7 @@ A single radio button input <input type="radio">.
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/
 - MDN input type="radio": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

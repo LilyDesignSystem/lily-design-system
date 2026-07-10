@@ -21,3 +21,7 @@ See [components/share-page/index.md](../../../components/share-page/index.md) fo
 - `SharePage.svelte` — Svelte 5 implementation using runes
 - `SharePage.test.ts` — vitest + @testing-library/svelte tests
 - `SharePage.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

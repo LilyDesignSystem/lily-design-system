@@ -80,3 +80,7 @@ A display of a start and end date range.
 
 - MDN input type="date": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
 - MDN fieldset element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

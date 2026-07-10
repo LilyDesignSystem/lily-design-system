@@ -300,3 +300,7 @@ The page arrives with the correct `lang` and `dir` already on
 
 The select is the same in every case. Only the
 `[(value)]` target and the `(localeChange)` body change.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

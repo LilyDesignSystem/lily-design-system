@@ -99,3 +99,7 @@ In clinical systems, danger-level information includes drug allergies, adverse r
 ## References
 
 - NHS UK Design System: https://service-manual.nhs.uk/design-system
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

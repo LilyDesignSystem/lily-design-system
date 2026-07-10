@@ -81,3 +81,7 @@ A label associated with a form input.
 
 - WAI Forms Tutorial - Labels: https://www.w3.org/WAI/tutorials/forms/labels/
 - HTML label element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -78,3 +78,7 @@ A group of radio buttons for selecting one option.
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/
 - WAI-ARIA Authoring Practices - Radio Group: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

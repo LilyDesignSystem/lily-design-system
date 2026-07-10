@@ -136,3 +136,7 @@ Any other attribute (`id`, `data-*`, `@click`, ARIA overrides) flows
 to the root `<select>` via Vue's default `inheritAttrs: true`.
 Use this to attach test IDs, analytics handlers, and overrides
 without forking the component.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

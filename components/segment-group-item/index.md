@@ -106,3 +106,7 @@ The consumer provides all CSS styling. The component renders with a `.segment-gr
 ## References
 
 - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

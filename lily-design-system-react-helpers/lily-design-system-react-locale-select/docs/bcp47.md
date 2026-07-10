@@ -267,3 +267,7 @@ matchNavigatorLanguage(
 
 Use them in your own resolver, in your i18n setup, in your server
 cookie handler, anywhere — they're context-free.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

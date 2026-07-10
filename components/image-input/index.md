@@ -96,3 +96,7 @@ The consumer provides all CSS styling. The component renders with a `.image-inpu
 
 - MDN input type="image": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/image
 - HTML spec input type="image": https://html.spec.whatwg.org/multipage/input.html#image-button-state-(type=image)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

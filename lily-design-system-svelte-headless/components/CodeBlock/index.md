@@ -21,3 +21,7 @@ See [components/code-block/index.md](../../../components/code-block/index.md) fo
 - `CodeBlock.svelte` — Svelte 5 implementation using runes
 - `CodeBlock.test.ts` — vitest + @testing-library/svelte tests
 - `CodeBlock.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

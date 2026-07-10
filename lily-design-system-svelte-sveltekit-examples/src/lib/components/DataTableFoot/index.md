@@ -63,3 +63,7 @@ A data table interactive grid tfoot for displaying and sorting tabular data <tfo
 ## References
 
 - HTML tfoot element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tfoot
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

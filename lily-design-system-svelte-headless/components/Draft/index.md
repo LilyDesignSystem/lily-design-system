@@ -23,3 +23,7 @@ See [components/draft/index.md](../../../components/draft/index.md) for the full
 - `Draft.svelte` — Svelte 5 implementation using runes
 - `Draft.test.ts` — vitest + @testing-library/svelte tests
 - `Draft.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

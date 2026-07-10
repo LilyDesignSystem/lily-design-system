@@ -84,3 +84,7 @@ A container that the user can resize by dragging.
 
 - WAI-ARIA Region Role: https://www.w3.org/TR/wai-aria-1.2/#region
 - WAI-ARIA Window Splitter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

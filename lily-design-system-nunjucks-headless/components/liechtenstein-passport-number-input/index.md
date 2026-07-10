@@ -18,3 +18,7 @@ See [components/liechtenstein-passport-number-input/index.md](../../../component
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

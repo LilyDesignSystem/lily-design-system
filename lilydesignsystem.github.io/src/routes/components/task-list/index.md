@@ -109,3 +109,7 @@ TaskList uses the List/ListItem composition pattern. Place TaskListItem componen
 ## References
 
 - WAI-ARIA list role: https://www.w3.org/TR/wai-aria-1.2/#list
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

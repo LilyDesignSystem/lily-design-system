@@ -1,8 +1,8 @@
 # National Identifiers
 
-> Lily Design System specification — topic doc. All topics: [spec index](../index.md).
+> Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily ships 80 national personal identifier components — 40 identifier types each paired as `-input` and `-view` — spanning 30+ countries and covering healthcare, national-ID, tax, and passport identifiers, rendered through one headless input/view pattern and grounded in canonical reference TSVs.
+**Summary.** Lily™ ships 80 national personal identifier components — 40 identifier types each paired as `-input` and `-view` — spanning 30+ countries and covering healthcare, national-ID, tax, and passport identifiers, rendered through one headless input/view pattern and grounded in canonical reference TSVs.
 
 ## Scope
 
@@ -104,3 +104,7 @@ These files are committed at the repo root and propagated to all subprojects by 
 - [AGENTS/countries.tsv](../../AGENTS/countries.tsv)
 - [spec/index.md](../index.md) §5 (Healthcare identifiers), §11.8 (Phase 2 backlog), §14.1 (0.2.0 / 0.3.0 changelog)
 - [components.tsv](../../components.tsv)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

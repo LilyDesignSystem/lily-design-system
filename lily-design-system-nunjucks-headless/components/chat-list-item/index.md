@@ -18,3 +18,7 @@ See [components/chat-list-item/index.md](../../../components/chat-list-item/inde
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

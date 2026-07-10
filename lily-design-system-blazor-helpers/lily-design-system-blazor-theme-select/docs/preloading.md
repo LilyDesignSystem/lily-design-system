@@ -172,3 +172,7 @@ resolves from cache (304 or memory).
 The two requests aren't redundant — the preload is a fetch hint,
 the select's `<link>` is the active stylesheet. The browser handles
 the dedup automatically.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

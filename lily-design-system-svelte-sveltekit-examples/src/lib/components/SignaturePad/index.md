@@ -81,3 +81,7 @@ A drawing area for capturing a handwritten signature.
 ## References
 
 - WAI-ARIA application role: https://www.w3.org/TR/wai-aria-1.2/#application
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

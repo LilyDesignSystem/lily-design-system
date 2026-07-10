@@ -88,3 +88,7 @@ One step in a tour guide list.
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
 - WAI-ARIA aria-roledescription: https://www.w3.org/TR/wai-aria-1.2/#aria-roledescription
 - WAI-ARIA aria-current: https://www.w3.org/TR/wai-aria-1.2/#aria-current
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

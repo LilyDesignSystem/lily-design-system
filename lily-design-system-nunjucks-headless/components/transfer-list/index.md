@@ -92,3 +92,7 @@ order, and pass-through.
 
 - [WAI-ARIA: listbox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/)
 - [Ant Design: Transfer](https://ant.design/components/transfer)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

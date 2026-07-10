@@ -63,3 +63,7 @@ The Malta Passport Number is Malta's passport identifier. Format: 7 numerical di
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Maltese_passport
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

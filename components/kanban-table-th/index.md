@@ -93,3 +93,7 @@ KanbanTableTD is part of the KanbanTable composition pattern: KanbanTable > Kanb
 ## References
 
 - MDN th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

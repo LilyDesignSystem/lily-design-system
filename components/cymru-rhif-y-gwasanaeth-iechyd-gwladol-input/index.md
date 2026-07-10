@@ -68,3 +68,7 @@ The Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG) is Wales's healthcare identifier
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/NHS_number
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

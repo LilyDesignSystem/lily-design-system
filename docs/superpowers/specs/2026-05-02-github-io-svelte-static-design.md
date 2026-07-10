@@ -6,11 +6,11 @@
 
 ## Goal
 
-Convert `lilydesignsystem.github.io/` (the GitHub Pages site for the Lily Design System) from hand-written static HTML into a SvelteKit project that builds to a static site and is deployed automatically by GitHub Actions to the custom domain `lilydesignsystem.com`.
+Convert `lilydesignsystem.github.io/` (the GitHub Pages site for the Lily Design System™) from hand-written static HTML into a SvelteKit project that builds to a static site and is deployed automatically by GitHub Actions to the custom domain `lilydesignsystem.com`.
 
 ## Constraints
 
-- The `lilydesignsystem.github.io/` directory is a `git subtree`-pushed implementation in the Lily monorepo, mirrored to `LilyDesignSystem/lilydesignsystem.github.io` on GitHub.
+- The `lilydesignsystem.github.io/` directory is a `git subtree`-pushed implementation in the Lily™ monorepo, mirrored to `LilyDesignSystem/lilydesignsystem.github.io` on GitHub.
 - That repo is a `<org>.github.io` repo, so GitHub Pages serves from the **root** of `main`. Build output must therefore land at the served root — either by being committed at root, or by being published via the GitHub Pages deploy API (this design uses the latter).
 - The site is multi-page and content-only (no server logic), so full prerendering with `@sveltejs/adapter-static` is appropriate.
 - Existing URL paths must be preserved: `/`, `/about/`, `/components/`, `/examples/`, `/help/`, plus the markdown-stub directories `/comparisons/`, `/lily-claude-code/`, `/lily-claude-design/`, `/lily-figma/`, and `/tutorials/{blazor,html,react,svelte,vue}/`.
@@ -278,3 +278,7 @@ Minimal — no behavior under test in v1. Verification gates:
 - Migrating MDX or Markdown rendering — current pages are HTML-shaped, not content-heavy MD.
 - Theming or design tokens — visual design is unchanged.
 - DNS configuration at the registrar.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

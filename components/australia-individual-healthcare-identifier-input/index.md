@@ -68,3 +68,7 @@ The Individual Healthcare Identifier (IHI) is Australia's healthcare identifier.
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/My_Health_Record
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

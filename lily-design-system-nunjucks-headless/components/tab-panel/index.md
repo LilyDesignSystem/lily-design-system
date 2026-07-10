@@ -91,3 +91,7 @@ toggle, content slots, classes, and attributes.
 
 - [WAI-ARIA: tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/)
 - [Adobe Spectrum: Tabs](https://spectrum.adobe.com/page/tabs/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

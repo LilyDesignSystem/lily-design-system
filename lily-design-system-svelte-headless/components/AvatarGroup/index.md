@@ -21,3 +21,7 @@ See [components/avatar-group/index.md](../../../components/avatar-group/index.md
 - `AvatarGroup.svelte` — Svelte 5 implementation using runes
 - `AvatarGroup.test.ts` — vitest + @testing-library/svelte tests
 - `AvatarGroup.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

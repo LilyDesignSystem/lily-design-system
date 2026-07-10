@@ -53,3 +53,7 @@ The component renders with `.section-list-item` as the root class. No default st
 ## References
 
 - [MDN li element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

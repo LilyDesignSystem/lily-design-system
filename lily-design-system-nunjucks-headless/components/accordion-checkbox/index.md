@@ -66,3 +66,7 @@ This headless macro renders only the static HTML. To toggle the panel at runtime
 - `collapsible` — generic collapsible container.
 - `checkbox-input` — single checkbox without a revealable panel.
 - `accordion-list` / `accordion-list-item` — accordion list where one panel may be open at a time.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -115,3 +115,7 @@ Consumers may target `.grid` for responsive column overrides:
 
 - MDN grid-template-columns: https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns
 - MDN CSS grid: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

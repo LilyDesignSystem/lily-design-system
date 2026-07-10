@@ -105,3 +105,7 @@ removed from layout via the native `hidden` attribute.
 
 - WAI-ARIA dialog pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 - WAI-ARIA presentation role: https://www.w3.org/TR/wai-aria-1.2/#presentation
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

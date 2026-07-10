@@ -104,3 +104,7 @@ attribute selectors.
 - US Web Design System Validation: https://designsystem.digital.gov/components/validation/
 - WAI-ARIA aria-live: https://www.w3.org/TR/wai-aria-1.2/#aria-live
 - WCAG 3.3.1 Error Identification: https://www.w3.org/WAI/WCAG22/Understanding/error-identification
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

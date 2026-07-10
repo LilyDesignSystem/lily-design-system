@@ -87,3 +87,7 @@ The consumer provides all CSS styling. The component renders with a `.padding-re
 - Documentation: index.md
 - CSS class: .padding-reset in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/padding-reset.html
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

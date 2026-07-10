@@ -110,3 +110,7 @@ See [`../examples/multiple-selects.svelte`](../examples/multiple-selects.svelte)
 Each select gets a distinct `name` (so the `<select>` names and
 managed `<link>`s don't collide) and a distinct `target` (so
 `data-theme` goes on the section root rather than `<html>`).
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

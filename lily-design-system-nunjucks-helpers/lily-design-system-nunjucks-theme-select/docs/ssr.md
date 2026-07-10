@@ -224,3 +224,7 @@ require("node:fs").writeFileSync("dist/index.html", html);
 Static-site output works without any hosting glue. The user gets
 the chosen theme on first paint; `localStorage` overrides if
 present.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

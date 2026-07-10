@@ -60,3 +60,7 @@ The component renders with `.document-list-item` as the root class. No default s
 ## References
 
 - [MDN download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

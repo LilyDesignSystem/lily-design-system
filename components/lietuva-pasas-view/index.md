@@ -63,3 +63,7 @@ The Pasas is Lithuania's passport identifier. Format: 8-digit passport or identi
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Lithuanian_passport
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

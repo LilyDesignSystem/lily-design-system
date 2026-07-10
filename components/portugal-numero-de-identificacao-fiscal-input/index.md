@@ -68,3 +68,7 @@ The Número de Identificação Fiscal (NIF) is Portugal's tax identifier. Format
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/Personal_identification_number_(Portugal)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

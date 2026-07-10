@@ -94,3 +94,7 @@ The consumer provides all CSS styling. The component renders with a `.input` cla
 
 - MDN Input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
 - WAI-ARIA Forms: https://www.w3.org/WAI/tutorials/forms/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

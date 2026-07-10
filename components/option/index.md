@@ -81,3 +81,7 @@ The consumer provides all CSS styling. The component renders with a `.option` cl
 ## References
 
 - HTML option element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

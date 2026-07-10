@@ -72,3 +72,7 @@ The component renders with `.success-panel` as the root class. No default styles
 
 - [GOV.UK Confirmation pages pattern](https://design-system.service.gov.uk/patterns/confirmation-pages/)
 - [WAI-ARIA alert role](https://www.w3.org/TR/wai-aria-1.2/#alert)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

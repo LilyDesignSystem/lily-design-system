@@ -75,3 +75,7 @@ A placeholder loading animation for content.
 
 - WAI-ARIA aria-busy: https://www.w3.org/WAI/ARIA/apd/states/aria-busy/
 - MDN aria-hidden: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-hidden
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

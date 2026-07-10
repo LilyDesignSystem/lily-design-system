@@ -91,3 +91,7 @@ TaskBarButton is designed to be used as a child of TaskBar. The TaskBar provides
 ## References
 
 - [MDN button element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

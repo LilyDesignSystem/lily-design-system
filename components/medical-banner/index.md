@@ -124,3 +124,7 @@ Medical banners in clinical systems display patient-specific information, clinic
 
 - Parent pattern: Banner
 - NHS UK Design System: https://service-manual.nhs.uk/design-system
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

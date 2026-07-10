@@ -94,3 +94,7 @@ and content slots.
 
 - [WAI-ARIA: button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/)
 - [WAI-ARIA: aria-pressed](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-pressed)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

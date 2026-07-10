@@ -69,3 +69,7 @@ The component renders with `.address-input` as the root class. No default styles
 
 - [MDN input type=text](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text)
 - [MDN autocomplete attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

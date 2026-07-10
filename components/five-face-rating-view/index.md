@@ -84,3 +84,7 @@ The consumer provides all CSS styling. The component renders with a `.five-face-
 ## References
 
 - WAI-ARIA `img` role: https://www.w3.org/WAI/ARIA/apd/roles/img/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

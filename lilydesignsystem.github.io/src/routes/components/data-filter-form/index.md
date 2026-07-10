@@ -81,3 +81,7 @@ The consumer provides all CSS styling. The component renders with a `.data-filte
 
 - WAI-ARIA Landmark Roles: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
 - ARIA search role: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/search_role
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

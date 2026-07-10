@@ -72,3 +72,7 @@ The component renders with `.timeout-dialog` as the root class. No default style
 
 - [MDN dialog element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog)
 - [WAI-ARIA alertdialog role](https://www.w3.org/TR/wai-aria-1.2/#alertdialog)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -1,4 +1,4 @@
-# Lily Design System — Blazor Helpers
+# Lily Design System™ — Blazor Helpers
 
 A catalog of opinionated, reusable Blazor helper components that sit
 alongside the headless [`lily-design-system-blazor-headless`](../lily-design-system-blazor-headless/)
@@ -40,7 +40,7 @@ lily-design-system-blazor-<name>/
 
 The catalog parent ships its own `AGENTS/` and `AGENTS/shared/`
 directories with conventions, testing, accessibility, and SSR rules,
-plus the Lily-wide headless / i18n / theme principles ported from
+plus the Lily™-wide headless / i18n / theme principles ported from
 the root canonical AGENTS files.
 
 Shared design decisions across the catalog:
@@ -154,3 +154,7 @@ The shared rules around test setup (`bUnit.TestContext`,
 Each helper is dual-licensed under MIT or Apache-2.0 or GPL-2.0 or
 GPL-3.0 or BSD-3-Clause. Contact joel@joelparkerhenderson.com for
 other terms.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

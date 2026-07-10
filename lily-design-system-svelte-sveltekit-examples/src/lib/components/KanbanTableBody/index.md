@@ -63,3 +63,7 @@ A kanban board table interactive grid tbody for organizing items by status <tbod
 ## References
 
 - HTML tbody element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tbody
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

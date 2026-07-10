@@ -114,3 +114,7 @@ Provide a clear focus indicator on the panel since it is keyboard-focusable.
 - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 - Adobe Spectrum Tabs: https://spectrum.adobe.com/page/tabs/
 - WCAG 1.3.1 Info and Relationships: https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

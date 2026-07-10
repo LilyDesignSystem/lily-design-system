@@ -106,3 +106,7 @@ The consumer provides all CSS styling. The component renders with an `.image-cro
 - WAI-ARIA application Role: https://www.w3.org/TR/wai-aria-1.2/#application
 - Origin UI Angular — Cropper: https://www.originui-ng.com/
 - MDN Canvas API: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

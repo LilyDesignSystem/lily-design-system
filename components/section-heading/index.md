@@ -104,3 +104,7 @@ inner `section-heading-eyebrow`, `section-heading-heading`, and
 - MDN Heading Elements: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements
 - WCAG 2.4.6 Headings and Labels: https://www.w3.org/WAI/WCAG22/Understanding/headings-and-labels
 - Mozilla Protocol Design System: https://protocol.mozilla.org/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

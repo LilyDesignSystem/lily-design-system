@@ -1,8 +1,8 @@
 # Frameworks
 
-> Lily Design System specification — topic doc. All topics: [spec index](../index.md).
+> Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily implements one canonical 490-component catalog across seven framework pairs — a headless library plus a styled example app per framework — so the same semantic, accessible markup is expressed in each framework's native idiom. This topic maps the pairs, their stacks, and their per-framework component file shapes.
+**Summary.** Lily™ implements one canonical 490-component catalog across seven framework pairs — a headless library plus a styled example app per framework — so the same semantic, accessible markup is expressed in each framework's native idiom. This topic maps the pairs, their stacks, and their per-framework component file shapes.
 
 ## Scope
 
@@ -99,3 +99,7 @@ Every library renders the same semantic element with the same kebab-case base cl
 - [AGENTS/sveltekit.md](../../AGENTS/sveltekit.md) — Svelte 5 + SvelteKit 2 conventions
 - [AGENTS/nunjucks.md](../../AGENTS/nunjucks.md) — Nunjucks macro conventions
 - [AGENTS/lily.md](../../AGENTS/lily.md) — subproject directory listing
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

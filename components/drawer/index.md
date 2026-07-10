@@ -111,3 +111,7 @@ The consumer provides all CSS styling. The component renders with a `.drawer` cl
 ## References
 
 - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

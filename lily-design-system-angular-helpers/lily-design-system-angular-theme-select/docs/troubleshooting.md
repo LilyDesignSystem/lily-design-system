@@ -10,7 +10,7 @@ first-loaded theme then sets values that the next-loaded theme
 cannot unset.
 
 **Fix.** Scope every rule in every theme to
-`:where(:root, :root[data-theme="<slug>"])`. The Lily themes
+`:where(:root, :root[data-theme="<slug>"])`. The Lily™ themes
 follow this convention.
 
 ## "404 on the theme href"
@@ -196,3 +196,7 @@ The effect inside `ThemeSelect` reads `value()` and writes
 
 The two-way `[(value)]` plus `(themeChange)` combination is safe
 because `(themeChange)` is a notification, not a re-write.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

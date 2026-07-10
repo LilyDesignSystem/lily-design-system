@@ -103,3 +103,7 @@ The consumer provides all CSS styling. The component renders with a `.progress` 
 
 - MDN progress element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress
 - WAI-ARIA Progress role: https://www.w3.org/WAI/ARIA/apg/patterns/meter/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

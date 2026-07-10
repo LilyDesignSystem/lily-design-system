@@ -406,3 +406,7 @@ copy into your project.
 | [08-ssr-cookie.vue](./examples/08-ssr-cookie.vue)                                       | Nuxt 3 cookie-based SSR — no flash of default locale.              |
 | [09-scoped-target.vue](./examples/09-scoped-target.vue)                                 | Multiple per-region selects, each scoped to its own panel.         |
 | [10-combobox.vue](./examples/10-combobox.vue)                                           | Native `<datalist>` type-ahead for 436 locales.                    |
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -88,3 +88,7 @@ The consumer provides all CSS styling. The component renders with a `.framer` cl
 ## References
 
 - [Reuters Graphics Framer component](https://github.com/reuters-graphics/graphics-components)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

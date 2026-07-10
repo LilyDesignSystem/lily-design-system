@@ -19,3 +19,7 @@ See [components/question/index.md](../../../components/question/index.md) for th
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
 - `macro.stories.ts` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

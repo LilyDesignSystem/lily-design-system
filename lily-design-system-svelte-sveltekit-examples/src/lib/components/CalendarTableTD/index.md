@@ -75,3 +75,7 @@ A calendar table interactive grid data cell for managing dates, days, etc. <td>.
 ## References
 
 - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

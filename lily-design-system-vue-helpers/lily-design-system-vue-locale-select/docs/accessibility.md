@@ -136,7 +136,7 @@ For 50+ locales, a combobox with type-ahead is the right pattern.
 The APG Combobox specification is intricate (focus-on-listbox vs
 focus-on-input, auto-complete vs none, vertical vs grid). This
 helper doesn't ship a combobox; use the default slot to render the
-upstream Lily `Combobox` headless primitive or an established
+upstream Lily™ `Combobox` headless primitive or an established
 Vue component (Radix Vue, Headless UI Vue, PrimeVue).
 
 See [examples/10-combobox.vue](../examples/10-combobox.vue) for a
@@ -185,3 +185,7 @@ yours.
   <https://www.w3.org/WAI/WCAG22/Understanding/on-input>
 - MDN — `lang` attribute and `:lang()` selector:
   <https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang>
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

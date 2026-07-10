@@ -84,3 +84,7 @@ position, and content slots.
 ## References
 
 - [Mozilla Protocol: Feature Card](https://protocol.mozilla.org/components/detail/feature-card)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

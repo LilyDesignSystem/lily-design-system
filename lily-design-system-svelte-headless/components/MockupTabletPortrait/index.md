@@ -21,3 +21,7 @@ See [components/mockup-tablet-portrait/index.md](../../../components/mockup-tabl
 - `MockupTabletPortrait.svelte` — Svelte 5 implementation using runes
 - `MockupTabletPortrait.test.ts` — vitest + @testing-library/svelte tests
 - `MockupTabletPortrait.stories.svelte` — Storybook stories
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

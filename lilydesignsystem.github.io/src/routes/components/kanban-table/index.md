@@ -102,3 +102,7 @@ KanbanTable uses the Table composition pattern: KanbanTable contains KanbanTable
 ## References
 
 - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

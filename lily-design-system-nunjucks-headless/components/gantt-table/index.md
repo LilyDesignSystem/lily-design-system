@@ -18,3 +18,7 @@ See [components/gantt-table/index.md](../../../components/gantt-table/index.md) 
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -84,3 +84,7 @@ An ordered list of page navigation links.
 
 - WAI-ARIA Navigation role: https://www.w3.org/TR/wai-aria-1.2/#navigation
 - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

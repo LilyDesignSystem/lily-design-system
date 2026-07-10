@@ -21,3 +21,7 @@ brew doctor
 brew upgrade node
 brew link --overwrite node
 ```
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

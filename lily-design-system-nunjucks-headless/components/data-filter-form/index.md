@@ -18,3 +18,7 @@ See [components/data-filter-form/index.md](../../../components/data-filter-form/
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

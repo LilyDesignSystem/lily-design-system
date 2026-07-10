@@ -61,3 +61,7 @@ Initial value resolves from `value` > storage > `defaultValue` >
 - Native `<select>` provides Arrow / Home / End / typeahead semantics.
 - `aria-label` carries the consumer-supplied accessible name.
 - Default labels title-case the slug.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -101,3 +101,7 @@ The consumer provides all CSS styling. The component renders with a `.skip-link`
 - WCAG 2.1 Bypass Blocks: https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html
 - WAI-ARIA Authoring Practices - Skip Navigation: https://www.w3.org/WAI/ARIA/apg/practices/skip-nav/
 - WebAIM Skip Navigation Links: https://webaim.org/techniques/skipnav/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -107,3 +107,7 @@ with a callout arrow if appropriate.
 
 - WAI-ARIA Alert Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/
 - Ant Design Popconfirm: https://ant.design/components/popconfirm
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

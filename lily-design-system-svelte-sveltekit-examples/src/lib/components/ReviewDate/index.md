@@ -77,3 +77,7 @@ A display of a content review date.
 
 - HTML <time> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time
 - ISO 8601 Date Format: https://en.wikipedia.org/wiki/ISO_8601
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

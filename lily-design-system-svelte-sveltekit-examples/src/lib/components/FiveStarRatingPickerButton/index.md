@@ -77,3 +77,7 @@ A picker button for selecting a 1-5 star rating using radio buttons.
 ## References
 
 - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

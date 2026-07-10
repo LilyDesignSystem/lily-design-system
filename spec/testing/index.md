@@ -1,6 +1,6 @@
 # Testing
 
-> Lily Design System specification — topic doc. All topics: [spec index](../index.md).
+> Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
 **Summary.** Every headless library has a per-framework unit suite asserting DOM and ARIA output, every example app has Playwright e2e plus an axe-core accessibility baseline and a responsive viewport sweep, and six of seven headless libraries ship 490/490 Storybook stories.
 
@@ -97,3 +97,7 @@ The sweep is ported to all six example apps with route paths adjusted per app (e
 - [spec/index.md](../index.md) — §11.4 (test suites), §11.5 (axe-core), §11.6 (responsive sweep), §11.7 (Storybook)
 - [bin/test](../../bin/test) — required-file verification
 - [AGENTS/accessibility.md](../../AGENTS/accessibility.md) — accessibility testing guidance
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

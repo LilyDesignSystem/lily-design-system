@@ -351,3 +351,7 @@ acceptance criterion in
 
 MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause. Contact
 joel@joelparkerhenderson.com for other terms.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

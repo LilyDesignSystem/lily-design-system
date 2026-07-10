@@ -251,3 +251,7 @@ a theme appropriate to the locale (e.g. brand colours per locale):
 
 The two selects compose without conflict because they own different
 DOM signals (`data-theme` vs `lang` + `dir`).
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

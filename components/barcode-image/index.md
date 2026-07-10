@@ -93,3 +93,7 @@ The consumer provides all CSS styling. The component renders with a `.barcode-im
 
 - [MDN img element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img)
 - [WAI Images Tutorial](https://www.w3.org/WAI/tutorials/images/)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

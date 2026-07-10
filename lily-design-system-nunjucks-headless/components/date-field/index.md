@@ -18,3 +18,7 @@ See [components/date-field/index.md](../../../components/date-field/index.md) fo
 
 - `macro.njk` — Nunjucks macro implementation
 - `macro.test.js` — vitest render test
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

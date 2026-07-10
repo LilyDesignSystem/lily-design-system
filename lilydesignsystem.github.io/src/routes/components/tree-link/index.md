@@ -113,3 +113,7 @@ TreeLink follows the Nav / List / ListItem composition pattern:
 ## References
 
 - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

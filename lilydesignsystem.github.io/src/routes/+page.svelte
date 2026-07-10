@@ -3,20 +3,20 @@
 </script>
 
 <svelte:head>
-  <title>Lily Design System</title>
+  <title>Lily Design System&trade;</title>
   <meta
     name="description"
-    content="Lily is a free, open-source, accessible, headless design system with {LILY_COMPONENTS.length} components across HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks."
+    content="Lily&trade; is a free, open-source, accessible, headless design system with {LILY_COMPONENTS.length} components across HTML, Svelte, React, Vue, Angular, Blazor, and Nunjucks."
   />
 </svelte:head>
 
 <section class="hero">
-  <h1>Build your web designs faster.</h1>
+  <h1>Build web designs better.</h1>
   <p class="hero-tagline">
-    Lily is a free open-source design system with
+    Lily™ is a free open-source design system with
     hundreds of components. Lily provides versions for HTML, Svelte, React,
-    Vue, Angular, Blazor, and Nunjucks. Lily provides headless versions
-    where you can bring your own CSS, and also provides styled examples.
+    Vue, Angular, Blazor, and more, with headless versions
+    where you can bring your own CSS, and styled examples with customizable themes.
   </p>
   <div class="button-row">
     <a class="button button-primary" href="/tutorials/">Start the tutorial</a>

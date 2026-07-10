@@ -102,3 +102,7 @@ ThemeView is the read-only display counterpart to ThemeSelect. Use ThemeView to 
 ## References
 
 - WAI-ARIA Accessible Name: https://www.w3.org/TR/accname-1.2/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

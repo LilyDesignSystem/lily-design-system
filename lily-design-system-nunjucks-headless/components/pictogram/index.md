@@ -89,3 +89,7 @@ description rendering, and content overrides.
 ## References
 
 - [Mozilla Protocol: Pictogram](https://protocol.mozilla.org/components/detail/pictogram)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

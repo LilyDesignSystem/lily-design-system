@@ -63,3 +63,7 @@ The Código de Identificación Fiscal (CIF) is Spain's tax identifier. Format: 9
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/VAT_identification_number#Spain
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

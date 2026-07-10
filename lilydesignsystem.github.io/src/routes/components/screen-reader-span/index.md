@@ -105,3 +105,7 @@ The consumer provides the visually-hidden CSS. The component renders with a `.sc
 ## References
 
 - WebAIM: CSS in Action - Invisible Content Just for Screen Readers: https://webaim.org/techniques/css/invisiblecontent/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

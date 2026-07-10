@@ -84,3 +84,7 @@ A menu that appears on right-click or long-press.
 ## References
 
 - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

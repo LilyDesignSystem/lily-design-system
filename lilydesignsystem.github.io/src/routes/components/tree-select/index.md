@@ -119,3 +119,7 @@ and a clear distinction between the collapsed and expanded states.
 - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 - WAI-ARIA Tree Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
 - Ant Design TreeSelect: https://ant.design/components/tree-select
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

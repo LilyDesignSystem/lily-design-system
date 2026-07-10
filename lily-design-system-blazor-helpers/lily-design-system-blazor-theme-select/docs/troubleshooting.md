@@ -10,7 +10,7 @@ first-loaded theme then sets values that the next-loaded theme
 cannot unset.
 
 **Fix.** Scope every rule in every theme to
-`:where(:root, :root[data-theme="<slug>"])`. The Lily themes
+`:where(:root, :root[data-theme="<slug>"])`. The Lily™ themes
 follow this convention.
 
 ## "404 on the theme href"
@@ -209,3 +209,7 @@ whose key changes, it can mount and unmount repeatedly. Avoid putting
 the select in a virtualised list; mount it in a stable layout slot
 (header, settings page) and bind its `Value` via a shared state
 service.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

@@ -120,3 +120,7 @@ NetPromoterScorePicker (role="radiogroup") → NetPromoterScorePickerButton (0-1
 
 - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score
 - WAI-ARIA Radiogroup Role: https://www.w3.org/TR/wai-aria-1.2/#radiogroup
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

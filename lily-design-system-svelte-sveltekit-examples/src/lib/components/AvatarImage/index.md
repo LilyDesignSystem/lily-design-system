@@ -71,3 +71,7 @@ An avatar indicator inside image such as a user photo.
 ## References
 
 - HTML img element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

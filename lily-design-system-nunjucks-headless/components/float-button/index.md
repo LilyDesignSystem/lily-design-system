@@ -84,3 +84,7 @@ their inline offsets, disabled state, and pass-through.
 
 - [WAI-ARIA: button pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/)
 - [Ant Design: FloatButton](https://ant.design/components/float-button)
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

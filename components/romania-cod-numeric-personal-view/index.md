@@ -63,3 +63,7 @@ The Cod Numeric Personal (CNP) is Romania's national-id identifier. Format: 13 d
 ## References
 
 - Wikipedia: https://en.wikipedia.org/wiki/National_identification_number#Romania
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

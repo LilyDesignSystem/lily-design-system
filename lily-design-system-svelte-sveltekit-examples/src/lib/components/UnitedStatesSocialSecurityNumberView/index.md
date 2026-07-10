@@ -71,3 +71,7 @@ A read-only display of a US Social Security number.
 ## References
 
 - Social Security Number: https://www.ssa.gov/history/ssn/geocard.html
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

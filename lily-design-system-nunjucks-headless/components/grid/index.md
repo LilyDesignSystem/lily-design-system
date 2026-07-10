@@ -71,3 +71,7 @@ Only the inline styles required for the grid behavior are emitted.
 `components/grid/macro.test.js` verifies the base class,
 `data-columns`, and the inline `display`, `grid-template-columns`,
 and `gap` styles.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

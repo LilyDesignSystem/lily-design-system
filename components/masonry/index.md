@@ -102,3 +102,7 @@ A typical consumer adds `break-inside: avoid` to direct children:
 
 - MDN column-count: https://developer.mozilla.org/en-US/docs/Web/CSS/column-count
 - MDN break-inside: https://developer.mozilla.org/en-US/docs/Web/CSS/break-inside
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

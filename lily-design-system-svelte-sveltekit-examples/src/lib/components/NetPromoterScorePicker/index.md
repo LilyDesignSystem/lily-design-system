@@ -85,3 +85,7 @@ A picker for selecting a 0-10 Net Promoter Score.
 
 - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score
 - WAI-ARIA Radiogroup Role: https://www.w3.org/TR/wai-aria-1.2/#radiogroup
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

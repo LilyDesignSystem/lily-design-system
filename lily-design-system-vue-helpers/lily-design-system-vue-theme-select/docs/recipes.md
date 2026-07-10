@@ -163,3 +163,7 @@ onMounted(() => {
     />
 </template>
 ```
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

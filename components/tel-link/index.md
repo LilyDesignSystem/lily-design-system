@@ -93,3 +93,7 @@ TelLink and TelInput follow the Input/Link pattern. TelLink provides the read-on
 
 - MDN tel: links: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#linking_to_telephone_numbers
 - WAI-ARIA Link Role: https://www.w3.org/TR/wai-aria-1.2/#link
+
+---
+
+Lily™ and Lily Design System™ are trademarks.
