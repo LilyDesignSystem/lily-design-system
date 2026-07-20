@@ -59,7 +59,11 @@ technology all see the change.
 
 ```ts
 import { Component, signal } from "@angular/core";
-import { LocaleSelect } from "./lily-design-system-angular-locale-select";
+import {
+    LocaleSelect,
+    bcp47LocaleTag,
+    localeName,
+} from "./lily-design-system-angular-locale-select";
 
 @Component({
     selector: "app-settings",
@@ -74,17 +78,37 @@ import { LocaleSelect } from "./lily-design-system-angular-locale-select";
             [detectFromNavigator]="true"
             (localeChange)="onLocaleChange($event)"
         />
+
+        <p class="locale-select-status" aria-live="polite">
+            Active language:
+            <span [attr.lang]="tagFor(locale())">{{ nameFor(locale()) }}</span>
+        </p>
     `,
 })
 export class Settings {
     locales = ["en", "en_US", "fr", "fr_CA", "ar", "he"];
     locale = signal("");
 
+    nameFor = localeName;
+    tagFor = bcp47LocaleTag;
+
     onLocaleChange(code: string) {
         // Wire to your i18n library here.
     }
 }
 ```
+
+The status line is part of the pattern, not decoration. The closed
+control is placeholder-pinned — it always reads "Language", never the
+active locale name — so on its own it never tells a screen-reader user
+which locale is in effect. The `locale-select-status` element restores
+that, in visible text, for sighted and screen-reader users alike;
+`aria-live="polite"` announces only changes, so it is silent on first
+paint and speaks once per switch. The locale name carries its own
+`lang` for the same reason each `<option>` does, so it is pronounced in
+the language it names. Keep it unless you have a specific reason not
+to, and prefer visually hiding it over deleting it. Full rationale and
+the opt-out: [docs/accessibility.md](./docs/accessibility.md).
 
 When the user picks `ar`, the component:
 

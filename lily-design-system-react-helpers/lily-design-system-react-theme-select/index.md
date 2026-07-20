@@ -68,20 +68,44 @@ import type { Props, ChildArgs } from "./lily-design-system-react-theme-select";
 import { useState } from "react";
 import { ThemeSelect } from "./lily-design-system-react-theme-select";
 
+function labelFor(slug: string) {
+    return slug
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+}
+
 export function ThemeChooser() {
     const [theme, setTheme] = useState("");
     return (
-        <ThemeSelect
-            label="Theme"
-            themesUrl="/assets/themes/"
-            themes={["light", "dark", "abyss"]}
-            value={theme}
-            onChange={setTheme}
-            storageKey="lily-theme"
-        />
+        <>
+            <ThemeSelect
+                label="Theme"
+                themesUrl="/assets/themes/"
+                themes={["light", "dark", "abyss"]}
+                value={theme}
+                onChange={setTheme}
+                storageKey="lily-theme"
+            />
+
+            <p className="theme-select-status" aria-live="polite">
+                Active theme: {labelFor(theme)}
+            </p>
+        </>
     );
 }
 ```
+
+The status line is part of the pattern, not an optional extra. The
+closed control is placeholder-pinned — it always reads "Theme", never
+"Dark" — so without this line the active theme is announced to nobody
+and shown to nobody. `aria-live="polite"` announces mutations only, so
+it stays quiet on first paint and speaks once per user change. Keep it
+visible where you can (it helps sighted and cognitively-loaded users
+too); if your design cannot spare the space, hide it with the
+visually-hidden recipe in [docs/styling.md](./docs/styling.md) rather
+than dropping it. Full rationale:
+[docs/accessibility.md](./docs/accessibility.md).
 
 When the user picks `dark`, the component:
 
@@ -121,8 +145,10 @@ Pass `placeholder` to show a shorter word than the accessible name:
 
 One tradeoff to know: because the control never shows the active
 theme, screen-reader users no longer hear it announced as the combobox
-value. See [docs/accessibility.md](./docs/accessibility.md) for how to
-surface it separately.
+value. That is exactly why the quick start above pairs the select with
+a `.theme-select-status` live region — pairing them is the default
+pattern, and dropping the status line is the deliberate opt-out. See
+[docs/accessibility.md](./docs/accessibility.md).
 
 ## How it works
 
@@ -348,7 +374,7 @@ exercises every numbered acceptance criterion in
 
 | #  | File                                                       | Demonstrates                              |
 | -- | ---------------------------------------------------------- | ----------------------------------------- |
-| 1  | [`basic.tsx`](./examples/basic.tsx)                        | Minimal three-theme select.               |
+| 1  | [`basic.tsx`](./examples/basic.tsx)                        | Minimal three-theme select + the default status line. |
 | 2  | [`two-way-binding.tsx`](./examples/two-way-binding.tsx)    | Controlled `value` + `onChange`.          |
 | 3  | [`persistence.tsx`](./examples/persistence.tsx)            | `localStorage` survival across reloads.   |
 | 4  | [`custom-labels.tsx`](./examples/custom-labels.tsx)        | `themeLabels` for i18n / display names.   |

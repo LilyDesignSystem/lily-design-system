@@ -49,9 +49,11 @@ The helper is a **macro + client.js pair**:
 
 The macro emits a `<select class="locale-select">` with
 `data-lily-locale-select-*` hooks describing the select's name,
-storage key, default value, navigator flag, and apply-dir flag. On
+storage key, default value, navigator flag, apply-dir flag, and — when
+`opts.value` is set — the consumer's initial value
+(`data-lily-locale-select-value`). On
 `initLocaleSelect(root)`, the client
-(1) resolves the initial code from selected-option > storage >
+(1) resolves the initial code from value-attribute > storage >
 navigator (when enabled) > default-value > `"en"` > first-option,
 (2) sets `target.lang = bcp47LocaleTag(code)`, (3) optionally sets
 `target.dir = isRtlLocale(code) ? "rtl" : "ltr"`, (4) optionally
@@ -70,6 +72,12 @@ locale-select-placeholder" value="" selected>{placeholder ??
 label}</option>` (no `lang` — it is not a locale), followed by one
 `<option class="locale-select-option" value="{locale}"
 lang="{tagFor(locale)}">…</option>` per locale code.
+
+The placeholder is the **only** option ever rendered `selected` — real
+options never carry `selected`, even when `opts.value` is set. That
+value travels on `data-lily-locale-select-value` instead, so the closed
+control reads the placeholder word from byte zero and never flashes the
+locale name before the client runs.
 
 ## Accessibility
 

@@ -98,7 +98,7 @@ select that:
 | `label`              | `string`                   | yes      | —                        | Accessible name for the `<select>` (`aria-label`). |
 | `placeholder`        | `string`                   | no       | value of `label`         | Text of the always-displayed placeholder option. The closed `<select>` shows this instead of the active locale name, so the control stays as narrow as this word. |
 | `locales`            | `array<string>`            | yes      | —                        | Available locale codes (e.g. `["en", "en_US", "fr", "ar"]`). |
-| `value`              | `string`                   | no       | `""`                     | Initial selected locale (rendered as the selected option). |
+| `value`              | `string`                   | no       | `""`                     | Initial locale. Emitted as `data-lily-locale-select-value` for the client to read; it is **not** rendered as a `selected` option (see §4.2). |
 | `defaultValue`       | `string`                   | no       | `""`                     | Initial locale when nothing else is supplied at runtime. |
 | `storageKey`         | `string`                   | no       | `""`                     | If non-empty, the client.js persists to `localStorage`. |
 | `detectFromNavigator`| `boolean`                  | no       | `false`                  | If true, the client.js resolves `navigator.languages` on first init. |
@@ -117,15 +117,25 @@ select that:
   data-lily-locale-select-storage-key="{storageKey}"
   data-lily-locale-select-default-value="{defaultValue}"
   data-lily-locale-select-detect-from-navigator="{true|false}"
-  data-lily-locale-select-apply-dir="{true|false}">`.
+  data-lily-locale-select-apply-dir="{true|false}"
+  data-lily-locale-select-value="{value}">`.
+- `data-lily-locale-select-value` is emitted **only when `opts.value`
+  is non-empty**; it is the sole channel by which the consumer's
+  `value` prop reaches the client.
 - The FIRST child of the `<select>` is the component-owned placeholder
   option: `<option class="locale-select-option locale-select-placeholder"
   value="" selected>{placeholder ?? label}</option>`. It is always
   rendered, always carries an empty `value`, and is the option the
   closed control displays. It carries NO `lang`: it is not a locale.
+- The placeholder is the **only** option that ever carries `selected`
+  in the macro output. A `<select>` with two `selected` options is
+  resolved by the browser in favour of the *last* one, so rendering
+  `selected` on the matching real option would paint the locale name
+  until the client snapped it back — a visible flash on every load
+  where `opts.value` is set. The macro therefore never does it.
 - Then one `<option class="locale-select-option" value="{locale}"
-  lang="{tagFor(locale)}" {selected when value===locale}>{labelFor(locale)}</option>`
-  per locale.
+  lang="{tagFor(locale)}">{labelFor(locale)}</option>`
+  per locale — never `selected`.
 - Each locale option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen
   form) for WCAG 3.1.2 (Language of Parts).
 - The `<select>`'s own `value` is therefore **not** a mirror of the
@@ -168,10 +178,10 @@ normalisation is applied.
 
 The initial locale is the first non-empty value of:
 
-1. The `value` attribute of any `<option>` that the macro rendered
-   with `selected` (i.e. the consumer's `value` prop). The leading
-   placeholder option is also rendered `selected`, so it is skipped
-   here by requiring a non-empty value.
+1. The `<select>`'s `data-lily-locale-select-value` attribute (i.e.
+   the consumer's `value` prop). The macro omits the attribute
+   entirely when `opts.value` is unset, so an absent attribute reads
+   as `""` and falls through.
 2. `localStorage.getItem(storageKey)` (only if `storageKey` is set
    and the read does not throw).
 3. `matchNavigatorLanguage(navigator.languages, locales)` (only if
@@ -309,7 +319,8 @@ document populated from the macro output.
 18. When `storageKey` is set, the active code is written to
     `localStorage` and read back on a fresh init.
 19. When the macro renders `value` as a non-empty prop, the
-    initial-value resolution uses the supplied value (skipping
+    `<select>` carries `data-lily-locale-select-value="{value}"` and
+    the initial-value resolution uses the supplied value (skipping
     storage, navigator, and defaults).
 20. When `detectFromNavigator` is true and `navigator.languages`
     contains a supported locale, the client resolves to that
@@ -335,6 +346,13 @@ document populated from the macro output.
     option's text, while `aria-label` still carries `label`.
 26. Firing a `change` event with a real locale code applies that
     locale AND snaps the `<select>` value back to `""`.
+27. When `opts.value` is set, the server-rendered markup contains
+    exactly ONE `selected` option and it is the placeholder. No real
+    option carries `selected`, and the `<select>`'s value is `""`
+    before any client code runs. (Regression guard for the
+    pre-hydration flash — see §4.2.)
+28. When `opts.value` is unset, the `<select>` carries no
+    `data-lily-locale-select-value` attribute at all.
 
 ## 8. Out-of-scope (future)
 

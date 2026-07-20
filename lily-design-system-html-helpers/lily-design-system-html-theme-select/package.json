@@ -1,6 +1,6 @@
 {
   "name": "lily-design-system-html-theme-select",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Lily Design System - HTML custom element theme select",
   "type": "module",
   "main": "./dist/index.js",

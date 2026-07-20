@@ -14,7 +14,7 @@ Every example assumes:
 
 | #  | File                                            | Demonstrates                                                       |
 |----|-------------------------------------------------|--------------------------------------------------------------------|
-| 1  | [`01-radios.vue`](./01-radios.vue)              | Default native `<select>` rendering.                               |
+| 1  | [`01-radios.vue`](./01-radios.vue)              | Default native `<select>` rendering, plus the `.locale-select-status` live region every consumer should ship. |
 | 2  | [`02-select.vue`](./02-select.vue)              | Custom `<option>` markup / styling the native select via the default scoped slot. |
 | 3  | [`03-buttons.vue`](./03-buttons.vue)            | Toggle-button group with short codes / glyphs and `aria-pressed`.  |
 | 4  | [`04-rtl-demo.vue`](./04-rtl-demo.vue)          | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |

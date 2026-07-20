@@ -51,30 +51,66 @@ The `<select>` always displays its leading placeholder option
 predictable, but it has a real accessibility cost: **a screen-reader
 user no longer hears the active theme announced as the combobox
 value.** VoiceOver and NVDA read the placeholder word ("Theme"),
-not "Dark".
+not "Dark". No option in the open list is marked selected either.
 
-If knowing the current theme matters in your interface, surface it
-yourself. Two recommended patterns:
+This is a genuine loss, and the compensation below does not fully
+erase it: the value is still absent from the control itself, so a
+user who tabs back to the select later and does not re-read the page
+has no way to query the current theme from the widget. What the
+status region does provide is an announcement at the moment of
+change, and a persistent visible record of the active theme.
 
-Visible text next to the control:
+### The status region is the default pattern
+
+Because of that cost, every example in this package pairs the select
+with a status region, and so does the quick start in
+[`index.md`](../index.md). **Shipping it is the default; removing it
+is the deliberate choice** you make with your accessibility
+reviewer — not something you opt into later.
 
 ```vue
-<ThemeSelect v-model:value="theme" label="Theme" ... />
-<p>Current theme: {{ themeLabels[theme] ?? theme }}</p>
+<script setup lang="ts">
+import { ref } from "vue";
+import ThemeSelect from "../ThemeSelect.vue";
+
+const theme = ref("");
+const themeLabels = { light: "Light", dark: "Dark", abyss: "Abyss" };
+</script>
+
+<template>
+    <ThemeSelect
+        v-model:value="theme"
+        label="Theme"
+        themes-url="/assets/themes/"
+        :themes="['light', 'dark', 'abyss']"
+    />
+
+    <p class="theme-select-status" aria-live="polite">
+        Active theme: {{ themeLabels[theme] ?? theme }}
+    </p>
+</template>
 ```
 
-Or a polite live region, which announces the change without moving
-focus:
+Three decisions are baked into that snippet:
 
-```vue
-<ThemeSelect v-model:value="theme" label="Theme" ... />
-<p role="status" aria-live="polite">
-    Theme changed to {{ themeLabels[theme] ?? theme }}
-</p>
-```
+1. **Visible, not `sr-only`.** The active theme is invisible once the
+   control snaps back to the placeholder, so a visible line helps
+   sighted users and cognitive accessibility as well as screen-reader
+   users — which is what WCAG AAA favours. If your design truly
+   cannot spare the line, keep the element and apply the
+   visually-hidden recipe in [`styling.md`](./styling.md); do not
+   delete it.
+2. **`aria-live="polite"`, not `role="alert"`.** A polite live region
+   announces *mutations* only, so it is silent on first paint and
+   speaks once per change, without moving focus. That matches WCAG
+   3.2.2 (On Input): changing a setting must not change context.
+3. **Human label, not the raw slug.** Show `labelFor(slug)` /
+   `themeLabels[slug]` so the announcement reads "Active theme: Dark",
+   not "Active theme: dark". All strings are consumer-supplied, so
+   they localise with the rest of your copy.
 
-Both strings are consumer-supplied, so they localise with the rest
-of your copy.
+Use the `.theme-select-status` class hook for the element — it is the
+documented hook, listed in [`styling.md`](./styling.md).
 
 ## Internationalisation
 
@@ -102,8 +138,9 @@ transitions on the `data-theme` swap.
 - NVDA announces "{label} combo box" and each option similarly.
 - The announced *value* of the closed control is always the
   placeholder text, never the active theme — by design, per the
-  tradeoff above. Pair the select with visible text or a polite live
-  region when the active theme needs to be announced.
+  tradeoff above. The `.theme-select-status` live region shipped
+  alongside the select is what announces the change; verify it fires
+  once per change and stays silent on page load.
 
 ## Common mistakes to avoid
 
@@ -119,6 +156,13 @@ transitions on the `data-theme` swap.
 - **Setting `inheritAttrs: false` on a wrapping component.** Don't
   break the attribute fall-through; consumers rely on it for
   `data-testid`, `id`, and event handlers.
+- **Dropping the `.theme-select-status` region to save space.** It is
+  the only channel that announces the active theme. If space is the
+  problem, hide it visually with the recipe in
+  [`styling.md`](./styling.md) — that keeps the announcement.
+- **Upgrading the status region to `role="alert"` or
+  `aria-live="assertive"`.** That interrupts the user on every theme
+  change. A theme switch is not an emergency; keep it polite.
 
 ---
 

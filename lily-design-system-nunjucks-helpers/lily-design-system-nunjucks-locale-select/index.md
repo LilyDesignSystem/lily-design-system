@@ -119,16 +119,45 @@ resolve it at test time, browsers consume the compiled
     storageKey: "lily-locale",
     detectFromNavigator: true
 }) }}
+
+{# Status region: the closed <select> shows the placeholder word
+   ("Language"), never the active locale, so the active locale is
+   surfaced here instead — visibly, for sighted and screen-reader
+   users alike. See docs/accessibility.md. #}
+<p class="locale-select-status" aria-live="polite"></p>
 ```
 
-2. Load the client.js once per page:
+2. Load the client.js once per page and keep the status region in
+   sync from `onChange`:
 
 ```html
 <script type="module">
-    import { autoInit } from "/path/to/locale-select.client.js";
-    autoInit();
+    import {
+        autoInit,
+        localeName,
+    } from "/path/to/locale-select.client.js";
+
+    const status = document.querySelector(".locale-select-status");
+
+    autoInit({
+        onChange(code) {
+            // aria-live="polite" announces mutations only, so this is
+            // silent on first paint and speaks on each later change.
+            status.textContent = `Active language: ${localeName(code)}`;
+        },
+    });
 </script>
 ```
+
+`localeName(code)` resolves the human name from the built-in 436-row
+table (`en_US` → "English (United States)"), so the region shows a
+real language name rather than a raw code.
+
+Keep the status region **visible** by default: it helps sighted and
+cognitive-accessibility users too, and WCAG 2.2 AAA favours it. If your
+design genuinely can't spare the space, make it visually hidden rather
+than dropping it — recipe in
+[docs/styling.md](./docs/styling.md).
 
 When the user picks `ar`, the client:
 
@@ -192,8 +221,11 @@ normalisation](#bcp-47-normalisation).
 The initial code on `initLocaleSelect(root)` resolves to the first
 non-empty value of:
 
-1. The `value` of any `<option>` the macro rendered with `selected`
-   (i.e. `opts.value`).
+1. The `<select>`'s `data-lily-locale-select-value` (i.e.
+   `opts.value`). The macro emits this attribute instead of rendering
+   `selected` on the matching option, so the closed control never
+   flashes the locale name before the client runs — see
+   [docs/ssr.md](./docs/ssr.md).
 2. `localStorage.getItem(storageKey)` (when set and readable).
 3. `matchNavigatorLanguage(navigator.languages, locales)` (when
    `detectFromNavigator=true`).
@@ -319,10 +351,13 @@ the [examples/](./examples/) directory.
   of Parts). The placeholder option carries none — it is not a locale.
 - The document root carries `lang` and (by default) `dir` (WCAG
   3.1.1, Language of Page, and 1.4.10, Reflow / bidi).
-- **Tradeoff**: because the closed control always reads the
-  placeholder, a screen-reader user no longer hears the active locale
-  announced as the combobox value. Surface it in visible text or a
-  polite live region where that matters.
+- **Tradeoff, and the default answer to it**: because the closed
+  control always reads the placeholder, a screen-reader user no longer
+  hears the active locale announced as the combobox value. The
+  examples and the quick start therefore ship a visible
+  `.locale-select-status` region with `aria-live="polite"` next to the
+  select. Treat that region as part of the pattern; omitting it is the
+  deliberate choice.
 
 Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 

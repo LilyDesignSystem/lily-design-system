@@ -649,7 +649,7 @@ Long-term:
 
 - Versioned releases per subproject npm/NuGet package (started: the 21
   helper packages publish via `bin/publish-helpers`; theme-select and
-  locale-select at 0.2.0, text-size-select at 0.1.0).
+  locale-select at 0.3.0, text-size-select at 0.1.0).
 - Contributor onboarding documentation (currently informal).
 
 ## 14. Tracking
@@ -657,7 +657,7 @@ Long-term:
 - Package: lily
 - Version: 0.6.0
 - Created: 2025-08-09
-- Updated: 2026-07-03
+- Updated: 2026-07-20
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or contact
   for other terms)
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
@@ -669,6 +669,26 @@ Long-term:
 
 ### 14.1 Changelog highlights
 
+- **Helpers 0.3.0 (2026-07-20)** — `theme-select` and `locale-select`
+  become placeholder-pinned in all seven catalogs: the closed `<select>`
+  always shows a short placeholder word ("Theme", "Locale") instead of
+  the active value, so the control is only as wide as that word rather
+  than as wide as the longest option. A leading empty-valued placeholder
+  option carries a new `placeholder` prop (defaults to `label`), and the
+  element's own selection snaps back to it on every change — the
+  bindable `value` prop becomes the sole source of truth. Breaking for
+  anyone reading `selectEl.value` or asserting on option counts. The 45
+  `themes/` stylesheets size the two helpers to the placeholder word via
+  `field-sizing: content` (with a `max-width` fallback), scoped by
+  `:has()` so the catalog `theme-select` component — which shares the
+  class hook but shows its real value — is untouched. Because the
+  control no longer announces its value to assistive technology, the
+  compensating `aria-live="polite"` status region ships as the default
+  pattern in every helper's examples and quick-start, with the residual
+  tradeoff documented rather than papered over. nunjucks additionally
+  fixes a pre-hydration flash by moving the initial value onto a
+  `data-lily-*-select-value` attribute. text-size-select unchanged at
+  0.1.0. Full record: [CHANGELOG.md](../CHANGELOG.md).
 - **0.6.0 (2026-07-03)** — Tooling hardening and release hygiene.
   `bin/test` now exits non-zero on failure and cross-checks the catalog
   against component dirs, CSS hooks, and all twelve example-app

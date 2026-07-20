@@ -12,6 +12,41 @@ exposes.
 | `.theme-select.{classes}`                 | Both classes when `opts.classes` is set. |
 | `.theme-select > .theme-select-option`    | Each `<option>`, including the placeholder. |
 | `.theme-select-placeholder`               | The always-displayed leading placeholder `<option>` (`value=""`). |
+| `.theme-select-status`                    | The consumer-rendered status region announcing the active theme (see [accessibility.md](./accessibility.md)). Ships in the examples; not emitted by the macro. |
+
+### The status region
+
+The closed `<select>` never shows the active theme, so the pattern
+pairs it with a visible `aria-live="polite"` status line. Style it as
+ordinary body text next to the control:
+
+```css
+.theme-select-status {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--theme-color-text-muted, #4b5563);
+}
+```
+
+Keep it **visible** by default — it helps sighted and
+cognitive-accessibility users too. Where a design genuinely cannot
+spare the space, make it visually hidden rather than removing it, so
+screen-reader users still get the announcement:
+
+```css
+/* Visually hidden, still announced. Prefer the visible variant. */
+.theme-select-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+```
 
 If you use the `{% call %}` caller block, only `.theme-select` is
 guaranteed on the root; the inner classes are up to your markup.

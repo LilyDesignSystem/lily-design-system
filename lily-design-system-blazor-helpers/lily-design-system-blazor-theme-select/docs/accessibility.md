@@ -57,32 +57,49 @@ combobox, Theme" rather than "Theme, combobox, Dark". The selection is
 still fully operable and still applied; it is simply not readable back
 off this control.
 
-Where that matters, surface the active theme somewhere else:
+### The compensating status region is the default pattern
 
-- Visible text next to the select — which also helps sighted users,
-  since the closed control no longer shows the selection either:
+Because of that cost, the select is not meant to be shipped alone. The
+pattern is the select **plus** a status region echoing the active theme,
+and that is what [`examples/Basic.razor`](../examples/Basic.razor) and
+the [quick start](../index.md#quick-start) show. Omitting the status
+region is the deliberate opt-out; including it is not an enhancement you
+opt into.
 
-  ```razor
-  <ThemeSelect Label="Choose a theme" Placeholder="Theme"
-               @bind-Value="theme" ... />
-  <p class="theme-select-status">@Localizer["currentTheme", theme]</p>
-  ```
+```razor
+<ThemeSelect Label="Choose a theme" Placeholder="Theme"
+             @bind-Value="theme" ... />
 
-- A polite live region, if the change should be announced as it
-  happens:
+<p class="theme-select-status" aria-live="polite">
+    @Localizer["currentTheme", ThemeLabel(theme)]
+</p>
+```
 
-  ```razor
-  <div role="status" aria-live="polite">
-      @Localizer["themeChangedTo", theme]
-  </div>
-  ```
+Why this shape:
 
-  Keep it `polite`, not `assertive`: a theme change is not an
-  interruption.
+- **Visible, not `sr-only`, by default.** The closed control no longer
+  shows the selection to *anyone*, so sighted users need the echo as
+  much as screen-reader users do; visible text also helps cognitive
+  accessibility, which AAA weighs heavily. If a design truly cannot
+  spare the space, keep the element and apply a visually-hidden class
+  (recipe in [styling.md](./styling.md#the-status-region)) — but treat
+  that as the fallback, not the starting point.
+- **`aria-live="polite"`, not `assertive`.** A theme change is not an
+  interruption. `polite` also means the region announces only on
+  *mutation*, so it stays quiet on first paint and speaks once per
+  change.
+- **`role="status"` is an equivalent spelling.** `role="status"` implies
+  `aria-live="polite"`; use either, not both plus a redundant one.
+- **Show the human label, not the raw slug.** The status text is
+  consumer-supplied and should be localised alongside your `ThemeLabels`.
 
-If neither fits your design, prefer a plain `<select>` bound to
-`Value` over this helper — announcing the selection is worth more than
-a narrow control.
+Be honest about what this does and does not fix. The status region
+restores the *information*; it does not restore the combobox's own
+`Value` semantics. A screen-reader user who tabs back to the control
+still hears the placeholder, and no option in the open list is marked
+selected. If your users depend on reading the selection off the control
+itself, prefer a plain `<select>` bound to `Value` over this helper —
+announcing the selection is worth more than a narrow control.
 
 ## Internationalisation
 

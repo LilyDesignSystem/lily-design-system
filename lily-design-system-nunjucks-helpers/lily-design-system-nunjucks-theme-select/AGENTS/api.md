@@ -128,22 +128,31 @@ Root element (macro output):
     data-lily-theme-select-extension="{extension}"
     data-lily-theme-select-storage-key="{storageKey}"
     data-lily-theme-select-default-value="{defaultValue}"
+    data-lily-theme-select-value="{value}"   <!-- only when opts.value is set -->
 >
     <!-- placeholder option, then per-slug option markup -->
 </select>
 ```
 
-The FIRST child is always the component-owned placeholder option:
+The FIRST child is always the component-owned placeholder option, and
+it is the **only** option ever rendered `selected`:
 
 ```html
 <option class="theme-select-option theme-select-placeholder" value="" selected>{placeholder ?? label}</option>
 ```
 
-Then the default option markup (one per `themes` entry):
+Then the default option markup (one per `themes` entry) — never
+`selected`, whatever `opts.value` is:
 
 ```html
-<option class="theme-select-option" value="{slug}" {selected when value===slug}>{labelFor(slug)}</option>
+<option class="theme-select-option" value="{slug}">{labelFor(slug)}</option>
 ```
+
+`opts.value` reaches the client through the
+`data-lily-theme-select-value` attribute instead. Rendering `selected`
+on the matching option would make the browser (which honours the
+*last* `selected` option) paint the theme name until the client snapped
+it back — a visible flash on every load.
 
 The `<select>`'s own `value` is always `""`: the client snaps it back
 to the placeholder after every apply, so the closed control reads the

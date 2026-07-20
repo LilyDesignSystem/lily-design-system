@@ -10,8 +10,10 @@ catalog-wide rules live in
 The macro is pure: same `opts` in, same HTML out. It does not
 touch `localStorage`, `navigator`, `document.documentElement`,
 or any DOM API. If the consumer passes `opts.value="fr"`, the
-matching `<option>` gets `selected` rendered server-side and that
-`<option lang="fr">` carries the BCP 47 tag.
+`<select>` root gets `data-lily-locale-select-value="fr"` rendered
+server-side; the `<option lang="fr">` still carries its BCP 47 tag but
+no `selected` attribute. The placeholder stays the only `selected`
+option, so the closed control never flashes the locale name.
 
 The macro does **not** write `lang` / `dir` to `<html>`. That
 happens in the client.js on hydration. To avoid a first-paint
@@ -255,8 +257,9 @@ nunjucks.configure("templates", { autoescape: true });
 const html = nunjucks.render("page.njk", { locale: "fr" });
 ```
 
-The macro outputs a complete `<select>` with the `fr` option
-selected; no DOM touched, no errors thrown.
+The macro outputs a complete `<select>` carrying
+`data-lily-locale-select-value="fr"`; no DOM touched, no errors
+thrown.
 
 ## Why the macro doesn't auto-resolve cookies
 
@@ -272,8 +275,9 @@ There is no virtual-DOM hydration mismatch in this catalog
 because the macro is one-shot HTML, not a diff. The only
 cross-render gotcha is:
 
-- The server renders no `selected` option (because `opts.value=""`),
-  but the client picks a non-empty value from `localStorage`.
-  The user briefly sees the first option selected instead.
+- The server renders no `data-lily-locale-select-value` (because
+  `opts.value=""`), but the client picks a non-empty value from
+  `localStorage`. The page paints with the layout's `lang` / `dir` for
+  one frame before the client rewrites them.
 - **Fix.** Resolve the locale server-side and pass it as
   `opts.value`.

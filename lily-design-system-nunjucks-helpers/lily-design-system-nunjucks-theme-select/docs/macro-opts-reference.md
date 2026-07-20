@@ -60,19 +60,22 @@ are safe URL path segments — kebab-case ASCII is recommended.
 
 ## `value` — optional, string
 
-The currently-active slug to render as the selected option. The
-macro emits `selected` on the matching `<option>` when
-`value === slug`.
+The currently-active slug. The macro serialises it as
+`data-lily-theme-select-value` on the `<select>` root, and omits the
+attribute entirely when `value` is empty. It does **not** render
+`selected` on the matching `<option>` — the placeholder stays the only
+selected option, so the closed control never flashes the theme name
+before the client runs (see [ssr.md](./ssr.md)).
 
 When supplied as a non-empty string and the consumer is pre-
 resolving the theme on the server (cookie, header), this is the
-prop to use. The client.js sees the selected `<option>` on init and
-applies the matching theme.
+prop to use. The client.js reads the attribute on init and applies
+the matching theme.
 
 ## `defaultValue` — optional, string
 
 Used during initial-value resolution by the client.js when
-`storageKey` is unset and no `<option>` is rendered as `selected`.
+`storageKey` is unset and no `data-lily-theme-select-value` is present.
 If `defaultValue` is itself empty, the resolver falls back to
 `"light"` (when present in `themes`) and then to `themes[0]`.
 

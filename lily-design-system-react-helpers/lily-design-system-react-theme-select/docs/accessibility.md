@@ -37,7 +37,7 @@ Provided entirely by the platform's native `<select>`:
 The active theme is exposed via `data-theme="<slug>"` on the target
 element (default `<html>`) — no colour-only meaning is required.
 
-### Tradeoff: the closed control does not announce the active theme
+### The status region is the default pattern
 
 The `<select>` always displays its placeholder option, so its own
 `value` stays empty and never tracks the selection. That keeps the
@@ -46,21 +46,51 @@ focusing the control hears "{placeholder ?? label}" rather than the
 name of the theme currently in effect, and there is no longer a
 selected-option state to announce.
 
-Where knowing the active theme matters, surface it yourself:
-
-- Render the active theme as visible text next to the control (this
-  also helps sighted users, per WCAG 1.4.1), or
-- Announce changes from `onChange` through a polite live region:
+**So the select is not shipped alone.** Every example in this package,
+and the quick start in `index.md`, pairs it with a visible status line:
 
 ```tsx
 const [theme, setTheme] = useState("");
 
-<ThemeSelect label="Theme" onChange={setTheme} {...required} />
-<p role="status" aria-live="polite">Active theme: {theme}</p>
+<ThemeSelect label="Theme" value={theme} onChange={setTheme} {...required} />
+<p className="theme-select-status" aria-live="polite">
+    Active theme: {labelFor(theme)}
+</p>
 ```
 
-The live region is the consumer's to own — the helper does not create
-one, because only the consumer knows the surrounding copy and locale.
+That pairing is the pattern to copy. Removing the status line is the
+deliberate choice you make against the default — not something you opt
+into when you happen to care about accessibility.
+
+Why it is shaped this way:
+
+- **Visible, not `sr-only`.** Once the control snaps back to the
+  placeholder the active theme is invisible to *everyone*, not just to
+  screen-reader users. A visible line serves sighted users and
+  cognitive accessibility, and AAA favours showing state over hiding
+  it (WCAG 1.4.1 — no colour-only meaning). Teams that truly cannot
+  spare the line should hide the element with the visually-hidden
+  recipe in [styling.md](./styling.md) and keep it in the DOM.
+- **`aria-live="polite"`, not `role="alert"`.** A polite live region
+  announces *mutations*, so it is silent on first paint and speaks once
+  per user-initiated change, without moving focus (WCAG 3.2.2).
+- **Human label, not the raw slug.** Show `labelFor(slug)` /
+  your `themeLabels` value, so the line reads "Active theme: Dark"
+  rather than "Active theme: dark".
+
+**Honest limits.** This does not fully restore what the pinned
+placeholder costs. The control's *own* accessible value is still the
+placeholder word, so a user who tabs back to the select later — rather
+than being present for the change announcement — still hears "Theme",
+not "Dark". A live region announces transitions; it does not give the
+combobox a queryable value. The status text is the only durable record
+on screen, which is another reason to keep it visible. If your product
+needs the control itself to report its value, drop the placeholder
+pinning instead and let the `<select>` bind normally.
+
+The region's copy stays the consumer's to own — the helper does not
+render one, because only the consumer knows the surrounding wording and
+locale.
 
 ## Internationalisation
 
@@ -87,8 +117,9 @@ the `data-theme` swap.
   and each entry as "{labelFor(slug)}, N of M".
 - NVDA announces "{label} combo box" and reads the placeholder option.
 - Selection changes are **not** announced by the control itself, since
-  its value snaps back to the placeholder. Verify your own live region
-  or visible active-theme text instead (see "State signals" above).
+  its value snaps back to the placeholder. Verify the
+  `.theme-select-status` region instead — it should speak once per
+  change and stay silent on load (see "State signals" above).
 
 ## React 19 specifics
 

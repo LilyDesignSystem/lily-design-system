@@ -26,33 +26,97 @@ The `<select>` always displays its leading placeholder option
 predictable regardless of how long the locale names are, but it has
 a real accessibility cost: **a screen-reader user no longer hears the
 active locale announced as the combobox value.** VoiceOver and NVDA
-read the placeholder word ("Locale"), not "Français".
+read the placeholder word ("Locale"), not "Français". No option in
+the open list is marked selected either.
 
-If knowing the current locale matters in your interface, surface it
-yourself. Two recommended patterns:
+This is a genuine loss, and the compensation below does not fully
+erase it: the value is still absent from the control itself, so a
+user who tabs back to the select later and does not re-read the page
+has no way to query the current locale from the widget. What the
+status region does provide is an announcement at the moment of
+change, and a persistent visible record of the active locale.
 
-Visible text next to the control:
+### The status region is the default pattern
+
+Because of that cost, the entry-point example in this package pairs
+the select with a status region, and so does the quick start in
+[`index.md`](../index.md). **Shipping it is the default; removing it
+is the deliberate choice** you make with your accessibility
+reviewer — not something you opt into later.
 
 ```vue
-<LocaleSelect v-model:value="locale" label="Locale" ... />
-<p :lang="locale.replace(/_/g, '-')">
-    Current language: {{ localeLabels[locale] ?? locale }}
-</p>
+<script setup lang="ts">
+import { ref } from "vue";
+import LocaleSelect, { localeName } from "../LocaleSelect.vue";
+
+const locale = ref("en");
+</script>
+
+<template>
+    <LocaleSelect
+        v-model:value="locale"
+        label="Language"
+        :locales="['en', 'fr', 'ar']"
+    />
+
+    <p class="locale-select-status" aria-live="polite">
+        Current language: {{ localeName(locale) }}
+    </p>
+</template>
 ```
 
-Or a polite live region, which announces the change without moving
-focus:
+Four decisions are baked into that snippet:
 
-```vue
-<LocaleSelect v-model:value="locale" label="Locale" ... />
-<p role="status" aria-live="polite">
-    {{ languageChangedMessage }}
-</p>
-```
+1. **Visible, not `sr-only`.** The active locale is invisible once the
+   control snaps back to the placeholder, so a visible line helps
+   sighted users and cognitive accessibility as well as screen-reader
+   users — which is what WCAG AAA favours. If your design truly
+   cannot spare the line, keep the element and hide it visually:
 
-Both strings are consumer-supplied, so they localise with the rest
-of your copy. Note that the placeholder itself is also a prop, so no
-hardcoded natural-language string is ever emitted by the helper.
+   ```css
+   .locale-select-status {
+       position: absolute;
+       width: 1px;
+       height: 1px;
+       margin: -1px;
+       overflow: hidden;
+       clip-path: inset(50%);
+       white-space: nowrap;
+   }
+   ```
+
+   Use `clip-path`, never `display: none` or `visibility: hidden` —
+   the latter two drop the element from the accessibility tree, which
+   silences the live region and defeats the point.
+2. **`aria-live="polite"`, not `role="alert"`.** A polite live region
+   announces *mutations* only, so it is silent on first paint and
+   speaks once per change, without moving focus. That matches the
+   WCAG 3.2.2 (On Input) contract described below.
+3. **Human label, not the raw code.** `localeName()` is exported from
+   this package; it turns `"fr"` into `"French"` so the announcement
+   reads "Current language: French", not "Current language: fr".
+4. **Mind the `lang` of the status text.** The built-in
+   `locales.tsv` labels are English names, so the line above is
+   entirely English and needs no `lang` override. If you supply
+   endonyms via `localeLabels` ("Français", "العربية"), wrap just the
+   name so it is pronounced correctly — the surrounding sentence is
+   still in the page language:
+
+   ```vue
+   <p class="locale-select-status" aria-live="polite">
+       Current language:
+       <span :lang="bcp47LocaleTag(locale)">{{ labelFor(locale) }}</span>
+   </p>
+   ```
+
+All these strings are consumer-supplied, so they localise with the
+rest of your copy. Note that the placeholder itself is also a prop,
+so no hardcoded natural-language string is ever emitted by the
+helper.
+
+Use the `.locale-select-status` class hook for the element —
+kebab-case, consistent with `locale-select` and
+`locale-select-option`.
 
 ## Per-option `lang` is important
 
@@ -112,8 +176,11 @@ can keep choosing.
 | TalkBack   | Android  | Chrome    | "Language, Language, drop-down list, double-tap to activate". |
 
 The announced *value* is always the placeholder text, never the
-active locale — by design, per the tradeoff above. The counts include
-the leading placeholder option, so a five-locale list reads "of 6".
+active locale — by design, per the tradeoff above. The
+`.locale-select-status` live region shipped alongside the select is
+what announces the change; verify it fires once per change and stays
+silent on page load. The counts include the leading placeholder
+option, so a five-locale list reads "of 6".
 
 The "lang-correct pronunciation" depends on the reader having a
 matching voice package installed. NVDA's default ships with English

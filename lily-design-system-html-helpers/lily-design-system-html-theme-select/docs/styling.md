@@ -13,6 +13,13 @@ exposes.
 | `.theme-select.{consumerClass}`                      | Both classes when `class` is passed.     |
 | `.theme-select-option`                               | Each `<option>`, including the placeholder. |
 | `.theme-select-placeholder`                          | The leading placeholder `<option>` (always the displayed one). |
+| `.theme-select-status`                               | The consumer-rendered status region announcing the active theme. |
+
+`.theme-select-status` is not emitted by the element — you render it
+yourself, next to the select. It is listed here because it is part of
+the default pattern (see
+[accessibility.md](./accessibility.md#the-status-region-is-the-default-pattern)),
+so the class name is a shared convention worth styling consistently.
 
 The host element (`<theme-select>` itself) inherits no styles from
 the select; you can style it directly if you need to (e.g.
@@ -75,6 +82,49 @@ theme-select {
     color: var(--color-base-content, currentColor);
 }
 ```
+
+## The status region
+
+The default pattern pairs the select with a visible status line that
+names the active theme, because the closed control never does. Style
+it as ordinary body text:
+
+```css
+.theme-select-status {
+    margin: 0.5rem 0 0;
+    color: var(--color-base-content, currentColor);
+}
+```
+
+### Visually-hidden variant
+
+If a design genuinely cannot spare the space, hide it visually while
+keeping it in the accessibility tree. Never use `display: none`,
+`visibility: hidden`, or the `hidden` attribute — all three remove
+the element from the accessibility tree, which silences the live
+region and defeats the whole point.
+
+```css
+.theme-select-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
+    border: 0;
+}
+```
+
+This is the standard visually-hidden recipe; if your app already has
+an `.sr-only` / `.visually-hidden` utility, add that class to the
+element instead of duplicating the rules.
+
+Prefer the visible version where you can — it serves sighted and
+cognitive-accessibility users too, which is what the AAA target
+favours.
 
 ## Keeping the control narrow
 

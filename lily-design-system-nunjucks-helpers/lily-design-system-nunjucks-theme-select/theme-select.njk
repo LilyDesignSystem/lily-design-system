@@ -13,7 +13,10 @@
                     this word. Defaults to `label`.
     themesUrl     — string, required. Base URL of the themes directory.
     themes        — array<string>, required. Available theme slugs.
-    value         — string. Initial selected slug (rendered selected).
+    value         — string. Initial slug, emitted as
+                    data-lily-theme-select-value for the client to read.
+                    The placeholder stays the only `selected` option, so
+                    the closed control never flashes the theme name.
     defaultValue  — string. Initial slug when nothing else is supplied.
     storageKey    — string. If non-empty, client.js persists to localStorage.
     name          — string. <select> `name` attribute (default "theme").
@@ -53,11 +56,12 @@
   data-lily-theme-select-extension="{{ extension }}"
   data-lily-theme-select-storage-key="{{ storageKey }}"
   data-lily-theme-select-default-value="{{ defaultValue }}"
+  {%- if value %} data-lily-theme-select-value="{{ value }}"{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
 <option class="theme-select-option theme-select-placeholder" value="" selected>{{ placeholder }}</option>
 {%- for slug in opts.themes -%}
-  <option class="theme-select-option" value="{{ slug }}"{% if value == slug %} selected{% endif %}>
+  <option class="theme-select-option" value="{{ slug }}">
     {%- if themeLabels[slug] -%}
       {{ themeLabels[slug] }}
     {%- else -%}

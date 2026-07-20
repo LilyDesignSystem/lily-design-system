@@ -13,7 +13,10 @@ Nunjucks render time
   ▼
 themeSelect(opts) macro
   │  emits <select data-lily-theme-select-root …>
-  │   with selected option = opts.value (if non-empty)
+  │   with data-lily-theme-select-value = opts.value (if non-empty).
+  │   The placeholder is the ONLY `selected` option — no real option
+  │   is ever rendered `selected`, so the closed control reads the
+  │   placeholder word from byte zero (no pre-hydration flash).
   │
   ▼
 HTML response sent to browser
@@ -30,7 +33,7 @@ autoInit() finds [data-lily-theme-select-root] in DOM
   ▼
 For each root, initThemeSelect(root) runs:
   1. Read data-lily-* attrs into local vars
-  2. Resolve initial slug (storage > selected > default-value > "light" > first)
+  2. Resolve initial slug (storage > value attr > default-value > "light" > first)
   3. If initial: applyTheme(initial)
   4. Attach change listener on the select
   │
@@ -74,12 +77,10 @@ Inside `initThemeSelect(root)`:
 
 ```js
 const optionValues = readOptions(root).map((o) => o.value);
+const valueAttr = root.getAttribute("data-lily-theme-select-value") || "";
 let initial = "";
 if (storageKey) initial = safeStorageGet(storageKey) || "";
-if (!initial) {
-    const selected = root.value;
-    if (selected) initial = selected;
-}
+if (!initial) initial = valueAttr;
 if (!initial && defaultValue) initial = defaultValue;
 if (!initial && optionValues.includes("light")) initial = "light";
 if (!initial && optionValues.length > 0) initial = optionValues[0];
@@ -92,7 +93,14 @@ The resolution order is documented in
 Putting storage **first** matters: a user who picked "dark" two
 weeks ago should land on "dark" today, even if the consumer
 re-rendered the macro with `opts.value = ""` because the cookie
-expired. (`root.value` reflects the selected `<option>`.)
+expired.
+
+`opts.value` is read from the `data-lily-theme-select-value`
+attribute, **not** from a `selected` option. The macro deliberately
+never renders `selected` on a real option: the placeholder must be the
+only selected option in the server HTML, otherwise the browser (which
+honours the *last* `selected` option) would paint the theme name and
+the client would then snap it back — a visible flash on every load.
 
 ## Apply
 
@@ -103,7 +111,7 @@ function applyTheme(slug) {
     const target = opts.target || document.documentElement;
     target.setAttribute("data-theme", slug);
     if (storageKey) safeStorageSet(storageKey, slug);
-    root.value = slug;
+    root.value = ""; // snap back to the placeholder option
     if (typeof opts.onChange === "function") opts.onChange(slug);
 }
 ```
@@ -118,10 +126,12 @@ The macro is the SSR side. It runs deterministically with the
 no globals. The macro output goes straight into the HTML response.
 
 If the consumer pre-resolves the theme on the server (cookie,
-header, session store) and passes it as `opts.value`, the macro
-renders the matching `<option>` as `selected`. The client.js notices
-that on init and runs `applyTheme(value)` once to inject the
-`<link>` and set `data-theme`.
+header, session store) and passes it as `opts.value`, the macro emits
+`data-lily-theme-select-value="{value}"` on the `<select>` root. The
+client.js reads that attribute on init and runs `applyTheme(value)`
+once to inject the `<link>` and set `data-theme`. The rendered options
+are untouched, so the closed control shows the placeholder word
+throughout — there is no flash of the theme name.
 
 If the consumer renders with no `opts.value` and the page is
 hydrated with a cached theme from `localStorage`, there's a

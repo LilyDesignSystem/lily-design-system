@@ -119,16 +119,39 @@ APIs client-side. No bundler required.
   themes: ["light", "dark", "abyss"],
   storageKey: "lily-theme"
 }) }}
+
+{# Status region: the closed <select> shows the placeholder word
+   ("Theme"), never the active theme, so the active theme is surfaced
+   here instead — visibly, for sighted and screen-reader users alike.
+   See docs/accessibility.md. #}
+<p class="theme-select-status" aria-live="polite"></p>
 ```
 
-3. Load the client.js once per page:
+3. Load the client.js once per page and keep the status region in
+   sync from `onChange`:
 
 ```html
 <script type="module">
   import { autoInit } from "/path/to/theme-select.client.js";
-  autoInit();
+
+  const THEME_LABELS = { light: "Light", dark: "Dark", abyss: "Abyss" };
+  const status = document.querySelector(".theme-select-status");
+
+  autoInit({
+    onChange(slug) {
+      // aria-live="polite" announces mutations only, so this is silent
+      // on first paint and speaks on each subsequent change.
+      status.textContent = `Active theme: ${THEME_LABELS[slug] ?? slug}`;
+    },
+  });
 </script>
 ```
+
+Keep the status region **visible** by default: it helps sighted and
+cognitive-accessibility users too, and WCAG 2.2 AAA favours it. If your
+design genuinely can't spare the space, make it visually hidden rather
+than dropping it — recipe in
+[docs/styling.md](./docs/styling.md).
 
 When the user picks `dark`, the client:
 
@@ -192,8 +215,11 @@ call is:
 
 1. `localStorage.getItem(storageKey)` (when `storageKey` is set and
    readable).
-2. The `value` of the selected `<option>` the macro rendered (i.e.
-   the consumer's `opts.value`).
+2. The `<select>`'s `data-lily-theme-select-value` (i.e. the
+   consumer's `opts.value`). The macro emits this attribute instead
+   of rendering `selected` on the matching option, so the closed
+   control never flashes the theme name before the client runs — see
+   [docs/ssr.md](./docs/ssr.md).
 3. The `<select>`'s `data-lily-theme-select-default-value`
    (i.e. `opts.defaultValue`).
 4. `"light"` if present among the rendered option values.
@@ -297,10 +323,12 @@ recipe.
 - The active state is exposed in two independent channels:
   `data-theme` on the root and the current `<link>` href. No
   colour-only meaning is required.
-- **Tradeoff**: the closed control always reads the placeholder, so a
-  screen-reader user no longer hears the active theme announced as the
-  combobox value. Surface it in visible text or a polite live region
-  where that matters.
+- **Tradeoff, and the default answer to it**: the closed control always
+  reads the placeholder, so a screen-reader user no longer hears the
+  active theme announced as the combobox value. The examples and the
+  quick start therefore ship a visible `.theme-select-status` region
+  with `aria-live="polite"` next to the select. Treat that region as
+  part of the pattern; omitting it is the deliberate choice.
 - WCAG 2.2 AAA is the target; visible focus styling is the
   consumer's CSS responsibility.
 
@@ -309,9 +337,11 @@ Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 ## SSR and the first paint
 
 Nunjucks **is** the server side. The macro is pure — same `opts`
-in, same HTML out. The browser sees a static native select with the
-right option selected (if you supplied `opts.value`). The
-client.js then takes over for the runtime lifecycle.
+in, same HTML out. The browser sees a static native select showing
+the placeholder word, with your `opts.value` carried on
+`data-lily-theme-select-value` (never as a `selected` option, so
+there is no pre-hydration flash). The client.js then takes over for
+the runtime lifecycle.
 
 For zero-flicker first paint, read the cookie or session value in
 your Nunjucks host (Eleventy edge function, Express middleware,

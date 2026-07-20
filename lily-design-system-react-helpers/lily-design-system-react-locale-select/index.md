@@ -35,22 +35,43 @@ all see the change.
 "use client";
 
 import { useState } from "react";
-import { LocaleSelect } from "./lily-design-system-react-locale-select";
+import {
+    LocaleSelect,
+    localeName,
+} from "./lily-design-system-react-locale-select";
 
 export function LanguageChooser() {
     const [locale, setLocale] = useState("");
     return (
-        <LocaleSelect
-            label="Language"
-            locales={["en", "en_US", "fr", "fr_CA", "ar", "he"]}
-            value={locale}
-            onChange={setLocale}
-            storageKey="lily-locale"
-            detectFromNavigator
-        />
+        <>
+            <LocaleSelect
+                label="Language"
+                locales={["en", "en_US", "fr", "fr_CA", "ar", "he"]}
+                value={locale}
+                onChange={setLocale}
+                storageKey="lily-locale"
+                detectFromNavigator
+            />
+
+            <p className="locale-select-status" aria-live="polite">
+                Active language: {localeName(locale)}
+            </p>
+        </>
     );
 }
 ```
+
+The status line is part of the pattern, not an optional extra. The
+closed control is placeholder-pinned — it always reads "Language",
+never "Français" — so without this line the active locale is announced
+to nobody and shown to nobody. `aria-live="polite"` announces mutations
+only, so it stays quiet on first paint and speaks once per user change,
+and `localeName()` turns the code into a human name. Keep it visible
+where you can (it helps sighted and cognitively-loaded users too); if
+your design cannot spare the space, hide it with a visually-hidden
+class rather than dropping it — see
+[docs/accessibility.md](./docs/accessibility.md) for the full
+rationale and its limits.
 
 When the user picks `ar`, the component:
 
@@ -170,8 +191,47 @@ The placeholder option is addressable as `.locale-select-placeholder`
 
 One tradeoff to know: because the control never shows the active
 locale, screen-reader users no longer hear it announced as the combobox
-value. See [docs/accessibility.md](./docs/accessibility.md) for how to
-surface it separately.
+value. That is exactly why the quick start above pairs the select with
+a `.locale-select-status` live region — pairing them is the default
+pattern, and dropping the status line is the deliberate opt-out. See
+[docs/accessibility.md](./docs/accessibility.md).
+
+### Styling the status line
+
+This package ships no `docs/styling.md`; the class hooks are
+`.locale-select` (root `<select>`), `.locale-select-option`,
+`.locale-select-placeholder`, and `.locale-select-status` (the
+consumer-rendered status line — you render it, and the examples always
+do). Style the status line as ordinary body copy:
+
+```css
+.locale-select-status {
+    margin-block-start: 0.5rem;
+    font-size: 0.875rem;
+}
+```
+
+Prefer it visible. When a design genuinely cannot spare the space,
+**hide the element rather than removing it**, so the live region still
+announces:
+
+```css
+.locale-select-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
+}
+```
+
+Do not use `display: none` or `visibility: hidden` — both drop the
+element from the accessibility tree, silencing the live region and
+losing the compensation entirely.
 
 ### Pretty labels for the option text
 
@@ -385,7 +445,8 @@ defaults to `label`), `value` (controlled), `defaultValue`,
   `lang` attribute.
 - **Tradeoff:** because the closed control always reads the
   placeholder, the active locale is no longer announced as the
-  combobox value. Surface it separately where that matters — see
+  combobox value. The default pattern compensates with a visible
+  `.locale-select-status` live region beside the select — see
   [docs/accessibility.md](./docs/accessibility.md).
 
 ## Tests
@@ -432,7 +493,7 @@ you can copy into your project.
 
 | Example                                                                                 | Demonstrates                                                       |
 | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [01-radios.tsx](./examples/01-radios.tsx)                                               | The default native `<select>` rendering.                          |
+| [01-radios.tsx](./examples/01-radios.tsx)                                               | The default native `<select>` rendering + the default status line. |
 | [02-select.tsx](./examples/02-select.tsx)                                               | Custom `<select>` markup via the `children` render prop.           |
 | [03-buttons.tsx](./examples/03-buttons.tsx)                                             | Toggle-button group with short codes / glyphs.                     |
 | [04-rtl-demo.tsx](./examples/04-rtl-demo.tsx)                                           | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |

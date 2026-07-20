@@ -12,6 +12,7 @@ exposes.
 | `.theme-select.{consumerClass}`                      | Both classes when `className` is passed. |
 | `.theme-select > .theme-select-option`               | Each `<option>`.                         |
 | `.theme-select-placeholder`                          | The leading placeholder `<option>` — the one the closed control always displays. |
+| `.theme-select-status`                               | The consumer-rendered status line naming the active theme. Not emitted by the component — you render it, per the default pattern in [accessibility.md](./accessibility.md#the-status-region-is-part-of-the-pattern). |
 
 The `className` input is the Angular equivalent of Vue's
 `inheritAttrs`-driven `class` fall-through. Angular has no
@@ -55,6 +56,41 @@ Drop into the consumer's app stylesheet:
 Native `<option>` styling is limited by the platform; most browsers
 render the dropdown list with OS chrome. Style the closed
 `.theme-select` control and rely on the platform for the open list.
+
+## Visually-hidden status line
+
+The default pattern renders the active theme as **visible** text (see
+[accessibility.md](./accessibility.md#the-status-region-is-part-of-the-pattern)):
+
+```html
+<p class="theme-select-status" aria-live="polite">
+    Active theme: {{ themeSelect.labelFor(theme()) }}
+</p>
+```
+
+Visible is the recommendation — it serves sighted, low-vision, and
+cognitively-impaired users, not only screen-reader users. But if a
+layout genuinely cannot spare the space, hide it **visually** while
+keeping it in the accessibility tree:
+
+```css
+.theme-select-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+```
+
+Do not reach for `display: none` or `visibility: hidden`: both remove
+the element from the accessibility tree, which kills the live-region
+announcements and leaves you with no compensation at all. Removing the
+element entirely is worse still — prefer this recipe over deleting it.
 
 ## Don'ts
 

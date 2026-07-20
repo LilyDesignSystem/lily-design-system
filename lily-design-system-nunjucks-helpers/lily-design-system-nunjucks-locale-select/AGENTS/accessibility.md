@@ -36,13 +36,21 @@ handlers — it doesn't need to.
 
 ## State signals
 
-The active state is exposed in four independent channels — no
+The active state is exposed in three independent channels — no
 colour-only meaning is required:
 
-1. The selected `<option>` (the `<select>`'s current value).
-2. `lang="<tag>"` on the target element (default `<html>`).
-3. `dir="rtl|ltr"` on the target (skipped if `applyDir=false`).
-4. The `onChange` callback payload.
+1. `lang="<tag>"` on the target element (default `<html>`).
+2. `dir="rtl|ltr"` on the target (skipped if `applyDir=false`).
+3. The `onChange` callback payload.
+
+The `<select>`'s own selected `<option>` is deliberately **not** a
+channel: the placeholder is always the selected option and
+`select.value` is snapped back to `""` after every apply. A
+screen-reader user therefore cannot learn the active locale from the
+control. The compensating `.locale-select-status` region
+(`aria-live="polite"`, fed from `onChange`) is part of the default
+pattern and ships in the examples — see
+[`../docs/accessibility.md`](../docs/accessibility.md).
 
 ## Per-option `lang` is important
 

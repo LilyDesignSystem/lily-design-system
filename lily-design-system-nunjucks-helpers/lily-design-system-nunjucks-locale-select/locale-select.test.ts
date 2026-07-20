@@ -292,7 +292,7 @@ describe("LocaleSelect — initial-value resolution (§7.18–§7.21)", () => {
         expect(document.documentElement.lang).toBe("fr");
     });
 
-    test("§7.19 a supplied non-empty value (rendered checked) wins over storage and defaults", () => {
+    test("§7.19 a supplied non-empty value (carried on the data attribute) wins over storage and defaults", () => {
         localStorage.setItem("lily-locale", "ar");
         const html = renderMacro({
             label: "Language",
@@ -302,8 +302,33 @@ describe("LocaleSelect — initial-value resolution (§7.18–§7.21)", () => {
             defaultValue: "fr",
         });
         const root = mountIntoBody(html);
+        expect(root.getAttribute("data-lily-locale-select-value")).toBe("en");
         initLocaleSelect(root);
         expect(document.documentElement.lang).toBe("en");
+    });
+
+    test("§7.27 opts.value never renders `selected` on a real option — the placeholder is the only selected option (no pre-hydration flash)", () => {
+        const html = renderMacro({
+            label: "Language",
+            locales: LOCALES,
+            value: "fr",
+        });
+        const root = mountIntoBody(html) as HTMLSelectElement;
+        const selected = Array.from(root.options).filter(
+            (o) => o.defaultSelected,
+        );
+        expect(selected.length).toBe(1);
+        expect(selected[0].classList.contains("locale-select-placeholder")).toBe(
+            true,
+        );
+        // The closed control reads the placeholder from byte zero.
+        expect(root.value).toBe("");
+    });
+
+    test("§7.28 the value data attribute is omitted entirely when opts.value is unset", () => {
+        const html = renderMacro({ label: "Language", locales: LOCALES });
+        const root = mountIntoBody(html);
+        expect(root.hasAttribute("data-lily-locale-select-value")).toBe(false);
     });
 
     test("§7.20 navigator detection resolves exact match", () => {

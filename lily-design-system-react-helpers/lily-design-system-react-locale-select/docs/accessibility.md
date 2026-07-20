@@ -133,7 +133,7 @@ is fully accessible:
   count.
 - Mobile: pops the OS-native picker (iOS scroll wheel, Android dialog).
 
-## Tradeoff: the closed control does not announce the active locale
+## The status region is the default pattern
 
 The `<select>` always displays its leading placeholder option, so its
 own value stays empty and never tracks the selection. That keeps the
@@ -143,25 +143,68 @@ the control hears "{placeholder ?? label}" rather than the name of the
 locale currently in effect, and there is no longer a selected-option
 state to announce.
 
-Where knowing the active locale matters, surface it yourself:
-
-- Render the active locale as visible text next to the control (this
-  also helps sighted users, per WCAG 1.4.1), or
-- Announce changes from `onChange` through a polite live region:
+**So the select is not shipped alone.** Every example in this package,
+and the quick start in `index.md`, pairs it with a visible status line:
 
 ```tsx
-const [locale, setLocale] = useState("");
+const [locale, setLocale] = useState("en");
 
-<LocaleSelect label="Language" locales={LOCALES} onChange={setLocale} />
-<p role="status" aria-live="polite">Active language: {localeName(locale)}</p>
+<LocaleSelect
+    label="Language"
+    locales={LOCALES}
+    value={locale}
+    onChange={setLocale}
+/>
+<p className="locale-select-status" aria-live="polite">
+    Active language: {localeName(locale)}
+</p>
 ```
 
-The live region is the consumer's to own — the helper does not create
-one, because only the consumer knows the surrounding copy and locale.
+That pairing is the pattern to copy. Removing the status line is the
+deliberate choice you make against the default — not something you opt
+into when you happen to care about accessibility.
 
-Note that the document root's `lang` attribute still reflects the
-active locale, so assistive technology continues to switch voice
-correctly; only the *announcement of the control's value* is lost.
+Why it is shaped this way:
+
+- **Visible, not `sr-only`.** Once the control snaps back to the
+  placeholder the active locale is invisible to *everyone*, not just to
+  screen-reader users. A visible line serves sighted users and
+  cognitive accessibility, and AAA favours showing state over hiding it
+  (WCAG 1.4.1 — no colour-only meaning). Teams that truly cannot spare
+  the line should hide the element with a visually-hidden class (see
+  [index.md § Styling the status line](../index.md#styling-the-status-line))
+  and keep it in the DOM.
+- **`aria-live="polite"`, not `role="alert"`.** A polite live region
+  announces *mutations*, so it is silent on first paint and speaks once
+  per user-initiated change, without moving focus (WCAG 3.2.2).
+- **Human name, not the raw code.** Use the exported `localeName()`
+  (or your `localeLabels` value) so the line reads "Active language:
+  French" rather than "Active language: fr".
+- **Consider `lang` on the status text.** If you show the endonym
+  ("Français") rather than the viewer-language name ("French"), put
+  `lang={bcp47LocaleTag(locale)}` on the element — same WCAG 3.1.2
+  reasoning as the per-option `lang` above, so the announcement is
+  pronounced correctly.
+
+**Honest limits.** This does not fully restore what the pinned
+placeholder costs. The control's *own* accessible value is still the
+placeholder word, so a user who tabs back to the select later — rather
+than being present for the change announcement — still hears
+"Language", not "Français". A live region announces transitions; it
+does not give the combobox a queryable value. The status text is the
+only durable record on screen, which is another reason to keep it
+visible. If your product needs the control itself to report its value,
+drop the placeholder pinning instead and let the `<select>` bind
+normally.
+
+One thing genuinely is unaffected: the document root's `lang` attribute
+still reflects the active locale, so assistive technology continues to
+switch voice correctly. Only the *announcement of the control's value*
+is lost.
+
+The region's copy stays the consumer's to own — the helper does not
+render one, because only the consumer knows the surrounding wording and
+locale.
 
 The tradeoff:
 

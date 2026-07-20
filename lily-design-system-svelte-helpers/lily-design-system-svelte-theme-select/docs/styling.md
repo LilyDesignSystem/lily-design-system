@@ -11,6 +11,7 @@ to the consumer. This guide lists the hooks the select exposes.
 | `.theme-select.{consumerClass}`           | Both classes when `class` is passed. |
 | `.theme-select > .theme-select-option`    | Each `<option>` in the select.       |
 | `.theme-select-placeholder`               | The leading placeholder `<option>` — the one the closed control always displays. |
+| `.theme-select-status`                    | The status line stating the active theme. Rendered by the consumer *next to* the select, not by the component — see [The status line](#the-status-line). |
 
 If you pass a `children` snippet, only `.theme-select` is guaranteed
 on the root; the inner classes are up to your markup.
@@ -65,6 +66,55 @@ scoped with `:has(> .theme-select-placeholder)` so it applies to this
 helper and not to the catalog `theme-select` component, which shares the
 class hook but displays its real value. If you write the rule yourself
 and use both, scope it the same way.
+
+## The status line
+
+Because the closed control always shows the placeholder, the default
+pattern pairs the select with a live region that states the active
+theme — see
+[accessibility.md](./accessibility.md#the-compensating-status-region-is-the-default-pattern).
+The component does not render it; you do, with the
+`.theme-select-status` hook:
+
+```svelte
+<p class="theme-select-status" aria-live="polite">
+  Active theme: {labelFor(theme)}
+</p>
+```
+
+Keep it **visible** by default. It helps sighted users and users who
+benefit from an explicit confirmation of what just changed, and AAA
+favours showing it. A minimal visible treatment:
+
+```css
+.theme-select-status {
+  margin-block-start: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-base-content, inherit);
+}
+```
+
+If a design genuinely cannot spare the space, hide it **visually only**
+— keep the element in the DOM and keep `aria-live`, so it still
+announces:
+
+```css
+.theme-select-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+```
+
+Do not use `display: none` or `visibility: hidden` here: both remove
+the element from the accessibility tree, which silences the live region
+and defeats the point.
 
 ## Don'ts
 

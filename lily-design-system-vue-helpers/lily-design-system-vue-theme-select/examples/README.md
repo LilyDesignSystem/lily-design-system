@@ -17,7 +17,7 @@ Every example assumes:
 
 | # | File                                          | Demonstrates                              |
 |---|-----------------------------------------------|-------------------------------------------|
-| 1 | [`basic.vue`](./basic.vue)                    | Minimal three-theme select.               |
+| 1 | [`basic.vue`](./basic.vue)                    | Minimal three-theme select, plus the `.theme-select-status` live region every consumer should ship. |
 | 2 | [`two-way-binding.vue`](./two-way-binding.vue)| `v-model:value` and `@change`.            |
 | 3 | [`persistence.vue`](./persistence.vue)        | `localStorage` survival across reloads.   |
 | 4 | [`custom-labels.vue`](./custom-labels.vue)    | `themeLabels` for i18n / display names.   |

@@ -76,13 +76,64 @@ reads as "Locale, pop-up button, Locale" whichever locale is active.
 
 This matters more here than for most controls, because a user who has
 just landed on a page in a language they cannot read needs to find the
-locale control and confirm what it is currently set to. Surface the
-active locale outside the control:
+locale control and confirm what it is currently set to.
+
+### The compensating status region is the default pattern
+
+Because the control cannot announce its own value, the pattern this
+package ships surfaces the value next to it. This is **not an optional
+mitigation** — it is what
+[`examples/01-radios.svelte`](../examples/01-radios.svelte) and the
+[quick start](../index.md#quick-start) render, and it is what you
+should copy. Opting out is the deliberate choice; opting in is the
+default.
 
 ```svelte
-<LocaleSelect label="Locale" {locales} bind:value />
-<p aria-live="polite">{labelFor(value)}</p>
+<script lang="ts">
+    import LocaleSelect, {
+        bcp47LocaleTag,
+        localeName,
+    } from "../LocaleSelect.svelte";
+
+    let locale = $state("en");
+</script>
+
+<LocaleSelect label="Language" locales={["en", "fr", "ar"]} bind:value={locale} />
+
+<p class="locale-select-status" aria-live="polite">
+    Active language:
+    <span lang={bcp47LocaleTag(locale)}>{localeName(locale)}</span>
+</p>
 ```
+
+Why it is shaped this way:
+
+- **`aria-live="polite"` announces mutations only.** It is silent on
+  first paint and speaks once on each subsequent change — no
+  announcement on page load, one clear announcement per user action.
+- **Visible by default, not `sr-only`.** Sighted users and users who
+  benefit from explicit confirmation of what just changed get the same
+  information, and AAA favours showing it. If a design genuinely cannot
+  spare the space, keep the element and the live region and hide it
+  visually (`clip-path: inset(50%)`). Prefer visible.
+- **`.locale-select-status` is the class hook** for the element, in the
+  same kebab-case convention as the rest of the system.
+- **`lang` on the name.** Wrapping the locale name in a `<span lang>`
+  carries WCAG 3.1.2 (Language of Parts) through to the status line, so
+  "Français" is pronounced in a French voice there too — the same
+  courtesy the options get.
+- **Use `localeName`, not the raw code.** The package exports it; it
+  turns `fr_CA` into a human name rather than showing the consumer-form
+  code.
+
+Be clear-eyed about what this does and does not fix. It gives every
+user a reliable statement of the active locale, and it announces
+changes. It does **not** restore the combobox's own value semantics: a
+user who tabs onto the control still hears "Locale, pop-up button,
+Locale", and the open list still marks no option as selected. A user
+who reaches the control without encountering the status region will not
+learn the current locale from the control itself. That residual gap is
+the price of the narrow control.
 
 The document root's `lang` attribute also carries the active locale, so
 assistive technology still switches pronunciation correctly — it simply

@@ -82,10 +82,28 @@ package; the helper is two source files (`ThemeSelect.razor` +
     @bind-Value="theme"
     StorageKey="lily-theme" />
 
+<p class="theme-select-status" aria-live="polite">
+    Active theme: @ThemeLabel(theme)
+</p>
+
 @code {
     private string theme = "";
+
+    private static string ThemeLabel(string slug) =>
+        string.IsNullOrEmpty(slug)
+            ? "none"
+            : char.ToUpperInvariant(slug[0]) + slug[1..];
 }
 ```
+
+The status line is part of the pattern, not decoration. The closed
+control always reads the placeholder word ("Theme") rather than the
+active theme name, so this line is the only place either a sighted user
+or a screen reader can read the current selection back. `aria-live="polite"`
+announces changes only, staying silent on first paint. Render it visible
+by default; hide it with a visually-hidden class only if the design
+truly cannot spare the space. Full rationale:
+[docs/accessibility.md](./docs/accessibility.md#the-placeholder-tradeoff).
 
 When the user picks `dark`, the component:
 

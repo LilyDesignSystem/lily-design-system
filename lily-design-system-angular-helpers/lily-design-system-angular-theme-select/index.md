@@ -79,12 +79,17 @@ import { ThemeSelect } from "./lily-design-system-angular-theme-select";
     imports: [ThemeSelect],
     template: `
         <lily-theme-select
+            #themeSelect
             label="Theme"
             themesUrl="/assets/themes/"
             [themes]="themes"
             [(value)]="theme"
             storageKey="lily-theme"
         />
+
+        <p class="theme-select-status" aria-live="polite">
+            Active theme: {{ themeSelect.labelFor(theme()) }}
+        </p>
     `,
 })
 export class Settings {
@@ -92,6 +97,16 @@ export class Settings {
     theme = signal("");
 }
 ```
+
+The status line is part of the pattern, not decoration. The closed
+control is placeholder-pinned — it always reads "Theme", never the
+active theme name — so on its own it never tells a screen-reader user
+which theme is in effect. The `theme-select-status` element restores
+that, in visible text, for sighted and screen-reader users alike;
+`aria-live="polite"` announces only changes, so it is silent on first
+paint and speaks once per switch. Keep it unless you have a specific
+reason not to, and prefer visually hiding it over deleting it. Full
+rationale and the opt-out: [docs/accessibility.md](./docs/accessibility.md).
 
 When the user picks `dark`, the component:
 

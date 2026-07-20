@@ -5,6 +5,35 @@ The catalog follows [Semantic Versioning](https://semver.org/) at the
 catalog level; individual helpers may bump independently when only
 their package changes.
 
+## 0.3.0 — 2026-07-20
+
+### Changed (BREAKING)
+
+- `theme-select` and `locale-select` bumped to **0.3.0**: both are now
+  *placeholder-pinned*. The closed `<select>` always displays a short
+  placeholder word ("Theme", "Locale") instead of the active value, so
+  the control is only ever as wide as that word rather than as wide as
+  the longest option. Each renders a leading placeholder `<option>` with
+  an empty value, carrying a new optional `placeholder` prop (defaults
+  to the existing `label`, so no user-facing string is hardcoded), and
+  pins the element's own selection to it — snapping back after every
+  change.
+- DOM contract: option count is `choices.length + 1`, the first option's
+  value is `""`, and the element's own `value` no longer tracks the
+  selection. The bindable `value` prop is the single source of truth.
+  Behaviour contracts (DOM application, persistence, SSR safety, i18n)
+  are otherwise unchanged.
+- `text-size-select` is untouched and stays at **0.1.0**.
+
+### Added
+
+- The compensating status region is now the default pattern in the
+  examples and quick-starts: a visible `aria-live="polite"` element
+  reporting the active value. It exists because placeholder-pinning
+  means the control no longer announces its value to a screen reader;
+  each package's `docs/accessibility.md` documents that tradeoff
+  honestly rather than treating it as solved.
+
 ## 0.2.0 — 2026-07-03
 
 ### Changed (BREAKING)

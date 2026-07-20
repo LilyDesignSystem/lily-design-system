@@ -28,7 +28,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
   `localStorage` persistence, SSR safety, and the no-hardcoded-strings
   i18n rule are as in 0.1.0.
 
-## Unreleased
+## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING)
 
@@ -81,6 +81,18 @@ and the project follows [Semantic Versioning](https://semver.org/).
   from `aria-label`. The default scoped slot now renders `<option>`
   elements; `SlotArgs` (`{ themes, value, setTheme, name, labelFor }`)
   is unchanged.
+
+### Added (examples & docs)
+
+- The compensating status region is now the **default pattern**, not a
+  suggestion: the basic example and the `index.md` quick-start both ship
+  a visible `<p class="theme-select-status" aria-live="polite">` showing
+  the active theme. `aria-live="polite"` announces mutations only, so it
+  stays silent on first paint and speaks on each change.
+  `docs/accessibility.md` reframes opting *out* as the deliberate choice
+  and keeps an explicit "what this does and does not fix" note — the
+  region announces transitions, it does not restore combobox value
+  semantics.
 
 ## 0.1.0 — 2026-06-05
 

@@ -116,30 +116,72 @@ technology user loses the one place the current selection was
 previously spoken. The same applies to the visual state: nothing in
 the control itself now indicates which locale is active.
 
-If the active locale matters to your users, surface it elsewhere:
+Note that the element still writes `lang` on the target, so the
+AT's own language engine continues to switch pronunciation
+correctly — only the *spoken value of the control* is affected.
 
-- Render it as visible text next to the select (which also serves
-  sighted users), or
-- Announce it through a polite `role="status"` live region updated
-  on `localechange`, or
-- Both — one `role="status"` node whose text is the active locale
-  covers both audiences.
+## The status region is the default pattern
+
+Because of that gap, **the select ships paired with a compensating
+status region**. It is in
+[`examples/01-radios.html`](../examples/01-radios.html) and in the
+`index.md` quick start, so the first thing an adopter copies already
+has it. Leaving it out is the deliberate choice — a decision to make
+knowingly, with a reason — not something to opt into later:
 
 ```html
-<div role="status" id="locale-status" aria-live="polite"></div>
-<locale-select label="Locale" locales="en,fr,ar"></locale-select>
+<locale-select label="Language" locales="en,fr,ar"></locale-select>
+
+<p class="locale-select-status" aria-live="polite">Active language: English</p>
+
 <script type="module">
-    const status = document.getElementById("locale-status");
+    import { localeName } from "/dist/locale-select.js";
+
+    await customElements.whenDefined("locale-select");
+
+    const status = document.querySelector(".locale-select-status");
+
     document.querySelector("locale-select")
         .addEventListener("localechange", (e) => {
-            status.textContent = `Language set to ${e.detail.locale}`;
+            status.textContent = `Active language: ${localeName(e.detail.locale)}`;
         });
 </script>
 ```
 
-Note that the element still writes `lang` on the target, so the
-AT's own language engine continues to switch pronunciation
-correctly — only the *spoken value of the control* is affected.
+Why it is shaped this way:
+
+- **Visible, not `sr-only`.** The gap is not screen-reader-only:
+  nothing in the control indicates the active locale to *anyone*. A
+  visible line answers "which language am I on?" for sighted users
+  and helps cognitive accessibility, which is what AAA favours. For
+  designs that genuinely cannot spare the space, use a
+  visually-hidden variant (`position: absolute; width: 1px;
+  height: 1px; overflow: hidden; clip-path: inset(50%)`) — keep the
+  element in the accessibility tree; never `display: none`.
+- **`aria-live="polite"` announces mutations only**, so the region
+  is silent on first paint and speaks once per change. No
+  interruption, no page-load chatter.
+- **Initial text authored in the markup**, not written by JS at
+  startup — a startup write is a mutation, and mutations are what
+  the live region announces. With `storage-key` or
+  `detect-from-navigator`, render it from the same resolved value
+  you inline as the `value` attribute (see [ssr.md](./ssr.md)).
+- **`localeName()` gives the human name**, so the line reads
+  "Active language: Français" rather than "Active language: fr".
+  If your status text is written in the viewer's language rather
+  than the locale's own, add `lang` to the name span accordingly —
+  the same Language-of-Parts reasoning as the `<option>` elements
+  above.
+
+### What this does and does not fix
+
+It restores the *information*, not the *semantics*. The combobox's
+own accessible value is still the placeholder; a screen-reader user
+tabbing onto the control still hears "Language" and must read on to
+learn the active value. That is a genuine residual cost of the
+placeholder-pinned design. If your users depend on the control
+itself announcing its value, don't pin the placeholder — let the
+`<select>` track the selection and accept the wider control.
 
 ## Native `<select>` accessibility
 

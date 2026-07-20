@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING — DOM contract)
 
@@ -49,6 +49,27 @@ and the project follows [Semantic Versioning](https://semver.org/).
   the combobox value. Consumers who need that should surface the
   active locale in visible text or a polite live region — see
   [docs/accessibility.md](./docs/accessibility.md).
+
+### Added (examples & docs)
+
+- The compensating status region is now the **default pattern**, not a
+  suggestion: the entry-point example and the `index.md` quick-start
+  both ship a visible `<p class="locale-select-status" aria-live="polite">`
+  using the exported `localeName()`, wired through the existing
+  `autoInit({ onChange })` callback. `docs/accessibility.md` reframes
+  opting *out* as the deliberate choice and keeps an explicit note that
+  focusing the closed control still announces only the placeholder.
+
+### Fixed
+
+- Pre-hydration flash. The macro previously signalled `opts.value` by
+  server-rendering `selected` on the matching real option; the browser
+  honoured that over the placeholder, so the real locale name flashed
+  before the client snapped it back. The initial value now travels as a
+  `data-lily-locale-select-value` attribute on the `<select>` root
+  (emitted only when `opts.value` is set), and the placeholder is the
+  only `selected` option in the server-rendered HTML. Initial-value
+  resolution order is unchanged.
 
 ## 0.2.0 — 2026-07-03
 

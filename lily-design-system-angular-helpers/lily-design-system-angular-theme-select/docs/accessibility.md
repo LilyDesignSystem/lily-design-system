@@ -41,36 +41,67 @@ colour-only meaning is required:
 2. The `[(value)]` two-way binding (and the `themeChange` output) in
    user code.
 
-## Tradeoff: the closed control does not announce the active theme
+## The status region is part of the pattern
 
 The `<select>` always displays its leading placeholder option, so its
 own `value` is permanently `""` and the active theme is *not* one of
 those channels. This keeps the control narrow, but it costs something
 real: a screen-reader user focusing the control hears the accessible
 name and the placeholder word ("Theme"), **not** the theme currently
-in effect. The active theme is no longer discoverable from the
-combobox alone.
+in effect, and no option in the open list is marked selected. The
+active theme is not discoverable from the combobox alone.
 
-Where that matters, surface the active selection elsewhere. Two
-recipes:
+Because Lily targets WCAG 2.2 AAA, the compensation is **the default,
+not a suggestion**. Every example in [`examples/`](../examples/) ships
+it, the [quick start](../index.md#quick-start) opens with it, and it
+is what an adopter copying this package gets unless they take it out.
+Removing it is the deliberate choice; adding it is not.
+
+The pattern: bind `[(value)]` and render a visible status line beside
+the control.
 
 ```html
-<!-- 1. Visible text next to the control. Also helps sighted users. -->
-<lily-theme-select label="Theme" themesUrl="/t/" [themes]="themes"
-                   [(value)]="theme" />
-<span class="theme-active">{{ theme() }}</span>
+<lily-theme-select #themeSelect label="Theme" themesUrl="/t/"
+                   [themes]="themes" [(value)]="theme" />
+
+<p class="theme-select-status" aria-live="polite">
+    Active theme: {{ themeSelect.labelFor(theme()) }}
+</p>
 ```
 
-```html
-<!-- 2. A polite live region announcing each change. Supply the
-        phrasing yourself so it stays translatable. -->
-<lily-theme-select label="Theme" themesUrl="/t/" [themes]="themes"
-                   (themeChange)="announce($event)" />
-<p role="status" aria-live="polite">{{ announcement() }}</p>
-```
+Why each part is the way it is:
 
-Prefer the visible-text recipe: it serves sighted, low-vision, and
-screen-reader users at once, and needs no live-region timing care.
+- **Visible, not `sr-only`.** Naming the current setting in plain text
+  serves sighted, low-vision, and cognitively-impaired users as well as
+  screen-reader users, and it needs no live-region timing care. AAA
+  favours the visible form.
+- **`aria-live="polite"` announces mutations only.** The region is
+  silent on first paint and speaks once on each subsequent change — a
+  confirmation per switch, not a greeting on load. (`role="status"`
+  carries an implicit `aria-live="polite"`; either is fine, but do not
+  use `assertive` — a theme change is not an interruption.)
+- **`labelFor()`** is the component's own label resolver, reached
+  through the `#themeSelect` template reference, so the status text
+  shows the same human label as the option ("Abyss", not `abyss`).
+- **`theme-select-status`** is the class hook, kebab-case like the rest
+  of the system. See [styling.md](./styling.md).
+
+If a design truly cannot spare the space, keep the element and its
+`aria-live` and hide it visually — the `.sr-only` recipe is in
+[styling.md](./styling.md#visually-hidden-status-line). Dropping it
+entirely puts the control back in the state described at the top of
+this section.
+
+### What this does and does not fix
+
+Honest accounting. The status region gives the user a way to *learn*
+the active theme, announced on every change. It does not restore the
+native combobox semantics: focusing the control still does not speak
+the current value, the open list still marks no option as selected,
+and a user arrowing through options still gets no "selected" state to
+orient by. Those are real losses that no sibling element recovers —
+they are the price of the placeholder-pinned control, and the reason
+this tradeoff is documented rather than declared solved.
 
 ## Internationalisation
 
@@ -94,10 +125,16 @@ transitions on the `data-theme` swap.
 ## Screen-reader smoke test
 
 - VoiceOver (macOS) announces the control as "{label}, pop-up
-  button" and each option as "{labelFor(slug)}, selected / N of M".
-- NVDA announces "{label} combo box" and each option similarly.
-- Selection changes are announced because the underlying control
-  value changes.
+  button, {placeholder}" — the placeholder word, never the active
+  theme.
+- NVDA announces "{label} combo box, {placeholder}".
+- Opening the list announces each option as "{labelFor(slug)}, N of
+  M". Because the control's own value stays pinned to the
+  placeholder, **no option is announced as selected**, including the
+  active one.
+- Selection changes are *not* announced by the control itself. They
+  are announced by the `theme-select-status` live region described
+  above — which is why that region is part of the default pattern.
 
 ## Common mistakes to avoid
 
