@@ -128,13 +128,51 @@ Renders:
 
 ```html
 <select class="locale-select" aria-label="Language" name="locale">
+    <option class="locale-select-option locale-select-placeholder" value="" selected>Language</option>
     <option class="locale-select-option" value="en" lang="en">English</option>
     <option class="locale-select-option" value="cy" lang="cy">Welsh</option>
 </select>
 ```
 
-Each option carries `lang` so screen readers pronounce option text
-in the correct language (WCAG 3.1.2, Language of Parts).
+Each locale option carries `lang` so screen readers pronounce option
+text in the correct language (WCAG 3.1.2, Language of Parts).
+
+The first option is a component-owned **placeholder**. It is always the
+selected one, so the closed control reads `Placeholder ?? Label`
+("Language" here) rather than the active locale name — which keeps the
+control as narrow as that one word. Picking a locale applies it
+normally and then snaps the select's own value straight back to the
+placeholder; the real selection lives in `Value`, not in the
+`<select>`. Set `Placeholder` to shorten the visible word without
+changing the accessible name:
+
+```razor
+<LocaleSelect Label="Choose a language" Placeholder="Language" ... />
+```
+
+This has an accessibility cost — screen readers no longer announce the
+active locale as the control's value. See
+[docs/accessibility.md](./docs/accessibility.md#the-placeholder-tradeoff)
+for how to surface it elsewhere.
+
+### Sizing the control
+
+The select ships no CSS. Because the closed control always shows the
+short placeholder word, you can size it to that word instead of to the
+widest locale name:
+
+```css
+.locale-select {
+    field-sizing: content;  /* Chrome 123+: size to the shown option */
+    width: auto;
+    max-width: 12ch;        /* fallback for Firefox / Safari */
+}
+```
+
+Class hooks: `.locale-select` on the root, `.locale-select-option` on
+every option, and `.locale-select-placeholder` on the leading
+placeholder option. The placeholder renders in both the default and
+the `ChildContent` code paths.
 
 ### Pretty labels for option text
 
@@ -274,9 +312,9 @@ See [spec/index.md §4](./spec/index.md#4-public-api) for the full table.
 
 Required parameters: `Label`, `Locales`.
 
-Common optional parameters: `Value` (bindable via `@bind-Value`),
-`DefaultValue`, `StorageKey`, `DetectFromNavigator`, `LocaleLabels`,
-`ApplyDir`, `CssClass`, `Name`.
+Common optional parameters: `Placeholder`, `Value` (bindable via
+`@bind-Value`), `DefaultValue`, `StorageKey`, `DetectFromNavigator`,
+`LocaleLabels`, `ApplyDir`, `CssClass`, `Name`.
 
 ## Events
 
@@ -291,14 +329,16 @@ Common optional parameters: `Value` (bindable via `@bind-Value`),
   browser's implicit `combobox` role.
 - The native `<select>` gives Arrow / Home / End / typeahead
   semantics for free (WAI-ARIA APG, native form-control behaviour).
-- Each `<option>` carries `lang="…"` so its name is pronounced
+- Each locale `<option>` carries `lang="…"` so its name is pronounced
   in the right language (WCAG 3.1.2, Language of Parts).
 - The document root carries `lang` and (by default) `dir` so the
   page satisfies WCAG 3.1.1 (Language of Page) and bidi
   text/layout inverts correctly for RTL locales.
-- No colour-only meaning; the active state is also visible in the
-  resolved `lang` attribute and in the `<select>`'s implicit
-  selected-option state.
+- No colour-only meaning; the active state is visible in the resolved
+  `lang` / `dir` attributes on the document root.
+- **Tradeoff:** the always-selected placeholder means the active locale
+  is *not* announced as the control's value. Surface it elsewhere — see
+  [docs/accessibility.md](./docs/accessibility.md#the-placeholder-tradeoff).
 
 ## SSR
 

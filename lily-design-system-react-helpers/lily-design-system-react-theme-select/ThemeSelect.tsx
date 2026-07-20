@@ -21,6 +21,12 @@ export type Props = Omit<
 > & {
     /** Accessible label for the `<select>`. */
     label: string;
+    /**
+     * Text of the always-displayed placeholder option. The closed
+     * `<select>` shows this instead of the selected theme name, so the
+     * control stays as narrow as this word. Defaults to `label`.
+     */
+    placeholder?: string;
     /** Base URL of the themes directory, e.g. "/assets/themes/". */
     themesUrl: string;
     /** Available theme slugs. */
@@ -83,6 +89,7 @@ function resolveInitialTheme(
 
 export function ThemeSelect({
     label,
+    placeholder,
     themesUrl,
     themes,
     value,
@@ -184,8 +191,18 @@ export function ThemeSelect({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentValue]);
 
+    /**
+     * The `<select>` is never bound to the resolved theme: its own DOM
+     * selection snaps back to the placeholder option after every change,
+     * so the closed control always reads `placeholder ?? label` rather
+     * than the active theme name. The real selection lives in
+     * `value` / `internalValue`.
+     */
     function onSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
-        setTheme(e.target.value);
+        const el = e.target;
+        const chosen = el.value;
+        el.value = ""; // snap back to the placeholder
+        if (chosen) setTheme(chosen);
     }
 
     return (
@@ -193,10 +210,16 @@ export function ThemeSelect({
             className={`theme-select ${className}`.trim()}
             aria-label={label}
             name={name}
-            value={currentValue ?? ""}
+            value=""
             onChange={onSelectChange}
             {...restProps}
         >
+            <option
+                className="theme-select-option theme-select-placeholder"
+                value=""
+            >
+                {placeholder ?? label}
+            </option>
             {children
                 ? children({
                       themes,

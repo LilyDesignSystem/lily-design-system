@@ -23,6 +23,16 @@
   localeSelect macro is usually enough — pass `localeLabels` to
   control the option text. Reach for this fork only when you need a
   non-<select> control.
+
+  Note on the placeholder: the canonical macro renders a leading
+  `<option class="locale-select-placeholder" value="" selected>` so
+  the closed <select> always reads the placeholder word rather than
+  the active locale name. That device is <select>-specific and has no
+  equivalent here — this fork's root is a <div role="group">, whose
+  width does not depend on the active locale. If you fork the
+  canonical macro into a custom <select> instead, keep the
+  placeholder option as the first child: the client.js resets
+  `select.value` to "" after every apply and needs it to land on.
 #}
 {%- macro localeSelectCustom(opts) -%}
 {%- set name = opts.name | default("locale") -%}

@@ -137,8 +137,9 @@ Result:
 
 - First paint: `<html lang="fr" dir="ltr">` arrives in the HTML
   response. No flash, no layout shift.
-- Select hydrates already showing the right option selected because
-  `InitialLocale` was hydrated from the cookie.
+- The select shows its placeholder ("Language"), as it always does;
+  the active locale is carried by `Value`, hydrated from the cookie,
+  and by `<html lang>`.
 - User picks `ar`. The endpoint writes the cookie. The select
   writes `<html lang="ar" dir="rtl">`. Next request re-paints the
   page in Arabic from the very first byte.
@@ -253,18 +254,17 @@ consistent because:
 
 - `OnAfterRenderAsync` never fires during prerender, so no DOM
   writes happen server-side.
-- The options' `selected` state is rendered from `Value`, which
-  the consumer controls and which is identical on both sides as
-  long as it's seeded from the same source (cookie / route param /
-  `CascadingParameter`).
+- The rendered option markup does not depend on `Value` at all: the
+  placeholder is always the selected option and the locale options are
+  never marked `selected`. There is nothing in the `<select>` for the
+  two sides to disagree about.
 
 The two cases that produce observable drift:
 
-1. The server rendered with `Value=""` (no option selected), but the
-   client `OnAfterRenderAsync` resolved `Value="fr"` from
-   `localStorage`. The first paint sees no selection; the next
-   render frame sees one. Fix by pre-seeding `Value` on the
-   server.
+1. The server rendered with `Value=""`, but the client
+   `OnAfterRenderAsync` resolved `Value="fr"` from `localStorage`.
+   The first paint has no `lang` / `dir` on `<html>`; the next render
+   frame does. Fix by pre-seeding `Value` on the server.
 2. The consumer uses `Value="@SomeServerOnlyComputedValue"` whose
    result differs between prerender and the first interactive
    render. Fix by ensuring the source is serialisable across the
@@ -312,12 +312,13 @@ SSR coverage:
   inspects the raw HTML response (no JS), and checks
   `<html lang="fr" dir="ltr">` appears before `Routes` activates.
 - **Snapshot** — capture the rendered HTML from
-  `RenderComponent<LocaleSelect>` and assert that the right
-  `<option>` has `selected` when `Value` is non-empty.
+  `RenderComponent<LocaleSelect>` and assert that the placeholder
+  option is present and `selected`, and that one option per locale
+  follows it.
 
 The select itself has no SSR-specific code path to test beyond
-"the component compiles under static SSR and renders the selected
-`<option>` for the seeded `Value`".
+"the component compiles under static SSR and renders its option
+markup".
 
 ---
 

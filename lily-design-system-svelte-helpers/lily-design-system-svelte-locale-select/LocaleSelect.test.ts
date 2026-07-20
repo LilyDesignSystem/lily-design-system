@@ -97,25 +97,65 @@ describe("LocaleSelect — markup contract (§4.3, §7.1)", () => {
             props: { label: "Language", locales: LOCALES, name: "lang" },
         });
         const options = screen.getAllByRole("option") as HTMLOptionElement[];
-        expect(options.length).toBe(LOCALES.length);
+        // One placeholder option plus one option per locale.
+        expect(options.length).toBe(LOCALES.length + 1);
         const select = screen.getByRole("combobox") as HTMLSelectElement;
         expect(select.name).toBe("lang");
     });
 
-    test("§7.4 each option carries the locale code as its value", () => {
+    test("§7.4 each option carries the locale code as its value, after the empty placeholder", () => {
         render(LocaleSelect, { props: { label: "Language", locales: LOCALES } });
         const options = screen.getAllByRole("option") as HTMLOptionElement[];
-        expect(options.map((o) => o.value)).toEqual(LOCALES);
+        expect(options.map((o) => o.value)).toEqual(["", ...LOCALES]);
     });
 
     test("§7.5 each option carries lang in BCP 47 hyphen form", () => {
         render(LocaleSelect, {
             props: { label: "Language", locales: ["en", "en_US", "zh_Hant_TW"] },
         });
+        // Skip index 0: the placeholder is not a locale and carries no lang.
         const opts = document.querySelectorAll<HTMLElement>(".locale-select-option");
-        expect(opts[0].getAttribute("lang")).toBe("en");
-        expect(opts[1].getAttribute("lang")).toBe("en-US");
-        expect(opts[2].getAttribute("lang")).toBe("zh-Hant-TW");
+        expect(opts[1].getAttribute("lang")).toBe("en");
+        expect(opts[2].getAttribute("lang")).toBe("en-US");
+        expect(opts[3].getAttribute("lang")).toBe("zh-Hant-TW");
+    });
+
+    test("§7.4 the placeholder option renders the label and stays displayed", async () => {
+        render(LocaleSelect, { props: { label: "Locale", locales: LOCALES } });
+        await flush();
+        const select = screen.getByRole("combobox") as HTMLSelectElement;
+        const placeholder = select.querySelector(
+            ".locale-select-placeholder",
+        ) as HTMLOptionElement;
+        expect(placeholder.textContent?.trim()).toBe("Locale");
+        expect(placeholder.value).toBe("");
+        // The closed control shows the placeholder, not the active locale.
+        expect(select.value).toBe("");
+        expect(document.documentElement.getAttribute("lang")).toBe("en");
+    });
+
+    test("§7.4 the placeholder prop overrides the label as placeholder text", () => {
+        render(LocaleSelect, {
+            props: { label: "Choose a locale", placeholder: "Locale", locales: LOCALES },
+        });
+        const placeholder = document.querySelector(
+            ".locale-select-placeholder",
+        ) as HTMLOptionElement;
+        expect(placeholder.textContent?.trim()).toBe("Locale");
+        expect(screen.getByLabelText("Choose a locale")).toBeTruthy();
+    });
+
+    test("§7.4 choosing a locale applies it and snaps the select back to the placeholder", async () => {
+        render(LocaleSelect, { props: { label: "Locale", locales: LOCALES } });
+        await flush();
+        const select = screen.getByRole("combobox") as HTMLSelectElement;
+        select.value = LOCALES[1];
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+        await flush();
+        expect(document.documentElement.getAttribute("lang")).toBe(
+            LOCALES[1].replace(/_/g, "-"),
+        );
+        expect(select.value).toBe("");
     });
 
     test("§7.6 visible option text uses localeLabels override when supplied", () => {

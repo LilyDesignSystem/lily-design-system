@@ -96,7 +96,50 @@ When the user picks `dark`, the component:
 - sets `data-theme="dark"` on `<html>`,
 - writes `"dark"` to `localStorage["lily-theme"]`,
 - emits `update:value` (driving `v-model:value`),
-- emits `change` with the new slug.
+- emits `change` with the new slug,
+- and snaps the `<select>`'s own value back to the placeholder, so
+  the closed control keeps reading "Theme" rather than "Dark".
+
+## The always-visible placeholder
+
+The rendered markup is a native `<select>` whose **first child is
+always a component-owned placeholder option**:
+
+```html
+<select class="theme-select" aria-label="Theme" name="theme">
+    <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
+    <option class="theme-select-option" value="light">Light</option>
+    <option class="theme-select-option" value="dark">Dark</option>
+    <option class="theme-select-option" value="abyss">Abyss</option>
+</select>
+```
+
+The `<select>` element's own value is never bound to the active
+theme. After each change the component resets `select.value = ""`,
+so the closed control always shows the placeholder word. That keeps
+the control as narrow as one word instead of growing to fit the
+longest theme name — useful when your theme list includes entries
+like `united-kingdom-national-health-service-england-for-patients`.
+
+The placeholder text defaults to `label`; pass `placeholder` to
+override it when the accessible name should be more descriptive
+than the visible word:
+
+```vue
+<ThemeSelect label="Choose a colour theme" placeholder="Theme" ... />
+```
+
+The placeholder is rendered outside the default slot, so it survives
+custom option rendering too. No string is hardcoded — the text always
+comes from a prop.
+
+The active theme still lives in `v-model:value` and in `data-theme`
+on the target. Because the closed control no longer announces the
+active theme to screen readers, surface it elsewhere when that
+matters — see [`docs/accessibility.md`](./docs/accessibility.md).
+
+To size the control to the placeholder, see the width recipe in
+[`docs/styling.md`](./docs/styling.md).
 
 ## How it works
 
@@ -141,6 +184,7 @@ The complete table is in [spec/index.md §4.1](./spec/index.md#41-props). Highli
 | Prop           | Type                     | Required | Notes                                      |
 | -------------- | ------------------------ | -------- | ------------------------------------------ |
 | `label`        | `string`                 | yes      | `aria-label` on the `<select>`.            |
+| `placeholder`  | `string`                 | no       | Always-displayed placeholder text; defaults to `label`. |
 | `themesUrl`    | `string`                 | yes      | Trailing `/` is auto-added.                |
 | `themes`       | `string[]`               | yes      | Available slugs.                           |
 | `value`        | `string` (`v-model`)     | no       | Two-way bind for the current slug.         |
@@ -214,9 +258,13 @@ before first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
 - The native `<select>` gives Arrow / Home / End / typeahead
   semantics for free; the select does not override any keyboard
   behaviour.
-- The active state is exposed in three independent channels: the
-  selected `<option>`, `data-theme` on the root, and the `value`
-  binding. No colour-only meaning is required.
+- The active state is exposed in two independent channels:
+  `data-theme` on the root, and the `value` binding. No colour-only
+  meaning is required.
+- **Tradeoff:** because the closed control always reads the
+  placeholder, a screen-reader user does not hear the active theme
+  announced as the combobox value. Surface it with visible text or a
+  polite live region where that matters.
 - WCAG 2.2 AAA is the target; visible focus styling is the
   consumer's CSS responsibility.
 

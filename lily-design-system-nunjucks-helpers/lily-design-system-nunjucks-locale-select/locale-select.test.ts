@@ -80,17 +80,18 @@ describe("LocaleSelect — macro markup contract (§7.1)", () => {
         const options = Array.from(
             root.querySelectorAll<HTMLOptionElement>("option"),
         );
-        expect(options.length).toBe(LOCALES.length);
+        // One placeholder option plus one option per locale.
+        expect(options.length).toBe(LOCALES.length + 1);
         expect(root.name).toBe("lang");
     });
 
-    test("§7.4 each option carries the locale code as its value", () => {
+    test("§7.4 each option carries the locale code as its value, after the empty placeholder", () => {
         const html = renderMacro({ label: "Language", locales: LOCALES });
         const root = mountIntoBody(html);
         const values = Array.from(
             root.querySelectorAll<HTMLOptionElement>("option"),
         ).map((o) => o.value);
-        expect(values).toEqual(LOCALES);
+        expect(values).toEqual(["", ...LOCALES]);
     });
 
     test("§7.5 each option <label> carries lang in BCP 47 hyphen form", () => {
@@ -99,12 +100,55 @@ describe("LocaleSelect — macro markup contract (§7.1)", () => {
             locales: ["en", "en_US", "zh_Hant_TW"],
         });
         const root = mountIntoBody(html);
+        // Skip index 0: the placeholder is not a locale and carries no lang.
         const labels = Array.from(
             root.querySelectorAll<HTMLElement>(".locale-select-option"),
         );
-        expect(labels[0].getAttribute("lang")).toBe("en");
-        expect(labels[1].getAttribute("lang")).toBe("en-US");
-        expect(labels[2].getAttribute("lang")).toBe("zh-Hant-TW");
+        expect(labels[0].hasAttribute("lang")).toBe(false);
+        expect(labels[1].getAttribute("lang")).toBe("en");
+        expect(labels[2].getAttribute("lang")).toBe("en-US");
+        expect(labels[3].getAttribute("lang")).toBe("zh-Hant-TW");
+    });
+
+    test("§7.24 the placeholder option renders the label and stays displayed", () => {
+        const html = renderMacro({ label: "Locale", locales: LOCALES });
+        const root = mountIntoBody(html) as HTMLSelectElement;
+        initLocaleSelect(root);
+        const placeholder = root.querySelector(
+            ".locale-select-placeholder",
+        ) as HTMLOptionElement;
+        expect(placeholder).not.toBeNull();
+        expect(placeholder.textContent?.trim()).toBe("Locale");
+        expect(placeholder.value).toBe("");
+        // It is the first child of the <select>.
+        expect(root.options[0]).toBe(placeholder);
+        // The closed control shows the placeholder, not the active locale.
+        expect(root.value).toBe("");
+        expect(document.documentElement.lang).toBe("en");
+    });
+
+    test("§7.25 the placeholder param overrides the label as placeholder text", () => {
+        const html = renderMacro({
+            label: "Choose a locale",
+            placeholder: "Locale",
+            locales: LOCALES,
+        });
+        const root = mountIntoBody(html);
+        const placeholder = root.querySelector(
+            ".locale-select-placeholder",
+        ) as HTMLOptionElement;
+        expect(placeholder.textContent?.trim()).toBe("Locale");
+        expect(root.getAttribute("aria-label")).toBe("Choose a locale");
+    });
+
+    test("§7.26 choosing a locale applies it and snaps the select back to the placeholder", () => {
+        const html = renderMacro({ label: "Locale", locales: LOCALES });
+        const root = mountIntoBody(html) as HTMLSelectElement;
+        initLocaleSelect(root);
+        root.value = "en_US";
+        root.dispatchEvent(new Event("change", { bubbles: true }));
+        expect(document.documentElement.lang).toBe("en-US");
+        expect(root.value).toBe("");
     });
 
     test("§7.6 localeLabels override the option text; missing entries fall back to code", () => {

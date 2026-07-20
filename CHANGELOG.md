@@ -9,6 +9,46 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Unreleased
+
+### Changed (BREAKING — helpers)
+
+- **`theme-select` and `locale-select` are now placeholder-pinned in all
+  seven `*-helpers` catalogs.** The closed `<select>` always displays a
+  short placeholder word ("Theme", "Locale") instead of the name of the
+  active theme or locale, so the control is only ever as wide as that
+  word rather than as wide as the longest option. Each renders a leading
+  `<option class="{helper}-option {helper}-placeholder" value="">`
+  carrying a new optional `placeholder` prop (defaults to the existing
+  `label`, so nothing is hardcoded), and pins the element's own selection
+  to it — snapping back after every change.
+- DOM contract changes accordingly: option count is `choices.length + 1`,
+  the first option's value is `""`, and `selectEl.value` no longer tracks
+  the selection. The bindable `value` prop remains the single source of
+  truth, and every downstream behaviour — managed `<link>` swapping,
+  `data-theme`, `lang` / `dir`, persistence, navigator detection,
+  `onChange`, initial-value resolution, SSR safety — is unchanged.
+- Accessibility tradeoff, documented in each package's
+  `docs/accessibility.md`: the active theme/locale is no longer announced
+  as the combobox value. Consumers who need it surface it separately via
+  visible text or a polite live region driven from `value` / `onChange`.
+- `text-size-select` is untouched and keeps ordinary bound-select
+  behaviour.
+
+### Changed (themes)
+
+- The 45 `themes/*.css` stylesheets size the two placeholder-pinned
+  helpers to the placeholder word — `field-sizing: content` for Chromium
+  with a `max-width: 12ch` fallback elsewhere. The rule is scoped with
+  `:has(> .{helper}-select-placeholder)` so it targets the helper
+  packages only; the catalog `theme-select` component shares the class
+  hook but displays its real value and keeps its full-width form-field
+  sizing.
+- `.locale-select-option` now inherits the select's surface and text
+  colours, matching `.theme-select-option`.
+
+The helper packages still ship zero CSS.
+
 ## 0.6.0 — 2026-07-03
 
 ### Added

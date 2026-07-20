@@ -37,10 +37,12 @@ root `<Routes>` element in `App.razor`.
 
 ## "Prerender shows the wrong theme for one frame"
 
-**Likely cause.** The select rendered server-side with no `Value`
-(no option selected), then on hydration its lifecycle hook resolved
-`Value="dark"` from `localStorage` and switched the theme. The
-result is a visible flash.
+**Likely cause.** The select rendered server-side with no `Value`,
+then on hydration its lifecycle hook resolved `Value="dark"` from
+`localStorage` and switched the theme. The result is a visible flash.
+(The `<select>` itself never shows the theme — it always shows the
+placeholder — so the flash is in the page's theme CSS, not the
+control.)
 
 **Fix.** Resolve the theme on the server (cookie, header, session
 store) and pass it to the select via `Value`. See [ssr.md](./ssr.md).

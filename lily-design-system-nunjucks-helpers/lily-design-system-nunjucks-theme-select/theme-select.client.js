@@ -7,7 +7,10 @@
 //   1. Inject/update a managed <link rel="stylesheet"> in <head>.
 //   2. Set data-theme="<slug>" on the resolved target (default <html>).
 //   3. Optionally persist to localStorage.
-//   4. Mirror the active slug onto the <select> value (select the option).
+//   4. Snap the <select> back to its leading placeholder option, so the
+//      closed control always reads the placeholder word rather than the
+//      active theme name. The real selection lives in `data-theme` /
+//      localStorage / the `onChange` argument, never in `select.value`.
 //   5. Call opts.onChange(slug).
 //
 // See spec/index.md §4.3 (client.js exports), §5 (behaviour).
@@ -51,8 +54,14 @@ function getManagedLink(name) {
     return link;
 }
 
+/**
+ * The real theme slugs, excluding the leading placeholder option (which
+ * always carries `value=""`).
+ */
 function optionValues(select) {
-    return Array.from(select.options).map((o) => o.value);
+    return Array.from(select.options)
+        .map((o) => o.value)
+        .filter((v) => v !== "");
 }
 
 /**
@@ -83,8 +92,10 @@ export function initThemeSelect(root, opts = {}) {
         const target = opts.target || document.documentElement;
         target.setAttribute("data-theme", slug);
         if (storageKey) safeStorageSet(storageKey, slug);
-        // Select the option matching the active slug.
-        root.value = slug;
+        // Snap the control back to the placeholder option rather than
+        // mirroring the active slug, so the closed <select> always reads
+        // the placeholder word.
+        root.value = "";
         if (typeof opts.onChange === "function") opts.onChange(slug);
     }
 
@@ -96,9 +107,10 @@ export function initThemeSelect(root, opts = {}) {
         // The macro renders `selected` on the value option; read it back
         // via `defaultSelected` (the HTML `selected` attribute), because
         // `root.value` reports the first option even when none is
-        // explicitly selected.
+        // explicitly selected. The leading placeholder option is also
+        // rendered `selected`, so skip it by requiring a non-empty value.
         const selectedOption = Array.from(root.options).find(
-            (o) => o.defaultSelected,
+            (o) => o.defaultSelected && o.value !== "",
         );
         if (selectedOption) initial = selectedOption.value;
     }
@@ -108,6 +120,8 @@ export function initThemeSelect(root, opts = {}) {
 
     if (initial) applyTheme(initial);
 
+    // Read the chosen slug, snap the control back to the placeholder, then
+    // apply. Choosing the placeholder itself is a no-op.
     function onChange(e) {
         const target = e.target;
         if (
@@ -115,7 +129,9 @@ export function initThemeSelect(root, opts = {}) {
             target.tagName === "SELECT" &&
             typeof target.value === "string"
         ) {
-            applyTheme(target.value);
+            const chosen = target.value;
+            target.value = "";
+            if (chosen) applyTheme(chosen);
         }
     }
     root.addEventListener("change", onChange);

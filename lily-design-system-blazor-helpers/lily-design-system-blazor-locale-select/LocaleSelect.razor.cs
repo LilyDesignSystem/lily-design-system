@@ -32,6 +32,13 @@ public partial class LocaleSelect : ComponentBase
     /// <summary>Accessible name for the &lt;select&gt;. Required.</summary>
     [Parameter, EditorRequired] public string Label { get; set; } = "";
 
+    /// <summary>
+    /// Text of the always-displayed placeholder option. The closed
+    /// &lt;select&gt; shows this instead of the selected locale name, so the
+    /// control stays as narrow as this word. Defaults to <see cref="Label"/>.
+    /// </summary>
+    [Parameter] public string? Placeholder { get; set; }
+
     /// <summary>Available locale codes.</summary>
     [Parameter, EditorRequired] public IReadOnlyList<string> Locales { get; set; } = Array.Empty<string>();
 
@@ -77,11 +84,18 @@ public partial class LocaleSelect : ComponentBase
 
     private bool _initialised;
 
+    /// <summary>Reference to the root &lt;select&gt;, used to snap its own DOM
+    /// value back to the placeholder after every change.</summary>
+    private ElementReference _selectElement;
+
     // -------------------------------------------------------------------
     // View helpers used by the .razor markup.
     // -------------------------------------------------------------------
 
     private string RootClass => $"locale-select {CssClass}".Trim();
+
+    /// <summary>Text shown by the always-selected placeholder option.</summary>
+    private string PlaceholderText => Placeholder ?? Label;
 
     internal string LabelFor(string locale)
     {
@@ -186,8 +200,36 @@ public partial class LocaleSelect : ComponentBase
         StateHasChanged();
     }
 
-    private Task OnSelectAsync(ChangeEventArgs args)
-        => SetLocaleAsync(args.Value?.ToString() ?? "");
+    /// <summary>
+    /// The &lt;select&gt; never tracks <see cref="Value"/>: its own DOM
+    /// selection snaps back to the placeholder option after every change, so
+    /// the closed control always reads <c>Placeholder ?? Label</c> rather than
+    /// the active locale name. Everything downstream is unchanged.
+    /// </summary>
+    private async Task OnSelectAsync(ChangeEventArgs args)
+    {
+        var chosen = args.Value?.ToString() ?? "";
+        await SnapBackToPlaceholderAsync();
+        if (!string.IsNullOrEmpty(chosen)) await SetLocaleAsync(chosen);
+    }
+
+    /// <summary>
+    /// Reset the live &lt;select&gt; element's value to the placeholder.
+    /// The rendered markup already marks the placeholder <c>selected</c>, but
+    /// a browser ignores that once the user has interacted with the control,
+    /// so the DOM property has to be written directly.
+    /// </summary>
+    private async Task SnapBackToPlaceholderAsync()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("Object.assign", _selectElement, new { value = "" });
+        }
+        catch
+        {
+            // ignore prerender / interop failure
+        }
+    }
 
     private async Task ApplyLocaleAsync(string code)
     {

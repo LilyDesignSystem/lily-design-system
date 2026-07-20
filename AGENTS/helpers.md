@@ -10,13 +10,14 @@ Every catalog (html, svelte, react, vue, angular, blazor, nunjucks) ships:
 
 | Helper | Root markup | Applies | Persists |
 | ------ | ----------- | ------- | -------- |
-| `theme-select` | `<select class="theme-select {class}" aria-label="{label}">` | Swaps a managed `<link rel="stylesheet" data-lily-theme-select>` href and sets `data-theme` on the document root; pairs with the root `themes/` stylesheets. | Optional `localStorage`. |
-| `locale-select` | `<select class="locale-select {class}" aria-label="{label}">` | Sets `lang` (BCP 47, hyphenated) and `dir` (`ltr`/`rtl` auto-detected per script) on the document root. No translation. | Optional `localStorage`; optional `navigator.language` first-visit fallback. |
+| `theme-select` | `<select class="theme-select {class}" aria-label="{label}">`, placeholder-pinned | Swaps a managed `<link rel="stylesheet" data-lily-theme-select>` href and sets `data-theme` on the document root; pairs with the root `themes/` stylesheets. | Optional `localStorage`. |
+| `locale-select` | `<select class="locale-select {class}" aria-label="{label}">`, placeholder-pinned | Sets `lang` (BCP 47, hyphenated) and `dir` (`ltr`/`rtl` auto-detected per script) on the document root. No translation. | Optional `localStorage`; optional `navigator.language` first-visit fallback. |
 | `text-size-select` | `<select class="text-size-select {class}" aria-label="{label}">` | Sets `data-text-size` on the document root; consumer CSS maps values to sizing. | Optional `localStorage`. |
 
 ## Rules
 
 - **Native `<select>` only.** One `<option class="{helper}-option">` per choice; native keyboard semantics. The June 2026 migration replaced the earlier radio-group "picker" markup — do not reintroduce it.
+- **Placeholder-pinned display (`theme-select`, `locale-select`).** These two render a leading `<option class="{helper}-option {helper}-placeholder" value="">` carrying a `placeholder` prop (defaults to `label`), and pin the element's own selection to it, so the closed control always reads "Theme" / "Locale" and stays only that wide. The bindable `value` prop — not `selectEl.value` — is the active selection. `text-size-select` keeps the ordinary bound-select behaviour.
 - **Headless still.** No bundled CSS, fonts, icons, images; kebab-case class hook + consumer `class` pass-through; rest-props spread on the root.
 - **SSR-safe.** DOM writes only inside the framework's mount/effect lifecycle.
 - **i18n-clean.** Every user-facing string is a prop; labels default to title-cased slugs with an override map (`themeLabels` / `localeLabels` / `sizeLabels`).

@@ -4,6 +4,39 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING)
+
+- The closed `<select>` now always displays a placeholder word ("Theme")
+  instead of the active theme name, so the control is only ever as wide
+  as that word rather than as wide as the longest theme name. A leading
+  `<option class="theme-select-option theme-select-placeholder" value="">`
+  is always rendered, and the element's own selection snaps back to it
+  after every change.
+- DOM contract changes accordingly: the option count is now
+  `themes.length + 1`, the first option's `value` is `""`, and the
+  `<select>` element's own `value` no longer tracks the active theme —
+  it stays `""`. Consumers reading `selectEl.value` must read the
+  bindable `value` prop instead.
+- Accessibility tradeoff: the active theme is no longer announced as the
+  combobox value. See [docs/accessibility.md](./docs/accessibility.md)
+  for how to surface it separately.
+
+### Added
+
+- `placeholder` prop (optional, string, defaults to `label`) — the text
+  of the placeholder option.
+
+### Unchanged
+
+- `value` remains the single source of truth and stays two-way bindable;
+  link swapping, `data-theme`, `localStorage` persistence, `onChange`,
+  and initial-value resolution all behave exactly as before.
+- Still ships zero CSS. The width recipe lives in
+  [docs/styling.md](./docs/styling.md) and in the root `themes/`
+  stylesheets.
+
 ## 0.2.0 — 2026-07-03
 
 ### Changed (BREAKING)

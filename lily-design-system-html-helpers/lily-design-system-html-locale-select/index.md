@@ -14,6 +14,7 @@ and for working code see [examples/](./examples/).
 - [Why this exists](#why-this-exists)
 - [Install](#install)
 - [Quick start](#quick-start)
+- [Rendered markup](#rendered-markup)
 - [How it works](#how-it-works)
 - [Default locale](#default-locale)
 - [Attributes](#attributes)
@@ -109,6 +110,58 @@ select.addEventListener("localechange", (e) => {
 });
 ```
 
+## Rendered markup
+
+The element renders this into its light DOM:
+
+```html
+<locale-select label="Locale" locales="en,fr,ar">
+    <select class="locale-select" aria-label="Locale" name="locale">
+        <option class="locale-select-option locale-select-placeholder" value="" selected>Locale</option>
+        <option class="locale-select-option" value="en" lang="en">English</option>
+        <option class="locale-select-option" value="fr" lang="fr">French</option>
+        <option class="locale-select-option" value="ar" lang="ar">Arabic</option>
+    </select>
+</locale-select>
+```
+
+The first `<option>` is a component-owned placeholder. It stays
+selected: after every change the element snaps `select.value` back
+to `""`, so the **closed control always reads "Locale"** rather than
+the active locale name — which keeps it as narrow as one word. The
+real selection lives on the host's `value` attribute/property, and
+nothing downstream changes. The placeholder carries no `lang`; it is
+UI copy in the page language, not a locale name.
+
+Set `placeholder` to make that text differ from the accessible name:
+
+```html
+<locale-select label="Choose a language" placeholder="Locale" ...></locale-select>
+```
+
+Because the select's own `value` is always `""`, read the selection
+from `el.value` (or the `localechange` detail) — never from the
+rendered `<select>`. Note that this also means the active locale is
+not announced to screen readers as the control's value; see
+[Accessibility](#accessibility).
+
+### Keeping the control narrow
+
+The helper ships no CSS. To let the control actually shrink to the
+width of the placeholder word:
+
+```css
+.locale-select {
+    field-sizing: content;  /* Chrome 123+: size to the shown option */
+    width: auto;
+    max-width: 12ch;        /* fallback for Firefox / Safari */
+}
+```
+
+Class hooks: `.locale-select` (the `<select>`),
+`.locale-select-option` (every option, including the placeholder),
+and `.locale-select-placeholder` (the placeholder alone).
+
 ## How it works
 
 On every locale change the select performs four steps, in order:
@@ -155,6 +208,7 @@ Highlights:
 | Attribute                | Type           | Required | Notes                                |
 | ------------------------ | -------------- | -------- | ------------------------------------ |
 | `label`                  | string         | yes      | `aria-label` on the `<select>`.      |
+| `placeholder`            | string         | no       | Text of the always-shown placeholder option; defaults to `label`. |
 | `locales`                | string (CSV)   | yes      | Available codes.                     |
 | `value`                  | string         | no       | Current code (consumer form).        |
 | `default-value`          | string         | no       | Initial when nothing else applies.   |
@@ -287,10 +341,17 @@ first paint), see [`docs/ssr.md`](./docs/ssr.md) and
   with `aria-label={label}`.
 - The native `<select>` gives Arrow / Home / End / typeahead / Tab
   semantics for free.
-- Each `<option>` carries `lang="…"` so its name is pronounced in
-  the right language (WCAG 3.1.2 Language of Parts).
+- Each locale `<option>` carries `lang="…"` so its name is
+  pronounced in the right language (WCAG 3.1.2 Language of Parts).
+  The placeholder option carries none.
 - The document root carries `lang` (WCAG 3.1.1) and (by default)
   `dir` for bidi layout.
+- **Tradeoff:** because the closed control always reads the
+  placeholder, the active locale is *not* announced as the combobox
+  value. Screen-reader users lose the one place the current
+  selection used to be spoken. Where that matters, surface the
+  active locale in visible text or a polite `role="status"` region —
+  see [`docs/accessibility.md`](./docs/accessibility.md).
 
 Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 

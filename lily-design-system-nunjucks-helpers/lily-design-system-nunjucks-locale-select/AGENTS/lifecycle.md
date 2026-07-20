@@ -40,7 +40,7 @@ applyLocale(code):
   1. target.setAttribute("lang", bcp47LocaleTag(code))
   2. if applyDir: target.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr")
   3. if storageKey: localStorage.setItem(storageKey, code)
-  4. set the <select> value so the matching option is selected
+  4. select.value = ""  // snap back to the placeholder option
   5. opts.onChange?.(code)  // consumer-form code, not BCP 47
 
 User picks an option
@@ -49,11 +49,18 @@ User picks an option
 select fires a "change" event
   │
   ▼
-listener reads select.value
+listener reads chosen = select.value
   │
   ▼
-applyLocale(select.value)
+select.value = ""          // snap back to the placeholder
+  │
+  ▼
+if (chosen) applyLocale(chosen)  // picking the placeholder is a no-op
 ```
+
+The snap-back runs synchronously inside the listener, so a consumer's
+own `change` listener that reads `event.target.value` will see `""`.
+Use `opts.onChange(code)` or read `lang` from the target instead.
 
 ## Why a separate "init" and "apply"
 

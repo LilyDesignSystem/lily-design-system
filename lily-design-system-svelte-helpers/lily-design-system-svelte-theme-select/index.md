@@ -108,6 +108,31 @@ On every theme change the select performs four steps, in order:
 All four steps are SSR-safe — the component only mutates the DOM
 inside a `$effect`, which never runs on the server.
 
+### The closed control always reads the placeholder
+
+The `<select>` renders a leading placeholder option and pins its own
+selection to it, so the closed control always shows the word
+`placeholder ?? label` — "Theme" — rather than the name of the active
+theme. That keeps the control as narrow as that one word instead of as
+wide as the longest theme name, which matters when the catalog includes
+slugs like `united-kingdom-national-health-service-england-for-patients`.
+
+The active theme still lives in the bindable `value` prop, and all four
+steps above are driven from it exactly as before. Only the element's own
+`value` differs: it stays `""`.
+
+Size the control in your own CSS — this package ships none:
+
+```css
+.theme-select:has(> .theme-select-placeholder) {
+  width: auto;
+  max-width: 12ch;
+  field-sizing: content; /* Chromium: size to the displayed option */
+}
+```
+
+The root [`themes/`](../../themes) stylesheets already carry this rule.
+
 ## Default theme
 
 The default theme is `"light"` whenever `"light"` appears in your
@@ -130,7 +155,8 @@ The complete table is in [spec/index.md §4.1](./spec/index.md#41-props). Highli
 
 | Prop          | Type                     | Required | Notes                                      |
 | ------------- | ------------------------ | -------- | ------------------------------------------ |
-| `label`       | `string`                 | yes      | `aria-label` on the `<select>`.            |
+| `label`       | `string`                 | yes      | `aria-label` on the `<select>`; also the default placeholder text. |
+| `placeholder` | `string`                 | no       | Word the closed control always shows; defaults to `label`. |
 | `themesUrl`   | `string`                 | yes      | Trailing `/` is auto-added.                |
 | `themes`      | `string[]`               | yes      | Available slugs.                           |
 | `value`       | `string` (bindable)      | no       | Two-way bind for the current slug.         |
@@ -196,9 +222,12 @@ first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
 - The native `<select>` gives Arrow / Home / End / typeahead
   semantics for free; the select does not override any keyboard
   behaviour.
-- The active state is exposed in three independent channels: the
-  selected `<option>`, `data-theme` on the root, and the `value`
-  binding. No colour-only meaning is required.
+- The active state is exposed via `data-theme` on the root and the
+  `value` binding. No colour-only meaning is required.
+- **Tradeoff.** The closed control always displays the placeholder word,
+  not the active theme, so the active theme is *not* announced as the
+  combobox value. Surface it separately where that matters — see
+  [`docs/accessibility.md`](./docs/accessibility.md).
 - WCAG 2.2 AAA is the target; visible focus styling is the
   consumer's CSS responsibility.
 
@@ -207,9 +236,10 @@ Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 ## SSR and hydration
 
 The select compiles cleanly under `@sveltejs/vite-plugin-svelte` SSR.
-On the server no effects run and no DOM is touched, so the markup
-renders using whatever `value` (or empty string) the consumer
-supplies.
+On the server no effects run and no DOM is touched. The rendered markup
+shows the placeholder option, as it always does — the supplied `value`
+lives in the prop, not in the element's own selection, so there is
+nothing for hydration to correct.
 
 For zero-flicker SSR, resolve the theme on the server (e.g. from a
 cookie) and pass it as `value`. See

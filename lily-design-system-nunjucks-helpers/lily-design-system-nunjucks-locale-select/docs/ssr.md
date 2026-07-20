@@ -40,6 +40,25 @@ consumer passes `opts.value="fr"`, the matching `<option>` gets
 `selected` rendered server-side and that `<option lang="fr">` carries
 the BCP 47 tag.
 
+### The `opts.value` selected-option flash
+
+`opts.value` is communicated to the client by rendering `selected` on
+the matching `<option>` — that is how the client resolves the initial
+locale (step 1 of the resolution order). The placeholder option is
+*also* rendered `selected`, and when a `<select>` has two selected
+options the browser picks the **last** one. So between first paint and
+`initLocaleSelect(root)` the closed control briefly shows the locale
+name rather than the placeholder word; the client then snaps it back
+to `""`.
+
+This is cosmetic and confined to the control itself — it does not
+affect `lang`, `dir`, or the page. It only occurs when you pass
+`opts.value`; without it the placeholder is the only selected option
+and there is no flash. If it matters, either style `.locale-select`
+with a fixed `width` so the snap-back doesn't reflow, or omit
+`opts.value` and let `storageKey` / `defaultValue` resolve the
+initial locale instead.
+
 The macro does **not** write `lang` / `dir` to `<html>`. That
 happens in the client.js on hydration. To avoid a first-paint
 flash, the layout should write those attributes itself,

@@ -19,6 +19,12 @@
     export type Props = {
         /** Accessible label for the `<select>`. */
         label: string;
+        /**
+         * Text of the always-displayed placeholder option. The closed
+         * `<select>` shows this instead of the selected theme name, so the
+         * control stays as narrow as this word. Defaults to `label`.
+         */
+        placeholder?: string;
         /** Base URL of the themes directory, e.g. "/assets/themes/". */
         themesUrl: string;
         /** Available theme slugs. */
@@ -62,6 +68,7 @@
     let {
         class: className = "",
         label,
+        placeholder,
         themesUrl,
         themes,
         value = $bindable(""),
@@ -118,6 +125,20 @@
         value = slug;
     }
 
+    /**
+     * The `<select>` is never bound to `value`: its own selection snaps back
+     * to the placeholder option after every change, so the closed control
+     * always reads `placeholder ?? label` rather than the active theme name.
+     * The real selection lives in `value`.
+     */
+    function handleChange(event: Event & { currentTarget: HTMLSelectElement }): void {
+        const el = event.currentTarget;
+        const chosen = el.value;
+        el.value = "";
+        if (chosen) value = chosen;
+        (restProps.onchange as ((event: Event) => void) | undefined)?.(event);
+    }
+
     let initialised = false;
 
     $effect(() => {
@@ -153,9 +174,12 @@
     class={`theme-select ${className}`.trim()}
     aria-label={label}
     {name}
-    bind:value
     {...restProps}
+    onchange={handleChange}
 >
+    <option class="theme-select-option theme-select-placeholder" value="" selected
+        >{placeholder ?? label}</option
+    >
     {#if children}
         {@render children({ themes, value: value ?? "", setTheme, name, labelFor })}
     {:else}

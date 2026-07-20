@@ -68,12 +68,14 @@ public class ThemeSelectTests : TestContext
             .Add(x => x.Name, "appearance"));
 
         var options = cut.FindAll("option");
-        Assert.Equal(3, options.Count);
+        // One placeholder option plus one option per theme.
+        Assert.Equal(4, options.Count);
         Assert.Equal("appearance", cut.Find("select").GetAttribute("name"));
     }
 
     // -----------------------------------------------------------------
-    // §7.4 — Each option carries the slug as its value attribute.
+    // §7.4 — Each option carries the slug as its value attribute, after
+    //        the leading empty-valued placeholder.
     // -----------------------------------------------------------------
     [Fact]
     public void Section_7_4_Option_Value_Is_Slug()
@@ -84,9 +86,110 @@ public class ThemeSelectTests : TestContext
             .Add(x => x.Themes, Themes));
 
         var options = cut.FindAll("option");
-        Assert.Equal("light", options[0].GetAttribute("value"));
-        Assert.Equal("dark", options[1].GetAttribute("value"));
-        Assert.Equal("abyss", options[2].GetAttribute("value"));
+        Assert.Equal("", options[0].GetAttribute("value"));
+        Assert.Equal("light", options[1].GetAttribute("value"));
+        Assert.Equal("dark", options[2].GetAttribute("value"));
+        Assert.Equal("abyss", options[3].GetAttribute("value"));
+    }
+
+    // -----------------------------------------------------------------
+    // §7.14 — The placeholder option is first, renders the Label, carries
+    //         value="", is the only selected option, and does not stop the
+    //         resolved theme from being applied.
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_14_Placeholder_Option_Renders_Label_And_Stays_Selected()
+    {
+        var cut = RenderComponent<ThemeSelect>(p => p
+            .Add(x => x.Label, "Theme")
+            .Add(x => x.ThemesUrl, UrlTrailing)
+            .Add(x => x.Themes, Themes));
+        await Task.Yield();
+
+        // The placeholder is the FIRST child of the <select>.
+        Assert.Contains("theme-select-placeholder",
+            cut.FindAll("option")[0].GetAttribute("class") ?? "");
+
+        var placeholder = cut.Find(".theme-select-placeholder");
+        Assert.Equal("Theme", placeholder.TextContent.Trim());
+        Assert.Equal("", placeholder.GetAttribute("value"));
+        Assert.NotNull(placeholder.GetAttribute("selected"));
+
+        // The closed control shows the placeholder, not the active theme:
+        // no real option is marked selected.
+        foreach (var option in cut.FindAll(".theme-select-option"))
+        {
+            if (option.ClassList.Contains("theme-select-placeholder")) continue;
+            Assert.Null(option.GetAttribute("selected"));
+        }
+
+        // The resolved theme is still applied.
+        Assert.True(SawEvalContaining("/assets/themes/light.css"),
+            "Expected the resolved theme to still be applied");
+    }
+
+    // -----------------------------------------------------------------
+    // §7.15 — The Placeholder parameter overrides Label as placeholder text,
+    //         while aria-label keeps the Label.
+    // -----------------------------------------------------------------
+    [Fact]
+    public void Section_7_15_Placeholder_Parameter_Overrides_Label()
+    {
+        var cut = RenderComponent<ThemeSelect>(p => p
+            .Add(x => x.Label, "Choose a theme")
+            .Add(x => x.Placeholder, "Theme")
+            .Add(x => x.ThemesUrl, UrlTrailing)
+            .Add(x => x.Themes, Themes));
+
+        Assert.Equal("Theme", cut.Find(".theme-select-placeholder").TextContent.Trim());
+        Assert.Equal("Choose a theme", cut.Find("select").GetAttribute("aria-label"));
+    }
+
+    // -----------------------------------------------------------------
+    // §7.16 — Choosing an option applies it AND snaps the <select> back to
+    //         the placeholder: the DOM value is reset via interop and the
+    //         placeholder stays the only selected option.
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_16_Choosing_Option_Applies_And_Snaps_Back()
+    {
+        var cut = RenderComponent<ThemeSelect>(p => p
+            .Add(x => x.Label, "Theme")
+            .Add(x => x.ThemesUrl, UrlTrailing)
+            .Add(x => x.Themes, Themes));
+        await Task.Yield();
+
+        cut.Find("select").Change("abyss");
+
+        // Applied.
+        Assert.True(SawEvalContaining("/assets/themes/abyss.css"),
+            "Expected the chosen theme to be applied");
+
+        // Snapped back: the live element's value was reset through interop.
+        Assert.Contains(JSInterop.Invocations,
+            inv => inv.Identifier == "Object.assign");
+
+        // Snapped back: the placeholder is still the only selected option.
+        Assert.NotNull(cut.Find(".theme-select-placeholder").GetAttribute("selected"));
+        foreach (var option in cut.FindAll(".theme-select-option"))
+        {
+            if (option.ClassList.Contains("theme-select-placeholder")) continue;
+            Assert.Null(option.GetAttribute("selected"));
+        }
+    }
+
+    /// <summary>True when some eval interop call carried the given substring.</summary>
+    private bool SawEvalContaining(string needle)
+    {
+        foreach (var inv in JSInterop.Invocations)
+        {
+            if (inv.Identifier == "eval" && inv.Arguments.Count > 0
+                && inv.Arguments[0] is string s && s.Contains(needle))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     // -----------------------------------------------------------------

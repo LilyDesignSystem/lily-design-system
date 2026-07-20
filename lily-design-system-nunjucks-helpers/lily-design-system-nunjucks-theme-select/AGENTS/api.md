@@ -22,6 +22,7 @@ Import and invoke:
 | Key            | Type                     | Required | Default                                          |
 | -------------- | ------------------------ | -------- | ------------------------------------------------ |
 | `label`        | `string`                 | yes      | —                                                |
+| `placeholder`  | `string`                 | no       | value of `label`                                 |
 | `themesUrl`    | `string`                 | yes      | —                                                |
 | `themes`       | `string[]`               | yes      | —                                                |
 | `value`        | `string`                 | no       | `""`                                             |
@@ -86,7 +87,7 @@ server code, or other modules without instantiating the select.
 
 | Property    | Type                       | Notes                                              |
 | ----------- | -------------------------- | -------------------------------------------------- |
-| `setTheme`  | `(slug: string) => void`   | Apply a theme imperatively; mirrors a select change. |
+| `setTheme`  | `(slug: string) => void`   | Apply a theme imperatively; same code path as a select change (and likewise leaves `select.value` at `""`). |
 | `destroy`   | `() => void`               | Remove the `change` listener; keeps applied DOM.   |
 
 `destroy()` does **not** restore the previous theme or remove the
@@ -128,15 +129,26 @@ Root element (macro output):
     data-lily-theme-select-storage-key="{storageKey}"
     data-lily-theme-select-default-value="{defaultValue}"
 >
-    <!-- per-slug option markup -->
+    <!-- placeholder option, then per-slug option markup -->
 </select>
 ```
 
-Default option markup (one per `themes` entry):
+The FIRST child is always the component-owned placeholder option:
+
+```html
+<option class="theme-select-option theme-select-placeholder" value="" selected>{placeholder ?? label}</option>
+```
+
+Then the default option markup (one per `themes` entry):
 
 ```html
 <option class="theme-select-option" value="{slug}" {selected when value===slug}>{labelFor(slug)}</option>
 ```
+
+The `<select>`'s own `value` is always `""`: the client snaps it back
+to the placeholder after every apply, so the closed control reads the
+placeholder word rather than the active theme name. Read the active
+theme from `data-theme` or from the `onChange(slug)` argument.
 
 Document mutations (only inside `initThemeSelect` and subsequent
 events):

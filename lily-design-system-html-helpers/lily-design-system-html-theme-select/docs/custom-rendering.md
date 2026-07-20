@@ -160,6 +160,25 @@ classes / data-attributes to its options.
   render in place of the default `<select>`, otherwise the host's
   CSS class hook is gone.
 
+### The placeholder option is a base-class contract
+
+The base class renders a leading
+`<option class="theme-select-option theme-select-placeholder" value="" selected>`
+and keeps `select.value` pinned to it, so the closed control always
+reads the placeholder word rather than the active theme name. A
+subclass that replaces the rendering replaces that too, and owns
+the consequences:
+
+- If your subclass keeps a `<select>`, render the same placeholder
+  option first and snap `select.value` back to `""` on change, or
+  the control's width will grow to the longest theme label again.
+- If your subclass renders something other than a `<select>` (a
+  swatch grid, a segmented control), the placeholder is not
+  meaningful — but you then own showing the active theme yourself,
+  which the base class deliberately does not do.
+- Either way, keep writing the chosen slug to `this.value`; that is
+  what drives the base class's apply lifecycle.
+
 ## Why subclassing, not slots
 
 Native HTML's `<slot>` element is a Shadow DOM mechanism. The

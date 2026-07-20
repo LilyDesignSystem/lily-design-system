@@ -34,10 +34,18 @@ A self-contained caller-style variant looks like:
   data-lily-theme-select-storage-key="{{ opts.storageKey | default('') }}"
   data-lily-theme-select-default-value="{{ opts.defaultValue | default('') }}"
 >
+  <option class="theme-select-option theme-select-placeholder" value="" selected>{{ opts.placeholder | default(opts.label) }}</option>
   {{ caller() if caller else "" }}
 </select>
 {% endmacro %}
 ```
+
+Keep the placeholder `<option>` as the first child even in a custom
+rendering: it is component-owned, and the client.js relies on it. On
+every change the client resets `select.value` to `""`, so without a
+`value=""` option to fall back to, the control would land on your
+first real option and the width guarantee would be lost. Your caller
+block supplies only the real options.
 
 Then in the template:
 

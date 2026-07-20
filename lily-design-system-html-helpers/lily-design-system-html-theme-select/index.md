@@ -13,6 +13,7 @@ comprehensive user guide. For topic deep-dives see
 - [Why this exists](#why-this-exists)
 - [Install](#install)
 - [Quick start](#quick-start)
+- [Rendered markup](#rendered-markup)
 - [How it works](#how-it-works)
 - [Default theme](#default-theme)
 - [Attributes](#attributes)
@@ -82,7 +83,8 @@ don't throw.
    `:root[data-theme="<slug>"]` (the convention every Lily theme
    uses).
 2. Place the custom element in your markup. It renders a
-   `<select>` with one `<option>` per theme on `connectedCallback`.
+   `<select>` with a leading placeholder `<option>` plus one
+   `<option>` per theme on `connectedCallback`.
 
 ```html
 <script type="module" src="/dist/theme-select.js"></script>
@@ -102,6 +104,40 @@ When the user selects `dark`, the element:
 - sets `data-theme="dark"` on `<html>`,
 - writes `"dark"` to `localStorage["lily-theme"]`,
 - dispatches `new CustomEvent("themechange", { detail: { theme: "dark" }, bubbles: true, composed: true })`.
+
+## Rendered markup
+
+The element renders this into its light DOM:
+
+```html
+<theme-select label="Theme" themes-url="/assets/themes/" themes="light,dark,abyss">
+    <select class="theme-select" aria-label="Theme" name="theme">
+        <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
+        <option class="theme-select-option" value="light">Light</option>
+        <option class="theme-select-option" value="dark">Dark</option>
+        <option class="theme-select-option" value="abyss">Abyss</option>
+    </select>
+</theme-select>
+```
+
+The first `<option>` is a component-owned placeholder. It stays
+selected: after every change the element snaps `select.value` back
+to `""`, so the **closed control always reads "Theme"** rather than
+the active theme name — which keeps it as narrow as one word. The
+real selection lives on the host's `value` attribute/property, and
+nothing downstream changes.
+
+Set `placeholder` to make that text differ from the accessible name:
+
+```html
+<theme-select label="Choose a theme" placeholder="Theme" ...></theme-select>
+```
+
+Because the select's own `value` is always `""`, read the selection
+from `el.value` (or the `themechange` detail) — never from the
+rendered `<select>`. Note that this also means the active theme is
+not announced to screen readers as the control's value; see
+[Accessibility](#accessibility).
 
 ## How it works
 
@@ -150,6 +186,7 @@ Highlights:
 | Attribute       | Type           | Required | Notes                                      |
 | --------------- | -------------- | -------- | ------------------------------------------ |
 | `label`         | string         | yes      | `aria-label` on the rendered `<select>`.   |
+| `placeholder`   | string         | no       | Text of the always-shown placeholder option; defaults to `label`. |
 | `themes-url`    | string         | yes      | Trailing `/` is auto-added.                |
 | `themes`        | string (CSV)   | yes      | Available slugs, e.g. `"light,dark"`.      |
 | `value`         | string         | no       | Currently selected slug.                   |
@@ -251,9 +288,14 @@ before first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
   and `aria-label={label}`.
 - The native `<select>` gives Tab / Arrow / typeahead semantics for
   free; the select does not override any keyboard behaviour.
-- The active state is exposed in three independent channels:
-  the selected `<option>`, `data-theme` on the root, and the
-  `value` attribute. No colour-only meaning is required.
+- The active state is exposed via `data-theme` on the root and the
+  host's `value` attribute. No colour-only meaning is required.
+- **Tradeoff:** because the closed control always reads the
+  placeholder, the active theme is *not* announced as the combobox
+  value. Screen-reader users lose the one place the current
+  selection used to be spoken. Where that matters, surface the
+  active theme in visible text or a polite `role="status"` region —
+  see [`docs/accessibility.md`](./docs/accessibility.md).
 - WCAG 2.2 AAA is the target; visible focus styling is the
   consumer's CSS responsibility.
 

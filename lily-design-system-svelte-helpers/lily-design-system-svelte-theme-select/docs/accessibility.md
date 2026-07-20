@@ -60,13 +60,42 @@ The select performs no animation. Theme CSS files are responsible for
 respecting `prefers-reduced-motion` if they introduce transitions on
 the `data-theme` swap.
 
+## The placeholder tradeoff
+
+The closed control always displays the placeholder option
+(`placeholder ?? label`, e.g. "Theme") rather than the active theme
+name, so that it stays as narrow as that one word.
+
+The cost is real and worth stating plainly: **a screen-reader user does
+not hear the active theme announced as the combobox value**, and no
+option in the open list is marked as the selected one. The control
+reads as "Theme, pop-up button, Theme" whichever theme is active.
+
+Where knowing the current theme matters, surface it outside the
+control:
+
+```svelte
+<ThemeSelect label="Theme" {themesUrl} {themes} bind:value onChange={announce} />
+<p aria-live="polite">{`Active theme: ${value}`}</p>
+```
+
+or render visible text next to the select. The `value` prop is always
+the active theme, so either is a few lines.
+
+If your context needs the standard announce-the-selection behaviour
+more than it needs the narrow control, use the `children` snippet to
+render your own options and omit the placeholder — but note the
+component still pins its own selection to the placeholder, so you would
+be better served by the plain headless `ThemeSelect` container in
+`lily-design-system-svelte-headless`.
+
 ## Screen-reader smoke test
 
 - VoiceOver (macOS) announces the control as "{label}, pop-up button"
-  and each option as "{labelFor(slug)}, selected / N of M".
-- NVDA announces "{label} combo box" and each option similarly.
-- Selection changes are announced because the underlying control
-  value changes.
+  and the placeholder as the current value.
+- NVDA announces "{label} combo box" similarly.
+- Selection changes are **not** announced via the control's value — see
+  the tradeoff above.
 
 ## Common mistakes to avoid
 

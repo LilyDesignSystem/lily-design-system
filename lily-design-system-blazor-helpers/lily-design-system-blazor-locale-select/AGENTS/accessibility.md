@@ -42,10 +42,17 @@ handlers — it doesn't need to.
 The active state is exposed in independent channels — no
 colour-only meaning is required:
 
-1. The `<select>`'s implicit selected-option state.
-2. `lang="<tag>"` on the document root.
-3. `dir="rtl|ltr"` on the root (skipped if `ApplyDir=false`).
-4. The `@bind-Value` binding in user code.
+1. `lang="<tag>"` on the document root.
+2. `dir="rtl|ltr"` on the root (skipped if `ApplyDir=false`).
+3. The `@bind-Value` binding in user code.
+
+Note what is *not* in that list: the `<select>`'s own value. A
+component-owned placeholder option is always the selected one, so the
+closed control reads `Placeholder ?? Label` rather than the active
+locale — which means screen readers do not announce the active locale
+as the combobox value. Consumers who need it announced should surface
+it in visible text (with its own `lang`) or a polite live region. See
+[`../docs/accessibility.md`](../docs/accessibility.md#the-placeholder-tradeoff).
 
 ## Per-option `lang` is important
 

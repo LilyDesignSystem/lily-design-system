@@ -93,14 +93,16 @@ export function matchNavigatorLanguage(
       class="locale-select {{ className() }}"
       [attr.aria-label]="label() || null"
       [name]="name()"
-      (change)="onInputChange($any($event.target).value)"
+      (change)="onSelectChange($event)"
     >
+      <option class="locale-select-option locale-select-placeholder" value="" selected>{{
+        placeholder() || label()
+      }}</option>
       @for (locale of locales(); track locale) {
         <option
           class="locale-select-option"
           [attr.lang]="tagFor(locale)"
           [value]="locale"
-          [selected]="value() === locale"
         >{{ labelFor(locale) }}</option>
       }
     </select>
@@ -108,6 +110,12 @@ export function matchNavigatorLanguage(
 })
 export class LocaleSelect {
   readonly label = input.required<string>();
+  /**
+   * Text of the always-displayed placeholder option. The closed
+   * `<select>` shows this instead of the selected locale name, so the
+   * control stays as narrow as this word. Defaults to `label`.
+   */
+  readonly placeholder = input<string>("");
   readonly locales = input.required<string[]>();
   readonly value = model<string>("");
   readonly defaultValue = input<string>("");
@@ -183,8 +191,20 @@ export class LocaleSelect {
     return bcp47LocaleTag(locale);
   }
 
-  onInputChange(next: string): void {
-    this.value.set(next);
+  /**
+   * The `<select>` is never bound to `value`: its own selection snaps back
+   * to the placeholder option after every change, so the closed control
+   * always reads `placeholder() || label()` rather than the active locale
+   * name. The real selection lives in the `value` model signal.
+   *
+   * The event is not stopped, so a consumer binding `(change)` on the host
+   * element still receives it — `change` bubbles out of the inner select.
+   */
+  onSelectChange(event: Event): void {
+    const el = event.target as HTMLSelectElement;
+    const chosen = el.value;
+    el.value = "";
+    if (chosen) this.value.set(chosen);
   }
 
   private applyLocale(code: string): void {

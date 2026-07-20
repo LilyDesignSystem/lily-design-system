@@ -55,6 +55,7 @@ import {
 | Attribute               | Type            | Required | Default                                  |
 | ----------------------- | --------------- | -------- | ---------------------------------------- |
 | `label`                 | `string`        | yes      | —                                        |
+| `placeholder`           | `string`        | no       | value of `label`                         |
 | `locales`               | `string` (CSV)  | yes      | —                                        |
 | `value`                 | `string`        | no       | `""`                                     |
 | `default-value`         | `string`        | no       | resolves to `"en"` or `locales[0]`       |
@@ -75,6 +76,7 @@ follows HTML: presence is truthy unless the literal value is
 | Property                  | Type                     | Notes                                              |
 | ------------------------- | ------------------------ | -------------------------------------------------- |
 | `el.label`                | `string`                 | round-trips with `label`                           |
+| `el.placeholder`          | `string`                 | round-trips with `placeholder`; falls back to `el.label` |
 | `el.locales`              | `string[]`               | CSV-encoded in `locales`                           |
 | `el.value`                | `string`                 | round-trips with `value` (consumer-form code)      |
 | `el.defaultValue`         | `string`                 | round-trips with `default-value`                   |
@@ -162,15 +164,23 @@ Rendered children (recreated on every `#render()`):
 
 ```html
 <select class="locale-select {class}" aria-label="{label}" name="{name}">
+    <option class="locale-select-option locale-select-placeholder" value="" selected>{placeholder ?? label}</option>
     <option class="locale-select-option" value="en" lang="en">English</option>
-    <option class="locale-select-option" value="fr" lang="fr" selected>French</option>
+    <option class="locale-select-option" value="fr" lang="fr">French</option>
     <option class="locale-select-option" value="ar" lang="ar">Arabic</option>
 </select>
 ```
 
-Each `<option>` carries `lang="{tagFor(locale)}"` (BCP 47 hyphen
-form) so assistive technology pronounces the option name in its own
-language (WCAG 3.1.2, Language of Parts).
+Each locale `<option>` carries `lang="{tagFor(locale)}"` (BCP 47
+hyphen form) so assistive technology pronounces the option name in
+its own language (WCAG 3.1.2, Language of Parts). The placeholder
+carries no `lang`: it is UI copy in the page language.
+
+The leading placeholder is component-owned and is the only option
+ever marked `selected`. The `<select>`'s own `value` is always `""`:
+the `change` handler reads the chosen code, resets `select.value` to
+`""`, then assigns `this.value`. Read the selection from `el.value`
+or the `localechange` detail, never from the rendered `<select>`.
 
 Document mutations (only inside `connectedCallback` /
 `attributeChangedCallback`):

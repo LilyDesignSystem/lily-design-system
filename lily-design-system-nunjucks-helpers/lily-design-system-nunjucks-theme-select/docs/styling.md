@@ -10,7 +10,8 @@ exposes.
 | ----------------------------------------- | ------------------------------------ |
 | `.theme-select`                           | The root `<select>`.                 |
 | `.theme-select.{classes}`                 | Both classes when `opts.classes` is set. |
-| `.theme-select > .theme-select-option`    | Each `<option>`.                     |
+| `.theme-select > .theme-select-option`    | Each `<option>`, including the placeholder. |
+| `.theme-select-placeholder`               | The always-displayed leading placeholder `<option>` (`value=""`). |
 
 If you use the `{% call %}` caller block, only `.theme-select` is
 guaranteed on the root; the inner classes are up to your markup.
@@ -29,6 +30,12 @@ Drop into the consumer's app stylesheet:
 
 ```css
 .theme-select {
+    /* The closed control always shows the placeholder word, so it can be
+       sized to that word instead of to the longest theme name. */
+    field-sizing: content;  /* Chrome 123+: size to the shown option */
+    width: auto;
+    max-width: 12ch;        /* fallback for Firefox / Safari */
+
     padding: 0.25rem 0.5rem;
     border: 1px solid var(--theme-color-base-300, currentColor);
     border-radius: var(--theme-radius-selector, 0.25rem);

@@ -185,8 +185,9 @@ export class Settings {
 
 During server rendering, the `effect()` callback may run but the
 `typeof document` guard prevents DOM mutation. The template renders
-the `<select>` with whatever `value` was passed selected; `lang`
-and `dir` attributes are not written to `<html>` server-side.
+the `<select>` with its placeholder option selected regardless of
+`value`; `lang` and `dir` attributes are not written to `<html>`
+server-side.
 
 That's the recipe for flicker-free SSR: pre-resolve the locale on
 the server, bridge it via an injection token, and use it as the

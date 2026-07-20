@@ -3,6 +3,50 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING)
+
+- The closed `<select>` now always reads a placeholder word instead
+  of the active locale name, so the control stays as narrow as that
+  word. The element renders a component-owned placeholder
+  `<option class="locale-select-option locale-select-placeholder" value="" selected>`
+  as the first child of the `<select>`, before the real options and
+  before any consumer-supplied custom option rendering. The
+  placeholder carries no `lang` — it is not a locale.
+- **DOM contract change**: the `<select>` now has
+  `locales.length + 1` options (was `locales.length`), and the
+  option `value` list is `["", ...locales]` (was `locales`).
+  Per-option `lang` assertions shift by one index.
+- **DOM contract change**: the rendered `<select>`'s own `value` is
+  always `""` and no longer tracks the selection. On `change` the
+  element reads the chosen code, snaps `select.value` back to `""`,
+  and assigns the host's `value`. Read the selection from
+  `el.value` or the `localechange` detail — never from the rendered
+  `<select>`.
+- **Accessibility tradeoff**: a screen-reader user no longer hears
+  the active locale announced as the combobox value. Consumers who
+  need it should surface the active locale in visible text or a
+  polite live region — see `docs/accessibility.md`. The target's
+  `lang` / `dir` are still written, so AT pronunciation is
+  unaffected.
+
+### Added
+
+- `placeholder` attribute / property (optional, string). Text of the
+  placeholder option; defaults to `label`, keeping the package free
+  of hardcoded user-facing strings. Observed, so changing it
+  re-renders.
+- `index.md` documents the `.locale-select-placeholder` class hook
+  and a `field-sizing: content` / `max-width` width recipe.
+
+### Unchanged
+
+- `value` remains the real selection; `lang` / `dir` application,
+  `localStorage` persistence, navigator detection, the
+  `localechange` event, and initial-value resolution all behave
+  exactly as before.
+
 ## 0.2.0 — 2026-07-03
 
 ### Changed (BREAKING)

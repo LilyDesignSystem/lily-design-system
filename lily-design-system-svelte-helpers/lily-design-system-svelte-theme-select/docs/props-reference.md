@@ -7,7 +7,25 @@ common usage.
 ## `label` — required, string
 
 `aria-label` on the `<select>`. Always supplied, always translatable.
-Screen readers announce it as the control's accessible name.
+Screen readers announce it as the control's accessible name. Also the
+default text of the placeholder option — see `placeholder` below.
+
+## `placeholder` — optional, string, defaults to `label`
+
+Text of the leading placeholder `<option>`. The `<select>` pins its own
+selection to that option, so the closed control always displays this
+string rather than the active theme name — which is what keeps the
+control as narrow as one word instead of as wide as the longest theme
+name.
+
+Supply it when the accessible name and the visible word should differ,
+e.g. `label="Choose a colour theme"` with `placeholder="Theme"`. Like
+every user-facing string in this package it comes from the consumer;
+nothing is hardcoded.
+
+The active theme remains in the bindable `value` prop. See
+[accessibility.md](./accessibility.md) for the announcement tradeoff
+this creates and how to compensate.
 
 ## `themesUrl` — required, string
 

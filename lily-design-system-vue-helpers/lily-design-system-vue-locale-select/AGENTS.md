@@ -42,15 +42,25 @@ BCP 47 hyphen form of the code, (2) sets `target.dir` to `"rtl"` /
 consumer-form code. SSR-safe — all DOM writes happen inside
 `onMounted` / `watch`. Initial value resolves from `value` > storage >
 navigator detection (if enabled) > `defaultValue` > `"en"` (if
-present) > `locales[0]`.
+present) > `locales[0]`. The `<select>` element's own value is never
+bound to the selection: on `change` the component reads the chosen
+code, resets `select.value = ""` so the closed control keeps showing
+the placeholder, and then applies the code. The real selection lives
+in `value` / `v-model:value`.
 
 ## HTML
 
 `<select class="locale-select {class}" aria-label="{label}"
-name="{name}">` with one native `<option>` per locale code. Each
-option carries `lang="{tagFor(…)}"` so its name is pronounced in its
-own language. Custom rendering via the default scoped slot receiving
-`{ locales, value, setLocale, name, labelFor, tagFor, isRtl }`.
+name="{name}">` whose first child is always a component-owned
+`<option class="locale-select-option locale-select-placeholder"
+value="" selected>{placeholder ?? label}</option>`, followed by one
+native `<option>` per locale code. Each locale option carries
+`lang="{tagFor(…)}"` so its name is pronounced in its own language;
+the placeholder carries no `lang`. Custom rendering via the default
+scoped slot receiving
+`{ locales, value, setLocale, name, labelFor, tagFor, isRtl }` — the
+placeholder is rendered outside the slot, so it survives custom
+rendering.
 
 ## Accessibility
 

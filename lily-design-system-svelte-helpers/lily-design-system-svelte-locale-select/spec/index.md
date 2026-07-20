@@ -107,6 +107,7 @@ Give a Svelte 5 application a drop-in, headless locale select that:
 | Prop                | Type                                  | Required | Default                  | Purpose |
 | ------------------- | ------------------------------------- | -------- | ------------------------ | ------- |
 | `label`             | `string`                              | yes      | —                        | Accessible name for the `<select>`. |
+| `placeholder`       | `string`                              | no       | the `label` value        | Text of the always-displayed placeholder option. The closed control shows this rather than the active locale name. |
 | `locales`           | `string[]`                            | yes      | —                        | Available locale codes (e.g. `["en", "en_US", "fr", "ar"]`). |
 | `value`             | `string` (bindable)                   | no       | `""`                     | Currently selected locale code. |
 | `defaultValue`      | `string`                              | no       | `"en"` if present in `locales`, else first item | Initial locale when nothing else is supplied. |
@@ -146,9 +147,25 @@ type ChildArgs = {
 
 - Root element: `<select class="locale-select {class}"
   aria-label="{label}" name="{name}">`.
+- First child, always present: `<option class="locale-select-option
+  locale-select-placeholder" value="" selected>{placeholder ?? label}</option>`.
+  It is component-owned and is emitted in both the default and the
+  custom-`children` rendering paths. It is not a locale, so it carries no
+  `lang` attribute.
 - Default children: one `<option class="locale-select-option"
   value="{locale}" lang="{tagFor(locale)}">{labelFor(locale)}</option>`
-  per locale code.
+  per locale code, following the placeholder.
+- **The `<select>` is not bound to `value`.** Its own DOM selection stays
+  pinned to the placeholder, so the closed control always reads
+  `placeholder ?? label` and is only ever as wide as that word — never as
+  wide as the longest locale name. On `change` the component reads the
+  chosen code, resets the element's `value` to `""`, and writes the code
+  to the bindable `value` prop. `value` remains the single source of
+  truth for the active locale; every downstream behaviour (`lang`, `dir`,
+  persistence, `onChange`) is driven from it and is unchanged.
+- Width is a consumer-CSS concern; this package still ships zero CSS. See
+  `docs/styling.md` for the `field-sizing` recipe, and the root
+  `themes/` stylesheets for the shipped implementation.
 - Each option carries `lang="{tagFor(locale)}"` so assistive technology
   pronounces the option text in the appropriate language even when the
   document language differs.
@@ -359,10 +376,20 @@ run under vitest + jsdom + `@testing-library/svelte`.
 
 1. Renders a `<select>` (implicit `combobox` role).
 2. `aria-label` is the supplied `label`.
-3. Renders one `<option>` per entry in `locales`; the `<select>`
-   carries the supplied `name` attribute.
-4. Each option's `value` attribute is the locale code.
-5. Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form).
+3. Renders one placeholder `<option>` plus one `<option>` per entry in
+   `locales`; the `<select>` carries the supplied `name` attribute.
+4. Each option's `value` attribute is the locale code, following the
+   placeholder option whose `value` is `""`.
+4a. The placeholder option carries the classes `locale-select-option
+    locale-select-placeholder`, renders `placeholder ?? label` as its
+    text, and remains the element's own selection (`select.value === ""`)
+    even after a locale has been applied.
+4b. The `placeholder` prop, when supplied, overrides `label` as the
+    placeholder text without changing the `aria-label`.
+4c. Choosing an option applies that locale and snaps the element's own
+    selection back to the placeholder.
+5. Each locale option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen
+   form). The placeholder option carries no `lang`.
 6. The default rendering shows `localeLabels[code]
    ?? defaultLocaleLabels[code] ?? code` as the visible option text.
 

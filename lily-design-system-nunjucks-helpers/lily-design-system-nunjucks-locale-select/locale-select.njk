@@ -7,6 +7,10 @@
 
   Params (single `opts` object):
     label                — string, required. aria-label for the <select>.
+    placeholder          — string. Text of the always-displayed placeholder
+                           option. The closed <select> shows this instead of
+                           the selected locale name, so the control stays as
+                           narrow as this word. Defaults to `label`.
     locales              — array<string>, required. Available locale codes.
     value                — string. Initial selected code (rendered checked).
     defaultValue         — string. Initial code when nothing else is supplied.
@@ -33,6 +37,7 @@
 {%- set detectFromNavigator = opts.detectFromNavigator | default(false) -%}
 {%- set applyDir = opts.applyDir if opts.applyDir is sameas(false) else true -%}
 {%- set localeLabels = opts.localeLabels | default({}) -%}
+{%- set placeholder = opts.placeholder | default(opts.label) -%}
 <select
   class="locale-select{% if opts.classes %} {{ opts.classes }}{% endif %}"
   aria-label="{{ opts.label }}"
@@ -45,6 +50,7 @@
   data-lily-locale-select-apply-dir="{{ 'true' if applyDir else 'false' }}"
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
+<option class="locale-select-option locale-select-placeholder" value="" selected>{{ placeholder }}</option>
 {%- for locale in opts.locales -%}
   {%- set tag = locale | replace("_", "-") -%}
   <option class="locale-select-option" value="{{ locale }}" lang="{{ tag }}"{% if value == locale %} selected{% endif %}>

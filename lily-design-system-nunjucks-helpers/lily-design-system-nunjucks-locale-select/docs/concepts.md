@@ -37,8 +37,10 @@ The select:
 - Renders semantic HTML (`<select>` + `<option>`) — a native combobox
   whose role and keyboard semantics the browser provides.
 - Carries a stable kebab-case class hook (`locale-select` on the
-  `<select>`, `locale-select-option` on each `<option>`) so your CSS
-  can target it without prefixes or specificity tricks.
+  `<select>`, `locale-select-option` on each `<option>`, plus
+  `locale-select-placeholder` on the leading placeholder option) so
+  your CSS can target it without prefixes or specificity tricks. See
+  [styling.md](./styling.md).
 - Ships **no** colour, spacing, typography, font, icon, or animation
   decisions. You supply all of that.
 - Ships **no** translated strings. The `label` opt and `localeLabels`

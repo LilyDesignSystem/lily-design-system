@@ -14,6 +14,12 @@ export type ThemeSelectChangeDetail = {
 /** Mirrors the observed attributes / properties for typing convenience. */
 export type ThemeSelectProps = {
     label: string;
+    /**
+     * Text of the always-displayed placeholder option. The closed
+     * `<select>` shows this instead of the selected theme name, so the
+     * control stays as narrow as this word. Defaults to `label`.
+     */
+    placeholder?: string;
     themesUrl: string;
     themes: string[];
     value?: string;
@@ -41,6 +47,7 @@ export class ThemeSelect extends HTMLElement {
     static get observedAttributes(): string[] {
         return [
             "label",
+            "placeholder",
             "themes-url",
             "themes",
             "value",
@@ -66,6 +73,18 @@ export class ThemeSelect extends HTMLElement {
     }
     set label(v: string) {
         this.setAttribute("label", v);
+    }
+
+    /**
+     * Placeholder text for the always-displayed first option. Falls back
+     * to `label` so no hardcoded user-facing string is ever emitted.
+     */
+    get placeholder(): string {
+        return this.getAttribute("placeholder") ?? this.label;
+    }
+    set placeholder(v: string) {
+        if (v) this.setAttribute("placeholder", v);
+        else this.removeAttribute("placeholder");
     }
 
     get themesUrl(): string {
@@ -187,6 +206,7 @@ export class ThemeSelect extends HTMLElement {
                 if (this.isConnected && value) this.#applyTheme(value);
                 break;
             case "label":
+            case "placeholder":
             case "name":
             case "class":
                 this.#render();
@@ -282,18 +302,31 @@ export class ThemeSelect extends HTMLElement {
         select.setAttribute("aria-label", this.label);
         select.name = this.name;
 
-        const current = this.value;
+        // The placeholder is component-owned and always the first child.
+        // It stays selected so the closed control reads the placeholder
+        // word rather than the active theme name.
+        const placeholder = document.createElement("option");
+        placeholder.className = "theme-select-option theme-select-placeholder";
+        placeholder.value = "";
+        placeholder.textContent = this.placeholder;
+        placeholder.selected = true;
+        select.appendChild(placeholder);
+
         for (const theme of this.#themes) {
             const option = document.createElement("option");
             option.className = "theme-select-option";
             option.value = theme;
             option.textContent = this.#labelFor(theme);
-            if (current === theme) option.selected = true;
             select.appendChild(option);
         }
 
+        // The `<select>` never tracks `value`: its own selection snaps back
+        // to the placeholder after every change. The real selection lives
+        // on this element's `value` property/attribute.
         select.addEventListener("change", () => {
-            this.value = select.value;
+            const chosen = select.value;
+            select.value = "";
+            if (chosen) this.value = chosen;
         });
 
         this.replaceChildren(select);

@@ -47,6 +47,7 @@ import {
 | Attribute       | Type            | Required | Default                                          |
 | --------------- | --------------- | -------- | ------------------------------------------------ |
 | `label`         | `string`        | yes      | —                                                |
+| `placeholder`   | `string`        | no       | value of `label`                                 |
 | `themes-url`    | `string`        | yes      | —                                                |
 | `themes`        | `string` (CSV)  | yes      | —                                                |
 | `value`         | `string`        | no       | `""`                                             |
@@ -66,6 +67,7 @@ guarantees behaviour when all three are set.
 | Property          | Type                     | Notes                                              |
 | ----------------- | ------------------------ | -------------------------------------------------- |
 | `el.label`        | `string`                 | round-trips with `label` attribute                 |
+| `el.placeholder`  | `string`                 | round-trips with `placeholder`; falls back to `el.label` |
 | `el.themesUrl`    | `string`                 | round-trips with `themes-url`                      |
 | `el.themes`       | `string[]`               | CSV-encoded in the `themes` attribute              |
 | `el.value`        | `string`                 | round-trips with `value`                           |
@@ -160,10 +162,17 @@ Rendered children (recreated on every `#render()`):
 
 ```html
 <select class="theme-select {class}" aria-label="{label}" name="{name}">
+    <option class="theme-select-option theme-select-placeholder" value="" selected>{placeholder ?? label}</option>
     <option class="theme-select-option" value="light">Light</option>
     <option class="theme-select-option" value="dark">Dark</option>
 </select>
 ```
+
+The leading placeholder is component-owned and is the only option
+ever marked `selected`. The `<select>`'s own `value` is always `""`:
+the `change` handler reads the chosen slug, resets `select.value` to
+`""`, then assigns `this.value`. Read the selection from `el.value`
+or the `themechange` detail, never from the rendered `<select>`.
 
 Document mutations (only inside `connectedCallback` /
 `attributeChangedCallback`):

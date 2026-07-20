@@ -79,6 +79,7 @@ Give a Blazor application a drop-in, headless theme select that:
 | Parameter      | Type                                | Required | Default                       | Purpose |
 | -------------- | ----------------------------------- | -------- | ----------------------------- | ------- |
 | `Label`        | `string`                            | yes      | —                             | Accessible name for the select. |
+| `Placeholder`  | `string?`                           | no       | `Label`                       | Text of the always-displayed placeholder option. The closed `<select>` shows this instead of the selected theme name, so the control stays as narrow as this word. |
 | `ThemesUrl`    | `string`                            | yes      | —                             | Base URL of the themes directory. Trailing `/` is auto-normalised. |
 | `Themes`       | `IReadOnlyList<string>`             | yes      | —                             | Available theme slugs. |
 | `Value`        | `string`                            | no       | `""`                          | Currently selected theme slug. Two-way bindable via `@bind-Value`. |
@@ -110,10 +111,29 @@ public sealed class ThemeSelectContext
 
 - Root element: `<select class="theme-select {CssClass}"
   aria-label="{Label}" name="{Name}">`.
-- Default children: one
+- **First child, always:** a component-owned placeholder option
+
+  ```html
+  <option class="theme-select-option theme-select-placeholder" value="" selected>
+    {Placeholder ?? Label}
+  </option>
+  ```
+
+  It precedes the real options in BOTH the default and the
+  `ChildContent` code paths, and it is the only option ever marked
+  `selected`.
+- Default children after the placeholder: one
   `<option class="theme-select-option" value="{slug}">{LabelFor(slug)}</option>`
-  per theme slug. The selected option is the one whose value equals
-  `Value`.
+  per theme slug. Real options are never marked `selected` — the
+  `<select>`'s own DOM value does not track `Value`.
+- **Snap-back:** on `change` the component reads the chosen slug, resets
+  the live element's value to `""` (`Object.assign(el, { value: "" })`
+  through `IJSRuntime`, wrapped in try/catch so prerender is safe), and
+  only then applies the slug. The closed control therefore always reads
+  `Placeholder ?? Label`; the real selection lives in `Value`, which
+  remains two-way bindable. `data-theme` application, the `<link>` swap,
+  `localStorage` persistence, `OnChange` / `ValueChanged`, and
+  initial-value resolution are all unchanged.
 - `LabelFor(slug)` returns `ThemeLabels[slug]` when supplied;
   otherwise the slug with its first character upper-cased. The select
   never emits the word "default".
@@ -221,9 +241,11 @@ run under bUnit + xUnit.
 
 1. Renders a `<select>`.
 2. `aria-label` is the supplied `Label`.
-3. Renders one `<option>` per entry in `Themes`; the `<select>` carries
-   the supplied `Name` attribute.
-4. Each `<option>`'s `value` attribute is the theme slug.
+3. Renders one `<option>` per entry in `Themes`, plus the leading
+   placeholder option (so `Themes.Count + 1` options); the `<select>`
+   carries the supplied `Name` attribute.
+4. Each theme `<option>`'s `value` attribute is the theme slug, after
+   the leading placeholder whose value is `""`.
 5. The default rendering shows `ThemeLabels[slug]` when supplied, or
    the slug with its first character upper-cased otherwise (e.g.
    `"light"` → `"Light"`). The word `"default"` never appears.
@@ -246,6 +268,15 @@ run under bUnit + xUnit.
     onto the `<select>` (e.g. `data-testid`).
 13. A custom `ChildContent` render fragment renders custom `<option>`
     elements with `ThemeSelectContext`.
+14. The placeholder option is the first child of the `<select>`, carries
+    `class="theme-select-option theme-select-placeholder"`, `value=""`,
+    and the text `Label`; it is the only option marked `selected`; and
+    the resolved initial theme is still applied.
+15. When `Placeholder` is supplied it overrides `Label` as the
+    placeholder text, while `aria-label` still carries `Label`.
+16. Choosing an option applies the chosen theme AND snaps the select
+    back to the placeholder: the live element's value is reset through
+    interop, and the placeholder remains the only `selected` option.
 
 ## 8. Out-of-scope (future, not implemented here)
 

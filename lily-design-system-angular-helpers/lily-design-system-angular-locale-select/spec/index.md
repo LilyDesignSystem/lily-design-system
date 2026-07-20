@@ -83,6 +83,7 @@ Give an Angular 20 application a drop-in, headless locale select that:
 | Input / output        | Type                                | Required | Default                          | Purpose |
 | --------------------- | ----------------------------------- | -------- | -------------------------------- | ------- |
 | `label`               | `input.required<string>()`          | yes      | —                                | Accessible name for the `<select>`. |
+| `placeholder`         | `input<string>()`                   | no       | `""` (→ falls back to `label`)   | Text of the always-displayed placeholder option. The closed control shows this rather than the active locale name. |
 | `locales`             | `input.required<string[]>()`        | yes      | —                                | Available locale codes. |
 | `value`               | `model<string>()`                   | no       | `""`                             | Currently selected locale code. Two-way bindable. |
 | `defaultValue`        | `input<string>()`                   | no       | `""`                             | Initial locale when nothing else is supplied. |
@@ -99,11 +100,30 @@ Give an Angular 20 application a drop-in, headless locale select that:
 
 - Root element: `<select class="locale-select {className}"
   [attr.aria-label]="label" [name]="name">`.
+- First child, always present: `<option class="locale-select-option
+  locale-select-placeholder" value="" selected>{{ placeholder() ||
+  label() }}</option>`. It is component-owned. It is not a locale, so
+  it carries no `lang` attribute.
 - Default children: one `<option class="locale-select-option"
   [value]="locale" [attr.lang]="tagFor(locale)">{{ labelFor(locale)
-  }}</option>` per locale code.
-- Each option carries `lang="{tagFor(locale)}"` so assistive
+  }}</option>` per locale code, following the placeholder.
+- Each locale option carries `lang="{tagFor(locale)}"` so assistive
   technology pronounces option text in the appropriate language.
+- **The `<select>` is not bound to `value`.** No real option carries a
+  `[selected]` binding; the element's own DOM selection stays pinned to
+  the placeholder, so the closed control always reads
+  `placeholder() || label()` and is only ever as wide as that word —
+  never as wide as the longest locale name. On `change` the component
+  reads the chosen code, resets the element's `value` to `""`, and
+  writes the code to the `value` model signal. `value` remains the
+  single source of truth for the active locale; every downstream
+  behaviour (`lang`, `dir`, persistence, `localeChange`) is driven from
+  it and is unchanged.
+- The `change` event is not stopped, so a consumer binding `(change)`
+  on the host `<lily-locale-select>` still receives it — `change`
+  bubbles out of the inner `<select>`.
+- Width is a consumer-CSS concern; this package still ships zero CSS.
+  See the root `themes/` stylesheets for the shipped implementation.
 - `lang="{tagFor(locale)}"` is set on the `target` element on every
   apply.
 - If `applyDir` is true, `dir="rtl"` or `dir="ltr"` is set on the
@@ -242,10 +262,12 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
 
 1. Renders a `<select>` (implicit `combobox` role).
 2. `aria-label` is the supplied `label`.
-3. Renders one `<option>` per entry in `locales`; the `<select>`
-   carries the supplied `name` attribute.
-4. Each option's `value` attribute is the locale code.
-5. Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form).
+3. Renders one placeholder `<option>` plus one `<option>` per entry in
+   `locales`; the `<select>` carries the supplied `name` attribute.
+4. Each option's `value` attribute is the locale code, following the
+   placeholder option whose `value` is `""`.
+5. Each locale option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen
+   form). The placeholder option carries no `lang`.
 6. The default rendering shows `localeLabels[code]
    ?? defaultLocaleLabels[code] ?? code` as the visible option text.
 
@@ -293,6 +315,18 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
 23. An `<option>` rendered through the default template receives
     `lang="{tagFor(locale)}"` (validates that `tagFor` works for
     underscored codes).
+
+### 7.6 Always-displayed placeholder (mirrors §4.2)
+
+24. The placeholder option carries the classes `locale-select-option
+    locale-select-placeholder`, renders `placeholder() || label()` as
+    its text, has `value === ""`, and remains the element's own
+    selection (`select.value === ""`) even after a locale has been
+    applied.
+25. The `placeholder` input, when supplied, overrides `label` as the
+    placeholder text without changing the `aria-label`.
+26. Choosing an option applies that locale and snaps the element's own
+    selection back to the placeholder.
 
 ## 8. Out-of-scope (future, not implemented here)
 

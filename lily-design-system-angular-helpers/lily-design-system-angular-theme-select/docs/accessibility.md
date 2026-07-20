@@ -34,12 +34,43 @@ Provided entirely by the platform's native `<select>`:
 
 ## State signals
 
-The active state is exposed in three independent channels — no
+The active state is exposed in two independent channels — no
 colour-only meaning is required:
 
-1. The selected `<option>` in the `<select>`.
-2. `data-theme="<slug>"` on the target element (default `<html>`).
-3. The `[(value)]` two-way binding in user code.
+1. `data-theme="<slug>"` on the target element (default `<html>`).
+2. The `[(value)]` two-way binding (and the `themeChange` output) in
+   user code.
+
+## Tradeoff: the closed control does not announce the active theme
+
+The `<select>` always displays its leading placeholder option, so its
+own `value` is permanently `""` and the active theme is *not* one of
+those channels. This keeps the control narrow, but it costs something
+real: a screen-reader user focusing the control hears the accessible
+name and the placeholder word ("Theme"), **not** the theme currently
+in effect. The active theme is no longer discoverable from the
+combobox alone.
+
+Where that matters, surface the active selection elsewhere. Two
+recipes:
+
+```html
+<!-- 1. Visible text next to the control. Also helps sighted users. -->
+<lily-theme-select label="Theme" themesUrl="/t/" [themes]="themes"
+                   [(value)]="theme" />
+<span class="theme-active">{{ theme() }}</span>
+```
+
+```html
+<!-- 2. A polite live region announcing each change. Supply the
+        phrasing yourself so it stays translatable. -->
+<lily-theme-select label="Theme" themesUrl="/t/" [themes]="themes"
+                   (themeChange)="announce($event)" />
+<p role="status" aria-live="polite">{{ announcement() }}</p>
+```
+
+Prefer the visible-text recipe: it serves sighted, low-vision, and
+screen-reader users at once, and needs no live-region timing care.
 
 ## Internationalisation
 

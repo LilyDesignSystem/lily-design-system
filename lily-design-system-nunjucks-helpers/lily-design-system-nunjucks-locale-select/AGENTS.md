@@ -55,14 +55,20 @@ storage key, default value, navigator flag, and apply-dir flag. On
 navigator (when enabled) > default-value > `"en"` > first-option,
 (2) sets `target.lang = bcp47LocaleTag(code)`, (3) optionally sets
 `target.dir = isRtlLocale(code) ? "rtl" : "ltr"`, (4) optionally
-writes to `localStorage`, (5) selects the matching option (sets the
-`<select>` value), (6) calls `onChange(code)`.
+writes to `localStorage`, (5) snaps the `<select>` back to its
+placeholder option (`select.value = ""`), (6) calls `onChange(code)`.
+The `<select>`'s own value never tracks the active locale — on
+`change` the client reads the chosen code, resets the control to `""`,
+then applies.
 
 ## HTML
 
 `<select class="locale-select {classes}" aria-label="{label}"
-name="{name}" data-lily-locale-select-root …>` containing
-one `<option class="locale-select-option" value="{locale}"
+name="{name}" data-lily-locale-select-root …>` whose first child is
+the always-rendered placeholder `<option class="locale-select-option
+locale-select-placeholder" value="" selected>{placeholder ??
+label}</option>` (no `lang` — it is not a locale), followed by one
+`<option class="locale-select-option" value="{locale}"
 lang="{tagFor(locale)}">…</option>` per locale code.
 
 ## Accessibility

@@ -10,6 +10,12 @@
 
   This is the recipe for "use the select like v-model:value" without
   a framework.
+
+  Note: the <select> always displays its placeholder option and its
+  own `value` is always "", so it cannot itself carry the selection
+  into a form submit. That is exactly why this example writes the
+  slug into a hidden input from `onChange`, and why reading
+  `event.target.value` from your own change listener would not work.
 #}
 {% from "../theme-select.njk" import themeSelect %}
 

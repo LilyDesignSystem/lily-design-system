@@ -41,6 +41,7 @@ A consumer adds the namespace import once:
 | Parameter             | Type                                  | Required | Default                                            |
 | --------------------- | ------------------------------------- | -------- | -------------------------------------------------- |
 | `Label`               | `string`                              | yes      | `""`                                               |
+| `Placeholder`         | `string?`                             | no       | `null` (falls back to `Label`)                     |
 | `Locales`             | `IReadOnlyList<string>`               | yes      | `Array.Empty<string>()`                            |
 | `Value`               | `string`                              | no       | `""`                                               |
 | `ValueChanged`        | `EventCallback<string>`               | no       | —                                                  |

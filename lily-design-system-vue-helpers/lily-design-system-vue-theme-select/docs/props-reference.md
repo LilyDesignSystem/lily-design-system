@@ -9,6 +9,30 @@ rationale and common usage.
 `aria-label` on the `<select>`. Always supplied, always
 translatable. Screen readers announce it as the control's name.
 
+## `placeholder` — optional, string — defaults to `label`
+
+Text of the always-displayed placeholder option — the first
+`<option>` in the select, which carries `value=""` and the
+`.theme-select-placeholder` hook.
+
+The `<select>`'s own value is pinned to this option: after every
+change the component snaps `select.value` back to `""`, so the
+closed control always reads the placeholder word rather than the
+active theme name. That keeps the control as narrow as one word
+instead of growing to fit the longest theme name.
+
+Supply `placeholder` when the accessible name should be more
+descriptive than the visible word:
+
+```vue
+<ThemeSelect label="Choose a colour theme" placeholder="Theme" ... />
+```
+
+The active theme still lives in `v-model:value` and in `data-theme`
+on the target element — see
+[accessibility.md](./accessibility.md) for how to surface it to
+screen-reader users.
+
 ## `themesUrl` — required, string
 
 Base URL of the directory the theme CSS files are served from. A

@@ -16,6 +16,34 @@ translatable. Screen readers announce it as the control's name.
 The input is marked `input.required<string>()`, so the TypeScript
 compiler enforces it on every binding site.
 
+`label` also doubles as the default placeholder text — see
+`placeholder` below.
+
+## `placeholder` — optional, string, defaults to `label`
+
+Text of the leading placeholder `<option>`. The closed `<select>`
+always displays this option rather than the active theme name, so the
+control never widens to fit the longest theme in the list.
+
+```html
+<!-- The closed control reads "Theme"; the accessible name is
+     "Choose a theme". -->
+<lily-theme-select
+    label="Choose a theme"
+    placeholder="Theme"
+    themesUrl="/t/"
+    [themes]="themes"
+/>
+```
+
+When omitted, the placeholder text is the `label` value, so the
+package still emits no hardcoded user-facing string.
+
+Because the closed control no longer reads back the active theme, the
+element's own `value` is always `""`. Read the active theme from the
+`[(value)]` two-way binding or the `themeChange` output instead — see
+[`accessibility.md`](accessibility.md) for the screen-reader tradeoff.
+
 ## `themesUrl` — required, string
 
 Base URL of the directory the theme CSS files are served from. A

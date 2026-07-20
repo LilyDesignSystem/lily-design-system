@@ -61,8 +61,9 @@ A drop-in headless theme selector that **loads theme CSS dynamically at runtime*
 
 | Aspect | Contract |
 | ------ | -------- |
-| Markup | `<select class="theme-select {class}" aria-label="{label}" name="theme">` with one `<option class="theme-select-option" value="{slug}">` per theme. |
-| Required props | `label`, `themesUrl`, `themes`. |
+| Markup | `<select class="theme-select {class}" aria-label="{label}" name="theme">` with a leading `<option class="theme-select-option theme-select-placeholder" value="">{placeholder ?? label}</option>` followed by one `<option class="theme-select-option" value="{slug}">` per theme. |
+| Display | Placeholder-pinned: the element's own selection snaps back to the placeholder after every change, so the closed control always reads "Theme" and is only that wide — never as wide as the longest theme name. `selectEl.value` stays `""`; the bindable `value` prop is the active theme. Width is consumer CSS (`field-sizing: content` + a `max-width` fallback); the helper still ships zero CSS and the root `themes/` stylesheets carry the rule. |
+| Required props | `label`, `themesUrl`, `themes`. Optional `placeholder` defaults to `label`. |
 | CSS load | Mutates `href` on one managed `<link rel="stylesheet" data-lily-theme-select="{name}">` in `document.head`; only the active theme is fetched. URL is `normalise(themesUrl) + slug + extension`. Pairs with the root [`themes/`](../../themes/) directory of 45 reference stylesheets. |
 | Activation | Sets `data-theme="{slug}"` on `target` (defaults to `document.documentElement`). |
 | Persistence | Optional `localStorage[storageKey]`, written in try/catch so private-mode/quota errors are swallowed. |
@@ -76,7 +77,8 @@ A drop-in headless locale selector that applies a BCP 47 locale to the document.
 
 | Aspect | Contract |
 | ------ | -------- |
-| Markup | `<select class="locale-select {class}" aria-label="{label}">` with one `<option class="locale-select-option" value="{code}" lang="{bcp47}">` per locale code. |
+| Markup | `<select class="locale-select {class}" aria-label="{label}">` with a leading `<option class="locale-select-option locale-select-placeholder" value="">{placeholder ?? label}</option>` (no `lang`) followed by one `<option class="locale-select-option" value="{code}" lang="{bcp47}">` per locale code. |
+| Display | Placeholder-pinned: the element's own selection snaps back to the placeholder after every change, so the closed control always reads "Locale" and is only that wide — never as wide as the longest locale name. `selectEl.value` stays `""`; the bindable `value` prop is the active locale. Width is consumer CSS (`field-sizing: content` + a `max-width` fallback); the helper still ships zero CSS and the root `themes/` stylesheets carry the rule. |
 | Application | Sets `lang="…"` and `dir="ltr|rtl"` on the document root (or a consumer target); `applyDir` defaults to true. |
 | Direction | Auto-detects RTL for Arabic, Hebrew, Thaana, Mongolian (traditional), N'Ko, Syriac, and Adlam scripts. |
 | BCP 47 | Underscores in codes (`en_US`) are converted to hyphens (`en-US`) per RFC 5646 when written to `lang`; the consumer's original form round-trips losslessly. |
@@ -116,6 +118,8 @@ A drop-in headless text-size selector for reader-preference sizing.
 - [x] theme-select swaps a managed `<link>` href, sets `data-theme` on the document root, and persists optionally to `localStorage`, SSR-safe.
 - [x] locale-select sets `lang` + `dir`, auto-detects RTL scripts, emits BCP 47 hyphenated tags, and performs no translation.
 - [x] text-size-select sets `data-text-size` on the target and persists optionally.
+- [x] theme-select and locale-select are placeholder-pinned in all seven catalogs: a leading empty-valued placeholder option carries `placeholder ?? label`, the element's own selection snaps back to it on change, and the bindable `value` prop remains the active selection.
+- [x] The 45 root `themes/` stylesheets size `.theme-select` and `.locale-select` to the placeholder word via `field-sizing: content` with a `max-width` fallback.
 - [x] Helpers ship no bundled CSS, fonts, icons, or images and take no hardcoded user-facing strings.
 - [x] The svelte-helpers catalog is the canonical reference; the other six are idiom-faithful ports.
 - [x] Each `*-helpers` catalog and each helper is a git subtree with a standalone remote.

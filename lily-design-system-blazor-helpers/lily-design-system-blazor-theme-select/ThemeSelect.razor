@@ -16,8 +16,19 @@
 <select class="@RootClass"
         aria-label="@Label"
         name="@Name"
+        @ref="_selectElement"
         @onchange="OnSelectAsync"
         @attributes="AdditionalAttributes">
+    @*
+        The placeholder option is component-owned and is always the selected
+        option, so the closed <select> reads `Placeholder ?? Label` rather
+        than the active theme name. It is the first child in BOTH the
+        default and the custom-ChildContent code paths. The real selection
+        lives in `Value`, not in the <select>'s own DOM value.
+    *@
+    <option class="theme-select-option theme-select-placeholder"
+            value=""
+            selected>@PlaceholderText</option>
     @if (ChildContent is not null)
     {
         @ChildContent(BuildContext())
@@ -27,8 +38,7 @@
         @foreach (var theme in Themes)
         {
             <option class="theme-select-option"
-                    value="@theme"
-                    selected="@(Value == theme)">@LabelFor(theme)</option>
+                    value="@theme">@LabelFor(theme)</option>
         }
     }
 </select>

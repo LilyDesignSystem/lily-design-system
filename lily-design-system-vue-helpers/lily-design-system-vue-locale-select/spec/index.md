@@ -100,6 +100,7 @@ Give a Vue 3 application a drop-in, headless locale select that:
 | Prop                | Type                                  | Required | Default                  | Purpose |
 | ------------------- | ------------------------------------- | -------- | ------------------------ | ------- |
 | `label`             | `string`                              | yes      | —                        | Accessible name for the `<select>`. |
+| `placeholder`       | `string`                              | no       | value of `label`         | Text of the always-displayed placeholder option. The closed `<select>` shows this instead of the active locale name. |
 | `locales`           | `string[]`                            | yes      | —                        | Available locale codes. |
 | `value`             | `string` (`v-model:value`)            | no       | `""`                     | Currently selected locale code. |
 | `defaultValue`      | `string`                              | no       | `"en"` if present in `locales`, else first | Initial locale. |
@@ -146,9 +147,23 @@ type SlotArgs = {
 
 - Root element: `<select class="locale-select {class}"
   aria-label="{label}" name="{name}">`.
-- Default children: one `<option class="locale-select-option"
+- **First child, always:** a component-owned placeholder
+  `<option class="locale-select-option locale-select-placeholder"
+  value="" selected>{placeholder ?? label}</option>`. It is rendered
+  in both the default and the custom-slot code paths, so a consumer
+  slot cannot displace it. It carries no `lang` attribute — it is not
+  a locale.
+- Remaining default children: one `<option class="locale-select-option"
   value="{locale}" lang="{tagFor(locale)}">{labelFor(locale)}</option>`
   per locale code.
+- The `<select>` element's own value is **not** bound to the active
+  locale. Its DOM selection stays pinned to the placeholder: on
+  `change` the component reads the chosen code, immediately resets
+  `select.value = ""`, and then applies the code. The closed control
+  therefore always reads `placeholder ?? label` rather than the
+  active locale name, which keeps the control as narrow as that one
+  word. The real selection lives in `value` / `v-model:value` and in
+  `lang` / `dir` on the target.
 - Each option carries `lang="{tagFor(locale)}"` so assistive
   technology pronounces the option text in the appropriate language
   even when the document language differs.
@@ -295,11 +310,13 @@ run under vitest + jsdom + `@vue/test-utils`.
 
 1. Renders a `<select>` (implicit `combobox` role).
 2. `aria-label` is the supplied `label`.
-3. Renders one `<option>` per entry in `locales`; the `<select>`
-   carries the supplied `name` attribute.
-4. Each option's `value` attribute is the locale code.
-5. Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen
-   form).
+3. Renders the leading placeholder `<option>` plus one `<option>` per
+   entry in `locales` (`locales.length + 1` options in total); the
+   `<select>` carries the supplied `name` attribute.
+4. The first `<option>` has `value=""`; each following option's
+   `value` attribute is the locale code.
+5. Each locale option (i.e. every option after the placeholder)
+   carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form).
 6. The default rendering shows `localeLabels[code]
    ?? defaultLocaleLabels[code] ?? code` as the visible option text.
 
@@ -343,6 +360,18 @@ run under vitest + jsdom + `@vue/test-utils`.
     `data-testid`).
 23. A custom default slot receives `SlotArgs` with `locales`, `name`,
     `tagFor`, and `isRtl` exposed.
+
+### 7.6 Always-visible placeholder (mirrors §4.4)
+
+24. The placeholder `<option class="locale-select-placeholder">`
+    renders the `label` text, carries `value=""`, and the
+    `<select>`'s own `value` stays `""` after the initial locale has
+    been resolved and applied to `lang`.
+25. When `placeholder` is supplied it overrides `label` as the
+    placeholder option's text, while `aria-label` still carries
+    `label`.
+26. Choosing an option applies the locale (`lang` updates) and snaps
+    the `<select>`'s own `value` back to `""`.
 
 ## 8. Out-of-scope (future, not implemented here)
 

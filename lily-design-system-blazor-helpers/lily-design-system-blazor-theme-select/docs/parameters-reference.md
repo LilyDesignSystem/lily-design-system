@@ -19,6 +19,25 @@ In an i18n setup with `IStringLocalizer<T>`:
 <ThemeSelect Label="@Localizer["chooseTheme"]" ... />
 ```
 
+## `Placeholder` — optional, `string?`
+
+Text of the always-displayed placeholder option. The closed `<select>`
+shows this word rather than the active theme name, so the control stays
+as narrow as the word itself instead of stretching to the widest theme
+name. Defaults to `Label`.
+
+Like `Label`, it is a parameter rather than a hardcoded string, so the
+package emits no user-facing English of its own.
+
+```razor
+<ThemeSelect Label="Choose a theme" Placeholder="Theme" ... />
+```
+
+The accessible name still comes from `Label`; `Placeholder` only
+changes the visible text of the leading option. See
+[`accessibility.md`](accessibility.md) for the tradeoff this creates
+for screen-reader users.
+
 ## `ThemesUrl` — required, `string`
 
 Base URL of the directory the theme CSS files are served from. A

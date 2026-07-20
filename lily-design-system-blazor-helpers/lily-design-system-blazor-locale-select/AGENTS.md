@@ -27,6 +27,7 @@ no CSS; consumer styles the `locale-select` class hook.
 - Component: `LocaleSelect` in namespace
   `LilyDesignSystem.Blazor.Helpers`.
 - Context: `LocaleSelectContext` for custom `ChildContent` rendering.
+- Optional `Placeholder` parameter (defaults to `Label`).
 - Static helpers in `Locales` static class:
   - `Bcp47LocaleTag(string)`
   - `IsRtlLocale(string)`
@@ -49,13 +50,27 @@ All DOM writes happen through `IJSRuntime` inside
 > navigator (if `DetectFromNavigator`) > `DefaultValue` > `"en"` (if
 present) > `Locales[0]`.
 
+The `<select>`'s own DOM value never tracks `Value`. A component-owned
+placeholder `<option value="" selected>` is always the selected one, and
+after every change the handler snaps the live element's value back to it
+(`Object.assign(el, { value: "" })` via `IJSRuntime`, wrapped in
+try/catch for prerender) before applying the chosen code. The closed
+control therefore always reads `Placeholder ?? Label` rather than the
+active locale name. The real selection lives in `Value`; everything
+downstream is unchanged.
+
 ## HTML
 
 `<select class="locale-select @CssClass" aria-label="@Label"
-name="@Name">` with one native `<option>` per locale and a
-`lang="@TagFor(locale)"` attribute on each `<option>`. Custom
-rendering via the `ChildContent` render fragment receiving
-`LocaleSelectContext`.
+name="@Name">` whose FIRST child is
+`<option class="locale-select-option locale-select-placeholder" value=""
+selected>{Placeholder ?? Label}</option>` — no `lang`, since it is not a
+locale — followed by one native
+`<option class="locale-select-option" value="{code}"
+lang="@TagFor(code)">` per locale. Real options are never marked
+`selected`. Custom rendering via the `ChildContent` render fragment
+receiving `LocaleSelectContext`; the placeholder is rendered in that
+path too, before the fragment.
 
 ## Accessibility
 
@@ -63,9 +78,13 @@ rendering via the `ChildContent` render fragment receiving
 - The native `<select>` provides Arrow / Home / End / typeahead
   semantics.
 - `aria-label` carries the consumer-supplied accessible name.
-- Each option has its own `lang` context — WCAG 3.1.2 "Language of
-  Parts" — so screen readers pronounce "Français" with a French
-  voice.
+- Each locale option has its own `lang` context — WCAG 3.1.2
+  "Language of Parts" — so screen readers pronounce "Français" with a
+  French voice.
+- Known tradeoff: because the closed control always reads the
+  placeholder, the active locale is not announced as the combobox
+  value. Consumers should surface it in visible text or a polite live
+  region. See `docs/accessibility.md`.
 
 ## Conventions this package follows
 

@@ -30,6 +30,12 @@ export type Props = Omit<
 > & {
     /** Accessible label for the `<select>`. */
     label: string;
+    /**
+     * Text of the always-displayed placeholder option. The closed
+     * `<select>` shows this instead of the selected locale name, so the
+     * control stays as narrow as this word. Defaults to `label`.
+     */
+    placeholder?: string;
     /** Available locale codes. */
     locales: string[];
     /** Currently selected locale code. When supplied, the component is controlled. */
@@ -156,6 +162,7 @@ function resolveInitialLocale(
 
 export function LocaleSelect({
     label,
+    placeholder,
     locales,
     value,
     defaultValue,
@@ -248,8 +255,18 @@ export function LocaleSelect({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentValue]);
 
+    /**
+     * The `<select>` is never bound to the resolved locale: its own DOM
+     * selection snaps back to the placeholder option after every change,
+     * so the closed control always reads `placeholder ?? label` rather
+     * than the active locale name. The real selection lives in
+     * `value` / `internalValue`.
+     */
     function onSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
-        setLocale(e.target.value);
+        const el = e.target;
+        const chosen = el.value;
+        el.value = ""; // snap back to the placeholder
+        if (chosen) setLocale(chosen);
     }
 
     return (
@@ -257,10 +274,16 @@ export function LocaleSelect({
             className={`locale-select ${className}`.trim()}
             aria-label={label}
             name={name}
-            value={currentValue ?? ""}
+            value=""
             onChange={onSelectChange}
             {...restProps}
         >
+            <option
+                className="locale-select-option locale-select-placeholder"
+                value=""
+            >
+                {placeholder ?? label}
+            </option>
             {children
                 ? children({
                       locales,

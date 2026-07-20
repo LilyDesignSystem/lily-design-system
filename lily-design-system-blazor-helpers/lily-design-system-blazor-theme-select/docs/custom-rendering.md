@@ -79,9 +79,7 @@ the options yourself. The fragment renders inside the root
     <ChildContent Context="ctx">
         @foreach (var t in ctx.Themes)
         {
-            <option class="theme-select-option"
-                    value="@t"
-                    selected="@(ctx.Value == t)">
+            <option class="theme-select-option" value="@t">
                 @ctx.LabelFor(t)
             </option>
         }
@@ -90,7 +88,12 @@ the options yourself. The fragment renders inside the root
 ```
 
 Note: the outer `<select>` is still present and owns the change
-event. If you want a non-`<select>` control entirely (swatch buttons,
+event, and the component still renders its own placeholder
+`<option class="theme-select-option theme-select-placeholder" value=""
+selected>` BEFORE your fragment. Do not mark your own options
+`selected` — the placeholder is always the selected one, and the
+select's value snaps back to it after every change. Read the active
+theme from `ctx.Value`. If you want a non-`<select>` control entirely (swatch buttons,
 a flyout), render that markup outside the component and call
 `SetTheme` from a wrapping component instead.
 

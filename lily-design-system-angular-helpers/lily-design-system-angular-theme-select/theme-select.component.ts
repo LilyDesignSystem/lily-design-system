@@ -35,20 +35,25 @@ export function themeHref(themesUrl: string, slug: string, extension: string): s
       class="theme-select {{ className() }}"
       [attr.aria-label]="label() || null"
       [name]="name()"
-      (change)="onInputChange($any($event.target).value)"
+      (change)="onSelectChange($event)"
     >
+      <option class="theme-select-option theme-select-placeholder" value="" selected>{{
+        placeholder() || label()
+      }}</option>
       @for (theme of themes(); track theme) {
-        <option
-          class="theme-select-option"
-          [value]="theme"
-          [selected]="value() === theme"
-        >{{ labelFor(theme) }}</option>
+        <option class="theme-select-option" [value]="theme">{{ labelFor(theme) }}</option>
       }
     </select>
   `,
 })
 export class ThemeSelect {
   readonly label = input.required<string>();
+  /**
+   * Text of the always-displayed placeholder option. The closed
+   * `<select>` shows this instead of the selected theme name, so the
+   * control stays as narrow as this word. Defaults to `label`.
+   */
+  readonly placeholder = input<string>("");
   readonly themesUrl = input.required<string>();
   readonly themes = input.required<string[]>();
   readonly value = model<string>("");
@@ -107,8 +112,20 @@ export class ThemeSelect {
     return theme.split("-").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
   }
 
-  onInputChange(next: string): void {
-    this.value.set(next);
+  /**
+   * The `<select>` is never bound to `value`: its own selection snaps back
+   * to the placeholder option after every change, so the closed control
+   * always reads `placeholder() || label()` rather than the active theme
+   * name. The real selection lives in the `value` model signal.
+   *
+   * The event is not stopped, so a consumer binding `(change)` on the host
+   * element still receives it — `change` bubbles out of the inner select.
+   */
+  onSelectChange(event: Event): void {
+    const el = event.target as HTMLSelectElement;
+    const chosen = el.value;
+    el.value = "";
+    if (chosen) this.value.set(chosen);
   }
 
   private getManagedLink(): HTMLLinkElement | null {

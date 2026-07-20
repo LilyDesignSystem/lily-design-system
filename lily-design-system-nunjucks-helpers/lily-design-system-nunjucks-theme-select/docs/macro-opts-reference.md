@@ -10,6 +10,32 @@ common usage.
 `aria-label` on the `<select>`. Always supplied, always
 translatable. Screen readers announce it as the control's name.
 
+## `placeholder` — optional, string — defaults to `label`
+
+Text of the always-rendered placeholder `<option>` that sits first
+inside the `<select>`. The closed control shows this word instead of
+the active theme's name, so the control's width stays constant
+regardless of how long your theme names are.
+
+Defaults to the value of `label`, which keeps the package
+i18n-clean: no user-facing string is ever hardcoded. Supply
+`placeholder` separately when you want a long, descriptive
+`aria-label` but a short visible word:
+
+```njk
+{{ themeSelect({
+  label: "Choose a colour theme",
+  placeholder: "Theme",
+  themesUrl: "/assets/themes/",
+  themes: ["light", "dark"]
+}) }}
+```
+
+Note that because the control always displays the placeholder, the
+`<select>`'s own `value` is always `""` — see
+[`../spec/index.md` §4.2](../spec/index.md) and
+[accessibility.md](./accessibility.md) for the tradeoff.
+
 ## `themesUrl` — required, string
 
 Base URL of the directory the theme CSS files are served from. The

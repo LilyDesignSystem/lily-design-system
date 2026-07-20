@@ -36,6 +36,7 @@ A consumer adds the namespace import once:
 | Parameter            | Type                                | Required | Default                                          |
 | -------------------- | ----------------------------------- | -------- | ------------------------------------------------ |
 | `Label`              | `string`                            | yes      | `""`                                             |
+| `Placeholder`        | `string?`                           | no       | `null` (falls back to `Label`)                   |
 | `ThemesUrl`          | `string`                            | yes      | `""`                                             |
 | `Themes`             | `IReadOnlyList<string>`             | yes      | `Array.Empty<string>()`                          |
 | `Value`              | `string`                            | no       | `""`                                             |
@@ -138,7 +139,14 @@ Root element:
 </select>
 ```
 
-Default option markup (one per `Themes` entry):
+Leading placeholder option (always first, in both the default and the
+`ChildContent` code paths; the only option ever marked `selected`):
+
+```html
+<option class="theme-select-option theme-select-placeholder" value="" selected>{Placeholder ?? Label}</option>
+```
+
+Default option markup (one per `Themes` entry, never `selected`):
 
 ```html
 <option class="theme-select-option" value="{slug}">{LabelFor(slug)}</option>

@@ -15,8 +15,44 @@ responsibility.
 | WCAG 4.1.2 Name, Role, Value | `<select aria-label>` exposes the combobox; `<option>` exposes each choice. |
 | WCAG 2.1.1 Keyboard | Tab to the select; Arrow keys, Home / End, and typeahead move selection — all from native `<select>` semantics. |
 | WCAG 2.4.7 Focus Visible | The browser's default focus ring is preserved; the select never sets `outline: none`. |
-| WCAG 1.4.1 Use of Color | Selection state is the `<select>`'s current value and is reflected in the `lang` attribute — not colour alone. |
+| WCAG 1.4.1 Use of Color | Selection state is reflected in the `lang` / `dir` attributes and the `v-model:value` binding — not colour alone. |
 | Native `<select>` semantics | Single-selection combobox with one focus stop and a platform-provided option list. |
+
+## Tradeoff: the closed control does not announce the active locale
+
+The `<select>` always displays its leading placeholder option
+(`placeholder ?? label`); after every change the component snaps
+`select.value` back to `""`. This keeps the control narrow and
+predictable regardless of how long the locale names are, but it has
+a real accessibility cost: **a screen-reader user no longer hears the
+active locale announced as the combobox value.** VoiceOver and NVDA
+read the placeholder word ("Locale"), not "Français".
+
+If knowing the current locale matters in your interface, surface it
+yourself. Two recommended patterns:
+
+Visible text next to the control:
+
+```vue
+<LocaleSelect v-model:value="locale" label="Locale" ... />
+<p :lang="locale.replace(/_/g, '-')">
+    Current language: {{ localeLabels[locale] ?? locale }}
+</p>
+```
+
+Or a polite live region, which announces the change without moving
+focus:
+
+```vue
+<LocaleSelect v-model:value="locale" label="Locale" ... />
+<p role="status" aria-live="polite">
+    {{ languageChangedMessage }}
+</p>
+```
+
+Both strings are consumer-supplied, so they localise with the rest
+of your copy. Note that the placeholder itself is also a prop, so no
+hardcoded natural-language string is ever emitted by the helper.
 
 ## Per-option `lang` is important
 
@@ -70,10 +106,14 @@ can keep choosing.
 
 | Reader     | OS       | Browser   | What's announced when user lands on the select |
 | ---------- | -------- | --------- | ---------------------------------------------- |
-| VoiceOver  | macOS 14 | Safari 17 | "Language, pop-up button, English" → on open, "English, 1 of 5". Arrow announces the next option's `lang`-correct pronunciation. |
-| NVDA       | Windows  | Firefox   | "Language combo box, English, 1 of 5". Pronounces "Français" in French voice if French voice installed. |
-| JAWS       | Windows  | Chrome    | "Language combo box, English, 1 of 5". |
-| TalkBack   | Android  | Chrome    | "Language, English, drop-down list, double-tap to activate". |
+| VoiceOver  | macOS 14 | Safari 17 | "Language, pop-up button, Language" → on open, "Language, 1 of 6". Arrow announces the next option's `lang`-correct pronunciation. |
+| NVDA       | Windows  | Firefox   | "Language combo box, Language, 1 of 6". Pronounces "Français" in French voice if French voice installed. |
+| JAWS       | Windows  | Chrome    | "Language combo box, Language, 1 of 6". |
+| TalkBack   | Android  | Chrome    | "Language, Language, drop-down list, double-tap to activate". |
+
+The announced *value* is always the placeholder text, never the
+active locale — by design, per the tradeoff above. The counts include
+the leading placeholder option, so a five-locale list reads "of 6".
 
 The "lang-correct pronunciation" depends on the reader having a
 matching voice package installed. NVDA's default ships with English
@@ -112,8 +152,8 @@ The default rendering is a native `<select>` (see
 
 - Keyboard: Enter / Space / Down arrow open the select; typing
   searches; Escape closes.
-- Screen reader: announces "combobox" + label + current value +
-  count.
+- Screen reader: announces "combobox" + label + current value (the
+  placeholder, per the tradeoff above) + count.
 - Mobile: pops the OS-native picker (iOS scroll wheel, Android
   dialog).
 

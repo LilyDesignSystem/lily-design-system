@@ -96,6 +96,7 @@ select that:
 | Key                  | Type                       | Required | Default                  | Purpose |
 | -------------------- | -------------------------- | -------- | ------------------------ | ------- |
 | `label`              | `string`                   | yes      | —                        | Accessible name for the `<select>` (`aria-label`). |
+| `placeholder`        | `string`                   | no       | value of `label`         | Text of the always-displayed placeholder option. The closed `<select>` shows this instead of the active locale name, so the control stays as narrow as this word. |
 | `locales`            | `array<string>`            | yes      | —                        | Available locale codes (e.g. `["en", "en_US", "fr", "ar"]`). |
 | `value`              | `string`                   | no       | `""`                     | Initial selected locale (rendered as the selected option). |
 | `defaultValue`       | `string`                   | no       | `""`                     | Initial locale when nothing else is supplied at runtime. |
@@ -117,11 +118,21 @@ select that:
   data-lily-locale-select-default-value="{defaultValue}"
   data-lily-locale-select-detect-from-navigator="{true|false}"
   data-lily-locale-select-apply-dir="{true|false}">`.
-- One `<option class="locale-select-option" value="{locale}"
+- The FIRST child of the `<select>` is the component-owned placeholder
+  option: `<option class="locale-select-option locale-select-placeholder"
+  value="" selected>{placeholder ?? label}</option>`. It is always
+  rendered, always carries an empty `value`, and is the option the
+  closed control displays. It carries NO `lang`: it is not a locale.
+- Then one `<option class="locale-select-option" value="{locale}"
   lang="{tagFor(locale)}" {selected when value===locale}>{labelFor(locale)}</option>`
   per locale.
-- Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form)
-  for WCAG 3.1.2 (Language of Parts).
+- Each locale option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen
+  form) for WCAG 3.1.2 (Language of Parts).
+- The `<select>`'s own `value` is therefore **not** a mirror of the
+  active locale: after every apply it is snapped back to `""` (the
+  placeholder) by the client. The active locale lives in `lang` /
+  `dir` on the target, in `localStorage` when `storageKey` is set, and
+  in the `onChange(code)` argument.
 
 ### 4.3 Client.js exports
 
@@ -158,7 +169,9 @@ normalisation is applied.
 The initial locale is the first non-empty value of:
 
 1. The `value` attribute of any `<option>` that the macro rendered
-   with `selected` (i.e. the consumer's `value` prop).
+   with `selected` (i.e. the consumer's `value` prop). The leading
+   placeholder option is also rendered `selected`, so it is skipped
+   here by requiring a non-empty value.
 2. `localStorage.getItem(storageKey)` (only if `storageKey` is set
    and the read does not throw).
 3. `matchNavigatorLanguage(navigator.languages, locales)` (only if
@@ -201,8 +214,19 @@ Applying a locale `code` performs, in order:
 3. If `applyDir` is true, set `target.dir = isRtlLocale(code)
    ? "rtl" : "ltr"`.
 4. If `storageKey` is non-empty, write `code` to `localStorage`.
-5. Set the `<select>` value so the matching option is selected.
+5. Set the `<select>` value to `""`, snapping the control back to its
+   placeholder option so the closed control keeps reading the
+   placeholder word rather than the active locale name.
 6. Call `opts.onChange?.(code)` if supplied (consumer-form code).
+
+The client.js attaches one `change` listener on the `<select>`. On
+each change it reads the chosen code, immediately resets
+`select.value = ""`, and then applies the code (choosing the
+placeholder itself is a no-op). Because the reset happens
+synchronously inside the listener, a consumer's own `change` listener
+that reads `event.target.value` will see `""`. Consumers who need the
+chosen code should use the `onChange(code)` callback or read `lang`
+from the target.
 
 ### 5.6 RTL detection
 
@@ -245,11 +269,13 @@ document populated from the macro output.
 
 1. Macro renders a `<select>` (implicit `role="combobox"`).
 2. Macro renders `aria-label` equal to the supplied `label`.
-3. Macro renders one `<option>` per entry in `locales`, and the
-   `<select>` carries the supplied `name` attribute.
-4. Each `<option>`'s `value` attribute is the locale code.
-5. Each `<option>` carries `lang="{tagFor(locale)}"` (BCP 47
-   hyphen form).
+3. Macro renders one placeholder `<option>` plus one `<option>` per
+   entry in `locales`, and the `<select>` carries the supplied `name`
+   attribute.
+4. Each locale `<option>`'s `value` attribute is the locale code,
+   preceded by the placeholder's empty `value`.
+5. Each locale `<option>` carries `lang="{tagFor(locale)}"` (BCP 47
+   hyphen form); the placeholder option carries no `lang`.
 6. `localeLabels[code]` overrides the default option text; missing
    entries fall back to the raw code.
 
@@ -297,6 +323,18 @@ document populated from the macro output.
 22. Extra attributes spread through onto the `<select>` root.
 23. `autoInit()` wires every `[data-lily-locale-select-root]` on
     the page.
+
+### 7.6 Placeholder contract
+
+24. The placeholder option is the first child of the `<select>`,
+    carries `class="locale-select-option locale-select-placeholder"`,
+    renders the `label` text, and has `value=""`. After
+    `initLocaleSelect(root)` the `<select>`'s own value is still `""`
+    while `lang` carries the resolved locale.
+25. A supplied `placeholder` overrides `label` as the placeholder
+    option's text, while `aria-label` still carries `label`.
+26. Firing a `change` event with a real locale code applies that
+    locale AND snaps the `<select>` value back to `""`.
 
 ## 8. Out-of-scope (future)
 

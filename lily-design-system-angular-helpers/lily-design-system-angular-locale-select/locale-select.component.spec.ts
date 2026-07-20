@@ -116,14 +116,15 @@ describe("LocaleSelect — markup contract (§7.1)", () => {
     const options = fixture.nativeElement.querySelectorAll(
       "option",
     ) as NodeListOf<HTMLOptionElement>;
-    expect(options.length).toBe(LOCALES.length);
+    // One placeholder option plus one option per locale.
+    expect(options.length).toBe(LOCALES.length + 1);
     const select = fixture.nativeElement.querySelector(
       "select.locale-select",
     ) as HTMLSelectElement;
     expect(select.name).toBe("lang");
   });
 
-  test("§7.4 each option carries the locale code as its value", () => {
+  test("§7.4 each option carries the locale code as its value, after the empty placeholder", () => {
     const fixture = TestBed.createComponent(LocaleSelect);
     fixture.componentRef.setInput("label", "Language");
     fixture.componentRef.setInput("locales", LOCALES);
@@ -131,7 +132,7 @@ describe("LocaleSelect — markup contract (§7.1)", () => {
     const options = fixture.nativeElement.querySelectorAll(
       "option",
     ) as NodeListOf<HTMLOptionElement>;
-    expect(Array.from(options).map((o) => o.value)).toEqual(LOCALES);
+    expect(Array.from(options).map((o) => o.value)).toEqual(["", ...LOCALES]);
   });
 
   test("§7.5 each option carries lang in BCP 47 hyphen form", () => {
@@ -139,12 +140,73 @@ describe("LocaleSelect — markup contract (§7.1)", () => {
     fixture.componentRef.setInput("label", "Language");
     fixture.componentRef.setInput("locales", ["en", "en_US", "zh_Hant_TW"]);
     fixture.detectChanges();
+    // Skip index 0: the placeholder is not a locale and carries no lang.
     const options = fixture.nativeElement.querySelectorAll<HTMLElement>(
       ".locale-select-option",
     );
-    expect(options[0].getAttribute("lang")).toBe("en");
-    expect(options[1].getAttribute("lang")).toBe("en-US");
-    expect(options[2].getAttribute("lang")).toBe("zh-Hant-TW");
+    expect(options[1].getAttribute("lang")).toBe("en");
+    expect(options[2].getAttribute("lang")).toBe("en-US");
+    expect(options[3].getAttribute("lang")).toBe("zh-Hant-TW");
+  });
+
+  test("§7.24 the placeholder option renders the label and stays displayed", async () => {
+    const fixture = TestBed.createComponent(LocaleSelect);
+    fixture.componentRef.setInput("label", "Locale");
+    fixture.componentRef.setInput("locales", LOCALES);
+    fixture.detectChanges();
+    await flush();
+    fixture.detectChanges();
+
+    const select = fixture.nativeElement.querySelector(
+      "select.locale-select",
+    ) as HTMLSelectElement;
+    const placeholder = select.querySelector(
+      ".locale-select-placeholder",
+    ) as HTMLOptionElement;
+    expect(placeholder.textContent?.trim()).toBe("Locale");
+    expect(placeholder.value).toBe("");
+    // The closed control shows the placeholder, not the active locale.
+    expect(select.value).toBe("");
+    expect(document.documentElement.getAttribute("lang")).toBe("en");
+  });
+
+  test("§7.25 the placeholder input overrides the label as placeholder text", () => {
+    const fixture = TestBed.createComponent(LocaleSelect);
+    fixture.componentRef.setInput("label", "Choose a locale");
+    fixture.componentRef.setInput("placeholder", "Locale");
+    fixture.componentRef.setInput("locales", LOCALES);
+    fixture.detectChanges();
+
+    const placeholder = fixture.nativeElement.querySelector(
+      ".locale-select-placeholder",
+    ) as HTMLOptionElement;
+    expect(placeholder.textContent?.trim()).toBe("Locale");
+    const select = fixture.nativeElement.querySelector(
+      "select.locale-select",
+    ) as HTMLSelectElement;
+    expect(select.getAttribute("aria-label")).toBe("Choose a locale");
+  });
+
+  test("§7.26 choosing a locale applies it and snaps the select back to the placeholder", async () => {
+    const fixture = TestBed.createComponent(LocaleSelect);
+    fixture.componentRef.setInput("label", "Locale");
+    fixture.componentRef.setInput("locales", LOCALES);
+    fixture.detectChanges();
+    await flush();
+    fixture.detectChanges();
+
+    const select = fixture.nativeElement.querySelector(
+      "select.locale-select",
+    ) as HTMLSelectElement;
+    selectOption(select, LOCALES[1]);
+    fixture.detectChanges();
+    await flush();
+    fixture.detectChanges();
+
+    expect(document.documentElement.getAttribute("lang")).toBe(
+      LOCALES[1].replace(/_/g, "-"),
+    );
+    expect(select.value).toBe("");
   });
 
   test("§7.6 visible option text uses localeLabels override when supplied", () => {
@@ -378,8 +440,9 @@ describe("LocaleSelect — class hook (§7.5)", () => {
     fixture.componentRef.setInput("label", "Language");
     fixture.componentRef.setInput("locales", ["fr_CA"]);
     fixture.detectChanges();
+    // :not(.locale-select-placeholder) skips the leading placeholder option.
     const option = fixture.nativeElement.querySelector<HTMLElement>(
-      ".locale-select-option",
+      ".locale-select-option:not(.locale-select-placeholder)",
     );
     expect(option?.getAttribute("lang")).toBe("fr-CA");
   });

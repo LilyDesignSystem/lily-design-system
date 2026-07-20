@@ -21,6 +21,7 @@ and for working code see [examples/](./examples/).
 - [Custom rendering](#custom-rendering)
 - [Persistence](#persistence)
 - [Accessibility](#accessibility)
+- [Styling](#styling)
 - [SSR and the first paint](#ssr-and-the-first-paint)
 - [Preloading for zero-flicker switching](#preloading-for-zero-flicker-switching)
 - [Multiple selects in one page](#multiple-selects-in-one-page)
@@ -152,10 +153,36 @@ On every theme change the client.js performs four steps, in order:
    this attribute via their `:root[data-theme="…"]` selector.
 4. **Persist + notify**: if `storageKey` is set, write to
    `localStorage` (silently swallowing private-mode errors); then
-   call `opts.onChange(slug)` if supplied.
+   snap the `<select>` back to its placeholder option
+   (`select.value = ""`) and call `opts.onChange(slug)` if supplied.
 
 All four steps run only on the client. The macro is pure; no DOM
 mutation happens during Nunjucks render.
+
+### The always-visible placeholder
+
+The macro renders a component-owned placeholder as the first
+`<option>` of the `<select>`:
+
+```html
+<select class="theme-select" aria-label="Theme" name="theme" …>
+  <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
+  <option class="theme-select-option" value="light">Light</option>
+  <option class="theme-select-option" value="dark">Dark</option>
+</select>
+```
+
+The closed control therefore always reads the placeholder word
+("Theme" by default, or `opts.placeholder` when you supply it) rather
+than the name of the active theme, so the control's width stays
+constant no matter how long your theme names are. After each change
+the client resets `select.value` to `""`.
+
+This means **the `<select>`'s own value is not the active theme**. The
+active theme lives in `data-theme` on the target, in `localStorage`
+when `storageKey` is set, and in the `onChange(slug)` argument. If a
+consumer `change` listener reads `event.target.value` it will see
+`""` — use `onChange` instead.
 
 ## Default theme
 
@@ -179,9 +206,9 @@ default to the slug with its first letter upper-cased
 ## Macro parameters
 
 Full table in [spec/index.md §4.1](./spec/index.md#41-macro-parameters).
-Required: `label`, `themesUrl`, `themes`. Optional: `value`,
-`defaultValue`, `storageKey`, `name`, `extension`, `themeLabels`,
-`classes`, `attributes`.
+Required: `label`, `themesUrl`, `themes`. Optional: `placeholder`,
+`value`, `defaultValue`, `storageKey`, `name`, `extension`,
+`themeLabels`, `classes`, `attributes`.
 
 See [docs/macro-opts-reference.md](./docs/macro-opts-reference.md)
 for a field-by-field reference.
@@ -267,9 +294,13 @@ recipe.
 - The native `<select>` gives Arrow / Home / End / typeahead / Tab
   semantics for free; the helper does not override any keyboard
   behaviour.
-- The active state is exposed in three independent channels: the
-  selected option (browser-managed), `data-theme` on the root, and the
-  current `<link>` href. No colour-only meaning is required.
+- The active state is exposed in two independent channels:
+  `data-theme` on the root and the current `<link>` href. No
+  colour-only meaning is required.
+- **Tradeoff**: the closed control always reads the placeholder, so a
+  screen-reader user no longer hears the active theme announced as the
+  combobox value. Surface it in visible text or a polite live region
+  where that matters.
 - WCAG 2.2 AAA is the target; visible focus styling is the
   consumer's CSS responsibility.
 
@@ -314,6 +345,23 @@ both the `<select>` `name` attribute and the discriminator on the
 managed `<link>` element (`data-lily-theme-select="{name}"`).
 
 Example: [`examples/03-multiple-selects.njk`](./examples/03-multiple-selects.njk).
+
+## Styling
+
+The select ships no CSS. Class hooks: `.theme-select` on the root,
+`.theme-select-option` on each option, `.theme-select-placeholder` on
+the leading placeholder option. Because the closed control always
+shows the placeholder word, you can cap its width:
+
+```css
+.theme-select {
+    field-sizing: content;  /* Chrome 123+: size to the shown option */
+    width: auto;
+    max-width: 12ch;        /* fallback for Firefox / Safari */
+}
+```
+
+Topic guide: [`docs/styling.md`](./docs/styling.md).
 
 ## Recipes
 

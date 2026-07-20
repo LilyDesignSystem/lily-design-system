@@ -7,7 +7,10 @@
 //   1. Set `target.lang = bcp47LocaleTag(code)`.
 //   2. Optionally set `target.dir = isRtlLocale(code) ? "rtl" : "ltr"`.
 //   3. Optionally persist to localStorage.
-//   4. Mirror the active code onto the <select> value (select the option).
+//   4. Snap the <select> back to its leading placeholder option, so the
+//      closed control always reads the placeholder word rather than the
+//      active locale name. The real selection lives in `lang` / `dir` /
+//      localStorage / the `onChange` argument, never in `select.value`.
 //   5. Call opts.onChange(code).
 //
 // See spec/index.md §4.3 (client.js exports), §5 (behaviour).
@@ -92,8 +95,14 @@ function safeStorageSet(key, value) {
     }
 }
 
+/**
+ * The real locale codes, excluding the leading placeholder option (which
+ * always carries `value=""`).
+ */
 function optionValues(select) {
-    return Array.from(select.options).map((o) => o.value);
+    return Array.from(select.options)
+        .map((o) => o.value)
+        .filter((v) => v !== "");
 }
 
 // ---------------------------------------------------------------
@@ -130,8 +139,10 @@ export function initLocaleSelect(root, opts = {}) {
             target.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
         }
         if (storageKey) safeStorageSet(storageKey, code);
-        // Select the option matching the active code.
-        root.value = code;
+        // Snap the control back to the placeholder option rather than
+        // mirroring the active code, so the closed <select> always reads
+        // the placeholder word.
+        root.value = "";
         if (typeof opts.onChange === "function") opts.onChange(code);
     }
 
@@ -144,8 +155,10 @@ export function initLocaleSelect(root, opts = {}) {
     // Read `defaultSelected` (reflects the HTML `selected` attribute);
     // `root.value` is unreliable here because a <select> reports its
     // first option as the value even when none is explicitly selected.
+    // The leading placeholder option is also rendered `selected`, so skip
+    // it by requiring a non-empty value.
     const selectedOption = Array.from(root.options).find(
-        (o) => o.defaultSelected,
+        (o) => o.defaultSelected && o.value !== "",
     );
     if (selectedOption) initial = selectedOption.value;
 
@@ -178,6 +191,8 @@ export function initLocaleSelect(root, opts = {}) {
 
     if (initial) applyLocale(initial);
 
+    // Read the chosen code, snap the control back to the placeholder, then
+    // apply. Choosing the placeholder itself is a no-op.
     function onChange(e) {
         const target = e.target;
         if (
@@ -185,7 +200,9 @@ export function initLocaleSelect(root, opts = {}) {
             target.tagName === "SELECT" &&
             typeof target.value === "string"
         ) {
-            applyLocale(target.value);
+            const chosen = target.value;
+            target.value = "";
+            if (chosen) applyLocale(chosen);
         }
     }
     root.addEventListener("change", onChange);

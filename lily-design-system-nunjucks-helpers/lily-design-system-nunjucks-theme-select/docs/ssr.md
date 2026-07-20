@@ -36,9 +36,26 @@ The fix is to **resolve the theme on the server** and inline both:
 - `<html data-theme="<slug>">` in the document shell, and
 - the `<link rel="stylesheet" href="/assets/themes/<slug>.css">`
 
-so that CSS is in place before any pixel is painted. The macro
-renders the matching `<option>` as `selected`; the client.js hydrates
-without changing anything visible.
+so that CSS is in place before any pixel is painted.
+
+### The `opts.value` selected-option flash
+
+`opts.value` is communicated to the client by rendering `selected` on
+the matching `<option>` — that is how the client resolves the initial
+theme (step 2 of the resolution order). The placeholder option is
+*also* rendered `selected`, and when a `<select>` has two selected
+options the browser picks the **last** one. So between first paint and
+`initThemeSelect(root)` the closed control briefly shows the theme
+name rather than the placeholder word; the client then snaps it back
+to `""`.
+
+This is cosmetic and confined to the control itself — it does not
+affect `data-theme`, the `<link>` href, or the page. It only occurs
+when you pass `opts.value`; without it the placeholder is the only
+selected option and there is no flash. If it matters, either style
+`.theme-select` with a fixed `width` so the snap-back doesn't reflow,
+or omit `opts.value` and let `storageKey` / `defaultValue` resolve the
+initial theme instead.
 
 ## Eleventy (build time)
 

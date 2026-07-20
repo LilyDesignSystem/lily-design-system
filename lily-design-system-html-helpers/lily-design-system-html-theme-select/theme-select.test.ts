@@ -94,16 +94,60 @@ describe("<theme-select> — markup contract (§7.1–§7.5)", () => {
         });
         await flush();
         const options = document.body.querySelectorAll<HTMLOptionElement>("option");
-        expect(options.length).toBe(3);
+        // One placeholder option plus one option per theme.
+        expect(options.length).toBe(4);
         const select = document.body.querySelector<HTMLSelectElement>("select.theme-select")!;
         expect(select.name).toBe("appearance");
     });
 
-    test("§7.4 each option carries the slug as its value", async () => {
+    test("§7.4 each option carries the slug as its value, after the empty placeholder", async () => {
         mount({ label: "Theme", "themes-url": URL_TRAILING, themes: THEMES.join(",") });
         await flush();
         const options = document.body.querySelectorAll<HTMLOptionElement>("option");
-        expect([...options].map((o) => o.value)).toEqual(THEMES);
+        expect([...options].map((o) => o.value)).toEqual(["", ...THEMES]);
+    });
+
+    test("§7.4 the placeholder option renders the label and stays displayed", async () => {
+        mount({ label: "Theme", "themes-url": URL_TRAILING, themes: THEMES.join(",") });
+        await flush();
+        const select = document.body.querySelector<HTMLSelectElement>("select.theme-select")!;
+        const placeholder = select.querySelector<HTMLOptionElement>(
+            ".theme-select-placeholder",
+        )!;
+        expect(placeholder.textContent?.trim()).toBe("Theme");
+        expect(placeholder.value).toBe("");
+        // The closed control shows the placeholder, not the active theme.
+        expect(select.value).toBe("");
+        expect(document.documentElement.dataset.theme).toBe("light");
+    });
+
+    test("§7.4 the placeholder attribute overrides the label as placeholder text", async () => {
+        mount({
+            label: "Choose a theme",
+            placeholder: "Theme",
+            "themes-url": URL_TRAILING,
+            themes: THEMES.join(","),
+        });
+        await flush();
+        const select = document.body.querySelector<HTMLSelectElement>("select.theme-select")!;
+        const placeholder = select.querySelector<HTMLOptionElement>(
+            ".theme-select-placeholder",
+        )!;
+        expect(placeholder.textContent?.trim()).toBe("Theme");
+        expect(select.getAttribute("aria-label")).toBe("Choose a theme");
+    });
+
+    test("§7.4 choosing a theme applies it and snaps the select back to the placeholder", async () => {
+        mount({ label: "Theme", "themes-url": URL_TRAILING, themes: THEMES.join(",") });
+        await flush();
+        const select = document.body.querySelector<HTMLSelectElement>("select.theme-select")!;
+        chooseOption(select, "abyss");
+        await flush();
+        expect(document.documentElement.dataset.theme).toBe("abyss");
+        expect(select.value).toBe("");
+        // The freshly rendered select also shows the placeholder.
+        const rendered = document.body.querySelector<HTMLSelectElement>("select.theme-select")!;
+        expect(rendered.value).toBe("");
     });
 
     test("§7.5 default labels title-case the slug (no 'default' string)", async () => {
@@ -238,7 +282,8 @@ describe("<theme-select> — element shape + property API (§7.12–§7.13)", ()
         await flush();
         expect(document.getElementById("tp")).toBe(el);
         expect(el.getAttribute("data-testid")).toBe("tp");
-        expect(el.querySelectorAll("option").length).toBe(2);
+        // Placeholder + two themes.
+        expect(el.querySelectorAll("option").length).toBe(3);
     });
 
     test("§7.13 setting el.themes as an array mirrors the CSV attribute", async () => {
@@ -251,7 +296,8 @@ describe("<theme-select> — element shape + property API (§7.12–§7.13)", ()
         el.themes = ["light", "dark", "abyss"];
         await flush();
         expect(el.getAttribute("themes")).toBe("light,dark,abyss");
-        expect(el.querySelectorAll("option").length).toBe(3);
+        // Placeholder + three themes.
+        expect(el.querySelectorAll("option").length).toBe(4);
         // Also accepts themeLabels as a property.
         el.themeLabels = { abyss: "Abyssal" };
         await flush();

@@ -63,6 +63,31 @@ not cause a focus or context change. Avoid `goto()` calls in
 `onChange` that scroll the page; if you must navigate, scroll-restore
 to the select's position so the user can keep choosing.
 
+## The placeholder tradeoff
+
+The closed control always displays the placeholder option
+(`placeholder ?? label`, e.g. "Locale") rather than the active locale
+name, so that it stays as narrow as that one word.
+
+The cost is real and worth stating plainly: **a screen-reader user does
+not hear the active locale announced as the combobox value**, and no
+option in the open list is marked as the selected one. The control
+reads as "Locale, pop-up button, Locale" whichever locale is active.
+
+This matters more here than for most controls, because a user who has
+just landed on a page in a language they cannot read needs to find the
+locale control and confirm what it is currently set to. Surface the
+active locale outside the control:
+
+```svelte
+<LocaleSelect label="Locale" {locales} bind:value />
+<p aria-live="polite">{labelFor(value)}</p>
+```
+
+The document root's `lang` attribute also carries the active locale, so
+assistive technology still switches pronunciation correctly — it simply
+is not announced as the select's value.
+
 ## Screen-reader behaviour matrix
 
 Tested against the major combinations:

@@ -7,6 +7,10 @@
 
   Params (single `opts` object):
     label         — string, required. aria-label for the <select>.
+    placeholder   — string. Text of the always-displayed placeholder
+                    option. The closed <select> shows this instead of the
+                    selected theme name, so the control stays as narrow as
+                    this word. Defaults to `label`.
     themesUrl     — string, required. Base URL of the themes directory.
     themes        — array<string>, required. Available theme slugs.
     value         — string. Initial selected slug (rendered selected).
@@ -38,6 +42,7 @@
 {%- set storageKey = opts.storageKey | default("") -%}
 {%- set defaultValue = opts.defaultValue | default("") -%}
 {%- set themeLabels = opts.themeLabels | default({}) -%}
+{%- set placeholder = opts.placeholder | default(opts.label) -%}
 <select
   class="theme-select{% if opts.classes %} {{ opts.classes }}{% endif %}"
   aria-label="{{ opts.label }}"
@@ -50,6 +55,7 @@
   data-lily-theme-select-default-value="{{ defaultValue }}"
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
+<option class="theme-select-option theme-select-placeholder" value="" selected>{{ placeholder }}</option>
 {%- for slug in opts.themes -%}
   <option class="theme-select-option" value="{{ slug }}"{% if value == slug %} selected{% endif %}>
     {%- if themeLabels[slug] -%}

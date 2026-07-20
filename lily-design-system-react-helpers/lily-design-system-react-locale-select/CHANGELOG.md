@@ -1,5 +1,45 @@
 # CHANGELOG — lily-design-system-react-locale-select
 
+## [Unreleased]
+
+### Added
+
+- `placeholder` prop (optional, `string`, defaults to `label`): the text
+  of the always-displayed placeholder option. Keeps the package
+  i18n-clean — no hardcoded user-facing string is ever emitted.
+- `locale-select-placeholder` class hook on the placeholder `<option>`
+  (alongside `locale-select-option`).
+
+### Changed (BREAKING — DOM contract)
+
+- The `<select>` now renders a placeholder `<option value="">` as its
+  **first child**, in both the default and the custom-`children` code
+  paths. Option count is therefore `locales.length + 1` and the option
+  value list is `["", ...locales]`. Consumers asserting on option
+  counts or indices must account for the leading placeholder — notably,
+  the per-option `lang` attributes now start at index 1.
+- The `<select>`'s own `value` is pinned to `""` and no longer tracks
+  the active locale. After every change the DOM selection snaps back to
+  the placeholder, so the closed control always reads
+  `placeholder ?? label` and stays as narrow as that word.
+
+### Unchanged
+
+- The behaviour contract: the resolved selection still lives in `value`
+  / internal state, and `lang` / `dir` application, optional
+  `localStorage` persistence, `navigator.language` detection,
+  `onChange`, initial-value resolution, and SSR safety are all as in
+  0.2.0. The placeholder carries no `lang` — it is not a locale.
+
+### Accessibility note
+
+- Because the closed control always reads the placeholder,
+  screen-reader users no longer hear the active locale announced as the
+  combobox value. The document root's `lang` still reflects it, so
+  voice switching is unaffected. Consumers who need the selection
+  announced should surface it separately — as visible text or via a
+  polite live region. See `docs/accessibility.md`.
+
 ## 0.2.0 — 2026-07-03
 
 ### Changed (BREAKING)

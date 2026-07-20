@@ -109,6 +109,7 @@ Give a React 19 application a drop-in, headless locale select that:
 | Prop                  | Type                                    | Required | Default                                | Purpose |
 | --------------------- | --------------------------------------- | -------- | -------------------------------------- | ------- |
 | `label`               | `string`                                | yes      | —                                      | Accessible name (`aria-label`) for the `<select>`. |
+| `placeholder`         | `string`                                | no       | value of `label`                       | Text of the always-displayed placeholder option. The closed `<select>` shows this instead of the active locale name. |
 | `locales`             | `string[]`                              | yes      | —                                      | Available locale codes (e.g. `["en", "en_US", "fr", "ar"]`). |
 | `value`               | `string`                                | no       | `undefined` (uncontrolled)             | Currently selected locale code. When supplied, the component is controlled. |
 | `defaultValue`        | `string`                                | no       | `"en"` if present in `locales`, else first item | Initial locale when nothing else is supplied. |
@@ -147,10 +148,24 @@ type ChildArgs = {
 ### 4.3 DOM contract
 
 - Root element: `<select className="locale-select {className}"
-  aria-label="{label}" name="{name}" value="{value}">`.
+  aria-label="{label}" name="{name}" value="">`.
+- **Placeholder option (always first).** The first child of the
+  `<select>` is always
+  `<option className="locale-select-option locale-select-placeholder"
+  value="">{placeholder ?? label}</option>`. It is component-owned and
+  is rendered in both the default and the custom-`children` code paths,
+  before any consumer-supplied option markup. It carries no `lang` — it
+  is not a locale.
+- **The `<select>`'s own `value` is pinned to `""`.** It does not track
+  the active locale. After every change the select's DOM selection
+  snaps back to the placeholder option, so the closed control always
+  reads `placeholder ?? label` and stays as narrow as that word. The
+  real selection lives in the `value` prop / internal state, and
+  everything downstream (`lang`, `dir`, `localStorage`, `onChange`,
+  initial-value resolution) is unchanged.
 - Default children: one `<option className="locale-select-option"
   value="{locale}" lang="{tagFor(locale)}">{labelFor(locale)}</option>`
-  per locale code.
+  per locale code, following the placeholder.
 - Each option carries `lang="{tagFor(locale)}"` so assistive technology
   pronounces the option text in the appropriate language even when the
   document language differs.
@@ -347,10 +362,22 @@ run under vitest + jsdom + `@testing-library/react`.
 
 1. Renders a `<select>` (implicit `combobox` role).
 2. `aria-label` is the supplied `label`.
-3. Renders one `<option>` per entry in `locales`, with the supplied
-   `name` attribute on the `<select>`.
-4. Each option's `value` attribute is the locale code.
-5. Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form).
+3. Renders one `<option>` per entry in `locales`, plus the leading
+   placeholder option (so the count is `locales.length + 1`), with the
+   supplied `name` attribute on the `<select>`.
+4. Each option's `value` attribute is the locale code, preceded by the
+   empty-valued placeholder — the full value list is
+   `["", ...locales]`. Additionally:
+   1. The placeholder option renders `label` as its text, carries
+      `value=""` and the `locale-select-placeholder` class, the
+      `<select>`'s own `value` is `""`, and the resolved locale is
+      still applied to the target's `lang`.
+   2. A supplied `placeholder` prop overrides `label` as the
+      placeholder text, while `label` remains the accessible name.
+   3. Choosing an option applies that locale and snaps the
+      `<select>`'s own `value` back to `""`.
+5. Each locale option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen
+   form); the placeholder at index 0 carries none.
 6. The default rendering shows `localeLabels[code]
    ?? defaultLocaleLabels[code] ?? code` as the visible option text.
 

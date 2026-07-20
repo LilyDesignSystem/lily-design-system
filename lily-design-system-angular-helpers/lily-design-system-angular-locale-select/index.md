@@ -166,14 +166,34 @@ Renders:
 
 ```html
 <select class="locale-select" aria-label="Language" name="locale">
+    <option class="locale-select-option locale-select-placeholder" value="" selected>Language</option>
     <option class="locale-select-option" value="en" lang="en">English</option>
     <option class="locale-select-option" value="cy" lang="cy">Welsh</option>
 </select>
 ```
 
-Each option carries its own `lang` attribute so a screen reader
+Each locale option carries its own `lang` attribute so a screen reader
 pronounces "Cymraeg" with a Welsh voice (WCAG 3.1.2, Language of
-Parts).
+Parts). The placeholder is not a locale, so it carries no `lang`.
+
+### The placeholder option
+
+The first option is a component-owned placeholder, and it is the one
+the closed control always displays — the control reads "Language", not
+the selected locale name, so it never widens to fit the longest locale
+in your list. Pass `placeholder` to override its text; it defaults to
+`label`, so no hardcoded string is ever emitted.
+
+```html
+<!-- Closed control reads "Locale"; accessible name is "Choose a locale". -->
+<lily-locale-select label="Choose a locale" placeholder="Locale"
+                    [locales]="locales" [(value)]="locale" />
+```
+
+Because of this, the `<select>` element's own `value` is always `""`.
+Read the active locale from `[(value)]` or the `localeChange` output.
+See [docs/accessibility.md](./docs/accessibility.md) for the
+screen-reader tradeoff and how to surface the active locale.
 
 ### Pretty labels for the option text
 
@@ -279,9 +299,9 @@ See [spec/index.md §4](./spec/index.md#4-public-api) for the full table.
 
 Required inputs: `label`, `locales`.
 
-Common optional inputs: `value` (bindable via `[(value)]`),
-`defaultValue`, `storageKey`, `detectFromNavigator`, `localeLabels`,
-`applyDir`, `target`, `className`, `name`.
+Common optional inputs: `placeholder`, `value` (bindable via
+`[(value)]`), `defaultValue`, `storageKey`, `detectFromNavigator`,
+`localeLabels`, `applyDir`, `target`, `className`, `name`.
 
 ## Outputs
 
@@ -296,13 +316,16 @@ Common optional inputs: `value` (bindable via `[(value)]`),
   (implicit `combobox` role).
 - The native `<select>` gives Arrow / Home / End / typeahead
   semantics for free.
-- Each `<option>` carries `lang="…"` so its name is pronounced
+- Each locale `<option>` carries `lang="…"` so its name is pronounced
   in the right language (WCAG 3.1.2, Language of Parts).
 - The document root carries `lang` and (by default) `dir` so the
   page satisfies WCAG 3.1.1 (Language of Page) and bidi
   text/layout inverts correctly for RTL locales.
-- No colour-only meaning; the active state is also visible in the
-  resolved `lang` attribute and in the `<select>`'s current value.
+- No colour-only meaning; the active state is visible in the resolved
+  `lang` attribute and in the `[(value)]` binding.
+- Tradeoff: because the closed control always reads the placeholder,
+  it does **not** announce the active locale. Surface that elsewhere —
+  see [docs/accessibility.md](./docs/accessibility.md).
 
 ## SSR
 

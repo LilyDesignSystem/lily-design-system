@@ -24,6 +24,7 @@ the comprehensive user guide. For topic deep-dives see
 - [RTL auto-detection](#rtl-auto-detection)
 - [Custom rendering](#custom-rendering)
 - [Accessibility](#accessibility)
+- [Styling](#styling)
 - [SSR and the first paint](#ssr-and-the-first-paint)
 - [i18n library integration](#i18n-library-integration)
 - [Recipes](#recipes)
@@ -152,8 +153,34 @@ On every locale change the client.js performs five steps:
    `isRtlLocale(code)` — skipped when `opts.applyDir=false`.
 4. **Persist** the consumer-form code to `localStorage` if
    `storageKey` is set.
-5. **Notify** — set the `<select>` value so the matching option is
-   selected and call `opts.onChange(code)` if supplied.
+5. **Notify** — snap the `<select>` back to its placeholder option
+   (`select.value = ""`) and call `opts.onChange(code)` if supplied.
+
+### The always-visible placeholder
+
+The macro renders a component-owned placeholder as the first
+`<option>` of the `<select>`:
+
+```html
+<select class="locale-select" aria-label="Locale" name="locale" …>
+  <option class="locale-select-option locale-select-placeholder" value="" selected>Locale</option>
+  <option class="locale-select-option" value="en" lang="en">English</option>
+  <option class="locale-select-option" value="ar" lang="ar">العربية</option>
+</select>
+```
+
+The closed control therefore always reads the placeholder word
+("Locale" by default, or `opts.placeholder` when you supply it) rather
+than the name of the active locale, so the control's width stays
+constant no matter how long your locale names are. After each change
+the client resets `select.value` to `""`. The placeholder carries no
+`lang` — it is not a locale.
+
+This means **the `<select>`'s own value is not the active locale**.
+The active locale lives in `lang` / `dir` on the target, in
+`localStorage` when `storageKey` is set, and in the `onChange(code)`
+argument. If a consumer `change` listener reads `event.target.value`
+it will see `""` — use `onChange` instead.
 
 The code passed to `onChange` is the **consumer form**
 (`en_US` if you passed `en_US` in `locales`). The DOM `lang`
@@ -178,9 +205,9 @@ non-empty value of:
 ## Macro parameters
 
 Full table in [spec/index.md §4.1](./spec/index.md#41-macro-parameters).
-Required: `label`, `locales`. Optional: `value`, `defaultValue`,
-`storageKey`, `detectFromNavigator`, `name`, `applyDir`,
-`localeLabels`, `classes`, `attributes`.
+Required: `label`, `locales`. Optional: `placeholder`, `value`,
+`defaultValue`, `storageKey`, `detectFromNavigator`, `name`,
+`applyDir`, `localeLabels`, `classes`, `attributes`.
 
 See [docs/concepts.md](./docs/concepts.md) for the mental model
 and the catalog-wide reference.
@@ -288,12 +315,33 @@ the [examples/](./examples/) directory.
 - `<select aria-label="…">` is the announced combobox container.
 - The native `<select>` gives Arrow / Home / End / typeahead / Tab
   semantics for free.
-- Each `<option>` carries `lang="…"` (WCAG 3.1.2, Language
-  of Parts).
+- Each locale `<option>` carries `lang="…"` (WCAG 3.1.2, Language
+  of Parts). The placeholder option carries none — it is not a locale.
 - The document root carries `lang` and (by default) `dir` (WCAG
   3.1.1, Language of Page, and 1.4.10, Reflow / bidi).
+- **Tradeoff**: because the closed control always reads the
+  placeholder, a screen-reader user no longer hears the active locale
+  announced as the combobox value. Surface it in visible text or a
+  polite live region where that matters.
 
 Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
+
+## Styling
+
+The select ships no CSS. Class hooks: `.locale-select` on the root,
+`.locale-select-option` on each option, `.locale-select-placeholder`
+on the leading placeholder option. Because the closed control always
+shows the placeholder word, you can cap its width:
+
+```css
+.locale-select {
+    field-sizing: content;  /* Chrome 123+: size to the shown option */
+    width: auto;
+    max-width: 12ch;        /* fallback for Firefox / Safari */
+}
+```
+
+Topic guide: [`docs/styling.md`](./docs/styling.md).
 
 ## SSR and the first paint
 

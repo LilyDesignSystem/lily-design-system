@@ -53,14 +53,20 @@ first-option, (2) injects/updates a managed `<link
 rel="stylesheet" data-lily-theme-select="{name}">` whose href is
 `${themesUrl}${slug}${extension}`, (3) sets `data-theme="{slug}"` on
 the resolved target (defaults to `document.documentElement`), (4)
-optionally writes to `localStorage`, (5) calls `onChange(slug)`.
+optionally writes to `localStorage`, (5) snaps the `<select>` back to
+its placeholder option (`select.value = ""`), (6) calls
+`onChange(slug)`. The `<select>`'s own value never tracks the active
+theme — on `change` the client reads the chosen slug, resets the
+control to `""`, then applies.
 
 ## HTML
 
 `<select class="theme-select {classes}" aria-label="{label}"
-name="{name}" data-lily-theme-select-root …>` containing one
-`<option class="theme-select-option" value="{slug}">…</option>` per
-slug.
+name="{name}" data-lily-theme-select-root …>` whose first child is the
+always-rendered placeholder `<option class="theme-select-option
+theme-select-placeholder" value="" selected>{placeholder ??
+label}</option>`, followed by one `<option class="theme-select-option"
+value="{slug}">…</option>` per slug.
 
 ## Accessibility
 

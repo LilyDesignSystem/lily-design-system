@@ -129,8 +129,39 @@ is fully accessible:
 
 - Keyboard: Enter / Space / Down arrow open the list; typing
   searches; Escape closes.
-- Screen reader: announces "combobox" + label + current value + count.
+- Screen reader: announces "combobox" + label + the displayed value +
+  count.
 - Mobile: pops the OS-native picker (iOS scroll wheel, Android dialog).
+
+## Tradeoff: the closed control does not announce the active locale
+
+The `<select>` always displays its leading placeholder option, so its
+own value stays empty and never tracks the selection. That keeps the
+control as narrow as the placeholder word no matter how long the locale
+names are, but it costs something real: a screen-reader user focusing
+the control hears "{placeholder ?? label}" rather than the name of the
+locale currently in effect, and there is no longer a selected-option
+state to announce.
+
+Where knowing the active locale matters, surface it yourself:
+
+- Render the active locale as visible text next to the control (this
+  also helps sighted users, per WCAG 1.4.1), or
+- Announce changes from `onChange` through a polite live region:
+
+```tsx
+const [locale, setLocale] = useState("");
+
+<LocaleSelect label="Language" locales={LOCALES} onChange={setLocale} />
+<p role="status" aria-live="polite">Active language: {localeName(locale)}</p>
+```
+
+The live region is the consumer's to own — the helper does not create
+one, because only the consumer knows the surrounding copy and locale.
+
+Note that the document root's `lang` attribute still reflects the
+active locale, so assistive technology continues to switch voice
+correctly; only the *announcement of the control's value* is lost.
 
 The tradeoff:
 

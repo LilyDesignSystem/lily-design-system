@@ -34,12 +34,47 @@ Provided entirely by the platform's native `<select>`:
 
 ## State signals
 
-The active state is exposed in three independent channels — no
+The active state is exposed in two independent channels — no
 colour-only meaning is required:
 
-1. The selected `<option>` in the `<select>`.
-2. `data-theme="<slug>"` on the target element (default `<html>`).
-3. The `v-model:value` binding in user code.
+1. `data-theme="<slug>"` on the target element (default `<html>`).
+2. The `v-model:value` binding in user code.
+
+Note that the `<select>`'s own selected `<option>` is **not** one of
+these channels — see the tradeoff below.
+
+## Tradeoff: the closed control does not announce the active theme
+
+The `<select>` always displays its leading placeholder option
+(`placeholder ?? label`); after every change the component snaps
+`select.value` back to `""`. This keeps the control narrow and
+predictable, but it has a real accessibility cost: **a screen-reader
+user no longer hears the active theme announced as the combobox
+value.** VoiceOver and NVDA read the placeholder word ("Theme"),
+not "Dark".
+
+If knowing the current theme matters in your interface, surface it
+yourself. Two recommended patterns:
+
+Visible text next to the control:
+
+```vue
+<ThemeSelect v-model:value="theme" label="Theme" ... />
+<p>Current theme: {{ themeLabels[theme] ?? theme }}</p>
+```
+
+Or a polite live region, which announces the change without moving
+focus:
+
+```vue
+<ThemeSelect v-model:value="theme" label="Theme" ... />
+<p role="status" aria-live="polite">
+    Theme changed to {{ themeLabels[theme] ?? theme }}
+</p>
+```
+
+Both strings are consumer-supplied, so they localise with the rest
+of your copy.
 
 ## Internationalisation
 
@@ -63,10 +98,12 @@ transitions on the `data-theme` swap.
 ## Screen-reader smoke test
 
 - VoiceOver (macOS) announces the control as "{label}, pop-up
-  button" and each option as "{labelFor(slug)}, selected / N of M".
+  button" and each option as "{labelFor(slug)}, N of M".
 - NVDA announces "{label} combo box" and each option similarly.
-- Selection changes are announced because the underlying control
-  value changes.
+- The announced *value* of the closed control is always the
+  placeholder text, never the active theme — by design, per the
+  tradeoff above. Pair the select with visible text or a polite live
+  region when the active theme needs to be announced.
 
 ## Common mistakes to avoid
 

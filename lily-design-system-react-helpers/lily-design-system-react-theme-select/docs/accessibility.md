@@ -34,11 +34,33 @@ Provided entirely by the platform's native `<select>`:
 
 ## State signals
 
-The active state is exposed in two independent channels — no
-colour-only meaning is required:
+The active theme is exposed via `data-theme="<slug>"` on the target
+element (default `<html>`) — no colour-only meaning is required.
 
-1. The selected `<option>` (the select's `value`).
-2. `data-theme="<slug>"` on the target element (default `<html>`).
+### Tradeoff: the closed control does not announce the active theme
+
+The `<select>` always displays its placeholder option, so its own
+`value` stays empty and never tracks the selection. That keeps the
+control narrow, but it costs something real: a screen-reader user
+focusing the control hears "{placeholder ?? label}" rather than the
+name of the theme currently in effect, and there is no longer a
+selected-option state to announce.
+
+Where knowing the active theme matters, surface it yourself:
+
+- Render the active theme as visible text next to the control (this
+  also helps sighted users, per WCAG 1.4.1), or
+- Announce changes from `onChange` through a polite live region:
+
+```tsx
+const [theme, setTheme] = useState("");
+
+<ThemeSelect label="Theme" onChange={setTheme} {...required} />
+<p role="status" aria-live="polite">Active theme: {theme}</p>
+```
+
+The live region is the consumer's to own — the helper does not create
+one, because only the consumer knows the surrounding copy and locale.
 
 ## Internationalisation
 
@@ -62,9 +84,11 @@ the `data-theme` swap.
 ## Screen-reader smoke test
 
 - VoiceOver (macOS) announces the control as "{label}, pop-up button"
-  and each entry as "{labelFor(slug)}, selected / N of M".
-- NVDA announces "{label} combo box" and reads the active option.
-- Selection changes are announced because the select's value changes.
+  and each entry as "{labelFor(slug)}, N of M".
+- NVDA announces "{label} combo box" and reads the placeholder option.
+- Selection changes are **not** announced by the control itself, since
+  its value snaps back to the placeholder. Verify your own live region
+  or visible active-theme text instead (see "State signals" above).
 
 ## React 19 specifics
 

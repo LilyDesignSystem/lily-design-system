@@ -24,6 +24,7 @@ no CSS; consumer styles the `theme-select` class hook.
 - Component: `ThemeSelect` in namespace `LilyDesignSystem.Blazor.Helpers`.
 - Context: `ThemeSelectContext` for custom `ChildContent` rendering.
 - Required parameters: `Label`, `ThemesUrl`, `Themes`.
+- Optional `Placeholder` (defaults to `Label`).
 - Two-way binding: `@bind-Value` (string slug).
 
 ## Behaviour contract (one paragraph)
@@ -38,11 +39,25 @@ writes the slug to `localStorage[StorageKey]`, and (4) invokes
 prerender safe. Initial value resolves from `Value` > storage >
 `DefaultValue` > `"light"` (if present) > `Themes[0]`.
 
+The `<select>`'s own DOM value never tracks `Value`. A component-owned
+placeholder `<option value="" selected>` is always the selected one, and
+after every change the handler snaps the live element's value back to it
+(`Object.assign(el, { value: "" })` via `IJSRuntime`, wrapped in
+try/catch for prerender) before applying the chosen slug. The closed
+control therefore always reads `Placeholder ?? Label` rather than the
+active theme name. The real selection lives in `Value`; everything
+downstream is unchanged.
+
 ## HTML
 
 `<select class="theme-select @CssClass" aria-label="@Label"
-name="@Name">` with one native `<option>` per slug. Custom rendering
-via the `ChildContent` render fragment receiving `ThemeSelectContext`.
+name="@Name">` whose FIRST child is
+`<option class="theme-select-option theme-select-placeholder" value=""
+selected>{Placeholder ?? Label}</option>`, followed by one native
+`<option class="theme-select-option" value="{slug}">` per slug. Real
+options are never marked `selected`. Custom rendering via the
+`ChildContent` render fragment receiving `ThemeSelectContext`; the
+placeholder is rendered in that path too, before the fragment.
 
 ## Accessibility
 
@@ -51,6 +66,10 @@ via the `ChildContent` render fragment receiving `ThemeSelectContext`.
 - `aria-label` carries the consumer-supplied accessible name.
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
+- Known tradeoff: because the closed control always reads the
+  placeholder, the active theme is not announced as the combobox value.
+  Consumers should surface it in visible text or a polite live region.
+  See `docs/accessibility.md`.
 
 ## Conventions this package follows
 

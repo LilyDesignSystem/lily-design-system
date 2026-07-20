@@ -31,8 +31,9 @@ The select:
   implicit `combobox` / `option` ARIA the browser provides for a
   native select.
 - Carries a stable kebab-case class hook (`locale-select`,
-  `locale-select-option`) on every element so your CSS can target
-  it without prefixes or specificity tricks.
+  `locale-select-option`, and `locale-select-placeholder` on the
+  leading placeholder option) on every element so your CSS can
+  target it without prefixes or specificity tricks.
 - Ships **no** colour, spacing, typography, font, icon, or
   animation decisions. You supply all of that.
 - Ships **no** translated strings. The `label` prop and

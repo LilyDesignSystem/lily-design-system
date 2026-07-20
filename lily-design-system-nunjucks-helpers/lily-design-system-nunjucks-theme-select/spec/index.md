@@ -95,6 +95,7 @@ that:
 | Key            | Type                       | Required | Default                  | Purpose |
 | -------------- | -------------------------- | -------- | ------------------------ | ------- |
 | `label`        | `string`                   | yes      | —                        | Accessible name for the `<select>`. |
+| `placeholder`  | `string`                   | no       | value of `label`         | Text of the always-displayed placeholder option. The closed `<select>` shows this instead of the active theme name, so the control stays as narrow as this word. |
 | `themesUrl`    | `string`                   | yes      | —                        | Base URL of the themes directory. Trailing `/` is auto-normalised at runtime. |
 | `themes`       | `array<string>`            | yes      | —                        | Available theme slugs (e.g. `["light", "dark", "abyss"]`). |
 | `value`        | `string`                   | no       | `""`                     | Initial selected theme slug to render as the selected option. |
@@ -120,9 +121,19 @@ and otherwise from the slug with its first character upper-cased
   data-lily-theme-select-extension="{extension}"
   data-lily-theme-select-storage-key="{storageKey}"
   data-lily-theme-select-default-value="{defaultValue}">`.
-- One `<option class="theme-select-option" value="{slug}"
+- The FIRST child of the `<select>` is the component-owned placeholder
+  option: `<option class="theme-select-option theme-select-placeholder"
+  value="" selected>{placeholder ?? label}</option>`. It is always
+  rendered, always carries an empty `value`, and is the option the
+  closed control displays.
+- Then one `<option class="theme-select-option" value="{slug}"
   selected={value===slug}>{labelFor(slug)}</option>` per slug, inside
   the `<select>`.
+- The `<select>`'s own `value` is therefore **not** a mirror of the
+  active theme: after every apply it is snapped back to `""` (the
+  placeholder) by the client. The active theme lives in `data-theme`
+  on the target, in `localStorage` when `storageKey` is set, and in
+  the `onChange(slug)` argument.
 - The macro output contains NO inline `<style>` and NO `<script>` —
   the consumer loads `theme-select.client.js` separately.
 
@@ -167,7 +178,9 @@ The initial theme is the first non-empty value of:
 1. `localStorage.getItem(storageKey)` (only if `storageKey` is set
    and the read does not throw).
 2. The `value` of the selected `<option>` that the macro rendered
-   (i.e. the consumer's `value` prop).
+   (i.e. the consumer's `value` prop). The leading placeholder option
+   is also rendered `selected`, so it is skipped here by requiring a
+   non-empty value.
 3. The `<select>`'s `data-lily-theme-select-default-value` attribute.
 4. `"light"` if present among the rendered option values.
 5. The first option value, or `""` if none.
@@ -184,15 +197,23 @@ Applying a theme `slug` performs, in order:
    (defaults to `document.documentElement`).
 4. If `storageKey` is non-empty, write the slug to `localStorage`
    inside a try/catch.
-5. Set the `<select>` value to the matching option (so the control
-   mirrors the active theme).
+5. Set the `<select>` value to `""`, snapping the control back to its
+   placeholder option so the closed control keeps reading the
+   placeholder word rather than the active theme name.
 6. Call `opts.onChange?.(slug)` if supplied.
 
 ### 5.4 Reactivity
 
-The client.js attaches one `change` listener on the `<select>`. Every
-select change triggers `applyTheme`. `setTheme` on the returned
-controller does the same.
+The client.js attaches one `change` listener on the `<select>`. On
+each change it reads the chosen slug, immediately resets
+`select.value = ""`, and then applies the slug (choosing the
+placeholder itself is a no-op). `setTheme` on the returned controller
+performs the same apply.
+
+Because the reset happens synchronously inside the listener, a
+consumer's own `change` listener that reads `event.target.value` will
+see `""`. Consumers who need the chosen slug should use the
+`onChange(slug)` callback or read `data-theme` from the target.
 
 ### 5.5 SSR
 
@@ -221,9 +242,11 @@ jsdom document populated from the macro output.
 
 1. Macro renders a `<select>` (implicit `role="combobox"`).
 2. Macro renders `aria-label` equal to the supplied `label`.
-3. Macro renders one `<option>` per entry in `themes`; the `<select>`
-   carries the supplied `name` attribute.
-4. Each option's `value` attribute is the theme slug.
+3. Macro renders one placeholder `<option>` plus one `<option>` per
+   entry in `themes`; the `<select>` carries the supplied `name`
+   attribute.
+4. Each option's `value` attribute is the theme slug, preceded by the
+   placeholder's empty `value`.
 5. Default labels title-case the slug (`"light"` → `"Light"`); the
    word `"default"` never appears.
 6. `themeLabels` override the default title-case label.
@@ -246,6 +269,15 @@ jsdom document populated from the macro output.
     that match §5.1.
 13. Extra `attributes` keys in `opts` (e.g. `{"data-testid":"tp"}`)
     are spread onto the `<select>` root.
+14. The placeholder option is the first child of the `<select>`,
+    carries `class="theme-select-option theme-select-placeholder"`,
+    renders the `label` text, and has `value=""`. After
+    `initThemeSelect(root)` the `<select>`'s own value is still `""`
+    while `data-theme` carries the resolved slug.
+15. A supplied `placeholder` overrides `label` as the placeholder
+    option's text, while `aria-label` still carries `label`.
+16. Firing a `change` event with a real slug applies that theme AND
+    snaps the `<select>` value back to `""`.
 
 ## 8. Out-of-scope (future)
 

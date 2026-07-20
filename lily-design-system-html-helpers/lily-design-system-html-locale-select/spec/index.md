@@ -82,6 +82,7 @@ Give any HTML page a drop-in, headless locale select that:
 | Attribute              | Type            | Required | Default                          | Purpose |
 | ---------------------- | --------------- | -------- | -------------------------------- | ------- |
 | `label`                | `string`        | yes      | —                                | Accessible name for the `<select>`. |
+| `placeholder`          | `string`        | no       | value of `label`                 | Text of the always-displayed placeholder `<option>`. The closed `<select>` shows this instead of the active locale name, so the control stays as narrow as this word. Defaults to `label`, so no hardcoded user-facing string is emitted. |
 | `locales`              | `string` (CSV)  | yes      | —                                | Available locale codes, comma-separated. The JS property `el.locales` accepts `string[]`. |
 | `value`                | `string`        | no       | `""`                             | Currently selected locale code (consumer form). |
 | `default-value`        | `string`        | no       | `"en"` if present, else first    | Initial locale when nothing else is supplied. |
@@ -98,6 +99,9 @@ Mirror every attribute, plus:
 
 - `el.target` (`HTMLElement | null`, default
   `document.documentElement`; not exposed as an attribute).
+
+`el.placeholder` falls back to `el.label` when the `placeholder`
+attribute is absent.
 
 ### 4.3 Lifecycle callbacks
 
@@ -121,17 +125,47 @@ composed.
 ### 4.5 DOM contract
 
 ```html
-<locale-select label="Language" locales="en,fr,ar">
-  <select class="locale-select" aria-label="Language" name="locale">
-    <option class="locale-select-option" value="en" lang="en" selected>English</option>
+<locale-select label="Locale" locales="en,fr,ar">
+  <select class="locale-select" aria-label="Locale" name="locale">
+    <option class="locale-select-option locale-select-placeholder" value="" selected>Locale</option>
+    <option class="locale-select-option" value="en" lang="en">English</option>
     <option class="locale-select-option" value="fr" lang="fr">French</option>
     <option class="locale-select-option" value="ar" lang="ar">Arabic</option>
   </select>
 </locale-select>
 ```
 
-Each `<option>` carries `lang="{tagFor(locale)}"` (BCP 47 hyphen
-form) so assistive technology pronounces the option name correctly.
+Each locale `<option>` carries `lang="{tagFor(locale)}"` (BCP 47
+hyphen form) so assistive technology pronounces the option name
+correctly.
+
+**The placeholder option.** The first child of the `<select>` is
+always a component-owned placeholder `<option>` carrying
+`class="locale-select-option locale-select-placeholder"`, `value=""`,
+`selected`, and `placeholder ?? label` as its text. It is rendered
+before the real options and before any consumer-supplied custom
+option rendering. It carries **no `lang`** — it is not a locale. No
+option other than the placeholder is ever marked `selected`.
+
+**Snap-back.** The `<select>` is not bound to `value`. Its own DOM
+selection stays pinned to the placeholder, so the closed control
+always reads `placeholder ?? label` rather than the active locale
+name. On `change` the element:
+
+```js
+const chosen = select.value;
+select.value = "";      // snap back to the placeholder
+if (chosen) this.value = chosen;
+```
+
+Everything downstream is unchanged: `this.value` remains the real
+selection (attribute + property), and `lang` / `dir` application,
+`localStorage` persistence, the `localechange` event, navigator
+detection, and initial-value resolution all behave exactly as
+before. Consumers read the selection from `el.value` or the
+`localechange` detail — never from the rendered `<select>`, whose
+`value` is always `""`. Consumer `change` listeners on the host
+still fire (the native event bubbles from the `<select>`).
 
 `lang` and (by default) `dir` are set on the resolved target on every
 apply.
@@ -232,10 +266,19 @@ upgrade.
 - `<select>` (implicit `role="combobox"`) is the announced control.
 - `aria-label={label}` supplies the accessible name.
 - Native `<option>` elements get the implicit `role="option"`.
-- Each option carries `lang="{tagFor(locale)}"` (WCAG 3.1.2 Language
-  of Parts).
+- Each locale option carries `lang="{tagFor(locale)}"` (WCAG 3.1.2
+  Language of Parts). The placeholder option carries no `lang`: it
+  is UI copy in the page language, not a locale name.
 - The document root receives `lang` (WCAG 3.1.1 Language of Page)
   and `dir` for bidi layout.
+- **Known tradeoff.** Because the `<select>` keeps the placeholder
+  selected, the active locale is not announced as the combobox
+  value; a screen-reader user hears only `placeholder ?? label`.
+  Consumers who need the active locale conveyed must surface it
+  elsewhere — visible text next to the control, or a polite
+  `role="status"` live region updated on `localechange`. The
+  element still writes `lang` / `dir` on the target, so the state
+  stays observable to CSS, scripts, and the AT's language engine.
 
 ### 6.2 Keyboard contract
 
@@ -266,10 +309,26 @@ run under vitest + jsdom. Numbering mirrors the Svelte sibling's §7.
 
 1. Renders a `<select>` (implicit `role="combobox"`).
 2. `aria-label` is the supplied `label`.
-3. Renders one `<option>` per entry in `locales`; the `<select>`
+3. Renders one placeholder `<option>` plus one `<option>` per entry
+   in `locales` (`locales.length + 1` total); the `<select>`
    carries the supplied `name` attribute.
-4. Each `<option>`'s `value` attribute is the locale code.
-5. Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form).
+4. Each locale `<option>`'s `value` attribute is the locale code, in
+   catalog order, preceded by the empty-valued placeholder — the
+   full value list is `["", ...locales]`.
+4a. The placeholder `<option>` is the first child, carries
+    `class="locale-select-option locale-select-placeholder"` and
+    `value=""`, renders `label` as its text, and is the selected
+    option — `select.value` is `""` — while the resolved initial
+    locale is still applied to the target's `lang`.
+4b. When the `placeholder` attribute is supplied it overrides
+    `label` as the placeholder option's text, while `aria-label`
+    still carries `label`.
+4c. Choosing an option applies that locale (`lang`, `dir`,
+    `localechange`) AND snaps the `<select>` back to the
+    placeholder — `select.value` is `""` again, both on the
+    pre-existing select reference and on the re-rendered one.
+5. Each locale option carries `lang="{tagFor(locale)}"` (BCP 47
+   hyphen form); the placeholder option carries no `lang`.
 6. The default rendering shows `localeLabels[code] ??
    defaultLocaleLabels[code] ?? code` as the visible option text.
 

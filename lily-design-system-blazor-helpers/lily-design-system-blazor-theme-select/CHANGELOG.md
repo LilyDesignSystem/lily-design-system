@@ -4,6 +4,48 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING)
+
+- The closed `<select>` now always reads a placeholder word instead of
+  the active theme name, so the control stays narrow regardless of how
+  long theme names are. Two parts of the DOM contract change:
+  - **Option count and ordering.** A component-owned placeholder
+    `<option class="theme-select-option theme-select-placeholder"
+    value="" selected>` is now the FIRST child of the `<select>`, in
+    both the default and the `ChildContent` code paths. Consumers and
+    tests that count options or index into them must account for it
+    (`Themes.Count + 1`; real slugs start at index 1).
+  - **The `<select>`'s own value no longer tracks the selection.** The
+    placeholder is the only option ever marked `selected`; after every
+    change the component resets the live element's value back to `""`
+    via `IJSRuntime`. Read the selection from `Value` (still two-way
+    bindable via `@bind-Value`) or from `data-theme` on the document
+    root — never from the `<select>` element.
+
+  Everything downstream is unchanged: the managed `<link>` swap,
+  `data-theme`, `localStorage` persistence, `OnChange` /
+  `ValueChanged`, and initial-value resolution all behave as before.
+
+### Added
+
+- `Placeholder` parameter (`string?`, defaults to `Label`) — the text
+  of the always-displayed placeholder option. Like every other
+  user-facing string in this package it is consumer-supplied, so no
+  hardcoded English is emitted.
+- New `.theme-select-placeholder` class hook, and a width recipe
+  (`field-sizing: content` with a `max-width` fallback) in
+  [`docs/styling.md`](docs/styling.md).
+
+### Accessibility
+
+- Documented tradeoff: because the closed control always reads the
+  placeholder, screen-reader users no longer hear the active theme
+  announced as the combobox value. Consumers who need it announced
+  should surface the active theme in visible text or a polite live
+  region — see [`docs/accessibility.md`](docs/accessibility.md).
+
 ## 0.2.0 — 2026-07-03
 
 ### Changed (BREAKING)

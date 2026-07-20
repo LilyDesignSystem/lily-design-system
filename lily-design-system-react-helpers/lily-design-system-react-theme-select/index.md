@@ -91,6 +91,39 @@ When the user picks `dark`, the component:
 - writes `"dark"` to `localStorage["lily-theme"]`,
 - calls the optional `onChange("dark")` callback.
 
+## The always-shown placeholder
+
+The rendered markup always leads with a placeholder `<option>`:
+
+```html
+<select class="theme-select" aria-label="Theme" name="theme">
+    <option class="theme-select-option theme-select-placeholder" value="">Theme</option>
+    <option class="theme-select-option" value="light">Light</option>
+    <option class="theme-select-option" value="dark">Dark</option>
+    <option class="theme-select-option" value="abyss">Abyss</option>
+</select>
+```
+
+The closed control **always** reads that placeholder — never the name
+of the active theme. After you pick an option the select's own value
+snaps straight back to `""`, which keeps the control as narrow as the
+placeholder word instead of stretching to the longest theme name.
+
+The real selection is unaffected: it lives in the `value` prop /
+internal state, and `data-theme`, the managed `<link>`, persistence,
+and `onChange` all behave exactly as before.
+
+Pass `placeholder` to show a shorter word than the accessible name:
+
+```tsx
+<ThemeSelect label="Choose a colour theme" placeholder="Theme" {...required} />
+```
+
+One tradeoff to know: because the control never shows the active
+theme, screen-reader users no longer hear it announced as the combobox
+value. See [docs/accessibility.md](./docs/accessibility.md) for how to
+surface it separately.
+
 ## How it works
 
 On every theme change the select performs four steps, in order:
@@ -134,6 +167,7 @@ The complete table is in [spec/index.md §4.1](./spec/index.md#41-props). Highli
 | Prop           | Type                                     | Required | Notes                                      |
 | -------------- | ---------------------------------------- | -------- | ------------------------------------------ |
 | `label`        | `string`                                 | yes      | `aria-label` on the `<select>`.            |
+| `placeholder`  | `string`                                 | no       | Text of the always-shown placeholder option; defaults to `label`. |
 | `themesUrl`    | `string`                                 | yes      | Trailing `/` is auto-added.                |
 | `themes`       | `string[]`                               | yes      | Available slugs.                           |
 | `value`        | `string`                                 | no       | Controlled value (omit for uncontrolled).  |

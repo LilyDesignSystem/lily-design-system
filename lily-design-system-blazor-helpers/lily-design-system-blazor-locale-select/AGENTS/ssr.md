@@ -12,13 +12,16 @@ looks like:
 
 ```html
 <select class="locale-select" aria-label="Language" name="locale">
+    <option class="locale-select-option locale-select-placeholder" value="" selected>Language</option>
     <option class="locale-select-option" value="en" lang="en">English</option>
     …
 </select>
 ```
 
-If the consumer passes `Value="ar"`, the corresponding `<option>`
-gets `selected` rendered server-side.
+The placeholder option is `selected` server-side and stays selected
+thereafter; no locale `<option>` is ever marked `selected`, even when
+the consumer passes `Value="ar"`. The selection lives in `Value` and in
+`lang` / `dir` on the document root.
 
 The `lang` and `dir` attributes on the document root are **not**
 written on the server. Those happen on hydration unless the consumer

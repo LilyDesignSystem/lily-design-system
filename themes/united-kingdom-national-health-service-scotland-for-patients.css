@@ -2190,6 +2190,31 @@
         color: var(--lily-text);
     }
 
+    /* theme-select and locale-select are preference pickers, not form
+       fields: the closed control always shows a short placeholder word
+       ("Theme", "Locale") rather than the active value, so it sizes to
+       that word instead of stretching to the container or to the widest
+       option. field-sizing sizes to the displayed option in Chromium;
+       max-width caps the fallback everywhere else. The :has() guard
+       scopes this to the *-helpers packages, which are the only ones
+       that render a placeholder option: the catalog theme-select
+       component shares the class hook but shows its real value and
+       keeps the full-width form-field sizing above. */
+    :where(
+        .theme-select:has(> .theme-select-placeholder),
+        .locale-select:has(> .locale-select-placeholder)
+    ) {
+        width: auto;
+        max-width: 12ch;
+        field-sizing: content;
+    }
+
+    /* Locale options inherit the select colours, same as theme options. */
+    :where(.locale-select-option) {
+        background-color: var(--lily-surface);
+        color: var(--lily-text);
+    }
+
     /* Combobox / listbox / autosuggest — non-native variant of <select>. */
     :where(.combobox, .listbox, .autosuggest) {
         background-color: var(--lily-surface);

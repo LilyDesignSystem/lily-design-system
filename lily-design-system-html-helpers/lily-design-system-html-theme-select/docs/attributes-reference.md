@@ -9,6 +9,25 @@ rationale and common usage.
 `aria-label` on the rendered `<select>`. Always supplied, always
 translatable. Screen readers announce it as the control's name.
 
+## `placeholder` — optional, string
+
+Text of the always-displayed placeholder `<option>` that the element
+renders as the first child of the `<select>`. Because the select's
+own selection snaps back to this option after every change, the
+closed control always reads this word — never the active theme name.
+That keeps the control as narrow as one word.
+
+Defaults to `label`, so the package still emits no hardcoded
+user-facing string. Supply it when the accessible name and the
+visible placeholder should differ:
+
+```html
+<theme-select label="Choose a theme" placeholder="Theme" ...></theme-select>
+```
+
+The screen reader announces "Choose a theme"; the closed control
+shows "Theme".
+
 ## `themes-url` — required, string
 
 Base URL of the directory the theme CSS files are served from. A

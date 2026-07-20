@@ -88,6 +88,7 @@ Give a Vue 3 application a drop-in, headless theme select that:
 | Prop            | Type                                      | Required | Default                  | Purpose |
 | --------------- | ----------------------------------------- | -------- | ------------------------ | ------- |
 | `label`         | `string`                                  | yes      | —                        | Accessible name for the `<select>`. |
+| `placeholder`   | `string`                                  | no       | value of `label`         | Text of the always-displayed placeholder option. The closed `<select>` shows this instead of the active theme name. |
 | `themesUrl`     | `string`                                  | yes      | —                        | Base URL of the themes directory. Trailing `/` is auto-normalised. |
 | `themes`        | `string[]`                                | yes      | —                        | Available theme slugs. |
 | `value`         | `string` (`v-model:value`)                | no       | `""`                     | Currently selected theme slug. |
@@ -126,9 +127,21 @@ type SlotArgs = {
 - Root element: `<select class="theme-select {class}"
   aria-label="{label}" name="{name}">`. `$attrs` falls through to the
   root via the default Vue inheritAttrs behaviour.
-- Default children: one `<option class="theme-select-option"
-  value="{slug}">{labelFor(slug)}</option>` per theme slug. The
-  active slug is bound via `v-model` on the `<select>`.
+- **First child, always:** a component-owned placeholder
+  `<option class="theme-select-option theme-select-placeholder"
+  value="" selected>{placeholder ?? label}</option>`. It is rendered
+  in both the default and the custom-slot code paths, so a consumer
+  slot cannot displace it.
+- Remaining default children: one `<option class="theme-select-option"
+  value="{slug}">{labelFor(slug)}</option>` per theme slug.
+- The `<select>` element's own value is **not** bound to the active
+  slug. Its DOM selection stays pinned to the placeholder: on
+  `change` the component reads the chosen slug, immediately resets
+  `select.value = ""`, and then applies the slug. The closed control
+  therefore always reads `placeholder ?? label` rather than the
+  active theme name, which keeps the control as narrow as that one
+  word. The real selection lives in `value` / `v-model:value` and in
+  `data-theme` on the target.
 - `labelFor(slug)` returns `themeLabels[slug]` when supplied;
   otherwise the slug with its first character upper-cased. The select
   never emits the word "default".
@@ -237,8 +250,10 @@ run under vitest + jsdom + `@vue/test-utils`.
 
 1. Renders a `<select>` carrying the supplied `name` attribute.
 2. `aria-label` is the supplied `label`.
-3. Renders one `<option>` per entry in `themes`.
-4. Each `<option>`'s `value` attribute is the theme slug.
+3. Renders the leading placeholder `<option>` plus one `<option>` per
+   entry in `themes` (`themes.length + 1` options in total).
+4. The first `<option>` has `value=""`; each following `<option>`'s
+   `value` attribute is the theme slug.
 5. The default rendering shows `themeLabels[slug]` when supplied, or
    the slug with its first character upper-cased otherwise. The word
    `"default"` never appears.
@@ -263,6 +278,15 @@ run under vitest + jsdom + `@vue/test-utils`.
 12. Extra attributes spread through onto the `<select>` (e.g.
     `data-testid`).
 13. A custom default slot is rendered with the `SlotArgs` contract.
+14. The placeholder `<option class="theme-select-placeholder">`
+    renders the `label` text, carries `value=""`, and the
+    `<select>`'s own `value` stays `""` after the initial theme has
+    been resolved and applied to `data-theme`.
+15. When `placeholder` is supplied it overrides `label` as the
+    placeholder option's text, while `aria-label` still carries
+    `label`.
+16. Choosing an option applies the theme (`data-theme` updates) and
+    snaps the `<select>`'s own `value` back to `""`.
 
 ## 8. Out-of-scope (future, not implemented here)
 
