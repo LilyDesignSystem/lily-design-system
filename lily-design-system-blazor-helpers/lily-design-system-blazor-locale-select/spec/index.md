@@ -87,6 +87,7 @@ Give a Blazor application a drop-in, headless locale select that:
 | Parameter             | Type                                  | Required | Default                       | Purpose |
 | --------------------- | ------------------------------------- | -------- | ----------------------------- | ------- |
 | `Label`               | `string`                              | yes      | —                             | Accessible name for the select. |
+| `Placeholder`         | `string?`                             | no       | `Label`                       | Text of the always-displayed placeholder option. The closed `<select>` shows this instead of the selected locale name, so the control stays as narrow as this word. |
 | `Locales`             | `IReadOnlyList<string>`               | yes      | —                             | Available locale codes. |
 | `Value`               | `string`                              | no       | `""`                          | Currently selected locale code. Two-way bindable via `@bind-Value`. |
 | `ValueChanged`        | `EventCallback<string>`               | no       | —                             | Two-way binding callback. |
@@ -120,10 +121,31 @@ public sealed class LocaleSelectContext
 
 - Root element: `<select class="locale-select {CssClass}"
   aria-label="{Label}" name="{Name}">`.
-- Default children: one `<option class="locale-select-option"
-  value="{locale}" lang="{TagFor(locale)}">{LabelFor(locale)}</option>`
-  per locale code.
-- Each `<option>` carries `lang="{TagFor(locale)}"` so assistive
+- **First child, always:** a component-owned placeholder option
+
+  ```html
+  <option class="locale-select-option locale-select-placeholder" value="" selected>
+    {Placeholder ?? Label}
+  </option>
+  ```
+
+  It precedes the real options in BOTH the default and the
+  `ChildContent` code paths, and it is the only option ever marked
+  `selected`. It carries no `lang`, because it is not a locale.
+- Default children after the placeholder: one
+  `<option class="locale-select-option" value="{locale}"
+  lang="{TagFor(locale)}">{LabelFor(locale)}</option>` per locale code.
+  Real options are never marked `selected` — the `<select>`'s own DOM
+  value does not track `Value`.
+- **Snap-back:** on `change` the component reads the chosen code, resets
+  the live element's value to `""` (`Object.assign(el, { value: "" })`
+  through `IJSRuntime`, wrapped in try/catch so prerender is safe), and
+  only then applies the code. The closed control therefore always reads
+  `Placeholder ?? Label`; the real selection lives in `Value`, which
+  remains two-way bindable. `lang` / `dir` application, `localStorage`
+  persistence, `OnChange` / `ValueChanged`, and initial-value resolution
+  are all unchanged.
+- Each locale `<option>` carries `lang="{TagFor(locale)}"` so assistive
   technology pronounces option text in the appropriate language.
 - `lang="{TagFor(slug)}"` is set on `document.documentElement` (or
   the consumer's target via JS interop) on every apply.
@@ -267,9 +289,12 @@ run under bUnit + xUnit.
 
 1. Renders a `<select>` carrying the supplied `Name` attribute.
 2. `aria-label` is the supplied `Label`.
-3. Renders one `<option>` per entry in `Locales`.
-4. Each `<option>`'s `value` attribute is the locale code.
-5. Each `<option>` carries `lang="{TagFor(locale)}"` (BCP 47 hyphen form).
+3. Renders one `<option>` per entry in `Locales`, plus the leading
+   placeholder option (so `Locales.Count + 1` options).
+4. Each locale `<option>`'s `value` attribute is the locale code, after
+   the leading placeholder whose value is `""`.
+5. Each locale `<option>` carries `lang="{TagFor(locale)}"` (BCP 47
+   hyphen form); the placeholder at index 0 carries no `lang`.
 6. The default rendering shows `LocaleLabels[code] ??
    DefaultLocaleLabels[code] ?? code` as the visible option text.
 
@@ -316,6 +341,18 @@ run under bUnit + xUnit.
 23. A custom `ChildContent` renders custom `<option>` elements and
     receives `LocaleSelectContext` with `Locales`, `Name`, `TagFor`,
     and `IsRtl` exposed.
+
+### 7.6 Placeholder (mirrors §4.3)
+
+24. The placeholder option is the first child of the `<select>`,
+    carries `class="locale-select-option locale-select-placeholder"`,
+    `value=""`, and the text `Label`; it is the only option marked
+    `selected`; and the resolved initial locale is still applied.
+25. When `Placeholder` is supplied it overrides `Label` as the
+    placeholder text, while `aria-label` still carries `Label`.
+26. Choosing an option applies the chosen locale AND snaps the select
+    back to the placeholder: the live element's value is reset through
+    interop, and the placeholder remains the only `selected` option.
 
 ## 8. Out-of-scope (future, not implemented here)
 

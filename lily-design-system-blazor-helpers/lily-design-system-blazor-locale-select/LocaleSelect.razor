@@ -17,8 +17,20 @@
 <select class="@RootClass"
         aria-label="@Label"
         name="@Name"
+        @ref="_selectElement"
         @onchange="OnSelectAsync"
         @attributes="AdditionalAttributes">
+    @*
+        The placeholder option is component-owned and is always the selected
+        option, so the closed <select> reads `Placeholder ?? Label` rather
+        than the active locale name. It is the first child in BOTH the
+        default and the custom-ChildContent code paths. It is not a locale,
+        so it carries no `lang`. The real selection lives in `Value`, not in
+        the <select>'s own DOM value.
+    *@
+    <option class="locale-select-option locale-select-placeholder"
+            value=""
+            selected>@PlaceholderText</option>
     @if (ChildContent is not null)
     {
         @ChildContent(BuildContext())
@@ -29,8 +41,7 @@
         {
             <option class="locale-select-option"
                     value="@locale"
-                    lang="@TagFor(locale)"
-                    selected="@(Value == locale)">@LabelFor(locale)</option>
+                    lang="@TagFor(locale)">@LabelFor(locale)</option>
         }
     }
 </select>

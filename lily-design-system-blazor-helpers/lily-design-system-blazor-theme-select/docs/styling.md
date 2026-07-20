@@ -11,9 +11,12 @@ exposes.
 | `.theme-select`                           | The root `<select>`.             |
 | `.theme-select.{CssClass}`                | Both classes when `CssClass` is passed. |
 | `.theme-select > .theme-select-option`    | Each `<option>`.                 |
+| `.theme-select > .theme-select-placeholder` | The leading placeholder `<option>` — the one the closed control always displays. |
 
-If you pass a `ChildContent` fragment, only `.theme-select` is
-guaranteed on the root; the inner classes are up to your markup.
+If you pass a `ChildContent` fragment, `.theme-select` on the root and
+the leading `.theme-select-placeholder` option are still guaranteed
+(the placeholder is component-owned and renders in both code paths);
+the rest of the inner markup is up to you.
 
 ## Attribute hooks
 
@@ -29,6 +32,15 @@ Drop into the consumer's app stylesheet (e.g.
 
 ```css
 .theme-select {
+    /*
+       The closed control always shows the short placeholder word rather
+       than the (often long) active theme name, so the select can be
+       sized to that word instead of to the widest option.
+    */
+    field-sizing: content;  /* Chrome 123+: size to the shown option */
+    width: auto;
+    max-width: 12ch;        /* fallback for Firefox / Safari */
+
     padding: 0.25rem 0.5rem;
     border: 1px solid var(--color-base-300, currentColor);
     border-radius: var(--radius-selector, 0.25rem);

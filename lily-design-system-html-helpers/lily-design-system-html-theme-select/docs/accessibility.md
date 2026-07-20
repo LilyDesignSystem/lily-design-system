@@ -73,6 +73,32 @@ transitions on the `data-theme` swap.
 - Selection changes are announced because the underlying control
   state (the selected option) changes.
 
+## Tradeoff: the placeholder hides the active theme
+
+The `<select>` keeps its own selection pinned to the leading
+placeholder option, so the closed control always reads
+`placeholder ?? label` — "Theme" — rather than the active theme
+name. This keeps the control narrow, but it costs something real:
+
+**A screen-reader user no longer hears the active theme announced
+as the combobox value.** Where a sighted user sees no visual
+regression (they were reading the label anyway), an assistive-
+technology user loses the one place the current selection was
+previously spoken. The same applies to the visual state: nothing in
+the control itself now indicates which theme is active.
+
+If the active theme matters to your users, surface it elsewhere:
+
+- Render it as visible text next to the select (which also serves
+  sighted users), or
+- Announce it through a polite live region on change (see the next
+  section), or
+- Both — a `role="status"` element whose text is the active theme
+  covers both audiences with one node.
+
+The element still writes `data-theme` on the target, so the active
+theme remains observable to CSS and to your own scripts.
+
 ## Announcing the theme change
 
 `themechange` is a JS event, not an ARIA live region. If you want a

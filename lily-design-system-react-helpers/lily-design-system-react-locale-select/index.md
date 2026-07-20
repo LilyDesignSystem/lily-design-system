@@ -126,14 +126,52 @@ export function NhsBanner() {
 
 // Renders:
 // <select class="locale-select" aria-label="Language" name="locale">
+//     <option class="locale-select-option locale-select-placeholder" value="">Language</option>
 //     <option class="locale-select-option" value="en" lang="en">English</option>
 //     <option class="locale-select-option" value="cy" lang="cy">Welsh</option>
 // </select>
 ```
 
-Each option carries its own `lang` attribute so a screen reader
+Each locale option carries its own `lang` attribute so a screen reader
 pronounces "Cymraeg" with a Welsh voice (WCAG 3.1.2, Language of
-Parts).
+Parts). The leading placeholder carries none — it is not a locale.
+
+### The always-shown placeholder
+
+The closed control **always** reads the placeholder option — never the
+name of the active locale. After you pick an option the select's own
+value snaps straight back to `""`, which keeps the control as narrow as
+the placeholder word instead of stretching to the longest locale name.
+
+The real selection is unaffected: it lives in the `value` prop /
+internal state, and `lang`, `dir`, persistence, and `onChange` all
+behave exactly as before.
+
+Pass `placeholder` to show a shorter word than the accessible name:
+
+```tsx
+<LocaleSelect label="Choose a language" placeholder="Locale" locales={["en", "cy"]} />
+```
+
+Because the closed control only ever shows that one short word, you can
+size it to the word rather than to the longest locale name. The package
+ships no CSS; add this to your own stylesheet:
+
+```css
+.locale-select {
+    field-sizing: content; /* Chrome 123+: size to the shown option */
+    width: auto;
+    max-width: 12ch; /* fallback for Firefox / Safari */
+}
+```
+
+The placeholder option is addressable as `.locale-select-placeholder`
+(it also carries `.locale-select-option`).
+
+One tradeoff to know: because the control never shows the active
+locale, screen-reader users no longer hear it announced as the combobox
+value. See [docs/accessibility.md](./docs/accessibility.md) for how to
+surface it separately.
 
 ### Pretty labels for the option text
 
@@ -327,7 +365,8 @@ See [spec/index.md §4](./spec/index.md#4-public-api) for the full table.
 
 Required props: `label`, `locales`.
 
-Common optional props: `value` (controlled), `defaultValue`,
+Common optional props: `placeholder` (placeholder-option text;
+defaults to `label`), `value` (controlled), `defaultValue`,
 `storageKey`, `detectFromNavigator`, `localeLabels`, `applyDir`,
 `target`, `onChange`, `className`, `name`, `children`.
 
@@ -337,13 +376,17 @@ Common optional props: `value` (controlled), `defaultValue`,
   announced control.
 - The native `<select>` gives Arrow / Home / End / typeahead semantics
   for free (see MDN — `<select>` element).
-- Each `<option>` carries `lang="…"` so its name is pronounced
+- Each locale `<option>` carries `lang="…"` so its name is pronounced
   in the right language (WCAG 3.1.2, Language of Parts).
 - The document root carries `lang` and (by default) `dir` so the
   page satisfies WCAG 3.1.1 (Language of Page) and bidi text/layout
   inverts correctly for RTL locales.
-- No colour-only meaning; the active state is also visible in the
-  resolved `lang` attribute and in the native selected `<option>`.
+- No colour-only meaning; the active state is visible in the resolved
+  `lang` attribute.
+- **Tradeoff:** because the closed control always reads the
+  placeholder, the active locale is no longer announced as the
+  combobox value. Surface it separately where that matters — see
+  [docs/accessibility.md](./docs/accessibility.md).
 
 ## Tests
 

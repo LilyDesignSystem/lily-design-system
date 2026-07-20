@@ -79,17 +79,69 @@ describe("ThemeSelect — markup contract (§4.4, §7.1–§7.5)", () => {
             attachTo: document.body,
         });
         const options = wrapper.findAll("option");
-        expect(options.length).toBe(3);
+        // One placeholder option plus one option per theme.
+        expect(options.length).toBe(4);
         expect(wrapper.find("select").attributes("name")).toBe("appearance");
     });
 
-    test("§7.4 each option carries the slug as its value", () => {
+    test("§7.4 each option carries the slug as its value, after the empty placeholder", () => {
         const wrapper = mount(ThemeSelect, {
             props: { label: "Theme", themesUrl: URL_TRAILING, themes: THEMES },
             attachTo: document.body,
         });
         const options = wrapper.findAll("option");
-        expect(options.map((o) => (o.element as HTMLOptionElement).value)).toEqual(THEMES);
+        expect(options.map((o) => (o.element as HTMLOptionElement).value)).toEqual([
+            "",
+            ...THEMES,
+        ]);
+    });
+
+    test("§7.14 the placeholder option renders the label and stays displayed", async () => {
+        const wrapper = mount(ThemeSelect, {
+            props: { label: "Theme", themesUrl: URL_TRAILING, themes: THEMES },
+            attachTo: document.body,
+        });
+        await flush();
+        await flush();
+        const select = wrapper.find("select").element as HTMLSelectElement;
+        const placeholder = select.querySelector(
+            ".theme-select-placeholder",
+        ) as HTMLOptionElement;
+        expect(placeholder.textContent?.trim()).toBe("Theme");
+        expect(placeholder.value).toBe("");
+        // The closed control shows the placeholder, not the active theme.
+        expect(select.value).toBe("");
+        expect(document.documentElement.dataset.theme).toBe("light");
+    });
+
+    test("§7.15 the placeholder prop overrides the label as placeholder text", () => {
+        const wrapper = mount(ThemeSelect, {
+            props: {
+                label: "Choose a theme",
+                placeholder: "Theme",
+                themesUrl: URL_TRAILING,
+                themes: THEMES,
+            },
+            attachTo: document.body,
+        });
+        const placeholder = wrapper.find(".theme-select-placeholder");
+        expect(placeholder.text().trim()).toBe("Theme");
+        expect(wrapper.find("select").attributes("aria-label")).toBe("Choose a theme");
+    });
+
+    test("§7.16 choosing a theme applies it and snaps the select back to the placeholder", async () => {
+        const wrapper = mount(ThemeSelect, {
+            props: { label: "Theme", themesUrl: URL_TRAILING, themes: THEMES },
+            attachTo: document.body,
+        });
+        await flush();
+        await flush();
+        const select = wrapper.find("select");
+        await select.setValue("abyss");
+        await flush();
+        await flush();
+        expect(document.documentElement.dataset.theme).toBe("abyss");
+        expect((select.element as HTMLSelectElement).value).toBe("");
     });
 
     test("§7.5 default labels title-case the slug (no 'default' string)", () => {

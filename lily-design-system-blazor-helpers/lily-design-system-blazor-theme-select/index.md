@@ -116,6 +116,60 @@ On every theme change the select performs four steps via a single
 All four steps are gated on `OnAfterRenderAsync(firstRender: true)`,
 so static-SSR / prerender renders the markup with no DOM mutation.
 
+## The placeholder option
+
+The rendered markup leads with a component-owned placeholder option:
+
+```html
+<select class="theme-select" aria-label="Theme" name="theme">
+    <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
+    <option class="theme-select-option" value="light">Light</option>
+    <option class="theme-select-option" value="dark">Dark</option>
+</select>
+```
+
+The placeholder is always the selected option. Choosing a theme applies
+it normally and then snaps the `<select>`'s own value straight back to
+the placeholder, so the closed control keeps reading
+`Placeholder ?? Label` instead of the active theme name. That keeps the
+control as narrow as a single word even when theme names are long
+(`united-kingdom-national-health-service-england-for-patients`).
+
+The real selection lives in `Value`, which stays two-way bindable.
+Everything downstream is unchanged: the `<link>` swap, `data-theme`,
+`localStorage` persistence, `OnChange`, and initial-value resolution all
+behave exactly as before.
+
+`Placeholder` defaults to `Label`. Set it when you want a short visible
+word but a fuller accessible name:
+
+```razor
+<ThemeSelect Label="Choose a theme" Placeholder="Theme" ... />
+```
+
+The placeholder renders in both the default and the `ChildContent`
+code paths.
+
+**Accessibility cost:** screen readers no longer announce the active
+theme as the control's value. See
+[docs/accessibility.md](./docs/accessibility.md#the-placeholder-tradeoff)
+for how to surface it elsewhere.
+
+### Sizing the control
+
+Because the closed control always shows the short placeholder word, you
+can size it to that word instead of to the widest theme name:
+
+```css
+.theme-select {
+    field-sizing: content;  /* Chrome 123+: size to the shown option */
+    width: auto;
+    max-width: 12ch;        /* fallback for Firefox / Safari */
+}
+```
+
+See [docs/styling.md](./docs/styling.md) for the full hook list.
+
 ## Default theme
 
 The default theme is `"light"` whenever `"light"` appears in your
@@ -140,6 +194,7 @@ The complete table is in [spec/index.md §4.1](./spec/index.md#41-parameters). H
 | Parameter      | Type                                  | Required | Notes                                      |
 | -------------- | ------------------------------------- | -------- | ------------------------------------------ |
 | `Label`        | `string`                              | yes      | `aria-label` on the select.                |
+| `Placeholder`  | `string?`                             | no       | Text of the always-shown placeholder option; defaults to `Label`. |
 | `ThemesUrl`    | `string`                              | yes      | Trailing `/` is auto-added.                |
 | `Themes`       | `IReadOnlyList<string>`               | yes      | Available slugs.                           |
 | `Value`        | `string` (`@bind-Value`)              | no       | Two-way bind for the current slug.         |
@@ -219,9 +274,12 @@ recipe.
 - The native `<select>` gives Arrow / Home / End / typeahead
   semantics for free; the select does not override any keyboard
   behaviour.
-- The active state is exposed in three independent channels: the
-  selected `<option>`, `data-theme` on the root, and the `Value`
-  binding. No colour-only meaning is required.
+- The active state is exposed in two independent channels:
+  `data-theme` on the document root, and the `Value` binding. No
+  colour-only meaning is required.
+- **Tradeoff:** the always-selected placeholder means the active theme
+  is *not* announced as the control's value. Surface it elsewhere — see
+  [docs/accessibility.md](./docs/accessibility.md#the-placeholder-tradeoff).
 - WCAG 2.2 AAA is the target; visible focus styling is the
   consumer's CSS responsibility.
 

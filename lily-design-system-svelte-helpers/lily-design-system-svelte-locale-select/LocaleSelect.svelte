@@ -28,6 +28,12 @@
     export type Props = {
         /** Accessible label for the `<select>`. */
         label: string;
+        /**
+         * Text of the always-displayed placeholder option. The closed
+         * `<select>` shows this instead of the selected locale name, so the
+         * control stays as narrow as this word. Defaults to `label`.
+         */
+        placeholder?: string;
         /** Available locale codes. */
         locales: string[];
         /** Currently selected locale code. Two-way bindable. */
@@ -128,6 +134,7 @@
     let {
         class: className = "",
         label,
+        placeholder,
         locales,
         value = $bindable(""),
         defaultValue,
@@ -173,6 +180,20 @@
 
     function setLocale(code: string): void {
         value = code;
+    }
+
+    /**
+     * The `<select>` is never bound to `value`: its own selection snaps back
+     * to the placeholder option after every change, so the closed control
+     * always reads `placeholder ?? label` rather than the active locale name.
+     * The real selection lives in `value`.
+     */
+    function handleChange(event: Event & { currentTarget: HTMLSelectElement }): void {
+        const el = event.currentTarget;
+        const chosen = el.value;
+        el.value = "";
+        if (chosen) value = chosen;
+        (restProps.onchange as ((event: Event) => void) | undefined)?.(event);
     }
 
     let initialised = false;
@@ -223,9 +244,12 @@
     class={`locale-select ${className}`.trim()}
     aria-label={label}
     {name}
-    bind:value
     {...restProps}
+    onchange={handleChange}
 >
+    <option class="locale-select-option locale-select-placeholder" value="" selected
+        >{placeholder ?? label}</option
+    >
     {#if children}
         {@render children({
             locales,

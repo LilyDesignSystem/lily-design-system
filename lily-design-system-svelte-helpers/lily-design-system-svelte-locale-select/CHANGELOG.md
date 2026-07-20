@@ -4,6 +4,41 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING)
+
+- The closed `<select>` now always displays a placeholder word ("Locale")
+  instead of the active locale name, so the control is only ever as wide
+  as that word rather than as wide as the longest locale name. A leading
+  `<option class="locale-select-option locale-select-placeholder" value="">`
+  is always rendered, and the element's own selection snaps back to it
+  after every change.
+- DOM contract changes accordingly: the option count is now
+  `locales.length + 1`, the first option's `value` is `""` and it carries
+  no `lang` attribute, and the `<select>` element's own `value` no longer
+  tracks the active locale — it stays `""`. Consumers reading
+  `selectEl.value` must read the bindable `value` prop instead.
+- Accessibility tradeoff: the active locale is no longer announced as the
+  combobox value. See [docs/accessibility.md](./docs/accessibility.md)
+  for how to surface it separately — this matters more for locale than
+  for most controls.
+
+### Added
+
+- `placeholder` prop (optional, string, defaults to `label`) — the text
+  of the placeholder option.
+
+### Unchanged
+
+- `value` remains the single source of truth and stays two-way bindable;
+  `lang` / `dir` application, `localStorage` persistence,
+  `navigator.languages` detection, `onChange`, and initial-value
+  resolution all behave exactly as before.
+- Per-option `lang` attributes are unchanged on the locale options.
+- Still ships zero CSS. The width recipe lives in the root `themes/`
+  stylesheets.
+
 ## 0.2.0 — 2026-07-03
 
 ### Changed (BREAKING)

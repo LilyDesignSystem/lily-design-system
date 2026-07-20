@@ -9,13 +9,47 @@ what's built in and what remains the consumer's responsibility.
 | WCAG item | How the select satisfies it |
 | --------------- | --------------------------- |
 | WCAG 3.1.1 Language of Page | The client.js writes `lang` to the document root on every locale change. |
-| WCAG 3.1.2 Language of Parts | The macro emits `lang="{tag}"` on each `<option>`. |
+| WCAG 3.1.2 Language of Parts | The macro emits `lang="{tag}"` on each locale `<option>` (the placeholder option carries none — it is not a locale). |
 | WCAG 1.4.10 Reflow (RTL bidi) | The client.js writes `dir="rtl"` for RTL locales. |
 | WCAG 4.1.2 Name, Role, Value | `<select aria-label>` exposes the combobox; `<option>` exposes each choice. |
 | WCAG 2.1.1 Keyboard | Tab to the select; Arrow / Home / End / typeahead move selection — all from native `<select>` semantics. |
 | WCAG 2.4.7 Focus Visible | The browser's default focus ring is preserved; the select never sets `outline: none`. |
-| WCAG 1.4.1 Use of Color | Selection state is exposed via the `<select>`'s current value and reflected in the `lang` attribute — not colour alone. |
+| WCAG 1.4.1 Use of Color | Selection state is exposed in the `lang` / `dir` attributes on the target — not colour alone. (Not via the `<select>`'s value; see the tradeoff below.) |
 | Native `<select>` | Single-selection combobox with full keyboard and screen-reader support — provided by the platform. |
+
+## Tradeoff: the control does not announce the active locale
+
+The `<select>` always displays its leading placeholder option, and the
+client snaps `select.value` back to `""` after every change. This
+keeps the control narrow and predictable, but it has a real
+accessibility cost: a screen-reader user focusing the combobox hears
+the placeholder word ("Locale") as its value, **not** the locale that
+is currently active. The active locale is no longer discoverable from
+the control itself.
+
+Where knowing the active locale matters, surface it elsewhere:
+
+- Render the active locale as visible text next to the control (this
+  also helps sighted users).
+- Announce changes from a polite live region the consumer owns:
+
+  ```html
+  <p aria-live="polite" id="locale-status"></p>
+  ```
+
+  ```js
+  initLocaleSelect(root, {
+      onChange: (code) => {
+          document.getElementById("locale-status").textContent =
+              translate("Language changed to {name}", { name: labels[code] });
+      },
+  });
+  ```
+
+  The announcement text is consumer-supplied and translatable, so this
+  stays i18n-clean. Note the document `lang` changes at the same
+  moment, so give the status element its own `lang` if the message is
+  written in the newly selected language.
 
 ## Per-option `lang` is important
 

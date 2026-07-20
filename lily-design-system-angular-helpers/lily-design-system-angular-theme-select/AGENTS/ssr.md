@@ -12,14 +12,16 @@ prevents any DOM mutation. The select renders:
 
 ```html
 <select class="theme-select " aria-label="Theme" name="theme">
+    <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
     <option class="theme-select-option" value="light">Light</option>
     …
 </select>
 ```
 
-If the consumer passes `value="light"`, the matching `<option>` is
-rendered selected server-side because Angular binds the `<select>`
-value to the resolved slug.
+The placeholder option is the selected one server-side and
+client-side alike, whatever `value` is — the `<select>` is not bound
+to `value`. So the control's own DOM never differs between server and
+client render.
 
 The managed `<link>` is **not** created on the server. `data-theme`
 is **not** written to `<html>` on the server. Those happen on
@@ -174,9 +176,11 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
 If you see an Angular warning like "NG0500: Hydration: node
 mismatch", the most common cause is:
 
-- The server rendered the `<select>` with no selected option
-  (because `value` was empty), but the client picked a non-empty
-  value from `localStorage`.
+- **Not the `<select>` itself** — the placeholder option is always
+  the selected one on both sides, so the control cannot mismatch.
+- More likely, something else in the consumer's template keys off the
+  resolved theme and the server rendered it from an empty `value`
+  while the client resolved one from `localStorage`.
 - **Fix.** Resolve the theme server-side and pass it as `value`.
 
 A second cause: the consumer renders the helper inside

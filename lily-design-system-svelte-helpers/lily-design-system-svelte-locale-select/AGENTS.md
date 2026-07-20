@@ -49,10 +49,19 @@ detection (if enabled) > `defaultValue` > `"en"` (if present) >
 ## HTML
 
 `<select class="locale-select {class}" aria-label="{label}"
-name="{name}">` with one native `<option>` per locale code. Each
-option carries `lang="{tagFor(…)}"` so its name is pronounced in its
-own language. Custom rendering via the `children` snippet receiving
-`{ locales, value, setLocale, name, labelFor, tagFor, isRtl }`.
+name="{name}">` with a leading `<option class="locale-select-option
+locale-select-placeholder" value="">{placeholder ?? label}</option>`
+followed by one native `<option>` per locale code. Each locale option
+carries `lang="{tagFor(…)}"` so its name is pronounced in its own
+language; the placeholder carries none. Custom rendering via the
+`children` snippet receiving `{ locales, value, setLocale, name,
+labelFor, tagFor, isRtl }`; the placeholder is component-owned and
+emitted in both paths.
+
+**The `<select>` is not bound to `value`.** Its own selection stays
+pinned to the placeholder so the closed control always reads the
+placeholder word and stays that narrow. On change the component reads
+the chosen code, resets `el.value = ""`, and writes to `value`.
 
 ## Accessibility
 
@@ -62,6 +71,9 @@ own language. Custom rendering via the `children` snippet receiving
   semantics.
 - `aria-label` carries the consumer-supplied accessible name on the
   `<select>` (implicit `combobox` role).
+- Tradeoff: because the closed control always shows the placeholder, the
+  active locale is not announced as the combobox value. `docs/accessibility.md`
+  documents how consumers surface it separately.
 
 ## Conventions this package follows
 

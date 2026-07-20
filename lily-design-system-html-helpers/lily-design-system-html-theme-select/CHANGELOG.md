@@ -3,6 +3,46 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING)
+
+- The closed `<select>` now always reads a placeholder word instead
+  of the active theme name, so the control stays as narrow as that
+  word. The element renders a component-owned placeholder
+  `<option class="theme-select-option theme-select-placeholder" value="" selected>`
+  as the first child of the `<select>`, before the real options and
+  before any consumer-supplied custom option rendering.
+- **DOM contract change**: the `<select>` now has
+  `themes.length + 1` options (was `themes.length`), and the option
+  `value` list is `["", ...themes]` (was `themes`).
+- **DOM contract change**: the rendered `<select>`'s own `value` is
+  always `""` and no longer tracks the selection. On `change` the
+  element reads the chosen slug, snaps `select.value` back to `""`,
+  and assigns the host's `value`. Read the selection from
+  `el.value` or the `themechange` detail — never from the rendered
+  `<select>`.
+- **Accessibility tradeoff**: a screen-reader user no longer hears
+  the active theme announced as the combobox value. Consumers who
+  need it should surface the active theme in visible text or a
+  polite live region — see `docs/accessibility.md`.
+
+### Added
+
+- `placeholder` attribute / property (optional, string). Text of the
+  placeholder option; defaults to `label`, keeping the package free
+  of hardcoded user-facing strings. Observed, so changing it
+  re-renders.
+- `docs/styling.md` documents the `.theme-select-placeholder` class
+  hook and a `field-sizing: content` / `max-width` width recipe.
+
+### Unchanged
+
+- `value` remains the real selection; `data-theme` application, the
+  managed `<link>` href swap, `localStorage` persistence, the
+  `themechange` event, and initial-value resolution all behave
+  exactly as before.
+
 ## 0.2.0 — 2026-07-03
 
 ### Changed (BREAKING)

@@ -30,7 +30,8 @@ no CSS; consumer styles the `locale-select` class hook.
 - `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`
   (constants).
 
-Required inputs: `label`, `locales`. Full table in
+Required inputs: `label`, `locales`. Optional `placeholder` overrides
+the placeholder-option text (defaults to `label`). Full table in
 [spec/index.md §4.1](./spec/index.md#41-inputs--outputs).
 
 ## Behaviour contract (one paragraph)
@@ -44,12 +45,23 @@ writes guard on `typeof document`. Initial value resolves from
 `value` > storage > navigator (if `detectFromNavigator`) >
 `defaultValue` > `"en"` (if present) > `locales[0]`.
 
+**The `<select>` is not bound to `value`.** Its own selection stays
+pinned to the leading placeholder option so the closed control always
+reads the placeholder word and stays that narrow. On change,
+`onSelectChange(event)` reads the chosen code, resets `el.value = ""`,
+and writes to the `value` model signal. No real option carries a
+`[selected]` binding. The event is not stopped, so a consumer binding
+`(change)` on the host still receives it — `change` bubbles.
+
 ## HTML
 
 `<select class="locale-select {className}"
-[attr.aria-label]="label" [name]="name">` with one native
-`<option>` per locale code, each carrying its own `lang` attribute
-so its name is pronounced in its own language. `@for` is used (not
+[attr.aria-label]="label" [name]="name">` with a leading
+`<option class="locale-select-option locale-select-placeholder"
+value="" selected>{{ placeholder() || label() }}</option>` followed by
+one native `<option>` per locale code, each carrying its own `lang`
+attribute so its name is pronounced in its own language. The
+placeholder is not a locale and carries no `lang`. `@for` is used (not
 `*ngFor`).
 
 ## Accessibility

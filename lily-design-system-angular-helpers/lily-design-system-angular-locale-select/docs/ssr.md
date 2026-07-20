@@ -175,8 +175,8 @@ Result:
 
 - First paint: `<html lang="fr" dir="ltr">` arrives in the HTML
   response. No flash, no layout shift.
-- Select mounts already showing the right `<option>` selected
-  because `locale()` was hydrated from `INITIAL_LOCALE`.
+- Select mounts showing its placeholder (it always does); the
+  active locale is `locale()`, hydrated from `INITIAL_LOCALE`.
 - User picks `ar`. The fetch writes the cookie and the select's
   `effect()` writes `<html lang="ar" dir="rtl">`. Next request
   re-paints the page in Arabic from the very first byte.
@@ -279,10 +279,12 @@ default because:
 
 The two cases that produce hydration warnings:
 
-1. The server rendered with `value=""` (no option selected), but
-   the client `effect()` resolved `value="fr"` from
-   `localStorage`. The first paint sees no selection; hydration
-   sees one. Fix by pre-seeding `value` on the server.
+1. Something in the consumer's template keys off the resolved
+   locale — a visible "active locale" label, say. The server
+   rendered it from `value=""` but the client `effect()` resolved
+   `value="fr"` from `localStorage`. Fix by pre-seeding `value` on
+   the server. (The `<select>` itself cannot mismatch: the
+   placeholder option is the selected one on both sides.)
 2. The consumer uses `[value]="someServerOnlyComputed"` whose
    result differs between SSR and client. Fix by ensuring the
    source is serialisable across the boundary (cookie, route
@@ -365,10 +367,10 @@ SSR tests:
   snapshot the first 200 bytes of the output.
 
 The select itself has no SSR-specific code path to test beyond
-"the component compiles in SSR mode and renders the selected
-`<option>` for the seeded `value`". The reference test suite
-covers that under jsdom by asserting that `value` controls which
-option is selected on mount.
+"the component compiles in SSR mode and applies the seeded `value`".
+The reference test suite covers that under jsdom by asserting that
+`value` drives the `lang` / `dir` writes on mount — not by asserting
+which option is selected, since that is always the placeholder.
 
 ---
 

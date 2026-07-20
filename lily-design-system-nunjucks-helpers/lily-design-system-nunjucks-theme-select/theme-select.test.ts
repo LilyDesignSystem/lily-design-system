@@ -97,11 +97,12 @@ describe("ThemeSelect — macro markup contract (§7.1–§7.6)", () => {
         const options = Array.from(
             root.querySelectorAll<HTMLOptionElement>("option"),
         );
-        expect(options.length).toBe(3);
+        // One placeholder option plus one option per theme.
+        expect(options.length).toBe(4);
         expect(root.name).toBe("appearance");
     });
 
-    test("§7.4 each option carries the slug as its value", () => {
+    test("§7.4 each option carries the slug as its value, after the empty placeholder", () => {
         const html = renderMacro({
             label: "Theme",
             themesUrl: URL_TRAILING,
@@ -111,7 +112,57 @@ describe("ThemeSelect — macro markup contract (§7.1–§7.6)", () => {
         const values = Array.from(
             root.querySelectorAll<HTMLOptionElement>("option"),
         ).map((o) => o.value);
-        expect(values).toEqual(THEMES);
+        expect(values).toEqual(["", ...THEMES]);
+    });
+
+    test("§7.14 the placeholder option renders the label and stays displayed", () => {
+        const html = renderMacro({
+            label: "Theme",
+            themesUrl: URL_TRAILING,
+            themes: THEMES,
+        });
+        const root = mountIntoBody(html) as HTMLSelectElement;
+        initThemeSelect(root);
+        const placeholder = root.querySelector(
+            ".theme-select-placeholder",
+        ) as HTMLOptionElement;
+        expect(placeholder).not.toBeNull();
+        expect(placeholder.textContent?.trim()).toBe("Theme");
+        expect(placeholder.value).toBe("");
+        // It is the first child of the <select>.
+        expect(root.options[0]).toBe(placeholder);
+        // The closed control shows the placeholder, not the active theme.
+        expect(root.value).toBe("");
+        expect(document.documentElement.dataset.theme).toBe("light");
+    });
+
+    test("§7.15 the placeholder param overrides the label as placeholder text", () => {
+        const html = renderMacro({
+            label: "Choose a theme",
+            placeholder: "Theme",
+            themesUrl: URL_TRAILING,
+            themes: THEMES,
+        });
+        const root = mountIntoBody(html);
+        const placeholder = root.querySelector(
+            ".theme-select-placeholder",
+        ) as HTMLOptionElement;
+        expect(placeholder.textContent?.trim()).toBe("Theme");
+        expect(root.getAttribute("aria-label")).toBe("Choose a theme");
+    });
+
+    test("§7.16 choosing a theme applies it and snaps the select back to the placeholder", () => {
+        const html = renderMacro({
+            label: "Theme",
+            themesUrl: URL_TRAILING,
+            themes: THEMES,
+        });
+        const root = mountIntoBody(html) as HTMLSelectElement;
+        initThemeSelect(root);
+        root.value = "abyss";
+        root.dispatchEvent(new Event("change", { bubbles: true }));
+        expect(document.documentElement.dataset.theme).toBe("abyss");
+        expect(root.value).toBe("");
     });
 
     test("§7.5 default labels title-case the slug (no 'default' string)", () => {

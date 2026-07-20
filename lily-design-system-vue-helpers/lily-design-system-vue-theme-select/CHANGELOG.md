@@ -30,6 +30,43 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Changed (BREAKING)
+
+- **The closed `<select>` now always reads a placeholder word rather
+  than the active theme name.** Two DOM-contract changes follow:
+  - A component-owned placeholder `<option class="theme-select-option
+    theme-select-placeholder" value="" selected>` is rendered as the
+    **first child** of the `<select>`, in both the default and the
+    custom-slot code paths. Option count is now `themes.length + 1`
+    and the first option's value is `""`. Tests and CSS that assume
+    one option per theme, or that index options positionally, must
+    shift by one.
+  - The `<select>` element's own `value` **no longer tracks the
+    selection**. On `change` the component reads the chosen slug,
+    resets `select.value = ""`, then applies the slug. Code reading
+    `selectEl.value` to learn the active theme must read the
+    `v-model:value` binding or `data-theme` on the target instead.
+
+  Motivation: the control now stays as narrow as the placeholder word
+  instead of growing to fit the longest theme name. Pair with the
+  `field-sizing: content` / `max-width` recipe in `docs/styling.md`.
+
+  Accessibility tradeoff, documented in `docs/accessibility.md`: a
+  screen-reader user no longer hears the active theme announced as
+  the combobox value. Consumers who need that should surface the
+  active selection in visible text or a polite live region.
+
+### Added
+
+- `placeholder` prop (optional `string`, defaults to the value of
+  `label`) — the text of the placeholder option. Keeps the package
+  i18n-clean: no hardcoded user-facing string is ever emitted.
+- Acceptance clauses §7.14–§7.16 in `spec/index.md` with matching
+  tests: the placeholder renders the label text and holds the
+  select's value at `""` while the theme is still applied; the
+  `placeholder` prop overrides the label; choosing an option applies
+  it and snaps the select back to the placeholder.
+
 ### Changed
 
 - **Root markup migrated to a native `<select>`.** The select now

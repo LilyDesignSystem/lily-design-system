@@ -36,12 +36,19 @@ Provided entirely by the native `<select>`:
 
 ## State signals
 
-The active state is exposed in three independent channels — no
+The active state is exposed in two independent channels — no
 colour-only meaning is required:
 
-1. The selected `<option>`.
-2. `data-theme="<slug>"` on `<html>`.
-3. The `Value` parameter (bound via `@bind-Value`).
+1. `data-theme="<slug>"` on `<html>`.
+2. The `Value` parameter (bound via `@bind-Value`).
+
+Note what is *not* in that list: the `<select>`'s own value. A
+component-owned placeholder option is always the selected one, so the
+closed control reads `Placeholder ?? Label` rather than the active
+theme — which means screen readers do not announce the active theme as
+the combobox value. Consumers who need it announced should surface it
+in visible text or a polite live region. See
+[`../docs/accessibility.md`](../docs/accessibility.md#the-placeholder-tradeoff).
 
 ## Internationalisation
 

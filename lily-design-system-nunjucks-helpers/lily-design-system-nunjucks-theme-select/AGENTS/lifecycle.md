@@ -39,7 +39,7 @@ applyTheme(slug):
   1. getManagedLink(name).href = themeHref(themesUrl, slug, extension)
   2. (target ?? <html>).setAttribute("data-theme", slug)
   3. if storageKey: localStorage.setItem(storageKey, slug)
-  4. set the select value to the matching option
+  4. select.value = ""  // snap back to the placeholder option
   5. opts.onChange?.(slug)
 
 User changes the select
@@ -48,11 +48,18 @@ User changes the select
 select fires a "change" event
   │
   ▼
-listener reads e.target.value
+listener reads chosen = e.target.value
   │
   ▼
-applyTheme(e.target.value)
+e.target.value = ""        // snap back to the placeholder
+  │
+  ▼
+if (chosen) applyTheme(chosen)   // picking the placeholder is a no-op
 ```
+
+The snap-back runs synchronously inside the listener, so a consumer's
+own `change` listener that reads `event.target.value` will see `""`.
+Use `opts.onChange(slug)` or read `data-theme` instead.
 
 ## Why a separate "init" and "apply"
 

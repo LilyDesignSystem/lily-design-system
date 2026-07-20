@@ -116,15 +116,20 @@ Pass `applyDir={false}` if you want full control of `dir` yourself.
 
 <!-- Renders:
 <select class="locale-select" aria-label="Language" name="locale">
+    <option class="locale-select-option locale-select-placeholder" value="">Language</option>
     <option class="locale-select-option" value="en" lang="en">English</option>
     <option class="locale-select-option" value="cy" lang="cy">Welsh</option>
 </select>
 -->
 ```
 
-Each option carries its own `lang` attribute so a screen reader
+Each locale option carries its own `lang` attribute so a screen reader
 pronounces "Cymraeg" with a Welsh voice (WCAG 3.1.2, Language of
 Parts).
+
+The leading placeholder option is the one the closed control displays —
+it is not a locale, so it carries no `lang`. See
+[The closed control always reads the placeholder](#the-closed-control-always-reads-the-placeholder).
 
 ### Pretty labels for the option text
 
@@ -238,9 +243,11 @@ cookie or `Accept-Language`) and pass it as `value`:
 />
 ```
 
-During SSR the component renders the `<select>` with the supplied
-value selected, and the document already arrives with the correct
-`lang` attribute on `<html>`.
+During SSR the component renders the `<select>` showing its placeholder
+(as it always does), and the document already arrives with the correct
+`lang` attribute on `<html>` — which is what prevents the flicker. The
+supplied value is held in the `value` prop, not in the element's own
+selection.
 
 ### Render into a scoped target instead of `<html>`
 
@@ -292,9 +299,36 @@ See [spec/index.md §4](./spec/index.md#4-public-api) for the full table.
 
 Required props: `label`, `locales`.
 
-Common optional props: `value` (bindable), `defaultValue`,
-`storageKey`, `detectFromNavigator`, `localeLabels`, `applyDir`,
-`target`, `onChange`, `class`, `name`, `children`.
+Common optional props: `value` (bindable), `placeholder`,
+`defaultValue`, `storageKey`, `detectFromNavigator`, `localeLabels`,
+`applyDir`, `target`, `onChange`, `class`, `name`, `children`.
+
+## The closed control always reads the placeholder
+
+The `<select>` renders a leading placeholder option and pins its own
+selection to it, so the closed control always shows the word
+`placeholder ?? label` — "Locale" — rather than the name of the active
+locale. That keeps the control as narrow as that one word instead of as
+wide as the longest locale name.
+
+The active locale still lives in the bindable `value` prop, and `lang`,
+`dir`, persistence, and `onChange` are all driven from it exactly as
+before. Only the element's own `value` differs: it stays `""`.
+
+Size the control in your own CSS — this package ships none:
+
+```css
+.locale-select:has(> .locale-select-placeholder) {
+  width: auto;
+  max-width: 12ch;
+  field-sizing: content; /* Chromium: size to the displayed option */
+}
+```
+
+The root [`themes/`](../../themes) stylesheets already carry this rule.
+
+Class hooks: `.locale-select` (root), `.locale-select-option` (each
+option), `.locale-select-placeholder` (the leading placeholder option).
 
 ## Accessibility
 
@@ -307,8 +341,14 @@ Common optional props: `value` (bindable), `defaultValue`,
 - The document root carries `lang` and (by default) `dir` so the page
   satisfies WCAG 3.1.1 (Language of Page) and bidi text/layout
   inverts correctly for RTL locales.
-- No colour-only meaning; the active state is also visible in the
-  resolved `lang` attribute and in the `<select>`'s current value.
+- No colour-only meaning; the active state is visible in the resolved
+  `lang` attribute on the document root.
+- **Tradeoff.** Because the closed control always displays the
+  placeholder, a screen-reader user does not hear the active locale
+  announced as the combobox value. Where knowing the current locale
+  matters, surface it separately — visible text near the control, or a
+  polite live region updated from `onChange`. See
+  [docs/accessibility.md](./docs/accessibility.md).
 
 ## Tests
 

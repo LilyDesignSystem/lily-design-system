@@ -145,15 +145,57 @@ const locale = ref("en");
 
 <!-- Renders:
 <select class="locale-select" aria-label="Language" name="locale">
+    <option class="locale-select-option locale-select-placeholder" value="" selected>Language</option>
     <option class="locale-select-option" value="en" lang="en">English</option>
     <option class="locale-select-option" value="cy" lang="cy">Welsh</option>
 </select>
 -->
 ```
 
-Each option carries its own `lang` attribute so a screen reader
-pronounces "Cymraeg" with a Welsh voice (WCAG 3.1.2, Language of
-Parts).
+Each locale option carries its own `lang` attribute so a screen
+reader pronounces "Cymraeg" with a Welsh voice (WCAG 3.1.2, Language
+of Parts).
+
+### The always-visible placeholder
+
+The **first child of the `<select>` is always a component-owned
+placeholder option** carrying `value=""` and the
+`.locale-select-placeholder` class hook. The `<select>` element's own
+value is never bound to the active locale: after each change the
+component resets `select.value = ""`, so the closed control always
+shows the placeholder word rather than the selected locale name.
+
+That keeps the control as narrow as one word instead of growing to
+fit the longest locale name in your list — which matters when the
+list runs to hundreds of entries.
+
+The placeholder text defaults to `label`; pass `placeholder` to
+override it when the accessible name should be more descriptive than
+the visible word:
+
+```vue
+<LocaleSelect label="Choose a language" placeholder="Locale" ... />
+```
+
+The placeholder is rendered outside the default slot, so it survives
+custom option rendering too. No string is hardcoded — the text always
+comes from a prop.
+
+The active locale still lives in `v-model:value` and in `lang` / `dir`
+on the target. Because the closed control no longer announces the
+active locale to screen readers, surface it elsewhere when that
+matters — see [`docs/accessibility.md`](./docs/accessibility.md).
+
+To size the control to the placeholder, style the `.locale-select`
+hook from your own stylesheet (the helper ships zero CSS):
+
+```css
+.locale-select {
+    field-sizing: content; /* Chrome 123+: size to the shown option */
+    width: auto;
+    max-width: 12ch; /* fallback for Firefox / Safari */
+}
+```
 
 ### Pretty labels for the option text
 
@@ -328,9 +370,10 @@ See [spec/index.md §4](./spec/index.md#4-public-api) for the full table.
 
 Required props: `label`, `locales`.
 
-Common optional props: `value` (bindable via `v-model:value`),
-`defaultValue`, `storageKey`, `detectFromNavigator`, `localeLabels`,
-`applyDir`, `target`, `class`, `name`.
+Common optional props: `placeholder` (text of the always-displayed
+placeholder option; defaults to `label`), `value` (bindable via
+`v-model:value`), `defaultValue`, `storageKey`, `detectFromNavigator`,
+`localeLabels`, `applyDir`, `target`, `class`, `name`.
 
 ## Events
 
@@ -345,13 +388,18 @@ Common optional props: `value` (bindable via `v-model:value`),
   `combobox` role).
 - The native `<select>` gives Arrow / Home / End / typeahead
   semantics for free.
-- Each `<option>` carries `lang="…"` so its name is pronounced
-  in the right language (WCAG 3.1.2, Language of Parts).
+- Each locale `<option>` carries `lang="…"` so its name is
+  pronounced in the right language (WCAG 3.1.2, Language of Parts).
 - The document root carries `lang` and (by default) `dir` so the
   page satisfies WCAG 3.1.1 (Language of Page) and bidi
   text/layout inverts correctly for RTL locales.
-- No colour-only meaning; the active state is also visible in the
-  resolved `lang` attribute and in the `<select>`'s current value.
+- No colour-only meaning; the active state is visible in the
+  resolved `lang` / `dir` attributes and in the `v-model:value`
+  binding.
+- **Tradeoff:** because the closed control always reads the
+  placeholder, a screen-reader user does not hear the active locale
+  announced as the combobox value. Surface it with visible text or a
+  polite live region where that matters.
 
 ## SSR
 

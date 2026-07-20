@@ -44,8 +44,16 @@ calls `onChange(slug)`. SSR-safe — all DOM writes happen inside
 ## HTML
 
 `<select class="theme-select {class}" aria-label="{label}" name="{name}">`
-with one native `<option>` per slug. Custom rendering via
-the `children` snippet receiving `{ themes, value, setTheme, name, labelFor }`.
+with a leading `<option class="theme-select-option theme-select-placeholder"
+value="">{placeholder ?? label}</option>` followed by one native
+`<option>` per slug. Custom rendering via the `children` snippet
+receiving `{ themes, value, setTheme, name, labelFor }`; the placeholder
+is component-owned and emitted in both paths.
+
+**The `<select>` is not bound to `value`.** Its own selection stays
+pinned to the placeholder so the closed control always reads the
+placeholder word and stays that narrow. On change the component reads
+the chosen slug, resets `el.value = ""`, and writes to `value`.
 
 ## Accessibility
 
@@ -54,6 +62,9 @@ the `children` snippet receiving `{ themes, value, setTheme, name, labelFor }`.
 - `aria-label` carries the consumer-supplied accessible name.
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
+- Tradeoff: because the closed control always shows the placeholder, the
+  active theme is not announced as the combobox value. `docs/accessibility.md`
+  documents how consumers surface it separately.
 
 ## Conventions this package follows
 

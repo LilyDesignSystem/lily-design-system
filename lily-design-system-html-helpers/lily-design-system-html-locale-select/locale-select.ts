@@ -22,6 +22,12 @@ export type LocaleSelectChangeDetail = {
 /** Mirrors the observed attributes / properties for typing convenience. */
 export type LocaleSelectProps = {
     label: string;
+    /**
+     * Text of the always-displayed placeholder option. The closed
+     * `<select>` shows this instead of the selected locale name, so the
+     * control stays as narrow as this word. Defaults to `label`.
+     */
+    placeholder?: string;
     locales: string[];
     value?: string;
     defaultValue?: string;
@@ -105,6 +111,7 @@ export class LocaleSelect extends HTMLElement {
     static get observedAttributes(): string[] {
         return [
             "label",
+            "placeholder",
             "locales",
             "value",
             "default-value",
@@ -129,6 +136,18 @@ export class LocaleSelect extends HTMLElement {
     }
     set label(v: string) {
         this.setAttribute("label", v);
+    }
+
+    /**
+     * Placeholder text for the always-displayed first option. Falls back
+     * to `label` so no hardcoded user-facing string is ever emitted.
+     */
+    get placeholder(): string {
+        return this.getAttribute("placeholder") ?? this.label;
+    }
+    set placeholder(v: string) {
+        if (v) this.setAttribute("placeholder", v);
+        else this.removeAttribute("placeholder");
     }
 
     get locales(): string[] {
@@ -251,6 +270,7 @@ export class LocaleSelect extends HTMLElement {
                 if (this.isConnected && value) this.#applyLocale(value);
                 break;
             case "label":
+            case "placeholder":
             case "name":
             case "class":
                 this.#render();
@@ -337,19 +357,33 @@ export class LocaleSelect extends HTMLElement {
         select.setAttribute("aria-label", this.label);
         select.name = this.name;
 
-        const current = this.value;
+        // The placeholder is component-owned and always the first child.
+        // It stays selected so the closed control reads the placeholder
+        // word rather than the active locale name. It carries no `lang`:
+        // it is not a locale.
+        const placeholder = document.createElement("option");
+        placeholder.className = "locale-select-option locale-select-placeholder";
+        placeholder.value = "";
+        placeholder.textContent = this.placeholder;
+        placeholder.selected = true;
+        select.appendChild(placeholder);
+
         for (const locale of this.#locales) {
             const option = document.createElement("option");
             option.className = "locale-select-option";
             option.value = locale;
             option.setAttribute("lang", this.#tagFor(locale));
             option.textContent = this.#labelFor(locale);
-            if (current === locale) option.selected = true;
             select.appendChild(option);
         }
 
+        // The `<select>` never tracks `value`: its own selection snaps back
+        // to the placeholder after every change. The real selection lives
+        // on this element's `value` property/attribute.
         select.addEventListener("change", () => {
-            this.value = select.value;
+            const chosen = select.value;
+            select.value = "";
+            if (chosen) this.value = chosen;
         });
 
         this.replaceChildren(select);

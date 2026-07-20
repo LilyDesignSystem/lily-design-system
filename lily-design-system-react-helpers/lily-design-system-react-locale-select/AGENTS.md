@@ -30,7 +30,8 @@ no CSS; consumer styles the `locale-select` class hook.
   `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`.
 - Type exports: `Props`, `ChildArgs`.
 
-Required props: `label`, `locales`. Full table in
+Required props: `label`, `locales`. Optional `placeholder` overrides
+the placeholder-option text (defaults to `label`). Full table in
 [spec/index.md §4.1](./spec/index.md#41-props).
 
 ## Behaviour contract (one paragraph)
@@ -41,16 +42,24 @@ hyphen form of the locale code, (2) sets `target.dir` to `"rtl"` or
 code to `localStorage[storageKey]`, and (4) calls `onChange(code)`.
 SSR-safe — all DOM writes happen inside `useEffect`. Initial value
 resolves from `value` > storage > navigator (if `detectFromNavigator`)
-> `defaultValue` > `"en"` (if present) > `locales[0]`.
+> `defaultValue` > `"en"` (if present) > `locales[0]`. The `<select>`'s
+own DOM value is pinned to `""` and snaps back to the placeholder
+option after every change, so the closed control always reads
+`placeholder ?? label` rather than the active locale; the real
+selection lives in `value` / internal state and everything downstream
+is unchanged.
 
 ## HTML
 
-`<select className="locale-select {className}" aria-label="{label}" name="{name}">`
-with one native `<option className="locale-select-option">` per locale,
-each carrying `lang="{tagFor(locale)}"` for WCAG 3.1.2 (Language of
-Parts). Custom rendering via the `children` render prop receiving
+`<select className="locale-select {className}" aria-label="{label}" name="{name}" value="">`
+whose first child is always the component-owned placeholder
+`<option className="locale-select-option locale-select-placeholder" value="">{placeholder ?? label}</option>`
+(no `lang` — it is not a locale), followed by one native
+`<option className="locale-select-option">` per locale, each carrying
+`lang="{tagFor(locale)}"` for WCAG 3.1.2 (Language of Parts). Custom
+rendering via the `children` render prop receiving
 `{ locales, value, setLocale, name, labelFor, tagFor, isRtl }`; the
-output is rendered inside the `<select>`.
+output is rendered inside the `<select>`, after the placeholder.
 
 ## Accessibility
 

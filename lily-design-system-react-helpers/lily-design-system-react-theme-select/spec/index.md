@@ -84,6 +84,7 @@ Give a React 19 application a drop-in, headless theme select that:
 | Prop            | Type                                      | Required | Default                  | Purpose |
 | --------------- | ----------------------------------------- | -------- | ------------------------ | ------- |
 | `label`         | `string`                                  | yes      | —                        | Accessible name for the `<select>`. |
+| `placeholder`   | `string`                                  | no       | value of `label`         | Text of the always-displayed placeholder option. The closed `<select>` shows this instead of the active theme name. |
 | `themesUrl`     | `string`                                  | yes      | —                        | Base URL of the themes directory. Trailing `/` is auto-normalised. |
 | `themes`        | `string[]`                                | yes      | —                        | Available theme slugs (e.g. `["light", "dark", "abyss"]`). |
 | `value`         | `string`                                  | no       | `undefined` (uncontrolled) | Currently selected theme slug. When supplied, the component is controlled. |
@@ -114,9 +115,22 @@ type ChildArgs = {
 
 - Root element: `<select className="theme-select {className}"
   aria-label="{label}" name="{name}">`.
+- **Placeholder option (always first).** The first child of the
+  `<select>` is always
+  `<option className="theme-select-option theme-select-placeholder"
+  value="">{placeholder ?? label}</option>`. It is component-owned and
+  is rendered in both the default and the custom-`children` code paths,
+  before any consumer-supplied option markup.
+- **The `<select>`'s own `value` is pinned to `""`.** It does not track
+  the active theme. After every change the select's DOM selection snaps
+  back to the placeholder option, so the closed control always reads
+  `placeholder ?? label` and stays as narrow as that word. The real
+  selection lives in the `value` prop / internal state, and everything
+  downstream (`data-theme`, the managed `<link>`, `localStorage`,
+  `onChange`, initial-value resolution) is unchanged.
 - Default children: one `<option className="theme-select-option"
-  value="{slug}">{labelFor(slug)}</option>` per theme slug. The chosen
-  slug is reflected as the `<select>`'s `value`.
+  value="{slug}">{labelFor(slug)}</option>` per theme slug, following
+  the placeholder.
 - `labelFor(slug)` returns `themeLabels[slug]` when supplied; otherwise
   the slug with its first character upper-cased (e.g. `"light"` →
   `"Light"`). The select never emits the word "default".
@@ -253,9 +267,20 @@ under vitest + jsdom + `@testing-library/react`.
 
 1. Renders a `<select>` (implicit `role="combobox"`).
 2. `aria-label` is the supplied `label`.
-3. Renders one `<option>` per entry in `themes`; the `<select>` carries
-   the supplied `name` attribute.
-4. Each option's `value` attribute is the theme slug.
+3. Renders one `<option>` per entry in `themes`, plus the leading
+   placeholder option (so the count is `themes.length + 1`); the
+   `<select>` carries the supplied `name` attribute.
+4. Each option's `value` attribute is the theme slug, preceded by the
+   empty-valued placeholder — the full value list is
+   `["", ...themes]`. Additionally:
+   1. The placeholder option renders `label` as its text, carries
+      `value=""` and the `theme-select-placeholder` class, the
+      `<select>`'s own `value` is `""`, and the resolved theme is still
+      applied to `data-theme`.
+   2. A supplied `placeholder` prop overrides `label` as the
+      placeholder text, while `label` remains the accessible name.
+   3. Choosing an option applies that theme and snaps the `<select>`'s
+      own `value` back to `""`.
 5. The default rendering shows `themeLabels[slug]` when supplied, or
    the slug with its first character upper-cased otherwise (e.g.
    `"light"` → `"Light"`). The word `"default"` never appears.

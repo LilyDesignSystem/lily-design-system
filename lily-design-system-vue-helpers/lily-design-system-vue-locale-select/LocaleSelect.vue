@@ -27,6 +27,12 @@ export type SlotArgs = {
 export type Props = {
     /** Accessible label for the `<select>`. */
     label: string;
+    /**
+     * Text of the always-displayed placeholder option. The closed
+     * `<select>` shows this instead of the selected locale name, so the
+     * control stays as narrow as this word. Defaults to `label`.
+     */
+    placeholder?: string;
     /** Available locale codes. */
     locales: string[];
     /** Currently selected locale code. Two-way bindable via v-model:value. */
@@ -116,6 +122,7 @@ export function matchNavigatorLanguage(
 import { onMounted, ref, watch } from "vue";
 
 const props = withDefaults(defineProps<Props>(), {
+    placeholder: undefined,
     value: "",
     defaultValue: undefined,
     storageKey: undefined,
@@ -221,9 +228,17 @@ onMounted(() => {
     if (initial) applyLocale(initial);
 });
 
+/**
+ * The `<select>` is never bound to `current`: its own selection snaps back
+ * to the placeholder option after every change, so the closed control
+ * always reads `placeholder ?? label` rather than the active locale name.
+ * The real selection lives in `current` / `v-model:value`.
+ */
 function onSelectChange(e: Event) {
-    const next = (e.target as HTMLSelectElement).value;
-    setLocale(next);
+    const el = e.target as HTMLSelectElement;
+    const chosen = el.value;
+    el.value = "";
+    if (chosen) setLocale(chosen);
 }
 </script>
 
@@ -232,9 +247,13 @@ function onSelectChange(e: Event) {
         :class="`locale-select ${props.class}`.trim()"
         :aria-label="label"
         :name="name"
-        :value="current"
         @change="onSelectChange"
     >
+        <option
+            class="locale-select-option locale-select-placeholder"
+            value=""
+            selected
+        >{{ placeholder ?? label }}</option>
         <slot
             v-bind="{ locales, value: current, setLocale, name, labelFor, tagFor, isRtl: isRtlLocale }"
         >

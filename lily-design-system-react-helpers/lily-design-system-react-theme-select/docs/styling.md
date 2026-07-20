@@ -10,6 +10,7 @@ to the consumer. This guide lists the hooks the select exposes.
 | `.theme-select`                   | The root `<select>`.                     |
 | `.theme-select.{consumerClass}`   | Both classes when `className` is passed. |
 | `.theme-select > .theme-select-option` | Each `<option>`.                    |
+| `.theme-select-placeholder`       | The leading placeholder `<option>` (also carries `.theme-select-option`). |
 
 If you pass a `children` render prop, only `.theme-select` is
 guaranteed on the root; the inner classes are up to your markup.
@@ -31,6 +32,14 @@ Drop into the consumer's app stylesheet:
     border: 1px solid var(--theme-color-base-300, currentColor);
     border-radius: var(--theme-radius-selector, 0.25rem);
     cursor: pointer;
+
+    /*
+     * The closed control always shows the short placeholder word, so the
+     * select can be sized to it rather than to the longest theme name.
+     */
+    field-sizing: content; /* Chrome 123+: size to the shown option */
+    width: auto;
+    max-width: 12ch; /* fallback for Firefox / Safari */
 }
 
 .theme-select-option:checked {

@@ -4,6 +4,50 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING — DOM contract)
+
+- The `<select>` now always displays a component-owned placeholder
+  option, so the closed control reads the literal placeholder word
+  ("Theme") instead of the active theme's name. This keeps the
+  control's width constant regardless of theme-name length.
+- The macro renders a new leading
+  `<option class="theme-select-option theme-select-placeholder"
+  value="" selected>` as the FIRST child of the `<select>`. **Option
+  count is now `themes.length + 1`** and the first option value is
+  `""`. Consumers asserting on option count or index will need to
+  account for it.
+- **The `<select>`'s own `value` no longer tracks the selection.**
+  The client snaps `select.value` back to `""` after every apply. A
+  consumer `change` listener reading `event.target.value` now sees
+  `""`; use the `onChange(slug)` callback or read `data-theme` from
+  the target instead.
+
+### Added
+
+- `placeholder` macro opt (optional, string): text of the placeholder
+  option. Defaults to `label`, so no hardcoded user-facing string is
+  ever emitted. Supply it when you want a long descriptive
+  `aria-label` but a short visible word.
+- `.theme-select-placeholder` class hook, plus a width recipe
+  (`field-sizing: content` / `max-width`) in
+  [docs/styling.md](./docs/styling.md).
+
+### Unchanged
+
+- `data-theme` application, the managed `<link>` swap, `localStorage`
+  persistence, `onChange`, initial-value resolution, and SSR safety
+  all behave exactly as before.
+
+### Accessibility note
+
+- Because the closed control always reads the placeholder, a
+  screen-reader user no longer hears the active theme announced as the
+  combobox value. Consumers who need that should surface the active
+  theme in visible text or a polite live region — see
+  [docs/accessibility.md](./docs/accessibility.md).
+
 ## 0.2.0 — 2026-07-03
 
 ### Changed (BREAKING)

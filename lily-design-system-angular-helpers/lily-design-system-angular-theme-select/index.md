@@ -138,6 +138,37 @@ The select never displays the word `"default"`. Option labels
 default to the slug with its first letter upper-cased
 (e.g. `"light"` → `"Light"`); override with `themeLabels`.
 
+## The placeholder option
+
+The rendered markup begins with a component-owned placeholder option,
+and that is the option the closed control always displays:
+
+```html
+<select class="theme-select" aria-label="Theme" name="theme">
+    <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
+    <option class="theme-select-option" value="light">Light</option>
+    <option class="theme-select-option" value="dark">Dark</option>
+</select>
+```
+
+So the control reads "Theme" rather than the active theme name, and
+never widens to fit the longest slug in your list. Pass `placeholder`
+to override its text; it defaults to `label`, so no hardcoded string
+is ever emitted.
+
+```html
+<!-- Closed control reads "Theme"; accessible name is "Choose a theme". -->
+<lily-theme-select label="Choose a theme" placeholder="Theme"
+                   themesUrl="/assets/themes/" [themes]="themes"
+                   [(value)]="theme" />
+```
+
+Because of this, the `<select>` element's own `value` is always `""`.
+Read the active theme from `[(value)]` or the `themeChange` output.
+See [docs/styling.md](./docs/styling.md) for the width recipe, and
+[docs/accessibility.md](./docs/accessibility.md) for the screen-reader
+tradeoff and how to surface the active theme.
+
 ## Inputs
 
 The complete table is in [spec/index.md §4.1](./spec/index.md#41-inputs--outputs).
@@ -146,6 +177,7 @@ Highlights:
 | Input          | Type                         | Required | Notes                                      |
 | -------------- | ---------------------------- | -------- | ------------------------------------------ |
 | `label`        | `string`                     | yes      | `aria-label` on the `<select>`.            |
+| `placeholder`  | `string`                     | no       | Placeholder-option text; defaults to `label`. |
 | `themesUrl`    | `string`                     | yes      | Trailing `/` is auto-added.                |
 | `themes`       | `string[]`                   | yes      | Available slugs.                           |
 | `value`        | `string` (`model`)           | no       | Two-way bind for the current slug.         |
@@ -191,6 +223,11 @@ a thin wrapper around the pure helpers (`normaliseThemesUrl`,
 // </lily-theme-select>
 ```
 
+When that projection slot lands, the placeholder option stays
+component-owned and must be emitted in the custom path too — matching
+the canonical Svelte helper, where the placeholder is rendered in both
+the default and the custom-`children` paths.
+
 Topic guide: [`docs/custom-rendering.md`](./docs/custom-rendering.md).
 
 ## Persistence
@@ -214,9 +251,12 @@ before first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
 - The native `<select>` gives Arrow / Home / End / typeahead
   semantics for free; the select does not override any keyboard
   behaviour.
-- The active state is exposed in three independent channels: the
-  selected `<option>`, `data-theme` on the root, and the `value`
-  model signal. No colour-only meaning is required.
+- The active state is exposed in two independent channels:
+  `data-theme` on the root and the `value` model signal. No
+  colour-only meaning is required.
+- Tradeoff: because the closed control always reads the placeholder,
+  it does **not** announce the active theme. Surface that elsewhere —
+  see [docs/accessibility.md](./docs/accessibility.md).
 - WCAG 2.2 AAA is the target; visible focus styling is the
   consumer's CSS responsibility.
 

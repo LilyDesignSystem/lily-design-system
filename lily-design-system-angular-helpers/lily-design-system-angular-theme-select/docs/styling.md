@@ -11,6 +11,7 @@ exposes.
 | `.theme-select`                                      | The root native `<select>`.              |
 | `.theme-select.{consumerClass}`                      | Both classes when `className` is passed. |
 | `.theme-select > .theme-select-option`               | Each `<option>`.                         |
+| `.theme-select-placeholder`                          | The leading placeholder `<option>` — the one the closed control always displays. |
 
 The `className` input is the Angular equivalent of Vue's
 `inheritAttrs`-driven `class` fall-through. Angular has no
@@ -29,6 +30,14 @@ Drop into the consumer's app stylesheet:
 
 ```css
 .theme-select {
+    /* The closed control always shows the placeholder word ("Theme"),
+       never the active theme name, so size it to that word rather than
+       to the widest option. field-sizing sizes to the displayed option
+       in Chromium; max-width caps the fallback everywhere else. */
+    width: auto;
+    max-width: 12ch;
+    field-sizing: content;
+
     padding: 0.25rem 0.5rem;
     border: 1px solid var(--color-base-300, currentColor);
     border-radius: var(--radius-selector, 0.25rem);

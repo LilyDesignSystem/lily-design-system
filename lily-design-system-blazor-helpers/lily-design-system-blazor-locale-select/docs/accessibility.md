@@ -11,11 +11,59 @@ remains the consumer's responsibility.
 | WCAG 3.1.1 Language of Page | Writes `lang` to the document root on every locale change. |
 | WCAG 3.1.2 Language of Parts | Each `<option>` carries its own `lang` attribute so option text is announced in the right language. |
 | WCAG 1.4.10 Reflow (RTL bidi) | Writes `dir="rtl"` for RTL locales so layout, scrollbar, and text inversion are correct. |
-| WCAG 4.1.2 Name, Role, Value | `<select aria-label>` exposes the control (implicit `combobox` role); each `<option>` exposes its value and selected state. |
+| WCAG 4.1.2 Name, Role, Value | `<select aria-label>` exposes the control (implicit `combobox` role); each `<option>` exposes its value. **The Value half is only partly satisfied — see "The placeholder tradeoff" below.** |
 | WCAG 2.1.1 Keyboard | Tab to the select; Arrow / Home / End move selection; typeahead jumps — all native `<select>` semantics. |
 | WCAG 2.4.7 Focus Visible | The browser's default focus ring is preserved; the select never sets `outline: none`. |
-| WCAG 1.4.1 Use of Color | Selection state is the `<select>`'s implicit selected-option state and is reflected in the `lang` attribute — not colour alone. |
+| WCAG 1.4.1 Use of Color | Selection state is reflected in the document root's `lang` / `dir` attributes — not colour alone. |
 | Native `<select>` | Single-selection control with browser-provided keyboard, focus, and screen-reader semantics. |
+
+## The placeholder tradeoff
+
+The first `<option>` is a component-owned placeholder
+(`.locale-select-placeholder`, `value=""`, no `lang`) and it is always
+the selected one. After a locale is chosen, the select's own DOM value
+snaps straight back to it, so the closed control keeps reading
+`Placeholder ?? Label`. This is deliberate — it keeps the control
+narrow — but it has a real accessibility cost, and you should know it
+before shipping:
+
+**A screen-reader user no longer hears the active locale announced as
+the combobox value.** The control announces as, for example, "Locale,
+combobox, Locale" rather than "Locale, combobox, Français". The
+selection is still fully operable and still applied to `lang` / `dir`;
+it is simply not readable back off this control.
+
+Where that matters, surface the active locale somewhere else:
+
+- Visible text next to the select — which also helps sighted users,
+  since the closed control no longer shows the selection either:
+
+  ```razor
+  <LocaleSelect Label="Choose a locale" Placeholder="Locale"
+                @bind-Value="locale" ... />
+  <p class="locale-select-status" lang="@Locales.Bcp47LocaleTag(locale)">
+      @Locales.LocaleName(locale)
+  </p>
+  ```
+
+  Give that text its own `lang`, for the same WCAG 3.1.2 reason the
+  options carry one.
+
+- A polite live region, if the change should be announced as it
+  happens:
+
+  ```razor
+  <div role="status" aria-live="polite">
+      @Localizer["localeChangedTo", Locales.LocaleName(locale)]
+  </div>
+  ```
+
+  Keep it `polite`, not `assertive`: a locale change is not an
+  interruption.
+
+If neither fits your design, prefer a plain `<select>` bound to
+`Value` over this helper — announcing the selection is worth more than
+a narrow control.
 
 ## Per-option `lang` is important
 

@@ -25,7 +25,9 @@ no CSS; consumer styles the `theme-select` class hook.
 - Named exports: `ThemeSelect`, `normalizeThemesUrl`, `themeHref`.
 - Type exports: `Props`, `ChildArgs`.
 
-Required props: `label`, `themesUrl`, `themes`. Full table in
+Required props: `label`, `themesUrl`, `themes`. Optional
+`placeholder` overrides the placeholder-option text (defaults to
+`label`). Full table in
 [spec/index.md §4.1](./spec/index.md#41-props).
 
 ## Behaviour contract (one paragraph)
@@ -37,14 +39,21 @@ On every theme change the select (1) sets the `href` of one managed
 (3) optionally writes the slug to `localStorage[storageKey]`, and (4)
 calls `onChange(slug)`. SSR-safe — all DOM writes happen inside
 `useEffect`. Initial value resolves from `value` > storage >
-`defaultValue` > `"light"` (if present) > `themes[0]`.
+`defaultValue` > `"light"` (if present) > `themes[0]`. The `<select>`'s
+own DOM value is pinned to `""` and snaps back to the placeholder
+option after every change, so the closed control always reads
+`placeholder ?? label` rather than the active theme; the real selection
+lives in `value` / internal state and everything downstream is
+unchanged.
 
 ## HTML
 
-`<select className="theme-select {className}" aria-label="{label}" name="{name}">`
-with one native `<option>` per slug. Custom rendering via the
+`<select className="theme-select {className}" aria-label="{label}" name="{name}" value="">`
+whose first child is always the component-owned placeholder
+`<option className="theme-select-option theme-select-placeholder" value="">{placeholder ?? label}</option>`,
+followed by one native `<option>` per slug. Custom rendering via the
 `children` render prop receiving `{ themes, value, setTheme, name, labelFor }`;
-the render output goes inside the `<select>`.
+the render output goes inside the `<select>`, after the placeholder.
 
 ## Accessibility
 

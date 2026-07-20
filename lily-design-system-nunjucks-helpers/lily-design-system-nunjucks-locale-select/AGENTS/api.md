@@ -21,6 +21,7 @@ Import and invoke:
 | Key                  | Type                     | Required | Default                                          |
 | -------------------- | ------------------------ | -------- | ------------------------------------------------ |
 | `label`              | `string`                 | yes      | —                                                |
+| `placeholder`        | `string`                 | no       | value of `label`                                 |
 | `locales`            | `string[]`               | yes      | —                                                |
 | `value`              | `string`                 | no       | `""`                                             |
 | `defaultValue`       | `string`                 | no       | `""`                                             |
@@ -106,7 +107,7 @@ the select.
 
 | Property    | Type                       | Notes                                              |
 | ----------- | -------------------------- | -------------------------------------------------- |
-| `setLocale` | `(code: string) => void`   | Apply a locale imperatively; mirrors selecting an option. |
+| `setLocale` | `(code: string) => void`   | Apply a locale imperatively; same code path as a select change (and likewise leaves `select.value` at `""`). |
 | `destroy`   | `() => void`               | Remove the `change` listener; keeps applied DOM.   |
 
 `destroy()` does **not** restore the previous `lang` / `dir` or
@@ -143,15 +144,28 @@ Root element (macro output):
     data-lily-locale-select-detect-from-navigator="{true|false}"
     data-lily-locale-select-apply-dir="{true|false}"
 >
-    <!-- per-locale option markup -->
+    <!-- placeholder option, then per-locale option markup -->
 </select>
 ```
 
-Default option markup (one per `locales` entry):
+The FIRST child is always the component-owned placeholder option. It
+carries no `lang` — it is not a locale:
+
+```html
+<option class="locale-select-option locale-select-placeholder" value="" selected>{placeholder ?? label}</option>
+```
+
+Then the default option markup (one per `locales` entry):
 
 ```html
 <option class="locale-select-option" value="{locale}" lang="{tagFor(locale)}">{labelFor(locale)}</option>
 ```
+
+The `<select>`'s own `value` is always `""`: the client snaps it back
+to the placeholder after every apply, so the closed control reads the
+placeholder word rather than the active locale name. Read the active
+locale from `lang` on the target or from the `onChange(code)`
+argument.
 
 Document mutations (only inside `initLocaleSelect` and
 subsequent events):

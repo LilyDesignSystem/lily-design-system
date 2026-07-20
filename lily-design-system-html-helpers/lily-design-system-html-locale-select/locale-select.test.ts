@@ -107,25 +107,71 @@ describe("<locale-select> — markup contract (§7.1)", () => {
         mount({ label: "Language", locales: LOCALES.join(","), name: "lang" });
         await flush();
         const options = document.body.querySelectorAll<HTMLOptionElement>("option");
-        expect(options.length).toBe(LOCALES.length);
+        // One placeholder option plus one option per locale.
+        expect(options.length).toBe(LOCALES.length + 1);
         const select = document.body.querySelector<HTMLSelectElement>("select.locale-select")!;
         expect(select.name).toBe("lang");
     });
 
-    test("§7.4 each option carries the locale code as its value", async () => {
+    test("§7.4 each option carries the locale code as its value, after the empty placeholder", async () => {
         mount({ label: "Language", locales: LOCALES.join(",") });
         await flush();
         const options = document.body.querySelectorAll<HTMLOptionElement>("option");
-        expect([...options].map((o) => o.value)).toEqual(LOCALES);
+        expect([...options].map((o) => o.value)).toEqual(["", ...LOCALES]);
+    });
+
+    test("§7.4 the placeholder option renders the label and stays displayed", async () => {
+        mount({ label: "Locale", locales: LOCALES.join(",") });
+        await flush();
+        const select = document.body.querySelector<HTMLSelectElement>("select.locale-select")!;
+        const placeholder = select.querySelector<HTMLOptionElement>(
+            ".locale-select-placeholder",
+        )!;
+        expect(placeholder.textContent?.trim()).toBe("Locale");
+        expect(placeholder.value).toBe("");
+        // The closed control shows the placeholder, not the active locale.
+        expect(select.value).toBe("");
+        expect(document.documentElement.getAttribute("lang")).toBe("en");
+    });
+
+    test("§7.4 the placeholder attribute overrides the label as placeholder text", async () => {
+        mount({
+            label: "Choose a locale",
+            placeholder: "Locale",
+            locales: LOCALES.join(","),
+        });
+        await flush();
+        const select = document.body.querySelector<HTMLSelectElement>("select.locale-select")!;
+        const placeholder = select.querySelector<HTMLOptionElement>(
+            ".locale-select-placeholder",
+        )!;
+        expect(placeholder.textContent?.trim()).toBe("Locale");
+        expect(select.getAttribute("aria-label")).toBe("Choose a locale");
+    });
+
+    test("§7.4 choosing a locale applies it and snaps the select back to the placeholder", async () => {
+        mount({ label: "Locale", locales: LOCALES.join(",") });
+        await flush();
+        const select = document.body.querySelector<HTMLSelectElement>("select.locale-select")!;
+        chooseOption(select, LOCALES[1]);
+        await flush();
+        expect(document.documentElement.getAttribute("lang")).toBe(
+            LOCALES[1].replace(/_/g, "-"),
+        );
+        expect(select.value).toBe("");
+        const rendered = document.body.querySelector<HTMLSelectElement>("select.locale-select")!;
+        expect(rendered.value).toBe("");
     });
 
     test("§7.5 each option carries lang in BCP 47 hyphen form", async () => {
         mount({ label: "Language", locales: "en,en_US,zh_Hant_TW" });
         await flush();
+        // Skip index 0: the placeholder is not a locale and carries no lang.
         const labels = document.body.querySelectorAll<HTMLElement>(".locale-select-option");
-        expect(labels[0].getAttribute("lang")).toBe("en");
-        expect(labels[1].getAttribute("lang")).toBe("en-US");
-        expect(labels[2].getAttribute("lang")).toBe("zh-Hant-TW");
+        expect(labels[0].hasAttribute("lang")).toBe(false);
+        expect(labels[1].getAttribute("lang")).toBe("en");
+        expect(labels[2].getAttribute("lang")).toBe("en-US");
+        expect(labels[3].getAttribute("lang")).toBe("zh-Hant-TW");
     });
 
     test("§7.6 default rendering uses localeLabels override when supplied", async () => {
@@ -317,7 +363,8 @@ describe("<locale-select> — property API (§7.5)", () => {
         el.locales = ["en", "fr", "ar"];
         await flush();
         expect(el.getAttribute("locales")).toBe("en,fr,ar");
-        expect(el.querySelectorAll("option").length).toBe(3);
+        // Placeholder + three locales.
+        expect(el.querySelectorAll("option").length).toBe(4);
     });
 
     test("§7.23 setting el.localeLabels as an object mirrors the JSON attribute", async () => {

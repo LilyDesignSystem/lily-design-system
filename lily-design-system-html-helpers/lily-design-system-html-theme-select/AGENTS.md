@@ -42,11 +42,23 @@ On every theme change the element (1) sets the `href` of one managed
 `CustomEvent`. Initial value resolves from `value` > storage >
 `default-value` > `"light"` (if present) > `themes[0]`.
 
+The rendered `<select>` never tracks the selection. Its own DOM
+selection stays pinned to the leading placeholder option: on
+`change` the handler reads the chosen slug, immediately resets
+`select.value = ""`, and only then assigns the element's `value`.
+The real selection lives on `this.value` (attribute + property) and
+everything downstream — link href, `data-theme`, persistence,
+`themechange`, initial-value resolution — is unchanged.
+
 ## HTML
 
 `<theme-select>` contains one rendered `<select class="theme-select
-{class}" aria-label="{label}" name="{name}">` with one native
-`<option class="theme-select-option">` per slug.
+{class}" aria-label="{label}" name="{name}">` whose first child is
+the component-owned placeholder
+`<option class="theme-select-option theme-select-placeholder" value="" selected>`
+carrying `placeholder ?? label` as its text, followed by one native
+`<option class="theme-select-option">` per slug. No option other
+than the placeholder is ever marked `selected`.
 
 ## Accessibility
 
@@ -56,6 +68,10 @@ On every theme change the element (1) sets the `href` of one managed
 - `aria-label` carries the consumer-supplied accessible name.
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
+- Because the closed control always reads the placeholder, the
+  active theme is NOT announced as the combobox value. Consumers
+  who need it should surface it in visible text or a polite live
+  region — see `docs/accessibility.md`.
 
 ## Conventions this package follows
 

@@ -38,14 +38,22 @@ On every theme change the select (1) sets the `href` of one managed
 `localStorage[storageKey]`, and (4) emits the `change` event. SSR-safe
 — all DOM writes happen inside `onMounted` / `watch`. Initial value
 resolves from `value` > storage > `defaultValue` > `"light"` (if
-present) > `themes[0]`.
+present) > `themes[0]`. The `<select>` element's own value is never
+bound to the selection: on `change` the component reads the chosen
+slug, resets `select.value = ""` so the closed control keeps showing
+the placeholder, and then applies the slug. The real selection lives
+in `value` / `v-model:value`.
 
 ## HTML
 
 `<select class="theme-select {class}" aria-label="{label}"
-name="{name}">` with one native `<option>` per slug. Custom
-rendering via the default scoped slot receiving
-`{ themes, value, setTheme, name, labelFor }`.
+name="{name}">` whose first child is always a component-owned
+`<option class="theme-select-option theme-select-placeholder" value=""
+selected>{placeholder ?? label}</option>`, followed by one native
+`<option>` per slug. Custom rendering via the default scoped slot
+receiving `{ themes, value, setTheme, name, labelFor }` — the
+placeholder is rendered outside the slot, so it survives custom
+rendering.
 
 ## Accessibility
 

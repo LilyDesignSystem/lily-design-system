@@ -88,6 +88,7 @@ Give an Angular 20 application a drop-in, headless theme select that:
 | Input / output  | Type                                | Required | Default                          | Purpose |
 | --------------- | ----------------------------------- | -------- | -------------------------------- | ------- |
 | `label`         | `input.required<string>()`          | yes      | —                                | Accessible name for the `<select>`. |
+| `placeholder`   | `input<string>()`                   | no       | `""` (→ falls back to `label`)   | Text of the always-displayed placeholder option. The closed control shows this rather than the active theme name. |
 | `themesUrl`     | `input.required<string>()`          | yes      | —                                | Base URL of the themes directory. Trailing `/` is auto-normalised. |
 | `themes`        | `input.required<string[]>()`        | yes      | —                                | Available theme slugs. |
 | `value`         | `model<string>()`                   | no       | `""`                             | Currently selected theme slug. Two-way bindable. |
@@ -104,10 +105,28 @@ Give an Angular 20 application a drop-in, headless theme select that:
 
 - Root element: `<select class="theme-select {className}"
   [attr.aria-label]="label" [name]="name">`.
+- First child, always present: `<option class="theme-select-option
+  theme-select-placeholder" value="" selected>{{ placeholder() ||
+  label() }}</option>`. It is component-owned.
 - Default children: one `<option class="theme-select-option"
-  [value]="slug">{labelFor(slug)}</option>` per theme slug. The
-  `<select>` value is bound to the resolved `value`, so the matching
-  option is selected.
+  [value]="slug">{labelFor(slug)}</option>` per theme slug, following
+  the placeholder.
+- **The `<select>` is not bound to `value`.** No real option carries a
+  `[selected]` binding; the element's own DOM selection stays pinned to
+  the placeholder, so the closed control always reads
+  `placeholder() || label()` and is only ever as wide as that word —
+  never as wide as the longest theme name. On `change` the component
+  reads the chosen slug, resets the element's `value` to `""`, and
+  writes the slug to the `value` model signal. `value` remains the
+  single source of truth for the active theme; every downstream
+  behaviour (link swap, `data-theme`, persistence, `themeChange`) is
+  driven from it and is unchanged.
+- The `change` event is not stopped, so a consumer binding `(change)`
+  on the host `<lily-theme-select>` still receives it — `change`
+  bubbles out of the inner `<select>`.
+- Width is a consumer-CSS concern; this package still ships zero CSS.
+  See `docs/styling.md` for the `field-sizing` recipe, and the root
+  `themes/` stylesheets for the shipped implementation.
 - `labelFor(slug)` returns `themeLabels[slug]` when supplied;
   otherwise the slug with its first character upper-cased. The select
   never emits the word "default".
@@ -229,8 +248,18 @@ below. Tests run under vitest + jsdom + `@angular/core/testing`
 
 1. Renders a `<select>` with the supplied `name` attribute.
 2. `aria-label` is the supplied `label`.
-3. Renders one `<option>` per entry in `themes`.
-4. Each option's `value` attribute is the theme slug.
+3. Renders one placeholder `<option>` plus one `<option>` per entry in
+   `themes`.
+4. Each option's `value` attribute is the theme slug, following the
+   placeholder option whose `value` is `""`.
+4a. The placeholder option carries the classes `theme-select-option
+    theme-select-placeholder`, renders `placeholder() || label()` as
+    its text, and remains the element's own selection
+    (`select.value === ""`) even after a theme has been applied.
+4b. The `placeholder` input, when supplied, overrides `label` as the
+    placeholder text without changing the `aria-label`.
+4c. Choosing an option applies that theme and snaps the element's own
+    selection back to the placeholder.
 5. The default rendering shows `themeLabels[slug]` when supplied, or
    the slug with its first character upper-cased otherwise. The word
    `"default"` never appears.

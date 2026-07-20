@@ -4,6 +4,45 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING)
+
+- **The closed `<select>` now always reads a placeholder word rather
+  than the active locale name.** Two DOM-contract changes follow:
+  - A component-owned placeholder `<option class="locale-select-option
+    locale-select-placeholder" value="" selected>` is rendered as the
+    **first child** of the `<select>`, in both the default and the
+    custom-slot code paths. Option count is now `locales.length + 1`,
+    the first option's value is `""`, and it carries no `lang`
+    attribute. Tests and CSS that assume one option per locale, or
+    that index options positionally, must shift by one.
+  - The `<select>` element's own `value` **no longer tracks the
+    selection**. On `change` the component reads the chosen code,
+    resets `select.value = ""`, then applies the code. Code reading
+    `selectEl.value` to learn the active locale must read the
+    `v-model:value` binding or `lang` on the target instead.
+
+  Motivation: the control now stays as narrow as the placeholder word
+  instead of growing to fit the longest locale name — which matters
+  for the 436-entry built-in locale table.
+
+  Accessibility tradeoff, documented in `docs/accessibility.md`: a
+  screen-reader user no longer hears the active locale announced as
+  the combobox value. Consumers who need that should surface the
+  active selection in visible text or a polite live region.
+
+### Added
+
+- `placeholder` prop (optional `string`, defaults to the value of
+  `label`) — the text of the placeholder option. Keeps the package
+  i18n-clean: no hardcoded user-facing string is ever emitted.
+- Acceptance clauses §7.24–§7.26 in `spec/index.md` with matching
+  tests: the placeholder renders the label text and holds the
+  select's value at `""` while the locale is still applied; the
+  `placeholder` prop overrides the label; choosing an option applies
+  it and snaps the select back to the placeholder.
+
 ## 0.2.0 — 2026-07-03
 
 ### Changed (BREAKING)

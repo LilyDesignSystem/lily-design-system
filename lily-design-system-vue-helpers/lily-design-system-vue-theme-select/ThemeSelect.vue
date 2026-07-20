@@ -17,6 +17,12 @@ export type SlotArgs = {
 export type Props = {
     /** Accessible label for the `<select>`. */
     label: string;
+    /**
+     * Text of the always-displayed placeholder option. The closed
+     * `<select>` shows this instead of the selected theme name, so the
+     * control stays as narrow as this word. Defaults to `label`.
+     */
+    placeholder?: string;
     /** Base URL of the themes directory, e.g. "/assets/themes/". */
     themesUrl: string;
     /** Available theme slugs. */
@@ -54,6 +60,7 @@ export function themeHref(themesUrl: string, slug: string, extension: string): s
 import { onMounted, ref, watch } from "vue";
 
 const props = withDefaults(defineProps<Props>(), {
+    placeholder: undefined,
     value: "",
     defaultValue: undefined,
     storageKey: undefined,
@@ -147,9 +154,17 @@ onMounted(() => {
     if (initial) applyTheme(initial);
 });
 
+/**
+ * The `<select>` is never bound to `current`: its own selection snaps back
+ * to the placeholder option after every change, so the closed control
+ * always reads `placeholder ?? label` rather than the active theme name.
+ * The real selection lives in `current` / `v-model:value`.
+ */
 function onSelectChange(e: Event) {
-    const next = (e.target as HTMLSelectElement).value;
-    setTheme(next);
+    const el = e.target as HTMLSelectElement;
+    const chosen = el.value;
+    el.value = "";
+    if (chosen) setTheme(chosen);
 }
 </script>
 
@@ -158,9 +173,13 @@ function onSelectChange(e: Event) {
         :class="`theme-select ${props.class}`.trim()"
         :aria-label="label"
         :name="name"
-        :value="current"
         @change="onSelectChange"
     >
+        <option
+            class="theme-select-option theme-select-placeholder"
+            value=""
+            selected
+        >{{ placeholder ?? label }}</option>
         <slot
             v-bind="{ themes, value: current, setTheme, name, labelFor }"
         >

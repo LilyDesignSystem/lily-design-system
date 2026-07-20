@@ -11,7 +11,8 @@ exposes.
 | `theme-select` (the host element tag)                | The custom-element host.                 |
 | `.theme-select`                                      | The rendered `<select>`.                 |
 | `.theme-select.{consumerClass}`                      | Both classes when `class` is passed.     |
-| `.theme-select-option`                               | Each `<option>`.                         |
+| `.theme-select-option`                               | Each `<option>`, including the placeholder. |
+| `.theme-select-placeholder`                          | The leading placeholder `<option>` (always the displayed one). |
 
 The host element (`<theme-select>` itself) inherits no styles from
 the select; you can style it directly if you need to (e.g.
@@ -74,6 +75,27 @@ theme-select {
     color: var(--color-base-content, currentColor);
 }
 ```
+
+## Keeping the control narrow
+
+The closed `<select>` always displays the placeholder option rather
+than the active theme name, so its intrinsic width is governed by
+one short word instead of the longest theme label. To let the
+control actually shrink to that width:
+
+```css
+.theme-select {
+    field-sizing: content;  /* Chrome 123+: size to the shown option */
+    width: auto;
+    max-width: 12ch;        /* fallback for Firefox / Safari */
+}
+```
+
+`field-sizing: content` sizes the control to the option currently
+shown. Browsers without it fall back to `max-width`, which clamps
+the default "widest option" sizing. Adjust the `ch` value to the
+length of your placeholder text — remember it is translated, so
+leave headroom.
 
 ## Don'ts
 

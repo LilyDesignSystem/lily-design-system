@@ -102,6 +102,45 @@ own language** (English / Français / العربية), so per-option
 `lang` is correct and helpful. If you override the labels to be
 all in the viewer's language, override the markup too.
 
+## Tradeoff: the placeholder hides the active locale
+
+The `<select>` keeps its own selection pinned to the leading
+placeholder option, so the closed control always reads
+`placeholder ?? label` — "Locale" — rather than the active locale
+name. This keeps the control narrow, but it costs something real:
+
+**A screen-reader user no longer hears the active locale announced
+as the combobox value.** Where a sighted user sees no visual
+regression (they were reading the label anyway), an assistive-
+technology user loses the one place the current selection was
+previously spoken. The same applies to the visual state: nothing in
+the control itself now indicates which locale is active.
+
+If the active locale matters to your users, surface it elsewhere:
+
+- Render it as visible text next to the select (which also serves
+  sighted users), or
+- Announce it through a polite `role="status"` live region updated
+  on `localechange`, or
+- Both — one `role="status"` node whose text is the active locale
+  covers both audiences.
+
+```html
+<div role="status" id="locale-status" aria-live="polite"></div>
+<locale-select label="Locale" locales="en,fr,ar"></locale-select>
+<script type="module">
+    const status = document.getElementById("locale-status");
+    document.querySelector("locale-select")
+        .addEventListener("localechange", (e) => {
+            status.textContent = `Language set to ${e.detail.locale}`;
+        });
+</script>
+```
+
+Note that the element still writes `lang` on the target, so the
+AT's own language engine continues to switch pronunciation
+correctly — only the *spoken value of the control* is affected.
+
 ## Native `<select>` accessibility
 
 The default rendering is a native `<select>`, which is fully
@@ -110,7 +149,8 @@ accessible:
 - Keyboard: Enter / Space / Down arrow open the option list; typing
   searches; Escape closes.
 - Screen reader: announces "combobox" + label + current value +
-  count.
+  count. (Here the announced value is always the placeholder — see
+  the tradeoff above.)
 - Mobile: pops the OS-native picker (iOS scroll wheel, Android
   dialog).
 

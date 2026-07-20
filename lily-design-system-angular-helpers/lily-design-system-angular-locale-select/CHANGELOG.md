@@ -4,6 +4,44 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Added
+
+- `placeholder` input (optional, `string`). Sets the text of the new
+  leading placeholder option. Defaults to the `label` value, so the
+  package still emits no hardcoded user-facing string.
+- `.locale-select-placeholder` class hook on the placeholder option.
+  The package still ships zero CSS; see the root `themes/` stylesheets
+  for the shipped width implementation.
+
+### Changed (BREAKING — DOM contract)
+
+- The `<select>` now renders a leading
+  `<option class="locale-select-option locale-select-placeholder" value="" selected>`
+  before the locale options. **Option count is one greater than
+  `locales.length`**, and the first option's `value` is `""`.
+  Consumers asserting on option count or index will need to account
+  for it — including the per-option `lang` assertions, which now start
+  at index 1. The placeholder is not a locale and carries no `lang`.
+- **The `<select>`'s own `value` no longer tracks the selection.** It
+  stays pinned to the placeholder, so the closed control always reads
+  the placeholder word rather than the active locale name — keeping
+  the control as narrow as that word instead of as wide as the longest
+  locale name. No real option carries a `selected` binding any more.
+  Read the active locale from `[(value)]` or the `localeChange`
+  output; reading `selectElement.value` now always yields `""`.
+- Accessibility tradeoff, documented in `docs/accessibility.md`: the
+  closed control no longer announces the active locale to
+  screen-reader users. Consumers who need that should surface the
+  active selection in visible text (with its own `lang`) or a polite
+  live region.
+
+Downstream behaviour is otherwise unchanged: `lang` / `dir`
+application, `localStorage` persistence, `navigator` detection,
+`localeChange`, and initial-value resolution all behave exactly as
+before, and `value` remains the two-way bindable source of truth.
+
 ## 0.2.0 — 2026-07-03
 
 ### Changed (BREAKING)

@@ -84,17 +84,62 @@ describe("ThemeSelect — markup contract (§4.2, §7.1–§7.5)", () => {
             />,
         );
         const options = screen.getAllByRole("option") as HTMLOptionElement[];
-        expect(options.length).toBe(3);
+        // One placeholder option plus one option per theme.
+        expect(options.length).toBe(4);
         const select = screen.getByRole("combobox") as HTMLSelectElement;
         expect(select.name).toBe("appearance");
     });
 
-    test("§7.4 each option carries the slug as its value", () => {
+    test("§7.4 each option carries the slug as its value, after the empty placeholder", () => {
         render(
             <ThemeSelect label="Theme" themesUrl={URL_TRAILING} themes={THEMES} />,
         );
         const options = screen.getAllByRole("option") as HTMLOptionElement[];
-        expect(options.map((o) => o.value)).toEqual(THEMES);
+        expect(options.map((o) => o.value)).toEqual(["", ...THEMES]);
+    });
+
+    test("§7.4 the placeholder option renders the label and stays displayed", async () => {
+        render(
+            <ThemeSelect label="Theme" themesUrl={URL_TRAILING} themes={THEMES} />,
+        );
+        await flush();
+        const select = screen.getByRole("combobox") as HTMLSelectElement;
+        const placeholder = select.querySelector(
+            ".theme-select-placeholder",
+        ) as HTMLOptionElement;
+        expect(placeholder.textContent?.trim()).toBe("Theme");
+        expect(placeholder.value).toBe("");
+        // The closed control shows the placeholder, not the active theme.
+        expect(select.value).toBe("");
+        expect(document.documentElement.dataset.theme).toBe("light");
+    });
+
+    test("§7.4 the placeholder prop overrides the label as placeholder text", () => {
+        render(
+            <ThemeSelect
+                label="Choose a theme"
+                placeholder="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+            />,
+        );
+        const placeholder = document.querySelector(
+            ".theme-select-placeholder",
+        ) as HTMLOptionElement;
+        expect(placeholder.textContent?.trim()).toBe("Theme");
+        expect(screen.getByLabelText("Choose a theme")).toBeTruthy();
+    });
+
+    test("§7.4 choosing a theme applies it and snaps the select back to the placeholder", async () => {
+        render(
+            <ThemeSelect label="Theme" themesUrl={URL_TRAILING} themes={THEMES} />,
+        );
+        await flush();
+        const select = screen.getByRole("combobox") as HTMLSelectElement;
+        fireEvent.change(select, { target: { value: "abyss" } });
+        await flush();
+        expect(document.documentElement.dataset.theme).toBe("abyss");
+        expect(select.value).toBe("");
     });
 
     test("§7.5 default labels title-case the slug (no 'default' string)", () => {

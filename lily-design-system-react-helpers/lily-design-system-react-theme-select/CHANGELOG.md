@@ -1,5 +1,42 @@
 # CHANGELOG — lily-design-system-react-theme-select
 
+## [Unreleased]
+
+### Added
+
+- `placeholder` prop (optional, `string`, defaults to `label`): the text
+  of the always-displayed placeholder option. Keeps the package
+  i18n-clean — no hardcoded user-facing string is ever emitted.
+- `theme-select-placeholder` class hook on the placeholder `<option>`
+  (alongside `theme-select-option`).
+
+### Changed (BREAKING — DOM contract)
+
+- The `<select>` now renders a placeholder `<option value="">` as its
+  **first child**, in both the default and the custom-`children` code
+  paths. Option count is therefore `themes.length + 1` and the option
+  value list is `["", ...themes]`. Consumers asserting on option counts
+  or indices must account for the leading placeholder.
+- The `<select>`'s own `value` is pinned to `""` and no longer tracks
+  the active theme. After every change the DOM selection snaps back to
+  the placeholder, so the closed control always reads
+  `placeholder ?? label` and stays as narrow as that word.
+
+### Unchanged
+
+- The behaviour contract: the resolved selection still lives in `value`
+  / internal state, and `data-theme`, the managed `<link>` swap,
+  optional `localStorage` persistence, `onChange`, initial-value
+  resolution, and SSR safety are all as in 0.2.0.
+
+### Accessibility note
+
+- Because the closed control always reads the placeholder, screen-reader
+  users no longer hear the active theme announced as the combobox
+  value. Consumers who need that should surface the active theme
+  separately — as visible text or via a polite live region. See
+  `docs/accessibility.md`.
+
 ## 0.2.0 — 2026-07-03
 
 ### Changed (BREAKING)

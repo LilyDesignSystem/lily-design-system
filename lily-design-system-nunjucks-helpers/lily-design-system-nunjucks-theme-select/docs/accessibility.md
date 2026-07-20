@@ -34,16 +34,54 @@ Provided entirely by the platform's native `<select>`:
 
 ## State signals
 
-The active state is exposed in three independent channels — no
+The active state is exposed in two independent channels — no
 colour-only meaning is required:
 
-1. The selected `<option>` (browser-managed) on the `<select>`.
-2. `data-theme="<slug>"` on the target element (default `<html>`).
-3. The managed `<link>`'s `href` attribute.
+1. `data-theme="<slug>"` on the target element (default `<html>`).
+2. The managed `<link>`'s `href` attribute.
+
+Note that the `<select>`'s own selected `<option>` is deliberately
+**not** one of these channels — see below.
+
+## Tradeoff: the control does not announce the active theme
+
+The `<select>` always displays its leading placeholder option, and the
+client snaps `select.value` back to `""` after every change. This
+keeps the control narrow and predictable, but it has a real
+accessibility cost: a screen-reader user focusing the combobox hears
+the placeholder word ("Theme") as its value, **not** the theme that is
+currently active. The active theme is no longer discoverable from the
+control itself.
+
+Where knowing the active theme matters, surface it elsewhere:
+
+- Render the active theme as visible text next to the control (this
+  also helps sighted users, and satisfies WCAG 1.4.1 without relying
+  on the control).
+- Announce changes from a polite live region the consumer owns:
+
+  ```html
+  <p aria-live="polite" id="theme-status"></p>
+  ```
+
+  ```js
+  initThemeSelect(root, {
+      onChange: (slug) => {
+          document.getElementById("theme-status").textContent =
+              translate("Theme changed to {name}", { name: labels[slug] });
+      },
+  });
+  ```
+
+  The announcement text is consumer-supplied and translatable, so this
+  stays i18n-clean.
 
 ## Internationalisation
 
 - `opts.label` is consumer-supplied; pass a translated string.
+- `opts.placeholder` is consumer-supplied and defaults to `label`, so
+  the always-visible placeholder word is never a hardcoded English
+  string.
 - `opts.themeLabels` entries are consumer-supplied; localise the
   values.
 - The macro never emits hardcoded natural-language strings,

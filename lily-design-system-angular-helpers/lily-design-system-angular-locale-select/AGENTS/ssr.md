@@ -13,13 +13,16 @@ renders:
 
 ```html
 <select class="locale-select" aria-label="Language" name="locale">
+    <option class="locale-select-option locale-select-placeholder" value="" selected>Language</option>
     <option class="locale-select-option" value="en" lang="en">English</option>
     …
 </select>
 ```
 
-If the consumer passes `value="ar"`, the corresponding `<option>`
-is rendered selected server-side.
+The placeholder option is the selected one server-side and
+client-side alike, whatever `value` is — the `<select>` is not bound
+to `value`. So the control's own DOM never differs between server and
+client render.
 
 The `lang` and `dir` attributes on the document root are **not**
 written on the server unless the consumer pre-sets them via a

@@ -28,15 +28,19 @@ to a real file. Check that:
 
 ## "SSR hydration mismatch (NG0500)"
 
-**Likely cause.** The select rendered on the server with no
-selected option (because `value` was empty), but on the client the
-lifecycle resolved a non-empty initial value from `localStorage`
-or `defaultValue`. Angular logs a hydration warning when the
-resulting DOM differs.
+**Not from the `<select>` itself.** Since the placeholder option is
+always the selected one on both server and client, the control's own
+DOM is identical in both renders and cannot mismatch.
+
+**Likely cause.** Something *else* in your template keys off the
+resolved theme — a visible "active theme" label, a conditional class,
+or a `data-*` attribute — and the server rendered it from an empty
+`value` while the client resolved a non-empty one from `localStorage`
+or `defaultValue`.
 
 **Fix.** Resolve the theme on the server (cookie, header, or
-session store) and pass it to the select via `value`. See
-[ssr.md](./ssr.md).
+session store) and pass it to the select via `value`, so both renders
+agree. See [ssr.md](./ssr.md).
 
 ## "Theme does not persist across reloads"
 

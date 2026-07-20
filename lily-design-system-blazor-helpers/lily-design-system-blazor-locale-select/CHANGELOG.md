@@ -4,6 +4,50 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING)
+
+- The closed `<select>` now always reads a placeholder word instead of
+  the active locale name, so the control stays narrow regardless of how
+  long locale names are. Two parts of the DOM contract change:
+  - **Option count and ordering.** A component-owned placeholder
+    `<option class="locale-select-option locale-select-placeholder"
+    value="" selected>` is now the FIRST child of the `<select>`, in
+    both the default and the `ChildContent` code paths. It carries no
+    `lang`, since it is not a locale. Consumers and tests that count
+    options or index into them must account for it (`Locales.Count + 1`;
+    real codes start at index 1).
+  - **The `<select>`'s own value no longer tracks the selection.** The
+    placeholder is the only option ever marked `selected`; after every
+    change the component resets the live element's value back to `""`
+    via `IJSRuntime`. Read the selection from `Value` (still two-way
+    bindable via `@bind-Value`) or from `lang` on the document root —
+    never from the `<select>` element.
+
+  Everything downstream is unchanged: `lang` / `dir` application,
+  `localStorage` persistence, `navigator` detection, `OnChange` /
+  `ValueChanged`, and initial-value resolution all behave as before.
+
+### Added
+
+- `Placeholder` parameter (`string?`, defaults to `Label`) — the text
+  of the always-displayed placeholder option. Like every other
+  user-facing string in this package it is consumer-supplied, so no
+  hardcoded English is emitted.
+- New `.locale-select-placeholder` class hook, and a width recipe
+  (`field-sizing: content` with a `max-width` fallback) in
+  [`index.md`](index.md).
+
+### Accessibility
+
+- Documented tradeoff: because the closed control always reads the
+  placeholder, screen-reader users no longer hear the active locale
+  announced as the combobox value. Consumers who need it announced
+  should surface the active locale in visible text (with its own `lang`)
+  or a polite live region — see
+  [`docs/accessibility.md`](docs/accessibility.md).
+
 ## 0.2.0 — 2026-07-03
 
 ### Changed (BREAKING)

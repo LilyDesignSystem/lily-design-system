@@ -46,21 +46,38 @@ consumer-form code. Initial value resolves from `value` > storage >
 navigator match (if `detect-from-navigator` is set) > `default-value`
 > `"en"` (if present) > `locales[0]`.
 
+The rendered `<select>` never tracks the selection. Its own DOM
+selection stays pinned to the leading placeholder option: on
+`change` the handler reads the chosen code, immediately resets
+`select.value = ""`, and only then assigns the element's `value`.
+The real selection lives on `this.value` (attribute + property) and
+everything downstream — `lang` / `dir`, persistence, `localechange`,
+navigator detection, initial-value resolution — is unchanged.
+
 ## HTML
 
 `<locale-select>` contains one rendered `<select class="locale-select
-{class}" aria-label="{label}" name="{name}">` with one
-`<option class="locale-select-option" lang="...">` per locale carrying
-its locale `value` and visible label text.
+{class}" aria-label="{label}" name="{name}">` whose first child is
+the component-owned placeholder
+`<option class="locale-select-option locale-select-placeholder" value="" selected>`
+carrying `placeholder ?? label` as its text and **no `lang`**,
+followed by one `<option class="locale-select-option" lang="...">`
+per locale carrying its locale `value` and visible label text. No
+option other than the placeholder is ever marked `selected`.
 
 ## Accessibility
 
 - WCAG 2.2 AAA target.
 - The native `<select>` provides Arrow / Home / End / typeahead / Tab semantics.
 - `aria-label` carries the consumer-supplied accessible name.
-- Each option carries its own `lang` (WCAG 3.1.2 Language of Parts).
+- Each locale option carries its own `lang` (WCAG 3.1.2 Language of
+  Parts); the placeholder option carries none.
 - The document root carries `lang` (WCAG 3.1.1) and (by default)
   `dir` for bidi layout.
+- Because the closed control always reads the placeholder, the
+  active locale is NOT announced as the combobox value. Consumers
+  who need it should surface it in visible text or a polite live
+  region — see `docs/accessibility.md`.
 
 ## Conventions this package follows
 

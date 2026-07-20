@@ -15,6 +15,24 @@ Screen readers announce it as the control's name.
 <ThemeSelect label="主题" {...required} />
 ```
 
+## `placeholder` — optional, string — defaults to `label`
+
+Text of the placeholder `<option>` that is always the first child of
+the `<select>` and always the option the closed control displays. The
+select's own `value` never tracks the active theme, so the control
+stays as narrow as this word no matter how long the theme names are.
+
+Supply it when the accessible name you want (`label`) is longer than
+the word you want shown in the closed control:
+
+```tsx
+<ThemeSelect label="Choose a colour theme" placeholder="Theme" {...required} />
+// aria-label is "Choose a colour theme"; the closed select reads "Theme".
+```
+
+Like `label`, this is consumer-supplied and translatable — the package
+never emits a hardcoded user-facing string.
+
 ## `themesUrl` — required, string
 
 Base URL of the directory the theme CSS files are served from. A

@@ -11,13 +11,17 @@ Under SSR, the `effect()` callback's `typeof document !==
 
 ```html
 <select class="theme-select " aria-label="Theme" name="theme">
+    <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
     <option class="theme-select-option" value="light">Light</option>
     …
 </select>
 ```
 
-No option is selected unless the consumer supplied a non-empty
-`value`.
+The placeholder option is always the selected one, on the server and
+on the client alike, regardless of `value`. The `<select>`'s own value
+is `""` in both environments, so the control itself can never produce
+a hydration mismatch — see "SSR hydration mismatch" in
+[troubleshooting.md](./troubleshooting.md).
 
 ## What happens on hydration
 
@@ -170,9 +174,11 @@ the consumer wire the integration.
 If you see an Angular warning like "NG0500: Hydration: node
 mismatch", the most common cause is:
 
-- The server rendered the `<select>` with no selected option
-  (because `value` was empty), but the client picked a non-empty
-  value from `localStorage`.
+- **Not the `<select>` itself** — the placeholder option is always
+  the selected one on both sides, so the control cannot mismatch.
+- More likely, something else in the consumer's template keys off the
+  resolved theme and the server rendered it from an empty `value`
+  while the client resolved one from `localStorage`.
 - **Fix.** Resolve the theme server-side and pass it as `value`.
 
 A second cause: the consumer renders the helper inside a

@@ -15,8 +15,44 @@ responsibility.
 | WCAG 4.1.2 Name, Role, Value | `<select aria-label>` exposes the combobox; `<option>` exposes each choice. |
 | WCAG 2.1.1 Keyboard | Tab to the select; Arrow / Home / End / typeahead move selection — all from native `<select>` semantics. |
 | WCAG 2.4.7 Focus Visible | The browser's default focus ring is preserved; the select never sets `outline: none`. |
-| WCAG 1.4.1 Use of Color | Selection state is exposed via the `<select>`'s current value and reflected in the `lang` attribute — not colour alone. |
+| WCAG 1.4.1 Use of Color | Selection state is exposed via the `lang` attribute and the `[(value)]` binding — not colour alone. |
 | Native `<select>` | Single-selection combobox with full keyboard and screen-reader support — provided by the platform. |
+
+## Tradeoff: the closed control does not announce the active locale
+
+The `<select>` always displays its leading placeholder option, so its
+own `value` is permanently `""`. This keeps the control narrow, but it
+costs something real: a screen-reader user focusing the control hears
+the accessible name and the placeholder word ("Locale"), **not** the
+locale currently in effect. The active locale is no longer
+discoverable from the combobox alone.
+
+The `lang` attribute on the document root still carries the active
+locale, and assistive technology uses it for pronunciation — but users
+cannot *hear* which locale is selected by focusing the control.
+
+Where that matters, surface the active selection elsewhere. Two
+recipes:
+
+```html
+<!-- 1. Visible text next to the control. Also helps sighted users. -->
+<lily-locale-select label="Locale" [locales]="locales"
+                    [(value)]="locale" />
+<span class="locale-active" [attr.lang]="locale()">{{ locale() }}</span>
+```
+
+```html
+<!-- 2. A polite live region announcing each change. Supply the
+        phrasing yourself so it stays translatable. -->
+<lily-locale-select label="Locale" [locales]="locales"
+                    (localeChange)="announce($event)" />
+<p role="status" aria-live="polite">{{ announcement() }}</p>
+```
+
+Prefer the visible-text recipe: it serves sighted, low-vision, and
+screen-reader users at once, and needs no live-region timing care.
+Give that visible text its own `lang` so it is pronounced in the
+language it names, exactly as the options are.
 
 ## Per-option `lang` is important
 

@@ -64,12 +64,14 @@ public class LocaleSelectTests : TestContext
             .Add(x => x.Name, "lang"));
 
         var options = cut.FindAll("option");
-        Assert.Equal(LocalesList.Length, options.Count);
+        // One placeholder option plus one option per locale.
+        Assert.Equal(LocalesList.Length + 1, options.Count);
         Assert.Equal("lang", cut.Find("select").GetAttribute("name"));
     }
 
     // -----------------------------------------------------------------
-    // §7.4 — Each option carries the locale code as its value.
+    // §7.4 — Each option carries the locale code as its value, after the
+    //        leading empty-valued placeholder.
     // -----------------------------------------------------------------
     [Fact]
     public void Section_7_4_Option_Value_Is_Locale_Code()
@@ -79,9 +81,11 @@ public class LocaleSelectTests : TestContext
             .Add(x => x.Locales, LocalesList));
 
         var options = cut.FindAll("option");
+        Assert.Equal("", options[0].GetAttribute("value"));
         for (int i = 0; i < LocalesList.Length; i++)
         {
-            Assert.Equal(LocalesList[i], options[i].GetAttribute("value"));
+            // Index shifts by one: options[0] is the placeholder.
+            Assert.Equal(LocalesList[i], options[i + 1].GetAttribute("value"));
         }
     }
 
@@ -95,10 +99,109 @@ public class LocaleSelectTests : TestContext
             .Add(x => x.Label, "Language")
             .Add(x => x.Locales, new[] { "en", "en_US", "zh_Hant_TW" }));
 
+        // Skip index 0: the placeholder is not a locale and carries no lang.
         var labels = cut.FindAll(".locale-select-option");
-        Assert.Equal("en", labels[0].GetAttribute("lang"));
-        Assert.Equal("en-US", labels[1].GetAttribute("lang"));
-        Assert.Equal("zh-Hant-TW", labels[2].GetAttribute("lang"));
+        Assert.Null(labels[0].GetAttribute("lang"));
+        Assert.Equal("en", labels[1].GetAttribute("lang"));
+        Assert.Equal("en-US", labels[2].GetAttribute("lang"));
+        Assert.Equal("zh-Hant-TW", labels[3].GetAttribute("lang"));
+    }
+
+    // -----------------------------------------------------------------
+    // §7.24 — The placeholder option is first, renders the Label, carries
+    //         value="", is the only selected option, and does not stop the
+    //         resolved locale from being applied.
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_24_Placeholder_Option_Renders_Label_And_Stays_Selected()
+    {
+        var cut = RenderComponent<LocaleSelect>(p => p
+            .Add(x => x.Label, "Locale")
+            .Add(x => x.Locales, LocalesList));
+        await Task.Yield();
+
+        // The placeholder is the FIRST child of the <select>.
+        Assert.Contains("locale-select-placeholder",
+            cut.FindAll("option")[0].GetAttribute("class") ?? "");
+
+        var placeholder = cut.Find(".locale-select-placeholder");
+        Assert.Equal("Locale", placeholder.TextContent.Trim());
+        Assert.Equal("", placeholder.GetAttribute("value"));
+        Assert.NotNull(placeholder.GetAttribute("selected"));
+
+        // The closed control shows the placeholder, not the active locale:
+        // no real option is marked selected.
+        foreach (var option in cut.FindAll(".locale-select-option"))
+        {
+            if (option.ClassList.Contains("locale-select-placeholder")) continue;
+            Assert.Null(option.GetAttribute("selected"));
+        }
+
+        // The resolved locale is still applied.
+        Assert.True(SawEvalContaining("setAttribute('lang',\"en\")"),
+            "Expected the resolved locale to still be applied");
+    }
+
+    // -----------------------------------------------------------------
+    // §7.25 — The Placeholder parameter overrides Label as placeholder text,
+    //         while aria-label keeps the Label.
+    // -----------------------------------------------------------------
+    [Fact]
+    public void Section_7_25_Placeholder_Parameter_Overrides_Label()
+    {
+        var cut = RenderComponent<LocaleSelect>(p => p
+            .Add(x => x.Label, "Choose a locale")
+            .Add(x => x.Placeholder, "Locale")
+            .Add(x => x.Locales, LocalesList));
+
+        Assert.Equal("Locale", cut.Find(".locale-select-placeholder").TextContent.Trim());
+        Assert.Equal("Choose a locale", cut.Find("select").GetAttribute("aria-label"));
+    }
+
+    // -----------------------------------------------------------------
+    // §7.26 — Choosing an option applies it AND snaps the <select> back to
+    //         the placeholder: the DOM value is reset via interop and the
+    //         placeholder stays the only selected option.
+    // -----------------------------------------------------------------
+    [Fact]
+    public async Task Section_7_26_Choosing_Option_Applies_And_Snaps_Back()
+    {
+        var cut = RenderComponent<LocaleSelect>(p => p
+            .Add(x => x.Label, "Locale")
+            .Add(x => x.Locales, LocalesList));
+        await Task.Yield();
+
+        cut.Find("select").Change("fr_CA");
+
+        // Applied.
+        Assert.True(SawEvalContaining("setAttribute('lang',\"fr-CA\")"),
+            "Expected the chosen locale to be applied");
+
+        // Snapped back: the live element's value was reset through interop.
+        Assert.Contains(JSInterop.Invocations,
+            inv => inv.Identifier == "Object.assign");
+
+        // Snapped back: the placeholder is still the only selected option.
+        Assert.NotNull(cut.Find(".locale-select-placeholder").GetAttribute("selected"));
+        foreach (var option in cut.FindAll(".locale-select-option"))
+        {
+            if (option.ClassList.Contains("locale-select-placeholder")) continue;
+            Assert.Null(option.GetAttribute("selected"));
+        }
+    }
+
+    /// <summary>True when some eval interop call carried the given substring.</summary>
+    private bool SawEvalContaining(string needle)
+    {
+        foreach (var inv in JSInterop.Invocations)
+        {
+            if (inv.Identifier == "eval" && inv.Arguments.Count > 0
+                && inv.Arguments[0] is string s && s.Contains(needle))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     // -----------------------------------------------------------------

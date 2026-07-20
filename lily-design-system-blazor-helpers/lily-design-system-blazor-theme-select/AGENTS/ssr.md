@@ -11,13 +11,16 @@ and the select does not touch the DOM. The rendered HTML looks like:
 
 ```html
 <select class="theme-select" aria-label="Theme" name="theme">
+    <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
     <option class="theme-select-option" value="light">Light</option>
     …
 </select>
 ```
 
-If the consumer passes `Value="light"`, the corresponding `<option>`
-is rendered `selected` server-side.
+The placeholder option is `selected` server-side and stays selected
+thereafter; no theme `<option>` is ever marked `selected`, even when
+the consumer passes `Value="light"`. The selection lives in `Value` and
+in `data-theme` on the document root.
 
 The managed `<link>` is **not** created on the server. `data-theme`
 is **not** written to `<html>` on the server. Those happen on

@@ -4,6 +4,41 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Added
+
+- `placeholder` input (optional, `string`). Sets the text of the new
+  leading placeholder option. Defaults to the `label` value, so the
+  package still emits no hardcoded user-facing string.
+- `.theme-select-placeholder` class hook on the placeholder option, and
+  a width recipe (`field-sizing: content` + `max-width`) in
+  `docs/styling.md`. The package still ships zero CSS.
+
+### Changed (BREAKING — DOM contract)
+
+- The `<select>` now renders a leading
+  `<option class="theme-select-option theme-select-placeholder" value="" selected>`
+  before the theme options. **Option count is one greater than
+  `themes.length`**, and the first option's `value` is `""`. Consumers
+  asserting on option count or index will need to account for it.
+- **The `<select>`'s own `value` no longer tracks the selection.** It
+  stays pinned to the placeholder, so the closed control always reads
+  the placeholder word rather than the active theme name — keeping the
+  control as narrow as that word instead of as wide as the longest
+  theme name. No real option carries a `selected` binding any more.
+  Read the active theme from `[(value)]` or the `themeChange` output;
+  reading `selectElement.value` now always yields `""`.
+- Accessibility tradeoff, documented in `docs/accessibility.md`: the
+  closed control no longer announces the active theme to screen-reader
+  users. Consumers who need that should surface the active selection
+  in visible text or a polite live region.
+
+Downstream behaviour is otherwise unchanged: the managed `<link>`
+swap, `data-theme` application, `localStorage` persistence,
+`themeChange`, and initial-value resolution all behave exactly as
+before, and `value` remains the two-way bindable source of truth.
+
 ## 0.2.0 — 2026-07-03
 
 ### Changed (BREAKING)

@@ -34,12 +34,55 @@ Provided entirely by the native `<select>`:
 
 ## State signals
 
-The active state is exposed in three independent channels — no
+The active state is exposed in two independent channels — no
 colour-only meaning is required:
 
-1. The selected `<option>`.
-2. `data-theme="<slug>"` on `<html>`.
-3. The `@bind-Value` binding in user code.
+1. `data-theme="<slug>"` on `<html>`.
+2. The `@bind-Value` binding in user code.
+
+Note what is *not* in that list: the `<select>`'s own value.
+
+## The placeholder tradeoff
+
+The first `<option>` is a component-owned placeholder
+(`.theme-select-placeholder`, `value=""`) and it is always the selected
+one. After a theme is chosen, the select's own DOM value snaps straight
+back to it, so the closed control keeps reading `Placeholder ?? Label`.
+This is deliberate — it keeps the control narrow — but it has a real
+accessibility cost, and you should know it before shipping:
+
+**A screen-reader user no longer hears the active theme announced as
+the combobox value.** The control announces as, for example, "Theme,
+combobox, Theme" rather than "Theme, combobox, Dark". The selection is
+still fully operable and still applied; it is simply not readable back
+off this control.
+
+Where that matters, surface the active theme somewhere else:
+
+- Visible text next to the select — which also helps sighted users,
+  since the closed control no longer shows the selection either:
+
+  ```razor
+  <ThemeSelect Label="Choose a theme" Placeholder="Theme"
+               @bind-Value="theme" ... />
+  <p class="theme-select-status">@Localizer["currentTheme", theme]</p>
+  ```
+
+- A polite live region, if the change should be announced as it
+  happens:
+
+  ```razor
+  <div role="status" aria-live="polite">
+      @Localizer["themeChangedTo", theme]
+  </div>
+  ```
+
+  Keep it `polite`, not `assertive`: a theme change is not an
+  interruption.
+
+If neither fits your design, prefer a plain `<select>` bound to
+`Value` over this helper — announcing the selection is worth more than
+a narrow control.
 
 ## Internationalisation
 

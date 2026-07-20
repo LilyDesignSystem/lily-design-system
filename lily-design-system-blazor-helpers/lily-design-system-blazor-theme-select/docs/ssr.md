@@ -12,12 +12,16 @@ HTML looks like:
 
 ```html
 <select class="theme-select" aria-label="Theme" name="theme">
+    <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
     <option class="theme-select-option" value="light">Light</option>
     …
 </select>
 ```
 
-No option is selected unless the consumer supplied a non-empty `Value`.
+The leading placeholder option is the selected one, always — including
+when the consumer supplies a non-empty `Value`. The selection is carried
+by `Value` and by `data-theme` on the document root, never by the
+`<select>` element itself.
 
 ## What happens on hydration
 

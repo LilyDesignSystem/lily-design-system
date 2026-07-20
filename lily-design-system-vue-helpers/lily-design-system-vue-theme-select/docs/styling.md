@@ -10,7 +10,8 @@ exposes.
 | ----------------------------------------- | ------------------------------------ |
 | `.theme-select`                           | The root `<select>`.                 |
 | `.theme-select.{consumerClass}`           | Both classes when `class` is passed. |
-| `.theme-select > .theme-select-option`    | Each `<option>` in the select.       |
+| `.theme-select > .theme-select-option`    | Each `<option>` in the select, including the placeholder. |
+| `.theme-select-placeholder`               | The leading placeholder `<option>` (`value=""`). Always the first child, in both default and custom-slot rendering. |
 
 If you pass a default slot, only `.theme-select` is guaranteed on
 the root; the inner classes are up to your markup.
@@ -28,6 +29,14 @@ Drop into the consumer's app stylesheet:
 
 ```css
 .theme-select {
+    /*
+     * The closed control always shows the placeholder word, so it can
+     * be sized to that word instead of to the longest theme name.
+     */
+    field-sizing: content; /* Chrome 123+: size to the shown option */
+    width: auto;
+    max-width: 12ch; /* fallback for Firefox / Safari */
+
     padding: 0.25rem 0.5rem;
     border: 1px solid var(--color-base-300, currentColor);
     border-radius: var(--radius-selector, 0.25rem);

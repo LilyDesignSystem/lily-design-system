@@ -92,6 +92,7 @@ re-renders / re-applies as needed.
 | Attribute       | Type            | Required | Default                  | Purpose |
 | --------------- | --------------- | -------- | ------------------------ | ------- |
 | `label`         | `string`        | yes      | —                        | Accessible name for the `<select>`. |
+| `placeholder`   | `string`        | no       | value of `label`         | Text of the always-displayed placeholder `<option>`. The closed `<select>` shows this instead of the active theme name, so the control stays as narrow as this word. Defaults to `label`, so no hardcoded user-facing string is emitted. |
 | `themes-url`    | `string`        | yes      | —                        | Base URL of the themes directory. Trailing `/` is auto-normalised. |
 | `themes`        | `string` (CSV)  | yes      | —                        | Available theme slugs, comma-separated (e.g. `"light,dark,abyss"`). The JS property `el.themes` accepts `string[]`. |
 | `value`         | `string`        | no       | `""`                     | Currently selected theme slug. |
@@ -106,7 +107,8 @@ re-renders / re-applies as needed.
 
 Mirror every attribute with a getter/setter on the element instance:
 
-- `el.label`, `el.themesUrl`, `el.themes` (`string[]`),
+- `el.label`, `el.placeholder` (falls back to `el.label` when the
+  attribute is absent), `el.themesUrl`, `el.themes` (`string[]`),
   `el.value`, `el.defaultValue`, `el.storageKey`, `el.name`,
   `el.extension`, `el.themeLabels` (`Record<string, string>`),
   `el.target` (`HTMLElement | null`, default
@@ -116,8 +118,9 @@ Mirror every attribute with a getter/setter on the element instance:
 ### 4.3 Lifecycle callbacks
 
 - `static get observedAttributes()` returns
-  `["label", "themes-url", "themes", "value", "default-value",
-    "storage-key", "name", "extension", "theme-labels", "class"]`.
+  `["label", "placeholder", "themes-url", "themes", "value",
+    "default-value", "storage-key", "name", "extension",
+    "theme-labels", "class"]`.
 - `connectedCallback()` resolves the initial value (per §5.2) and
   renders the children.
 - `attributeChangedCallback(name, _old, _new)` updates the
@@ -138,8 +141,9 @@ is composed.
 After render, the element contains exactly one child `<select>`:
 
 ```html
-<theme-select label="..." themes-url="..." themes="light,dark">
+<theme-select label="Theme" themes-url="..." themes="light,dark">
   <select class="theme-select" aria-label="Theme" name="theme">
+    <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
     <option class="theme-select-option" value="light">Light</option>
     <option class="theme-select-option" value="dark">Dark</option>
   </select>
@@ -149,6 +153,34 @@ After render, the element contains exactly one child `<select>`:
 `labelFor(slug)` returns `themeLabels[slug]` when supplied; otherwise
 the slug with its first character upper-cased. The word "default"
 never appears.
+
+**The placeholder option.** The first child of the `<select>` is
+always a component-owned placeholder `<option>` carrying
+`class="theme-select-option theme-select-placeholder"`, `value=""`,
+`selected`, and `placeholder ?? label` as its text. It is rendered
+before the real options and before any consumer-supplied custom
+option rendering. No option other than the placeholder is ever
+marked `selected`.
+
+**Snap-back.** The `<select>` is not bound to `value`. Its own DOM
+selection stays pinned to the placeholder, so the closed control
+always reads `placeholder ?? label` rather than the active theme
+name. On `change` the element:
+
+```js
+const chosen = select.value;
+select.value = "";      // snap back to the placeholder
+if (chosen) this.value = chosen;
+```
+
+Everything downstream is unchanged: `this.value` remains the real
+selection (attribute + property), and link-href swapping,
+`data-theme`, `localStorage` persistence, the `themechange` event,
+and initial-value resolution all behave exactly as before.
+Consumers read the selection from `el.value` or the `themechange`
+detail — never from the rendered `<select>`, whose `value` is
+always `""`. Consumer `change` listeners on the host still fire
+(the native event bubbles from the `<select>`).
 
 A single managed `<link rel="stylesheet" data-lily-theme-select="{name}">`
 in `document.head` is created on first apply, reused thereafter.
@@ -240,6 +272,14 @@ manually in the document head, then upgrade with this element.
 - `aria-label={label}` supplies the accessible name.
 - Native `<option>` elements get the implicit option role, selected
   state, and keyboard semantics for free.
+- **Known tradeoff.** Because the `<select>` keeps the placeholder
+  selected, the active theme is not announced as the combobox
+  value; a screen-reader user hears only `placeholder ?? label`.
+  Consumers who need the active theme conveyed must surface it
+  elsewhere — visible text next to the control, or a polite
+  `role="status"` live region updated on `themechange`. The
+  element still writes `data-theme` on the target, so the state
+  stays observable to CSS and scripts.
 
 ### 6.2 Keyboard contract
 
@@ -276,9 +316,24 @@ preserved verbatim where possible.
 1. Renders a `<select>` (as a child of `<theme-select>`) with the
    implicit combobox role.
 2. `aria-label` on the `<select>` is the supplied `label` attribute.
-3. Renders one `<option>` per entry in `themes`; the `<select>`
-   carries the supplied `name` attribute.
-4. Each option's `value` attribute is the theme slug.
+3. Renders one placeholder `<option>` plus one `<option>` per entry
+   in `themes` (`themes.length + 1` total); the `<select>` carries
+   the supplied `name` attribute.
+4. Each option's `value` attribute is the theme slug, in catalog
+   order, preceded by the empty-valued placeholder — the full value
+   list is `["", ...themes]`.
+4a. The placeholder `<option>` is the first child, carries
+    `class="theme-select-option theme-select-placeholder"` and
+    `value=""`, renders `label` as its text, and is the selected
+    option — `select.value` is `""` — while the resolved initial
+    theme is still applied to `document.documentElement.dataset.theme`.
+4b. When the `placeholder` attribute is supplied it overrides
+    `label` as the placeholder option's text, while `aria-label`
+    still carries `label`.
+4c. Choosing an option applies that theme (`data-theme`, link href,
+    `themechange`) AND snaps the `<select>` back to the
+    placeholder — `select.value` is `""` again, both on the
+    pre-existing select reference and on the re-rendered one.
 5. The default rendering shows `themeLabels[slug]` when supplied, or
    the slug with its first character upper-cased otherwise (e.g.
    `"light"` → `"Light"`). The word `"default"` never appears.
