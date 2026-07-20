@@ -25,13 +25,23 @@ container — a native `<select>` + slot. This helper is the
 opinionated, reusable counterpart that owns the dynamic loading
 lifecycle.
 
+> **Breaking change (unreleased).** The control is no longer a native
+> `<select>`. It is now an icon button (◑, U+25D1 CIRCLE WITH RIGHT
+> HALF BLACK) that opens a WAI-ARIA APG listbox. The `placeholder`
+> prop is removed — there is no `<select>` left to pin — and the
+> default slot now replaces the button glyph rather than the options.
+> Everything downstream (managed `<link>` swap, `data-theme`,
+> persistence, `change`, initial-value resolution, SSR safety, the
+> exported pure helpers) is unchanged.
+
 ---
 
 ## 1. Goal
 
 Give a Vue 3 application a drop-in, headless theme select that:
 
-1. Renders an accessible native `<select>` of available themes.
+1. Renders an accessible icon button that opens a listbox of available
+   themes.
 2. **Loads themes dynamically at runtime** from a developer-specified
    directory URL (e.g. `/assets/themes/`).
 3. Applies the chosen theme by injecting / swapping one
@@ -87,18 +97,18 @@ Give a Vue 3 application a drop-in, headless theme select that:
 
 | Prop            | Type                                      | Required | Default                  | Purpose |
 | --------------- | ----------------------------------------- | -------- | ------------------------ | ------- |
-| `label`         | `string`                                  | yes      | —                        | Accessible name for the `<select>`. |
-| `placeholder`   | `string`                                  | no       | value of `label`         | Text of the always-displayed placeholder option. The closed `<select>` shows this instead of the active theme name. |
+| `label`         | `string`                                  | yes      | —                        | Accessible name for **both** the button and the listbox. The button is icon-only, so this is its only name. |
 | `themesUrl`     | `string`                                  | yes      | —                        | Base URL of the themes directory. Trailing `/` is auto-normalised. |
 | `themes`        | `string[]`                                | yes      | —                        | Available theme slugs. |
 | `value`         | `string` (`v-model:value`)                | no       | `""`                     | Currently selected theme slug. |
 | `defaultValue`  | `string`                                  | no       | `"light"` if present in `themes`, else first item | Initial theme. |
 | `storageKey`    | `string`                                  | no       | `undefined`              | If set, persist the selection to `localStorage` under this key. |
-| `name`          | `string`                                  | no       | `"theme"`                | `name` attribute on the `<select>`. |
+| `detectFromSystem` | `boolean`                              | no       | `false`                  | Resolve `prefers-color-scheme` to a supported theme on first visit. Mirrors `detectFromNavigator` on locale-select. |
+| `name`          | `string`                                  | no       | `"theme"`                | `name` of the hidden input that carries the value in a form. **Also** discriminates the managed `<link data-lily-theme-select="{name}">`. |
 | `extension`     | `string`                                  | no       | `".css"`                 | File extension appended to each slug when constructing the URL. |
 | `target`        | `HTMLElement \| null`                     | no       | `document.documentElement` | Element that receives `data-theme`. |
 | `themeLabels`   | `Record<string, string>`                  | no       | `{}`                     | Optional pretty labels per slug. |
-| `class`         | `string`                                  | no       | `""`                     | Extra CSS class on the `<select>` root. |
+| `class`         | `string`                                  | no       | `""`                     | Extra CSS class on the root `<div>`. |
 
 ### 4.2 Events
 
@@ -109,39 +119,69 @@ Give a Vue 3 application a drop-in, headless theme select that:
 
 ### 4.3 Slots
 
-Default slot — when provided, replaces the built-in `<option>`
-markup. The slot receives the following scoped props:
+Default slot — when provided, replaces the **button glyph**. It does
+not render the options: the listbox, its `<li role="option">`
+children, the keyboard contract, and the apply lifecycle are all
+component-owned. The slot receives the following scoped props:
 
 ```ts
 type SlotArgs = {
-  themes: string[];
+  /** Currently selected theme slug. */
   value: string;
-  setTheme: (theme: string) => void;
-  name: string;
+  /** Is the listbox open? */
+  open: boolean;
+  /** Resolve a slug to its display label. */
   labelFor: (theme: string) => string;
 };
 ```
 
+`ChildArgs` is exported as an alias of `SlotArgs`, matching the
+canonical Svelte helper's type name.
+
+Whatever the slot renders is decorative: the button's accessible name
+always comes from `label` via `aria-label`. Slot content should be
+`aria-hidden="true"` or text-free so it does not compete with that
+name.
+
 ### 4.4 DOM contract
 
-- Root element: `<select class="theme-select {class}"
-  aria-label="{label}" name="{name}">`. `$attrs` falls through to the
-  root via the default Vue inheritAttrs behaviour.
-- **First child, always:** a component-owned placeholder
-  `<option class="theme-select-option theme-select-placeholder"
-  value="" selected>{placeholder ?? label}</option>`. It is rendered
-  in both the default and the custom-slot code paths, so a consumer
-  slot cannot displace it.
-- Remaining default children: one `<option class="theme-select-option"
-  value="{slug}">{labelFor(slug)}</option>` per theme slug.
-- The `<select>` element's own value is **not** bound to the active
-  slug. Its DOM selection stays pinned to the placeholder: on
-  `change` the component reads the chosen slug, immediately resets
-  `select.value = ""`, and then applies the slug. The closed control
-  therefore always reads `placeholder ?? label` rather than the
-  active theme name, which keeps the control as narrow as that one
-  word. The real selection lives in `value` / `v-model:value` and in
-  `data-theme` on the target.
+```html
+<div class="theme-select {class}" ...$attrs>
+  <input type="hidden" name="{name}" value="{value}" />
+  <button type="button" class="theme-select-button"
+          aria-label="{label}" aria-haspopup="listbox"
+          aria-expanded="false" aria-controls="{listId}">
+    <span class="theme-select-icon" aria-hidden="true">◑</span>
+  </button>
+  <ul class="theme-select-list" id="{listId}" role="listbox"
+      aria-label="{label}" tabindex="-1" hidden
+      aria-activedescendant="{optionId of active, only while open}">
+    <li class="theme-select-option" id="{optionId}" role="option"
+        aria-selected="true|false" data-active>{labelFor(slug)}</li>
+  </ul>
+</div>
+```
+
+- Root element: a `<div class="theme-select {class}">`. `$attrs`
+  falls through to it via the default Vue `inheritAttrs` behaviour.
+- The button is icon-only. The glyph is `◑` (U+25D1 CIRCLE WITH RIGHT
+  HALF BLACK, `&#9681;`), exported as
+  `CIRCLE_WITH_RIGHT_HALF_BLACK`, wrapped in `aria-hidden="true"` so
+  it can never become the accessible name.
+- The hidden input preserves form participation and carries `name`.
+- `aria-expanded` tracks the open state; `aria-controls` points at the
+  listbox id.
+- The listbox carries `hidden` while closed, `tabindex="-1"` so it can
+  receive focus on open, and `aria-activedescendant` **only while
+  open** — it is removed on close.
+- One `<li class="theme-select-option" role="option">` per slug, with
+  a stable per-instance `id`, `aria-selected` reflecting the active
+  slug, and `data-active` on the keyboard-active option.
+- Option ids come from an incrementing module counter
+  (`nextThemeSelectId()`), so they are stable and SSR-safe — never
+  `Math.random()` or `Date.now()`.
+- The selection lives in `value` / `v-model:value`, in the hidden
+  input, and in `data-theme` on the target.
 - `labelFor(slug)` returns `themeLabels[slug]` when supplied;
   otherwise the slug with its first character upper-cased. The select
   never emits the word "default".
@@ -156,8 +196,11 @@ type SlotArgs = {
 
 - `default` (the component)
 - `ThemeSelect` (named alias of the default export)
-- `normaliseThemesUrl`, `themeHref` (pure helpers)
-- `type Props`, `type SlotArgs`
+- `normaliseThemesUrl`, `themeHref`, `themeName`, `matchSystemTheme`
+  (pure helpers)
+- `nextThemeSelectId` (per-instance id generator)
+- `CIRCLE_WITH_RIGHT_HALF_BLACK` (the default button glyph)
+- `type Props`, `type SlotArgs`, `type ChildArgs`
 
 ## 5. Behaviour
 
@@ -178,10 +221,18 @@ non-empty value of:
 
 1. `value` (if a consumer supplied a non-empty string).
 2. `localStorage.getItem(storageKey)` (only if `storageKey` is set).
-3. `defaultValue`.
-4. `"light"` (if `"light"` is in `themes`).
-5. `themes[0]`.
-6. `""` (no apply happens — select waits for user interaction).
+3. `matchSystemTheme(themes)` (only if `detectFromSystem` is `true`).
+4. `defaultValue`.
+5. `"light"` (if `"light"` is in `themes`).
+6. `themes[0]`.
+7. `""` (no apply happens — select waits for user interaction).
+
+Step 3 occupies the same position navigator detection occupies in
+locale-select, so the two helpers resolve symmetrically:
+
+```
+value > storage > DETECTION > defaultValue > "light" / "en" > first
+```
 
 Resolution emits `update:value` so consumers binding via
 `v-model:value` see the resolved value.
@@ -216,26 +267,46 @@ consumer.
 
 ### 6.1 Roles and properties
 
-- A native `<select>` (implicit `role="combobox"`) is the announced
-  control.
-- `aria-label={label}` supplies the accessible name.
-- Native `<option>` elements get the option role, selected state,
-  and keyboard semantics for free.
+- A `<button aria-haspopup="listbox" aria-expanded aria-controls>` is
+  the trigger. Because it is icon-only, `aria-label={label}` is its
+  **only** accessible name — the glyph is `aria-hidden="true"`.
+- A `<ul role="listbox" aria-label={label}>` holds one
+  `<li role="option" aria-selected>` per slug.
+- The active option is conveyed with `aria-activedescendant` on the
+  listbox (focus stays on the `<ul>`), per the APG listbox pattern.
+- `data-active` mirrors the active option for consumer CSS;
+  `aria-selected` mirrors the committed selection for assistive
+  technology.
 
 ### 6.2 Keyboard contract
 
-Provided by the platform (native `<select>`):
+Implemented by the component, following the WAI-ARIA APG listbox
+pattern. Focus moves to the `<ul>` on open and returns to the button
+on commit or cancel.
 
-| Key               | Action                                        |
-| ----------------- | --------------------------------------------- |
-| `Tab`             | Move focus to the select (one stop).          |
-| `Shift+Tab`       | Move focus away from the select.              |
-| `Arrow Down`      | Select the next option.                       |
-| `Arrow Up`        | Select the previous option.                   |
-| `Home` / `End`    | Select the first / last option.               |
-| Typeahead         | Type characters to jump to a matching option. |
-| `Enter` / `Space` | Open the option list (platform-dependent).    |
-| `Escape`          | Close the option list.                        |
+On the **button**:
+
+| Key                  | Action                                                        |
+| -------------------- | ------------------------------------------------------------- |
+| `ArrowDown`          | Open, active option = the selected one (or index 0).          |
+| `Enter` / `Space`    | Open, active option = the selected one (or index 0).          |
+| `ArrowUp`            | Open, active option = the **last** option.                    |
+| `Tab` / `Shift+Tab`  | Move focus away (native).                                     |
+
+On the **listbox**:
+
+| Key                  | Action                                                        |
+| -------------------- | ------------------------------------------------------------- |
+| `ArrowDown`          | Move the active option down one. **Clamps** — no wrapping.    |
+| `ArrowUp`            | Move the active option up one. **Clamps** — no wrapping.      |
+| `Home` / `End`       | Jump to the first / last option.                              |
+| `Enter` / `Space`    | Select the active option, apply it, close, refocus the button.|
+| `Escape`             | Close and refocus the button **without** changing the value.  |
+| `Tab`                | Close without stealing focus back.                            |
+| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset.    |
+
+Pointer and focus behaviour: clicking an option selects it; clicking
+outside the root closes the listbox; focus leaving the root closes it.
 
 ### 6.3 Internationalisation
 
@@ -248,15 +319,22 @@ Provided by the platform (native `<select>`):
 `ThemeSelect.test.ts` must assert every numbered item below. Tests
 run under vitest + jsdom + `@vue/test-utils`.
 
-1. Renders a `<select>` carrying the supplied `name` attribute.
-2. `aria-label` is the supplied `label`.
-3. Renders the leading placeholder `<option>` plus one `<option>` per
-   entry in `themes` (`themes.length + 1` options in total).
-4. The first `<option>` has `value=""`; each following `<option>`'s
-   `value` attribute is the theme slug.
+1. Renders a `<button type="button">` with `aria-haspopup="listbox"`,
+   `aria-expanded="false"`, and an `aria-controls` pointing at an
+   element with `role="listbox"`. The root is a `<div>` carrying the
+   `theme-select` class hook plus the consumer's `class`. The button
+   renders `◑` (U+25D1) inside
+   `<span class="theme-select-icon" aria-hidden="true">`.
+2. `aria-label` is the supplied `label` on **both** the button and the
+   listbox.
+3. Renders one `<li class="theme-select-option">` per entry in
+   `themes`, and a hidden input carrying the supplied `name` and the
+   resolved value.
+4. The listbox carries `hidden` until the button is activated; then
+   `hidden` is dropped and `aria-expanded` becomes `"true"`. Exactly
+   one option carries `aria-selected="true"` — the active theme.
 5. The default rendering shows `themeLabels[slug]` when supplied, or
-   the slug with its first character upper-cased otherwise. The word
-   `"default"` never appears.
+   the title-cased slug otherwise. The word `"default"` never appears.
 6. After mount with no consumer-supplied value/storage/`defaultValue`,
    the resolved initial value is `"light"` when present in `themes`,
    otherwise `themes[0]`. It is written to
@@ -265,33 +343,56 @@ run under vitest + jsdom + `@vue/test-utils`.
    data-lily-theme-select="{name}">` exists in `document.head` and
    its `href` equals
    `${normalise(themesUrl)}${initial}${extension}`.
-8. Changing the `<select>` to a different option updates the link
-   `href`, `document.documentElement.dataset.theme`, and emits
-   `change` with the new slug.
+8. Clicking a different option updates the link `href`,
+   `document.documentElement.dataset.theme`, emits `change` with the
+   new slug, and round-trips `v-model:value`.
 9. When `storageKey` is set, the active slug is written to
    `localStorage` and read back on a fresh mount.
 10. When `value` is supplied as a non-empty prop, the initial-value
     resolution skips storage and defaults and uses the supplied
     value.
 11. When `themesUrl` does not end with `/`, the constructed URL still
-    has exactly one `/` between the directory and the slug.
-12. Extra attributes spread through onto the `<select>` (e.g.
+    has exactly one `/` between the directory and the slug. The
+    managed `<link>` is discriminated by `name`, so two selects with
+    different names never share a `<link>`.
+12. Extra attributes spread through onto the root `<div>` (e.g.
     `data-testid`).
-13. A custom default slot is rendered with the `SlotArgs` contract.
-14. The placeholder `<option class="theme-select-placeholder">`
-    renders the `label` text, carries `value=""`, and the
-    `<select>`'s own `value` stays `""` after the initial theme has
-    been resolved and applied to `data-theme`.
-15. When `placeholder` is supplied it overrides `label` as the
-    placeholder option's text, while `aria-label` still carries
-    `label`.
-16. Choosing an option applies the theme (`data-theme` updates) and
-    snaps the `<select>`'s own `value` back to `""`.
+13. A custom default slot replaces the button glyph — the
+    `.theme-select-icon` span is absent — and receives the `SlotArgs`
+    contract (`value`, `open`, `labelFor`). Its `open` flag tracks the
+    listbox state.
+14. `ArrowDown`, `Enter` and `Space` on the button all open the
+    listbox. `ArrowUp` opens with the **last** option active. Opening
+    moves focus to the `<ul>`.
+15. On the listbox, `ArrowDown` / `ArrowUp` move `aria-activedescendant`
+    and clamp at both ends rather than wrapping; `Home` / `End` jump to
+    the first / last option; exactly one option carries `data-active`.
+16. `Enter` selects the active option, applies it, closes the listbox
+    (`hidden` returns, `aria-expanded` becomes `"false"`), and returns
+    focus to the button. `Escape` closes without changing the value.
+    `Tab` closes without stealing focus back. `aria-activedescendant`
+    is removed once closed.
+17. Printable characters run a typeahead over the option labels.
+    Clicking an option selects and applies it. Clicking outside the
+    root closes the listbox.
+18. `themeName(slug)` title-cases each hyphen-separated word, and
+    `labelFor` delegates to it so there is exactly one implementation
+    of the rule.
+19. `matchSystemTheme(themes)` returns `"dark"` when
+    `prefers-color-scheme: dark` matches, `"light"` when it does not,
+    and `""` when the resolved slug is absent from `themes` **or**
+    when `matchMedia` is unavailable (SSR / jsdom).
+20. With `detectFromSystem`, the initial theme resolves from the OS
+    preference; storage and an explicit `value` still outrank it, and
+    detection does nothing unless the prop is set.
 
 ## 8. Out-of-scope (future, not implemented here)
 
 - A complementary `ThemeView` helper that displays the active theme.
-- A `prefers-color-scheme` integration.
+- *Tracking* `prefers-color-scheme` changes after first paint. The
+  `detectFromSystem` prop resolves the initial value only; consumers
+  who want live tracking add a `matchMedia` `change` listener and
+  write to the bound ref (see `examples/system-preference.vue`).
 - A non-`<link>` loader that injects a `<style>` block.
 - A `preload` prop that adds `<link rel="preload" as="style">` tags
   for every available theme.
@@ -300,7 +401,7 @@ run under vitest + jsdom + `@vue/test-utils`.
 
 - Package directory:
   `lily-design-system-vue-helpers/lily-design-system-vue-theme-select/`
-- Spec version: 0.1.0
+- Spec version: 0.3.0
 - Created: 2026-06-05
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
   (or contact for other terms)

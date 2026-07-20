@@ -45,7 +45,7 @@ Each helper subproject follows the same spec-driven shape (Svelte example; other
 | `AGENTS.md` | AI-agent metadata pointer to `spec/index.md`. |
 | `CLAUDE.md` | Loads `AGENTS.md`. |
 | `index.md` | Human-readable guide. |
-| `CHANGELOG.md` | Keep-a-Changelog history; catalogs at 0.3.0 (2026-07-20; prior 0.2.0, 2026-07-03; initial release 0.1.0, 2026-06-05). |
+| `CHANGELOG.md` | Keep-a-Changelog history; catalogs at 0.4.0 (2026-07-20; prior 0.3.0 same day, 0.2.0 2026-07-03, initial release 0.1.0 2026-06-05). |
 | `{Pascal}.{ext}` | The component (`.svelte`, `.tsx`, `.vue`, `.component.ts`, `.razor`+`.razor.cs`, `macro.njk`). |
 | `{Pascal}.test.{ext}` / `Tests.cs` | One test per acceptance clause. |
 | Manifest | `package.json` (JS frameworks) or `.csproj` (Blazor). |
@@ -53,7 +53,7 @@ Each helper subproject follows the same spec-driven shape (Svelte example; other
 | `dist/` | Build output (`build.js` per catalog; `files`/`exports` maps, `svelte` condition where relevant). |
 | `docs/`, `examples/` | Topic guides and runnable examples (optional). |
 
-Each `*-helpers` catalog directory, and each helper inside it, is its own `git subtree` pushed to a standalone remote. All 21 helper packages (7 catalogs × 3 helpers) publish via [`bin/publish-helpers`](../../bin/publish-helpers) (npm registries for the JS frameworks, NuGet for Blazor). theme-select and locale-select are at 0.3.0 (the breaking placeholder-pinned display change; 0.2.0 was the radio-group → `<select>` migration); text-size-select is at 0.1.0 (born select-based).
+Each `*-helpers` catalog directory, and each helper inside it, is its own `git subtree` pushed to a standalone remote. All 21 helper packages (7 catalogs × 3 helpers) publish via [`bin/publish-helpers`](../../bin/publish-helpers) (npm registries for the JS frameworks, NuGet for Blazor). theme-select and locale-select are at 0.4.0 (the breaking icon-button + listbox rewrite; 0.3.0 was the short-lived placeholder-pinned `<select>`, 0.2.0 the radio-group → `<select>` migration); text-size-select is at 0.1.0 (still a native `<select>`).
 
 ## theme-select contract
 
@@ -61,15 +61,15 @@ A drop-in headless theme selector that **loads theme CSS dynamically at runtime*
 
 | Aspect | Contract |
 | ------ | -------- |
-| Markup | `<select class="theme-select {class}" aria-label="{label}" name="theme">` with a leading `<option class="theme-select-option theme-select-placeholder" value="">{placeholder ?? label}</option>` followed by one `<option class="theme-select-option" value="{slug}">` per theme. |
-| Display | Placeholder-pinned: the element's own selection snaps back to the placeholder after every change, so the closed control always reads "Theme" and is only that wide — never as wide as the longest theme name. `selectEl.value` stays `""`; the bindable `value` prop is the active theme. Width is consumer CSS (`field-sizing: content` + a `max-width` fallback); the helper still ships zero CSS and the root `themes/` stylesheets carry the rule. |
-| Required props | `label`, `themesUrl`, `themes`. Optional `placeholder` defaults to `label`. |
+| Markup | `<div class="theme-select {class}">` containing a hidden input (carries `name`), `<button class="theme-select-button" aria-label="{label}" aria-haspopup="listbox" aria-expanded aria-controls>` whose only content is an `aria-hidden` `<span class="theme-select-icon">◑</span>` (U+25D1), and `<ul class="theme-select-list" role="listbox" tabindex="-1" hidden>` of `<li class="theme-select-option" role="option" aria-selected>`. |
+| Display | A single-glyph button — the smallest footprint a header control can have, and narrower than any text label. The glyph is decorative (`aria-hidden`); the accessible name is the button's `aria-label`. The consumer's `children` slot replaces the glyph, not the options. |
+| Required props | `label`, `themesUrl`, `themes`. Optional `detectFromSystem` resolves `prefers-color-scheme` on first visit. |
 | CSS load | Mutates `href` on one managed `<link rel="stylesheet" data-lily-theme-select="{name}">` in `document.head`; only the active theme is fetched. URL is `normalise(themesUrl) + slug + extension`. Pairs with the root [`themes/`](../../themes/) directory of 45 reference stylesheets. |
 | Activation | Sets `data-theme="{slug}"` on `target` (defaults to `document.documentElement`). |
 | Persistence | Optional `localStorage[storageKey]`, written in try/catch so private-mode/quota errors are swallowed. |
-| Initial value | Resolves `value` > storage > `defaultValue` > `"light"` (if present) > `themes[0]`; the word "default" is never emitted (labels are title-cased slugs or `themeLabels`). |
+| Initial value | Resolves `value` > storage > `detectFromSystem` > `defaultValue` > `"light"` (if present) > `themes[0]`; the word "default" is never emitted (labels come from the exported `themeName` or `themeLabels`). |
 | SSR | All DOM writes inside the mount/effect lifecycle; server render touches no DOM. |
-| Keyboard | Native `<select>` semantics — Tab in/out, Arrow to move, Home/End, first-letter typeahead. |
+| Keyboard | WAI-ARIA APG listbox. Button: ArrowDown / ArrowUp / Enter / Space open (ArrowUp starts on the last option). List: arrows move and clamp, Home/End jump, printable characters typeahead over labels, Enter/Space select and return focus to the button, Escape closes without changing the value, Tab closes and moves on. |
 
 ## locale-select contract
 
@@ -77,8 +77,8 @@ A drop-in headless locale selector that applies a BCP 47 locale to the document.
 
 | Aspect | Contract |
 | ------ | -------- |
-| Markup | `<select class="locale-select {class}" aria-label="{label}">` with a leading `<option class="locale-select-option locale-select-placeholder" value="">{placeholder ?? label}</option>` (no `lang`) followed by one `<option class="locale-select-option" value="{code}" lang="{bcp47}">` per locale code. |
-| Display | Placeholder-pinned: the element's own selection snaps back to the placeholder after every change, so the closed control always reads "Locale" and is only that wide — never as wide as the longest locale name. `selectEl.value` stays `""`; the bindable `value` prop is the active locale. Width is consumer CSS (`field-sizing: content` + a `max-width` fallback); the helper still ships zero CSS and the root `themes/` stylesheets carry the rule. |
+| Markup | `<div class="locale-select {class}">` containing a hidden input (carries `name`), `<button class="locale-select-button" aria-label="{label}" aria-haspopup="listbox" aria-expanded aria-controls>` whose only content is an `aria-hidden` `<span class="locale-select-icon">🌐</span>` (U+1F310 + U+FE0E for text presentation), and `<ul class="locale-select-list" role="listbox" tabindex="-1" hidden>` of `<li class="locale-select-option" role="option" aria-selected lang="{bcp47}">`. |
+| Display | A single-glyph button, symmetric with theme-select. The glyph is decorative (`aria-hidden`); the accessible name is the button's `aria-label`. Keyboard follows the same APG listbox contract as theme-select. |
 | Application | Sets `lang="…"` and `dir="ltr|rtl"` on the document root (or a consumer target); `applyDir` defaults to true. |
 | Direction | Auto-detects RTL for Arabic, Hebrew, Thaana, Mongolian (traditional), N'Ko, Syriac, and Adlam scripts. |
 | BCP 47 | Underscores in codes (`en_US`) are converted to hyphens (`en-US`) per RFC 5646 when written to `lang`; the consumer's original form round-trips losslessly. |
@@ -118,8 +118,11 @@ A drop-in headless text-size selector for reader-preference sizing.
 - [x] theme-select swaps a managed `<link>` href, sets `data-theme` on the document root, and persists optionally to `localStorage`, SSR-safe.
 - [x] locale-select sets `lang` + `dir`, auto-detects RTL scripts, emits BCP 47 hyphenated tags, and performs no translation.
 - [x] text-size-select sets `data-text-size` on the target and persists optionally.
-- [x] theme-select and locale-select are placeholder-pinned in all seven catalogs: a leading empty-valued placeholder option carries `placeholder ?? label`, the element's own selection snaps back to it on change, and the bindable `value` prop remains the active selection.
-- [x] The 45 root `themes/` stylesheets size `.theme-select` and `.locale-select` to the placeholder word via `field-sizing: content` with a `max-width` fallback.
+- [x] theme-select and locale-select render an icon button + APG listbox in all seven catalogs; `text-size-select` keeps its native `<select>`.
+- [x] Both icon-button helpers implement the full APG listbox keyboard contract (open keys, clamped arrows, Home/End, typeahead, Enter/Space select with focus return, Escape without change, Tab passthrough), verified in a real browser as well as in unit tests.
+- [x] The glyph is `aria-hidden` and the accessible name comes from `aria-label`; the `children` slot overrides the glyph, not the options.
+- [x] The two helpers are symmetric: matching exported label resolvers (`themeName` / `localeName`), matching first-visit detection (`detectFromSystem` / `detectFromNavigator`) at the same position in the resolution order, matching glyph presentation (both monochrome), and matching doc + example file shape.
+- [x] The 45 root `themes/` stylesheets style the button and popup, scoped by `:has(> .{helper}-button)` so the catalog `theme-select` component — a native `<select>` sharing the class hook — keeps its form-field styling.
 - [x] Helpers ship no bundled CSS, fonts, icons, or images and take no hardcoded user-facing strings.
 - [x] The svelte-helpers catalog is the canonical reference; the other six are idiom-faithful ports.
 - [x] Each `*-helpers` catalog and each helper is a git subtree with a standalone remote.

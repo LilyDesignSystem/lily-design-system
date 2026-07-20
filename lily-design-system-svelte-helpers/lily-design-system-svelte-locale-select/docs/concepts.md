@@ -25,13 +25,15 @@ zero string tables, zero dependencies beyond Svelte.
 
 The select:
 
-- Renders semantic HTML (`<select>` + `<option>`) — a native combobox
-  with no extra ARIA needed.
-- Carries a stable kebab-case class hook (`locale-select` on the
-  `<select>`, `locale-select-option` on each `<option>`) so your CSS
-  can target it without prefixes or specificity tricks.
+- Renders an icon button plus a WAI-ARIA APG listbox — semantic HTML
+  (`<button>`, `<ul>`, `<li>`) with the ARIA the pattern requires.
+- Carries stable kebab-case class hooks (`locale-select` on the root
+  `<div>`, plus `-button`, `-icon`, `-list`, `-option`) so your CSS can
+  target it without prefixes or specificity tricks.
 - Ships **no** colour, spacing, typography, font, icon, or animation
-  decisions. You supply all of that.
+  decisions. You supply all of that — including, unavoidably, the
+  **positioning CSS for the listbox**, without which the popup renders
+  in normal document flow.
 - Ships **no** translated strings. The `label` prop and `localeLabels`
   prop are passed through verbatim.
 
@@ -62,22 +64,34 @@ Each instance manages a single bindable `value`:
 The effect is intentional — both DOM mutation and storage are side
 effects, so they belong in `$effect`, not `$derived`.
 
-## Why a native `<select>` by default
+## Why an icon button, not a native `<select>`
 
-Three reasons:
+Two reasons:
 
-1. **Scales**. A native `<select>` stays compact regardless of how
-   many locales you list, and pops the OS-native picker on mobile.
-2. **Symmetry with `ThemeSelect`**. The sibling helper in this
-   directory uses the same shape, so the two compose visually and
-   semantically without surprises.
-3. **Escape hatch is one snippet away**. The `children` snippet hands
-   you the full state machine — locales, value, `setLocale`, `tagFor`,
-   `isRtl`, `labelFor` — so a radio group or button group is a 10-line
-   rewrite, not a fork.
+1. **Constant width.** The closed control is one glyph wide whether
+   you offer three locales or all 436 in `locales.tsv`. A native
+   `<select>` is as wide as its longest option, or truncates it —
+   awkward in the page header where a language switcher usually lives.
+2. **Symmetry with `ThemeSelect`.** The sibling helper in this
+   directory has the identical DOM shape, keyboard contract, and glyph
+   treatment, so the two sit side by side in a header and read as one
+   set. One block of CSS styles both.
 
-For an always-visible list of a few locales, use the children snippet
-to render radios or buttons. See [examples/03-buttons.svelte](../examples/03-buttons.svelte).
+Be clear about what this costs. A hand-rolled listbox has weaker
+assistive-technology and mobile support than a native `<select>`, the
+icon-only trigger puts the entire accessible name on `aria-label`, and
+the glyph depends on the device's fonts. **For some audiences a native
+`<select>` is genuinely the better choice.** All three tradeoffs, and
+their mitigations, are in
+[accessibility.md](./accessibility.md).
+
+There is no longer an escape hatch to a different option rendering:
+the `children` snippet replaces the button's **glyph**, not the
+options, and its output lives inside a `<button>` so it cannot contain
+interactive elements. If you need an always-visible list of locales,
+read `value`, drive your own controls, and keep this package's exported
+pure helpers for the logic. See
+[custom-rendering.md](./custom-rendering.md).
 
 ## Why a separate `value` and `target.lang`
 
@@ -125,12 +139,19 @@ Three layers, mirroring the lifecycle:
    `matchNavigatorLanguage` are pure functions. Unit-test them in
    isolation.
 2. **DOM contract** — after mount, assert `document.documentElement.lang`
-   and `.dir`. Drive a `change` on the `<select>` and assert again.
+   and `.dir`. Then open the listbox (click the button) and click an
+   option, and assert again. There is no `<select>` to fire `change`
+   on.
 3. **Bindable + onChange** — drive `value` programmatically and assert
    the same DOM observations.
 
+A fourth layer sits alongside them: the **keyboard contract**, which
+this component implements rather than inheriting. Open with a key on
+the button, then send keys to the `<ul>` — focus moves there on open —
+and assert `aria-activedescendant` rather than focus.
+
 See [../LocaleSelect.test.ts](../LocaleSelect.test.ts) for the
-30-case reference suite that covers every `spec/index.md` §7 acceptance item.
+reference suite covering every `spec/index.md` §7 acceptance clause.
 
 ---
 

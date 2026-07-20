@@ -14,6 +14,13 @@ Every example assumes:
   themes.
 - Each theme CSS file scopes its tokens with
   `:root[data-theme="<slug>"]`.
+- **Some CSS of your own.** The control is an icon button that opens a
+  listbox, and the package ships zero CSS — including no positioning
+  for the list. Without `position: relative` on `.theme-select` and
+  `position: absolute` on `.theme-select-list`, opening the list pushes
+  page content around. The examples below deliberately don't ship
+  styles; take the baseline recipe from
+  [`../docs/styling.md`](../docs/styling.md).
 
 | # | File                                                          | Demonstrates                              |
 |---|---------------------------------------------------------------|-------------------------------------------|
@@ -21,7 +28,7 @@ Every example assumes:
 | 2 | [`two-way-binding.component.ts`](./two-way-binding.component.ts) | `[(value)]` and `(themeChange)`.       |
 | 3 | [`persistence.component.ts`](./persistence.component.ts)      | `localStorage` survival across reloads.   |
 | 4 | [`custom-labels.component.ts`](./custom-labels.component.ts)  | `themeLabels` for i18n / display names.   |
-| 5 | [`custom-rendering.component.ts`](./custom-rendering.component.ts) | v0.1.0 sibling-button workaround.    |
+| 5 | [`custom-rendering.component.ts`](./custom-rendering.component.ts) | `<ng-template>` button-glyph override. |
 | 6 | [`preloaded.component.ts`](./preloaded.component.ts)          | Zero-flicker switching via preloading.    |
 | 7 | [`multiple-selects.component.ts`](./multiple-selects.component.ts) | Two selects in one page via `name`.   |
 | 8 | [`system-preference.component.ts`](./system-preference.component.ts) | Follow `prefers-color-scheme`.      |

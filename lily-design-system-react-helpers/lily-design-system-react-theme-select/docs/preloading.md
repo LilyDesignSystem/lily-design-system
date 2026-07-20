@@ -8,6 +8,10 @@ When the lazy fetch matters (a user toggles between themes during a
 demo, an instructor flips themes mid-presentation, a designer is
 A/B comparing), preload all themes up front so switching is instant.
 
+This is orthogonal to the control's markup: the button-and-listbox UI
+applies a theme exactly the same way the earlier `<select>` did, so
+every strategy below is unchanged from previous versions.
+
 ## Strategy 1 — `<link rel="stylesheet">` preloads
 
 The simplest preloading approach: drop a `<link>` per theme in the

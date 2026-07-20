@@ -1,47 +1,83 @@
 # Accessibility — ThemeSelect (Angular)
 
-The select targets WCAG 2.2 AAA and uses a native HTML `<select>`,
-which carries the WAI-ARIA `combobox` semantics for free. This file
-is the Angular-flavoured view of the contract; the canonical
-contract is in [`../spec/index.md`](../spec/index.md) §6.
+The select targets WCAG 2.2 AAA. It is an icon button that opens a
+custom [WAI-ARIA APG listbox](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/),
+so **nothing comes free from the platform** — the component owns every
+role, state, focus move, and key. This file is the Angular-flavoured
+view of the contract; the canonical contract is in
+[`../spec/index.md`](../spec/index.md) §6. The honest tradeoff
+accounting is in [`../docs/accessibility.md`](../docs/accessibility.md).
 
 ## Roles and properties
 
-| Element        | Role / Property            | Source         |
-| -------------- | -------------------------- | -------------- |
-| `<select>`     | implicit `role="combobox"` | Browser        |
-| `<select>`     | `aria-label={label}`       | Consumer input |
-| `<select>`     | `name`                     | Select         |
-| `<option>`     | implicit `role="option"`   | Browser        |
-| `<option>`     | selected state (implicit)  | Browser        |
+| Element                 | Role / Property                                       | Source         |
+| ----------------------- | ----------------------------------------------------- | -------------- |
+| root `<div>`            | none — a container, not a control                     | —              |
+| `<input type="hidden">` | `name`, `value` (form participation)                  | Component      |
+| `<button>`              | implicit `role="button"`                              | Browser        |
+| `<button>`              | `aria-label={label}` — its **entire** accessible name | Consumer input |
+| `<button>`              | `aria-haspopup="listbox"`                             | Component      |
+| `<button>`              | `aria-expanded="true|false"`                          | Component      |
+| `<button>`              | `aria-controls={listId}`                              | Component      |
+| `.theme-select-icon`    | `aria-hidden="true"`                                  | Component      |
+| `<ul>`                  | `role="listbox"`, `aria-label={label}`, `tabindex="-1"` | Component    |
+| `<ul>` (open only)      | `aria-activedescendant={active option id}`            | Component      |
+| `<li>`                  | `role="option"`, `aria-selected="true|false"`         | Component      |
+| `<li>`                  | `data-active` — styling hook, **not** ARIA            | Component      |
 
-The select does not add ARIA where native semantics already cover
-the need. There is no `aria-pressed`, no manual focus management —
-the native `<select>` behaviour is exactly the platform combobox.
+Because the glyph is `aria-hidden`, the button has no text content at
+all. `aria-label` is the only thing a screen reader or a voice-control
+user has to work with, which is why `label` is `input.required`.
 
 ## Keyboard contract
 
-Provided entirely by the platform's native `<select>`:
+Implemented by the component. On the **button**:
 
-| Key               | Action                                        |
-| ----------------- | --------------------------------------------- |
-| `Tab`             | Move focus to the select (one stop).          |
-| `Shift+Tab`       | Move focus away from the select.              |
-| `Arrow Down`      | Select the next option.                       |
-| `Arrow Up`        | Select the previous option.                   |
-| `Home` / `End`    | Select the first / last option.               |
-| Typeahead         | Type characters to jump to a matching option. |
-| `Enter` / `Space` | Open the option list (platform-dependent).    |
-| `Escape`          | Close the option list.                        |
+| Key                 | Action                                                                |
+| ------------------- | --------------------------------------------------------------------- |
+| `Enter` / `Space`   | Open the listbox with the selected option active (index 0 if none).   |
+| `Arrow Down`        | Same as `Enter` / `Space`.                                            |
+| `Arrow Up`          | Open the listbox with the **last** option active.                     |
+| `Tab` / `Shift+Tab` | Move focus to / away from the button.                                 |
+
+Opening moves focus to the `<ul>`; the active option is conveyed by
+`aria-activedescendant`, never by moving focus onto an `<li>`.
+
+On the **listbox**:
+
+| Key                | Action                                                                     |
+| ------------------ | -------------------------------------------------------------------------- |
+| `Arrow Down`       | Active option down one; **clamps** at the last — no wrap.                   |
+| `Arrow Up`         | Active option up one; **clamps** at the first — no wrap.                    |
+| `Home` / `End`     | First / last option becomes active.                                         |
+| `Enter` / `Space`  | Select the active option, apply it, close, return focus to the button.      |
+| `Escape`           | Close and return focus to the button; the value is **not** changed.         |
+| `Tab`              | Close without stealing focus back; the browser moves focus onward.          |
+| Printable chars    | Typeahead over the display labels; the buffer resets after 500 ms.          |
+
+Pointer and focus:
+
+- Clicking an option selects, applies, and closes.
+- Clicking outside the root closes the listbox — wired as a
+  `host: { "(document:click)": … }` binding.
+- Focus leaving the root closes the listbox — a `(focusout)` binding
+  on the root `<div>` that ignores moves to a descendant.
+
+Both are Angular-managed bindings, so they tear down with the view.
 
 ## State signals
 
-The active state is exposed in three independent channels — no
+The active state is exposed in four independent channels — no
 colour-only meaning is required:
 
-1. The selected `<option>` in the `<select>`.
-2. `data-theme="<slug>"` on the target element (default `<html>`).
-3. The `value` model signal (bound via `[(value)]`).
+1. `aria-selected="true"` on the chosen `<li role="option">`.
+2. The hidden input's `value`.
+3. `data-theme="<slug>"` on the target element (default `<html>`).
+4. The `value` model signal (bound via `[(value)]`).
+
+Note that the *closed* button conveys none of these — it shows only a
+glyph. Surfacing the active theme name is the consumer's job; see
+[`../docs/accessibility.md`](../docs/accessibility.md).
 
 ## Internationalisation
 
@@ -65,17 +101,31 @@ transitions on the `data-theme` swap.
 
 ## Screen-reader smoke test
 
-- VoiceOver (macOS) announces the control as "{label}, pop-up
-  button" and each option as "{labelFor(slug)}, selected / N of M".
-- NVDA announces "{label} combo box" and each option similarly.
-- Selection changes are announced because the underlying control
-  value changes.
+- VoiceOver (macOS) and NVDA announce the closed control as
+  "{label}, button, collapsed" (or "pop up button"). The active theme
+  is **not** announced — the button has no text beyond `aria-label`.
+- Opening announces the listbox by its `aria-label` and then the
+  active option as "{labelFor(slug)}, selected, N of M".
+- Arrowing announces each newly-active option. Support for
+  `aria-activedescendant` varies more between screen readers than
+  native `<select>` support does; verify on the readers your users
+  actually use.
+- Selection changes are **not** announced by the control after it
+  closes. Surface the active theme separately — see
+  [`../docs/accessibility.md`](../docs/accessibility.md).
 
 ## Common mistakes to avoid
 
-- **Hiding the `<select>` with `display: none`.** That removes it
-  from the accessibility tree. Use a visually-hidden pattern
+- **Passing a vague `label`.** "Select" or "Options" leaves an
+  icon-only button with no usable name. Name the *setting*: "Theme",
+  "Colour theme".
+- **Hiding the root with `display: none`.** That removes the whole
+  control from the accessibility tree. Use a visually-hidden pattern
   (`clip-path: inset(50%)` or the `.sr-only` recipe) instead.
+- **Styling `[data-active]` as though it meant "selected".** It marks
+  the keyboard's highlight, not the chosen theme. `[aria-selected="true"]`
+  is the chosen theme, and the two are usually different options while
+  the user is arrowing.
 - **Forgetting to translate `themeLabels`.** The select only knows
   what the consumer tells it; locale-aware copy is the consumer's
   responsibility.
@@ -83,9 +133,9 @@ transitions on the `data-theme` swap.
   `aria-label="{{ label() }}"` always emits the attribute (even as
   `""` or `"null"`); `[attr.aria-label]="label() || null"` removes
   it when empty. The select uses the latter.
-- **Wrapping the host in a div to "scope" the select.** The
-  `<select>` is already the labelled control. Adding a wrapper
-  duplicates the semantic.
+- **Shipping no positioning CSS.** With no `position` rules the
+  listbox displaces page content when it opens. The package ships zero
+  CSS by design; see [`../docs/styling.md`](../docs/styling.md).
 
 ## Angular-specific notes
 
@@ -95,16 +145,26 @@ transitions on the `data-theme` swap.
 - `OnPush` change detection is in effect. Signal changes (input
   signals, model signals, the internal `effect()`) drive view
   updates without manual `markForCheck()`.
-- The component renders no `<ng-content>` projection slot; consumer
-  custom rendering is a future feature (see `docs/custom-rendering.md`).
+- A projected `<ng-template>` replaces the button glyph only. It
+  cannot change the listbox markup, so the ARIA contract above holds
+  whatever the consumer projects. If the projected content is text
+  rather than a decorative glyph, the button then has both a text
+  name and an `aria-label`; `aria-label` still wins, so keep them
+  consistent.
 
 ## Testing for a11y
 
 ```ts
 const fixture = mount({ label: "Theme", themesUrl: "/t/", themes: ["light", "dark"] });
-const select = fixture.nativeElement.querySelector("select");
-expect(select.getAttribute("aria-label")).toBe("Theme");
-expect(fixture.nativeElement.querySelectorAll("option").length).toBe(2);
+const button = fixture.nativeElement.querySelector(".theme-select-button");
+const list = fixture.nativeElement.querySelector(".theme-select-list");
+
+expect(button.getAttribute("aria-label")).toBe("Theme");
+expect(button.getAttribute("aria-haspopup")).toBe("listbox");
+expect(button.getAttribute("aria-controls")).toBe(list.id);
+expect(list.getAttribute("role")).toBe("listbox");
+expect(list.hasAttribute("hidden")).toBe(true);
+expect(fixture.nativeElement.querySelectorAll('[role="option"]').length).toBe(2);
 ```
 
 For broader a11y testing run axe-core in a real Angular host. See

@@ -7,6 +7,59 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows
 [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING)
+
+- `theme-select` and `locale-select` are no longer native `<select>`
+  elements. Each is now an **icon button that opens a dropdown
+  listbox**: a `<div>` root containing a hidden `<input>`, a
+  glyph-only `<button>` (U+25D1 for theme, U+1F310 for locale), and a
+  `<ul role="listbox" hidden>` of `<li role="option">`. The client
+  modules gained the full WAI-ARIA APG listbox keyboard contract.
+- This **supersedes the 0.3.0 placeholder-pinning work** in both
+  helpers: with no `<select>` there is nothing to pin, so the
+  `placeholder` opt and the `{helper}-placeholder` class hook are
+  removed from both.
+- `text-size-select` is **untouched** and keeps its native `<select>`
+  and its `placeholder` opt.
+
+### Added
+
+- New class hooks on both converted helpers: `{helper}-button`,
+  `{helper}-icon`, `{helper}-list`, `{helper}-option`, plus
+  `[data-active]` and `[aria-selected]` state hooks. The packages ship
+  no positioning CSS for the listbox; that is the consumer's job.
+- New `id` macro opt on both converted helpers, defaulting to
+  `{helper}-{name}`, giving deterministic SSR-safe ids for the listbox
+  and its options. A Nunjucks macro cannot hold an incrementing module
+  counter the way the canonical Svelte helper does, so this parameter
+  is the framework's stable-id mechanism; two instances sharing a
+  `name` need distinct `id`s.
+- The `{% call %}` block on both converted helpers now overrides the
+  button's glyph — the Nunjucks equivalent of the canonical helper's
+  `children`.
+
+### Regression (documented, not fixed)
+
+- `theme-select` and `locale-select` **no longer work without
+  JavaScript.** Their buttons have no handler and their listboxes
+  render `hidden`, so with JS disabled the user cannot change theme or
+  locale. The native `<select>` they replaced was fully operable with
+  no JS. The pre-filled hidden input keeps form submission working but
+  is not a choice path. Each package's `docs/ssr.md` states this
+  plainly and points at the alternative.
+
+### Unchanged
+
+- `data-lily-theme-select-value` / `data-lily-locale-select-value`
+  remain the sole channel by which `opts.value` reaches each client,
+  and still prevent a pre-hydration flash.
+- All downstream behaviour: the managed `<link>` swap, `data-theme`,
+  `lang` / `dir`, RTL detection, `localStorage` persistence, navigator
+  detection, `onChange`, initial-value resolution, SSR safety, and
+  every exported pure helper.
+
 ## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING)

@@ -20,6 +20,7 @@ import {
     autoInit,
     initLocaleSelect,
     bcp47LocaleTag,
+    GLOBE_WITH_MERIDIANS,
     isRtlLocale,
     localeName,
     matchNavigatorLanguage,
@@ -41,6 +42,16 @@ function renderMacro(opts: Record<string, unknown>): string {
     return env.renderString(src, { opts });
 }
 
+function renderMacroWithCaller(
+    opts: Record<string, unknown>,
+    body: string,
+): string {
+    const src =
+        `{% from "./locale-select.njk" import localeSelect %}` +
+        `{% call localeSelect(opts) %}${body}{% endcall %}`;
+    return env.renderString(src, { opts });
+}
+
 function mountIntoBody(html: string): HTMLElement {
     document.body.innerHTML = html;
     return document.body.querySelector(
@@ -55,6 +66,30 @@ beforeEach(() => {
     localStorage.clear();
 });
 ```
+
+## Reaching the parts
+
+The root is a `<div>`, so every assertion goes through one of the
+four parts. The suite keeps a `partsOf(root)` helper:
+
+```ts
+function partsOf(root: HTMLElement) {
+    return {
+        root,
+        button: root.querySelector(".locale-select-button") as HTMLButtonElement,
+        list: root.querySelector(".locale-select-list") as HTMLElement,
+        options: Array.from(
+            root.querySelectorAll<HTMLElement>(".locale-select-option"),
+        ),
+        input: root.querySelector(
+            "[data-lily-locale-select-input]",
+        ) as HTMLInputElement,
+    };
+}
+```
+
+…plus a `setup(opts?, initOpts?)` that renders, mounts, and inits in
+one call, and thin `key(el, k, init?)` / `click(el)` dispatchers.
 
 ## Pure-helper tests
 
@@ -96,22 +131,67 @@ expect(document.documentElement.dir).toBe("rtl");
 ## Asserting per-option `lang`
 
 ```ts
-const options = root.querySelectorAll("option.locale-select-option");
+const { button, list, options } = partsOf(root);
 expect(options[0].getAttribute("lang")).toBe("en");
 expect(options[1].getAttribute("lang")).toBe("fr-CA");
+// Chrome, not content:
+expect(button.hasAttribute("lang")).toBe(false);
+expect(list.hasAttribute("lang")).toBe(false);
 ```
 
-## Driving a select change
+## Driving a selection
 
-The client.js attaches a `change` listener on the `<select>`, so
-set the value and dispatch the event:
+There is no `change` event any more. Drive the control the way a
+user would — open it, then commit with a key or a click:
 
 ```ts
-const select = root as HTMLSelectElement;
-select.value = "fr";
-select.dispatchEvent(new Event("change", { bubbles: true }));
+const { button, list, options, input } = setup();
 
-expect(document.documentElement.lang).toBe("fr");
+key(button, "ArrowDown");      // opens, focus moves to the <ul>
+key(list, "ArrowDown");        // moves the active option only
+key(list, "Enter");            // commits
+
+expect(document.documentElement.lang).toBe("en-US");
+expect(input.value).toBe("en_US");           // consumer form
+expect(list.hasAttribute("hidden")).toBe(true);
+expect(document.activeElement).toBe(button); // focus returned
+```
+
+Clicking works the same way: `click(button)` then `click(options[4])`.
+
+## Asserting listbox state
+
+Open / closed and active / selected are four separate attributes;
+assert the one that carries the meaning:
+
+| Assertion target                            | Attribute                     |
+| ------------------------------------------- | ----------------------------- |
+| Is the listbox open?                        | `list.hasAttribute("hidden")` |
+| Does the button agree?                      | `button.getAttribute("aria-expanded")` |
+| Which option is active (roved to)?          | `list.getAttribute("aria-activedescendant")`, `[data-active]` |
+| Which locale is applied?                    | `option.getAttribute("aria-selected")`, `input.value` |
+
+Active and selected are independent: arrowing changes the former
+only. The suite has a dedicated regression test for that.
+
+## Typeahead with fake timers
+
+The typeahead buffer resets 500 ms after the last keystroke, so use
+`vi.useFakeTimers()` when asserting the reset:
+
+```ts
+vi.useFakeTimers();
+try {
+    const { button, list, options } = setup();
+    key(button, "ArrowDown");
+    key(list, "f"); key(list, "r"); key(list, "_"); // matches "fr_CA"
+    expect(list.getAttribute("aria-activedescendant")).toBe(options[3].id);
+    vi.advanceTimersByTime(600);
+    key(list, "a");                                 // fresh search
+    expect(list.getAttribute("aria-activedescendant")).toBe(options[4].id);
+} finally {
+    vi.useRealTimers();
+}
 ```
 
 ## Mocking `navigator.languages`
@@ -162,7 +242,7 @@ test("macro renders without touching DOM", () => {
         locales: ["en", "fr"],
         value: "fr",
     });
-    expect(html).toContain("<select");
+    expect(html).toContain('role="listbox"');
     expect(document.documentElement.hasAttribute("lang")).toBe(false);
 });
 ```
@@ -170,15 +250,46 @@ test("macro renders without touching DOM", () => {
 This guarantees no `document.*` access leaked into the render
 path.
 
+The companion assertions guard the pre-hydration state: the listbox
+renders `hidden`, the button renders `aria-expanded="false"`, no
+option carries `data-active`, exactly one option is
+`aria-selected="true"`, and the hidden input is pre-filled. Those
+replace the retired "only the placeholder is selected" guard — there
+is no placeholder and no `<select>` left to guard.
+
+## Caller-block test
+
+The `{% call %}` body replaces the glyph inside the button and
+nothing else:
+
+```ts
+const root = mountIntoBody(
+    renderMacroWithCaller(
+        { label: "Language", locales: LOCALES },
+        `<span class="my-glyph" aria-hidden="true">L</span>`,
+    ),
+);
+const { button } = partsOf(root);
+expect(button.querySelector(".my-glyph")).not.toBeNull();
+expect(button.querySelector(".locale-select-icon")).toBeNull();
+expect(button.getAttribute("aria-label")).toBe("Language");
+```
+
 ## autoInit test
+
+Give the two instances distinct `name`s (or distinct `id`s) so their
+listbox and option ids do not collide — the macro derives ids from
+`opts.id`, which defaults to `"locale-select-{name}"`:
 
 ```ts
 test("§7.23 autoInit wires every root on the page", () => {
     document.body.innerHTML =
-        renderMacro({ label: "A", locales: ["en", "fr"], name: "a", value: "fr" }) +
-        renderMacro({ label: "B", locales: ["en", "ar"], name: "b", value: "ar" });
+        renderMacro({ label: "A", locales: ["en", "fr"], name: "a", defaultValue: "fr" }) +
+        renderMacro({ label: "B", locales: ["en", "ar"], name: "b", defaultValue: "ar" });
     const controllers = autoInit();
     expect(controllers).toHaveLength(2);
+    const lists = document.querySelectorAll(".locale-select-list");
+    expect(lists[0].id).not.toBe(lists[1].id);
 });
 ```
 
@@ -186,11 +297,14 @@ test("§7.23 autoInit wires every root on the page", () => {
 
 | §7 group        | Test focus                                                                |
 | --------------- | ------------------------------------------------------------------------- |
-| 7.1 — 7.6       | Macro DOM contract (select, role, value, name, per-option `lang`).        |
+| 7.1 — 7.6       | Macro DOM contract (root, button, listbox, glyph, ids, per-option `lang`). |
 | 7.7 — 7.12      | Pure helpers (`bcp47LocaleTag`, `isRtlLocale`, `localeName`).             |
 | 7.13 — 7.17     | Client.js apply lifecycle (`lang`, `dir`, custom `target`).               |
 | 7.18 — 7.21     | Initial-value resolution (value, storage, navigator, default).            |
-| 7.22 — 7.23     | Attribute spread + `autoInit`.                                            |
+| 7.22 — 7.25     | Attribute spread, caller block, `destroy`, `autoInit`.                    |
+| 7.26 — 7.27     | `data-lily-locale-select-value` as the sole `opts.value` channel.         |
+| 7.28 — 7.30     | Server-rendered listbox state (closed, one `aria-selected`, filled input).|
+| 7.31 — 7.35     | Keyboard, typeahead, and pointer contract (APG listbox).                  |
 
 ## One test per §7 acceptance
 

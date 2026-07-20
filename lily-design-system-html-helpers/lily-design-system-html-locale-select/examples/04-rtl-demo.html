@@ -6,9 +6,14 @@
     any of the RTL locales writes dir="rtl" to <html> and the entire
     page mirrors. Switching back to English restores LTR.
 
-    Each <option> already carries its own lang attribute, so the
-    per-language script renders correctly in the option list even
-    while the overall document direction is LTR or RTL.
+    Each <li role="option"> already carries its own lang attribute,
+    so the per-language script renders correctly inside the open
+    listbox even while the overall document direction is LTR or RTL.
+
+    Note the dropdown positioning below: it uses inset-inline-start
+    rather than left, so when you pick an RTL locale the list flips
+    to the other side of the button along with the rest of the page.
+    Using `left` here would leave it stranded.
 
     Note: locale-select.ts may need compilation to .js — adjust the
     <script src=…> per your build output.
@@ -26,8 +31,32 @@
         :lang(he) {
             font-family: "Frank Ruhl Libre", "Segoe UI", serif;
         }
-        .locale-select { font: inherit; padding: 0.5rem 0.75rem; max-inline-size: 30rem; }
-        .locale-select-option { font: inherit; }
+        /* Required: the package ships no CSS, so the dropdown has no
+           positioning of its own and would otherwise render in flow. */
+        .locale-select { position: relative; display: inline-block; }
+        .locale-select-button {
+            font: inherit; line-height: 1; padding: 0.5rem;
+            background: #ffffff; border: 1px solid #4c6272;
+            border-radius: 4px; cursor: pointer;
+        }
+        .locale-select-button:focus-visible,
+        .locale-select-list:focus-visible {
+            outline: 3px solid #003087; outline-offset: 2px;
+        }
+        .locale-select-list {
+            position: absolute; inset-inline-start: 0;
+            inset-block-start: calc(100% + 0.25rem); z-index: 10;
+            margin: 0; padding: 0.25rem 0; list-style: none;
+            min-inline-size: 12rem; max-block-size: 16rem; overflow-y: auto;
+            background: #ffffff; border: 1px solid #4c6272; border-radius: 4px;
+        }
+        /* The element toggles `hidden`; never override it away. */
+        .locale-select-list[hidden] { display: none; }
+        .locale-select-option { font: inherit; padding: 0.375rem 0.75rem; cursor: pointer; }
+        /* Keyboard-highlighted vs applied — different things. */
+        .locale-select-option[data-active] { background: #f0f4f5; }
+        .locale-select-option[aria-selected="true"] { font-weight: 700; }
+        .locale-select-option[aria-selected="true"]::after { content: " ✓"; }
         .preview {
             margin-block-start: 1.5rem;
             padding: 1rem;

@@ -2,40 +2,49 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
 namespace LilyDesignSystem.Blazor.Helpers;
 
 /// <summary>
-/// Context passed to a custom <c>ChildContent</c> render fragment.
-/// See <c>spec/index.md §4.1</c>.
+/// Context passed to a custom <c>ChildContent</c> render fragment. The
+/// fragment replaces the default glyph inside the button; it does not
+/// render options. See <c>spec/index.md §4.1</c>.
 /// </summary>
 public sealed class ThemeSelectContext
 {
-    public required IReadOnlyList<string> Themes { get; init; }
+    /// <summary>Currently selected theme slug.</summary>
     public required string Value { get; init; }
-    public required Func<string, Task> SetTheme { get; init; }
-    public required string Name { get; init; }
+
+    /// <summary>Is the listbox open?</summary>
+    public required bool Open { get; init; }
+
+    /// <summary>Resolve a slug to its display label.</summary>
     public required Func<string, string> LabelFor { get; init; }
 }
 
 public partial class ThemeSelect : ComponentBase
 {
+    /// <summary>Default button glyph: U+25D1 CIRCLE WITH RIGHT HALF BLACK.</summary>
+    public const string CircleWithRightHalfBlack = "◑";
+
+    /// <summary>Typeahead buffer lifetime, per the APG listbox pattern.</summary>
+    private static readonly TimeSpan TypeaheadWindow = TimeSpan.FromMilliseconds(500);
+
+    /// <summary>Monotonic instance counter; SSR-safe (no randomness, no clock).</summary>
+    private static int _uid;
+
     // -------------------------------------------------------------------
     // Parameters — see spec/index.md §4.1.
     // -------------------------------------------------------------------
 
-    /// <summary>Accessible name for the &lt;select&gt;. Required.</summary>
+    /// <summary>Accessible name for the button and the listbox. Required.</summary>
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-
-    /// <summary>
-    /// Text of the always-displayed placeholder option. The closed
-    /// &lt;select&gt; shows this instead of the selected theme name, so the
-    /// control stays as narrow as this word. Defaults to <see cref="Label"/>.
-    /// </summary>
-    [Parameter] public string? Placeholder { get; set; }
 
     /// <summary>Base URL of the themes directory, e.g. "/assets/themes/".</summary>
     [Parameter, EditorRequired] public string ThemesUrl { get; set; } = "";
@@ -55,7 +64,11 @@ public partial class ThemeSelect : ComponentBase
     /// <summary>If set, persist the selection to <c>localStorage</c> under this key.</summary>
     [Parameter] public string? StorageKey { get; set; }
 
-    /// <summary>Shared <c>name</c> attribute for the &lt;select&gt; and the
+    /// <summary>Resolve <c>prefers-color-scheme</c> to a supported theme on
+    /// first visit. Mirrors <c>DetectFromNavigator</c> on LocaleSelect.</summary>
+    [Parameter] public bool DetectFromSystem { get; set; }
+
+    /// <summary>Shared <c>name</c> attribute for the hidden input and the
     /// <c>data-lily-theme-select</c> discriminator on the managed <c>&lt;link&gt;</c>.</summary>
     [Parameter] public string Name { get; set; } = "theme";
 
@@ -66,13 +79,13 @@ public partial class ThemeSelect : ComponentBase
     [Parameter] public IReadOnlyDictionary<string, string> ThemeLabels { get; set; }
         = new Dictionary<string, string>();
 
-    /// <summary>Custom rendering of the options.</summary>
+    /// <summary>Replaces the default half-circle glyph inside the button.</summary>
     [Parameter] public RenderFragment<ThemeSelectContext>? ChildContent { get; set; }
 
-    /// <summary>Called after the select applies a new theme.</summary>
+    /// <summary>Called after the control applies a new theme.</summary>
     [Parameter] public EventCallback<string> OnChange { get; set; }
 
-    /// <summary>Extra CSS class merged into the &lt;select&gt; root.</summary>
+    /// <summary>Extra CSS class merged into the root &lt;div&gt;.</summary>
     [Parameter] public string CssClass { get; set; } = "";
 
     /// <summary>Captures all unmatched attributes; spread onto the root.</summary>
@@ -81,14 +94,48 @@ public partial class ThemeSelect : ComponentBase
 
     [Inject] private IJSRuntime JS { get; set; } = default!;
 
+    // -------------------------------------------------------------------
+    // Instance state.
+    // -------------------------------------------------------------------
+
+    private readonly string _baseId = $"theme-select-{Interlocked.Increment(ref _uid)}";
+
     private bool _initialised;
+    private bool _open;
+    private int _activeIndex = -1;
 
-    /// <summary>Reference to the root &lt;select&gt;, used to snap its own DOM
-    /// value back to the placeholder after every change.</summary>
-    private ElementReference _selectElement;
+    private ElementReference _buttonElement;
+    private ElementReference _listElement;
 
-    /// <summary>Text shown by the always-selected placeholder option.</summary>
-    private string PlaceholderText => Placeholder ?? Label;
+    private bool _focusListPending;
+    private bool _focusButtonPending;
+
+    /// <summary>Set while the component itself is moving focus, so the root's
+    /// focusout handler does not read the move as "focus left the control".</summary>
+    private bool _suppressFocusOut;
+
+    /// <summary>Set when a keydown already handled activation, so the click that
+    /// the browser synthesises for Enter / Space does not toggle a second time.</summary>
+    private bool _suppressNextClick;
+
+    private string _typeahead = "";
+    private DateTimeOffset _typeaheadAt = DateTimeOffset.MinValue;
+
+    // -------------------------------------------------------------------
+    // Ids and view helpers used by the .razor markup.
+    // -------------------------------------------------------------------
+
+    private string ListId => $"{_baseId}-list";
+
+    private string OptionId(int index) => $"{_baseId}-option-{index}";
+
+    /// <summary>Only advertised while open and pointing at a real option.</summary>
+    private string? ActiveDescendantId
+        => _open && _activeIndex >= 0 && _activeIndex < Themes.Count
+            ? OptionId(_activeIndex)
+            : null;
+
+    private string RootClass => $"theme-select {CssClass}".Trim();
 
     // -------------------------------------------------------------------
     // Helpers — exposed for tests and consumers.
@@ -102,24 +149,60 @@ public partial class ThemeSelect : ComponentBase
     public static string ThemeHref(string themesUrl, string slug, string extension)
         => NormaliseThemesUrl(themesUrl) + slug + extension;
 
-    private string RootClass => $"theme-select {CssClass}".Trim();
+    /// <summary>
+    /// Map an OS colour-scheme preference onto a supported theme slug.
+    /// Mirrors <c>Locales.MatchNavigatorLanguage</c>: the browser reading
+    /// happens in the interop probe, and this function is the pure,
+    /// separately-testable decision.
+    /// </summary>
+    /// <param name="prefersDark">
+    /// The result of <c>matchMedia("(prefers-color-scheme: dark)").matches</c>,
+    /// or <c>null</c> when <c>matchMedia</c> is unavailable — prerender /
+    /// static SSR, or a host without the API. Null always yields "".
+    /// </param>
+    /// <param name="themes">The supported theme slugs.</param>
+    /// <returns>"dark" / "light" when supported, otherwise "".</returns>
+    public static string MatchSystemTheme(bool? prefersDark, IReadOnlyList<string> themes)
+    {
+        if (prefersDark is null) return "";
+        var wanted = prefersDark.Value ? "dark" : "light";
+        foreach (var theme in themes)
+        {
+            if (theme == wanted) return wanted;
+        }
+        return "";
+    }
 
+    /// <summary>
+    /// Resolve a theme slug to its display label: each hyphen-separated
+    /// word title-cased, so a slug like
+    /// "united-kingdom-national-health-service-england-for-patients"
+    /// renders as "United Kingdom National Health Service England For
+    /// Patients". Mirrors <c>Locales.LocaleName</c> in LocaleSelect.
+    /// </summary>
+    /// <remarks>
+    /// Public and pure, so consumers driving the control from their own
+    /// UI can render matching labels without duplicating the rule.
+    /// </remarks>
+    public static string ThemeName(string slug)
+    {
+        if (string.IsNullOrEmpty(slug)) return slug;
+        return string.Join(" ", slug.Split('-')
+            .Select(word => word.Length == 0 ? word : char.ToUpperInvariant(word[0]) + word[1..]));
+    }
+
+    /// <summary>Instance label resolution: consumer override first, then
+    /// the shared <see cref="ThemeName"/> rule.</summary>
     private string LabelFor(string theme)
     {
         if (ThemeLabels.TryGetValue(theme, out var pretty)) return pretty;
-        if (theme.Length == 0) return theme;
-        // Title-case each hyphen-separated word so a slug renders as
-        // "United Kingdom National Health Service England For Patients".
-        return string.Join(" ", theme.Split('-')
-            .Select(word => word.Length == 0 ? word : char.ToUpperInvariant(word[0]) + word[1..]));
+        return ThemeName(theme);
     }
 
     private ThemeSelectContext BuildContext() => new()
     {
-        Themes = Themes,
         Value = Value ?? "",
-        SetTheme = SetThemeAsync,
-        Name = Name,
+        Open = _open,
         LabelFor = LabelFor,
     };
 
@@ -129,20 +212,47 @@ public partial class ThemeSelect : ComponentBase
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender) return;
-        if (_initialised) return;
-        _initialised = true;
-
-        var initial = await ResolveInitialAsync();
-        if (string.IsNullOrEmpty(initial)) return;
-
-        if (initial != Value)
+        if (firstRender && !_initialised)
         {
-            Value = initial;
-            await ValueChanged.InvokeAsync(Value);
-            StateHasChanged();
+            _initialised = true;
+
+            var initial = await ResolveInitialAsync();
+            if (!string.IsNullOrEmpty(initial))
+            {
+                if (initial != Value)
+                {
+                    Value = initial;
+                    await ValueChanged.InvokeAsync(Value);
+                    StateHasChanged();
+                }
+                await ApplyThemeAsync(initial);
+            }
         }
-        await ApplyThemeAsync(initial);
+
+        // Focus moves are deferred to after render: the listbox cannot take
+        // focus while it still carries `hidden`.
+        if (_focusListPending)
+        {
+            _focusListPending = false;
+            await TryFocusAsync(_listElement);
+        }
+        if (_focusButtonPending)
+        {
+            _focusButtonPending = false;
+            await TryFocusAsync(_buttonElement);
+        }
+    }
+
+    private static async Task TryFocusAsync(ElementReference element)
+    {
+        try
+        {
+            await element.FocusAsync();
+        }
+        catch
+        {
+            // ignore prerender / interop failure
+        }
     }
 
     private async Task<string> ResolveInitialAsync()
@@ -165,6 +275,25 @@ public partial class ThemeSelect : ComponentBase
             }
         }
 
+        if (DetectFromSystem)
+        {
+            try
+            {
+                // matchMedia is absent during prerender and in some hosts;
+                // the probe returns null there and MatchSystemTheme yields "".
+                var prefersDark = await JS.InvokeAsync<bool?>(
+                    "eval",
+                    "(function(){try{if(typeof matchMedia!=='function')return null;"
+                    + "return matchMedia('(prefers-color-scheme: dark)').matches;}catch(e){return null;}})()");
+                var match = MatchSystemTheme(prefersDark, Themes);
+                if (!string.IsNullOrEmpty(match)) return match;
+            }
+            catch
+            {
+                // ignore prerender / interop failure
+            }
+        }
+
         if (!string.IsNullOrEmpty(DefaultValue)) return DefaultValue!;
         if (Themes.Count == 0) return "";
 
@@ -176,10 +305,181 @@ public partial class ThemeSelect : ComponentBase
     }
 
     // -------------------------------------------------------------------
+    // Open / close.
+    // -------------------------------------------------------------------
+
+    /// <summary>Open the listbox. The active option defaults to the selected
+    /// one (or the first), unless <paramref name="startIndex"/> overrides it.</summary>
+    private void OpenList(int? startIndex = null)
+    {
+        if (Themes.Count == 0) return;
+        var selected = IndexOfValue();
+        _activeIndex = startIndex ?? (selected >= 0 ? selected : 0);
+        _open = true;
+        _focusListPending = true;
+        _suppressFocusOut = true;
+        StateHasChanged();
+    }
+
+    /// <summary>Close the listbox, optionally returning focus to the button.</summary>
+    private void CloseList(bool refocus = true)
+    {
+        if (!_open) return;
+        _open = false;
+        _activeIndex = -1;
+        _typeahead = "";
+        if (refocus)
+        {
+            _focusButtonPending = true;
+            _suppressFocusOut = true;
+        }
+        StateHasChanged();
+    }
+
+    private int IndexOfValue()
+    {
+        for (var i = 0; i < Themes.Count; i++)
+        {
+            if (Themes[i] == Value) return i;
+        }
+        return -1;
+    }
+
+    private async Task ChooseAsync(int index)
+    {
+        if (index >= 0 && index < Themes.Count)
+        {
+            var slug = Themes[index];
+            CloseList();
+            if (!string.IsNullOrEmpty(slug)) await SetThemeAsync(slug);
+            return;
+        }
+        CloseList();
+    }
+
+    private void MoveActive(int delta)
+    {
+        if (Themes.Count == 0) return;
+        // Clamp; the APG listbox pattern does not wrap.
+        var next = Math.Min(Math.Max(_activeIndex + delta, 0), Themes.Count - 1);
+        _activeIndex = next;
+    }
+
+    private void RunTypeahead(string character)
+    {
+        var now = DateTimeOffset.UtcNow;
+        if (now - _typeaheadAt > TypeaheadWindow) _typeahead = "";
+        _typeaheadAt = now;
+        _typeahead += character.ToLowerInvariant();
+
+        var from = _activeIndex < 0 ? 0 : _activeIndex;
+        // Search forward from the active option, wrapping once.
+        for (var n = 0; n < Themes.Count; n++)
+        {
+            var i = (from + n) % Themes.Count;
+            if (LabelFor(Themes[i]).ToLowerInvariant().StartsWith(_typeahead, StringComparison.Ordinal))
+            {
+                _activeIndex = i;
+                return;
+            }
+        }
+    }
+
+    // -------------------------------------------------------------------
+    // Event handlers.
+    // -------------------------------------------------------------------
+
+    private Task OnButtonClickAsync()
+    {
+        if (_suppressNextClick)
+        {
+            _suppressNextClick = false;
+            return Task.CompletedTask;
+        }
+        if (_open) CloseList();
+        else OpenList();
+        return Task.CompletedTask;
+    }
+
+    private Task OnButtonKeyDownAsync(KeyboardEventArgs args)
+    {
+        switch (args.Key)
+        {
+            case "ArrowDown":
+            case "Enter":
+            case " ":
+                // Enter and Space also synthesise a click on a <button>;
+                // swallow it so the listbox is not toggled twice.
+                _suppressNextClick = true;
+                OpenList();
+                break;
+            case "ArrowUp":
+                _suppressNextClick = true;
+                OpenList(Themes.Count - 1);
+                break;
+        }
+        return Task.CompletedTask;
+    }
+
+    private async Task OnListKeyDownAsync(KeyboardEventArgs args)
+    {
+        switch (args.Key)
+        {
+            case "ArrowDown":
+                MoveActive(1);
+                break;
+            case "ArrowUp":
+                MoveActive(-1);
+                break;
+            case "Home":
+                _activeIndex = 0;
+                break;
+            case "End":
+                _activeIndex = Themes.Count - 1;
+                break;
+            case "Enter":
+            case " ":
+                if (_activeIndex >= 0) await ChooseAsync(_activeIndex);
+                break;
+            case "Escape":
+                // Close and return focus without changing the value.
+                CloseList();
+                break;
+            case "Tab":
+                // Tab moves on: close without stealing focus back.
+                CloseList(false);
+                break;
+            default:
+                if (args.Key.Length == 1 && !args.CtrlKey && !args.MetaKey && !args.AltKey)
+                {
+                    RunTypeahead(args.Key);
+                }
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Focus leaving the root closes the listbox. Blazor's
+    /// <see cref="FocusEventArgs"/> does not expose <c>relatedTarget</c>, so
+    /// focus moves the component made itself are flagged instead.
+    /// </summary>
+    private Task OnRootFocusOutAsync()
+    {
+        if (_suppressFocusOut)
+        {
+            _suppressFocusOut = false;
+            return Task.CompletedTask;
+        }
+        CloseList(false);
+        return Task.CompletedTask;
+    }
+
+    // -------------------------------------------------------------------
     // Apply / set.
     // -------------------------------------------------------------------
 
-    /// <summary>Apply a theme imperatively. Public so the ChildContent render fragment can call it.</summary>
+    /// <summary>Apply a theme imperatively. Public so consumers can drive the
+    /// control from their own UI.</summary>
     public async Task SetThemeAsync(string slug)
     {
         if (string.IsNullOrEmpty(slug)) return;
@@ -192,37 +492,6 @@ public partial class ThemeSelect : ComponentBase
         await ValueChanged.InvokeAsync(Value);
         await ApplyThemeAsync(slug);
         StateHasChanged();
-    }
-
-    /// <summary>
-    /// The &lt;select&gt; never tracks <see cref="Value"/>: its own DOM
-    /// selection snaps back to the placeholder option after every change, so
-    /// the closed control always reads <c>Placeholder ?? Label</c> rather than
-    /// the active theme name. Everything downstream is unchanged.
-    /// </summary>
-    private async Task OnSelectAsync(ChangeEventArgs args)
-    {
-        var chosen = args.Value?.ToString() ?? "";
-        await SnapBackToPlaceholderAsync();
-        if (!string.IsNullOrEmpty(chosen)) await SetThemeAsync(chosen);
-    }
-
-    /// <summary>
-    /// Reset the live &lt;select&gt; element's value to the placeholder.
-    /// The rendered markup already marks the placeholder <c>selected</c>, but
-    /// a browser ignores that once the user has interacted with the control,
-    /// so the DOM property has to be written directly.
-    /// </summary>
-    private async Task SnapBackToPlaceholderAsync()
-    {
-        try
-        {
-            await JS.InvokeVoidAsync("Object.assign", _selectElement, new { value = "" });
-        }
-        catch
-        {
-            // ignore prerender / interop failure
-        }
     }
 
     private async Task ApplyThemeAsync(string slug)

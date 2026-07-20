@@ -219,8 +219,17 @@ export default Object.fromEntries(codes.map((c) => [c, dn.of(c) ?? c]));
 ```
 
 ```njk
-{{ localeSelect({locales: codes, localeLabels: localeLabels}) }}
+{{ localeSelect({
+    label: "Language",
+    locales: codes,
+    localeLabels: localeLabels
+}) }}
 ```
+
+The labels land as the text of each `<li role="option">` in the
+listbox. They also drive the client's typeahead, which matches on
+the option label rather than the raw code — so a `Intl.DisplayNames`
+label set makes typing "fra" find French.
 
 ## Common questions
 

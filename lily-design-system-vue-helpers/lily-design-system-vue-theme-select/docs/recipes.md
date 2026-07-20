@@ -77,12 +77,92 @@ full recipe.
    server-supplied value via `value` (which short-circuits the
    storage read).
 
-## Build a flyout / dropdown UI
+## Replace the button glyph
 
-Use [custom-rendering](./custom-rendering.md) to swap the native
-`<select>` for a button-triggered popover. Render the popover
-*trigger* with its own `aria-label` so screen readers still hear the
-control's name, and call `setTheme` from your wrapper.
+The default `◑` (U+25D1) comes from the user's fonts and may render
+inconsistently or be missing altogether. The default slot replaces it —
+and only it; the listbox stays component-owned:
+
+```vue
+<ThemeSelect
+    label="Theme"
+    themes-url="/assets/themes/"
+    :themes="['light', 'dark']"
+    v-model:value="theme"
+>
+    <template #default="{ value, labelFor }">
+        <span
+            class="theme-select-swatch"
+            :data-theme="value"
+            :title="labelFor(value)"
+            aria-hidden="true"
+        />
+    </template>
+</ThemeSelect>
+```
+
+Keep slot content `aria-hidden="true"` or text-free — the button's
+accessible name comes from `label`. See
+[custom-rendering](./custom-rendering.md).
+
+## Build a completely different theme UI
+
+The component owns its listbox; the slot cannot replace it. For swatch
+buttons, a segmented control, or a settings-page radio group, render
+your own controls and drive the same lifecycle by writing to the
+binding:
+
+```vue
+<script setup lang="ts">
+import { ref } from "vue";
+import ThemeSelect from "../ThemeSelect.vue";
+
+const theme = ref("");
+const themes = ["light", "dark", "abyss"];
+</script>
+
+<template>
+    <!--
+        Hidden from sight and from assistive technology: your own group
+        below is the real control. The select keeps owning the apply
+        lifecycle (link swap, data-theme, persistence), which is
+        script-only and unaffected by being hidden.
+    -->
+    <ThemeSelect
+        class="theme-select-headless"
+        label="Theme"
+        themes-url="/assets/themes/"
+        :themes="themes"
+        v-model:value="theme"
+        aria-hidden="true"
+        inert
+    />
+
+    <div role="group" aria-label="Theme">
+        <button
+            v-for="t in themes"
+            :key="t"
+            type="button"
+            class="theme-swatch"
+            :data-theme="t"
+            :aria-pressed="theme === t"
+            @click="theme = t"
+        >
+            {{ t }}
+        </button>
+    </div>
+</template>
+```
+
+`aria-hidden` and `inert` both fall through to the root `<div>`, which
+is what makes this safe: without them you ship two controls that both
+announce as "Theme" and both change the theme. `.theme-select-headless`
+is your own hook — `display: none` is fine here precisely *because* the
+control is no longer meant to be reachable.
+
+This is the only supported way to fully replace the UI. Do not try to
+render options through the default slot; the slot's content goes inside
+the trigger button, not inside the listbox.
 
 ## Serve themes from a CDN
 
@@ -116,9 +196,11 @@ after the slug works.
 ## Multiple regions with independent themes
 
 See [`../examples/multiple-selects.vue`](../examples/multiple-selects.vue).
-Each select gets a distinct `name` (so the `<select>`s and managed
+Each select gets a distinct `name` (so the hidden inputs and the managed
 `<link>`s don't collide) and a distinct `target` (so `data-theme`
-goes on the section root rather than `<html>`).
+goes on the section root rather than `<html>`). Give each a distinct
+`label` too — with icon-only triggers, two buttons both named "Theme"
+are indistinguishable to a screen-reader user.
 
 ## Programmatically switch themes from a sibling component
 

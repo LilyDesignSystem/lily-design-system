@@ -1,7 +1,8 @@
 # LocaleSelect (Angular helper)
 
-A reusable, headless Angular 20 locale select that applies the
-chosen locale to the document root via `lang` and `dir`, with
+A reusable, headless Angular 20 locale select. It renders a globe
+icon button that opens a WAI-ARIA APG listbox of locales, and applies
+the chosen locale to the document root via `lang` and `dir`, with
 optional `localStorage` persistence and `navigator.languages`
 detection.
 
@@ -17,9 +18,11 @@ deep-dives see [docs/](./docs/) and for working code see
 - [BCP 47 normalisation](#bcp-47-normalisation)
 - [RTL auto-detection](#rtl-auto-detection)
 - [Examples](#examples)
+- [Styling hooks](#styling-hooks)
 - [Built-in locale data](#built-in-locale-data)
 - [Inputs](#inputs)
 - [Outputs](#outputs)
+- [Keyboard](#keyboard)
 - [Accessibility](#accessibility)
 - [SSR](#ssr)
 - [Files in this directory](#files-in-this-directory)
@@ -42,6 +45,8 @@ Or via the barrel (recommended; gives you the typed helpers too):
 ```ts
 import {
     LocaleSelect,
+    LocaleSelectIcon,
+    GLOBE_WITH_MERIDIANS,
     bcp47LocaleTag,
     isRtlLocale,
     localeName,
@@ -99,16 +104,16 @@ export class Settings {
 ```
 
 The status line is part of the pattern, not decoration. The closed
-control is placeholder-pinned — it always reads "Language", never the
-active locale name — so on its own it never tells a screen-reader user
-which locale is in effect. The `locale-select-status` element restores
-that, in visible text, for sighted and screen-reader users alike;
-`aria-live="polite"` announces only changes, so it is silent on first
-paint and speaks once per switch. The locale name carries its own
-`lang` for the same reason each `<option>` does, so it is pronounced in
-the language it names. Keep it unless you have a specific reason not
-to, and prefer visually hiding it over deleting it. Full rationale and
-the opt-out: [docs/accessibility.md](./docs/accessibility.md).
+control shows a globe glyph and nothing else — never the active locale
+name — so on its own it never tells any user which locale is in
+effect. The `locale-select-status` element restores that, in visible
+text, for sighted and screen-reader users alike; `aria-live="polite"`
+announces only changes, so it is silent on first paint and speaks once
+per switch. The locale name carries its own `lang` for the same reason
+each option does, so it is pronounced in the language it names. Keep
+it unless you have a specific reason not to, and prefer visually
+hiding it over deleting it. Full rationale and the opt-out:
+[docs/accessibility.md](./docs/accessibility.md).
 
 When the user picks `ar`, the component:
 
@@ -164,7 +169,7 @@ yourself.
 
 ## Examples
 
-### Default select
+### Default rendering
 
 ```ts
 import { Component, signal } from "@angular/core";
@@ -186,38 +191,76 @@ export class Settings {
 }
 ```
 
-Renders:
+Renders (listbox closed):
 
 ```html
-<select class="locale-select" aria-label="Language" name="locale">
-    <option class="locale-select-option locale-select-placeholder" value="" selected>Language</option>
-    <option class="locale-select-option" value="en" lang="en">English</option>
-    <option class="locale-select-option" value="cy" lang="cy">Welsh</option>
-</select>
+<div class="locale-select">
+    <input type="hidden" name="locale" value="en" />
+    <button type="button" class="locale-select-button" aria-label="Language"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="locale-select-1-list">
+        <span class="locale-select-icon" aria-hidden="true">&#127760;</span>
+    </button>
+    <ul class="locale-select-list" id="locale-select-1-list" role="listbox"
+        aria-label="Language" tabindex="-1" hidden>
+        <li class="locale-select-option" id="locale-select-1-option-0" role="option"
+            aria-selected="true" data-active lang="en">English</li>
+        <li class="locale-select-option" id="locale-select-1-option-1" role="option"
+            aria-selected="false" lang="cy">Welsh</li>
+    </ul>
+</div>
 ```
+
+While open, the button's `aria-expanded` flips to `"true"`, the `<ul>`
+loses `hidden` and gains `aria-activedescendant` pointing at the
+active option's `id`, and `data-active` marks that option.
 
 Each locale option carries its own `lang` attribute so a screen reader
 pronounces "Cymraeg" with a Welsh voice (WCAG 3.1.2, Language of
-Parts). The placeholder is not a locale, so it carries no `lang`.
+Parts). The button and the list carry no `lang` of their own — their
+text is in the page's language, not any listed locale's.
 
-### The placeholder option
+The hidden input carries the value into an enclosing `<form>`; set
+`name` to control its field name.
 
-The first option is a component-owned placeholder, and it is the one
-the closed control always displays — the control reads "Language", not
-the selected locale name, so it never widens to fit the longest locale
-in your list. Pass `placeholder` to override its text; it defaults to
-`label`, so no hardcoded string is ever emitted.
+### Replacing the button glyph
+
+Project an `<ng-template>` to replace the globe. It replaces the glyph
+only — the listbox is component-owned and the template never renders
+options.
 
 ```html
-<!-- Closed control reads "Locale"; accessible name is "Choose a locale". -->
-<lily-locale-select label="Choose a locale" placeholder="Locale"
-                    [locales]="locales" [(value)]="locale" />
+<lily-locale-select label="Language" [locales]="locales" [(value)]="locale">
+    <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
+</lily-locale-select>
 ```
 
-Because of this, the `<select>` element's own `value` is always `""`.
-Read the active locale from `[(value)]` or the `localeChange` output.
-See [docs/accessibility.md](./docs/accessibility.md) for the
-screen-reader tradeoff and how to surface the active locale.
+The context (`ChildArgs`) gives you three things:
+
+| Key        | Type                         | Meaning                            |
+| ---------- | ---------------------------- | ---------------------------------- |
+| `value`    | `string`                     | Selected locale code, your form.   |
+| `open`     | `boolean`                    | Is the listbox open?               |
+| `labelFor` | `(locale: string) => string` | Resolve a code to a display label. |
+
+Import the optional `LocaleSelectIcon` directive if you want typed
+`let-` variables:
+
+```html
+<lily-locale-select label="Language" [locales]="locales" [(value)]="locale">
+    <ng-template lilyLocaleSelectIcon let-args>
+        <span [attr.data-open]="args.open">{{ args.value }}</span>
+    </ng-template>
+</lily-locale-select>
+```
+
+The default glyph is exported as `GLOBE_WITH_MERIDIANS` if you want to
+reuse it elsewhere.
+
+Because the closed control never shows the active locale, read it from
+`[(value)]` or the `localeChange` output and surface it yourself. See
+[docs/accessibility.md](./docs/accessibility.md) for the tradeoffs and
+the status-region pattern.
 
 ### Pretty labels for the option text
 
@@ -262,9 +305,11 @@ export class App {
 }
 ```
 
-During SSR the component renders the `<select>` with the supplied
-value selected, and the document already arrives with the correct
-`lang` attribute on `<html>`.
+During SSR the component renders the button and the closed listbox
+with the supplied value marked `aria-selected`, and the document
+already arrives with the correct `lang` attribute on `<html>`. Element
+ids come from a module counter rather than randomness, so server and
+client markup match and hydration is clean.
 
 ### Render into a scoped target instead of `<html>`
 
@@ -299,6 +344,45 @@ export class Panel {
 `<html>` stays in the page's default locale; the section gets the
 chosen one.
 
+## Styling hooks
+
+The package ships **zero CSS**. These are the class hooks it emits:
+
+| Hook                    | Element                | Notes                                            |
+| ----------------------- | ---------------------- | ------------------------------------------------ |
+| `.locale-select`        | root `<div>`           | Plus whatever you pass as `className`.           |
+| `.locale-select-button` | the trigger `<button>` | Icon-only by default.                            |
+| `.locale-select-icon`   | the glyph `<span>`     | Absent when you project your own `<ng-template>`. |
+| `.locale-select-list`   | the `<ul role="listbox">` | Carries `hidden` while closed.                |
+| `.locale-select-option` | each `<li role="option">` | Style selection with `[aria-selected="true"]` and the keyboard-active option with `[data-active]`. |
+
+**The list needs positioning CSS and this package ships none.** As
+rendered, the `<ul>` sits in normal document flow and pushes the rest
+of the page down when it opens. To overlay it, position the list
+absolutely inside a relatively-positioned root:
+
+```css
+.locale-select {
+    position: relative;
+}
+
+.locale-select-list {
+    position: absolute;
+    top: 100%;
+    inset-inline-start: 0;
+    z-index: 1;
+}
+```
+
+`inset-inline-start` rather than `left` so the list anchors correctly
+when `dir="rtl"` — which this very component sets.
+
+Two more things you own: a visible focus ring on both the button and
+the `<ul>` (the list is what receives focus while open), and a
+distinguishable style for `[data-active]` versus
+`[aria-selected="true"]`, since they are different states and can be
+on different options.
+
 ## Built-in locale data
 
 `locales.ts` ships the 436 codes from `locales.tsv` mapped to their
@@ -323,9 +407,13 @@ See [spec/index.md §4](./spec/index.md#4-public-api) for the full table.
 
 Required inputs: `label`, `locales`.
 
-Common optional inputs: `placeholder`, `value` (bindable via
-`[(value)]`), `defaultValue`, `storageKey`, `detectFromNavigator`,
-`localeLabels`, `applyDir`, `target`, `className`, `name`.
+Common optional inputs: `value` (bindable via `[(value)]`),
+`defaultValue`, `storageKey`, `detectFromNavigator`, `localeLabels`,
+`applyDir`, `target`, `className`, `name`.
+
+`label` names both the button and the listbox. The button is
+icon-only, so this is its **entire** accessible name — write it as
+carefully as you would write visible link text.
 
 ## Outputs
 
@@ -334,22 +422,71 @@ Common optional inputs: `placeholder`, `value` (bindable via
 | `valueChange`  | `string` | Implicit on the `value` model signal — drives `[(value)]`. |
 | `localeChange` | `string` | After the select applies a new locale (consumer-form code). |
 
+## Keyboard
+
+The control implements the
+[WAI-ARIA APG listbox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/).
+None of this is inherited from a native `<select>` — it is all the
+component's own.
+
+On the **button**:
+
+| Key                   | Action                                                       |
+| --------------------- | ------------------------------------------------------------ |
+| Tab / Shift+Tab       | Move focus to / from the button.                             |
+| Enter / Space         | Open the list on the selected option (or the first).         |
+| Arrow Down            | Open the list on the selected option (or the first).         |
+| Arrow Up              | Open the list on the **last** option.                        |
+
+Opening moves focus to the list.
+
+On the **list**:
+
+| Key                   | Action                                                       |
+| --------------------- | ------------------------------------------------------------ |
+| Arrow Down / Arrow Up | Move the active option. Clamps at the ends; does not wrap.   |
+| Home / End            | Jump to the first / last option.                             |
+| Enter / Space         | Choose the active option, apply it, close, focus the button. |
+| Escape                | Close and focus the button; the locale is unchanged.         |
+| Tab                   | Close and let focus move on normally.                        |
+| Any printable key     | Typeahead over the option labels; resets 500 ms after your last keystroke. |
+
+With a mouse: clicking the button toggles the list, clicking an option
+chooses it, and clicking anywhere outside closes the list. Moving
+focus out of the control closes it too.
+
 ## Accessibility
 
-- `<select [attr.aria-label]="…">` is the announced control
-  (implicit `combobox` role).
-- The native `<select>` gives Arrow / Home / End / typeahead
-  semantics for free.
-- Each locale `<option>` carries `lang="…"` so its name is pronounced
-  in the right language (WCAG 3.1.2, Language of Parts).
+- The button carries `aria-label`, `aria-haspopup="listbox"`,
+  `aria-expanded`, and `aria-controls`; the list is a
+  `role="listbox"` with `aria-activedescendant` while open; options
+  are `role="option"` with `aria-selected`.
+- Each locale option carries `lang="…"` so its name is pronounced in
+  the right language (WCAG 3.1.2, Language of Parts). The button and
+  the list carry none of their own.
 - The document root carries `lang` and (by default) `dir` so the
   page satisfies WCAG 3.1.1 (Language of Page) and bidi
   text/layout inverts correctly for RTL locales.
-- No colour-only meaning; the active state is visible in the resolved
-  `lang` attribute and in the `[(value)]` binding.
-- Tradeoff: because the closed control always reads the placeholder,
-  it does **not** announce the active locale. Surface that elsewhere —
-  see [docs/accessibility.md](./docs/accessibility.md).
+- No colour-only meaning; the active state is exposed via
+  `aria-selected`, the resolved `lang` attribute, and the `[(value)]`
+  binding.
+- Focus stays on the `<ul>` while the list is open — style its focus
+  ring, not the options'.
+
+Three tradeoffs, stated plainly and covered in full in
+[docs/accessibility.md](./docs/accessibility.md):
+
+1. An icon-only button depends **entirely** on your `label` for its
+   accessible name. A poor label leaves the control unusable to
+   screen-reader and voice-control users.
+2. A custom listbox has weaker and less consistent assistive-technology
+   support than a native `<select>`, which gets platform behaviour for
+   free. This is a real regression, not a neutral difference.
+3. The globe glyph may render differently, render as tofu, or be
+   missing entirely depending on platform fonts and emoji coverage.
+
+The closed button also never shows the active locale — surface it
+separately with the status-region pattern.
 
 ## SSR
 
@@ -387,6 +524,11 @@ flicker-free first paint, resolve the locale on the server (cookie
 | [docs/i18n-integration.md](./docs/i18n-integration.md) | Wiring @angular/localize, Transloco, ngx-translate, raw `Intl.*`.          |
 | [docs/ssr.md](./docs/ssr.md)                         | Cookie, URL-prefix, Accept-Language, FOUC avoidance for Analog v1.           |
 | [docs/accessibility.md](./docs/accessibility.md)     | WCAG 2.2 AAA mapping, keyboard contract, screen-reader matrix.               |
+| [docs/props-reference.md](./docs/props-reference.md) | Every input, output, and exported helper, with types and defaults.          |
+| [docs/styling.md](./docs/styling.md)                 | Class hooks, listbox positioning, logical properties, focus and state.      |
+| [docs/custom-rendering.md](./docs/custom-rendering.md) | Replacing the button glyph, and the sibling-widget contract.               |
+| [docs/recipes.md](./docs/recipes.md)                 | Short task-shaped snippets for the common wiring jobs.                      |
+| [docs/troubleshooting.md](./docs/troubleshooting.md) | Symptom → cause → fix for the things that actually go wrong.                |
 
 ## Examples directory
 
@@ -395,16 +537,16 @@ standalone component you can copy into your project.
 
 | Example                                                                                | Demonstrates                                                       |
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [01-radios.component.ts](./examples/01-radios.component.ts)                            | The default native `<select>` rendering.                          |
-| [02-select.component.ts](./examples/02-select.component.ts)                            | Sibling `<select>` widget bound to `[(value)]` for long locale lists. |
-| [03-buttons.component.ts](./examples/03-buttons.component.ts)                          | Toggle-button group with short codes / glyphs.                     |
-| [04-rtl-demo.component.ts](./examples/04-rtl-demo.component.ts)                        | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
-| [05-nhs-style.component.ts](./examples/05-nhs-style.component.ts)                      | NHS UK-style language banner with endonyms.                        |
-| [06-with-transloco.component.ts](./examples/06-with-transloco.component.ts)            | Binding to Transloco's active language.                            |
-| [07-with-ngx-translate.component.ts](./examples/07-with-ngx-translate.component.ts)    | Driving `TranslateService.use()` from `(localeChange)`.            |
-| [08-ssr-cookie.component.ts](./examples/08-ssr-cookie.component.ts)                    | Analog cookie-based SSR — no flash of default locale.              |
-| [09-scoped-target.component.ts](./examples/09-scoped-target.component.ts)              | Multiple per-region selects, each scoped to its own panel.         |
-| [10-combobox.component.ts](./examples/10-combobox.component.ts)                        | Native `<datalist>` type-ahead for 436 locales.                    |
+| [basic.component.ts](./examples/basic.component.ts)                            | The default button + listbox rendering, with the status region.   |
+| [sibling-select.component.ts](./examples/sibling-select.component.ts)                            | Sibling native `<select>` bound to `[(value)]` for long locale lists. |
+| [sibling-buttons.component.ts](./examples/sibling-buttons.component.ts)                          | Toggle-button group with short codes / glyphs.                     |
+| [rtl-demo.component.ts](./examples/rtl-demo.component.ts)                        | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
+| [nhs-style.component.ts](./examples/nhs-style.component.ts)                      | NHS UK-style language banner with endonyms.                        |
+| [with-transloco.component.ts](./examples/with-transloco.component.ts)            | Binding to Transloco's active language.                            |
+| [with-ngx-translate.component.ts](./examples/with-ngx-translate.component.ts)    | Driving `TranslateService.use()` from `(localeChange)`.            |
+| [analog-cookie.component.ts](./examples/analog-cookie.component.ts)                    | Analog cookie-based SSR — no flash of default locale.              |
+| [scoped-target.component.ts](./examples/scoped-target.component.ts)              | Multiple per-region selects, each scoped to its own panel.         |
+| [combobox.component.ts](./examples/combobox.component.ts)                        | Native `<datalist>` type-ahead for 436 locales.                    |
 
 ## License
 

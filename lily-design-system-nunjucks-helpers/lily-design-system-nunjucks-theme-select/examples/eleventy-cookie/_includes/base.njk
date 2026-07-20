@@ -3,8 +3,14 @@
 
   Uses __THEME__ as a placeholder the edge middleware substitutes
   with the cookie value. At static-build time (no edge function),
-  the placeholder remains and the page falls back to the select's
+  the placeholder remains and the page falls back to the control's
   client-side localStorage resolution.
+
+  Note what SSR does and does not buy here. It gets the first PAINT
+  right — <html data-theme> and the theme <link> are correct before
+  any script runs. It does not make the control usable: the button
+  only opens its listbox once theme-select.client.js has loaded.
+  See ../../../docs/ssr.md.
 #}
 <!doctype html>
 <html lang="en" data-theme="__THEME__">

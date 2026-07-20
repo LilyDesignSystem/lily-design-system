@@ -21,17 +21,21 @@ no CSS; consumer styles the `locale-select` class hook.
 | `locales.tsv`              | Canonical 436-row source for `locales.ts`.       |
 | `index.ts`                 | Barrel re-export.                                |
 | `index.md`                 | Human-readable guide.                            |
+| `docs/`                    | Topic guides: a11y, BCP 47, concepts, i18n, RTL, SSR, props, styling, custom rendering, recipes, troubleshooting. |
+| `examples/`                | Self-contained Vue 3 examples, descriptively named. |
 
 ## Public surface
 
 - Default export: `LocaleSelect` component.
 - Named exports: `LocaleSelect`, `bcp47LocaleTag`, `isRtlLocale`,
-  `localeName`, `matchNavigatorLanguage`, `defaultLocaleLabels`,
-  `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`.
-- Type exports: `Props`, `SlotArgs`.
+  `localeName`, `matchNavigatorLanguage`, `nextLocaleSelectId`,
+  `GLOBE_WITH_MERIDIANS`, `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`,
+  `RTL_SCRIPT_SUBTAGS`.
+- Type exports: `Props`, `SlotArgs`, `ChildArgs` (alias of `SlotArgs`).
 
 Required props: `label`, `locales`. Full table in
-[spec/index.md §4.1](./spec/index.md#41-props).
+[spec/index.md §4.1](./spec/index.md#41-props). There is no
+`placeholder` prop — it was removed with the `<select>`.
 
 ## Behaviour contract (one paragraph)
 
@@ -42,34 +46,43 @@ BCP 47 hyphen form of the code, (2) sets `target.dir` to `"rtl"` /
 consumer-form code. SSR-safe — all DOM writes happen inside
 `onMounted` / `watch`. Initial value resolves from `value` > storage >
 navigator detection (if enabled) > `defaultValue` > `"en"` (if
-present) > `locales[0]`. The `<select>` element's own value is never
-bound to the selection: on `change` the component reads the chosen
-code, resets `select.value = ""` so the closed control keeps showing
-the placeholder, and then applies the code. The real selection lives
-in `value` / `v-model:value`.
+present) > `locales[0]`. The control is an icon button that opens a
+listbox; the selection lives in `value` / `v-model:value`, in the
+hidden input, and in `lang` / `dir` on the target.
 
 ## HTML
 
-`<select class="locale-select {class}" aria-label="{label}"
-name="{name}">` whose first child is always a component-owned
-`<option class="locale-select-option locale-select-placeholder"
-value="" selected>{placeholder ?? label}</option>`, followed by one
-native `<option>` per locale code. Each locale option carries
-`lang="{tagFor(…)}"` so its name is pronounced in its own language;
-the placeholder carries no `lang`. Custom rendering via the default
-scoped slot receiving
-`{ locales, value, setLocale, name, labelFor, tagFor, isRtl }` — the
-placeholder is rendered outside the slot, so it survives custom
-rendering.
+A root `<div class="locale-select {class}">` (`$attrs` falls through
+to it) containing three things: a hidden `<input type="hidden"
+name="{name}" value="{value}">` for form participation; a
+`<button type="button" class="locale-select-button" aria-label="{label}"
+aria-haspopup="listbox" aria-expanded aria-controls="{listId}">`
+wrapping `<span class="locale-select-icon" aria-hidden="true">🌐</span>`;
+and a `<ul class="locale-select-list" role="listbox" aria-label="{label}"
+tabindex="-1" hidden aria-activedescendant>` of
+`<li class="locale-select-option" role="option" aria-selected
+data-active lang="{tagFor(locale)}">`. The glyph is U+1F310 GLOBE WITH
+MERIDIANS, exported as `GLOBE_WITH_MERIDIANS`. Each option keeps its
+own `lang` so its name is pronounced in its own language; the button
+and the list carry none. The default scoped slot replaces the
+**button glyph** — not the options — and receives
+`{ value, open, labelFor }`.
 
 ## Accessibility
 
 - WCAG 2.2 AAA target. WCAG 3.1.1 (Language of Page) and 3.1.2
   (Language of Parts).
-- The native `<select>` provides Arrow / Home / End / typeahead
-  semantics (implicit `combobox` role).
-- `aria-label` carries the consumer-supplied accessible name on the
-  `<select>`.
+- The component implements the WAI-ARIA APG listbox keyboard contract
+  itself: Arrow keys (clamping, no wrap), Home / End, Enter / Space to
+  commit, Escape to cancel, Tab to close, printable-character typeahead
+  with a 500 ms buffer. Focus moves to the `<ul>` on open and returns to
+  the button on commit or cancel.
+- The button is icon-only, so `aria-label` is its **only** accessible
+  name; the glyph is `aria-hidden="true"`. The same `label` also names
+  the listbox.
+- Because the closed control shows only a glyph, the documented pattern
+  pairs the select with a consumer-rendered `.locale-select-status`
+  live region. See [docs/accessibility.md](./docs/accessibility.md).
 
 ## Conventions this package follows
 

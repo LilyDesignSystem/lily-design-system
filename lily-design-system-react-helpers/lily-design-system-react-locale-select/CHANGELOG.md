@@ -1,5 +1,119 @@
 # CHANGELOG — lily-design-system-react-locale-select
 
+## Unreleased
+
+### Changed (harmonization with theme-select)
+
+- **The default globe glyph gains U+FE0E VARIATION SELECTOR-15.**
+  `GLOBE_WITH_MERIDIANS` is now `"\u{1F310}\uFE0E"` rather than
+  `"\u{1F310}"`. VS15 requests text presentation; without it browsers
+  pick the colour-emoji font and the globe renders blue, which did not
+  match theme-select's monochrome `\u25D1` when the two controls sit
+  together in a page header. Verified in Chromium. Consumers who
+  hard-coded the old single-codepoint string in a `children` override
+  should import the constant instead.
+- **Examples renamed** from the radio-group era to descriptive names
+  matching theme-select's convention — none of them had rendered
+  radios, a select, or a button group since the listbox port:
+  `01-radios` → `basic`, `02-select` → `custom-rendering`,
+  `03-buttons` → `compact-glyph`, `04-rtl-demo` → `rtl-demo`,
+  `05-nhs-style` → `nhs-style`, `06-with-react-intl` →
+  `with-react-intl`, `07-with-react-i18next` → `with-react-i18next`,
+  `08-ssr-cookie` → `ssr-cookie`, `09-scoped-target` → `scoped-target`,
+  `10-combobox` → `all-locales`. All inbound links updated.
+
+### Added (harmonization with theme-select)
+
+- **`docs/props-reference.md`, `docs/styling.md`,
+  `docs/custom-rendering.md`, `docs/recipes.md`,
+  `docs/troubleshooting.md`** — the five topic guides theme-select
+  already shipped, written for locale-select. The package's
+  topic-specific docs (`bcp47`, `rtl`, `i18n-integration`, `concepts`)
+  are unchanged; `preloading` has no locale counterpart and is
+  deliberately absent.
+- `index.md` no longer claims the package ships no `docs/styling.md`.
+
+### Changed (BREAKING — DOM contract and API)
+
+- **The control is no longer a native `<select>`.** It is now an icon
+  button that opens a dropdown listbox, following the WAI-ARIA APG
+  Listbox pattern. The root element is a
+  `<div class="locale-select {className}">` — rest props spread onto
+  that div — containing a hidden input, a
+  `<button class="locale-select-button">` with `aria-haspopup="listbox"`,
+  `aria-expanded`, and `aria-controls`, and a
+  `<ul class="locale-select-list" role="listbox">` of
+  `<li class="locale-select-option" role="option">` children. The
+  button holds `<span class="locale-select-icon" aria-hidden="true">`
+  carrying U+1F310 GLOBE WITH MERIDIANS (`🌐`), exported as the new
+  `GLOBE_WITH_MERIDIANS` constant.
+- **The `placeholder` prop is REMOVED**, along with the whole 0.3.0
+  placeholder-pinning design and the `locale-select-placeholder` class
+  hook. There is no `<select>` left to pin: the option count is now
+  exactly `locales.length`, and the closed control shows a glyph rather
+  than a word.
+- **`children` changed meaning entirely.** It was a render prop that
+  rendered the `<option>` elements and received
+  `{ locales, value, setLocale, name, labelFor, tagFor, isRtl }`. It
+  now **replaces the glyph inside the button** and receives only
+  `{ value, open, labelFor }`. It no longer renders options — the
+  component owns them, along with the keyboard contract. Consumers who
+  used it to render a custom `<select>`, a button group, or a combobox
+  must compose a different primitive.
+- `name` is now the `name` of the hidden input rather than of the
+  `<select>`.
+- Class-hook contract: `locale-select` names the root `<div>`; the new
+  hooks are `locale-select-button`, `locale-select-icon`,
+  `locale-select-list`, and `locale-select-option`, plus the
+  `[data-active]` and `[aria-selected]` attribute hooks.
+
+### Added
+
+- Full APG Listbox keyboard contract, implemented by the component
+  (nothing comes from the platform now). Button: `ArrowDown` / `Enter` /
+  `Space` open with the selected option active, `ArrowUp` opens with
+  the last option active, and opening moves focus to the list. List:
+  `ArrowDown` / `ArrowUp` move the active option and **clamp** rather
+  than wrap, `Home` / `End` jump to the ends, `Enter` / `Space` select
+  and return focus to the button, `Escape` closes without changing the
+  value, `Tab` closes without stealing focus back, and printable
+  characters run a typeahead over the option labels with a 500 ms
+  buffer reset. Clicking an option selects it; clicking outside or
+  moving focus out closes the list.
+- `GLOBE_WITH_MERIDIANS` export (U+1F310, the default button glyph).
+- Option and list ids derive from React's `useId`, so they are stable
+  across server and client render and hydration-safe.
+
+### Unchanged
+
+- The behaviour contract: `lang` + `dir` application to the target,
+  RTL / bidi detection, `localStorage` persistence,
+  `navigator.languages` detection, `onChange` (still called with the
+  consumer-form code, not the BCP 47 form), initial-value resolution
+  (`value` > storage > navigator > `defaultValue` > `"en"` >
+  `locales[0]`), `applyDir`, `target`, and SSR safety.
+- The exported pure helpers `bcp47LocaleTag`, `isRtlLocale`,
+  `localeName`, `matchNavigatorLanguage`, `defaultLocaleLabels`,
+  `RTL_LANGUAGE_TAGS`, and `RTL_SCRIPT_SUBTAGS`.
+- Per-option `lang` in BCP 47 hyphen form, for WCAG 3.1.2 (Language of
+  Parts). The button and the list carry no `lang` of their own.
+
+### Accessibility note
+
+- The tradeoffs changed rather than disappeared. An icon-only button
+  depends entirely on `aria-label` (the `label` prop) for its
+  accessible name; a custom listbox has weaker assistive-technology
+  support than a native `<select>`, since it depends on correct
+  `aria-activedescendant` handling rather than platform-level
+  treatment; and the globe glyph is font-dependent (it may render
+  differently, as a box, or not at all) as well as culturally loaded,
+  since a globe is not a universal symbol for "language". Consumers
+  who need certainty should supply their own `children` glyph or an
+  SVG.
+- The status-region pattern is retained and is arguably more important
+  now: the closed button shows only a glyph and never announces the
+  active language. `docs/accessibility.md` carries the full discussion.
+
 ## 0.3.0 — 2026-07-20
 
 ### Added

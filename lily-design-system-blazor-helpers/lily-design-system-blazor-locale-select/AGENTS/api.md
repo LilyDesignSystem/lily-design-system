@@ -12,7 +12,15 @@ namespace:
 namespace LilyDesignSystem.Blazor.Helpers;
 
 public sealed class LocaleSelectContext { /* … */ }
-public partial class LocaleSelect : ComponentBase { /* … */ }
+
+public partial class LocaleSelect : ComponentBase
+{
+    /// U+1F310 GLOBE WITH MERIDIANS — the default button glyph.
+    public const string GlobeWithMeridians = "\U0001F310";
+
+    /// Apply a locale imperatively.
+    public Task SetLocaleAsync(string code);
+}
 
 public static class Locales
 {
@@ -41,7 +49,6 @@ A consumer adds the namespace import once:
 | Parameter             | Type                                  | Required | Default                                            |
 | --------------------- | ------------------------------------- | -------- | -------------------------------------------------- |
 | `Label`               | `string`                              | yes      | `""`                                               |
-| `Placeholder`         | `string?`                             | no       | `null` (falls back to `Label`)                     |
 | `Locales`             | `IReadOnlyList<string>`               | yes      | `Array.Empty<string>()`                            |
 | `Value`               | `string`                              | no       | `""`                                               |
 | `ValueChanged`        | `EventCallback<string>`               | no       | —                                                  |
@@ -52,12 +59,15 @@ A consumer adds the namespace import once:
 | `ApplyDir`            | `bool`                                | no       | `true`                                             |
 | `LocaleLabels`        | `IReadOnlyDictionary<string,string>`  | no       | empty `Dictionary<string, string>()`               |
 | `OnChange`            | `EventCallback<string>`               | no       | —                                                  |
-| `ChildContent`        | `RenderFragment<LocaleSelectContext>?`| no       | `null` (default option markup)                     |
+| `ChildContent`        | `RenderFragment<LocaleSelectContext>?`| no       | `null` (the default globe glyph)                   |
 | `CssClass`            | `string`                              | no       | `""`                                               |
 | `AdditionalAttributes`| `Dictionary<string, object>?`         | no       | `null`                                             |
 
 `Value` is two-way bindable via `@bind-Value`. Other attributes
 fall through via `[Parameter(CaptureUnmatchedValues = true)]`.
+
+There is **no `Placeholder` parameter**. It existed only to pin a
+native `<select>`'s closed display; there is no `<select>` any more.
 
 ## Events
 
@@ -69,7 +79,8 @@ fall through via `[Parameter(CaptureUnmatchedValues = true)]`.
 `ValueChanged` is the half of `@bind-Value` that flows from the
 component back to the parent. It fires:
 
-- after a `<select>` change,
+- after a selection (option click, or `Enter` / `Space` on the active
+  option), and after any `SetLocaleAsync` call that changes the value,
 - once on first `OnAfterRenderAsync(true)` if the resolved initial
   value differs from the supplied `Value`.
 
@@ -79,28 +90,34 @@ normalised tag).
 
 ## ChildContent render fragment
 
+`ChildContent` **replaces the glyph inside the button**. It does not
+render options — the listbox is always owned by the component.
+
 `LocaleSelectContext` shape:
 
 ```csharp
 public sealed class LocaleSelectContext
 {
-    public required IReadOnlyList<string> Locales { get; init; }
+    /// Currently selected locale code (consumer form, not BCP 47).
     public required string Value { get; init; }
-    public required Func<string, Task> SetLocale { get; init; }
-    public required string Name { get; init; }
+    /// Is the listbox open?
+    public required bool Open { get; init; }
+    /// Resolve a locale code to its display label.
     public required Func<string, string> LabelFor { get; init; }
-    public required Func<string, string> TagFor { get; init; }
-    public required Func<string, bool> IsRtl { get; init; }
 }
 ```
+
+The old `Locales`, `SetLocale`, `Name`, `TagFor`, and `IsRtl` members
+are gone from the context; the pure helpers remain on the static
+`Locales` class, and `SetLocaleAsync` is a public method on the
+component.
 
 Consumers use it via `<ChildContent Context="ctx">`:
 
 ```razor
 <LocaleSelect Label="…" Locales="@(…)">
     <ChildContent Context="ctx">
-        @* ctx.Locales, ctx.Value, ctx.SetLocale, ctx.Name,
-           ctx.LabelFor, ctx.TagFor, ctx.IsRtl *@
+        <span class="my-flag" data-open="@ctx.Open">@ctx.LabelFor(ctx.Value)</span>
     </ChildContent>
 </LocaleSelect>
 ```
@@ -131,19 +148,36 @@ so the test suite can assert against its output.
 
 ## DOM contract
 
-Root element:
+An icon button plus a dropdown listbox:
 
 ```html
-<select class="locale-select {CssClass}" aria-label="{Label}" name="{Name}">
-    <!-- ChildContent or default markup -->
-</select>
+<div class="locale-select {CssClass}" ...AdditionalAttributes>
+  <input type="hidden" name="{Name}" value="{Value}" />
+  <button type="button" class="locale-select-button"
+          aria-label="{Label}" aria-haspopup="listbox"
+          aria-expanded="false" aria-controls="{listId}">
+    <span class="locale-select-icon" aria-hidden="true">&#127760;</span>
+  </button>
+  <ul class="locale-select-list" id="{listId}" role="listbox"
+      aria-label="{Label}" tabindex="-1" hidden
+      aria-activedescendant="{optionId of active, only while open}">
+    <li class="locale-select-option" id="{optionId}" role="option"
+        aria-selected="true|false" data-active
+        lang="{TagFor(locale)}">{LabelFor(locale)}</li>
+  </ul>
+</div>
 ```
 
-Default option markup (one per `Locales` entry):
+`ChildContent` replaces the `<span class="locale-select-icon">` only.
+Option ids are `{instance}-option-{index}` and the list id is
+`{instance}-list`, where `{instance}` is `locale-select-{n}` from a
+monotonic process-wide counter — stable and SSR-safe.
 
-```html
-<option class="locale-select-option" value="{locale}" lang="{TagFor(locale)}">{LabelFor(locale)}</option>
-```
+The hidden input preserves form participation and the `Name`
+parameter. There is no snap-back interop write: the previous
+implementation reset a native `<select>`'s value after every change so
+the placeholder stayed displayed, and that write is gone. The real
+selection lives in `Value`, which remains two-way bindable.
 
 Document mutations (only inside `OnAfterRenderAsync(true)` and
 subsequent `SetLocaleAsync` calls):

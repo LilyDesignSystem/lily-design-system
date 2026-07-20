@@ -29,8 +29,8 @@ client-side JS module.
 Give a Nunjucks-rendered application a drop-in, headless locale
 select that:
 
-1. Renders an accessible native `<select>` of available locales from
-   a Nunjucks macro.
+1. Renders an accessible icon button that opens a listbox of available
+   locales, from a Nunjucks macro.
 2. **Applies the chosen locale** at runtime by setting `lang="…"` and
    `dir="ltr|rtl"` on the document root (or on a consumer-supplied
    target) via a companion client-side JS module.
@@ -50,7 +50,7 @@ select that:
 
 - **Translation.** This helper does not translate strings — only
   signals the locale via the `lang` attribute, the `onChange`
-  callback, and the `<select>`'s current value.
+  callback, and the hidden input's value.
 - **Locale negotiation.** No `Intl.LocaleMatcher` / RFC 4647
   best-fit / lookup. The optional `navigator.language` fallback uses
   a simple two-step match (see §5.3).
@@ -58,18 +58,33 @@ select that:
   locale codes.
 - **Bundling translation files.** No JSON / YAML / PO assets ship.
 - **Eleventy-only features.** The macro runs in any Nunjucks host.
-- **Custom default rendering.** The default is a native
-  `<select>` with one `<option>` per locale. Consumers who want
-  buttons or a combobox instead render their own markup and use the
-  client.js helpers to wire it up — see `index.md`.
+- **Custom default rendering.** The default is an icon button plus a
+  `<ul role="listbox">` with one `<li role="option">` per locale. A
+  `{% call %}` block replaces the button's glyph, but not the list.
+  Consumers who want a different control shape entirely — radios, a
+  row of buttons, a native `<select>` — render their own markup and
+  use the client.js pure helpers to wire it up. See `index.md`.
 - **Inline `<script>` tags inside the macro output.** The client.js
   is a separate ES module loaded once per page.
 
 ## 3. Architectural decisions
 
+- **Icon button + listbox, not a native `<select>`.** The control is a
+  glyph-only `<button>` that opens a `<ul role="listbox">`. This buys a
+  narrow, icon-sized control and full styling control over the open
+  list, at the cost of the native control's free keyboard semantics and
+  its no-JS operability (see §5.8 and §6).
 - **Split between macro and client.js.** The macro renders static
-  HTML with `data-lily-locale-select-*` hooks; the client.js owns
+  HTML with `data-lily-locale-select-*` hooks; the client.js owns both
+  the listbox interaction (open/close, focus, keyboard, typeahead) and
   the apply lifecycle (lang, dir, storage, navigator, change events).
+- **Ids come from a macro parameter, not a counter.** A Nunjucks macro
+  is a pure template with no module-level mutable state, so it cannot
+  mint an incrementing per-instance id the way the canonical Svelte
+  helper does. The macro derives its id prefix from `name` instead, and
+  accepts an explicit `id` override. Ids are therefore deterministic
+  and SSR-safe (no `Math.random`, no `Date.now`) — but two instances
+  sharing a `name` collide unless the consumer passes distinct `id`s.
 - **The `lang` attribute is the source of truth** (WCAG 3.1.1, HTML
   Living Standard). The select writes there.
 - **BCP 47 hyphen form on the wire.** Consumer codes can use `_` or
@@ -95,54 +110,102 @@ select that:
 
 | Key                  | Type                       | Required | Default                  | Purpose |
 | -------------------- | -------------------------- | -------- | ------------------------ | ------- |
-| `label`              | `string`                   | yes      | —                        | Accessible name for the `<select>` (`aria-label`). |
-| `placeholder`        | `string`                   | no       | value of `label`         | Text of the always-displayed placeholder option. The closed `<select>` shows this instead of the active locale name, so the control stays as narrow as this word. |
+| `label`              | `string`                   | yes      | —                        | Accessible name for BOTH the button and the listbox (`aria-label`). The button is icon-only, so this is the only accessible name it has. |
 | `locales`            | `array<string>`            | yes      | —                        | Available locale codes (e.g. `["en", "en_US", "fr", "ar"]`). |
-| `value`              | `string`                   | no       | `""`                     | Initial locale. Emitted as `data-lily-locale-select-value` for the client to read; it is **not** rendered as a `selected` option (see §4.2). |
+| `value`              | `string`                   | no       | `""`                     | Initial locale. Emitted as `data-lily-locale-select-value` for the client to read (see §4.2). |
 | `defaultValue`       | `string`                   | no       | `""`                     | Initial locale when nothing else is supplied at runtime. |
 | `storageKey`         | `string`                   | no       | `""`                     | If non-empty, the client.js persists to `localStorage`. |
 | `detectFromNavigator`| `boolean`                  | no       | `false`                  | If true, the client.js resolves `navigator.languages` on first init. |
-| `name`               | `string`                   | no       | `"locale"`               | `<select>` `name` attribute. |
+| `name`               | `string`                   | no       | `"locale"`               | Hidden-input `name`, AND the default id prefix. |
 | `applyDir`           | `boolean`                  | no       | `true`                   | If false, the client.js never writes `dir`. |
 | `localeLabels`       | `object<string,string>`    | no       | `{}`                     | Optional pretty labels per locale code. |
-| `classes`            | `string`                   | no       | `""`                     | Extra CSS classes on the `<select>` root. |
+| `id`                 | `string`                   | no       | `"locale-select-{name}"` | Id prefix for the listbox (`{id}-list`) and its options (`{id}-option-{i}`). Pass an explicit value when two instances share a `name`. |
+| `classes`            | `string`                   | no       | `""`                     | Extra CSS classes on the root `<div>`. |
 | `attributes`         | `object`                   | no       | —                        | Extra HTML attributes spread onto the root. |
+
+The `placeholder` parameter was **removed** in the icon-button release.
+There is no `<select>` left to pin a placeholder onto, and the closed
+control now shows a glyph rather than any word.
+
+A `{% call %}` block body replaces the default glyph inside the button
+— the Nunjucks equivalent of the canonical helper's `children`:
+
+```njk
+{% call localeSelect({label: "Language", locales: locales}) %}
+  <svg class="my-icon" aria-hidden="true" viewBox="0 0 16 16">…</svg>
+{% endcall %}
+```
+
+The block replaces only the glyph. It does not render options, and it
+must not supply the accessible name — that stays on `aria-label`.
 
 ### 4.2 DOM contract (macro output)
 
-- Root element: `<select class="locale-select {classes}"
-  aria-label="{label}" name="{name}"
-  data-lily-locale-select-root
-  data-lily-locale-select-name="{name}"
-  data-lily-locale-select-storage-key="{storageKey}"
-  data-lily-locale-select-default-value="{defaultValue}"
-  data-lily-locale-select-detect-from-navigator="{true|false}"
-  data-lily-locale-select-apply-dir="{true|false}"
-  data-lily-locale-select-value="{value}">`.
+```html
+<div class="locale-select {classes}"
+     data-lily-locale-select-root
+     data-lily-locale-select-name="{name}"
+     data-lily-locale-select-storage-key="{storageKey}"
+     data-lily-locale-select-default-value="{defaultValue}"
+     data-lily-locale-select-detect-from-navigator="{true|false}"
+     data-lily-locale-select-apply-dir="{true|false}"
+     data-lily-locale-select-value="{value}"
+     {…attributes}>
+  <input type="hidden" name="{name}" value="{selected}"
+         data-lily-locale-select-input>
+  <button type="button" class="locale-select-button"
+          aria-label="{label}" aria-haspopup="listbox"
+          aria-expanded="false" aria-controls="{id}-list"
+          data-lily-locale-select-button>
+    <span class="locale-select-icon" aria-hidden="true">&#127760;&#65038;</span>
+  </button>
+  <ul class="locale-select-list" id="{id}-list" role="listbox"
+      aria-label="{label}" tabindex="-1" hidden
+      data-lily-locale-select-list>
+    <li class="locale-select-option" id="{id}-option-{i}" role="option"
+        aria-selected="true|false" data-value="{locale}"
+        lang="{tagFor(locale)}">{labelFor(locale)}</li>
+  </ul>
+</div>
+```
+
+- The root is a `<div>` carrying the `locale-select` class hook plus the
+  consumer's `classes`; `attributes` spread onto it.
+- The button glyph is U+1F310 GLOBE WITH MERIDIANS followed by U+FE0E VARIATION SELECTOR-15 (`&#127760;&#65038;`),
+  wrapped in `aria-hidden="true"`. The accessible name comes from
+  `aria-label` alone — the glyph is never the name. VS15 requests the
+  TEXT presentation: without it browsers pick the colour-emoji font and
+  the globe renders blue, which does not match theme-select's
+  monochrome ◑ (U+25D1 is not an emoji codepoint, so it needs no
+  selector). Verified in Chromium.
+- Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form)
+  for WCAG 3.1.2 (Language of Parts), so assistive technology
+  pronounces each locale's name in its own language. The button and
+  the `<ul>` carry NO `lang` — they are chrome, not content.
 - `data-lily-locale-select-value` is emitted **only when `opts.value`
-  is non-empty**; it is the sole channel by which the consumer's
-  `value` prop reaches the client.
-- The FIRST child of the `<select>` is the component-owned placeholder
-  option: `<option class="locale-select-option locale-select-placeholder"
-  value="" selected>{placeholder ?? label}</option>`. It is always
-  rendered, always carries an empty `value`, and is the option the
-  closed control displays. It carries NO `lang`: it is not a locale.
-- The placeholder is the **only** option that ever carries `selected`
-  in the macro output. A `<select>` with two `selected` options is
-  resolved by the browser in favour of the *last* one, so rendering
-  `selected` on the matching real option would paint the locale name
-  until the client snapped it back — a visible flash on every load
-  where `opts.value` is set. The macro therefore never does it.
-- Then one `<option class="locale-select-option" value="{locale}"
-  lang="{tagFor(locale)}">{labelFor(locale)}</option>`
-  per locale — never `selected`.
-- Each locale option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen
-  form) for WCAG 3.1.2 (Language of Parts).
-- The `<select>`'s own `value` is therefore **not** a mirror of the
-  active locale: after every apply it is snapped back to `""` (the
-  placeholder) by the client. The active locale lives in `lang` /
-  `dir` on the target, in `localStorage` when `storageKey` is set, and
-  in the `onChange(code)` argument.
+  is non-empty**; it remains the sole channel by which the consumer's
+  `value` prop reaches the client. It is a data attribute rather than
+  baked-in control state precisely so the browser paints nothing the
+  client will have to correct.
+- The macro resolves a server-side `selected` code as
+  `value or defaultValue or ("en" if present else locales[0])`. It
+  marks exactly ONE option `aria-selected="true"` and every other
+  option `aria-selected="false"`, and pre-fills the hidden input with
+  it. `storageKey` and `navigator.languages` are client-only inputs, so
+  the client may resolve a different code after it runs; that is
+  expected, and the listbox is closed while it happens.
+- The listbox renders `hidden`, the button renders
+  `aria-expanded="false"`, no option carries `data-active`, and the
+  list carries no `aria-activedescendant`. Those are all client-owned,
+  open-state concerns.
+- Option ids are deterministic: `{id}-option-{index}`, where `id`
+  defaults to `locale-select-{name}`. No `Math.random`, no `Date.now`,
+  so server and client markup always agree.
+- The hidden `<input>` preserves form participation and the `name`
+  prop. It is pre-filled server-side with the consumer-form code (not
+  the BCP 47 form), so a form submitted without any JS still carries a
+  locale.
+- The macro output contains NO inline `<style>` and NO `<script>`.
 
 ### 4.3 Client.js exports
 
@@ -157,7 +220,8 @@ select that:
 | `defaultLocaleLabels`     | `Record<string, string>`                        | Built-in 436-row table. |
 | `RTL_LANGUAGE_TAGS`       | `Set<string>`                                   | Base subtag RTL set. |
 | `RTL_SCRIPT_SUBTAGS`      | `Set<string>`                                   | Script subtag RTL set. |
-| `initLocaleSelect(root, opts?)` | `(HTMLElement, object?) => {setLocale, destroy}` | Wire one `<select>`. |
+| `GLOBE_WITH_MERIDIANS`    | `string`                                        | The default button glyph, U+1F310. |
+| `initLocaleSelect(root, opts?)` | `(HTMLElement, object?) => {setLocale, destroy}` | Wire one rendered root. |
 | `autoInit(opts?)`         | `(object?) => Array<{setLocale, destroy}>`      | Wire every root on the page. |
 
 Optional `opts`:
@@ -166,6 +230,13 @@ Optional `opts`:
   consumer-form code.
 - `target` — element receiving `lang` and `dir` (defaults to
   `document.documentElement`).
+
+`initLocaleSelect` returns a controller with `setLocale(code)` and
+`destroy()`. `destroy()` removes every event listener the module
+attached, including the one on `document`; the applied DOM is left
+as-is. The function returns an inert controller (both methods no-ops)
+when `document` is undefined, when `root` is falsy, or when the
+expected button / listbox children are missing.
 
 ## 5. Behaviour
 
@@ -178,7 +249,7 @@ normalisation is applied.
 
 The initial locale is the first non-empty value of:
 
-1. The `<select>`'s `data-lily-locale-select-value` attribute (i.e.
+1. The root's `data-lily-locale-select-value` attribute (i.e.
    the consumer's `value` prop). The macro omits the attribute
    entirely when `opts.value` is unset, so an absent attribute reads
    as `""` and falls through.
@@ -186,9 +257,9 @@ The initial locale is the first non-empty value of:
    and the read does not throw).
 3. `matchNavigatorLanguage(navigator.languages, locales)` (only if
    `detectFromNavigator` is true).
-4. The `<select>`'s `data-lily-locale-select-default-value`.
+4. The root's `data-lily-locale-select-default-value`.
 5. `"en"` if present among the rendered option values.
-6. The first option value, or `""` if none.
+6. The first option's `data-value`, or `""` if none.
 
 ### 5.3 Navigator-language matching
 
@@ -224,19 +295,55 @@ Applying a locale `code` performs, in order:
 3. If `applyDir` is true, set `target.dir = isRtlLocale(code)
    ? "rtl" : "ltr"`.
 4. If `storageKey` is non-empty, write `code` to `localStorage`.
-5. Set the `<select>` value to `""`, snapping the control back to its
-   placeholder option so the closed control keeps reading the
-   placeholder word rather than the active locale name.
+5. Mirror `code` (consumer form) into the hidden input's `value`, and
+   re-derive every option's `aria-selected` so exactly one reads
+   `"true"`.
 6. Call `opts.onChange?.(code)` if supplied (consumer-form code).
 
-The client.js attaches one `change` listener on the `<select>`. On
-each change it reads the chosen code, immediately resets
-`select.value = ""`, and then applies the code (choosing the
-placeholder itself is a no-op). Because the reset happens
-synchronously inside the listener, a consumer's own `change` listener
-that reads `event.target.value` will see `""`. Consumers who need the
-chosen code should use the `onChange(code)` callback or read `lang`
-from the target.
+The client.js attaches listeners for `click` and `keydown` on the
+button, `click` and `keydown` on the listbox, `focusout` on the root,
+and `click` on `document` (for click-outside dismissal). Choosing an
+option — by click or by `Enter` / `Space` — applies the code and
+closes the listbox. `setLocale` on the returned controller performs
+the same apply without touching open state.
+
+Note that `aria-selected` tracks the APPLIED locale, not the active
+option. Moving the active option with the arrow keys changes
+`data-active` and `aria-activedescendant` only; nothing is selected
+until the user commits.
+
+### 5.5.1 Open / close
+
+Opening sets `list.hidden = false`, `aria-expanded="true"`, seeds the
+active option, and moves focus to the `<ul>`. Closing sets
+`list.hidden = true`, `aria-expanded="false"`, clears `data-active`
+and `aria-activedescendant`, and — except after `Tab` and except when
+the close was caused by a click outside or focus leaving the root —
+returns focus to the button.
+
+### 5.5.2 Keyboard contract (WAI-ARIA APG listbox)
+
+On the **button**:
+
+| Key | Action |
+| --- | ------ |
+| `ArrowDown`, `Enter`, `Space` | Open, active option = the selected one (or index 0). |
+| `ArrowUp` | Open, active option = the LAST option. |
+
+On the **listbox**:
+
+| Key | Action |
+| --- | ------ |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends; does NOT wrap. |
+| `Home` / `End` | Jump to the first / last option. |
+| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
+| `Escape` | Close and return focus, leaving the value unchanged. |
+| `Tab` | Close without stealing focus back, so the browser's own Tab handling proceeds. |
+| Printable character | Typeahead over the option labels; the buffer accumulates and resets 500 ms after the last keystroke. Chords with Ctrl / Meta / Alt are ignored. |
+
+Pointer behaviour: clicking an option selects it; clicking the button
+toggles; clicking outside the root closes; focus leaving the root
+closes.
 
 ### 5.6 RTL detection
 
@@ -255,14 +362,36 @@ Macro renders deterministic markup; no DOM access at template time.
 Client.js touches `document` only after `initLocaleSelect(root)` is
 called.
 
+### 5.8 The no-JS story
+
+**The control is not operable before the client JS runs.** The button
+is inert: it has no handler, so it will not open the listbox, and the
+listbox stays `hidden`. This is a genuine regression from the native
+`<select>` this helper used to render, which was fully usable with no
+JS at all. The only no-JS affordance that survives is the pre-filled
+hidden input, which lets a form submit still carry a locale — a submit
+path, not a choice path. Consumers for whom no-JS operability is a
+hard requirement should render their own `<select>` and wire it with
+the exported pure helpers. See [docs/ssr.md](../docs/ssr.md).
+
 ## 6. Accessibility
 
-- `<select aria-label="{label}">` is the announced combobox
-  container.
-- The native `<select>` provides Arrow / Home / End / typeahead /
-  Tab semantics.
-- Each `<option>` carries `lang="{tagFor(locale)}"` (WCAG 3.1.2,
-  Language of Parts).
+- The button carries `aria-haspopup="listbox"`, `aria-expanded`, and
+  `aria-controls`; the `<ul>` carries `role="listbox"`; each `<li>`
+  carries `role="option"` and an explicit `aria-selected`.
+- The active option is conveyed with `aria-activedescendant` on the
+  focused `<ul>`, per the APG listbox pattern — focus itself stays on
+  the `<ul>`.
+- `aria-label` is the ONLY accessible name the button has, because the
+  glyph is `aria-hidden`. A missing or vague `label` leaves the
+  control effectively unnamed.
+- Each `<li role="option">` carries `lang="{tagFor(locale)}"` (WCAG
+  3.1.2, Language of Parts) so each locale name is pronounced in its
+  own language. The button and the `<ul>` deliberately do not.
+- A custom listbox has weaker and less consistent assistive-technology
+  support than a native `<select>`, and the glyph may render
+  differently or be absent depending on platform fonts. Both tradeoffs
+  are stated in [docs/accessibility.md](../docs/accessibility.md).
 - The document root receives `lang` and (by default) `dir` (WCAG
   3.1.1 and 1.4.10).
 - WCAG 2.2 AAA is the target.
@@ -272,20 +401,28 @@ called.
 `locale-select.test.ts` must assert every numbered item below.
 Tests run under vitest + jsdom. Items 1–6 exercise the macro via
 `nunjucks.renderString`; items 7–12 exercise the pure helpers;
-items 13–23 exercise the client.js lifecycle against a jsdom
-document populated from the macro output.
+items 13–27 exercise the client.js lifecycle and the listbox
+interaction against a jsdom document populated from the macro output;
+items 28–35 cover the server-rendered listbox state and the keyboard
+contract.
 
 ### 7.1 Markup contract (macro)
 
-1. Macro renders a `<select>` (implicit `role="combobox"`).
-2. Macro renders `aria-label` equal to the supplied `label`.
-3. Macro renders one placeholder `<option>` plus one `<option>` per
-   entry in `locales`, and the `<select>` carries the supplied `name`
-   attribute.
-4. Each locale `<option>`'s `value` attribute is the locale code,
-   preceded by the placeholder's empty `value`.
-5. Each locale `<option>` carries `lang="{tagFor(locale)}"` (BCP 47
-   hyphen form); the placeholder option carries no `lang`.
+1. Macro renders a `<div class="locale-select">` root containing a
+   `<button type="button">` with `aria-haspopup="listbox"`,
+   `aria-expanded="false"`, and `aria-controls` pointing at a
+   `<ul role="listbox" tabindex="-1">`. The button renders the U+1F310
+   glyph inside an `aria-hidden` span, so the glyph is never the
+   accessible name.
+2. `aria-label` equals the supplied `label` on BOTH the button and the
+   listbox.
+3. Macro renders one `<li role="option">` per entry in `locales`; the
+   hidden input carries the supplied `name`.
+4. Each option carries its locale code on `data-value` and a unique,
+   deterministic id; re-rendering the same macro call yields the same
+   ids. An explicit `id` namespaces `{id}-list` and `{id}-option-{i}`.
+5. Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form);
+   the button and the `<ul>` carry no `lang`.
 6. `localeLabels[code]` overrides the default option text; missing
    entries fall back to the raw code.
 
@@ -307,10 +444,9 @@ document populated from the macro output.
     initial locale.
 14. After init, `target.dir` is `"rtl"` for an RTL initial locale.
 15. When `applyDir` is `false`, the `dir` attribute is not written.
-16. Setting the `<select>` to a different value and firing a
-    `change` event updates `lang`, `dir`, and fires `onChange` with
-    the new locale code in its consumer form (not the BCP
-    47-normalised tag).
+16. Choosing a different option updates `lang`, `dir`, the hidden
+    input's value, and fires `onChange` with the new locale code in
+    its consumer form (not the BCP 47-normalised tag).
 17. A custom `target` element receives `lang` and `dir` instead of
     `document.documentElement`.
 
@@ -318,9 +454,9 @@ document populated from the macro output.
 
 18. When `storageKey` is set, the active code is written to
     `localStorage` and read back on a fresh init.
-19. When the macro renders `value` as a non-empty prop, the
-    `<select>` carries `data-lily-locale-select-value="{value}"` and
-    the initial-value resolution uses the supplied value (skipping
+19. When the macro renders `value` as a non-empty prop, the root
+    carries `data-lily-locale-select-value="{value}"` and the
+    initial-value resolution uses the supplied value (skipping
     storage, navigator, and defaults).
 20. When `detectFromNavigator` is true and `navigator.languages`
     contains a supported locale, the client resolves to that
@@ -329,30 +465,56 @@ document populated from the macro output.
     match is available, the client resolves to the language-only
     locale.
 
-### 7.5 Spread + autoInit
+### 7.5 Spread, caller, autoInit
 
-22. Extra attributes spread through onto the `<select>` root.
+22. Extra attributes spread through onto the root `<div>`.
 23. `autoInit()` wires every `[data-lily-locale-select-root]` on
-    the page.
+    the page, and distinct `name`s yield distinct id namespaces.
+24. A `{% call %}` block body replaces the default glyph inside the
+    button; `aria-label` still carries the accessible name.
+25. `destroy()` detaches every listener the module attached.
 
-### 7.6 Placeholder contract
+### 7.6 Server-rendered listbox state
 
-24. The placeholder option is the first child of the `<select>`,
-    carries `class="locale-select-option locale-select-placeholder"`,
-    renders the `label` text, and has `value=""`. After
-    `initLocaleSelect(root)` the `<select>`'s own value is still `""`
-    while `lang` carries the resolved locale.
-25. A supplied `placeholder` overrides `label` as the placeholder
-    option's text, while `aria-label` still carries `label`.
-26. Firing a `change` event with a real locale code applies that
-    locale AND snaps the `<select>` value back to `""`.
-27. When `opts.value` is set, the server-rendered markup contains
-    exactly ONE `selected` option and it is the placeholder. No real
-    option carries `selected`, and the `<select>`'s value is `""`
-    before any client code runs. (Regression guard for the
-    pre-hydration flash — see §4.2.)
-28. When `opts.value` is unset, the `<select>` carries no
+These replace the retired placeholder contract. There is no
+placeholder and no `<select>` to pin, so the meaningful pre-hydration
+invariants are that the listbox is closed and that exactly one option
+is marked selected.
+
+26. `data-lily-locale-select-value` carries `opts.value` and is the
+    sole channel by which it reaches the client;
+    `initLocaleSelect(root)` resolves the initial locale from it.
+27. When `opts.value` is unset, the root carries no
     `data-lily-locale-select-value` attribute at all.
+28. In the server markup, before any JS runs, the listbox is `hidden`,
+    the button is `aria-expanded="false"`, no option carries
+    `data-active`, and the list carries no `aria-activedescendant`.
+29. In the server markup exactly ONE option has
+    `aria-selected="true"` and every other option has an explicit
+    `aria-selected="false"`. With `opts.value` set it is that value;
+    with no value it is `"en"` when present, else `locales[0]`.
+30. The hidden input is pre-filled server-side with the resolved
+    consumer-form code, so a no-JS form submit still carries a locale.
+
+### 7.7 Keyboard contract
+
+31. On the button, `ArrowDown` / `Enter` / `Space` open the listbox,
+    set `aria-expanded="true"`, and move focus to the `<ul>`;
+    `ArrowUp` opens with the LAST option active.
+32. Opening seeds the active descendant on the selected locale.
+    `ArrowDown` / `ArrowUp` move it and clamp at both ends rather than
+    wrapping; `Home` / `End` jump to the first / last option.
+33. `Enter` and `Space` on the listbox select the active option, apply
+    it, close the listbox, and return focus to the button.
+34. `Escape` closes and returns focus without changing the locale and
+    without firing `onChange`. `Tab` closes without stealing focus
+    back.
+35. Printable characters run a typeahead over the option labels; the
+    buffer accumulates across keystrokes and resets 500 ms after the
+    last one; chords with Ctrl / Meta / Alt are ignored. Clicking an
+    option selects it, clicking the button toggles, clicking outside
+    closes, and focus leaving the root closes. `aria-selected` follows
+    the applied locale rather than the merely-active option.
 
 ## 8. Out-of-scope (future)
 

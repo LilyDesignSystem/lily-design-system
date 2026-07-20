@@ -19,11 +19,15 @@ import {
 The default export is `ThemeSelect` for consumers who prefer
 `import ThemeSelect from "./lily-design-system-react-theme-select"`.
 
+The default glyph constant `CIRCLE_WITH_RIGHT_HALF_BLACK` is exported
+from `ThemeSelect.tsx` but is not re-exported by the barrel; import it
+from `./ThemeSelect` directly if needed.
+
 ## Required props
 
 | Prop        | Type     | Notes                                                  |
 | ----------- | -------- | ------------------------------------------------------ |
-| `label`     | `string` | Accessible name (`aria-label`) on the `<select>`.      |
+| `label`     | `string` | Accessible name (`aria-label`) on the button and the listbox. |
 | `themesUrl` | `string` | Base URL of the themes directory. Trailing `/` optional. |
 | `themes`    | `string[]` | Available theme slugs.                               |
 
@@ -36,14 +40,14 @@ Omit any required prop and TypeScript errors at the call site.
 | `value`        | `string`                                 | `undefined` (uncontrolled)                       |
 | `defaultValue` | `string`                                 | `"light"` if in themes, else first item          |
 | `storageKey`   | `string`                                 | `undefined` (no persistence)                     |
-| `name`         | `string`                                 | `"theme"`                                        |
+| `name`         | `string`                                 | `"theme"` (managed `<link>` discriminator + hidden input name) |
 | `extension`    | `string`                                 | `".css"`                                         |
 | `target`       | `HTMLElement \| null`                    | `document.documentElement`                       |
 | `themeLabels`  | `Record<string, string>`                 | `{}`                                             |
 | `onChange`     | `(slug: string) => void`                 | `undefined`                                      |
-| `children`     | `(args: ChildArgs) => React.ReactNode`   | default `<option>` markup                        |
+| `children`     | `(args: ChildArgs) => React.ReactNode`   | the half-circle glyph inside the button          |
 | `className`    | `string`                                 | `""`                                             |
-| `...restProps` | `SelectHTMLAttributes` minus the above   | spread onto root                                 |
+| `...restProps` | `HTMLAttributes<HTMLDivElement>` minus the above | spread onto the root `<div>`             |
 
 ## Controlled vs uncontrolled
 
@@ -68,24 +72,28 @@ controlled/uncontrolled warning fires).
 
 ## ChildArgs
 
+`children` replaces the glyph **inside the button**. It does not render
+the options — the component owns those, along with their ids, ARIA
+state, and the keyboard contract.
+
 ```ts
 type ChildArgs = {
-    themes: string[];
     value: string;
-    setTheme: (theme: string) => void;
-    name: string;
+    open: boolean;
     labelFor: (theme: string) => string;
 };
 ```
 
-- `themes` — pass-through of the `themes` prop.
 - `value` — current resolved value. Empty string before first-mount
   resolution completes.
-- `setTheme` — imperative setter. Updates internal state (uncontrolled)
-  and applies to the DOM. Consumer's `onChange` fires.
-- `name` — pass-through of the `name` prop (default `"theme"`).
+- `open` — whether the listbox is currently expanded. Useful for
+  swapping a caret direction.
 - `labelFor(slug)` — resolves to `themeLabels[slug]` if defined,
-  otherwise slug with first character upper-cased.
+  otherwise the slug with each hyphen-separated word title-cased.
+
+There is no `setTheme` and no `themes` / `name` pass-through: a glyph
+has no reason to mutate the selection. Consumers who need imperative
+control use the controlled `value` + `onChange` pair instead.
 
 ## Pure helpers
 
@@ -102,6 +110,26 @@ These functions are pure, server-safe, and have no React dependency.
 
 ## DOM contract
 
+Rendered tree (full contract in
+[`../spec/index.md §4.2`](../spec/index.md#42-dom-contract)):
+
+```html
+<div class="theme-select {className}" ...restProps>
+  <input type="hidden" name="{name}" value="{value}" />
+  <button type="button" class="theme-select-button"
+          aria-label="{label}" aria-haspopup="listbox"
+          aria-expanded="false" aria-controls="{listId}">
+    <span class="theme-select-icon" aria-hidden="true">◑</span>
+  </button>
+  <ul class="theme-select-list" id="{listId}" role="listbox"
+      aria-label="{label}" tabindex="-1" hidden
+      aria-activedescendant="{optionId of active, only while open}">
+    <li class="theme-select-option" id="{optionId}" role="option"
+        aria-selected="true|false" data-active>Light</li>
+  </ul>
+</div>
+```
+
 After mount and on every theme change:
 
 | Side effect            | Element                                                 |
@@ -113,12 +141,14 @@ After mount and on every theme change:
 
 ## Type-level invariants
 
-- `Props` extends `SelectHTMLAttributes<HTMLSelectElement>` minus
-  the `onChange` and `children` keys, which the select reserves.
-- `ChildArgs.themes` is the same array reference passed in via
-  `themes`; not a copy.
-- `ChildArgs.setTheme` is stable across renders (no useCallback
-  wrapper provided; React treats it as a function identity).
+- `Props` extends `HTMLAttributes<HTMLDivElement>` minus the
+  `onChange`, `children`, and `defaultValue` keys, which the component
+  reserves.
+- `children` is `(args: ChildArgs) => React.ReactNode`, not
+  `React.ReactNode`. Passing a raw element is a TypeScript error, by
+  design.
+- `ChildArgs.labelFor` is re-created on each render; it is a pure
+  function of `themeLabels`, so do not rely on referential equality.
 
 ## Versioning
 

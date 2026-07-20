@@ -6,26 +6,25 @@ common usage.
 
 ## `label` — required, string
 
-`aria-label` on the `<select>`. Always supplied, always translatable.
-Screen readers announce it as the control's accessible name. Also the
-default text of the placeholder option — see `placeholder` below.
+`aria-label` on **both** the trigger `<button>` and the popup
+`<ul role="listbox">`. Always supplied, always translatable.
 
-## `placeholder` — optional, string, defaults to `label`
+Because the button renders only an `aria-hidden` glyph, this prop is
+the control's *entire* accessible name — there is no visible text to
+fall back on. Passing an empty or untranslated string leaves the
+control announced as a bare "button". See
+[accessibility.md § Tradeoff 1](./accessibility.md#tradeoff-1--the-accessible-name-rests-entirely-on-aria-label).
 
-Text of the leading placeholder `<option>`. The `<select>` pins its own
-selection to that option, so the closed control always displays this
-string rather than the active theme name — which is what keeps the
-control as narrow as one word instead of as wide as the longest theme
-name.
+## `placeholder` — removed
 
-Supply it when the accessible name and the visible word should differ,
-e.g. `label="Choose a colour theme"` with `placeholder="Theme"`. Like
-every user-facing string in this package it comes from the consumer;
-nothing is hardcoded.
+This prop existed in 0.3.0 to name the pinned option of a native
+`<select>`. There is no `<select>` and no pinned option any more, so
+the prop is gone. Passing it is a no-op — it falls through `restProps`
+onto the root `<div>` as a stray `placeholder` attribute.
 
-The active theme remains in the bindable `value` prop. See
-[accessibility.md](./accessibility.md) for the announcement tradeoff
-this creates and how to compensate.
+If you were using it to give the closed control a short visible word,
+render that word yourself with the `children` snippet, which replaces
+the button's glyph.
 
 ## `themesUrl` — required, string
 
@@ -74,12 +73,36 @@ falls back to `"light"` (when present in `themes`) and then to
 Errors (private mode, quota, disabled storage) are silently swallowed
 — the select continues to work in-memory.
 
+## `detectFromSystem` — optional, boolean — defaults to `false`
+
+When `true` and neither `value` nor storage supplied a slug, resolve
+the OS colour-scheme preference to a supported theme on first mount.
+`matchMedia("(prefers-color-scheme: dark)")` maps to the slug `"dark"`
+or `"light"`, and is used only if that slug is present in `themes`.
+
+It sits below storage in the resolution order, so a user who explicitly
+picked a theme keeps it when they later flip their OS setting:
+
+```
+value > storage > detectFromSystem > defaultValue > "light" > themes[0]
+```
+
+Returns nothing useful during SSR (and under jsdom), where `matchMedia`
+is unavailable — resolution simply falls through to the next step.
+
+This mirrors `detectFromNavigator` in `locale-select`. The underlying
+`matchSystemTheme(themes)` helper is exported from
+`ThemeSelect.svelte` if you want to call it yourself.
+
+To *track* the OS preference for the whole session rather than only
+resolving it once, see [recipes.md](./recipes.md).
+
 ## `name` — optional, string — defaults to `"theme"`
 
-The `name` attribute of the `<select>`. It also serves as the
-discriminator on the managed `<link>` element
-(`data-lily-theme-select="{name}"`), so multiple selects can coexist
-by giving each a distinct `name`.
+The `name` attribute of the hidden `<input type="hidden">` that carries
+the value for form submission. It also serves as the discriminator on
+the managed `<link>` element (`data-lily-theme-select="{name}"`), so
+multiple selects can coexist by giving each a distinct `name`.
 
 ## `extension` — optional, string — defaults to `".css"`
 
@@ -96,10 +119,14 @@ whole document.
 
 ## `themeLabels` — optional, Record<string, string>
 
-Per-slug display label override. When unset, default labels title-case
-the slug: `"light"` → `"Light"`, `"abyss"` → `"Abyss"`. Use
+Per-slug display label override. When unset, labels come from the
+exported `themeName(slug)`, which title-cases each hyphen-separated
+word: `"light"` → `"Light"`, `"high-contrast"` → `"High Contrast"`. Use
 `themeLabels` for i18n or for slugs that don't gracefully title-case
 (e.g. `"united-kingdom-national-health-service-england-for-patients"`).
+
+Labels are also what the listbox's typeahead searches, so a label
+override changes which keystrokes jump where.
 
 ## `onChange` — optional, (slug: string) => void
 
@@ -108,30 +135,37 @@ analytics, server sync, or notifying sibling components.
 
 ## `children` — optional, Snippet<[ChildArgs]>
 
-Custom rendering of the options (custom `<option>` elements by
-default). The snippet receives:
+**Replaces the glyph inside the trigger button.** It does *not* render
+the options — the listbox and its `<li role="option">` children are
+component-owned and always emitted.
+
+The snippet receives:
 
 ```ts
 type ChildArgs = {
-  themes: string[];
+  /** Currently selected theme slug. */
   value: string;
-  setTheme: (theme: string) => void;
-  name: string;
+  /** Is the listbox open? */
+  open: boolean;
+  /** Resolve a slug to its display label. */
   labelFor: (theme: string) => string;
 };
 ```
 
-See [custom-rendering.md](./custom-rendering.md) for patterns.
+When supplied, no `.theme-select-icon` span is emitted. See
+[custom-rendering.md](./custom-rendering.md) for patterns.
 
 ## `class` — optional, string
 
-Extra CSS class hook on the `<select>`. Always emitted after
+Extra CSS class hook on the root `<div>`. Always emitted after
 `"theme-select"`, so consumer styles can use either selector.
 
-## `...restProps` — any `<select>` attributes
+## `...restProps` — any HTML attributes
 
-Spread onto the root. Use to attach `data-*`, `id`, event handlers,
-and ARIA overrides.
+Spread onto the root `<div>`. Use to attach `data-*`, `id`, event
+handlers, and ARIA overrides. Note that attributes meant for the
+*button* (such as `aria-labelledby`) land on the root, not the button
+— pass them deliberately.
 
 ---
 

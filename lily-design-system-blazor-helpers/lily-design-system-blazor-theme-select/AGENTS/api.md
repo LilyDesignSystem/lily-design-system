@@ -15,11 +15,14 @@ public sealed class ThemeSelectContext { /* … */ }
 public partial class ThemeSelect : ComponentBase { /* … */ }
 ```
 
-The two static helpers used by tests and consumers are public:
+The static helpers, the default-glyph constant, and the imperative
+setter used by tests and consumers are public:
 
 ```csharp
+public const string CircleWithRightHalfBlack = "◑"; // U+25D1
 public static string NormaliseThemesUrl(string themesUrl);
 public static string ThemeHref(string themesUrl, string slug, string extension);
+public Task SetThemeAsync(string slug);
 ```
 
 A consumer adds the namespace import once:
@@ -36,7 +39,6 @@ A consumer adds the namespace import once:
 | Parameter            | Type                                | Required | Default                                          |
 | -------------------- | ----------------------------------- | -------- | ------------------------------------------------ |
 | `Label`              | `string`                            | yes      | `""`                                             |
-| `Placeholder`        | `string?`                           | no       | `null` (falls back to `Label`)                   |
 | `ThemesUrl`          | `string`                            | yes      | `""`                                             |
 | `Themes`             | `IReadOnlyList<string>`             | yes      | `Array.Empty<string>()`                          |
 | `Value`              | `string`                            | no       | `""`                                             |
@@ -47,9 +49,12 @@ A consumer adds the namespace import once:
 | `Extension`          | `string`                            | no       | `".css"`                                         |
 | `ThemeLabels`        | `IReadOnlyDictionary<string,string>`| no       | empty `Dictionary<string, string>()`             |
 | `OnChange`           | `EventCallback<string>`             | no       | —                                                |
-| `ChildContent`       | `RenderFragment<ThemeSelectContext>?`| no      | `null` (default option markup)                   |
+| `ChildContent`       | `RenderFragment<ThemeSelectContext>?`| no      | `null` (the default glyph)                       |
 | `CssClass`           | `string`                            | no       | `""`                                             |
 | `AdditionalAttributes` | `Dictionary<string, object>?`     | no       | `null`                                           |
+
+There is **no `Placeholder` parameter**. It existed only to pin a
+native `<select>`'s closed display; there is no `<select>` any more.
 
 `Value` is two-way bindable via `@bind-Value`. Other attributes
 (`id`, `data-*`, ARIA overrides, `@onclick`) flow through
@@ -66,7 +71,8 @@ declaration.
 `ValueChanged` is the half of `@bind-Value` that flows from the
 component back to the parent. It fires:
 
-- after a `<select>` change,
+- when an option is chosen (by click or by `Enter` / `Space` in the
+  listbox), via `SetThemeAsync`,
 - once on first `OnAfterRenderAsync(true)` if the resolved initial
   value differs from the supplied `Value` parameter.
 
@@ -75,15 +81,20 @@ theme. Use it for analytics, server sync, or cookie writes.
 
 ## ChildContent render fragment
 
+`ChildContent` **replaces the glyph inside the button**. It does not
+render options — the `<li role="option">` elements are always
+component-owned.
+
 `ThemeSelectContext` shape:
 
 ```csharp
 public sealed class ThemeSelectContext
 {
-    public required IReadOnlyList<string> Themes { get; init; }
+    /// Currently selected theme slug.
     public required string Value { get; init; }
-    public required Func<string, Task> SetTheme { get; init; }
-    public required string Name { get; init; }
+    /// Is the listbox open?
+    public required bool Open { get; init; }
+    /// Resolve a slug to its display label.
     public required Func<string, string> LabelFor { get; init; }
 }
 ```
@@ -91,20 +102,18 @@ public sealed class ThemeSelectContext
 Consumers use it via `<ChildContent Context="ctx">`:
 
 ```razor
-<ThemeSelect Label="Theme" ThemesUrl="/t/" Themes="@(new[]{ "light" })">
+<ThemeSelect Label="Theme" ThemesUrl="/t/" Themes="@(new[]{ "light", "dark" })">
     <ChildContent Context="ctx">
-        @foreach (var t in ctx.Themes)
-        {
-            <button type="button" @onclick="@(() => ctx.SetTheme(t))">
-                @ctx.LabelFor(t)
-            </button>
-        }
+        <span aria-hidden="true">@(ctx.Open ? "▲" : "▼")</span>
     </ChildContent>
 </ThemeSelect>
 ```
 
-When no `ChildContent` is supplied, the select renders the default
-option markup documented in `spec/index.md §4.2`.
+When no `ChildContent` is supplied, the button renders the default
+glyph markup documented in `spec/index.md §4.2`.
+
+To drive the control from your own UI instead, call the public
+`SetThemeAsync(slug)` on a `@ref`-captured instance.
 
 ## Pure helpers
 
@@ -131,26 +140,37 @@ exposing the implementation to consumers.
 
 ## DOM contract
 
-Root element:
+An icon button plus a dropdown listbox (`spec/index.md §4.2`):
 
 ```html
-<select class="theme-select {CssClass}" aria-label="{Label}" name="{Name}">
-    <!-- ChildContent or default markup -->
-</select>
+<div class="theme-select {CssClass}" ...AdditionalAttributes>
+  <input type="hidden" name="{Name}" value="{Value}" />
+  <button type="button" class="theme-select-button"
+          aria-label="{Label}" aria-haspopup="listbox"
+          aria-expanded="false" aria-controls="{listId}">
+    <span class="theme-select-icon" aria-hidden="true">&#9681;</span>
+  </button>
+  <ul class="theme-select-list" id="{listId}" role="listbox"
+      aria-label="{Label}" tabindex="-1" hidden
+      aria-activedescendant="{optionId of active, only while open}">
+    <li class="theme-select-option" id="{optionId}" role="option"
+        aria-selected="true|false" data-active>{LabelFor(slug)}</li>
+  </ul>
+</div>
 ```
 
-Leading placeholder option (always first, in both the default and the
-`ChildContent` code paths; the only option ever marked `selected`):
+`AdditionalAttributes` spread onto the root `<div>`. The glyph is the
+`CircleWithRightHalfBlack` constant, `aria-hidden` so the accessible
+name comes only from `aria-label`. The hidden input preserves form
+participation; `Name` also discriminates the managed `<link>`.
+`hidden` on the `<ul>` and `aria-expanded` on the button track the
+same open state. Ids are `{instance}-list` and
+`{instance}-option-{index}`, where `{instance}` is `theme-select-{n}`
+from a monotonic process-wide counter — stable and SSR-safe.
 
-```html
-<option class="theme-select-option theme-select-placeholder" value="" selected>{Placeholder ?? Label}</option>
-```
-
-Default option markup (one per `Themes` entry, never `selected`):
-
-```html
-<option class="theme-select-option" value="{slug}">{LabelFor(slug)}</option>
-```
+There is no `<select>`, no placeholder option, and no snap-back
+interop write. The real selection lives in `Value`, which remains
+two-way bindable.
 
 Document mutations (only inside `OnAfterRenderAsync(true)` and
 subsequent `SetThemeAsync` calls):

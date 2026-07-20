@@ -1,14 +1,27 @@
 <!doctype html>
 <!--
-    Example 10 — Combobox with type-ahead via <input list> + <datalist>.
+    Example 10 — Filter-as-you-type combobox via <input list> +
+    <datalist> (a TIER 2 subclass).
 
-    For long locale lists (50+) where scrolling a plain <select> is
-    tedious. Uses native <datalist> for accessible type-ahead. The
-    select validates the typed value against the supported set
-    before applying.
+    The default rendering already has a typeahead: open the listbox
+    and start typing, and the active option jumps to the first label
+    with that prefix (500 ms buffer). That is prefix-jump, not
+    filtering — with all 436 built-in locales you still scroll a
+    436-row list. This example trades the listbox for a text input
+    that FILTERS, which is the right shape at that scale.
 
-    Type "Fr" — the datalist filters to "Français", "Français
-    (Canada)", "Frisian", etc. Pick one and the select applies.
+    Type "Fr" — the datalist narrows to "French", "French (Canada)",
+    "Frisian", etc. Pick one and the select applies it. The subclass
+    validates the typed value against the supported set before
+    writing `this.value`.
+
+    THIS IS TIER 2, so it takes over the accessibility and keyboard
+    contracts from the base class. It gets away with it because a
+    native <input list> is itself an accessible, keyboard-operable
+    combobox. It appends into the base <div class="locale-select">
+    root, keeping the class hook and the hidden <input name=…> for
+    form participation, and it writes only `this.value` — the base
+    class still owns lang / dir / storage / localechange.
 
     Browser support note: native <datalist> is widely supported but
     iOS Safari's UX is limited. For fully APG-compliant combobox
@@ -76,11 +89,16 @@
                 if (name === "value" || name === "locales") this._rerender();
             }
             _rerender() {
-                const select = this.querySelector("select.locale-select");
-                if (!select) return;
-                // Replace the default <select> with a datalist combobox.
-                select.hidden = true;
-                this.querySelector(".locale-select-combobox")?.remove();
+                // The base root is a <div class="locale-select">
+                // holding the hidden input, the button, and the <ul>.
+                const root = this.querySelector("div.locale-select");
+                if (!root) return;
+
+                // Hide the base icon button; keep the root (class hook)
+                // and the hidden input (form participation).
+                const trigger = root.querySelector(".locale-select-button");
+                if (trigger) trigger.hidden = true;
+                root.querySelector(".locale-select-combobox")?.remove();
 
                 const wrapper = document.createElement("div");
                 wrapper.className = "locale-select-combobox";
@@ -120,7 +138,7 @@
 
                 wrapper.appendChild(label);
                 wrapper.appendChild(datalist);
-                this.appendChild(wrapper);
+                root.appendChild(wrapper);
             }
         }
         customElements.define("combobox-locale-select", ComboboxLocaleSelect);

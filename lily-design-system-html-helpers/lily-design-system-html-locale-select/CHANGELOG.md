@@ -3,6 +3,151 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING)
+
+- **The control is no longer a native `<select>`.** It is now an
+  **icon button that opens a dropdown listbox**, implementing the
+  WAI-ARIA APG listbox pattern. The rendered root is a
+  `<div class="locale-select {class}">` containing a hidden
+  `<input>`, a `<button class="locale-select-button">` whose content
+  defaults to `<span class="locale-select-icon" aria-hidden="true">`
+  carrying U+1F310 GLOBE WITH MERIDIANS, and a
+  `<ul class="locale-select-list" role="listbox" tabindex="-1"
+  hidden>` with one `<li class="locale-select-option" role="option"
+  aria-selected lang="{tag}">` per locale.
+- **`placeholder` is REMOVED** — attribute, property, and the
+  `locale-select-placeholder` class hook. It was a 0.3.0 mechanism
+  for pinning a native `<select>`'s displayed text; there is no
+  `<select>` left to pin. The "closed control always reads the
+  placeholder word" tradeoff is gone with it.
+- **Class hooks changed.** Added: `locale-select-button`,
+  `locale-select-icon`, `locale-select-list`. Removed:
+  `locale-select-placeholder`. `locale-select` now names the `<div>`
+  root (was the `<select>`); `locale-select-option` now names an
+  `<li>` (was an `<option>`).
+- **Consumers must now supply positioning CSS.** The package ships
+  no CSS, so the `<ul>` renders in normal flow until the root gets
+  `position: relative` and the list `position: absolute`. Without it
+  the dropdown pushes page content around every time it opens. All
+  examples carry the minimum block; `examples/02-styling.html` is
+  the reference.
+- **New keyboard contract**, implemented in JS rather than inherited
+  from the platform. Button: `ArrowDown` / `Enter` / `Space` open
+  with the selected option active, `ArrowUp` opens with the last
+  option active, and opening moves focus to the `<ul>`. List: arrows
+  move the active option and **clamp** (no wrapping), `Home` / `End`
+  jump to the ends, `Enter` / `Space` select and return focus to the
+  button, `Escape` closes without changing the value, `Tab` closes
+  without stealing focus back, and printable characters run a 500 ms
+  typeahead over the option labels. Clicking outside the root, or
+  focus leaving it, closes the list.
+- **Reactivity change**: a `value` change no longer rebuilds the
+  rendered DOM. Rebuilding while the listbox is open would destroy
+  focus and the active descendant, so `value` only syncs the
+  state-carrying attributes and re-applies. Structural attributes
+  (`locales`, `locale-labels`, `label`, `name`, `class`) still
+  rebuild, and close the list first.
+- **Accessibility tradeoffs changed shape.** Three now apply, and
+  they are documented in full in `docs/accessibility.md`: the
+  control is icon-only, so `label` is the only accessible name it
+  has and WCAG 2.5.3 Label in Name needs a visible label of the
+  consumer's own; a hand-rolled listbox has weaker and more variable
+  assistive-technology support than the native `<select>` it
+  replaced and gets no native mobile picker; and the Unicode glyph
+  renders as colour emoji, a monochrome glyph, or tofu depending on
+  platform fonts. The compensating status region is more useful than
+  before, not less — the closed button shows only a glyph.
+
+### Added
+
+- **The default glyph gains U+FE0E VARIATION SELECTOR-15.**
+  `GLOBE_WITH_MERIDIANS` is now `"\u{1F310}\uFE0E"` (two codepoints,
+  was one). VS15 requests the *text* presentation; without it
+  browsers select the colour-emoji font and the globe renders blue,
+  which did not match theme-select's monochrome ◑. Verified in
+  Chromium. Consumers comparing against the constant are unaffected;
+  consumers hardcoding `"\u{1F310}"` in an equality check should
+  import the constant instead.
+- `renderButtonContent(): Node` — the overridable rendering hook,
+  and this framework's stand-in for the `children` snippet / render
+  prop / `ChildContent` the other Lily helpers accept. Whatever it
+  returns replaces the default glyph inside the button; `this.value`,
+  `this.open`, and `this.labelFor(...)` stand in for `ChildArgs`, and
+  the hook re-runs on every structural rebuild *and* every state sync
+  (a `value` change, each open and close) so derived content tracks
+  state the same way a reactive snippet would. The
+  base class keeps the aria wiring and the whole keyboard contract,
+  making this the only customisation path that cannot break
+  accessibility. Note it re-runs on structural rebuilds only, not on
+  a bare `value` change.
+- Public listbox surface on the class: `open` (getter), `listId`
+  (getter), `optionId(index)`, `openList(startIndex?)`,
+  `closeList(refocus = true)`, plus `labelFor(code)` and
+  `tagFor(locale)` promoted from private.
+- New exports from `index.ts`: `GLOBE_WITH_MERIDIANS` (the default
+  button glyph) and `nextLocaleSelectId()` (the module-level id
+  counter behind `listId` / `optionId`, deterministic and SSR-safe —
+  no `Math.random()` or `Date.now()`).
+- `data-active` on the keyboard-highlighted option, distinct from
+  `aria-selected` on the applied one, and `aria-activedescendant` on
+  the `<ul>` while open.
+- A hidden `<input type="hidden" name="{name}">` inside the rendered
+  root, preserving form participation now that there is no
+  `<select>`.
+- `docs/custom-rendering.md` — the two subclassing tiers, the
+  `renderButtonContent()` recipes (SVG icon, visible text for WCAG
+  2.5.3, live-updating button label), and the eight invariants a
+  tier-2 subclass must preserve.
+
+### Unchanged
+
+- Every attribute except `placeholder`; the `localechange`
+  `CustomEvent` (same `{ locale }` detail, still `bubbles: true,
+  composed: true`); `lang` / `dir` application; BCP 47 normalisation;
+  RTL detection; `localStorage` persistence; navigator detection;
+  initial-value resolution; the exported pure helpers; per-option
+  `lang` for WCAG 3.1.2; and SSR safety.
+
+### Renamed (examples)
+
+- `examples/01-default.html` → `examples/01-basic.html`, matching
+  theme-select's `01-basic.html` so the two helpers offer the same
+  entry-point example under the same name. Inbound links in
+  `examples/README.md` and `docs/accessibility.md` updated.
+- `examples/01-radios.html` → `examples/01-default.html`.
+- `examples/02-select.html` → `examples/02-styling.html`.
+
+The last two were named for rendering models the element no longer
+uses. (`03-buttons.html` keeps its name: it is a tier-2 subclass that
+really does render a button group.)
+
+### Added (docs)
+
+Docs brought to parity with theme-select, so the two helpers offer
+the same file shape. Written for locale-select rather than
+copy-pasted:
+
+- `docs/attributes-reference.md` — field-by-field reference for every
+  attribute and property, including the inverted `apply-dir` boolean
+  and the four-step label fall-through.
+- `docs/styling.md` — the five class hooks, the
+  `[data-active]` vs `[aria-selected]` distinction, the `hidden`
+  trap, per-script font tuning keyed off the `lang` each option
+  carries, and why logical properties are mandatory in a control that
+  writes `dir` to its own container.
+- `docs/recipes.md` — task-shaped snippets: server-side
+  `Accept-Language` negotiation reusing the exported
+  `matchNavigatorLanguage`, cookie persistence, endonym labels,
+  scoped `target` preview, cross-tab sync.
+- `docs/troubleshooting.md` — symptom-first fixes, including the
+  RTL-positioning failure unique to this control.
+
+theme-select's topic-specific docs (`preloading.md`) have no locale
+counterpart and were not invented; locale-select's
+(`bcp47.md`, `rtl.md`, `concepts.md`, `i18n-integration.md`) stay.
+
 ## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING)
@@ -158,11 +303,15 @@ Custom rendering happens by extending the `LocaleSelect` class and
 overriding `connectedCallback` / `attributeChangedCallback`
 (private methods cannot be overridden). The base class keeps
 owning the lifecycle (`lang` / `dir` writes, `localStorage`,
-`localechange` event). See `docs/concepts.md` and examples
-[02-select.html](./examples/02-select.html),
-[03-buttons.html](./examples/03-buttons.html),
-[05-nhs-style.html](./examples/05-nhs-style.html), and
-[10-combobox.html](./examples/10-combobox.html).
+`localechange` event).
+
+> Superseded: the Unreleased entry above adds
+> `renderButtonContent()` as a safer tier-1 hook, and the current
+> guide is [`docs/custom-rendering.md`](./docs/custom-rendering.md).
+> Examples [03-buttons.html](./examples/03-buttons.html),
+> [05-nhs-style.html](./examples/05-nhs-style.html), and
+> [10-combobox.html](./examples/10-combobox.html) remain the
+> post-processing (tier-2) demonstrations.
 
 [Unreleased]: https://github.com/lilydesignsystem/lily-design-system
 [0.3.0]: https://github.com/lilydesignsystem/lily-design-system

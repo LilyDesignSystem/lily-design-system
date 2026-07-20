@@ -5,37 +5,34 @@ import {
     RTL_SCRIPT_SUBTAGS,
 } from "./locales.js";
 
-/** Arguments passed to a custom `children` render prop. */
+/**
+ * Default button glyph: U+1F310 GLOBE WITH MERIDIANS followed by
+ * U+FE0E VARIATION SELECTOR-15.
+ *
+ * VS15 requests *text* presentation. Without it the browser picks the
+ * colour-emoji font and the globe renders blue, which does not match
+ * theme-select's monochrome ◑ — the two controls sit next to each
+ * other in a page header and should read as one set.
+ */
+export const GLOBE_WITH_MERIDIANS = "\u{1F310}\uFE0E";
+
+/** Arguments passed to a custom `children` render prop (the button glyph). */
 export type ChildArgs = {
-    /** The locale codes to render as `<option>` elements. */
-    locales: string[];
     /** Currently selected locale code (consumer form, not BCP 47-normalised). */
     value: string;
-    /** Apply a locale imperatively (also updates internal state / triggers onChange). */
-    setLocale: (locale: string) => void;
-    /** `name` attribute of the `<select>`. */
-    name: string;
+    /** Is the listbox open? */
+    open: boolean;
     /** Resolve a locale code to its display label. */
     labelFor: (locale: string) => string;
-    /** BCP 47 hyphen-form of a locale code (`en_US` → `en-US`). */
-    tagFor: (locale: string) => string;
-    /** Is the locale right-to-left? */
-    isRtl: (locale: string) => boolean;
 };
 
 /** Public props for LocaleSelect. See `spec/index.md` §4 for the contract. */
 export type Props = Omit<
-    React.SelectHTMLAttributes<HTMLSelectElement>,
-    "onChange" | "children" | "value" | "defaultValue"
+    React.HTMLAttributes<HTMLDivElement>,
+    "onChange" | "children" | "defaultValue"
 > & {
-    /** Accessible label for the `<select>`. */
+    /** Accessible name for the button and the listbox. */
     label: string;
-    /**
-     * Text of the always-displayed placeholder option. The closed
-     * `<select>` shows this instead of the selected locale name, so the
-     * control stays as narrow as this word. Defaults to `label`.
-     */
-    placeholder?: string;
     /** Available locale codes. */
     locales: string[];
     /** Currently selected locale code. When supplied, the component is controlled. */
@@ -46,19 +43,19 @@ export type Props = Omit<
     storageKey?: string;
     /** Resolve `navigator.languages` to a supported locale on first visit. */
     detectFromNavigator?: boolean;
-    /** `name` attribute of the `<select>`. */
+    /** `name` of the hidden input that carries the value in a form. */
     name?: string;
     /** Element that receives `lang` and `dir`. Defaults to document.documentElement. */
     target?: HTMLElement | null;
-    /** If false, the select only writes `lang` and never touches `dir`. */
+    /** If false, the control only writes `lang` and never touches `dir`. */
     applyDir?: boolean;
     /** Optional pretty labels per locale code. */
     localeLabels?: Record<string, string>;
-    /** Custom render prop for the `<option>` elements; rendered inside the `<select>`. */
+    /** Replaces the default globe glyph inside the button. */
     children?: (args: ChildArgs) => React.ReactNode;
-    /** Called after the select applies a new locale. */
+    /** Called after the control applies a new locale. */
     onChange?: (locale: string) => void;
-    /** Extra CSS class on the `<select>` root. */
+    /** Extra CSS class on the root. */
     className?: string;
 };
 
@@ -160,9 +157,11 @@ function resolveInitialLocale(
     return locales[0] ?? "";
 }
 
+/** Milliseconds of inactivity after which the typeahead buffer resets. */
+const TYPEAHEAD_RESET_MS = 500;
+
 export function LocaleSelect({
     label,
-    placeholder,
     locales,
     value,
     defaultValue,
@@ -184,6 +183,28 @@ export function LocaleSelect({
     );
 
     const currentValue = isControlled ? value : internalValue;
+
+    // `useId` is stable across server and client render, so the option
+    // ids survive hydration. No Math.random / Date.now.
+    const baseId = `locale-select-${React.useId()}`;
+    const listId = `${baseId}-list`;
+    const optionId = (i: number) => `${baseId}-option-${i}`;
+
+    const [open, setOpen] = React.useState(false);
+    const [activeIndex, setActiveIndex] = React.useState(-1);
+
+    const rootRef = React.useRef<HTMLDivElement | null>(null);
+    const buttonRef = React.useRef<HTMLButtonElement | null>(null);
+    const listRef = React.useRef<HTMLUListElement | null>(null);
+
+    // Set when a close should hand focus back to the button.
+    const refocusRef = React.useRef(false);
+
+    // Typeahead buffer: APG listbox behaviour. Reset after a pause.
+    const typeaheadRef = React.useRef("");
+    const typeaheadTimerRef = React.useRef<ReturnType<typeof setTimeout>>(
+        undefined as unknown as ReturnType<typeof setTimeout>,
+    );
 
     function labelFor(locale: string): string {
         if (locale in localeLabels) return localeLabels[locale];
@@ -215,11 +236,183 @@ export function LocaleSelect({
     }
 
     function setLocale(code: string): void {
-        if (!isControlled) setInternalValue(code);
-        applyLocale(code);
+        if (isControlled) {
+            // The consumer owns `value`; apply straight away so the DOM
+            // stays in step even if they never write the value back.
+            applyLocale(code);
+        } else {
+            // The value-change effect below runs applyLocale, so the
+            // locale is applied exactly once per change.
+            setInternalValue(code);
+        }
     }
 
-    // Resolve initial value on mount.
+    // ---------------------------------------------------------------
+    // Open / close
+    // ---------------------------------------------------------------
+
+    function openList(startIndex?: number): void {
+        const selected = locales.indexOf(currentValue ?? "");
+        setActiveIndex(startIndex ?? (selected >= 0 ? selected : 0));
+        setOpen(true);
+    }
+
+    function closeList(refocus = true): void {
+        if (!open) return;
+        setOpen(false);
+        setActiveIndex(-1);
+        // Focus moves in the effect below, after the commit.
+        if (refocus) refocusRef.current = true;
+    }
+
+    function choose(index: number): void {
+        const code = locales[index];
+        if (code) setLocale(code);
+        closeList();
+    }
+
+    function scrollActiveIntoView(index: number): void {
+        if (index < 0) return;
+        const el = listRef.current?.children[index] as HTMLElement | undefined;
+        // jsdom does not implement scrollIntoView.
+        el?.scrollIntoView?.({ block: "nearest" });
+    }
+
+    function moveActive(delta: number): void {
+        if (locales.length === 0) return;
+        setActiveIndex((prev) =>
+            Math.min(Math.max(prev + delta, 0), locales.length - 1),
+        );
+    }
+
+    function runTypeahead(char: string): void {
+        typeaheadRef.current += char.toLowerCase();
+        clearTimeout(typeaheadTimerRef.current);
+        typeaheadTimerRef.current = setTimeout(() => {
+            typeaheadRef.current = "";
+        }, TYPEAHEAD_RESET_MS);
+        const buffer = typeaheadRef.current;
+        setActiveIndex((prev) => {
+            const from = prev < 0 ? 0 : prev;
+            // Search forward from the active option, wrapping once.
+            for (let n = 0; n < locales.length; n++) {
+                const i = (from + n) % locales.length;
+                if (labelFor(locales[i]).toLowerCase().startsWith(buffer)) {
+                    return i;
+                }
+            }
+            return prev;
+        });
+    }
+
+    function onButtonKeyDown(event: React.KeyboardEvent<HTMLButtonElement>): void {
+        switch (event.key) {
+            case "ArrowDown":
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                openList();
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                openList(locales.length - 1);
+                break;
+        }
+    }
+
+    function onListKeyDown(event: React.KeyboardEvent<HTMLUListElement>): void {
+        switch (event.key) {
+            case "ArrowDown":
+                event.preventDefault();
+                moveActive(1);
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                moveActive(-1);
+                break;
+            case "Home":
+                event.preventDefault();
+                setActiveIndex(0);
+                break;
+            case "End":
+                event.preventDefault();
+                setActiveIndex(locales.length - 1);
+                break;
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                if (activeIndex >= 0) choose(activeIndex);
+                break;
+            case "Escape":
+                event.preventDefault();
+                closeList();
+                break;
+            case "Tab":
+                // Tab moves on: close without stealing focus back.
+                closeList(false);
+                break;
+            default:
+                if (
+                    event.key.length === 1 &&
+                    !event.ctrlKey &&
+                    !event.metaKey &&
+                    !event.altKey
+                ) {
+                    runTypeahead(event.key);
+                }
+        }
+    }
+
+    /**
+     * React's `onBlur` is the delegated equivalent of the native
+     * `focusout` event: unlike the DOM's own `blur`, it bubbles, so the
+     * root sees focus leaving any descendant.
+     */
+    function onRootBlur(event: React.FocusEvent<HTMLDivElement>): void {
+        const next = event.relatedTarget as Node | null;
+        if (next && rootRef.current?.contains(next)) return;
+        closeList(false);
+    }
+
+    // Move focus to the listbox on open, back to the button on close.
+    React.useEffect(() => {
+        if (open) {
+            listRef.current?.focus();
+        } else if (refocusRef.current) {
+            refocusRef.current = false;
+            buttonRef.current?.focus();
+        }
+    }, [open]);
+
+    // Keep the active option in view as it moves.
+    React.useEffect(() => {
+        if (open) scrollActiveIntoView(activeIndex);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [open, activeIndex]);
+
+    // Clicking outside the root closes the listbox.
+    React.useEffect(() => {
+        if (!open) return;
+        function onDocumentClick(event: MouseEvent) {
+            const t = event.target as Node | null;
+            if (t && rootRef.current && !rootRef.current.contains(t)) {
+                closeList(false);
+            }
+        }
+        document.addEventListener("click", onDocumentClick);
+        return () => document.removeEventListener("click", onDocumentClick);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [open]);
+
+    // Drop any pending typeahead timer on unmount.
+    React.useEffect(() => {
+        return () => clearTimeout(typeaheadTimerRef.current);
+    }, []);
+
+    // ---------------------------------------------------------------
+    // Initial value resolution + apply (unchanged from the select era)
+    // ---------------------------------------------------------------
+
     const initialisedRef = React.useRef(false);
     React.useEffect(() => {
         if (initialisedRef.current) return;
@@ -255,56 +448,64 @@ export function LocaleSelect({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentValue]);
 
-    /**
-     * The `<select>` is never bound to the resolved locale: its own DOM
-     * selection snaps back to the placeholder option after every change,
-     * so the closed control always reads `placeholder ?? label` rather
-     * than the active locale name. The real selection lives in
-     * `value` / `internalValue`.
-     */
-    function onSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
-        const el = e.target;
-        const chosen = el.value;
-        el.value = ""; // snap back to the placeholder
-        if (chosen) setLocale(chosen);
-    }
-
     return (
-        <select
+        <div
+            ref={rootRef}
             className={`locale-select ${className}`.trim()}
-            aria-label={label}
-            name={name}
-            value=""
-            onChange={onSelectChange}
+            onBlur={onRootBlur}
             {...restProps}
         >
-            <option
-                className="locale-select-option locale-select-placeholder"
-                value=""
+            <input type="hidden" name={name} value={currentValue ?? ""} />
+
+            <button
+                ref={buttonRef}
+                type="button"
+                className="locale-select-button"
+                aria-label={label}
+                aria-haspopup="listbox"
+                aria-expanded={open}
+                aria-controls={listId}
+                onClick={() => (open ? closeList() : openList())}
+                onKeyDown={onButtonKeyDown}
             >
-                {placeholder ?? label}
-            </option>
-            {children
-                ? children({
-                      locales,
-                      value: currentValue ?? "",
-                      setLocale,
-                      name,
-                      labelFor,
-                      tagFor,
-                      isRtl: isRtlLocale,
-                  })
-                : locales.map((locale) => (
-                      <option
-                          key={locale}
-                          className="locale-select-option"
-                          value={locale}
-                          lang={tagFor(locale)}
-                      >
-                          {labelFor(locale)}
-                      </option>
-                  ))}
-        </select>
+                {children ? (
+                    children({ value: currentValue ?? "", open, labelFor })
+                ) : (
+                    <span className="locale-select-icon" aria-hidden="true">
+                        {GLOBE_WITH_MERIDIANS}
+                    </span>
+                )}
+            </button>
+
+            <ul
+                ref={listRef}
+                className="locale-select-list"
+                id={listId}
+                role="listbox"
+                aria-label={label}
+                aria-activedescendant={
+                    open && activeIndex >= 0 ? optionId(activeIndex) : undefined
+                }
+                tabIndex={-1}
+                hidden={!open}
+                onKeyDown={onListKeyDown}
+            >
+                {locales.map((locale, i) => (
+                    <li
+                        key={locale}
+                        className="locale-select-option"
+                        id={optionId(i)}
+                        role="option"
+                        aria-selected={locale === currentValue}
+                        data-active={i === activeIndex ? "" : undefined}
+                        lang={tagFor(locale)}
+                        onClick={() => choose(i)}
+                    >
+                        {labelFor(locale)}
+                    </li>
+                ))}
+            </ul>
+        </div>
     );
 }
 

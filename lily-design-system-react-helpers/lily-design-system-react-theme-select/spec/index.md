@@ -17,7 +17,8 @@ The companion headless catalog entry
 (`lily-design-system-react-headless/src/ThemeSelect/`) is a pure
 container — a native `<select>` + `<option>` children. This helper is
 the opinionated, reusable counterpart that owns the dynamic loading
-lifecycle.
+lifecycle and, since the button+listbox migration, its own keyboard
+contract.
 
 ---
 
@@ -25,7 +26,8 @@ lifecycle.
 
 Give a React 19 application a drop-in, headless theme select that:
 
-1. Renders an accessible native `<select>` of available themes.
+1. Renders an accessible icon button that opens a dropdown listbox of
+   the available themes, following the WAI-ARIA APG listbox pattern.
 2. **Loads themes dynamically at runtime** from a developer-specified
    directory URL (e.g. `/assets/themes/`).
 3. Applies the chosen theme by injecting / swapping one
@@ -65,6 +67,15 @@ Give a React 19 application a drop-in, headless theme select that:
   ("swap-link") covers the common case; consumers who want to preload
   all themes can drop their own `<link>` tags and rely on the attribute
   change alone — see §6.4.
+- **Button + listbox, not a native `<select>`.** The control is an
+  icon button (`aria-haspopup="listbox"`) that toggles a `<ul
+  role="listbox">`. The component therefore owns the keyboard contract
+  itself (§6.2) rather than inheriting it from the platform. A hidden
+  `<input type="hidden" name="{name}">` carries the active slug so the
+  control still participates in ordinary form submission.
+- **Ids come from `useId`.** The listbox id and every option id derive
+  from React's `useId`, so they are stable across server and client
+  render and survive hydration. No `Math.random`, no `Date.now`.
 - **TypeScript everywhere.** Public surface is fully typed via a `Props`
   type exported from `ThemeSelect.tsx` and re-exported from `index.ts`.
 - **SSR-safe.** The component compiles cleanly under Next.js / Remix
@@ -83,61 +94,93 @@ Give a React 19 application a drop-in, headless theme select that:
 
 | Prop            | Type                                      | Required | Default                  | Purpose |
 | --------------- | ----------------------------------------- | -------- | ------------------------ | ------- |
-| `label`         | `string`                                  | yes      | —                        | Accessible name for the `<select>`. |
-| `placeholder`   | `string`                                  | no       | value of `label`         | Text of the always-displayed placeholder option. The closed `<select>` shows this instead of the active theme name. |
+| `label`         | `string`                                  | yes      | —                        | Accessible name for the button and the listbox. |
 | `themesUrl`     | `string`                                  | yes      | —                        | Base URL of the themes directory. Trailing `/` is auto-normalised. |
 | `themes`        | `string[]`                                | yes      | —                        | Available theme slugs (e.g. `["light", "dark", "abyss"]`). |
 | `value`         | `string`                                  | no       | `undefined` (uncontrolled) | Currently selected theme slug. When supplied, the component is controlled. |
 | `defaultValue`  | `string`                                  | no       | `"light"` if present in `themes`, else first item | Initial theme when nothing else is supplied. |
 | `storageKey`    | `string`                                  | no       | `undefined`              | If set, persist the selection to `localStorage` under this key. |
-| `name`          | `string`                                  | no       | `"theme"`                | `name` attribute on the `<select>`. |
+| `detectFromSystem` | `boolean`                              | no       | `false`                  | If true and no value/storage entry exists, resolve `prefers-color-scheme` to a supported theme. |
+| `name`          | `string`                                  | no       | `"theme"`                | Discriminates the managed `<link>`; also the hidden input's `name`. |
 | `extension`     | `string`                                  | no       | `".css"`                 | File extension appended to each slug when constructing the URL. |
 | `target`        | `HTMLElement \| null`                     | no       | `document.documentElement` | Element that receives `data-theme`. |
 | `themeLabels`   | `Record<string, string>`                  | no       | `{}`                     | Optional pretty labels per slug. |
-| `children`      | `(args: ChildArgs) => React.ReactNode`    | no       | default `<option>` markup | Custom render prop for the options. |
+| `children`      | `(args: ChildArgs) => React.ReactNode`    | no       | the half-circle glyph    | Replaces the glyph **inside the button**. It does not render the options — the component owns those. |
 | `onChange`      | `(theme: string) => void`                 | no       | `undefined`              | Fires after the select applies a new theme. |
-| `className`     | `string`                                  | no       | `""`                     | Extra CSS class on the `<select>` root. |
-| `...restProps`  | any HTML `<select>` attributes            | no       | —                        | Spread onto the root. |
+| `className`     | `string`                                  | no       | `""`                     | Extra CSS class on the root `<div>`. |
+| `...restProps`  | any HTML `<div>` attributes               | no       | —                        | Spread onto the root `<div>`. |
 
 `ChildArgs` shape:
 
 ```ts
 type ChildArgs = {
-  themes: string[];
+  /** Currently selected theme slug. */
   value: string;
-  setTheme: (theme: string) => void;
-  name: string;
+  /** Is the listbox open? */
+  open: boolean;
+  /** Resolve a slug to its display label. */
   labelFor: (theme: string) => string;
 };
 ```
 
+The render output replaces the default
+`<span class="theme-select-icon" aria-hidden="true">◑</span>`. It sits
+inside the button, whose accessible name always comes from `label` via
+`aria-label` — so custom glyph content should be `aria-hidden` and must
+never be relied on for naming.
+
 ### 4.2 DOM contract
 
-- Root element: `<select className="theme-select {className}"
-  aria-label="{label}" name="{name}">`.
-- **Placeholder option (always first).** The first child of the
-  `<select>` is always
-  `<option className="theme-select-option theme-select-placeholder"
-  value="">{placeholder ?? label}</option>`. It is component-owned and
-  is rendered in both the default and the custom-`children` code paths,
-  before any consumer-supplied option markup.
-- **The `<select>`'s own `value` is pinned to `""`.** It does not track
-  the active theme. After every change the select's DOM selection snaps
-  back to the placeholder option, so the closed control always reads
-  `placeholder ?? label` and stays as narrow as that word. The real
-  selection lives in the `value` prop / internal state, and everything
-  downstream (`data-theme`, the managed `<link>`, `localStorage`,
-  `onChange`, initial-value resolution) is unchanged.
-- Default children: one `<option className="theme-select-option"
-  value="{slug}">{labelFor(slug)}</option>` per theme slug, following
-  the placeholder.
+The rendered tree is:
+
+```html
+<div class="theme-select {className}" ...restProps>
+  <input type="hidden" name="{name}" value="{value}" />
+  <button type="button" class="theme-select-button"
+          aria-label="{label}" aria-haspopup="listbox"
+          aria-expanded="false" aria-controls="{listId}">
+    <span class="theme-select-icon" aria-hidden="true">◑</span>
+  </button>
+  <ul class="theme-select-list" id="{listId}" role="listbox"
+      aria-label="{label}" tabindex="-1" hidden
+      aria-activedescendant="{optionId of active, only while open}">
+    <li class="theme-select-option" id="{optionId}" role="option"
+        aria-selected="true|false" data-active>Light</li>
+  </ul>
+</div>
+```
+
+- **Root element:** `<div className="theme-select {className}">`. Rest
+  props spread onto this `<div>`.
+- **Hidden input.** `<input type="hidden" name="{name}"
+  value="{value}">` carries the active slug so the control participates
+  in ordinary form submission.
+- **Button.** `type="button"`, class hook `theme-select-button`,
+  `aria-label="{label}"`, `aria-haspopup="listbox"`, `aria-expanded`
+  tracking open state, and `aria-controls` pointing at the listbox id.
+- **Glyph.** The default button content is
+  `<span class="theme-select-icon" aria-hidden="true">◑</span>` — U+25D1
+  CIRCLE WITH RIGHT HALF BLACK (`&#9681;`), exported as
+  `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is `aria-hidden`, so the button's
+  accessible name comes solely from `label` via `aria-label`. Supplying
+  `children` replaces the glyph.
+- **Listbox.** `<ul class="theme-select-list" role="listbox"
+  aria-label="{label}" tabindex="-1">`, `hidden` while closed. While
+  open it carries `aria-activedescendant` set to the active option's id.
+- **Options.** One `<li class="theme-select-option" role="option">` per
+  theme slug, each with a `useId`-derived `id`, `aria-selected` set to
+  whether it is the active theme, and `data-active` present on the
+  keyboard-active option only.
 - `labelFor(slug)` returns `themeLabels[slug]` when supplied; otherwise
-  the slug with its first character upper-cased (e.g. `"light"` →
-  `"Light"`). The select never emits the word "default".
-- Custom children: rendered via the `children` render prop with `ChildArgs`.
+  the slug with each hyphen-separated word title-cased (e.g. `"light"` →
+  `"Light"`, `"high-contrast"` → `"High Contrast"`). The component never
+  emits the word "default".
 - A single managed `<link rel="stylesheet" data-lily-theme-select="{name}">`
   in `document.head`. Created on first apply, reused thereafter.
 - `data-theme="{slug}"` is set on the `target` element on every apply.
+- The package ships no CSS, so the listbox has no positioning: consumers
+  supply the `position: relative` / `position: absolute` pair (see
+  `docs/styling.md`).
 
 ### 4.3 Re-exports
 
@@ -146,8 +189,16 @@ type ChildArgs = {
 - `ThemeSelect` (the component, both default and named export)
 - `normalizeThemesUrl` (the pure helper)
 - `themeHref` (the pure helper)
+- `themeName` (the pure helper; the single implementation of the
+  title-casing label rule, mirroring `localeName` in locale-select)
+- `matchSystemTheme` (the pure helper; mirrors `matchNavigatorLanguage`
+  in locale-select)
 - `type Props`
 - `type ChildArgs`
+
+`ThemeSelect.tsx` additionally exports the default glyph constant
+`CIRCLE_WITH_RIGHT_HALF_BLACK`. The barrel does not currently re-export
+it; import it from `./ThemeSelect` directly if you need it.
 
 ## 5. Behaviour
 
@@ -172,10 +223,16 @@ non-empty value of:
 1. `value` (if a consumer supplied a non-empty string — controlled mode)
 2. `localStorage.getItem(storageKey)` (only if `storageKey` is set and
    the read does not throw)
-3. `defaultValue`
-4. `"light"` (if `"light"` is in `themes`)
-5. `themes[0]`
-6. `""` (no apply happens — the select waits for user interaction)
+3. `matchSystemTheme(themes)` (only if `detectFromSystem` is true; the
+   OS colour-scheme preference, or `""` when the resulting slug is not
+   in `themes` or `matchMedia` is unavailable)
+4. `defaultValue`
+5. `"light"` (if `"light"` is in `themes`)
+6. `themes[0]`
+7. `""` (no apply happens — the select waits for user interaction)
+
+This is the same position navigator detection occupies in
+locale-select's order, keeping the two helpers symmetric.
 
 Rationale: `"light"` is the conventional baseline theme for Lily and
 for the broader DaisyUI palette this helper draws from. The select
@@ -199,6 +256,22 @@ Applying a theme `slug` performs, in order:
    try/catch (so private-mode / quota errors are silently swallowed).
 5. Call `onChange(slug)` if supplied.
 
+### 5.3.1 Open / close lifecycle
+
+- Opening sets the active option to the currently-selected theme, or to
+  index 0 when nothing matches — except `ArrowUp` on the button, which
+  opens with the **last** option active.
+- Opening moves focus to the `<ul role="listbox">` (it is `tabindex="-1"`);
+  the active option is tracked with `aria-activedescendant`, not with
+  roving DOM focus.
+- Closing via a selection or `Escape` returns focus to the button.
+  Closing via `Tab`, an outside click, or focus leaving the root does
+  **not** move focus back.
+- Selecting applies the theme through §5.3. `Escape`, an outside click,
+  and focus loss all close without changing the value.
+- The active option is kept in view with `scrollIntoView({ block:
+  "nearest" })` as it moves.
+
 ### 5.4 Reactivity
 
 A single `useEffect` re-applies the theme whenever the resolved value
@@ -218,25 +291,48 @@ Consumers wanting flicker-free first paint pass a server-resolved
 
 ### 6.1 Roles and properties
 
-- The native `<select>` (implicit `role="combobox"`) is the announced
-  control.
-- `aria-label={label}` supplies the control's accessible name.
-- Native `<option>` elements get the option role, selected state, and
-  keyboard semantics for free.
+The control follows the WAI-ARIA APG **listbox** pattern with a button
+trigger.
+
+| Element  | Role / property                                                   |
+| -------- | ----------------------------------------------------------------- |
+| `<button>` | `aria-label={label}`, `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` |
+| glyph `<span>` | `aria-hidden="true"` — never part of the accessible name.    |
+| `<ul>`   | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` while closed, `aria-activedescendant` while open |
+| `<li>`   | `role="option"`, `aria-selected`, `data-active` on the keyboard-active option |
+
+The glyph carries no accessible name, so `label` is load-bearing: it is
+the only name the control has. See `docs/accessibility.md` for the
+tradeoffs this pattern accepts.
 
 ### 6.2 Keyboard contract
 
-Provided by the platform (native `<select>`):
+The component implements this itself; nothing is inherited from a
+native `<select>`.
 
-| Key                 | Action                                       |
-| ------------------- | -------------------------------------------- |
-| `Tab` / `Shift+Tab` | Move focus to / from the select (one tab stop). |
-| `Arrow Down`        | Select the next option.                      |
-| `Arrow Up`          | Select the previous option.                  |
-| `Home` / `End`      | Select the first / last option.              |
-| Typeahead           | Type characters to jump to a matching option. |
-| `Enter` / `Space`   | Open the option list (platform-dependent).   |
-| `Escape`            | Close the option list.                       |
+On the **button**:
+
+| Key                          | Action                                                     |
+| ---------------------------- | ---------------------------------------------------------- |
+| `Tab` / `Shift+Tab`          | Move focus to / from the button (one tab stop).            |
+| `ArrowDown` / `Enter` / `Space` | Open, with the currently-selected option active (else index 0). Focus moves to the listbox. |
+| `ArrowUp`                    | Open with the **last** option active. Focus moves to the listbox. |
+
+On the **listbox**:
+
+| Key                 | Action                                                              |
+| ------------------- | ------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — it does not wrap.  |
+| `Home` / `End`      | Jump to the first / last option.                                     |
+| `Enter` / `Space`   | Select the active option, apply it, close, and return focus to the button. |
+| `Escape`            | Close and return focus to the button **without** changing the value. |
+| `Tab`               | Close without stealing focus back, letting focus move on.            |
+| Printable character | Typeahead over the option **labels**; the buffer accumulates and resets after 500 ms of inactivity. |
+
+Pointer behaviour: clicking an option selects it; clicking the button
+again closes the listbox; clicking outside the root closes it; focus
+leaving the root closes it. None of the close-only paths change the
+value.
 
 ### 6.3 Internationalisation
 
@@ -265,24 +361,25 @@ zero-flicker switching.
 `ThemeSelect.test.tsx` must assert every numbered item below. Tests run
 under vitest + jsdom + `@testing-library/react`.
 
-1. Renders a `<select>` (implicit `role="combobox"`).
-2. `aria-label` is the supplied `label`.
-3. Renders one `<option>` per entry in `themes`, plus the leading
-   placeholder option (so the count is `themes.length + 1`); the
-   `<select>` carries the supplied `name` attribute.
-4. Each option's `value` attribute is the theme slug, preceded by the
-   empty-valued placeholder — the full value list is
-   `["", ...themes]`. Additionally:
-   1. The placeholder option renders `label` as its text, carries
-      `value=""` and the `theme-select-placeholder` class, the
-      `<select>`'s own `value` is `""`, and the resolved theme is still
-      applied to `data-theme`.
-   2. A supplied `placeholder` prop overrides `label` as the
-      placeholder text, while `label` remains the accessible name.
-   3. Choosing an option applies that theme and snaps the `<select>`'s
-      own `value` back to `""`.
-5. The default rendering shows `themeLabels[slug]` when supplied, or
-   the slug with its first character upper-cased otherwise (e.g.
+1. Markup shape:
+   1. Renders a `<button type="button">` with `aria-haspopup="listbox"`,
+      `aria-expanded="false"`, and an `aria-controls` that resolves to an
+      element with `role="listbox"`.
+   2. The button holds `<span class="theme-select-icon"
+      aria-hidden="true">◑</span>` (U+25D1, `&#9681;`).
+   3. The root is a `<div>` whose class is `theme-select` plus the
+      consumer's `className`.
+2. `aria-label` is the supplied `label` on **both** the button and the
+   listbox.
+3. Renders exactly one `.theme-select-option` per entry in `themes`, and
+   the hidden input carries the supplied `name` and the resolved slug as
+   its `value`.
+4. Open state:
+   1. The listbox is `hidden` until the button is activated; activating
+      it removes `hidden` and flips `aria-expanded` to `"true"`.
+   2. Exactly one option has `aria-selected="true"` — the active theme.
+5. The rendering shows `themeLabels[slug]` when supplied, or the slug
+   with each hyphen-separated word title-cased otherwise (e.g.
    `"light"` → `"Light"`). The word `"default"` never appears.
 6. After mount with no consumer-supplied value/storage/`defaultValue`,
    the resolved initial value is `"light"` when present in `themes`,
@@ -291,7 +388,7 @@ under vitest + jsdom + `@testing-library/react`.
 7. After mount, a `<link rel="stylesheet"
    data-lily-theme-select="{name}">` exists in `document.head` and its
    `href` equals `${normalize(themesUrl)}${initial}${extension}`.
-8. Selecting a different option updates the link `href`,
+8. Choosing a different option updates the link `href`,
    `document.documentElement.dataset.theme`, and fires `onChange` with
    the new slug.
 9. When `storageKey` is set, the active slug is written to
@@ -300,10 +397,48 @@ under vitest + jsdom + `@testing-library/react`.
     skips storage and defaults and uses the supplied value.
 11. When `themesUrl` does not end with `/`, the constructed URL still
     has exactly one `/` between the directory and the slug.
-12. Extra attributes spread through onto the `<select>` (e.g.
+12. Extra attributes spread through onto the root `<div>` (e.g.
     `data-testid`).
-13. A custom `children` render prop is invoked with the `ChildArgs`
-    contract.
+13. A custom `children` render prop:
+    1. Replaces the default glyph inside the button (the
+       `.theme-select-icon` span is absent) and receives `ChildArgs` —
+       `value`, `open`, `labelFor`.
+    2. Sees `open === true` once the listbox is expanded.
+14. Opening from the button:
+    1. `ArrowDown`, `Enter`, and `Space` each open the listbox.
+    2. `ArrowUp` opens with the last option active.
+    3. Opening moves focus to the listbox element.
+15. Moving within the listbox:
+    1. `ArrowDown` / `ArrowUp` move `aria-activedescendant` and clamp at
+       the top rather than wrapping.
+    2. `ArrowDown` clamps at the last option.
+    3. Exactly one option carries `data-active`, and it is the active one.
+    4. `Home` / `End` jump to the first / last option.
+16. Committing and dismissing:
+    1. `Enter` selects the active option, applies it, and closes
+       (`hidden` returns, `aria-expanded` returns to `"false"`).
+    2. `Enter` returns focus to the button.
+    3. `Space` selects the active option and closes.
+    4. `Escape` closes and refocuses the button without changing
+       `data-theme`.
+    5. `Tab` closes the listbox without stealing focus back to the button.
+17. Typeahead:
+    1. A printable character moves `aria-activedescendant` to the first
+       option whose label starts with it.
+    2. Characters accumulate within the buffer window, so a longer prefix
+       keeps matching the same option.
+    3. The buffer resets after the 500 ms idle window, so the next
+       character starts a fresh search.
+18. Pointer interaction:
+    1. Clicking an option selects and applies it, and closes the listbox.
+    2. Clicking outside closes the listbox without changing the theme.
+    3. Clicking the button again closes the listbox.
+
+The pure helpers `normalizeThemesUrl`, `themeHref`, `themeName`, and
+`matchSystemTheme` are additionally covered by direct unit tests of
+§5.1, including `matchSystemTheme` resolving dark, resolving light,
+returning `""` for an unsupported slug, and returning `""` when
+`matchMedia` is unavailable.
 
 ## 8. Out-of-scope (future, not implemented here)
 

@@ -4,6 +4,145 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING)
+
+- **The control is no longer a native `<select>`.** It is now an icon
+  button that opens a WAI-ARIA APG listbox. The root is a `<div
+  class="locale-select">` containing a hidden input, a `<button
+  class="locale-select-button">` showing a globe glyph, and a `<ul
+  class="locale-select-list" role="listbox">` of `<li
+  class="locale-select-option" role="option">` children.
+- **`placeholder` prop removed.** It existed in 0.3.0 to name the
+  pinned option of the native `<select>`. There is no `<select>` and no
+  pinned option, so the prop is gone; passing it now falls through
+  `restProps` onto the root `<div>` as a stray attribute. This
+  supersedes the whole 0.3.0 placeholder-pinning design.
+- **`ChildArgs` changed shape, and `children` changed meaning.** It was
+  `{ locales, value, setLocale, name, labelFor, tagFor, isRtl }` and
+  rendered `<option>` elements. It is now `{ value, open, labelFor }`
+  and **replaces the glyph inside the trigger button**. The listbox and
+  its options are component-owned. `tagFor` and `isRtl` live on as the
+  exported pure helpers `bcp47LocaleTag` and `isRtlLocale`.
+
+  This removes a capability, not just an API: the snippet's output now
+  lives inside a `<button>`, so the radio-group, button-group, custom
+  `<select>`, and `<datalist>`-combobox patterns the old examples built
+  are no longer possible. Consumers wanting those read `value` and
+  drive their own controls.
+- **Class hooks changed.** `locale-select` now names the root `<div>`,
+  not a `<select>`. Added: `locale-select-button`,
+  `locale-select-icon`, `locale-select-list`. Removed:
+  `locale-select-placeholder`. `locale-select-option` survives but now
+  names an `<li>`, not an `<option>`.
+- **Keyboard interaction is implemented by the component**, not
+  inherited from the platform. See `spec/index.md` §6.2 — button keys
+  (`Enter` / `Space` / `ArrowDown` open, `ArrowUp` opens at the last
+  option) and listbox keys (arrows clamp rather than wrap, `Home` /
+  `End`, `Enter` / `Space` select-and-close, `Escape` closes without
+  changing, `Tab` closes without stealing focus, 500 ms typeahead over
+  the labels).
+- **Consumers must now ship positioning CSS** for
+  `.locale-select-list`, including a `[hidden] { display: none }`
+  reset, and it must use **logical properties** — this control flips
+  the page to RTL, so a popup pinned with `left: 0` lands on the wrong
+  edge exactly when the feature is exercised. See `docs/styling.md`.
+- The `field-sizing: content` width recipe is obsolete along with the
+  `<select>` it sized.
+
+### Changed
+
+- **The globe glyph gains U+FE0E VARIATION SELECTOR-15.**
+  `GLOBE_WITH_MERIDIANS` is now `"\u{1F310}︎"`, not
+  `"\u{1F310}"`. VS15 requests text presentation; without it browsers
+  pick the colour-emoji font and the globe renders blue, which does not
+  match `theme-select`'s monochrome `◑` when the two sit together in a
+  page header. Verified in Chromium. Tests assert the full
+  two-codepoint sequence.
+
+### Added
+
+- A hidden `<input type="hidden" name="{name}">` preserving form
+  participation now that there is no native form control. It carries
+  the consumer-form code, not the BCP 47 tag.
+- `GLOBE_WITH_MERIDIANS` glyph constant and `nextLocaleSelectId()` (an
+  SSR-safe incrementing id generator) on the module script.
+
+### Added (docs and examples)
+
+- Five shared topic guides, so this package offers the same doc set as
+  `theme-select` rather than a subset: `docs/props-reference.md`,
+  `docs/styling.md`, `docs/custom-rendering.md`, `docs/recipes.md`,
+  `docs/troubleshooting.md`. Each is written for locale-select — RTL-safe
+  CSS, endonyms, BCP 47 round-tripping, the typeahead-matches-labels
+  trap — rather than adapted from the theme-select copy. The
+  locale-specific guides (`bcp47`, `concepts`, `i18n-integration`,
+  `rtl`) are unchanged in scope; `theme-select`'s `preloading.md` has
+  no counterpart here and none was invented.
+- **Examples renamed off the radio-group era.** `01-radios`,
+  `02-select`, and `03-buttons` had not rendered radios, a `<select>`,
+  or a button group for some time; the numeric prefixes had stopped
+  describing anything. They now use descriptive names matching
+  `theme-select`'s convention:
+
+  | Old | New |
+  | --- | --- |
+  | `01-radios.svelte` | `basic.svelte` |
+  | `02-select.svelte` | `many-locales.svelte` |
+  | `03-buttons.svelte` | `custom-rendering.svelte` |
+  | `04-rtl-demo.svelte` | `rtl-demo.svelte` |
+  | `05-nhs-style.svelte` | `nhs-style.svelte` |
+  | `06-with-svelte-i18n.svelte` | `with-svelte-i18n.svelte` |
+  | `07-with-paraglide.svelte` | `with-paraglide.svelte` |
+  | `08-ssr-cookie.svelte` | `ssr-cookie.svelte` |
+  | `09-scoped-target.svelte` | `scoped-target.svelte` |
+  | `10-combobox.svelte` | `persistence.svelte` |
+
+  Four were rewritten rather than merely renamed, because the pattern
+  each demonstrated is no longer possible: `many-locales` now shows a
+  long list in the default listbox, `custom-rendering` shows the glyph
+  override, `nhs-style` uses the default listbox with a `class` hook,
+  and `persistence` replaces the `<datalist>` combobox with
+  `storageKey` + `detectFromNavigator`.
+
+### Changed (accessibility)
+
+- **The 0.3.0 placeholder tradeoff is gone.** There is no pinned
+  select, and the listbox marks the active option with
+  `aria-selected="true"`, so the selection *is* exposed to assistive
+  technology.
+- Three new tradeoffs are documented honestly in
+  `docs/accessibility.md`: (a) an icon-only control's accessible name
+  rests entirely on `aria-label` — which for a *locale* select is
+  circular, since the label is written in one language and this is the
+  control a user reaches for when they cannot read the page;
+  (b) a hand-rolled listbox has weaker assistive-technology and mobile
+  support than a native `<select>` — **for some audiences, public-service
+  ones especially, a native `<select>` is the better choice**, and a
+  hand-written one is about fifteen lines; (c) the glyph is a
+  font-dependent character that may render in colour despite VS15,
+  substitute, or not render at all.
+- The `.locale-select-status` live region is still recommended, but for
+  a different reason: it no longer compensates for missing semantics,
+  it compensates for the *closed* control showing only a glyph — which
+  matters more here than for a theme select, because the active locale
+  is only self-evident to someone who can already read the page.
+
+### Unchanged
+
+- Everything downstream: `lang` / `dir` application, RTL detection,
+  `localStorage` persistence, `navigator.languages` detection,
+  `onChange`, initial-value resolution, SSR safety, and all the
+  exported pure helpers (`bcp47LocaleTag`, `isRtlLocale`, `localeName`,
+  `matchNavigatorLanguage`, `defaultLocaleLabels`, `RTL_LANGUAGE_TAGS`,
+  `RTL_SCRIPT_SUBTAGS`).
+- Per-option `lang` attributes, now on the `<li role="option">`
+  elements.
+- `locales.ts` / `locales.tsv` are untouched and remain byte-identical
+  across every port.
+- Still ships zero CSS, no fonts, no icons, no images.
+
 ## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING)

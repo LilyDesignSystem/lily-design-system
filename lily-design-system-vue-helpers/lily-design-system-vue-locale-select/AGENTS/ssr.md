@@ -10,14 +10,29 @@ Vue-specific recipes; the canonical rules live in
 Under SSR, `onMounted` and `watch` are no-ops. The select renders:
 
 ```html
-<select class="locale-select" aria-label="Language" name="locale">
-    <option class="locale-select-option" value="en" lang="en">English</option>
-    …
-</select>
+<div class="locale-select">
+    <input type="hidden" name="locale" value="en" />
+    <button type="button" class="locale-select-button" aria-label="Language"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="locale-select-1-list">
+        <span class="locale-select-icon" aria-hidden="true">🌐</span>
+    </button>
+    <ul class="locale-select-list" id="locale-select-1-list" role="listbox"
+        aria-label="Language" tabindex="-1" hidden>
+        <li class="locale-select-option" id="locale-select-1-option-0"
+            role="option" aria-selected="true" lang="en">English</li>
+        …
+    </ul>
+</div>
 ```
 
-If the consumer passes `value="ar"`, the corresponding option gets
-`selected` rendered server-side.
+If the consumer passes `value="ar"`, the corresponding `<li>` renders
+with `aria-selected="true"` server-side and the hidden input carries
+`ar`.
+
+Element ids come from `nextLocaleSelectId()`, a module-level counter —
+not `Math.random()` or `Date.now()` — so server and client agree and
+hydration does not warn on the `id` / `aria-controls` pair.
 
 The `lang` and `dir` attributes on the document root are **not**
 written on the server. Those happen on hydration unless the consumer
@@ -41,7 +56,7 @@ server-side.
 ## Nuxt 3 cookie recipe (recommended)
 
 End-to-end code lives in
-[`../examples/08-ssr-cookie.vue`](../examples/08-ssr-cookie.vue).
+[`../examples/ssr-cookie.vue`](../examples/ssr-cookie.vue).
 The shape:
 
 ### Server middleware
@@ -221,9 +236,9 @@ const locale = Astro.cookies.get("locale")?.value ?? "en";
 If you see a Vue warning like "Hydration node mismatch", the most
 common cause is:
 
-- The server rendered no selected `<option>` (because `value`
-  was empty), but the client picked a non-empty value from
-  `localStorage`.
+- The server rendered no `aria-selected="true"` option and an empty
+  hidden input (because `value` was empty), but the client picked a
+  non-empty value from `localStorage`.
 - **Fix.** Resolve the locale server-side and pass it as `value`.
 
 ## Plain Vue 3 SSR
@@ -241,5 +256,6 @@ const app = createSSRApp(LocaleSelect, {
 const html = await renderToString(app);
 ```
 
-The resulting string contains the rendered `<select>` with the `fr`
-option selected. No DOM touched.
+The resulting string contains the rendered button and the hidden
+listbox, with the `fr` option carrying `aria-selected="true"`. No DOM
+touched.

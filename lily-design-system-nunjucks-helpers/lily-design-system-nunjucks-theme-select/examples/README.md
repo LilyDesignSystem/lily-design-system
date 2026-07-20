@@ -17,18 +17,23 @@ Every example assumes:
 - The macro file (`../theme-select.njk`) and the client.js
   (`../theme-select.client.js`) are reachable from your template
   loader and your static-asset pipeline respectively.
+- The client.js is actually loaded. It is not optional: the macro
+  renders an icon button and a hidden listbox, and the button does
+  not open until the client runs. Every example therefore ends with
+  a `<script type="module">`. See [`../docs/ssr.md`](../docs/ssr.md)
+  for the no-JS picture.
 
 | #  | File                                                              | Demonstrates                                                       |
 |----|-------------------------------------------------------------------|--------------------------------------------------------------------|
 | 1  | [`01-basic.njk`](./01-basic.njk)                                  | Minimal three-theme select.                                        |
 | 2  | [`02-custom-labels.njk`](./02-custom-labels.njk)                  | `themeLabels` for i18n / display names.                            |
-| 3  | [`03-multiple-selects.njk`](./03-multiple-selects.njk)            | Two independent selects in one page via `name` + `target`.         |
+| 3  | [`03-multiple-selects.njk`](./03-multiple-selects.njk)            | Two independent controls in one page via `name` + `target`.        |
 | 4  | [`04-persistence.njk`](./04-persistence.njk)                      | `storageKey` survival across reloads.                              |
 | 5  | [`05-preloaded.njk`](./05-preloaded.njk)                          | Zero-flicker switching via `<link>` preloading.                    |
-| 6  | [`06-system-preference.njk`](./06-system-preference.njk)          | Follow `prefers-color-scheme` (server-side hint).                  |
+| 6  | [`06-system-preference.njk`](./06-system-preference.njk)          | Follow `prefers-color-scheme` via `detectFromSystem`, plus the flicker-free server-hint path. |
 | 7  | [`07-two-way-binding.njk`](./07-two-way-binding.njk)              | `onChange` callback wiring (the Nunjucks equivalent of `v-model`). |
 | 8  | [`08-lily-themes.njk`](./08-lily-themes.njk)                      | All 41 Lily / DaisyUI themes at once.                              |
-| 9  | [`09-custom-rendering.njk`](./09-custom-rendering.njk)            | Caller-block custom rendering (hand-written `<option>`s).          |
+| 9  | [`09-custom-rendering.njk`](./09-custom-rendering.njk)            | `{% call %}` glyph override, inline and via a wrapper macro.       |
 |    | [`eleventy-cookie/`](./eleventy-cookie/)                          | SSR-resolved theme via a cookie (Eleventy + edge function).        |
 
 ## Running the examples
@@ -55,12 +60,29 @@ they want to keep in sync. Example 07 walks through it.
 
 Macro keys are camelCase: `themesUrl`, `defaultValue`,
 `themeLabels`, `storageKey`. CSS class hooks are kebab-case:
-`theme-select`, `theme-select-option`. `data-lily-*` attributes
-are kebab-case throughout.
+`theme-select`, `theme-select-button`, `theme-select-icon`,
+`theme-select-list`, `theme-select-option`. `data-lily-*`
+attributes are kebab-case throughout.
 
-## Helper macro for the caller-block example
+## Ids
 
-[`themeSelectCustom.njk`](./themeSelectCustom.njk) is a fork of
-`../theme-select.njk` that swaps the per-option `{% for %}` body
-for `{{ caller() }}`. Example 09 imports it. In a real project,
-copy the macro into your own template directory.
+The listbox and its options need ids, for `aria-controls` and
+`aria-activedescendant`. They are derived from the `id` opt, which
+defaults to `theme-select-{name}`.
+
+A Nunjucks macro cannot hold a module-level counter, so — unlike
+the Svelte / React / Vue helpers — there is no automatic
+per-instance uniqueness. Two controls that share a `name` must be
+given distinct `id`s. Examples 03 and 09 both show this.
+
+## Helper macro for the glyph-override example
+
+[`themeSelectCustom.njk`](./themeSelectCustom.njk) is a thin wrapper
+around `../theme-select.njk` that bakes in a house glyph via a
+`{% call %}` block. Example 09 imports it alongside an inline
+`{% call %}` for comparison.
+
+It is no longer a fork: the shipped macro supports `{% call %}`
+directly, and the block body replaces the button's glyph — it does
+not render options. In a real project, copy the wrapper into your
+own template directory, or just use `{% call %}` at each call site.

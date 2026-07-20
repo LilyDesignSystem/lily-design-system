@@ -27,15 +27,23 @@ Angular.
 
 The select:
 
-- Renders semantic HTML (`<select>` + `<option>`) — a native
-  combobox with no extra ARIA needed.
-- Carries a stable kebab-case class hook (`locale-select` on the
-  `<select>`, `locale-select-option` on each `<option>`) so your
-  CSS can target it without prefixes or specificity tricks.
+- Renders semantic HTML (`<button>` + `<ul>` + `<li>`) wired up as a
+  WAI-ARIA APG listbox: roles, `aria-expanded`, `aria-selected`,
+  `aria-activedescendant`, and the full keyboard contract.
+- Carries stable kebab-case class hooks (`locale-select` on the root
+  `<div>`, plus `locale-select-button`, `locale-select-icon`,
+  `locale-select-list`, `locale-select-option`) so your CSS can target
+  it without prefixes or specificity tricks.
 - Ships **no** colour, spacing, typography, font, icon, or
-  animation decisions. You supply all of that.
+  animation decisions. You supply all of that — including the
+  positioning that makes the list overlay the page rather than push
+  it down.
 - Ships **no** translated strings. The `label` input and
   `localeLabels` input are passed through verbatim.
+
+The one visual thing it does ship is the default glyph, U+1F310 GLOBE
+WITH MERIDIANS — a character, not an asset, and replaceable by
+projecting an `<ng-template>`.
 
 ## The lifecycle
 
@@ -64,23 +72,34 @@ Each instance manages a single bindable `value`:
 Both DOM mutation and storage are side effects, so they belong in
 the `effect()` callback, not in pure derived signals.
 
-## Why a native `<select>` by default
+## Why an icon button and a custom listbox
 
 Three reasons:
 
-1. **Scales**. A native `<select>` stays compact regardless of how
-   many locales you list, and pops the OS-native picker on mobile.
+1. **Compact and fully styleable**. The trigger is one glyph wide
+   whatever the locale list contains, and every part of the open list
+   is a plain element you can style. A native `<select>` is neither —
+   its width follows its content and its popup is the platform's.
 2. **Symmetry with `ThemeSelect`**. The sibling helper in this
    directory uses the same shape, so the two compose visually and
    semantically without surprises.
 3. **Escape hatch is one signal away**. The bindable `value`
-   exposes the state machine; building a radio group or button
-   group that writes to the same signal is a 10-line sibling
-   widget, not a fork.
+   exposes the state machine; building a radio group, a button
+   group, or a native `<select>` that writes to the same signal is a
+   10-line sibling widget, not a fork.
+
+Be clear about the cost. A native `<select>` gets platform-native
+keyboard handling, OS pickers on mobile, and reliable value
+announcement for free; a custom listbox reimplements all of it and is
+supported less consistently by assistive technology. That is a real
+regression, spelled out in
+[docs/accessibility.md](./accessibility.md). If your audience makes it
+the wrong trade, reason 3 is the answer — see
+[examples/sibling-select.component.ts](../examples/sibling-select.component.ts).
 
 For an always-visible list of a few locales, use a sibling widget
 to render radios or buttons. See
-[examples/03-buttons.component.ts](../examples/03-buttons.component.ts).
+[examples/sibling-buttons.component.ts](../examples/sibling-buttons.component.ts).
 
 ## Why a separate `value` and `target.lang`
 
@@ -131,9 +150,12 @@ Three layers, mirroring the lifecycle:
    `localeName`, `matchNavigatorLanguage` are pure functions.
    Unit-test them in isolation.
 2. **DOM contract** — after mount, assert
-   `document.documentElement.lang` and `.dir`. Drive a `dispatchEvent("change")`
-   on the `<select>` and assert again.
-3. **Bindable + change event** — drive `value` programmatically
+   `document.documentElement.lang` and `.dir`. Click the button to
+   open the list, click an option, and assert again.
+3. **Keyboard contract** — dispatch bubbling `keydown` events at the
+   button and the `<ul>`, and assert on `aria-expanded`,
+   `aria-activedescendant`, and `document.activeElement`.
+4. **Bindable + change event** — drive `value` programmatically
    via `componentRef.setInput("value", ...)` and assert the same
    DOM observations; assert that `localeChange` was emitted.
 

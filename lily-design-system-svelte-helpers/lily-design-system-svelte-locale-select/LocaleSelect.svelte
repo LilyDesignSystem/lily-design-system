@@ -6,34 +6,31 @@
         RTL_SCRIPT_SUBTAGS,
     } from "./locales.js";
 
-    /** Arguments passed to a custom `children` snippet. */
+    /**
+     * Default button glyph: U+1F310 GLOBE WITH MERIDIANS followed by
+     * U+FE0E VARIATION SELECTOR-15.
+     *
+     * VS15 requests *text* presentation. Without it the browser picks the
+     * colour-emoji font and the globe renders blue, which does not match
+     * theme-select's monochrome ◑ — the two controls sit next to each
+     * other in a page header and should read as one set.
+     */
+    export const GLOBE_WITH_MERIDIANS = "\u{1F310}\uFE0E";
+
+    /** Arguments passed to a custom `children` snippet (the button glyph). */
     export type ChildArgs = {
-        /** The locale codes to render as `<option>` elements. */
-        locales: string[];
         /** Currently selected locale code (consumer form, not BCP 47-normalised). */
         value: string;
-        /** Apply a locale imperatively (also writes back to `value`). */
-        setLocale: (locale: string) => void;
-        /** `name` attribute of the `<select>`. */
-        name: string;
+        /** Is the listbox open? */
+        open: boolean;
         /** Resolve a locale code to its display label. */
         labelFor: (locale: string) => string;
-        /** BCP 47 hyphen-form of a locale code (`en_US` → `en-US`). */
-        tagFor: (locale: string) => string;
-        /** Is the locale right-to-left? */
-        isRtl: (locale: string) => boolean;
     };
 
     /** Public props for LocaleSelect. See `spec/index.md` §4 for the contract. */
     export type Props = {
-        /** Accessible label for the `<select>`. */
+        /** Accessible name for the button and the listbox. */
         label: string;
-        /**
-         * Text of the always-displayed placeholder option. The closed
-         * `<select>` shows this instead of the selected locale name, so the
-         * control stays as narrow as this word. Defaults to `label`.
-         */
-        placeholder?: string;
         /** Available locale codes. */
         locales: string[];
         /** Currently selected locale code. Two-way bindable. */
@@ -44,7 +41,7 @@
         storageKey?: string;
         /** Resolve `navigator.languages` to a supported locale on first visit. */
         detectFromNavigator?: boolean;
-        /** `name` attribute of the `<select>`. */
+        /** `name` of the hidden input that carries the value in a form. */
         name?: string;
         /** Element that receives `lang` and `dir`. Defaults to document.documentElement. */
         target?: HTMLElement | null;
@@ -52,13 +49,13 @@
         applyDir?: boolean;
         /** Optional pretty labels per locale code. */
         localeLabels?: Record<string, string>;
-        /** Custom rendering of the `<option>` elements. */
+        /** Replaces the default globe glyph inside the button. */
         children?: Snippet<[ChildArgs]>;
-        /** Called after the select applies a new locale. */
+        /** Called after the control applies a new locale. */
         onChange?: (locale: string) => void;
-        /** Extra CSS class on the `<select>` root. */
+        /** Extra CSS class on the root. */
         class?: string;
-        /** Spread props onto the root `<select>`. */
+        /** Spread props onto the root element. */
         [key: string]: unknown;
     };
 
@@ -128,13 +125,19 @@
         }
         return "";
     }
+
+    let uid = 0;
+    /** Stable per-instance id prefix; SSR-safe (no Math.random / Date.now). */
+    export function nextLocaleSelectId(): string {
+        uid += 1;
+        return `locale-select-${uid}`;
+    }
 </script>
 
 <script lang="ts">
     let {
         class: className = "",
         label,
-        placeholder,
         locales,
         value = $bindable(""),
         defaultValue,
@@ -148,6 +151,20 @@
         onChange,
         ...restProps
     }: Props = $props();
+
+    const baseId = nextLocaleSelectId();
+    const listId = `${baseId}-list`;
+    const optionId = (i: number) => `${baseId}-option-${i}`;
+
+    let open = $state(false);
+    let activeIndex = $state(-1);
+    let buttonEl: HTMLButtonElement | undefined = $state();
+    let listEl: HTMLUListElement | undefined = $state();
+    let rootEl: HTMLDivElement | undefined = $state();
+
+    // Typeahead buffer: APG listbox behaviour. Reset after a pause.
+    let typeahead = "";
+    let typeaheadTimer: ReturnType<typeof setTimeout> | undefined;
 
     function labelFor(locale: string): string {
         if (locale in localeLabels) return localeLabels[locale];
@@ -182,19 +199,128 @@
         value = code;
     }
 
-    /**
-     * The `<select>` is never bound to `value`: its own selection snaps back
-     * to the placeholder option after every change, so the closed control
-     * always reads `placeholder ?? label` rather than the active locale name.
-     * The real selection lives in `value`.
-     */
-    function handleChange(event: Event & { currentTarget: HTMLSelectElement }): void {
-        const el = event.currentTarget;
-        const chosen = el.value;
-        el.value = "";
-        if (chosen) value = chosen;
-        (restProps.onchange as ((event: Event) => void) | undefined)?.(event);
+    // ---------------------------------------------------------------
+    // Open / close
+    // ---------------------------------------------------------------
+
+    function openList(startIndex?: number): void {
+        const selected = locales.indexOf(value);
+        activeIndex = startIndex ?? (selected >= 0 ? selected : 0);
+        open = true;
+        // Focus moves to the listbox; the active option is conveyed via
+        // aria-activedescendant, per the APG listbox pattern.
+        queueMicrotask(() => {
+            listEl?.focus();
+            scrollActiveIntoView();
+        });
     }
+
+    function closeList(refocus = true): void {
+        if (!open) return;
+        open = false;
+        activeIndex = -1;
+        if (refocus) queueMicrotask(() => buttonEl?.focus());
+    }
+
+    function choose(index: number): void {
+        const code = locales[index];
+        if (code) setLocale(code);
+        closeList();
+    }
+
+    function scrollActiveIntoView(): void {
+        if (activeIndex < 0 || !listEl) return;
+        const el = listEl.querySelector<HTMLElement>(`#${CSS.escape(optionId(activeIndex))}`);
+        el?.scrollIntoView({ block: "nearest" });
+    }
+
+    function moveActive(delta: number): void {
+        if (locales.length === 0) return;
+        const next = Math.min(Math.max(activeIndex + delta, 0), locales.length - 1);
+        activeIndex = next;
+        scrollActiveIntoView();
+    }
+
+    function runTypeahead(char: string): void {
+        typeahead += char.toLowerCase();
+        clearTimeout(typeaheadTimer);
+        typeaheadTimer = setTimeout(() => (typeahead = ""), 500);
+        const from = activeIndex < 0 ? 0 : activeIndex;
+        // Search forward from the active option, wrapping once.
+        for (let n = 0; n < locales.length; n++) {
+            const i = (from + n) % locales.length;
+            if (labelFor(locales[i]).toLowerCase().startsWith(typeahead)) {
+                activeIndex = i;
+                scrollActiveIntoView();
+                return;
+            }
+        }
+    }
+
+    function onButtonKeydown(event: KeyboardEvent): void {
+        switch (event.key) {
+            case "ArrowDown":
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                openList();
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                openList(locales.length - 1);
+                break;
+        }
+    }
+
+    function onListKeydown(event: KeyboardEvent): void {
+        switch (event.key) {
+            case "ArrowDown":
+                event.preventDefault();
+                moveActive(1);
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                moveActive(-1);
+                break;
+            case "Home":
+                event.preventDefault();
+                activeIndex = 0;
+                scrollActiveIntoView();
+                break;
+            case "End":
+                event.preventDefault();
+                activeIndex = locales.length - 1;
+                scrollActiveIntoView();
+                break;
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                if (activeIndex >= 0) choose(activeIndex);
+                break;
+            case "Escape":
+                event.preventDefault();
+                closeList();
+                break;
+            case "Tab":
+                // Tab moves on: close without stealing focus back.
+                closeList(false);
+                break;
+            default:
+                if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+                    runTypeahead(event.key);
+                }
+        }
+    }
+
+    function onRootFocusOut(event: FocusEvent): void {
+        const next = event.relatedTarget as Node | null;
+        if (next && rootEl?.contains(next)) return;
+        closeList(false);
+    }
+
+    // ---------------------------------------------------------------
+    // Initial value resolution + apply (unchanged from the select era)
+    // ---------------------------------------------------------------
 
     let initialised = false;
 
@@ -240,31 +366,63 @@
     });
 </script>
 
-<select
+<svelte:document
+    onclick={(event) => {
+        if (!open) return;
+        const t = event.target as Node | null;
+        if (t && rootEl && !rootEl.contains(t)) closeList(false);
+    }}
+/>
+
+<div
+    bind:this={rootEl}
     class={`locale-select ${className}`.trim()}
-    aria-label={label}
-    {name}
+    onfocusout={onRootFocusOut}
     {...restProps}
-    onchange={handleChange}
 >
-    <option class="locale-select-option locale-select-placeholder" value="" selected
-        >{placeholder ?? label}</option
+    <input type="hidden" {name} {value} />
+
+    <button
+        bind:this={buttonEl}
+        type="button"
+        class="locale-select-button"
+        aria-label={label}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={listId}
+        onclick={() => (open ? closeList() : openList())}
+        onkeydown={onButtonKeydown}
     >
-    {#if children}
-        {@render children({
-            locales,
-            value: value ?? "",
-            setLocale,
-            name,
-            labelFor,
-            tagFor,
-            isRtl: isRtlLocale,
-        })}
-    {:else}
-        {#each locales as locale (locale)}
-            <option class="locale-select-option" value={locale} lang={tagFor(locale)}
-                >{labelFor(locale)}</option
+        {#if children}
+            {@render children({ value: value ?? "", open, labelFor })}
+        {:else}
+            <span class="locale-select-icon" aria-hidden="true">{GLOBE_WITH_MERIDIANS}</span>
+        {/if}
+    </button>
+
+    <ul
+        bind:this={listEl}
+        class="locale-select-list"
+        id={listId}
+        role="listbox"
+        aria-label={label}
+        aria-activedescendant={open && activeIndex >= 0 ? optionId(activeIndex) : undefined}
+        tabindex="-1"
+        hidden={!open}
+        onkeydown={onListKeydown}
+    >
+        {#each locales as locale, i (locale)}
+            <li
+                class="locale-select-option"
+                id={optionId(i)}
+                role="option"
+                aria-selected={locale === value}
+                data-active={i === activeIndex ? "" : undefined}
+                lang={tagFor(locale)}
+                onclick={() => choose(i)}
             >
+                {labelFor(locale)}
+            </li>
         {/each}
-    {/if}
-</select>
+    </ul>
+</div>

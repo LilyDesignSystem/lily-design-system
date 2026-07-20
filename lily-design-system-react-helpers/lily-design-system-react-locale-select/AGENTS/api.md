@@ -16,6 +16,7 @@ import {
     defaultLocaleLabels,
     RTL_LANGUAGE_TAGS,
     RTL_SCRIPT_SUBTAGS,
+    GLOBE_WITH_MERIDIANS,
     type Props,
     type ChildArgs,
 } from "./lily-design-system-react-locale-select";
@@ -28,7 +29,7 @@ The default export is `LocaleSelect` for consumers who prefer
 
 | Prop      | Type       | Notes                                                  |
 | --------- | ---------- | ------------------------------------------------------ |
-| `label`   | `string`   | Accessible name (`aria-label`) on the `<select>`.      |
+| `label`   | `string`   | Accessible name (`aria-label`) on the button and the listbox. The glyph is `aria-hidden`, so this is the button's only name. |
 | `locales` | `string[]` | Available locale codes (`en`, `fr_CA`, `zh_Hant`).     |
 
 ## Optional props
@@ -39,14 +40,14 @@ The default export is `LocaleSelect` for consumers who prefer
 | `defaultValue`        | `string`                                 | `"en"` if in locales, else first item |
 | `storageKey`          | `string`                                 | `undefined`                   |
 | `detectFromNavigator` | `boolean`                                | `false`                       |
-| `name`                | `string`                                 | `"locale"`                    |
+| `name`                | `string`                                 | `"locale"` (on the hidden input) |
 | `target`              | `HTMLElement \| null`                    | `document.documentElement`    |
 | `applyDir`            | `boolean`                                | `true`                        |
 | `localeLabels`        | `Record<string, string>`                 | `{}`                          |
 | `onChange`            | `(code: string) => void`                 | `undefined`                   |
-| `children`            | `(args: ChildArgs) => React.ReactNode`   | default `<option>` markup     |
+| `children`            | `(args: ChildArgs) => React.ReactNode`   | default globe glyph span      |
 | `className`           | `string`                                 | `""`                          |
-| `...restProps`        | `SelectHTMLAttributes` minus the above   | spread onto root              |
+| `...restProps`        | `HTMLAttributes<HTMLDivElement>` minus the above | spread onto the root `<div>` |
 
 ## Controlled vs uncontrolled
 
@@ -69,27 +70,38 @@ The select decides at first render based on `value !== undefined`.
 
 ## ChildArgs
 
+`children` is a render prop for the **button glyph only**. It replaces
+the default `<span class="locale-select-icon">🌐</span>` inside
+`<button class="locale-select-button">`. It does not render options —
+the component owns the listbox, its options, and the keyboard contract.
+
 ```ts
 type ChildArgs = {
-    locales: string[];
     value: string;
-    setLocale: (locale: string) => void;
-    name: string;
+    open: boolean;
     labelFor: (locale: string) => string;
-    tagFor: (locale: string) => string;
-    isRtl: (locale: string) => boolean;
 };
 ```
 
-- `locales` — pass-through.
 - `value` — current resolved value, in consumer form (preserves `_` /
   `-` exactly as supplied).
-- `setLocale` — imperative setter.
-- `name` — pass-through (default `"locale"`).
+- `open` — `true` while the listbox is expanded. Useful for a
+  disclosure chevron.
 - `labelFor(code)` — resolves to `localeLabels[code]` →
   `defaultLocaleLabels[code]` → `Intl.DisplayNames` → raw code.
-- `tagFor(code)` — BCP 47 hyphen form of the code.
-- `isRtl(code)` — `true` for RTL locales (see `isRtlLocale` rules).
+
+Mark custom glyph content `aria-hidden="true"`: the button is already
+named by `aria-label={label}`, so unhidden content is announced twice.
+
+```tsx
+<LocaleSelect label="Language" locales={LOCALES} value={locale} onChange={setLocale}>
+    {({ value, open, labelFor }) => (
+        <span aria-hidden="true" title={labelFor(value)}>
+            {value.split("_")[0].toUpperCase()} {open ? "▴" : "▾"}
+        </span>
+    )}
+</LocaleSelect>
+```
 
 ## Pure helpers
 
@@ -111,9 +123,11 @@ All pure, server-safe, no React dependency.
 ## Static data exports
 
 ```ts
-defaultLocaleLabels  // Record<string, string> — 436 codes → English names
-RTL_LANGUAGE_TAGS    // Set<string> — language subtags that imply RTL
-RTL_SCRIPT_SUBTAGS   // Set<string> — script subtags that imply RTL
+defaultLocaleLabels   // Record<string, string> — 436 codes → English names
+RTL_LANGUAGE_TAGS     // Set<string> — language subtags that imply RTL
+RTL_SCRIPT_SUBTAGS    // Set<string> — script subtags that imply RTL
+GLOBE_WITH_MERIDIANS  // "\u{1F310}\uFE0E" — the default button glyph
+                      // (VS15 forces monochrome text presentation)
 ```
 
 `locales.ts` is the canonical source; it has no React dependency and
@@ -121,7 +135,30 @@ is safe to import from a server component.
 
 ## DOM contract
 
-After mount and on every locale change:
+Rendered markup — root `<div>`, hidden input, icon button, listbox:
+
+```html
+<div class="locale-select {className}" ...restProps>
+  <input type="hidden" name="{name}" value="{value}" />
+  <button type="button" class="locale-select-button"
+          aria-label="{label}" aria-haspopup="listbox"
+          aria-expanded="false" aria-controls="{listId}">
+    <span class="locale-select-icon" aria-hidden="true">🌐</span>
+  </button>
+  <ul class="locale-select-list" id="{listId}" role="listbox"
+      aria-label="{label}" tabindex="-1" hidden
+      aria-activedescendant="{optionId of active, only while open}">
+    <li class="locale-select-option" id="{optionId}" role="option"
+        aria-selected="true|false" data-active lang="en-US">English (United States)</li>
+  </ul>
+</div>
+```
+
+Ids come from `useId`, so they are stable across server and client
+render. Full contract in
+[`../spec/index.md §4.3`](../spec/index.md#43-dom-contract).
+
+Side effects, after mount and on every locale change:
 
 | Side effect              | Element                                                 |
 | ------------------------ | ------------------------------------------------------- |
@@ -132,12 +169,13 @@ After mount and on every locale change:
 
 ## Type-level invariants
 
-- `Props` extends `SelectHTMLAttributes<HTMLSelectElement>` minus
-  the `onChange` and `children` keys.
-- `ChildArgs.locales` is the same array reference passed in via
-  `locales`.
-- `tagFor` and `isRtl` in `ChildArgs` are stable references across
-  renders (they wrap pure helpers).
+- `Props` extends `HTMLAttributes<HTMLDivElement>` minus the
+  `onChange`, `children`, and `defaultValue` keys (each is redefined
+  with locale-specific semantics).
+- `ChildArgs.value` is the resolved value in consumer form, never the
+  BCP 47-normalised tag.
+- `children` returns `React.ReactNode` rendered inside the button; it
+  cannot change the root, the button, or the listbox.
 
 ## Versioning
 

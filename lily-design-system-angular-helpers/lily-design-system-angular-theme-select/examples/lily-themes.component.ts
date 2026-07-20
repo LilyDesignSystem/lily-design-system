@@ -1,5 +1,5 @@
 /*
-    Example 9 — All 41 Lily / DaisyUI themes.
+    Example 9 — All 45 Lily reference themes.
 
     This is the full catalog shipped in `../../themes/`. Drop them
     all into `src/assets/themes/` and the select will swap between
@@ -26,6 +26,7 @@ export class LilyThemesExample {
     readonly themes = [
         "abyss",
         "acid",
+        "adobe-spectrum",
         "aqua",
         "autumn",
         "black",
@@ -49,6 +50,7 @@ export class LilyThemesExample {
         "light",
         "lofi",
         "luxury",
+        "mozilla-protocol",
         "night",
         "nord",
         "pastel",
@@ -56,6 +58,7 @@ export class LilyThemesExample {
         "silk",
         "sunset",
         "synthwave",
+        "united-kingdom-government-digital-service",
         "valentine",
         "winter",
         "wireframe",
@@ -65,5 +68,6 @@ export class LilyThemesExample {
         "united-kingdom-national-health-service-scotland-for-practitioners",
         "united-kingdom-national-health-service-wales-for-patients",
         "united-kingdom-national-health-service-wales-for-practitioners",
+        "united-states-web-design-system",
     ];
 }

@@ -1,22 +1,27 @@
 <!--
-    Example 5 — Custom rendering via the default scoped slot.
+    Example 5 — Custom button glyph via the default scoped slot.
 
-    By default the select renders native <option class="theme-select-option">
-    elements inside the <select class="theme-select">. When that markup isn't
-    enough, take over completely. The slot receives:
-      - themes:   the slug list
+    By default the button renders a single half-circle glyph (U+25D1)
+    inside <span class="theme-select-icon" aria-hidden="true">. The
+    default slot REPLACES that glyph — as of the icon-button rewrite it
+    no longer renders the options. The listbox, its options, the
+    keyboard contract, and the apply lifecycle all stay
+    component-owned; the slot only decides what the closed button looks
+    like.
+
+    The slot receives:
       - value:    the active slug
-      - setTheme: imperatively apply a slug (also updates `value`)
-      - name:     the shared identity for the select
+      - open:     whether the listbox is currently open
       - labelFor: the resolved display label for a slug
 
-    Below, we render a row of swatch buttons. Note: rendering anything other
-    than <option> elements means you are rendering outside native <select>
-    semantics, so you own the accessibility contract for whatever you render.
-    Each button here:
-      - exposes its pressed state via aria-pressed,
-      - sets data-theme on itself so consumer CSS can preview the swatch
-        colours via the same :root[data-theme] cascade.
+    Below, the glyph becomes a small swatch previewing the active
+    theme's colours (via the same :root[data-theme] cascade the themes
+    themselves use) plus a caret that reflects the open state.
+
+    Accessibility note: whatever you render here is decorative. The
+    button's accessible name always comes from `label` via aria-label,
+    so keep your own markup aria-hidden="true" (or text-free) rather
+    than introducing a competing name.
 -->
 <script setup lang="ts">
 import ThemeSelect from "../ThemeSelect.vue";
@@ -28,18 +33,16 @@ import ThemeSelect from "../ThemeSelect.vue";
         themes-url="/assets/themes/"
         :themes="['light', 'dark', 'abyss', 'cupcake', 'dracula']"
     >
-        <template #default="{ themes, value, setTheme, labelFor }">
-            <button
-                v-for="t in themes"
-                :key="t"
-                type="button"
+        <template #default="{ value, open, labelFor }">
+            <span
                 class="theme-select-swatch"
-                :data-theme="t"
-                :aria-pressed="value === t"
-                @click="setTheme(t)"
-            >
-                {{ labelFor(t) }}
-            </button>
+                :data-theme="value"
+                :title="labelFor(value)"
+                aria-hidden="true"
+            />
+            <span class="theme-select-caret" aria-hidden="true">{{
+                open ? "▴" : "▾"
+            }}</span>
         </template>
     </ThemeSelect>
 </template>

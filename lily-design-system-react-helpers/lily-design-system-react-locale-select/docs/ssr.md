@@ -123,7 +123,7 @@ Result:
 
 - First paint: `<html lang="ar" dir="rtl">` arrives in the HTML
   response. No flash, no layout shift.
-- Select mounts already showing the right option selected.
+- The control mounts with the right option already `aria-selected`.
 - User picks `en`. Select writes `<html lang="en" dir="ltr">` and the
   cookie. Next request paints from byte zero in English.
 
@@ -356,9 +356,17 @@ tests:
   the result.
 
 The select itself has no SSR-specific code path to test beyond "the
-component compiles in SSR mode and renders the selected option for the
-seeded `value`". The reference test suite covers that under jsdom by
-asserting that `value` controls which option is selected on mount.
+component compiles in SSR mode and marks the right option
+`aria-selected` for the seeded `value`". The reference test suite
+covers that under jsdom by asserting that `value` controls which option
+carries `aria-selected="true"` on mount.
+
+One thing worth an explicit check in a fork: the list id and the option
+ids come from React's `useId`, so they match on server and client. If
+you replace them with anything random or module-counter-based, the
+`aria-controls` and `aria-activedescendant` references break after
+hydration — silently, because neither attribute produces a visible
+error when it points at a missing id.
 
 ---
 

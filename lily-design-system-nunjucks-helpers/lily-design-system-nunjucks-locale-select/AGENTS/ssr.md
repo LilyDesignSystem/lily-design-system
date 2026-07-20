@@ -9,16 +9,38 @@ catalog-wide rules live in
 
 The macro is pure: same `opts` in, same HTML out. It does not
 touch `localStorage`, `navigator`, `document.documentElement`,
-or any DOM API. If the consumer passes `opts.value="fr"`, the
-`<select>` root gets `data-lily-locale-select-value="fr"` rendered
-server-side; the `<option lang="fr">` still carries its BCP 47 tag but
-no `selected` attribute. The placeholder stays the only `selected`
-option, so the closed control never flashes the locale name.
+or any DOM API. If the consumer passes `opts.value="fr"`, the root
+`<div>` gets `data-lily-locale-select-value="fr"` rendered
+server-side, the `<li lang="fr">` option is marked
+`aria-selected="true"`, and the hidden input is pre-filled with
+`fr`.
+
+The macro resolves that server-side selection as
+`value or defaultValue or ("en" if listed else locales[0])`. It is a
+best effort: `localStorage` and `navigator.languages` are client-only
+signals the macro cannot see, so the client re-resolves on init and
+may correct both the `aria-selected` option and the hidden input.
 
 The macro does **not** write `lang` / `dir` to `<html>`. That
 happens in the client.js on hydration. To avoid a first-paint
 flash, the layout should write those attributes itself,
 substituting from a cookie / header / session value.
+
+## The no-JS regression, stated plainly
+
+The server-rendered markup is not a working control. The button
+carries `aria-expanded="false"` and the listbox is `hidden`, and
+nothing changes that until `locale-select.client.js` loads and runs:
+open / close, focus movement, the keyboard contract, and typeahead
+all live in the client module. The earlier native `<select>` worked
+with script disabled; this one does not. Do not describe the output
+as progressively enhanced.
+
+The single no-JS affordance is the hidden input. It is pre-filled
+server-side with the resolved locale, so a `<form>` submitted without
+JS still carries a locale to the server. Consumers who must serve
+script-off users should render a plain `<form>` of links or submit
+buttons alongside this control.
 
 ## Why this matters
 
@@ -257,7 +279,7 @@ nunjucks.configure("templates", { autoescape: true });
 const html = nunjucks.render("page.njk", { locale: "fr" });
 ```
 
-The macro outputs a complete `<select>` carrying
+The macro outputs a complete button + listbox carrying
 `data-lily-locale-select-value="fr"`; no DOM touched, no errors
 thrown.
 
@@ -281,3 +303,11 @@ cross-render gotcha is:
   one frame before the client rewrites them.
 - **Fix.** Resolve the locale server-side and pass it as
   `opts.value`.
+
+One more render-time gotcha: option and listbox ids are derived from
+`opts.id`, which defaults to `"locale-select-{name}"`. A layout that
+renders the control twice (say, in the header and the footer) with
+the same `name` emits duplicate ids and a broken `aria-controls` /
+`aria-activedescendant` pair. Pass an explicit `id` to at least one
+instance. Nunjucks macros cannot hold a module-level counter, so
+there is no automatic uniqueness to fall back on.

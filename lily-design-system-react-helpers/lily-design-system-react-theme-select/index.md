@@ -12,11 +12,15 @@ for working code see [examples/](./examples/).
 - [Why this exists](#why-this-exists)
 - [Install](#install)
 - [Quick start](#quick-start)
+- [The rendered markup](#the-rendered-markup)
 - [How it works](#how-it-works)
+- [Keyboard](#keyboard)
 - [Default theme](#default-theme)
 - [Props](#props)
-- [Custom option rendering](#custom-option-rendering)
+- [Custom button glyph](#custom-button-glyph)
 - [Persistence](#persistence)
+- [Following the OS colour scheme](#following-the-os-colour-scheme)
+- [Exported helpers](#exported-helpers)
 - [Accessibility](#accessibility)
 - [SSR and hydration](#ssr-and-hydration)
 - [Preloading for zero-flicker switching](#preloading-for-zero-flicker-switching)
@@ -66,14 +70,10 @@ import type { Props, ChildArgs } from "./lily-design-system-react-theme-select";
 "use client";
 
 import { useState } from "react";
-import { ThemeSelect } from "./lily-design-system-react-theme-select";
-
-function labelFor(slug: string) {
-    return slug
-        .split("-")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
-}
+import {
+    ThemeSelect,
+    themeName,
+} from "./lily-design-system-react-theme-select";
 
 export function ThemeChooser() {
     const [theme, setTheme] = useState("");
@@ -89,7 +89,7 @@ export function ThemeChooser() {
             />
 
             <p className="theme-select-status" aria-live="polite">
-                Active theme: {labelFor(theme)}
+                Active theme: {themeName(theme)}
             </p>
         </>
     );
@@ -97,12 +97,12 @@ export function ThemeChooser() {
 ```
 
 The status line is part of the pattern, not an optional extra. The
-closed control is placeholder-pinned — it always reads "Theme", never
-"Dark" — so without this line the active theme is announced to nobody
-and shown to nobody. `aria-live="polite"` announces mutations only, so
-it stays quiet on first paint and speaks once per user change. Keep it
-visible where you can (it helps sighted and cognitively-loaded users
-too); if your design cannot spare the space, hide it with the
+closed control is an icon button showing only a glyph — it never states
+the active theme — so without this line the active theme is announced to
+nobody and shown to nobody. `aria-live="polite"` announces mutations
+only, so it stays quiet on first paint and speaks once per user change.
+Keep it visible where you can (it helps sighted and cognitively-loaded
+users too); if your design cannot spare the space, hide it with the
 visually-hidden recipe in [docs/styling.md](./docs/styling.md) rather
 than dropping it. Full rationale:
 [docs/accessibility.md](./docs/accessibility.md).
@@ -115,38 +115,49 @@ When the user picks `dark`, the component:
 - writes `"dark"` to `localStorage["lily-theme"]`,
 - calls the optional `onChange("dark")` callback.
 
-## The always-shown placeholder
+## The rendered markup
 
-The rendered markup always leads with a placeholder `<option>`:
+The control is an icon button that opens a dropdown listbox, following
+the WAI-ARIA APG listbox pattern:
 
 ```html
-<select class="theme-select" aria-label="Theme" name="theme">
-    <option class="theme-select-option theme-select-placeholder" value="">Theme</option>
-    <option class="theme-select-option" value="light">Light</option>
-    <option class="theme-select-option" value="dark">Dark</option>
-    <option class="theme-select-option" value="abyss">Abyss</option>
-</select>
+<div class="theme-select">
+    <input type="hidden" name="theme" value="light" />
+    <button type="button" class="theme-select-button" aria-label="Theme"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="theme-select-«r0»-list">
+        <span class="theme-select-icon" aria-hidden="true">◑</span>
+    </button>
+    <ul class="theme-select-list" id="theme-select-«r0»-list" role="listbox"
+        aria-label="Theme" tabindex="-1" hidden>
+        <li class="theme-select-option" id="theme-select-«r0»-option-0"
+            role="option" aria-selected="true" data-active>Light</li>
+        <li class="theme-select-option" id="theme-select-«r0»-option-1"
+            role="option" aria-selected="false">Dark</li>
+        <li class="theme-select-option" id="theme-select-«r0»-option-2"
+            role="option" aria-selected="false">Abyss</li>
+    </ul>
+</div>
 ```
 
-The closed control **always** reads that placeholder — never the name
-of the active theme. After you pick an option the select's own value
-snaps straight back to `""`, which keeps the control as narrow as the
-placeholder word instead of stretching to the longest theme name.
+Notes:
 
-The real selection is unaffected: it lives in the `value` prop /
-internal state, and `data-theme`, the managed `<link>`, persistence,
-and `onChange` all behave exactly as before.
+- The glyph is **U+25D1 CIRCLE WITH RIGHT HALF BLACK** (`◑`,
+  `&#9681;`), exported from `ThemeSelect.tsx` as
+  `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is `aria-hidden`, so the button's
+  accessible name comes entirely from the `label` prop.
+- The hidden `<input>` carries the active slug under the `name` prop, so
+  the control still submits with a surrounding form.
+- Ids come from React's `useId`, so they are stable and hydration-safe.
+- While open, the listbox carries `aria-activedescendant` pointing at
+  the active option, and that option carries `data-active`.
+- The listbox is toggled with the `hidden` attribute. The package ships
+  no CSS, so **you** supply the positioning — see
+  [docs/styling.md](./docs/styling.md).
 
-Pass `placeholder` to show a shorter word than the accessible name:
-
-```tsx
-<ThemeSelect label="Choose a colour theme" placeholder="Theme" {...required} />
-```
-
-One tradeoff to know: because the control never shows the active
-theme, screen-reader users no longer hear it announced as the combobox
-value. That is exactly why the quick start above pairs the select with
-a `.theme-select-status` live region — pairing them is the default
+The closed button shows only the glyph; it never states the active
+theme. That is why the quick start above pairs it with a
+`.theme-select-status` live region — pairing them is the default
 pattern, and dropping the status line is the deliberate opt-out. See
 [docs/accessibility.md](./docs/accessibility.md).
 
@@ -170,6 +181,34 @@ On every theme change the select performs four steps, in order:
 All four steps are SSR-safe — the component only mutates the DOM
 inside a `useEffect`, which never runs on the server.
 
+## Keyboard
+
+The component implements the whole contract itself; nothing is
+inherited from a native `<select>`.
+
+On the **button**:
+
+| Key                             | Action                                              |
+| ------------------------------- | --------------------------------------------------- |
+| `Tab` / `Shift+Tab`             | Move focus to / from the button (one tab stop).     |
+| `ArrowDown` / `Enter` / `Space` | Open, with the active theme's option active (or the first). Focus moves to the list. |
+| `ArrowUp`                       | Open with the **last** option active.               |
+
+On the **listbox**:
+
+| Key                     | Action                                                        |
+| ----------------------- | -------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — it does not wrap. |
+| `Home` / `End`          | Jump to the first / last option.                               |
+| `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button. |
+| `Escape`                | Close and return focus to the button, leaving the theme unchanged. |
+| `Tab`                   | Close and let focus move on.                                    |
+| Any printable character | Typeahead over the option labels; the buffer accumulates and resets after 500 ms of inactivity. |
+
+With the mouse: click an option to select it; click the button again,
+click outside, or move focus out of the control to close it without
+changing anything.
+
 ## Default theme
 
 The default theme is `"light"` whenever `"light"` appears in your
@@ -177,14 +216,16 @@ The default theme is `"light"` whenever `"light"` appears in your
 
 1. `value` prop (if non-empty, controlled mode)
 2. `localStorage[storageKey]` (if `storageKey` is set and readable)
-3. `defaultValue` prop
-4. `"light"` (if present in `themes`)
-5. `themes[0]`
-6. `""` — nothing is applied; the select waits for user interaction
+3. `matchSystemTheme(themes)` (only when `detectFromSystem` is set)
+4. `defaultValue` prop
+5. `"light"` (if present in `themes`)
+6. `themes[0]`
+7. `""` — nothing is applied; the select waits for user interaction
 
 The select never displays the word `"default"`. Option labels default
-to the slug with its first letter upper-cased
-(e.g. `"light"` → `"Light"`); override with `themeLabels`.
+to the slug with each hyphen-separated word title-cased
+(e.g. `"light"` → `"Light"`, `"high-contrast"` → `"High Contrast"`);
+override with `themeLabels`.
 
 ## Props
 
@@ -192,29 +233,29 @@ The complete table is in [spec/index.md §4.1](./spec/index.md#41-props). Highli
 
 | Prop           | Type                                     | Required | Notes                                      |
 | -------------- | ---------------------------------------- | -------- | ------------------------------------------ |
-| `label`        | `string`                                 | yes      | `aria-label` on the `<select>`.            |
-| `placeholder`  | `string`                                 | no       | Text of the always-shown placeholder option; defaults to `label`. |
+| `label`        | `string`                                 | yes      | `aria-label` on the button and the listbox. |
 | `themesUrl`    | `string`                                 | yes      | Trailing `/` is auto-added.                |
 | `themes`       | `string[]`                               | yes      | Available slugs.                           |
 | `value`        | `string`                                 | no       | Controlled value (omit for uncontrolled).  |
 | `defaultValue` | `string`                                 | no       | Initial when nothing else applies.         |
 | `storageKey`   | `string`                                 | no       | `localStorage` persistence.                |
-| `name`         | `string`                                 | no       | `<select>` `name`; defaults to `"theme"`.  |
+| `detectFromSystem` | `boolean`                            | no       | Resolve `prefers-color-scheme` on first visit; defaults to `false`. |
+| `name`         | `string`                                 | no       | Hidden input `name` + managed `<link>` discriminator; defaults to `"theme"`. |
 | `extension`    | `string`                                 | no       | Defaults to `".css"`.                      |
 | `target`       | `HTMLElement \| null`                    | no       | `data-theme` target; defaults to `<html>`. |
 | `themeLabels`  | `Record<string, string>`                 | no       | Per-slug display label override.           |
 | `onChange`     | `(slug: string) => void`                 | no       | Callback fired after apply.                |
-| `children`     | `(args: ChildArgs) => React.ReactNode`   | no       | Custom render prop for the options.        |
+| `children`     | `(args: ChildArgs) => React.ReactNode`   | no       | Replaces the glyph inside the button.      |
 
 See [docs/props-reference.md](./docs/props-reference.md) for a
 field-by-field reference.
 
-## Custom option rendering
+## Custom button glyph
 
-Pass a `children` render prop to take control of the `<option>`
-markup. The render output goes inside the `<select>`, so it should
-return `<option>` (or `<optgroup>`) elements. The function receives
-`{ themes, value, setTheme, name, labelFor }`:
+Pass a `children` render prop to replace the half-circle glyph inside
+the button. It does **not** render the options — the component owns
+those, their ids, their ARIA state, and the keyboard contract. The
+function receives `{ value, open, labelFor }`:
 
 ```tsx
 <ThemeSelect
@@ -224,18 +265,23 @@ return `<option>` (or `<optgroup>`) elements. The function receives
     value={theme}
     onChange={setTheme}
 >
-    {({ themes, labelFor }) =>
-        themes.map((t) => (
-            <option key={t} className="theme-select-option" value={t}>
-                {labelFor(t)}
-            </option>
-        ))
-    }
+    {({ value, open, labelFor }) => (
+        <>
+            <span
+                className="theme-select-swatch"
+                data-theme={value}
+                aria-hidden="true"
+            />
+            <span aria-hidden="true">{labelFor(value)}</span>
+            <span aria-hidden="true">{open ? "▴" : "▾"}</span>
+        </>
+    )}
 </ThemeSelect>
 ```
 
-For a different control entirely (swatch buttons, a segmented control),
-render it outside the select and drive it with `setTheme`.
+Keep custom glyph content `aria-hidden` — the button's accessible name
+comes from `label`, and visible text that disagrees with it is a
+"Label in Name" hazard.
 
 Working example: [`examples/custom-rendering.tsx`](./examples/custom-rendering.tsx).
 Topic guide: [`docs/custom-rendering.md`](./docs/custom-rendering.md).
@@ -254,17 +300,68 @@ If you need cookie-based persistence (so SSR can read the theme before
 first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
 [`examples/next-cookie/`](./examples/next-cookie/) recipe.
 
+## Following the OS colour scheme
+
+Pass `detectFromSystem` to resolve `prefers-color-scheme` on a first
+visit — when there is no `value` and nothing in storage:
+
+```tsx
+<ThemeSelect
+    label="Theme"
+    themesUrl="/assets/themes/"
+    themes={["light", "dark"]}
+    detectFromSystem
+    storageKey="lily-theme"
+/>
+```
+
+Storage beats detection, so a user who has explicitly picked a theme
+keeps it even if their OS says otherwise. Detection resolves once, at
+mount; to keep tracking the OS as it changes, add a `matchMedia`
+listener and write to a controlled `value` — see
+[`examples/system-preference.tsx`](./examples/system-preference.tsx).
+
+This mirrors `detectFromNavigator` in the sibling
+[locale-select](../lily-design-system-react-locale-select/) helper.
+
+## Exported helpers
+
+Besides the component, the barrel exports four pure functions:
+
+| Export                   | Purpose                                                        |
+| ------------------------ | -------------------------------------------------------------- |
+| `themeName(slug)`        | The title-casing label rule — `"high-contrast"` → `"High Contrast"`. The component's internal `labelFor` delegates to it, so use it rather than re-deriving the rule. Mirrors `localeName` in locale-select. |
+| `matchSystemTheme(themes)` | Resolves `prefers-color-scheme` to a supported slug, or `""` when the slug is absent or `matchMedia` is unavailable (SSR). Backs `detectFromSystem`. Mirrors `matchNavigatorLanguage` in locale-select. |
+| `normalizeThemesUrl(url)` | Ensures exactly one trailing `/`.                              |
+| `themeHref(url, slug, ext)` | Builds the stylesheet href for a slug.                       |
+
+`ThemeSelect.tsx` also exports `CIRCLE_WITH_RIGHT_HALF_BLACK`, the
+default button glyph (U+25D1), so a `children` override can re-use the
+exact character.
+
 ## Accessibility
 
-- The root is a native `<select>` (implicit `role="combobox"`) with
-  `aria-label={label}`.
-- The native `<select>` gives Arrow / Home / End / typeahead semantics
-  for free; the select does not override any keyboard behaviour.
-- The active state is exposed in two independent channels: the selected
-  `<option>` (the select's `value`) and `data-theme` on the root. No
-  colour-only meaning is required.
+- The control follows the WAI-ARIA APG listbox pattern: a button with
+  `aria-haspopup="listbox"` / `aria-expanded` / `aria-controls`, and a
+  `<ul role="listbox">` that tracks the active option with
+  `aria-activedescendant`.
+- `aria-label={label}` names both the button and the listbox. The glyph
+  is `aria-hidden`, so `label` is the only accessible name the control
+  has — it is not optional.
+- The component implements the full keyboard contract itself (see
+  [Keyboard](#keyboard)) and returns focus to the button when a
+  selection or `Escape` closes the list.
+- The active state is exposed in three independent channels:
+  `aria-selected` on the option, `data-active` on the keyboard-active
+  option, and `data-theme` on the target. No colour-only meaning is
+  required.
 - WCAG 2.2 AAA is the target; visible focus styling is the consumer's
-  CSS responsibility.
+  CSS responsibility — for the button **and** for the listbox, which
+  takes focus while open.
+- A custom listbox does not get the platform-level assistive-technology
+  treatment a native `<select>` does. Read
+  [`docs/accessibility.md`](./docs/accessibility.md) for the honest
+  tradeoffs before shipping.
 
 Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 
@@ -302,7 +399,7 @@ example: [`examples/preloaded.tsx`](./examples/preloaded.tsx).
 ## Multiple selects in one app
 
 Pass a distinct `name` prop to each select. The `name` is used as
-both the `<select>` `name` and the discriminator on the managed
+both the hidden input's `name` and the discriminator on the managed
 `<link>` element (`data-lily-theme-select="{name}"`).
 
 Example: [`examples/multiple-selects.tsx`](./examples/multiple-selects.tsx).
@@ -314,7 +411,7 @@ Quick cookbook in [`docs/recipes.md`](./docs/recipes.md):
 - Following the OS colour scheme via `prefers-color-scheme`.
 - Reading a theme cookie in Next.js before render.
 - Migrating from a `localStorage`-only select to a cookie-backed one.
-- Building a flyout / dropdown UI around the select.
+- Positioning the dropdown listbox.
 - Loading themes from a CDN.
 
 ## Troubleshooting
@@ -334,6 +431,9 @@ pitfalls:
 - **"useEffect / useState is null" or similar React errors.** Confirm
   the file using the select carries `"use client"` at the top —
   selects run as client components.
+- **The dropdown renders inline and pushes the page around.** The
+  package ships no CSS: give the root `position: relative` and the list
+  `position: absolute`. See [docs/styling.md](./docs/styling.md).
 
 ## Testing
 
@@ -362,11 +462,11 @@ exercises every numbered acceptance criterion in
 | Guide                                                    | Covers                                                              |
 | -------------------------------------------------------- | ------------------------------------------------------------------- |
 | [docs/props-reference.md](./docs/props-reference.md)     | Field-by-field reference for every prop.                            |
-| [docs/accessibility.md](./docs/accessibility.md)         | WCAG 2.2 AAA contract and keyboard map.                             |
-| [docs/styling.md](./docs/styling.md)                     | Class hooks, attribute hooks, baseline CSS.                         |
+| [docs/accessibility.md](./docs/accessibility.md)         | WCAG 2.2 AAA contract, keyboard map, and the pattern's tradeoffs.   |
+| [docs/styling.md](./docs/styling.md)                     | Class hooks, attribute hooks, positioning, baseline CSS.            |
 | [docs/ssr.md](./docs/ssr.md)                             | Next.js App Router cookies, Remix loaders, Vite SSR.                |
 | [docs/preloading.md](./docs/preloading.md)               | Three strategies for instant theme switching.                       |
-| [docs/custom-rendering.md](./docs/custom-rendering.md)   | Taking over option markup via the `children` render prop.           |
+| [docs/custom-rendering.md](./docs/custom-rendering.md)   | Replacing the button glyph via the `children` render prop.          |
 | [docs/recipes.md](./docs/recipes.md)                     | Cookbook of adjacent problems.                                      |
 | [docs/troubleshooting.md](./docs/troubleshooting.md)     | Symptoms, root causes, fixes.                                       |
 
@@ -378,7 +478,7 @@ exercises every numbered acceptance criterion in
 | 2  | [`two-way-binding.tsx`](./examples/two-way-binding.tsx)    | Controlled `value` + `onChange`.          |
 | 3  | [`persistence.tsx`](./examples/persistence.tsx)            | `localStorage` survival across reloads.   |
 | 4  | [`custom-labels.tsx`](./examples/custom-labels.tsx)        | `themeLabels` for i18n / display names.   |
-| 5  | [`custom-rendering.tsx`](./examples/custom-rendering.tsx)  | `children` render prop — swatch buttons.  |
+| 5  | [`custom-rendering.tsx`](./examples/custom-rendering.tsx)  | `children` render prop — custom button glyph. |
 | 6  | [`preloaded.tsx`](./examples/preloaded.tsx)                | Zero-flicker switching via preloading.    |
 | 7  | [`multiple-selects.tsx`](./examples/multiple-selects.tsx)  | Two selects in one page via `name`.       |
 | 8  | [`system-preference.tsx`](./examples/system-preference.tsx) | Follow `prefers-color-scheme`.           |

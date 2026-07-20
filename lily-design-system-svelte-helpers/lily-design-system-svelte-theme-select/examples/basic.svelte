@@ -6,44 +6,41 @@
   "light" is in the list), sets data-theme="light" on <html>, and
   injects a <link rel="stylesheet"> pointing at /assets/themes/light.css.
 
-  The status line is part of the pattern, not an extra.
+  The control is an icon button (a half-circle glyph, U+25D1) that opens
+  a WAI-ARIA APG listbox. Its width is one glyph regardless of how many
+  themes the catalog holds.
 
-  The closed control is placeholder-pinned: it always reads "Theme"
-  rather than the active theme name, which is what keeps it one word
-  wide. The cost is that a screen reader never hears the active theme
-  announced as the combobox value. The <p> below compensates: it is the
-  only place the active theme is stated, so ship it (or an equivalent)
-  alongside the select rather than treating it as optional. See
-  ../docs/accessibility.md.
+  Two things this example does NOT ship, because the package is
+  headless, and which you must supply yourself:
 
-  Two details worth knowing:
+  1. Positioning CSS for .theme-select-list. Without it the listbox
+     renders in normal document flow and shoves the page down when it
+     opens. See ../docs/styling.md § Positioning the listbox.
+  2. An active-option indicator. Style both [data-active] (where the
+     keyboard cursor is) and [aria-selected="true"] (which theme is
+     applied) — they are different states.
+
+  The status line below is recommended, though it is no longer
+  compensating for missing semantics the way it was before the listbox
+  landed. The listbox marks the active option with aria-selected="true",
+  so a screen-reader user who opens the control does hear which theme is
+  current. But the CLOSED control shows only a glyph, so nothing on the
+  page states the active theme unless you state it.
 
   - aria-live="polite" announces *mutations* only, so this stays silent
-    on first paint and speaks once on each subsequent change. That is
-    the behaviour we want — no announcement on page load, one clear
-    announcement per user action.
-  - It is deliberately *visible*, not sr-only. Sighted users, and users
-    who benefit from an explicit confirmation of what just changed, get
-    the same information; AAA favours showing it. If a design truly
-    cannot spare the space, keep the element and the aria-live and hide
-    it visually instead (clip-path: inset(50%) — see
-    ../docs/styling.md § The status line), but prefer visible.
+    on first paint and speaks once on each subsequent change.
+  - It is deliberately *visible*, which is now the main reason to have
+    it: it is the only on-screen statement of the active theme while
+    the listbox is closed. See ../docs/accessibility.md § The status
+    region.
+
+  themeName is the same function the options use, so the status line
+  and the control cannot drift apart.
 -->
 <script lang="ts">
-  import ThemeSelect from "../ThemeSelect.svelte";
+  import ThemeSelect, { themeName } from "../ThemeSelect.svelte";
 
   let theme = $state("");
-
-  // The package does not export its label function, so mirror its
-  // default title-casing here. If you pass a `themeLabels` map to the
-  // select (see custom-labels.svelte), read the label from that same
-  // map instead so the select and the status line cannot disagree.
-  function labelFor(slug: string): string {
-    return slug
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  }
 </script>
 
 <ThemeSelect
@@ -54,5 +51,5 @@
 />
 
 <p class="theme-select-status" aria-live="polite">
-  Active theme: {labelFor(theme)}
+  Active theme: {themeName(theme)}
 </p>

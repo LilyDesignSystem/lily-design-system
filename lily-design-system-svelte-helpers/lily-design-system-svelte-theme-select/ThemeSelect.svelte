@@ -1,30 +1,23 @@
 <script lang="ts" module>
     import type { Snippet } from "svelte";
 
-    /** Arguments passed to a custom `children` snippet. */
+    /** Default button glyph: U+25D1 CIRCLE WITH RIGHT HALF BLACK. */
+    export const CIRCLE_WITH_RIGHT_HALF_BLACK = "◑";
+
+    /** Arguments passed to a custom `children` snippet (the button glyph). */
     export type ChildArgs = {
-        /** The theme slugs to render as `<option>` elements. */
-        themes: string[];
         /** Currently selected theme slug. */
         value: string;
-        /** Apply a theme imperatively (also writes back to `value`). */
-        setTheme: (theme: string) => void;
-        /** `name` attribute of the `<select>`. */
-        name: string;
+        /** Is the listbox open? */
+        open: boolean;
         /** Resolve a slug to its display label. */
         labelFor: (theme: string) => string;
     };
 
     /** Public props for ThemeSelect. See `spec/index.md` §4 for the contract. */
     export type Props = {
-        /** Accessible label for the `<select>`. */
+        /** Accessible name for the button and the listbox. */
         label: string;
-        /**
-         * Text of the always-displayed placeholder option. The closed
-         * `<select>` shows this instead of the selected theme name, so the
-         * control stays as narrow as this word. Defaults to `label`.
-         */
-        placeholder?: string;
         /** Base URL of the themes directory, e.g. "/assets/themes/". */
         themesUrl: string;
         /** Available theme slugs. */
@@ -35,7 +28,9 @@
         defaultValue?: string;
         /** If set, persist the selection to localStorage under this key. */
         storageKey?: string;
-        /** `name` attribute of the `<select>`. */
+        /** Resolve `prefers-color-scheme` to a supported theme on first visit. */
+        detectFromSystem?: boolean;
+        /** Discriminates the managed <link>; also the hidden input's `name`. */
         name?: string;
         /** File extension appended to each slug when constructing the URL. */
         extension?: string;
@@ -43,15 +38,45 @@
         target?: HTMLElement | null;
         /** Optional pretty labels per slug. */
         themeLabels?: Record<string, string>;
-        /** Custom rendering of the `<option>` elements. */
+        /** Replaces the default half-circle glyph inside the button. */
         children?: Snippet<[ChildArgs]>;
-        /** Called after the select applies a new theme. */
+        /** Called after the control applies a new theme. */
         onChange?: (theme: string) => void;
-        /** Extra CSS class on the `<select>` root. */
+        /** Extra CSS class on the root. */
         class?: string;
-        /** Spread props onto the root `<select>`. */
+        /** Spread props onto the root element. */
         [key: string]: unknown;
     };
+
+    /**
+     * Resolve a theme slug to its display label: each hyphen-separated
+     * word title-cased, so a slug like
+     * "united-kingdom-national-health-service-england-for-patients"
+     * renders as "United Kingdom National Health Service England For
+     * Patients". Mirrors `localeName` in locale-select.
+     */
+    export function themeName(theme: string): string {
+        return theme
+            .split("-")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+    }
+
+    /**
+     * Resolve the OS colour-scheme preference to a supported theme slug.
+     * Mirrors `matchNavigatorLanguage` in locale-select. Returns "" when
+     * the preferred scheme is not in `themes`, or when matchMedia is
+     * unavailable (SSR).
+     */
+    export function matchSystemTheme(themes: readonly string[]): string {
+        if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+            return "";
+        }
+        const wanted = window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        return themes.includes(wanted) ? wanted : "";
+    }
 
     /** Normalise the themes directory URL to end with exactly one "/". */
     export function normaliseThemesUrl(themesUrl: string): string {
@@ -62,18 +87,25 @@
     export function themeHref(themesUrl: string, slug: string, extension: string): string {
         return normaliseThemesUrl(themesUrl) + slug + extension;
     }
+
+    let uid = 0;
+    /** Stable per-instance id prefix; SSR-safe (no Math.random / Date.now). */
+    export function nextThemeSelectId(): string {
+        uid += 1;
+        return `theme-select-${uid}`;
+    }
 </script>
 
 <script lang="ts">
     let {
         class: className = "",
         label,
-        placeholder,
         themesUrl,
         themes,
         value = $bindable(""),
         defaultValue,
         storageKey,
+        detectFromSystem = false,
         name = "theme",
         extension = ".css",
         target,
@@ -83,16 +115,23 @@
         ...restProps
     }: Props = $props();
 
+    const baseId = nextThemeSelectId();
+    const listId = `${baseId}-list`;
+    const optionId = (i: number) => `${baseId}-option-${i}`;
+
+    let open = $state(false);
+    let activeIndex = $state(-1);
+    let buttonEl: HTMLButtonElement | undefined = $state();
+    let listEl: HTMLUListElement | undefined = $state();
+    let rootEl: HTMLDivElement | undefined = $state();
+
+    // Typeahead buffer: APG listbox behaviour. Reset after a pause.
+    let typeahead = "";
+    let typeaheadTimer: ReturnType<typeof setTimeout> | undefined;
+
     function labelFor(theme: string): string {
         if (theme in themeLabels) return themeLabels[theme];
-        // Title-case each hyphen-separated word so a slug like
-        // "united-kingdom-national-health-service-england-for-patients"
-        // renders as "United Kingdom National Health Service England For
-        // Patients" rather than a half-capitalised hyphenated string.
-        return theme
-            .split("-")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" ");
+        return themeName(theme);
     }
 
     function getManagedLink(): HTMLLinkElement {
@@ -125,19 +164,128 @@
         value = slug;
     }
 
-    /**
-     * The `<select>` is never bound to `value`: its own selection snaps back
-     * to the placeholder option after every change, so the closed control
-     * always reads `placeholder ?? label` rather than the active theme name.
-     * The real selection lives in `value`.
-     */
-    function handleChange(event: Event & { currentTarget: HTMLSelectElement }): void {
-        const el = event.currentTarget;
-        const chosen = el.value;
-        el.value = "";
-        if (chosen) value = chosen;
-        (restProps.onchange as ((event: Event) => void) | undefined)?.(event);
+    // ---------------------------------------------------------------
+    // Open / close
+    // ---------------------------------------------------------------
+
+    function openList(startIndex?: number): void {
+        const selected = themes.indexOf(value);
+        activeIndex = startIndex ?? (selected >= 0 ? selected : 0);
+        open = true;
+        // Focus moves to the listbox; the active option is conveyed via
+        // aria-activedescendant, per the APG listbox pattern.
+        queueMicrotask(() => {
+            listEl?.focus();
+            scrollActiveIntoView();
+        });
     }
+
+    function closeList(refocus = true): void {
+        if (!open) return;
+        open = false;
+        activeIndex = -1;
+        if (refocus) queueMicrotask(() => buttonEl?.focus());
+    }
+
+    function choose(index: number): void {
+        const slug = themes[index];
+        if (slug) setTheme(slug);
+        closeList();
+    }
+
+    function scrollActiveIntoView(): void {
+        if (activeIndex < 0 || !listEl) return;
+        const el = listEl.querySelector<HTMLElement>(`#${CSS.escape(optionId(activeIndex))}`);
+        el?.scrollIntoView({ block: "nearest" });
+    }
+
+    function moveActive(delta: number): void {
+        if (themes.length === 0) return;
+        const next = Math.min(Math.max(activeIndex + delta, 0), themes.length - 1);
+        activeIndex = next;
+        scrollActiveIntoView();
+    }
+
+    function runTypeahead(char: string): void {
+        typeahead += char.toLowerCase();
+        clearTimeout(typeaheadTimer);
+        typeaheadTimer = setTimeout(() => (typeahead = ""), 500);
+        const from = activeIndex < 0 ? 0 : activeIndex;
+        // Search forward from the active option, wrapping once.
+        for (let n = 0; n < themes.length; n++) {
+            const i = (from + n) % themes.length;
+            if (labelFor(themes[i]).toLowerCase().startsWith(typeahead)) {
+                activeIndex = i;
+                scrollActiveIntoView();
+                return;
+            }
+        }
+    }
+
+    function onButtonKeydown(event: KeyboardEvent): void {
+        switch (event.key) {
+            case "ArrowDown":
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                openList();
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                openList(themes.length - 1);
+                break;
+        }
+    }
+
+    function onListKeydown(event: KeyboardEvent): void {
+        switch (event.key) {
+            case "ArrowDown":
+                event.preventDefault();
+                moveActive(1);
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                moveActive(-1);
+                break;
+            case "Home":
+                event.preventDefault();
+                activeIndex = 0;
+                scrollActiveIntoView();
+                break;
+            case "End":
+                event.preventDefault();
+                activeIndex = themes.length - 1;
+                scrollActiveIntoView();
+                break;
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                if (activeIndex >= 0) choose(activeIndex);
+                break;
+            case "Escape":
+                event.preventDefault();
+                closeList();
+                break;
+            case "Tab":
+                // Tab moves on: close without stealing focus back.
+                closeList(false);
+                break;
+            default:
+                if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+                    runTypeahead(event.key);
+                }
+        }
+    }
+
+    function onRootFocusOut(event: FocusEvent): void {
+        const next = event.relatedTarget as Node | null;
+        if (next && rootEl?.contains(next)) return;
+        closeList(false);
+    }
+
+    // ---------------------------------------------------------------
+    // Initial value resolution + apply (unchanged from the select era)
+    // ---------------------------------------------------------------
 
     let initialised = false;
 
@@ -154,6 +302,10 @@
                     // ignore privacy errors
                 }
             }
+            if (!initial && detectFromSystem) {
+                initial = matchSystemTheme(themes);
+            }
+
             if (!initial) {
                 initial =
                     defaultValue ??
@@ -170,21 +322,64 @@
     });
 </script>
 
-<select
+<svelte:document
+    onclick={(event) => {
+        if (!open) return;
+        const t = event.target as Node | null;
+        if (t && rootEl && !rootEl.contains(t)) closeList(false);
+    }}
+/>
+
+<div
+    bind:this={rootEl}
     class={`theme-select ${className}`.trim()}
-    aria-label={label}
-    {name}
+    onfocusout={onRootFocusOut}
     {...restProps}
-    onchange={handleChange}
 >
-    <option class="theme-select-option theme-select-placeholder" value="" selected
-        >{placeholder ?? label}</option
+    <input type="hidden" {name} {value} />
+
+    <button
+        bind:this={buttonEl}
+        type="button"
+        class="theme-select-button"
+        aria-label={label}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={listId}
+        onclick={() => (open ? closeList() : openList())}
+        onkeydown={onButtonKeydown}
     >
-    {#if children}
-        {@render children({ themes, value: value ?? "", setTheme, name, labelFor })}
-    {:else}
-        {#each themes as theme (theme)}
-            <option class="theme-select-option" value={theme}>{labelFor(theme)}</option>
+        {#if children}
+            {@render children({ value: value ?? "", open, labelFor })}
+        {:else}
+            <span class="theme-select-icon" aria-hidden="true"
+                >{CIRCLE_WITH_RIGHT_HALF_BLACK}</span
+            >
+        {/if}
+    </button>
+
+    <ul
+        bind:this={listEl}
+        class="theme-select-list"
+        id={listId}
+        role="listbox"
+        aria-label={label}
+        aria-activedescendant={open && activeIndex >= 0 ? optionId(activeIndex) : undefined}
+        tabindex="-1"
+        hidden={!open}
+        onkeydown={onListKeydown}
+    >
+        {#each themes as theme, i (theme)}
+            <li
+                class="theme-select-option"
+                id={optionId(i)}
+                role="option"
+                aria-selected={theme === value}
+                data-active={i === activeIndex ? "" : undefined}
+                onclick={() => choose(i)}
+            >
+                {labelFor(theme)}
+            </li>
         {/each}
-    {/if}
-</select>
+    </ul>
+</div>

@@ -1,20 +1,24 @@
 // LocaleSelect client-side runtime.
 //
 // Pairs with locale-select.njk. The macro renders the markup with
-// `data-lily-locale-select-*` hooks; this module picks them up in
-// the browser and owns the lifecycle:
+// `data-lily-locale-select-*` hooks; this module picks them up in the
+// browser and owns two things:
 //
+// A. The listbox INTERACTION (new in the icon-button release): open /
+//    close, focus movement, the APG listbox keyboard contract, and
+//    typeahead. None of this exists in the server markup — the button
+//    is inert until this module runs. See docs/ssr.md.
+//
+// B. The locale LIFECYCLE (unchanged):
+//   0. Read the consumer's `value` prop from
+//      `data-lily-locale-select-value`. This is still the only channel
+//      by which `opts.value` reaches the client, and it is still what
+//      keeps the pre-hydration paint honest.
 //   1. Set `target.lang = bcp47LocaleTag(code)`.
 //   2. Optionally set `target.dir = isRtlLocale(code) ? "rtl" : "ltr"`.
 //   3. Optionally persist to localStorage.
-//   0. Read the consumer's `value` prop from
-//      `data-lily-locale-select-value` (the macro never renders
-//      `selected` on a real option, so the placeholder is the only
-//      selected option in the server HTML and there is no flash).
-//   4. Snap the <select> back to its leading placeholder option, so the
-//      closed control always reads the placeholder word rather than the
-//      active locale name. The real selection lives in `lang` / `dir` /
-//      localStorage / the `onChange` argument, never in `select.value`.
+//   4. Mirror the active code into the hidden input (form participation)
+//      and onto the options' aria-selected state.
 //   5. Call opts.onChange(code).
 //
 // See spec/index.md §4.3 (client.js exports), §5 (behaviour).
@@ -32,6 +36,18 @@ import {
 } from "./locales.js";
 
 export { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS };
+
+/**
+ * Default button glyph: U+1F310 GLOBE WITH MERIDIANS followed by
+ * U+FE0E VARIATION SELECTOR-15, which requests the TEXT presentation.
+ * Without VS15 browsers pick the colour-emoji font and the globe
+ * renders blue, which does not match theme-select's monochrome ◑
+ * (U+25D1 is not an emoji codepoint, so it needs no selector).
+ */
+export const GLOBE_WITH_MERIDIANS = "\u{1F310}︎";
+
+/** How long the typeahead buffer survives between keystrokes, in ms. */
+const TYPEAHEAD_RESET_MS = 500;
 
 // ---------------------------------------------------------------
 // Pure helpers
@@ -99,14 +115,11 @@ function safeStorageSet(key, value) {
     }
 }
 
-/**
- * The real locale codes, excluding the leading placeholder option (which
- * always carries `value=""`).
- */
-function optionValues(select) {
-    return Array.from(select.options)
-        .map((o) => o.value)
-        .filter((v) => v !== "");
+/** jsdom and older browsers do not always implement scrollIntoView. */
+function scrollIntoViewIfPossible(el) {
+    if (el && typeof el.scrollIntoView === "function") {
+        el.scrollIntoView({ block: "nearest" });
+    }
 }
 
 // ---------------------------------------------------------------
@@ -114,16 +127,24 @@ function optionValues(select) {
 // ---------------------------------------------------------------
 
 /**
- * Wire one rendered LocaleSelect fieldset.
+ * Wire one rendered LocaleSelect root.
  *
- * @param {HTMLSelectElement} root - The <select data-lily-locale-select-root>.
+ * @param {HTMLElement} root - The <div data-lily-locale-select-root>.
  * @param {{onChange?: (code:string)=>void, target?: HTMLElement|null}=} opts
  * @returns {{setLocale: (code: string) => void, destroy: () => void}}
  */
 export function initLocaleSelect(root, opts = {}) {
-    if (typeof document === "undefined" || !root) {
-        return { setLocale: () => {}, destroy: () => {} };
-    }
+    const noop = { setLocale: () => {}, destroy: () => {} };
+    if (typeof document === "undefined" || !root) return noop;
+
+    const button = root.querySelector("[data-lily-locale-select-button]");
+    const list = root.querySelector("[data-lily-locale-select-list]");
+    const input = root.querySelector("[data-lily-locale-select-input]");
+    if (!button || !list) return noop;
+
+    const options = Array.from(list.querySelectorAll('[role="option"]'));
+    const values = options.map((o) => o.getAttribute("data-value") || "");
+    const labels = options.map((o) => (o.textContent || "").trim());
 
     const storageKey =
         root.getAttribute("data-lily-locale-select-storage-key") || "";
@@ -135,29 +156,216 @@ export function initLocaleSelect(root, opts = {}) {
     const applyDir =
         root.getAttribute("data-lily-locale-select-apply-dir") !== "false";
     // The consumer's `value` prop. The macro emits it as a data
-    // attribute rather than rendering `selected` on the matching option,
-    // so the placeholder stays the only `selected` option and the closed
-    // control never flashes the locale name before the client runs.
-    const valueAttr =
-        root.getAttribute("data-lily-locale-select-value") || "";
+    // attribute rather than baking it into a control the browser would
+    // paint before hydration.
+    const valueAttr = root.getAttribute("data-lily-locale-select-value") || "";
+
+    let current = "";
+    let open = false;
+    let activeIndex = -1;
+    let typeahead = "";
+    let typeaheadTimer;
+
+    // -----------------------------------------------------------------
+    // Applying a locale
+    // -----------------------------------------------------------------
 
     function applyLocale(code) {
         if (!code) return;
+        current = code;
         const target = opts.target || document.documentElement;
         target.setAttribute("lang", bcp47LocaleTag(code));
         if (applyDir) {
             target.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
         }
         if (storageKey) safeStorageSet(storageKey, code);
-        // Snap the control back to the placeholder option rather than
-        // mirroring the active code, so the closed <select> always reads
-        // the placeholder word.
-        root.value = "";
+        // The hidden input carries the value into any enclosing form.
+        if (input) input.value = code;
+        // Keep the listbox's selected state in sync with the applied locale.
+        options.forEach((o, i) => {
+            o.setAttribute("aria-selected", values[i] === code ? "true" : "false");
+        });
         if (typeof opts.onChange === "function") opts.onChange(code);
     }
 
+    // -----------------------------------------------------------------
+    // Open / close / active-option movement
+    // -----------------------------------------------------------------
+
+    function setActive(index) {
+        activeIndex = index;
+        options.forEach((o, i) => {
+            if (i === index) o.setAttribute("data-active", "");
+            else o.removeAttribute("data-active");
+        });
+        if (index >= 0 && options[index]) {
+            list.setAttribute("aria-activedescendant", options[index].id);
+            scrollIntoViewIfPossible(options[index]);
+        } else {
+            list.removeAttribute("aria-activedescendant");
+        }
+    }
+
+    function openList(startIndex) {
+        const selected = values.indexOf(current);
+        const start =
+            typeof startIndex === "number"
+                ? startIndex
+                : selected >= 0
+                  ? selected
+                  : 0;
+        open = true;
+        list.hidden = false;
+        button.setAttribute("aria-expanded", "true");
+        setActive(start);
+        // Focus moves to the listbox; the active option is conveyed via
+        // aria-activedescendant, per the APG listbox pattern.
+        list.focus();
+    }
+
+    function closeList(refocus = true) {
+        if (!open) return;
+        open = false;
+        list.hidden = true;
+        button.setAttribute("aria-expanded", "false");
+        setActive(-1);
+        if (refocus) button.focus();
+    }
+
+    function choose(index) {
+        const code = values[index];
+        if (code) applyLocale(code);
+        closeList();
+    }
+
+    function moveActive(delta) {
+        if (options.length === 0) return;
+        // Clamp rather than wrap, matching the canonical Svelte helper.
+        const next = Math.min(
+            Math.max(activeIndex + delta, 0),
+            options.length - 1,
+        );
+        setActive(next);
+    }
+
+    function runTypeahead(char) {
+        typeahead += char.toLowerCase();
+        clearTimeout(typeaheadTimer);
+        typeaheadTimer = setTimeout(() => {
+            typeahead = "";
+        }, TYPEAHEAD_RESET_MS);
+        const from = activeIndex < 0 ? 0 : activeIndex;
+        // Search forward from the active option, wrapping once.
+        for (let n = 0; n < options.length; n++) {
+            const i = (from + n) % options.length;
+            if (labels[i].toLowerCase().startsWith(typeahead)) {
+                setActive(i);
+                return;
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------
+    // Event handlers
+    // -----------------------------------------------------------------
+
+    function onButtonClick() {
+        if (open) closeList();
+        else openList();
+    }
+
+    function onButtonKeydown(event) {
+        switch (event.key) {
+            case "ArrowDown":
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                openList();
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                openList(options.length - 1);
+                break;
+            default:
+                break;
+        }
+    }
+
+    function onListKeydown(event) {
+        switch (event.key) {
+            case "ArrowDown":
+                event.preventDefault();
+                moveActive(1);
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                moveActive(-1);
+                break;
+            case "Home":
+                event.preventDefault();
+                setActive(0);
+                break;
+            case "End":
+                event.preventDefault();
+                setActive(options.length - 1);
+                break;
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                if (activeIndex >= 0) choose(activeIndex);
+                break;
+            case "Escape":
+                event.preventDefault();
+                closeList();
+                break;
+            case "Tab":
+                // Tab moves on: close without stealing focus back.
+                closeList(false);
+                break;
+            default:
+                if (
+                    event.key.length === 1 &&
+                    !event.ctrlKey &&
+                    !event.metaKey &&
+                    !event.altKey
+                ) {
+                    runTypeahead(event.key);
+                }
+        }
+    }
+
+    function onListClick(event) {
+        const li = event.target && event.target.closest
+            ? event.target.closest('[role="option"]')
+            : null;
+        if (!li) return;
+        const index = options.indexOf(li);
+        if (index >= 0) choose(index);
+    }
+
+    function onRootFocusOut(event) {
+        const next = event.relatedTarget;
+        if (next && root.contains(next)) return;
+        closeList(false);
+    }
+
+    function onDocumentClick(event) {
+        if (!open) return;
+        const t = event.target;
+        if (t && !root.contains(t)) closeList(false);
+    }
+
+    button.addEventListener("click", onButtonClick);
+    button.addEventListener("keydown", onButtonKeydown);
+    list.addEventListener("keydown", onListKeydown);
+    list.addEventListener("click", onListClick);
+    root.addEventListener("focusout", onRootFocusOut);
+    document.addEventListener("click", onDocumentClick);
+
+    // -----------------------------------------------------------------
     // §5.2 initial value resolution
-    const values = optionValues(root);
+    // value attribute > storage > navigator > default > "en" > first
+    // -----------------------------------------------------------------
 
     let initial = "";
 
@@ -168,11 +376,7 @@ export function initLocaleSelect(root, opts = {}) {
     if (!initial && storageKey) initial = safeStorageGet(storageKey) || "";
 
     // 3. navigator
-    if (
-        !initial &&
-        detectFromNavigator &&
-        typeof navigator !== "undefined"
-    ) {
+    if (!initial && detectFromNavigator && typeof navigator !== "undefined") {
         const navLangs =
             navigator.languages && navigator.languages.length > 0
                 ? Array.from(navigator.languages)
@@ -193,25 +397,17 @@ export function initLocaleSelect(root, opts = {}) {
 
     if (initial) applyLocale(initial);
 
-    // Read the chosen code, snap the control back to the placeholder, then
-    // apply. Choosing the placeholder itself is a no-op.
-    function onChange(e) {
-        const target = e.target;
-        if (
-            target &&
-            target.tagName === "SELECT" &&
-            typeof target.value === "string"
-        ) {
-            const chosen = target.value;
-            target.value = "";
-            if (chosen) applyLocale(chosen);
-        }
-    }
-    root.addEventListener("change", onChange);
-
     return {
         setLocale: applyLocale,
-        destroy: () => root.removeEventListener("change", onChange),
+        destroy: () => {
+            clearTimeout(typeaheadTimer);
+            button.removeEventListener("click", onButtonClick);
+            button.removeEventListener("keydown", onButtonKeydown);
+            list.removeEventListener("keydown", onListKeydown);
+            list.removeEventListener("click", onListClick);
+            root.removeEventListener("focusout", onRootFocusOut);
+            document.removeEventListener("click", onDocumentClick);
+        },
     };
 }
 

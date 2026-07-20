@@ -2,6 +2,65 @@
 
 Symptoms, root causes, and fixes for the most common problems.
 
+## "Opening the list shoves the rest of the page down"
+
+**Cause.** The package ships zero CSS, and the `<ul>` is in normal
+document flow until you position it.
+
+**Fix.** `position: relative` on `.theme-select`, `position: absolute`
+on `.theme-select-list`. Full recipe in
+[styling.md](./styling.md#positioning-the-list).
+
+## "The list never closes"
+
+**Cause.** An unconditional `display` rule in your CSS —
+`.theme-select-list { display: block }` — overrides the `hidden`
+attribute the component toggles.
+
+**Fix.** Scope it: `.theme-select-list:not([hidden]) { display: block }`.
+
+## "The button renders an empty box, or a □"
+
+**Cause.** The default glyph is `◑` (U+25D1 CIRCLE WITH RIGHT HALF
+BLACK), a Geometric Shapes character. Whether it renders depends on
+the fonts installed on the user's device.
+
+**Fix.** Either set a font stack on `.theme-select-icon` that you know
+covers the code point plus a `min-width` / `min-height` on the button
+so it stays a visible target, or replace the glyph with your own
+inline SVG via a projected `<ng-template>`. See
+[custom-rendering.md](./custom-rendering.md#recipe-an-inline-svg-icon).
+
+The accessible name is unaffected either way — the glyph is
+`aria-hidden` and the button is named by `aria-label`.
+
+## "Every option looks highlighted / the highlight doesn't move"
+
+**Cause.** `[data-active]` and `[aria-selected="true"]` are styled the
+same. They are different states: `data-active` is where the keyboard
+is pointing, `aria-selected` is the theme in effect. Mid-navigation
+they are on different options.
+
+**Fix.** Give them distinct treatments — a background for
+`[data-active]`, a weight change or checkmark for
+`[aria-selected="true"]`.
+
+## "Keyboard users can't tell where they are in the list"
+
+**Cause.** No focus ring on `.theme-select-list`. The `<ul>` — not the
+options — holds focus for the whole open interaction, so if it has no
+visible indicator, nothing on screen ties the highlight to the user's
+keystrokes.
+
+**Fix.** Style `.theme-select-list:focus-visible` as well as
+`.theme-select-button:focus-visible`. See
+[accessibility.md](./accessibility.md#visible-focus).
+
+## "Arrow keys stop at the ends instead of wrapping"
+
+Working as specified. The APG listbox pattern clamps rather than
+wraps; `Home` and `End` are the fast paths to the ends.
+
 ## "CSS does not switch when I pick a new theme"
 
 **Likely cause.** Your theme CSS files declare rules under `:root`
@@ -28,15 +87,18 @@ to a real file. Check that:
 
 ## "SSR hydration mismatch (NG0500)"
 
-**Not from the `<select>` itself.** Since the placeholder option is
-always the selected one on both server and client, the control's own
-DOM is identical in both renders and cannot mismatch.
+**Not the ids.** `nextThemeSelectId()` is a deterministic module
+counter, not `Math.random()` / `Date.now()`, so `id`,
+`aria-controls`, and the option ids are identical on both sides.
+
+**Possibly the value-derived attributes.** The hidden input's `value`
+and the `aria-selected` flags follow the resolved theme, so they
+differ if the server rendered from an empty `value` while the client
+resolved one from `localStorage` or `defaultValue`.
 
 **Likely cause.** Something *else* in your template keys off the
 resolved theme — a visible "active theme" label, a conditional class,
-or a `data-*` attribute — and the server rendered it from an empty
-`value` while the client resolved a non-empty one from `localStorage`
-or `defaultValue`.
+or a `data-*` attribute — with the same empty-vs-resolved split.
 
 **Fix.** Resolve the theme on the server (cookie, header, or
 session store) and pass it to the select via `value`, so both renders
@@ -54,9 +116,16 @@ Checklist:
 ## "The word 'default' appears in my select"
 
 It does not come from this component. The select only emits the
-slug (title-cased) or the value from `themeLabels`. Check the
+title-cased slug or the value from `themeLabels`. Check the
 consumer markup wrapping the select for hardcoded "(default)"
 annotations.
+
+## "Typeahead doesn't find the theme I'm typing"
+
+The typeahead matches the **display label**, not the slug. With
+`themeLabels: { light: "Clair" }`, typing `l` will not find it —
+type `c`. The buffer also resets after a 500 ms pause, so typing
+slowly starts a fresh search each time.
 
 ## "Multiple selects fight over `<html data-theme>`"
 
@@ -99,14 +168,27 @@ exposes its bindable on `value`, not `modelValue`. Use
 ## "Compile error: `($event.target as HTMLInputElement).value`"
 
 Angular's template parser rejects parenthesised TypeScript casts
-inside method calls. Use `$any($event.target).value`:
+inside method calls. Use `$any($event.target).value` instead — the
+canonical template-cast pattern across angular-headless and
+angular-helpers.
+
+`ThemeSelect` itself no longer needs it: there is no native control to
+read a value from, and its `(click)` / `(keydown)` bindings call typed
+handler methods with the whole event. You may still hit this in your
+own wrapper templates.
+
+## "`let-args` is `any` in my icon template"
+
+Add the exported `ThemeSelectIcon` marker directive to the
+`<ng-template>` and to your component's `imports`:
 
 ```html
-(change)="onChange($any($event.target).value)"
+<ng-template lilyThemeSelectIcon let-args>{{ args.labelFor(args.value) }}</ng-template>
 ```
 
-This is the canonical template-cast pattern across angular-headless
-and angular-helpers.
+Its `ngTemplateContextGuard` types the context as `ChildArgs` under
+`strictTemplates`. It changes nothing at runtime — the component
+queries any projected `<ng-template>`.
 
 ## "Theme switch works locally but not in production"
 

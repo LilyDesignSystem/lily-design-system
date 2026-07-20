@@ -16,14 +16,29 @@ for the form-action cookie write.
 Under SSR, `$effect` is a no-op. The select renders:
 
 ```html
-<select class="theme-select" aria-label="Theme" name="theme">
-    <option class="theme-select-option" value="light">Light</option>
-    …
-</select>
+<div class="theme-select">
+    <input type="hidden" name="theme" value="" />
+    <button type="button" class="theme-select-button" aria-label="Theme"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="theme-select-1-list">
+        <span class="theme-select-icon" aria-hidden="true">◑</span>
+    </button>
+    <ul class="theme-select-list" id="theme-select-1-list" role="listbox"
+        aria-label="Theme" tabindex="-1" hidden>
+        <li class="theme-select-option" id="theme-select-1-option-0"
+            role="option" aria-selected="false">Light</li>
+        …
+    </ul>
+</div>
 ```
 
-If the consumer passes `value="light"`, the corresponding option
-gets `selected` rendered server-side.
+If the consumer passes `value="light"`, the corresponding option gets
+`aria-selected="true"` and the hidden input gets `value="light"`
+server-side.
+
+Option ids come from the module-level `nextThemeSelectId()` counter, so
+server and client generate identical ids in the same mount order and
+hydration matches. Do not swap it for `Math.random()` / `Date.now()`.
 
 The managed `<link>` is **not** created on the server. `data-theme`
 is **not** written to `<html>` on the server. Those happen on
@@ -200,10 +215,14 @@ export function renderApp(req) {
 If you see a Svelte warning like "hydration_mismatch", the most
 common cause is:
 
-- The server rendered no `selected` on any option (because `value`
-  was empty), but the client picked a non-empty value from
-  `localStorage`.
+- The server rendered `aria-selected="false"` on every option and an
+  empty hidden input (because `value` was empty), but the client picked
+  a non-empty value from `localStorage`, `detectFromSystem`, or
+  `defaultValue`.
 - **Fix.** Resolve the theme server-side and pass it as `value`.
+  `detectFromSystem` in particular can only ever run on the client —
+  `matchMedia` does not exist on the server — so enabling it guarantees
+  a client-side resolution step unless `value` or storage wins first.
 
 A second cause: the consumer wraps the helper in a `{#if browser}`
 branch — this isolates SSR but prevents the server from rendering

@@ -4,6 +4,138 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Added (symmetry with locale-select)
+
+- **`themeName(theme)` is exported.** locale-select has exported
+  `localeName(code)` all along; theme-select had no equivalent, so
+  examples across the catalogs hand-duplicated its title-casing rule.
+  `themeName("high-contrast")` returns `"High Contrast"`. The
+  component's own `labelFor` now delegates to it, so there is exactly
+  one implementation of the rule. `themeLabels` entries still override
+  it.
+- **`detectFromSystem` input and the exported `matchSystemTheme`
+  helper**, mirroring locale-select's `detectFromNavigator` /
+  `matchNavigatorLanguage`. `matchSystemTheme(themes)` reads
+  `matchMedia("(prefers-color-scheme: dark)")`, maps it to `"dark"` /
+  `"light"`, and returns `""` when that slug is not in `themes` **or
+  when `matchMedia` is unavailable** — the SSR guard, which also
+  covers jsdom, since jsdom does not implement `matchMedia`.
+
+  Detection slots into the resolution order in the same position
+  navigator detection occupies for locale-select:
+
+  ```
+  value > storage > detection > defaultValue > "light"/"en" > first
+  ```
+
+  It is a first-visit default, not an override: storage and an
+  explicit `value` still win, and nothing runs unless
+  `detectFromSystem` is set, so existing behaviour is unchanged.
+  `examples/system-preference.component.ts` now uses the input
+  instead of hand-rolling the media query.
+
+
+### Changed (BREAKING — the control is no longer a `<select>`)
+
+- **`<select>` → icon button + WAI-ARIA APG listbox.** The rendered
+  control is now a root `<div class="theme-select">` containing a
+  `<button class="theme-select-button">` that toggles a
+  `<ul class="theme-select-list" role="listbox">` of
+  `<li class="theme-select-option" role="option">` children. The
+  button carries `aria-haspopup="listbox"`, `aria-expanded`, and
+  `aria-controls`; the listbox carries `aria-activedescendant` while
+  open; each option carries `aria-selected` plus a `data-active`
+  styling hook for the keyboard highlight. Nothing is inherited from
+  a native control any more — the component owns every role, state,
+  focus move, and keystroke.
+- **A hidden `<input type="hidden">` carries the value**, so the
+  control still participates in a surrounding `<form>` now that no
+  native form control remains. It takes the `name` input, which
+  *also* still discriminates the managed
+  `<link data-lily-theme-select="{name}">`.
+- **The `placeholder` input is removed.** There is no `<select>` left
+  to pin an option in, so the "pinned placeholder keeps the control
+  narrow" tradeoff introduced in 0.3.0 no longer exists. The
+  `.theme-select-placeholder` class hook and the `field-sizing`
+  width recipe that served it are gone with it. Consumers passing
+  `placeholder` must delete the binding.
+- **Class hooks changed.** `theme-select` now names the root `<div>`
+  (and is where `className` lands). New: `theme-select-button`,
+  `theme-select-icon`, `theme-select-list`. `theme-select-option`
+  now names an `<li>`, not an `<option>`. Removed:
+  `theme-select-placeholder`. New state selectors:
+  `[data-active]` (keyboard highlight) and `[aria-selected="true"]`
+  (theme in effect) — different states, usually on different options.
+- **The package now needs consumer positioning CSS.** The listbox is
+  in normal document flow until styled, so it displaces page content
+  when it opens. The package still ships zero CSS; the minimum recipe
+  (`position: relative` on the root, `position: absolute` on the
+  list) is in `docs/styling.md`.
+- **New keyboard contract**, implemented by the component per the APG
+  listbox pattern. On the button: `ArrowDown` / `Enter` / `Space`
+  open with the selected option active; `ArrowUp` opens with the last
+  option active; opening moves focus to the `<ul>`. On the listbox:
+  `ArrowDown` / `ArrowUp` move the active option and **clamp** rather
+  than wrap; `Home` / `End` jump to the ends; `Enter` / `Space`
+  select, apply, close, and return focus to the button; `Escape`
+  closes and refocuses without changing the value; `Tab` closes
+  without stealing focus back; printable characters run a typeahead
+  over the display **labels** with a 500 ms buffer reset. Clicking an
+  option selects it; clicking outside or moving focus out closes.
+- **Custom rendering is now a projected `<ng-template>` that replaces
+  the button glyph** — it no longer renders options, and there is no
+  per-option template. The component queries any projected template
+  via `contentChild(TemplateRef)` and stamps it with the `ChildArgs`
+  context `{ $implicit, value, open, labelFor }`. The previously
+  documented "future option-projection slot" is not happening; the
+  listbox stays component-owned so the ARIA contract cannot be
+  broken by a consumer.
+- Default option labels now title-case **each** hyphen-separated word
+  and join with spaces (`"high-contrast"` → `"High Contrast"`),
+  rather than upper-casing only the first character.
+
+### Added
+
+- `ThemeSelectIcon` — optional exported marker directive
+  (`ng-template[lilyThemeSelectIcon]`) giving typed `let-` variables
+  for the icon template via `ngTemplateContextGuard`. Purely a
+  type-checking aid; the component's query does not require it.
+- `CIRCLE_WITH_RIGHT_HALF_BLACK` — the default button glyph, `◑`
+  U+25D1 CIRCLE WITH RIGHT HALF BLACK (`&#9681;`), exported so
+  consumers can reuse it without hardcoding the code point.
+- `nextThemeSelectId` — the per-instance id generator. An
+  incrementing module counter rather than `Math.random()` /
+  `Date.now()`, which is what makes the `id` / `aria-controls` /
+  `aria-activedescendant` wiring stable across server and client
+  renders.
+- `ChildArgs` — type-only export describing the icon template's
+  context.
+
+### Unchanged
+
+Everything downstream of the selection: the managed `<link>` swap,
+`data-theme` application, optional `localStorage` persistence, the
+`themeChange` output, `[(value)]` two-way binding, initial-value
+resolution (`value` > storage > `defaultValue` > `"light"` >
+`themes[0]`), SSR safety, and the pure helpers `normaliseThemesUrl` /
+`themeHref`.
+
+### Accessibility (docs)
+
+`docs/accessibility.md` replaces the removed 0.3.0 placeholder
+tradeoff with the three this change introduces, stated without spin:
+an icon-only button depends entirely on `aria-label` for its
+accessible name; a custom listbox has weaker and less consistent
+assistive-technology support than a native `<select>`, which gets
+platform behaviour (including the mobile picker) for free — a real
+regression, not a neutral difference; and the glyph may render at an
+odd weight, render as tofu, or be missing depending on platform font
+coverage. The status-region pattern is retained and still the
+default: the closed button shows only a glyph and never names the
+active theme.
+
 ## 0.3.0 — 2026-07-20
 
 ### Added

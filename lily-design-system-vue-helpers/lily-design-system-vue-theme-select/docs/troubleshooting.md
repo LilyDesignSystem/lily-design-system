@@ -25,10 +25,74 @@ to a real file. Check that:
 - The slug case matches the file name (case-sensitive on most
   servers).
 
+## "The listbox pushes the rest of the page down when it opens"
+
+**Likely cause.** You have not positioned it. The listbox is a plain
+`<ul>` in normal document flow and the package ships **no CSS at
+all** — including no positioning.
+
+**Fix.** `position: relative` on `.theme-select`, `position: absolute`
+on `.theme-select-list`. Full block in
+[styling.md](./styling.md#positioning-the-listbox).
+
+## "The listbox is visible even when closed"
+
+**Likely cause.** You set `display` on `.theme-select-list` (e.g.
+`display: flex` or `display: grid`), which overrides the UA
+stylesheet's `[hidden] { display: none }`.
+
+**Fix.** Restore it explicitly:
+
+```css
+.theme-select-list[hidden] { display: none; }
+```
+
+## "Arrowing through the list does nothing visible"
+
+**Likely cause.** You styled `[aria-selected="true"]` but not
+`[data-active]`. They are different signals: `aria-selected` is the
+committed theme, `data-active` is the option the arrow keys are on.
+Focus sits on the `<ul>`, never on an option, so `[data-active]` is the
+only visible cue during navigation.
+
+**Fix.** Add a `.theme-select-option[data-active]` rule — see
+[styling.md](./styling.md#attribute-hooks).
+
+## "The button shows an empty box (tofu)"
+
+**Likely cause.** The default glyph `◑` (U+25D1 CIRCLE WITH RIGHT HALF
+BLACK) is not present in any font available on the user's system. It is
+a plain text character, so it depends entirely on installed fonts.
+
+**Fix.** Pass your own icon through the default slot — an inline SVG
+renders identically everywhere. See
+[custom-rendering.md](./custom-rendering.md).
+
+## "My slot content isn't replacing the options"
+
+It never did. As of the icon-button rewrite the default slot replaces
+the **button glyph** only; the listbox and its `<li role="option">`
+children are component-owned. Slot content renders inside the
+`<button>`, so `<option>` or `<li>` elements there are invalid.
+
+To build a different UI entirely, drive `v-model:value` from your own
+controls — see the recipe in [recipes.md](./recipes.md).
+
+## "TypeScript says `placeholder` does not exist on Props"
+
+Correct: the `placeholder` prop was **removed** in the icon-button
+rewrite. It described the leading `<option>` of the old native
+`<select>`, and there is no `<select>` any more.
+
+**Fix.** Delete the prop. If you were using it to keep the control
+narrow, that is now the default — the trigger is a single glyph. The
+`.theme-select-placeholder` CSS hook is gone too; delete any rules
+targeting it.
+
 ## "SSR hydration mismatch"
 
-**Likely cause.** The select rendered on the server with no
-selected `<option>` (because `value` was empty), but on the client
+**Likely cause.** The select rendered on the server with an empty
+hidden-input value (because `value` was empty), but on the client
 the lifecycle resolved a non-empty initial value from `localStorage`
 or `defaultValue`. Vue logs a hydration warning when the resulting
 DOM differs.
@@ -52,6 +116,13 @@ It does not come from this component. The select only emits the
 slug (title-cased) or the value from `themeLabels`. Check the
 consumer markup wrapping the select for hardcoded "(default)"
 annotations.
+
+## "Typeahead jumps to the wrong option"
+
+Typeahead matches the **display labels**, not the slugs. With
+`themeLabels: { light: "Bright" }`, typing `l` will not reach it —
+type `b`. The buffer resets 500 ms after the last keystroke, so typing
+slowly restarts the match rather than extending it.
 
 ## "Multiple selects fight over `<html data-theme>`"
 

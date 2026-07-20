@@ -8,9 +8,15 @@ This file documents the Vue-flavoured shape of the contract.
 The barrel (`index.ts`) re-exports:
 
 ```ts
-export { default, default as ThemeSelect } from "./ThemeSelect.vue";
-export type { Props, SlotArgs } from "./ThemeSelect.vue";
-export { normaliseThemesUrl, themeHref } from "./ThemeSelect.vue";
+export {
+    default,
+    default as ThemeSelect,
+    normaliseThemesUrl,
+    themeHref,
+    nextThemeSelectId,
+    CIRCLE_WITH_RIGHT_HALF_BLACK,
+} from "./ThemeSelect.vue";
+export type { Props, SlotArgs, ChildArgs } from "./ThemeSelect.vue";
 ```
 
 A consumer can import either the component or the helpers:
@@ -19,10 +25,17 @@ A consumer can import either the component or the helpers:
 import ThemeSelect, {
     normaliseThemesUrl,
     themeHref,
+    nextThemeSelectId,
+    CIRCLE_WITH_RIGHT_HALF_BLACK,
     type Props,
     type SlotArgs,
+    type ChildArgs,
 } from "./lily-design-system-vue-theme-select";
 ```
+
+`CIRCLE_WITH_RIGHT_HALF_BLACK` is the default button glyph — `"◑"`,
+U+25D1. `ChildArgs` is an alias of `SlotArgs`, matching the canonical
+Svelte helper's type name.
 
 ## Props
 
@@ -40,9 +53,13 @@ import ThemeSelect, {
 | `themeLabels`  | `Record<string, string>` | no       | `{}`                                             |
 | `class`        | `string`                 | no       | `""`                                             |
 
+There is no `placeholder` prop — it was removed with the `<select>`.
+
 The `value` prop is two-way bindable via `v-model:value`. Other
-attributes (`id`, `data-*`, event handlers, ARIA overrides) fall
-through to the root `<select>` via Vue's default `inheritAttrs`.
+attributes (`id`, `data-*`, event handlers) fall through to the root
+`<div>` via Vue's default `inheritAttrs` — note that this reaches the
+wrapper, not the button or the listbox, so `aria-label` must go through
+the `label` prop.
 
 ## Events
 
@@ -56,7 +73,8 @@ defineEmits<{
 `update:value` is the half of `v-model:value` that flows from the
 component back to the parent. It fires:
 
-- after a `<select>` change,
+- when the user commits an option (click, or `Enter` / `Space` on the
+  listbox),
 - once on `onMounted` if the resolved initial value differs from
   the supplied `value` prop.
 
@@ -65,62 +83,78 @@ Use it for analytics, server sync, or cookie writes.
 
 ## Default scoped slot
 
-The default slot's `SlotArgs`:
+The default slot replaces the **button glyph** — not the options. The
+listbox, its `<li role="option">` children, the keyboard contract, and
+the apply lifecycle are all component-owned.
 
 ```ts
 export type SlotArgs = {
-    themes: string[];
-    value: string;
-    setTheme: (theme: string) => void;
-    name: string;
-    labelFor: (theme: string) => string;
+    value: string;                       // the active slug
+    open: boolean;                       // is the listbox open?
+    labelFor: (theme: string) => string; // resolved display label
 };
+export type ChildArgs = SlotArgs;
 ```
 
 Consumers consume it via `<template #default="{ … }">`:
 
 ```vue
 <ThemeSelect label="…" themes-url="/…" :themes="[…]">
-    <template #default="{ themes, value, setTheme, name, labelFor }">
-        <!-- custom markup -->
+    <template #default="{ value, open, labelFor }">
+        <!-- decorative markup only; keep it aria-hidden or text-free -->
     </template>
 </ThemeSelect>
 ```
 
-When no slot is supplied, the select renders the default `<option>`
-markup documented in `spec/index.md §4.4`.
+Slot content sits inside the `<button>`, so it must not contain
+interactive elements, and it must not introduce a competing accessible
+name — `aria-label` from `label` is the button's name.
+
+When no slot is supplied, the button renders
+`<span class="theme-select-icon" aria-hidden="true">◑</span>`, as
+documented in `spec/index.md §4.4`.
 
 ## Pure helpers
 
-Two pure helpers are exported from the SFC's first `<script>` block:
+Exported from the SFC's first `<script>` block:
 
 ```ts
 export function normaliseThemesUrl(themesUrl: string): string;
 export function themeHref(themesUrl: string, slug: string, extension: string): string;
+export function nextThemeSelectId(): string;
+export const CIRCLE_WITH_RIGHT_HALF_BLACK: string;
 ```
 
 `normaliseThemesUrl(s)` ensures `s` ends with exactly one `/`.
 `themeHref(url, slug, ext)` concatenates the three to build the
-final stylesheet href.
+final stylesheet href. Both are pure and side-effect-free; consumers
+can call them from tests, server code, or other components without
+instantiating the select.
 
-Both are pure and side-effect-free; consumers can call them from
-tests, server code, or other components without instantiating the
-select.
+`nextThemeSelectId()` increments a module-level counter and returns
+`"theme-select-{n}"`. It is impure by design (each call returns a new
+id) but SSR-safe: no `Math.random()`, no `Date.now()`, so server and
+client agree. The component calls it once per instance to build the
+listbox and option ids.
 
 ## DOM contract
 
-Root element:
-
 ```html
-<select class="theme-select {class}" aria-label="{label}" name="{name}">
-    <!-- default slot output -->
-</select>
-```
-
-Default option markup (one per `themes` entry):
-
-```html
-<option class="theme-select-option" value="{slug}">{{ labelFor(slug) }}</option>
+<div class="theme-select {class}" ...$attrs>
+    <input type="hidden" name="{name}" value="{value}" />
+    <button type="button" class="theme-select-button"
+            aria-label="{label}" aria-haspopup="listbox"
+            aria-expanded="false" aria-controls="{listId}">
+        <!-- default slot output, or: -->
+        <span class="theme-select-icon" aria-hidden="true">◑</span>
+    </button>
+    <ul class="theme-select-list" id="{listId}" role="listbox"
+        aria-label="{label}" tabindex="-1" hidden
+        aria-activedescendant="{optionId, only while open}">
+        <li class="theme-select-option" id="{optionId}" role="option"
+            aria-selected="true|false" data-active>{labelFor(slug)}</li>
+    </ul>
+</div>
 ```
 
 Document mutations (only inside `onMounted` / `watch`):
@@ -137,8 +171,8 @@ And on the resolved target:
 
 ## Type re-exports
 
-`Props` and `SlotArgs` are re-exported from `index.ts` so consumers
-can type their wrapping code:
+`Props`, `SlotArgs`, and `ChildArgs` are re-exported from `index.ts`
+so consumers can type their wrapping code:
 
 ```ts
 import type { Props, SlotArgs } from "./lily-design-system-vue-theme-select";
@@ -152,7 +186,10 @@ const config: Pick<Props, "themesUrl" | "themes" | "storageKey"> = {
 
 ## Versioning
 
-The API surface above is the v0.1.0 contract. Any breaking change
+The API surface above is the unreleased icon-button contract, which
+breaks 0.3.0: the root is a `<div>` rather than a `<select>`, the
+`placeholder` prop is gone, and the default slot's `SlotArgs` changed
+shape. Any breaking change
 (rename, removal, type narrowing of an existing prop) bumps the
 minor version while v0.x; once v1.0 ships, breaking changes bump
 the major.

@@ -137,9 +137,9 @@ Result:
 
 - First paint: `<html lang="fr" dir="ltr">` arrives in the HTML
   response. No flash, no layout shift.
-- The select shows its placeholder ("Language"), as it always does;
-  the active locale is carried by `Value`, hydrated from the cookie,
-  and by `<html lang>`.
+- The select shows its glyph (🌐), as it always does; the active
+  locale is carried by `Value`, hydrated from the cookie, and by
+  `<html lang>`.
 - User picks `ar`. The endpoint writes the cookie. The select
   writes `<html lang="ar" dir="rtl">`. Next request re-paints the
   page in Arabic from the very first byte.
@@ -254,10 +254,11 @@ consistent because:
 
 - `OnAfterRenderAsync` never fires during prerender, so no DOM
   writes happen server-side.
-- The rendered option markup does not depend on `Value` at all: the
-  placeholder is always the selected option and the locale options are
-  never marked `selected`. There is nothing in the `<select>` for the
-  two sides to disagree about.
+- The markup is a pure function of the parameters. The only parts
+  that depend on `Value` are the hidden input's `value` and which
+  option carries `aria-selected="true"`; the listbox always renders
+  closed (`hidden`, `aria-expanded="false"`, no
+  `aria-activedescendant`) on both sides of the boundary.
 
 The two cases that produce observable drift:
 
@@ -287,8 +288,8 @@ For a fully-static SSR Blazor Web App page (no `@rendermode`
 attribute on either `Routes` or the page), `OnAfterRenderAsync`
 never fires. The select:
 
-- Renders the `<select>` markup with whatever `Value` the
-  consumer supplied.
+- Renders the trigger button and the closed listbox with whatever
+  `Value` the consumer supplied.
 - Does **not** write `lang` / `dir` to `<html>` — the consumer
   is responsible for those on the server side.
 - Does **not** run JS interop (would throw under static SSR).
@@ -296,7 +297,10 @@ never fires. The select:
 This means static SSR is supported, but the consumer has to
 pre-resolve the locale and emit the right `<html>` attributes
 themselves. The select doesn't break; it just doesn't mutate the
-DOM when there's no DOM to mutate.
+DOM when there's no DOM to mutate. Note that without interactivity
+the button cannot open the listbox either, so give the page an
+interactive render mode if the user is meant to change locale from
+it.
 
 ---
 
@@ -312,13 +316,14 @@ SSR coverage:
   inspects the raw HTML response (no JS), and checks
   `<html lang="fr" dir="ltr">` appears before `Routes` activates.
 - **Snapshot** — capture the rendered HTML from
-  `RenderComponent<LocaleSelect>` and assert that the placeholder
-  option is present and `selected`, and that one option per locale
-  follows it.
+  `RenderComponent<LocaleSelect>` and assert that the listbox is
+  `hidden`, that one `<li role="option">` per locale is present with
+  its own `lang`, and that exactly one carries
+  `aria-selected="true"`.
 
 The select itself has no SSR-specific code path to test beyond
-"the component compiles under static SSR and renders its option
-markup".
+"the component compiles under static SSR and renders its button and
+closed listbox".
 
 ---
 

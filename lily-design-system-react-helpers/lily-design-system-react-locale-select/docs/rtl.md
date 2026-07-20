@@ -138,10 +138,13 @@ mirrored CSS:
 
 ## Mixing LTR and RTL on one page
 
-The select's default rendering already does this: each `<option>`
-carries its own `lang` attribute, so the browser's bidi
-algorithm renders "Français" left-to-right and "العربية"
-right-to-left within the same `<select>`.
+The select's rendering already does this: each `<li role="option">`
+carries its own `lang` attribute, so the browser's bidi algorithm
+renders "Français" left-to-right and "العربية" right-to-left within the
+same listbox. Because the list is ordinary markup rather than an OS
+picker, mixed-script option text renders reliably — one of the things
+the custom listbox buys over a native `<select>`, whose option
+rendering is the platform's to decide.
 
 If you embed user-supplied text whose language you don't know, wrap it
 with a `<bdi>` element. `<bdi>` isolates a span from the surrounding
@@ -209,10 +212,16 @@ Three approaches:
 
 ```ts
 // example Playwright assertion
-await page.getByRole("combobox", { name: "Language" }).selectOption("ar");
+await page.getByRole("button", { name: "Language" }).click();
+await page.getByRole("option", { name: "Arabic" }).click();
 await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
 await expect(page.locator("html")).toHaveAttribute("lang", "ar");
 ```
+
+Selecting is two steps now: open the button, then click the option. The
+`option` role only becomes queryable once the list is open, because the
+closed list carries the `hidden` attribute and is excluded from the
+accessibility tree.
 
 ## React 19 specifics
 

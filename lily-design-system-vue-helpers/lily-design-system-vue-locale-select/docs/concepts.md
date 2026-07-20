@@ -27,13 +27,14 @@ Vue.
 
 The select:
 
-- Renders semantic HTML (`<select>` + `<option>`) with the
-  implicit `combobox` / `option` ARIA the browser provides for a
-  native select.
+- Renders semantic HTML — a `<button>` and a `<ul>` of `<li>` — with
+  the WAI-ARIA APG listbox roles and states layered on top, and
+  implements the pattern's keyboard contract itself.
 - Carries a stable kebab-case class hook (`locale-select`,
-  `locale-select-option`, and `locale-select-placeholder` on the
-  leading placeholder option) on every element so your CSS can
-  target it without prefixes or specificity tricks.
+  `locale-select-button`, `locale-select-icon`, `locale-select-list`,
+  `locale-select-option`) on every element so your CSS can target it
+  without prefixes or specificity tricks. `data-active` marks the
+  keyboard-active option for styling.
 - Ships **no** colour, spacing, typography, font, icon, or
   animation decisions. You supply all of that.
 - Ships **no** translated strings. The `label` prop and
@@ -66,23 +67,36 @@ Each instance manages a single bindable `value`:
 Both DOM mutation and storage are side effects, so they belong in
 `watch` / `onMounted`, not in computed values.
 
-## Why a native `<select>` by default
+## Why an icon button and a listbox
 
-Three reasons:
+The control used to be a native `<select>`. Three reasons it isn't
+any more:
 
-1. **Scales to long lists**. A native `<select>` stays compact and
-   pops the OS-native picker on mobile, so it handles 2 or 200
-   locales without layout cost.
+1. **Constant width**. A `<select>` grows to fit its longest option.
+   The built-in locale table has 436 entries, several of them long
+   enough to blow out a utility bar on their own. An icon button
+   costs one glyph regardless of list length.
 2. **Symmetry with `ThemeSelect`**. The sibling helper in this
-   directory uses the same shape, so the two compose visually and
+   directory made the same move, so the two compose visually and
    semantically without surprises.
-3. **Escape hatch is one slot away**. The default scoped slot
-   hands you the full state machine — locales, value, `setLocale`,
-   `tagFor`, `isRtl`, `labelFor` — so a button group or custom
-   `<option>` markup is a 10-line rewrite, not a fork.
+3. **Full styleability**. A native option list is drawn by the OS and
+   is essentially unstyleable. A `<ul role="listbox">` is ordinary
+   DOM: your CSS owns every pixel, and per-option `lang` is honoured
+   consistently rather than at the platform's discretion.
 
-For an always-visible list of a few locales, use the slot to render
-a button group. See [examples/03-buttons.vue](../examples/03-buttons.vue).
+This is a real trade, not a free win — a scripted listbox has weaker
+assistive-technology support than the native control it replaced, and
+there is no OS picker on mobile. The reasoning is spelled out in
+[docs/accessibility.md](./accessibility.md); read it before adopting
+the helper in a service with a broad, non-self-selecting user base.
+
+The default scoped slot replaces the **button glyph** only — see
+[examples/custom-rendering.vue](../examples/custom-rendering.vue) and
+[examples/script-aware-glyph.vue](../examples/script-aware-glyph.vue). If you need a
+different control shape entirely, render it yourself next to the
+component and bind both to the same ref; `LocaleSelect` keeps owning
+the apply lifecycle. See
+[examples/combobox.vue](../examples/combobox.vue).
 
 ## Why a separate `value` and `target.lang`
 
@@ -126,15 +140,19 @@ resolver and pass the result as `value`.
 
 ## How to test it
 
-Three layers, mirroring the lifecycle:
+Four layers, mirroring the lifecycle:
 
 1. **Pure helpers** — `bcp47LocaleTag`, `isRtlLocale`,
    `localeName`, `matchNavigatorLanguage` are pure functions.
    Unit-test them in isolation.
 2. **DOM contract** — after mount, assert
-   `document.documentElement.lang` and `.dir`. Drive a `setValue`
-   on the `<select>` and assert again.
-3. **Bindable + change event** — drive `value` programmatically
+   `document.documentElement.lang` and `.dir`. Click the button to
+   open the listbox, click an `<li role="option">`, and assert again.
+3. **Keyboard contract** — trigger keydowns on the button to open,
+   then on the `<ul>` to move, commit, and cancel; assert
+   `aria-activedescendant`, `hidden`, `aria-expanded`, and where
+   focus landed.
+4. **Bindable + change event** — drive `value` programmatically
    and assert the same DOM observations; assert that `change` was
    emitted.
 
@@ -155,10 +173,12 @@ change, which is fine for most components but breaks the
 
 ### Scoped slot props in templates
 
-Vue scoped slots use kebab-case attributes on the component side
-(`:set-locale="setLocale"`) and camelCase on the consumer side
-(`{ setLocale }`). The `SlotArgs` TypeScript type uses camelCase
-for autocomplete; the template uses kebab-case. Both are correct.
+The default slot receives `{ value, open, labelFor }` — the button
+glyph's view of the state, not the option list's. The `SlotArgs`
+TypeScript type uses camelCase for autocomplete; component *props* in
+templates use kebab-case (`storage-key`, `detect-from-navigator`).
+Both are correct. `ChildArgs` is exported as an alias of `SlotArgs`
+so the type name matches the Svelte canonical.
 
 ### `v-model:value` vs `v-model`
 

@@ -1,8 +1,9 @@
 # LocaleSelect (Svelte helper)
 
-A reusable, headless Svelte 5 locale select that applies the chosen
-locale to the document root via `lang` and `dir`, with optional
-`localStorage` persistence and `navigator.languages` detection.
+A reusable, headless Svelte 5 locale select — an **icon button that
+opens a WAI-ARIA APG listbox** — that applies the chosen locale to the
+document root via `lang` and `dir`, with optional `localStorage`
+persistence and `navigator.languages` detection.
 
 For the full contract see [spec/index.md](./spec/index.md) — it is the single source
 of truth for the API, behaviour, and tests.
@@ -60,19 +61,28 @@ all see the change.
 </p>
 ```
 
-The status line is part of the pattern, not an optional extra. The
-closed control is placeholder-pinned — it always reads "Language"
-rather than the active locale name, which is what keeps it that narrow
-— so a screen reader never hears the active locale announced as the
-combobox value. That matters more here than for most controls: someone
-who has landed on a page in a language they cannot read needs to
-confirm what the control is currently set to. `aria-live="polite"`
-announces mutations only, so it stays silent on first paint and speaks
-once per change, and the `lang` on the `<span>` keeps the locale name
-pronounced in its own language. Keep it visible if you can; if you
-cannot spare the space, hide it visually but keep the element and the
-live region. Full reasoning and the opt-out:
-[docs/accessibility.md](./docs/accessibility.md).
+You also need to **style the listbox** — the package ships zero CSS,
+and an unpositioned popup renders in normal flow and shoves the page
+down when it opens. Use logical properties, since this control flips
+the page to RTL. See
+[docs/styling.md § Positioning the listbox](./docs/styling.md#positioning-the-listbox).
+
+The status line is recommended, though no longer strictly compensatory.
+The listbox marks the active option with `aria-selected="true"`, so a
+screen-reader user who opens the control does hear which locale is
+current. But the *closed* control shows only a glyph — and unlike a
+theme select, the active locale is not something a user can infer by
+looking, unless they can already read the page, which is the one thing
+this control cannot assume. `aria-live="polite"` announces mutations
+only, so it stays silent on first paint and speaks once per change, and
+the `lang` on the `<span>` keeps the locale name pronounced in its own
+language. Full reasoning and when to omit it:
+[docs/accessibility.md](./docs/accessibility.md#the-status-region).
+
+> The example above wraps the name in `lang` while showing
+> `localeName`, which returns the **English** name — so drop the `lang`
+> unless you are supplying endonyms via `localeLabels`. See the note in
+> [docs/accessibility.md](./docs/accessibility.md#the-status-region).
 
 When the user picks `ar`, the component:
 
@@ -126,7 +136,7 @@ Pass `applyDir={false}` if you want full control of `dir` yourself.
 
 ## Examples
 
-### Default select with NHS-style markup
+### Rendered markup
 
 ```svelte
 <script lang="ts">
@@ -135,23 +145,91 @@ Pass `applyDir={false}` if you want full control of `dir` yourself.
 </script>
 
 <LocaleSelect label="Language" locales={["en", "cy"]} bind:value={locale} />
+```
 
-<!-- Renders:
-<select class="locale-select" aria-label="Language" name="locale">
-    <option class="locale-select-option locale-select-placeholder" value="">Language</option>
-    <option class="locale-select-option" value="en" lang="en">English</option>
-    <option class="locale-select-option" value="cy" lang="cy">Welsh</option>
-</select>
--->
+Renders:
+
+```html
+<div class="locale-select">
+    <input type="hidden" name="locale" value="en" />
+    <button type="button" class="locale-select-button" aria-label="Language"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="locale-select-1-list">
+        <span class="locale-select-icon" aria-hidden="true">🌐︎</span>
+    </button>
+    <ul class="locale-select-list" id="locale-select-1-list" role="listbox"
+        aria-label="Language" tabindex="-1" hidden>
+        <li class="locale-select-option" id="locale-select-1-option-0"
+            role="option" aria-selected="true" lang="en">English</li>
+        <li class="locale-select-option" id="locale-select-1-option-1"
+            role="option" aria-selected="false" lang="cy">Welsh</li>
+    </ul>
+</div>
 ```
 
 Each locale option carries its own `lang` attribute so a screen reader
 pronounces "Cymraeg" with a Welsh voice (WCAG 3.1.2, Language of
-Parts).
+Parts). The button and the list carry none — they are in whatever
+language you wrote `label` in.
 
-The leading placeholder option is the one the closed control displays —
-it is not a locale, so it carries no `lang`. See
-[The closed control always reads the placeholder](#the-closed-control-always-reads-the-placeholder).
+The glyph is U+1F310 GLOBE WITH MERIDIANS followed by **U+FE0E
+VARIATION SELECTOR-15**, which forces monochrome text presentation so
+the control matches `theme-select`'s `◑` instead of rendering as a blue
+colour emoji. It is `aria-hidden`; the accessible name comes from
+`label`.
+
+The hidden input keeps the control working inside a `<form>`, carrying
+the consumer-form code.
+
+### Why an icon button
+
+The closed control costs one glyph of page width whether you offer
+three locales or all 436 in `locales.tsv`. A native `<select>` is as
+wide as its longest option, or truncates it.
+
+This shape has three real costs — an icon-only control's name rests
+entirely on `aria-label` (which is itself written in *one* language,
+for the one control a user reaches when they cannot read the page); a
+hand-rolled listbox has weaker assistive-technology support than a
+native `<select>`; and the glyph is a font-dependent character that may
+substitute, render in colour, or fail to render. They are set out in
+full, with mitigations, in
+[docs/accessibility.md](./docs/accessibility.md). **For some audiences
+a native `<select>` is the better choice** — read that page before
+adopting this helper in an accessibility-critical or public-service
+context.
+
+### Keyboard
+
+Follows the WAI-ARIA APG
+[Listbox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/).
+Every key is implemented by the component — none of it comes from the
+platform.
+
+On the **button**:
+
+| Key | Action |
+| --- | ------ |
+| `Enter` / `Space` / `Arrow Down` | Open with the selected option active. |
+| `Arrow Up` | Open with the **last** option active. |
+
+On the **listbox** (focus moves there on open):
+
+| Key | Action |
+| --- | ------ |
+| `Arrow Down` / `Arrow Up` | Move the active option; **clamps**, does not wrap. |
+| `Home` / `End` | Jump to the first / last option. |
+| `Enter` / `Space` | Select, apply, close, refocus the button. |
+| `Escape` | Close and refocus **without** changing the locale. |
+| `Tab` | Close without stealing focus back. |
+| Printable character | Typeahead over the labels; 500 ms buffer. |
+
+Clicking an option selects it; clicking outside or moving focus out of
+the root closes the listbox.
+
+Typeahead matches the **label**, so with the built-in English names a
+user types "Fr" for French; with endonym labels they must type "Fra"
+for "Français". Choose deliberately for long lists.
 
 ### Pretty labels for the option text
 
@@ -169,62 +247,57 @@ Override per-code with `localeLabels`:
 ```
 
 Each option carries a `lang="…"` attribute so each one is
-announced in its own language.
+announced in its own language. Prefer endonyms — the person who needs
+this control is the person who cannot read your default language.
 
-### Driving custom `<option>` markup
+### Customising the button
 
-Use the `children` snippet for full markup control. The select still
-owns the apply lifecycle:
+The `children` snippet **replaces the glyph inside the trigger
+button**. It receives `{ value, open, labelFor }` and does **not**
+render the options — the listbox is component-owned.
+
+Pairing the glyph with the active locale's endonym is the strongest
+mitigation for the icon-only naming tradeoff:
 
 ```svelte
 <script lang="ts">
-    import LocaleSelect from "./lily-design-system-svelte-locale-select/LocaleSelect.svelte";
+    import LocaleSelect, {
+        bcp47LocaleTag,
+        isRtlLocale,
+    } from "./lily-design-system-svelte-locale-select/LocaleSelect.svelte";
+
     let locale = $state("en");
 </script>
 
 <LocaleSelect
     label="Language"
-    locales={["en", "fr", "es", "de", "ar"]}
+    locales={["en", "fr", "ar"]}
+    localeLabels={{ en: "English", fr: "Français", ar: "العربية" }}
     bind:value={locale}
-    storageKey="lily-locale"
 >
-    {#snippet children({ locales, value, setLocale, labelFor, tagFor })}
-        <select
-            aria-label="Language"
-            value={value}
-            onchange={(e) => setLocale((e.currentTarget as HTMLSelectElement).value)}
+    {#snippet children({ value, open, labelFor })}
+        <span aria-hidden="true">🌐︎</span>
+        <span
+            class="locale-select-text"
+            lang={bcp47LocaleTag(value)}
+            dir={isRtlLocale(value) ? "rtl" : "ltr"}
         >
-            {#each locales as l (l)}
-                <option value={l} lang={tagFor(l)}>{labelFor(l)}</option>
-            {/each}
-        </select>
+            {labelFor(value)}
+        </span>
+        <span aria-hidden="true">{open ? "▴" : "▾"}</span>
     {/snippet}
 </LocaleSelect>
 ```
 
-### Driving a button group
+The `lang` on the span is only correct because the labels are endonyms;
+with the built-in English names, drop it.
 
-```svelte
-<LocaleSelect label="Language" locales={["en", "fr", "ar"]} bind:value={locale}>
-    {#snippet children({ locales, value, setLocale, labelFor, tagFor, isRtl })}
-        <ul class="locale-select-list">
-            {#each locales as l (l)}
-                <li>
-                    <button
-                        type="button"
-                        aria-pressed={value === l}
-                        lang={tagFor(l)}
-                        dir={isRtl(l) ? "rtl" : "ltr"}
-                        onclick={() => setLocale(l)}
-                    >
-                        {labelFor(l)}
-                    </button>
-                </li>
-            {/each}
-        </ul>
-    {/snippet}
-</LocaleSelect>
-```
+The snippet's output lives inside a `<button>`, so it must not contain
+interactive elements. The pre-listbox patterns built on the old
+`ChildArgs` — a custom `<select>`, a radio group, a button group, a
+`<datalist>` combobox — are no longer possible; read `value` and drive
+your own controls instead. See
+[docs/custom-rendering.md](./docs/custom-rendering.md).
 
 ### Wiring an i18n library
 
@@ -265,11 +338,12 @@ cookie or `Accept-Language`) and pass it as `value`:
 />
 ```
 
-During SSR the component renders the `<select>` showing its placeholder
-(as it always does), and the document already arrives with the correct
-`lang` attribute on `<html>` — which is what prevents the flicker. The
-supplied value is held in the `value` prop, not in the element's own
-selection.
+During SSR the component renders the button and the (hidden) listbox,
+with `aria-selected` and the hidden input reflecting the supplied
+`value`, and the document already arrives with the correct `lang`
+attribute on `<html>` — which is what prevents the flicker. Option ids
+come from an incrementing module counter, so server and client agree
+and hydration matches.
 
 ### Render into a scoped target instead of `<html>`
 
@@ -321,64 +395,80 @@ See [spec/index.md §4](./spec/index.md#4-public-api) for the full table.
 
 Required props: `label`, `locales`.
 
-Common optional props: `value` (bindable), `placeholder`,
-`defaultValue`, `storageKey`, `detectFromNavigator`, `localeLabels`,
-`applyDir`, `target`, `onChange`, `class`, `name`, `children`.
+Common optional props: `value` (bindable), `defaultValue`,
+`storageKey`, `detectFromNavigator`, `localeLabels`, `applyDir`,
+`target`, `onChange`, `class`, `name`, `children`.
 
-## The closed control always reads the placeholder
+**There is no `placeholder` prop.** It was removed along with the
+native `<select>` it belonged to. Field-by-field reference:
+[docs/props-reference.md](./docs/props-reference.md).
 
-The `<select>` renders a leading placeholder option and pins its own
-selection to it, so the closed control always shows the word
-`placeholder ?? label` — "Locale" — rather than the name of the active
-locale. That keeps the control as narrow as that one word instead of as
-wide as the longest locale name.
+## Class hooks
 
-The active locale still lives in the bindable `value` prop, and `lang`,
-`dir`, persistence, and `onChange` are all driven from it exactly as
-before. Only the element's own `value` differs: it stays `""`.
+`.locale-select` (root `<div>`), `.locale-select-button` (the trigger),
+`.locale-select-icon` (the glyph span), `.locale-select-list` (the
+`<ul role="listbox">`), `.locale-select-option` (each
+`<li role="option">`). Plus `[data-active]` for the keyboard cursor and
+`[aria-selected]` for the applied locale — style both.
 
-Size the control in your own CSS — this package ships none:
+The `.locale-select-placeholder` hook is gone with the placeholder
+option.
 
-```css
-.locale-select:has(> .locale-select-placeholder) {
-  width: auto;
-  max-width: 12ch;
-  field-sizing: content; /* Chromium: size to the displayed option */
-}
-```
-
-The root [`themes/`](../../themes) stylesheets already carry this rule.
-
-Class hooks: `.locale-select` (root), `.locale-select-option` (each
-option), `.locale-select-placeholder` (the leading placeholder option).
+The package ships zero CSS, so **you must position the listbox**, using
+logical properties so it survives the RTL switch this control performs.
+See [docs/styling.md](./docs/styling.md).
 
 ## Accessibility
 
-- `<select aria-label="…">` is the announced control (implicit
-  `combobox` role).
-- The native `<select>` gives Arrow / Home / End / typeahead semantics
-  for free.
-- Each `<option>` carries `lang="…"` so its name is pronounced in
-  the right language (WCAG 3.1.2, Language of Parts).
+- Built to the WAI-ARIA APG **Listbox** pattern: a `<button
+  aria-haspopup="listbox">` controlling a `<ul role="listbox">` whose
+  active option is tracked with `aria-activedescendant`.
+- `aria-label={label}` names both the button and the listbox.
+- The full keyboard contract is implemented by the component — see
+  [Keyboard](#keyboard).
+- Each `<li role="option">` carries `lang="…"` so its name is
+  pronounced in the right language (WCAG 3.1.2, Language of Parts).
 - The document root carries `lang` and (by default) `dir` so the page
   satisfies WCAG 3.1.1 (Language of Page) and bidi text/layout
   inverts correctly for RTL locales.
-- No colour-only meaning; the active state is visible in the resolved
-  `lang` attribute on the document root.
-- **Tradeoff.** Because the closed control always displays the
-  placeholder, a screen-reader user does not hear the active locale
-  announced as the combobox value. Where knowing the current locale
-  matters, surface it separately — visible text near the control, or a
-  polite live region updated from `onChange`. See
-  [docs/accessibility.md](./docs/accessibility.md).
+- The active state is exposed four ways: `aria-selected` on the option,
+  `lang` on the target, the hidden input's value, and the `value`
+  binding. No colour-only meaning.
+- Choosing a locale returns focus to the trigger button and does not
+  navigate — WCAG 3.2.2 (On Input).
+
+**Three tradeoffs, stated plainly:**
+
+1. The button is icon-only, so its accessible name rests **entirely**
+   on `aria-label` — and `aria-label` is written in *one* language.
+   This is the control a user reaches for precisely when they cannot
+   read the page, so the circularity is real. Pairing the glyph with
+   the active locale's endonym via `children` is the strongest
+   mitigation.
+2. A hand-rolled listbox has **weaker assistive-technology support**
+   than a native `<select>` — particularly on mobile, where a native
+   select opens the OS picker. For some audiences, and public-service
+   audiences especially, a plain `<select aria-label>` with one
+   `<option lang>` per locale is genuinely the better choice; it is
+   about fifteen lines, and this package's exported pure helpers still
+   do the logic.
+3. The glyph is a **font-dependent character**. VS15 requests
+   monochrome presentation but cannot guarantee it, and on a device
+   with no covering font the button renders empty or as a "tofu" box.
+
+Each has mitigations. Read
+[docs/accessibility.md](./docs/accessibility.md) before adopting this
+helper in an accessibility-critical context.
 
 ## Tests
 
 `pnpm test` under a vitest + jsdom + `@testing-library/svelte` setup
-exercises every numbered acceptance criterion in
-[spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria) — 23 numbered
-items plus extras for case-insensitive RTL detection and the
-navigator-matcher helper.
+exercises every numbered acceptance clause in
+[spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria) — 27
+clauses covering the markup contract, the pure helpers, locale
+application, initial-value resolution, spread + custom children, and
+the APG keyboard contract, plus four untagged extras for
+case-insensitive RTL detection and the navigator matcher.
 
 ## Files in this directory
 
@@ -396,32 +486,52 @@ navigator-matcher helper.
 
 ## Documentation
 
-| Guide                                                | Covers                                                              |
-| ---------------------------------------------------- | ------------------------------------------------------------------- |
-| [docs/concepts.md](./docs/concepts.md)               | Mental model, lifecycle diagram, why the defaults are what they are. |
-| [docs/bcp47.md](./docs/bcp47.md)                     | Language-tag syntax (RFC 5646), IANA registry, subtag composition.   |
-| [docs/rtl.md](./docs/rtl.md)                         | What's auto-detected, what `dir="rtl"` actually changes, CSS tips.   |
-| [docs/i18n-integration.md](./docs/i18n-integration.md) | Wiring svelte-i18n, Paraglide, Tolgee, raw `Intl.*`, SvelteKit URL strategies. |
-| [docs/ssr.md](./docs/ssr.md)                         | Cookie, URL-prefix, Accept-Language, streaming SSR, FOUC avoidance.  |
-| [docs/accessibility.md](./docs/accessibility.md)     | WCAG 2.2 AAA mapping, keyboard contract, screen-reader matrix.       |
+Shared with `theme-select` (same topics, written for this helper):
+
+| Guide                                                    | Covers                                                              |
+| -------------------------------------------------------- | ------------------------------------------------------------------- |
+| [docs/props-reference.md](./docs/props-reference.md)     | Field-by-field reference for every prop, with rationale.            |
+| [docs/styling.md](./docs/styling.md)                     | Class and attribute hooks, positioning the listbox, RTL-safe CSS.   |
+| [docs/custom-rendering.md](./docs/custom-rendering.md)   | The `children` snippet — replacing the button's glyph.              |
+| [docs/recipes.md](./docs/recipes.md)                     | Short solutions to adjacent problems.                               |
+| [docs/troubleshooting.md](./docs/troubleshooting.md)     | Symptoms, root causes, fixes.                                       |
+| [docs/accessibility.md](./docs/accessibility.md)         | APG listbox contract, the three tradeoffs, screen-reader matrix.    |
+| [docs/ssr.md](./docs/ssr.md)                             | Cookie, URL-prefix, Accept-Language, streaming SSR, FOUC avoidance. |
+
+Specific to locale-select (no `theme-select` counterpart):
+
+| Guide                                                    | Covers                                                              |
+| -------------------------------------------------------- | ------------------------------------------------------------------- |
+| [docs/concepts.md](./docs/concepts.md)                   | Mental model, lifecycle diagram, why the defaults are what they are. |
+| [docs/bcp47.md](./docs/bcp47.md)                         | Language-tag syntax (RFC 5646), IANA registry, subtag composition.  |
+| [docs/rtl.md](./docs/rtl.md)                             | What's auto-detected, what `dir="rtl"` actually changes, CSS tips.  |
+| [docs/i18n-integration.md](./docs/i18n-integration.md)   | Wiring svelte-i18n, Paraglide, Tolgee, raw `Intl.*`, SvelteKit URL strategies. |
+
+`theme-select`'s `preloading.md` has no counterpart here — it is about
+stylesheet preloading, which this helper does not do.
 
 ## Examples
 
 Each file in `examples/` is a complete, runnable Svelte 5 component
 you can copy into your project.
 
-| Example                                                                                 | Demonstrates                                                       |
-| --------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [01-radios.svelte](./examples/01-radios.svelte)                                         | The default native `<select>` rendering.                          |
-| [02-select.svelte](./examples/02-select.svelte)                                         | Custom `<select>` markup via the `children` snippet.              |
-| [03-buttons.svelte](./examples/03-buttons.svelte)                                       | Toggle-button group with short codes / glyphs.                     |
-| [04-rtl-demo.svelte](./examples/04-rtl-demo.svelte)                                     | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
-| [05-nhs-style.svelte](./examples/05-nhs-style.svelte)                                   | NHS UK-style language banner with endonyms.                        |
-| [06-with-svelte-i18n.svelte](./examples/06-with-svelte-i18n.svelte)                     | Binding to svelte-i18n's `locale` store.                           |
-| [07-with-paraglide.svelte](./examples/07-with-paraglide.svelte)                         | Driving Paraglide JS's `setLocale()` from `onChange`.              |
-| [08-ssr-cookie.svelte](./examples/08-ssr-cookie.svelte)                                 | SvelteKit cookie-based SSR — no flash of default locale.           |
-| [09-scoped-target.svelte](./examples/09-scoped-target.svelte)                           | Multiple per-region selects, each scoped to its own panel.         |
-| [10-combobox.svelte](./examples/10-combobox.svelte)                                     | Native `<datalist>` type-ahead for 436 locales.                    |
+| Example                                                                 | Demonstrates                                                       |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| [basic.svelte](./examples/basic.svelte)                                 | The default rendering, plus the `.locale-select-status` live region. |
+| [custom-rendering.svelte](./examples/custom-rendering.svelte)           | `children` snippet — globe + the active locale's endonym + caret.   |
+| [many-locales.svelte](./examples/many-locales.svelte)                   | A 23-locale list in a one-glyph control; typeahead and scrolling.   |
+| [persistence.svelte](./examples/persistence.svelte)                     | `storageKey` plus `detectFromNavigator` on first visit.             |
+| [rtl-demo.svelte](./examples/rtl-demo.svelte)                           | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.           |
+| [nhs-style.svelte](./examples/nhs-style.svelte)                         | NHS UK-style utility banner with endonyms and a `class` hook.       |
+| [with-svelte-i18n.svelte](./examples/with-svelte-i18n.svelte)           | Binding to svelte-i18n's `locale` store.                            |
+| [with-paraglide.svelte](./examples/with-paraglide.svelte)               | Driving Paraglide JS's `setLocale()` from `onChange`.               |
+| [ssr-cookie.svelte](./examples/ssr-cookie.svelte)                       | SvelteKit cookie-based SSR — no flash of default locale.            |
+| [scoped-target.svelte](./examples/scoped-target.svelte)                 | Multiple per-region selects, each scoped to its own panel.          |
+
+These were previously numbered `01-radios`, `02-select`, `03-buttons`,
+… — names left over from a radio-group rendering the package has not
+had for some time. The mapping is recorded in
+[examples/README.md](./examples/README.md#renamed-from-the-radio-group-era).
 
 ---
 

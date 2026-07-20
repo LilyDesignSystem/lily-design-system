@@ -8,12 +8,14 @@
   /assets/themes/light.css.
 
   Drop the macro file alongside this one, the client.js next to that,
-  and load the script tag at the bottom.
+  and load the script tag at the bottom. The script is not optional:
+  the macro renders an icon button plus a hidden listbox, and the
+  button does not open until the client.js runs. See ../docs/ssr.md.
 
-  Note the status region below the select. The closed <select> always
-  reads the placeholder word ("Theme"), never the active theme, so a
-  screen-reader user would otherwise have no way to hear which theme
-  is active. The status line is part of the default pattern — see
+  Note the status region below the control. The trigger is an
+  icon-only button, so it never displays the active theme, and a
+  screen-reader user hears the active theme only after opening the
+  listbox. The status line is part of the default pattern — see
   ../docs/accessibility.md. Omitting it is the deliberate choice.
 #}
 {% from "../theme-select.njk" import themeSelect %}

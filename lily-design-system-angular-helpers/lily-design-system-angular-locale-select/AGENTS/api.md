@@ -10,11 +10,15 @@ The barrel (`index.ts`) re-exports:
 ```ts
 export {
     LocaleSelect,
+    LocaleSelectIcon,
+    GLOBE_WITH_MERIDIANS,
+    nextLocaleSelectId,
     bcp47LocaleTag,
     isRtlLocale,
     localeName,
     matchNavigatorLanguage,
 } from "./locale-select.component";
+export type { ChildArgs } from "./locale-select.component";
 export {
     defaultLocaleLabels,
     RTL_LANGUAGE_TAGS,
@@ -27,6 +31,7 @@ A consumer can import either the component or the pure helpers:
 ```ts
 import {
     LocaleSelect,
+    LocaleSelectIcon,
     bcp47LocaleTag,
     isRtlLocale,
     matchNavigatorLanguage,
@@ -35,7 +40,9 @@ import {
 
 The component's TypeScript types (the public field shapes) are
 inferred from the `input<T>()` / `model<T>()` / `output<T>()`
-factories — there's no separate `Props` interface to import.
+factories — there's no separate `Props` interface to import. The one
+exported type is `ChildArgs`, the context of the projected icon
+template.
 
 ## Inputs
 
@@ -53,10 +60,53 @@ factories — there's no separate `Props` interface to import.
 | `localeLabels`         | `Record<string, string>`      | no       | `{}`                                                 |
 | `className`            | `string`                      | no       | `""`                                                 |
 
+`label` names both the button and the listbox; because the button is
+icon-only it is the entire accessible name. `name` lands on the
+hidden input, not on any native control. `className` is appended to
+the root `<div>`.
+
 `value` is two-way bindable via `[(value)]="locale"` in the
 consumer's template. Other attributes (`id`, `data-*`, event
 handlers) live on the host element (`<lily-locale-select>`), not on
-the inner `<select>`.
+the inner root `<div>`.
+
+## Content projection
+
+A projected `<ng-template>` replaces the default globe glyph inside
+the button. It does **not** render options.
+
+```html
+<lily-locale-select label="Language" [locales]="locales">
+    <ng-template let-args>{{ args.labelFor(args.value) }}</ng-template>
+</lily-locale-select>
+```
+
+The context type:
+
+```ts
+export type ChildArgs = {
+    value: string;
+    open: boolean;
+    labelFor: (locale: string) => string;
+};
+```
+
+It is passed both as `$implicit` (so `let-args` works) and spread as
+named properties (so `let-value`, `let-open`, `let-labelFor` work).
+
+`LocaleSelectIcon` is an optional marker directive
+(`ng-template[lilyLocaleSelectIcon]`) whose only job is the
+`ngTemplateContextGuard` that types the `let-` variables. The
+component queries with `contentChild(TemplateRef)`, so the marker is
+never required for matching:
+
+```html
+<lily-locale-select label="Language" [locales]="locales">
+    <ng-template lilyLocaleSelectIcon let-args>
+        {{ args.labelFor(args.value) }}
+    </ng-template>
+</lily-locale-select>
+```
 
 ## Outputs
 
@@ -69,7 +119,8 @@ Plus the implicit `valueChange` output from `model<string>()`.
 `valueChange` flows from the component back to the parent. It
 fires:
 
-- after a `<select>` change (via `onChange`),
+- after an option is chosen (by click, or by `Enter` / `Space` on
+  the active option),
 - once on first `effect()` run if the resolved initial value
   differs from the supplied `value` input.
 
@@ -89,34 +140,73 @@ export function matchNavigatorLanguage(
 ): string;
 ```
 
+`nextLocaleSelectId()` is exported too, but it is *not* pure — it
+increments a module-scoped counter:
+
+```ts
+export function nextLocaleSelectId(): string; // "locale-select-1", "locale-select-2", …
+```
+
+It exists so ids are stable and collision-free without
+`Math.random()` or `Date.now()`, which would differ between the
+server and client renders and trip hydration.
+
 Plus the constants:
 
 ```ts
+export const GLOBE_WITH_MERIDIANS: string; // "\u{1F310}"
 export const defaultLocaleLabels: Record<string, string>;
 export const RTL_LANGUAGE_TAGS: ReadonlySet<string>;
 export const RTL_SCRIPT_SUBTAGS: ReadonlySet<string>;
 ```
 
-All pure functions are side-effect-free; consumers can call them
+All the pure functions are side-effect-free; consumers can call them
 from tests, server code, or other components without instantiating
 the select.
 
 ## DOM contract
 
-Root element:
-
 ```html
-<select
-    [class]="'locale-select ' + className()"
-    [attr.aria-label]="label()"
-    [name]="name()"
-    (change)="onChange($any($event.target).value)"
->
-    @for (locale of locales(); track locale) {
-        <option class="locale-select-option" [value]="locale" [attr.lang]="tagFor(locale)">{{ labelFor(locale) }}</option>
-    }
-</select>
+<div class="locale-select {className}">
+    <input type="hidden" [name]="name()" [value]="value()" />
+
+    <button
+        type="button"
+        class="locale-select-button"
+        [attr.aria-label]="label() || null"
+        aria-haspopup="listbox"
+        [attr.aria-expanded]="open()"
+        [attr.aria-controls]="listId"
+    >
+        <span class="locale-select-icon" aria-hidden="true">&#127760;</span>
+    </button>
+
+    <ul
+        class="locale-select-list"
+        [id]="listId"
+        role="listbox"
+        [attr.aria-label]="label() || null"
+        [attr.aria-activedescendant]="activeDescendant()"
+        tabindex="-1"
+        [attr.hidden]="open() ? null : ''"
+    >
+        @for (locale of locales(); track locale; let i = $index) {
+            <li
+                class="locale-select-option"
+                [id]="optionId(i)"
+                role="option"
+                [attr.aria-selected]="locale === value()"
+                [attr.data-active]="i === activeIndex() ? '' : null"
+                [attr.lang]="tagFor(locale)"
+            >{{ labelFor(locale) }}</li>
+        }
+    </ul>
+</div>
 ```
+
+`aria-activedescendant` is a `computed()` that returns `null` unless
+the list is open and `activeIndex() >= 0`, so the attribute is absent
+while closed.
 
 Document mutations (only inside the `effect()` callback, guarded
 by `typeof document !== "undefined"`):
@@ -153,7 +243,11 @@ tagFor(locale: string): string {
 @Component({
     selector: "lily-locale-select",
     standalone: true,
+    imports: [NgTemplateOutlet],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        "(document:click)": "onDocumentClick($event)",
+    },
     template: `…`,
 })
 export class LocaleSelect {
@@ -169,9 +263,18 @@ export class LocaleSelect {
     readonly localeLabels = input<Record<string, string>>({});
     readonly className = input<string>("");
     readonly localeChange = output<string>();
+
+    /** Projected icon template; replaces the default glyph when supplied. */
+    protected readonly iconTemplate = contentChild(TemplateRef);
     // …
 }
 ```
+
+Outside-click closing rides on the `host` binding above rather than
+a manual `addEventListener`, and focus-out closing rides on a
+`(focusout)` binding on the root `<div>`. Both are torn down by
+Angular when the component is destroyed; the only manual cleanup is
+the typeahead timer, cleared via `inject(DestroyRef).onDestroy(…)`.
 
 `readonly` denotes that the *reference* (the signal itself) is
 constant; the signal's underlying value still changes reactively.

@@ -1,7 +1,8 @@
 # LocaleSelect (React helper)
 
-A reusable, headless React 19 locale select that applies the chosen
-locale to the document root via `lang` and `dir`, with optional
+A reusable, headless React 19 locale select — an icon button that opens
+a dropdown listbox (WAI-ARIA APG Listbox pattern) — that applies the
+chosen locale to the document root via `lang` and `dir`, with optional
 `localStorage` persistence and `navigator.languages` detection.
 
 For the full contract see [spec/index.md](./spec/index.md) — it is the single
@@ -27,9 +28,13 @@ import {
 ## Quick start
 
 Render the select with a `label` and the list of locales your app
-supports. The select writes `lang` and `dir` onto `<html>` so your
-i18n library, your CSS (`html[dir="rtl"]`), and assistive technology
-all see the change.
+supports. You get a globe button that opens a listbox of the locales.
+Picking one writes `lang` and `dir` onto `<html>` so your i18n library,
+your CSS (`html[dir="rtl"]`), and assistive technology all see the
+change.
+
+`label` is required and does real work: the globe glyph is
+`aria-hidden`, so `label` is the button's only accessible name.
 
 ```tsx
 "use client";
@@ -62,14 +67,14 @@ export function LanguageChooser() {
 ```
 
 The status line is part of the pattern, not an optional extra. The
-closed control is placeholder-pinned — it always reads "Language",
-never "Français" — so without this line the active locale is announced
-to nobody and shown to nobody. `aria-live="polite"` announces mutations
-only, so it stays quiet on first paint and speaks once per user change,
-and `localeName()` turns the code into a human name. Keep it visible
-where you can (it helps sighted and cognitively-loaded users too); if
-your design cannot spare the space, hide it with a visually-hidden
-class rather than dropping it — see
+closed control shows only a glyph — it never displays or announces the
+active language — so without this line the active locale is shown to
+nobody and announced to nobody. `aria-live="polite"` announces
+mutations only, so it stays quiet on first paint and speaks once per
+user change, and `localeName()` turns the code into a human name. Keep
+it visible where you can (it helps sighted and cognitively-loaded users
+too); if your design cannot spare the space, hide it with a
+visually-hidden class rather than dropping it — see
 [docs/accessibility.md](./docs/accessibility.md) for the full
 rationale and its limits.
 
@@ -125,7 +130,7 @@ Pass `applyDir={false}` if you want full control of `dir` yourself.
 
 ## Examples
 
-### Default `<select>` with NHS-style markup
+### Default rendering
 
 ```tsx
 "use client";
@@ -146,63 +151,113 @@ export function NhsBanner() {
 }
 
 // Renders:
-// <select class="locale-select" aria-label="Language" name="locale">
-//     <option class="locale-select-option locale-select-placeholder" value="">Language</option>
-//     <option class="locale-select-option" value="en" lang="en">English</option>
-//     <option class="locale-select-option" value="cy" lang="cy">Welsh</option>
-// </select>
+// <div class="locale-select">
+//     <input type="hidden" name="locale" value="en" />
+//     <button type="button" class="locale-select-button" aria-label="Language"
+//             aria-haspopup="listbox" aria-expanded="false" aria-controls="…-list">
+//         <span class="locale-select-icon" aria-hidden="true">🌐</span>
+//     </button>
+//     <ul class="locale-select-list" id="…-list" role="listbox"
+//         aria-label="Language" tabindex="-1" hidden>
+//         <li class="locale-select-option" id="…-option-0" role="option"
+//             aria-selected="true" data-active lang="en">English</li>
+//         <li class="locale-select-option" id="…-option-1" role="option"
+//             aria-selected="false" lang="cy">Welsh</li>
+//     </ul>
+// </div>
 ```
 
 Each locale option carries its own `lang` attribute so a screen reader
 pronounces "Cymraeg" with a Welsh voice (WCAG 3.1.2, Language of
-Parts). The leading placeholder carries none — it is not a locale.
+Parts). The button and the list carry no `lang` — they are not
+locale-specific.
 
-### The always-shown placeholder
+The glyph is U+1F310 GLOBE WITH MERIDIANS + U+FE0E VARIATION SELECTOR-15, exported
+as `GLOBE_WITH_MERIDIANS`. It is `aria-hidden`, so the button's
+accessible name comes entirely from `label`.
 
-The closed control **always** reads the placeholder option — never the
-name of the active locale. After you pick an option the select's own
-value snaps straight back to `""`, which keeps the control as narrow as
-the placeholder word instead of stretching to the longest locale name.
+Option and list ids come from React's `useId`, so they are stable
+across server and client render and survive hydration.
 
-The real selection is unaffected: it lives in the `value` prop /
-internal state, and `lang`, `dir`, persistence, and `onChange` all
-behave exactly as before.
+### Keyboard
 
-Pass `placeholder` to show a shorter word than the accessible name:
+The control implements the WAI-ARIA APG Listbox keyboard contract
+itself — none of it comes from the platform.
 
-```tsx
-<LocaleSelect label="Choose a language" placeholder="Locale" locales={["en", "cy"]} />
-```
+On the button:
 
-Because the closed control only ever shows that one short word, you can
-size it to the word rather than to the longest locale name. The package
-ships no CSS; add this to your own stylesheet:
+| Key                             | Action                                              |
+| ------------------------------- | --------------------------------------------------- |
+| `ArrowDown` / `Enter` / `Space` | Open with the current locale active; focus moves to the list. |
+| `ArrowUp`                       | Open with the **last** option active.               |
+
+On the open listbox:
+
+| Key                     | Action                                                    |
+| ----------------------- | --------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option; clamps at the ends, no wrapping.  |
+| `Home` / `End`          | Jump to the first / last option.                          |
+| `Enter` / `Space`       | Select, apply, close, and return focus to the button.     |
+| `Escape`                | Close and return focus, leaving the locale unchanged.     |
+| `Tab`                   | Close and let focus move on.                              |
+| Any printable character | Typeahead over the option labels (500 ms buffer).         |
+
+Clicking an option selects it; clicking outside, or moving focus out of
+the control, closes the list without changing the locale.
+
+### Styling
+
+This package ships no CSS. Full guide in
+[docs/styling.md](./docs/styling.md); the class hooks are:
+
+| Hook                         | Element                                     |
+| ---------------------------- | ------------------------------------------- |
+| `.locale-select`             | Root `<div>`.                               |
+| `.locale-select-button`      | The trigger `<button>`.                     |
+| `.locale-select-icon`        | The default glyph `<span>` (absent when you pass `children`). |
+| `.locale-select-list`        | The `<ul role="listbox">`.                  |
+| `.locale-select-option`      | Each `<li role="option">`.                  |
+| `.locale-select-status`      | The consumer-rendered status line — you render it, and the examples always do. |
+
+Two attribute hooks go with them: `[aria-selected="true"]` marks the
+active locale, and `[data-active]` marks the option under the keyboard
+cursor while the list is open. Style both, and do not rely on colour
+alone (WCAG 1.4.1).
+
+Open and close are driven purely by the `hidden` attribute, and the
+package ships no positioning, so give the list a stacking context of
+your own:
 
 ```css
 .locale-select {
-    field-sizing: content; /* Chrome 123+: size to the shown option */
-    width: auto;
-    max-width: 12ch; /* fallback for Firefox / Safari */
+    position: relative;
+}
+
+.locale-select-list {
+    position: absolute;
+    inset-inline-start: 0;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.locale-select-option[aria-selected="true"] {
+    font-weight: 600;
+}
+
+.locale-select-option[data-active] {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
 }
 ```
 
-The placeholder option is addressable as `.locale-select-placeholder`
-(it also carries `.locale-select-option`).
-
-One tradeoff to know: because the control never shows the active
-locale, screen-reader users no longer hear it announced as the combobox
-value. That is exactly why the quick start above pairs the select with
-a `.locale-select-status` live region — pairing them is the default
-pattern, and dropping the status line is the deliberate opt-out. See
-[docs/accessibility.md](./docs/accessibility.md).
+Do not override `.locale-select-list[hidden]` with a `display` value —
+that would leave the list visible when it is meant to be closed.
 
 ### Styling the status line
 
-This package ships no `docs/styling.md`; the class hooks are
-`.locale-select` (root `<select>`), `.locale-select-option`,
-`.locale-select-placeholder`, and `.locale-select-status` (the
-consumer-rendered status line — you render it, and the examples always
-do). Style the status line as ordinary body copy:
+Style the status line as ordinary body copy:
 
 ```css
 .locale-select-status {
@@ -252,10 +307,12 @@ Override per-code with `localeLabels`:
 Each label is rendered inside a `lang="…"` block so each one is
 announced in its own language.
 
-### Driving a custom `<select>`
+### Replacing the button glyph
 
-Use the `children` render prop for full markup control. The select
-still owns the apply lifecycle:
+The `children` render prop replaces what sits **inside** the button. It
+does not render the options — the component owns the listbox, its
+options, and the whole keyboard contract. It receives
+`{ value, open, labelFor }`:
 
 ```tsx
 <LocaleSelect
@@ -265,47 +322,30 @@ still owns the apply lifecycle:
     onChange={setLocale}
     storageKey="lily-locale"
 >
-    {({ locales, value, setLocale, labelFor, tagFor }) => (
-        <select
-            aria-label="Language"
-            value={value}
-            onChange={(e) => setLocale(e.target.value)}
-        >
-            {locales.map((l) => (
-                <option key={l} value={l} lang={tagFor(l)}>
-                    {labelFor(l)}
-                </option>
-            ))}
-        </select>
+    {({ value, open, labelFor }) => (
+        <span aria-hidden="true" title={labelFor(value)}>
+            {value.split("_")[0].toUpperCase()} {open ? "▴" : "▾"}
+        </span>
     )}
 </LocaleSelect>
 ```
 
-### Driving a button group
+Mark your glyph `aria-hidden="true"`: the button already has its
+accessible name from `label`, so unhidden content is announced twice.
+
+Showing the active language in the button — a short code as above, or
+the endonym — is worth doing. It offsets the main cost of an icon-only
+control, which is that the active locale is otherwise invisible while
+the list is closed:
 
 ```tsx
-<LocaleSelect
-    label="Language"
-    locales={["en", "fr", "ar"]}
-    value={locale}
-    onChange={setLocale}
->
-    {({ locales, value, setLocale, labelFor, tagFor, isRtl }) => (
-        <ul className="locale-select-list">
-            {locales.map((l) => (
-                <li key={l}>
-                    <button
-                        type="button"
-                        aria-pressed={value === l}
-                        lang={tagFor(l)}
-                        dir={isRtl(l) ? "rtl" : "ltr"}
-                        onClick={() => setLocale(l)}
-                    >
-                        {labelFor(l)}
-                    </button>
-                </li>
-            ))}
-        </ul>
+import { LocaleSelect, GLOBE_WITH_MERIDIANS } from "./lily-design-system-react-locale-select";
+
+<LocaleSelect label="Language" locales={["en", "cy"]} value={locale} onChange={setLocale}>
+    {({ value, labelFor }) => (
+        <span aria-hidden="true">
+            {GLOBE_WITH_MERIDIANS} {labelFor(value)}
+        </span>
     )}
 </LocaleSelect>
 ```
@@ -425,35 +465,40 @@ See [spec/index.md §4](./spec/index.md#4-public-api) for the full table.
 
 Required props: `label`, `locales`.
 
-Common optional props: `placeholder` (placeholder-option text;
-defaults to `label`), `value` (controlled), `defaultValue`,
+Common optional props: `value` (controlled), `defaultValue`,
 `storageKey`, `detectFromNavigator`, `localeLabels`, `applyDir`,
-`target`, `onChange`, `className`, `name`, `children`.
+`target`, `onChange`, `className`, `name` (on the hidden input),
+`children` (button glyph override).
 
 ## Accessibility
 
-- `<select aria-label="…">` (implicit `combobox` role) is the
-  announced control.
-- The native `<select>` gives Arrow / Home / End / typeahead semantics
-  for free (see MDN — `<select>` element).
-- Each locale `<option>` carries `lang="…"` so its name is pronounced
+- The `<button>` is the announced control: `aria-haspopup="listbox"`,
+  `aria-expanded`, `aria-controls`, and `aria-label={label}`. Because
+  the glyph is `aria-hidden`, `label` is its only accessible name.
+- The `<ul role="listbox">` holds focus while open and marks the
+  keyboard cursor with `aria-activedescendant`; options carry
+  `aria-selected` and a `data-active` styling hook.
+- Full APG Listbox keyboard contract — see [Keyboard](#keyboard) above.
+- Each locale option carries `lang="…"` so its name is pronounced
   in the right language (WCAG 3.1.2, Language of Parts).
 - The document root carries `lang` and (by default) `dir` so the
   page satisfies WCAG 3.1.1 (Language of Page) and bidi text/layout
   inverts correctly for RTL locales.
-- No colour-only meaning; the active state is visible in the resolved
-  `lang` attribute.
-- **Tradeoff:** because the closed control always reads the
-  placeholder, the active locale is no longer announced as the
-  combobox value. The default pattern compensates with a visible
-  `.locale-select-status` live region beside the select — see
-  [docs/accessibility.md](./docs/accessibility.md).
+- No colour-only meaning; state rides on `aria-selected`,
+  `data-active`, and the resolved `lang` attribute.
+- **Tradeoffs.** An icon-only control depends entirely on `aria-label`
+  for its name; a custom listbox has weaker assistive-technology
+  support than a native `<select>`; and the globe glyph is
+  font-dependent and culturally loaded. The default pattern compensates
+  with a visible `.locale-select-status` live region beside the control
+  — see [docs/accessibility.md](./docs/accessibility.md) for the full
+  discussion.
 
 ## Tests
 
 `pnpm test` under a vitest + jsdom + `@testing-library/react` setup
 exercises every numbered acceptance criterion in
-[spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria) — 23 numbered
+[spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria) — 27 numbered
 items plus extras for case-insensitive RTL detection and the
 navigator-matcher helper.
 
@@ -479,12 +524,17 @@ navigator-matcher helper.
 
 | Guide                                                | Covers                                                              |
 | ---------------------------------------------------- | ------------------------------------------------------------------- |
+| [docs/props-reference.md](./docs/props-reference.md) | Field-by-field reference for every prop.                            |
 | [docs/concepts.md](./docs/concepts.md)               | Mental model, lifecycle diagram, why the defaults are what they are. |
 | [docs/bcp47.md](./docs/bcp47.md)                     | Language-tag syntax (RFC 5646), IANA registry, subtag composition.   |
 | [docs/rtl.md](./docs/rtl.md)                         | What's auto-detected, what `dir="rtl"` actually changes, CSS tips.   |
 | [docs/i18n-integration.md](./docs/i18n-integration.md) | Wiring react-intl, react-i18next, Paraglide, Tolgee, raw `Intl.*`. |
 | [docs/ssr.md](./docs/ssr.md)                         | Cookie, URL-prefix, Accept-Language, streaming SSR, FOUC avoidance.  |
 | [docs/accessibility.md](./docs/accessibility.md)     | WCAG 2.2 AAA mapping, keyboard contract, screen-reader matrix.       |
+| [docs/styling.md](./docs/styling.md)                 | Class hooks, attribute hooks, positioning, baseline CSS.            |
+| [docs/custom-rendering.md](./docs/custom-rendering.md) | Replacing the button glyph via the `children` render prop.        |
+| [docs/recipes.md](./docs/recipes.md)                 | Cookbook of adjacent problems.                                      |
+| [docs/troubleshooting.md](./docs/troubleshooting.md) | Symptoms, root causes, fixes.                                       |
 
 ## Examples
 
@@ -493,16 +543,16 @@ you can copy into your project.
 
 | Example                                                                                 | Demonstrates                                                       |
 | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [01-radios.tsx](./examples/01-radios.tsx)                                               | The default native `<select>` rendering + the default status line. |
-| [02-select.tsx](./examples/02-select.tsx)                                               | Custom `<select>` markup via the `children` render prop.           |
-| [03-buttons.tsx](./examples/03-buttons.tsx)                                             | Toggle-button group with short codes / glyphs.                     |
-| [04-rtl-demo.tsx](./examples/04-rtl-demo.tsx)                                           | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
-| [05-nhs-style.tsx](./examples/05-nhs-style.tsx)                                         | NHS UK-style language banner with endonyms.                        |
-| [06-with-react-intl.tsx](./examples/06-with-react-intl.tsx)                             | Binding to react-intl's `locale` prop.                             |
-| [07-with-react-i18next.tsx](./examples/07-with-react-i18next.tsx)                       | Driving react-i18next's `changeLanguage()` from `onChange`.        |
-| [08-ssr-cookie.tsx](./examples/08-ssr-cookie.tsx)                                       | Next.js App Router cookie-based SSR — no flash of default locale.  |
-| [09-scoped-target.tsx](./examples/09-scoped-target.tsx)                                 | Multiple per-region selects, each scoped to its own panel.         |
-| [10-combobox.tsx](./examples/10-combobox.tsx)                                           | Native `<datalist>` type-ahead for 436 locales.                    |
+| [basic.tsx](./examples/basic.tsx)                                               | The default globe-button rendering + the default status line.      |
+| [custom-rendering.tsx](./examples/custom-rendering.tsx)                                               | `children` glyph override showing the active short code + chevron. |
+| [compact-glyph.tsx](./examples/compact-glyph.tsx)                                             | Compact glyph button with short codes / script characters.         |
+| [rtl-demo.tsx](./examples/rtl-demo.tsx)                                           | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
+| [nhs-style.tsx](./examples/nhs-style.tsx)                                         | NHS UK-style language banner: globe + endonym in the button.       |
+| [with-react-intl.tsx](./examples/with-react-intl.tsx)                             | Binding to react-intl's `locale` prop.                             |
+| [with-react-i18next.tsx](./examples/with-react-i18next.tsx)                       | Driving react-i18next's `changeLanguage()` from `onChange`.        |
+| [ssr-cookie.tsx](./examples/ssr-cookie.tsx)                                       | Next.js App Router cookie-based SSR — no flash of default locale.  |
+| [scoped-target.tsx](./examples/scoped-target.tsx)                                 | Multiple per-region selects, each scoped to its own panel.         |
+| [all-locales.tsx](./examples/all-locales.tsx)                                           | All 436 locales, navigated with the built-in listbox typeahead.    |
 
 ---
 

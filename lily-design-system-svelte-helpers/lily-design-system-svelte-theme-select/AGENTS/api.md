@@ -5,7 +5,12 @@ This file documents the Svelte 5-flavoured shape of the contract.
 
 ## Exports
 
-The barrel (`index.ts`) re-exports:
+`ThemeSelect.svelte`'s module script exports the component plus the
+pure helpers `normaliseThemesUrl`, `themeHref`, `themeName`,
+`matchSystemTheme`, `nextThemeSelectId`, and the glyph constant
+`CIRCLE_WITH_RIGHT_HALF_BLACK`.
+
+The barrel (`index.ts`) currently re-exports a **subset**:
 
 ```ts
 export {
@@ -17,38 +22,49 @@ export {
 export type { Props, ChildArgs } from "./ThemeSelect.svelte";
 ```
 
-A consumer can import either the component or the helpers:
+`themeName`, `matchSystemTheme`, and
+`CIRCLE_WITH_RIGHT_HALF_BLACK` must be imported from
+`./ThemeSelect.svelte` directly. Widening the barrel to match
+`locale-select`'s — which re-exports all of its pure helpers — is a
+pending follow-up.
 
 ```ts
 import ThemeSelect, {
     normaliseThemesUrl,
     themeHref,
+    themeName,
+    matchSystemTheme,
     type Props,
     type ChildArgs,
-} from "lily-design-system-svelte-theme-select";
+} from "./ThemeSelect.svelte";
 ```
 
 ## Props
 
-| Prop           | Type                     | Required | Default                                                |
-| -------------- | ------------------------ | -------- | ------------------------------------------------------ |
-| `label`        | `string`                 | yes      | —                                                      |
-| `themesUrl`    | `string`                 | yes      | —                                                      |
-| `themes`       | `string[]`               | yes      | —                                                      |
-| `value`        | `string` (bindable)      | no       | `""`                                                   |
-| `defaultValue` | `string`                 | no       | `undefined` (resolves to `"light"` or `themes[0]`)     |
-| `storageKey`   | `string`                 | no       | `undefined`                                            |
-| `name`         | `string`                 | no       | `"theme"`                                              |
-| `extension`    | `string`                 | no       | `".css"`                                               |
-| `target`       | `HTMLElement \| null`    | no       | `undefined` (resolves to `document.documentElement`)   |
-| `themeLabels`  | `Record<string, string>` | no       | `{}`                                                   |
-| `children`     | `Snippet<[ChildArgs]>`   | no       | default `<option>` markup                              |
-| `onChange`     | `(theme: string) => void`| no       | `undefined`                                            |
-| `class`        | `string`                 | no       | `""`                                                   |
+| Prop              | Type                     | Required | Default                                                |
+| ----------------- | ------------------------ | -------- | ------------------------------------------------------ |
+| `label`           | `string`                 | yes      | —                                                      |
+| `themesUrl`       | `string`                 | yes      | —                                                      |
+| `themes`          | `string[]`               | yes      | —                                                      |
+| `value`           | `string` (bindable)      | no       | `""`                                                   |
+| `defaultValue`    | `string`                 | no       | `undefined` (resolves to `"light"` or `themes[0]`)     |
+| `storageKey`      | `string`                 | no       | `undefined`                                            |
+| `detectFromSystem`| `boolean`                | no       | `false`                                                |
+| `name`            | `string`                 | no       | `"theme"`                                              |
+| `extension`       | `string`                 | no       | `".css"`                                               |
+| `target`          | `HTMLElement \| null`    | no       | `undefined` (resolves to `document.documentElement`)   |
+| `themeLabels`     | `Record<string, string>` | no       | `{}`                                                   |
+| `children`        | `Snippet<[ChildArgs]>`   | no       | the `◑` glyph                                          |
+| `onChange`        | `(theme: string) => void`| no       | `undefined`                                            |
+| `class`           | `string`                 | no       | `""`                                                   |
+
+**There is no `placeholder` prop.** It was removed with the native
+`<select>`; do not reintroduce it.
 
 The `value` prop is two-way bindable via `bind:value`. Other
-attributes (`id`, `data-*`, event handlers, ARIA overrides) fall
-through to the root `<select>` via the `{...restProps}` spread.
+attributes (`id`, `data-*`, event handlers) fall through to the root
+`<div>` via the `{...restProps}` spread — note they land on the root,
+**not** on the button.
 
 ## Callbacks
 
@@ -60,7 +76,8 @@ onChange?: (theme: string) => void;
 
 `onChange` fires every time the select successfully applies a theme:
 
-- after a `<select>` change, with the new slug,
+- after a listbox selection (click, or `Enter` / `Space` on the active
+  option), with the new slug,
 - once when `$effect` resolves the initial value, with the resolved
   slug.
 
@@ -72,14 +89,17 @@ change without needing `onChange`.
 
 ## Children snippet
 
-The `children` prop is typed as `Snippet<[ChildArgs]>`:
+The `children` prop is typed as `Snippet<[ChildArgs]>` and **replaces
+the glyph inside the trigger button**. It does not render options —
+the listbox and its `<li role="option">` children are component-owned.
 
 ```ts
 export type ChildArgs = {
-    themes: string[];
+    /** Currently selected theme slug. */
     value: string;
-    setTheme: (theme: string) => void;
-    name: string;
+    /** Is the listbox open? */
+    open: boolean;
+    /** Resolve a slug to its display label. */
     labelFor: (theme: string) => string;
 };
 ```
@@ -92,56 +112,71 @@ Consumers consume it via a `{#snippet}` block:
     themesUrl="/assets/themes/"
     themes={["light", "dark", "abyss"]}
 >
-    {#snippet children({ themes, value, setTheme, name, labelFor })}
-        <!-- custom markup -->
-        {#each themes as theme}
-            <button
-                type="button"
-                class:active={value === theme}
-                onclick={() => setTheme(theme)}
-            >
-                {labelFor(theme)}
-            </button>
-        {/each}
+    {#snippet children({ value, open, labelFor })}
+        <span aria-hidden="true">◑</span>
+        <span class="theme-select-text">{labelFor(value)}</span>
+        <span aria-hidden="true">{open ? "▴" : "▾"}</span>
     {/snippet}
 </ThemeSelect>
 ```
 
-When no snippet is supplied, the select renders the default `<option>`
-markup documented in `spec/index.md §4.2`.
+When no snippet is supplied, the button renders
+`<span class="theme-select-icon" aria-hidden="true">◑</span>`. When one
+is supplied, that span is not emitted.
+
+The snippet's output lives inside a `<button>`, so it must not contain
+interactive elements.
 
 ## Pure helpers
 
-Two pure helpers are exported from the `<script lang="ts" module>`
-block:
+Exported from the `<script lang="ts" module>` block:
 
 ```ts
 export function normaliseThemesUrl(themesUrl: string): string;
 export function themeHref(themesUrl: string, slug: string, extension: string): string;
+export function themeName(theme: string): string;
+export function matchSystemTheme(themes: readonly string[]): string;
+export function nextThemeSelectId(): string;
+export const CIRCLE_WITH_RIGHT_HALF_BLACK: string;  // "◑", U+25D1
 ```
 
-`normaliseThemesUrl(s)` ensures `s` ends with exactly one `/`.
-`themeHref(url, slug, ext)` concatenates the three to build the
-final stylesheet href.
+- `normaliseThemesUrl(s)` ensures `s` ends with exactly one `/`.
+- `themeHref(url, slug, ext)` concatenates the three to build the final
+  stylesheet href.
+- `themeName(slug)` title-cases each hyphen-separated word
+  (`"high-contrast"` → `"High Contrast"`). The internal `labelFor`
+  delegates to it, so there is exactly one implementation. Mirrors
+  `localeName` in `locale-select`.
+- `matchSystemTheme(themes)` reads
+  `matchMedia("(prefers-color-scheme: dark)")`, maps to `"dark"` /
+  `"light"`, and returns `""` when that slug is absent from `themes`
+  **or** when `matchMedia` is unavailable (SSR, jsdom). Mirrors
+  `matchNavigatorLanguage` in `locale-select`.
+- `nextThemeSelectId()` increments a module counter to produce stable,
+  unique, SSR-safe id prefixes. Never replace with `Math.random()` or
+  `Date.now()`.
 
-Both are pure and side-effect-free; consumers can call them from
-tests, server code (`hooks.server.ts`), or other components without
-instantiating the select.
+All except `nextThemeSelectId` (which mutates the counter) are pure
+and side-effect-free; consumers can call them from tests, server code
+(`hooks.server.ts`), or other components without instantiating the
+select.
 
 ## DOM contract
 
-Root element:
-
 ```html
-<select class="theme-select {class}" aria-label="{label}" name="{name}">
-    <!-- children snippet output, or default markup -->
-</select>
-```
-
-Default option markup (one per `themes` entry):
-
-```html
-<option class="theme-select-option" value="{slug}">{labelFor(slug)}</option>
+<div class="theme-select {class}" ...restProps>
+    <input type="hidden" name="{name}" value="{value}" />
+    <button type="button" class="theme-select-button" aria-label="{label}"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
+        <span class="theme-select-icon" aria-hidden="true">◑</span>
+        <!-- or the children snippet output -->
+    </button>
+    <ul class="theme-select-list" id="{listId}" role="listbox" aria-label="{label}"
+        tabindex="-1" hidden aria-activedescendant="{active optionId while open}">
+        <li class="theme-select-option" id="{optionId}" role="option"
+            aria-selected="true|false" data-active>{labelFor(slug)}</li>
+    </ul>
+</div>
 ```
 
 Document mutations (only inside `$effect`):

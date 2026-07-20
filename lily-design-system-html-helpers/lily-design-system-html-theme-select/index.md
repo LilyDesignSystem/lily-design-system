@@ -4,6 +4,9 @@ A reusable, headless vanilla HTML/JS theme select that **loads themes
 dynamically at runtime** from a developer-specified directory,
 packaged as a **web component (custom element)**.
 
+The control is an **icon button that opens a dropdown listbox**
+(WAI-ARIA APG listbox pattern) — not a native `<select>`.
+
 The single source of truth is [spec/index.md](./spec/index.md). This file is the
 comprehensive user guide. For topic deep-dives see
 [docs/](./docs/) and for working code see [examples/](./examples/).
@@ -14,12 +17,15 @@ comprehensive user guide. For topic deep-dives see
 - [Install](#install)
 - [Quick start](#quick-start)
 - [Rendered markup](#rendered-markup)
+- [Styling is required](#styling-is-required)
 - [How it works](#how-it-works)
+- [Keyboard](#keyboard)
 - [Default theme](#default-theme)
 - [Attributes](#attributes)
 - [JS properties](#js-properties)
+- [Methods](#methods)
 - [Events](#events)
-- [Custom option rendering](#custom-option-rendering)
+- [Custom button rendering](#custom-button-rendering)
 - [Persistence](#persistence)
 - [Accessibility](#accessibility)
 - [SSR and static-site generation](#ssr-and-static-site-generation)
@@ -38,13 +44,14 @@ opinionated widget. This one splits the contract cleanly:
   a directory served by the app.
 - **This element** owns selection, dynamic loading, persistence, and
   accessibility.
-- **Consumers** own the visual style of the select via the
-  `theme-select` class hook.
+- **Consumers** own every visual decision via the `theme-select`
+  class hooks — including the dropdown's positioning.
 
 The result is a small reusable widget that works in any HTML host
 (static HTML, Eleventy, Astro, Hugo, plain Vite, any framework that
-emits HTML) and against any theme catalog — Lily™'s 41
-DaisyUI-inspired themes, NHS-aligned themes, or your own bespoke set.
+emits HTML) and against any theme catalog — Lily™'s 45 reference
+themes (DaisyUI-inspired, NHS-aligned, and public-sector / vendor
+reference themes), or your own bespoke set.
 
 The element is a direct port of the Svelte canonical
 `lily-design-system-svelte-theme-select`. APIs and behaviour match;
@@ -66,6 +73,8 @@ import {
     ThemeSelect,
     normalizeThemesUrl,
     themeHref,
+    nextThemeSelectId,
+    CIRCLE_WITH_RIGHT_HALF_BLACK,
     type ThemeSelectProps,
     type ThemeSelectChangeDetail,
 } from "./lily-design-system-html-theme-select";
@@ -82,12 +91,28 @@ don't throw.
    `public/assets/themes/dark.css`. Each theme scopes its tokens to
    `:root[data-theme="<slug>"]` (the convention every Lily theme
    uses).
-2. Place the custom element in your markup. It renders a
-   `<select>` with a leading placeholder `<option>` plus one
-   `<option>` per theme on `connectedCallback`.
+2. Place the custom element in your markup. On `connectedCallback`
+   it renders an icon button plus a hidden dropdown listbox holding
+   one option per theme.
+3. **Add the positioning CSS.** The package ships no CSS, so the
+   dropdown renders in flow until you position it. This is not
+   optional — see [Styling is required](#styling-is-required).
 
 ```html
 <script type="module" src="/dist/theme-select.js"></script>
+
+<style>
+    /* The minimum: make the dropdown float over the page. */
+    .theme-select { position: relative; }
+    .theme-select-list {
+        position: absolute;
+        inset-block-start: 100%;
+        inset-inline-start: 0;
+        z-index: 10;
+    }
+    .theme-select-option[data-active] { background: #eee; }
+    .theme-select-option[aria-selected="true"] { font-weight: 600; }
+</style>
 
 <theme-select
     label="Theme"
@@ -103,23 +128,23 @@ don't throw.
 
     const select = document.querySelector("theme-select");
     const status = document.querySelector(".theme-select-status");
-    const labelFor = (slug) =>
-        select.querySelector(`option[value="${slug}"]`)?.textContent ?? slug;
 
     select.addEventListener("themechange", (e) => {
-        status.textContent = `Active theme: ${labelFor(e.detail.theme)}`;
+        status.textContent = `Active theme: ${select.labelFor(e.detail.theme)}`;
     });
 </script>
 ```
 
 **The status line is part of the pattern, not an optional extra.**
-The closed control always reads the placeholder ("Theme"), never the
-active theme name, so this line is the only place the current
-selection is displayed and announced. `aria-live="polite"` speaks on
-each change and stays silent on first paint — which is why the
-initial text is authored in the markup rather than written by JS on
-startup. Making it visible (rather than `sr-only`) serves sighted
-and cognitive-accessibility users too. See
+The closed control is an icon button — it shows a glyph and nothing
+else — so this line is the only place the current selection is
+displayed and announced. `aria-live="polite"` speaks on each change
+and stays silent on first paint, which is why the initial text is
+authored in the markup rather than written by JS on startup. Making
+it visible (rather than `sr-only`) serves sighted and
+cognitive-accessibility users too. `labelFor()` is a public method
+on the element, so the line picks up `theme-labels` overrides and
+translations for free. See
 [`docs/accessibility.md`](./docs/accessibility.md) for the full
 rationale and the visually-hidden variant.
 
@@ -137,34 +162,77 @@ The element renders this into its light DOM:
 
 ```html
 <theme-select label="Theme" themes-url="/assets/themes/" themes="light,dark,abyss">
-    <select class="theme-select" aria-label="Theme" name="theme">
-        <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
-        <option class="theme-select-option" value="light">Light</option>
-        <option class="theme-select-option" value="dark">Dark</option>
-        <option class="theme-select-option" value="abyss">Abyss</option>
-    </select>
+    <div class="theme-select">
+        <input type="hidden" name="theme" value="light" />
+        <button type="button" class="theme-select-button"
+                aria-label="Theme" aria-haspopup="listbox"
+                aria-expanded="false" aria-controls="theme-select-1-list">
+            <span class="theme-select-icon" aria-hidden="true">◑</span>
+        </button>
+        <ul class="theme-select-list" id="theme-select-1-list" role="listbox"
+            aria-label="Theme" tabindex="-1" hidden>
+            <li class="theme-select-option" id="theme-select-1-option-0"
+                role="option" aria-selected="true" data-active>Light</li>
+            <li class="theme-select-option" id="theme-select-1-option-1"
+                role="option" aria-selected="false">Dark</li>
+            <li class="theme-select-option" id="theme-select-1-option-2"
+                role="option" aria-selected="false">Abyss</li>
+        </ul>
+    </div>
 </theme-select>
 ```
 
-The first `<option>` is a component-owned placeholder. It stays
-selected: after every change the element snaps `select.value` back
-to `""`, so the **closed control always reads "Theme"** rather than
-the active theme name — which keeps it as narrow as one word. The
-real selection lives on the host's `value` attribute/property, and
-nothing downstream changes.
+Points worth knowing:
 
-Set `placeholder` to make that text differ from the accessible name:
+- The **glyph** is U+25D1 CIRCLE WITH RIGHT HALF BLACK, exported as
+  `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is `aria-hidden="true"`, so the
+  accessible name comes from the button's `aria-label` alone.
+- The **hidden `<input>`** preserves form participation and carries
+  `name` — a listbox is not a form control.
+- **`aria-activedescendant`** appears on the `<ul>` only while open,
+  pointing at the active option's id.
+- **`data-active` is not `aria-selected`.** `data-active` marks the
+  keyboard-highlighted option (where `Enter` would land);
+  `aria-selected` marks the chosen one. They often differ while the
+  list is open, and consumer CSS should style them differently.
+- **ids** come from a module-level counter, so they are unique per
+  instance, stable across runs, and SSR-safe.
 
-```html
-<theme-select label="Choose a theme" placeholder="Theme" ...></theme-select>
+Read the selection from `el.value` or the `themechange` detail. The
+active theme is not visible anywhere while the list is closed, which
+is why the [Quick start](#quick-start) pairs the element with a
+status region by default; see [Accessibility](#accessibility).
+
+## Styling is required
+
+The package ships **no CSS at all**, and that includes positioning.
+The element renders the dropdown as an ordinary `<ul>` and toggles
+its `hidden` attribute; it sets no `position`, no `z-index`, and no
+offsets.
+
+So out of the box the list appears *below the button in normal
+flow*, pushing subsequent content down when it opens. That is
+expected, not a bug. The minimum fix:
+
+```css
+.theme-select { position: relative; }
+
+.theme-select-list {
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline-start: 0;
+    z-index: 10;
+}
 ```
 
-Because the select's own `value` is always `""`, read the selection
-from `el.value` (or the `themechange` detail) — never from the
-rendered `<select>`. Note that this also means the active theme is
-not announced to screen readers as the control's value, which is why
-the [Quick start](#quick-start) pairs the element with a status
-region by default; see [Accessibility](#accessibility).
+One trap to know about: if you set any `display` value on
+`.theme-select-list`, it overrides the user-agent
+`[hidden] { display: none }` rule and the closed list stays visible.
+Re-assert `.theme-select-list[hidden] { display: none }` after your
+rule, or scope yours with `:not([hidden])`.
+
+Full hook list, state selectors, and a complete worked example:
+[`docs/styling.md`](./docs/styling.md).
 
 ## How it works
 
@@ -187,6 +255,38 @@ All four steps are SSR-safe — the element only mutates the DOM inside
 `connectedCallback` and `attributeChangedCallback`, which never run
 in Node.
 
+## Keyboard
+
+The control implements the WAI-ARIA APG listbox pattern in
+JavaScript; none of this comes from the platform.
+
+On the button:
+
+| Key                 | Action                                                        |
+| ------------------- | ------------------------------------------------------------- |
+| `ArrowDown`         | Open the list with the selected option active (else the first). |
+| `Enter` / `Space`   | Same as `ArrowDown`.                                          |
+| `ArrowUp`           | Open the list with the **last** option active.                |
+
+Opening moves focus to the `<ul>`. On the list:
+
+| Key                 | Action                                                        |
+| ------------------- | ------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option; clamps at both ends (no wrapping). |
+| `Home` / `End`      | Jump to the first / last option.                              |
+| `Enter` / `Space`   | Select the active option, apply, close, refocus the button.   |
+| `Escape`            | Close and refocus the button without changing the theme.      |
+| `Tab`               | Close without stealing focus back.                            |
+| printable character | Typeahead over the option labels; buffer resets after 500 ms. |
+
+Focus sits on the `<ul>` while open, never on an `<li>` — the
+highlighted option is conveyed by `aria-activedescendant`. That is
+why consumer CSS must style `.theme-select-option[data-active]`
+rather than `:focus`.
+
+Clicking outside the control, or moving focus out of it, closes the
+list.
+
 ## Default theme
 
 The default theme is `"light"` whenever `"light"` appears in your
@@ -195,15 +295,18 @@ The default theme is `"light"` whenever `"light"` appears in your
 
 1. `value` attribute (if non-empty)
 2. `localStorage[storage-key]` (if `storage-key` is set and readable)
-3. `default-value` attribute
-4. `"light"` (if present in `themes`)
-5. `themes[0]`
-6. `""` — nothing is applied; the select waits for user interaction
+3. `matchSystemTheme(themes)` (if `detect-from-system` is set) —
+   `prefers-color-scheme` mapped to the `"dark"` / `"light"` slug, or
+   `""` when that slug is absent or `matchMedia` is unavailable
+4. `default-value` attribute
+5. `"light"` (if present in `themes`)
+6. `themes[0]`
+7. `""` — nothing is applied; the select waits for user interaction
 
-The select never displays the word `"default"`. Option labels default
-to the slug with its first letter upper-cased
-(e.g. `"light"` → `"Light"`); override with `theme-labels`
-(JSON-encoded object).
+The control never displays the word `"default"`. Option labels
+default to the title-cased slug, per hyphen-separated word
+(`"light"` → `"Light"`, `"high-contrast"` → `"High Contrast"`);
+override with `theme-labels` (JSON-encoded object).
 
 ## Attributes
 
@@ -212,17 +315,20 @@ Highlights:
 
 | Attribute       | Type           | Required | Notes                                      |
 | --------------- | -------------- | -------- | ------------------------------------------ |
-| `label`         | string         | yes      | `aria-label` on the rendered `<select>`.   |
-| `placeholder`   | string         | no       | Text of the always-shown placeholder option; defaults to `label`. |
+| `label`         | string         | yes      | `aria-label` on the button and the listbox. The control is icon-only, so this is the entire accessible name. |
 | `themes-url`    | string         | yes      | Trailing `/` is auto-added.                |
 | `themes`        | string (CSV)   | yes      | Available slugs, e.g. `"light,dark"`.      |
 | `value`         | string         | no       | Currently selected slug.                   |
 | `default-value` | string         | no       | Initial when nothing else applies.         |
 | `storage-key`   | string         | no       | `localStorage` persistence.                |
-| `name`          | string         | no       | `<select>` `name`; defaults to `"theme"`.  |
+| `detect-from-system` | boolean attr | no  | Resolve `prefers-color-scheme` on first visit. Mirrors locale-select's `detect-from-navigator`. |
+| `name`          | string         | no       | Hidden `<input>` `name` and managed-`<link>` discriminator; defaults to `"theme"`. |
 | `extension`     | string         | no       | Defaults to `".css"`.                      |
 | `theme-labels`  | string (JSON)  | no       | `{ "light": "Bright" }` overrides.         |
-| `class`         | string         | no       | Extra class on the rendered `<select>`.    |
+| `class`         | string         | no       | Extra class on the rendered root `<div>`.  |
+
+There is no `placeholder` attribute; it was removed along with the
+native `<select>`.
 
 See [docs/attributes-reference.md](./docs/attributes-reference.md) for
 a field-by-field reference.
@@ -240,6 +346,7 @@ camelCase):
 | `el.value`        | `string`                 | round-trips with `value`                           |
 | `el.defaultValue` | `string`                 | round-trips with `default-value`                   |
 | `el.storageKey`   | `string`                 | round-trips with `storage-key`                     |
+| `el.detectFromSystem` | `boolean`            | round-trips with `detect-from-system` (presence)   |
 | `el.name`         | `string`                 | round-trips with `name`                            |
 | `el.extension`    | `string`                 | round-trips with `extension`                       |
 | `el.themeLabels`  | `Record<string, string>` | JSON-encoded in `theme-labels`                     |
@@ -251,6 +358,29 @@ Array / object properties accept the native form:
 const select = document.querySelector("theme-select") as ThemeSelect;
 select.themes = ["light", "dark", "abyss"];
 select.themeLabels = { light: "Bright", dark: "Midnight" };
+```
+
+## Methods
+
+Beyond the attribute mirrors, the element exposes the listbox state
+and a small imperative API:
+
+| Member                     | Type      | Notes                                                       |
+| -------------------------- | --------- | ------------------------------------------------------------ |
+| `el.open`                  | `boolean` | Read-only. Whether the listbox is open.                      |
+| `el.listId`                | `string`  | Read-only. id of the rendered `<ul role="listbox">`.         |
+| `el.optionId(index)`       | `string`  | id of the rendered option at `index`.                        |
+| `el.openList(startIndex?)` | `void`    | Open the list; `startIndex` overrides the active option. Moves focus to the `<ul>`. |
+| `el.closeList(refocus?)`   | `void`    | Close the list. Returns focus to the button unless `refocus` is `false`. |
+| `el.labelFor(slug)`        | `string`  | Display label for a slug — applies `theme-labels`, else title-cases. |
+| `el.renderButtonContent()` | `Node`    | Overridable hook building the button's content.              |
+
+```ts
+const select = document.querySelector<ThemeSelect>("theme-select")!;
+
+select.openList();          // open on the selected option
+select.closeList(false);    // close without moving focus
+select.labelFor("light");   // → "Light"
 ```
 
 ## Events
@@ -273,27 +403,44 @@ Because the event bubbles, event delegation works too:
 document.body.addEventListener("themechange", handleThemeChange);
 ```
 
-## Custom option rendering
+## Custom button rendering
 
-The HTML helpers don't expose Vue scoped slots or Svelte snippets;
-the customisation surface is **subclassing**. Extend the class and
-override `#render()` to emit your own option markup. The base class
-keeps owning the lifecycle (managed `<link>`, `data-theme`,
-`themechange`):
+The HTML helpers don't expose Vue scoped slots or Svelte snippets —
+`<slot>` is Shadow DOM only, and these helpers commit to light DOM.
+The equivalent of the other frameworks' `children` is an overridable
+method, **`renderButtonContent()`**. Whatever `Node` it returns
+replaces the default glyph inside the button:
 
 ```ts
 import { ThemeSelect } from "./lily-design-system-html-theme-select";
 
-class SwatchPicker extends ThemeSelect {
-    // Override the rendering surface (see docs/custom-rendering.md
-    // for the exact extension hook).
+class MyThemeSelect extends ThemeSelect {
+    renderButtonContent(): Node {
+        const span = document.createElement("span");
+        span.textContent = this.labelFor(this.value);   // ChildArgs.value + labelFor
+        span.dataset.open = String(this.open);           // ChildArgs.open
+        return span;
+    }
 }
 
-customElements.define("swatch-picker", SwatchPicker);
+customElements.define("my-theme-select", MyThemeSelect);
 ```
 
-Working examples: [`examples/09-custom-rendering.html`](./examples/09-custom-rendering.html).
-Topic guide: [`docs/custom-rendering.md`](./docs/custom-rendering.md).
+`this.value`, `this.open`, and `this.labelFor(...)` stand in for the
+`ChildArgs` the other frameworks pass. The base class still builds
+the button and the listbox, so all the aria wiring and the whole
+keyboard contract keep working — **this is the recommended
+customisation path**, and the only one that cannot break
+accessibility.
+
+A subclass that needs a fundamentally different structure has to
+post-process after `super.connectedCallback()` (`#render()` is a
+private field and cannot be overridden), and in doing so takes over
+the entire accessibility contract.
+
+Working example: [`examples/09-custom-rendering.html`](./examples/09-custom-rendering.html).
+Topic guide, both tiers, and the invariants:
+[`docs/custom-rendering.md`](./docs/custom-rendering.md).
 
 ## Persistence
 
@@ -311,21 +458,41 @@ before first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
 
 ## Accessibility
 
-- The rendered root is a `<select>` with the implicit combobox role
-  and `aria-label={label}`.
-- The native `<select>` gives Tab / Arrow / typeahead semantics for
-  free; the select does not override any keyboard behaviour.
-- The active state is exposed via `data-theme` on the root and the
-  host's `value` attribute. No colour-only meaning is required.
-- **Tradeoff:** because the closed control always reads the
-  placeholder, the active theme is *not* announced as the combobox
-  value. Screen-reader users lose the one place the current
-  selection used to be spoken. The compensating status region shown
-  in [Quick start](#quick-start) is the **default pattern** — ship
-  it unless you have a specific reason not to. See
-  [`docs/accessibility.md`](./docs/accessibility.md).
+- The control implements the WAI-ARIA APG listbox pattern: a
+  `<button aria-haspopup="listbox">` paired with a
+  `<ul role="listbox">`, with `aria-label={label}` on both.
+- The full keyboard contract is implemented in JS — see
+  [Keyboard](#keyboard).
+- The active state is exposed via `aria-selected`, `data-theme` on
+  the root, the host's `value`, and the hidden input. No colour-only
+  meaning is required.
 - WCAG 2.2 AAA is the target; visible focus styling is the
-  consumer's CSS responsibility.
+  consumer's CSS responsibility — style
+  `.theme-select-list:focus-visible` too, since focus moves to the
+  `<ul>` while the list is open.
+
+**Three tradeoffs to know about**, all documented in full in
+[`docs/accessibility.md`](./docs/accessibility.md):
+
+1. **Icon-only control.** `aria-label` is the entire accessible
+   name. A vague `label` makes the control unusable to
+   screen-reader users, and the absence of a visible label means the
+   control fails WCAG 2.5.3 Label in Name unless you add one.
+2. **A custom listbox is weaker than a native `<select>`.** The old
+   native control got combobox semantics, platform keyboard
+   behaviour, mobile OS pickers, and typeahead for free, all
+   battle-tested in every AT. An APG listbox with
+   `aria-activedescendant` has more variable support across screen
+   readers and mobile browsers, and no native mobile picker.
+3. **Glyph rendering is platform-dependent.** No font is bundled, so
+   the glyph may render as colour emoji, monochrome, or tofu.
+   Override `renderButtonContent()` with your own SVG when the
+   appearance must be guaranteed.
+
+Because the closed button shows only a glyph, the active theme is
+not visible or announced anywhere unless you surface it. The status
+region shown in [Quick start](#quick-start) is the **default
+pattern** — ship it unless you have a specific reason not to.
 
 Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 
@@ -370,9 +537,10 @@ example: [`examples/05-preloaded.html`](./examples/05-preloaded.html).
 
 ## Multiple selects in one page
 
-Pass a distinct `name` attribute to each select. The `name` is used
-as both the `<select>` `name` and the discriminator on the managed
-`<link>` element (`data-lily-theme-select="{name}"`).
+Pass a distinct `name` attribute to each control. The `name` is used
+as both the hidden `<input>`'s `name` and the discriminator on the
+managed `<link>` element (`data-lily-theme-select="{name}"`). Option
+and list ids are unique per instance automatically.
 
 Example: [`examples/03-multiple-selects.html`](./examples/03-multiple-selects.html).
 
@@ -383,7 +551,8 @@ Quick cookbook in [`docs/recipes.md`](./docs/recipes.md):
 - Following the OS colour scheme via `prefers-color-scheme`.
 - Reading a theme cookie in Eleventy before render.
 - Migrating from a `localStorage`-only select to a cookie-backed one.
-- Building a flyout / dropdown UI around the select.
+- Positioning the dropdown, and putting the theme name on the button.
+- Opening / closing the list from your own code.
 - Loading themes from a CDN.
 
 ## Troubleshooting
@@ -391,6 +560,12 @@ Quick cookbook in [`docs/recipes.md`](./docs/recipes.md):
 See [`docs/troubleshooting.md`](./docs/troubleshooting.md). Common
 pitfalls:
 
+- **The dropdown pushes the page down.** The package ships no CSS.
+  Give the root `position: relative` and the list
+  `position: absolute`.
+- **The dropdown never hides.** A `display` rule on
+  `.theme-select-list` beats the UA's `[hidden] { display: none }`.
+  Re-assert it, or scope your rule with `:not([hidden])`.
 - **CSS does not switch.** Check that each theme file scopes its
   rules to `:root[data-theme="<slug>"]` (not `:root` alone).
 - **404 on theme href.** Check the file is served from `themes-url`

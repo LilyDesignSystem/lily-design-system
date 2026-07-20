@@ -16,7 +16,7 @@ comprehensive user guide. For topic deep-dives see
 - [Default theme](#default-theme)
 - [Props](#props)
 - [Events](#events)
-- [Custom option rendering](#custom-option-rendering)
+- [Custom button glyph](#custom-button-glyph)
 - [Persistence](#persistence)
 - [Accessibility](#accessibility)
 - [SSR and hydration](#ssr-and-hydration)
@@ -40,7 +40,7 @@ opinionated widget. This one splits the contract cleanly:
 
 The result is a small reusable widget that works in any Vue 3 host
 (Nuxt 3, plain Vite + Vue, Astro Vue islands, Storybook) and against
-any theme catalog — Lily™'s 41 DaisyUI-inspired themes, NHS-aligned
+any theme catalog — Lily™'s 45 ready-to-use themes, NHS-aligned
 themes, or your own bespoke set.
 
 The component is a direct port of the Svelte canonical
@@ -59,6 +59,11 @@ import ThemeSelect from "./lily-design-system-vue-theme-select/ThemeSelect.vue";
 import { ThemeSelect } from "./lily-design-system-vue-theme-select";
 import type { Props, SlotArgs } from "./lily-design-system-vue-theme-select";
 ```
+
+The barrel also exports the pure helpers `normaliseThemesUrl`,
+`themeHref`, and `nextThemeSelectId`, the default glyph constant
+`CIRCLE_WITH_RIGHT_HALF_BLACK`, and the `ChildArgs` type (an alias of
+`SlotArgs`).
 
 ## Quick start
 
@@ -97,16 +102,21 @@ function labelFor(slug: string): string {
 </template>
 ```
 
-The status line is part of the quick start on purpose. The closed
-`<select>` is placeholder-pinned — it always reads "Theme", never
-"Dark" — so the status region is the only channel that announces the
-active theme to a screen-reader user. It is visible by default
-(sighted and cognitive-accessibility users benefit too), and
-`aria-live="polite"` means it stays silent on first paint and speaks
-once per change. Opting out is a deliberate decision, not the
-default; see [`docs/accessibility.md`](./docs/accessibility.md) for
-the full tradeoff and [`docs/styling.md`](./docs/styling.md) for the
+The status line is part of the quick start on purpose. The control is
+an icon-only button — it shows a glyph and nothing else — so the
+status region is the only channel that surfaces the active theme, on
+screen or to a screen reader. It is visible by default (sighted and
+cognitive-accessibility users benefit too), and `aria-live="polite"`
+means it stays silent on first paint and speaks once per change.
+Opting out is a deliberate decision, not the default; see
+[`docs/accessibility.md`](./docs/accessibility.md) for the full
+tradeoff and [`docs/styling.md`](./docs/styling.md) for the
 visually-hidden variant.
+
+You will also need a little CSS before the control behaves like a
+dropdown: the package ships none, including no positioning, so the
+listbox opens in normal document flow and pushes the page down. See
+[Positioning the listbox](./docs/styling.md#positioning-the-listbox).
 
 When the user picks `dark`, the component:
 
@@ -116,51 +126,56 @@ When the user picks `dark`, the component:
 - writes `"dark"` to `localStorage["lily-theme"]`,
 - emits `update:value` (driving `v-model:value`),
 - emits `change` with the new slug,
-- and snaps the `<select>`'s own value back to the placeholder, so
-  the closed control keeps reading "Theme" rather than "Dark".
+- closes the listbox and returns focus to the button.
 
-## The always-visible placeholder
+## The rendered markup
 
-The rendered markup is a native `<select>` whose **first child is
-always a component-owned placeholder option**:
+The control is a button that opens a WAI-ARIA APG listbox:
 
 ```html
-<select class="theme-select" aria-label="Theme" name="theme">
-    <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
-    <option class="theme-select-option" value="light">Light</option>
-    <option class="theme-select-option" value="dark">Dark</option>
-    <option class="theme-select-option" value="abyss">Abyss</option>
-</select>
+<div class="theme-select">
+    <input type="hidden" name="theme" value="dark" />
+    <button type="button" class="theme-select-button" aria-label="Theme"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="theme-select-1-list">
+        <span class="theme-select-icon" aria-hidden="true">◑</span>
+    </button>
+    <ul class="theme-select-list" id="theme-select-1-list" role="listbox"
+        aria-label="Theme" tabindex="-1" hidden>
+        <li class="theme-select-option" id="theme-select-1-option-0"
+            role="option" aria-selected="false">Light</li>
+        <li class="theme-select-option" id="theme-select-1-option-1"
+            role="option" aria-selected="true">Dark</li>
+        <li class="theme-select-option" id="theme-select-1-option-2"
+            role="option" aria-selected="false">Abyss</li>
+    </ul>
+</div>
 ```
 
-The `<select>` element's own value is never bound to the active
-theme. After each change the component resets `select.value = ""`,
-so the closed control always shows the placeholder word. That keeps
-the control as narrow as one word instead of growing to fit the
-longest theme name — useful when your theme list includes entries
-like `united-kingdom-national-health-service-england-for-patients`.
+Points worth knowing:
 
-The placeholder text defaults to `label`; pass `placeholder` to
-override it when the accessible name should be more descriptive
-than the visible word:
+- The default glyph is `◑` (U+25D1 CIRCLE WITH RIGHT HALF BLACK),
+  exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is `aria-hidden`, so
+  the button's accessible name comes entirely from `label`.
+- The trigger stays one glyph wide no matter how long the theme names
+  are — useful when your catalog includes entries like
+  `united-kingdom-national-health-service-england-for-patients`.
+- The hidden input keeps the control working inside a `<form>`; its
+  `name` comes from the `name` prop.
+- The listbox is always in the DOM, closed via the `hidden` attribute.
+  While open, the `<ul>` holds focus and points at the keyboard-active
+  option with `aria-activedescendant`; the options themselves are never
+  focused.
+- `$attrs` falls through to the root `<div>` — so `id`, `data-*`, and
+  event handlers land on the wrapper, not on the button.
 
-```vue
-<ThemeSelect label="Choose a colour theme" placeholder="Theme" ... />
-```
+No user-facing string is hardcoded: labels come from `label` and
+`themeLabels`.
 
-The placeholder is rendered outside the default slot, so it survives
-custom option rendering too. No string is hardcoded — the text always
-comes from a prop.
-
-The active theme still lives in `v-model:value` and in `data-theme`
-on the target. Because the closed control no longer announces the
-active theme to screen readers, the pattern this package ships pairs
-the select with a `.theme-select-status` live region (see the quick
-start above) — that is the default, not an opt-in extra. See
-[`docs/accessibility.md`](./docs/accessibility.md).
-
-To size the control to the placeholder, see the width recipe in
-[`docs/styling.md`](./docs/styling.md).
+> **Upgrading from 0.3.0?** The `placeholder` prop is removed, the
+> `.theme-select-placeholder` class hook is gone, and the default slot
+> now replaces the button glyph rather than the options. See
+> [`CHANGELOG.md`](./CHANGELOG.md).
 
 ## How it works
 
@@ -204,18 +219,19 @@ The complete table is in [spec/index.md §4.1](./spec/index.md#41-props). Highli
 
 | Prop           | Type                     | Required | Notes                                      |
 | -------------- | ------------------------ | -------- | ------------------------------------------ |
-| `label`        | `string`                 | yes      | `aria-label` on the `<select>`.            |
-| `placeholder`  | `string`                 | no       | Always-displayed placeholder text; defaults to `label`. |
+| `label`        | `string`                 | yes      | `aria-label` on both the button and the listbox. The button is icon-only, so this is its only name. |
 | `themesUrl`    | `string`                 | yes      | Trailing `/` is auto-added.                |
-| `themes`       | `string[]`               | yes      | Available slugs.                           |
+| `themes`       | `string[]`               | yes      | Available slugs, in keyboard order.        |
 | `value`        | `string` (`v-model`)     | no       | Two-way bind for the current slug.         |
 | `defaultValue` | `string`                 | no       | Initial when nothing else applies.         |
 | `storageKey`   | `string`                 | no       | `localStorage` persistence.                |
-| `name`         | `string`                 | no       | `<select>` `name`; defaults to `"theme"`.  |
+| `name`         | `string`                 | no       | Hidden input `name` + managed `<link>` discriminator; defaults to `"theme"`. |
 | `extension`    | `string`                 | no       | Defaults to `".css"`.                      |
 | `target`       | `HTMLElement \| null`    | no       | `data-theme` target; defaults to `<html>`. |
 | `themeLabels`  | `Record<string, string>` | no       | Per-slug display label override.           |
-| `class`        | `string`                 | no       | Extra class on the `<select>` root.        |
+| `class`        | `string`                 | no       | Extra class on the root `<div>`.           |
+
+There is no `placeholder` prop — it was removed with the `<select>`.
 
 See [docs/props-reference.md](./docs/props-reference.md) for a
 field-by-field reference.
@@ -227,10 +243,10 @@ field-by-field reference.
 | `update:value`  | `string` | After selection, drives `v-model:value`.              |
 | `change`        | `string` | After the select applies a new theme (post-DOM-write). |
 
-## Custom option rendering
+## Custom button glyph
 
-Pass a default slot to take full control of the option markup. The
-slot receives `{ themes, value, setTheme, name, labelFor }`:
+Pass a default slot to replace the `◑` glyph inside the trigger
+button. The slot receives `{ value, open, labelFor }`:
 
 ```vue
 <ThemeSelect
@@ -239,21 +255,27 @@ slot receives `{ themes, value, setTheme, name, labelFor }`:
     :themes="['light', 'dark', 'abyss']"
     v-model:value="theme"
 >
-    <template #default="{ themes, value, setTheme, labelFor }">
-        <button
-            v-for="t in themes"
-            :key="t"
-            type="button"
+    <template #default="{ value, open, labelFor }">
+        <span
             class="theme-select-swatch"
-            :data-theme="t"
-            :aria-pressed="value === t"
-            @click="setTheme(t)"
-        >
-            {{ labelFor(t) }}
-        </button>
+            :data-theme="value"
+            :title="labelFor(value)"
+            aria-hidden="true"
+        />
+        <span class="theme-select-caret" aria-hidden="true">{{ open ? "▴" : "▾" }}</span>
     </template>
 </ThemeSelect>
 ```
+
+The slot replaces the **glyph only** — not the options. The listbox,
+its `<li role="option">` children, the keyboard contract, and the apply
+lifecycle stay component-owned. Whatever you render is decorative: the
+button's accessible name always comes from `label` via `aria-label`, so
+keep slot content `aria-hidden="true"` or text-free, and never put
+interactive markup inside it (it renders inside the `<button>`).
+
+The most common reason to use the slot is to swap the font-dependent
+`◑` for an inline SVG that renders identically everywhere.
 
 Working example: [`examples/custom-rendering.vue`](./examples/custom-rendering.vue).
 Topic guide: [`docs/custom-rendering.md`](./docs/custom-rendering.md).
@@ -274,23 +296,48 @@ before first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
 
 ## Accessibility
 
-- The root is a native `<select>` with `aria-label={label}`,
-  carrying the implicit `role="combobox"`.
-- The native `<select>` gives Arrow / Home / End / typeahead
-  semantics for free; the select does not override any keyboard
-  behaviour.
-- The active state is exposed in two independent channels:
-  `data-theme` on the root, and the `value` binding. No colour-only
-  meaning is required.
-- **Tradeoff:** because the closed control always reads the
-  placeholder, a screen-reader user does not hear the active theme
-  announced as the combobox value. The default pattern compensates
-  with a visible `.theme-select-status` region carrying
-  `aria-live="polite"` — shipped in the quick start and in
-  [`examples/basic.vue`](./examples/basic.vue). Removing it is the
-  deliberate choice.
-- WCAG 2.2 AAA is the target; visible focus styling is the
-  consumer's CSS responsibility.
+- The trigger is a `<button aria-haspopup="listbox" aria-expanded
+  aria-controls>` whose accessible name is `aria-label={label}`. It is
+  icon-only, so `label` is its *only* name — the glyph is
+  `aria-hidden`.
+- The popup is a `<ul role="listbox" aria-label={label}>` of
+  `<li role="option" aria-selected>`. Focus moves to the `<ul>` on
+  open, and the keyboard-active option is conveyed with
+  `aria-activedescendant`, per the WAI-ARIA APG listbox pattern.
+- The component implements the whole keyboard contract itself:
+
+  | Where    | Keys                                                             |
+  | -------- | ---------------------------------------------------------------- |
+  | Button   | `ArrowDown` / `Enter` / `Space` open; `ArrowUp` opens on the last option |
+  | Listbox  | `ArrowUp` / `ArrowDown` (clamping), `Home` / `End`, `Enter` / `Space` to commit, `Escape` to cancel, `Tab` to close, printable-character typeahead |
+
+- The active state is exposed in three independent channels:
+  `data-theme` on the target, the `value` binding, and the hidden
+  input. No colour-only meaning is required.
+- Style `[data-active]`, not just `[aria-selected]` — with focus on the
+  `<ul>`, `[data-active]` is the only visible cue a keyboard user gets.
+- WCAG 2.2 AAA is the target; visible focus styling is the consumer's
+  CSS responsibility, on both the button and the open list.
+
+**Three tradeoffs come with this design** and are argued in full in
+[`docs/accessibility.md`](./docs/accessibility.md):
+
+1. The control is icon-only, so a wrong or untranslated `label` leaves
+   it unnamed, and WCAG 2.5.3 (Label in Name) has no visible text to
+   match against.
+2. A scripted listbox has weaker real-world assistive-technology
+   support than a native `<select>` — no platform-tested behaviour, no
+   OS picker on mobile, uneven forms-mode handling. That is a genuine
+   robustness regression traded for a compact, consistent, styleable
+   control.
+3. The `◑` glyph depends on the user's fonts and may be re-weighted,
+   substituted, or missing entirely. Ship your own SVG via the slot if
+   that matters.
+
+The compensating pattern is the visible `.theme-select-status` region
+with `aria-live="polite"` — shipped in the quick start and in
+[`examples/basic.vue`](./examples/basic.vue). Removing it is the
+deliberate choice.
 
 Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 
@@ -328,9 +375,11 @@ example: [`examples/preloaded.vue`](./examples/preloaded.vue).
 ## Multiple selects in one app
 
 Pass a distinct `name` prop to each select. The `name` is used as
-both the `<select>` `name` (so the controls stay distinct) and the
-discriminator on the managed `<link>` element
-(`data-lily-theme-select="{name}"`).
+both the hidden input's `name` (so form submissions stay distinct) and
+the discriminator on the managed `<link>` element
+(`data-lily-theme-select="{name}"`). Give each a distinct `label` too:
+with icon-only triggers, two buttons both named "Theme" are
+indistinguishable to a screen-reader user.
 
 Example: [`examples/multiple-selects.vue`](./examples/multiple-selects.vue).
 
@@ -341,7 +390,9 @@ Quick cookbook in [`docs/recipes.md`](./docs/recipes.md):
 - Following the OS colour scheme via `prefers-color-scheme`.
 - Reading a theme cookie in Nuxt before render.
 - Migrating from a `localStorage`-only select to a cookie-backed one.
-- Building a flyout / dropdown UI around the select.
+- Replacing the button glyph with your own icon.
+- Building a completely different theme UI on top of the same
+  lifecycle.
 - Loading themes from a CDN.
 
 ## Troubleshooting
@@ -349,6 +400,12 @@ Quick cookbook in [`docs/recipes.md`](./docs/recipes.md):
 See [`docs/troubleshooting.md`](./docs/troubleshooting.md). Common
 pitfalls:
 
+- **The listbox shoves the page down when it opens.** The package
+  ships no CSS, including no positioning. Add `position: relative` to
+  `.theme-select` and `position: absolute` to `.theme-select-list`.
+- **Arrowing looks like it does nothing.** Style
+  `.theme-select-option[data-active]` — focus is on the `<ul>`, not on
+  the options.
 - **CSS does not switch.** Check that each theme file scopes its
   rules to `:root[data-theme="<slug>"]` (not `:root` alone).
   Otherwise the first-loaded theme leaks across.

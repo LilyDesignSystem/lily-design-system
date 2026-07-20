@@ -1,0 +1,149 @@
+<!doctype html>
+<!--
+    Example 1 — Basic usage: icon button + dropdown listbox.
+
+    The minimum viable select: a label and a CSV list of locales.
+    The select resolves "en" as the initial locale (since "en" is
+    in the list), writes <html lang="en"> and <html dir="ltr">,
+    and dispatches a localechange CustomEvent.
+
+    The rendered control is an icon button (globe glyph, U+1F310)
+    that opens a <ul role="listbox"> of <li role="option"> items —
+    the WAI-ARIA APG listbox pattern. It is NOT a native <select>,
+    so the whole keyboard contract is the element's own JS:
+
+      On the button:  ArrowDown / Enter / Space open with the
+                      selected option active; ArrowUp opens with the
+                      last option active. Opening moves focus to the
+                      <ul>.
+      On the list:    ArrowDown / ArrowUp move and clamp (no wrap);
+                      Home / End jump to the ends; Enter / Space
+                      select and return focus to the button; Escape
+                      closes without changing the value; Tab closes
+                      without stealing focus back; typing runs a
+                      500 ms typeahead over the option labels.
+
+    THE CSS BELOW IS NOT DECORATION — IT IS REQUIRED. The package
+    ships no CSS at all, which means the dropdown has no positioning.
+    Without `position: relative` on the root and `position: absolute`
+    on the list, the <ul> renders in normal flow and shoves the rest
+    of the page down every time it opens.
+
+    Note the two state selectors. They mean different things:
+      [data-active]            — the keyboard-highlighted option.
+      [aria-selected="true"]   — the applied locale.
+    Style them differently, and not with colour alone (WCAG 1.4.1).
+
+    Consumers may need to compile locale-select.ts to .js before
+    loading. The path "../../locale-select.js" is illustrative;
+    adjust the <script src=…> to point at your build output.
+
+    THE STATUS LINE IS PART OF THE PATTERN — copy it along with the
+    select. The closed control shows only a glyph, so without this
+    line there is nowhere the current selection is displayed or
+    announced. See docs/accessibility.md.
+
+    Four things to note about it:
+
+    1. It is VISIBLE by default, not sr-only. Sighted users get the
+       same "which language am I on?" answer that screen-reader users
+       do, which is what WCAG 2.2 AAA favours. For designs that
+       genuinely cannot spare the space, swap the <p> for a
+       visually-hidden variant (position: absolute; width: 1px;
+       height: 1px; overflow: hidden; clip-path: inset(50%)) — keep
+       the element in the accessibility tree; never use display: none.
+
+    2. It doubles as the visible label that WCAG 2.5.3 (Label in
+       Name) wants beside an icon-only control. An icon with no
+       visible text has no label for a speech-input user to say.
+
+    3. aria-live="polite" announces MUTATIONS only, so the region is
+       silent on first paint and speaks once per change. That is the
+       behaviour we want: no announcement on page load, a polite
+       confirmation on every switch.
+
+    4. The initial text is authored in the markup rather than written
+       by JS on startup, which keeps first paint mutation-free (and so
+       silent). It matches the resolved initial locale — "en", since
+       this example sets no storage-key, default-value, or
+       detect-from-navigator.
+
+    The status line shows the human name via the package's exported
+    localeName() helper, not the raw "en" / "fr" code.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>locale-select — default (icon button + listbox)</title>
+    <script type="module" src="../../locale-select.js"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 2rem; }
+
+        /* Required: the package ships no positioning. */
+        .locale-select { position: relative; display: inline-block; }
+
+        .locale-select-button {
+            font: inherit;
+            line-height: 1;
+            padding: 0.5rem;
+            background: #ffffff;
+            border: 1px solid #4c6272;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .locale-select-button:focus-visible,
+        .locale-select-list:focus-visible {
+            outline: 3px solid #003087;
+            outline-offset: 2px;
+        }
+
+        .locale-select-list {
+            position: absolute;
+            inset-inline-start: 0;
+            inset-block-start: calc(100% + 0.25rem);
+            z-index: 10;
+            margin: 0;
+            padding: 0.25rem 0;
+            list-style: none;
+            min-inline-size: 12rem;
+            max-block-size: 16rem;
+            overflow-y: auto;
+            background: #ffffff;
+            border: 1px solid #4c6272;
+            border-radius: 4px;
+        }
+        /* The element toggles `hidden`; never override it away. */
+        .locale-select-list[hidden] { display: none; }
+
+        .locale-select-option { padding: 0.375rem 0.75rem; cursor: pointer; }
+        /* Keyboard-highlighted — follows the arrow keys. */
+        .locale-select-option[data-active] { background: #f0f4f5; }
+        /* Applied — survives closing the list. Not colour-only. */
+        .locale-select-option[aria-selected="true"] { font-weight: 700; }
+        .locale-select-option[aria-selected="true"]::after { content: " ✓"; }
+    </style>
+</head>
+<body>
+    <h1>Locale select — default rendering</h1>
+
+    <locale-select
+        label="Language"
+        locales="en,fr,de,es"
+    ></locale-select>
+
+    <p class="locale-select-status" aria-live="polite">Active language: English</p>
+
+    <script type="module">
+        import { localeName } from "../../locale-select.js";
+
+        await customElements.whenDefined("locale-select");
+
+        const status = document.querySelector(".locale-select-status");
+
+        document.querySelector("locale-select")
+            .addEventListener("localechange", (e) => {
+                status.textContent = `Active language: ${localeName(e.detail.locale)}`;
+            });
+    </script>
+</body>
+</html>

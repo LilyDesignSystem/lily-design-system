@@ -17,6 +17,15 @@ The wiring pattern is always the same:
    `IStringLocalizer<T>` and ResX read).
 3. (Optionally) pre-seed `Value` server-side for flicker-free SSR.
 
+One localisation detail is specific to this control: the trigger is
+an icon-only button, so `Label` is its **entire** accessible name.
+Translate it like any other visible string — in the examples below
+it comes from `Localizer["chooseLanguage"]`. `LocaleLabels`, by
+contrast, is usually left in each locale's own language
+("Français", "العربية") rather than translated into the current
+one, so speakers can find their language without reading the
+current one.
+
 ---
 
 ## `IStringLocalizer<T>` (Microsoft.Extensions.Localization)

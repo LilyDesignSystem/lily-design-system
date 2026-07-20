@@ -169,32 +169,54 @@ mirrored CSS:
 
 ## CSS implications inside the select
 
-The select emits each `<option>` with its own `lang`
+The select emits each `<li role="option">` with its own `lang`
 attribute, so the browser's bidi algorithm renders "Français"
-left-to-right and "العربية" right-to-left within the same
-`<select>` — even when the document is in the other direction.
+left-to-right and "العربية" right-to-left within the same listbox —
+even when the document is in the other direction.
 
-Recommended CSS for the select:
+Because the listbox is ordinary DOM (not an OS-drawn `<select>`
+popup), your CSS controls all of this directly:
 
 ```css
 .locale-select {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--theme-space-sm);
+    position: relative;
+    display: inline-block;
     /* No padding/margin physical-side specifics — let logical
        properties drive direction. */
 }
 
+.locale-select-list {
+    position: absolute;
+    /* inset-inline-start, not `left`: the popup anchors to the
+       reading-start edge in both directions. */
+    inset-block-start: 100%;
+    inset-inline-start: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.locale-select-list[hidden] {
+    display: none;
+}
+
 .locale-select-option {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 0.25em;
+    text-align: start;
     /* unicode-bidi: isolate keeps each option in its own bidi
        context, so an Arabic option never spills into the next
        option's run. */
     unicode-bidi: isolate;
 }
 ```
+
+The trigger's globe glyph is direction-neutral, so it needs no
+mirroring. If you replace it via `{% call %}` with a directional
+icon (a chevron, an arrow), mirror it with `:dir(rtl)` — see
+[Authoring CSS that survives both directions](#authoring-css-that-survives-both-directions)
+above.
 
 ## Mixing LTR and RTL on one page
 

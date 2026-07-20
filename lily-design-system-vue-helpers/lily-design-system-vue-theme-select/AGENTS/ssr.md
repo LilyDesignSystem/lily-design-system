@@ -7,17 +7,34 @@ Vue-specific recipes; the canonical rules live in
 
 ## What the select does on the server
 
-Under SSR, `onMounted` and `watch` are no-ops. The select renders:
+Under SSR, `onMounted` and `watch` are no-ops. The select renders the
+full closed control:
 
 ```html
-<select class="theme-select" aria-label="Theme" name="theme">
-    <option class="theme-select-option" value="light">Light</option>
-    …
-</select>
+<div class="theme-select">
+    <input type="hidden" name="theme" value="light" />
+    <button type="button" class="theme-select-button" aria-label="Theme"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="theme-select-1-list">
+        <span class="theme-select-icon" aria-hidden="true">◑</span>
+    </button>
+    <ul class="theme-select-list" id="theme-select-1-list" role="listbox"
+        aria-label="Theme" tabindex="-1" hidden>
+        <li class="theme-select-option" id="theme-select-1-option-0"
+            role="option" aria-selected="true">Light</li>
+        …
+    </ul>
+</div>
 ```
 
-If the consumer passes `value="light"`, the corresponding `<option>`
-is rendered as selected server-side.
+If the consumer passes `value="light"`, the corresponding `<li>` is
+rendered with `aria-selected="true"` and the hidden input carries the
+slug server-side.
+
+Note that the listbox is always rendered, closed via the `hidden`
+attribute rather than by conditional rendering, so server and client
+markup match structurally. Option ids come from `nextThemeSelectId()`
+— a module-level counter, deliberately not `Math.random()` or
+`Date.now()` — so they are stable across the hydration boundary.
 
 The managed `<link>` is **not** created on the server. `data-theme`
 is **not** written to `<html>` on the server. Those happen on
@@ -145,9 +162,9 @@ export async function render(req) {
 If you see a Vue warning like "Hydration node mismatch", the most
 common cause is:
 
-- The server rendered no selected `<option>` (because `value` was
-  empty), but the client picked a non-empty value from
-  `localStorage`.
+- The server rendered no `aria-selected="true"` option and an empty
+  hidden input (because `value` was empty), but the client picked a
+  non-empty value from `localStorage`.
 - **Fix.** Resolve the theme server-side and pass it as `value`.
 
 A second cause: the consumer wraps the helper in `<ClientOnly>` —

@@ -1,35 +1,53 @@
 {#
   Example 09 — Custom rendering via the `{% call %}` block.
 
-  When the default <option> markup isn't enough, take over the
-  inside of the select with a caller block. The outer <select> root
-  is preserved so the helper's data-lily-* hooks still apply.
+  Nunjucks has no render props, so `{% call %}` is its equivalent of
+  "children". The shipped themeSelect macro checks `caller` and, when
+  present, renders the block body INSIDE the button in place of the
+  default `<span class="theme-select-icon">◑</span>`.
 
-  Below, we render a set of <option>s by hand. Each option's value
-  is the theme slug, so the client.js resolves and applies it the
-  same way as the default rendering.
+  That is the whole extension point. The root <div>, the hidden
+  input, the button's ARIA attributes, and the <ul role="listbox">
+  with one <li role="option"> per theme are all still emitted by the
+  macro, so the client.js keyboard contract works unchanged.
 
-  Note: the shipped theme-select.njk does not currently inspect
-  `caller`. To use this pattern, copy the macro into your project
-  and replace its `{% for slug in opts.themes %}…{% endfor %}` body
-  with `{{ caller() if caller else "" }}`. See docs/custom-rendering.md
-  for the full recipe.
+  Two variants below:
+
+    A. Inline `{% call %}` — override the glyph at one call site.
+    B. A wrapper macro (themeSelectCustom.njk) that bakes the same
+       glyph in for a whole project.
+
+  The glyph must be aria-hidden="true": the button is icon-only, so
+  its accessible name has to come from aria-label alone.
+
+  Nothing here renders <option> elements. That was the old
+  native-<select> behaviour and no longer applies — see
+  ../docs/custom-rendering.md.
 #}
+{% from "../theme-select.njk" import themeSelect %}
 {% from "./themeSelectCustom.njk" import themeSelectCustom %}
 
-{% call themeSelectCustom({
+{# A. Inline glyph override. #}
+{% call themeSelect({
     label: "Theme",
+    id: "inline-theme",
     themesUrl: "/assets/themes/",
     themes: ["light", "dark", "abyss", "cupcake", "dracula"],
     storageKey: "lily:theme"
 }) %}
-    {% for slug in ["light", "dark", "abyss", "cupcake", "dracula"] %}
-    <option
-        class="theme-select-option"
-        value="{{ slug }}"
-    >{{ slug | capitalize }}</option>
-    {% endfor %}
+    <span class="my-glyph" aria-hidden="true">&#9681;</span>
 {% endcall %}
+
+{# B. Same override, factored into a project-local wrapper macro.
+     Note the distinct `id`: both controls default to name="theme",
+     so without it their listbox and option ids would collide. #}
+{{ themeSelectCustom({
+    label: "Theme",
+    id: "wrapped-theme",
+    themesUrl: "/assets/themes/",
+    themes: ["light", "dark", "abyss", "cupcake", "dracula"],
+    storageKey: "lily:theme"
+}) }}
 
 <script type="module">
     import { initThemeSelect } from "../theme-select.client.js";

@@ -7,8 +7,11 @@ below is a fast index.
 
 A reusable Blazor headless locale select that applies the chosen
 locale to the document root via `lang` and `dir`, with optional
-`localStorage` persistence and `navigator.languages` detection. Ships
-no CSS; consumer styles the `locale-select` class hook.
+`localStorage` persistence and `navigator.languages` detection. It
+renders an icon button (`🌐`) that opens a dropdown listbox. Ships no
+CSS; consumer styles the `locale-select`, `locale-select-button`,
+`locale-select-icon`, `locale-select-list`, and `locale-select-option`
+class hooks.
 
 ## Files
 
@@ -21,14 +24,23 @@ no CSS; consumer styles the `locale-select` class hook.
 | `Locales.cs`               | Static helpers + label / RTL data tables.        |
 | `locales.tsv`              | Canonical 436-row code → English-name list.      |
 | `index.md`                 | User guide.                                      |
+| `docs/`                    | Topic guides: parameters, styling, custom rendering, recipes, troubleshooting, plus the locale-specific bcp47 / rtl / i18n-integration / concepts / ssr / accessibility. |
+| `examples/`                | Self-contained `.razor` examples, descriptively named. |
 
 ## Public surface
 
 - Component: `LocaleSelect` in namespace
   `LilyDesignSystem.Blazor.Helpers`.
-- Context: `LocaleSelectContext` for custom `ChildContent` rendering.
-- Optional `Placeholder` parameter (defaults to `Label`).
-- Static helpers in `Locales` static class:
+- Context: `LocaleSelectContext` (`Value`, `Open`, `LabelFor`) for a
+  custom `ChildContent` glyph.
+- Constant: `LocaleSelect.GlobeWithMeridians` — the default glyph
+  `"🌐︎"` (U+1F310 + U+FE0E VARIATION SELECTOR-15, which forces the
+  monochrome text presentation so it matches ThemeSelect's `◑`).
+- Method: `SetLocaleAsync(string code)`.
+- Required parameters: `Label`, `Locales`.
+- **Removed:** the `Placeholder` parameter. It only existed to pin a
+  native `<select>`'s closed display; there is no `<select>` any more.
+- Static helpers in `Locales` static class (unchanged):
   - `Bcp47LocaleTag(string)`
   - `IsRtlLocale(string)`
   - `LocaleName(string)`
@@ -50,41 +62,65 @@ All DOM writes happen through `IJSRuntime` inside
 > navigator (if `DetectFromNavigator`) > `DefaultValue` > `"en"` (if
 present) > `Locales[0]`.
 
-The `<select>`'s own DOM value never tracks `Value`. A component-owned
-placeholder `<option value="" selected>` is always the selected one, and
-after every change the handler snaps the live element's value back to it
-(`Object.assign(el, { value: "" })` via `IJSRuntime`, wrapped in
-try/catch for prerender) before applying the chosen code. The closed
-control therefore always reads `Placeholder ?? Label` rather than the
-active locale name. The real selection lives in `Value`; everything
-downstream is unchanged.
+The control is an **icon button plus a dropdown listbox**, not a native
+`<select>`. The button shows only a glyph; the listbox is the WAI-ARIA
+APG listbox pattern with `aria-activedescendant`. The real selection
+lives in `Value` and rides a hidden input for form participation.
 
 ## HTML
 
-`<select class="locale-select @CssClass" aria-label="@Label"
-name="@Name">` whose FIRST child is
-`<option class="locale-select-option locale-select-placeholder" value=""
-selected>{Placeholder ?? Label}</option>` — no `lang`, since it is not a
-locale — followed by one native
-`<option class="locale-select-option" value="{code}"
-lang="@TagFor(code)">` per locale. Real options are never marked
-`selected`. Custom rendering via the `ChildContent` render fragment
-receiving `LocaleSelectContext`; the placeholder is rendered in that
-path too, before the fragment.
+```html
+<div class="locale-select @CssClass" ...AdditionalAttributes>
+  <input type="hidden" name="@Name" value="@Value" />
+  <button type="button" class="locale-select-button" aria-label="@Label"
+          aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
+    <span class="locale-select-icon" aria-hidden="true">&#127760;</span>
+  </button>
+  <ul class="locale-select-list" id="{listId}" role="listbox" aria-label="@Label"
+      tabindex="-1" hidden aria-activedescendant="{active option id, open only}">
+    <li class="locale-select-option" id="{optionId}" role="option"
+        aria-selected="true|false" data-active
+        lang="@TagFor(code)">{LabelFor(code)}</li>
+  </ul>
+</div>
+```
+
+Options keep their per-locale `lang`; the button and the list carry
+none. `ChildContent` **replaces the glyph inside the button**; it no
+longer renders options. Ids come from a monotonic process-wide counter
+(`locale-select-{n}`) so they are stable and SSR-safe.
+
+## Keyboard
+
+Button: `ArrowDown` / `Enter` / `Space` open on the selected option;
+`ArrowUp` opens on the last. Opening moves focus to the `<ul>`.
+Listbox: arrows move and **clamp**, `Home` / `End` jump, `Enter` /
+`Space` select-apply-close-and-refocus, `Escape` closes without
+changing the value, `Tab` closes without stealing focus, printable
+characters run a 500 ms typeahead over the labels. Clicking an option
+selects it; focus leaving the root closes.
 
 ## Accessibility
 
-- WCAG 2.2 AAA target.
-- The native `<select>` provides Arrow / Home / End / typeahead
-  semantics.
-- `aria-label` carries the consumer-supplied accessible name.
+- WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern.
+- `aria-label` is the button's ENTIRE accessible name — the button is
+  icon-only and the glyph is `aria-hidden="true"`.
 - Each locale option has its own `lang` context — WCAG 3.1.2
   "Language of Parts" — so screen readers pronounce "Français" with a
   French voice.
-- Known tradeoff: because the closed control always reads the
-  placeholder, the active locale is not announced as the combobox
-  value. Consumers should surface it in visible text or a polite live
-  region. See `docs/accessibility.md`.
+- Known tradeoffs (icon-only naming, custom-listbox AT support, glyph
+  font coverage) are documented in `docs/accessibility.md`.
+
+## Blazor deviations from the canonical Svelte implementation
+
+- No `preventDefault` on keydown: Blazor evaluates
+  `@onkeydown:preventDefault` at render time, so it cannot spare `Tab`.
+  A suppress-next-click flag stops `Enter` / `Space` toggling twice.
+- No document-level click listener (the package ships no JS); the
+  root's `focusout` closes the listbox instead. `FocusEventArgs` has no
+  `relatedTarget`, so self-made focus moves are flagged and ignored.
+- `@onmousedown:preventDefault` IS applied to the `<ul>` so clicking an
+  option does not blur the listbox first.
 
 ## Conventions this package follows
 

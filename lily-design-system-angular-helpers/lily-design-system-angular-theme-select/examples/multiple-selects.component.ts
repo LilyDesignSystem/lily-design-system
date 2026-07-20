@@ -2,8 +2,8 @@
     Example 7 — Multiple selects in one page.
 
     Each select gets a distinct `name`. The `name` plays two roles:
-      1. It is the radio-input `name`, so the two groups don't share
-         state.
+      1. It is the hidden input's `name`, so a surrounding <form>
+         receives the two selections as separate fields.
       2. It is the discriminator on the managed <link> element, so each
          select swaps its own stylesheet without stepping on the other.
 

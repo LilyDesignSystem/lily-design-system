@@ -1,0 +1,50 @@
+@*
+    Basic — default rendering (icon button + listbox).
+
+    The simplest possible mount. Each option renders with its locale's
+    pretty name (from the built-in `locales.tsv` table), carrying a
+    `lang="…"` attribute so screen readers pronounce each in the right
+    language.
+
+    Outcome: a globe icon button that opens a listbox of three options.
+    Picking one writes <html lang="…" dir="…">, closes the listbox,
+    returns focus to the button, and updates the bindable Value.
+
+    The status line is part of the pattern, not an extra. The closed
+    control is an icon button showing only the globe glyph, never the
+    active locale name — so without this line a sighted user has no way
+    to read the current selection off the control. (A screen-reader user
+    can: reopening the listbox announces the active option as
+    aria-selected.) See docs/accessibility.md.
+
+    aria-live="polite" announces mutations only, so this stays silent on
+    first paint and speaks once on each subsequent change — exactly what
+    a locale switch warrants (it is not an interruption).
+
+    It is rendered visible on purpose: sighted users need the selection
+    echoed too, and visible text helps cognitive accessibility. If a
+    design genuinely cannot spare the space, keep the element and hide it
+    with a visually-hidden (sr-only) class rather than deleting it.
+
+    The locale's own name carries its own `lang`, for the same WCAG 3.1.2
+    (Language of Parts) reason the options do — so "Français" is spoken
+    with a French voice inside this English sentence.
+*@
+
+@page "/examples/locale-select/radios"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<LocaleSelect
+    Label="Choose your language"
+    Locales="@(new[] { "en", "fr", "ar" })"
+    @bind-Value="locale" />
+
+<p class="locale-select-status" aria-live="polite">
+    Active language:
+    <span lang="@Locales.Bcp47LocaleTag(locale)">@Locales.LocaleName(locale)</span>
+</p>
+
+@code {
+    private string locale = "en";
+}

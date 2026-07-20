@@ -1,6 +1,6 @@
 {
   "name": "lily-design-system-nunjucks-theme-select",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Lily Design System - Nunjucks 3 theme select",
   "type": "module",
   "main": "./dist/index.js",

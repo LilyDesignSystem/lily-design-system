@@ -16,6 +16,11 @@ Every example assumes:
   `:root[data-theme="<slug>"]`.
 - The consumer's file carries `"use client"` if it manages
   controlled state (every file in this directory does).
+- Some CSS positions the dropdown. The control is an icon button that
+  opens a `<ul role="listbox">`, and the package ships no CSS, so the
+  list sits in normal flow until you give the root `position: relative`
+  and the list `position: absolute`. See
+  [`../docs/styling.md`](../docs/styling.md).
 
 | #  | File                                                       | Demonstrates                              |
 | -- | ---------------------------------------------------------- | ----------------------------------------- |
@@ -23,7 +28,7 @@ Every example assumes:
 | 2  | [`two-way-binding.tsx`](./two-way-binding.tsx)             | Controlled `value` + `onChange`.          |
 | 3  | [`persistence.tsx`](./persistence.tsx)                     | `localStorage` survival across reloads.   |
 | 4  | [`custom-labels.tsx`](./custom-labels.tsx)                 | `themeLabels` for i18n / display names.   |
-| 5  | [`custom-rendering.tsx`](./custom-rendering.tsx)           | `children` render prop — swatch buttons.  |
+| 5  | [`custom-rendering.tsx`](./custom-rendering.tsx)           | `children` render prop — custom button glyph. |
 | 6  | [`preloaded.tsx`](./preloaded.tsx)                         | Zero-flicker switching via preloading.    |
 | 7  | [`multiple-selects.tsx`](./multiple-selects.tsx)           | Two selects in one page via `name`.       |
 | 8  | [`system-preference.tsx`](./system-preference.tsx)         | Follow `prefers-color-scheme`.            |

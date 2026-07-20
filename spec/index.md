@@ -649,7 +649,7 @@ Long-term:
 
 - Versioned releases per subproject npm/NuGet package (started: the 21
   helper packages publish via `bin/publish-helpers`; theme-select and
-  locale-select at 0.3.0, text-size-select at 0.1.0).
+  locale-select at 0.4.0, text-size-select at 0.1.0).
 - Contributor onboarding documentation (currently informal).
 
 ## 14. Tracking
@@ -669,6 +669,27 @@ Long-term:
 
 ### 14.1 Changelog highlights
 
+- **Helpers 0.4.0 (2026-07-20)** — `theme-select` and `locale-select`
+  drop the native `<select>` for a single-glyph **icon button that opens
+  an APG listbox** — ◑ (U+25D1) and 🌐 (U+1F310 + U+FE0E). One character
+  is the smallest a header control gets, which also retires the
+  placeholder-pinning of 0.3.0 (`placeholder` prop removed). The
+  keyboard contract is hand-built and complete — open keys, clamped
+  arrows, Home/End, typeahead, Enter/Space with focus return, Escape,
+  Tab — and verified in a real browser, not only jsdom. The two helpers
+  are also harmonised: matching exported label resolvers (`themeName` /
+  `localeName`), matching first-visit detection (`detectFromSystem` /
+  `detectFromNavigator`) at the same position in the resolution order,
+  matching monochrome glyph presentation, and matching doc + example
+  file shape. nunjucks theme-select's divergent `storage > value`
+  resolution is flipped to match canonical Svelte. `AGENTS/helpers.md`'s
+  "Native `<select>` only" rule is amended to describe two deliberate
+  shapes; `text-size-select` stays a native `<select>` at 0.1.0. The
+  accessibility cost is documented rather than glossed: an icon-only
+  name rests entirely on `aria-label`, a hand-rolled listbox has weaker
+  AT support than a native select, the glyph is font-dependent, and the
+  nunjucks build cannot be operated at all without JavaScript. Full
+  record: [CHANGELOG.md](../CHANGELOG.md).
 - **Helpers 0.3.0 (2026-07-20)** — `theme-select` and `locale-select`
   become placeholder-pinned in all seven catalogs: the closed `<select>`
   always shows a short placeholder word ("Theme", "Locale") instead of

@@ -25,25 +25,37 @@ into two files:
 | File                       | Runs where                | Owns                                                  |
 | -------------------------- | ------------------------- | ----------------------------------------------------- |
 | `{kebab-name}.njk`         | Nunjucks render time      | Markup, ARIA, class hooks, `data-lily-*` hooks.       |
-| `{kebab-name}.client.js`   | Browser (after page load) | Storage, attribute set, dynamic loading, change events. |
+| `{kebab-name}.client.js`   | Browser (after page load) | Storage, attribute set, dynamic loading, interaction. |
 
-The macro emits a static native `<select>` with `data-lily-*`
-attributes that describe the select's configuration; the companion ES module finds
+The macro emits static markup carrying `data-lily-*` attributes that
+describe the control's configuration; the companion ES module finds
 those roots in the DOM at runtime and wires the apply lifecycle.
 Consumers load the client.js once per page (typically via
-`<script type="module">`) and call `autoInit()` to bind every select
+`<script type="module">`) and call `autoInit()` to bind every control
 present in the document.
 
 This split exists because:
 
 1. Nunjucks renders HTML. It cannot read `localStorage`, mutate
-   `document.head`, or hook `change` events; those live in the
-   browser.
+   `document.head`, or hook events; those live in the browser.
 2. Build-time renderers (Eleventy, plain `nunjucks.render`) produce
-   static HTML that survives without a JS bundle — the macro alone
-   ships a perfectly usable native `<select>`.
+   static HTML with no JS bundle required to *paint* correctly.
 3. The runtime is a tiny ES module with zero framework dependency
    that any consumer can drop into their template.
+
+### How much survives without JavaScript
+
+This differs per helper, and it is worth being precise about:
+
+- **`text-size-select`** still renders a native `<select>`, so it is a
+  fully functional form control with or without JS.
+- **`theme-select` and `locale-select`** are icon buttons that open a
+  custom listbox. **They are not operable without JS**: the button has
+  no handler and the listbox renders `hidden`. Their macros do emit a
+  server-filled hidden `<input>`, so a form submit still carries a
+  value, but the user cannot change it. This is a deliberate tradeoff
+  taken in the icon-button release, and each package's `docs/ssr.md`
+  documents it and shows the no-JS alternative.
 
 ## Conventions
 

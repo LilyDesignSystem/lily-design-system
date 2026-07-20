@@ -8,8 +8,24 @@
  * `customElements.define(...)` themselves.
  */
 
-import { ThemeSelect, normalizeThemesUrl, themeHref } from "./theme-select.js";
-export { ThemeSelect, normalizeThemesUrl, themeHref };
+import {
+    ThemeSelect,
+    themeName,
+    matchSystemTheme,
+    normalizeThemesUrl,
+    themeHref,
+    nextThemeSelectId,
+    CIRCLE_WITH_RIGHT_HALF_BLACK,
+} from "./theme-select.js";
+export {
+    ThemeSelect,
+    themeName,
+    matchSystemTheme,
+    normalizeThemesUrl,
+    themeHref,
+    nextThemeSelectId,
+    CIRCLE_WITH_RIGHT_HALF_BLACK,
+};
 export type { ThemeSelectProps, ThemeSelectChangeDetail } from "./theme-select.js";
 
 if (typeof customElements !== "undefined" && !customElements.get("theme-select")) {

@@ -1,25 +1,25 @@
 "use client";
 
 /*
-    Example 5 — Custom rendering via the `children` render prop.
+    Example 5 — Custom button glyph via the `children` render prop.
 
-    When the default `<option>` markup isn't enough, take over completely.
+    The control renders an icon button that opens a listbox. By default
+    the button holds a half-circle glyph (U+25D1). The `children` render
+    prop REPLACES that glyph — it no longer renders the options, which
+    the component now owns along with the keyboard contract.
+
     The render prop receives:
-      - themes:   the slug list
       - value:    the active slug
-      - setTheme: imperatively apply a slug (also writes value)
-      - name:     the `name` (shared identity for the select)
+      - open:     is the listbox expanded?
       - labelFor: the resolved display label for a slug
 
-    Below, we render a row of swatch buttons. Each button:
-      - exposes its pressed state via aria-pressed,
-      - sets data-theme on itself so consumer CSS can preview the swatch
-        colours via the same :root[data-theme] cascade.
+    Below, the button shows a live swatch of the active theme. The
+    swatch carries `data-theme` so consumer CSS can colour it through
+    the same `[data-theme]` cascade the themes themselves use.
 
-    Note: the render output goes inside the `<select>`. Native `<select>`
-    only accepts `<option>` / `<optgroup>` children, so a button variant
-    like this one is best built outside the select — render it standalone
-    and drive it by calling `setTheme` from a wrapper.
+    Note: everything is aria-hidden. The button's accessible name comes
+    from the `label` prop via aria-label — never let the glyph or the
+    swatch become the name.
 */
 
 import { ThemeSelect } from "../ThemeSelect";
@@ -31,20 +31,17 @@ export function CustomRenderingExample() {
             themesUrl="/assets/themes/"
             themes={["light", "dark", "abyss", "cupcake", "dracula"]}
         >
-            {({ themes, value, setTheme, labelFor }) =>
-                themes.map((t) => (
-                    <button
-                        key={t}
-                        type="button"
+            {({ value, open, labelFor }) => (
+                <>
+                    <span
                         className="theme-select-swatch"
-                        data-theme={t}
-                        aria-pressed={value === t}
-                        onClick={() => setTheme(t)}
-                    >
-                        {labelFor(t)}
-                    </button>
-                ))
-            }
+                        data-theme={value}
+                        aria-hidden="true"
+                    />
+                    <span aria-hidden="true">{labelFor(value)}</span>
+                    <span aria-hidden="true">{open ? "▴" : "▾"}</span>
+                </>
+            )}
         </ThemeSelect>
     );
 }

@@ -6,35 +6,39 @@ more error handling.
 
 ## Follow the OS colour scheme on first visit
 
-The select has no opinion about light vs dark; resolve the media
-query in `OnAfterRenderAsync` and pass it as `DefaultValue`:
+Set `DetectFromSystem`. The component probes
+`matchMedia("(prefers-color-scheme: dark)")` during initial value
+resolution and maps the answer onto a supported slug:
 
 ```razor
-@inject IJSRuntime JS
-
 <ThemeSelect
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[] { "light", "dark" })"
-    DefaultValue="@osPreference"
+    DetectFromSystem="true"
     StorageKey="my-app:theme" />
-
-@code {
-    private string? osPreference;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (!firstRender) return;
-        var dark = await JS.InvokeAsync<bool>(
-            "eval",
-            "window.matchMedia?.('(prefers-color-scheme: dark)').matches === true");
-        osPreference = dark ? "dark" : "light";
-        StateHasChanged();
-    }
-}
 ```
 
-The user's explicit choice (via `StorageKey`) wins on later visits.
+Resolution order:
+
+```
+Value > StorageKey > DetectFromSystem > DefaultValue > "light" > Themes[0]
+```
+
+so the user's explicit choice (via `StorageKey`) wins on later visits —
+detection only decides the first one.
+
+If the OS prefers a scheme you do not offer, detection yields nothing
+and resolution falls through to `DefaultValue`. To check that mapping
+without rendering, call the pure helper directly:
+
+```csharp
+ThemeSelect.MatchSystemTheme(true, new[] { "light", "sepia" });  // ""
+```
+
+Earlier versions of this recipe resolved the media query by hand in
+`OnAfterRenderAsync` and passed the result as `DefaultValue`; that still
+works, but `DetectFromSystem` gets the precedence right for you.
 
 ## Track OS colour scheme changes live
 
@@ -103,10 +107,13 @@ for the full recipe.
 
 ## Build a flyout / dropdown UI
 
-Use [custom-rendering](./custom-rendering.md) to swap the option
-list for a button-triggered popover. Keep the select's `aria-label`
-on the flyout *trigger* so screen readers still hear the control
-label.
+The control already is one: a trigger button plus a listbox that
+opens below it. What the package does not ship is the CSS that
+positions the open list — see
+[styling.md](./styling.md) for the `position: relative` /
+`position: absolute` block. To change the trigger's mark, pass a
+`ChildContent` fragment; see
+[custom-rendering.md](./custom-rendering.md).
 
 ## Serve themes from a CDN
 
@@ -137,7 +144,7 @@ after the slug works.
 
 ## Multiple regions with independent themes
 
-Each select gets a distinct `Name` (so the `<select>` controls and
+Each select gets a distinct `Name` (so the hidden inputs and the
 managed `<link>`s don't collide). Targets other than `<html>` aren't supported
 out of the box (the helper writes to `document.documentElement`); for
 per-region scoping use a wrapping `data-theme="…"` attribute that

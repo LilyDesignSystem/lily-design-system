@@ -32,17 +32,28 @@ connectedCallback:
        el.value > localStorage[storageKey] > defaultValue > "light" > themes[0]
   ↳ if resolved !== current attribute: setAttribute("value", resolved)
        (this re-enters attributeChangedCallback, but is guarded)
-  ↳ #render()
+  ↳ #render()  — builds <div> root + hidden input + button + <ul>
+  ↳ document.addEventListener("click", #onDocumentClick)
   ↳ if value is non-empty: #applyTheme(value)
 
-user chooses an option
+user opens the list (button click, ArrowDown / ArrowUp / Enter / Space)
   │
   ▼
-select.change → setter writes el.value = newSlug
+openList(startIndex?):
+  ↳ #activeIndex = startIndex ?? indexOf(value) ?? 0
+  ↳ #open = true
+  ↳ #syncState() — aria-expanded, unhide list, aria-activedescendant
+  ↳ list.focus()  (focus sits on the <ul>, not on an <li>)
+
+user chooses an option (click, or Enter / Space on the list)
+  │
+  ▼
+#choose(index) → this.value = slug → closeList() → button.focus()
   │
   ▼
 attributeChangedCallback("value", oldValue, newValue):
-  ↳ #render() — to update which option is selected
+  ↳ #syncState() — NOT #render(); a rebuild would destroy focus
+                   and the active descendant
   ↳ #applyTheme(newValue) — only if isConnected
 
 #applyTheme(slug):
@@ -55,9 +66,51 @@ element removed from document
   │
   ▼
 disconnectedCallback:
+  ↳ document.removeEventListener("click", #onDocumentClick)
+  ↳ clearTimeout(#typeaheadTimer)
   ↳ if no other <theme-select name="{this.name}"> remains:
        document.head.querySelector('[data-lily-theme-select="{name}"]')?.remove()
 ```
+
+## Two update paths: `#render()` vs `#syncState()`
+
+This is the load-bearing distinction in the lifecycle.
+
+`#render()` **rebuilds** the children: a fresh `<div>` root, hidden
+input, button (whose content comes from `renderButtonContent()`),
+`<ul>`, and one `<li>` per theme, installed with
+`replaceChildren`. It runs for the markup-affecting attributes —
+`themes`, `theme-labels`, `label`, `name`, `class` — and it always
+closes the list first (`#open = false`, `#activeIndex = -1`),
+because a rebuild cannot preserve focus inside the list.
+
+`#syncState()` **mutates in place**: `aria-expanded` on the button;
+`hidden` and `aria-activedescendant` on the list; `aria-selected`
+and `data-active` per option; and the hidden input's `value`. It
+runs on every open, close, active-option move, and `value` change.
+
+A `value` change therefore deliberately does *not* re-render. If it
+did, changing the theme while the list is open would destroy the
+`<ul>` that currently has focus.
+
+## Listbox close triggers
+
+Three paths close the list, and they differ in whether focus
+returns to the button:
+
+| Trigger                        | Call                | Refocus button |
+| ------------------------------ | ------------------- | -------------- |
+| Option chosen (click / Enter / Space) | `closeList()` | yes            |
+| `Escape`                       | `closeList()`       | yes            |
+| `Tab`                          | `closeList(false)`  | no — focus moves on |
+| Click outside the root         | `closeList(false)`  | no             |
+| Focus leaves the root          | `closeList(false)`  | no             |
+| Structural re-render           | (state reset)       | no             |
+
+The focus-out handler defers its check to a microtask: some engines
+(and jsdom) dispatch `focusout` with a null `relatedTarget` before
+the new focus target is committed, so it re-reads
+`document.activeElement` before deciding to close.
 
 ## Why `connectedCallback` and not the constructor
 
@@ -150,7 +203,8 @@ Only the `value` attribute triggers a re-apply. Other observed
 attributes trigger a re-render (when relevant — `themes`,
 `theme-labels`, `label`, `name`, `class`) but do not re-apply the
 theme. The next user-driven change applies with the updated
-attributes.
+attributes. `themes-url`, `default-value`, `storage-key`, and
+`extension` neither render nor apply; they affect the next apply.
 
 If a consumer wants to re-apply when, e.g., `themes-url` changes
 mid-session, they can write back to `value`:

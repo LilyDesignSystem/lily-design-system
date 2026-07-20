@@ -65,14 +65,39 @@ sure `eval`-based DOM mutations don't blow up.
 
 ## Standard mount
 
+`ThemeSelect` and `LocaleSelect` are icon button + listbox controls;
+`TextSizeSelect` is a native `<select>`. The mount differs accordingly.
+
 ```csharp
 [Fact]
-public void Section_7_1_Renders_Select_With_Options()
+public void Section_7_1_Renders_Button_And_Listbox()
 {
     var cut = RenderComponent<ThemeSelect>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, "/assets/themes/")
         .Add(x => x.Themes, new[] { "light", "dark" }));
+
+    var button = cut.Find("button");
+    Assert.Equal("listbox", button.GetAttribute("aria-haspopup"));
+    Assert.Equal("false", button.GetAttribute("aria-expanded"));
+
+    var list = cut.Find("ul");
+    Assert.Equal("listbox", list.GetAttribute("role"));
+    Assert.NotNull(list.GetAttribute("hidden"));      // closed on mount
+    Assert.Equal(2, cut.FindAll("li[role='option']").Count);
+    Assert.Empty(cut.FindAll("select"));              // no native select
+}
+```
+
+`TextSizeSelect` keeps the original shape:
+
+```csharp
+[Fact]
+public void Section_7_1_Renders_Select_With_Options()
+{
+    var cut = RenderComponent<TextSizeSelect>(p => p
+        .Add(x => x.Label, "Text size")
+        .Add(x => x.Sizes, new[] { "small", "medium" }));
 
     var root = cut.Find("select");
     Assert.Equal(2, cut.FindAll("option").Count);
@@ -84,13 +109,79 @@ public void Section_7_1_Renders_Select_With_Options()
 | Goal                                     | Pattern                                                              |
 | ---------------------------------------- | -------------------------------------------------------------------- |
 | Wait for `OnAfterRenderAsync`            | `await Task.Yield();` (bUnit pumps the render queue synchronously).  |
-| Find an option by value                  | `cut.Find("option[value=\"dark\"]")`                                 |
-| Find all options                         | `cut.FindAll("option")`                                              |
-| Trigger a select change                  | `await cut.Find("select").ChangeAsync(new() { Value = "dark" })`     |
+| Trigger a select change (**text-size only**) | `await cut.Find("select").ChangeAsync(new() { Value = "large" })` |
+| Find an option by value (**text-size only**) | `cut.Find("option[value=\"large\"]")`                            |
+| Open a listbox                           | `cut.Find("button").Click()`                                         |
+| Find all listbox options                 | `cut.FindAll("li[role='option']")`                                   |
+| Press a key on the listbox               | `cut.Find("ul").KeyDown(new KeyboardEventArgs { Key = "ArrowDown" })` |
+| Press a key on the trigger               | `cut.Find("button").KeyDown(new KeyboardEventArgs { Key = "ArrowUp" })` |
+| Assert which option is active            | `cut.Find("ul").GetAttribute("aria-activedescendant")` equals `cut.FindAll("li")[i].Id` |
+| Assert open / closed                     | `cut.Find("ul").GetAttribute("hidden")` — non-null closed, null open |
+| Select an option by pointer              | `cut.FindAll("li")[2].Click()`                                       |
+| Close by focus leaving                   | Doubled `FocusOut()` — see below.                                    |
 | Assert `ValueChanged` fired              | Capture into a closure variable via `EventCallback.Factory.Create`   |
 | Inspect a captured JS interop call       | `JSInterop.Invocations` (a list of `JSRuntimeInvocation`)            |
 | Spread an unmatched attribute            | `p.AddUnmatched("data-testid", "x")`                                 |
 | Custom `ChildContent` render fragment    | Pass `RenderFragment<TContext>` directly via `p.Add(x => x.ChildContent, …)` |
+
+## Listbox idioms
+
+`KeyDown` / `Click` are bUnit's synchronous event dispatchers; the
+async `KeyDownAsync` / `ClickAsync` forms exist too and are worth using
+when the handler awaits interop you then assert on.
+
+A full open-move-select cycle:
+
+```csharp
+var cut = RenderComponent<ThemeSelect>(p => p
+    .Add(x => x.Label, "Theme")
+    .Add(x => x.ThemesUrl, "/assets/themes/")
+    .Add(x => x.Themes, new[] { "light", "dark", "abyss" }));
+await Task.Yield();
+
+cut.Find("button").KeyDown(new KeyboardEventArgs { Key = "ArrowDown" });
+var list = cut.Find("ul");
+Assert.Null(list.GetAttribute("hidden"));                 // open
+Assert.Equal(cut.FindAll("li")[0].Id,
+             list.GetAttribute("aria-activedescendant")); // "light" selected
+
+cut.Find("ul").KeyDown(new KeyboardEventArgs { Key = "End" });
+Assert.Equal(cut.FindAll("li")[2].Id,
+             cut.Find("ul").GetAttribute("aria-activedescendant"));
+
+await cut.Find("ul").KeyDownAsync(new KeyboardEventArgs { Key = "Enter" });
+Assert.NotNull(cut.Find("ul").GetAttribute("hidden"));    // closed again
+```
+
+Assert clamping by pressing past the end and checking
+`aria-activedescendant` did **not** wrap:
+
+```csharp
+cut.Find("ul").KeyDown(new KeyboardEventArgs { Key = "End" });
+cut.Find("ul").KeyDown(new KeyboardEventArgs { Key = "ArrowDown" });
+Assert.Equal(cut.FindAll("li")[2].Id,
+             cut.Find("ul").GetAttribute("aria-activedescendant"));
+```
+
+### The doubled `FocusOut()` idiom
+
+Closing on outside interaction is driven by the root's `focusout`,
+because the packages ship no JavaScript and so have no document-level
+click listener. In a real browser, opening the listbox *itself* emits a
+`focusout` as focus moves button → listbox; the component flags that
+move and swallows the matching event. Tests have to reproduce both:
+
+```csharp
+cut.Find("button").Click();                 // open; focus moves to the <ul>
+cut.Find("div.theme-select").FocusOut();    // swallowed — the component's own move
+cut.Find("div.theme-select").FocusOut();    // the real departure
+Assert.NotNull(cut.Find("ul").GetAttribute("hidden"));
+```
+
+One `FocusOut()` leaves the listbox open and looks like a bug in the
+component; it isn't. Blazor's `FocusEventArgs` exposes no
+`relatedTarget`, so the component cannot tell the two apart by target
+and counts them instead.
 
 ## Driving a `@bind-Value` test
 
@@ -136,13 +227,17 @@ without a `TestContext`.
 
 ## RenderFragment<TContext> tests
 
+For the listbox helpers, `ChildContent` replaces the **glyph inside the
+button**, not the options, and the context is
+`{ Value, Open, LabelFor }`:
+
 ```csharp
 RenderFragment<ThemeSelectContext> custom = ctx => builder =>
 {
-    builder.OpenElement(0, "div");
+    builder.OpenElement(0, "span");
     builder.AddAttribute(1, "data-testid", "custom");
-    builder.AddAttribute(2, "data-name", ctx.Name);
-    builder.AddContent(3, string.Join(",", ctx.Themes));
+    builder.AddAttribute(2, "data-open", ctx.Open ? "true" : "false");
+    builder.AddContent(3, ctx.LabelFor(ctx.Value));
     builder.CloseElement();
 };
 
@@ -151,10 +246,17 @@ var cut = RenderComponent<ThemeSelect>(p => p
     .Add(x => x.ThemesUrl, "/t/")
     .Add(x => x.Themes, new[] { "light", "dark" })
     .Add(x => x.ChildContent, custom));
+await Task.Yield();
 
-var div = cut.Find("[data-testid='custom']");
-Assert.Equal("theme", div.GetAttribute("data-name"));
+var span = cut.Find("[data-testid='custom']");
+Assert.Equal("Light", span.TextContent);
+Assert.Empty(cut.FindAll(".theme-select-icon"));   // default glyph replaced
+Assert.Equal(2, cut.FindAll("li[role='option']").Count);  // options untouched
 ```
+
+`TextSizeSelect`'s `ChildContent` still replaces the `<option>`
+elements and still receives `Sizes`, `Value`, `SetSize`, `Name`, and
+`LabelFor`.
 
 For more readable tests, bUnit also accepts inline Razor via
 `RenderComponent` with markup, but the `RenderFragment` builder

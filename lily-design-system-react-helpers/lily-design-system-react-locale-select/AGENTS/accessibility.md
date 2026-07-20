@@ -9,113 +9,122 @@ consumer-facing guide; this file is the AI-coding contract.
 | WCAG / APG item                | How the select satisfies it                              |
 | ------------------------------ | -------------------------------------------------------- |
 | WCAG 3.1.1 Language of Page    | Writes `lang` to the document root on every locale apply. |
-| WCAG 3.1.2 Language of Parts   | Each `<option>` carries its own `lang`.                  |
+| WCAG 3.1.2 Language of Parts   | Each `<li role="option">` carries its own `lang`.        |
 | WCAG 1.4.10 Reflow (RTL bidi)  | Writes `dir="rtl"` for RTL locales (skipped when `applyDir={false}`). |
-| WCAG 4.1.2 Name, Role, Value   | `<select aria-label>` (implicit `combobox`) + native `<option>`s. |
-| WCAG 2.1.1 Keyboard            | Tab / Arrow / Home / End / typeahead — native `<select>` semantics. |
-| WCAG 2.4.7 Focus Visible       | Browser default focus ring preserved; helper never sets `outline: none`. |
-| WCAG 1.4.1 Use of Color        | State conveyed via the native selected state, `lang`/`dir` attrs, controlled value. |
-| WCAG 3.2.2 On Input            | Focus is never moved by the select on locale change.     |
-| MDN — `<select>` element       | Native single-select combobox with shared `name`.        |
+| WCAG 4.1.2 Name, Role, Value   | `<button aria-label aria-haspopup="listbox" aria-expanded aria-controls>` + `<ul role="listbox">` with `aria-selected` options. |
+| WCAG 2.1.1 Keyboard            | Full APG Listbox keyboard contract, implemented by the component. |
+| WCAG 2.4.7 Focus Visible       | Browser default focus ring preserved on the button and the list; helper never sets `outline: none`. |
+| WCAG 1.4.1 Use of Color        | State conveyed via `aria-selected`, `data-active`, `lang`/`dir` attrs, controlled value. |
+| WCAG 3.2.2 On Input            | Selecting a locale returns focus to the button the user was already on; no context change. |
+| WAI-ARIA APG — Listbox         | The pattern this control implements.                     |
 
 ## Roles and properties
 
-| Element             | Attribute               | Source            |
-| ------------------- | ----------------------- | ----------------- |
-| `<select>`          | implicit `role="combobox"` | Browser        |
-| `<select>`          | `aria-label={label}`    | Consumer prop     |
-| `<select>`          | `name`                  | Component         |
-| `<option>`          | `lang={tagFor(locale)}` | Component         |
-| `<option>`          | implicit `role="option"` | Browser          |
-| `<html>` (target)   | `lang` (BCP 47)         | Component effect  |
-| `<html>` (target)   | `dir="rtl"\|"ltr"`      | Component effect  |
+| Element                      | Attribute                                  | Source            |
+| ---------------------------- | ------------------------------------------ | ----------------- |
+| root `<div class="locale-select">` | rest props                           | Consumer          |
+| `<input type="hidden">`      | `name`, `value`                            | Component         |
+| `<button class="locale-select-button">` | `type="button"`                 | Component         |
+| same                         | `aria-label={label}`                       | Consumer prop     |
+| same                         | `aria-haspopup="listbox"`                  | Component         |
+| same                         | `aria-expanded`                            | Component state   |
+| same                         | `aria-controls={listId}`                   | Component (`useId`) |
+| `<span class="locale-select-icon">` | `aria-hidden="true"`                | Component         |
+| `<ul class="locale-select-list">` | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` | Component |
+| same                         | `aria-activedescendant` (only while open)  | Component state   |
+| `<li class="locale-select-option">` | `role="option"`, `id`               | Component         |
+| same                         | `aria-selected`                            | Component state   |
+| same                         | `data-active` (consumer CSS hook)          | Component state   |
+| same                         | `lang={tagFor(locale)}`                    | Component         |
+| `<html>` (target)            | `lang` (BCP 47)                            | Component effect  |
+| `<html>` (target)            | `dir="rtl"\|"ltr"`                         | Component effect  |
 
 The component never adds:
 
-- `aria-pressed` (the native `<select>` exposes its own selected state).
-- Roving `tabindex`. The native `<select>` is a single tab stop and
-  manages option navigation itself.
-- `aria-activedescendant`. The native `<select>` is the source of truth.
-- A focus management API. The browser handles it.
+- A `lang` on the button or the list. Only options carry one.
+- A roving `tabindex` across options. The `<ul>` holds focus and
+  `aria-activedescendant` names the active option.
+- `aria-live` on the control (see "Live regions" below).
+- `aria-pressed`. `aria-selected` on the options carries the state.
 
 ## Keyboard contract
 
-| Key                | Action                                                         |
-| ------------------ | -------------------------------------------------------------- |
-| `Tab` / `Shift+Tab` | Move focus to / from the select (one tab stop).               |
-| `Arrow Down`       | Select the next option.                                        |
-| `Arrow Up`         | Select the previous option.                                    |
-| `Home` / `End`     | Select the first / last option.                                |
-| Typeahead          | Type to jump to a matching option.                             |
-| `Enter` / `Space`  | Open the option list (platform-dependent).                     |
-| `Escape`           | Close the option list.                                         |
+Implemented by the component; nothing here comes from the platform.
 
-All provided by the platform. The select adds zero JS keyboard handlers.
+On the **button**:
 
-In RTL layout, the native `<select>` and its list mirror automatically,
-so the keyboard contract is unchanged — the browser handles the visual
-flip.
+| Key                             | Action                                                 |
+| ------------------------------- | ------------------------------------------------------ |
+| `Tab` / `Shift+Tab`             | Move focus to / from the button (the only tab stop when closed). |
+| `ArrowDown` / `Enter` / `Space` | Open with the selected option active (index 0 if none); focus moves to the list. |
+| `ArrowUp`                       | Open with the **last** option active; focus moves to the list. |
+
+On the **listbox** (while open):
+
+| Key                       | Action                                                       |
+| ------------------------- | ------------------------------------------------------------ |
+| `ArrowDown` / `ArrowUp`   | Move the active option; **clamps** at the ends, no wrapping.  |
+| `Home` / `End`            | Jump to the first / last option.                             |
+| `Enter` / `Space`         | Select the active option, apply, close, return focus to the button. |
+| `Escape`                  | Close and return focus to the button; value unchanged.       |
+| `Tab`                     | Close without stealing focus back.                           |
+| Printable character       | Typeahead over the option **labels**; 500 ms buffer reset.   |
+
+Pointer: clicking an option selects it; clicking the button toggles;
+clicking outside, or focus leaving the root, closes without changing
+the value.
+
+In RTL layout the keyboard contract is unchanged — `ArrowDown` and
+`ArrowUp` follow the list's DOM order, and the visual flip is CSS.
 
 ## Per-option `lang` attribute
 
-The default rendering carries each `<option lang={tagFor(locale)}>`.
-This satisfies WCAG 3.1.2 (Language of Parts): when a screen reader
-encounters the option "Français" inside an English page, the `lang`
-attribute makes the reader switch to a French voice for that option.
+Each `<li role="option" lang={tagFor(locale)}>` satisfies WCAG 3.1.2
+(Language of Parts): when a screen reader encounters the option
+"Français" inside an English page, the `lang` attribute makes the
+reader switch to a French voice for that option.
 
-When the consumer overrides the rendering via `children`, the
-`tagFor(locale)` helper is exposed so the consumer can carry the
-attribute onto each custom `<option>`:
-
-```tsx
-<LocaleSelect label="Language" locales={locales}>
-    {({ locales, value, setLocale, tagFor, labelFor }) => (
-        <select
-            className="locale-select"
-            value={value}
-            onChange={(e) => setLocale(e.currentTarget.value)}
-        >
-            {locales.map((l) => (
-                <option key={l} className="locale-select-option" value={l} lang={tagFor(l)}>
-                    {labelFor(l)}
-                </option>
-            ))}
-        </select>
-    )}
-</LocaleSelect>
-```
-
-If your `localeLabels` are all in the viewer's language (e.g. all in
-English: "English", "French", "Arabic"), the per-option `lang` becomes
-technically incorrect — drop it in custom rendering.
+The component always emits this — there is no render prop that removes
+it, because `children` only replaces the button glyph. If your
+`localeLabels` are all in the viewer's language (e.g. all in English:
+"English", "French", "Arabic"), the per-option `lang` is technically
+incorrect. That is a known limitation of the fixed markup; prefer
+endonym labels (`Français`, `العربية`) so the attribute stays truthful.
 
 ## When the consumer overrides children
 
-If the consumer passes a `children` render prop, they take responsibility
-for the keyboard contract of whichever pattern they render. Examples:
+`children` replaces the glyph **inside** the button and receives
+`{ value, open, labelFor }`. It cannot change the button, the listbox,
+or the options, so the consumer never inherits the keyboard contract.
+Their only accessibility responsibility is the glyph itself:
 
-- **Custom `<select>`.** Browser combobox behaviour; carry `lang` on
-  each `<option>`.
-- **Button group.** `aria-pressed` for state, Tab between buttons. No
-  Arrow-key navigation by default.
-- **Custom combobox.** APG Combobox pattern — consumer wires arrow keys,
-  listbox, focus management.
-
-The render prop output goes inside the component's `<select>` in all
-cases.
+- Mark it `aria-hidden="true"`. The button is already named by
+  `aria-label={label}`; unhidden glyph content is announced twice.
+- Do not put interactive elements inside it — it lives inside a
+  `<button>`, so nested controls are invalid HTML.
+- If the glyph shows the active language (a short code, an endonym),
+  that is a genuine accessibility *win*: it partially offsets the
+  icon-only tradeoff described in
+  [`../docs/accessibility.md`](../docs/accessibility.md).
 
 ## Focus management
 
-The select never calls `.focus()` or `.blur()`. Selection changes don't
-move focus. This satisfies WCAG 3.2.2 (On Input).
+The component moves focus deliberately, in exactly two places:
+
+- On open, focus moves from the button to the `<ul>`.
+- On select / `Escape` / button toggle, focus returns to the button.
+
+`Tab`, outside clicks, and focus-out close the list without recalling
+focus, because the user has already chosen where focus goes. Focus
+always ends on the button the user started from, so WCAG 3.2.2
+(On Input) holds.
 
 ## Live regions
 
-The select has no `aria-live`. Selection changes propagate through the
-native `<select>`'s selected state, which screen readers announce.
-
-If the consumer wants to announce the locale change separately (e.g.
-"Language changed to French"), they wire their own live region:
+The control has no `aria-live`. The closed button shows only a glyph
+and never announces the active language, so a status region beside the
+control is the recommended pairing — see
+[`../docs/accessibility.md`](../docs/accessibility.md):
 
 ```tsx
 const [announce, setAnnounce] = useState("");
@@ -136,9 +145,21 @@ The select does not suppress `:focus` or `:focus-visible`. Consumer CSS
 supplies the focus ring. A safe AAA-grade default:
 
 ```css
-.locale-select:focus-visible {
+.locale-select-button:focus-visible,
+.locale-select-list:focus-visible {
     outline: 2px solid var(--theme-color-primary, currentColor);
     outline-offset: 2px;
+}
+```
+
+Because the `<ul>` — not the option — holds focus, also give the active
+option a non-colour-only treatment so sighted keyboard users can track
+the cursor:
+
+```css
+.locale-select-option[data-active] {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
 }
 ```
 
@@ -149,18 +170,30 @@ The select performs no animation. Consumer CSS respects
 
 ## Screen-reader behaviour
 
-| Reader     | OS       | Browser   | What's announced when user lands on the select |
+| Reader     | OS       | Browser   | What's announced when user lands on the button |
 | ---------- | -------- | --------- | ---------------------------------------------- |
-| VoiceOver  | macOS    | Safari    | "{label}, pop-up button, {option}" → on open, "{option}, 1 of N". Per-option `lang` triggers voice switch if matching voice is installed. |
-| NVDA       | Windows  | Firefox   | "{label} combo box, {option}, 1 of N". |
-| JAWS       | Windows  | Chrome    | "{label} combo box, {option}, 1 of N". |
-| TalkBack   | Android  | Chrome    | "{label}, {option}, drop-down list, 1 of N, double-tap to activate". |
+| VoiceOver  | macOS    | Safari    | "{label}, pop up button, collapsed" → on open, "{label}, list box" then the active option. The active locale is **not** announced while collapsed. |
+| NVDA       | Windows  | Firefox   | "{label} button, collapsed" → on open, "{label} list box, {option}, N of M". |
+| JAWS       | Windows  | Chrome    | "{label} button, collapsed" → on open, "{label} list box, {option}". |
+| TalkBack   | Android  | Chrome    | "{label}, button, double-tap to activate" → on open, the list and active option. |
+
+Two caveats versus a native `<select>`:
+
+- **Collapsed state announces no value.** The glyph is `aria-hidden` and
+  there is no combobox value, so the active language is unannounced
+  until the list is opened. This is the main reason for the status-region
+  pattern.
+- **`aria-activedescendant` support varies.** A custom listbox depends
+  on the reader tracking active-descendant changes correctly, which is
+  less uniform across reader + browser combinations than the
+  platform-level treatment a native `<select>` receives. Retest on a
+  real reader after any change to open/close or active-index handling.
 
 ## RTL focus order
 
-In RTL layout, the native `<select>` and its option list mirror
-automatically. The options stay in the order they appear in `locales`;
-the browser handles the visual flip. This is the browser's job.
+Options stay in the order they appear in `locales`; the visual flip is
+CSS (`dir="rtl"` on an ancestor). `ArrowDown` / `ArrowUp` always follow
+DOM order, which is what APG specifies for a vertical listbox.
 
 ## i18n
 
@@ -171,30 +204,47 @@ the browser handles the visual flip. This is the browser's job.
 
 ## Common mistakes to avoid (when forking / extending)
 
-- **Don't replace the `<select>` with a div.** The native `<select>` IS
-  the combobox; removing it breaks announcement and keyboard support.
-- **Don't hide the `<option>`s.** Native `<option>` styling is limited;
-  style the `<select>` and rely on the OS select for the open list.
-- **Don't strip the `name` attribute.** It identifies the control in a
-  submitted form.
-- **Don't manage focus manually.** The browser already does it.
-- **Don't set `outline: none`.** Visible focus is WCAG AAA.
-- **Don't drop the per-option `lang` attribute** unless your labels
-  are all in the viewer's language.
+- **Don't drop `aria-label`.** The glyph is `aria-hidden`, so `label`
+  is the button's only accessible name. A nameless icon button fails
+  WCAG 4.1.2.
+- **Don't put `role="option"` elements outside the `role="listbox"`.**
+  The listbox must be the direct owner of its options.
+- **Don't focus the options.** The `<ul>` holds focus and
+  `aria-activedescendant` names the active option. Mixing the two
+  models breaks announcement.
+- **Don't drop `aria-activedescendant` when the list closes.** A stale
+  active descendant confuses readers; the component clears it.
+- **Don't hide the list with `display: none` transitions that outlive
+  the state change.** Open/close is the `hidden` attribute; keep CSS in
+  step with it.
+- **Don't strip the hidden input's `name`.** It identifies the control
+  in a submitted form.
+- **Don't set `outline: none`.** Visible focus is WCAG AAA — on the
+  button, on the list, and on the `data-active` option.
+- **Don't drop the per-option `lang` attribute.**
 
 ## Testing accessibility
 
-- The vitest suite asserts the `<select>` (implicit `combobox`),
-  `aria-label`, the `name`, per-option `value`, and per-option `lang`.
-- Manual: VoiceOver + Safari, NVDA + Firefox, JAWS + Chrome.
+- The vitest suite asserts the button's `aria-haspopup` /
+  `aria-expanded` / `aria-controls`, the `aria-hidden` glyph, the
+  listbox role and `aria-label`, per-option `role` / `aria-selected` /
+  `lang` / `data-active`, `aria-activedescendant` movement and
+  clamping, focus transfer on open and close, and the typeahead.
+- Manual: VoiceOver + Safari, NVDA + Firefox, JAWS + Chrome. Manual
+  passes matter more here than they did for the native `<select>` — see
+  the caveats in the matrix above.
 - Automated: axe-core via Playwright (run from a consumer example app).
-- Keyboard-only: Tab to the select, Arrow keys between options, no
-  mouse needed.
+- Keyboard-only: Tab to the button, open, arrow to an option, `Enter`,
+  confirm focus lands back on the button. No mouse needed.
 
 ## References
 
-- MDN — `<select>` element:
-  <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select>
+- WAI-ARIA APG — Listbox pattern:
+  <https://www.w3.org/WAI/ARIA/apg/patterns/listbox/>
+- WAI-ARIA APG — Select-Only Combobox example:
+  <https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/>
+- MDN — `aria-activedescendant`:
+  <https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-activedescendant>
 - WCAG 2.2 AAA quick reference:
   <https://www.w3.org/WAI/WCAG22/quickref/?levels=aaa>
 - WCAG 3.1.1 Language of Page:

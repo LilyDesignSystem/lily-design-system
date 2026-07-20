@@ -9,6 +9,13 @@
   Outcome: the surrounding page stays in its document language;
   the chosen panel switches independently. Two panels each scoped
   to their own select.
+
+  Note the explicit `id` on each instance. Listbox and option ids are
+  derived from `opts.id`, which defaults to "locale-select-{name}" —
+  so two instances that share the default `name` would emit duplicate
+  ids and break `aria-controls` / `aria-activedescendant`. A Nunjucks
+  macro cannot hold a module counter, so passing distinct ids is the
+  framework's stable-id mechanism.
 #}
 {% from "../locale-select.njk" import localeSelect %}
 
@@ -21,6 +28,7 @@
             label: "Panel A language",
             locales: ["en", "fr", "ar"],
             value: "en",
+            id: "panel-a-locale",
             attributes: { "data-scope": "a" }
         }) }}
         <p class="panel-body">Sample content scoped to Panel A.</p>
@@ -33,6 +41,7 @@
             label: "Panel B language",
             locales: ["en", "fr", "ar"],
             value: "fr",
+            id: "panel-b-locale",
             attributes: { "data-scope": "b" }
         }) }}
         <p class="panel-body">Contenu d'exemple limité au Panneau B.</p>

@@ -30,15 +30,34 @@ The select outputs deterministic HTML based purely on the resolved
 `value`:
 
 ```html
-<select class="locale-select" aria-label="Language" name="locale">
-    <option class="locale-select-option" value="en" lang="en">English</option>
-    <option class="locale-select-option" value="fr" lang="fr">French</option>
-</select>
+<div class="locale-select">
+    <input type="hidden" name="locale" value="en" />
+    <button type="button" class="locale-select-button" aria-label="Language"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="locale-select-«r0»-list">
+        <span class="locale-select-icon" aria-hidden="true">🌐</span>
+    </button>
+    <ul class="locale-select-list" id="locale-select-«r0»-list" role="listbox"
+        aria-label="Language" tabindex="-1" hidden>
+        <li class="locale-select-option" id="locale-select-«r0»-option-0"
+            role="option" aria-selected="true" lang="en">English</li>
+        <li class="locale-select-option" id="locale-select-«r0»-option-1"
+            role="option" aria-selected="false" lang="fr">French</li>
+    </ul>
+</div>
 ```
 
-If `value` is supplied as a non-empty string, the `<select>` renders
-with that option selected. Otherwise the first option is selected (the
-native `<select>` default).
+If `value` is supplied as a non-empty string, that option renders with
+`aria-selected="true"` and the hidden input carries the code. Otherwise
+no option is selected until the first-mount effect resolves one.
+
+The listbox always renders **closed** on the server: `hidden` is
+present, `aria-expanded` is `"false"`, and there is no
+`aria-activedescendant`. Disclosure state is never seeded from props.
+
+The ids come from React's `useId`, so the server and the client
+generate the same strings and `aria-controls` / option ids hydrate
+without a mismatch warning. Do not replace them with `Math.random()` or
+a module-level counter in a fork.
 
 The pure helpers (`bcp47LocaleTag`, `isRtlLocale`, `localeName`,
 `matchNavigatorLanguage`) are safe to import from a server component for
@@ -65,7 +84,7 @@ cookie recipe below.
 ## Next.js App Router cookie recipe
 
 Full working example in
-[`../examples/08-ssr-cookie.tsx`](../examples/08-ssr-cookie.tsx). The
+[`../examples/ssr-cookie.tsx`](../examples/ssr-cookie.tsx). The
 shape is:
 
 ```tsx
@@ -139,7 +158,7 @@ Result:
 
 - First paint: `<html lang="ar" dir="rtl">` arrives in the HTML
   response. No flash, no layout shift.
-- Select mounts already showing the right option selected.
+- The control mounts with the right option already `aria-selected`.
 - User picks `en`. Select writes `<html lang="en" dir="ltr">` and the
   cookie; next request paints from byte zero in English.
 

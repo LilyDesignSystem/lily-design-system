@@ -6,27 +6,15 @@ rationale and common usage.
 
 ## `label` — required, string
 
-`aria-label` on the rendered `<select>`. Always supplied, always
-translatable. Screen readers announce it as the control's name.
+`aria-label` on **both** the rendered `<button>` and the rendered
+`<ul role="listbox">`. Always supplied, always translatable.
 
-## `placeholder` — optional, string
-
-Text of the always-displayed placeholder `<option>` that the element
-renders as the first child of the `<select>`. Because the select's
-own selection snaps back to this option after every change, the
-closed control always reads this word — never the active theme name.
-That keeps the control as narrow as one word.
-
-Defaults to `label`, so the package still emits no hardcoded
-user-facing string. Supply it when the accessible name and the
-visible placeholder should differ:
-
-```html
-<theme-select label="Choose a theme" placeholder="Theme" ...></theme-select>
-```
-
-The screen reader announces "Choose a theme"; the closed control
-shows "Theme".
+The control is icon-only, so this is the *entire* accessible name —
+there is no visible text to fall back on. A vague `label` leaves the
+control unusable to screen-reader users, and the absence of a
+visible label means the control fails WCAG 2.5.3 Label in Name
+unless you add one yourself. See
+[accessibility.md](./accessibility.md#1-it-is-an-icon-only-control).
 
 ## `themes-url` — required, string
 
@@ -45,10 +33,10 @@ Acceptable values:
 
 ## `themes` — required, string (CSV)
 
-Comma-separated list of theme slugs the select exposes as options.
-Each slug is used both as the `<option>` `value` and as the URL path
-segment when constructing the stylesheet href. Choose slugs that
-are safe URL path segments — kebab-case ASCII is recommended.
+Comma-separated list of theme slugs the control exposes as options.
+Each slug becomes one `<li role="option">` and is used as the URL
+path segment when constructing the stylesheet href. Choose slugs
+that are safe URL path segments — kebab-case ASCII is recommended.
 
 The matching JS property `el.themes` accepts a native `string[]`:
 
@@ -91,11 +79,67 @@ then to `themes[0]`.
 Errors (private mode, quota, disabled storage) are silently
 swallowed — the select continues to work in-memory.
 
+## `detect-from-system` — optional, boolean attribute
+
+Present (and not `="false"`) → on first visit, with no `value` and no
+stored slug, resolve the OS colour-scheme preference to a supported
+theme and use it.
+
+```html
+<theme-select
+  label="Theme"
+  themes-url="/assets/themes/"
+  themes="light,dark"
+  storage-key="myapp:theme"
+  detect-from-system
+></theme-select>
+```
+
+This is the mirror of locale-select's `detect-from-navigator`, and it
+occupies the same slot in the resolution order:
+
+```
+value > storage > detection > default-value > "light" > themes[0]
+```
+
+So an explicit `value` (the server-resolved cookie case) still wins,
+and a user's stored past choice still outranks the OS preference —
+someone who deliberately picked light on a dark-mode machine keeps
+light.
+
+The rule is implemented by the exported pure helper
+`matchSystemTheme(themes)`, which mirrors `matchNavigatorLanguage`:
+
+```ts
+import { matchSystemTheme } from "lily-design-system-html-theme-select";
+
+matchSystemTheme(["light", "dark"]);   // → "dark" on a dark-mode OS
+matchSystemTheme(["light", "abyss"]);  // → ""  (no "dark" slug offered)
+```
+
+It reads `matchMedia("(prefers-color-scheme: dark)")` and maps the
+result to the slug `"dark"` or `"light"`. It returns `""` — and
+resolution falls through to `default-value` — in two cases:
+
+1. the preferred slug is not in `themes` (a catalog with no literal
+   `"dark"` or `"light"` slug cannot be matched by name), and
+2. `matchMedia` is unavailable. That guard is required, not
+   optional: it is the SSR case, and also jsdom, which does not
+   implement `matchMedia` either.
+
+Detection resolves the *initial* value only; it does not subscribe to
+later OS changes. To track them live, add your own listener — see
+[recipes.md](./recipes.md#track-os-colour-scheme-changes-live).
+
 ## `name` — optional, string — defaults to `"theme"`
 
-The `name` attribute on the rendered `<select>`. It also serves as
-the discriminator on the managed `<link>` element
-(`data-lily-theme-select="{name}"`), so multiple selects can
+The `name` attribute on the rendered hidden `<input>`, which is what
+carries the control's value into an enclosing form (a listbox is not
+a form control, so the hidden input supplies the form
+participation the old native `<select>` had).
+
+It also serves as the discriminator on the managed `<link>` element
+(`data-lily-theme-select="{name}"`), so multiple controls can
 coexist by giving each a distinct `name`.
 
 ## `extension` — optional, string — defaults to `".css"`
@@ -126,7 +170,7 @@ i18n or for slugs that don't gracefully title-case (e.g.
 
 ## `class` — optional, string
 
-Extra CSS class on the rendered `<select>`. Always emitted after
+Extra CSS class on the rendered root `<div>`. Always emitted after
 `"theme-select"`, so consumer styles can use either selector:
 
 ```css
@@ -179,15 +223,35 @@ the select re-renders.
 These properties have no attribute serialisation because their
 runtime value cannot be expressed as a string.
 
+## Read-only state and methods
+
+Not attributes, but part of the public surface:
+
+| Member                     | Type      | Purpose                                                    |
+| -------------------------- | --------- | ----------------------------------------------------------- |
+| `el.open`                  | `boolean` | Whether the listbox is open. Read-only.                     |
+| `el.listId`                | `string`  | id of the rendered `<ul role="listbox">`.                   |
+| `el.optionId(index)`       | `string`  | id of the rendered option at `index`.                       |
+| `el.openList(startIndex?)` | `void`    | Open the list; optionally choose which option starts active. |
+| `el.closeList(refocus?)`   | `void`    | Close the list; pass `false` to leave focus where it is.     |
+| `el.labelFor(slug)`        | `string`  | Display label for a slug — applies `theme-labels`, else title-cases. |
+| `el.renderButtonContent()` | `Node`    | Overridable hook for the button's content. See [custom-rendering.md](./custom-rendering.md). |
+
+`labelFor` is the one to reach for when writing a status region: it
+picks up `theme-labels` overrides and translations for free.
+
 ## Fall-through attributes
 
 Other attributes on the host (`id`, `data-*`, event handlers, ARIA
 overrides) stay on `<theme-select>` and don't propagate to the
-rendered `<select>`. This is the natural behaviour of custom
+rendered children. This is the natural behaviour of custom
 elements: the host is where the consumer declares them; the
 rendered children are recreated on every render.
 
-If you need an attribute to land on the rendered `<select>`, write a
+The one exception is `class`, which the element deliberately mirrors
+onto the rendered root after the `theme-select` base hook.
+
+If you need an attribute to land on a rendered child, write a
 consumer wrapper or subclass and post-process the children.
 
 ---

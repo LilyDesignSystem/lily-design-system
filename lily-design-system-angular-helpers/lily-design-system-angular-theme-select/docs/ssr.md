@@ -10,18 +10,39 @@ Under SSR, the `effect()` callback's `typeof document !==
 "undefined"` guard prevents any DOM mutation. The select renders:
 
 ```html
-<select class="theme-select " aria-label="Theme" name="theme">
-    <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
-    <option class="theme-select-option" value="light">Light</option>
-    …
-</select>
+<div class="theme-select ">
+    <input type="hidden" name="theme" value="light" />
+    <button type="button" class="theme-select-button" aria-label="Theme"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="theme-select-1-list">
+        <span class="theme-select-icon" aria-hidden="true">&#9681;</span>
+    </button>
+    <ul class="theme-select-list" id="theme-select-1-list" role="listbox"
+        aria-label="Theme" tabindex="-1" hidden>
+        <li class="theme-select-option" id="theme-select-1-option-0"
+            role="option" aria-selected="true">Light</li>
+        …
+    </ul>
+</div>
 ```
 
-The placeholder option is always the selected one, on the server and
-on the client alike, regardless of `value`. The `<select>`'s own value
-is `""` in both environments, so the control itself can never produce
-a hydration mismatch — see "SSR hydration mismatch" in
-[troubleshooting.md](./troubleshooting.md).
+The listbox is always closed server-side — open state is user
+interaction, and there has been none — so `aria-expanded` is `false`,
+`hidden` is present, and `aria-activedescendant` is absent.
+
+**Ids are deterministic.** They come from `nextThemeSelectId()`, an
+incrementing module counter, not `Math.random()` or `Date.now()`. That
+is precisely so the `id` / `aria-controls` / option-id triple matches
+between the server and client renders; random ids would both trip
+hydration and silently break the ARIA wiring.
+
+The attributes that *can* differ across the boundary are the ones
+derived from `value`: the hidden input's `value`, and which `<li>`
+carries `aria-selected="true"`. If the server renders from an empty
+`value` while the client resolves one from `localStorage`, they
+disagree — see "SSR hydration mismatch" in
+[troubleshooting.md](./troubleshooting.md). Passing a server-resolved
+`value` fixes it and the flicker at the same time.
 
 ## What happens on hydration
 
@@ -174,11 +195,14 @@ the consumer wire the integration.
 If you see an Angular warning like "NG0500: Hydration: node
 mismatch", the most common cause is:
 
-- **Not the `<select>` itself** — the placeholder option is always
-  the selected one on both sides, so the control cannot mismatch.
-- More likely, something else in the consumer's template keys off the
-  resolved theme and the server rendered it from an empty `value`
-  while the client resolved one from `localStorage`.
+- **Not the ids** — `nextThemeSelectId()` is a deterministic counter,
+  so `id`, `aria-controls`, and the option ids agree on both sides.
+- **Possibly the value-derived attributes** — the hidden input's
+  `value` and the `aria-selected` flags. They differ if the server
+  rendered from an empty `value` while the client resolved one from
+  `localStorage`.
+- More likely still, something else in the consumer's template keys
+  off the resolved theme with the same empty-vs-resolved split.
 - **Fix.** Resolve the theme server-side and pass it as `value`.
 
 A second cause: the consumer renders the helper inside a

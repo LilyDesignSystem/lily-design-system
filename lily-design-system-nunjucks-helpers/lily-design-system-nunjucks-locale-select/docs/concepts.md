@@ -22,8 +22,8 @@ The helper owns the first two and signals the third via:
 - The `onChange(code)` callback on `initLocaleSelect(root, opts)`,
 - The `lang` attribute (which most i18n libraries don't read directly
   — they react to whatever store the `onChange` callback updates),
-- The `<select>`'s current value (so a `<form>` submission also
-  carries the chosen locale to the server).
+- The hidden input's value (so a `<form>` submission also carries the
+  chosen locale to the server).
 
 The split matters because it lets you swap your i18n library without
 rewriting the select, and it lets the select stay headless: zero CSS,
@@ -34,12 +34,14 @@ DOM APIs client-side.
 
 The select:
 
-- Renders semantic HTML (`<select>` + `<option>`) — a native combobox
-  whose role and keyboard semantics the browser provides.
-- Carries a stable kebab-case class hook (`locale-select` on the
-  `<select>`, `locale-select-option` on each `<option>`, plus
-  `locale-select-placeholder` on the leading placeholder option) so
-  your CSS can target it without prefixes or specificity tricks. See
+- Renders semantic HTML — a `<button>` trigger and a
+  `<ul role="listbox">` of `<li role="option">` choices, following
+  the WAI-ARIA APG listbox pattern.
+- Carries a stable kebab-case class hook (`locale-select` on the root
+  `<div>`, `locale-select-button` on the trigger,
+  `locale-select-icon` on the default glyph, `locale-select-list` on
+  the listbox, `locale-select-option` on each option) so your CSS can
+  target it without prefixes or specificity tricks. See
   [styling.md](./styling.md).
 - Ships **no** colour, spacing, typography, font, icon, or animation
   decisions. You supply all of that.
@@ -59,19 +61,21 @@ Conceptually:
                                           │
                                           ▼
                                           1. Read data-lily-* hooks
-                                          2. Resolve initial code
+                                          2. Wire button + listbox
+                                             (open/close, keys, typeahead)
+                                          3. Resolve initial code
                                              (value attr > storage >
                                               navigator > default >
                                               "en" > first)
-                                          3. target.lang = bcp47Tag(code)
-                                          4. target.dir  = rtl|ltr
-                                          5. localStorage.setItem(...)
-                                          6. select.value sync
-                                          7. opts.onChange(code)
+                                          4. target.lang = bcp47Tag(code)
+                                          5. target.dir  = rtl|ltr
+                                          6. localStorage.setItem(...)
+                                          7. hidden input + aria-selected
+                                          8. opts.onChange(code)
 
-                                          On every change event:
+                                          On every committed choice:
                                           ────────────────────────
-                                          repeat 3–7 with new value
+                                          repeat 4–8 with new value
 ```
 
 The macro **never** touches `document`, `navigator`, or
@@ -79,29 +83,61 @@ The macro **never** touches `document`, `navigator`, or
 `typeof document !== "undefined"` so it survives module evaluation
 in Node (e.g. when the bundler tree-shakes).
 
-## Why a native `<select>` by default
+The corollary is the honest one: **the macro's output is inert until
+the client module runs.** The button opens nothing without JS. That
+is a real regression from the earlier native `<select>`, which the
+browser drove unaided. The hidden input is pre-filled server-side, so
+a no-JS form submit still carries a locale — that is the only no-JS
+affordance the control has.
+
+## Why an icon button and a listbox
 
 Three reasons:
 
-1. **Scales**. A native `<select>` stays compact regardless of how
-   many locales you list, and pops the OS-native picker on mobile.
+1. **Constant width**. The trigger shows a globe glyph
+   (U+1F310 GLOBE WITH MERIDIANS), never a locale name, so the
+   control does not resize as the active locale changes and does not
+   reserve width for your longest label.
 2. **Symmetry with `ThemeSelect`**. The sibling helper in this
    directory uses the same shape, so the two compose visually and
    semantically without surprises.
-3. **Escape hatch is one caller block away**. The macro's body is
-   replaceable via a `{% call %}` block on a forked custom macro. See
-   [examples/03-buttons.njk](../examples/03-buttons.njk) and
-   [examples/10-combobox.njk](../examples/10-combobox.njk).
+3. **Full styling control**. A native `<select>`'s popup is drawn by
+   the OS and barely styleable; a `<ul role="listbox">` is ordinary
+   DOM your CSS owns completely.
 
-For an always-visible list of a few locales, use the caller block to
-render a button group. See [examples/03-buttons.njk](../examples/03-buttons.njk).
+The costs are stated where they belong:
+[accessibility.md](./accessibility.md) for the announcement tradeoff
+(the closed control never shows the active locale) and
+[ssr.md](./ssr.md) for the no-JS regression.
+
+## Custom rendering
+
+Two escape hatches, in order of effort:
+
+1. **The `{% call %}` block** replaces the default glyph *inside the
+   button* with the block body — Nunjucks's equivalent of "children".
+   It does not render options; the listbox still comes from
+   `opts.locales`. Keep the replacement `aria-hidden="true"`, since
+   the button's accessible name is its `aria-label`. See
+   [examples/03-custom-rendering.njk](../examples/03-custom-rendering.njk) and
+   [examples/localeSelectCustom.njk](../examples/localeSelectCustom.njk).
+2. **Hand-written markup**, when you need a control the macro cannot
+   render at all. `initLocaleSelect(root)` works against any DOM that
+   supplies `data-lily-locale-select-root`, `-button`, `-list`, and
+   optionally `-input`, with `role="option"` + `data-value` on each
+   choice. Miss the button or the list and the call returns an inert
+   controller.
+
+For an always-visible list of a few locales, neither hatch is the
+right tool — render plain links or submit buttons, which keep working
+with script off.
 
 ## Why a separate `value` and `target.lang`
 
 The consumer's locale code is in **consumer form** — whatever you
 put into `locales` (`en_US` or `en-US` or `en`). It round-trips
-losslessly through the `<option>`'s `value` attribute, the `onChange`
-callback, and `localStorage`.
+losslessly through the option's `data-value` attribute, the hidden
+input's value, the `onChange` callback, and `localStorage`.
 
 The `target.lang` attribute is in **BCP 47 form** — always hyphens
 (`en-US`). This is what `<html>` and the HTML spec require.
@@ -158,12 +194,15 @@ Three layers, mirroring the lifecycle:
    `locale-select.client.js`. Unit-test them in isolation; no DOM
    needed.
 2. **Macro output** — `nunjucks.renderString(template, ctx)` and
-   assert that the HTML contains the expected `<option>`s, hooks, and
-   `data-lily-locale-select-value` for the seeded `value` — and that
-   the placeholder is still the only `selected` option.
+   assert that the HTML contains the expected `<li role="option">`s,
+   hooks, and `data-lily-locale-select-value` for the seeded `value`
+   — and that the listbox renders `hidden` with exactly one option
+   `aria-selected="true"` and the hidden input pre-filled.
 3. **DOM contract** — after rendering into jsdom and calling
    `initLocaleSelect(root)`, assert `document.documentElement.lang`
-   and `.dir`. Drive a `change` on the `<select>` and assert again.
+   and `.dir`. Then drive the control the way a user would — open the
+   listbox from the button, move with the arrow keys, commit with
+   Enter or a click — and assert again.
 
 See [../locale-select.test.ts](../locale-select.test.ts) for the
 reference suite that covers every `spec/index.md` §7 acceptance item.
@@ -171,7 +210,7 @@ reference suite that covers every `spec/index.md` §7 acceptance item.
 ## Symmetry with `ThemeSelect`
 
 The sibling [`lily-design-system-nunjucks-theme-select`](../../lily-design-system-nunjucks-theme-select/)
-ships with the same shape: a macro that emits a `<select>` with
+ships with the same shape: a macro that emits markup with
 `data-lily-*-root` hooks, and a client.js
 that owns the apply lifecycle. Mount both selects on the same page
 to expose theme + language preferences side-by-side; they share

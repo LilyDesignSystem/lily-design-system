@@ -1,38 +1,82 @@
 @*
-    Example 5 — Custom rendering via RenderFragment<ThemeSelectContext>.
+    Example 5 — Custom button face via RenderFragment<ThemeSelectContext>.
 
-    When the default option-list markup isn't enough, take over completely.
-    The fragment receives a ThemeSelectContext with:
-      - Themes:   the slug list
+    ChildContent replaces the glyph INSIDE the button. It does not render
+    the options — the listbox is always the component's own APG listbox.
+    The fragment receives a ThemeSelectContext with exactly three members:
       - Value:    the active slug
-      - SetTheme: imperatively apply a slug (also updates Value)
-      - Name:     the `name` (shared identity for the select)
+      - Open:     is the listbox currently open?
       - LabelFor: the resolved display label for a slug
 
-    Below, we render a row of swatch buttons. Each button:
-      - exposes its pressed state via aria-pressed,
-      - sets data-theme on itself so consumer CSS can preview the swatch
-        colours via the same :root[data-theme] cascade.
+    Whatever you render must stay aria-hidden="true". The button is
+    icon-only and its entire accessible name is the Label parameter, so
+    any visible text or artwork inside it is decorative by definition —
+    exposing it would double-announce the control. See docs/accessibility.md.
+
+    Two variants below:
+      1. A static inline SVG replacing the default ◑ glyph.
+      2. A state-aware face that reads ctx.Open and ctx.LabelFor(ctx.Value)
+         to show the active theme name plus a chevron that flips when the
+         listbox opens.
+
+    The two selects carry distinct `Name` values so each swaps its own
+    managed <link>. As in Example 7, the `data-theme` attribute on <html>
+    is still set by whichever select fires last — this page exists to
+    compare two button faces, not to recommend shipping two theme selects.
 *@
 
 @page "/examples/theme-select/custom-rendering"
 @rendermode InteractiveServer
 @using LilyDesignSystem.Blazor.Helpers
 
+<h2>Inline SVG glyph</h2>
+
 <ThemeSelect
     Label="Theme"
+    Name="theme-svg"
     ThemesUrl="/assets/themes/"
-    Themes="@(new[] { "light", "dark", "abyss", "cupcake", "dracula" })">
+    Themes="@Themes"
+    @bind-Value="svgTheme">
     <ChildContent Context="ctx">
-        @foreach (var t in ctx.Themes)
-        {
-            <button type="button"
-                    class="theme-select-swatch"
-                    data-theme="@t"
-                    aria-pressed="@(ctx.Value == t)"
-                    @onclick="@(async () => await ctx.SetTheme(t))">
-                @ctx.LabelFor(t)
-            </button>
-        }
+        @* Decorative artwork: a half-filled circle echoing the default ◑.
+           focusable="false" keeps legacy IE/Edge from tab-stopping the SVG. *@
+        <svg class="theme-select-icon"
+             aria-hidden="true"
+             focusable="false"
+             width="16" height="16" viewBox="0 0 16 16">
+            <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5" />
+            <path d="M8 1 A7 7 0 0 1 8 15 Z" fill="currentColor" />
+        </svg>
     </ChildContent>
 </ThemeSelect>
+
+<h2>State-aware face</h2>
+
+<ThemeSelect
+    Label="Theme"
+    Name="theme-stateful"
+    ThemesUrl="/assets/themes/"
+    Themes="@Themes"
+    @bind-Value="statefulTheme">
+    <ChildContent Context="ctx">
+        @* Still one aria-hidden subtree: the accessible name stays "Theme",
+           and aria-expanded on the button already conveys Open to AT. This
+           markup is the sighted-user echo of the same two facts. *@
+        <span class="theme-select-icon" aria-hidden="true">
+            <span class="theme-select-face-name">@ctx.LabelFor(ctx.Value)</span>
+            <span class="theme-select-face-caret">@(ctx.Open ? "▴" : "▾")</span>
+        </span>
+    </ChildContent>
+</ThemeSelect>
+
+<p class="theme-select-status" aria-live="polite">
+    Active themes: @svgTheme / @statefulTheme
+</p>
+
+@code {
+    private static readonly string[] Themes =
+        new[] { "light", "dark", "abyss", "cupcake", "dracula" };
+
+    private string svgTheme = "";
+    private string statefulTheme = "";
+}

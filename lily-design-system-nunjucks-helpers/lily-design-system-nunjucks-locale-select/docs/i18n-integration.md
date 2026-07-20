@@ -20,6 +20,14 @@ The wiring pattern is always the same:
 3. Optionally also persist via `opts.storageKey` so client-only
    apps survive reloads.
 
+Two caveats hold across every stack below. The control is an icon
+button that opens a listbox, and none of it works until
+`locale-select.client.js` loads — so a locale switcher that must work
+with script off needs a plain `<form>` of links or submit buttons
+instead. And if a layout renders the control more than once (header
+plus footer, or one per panel), give each instance a distinct
+`opts.id`, or their listbox and option ids collide.
+
 ---
 
 ## eleventy-i18n (Eleventy plugin)
@@ -293,7 +301,7 @@ both.
 | One page with a few `Intl.*` formatters    | `onChange` + native `Intl.DateTimeFormat` |
 | Existing JSON gettext bundles              | i18next + Express + cookie + reload     |
 | Plurals, gender, ordinal                   | ICU MessageFormat + in-page swap        |
-| Multi-tenant, locale per panel             | Multiple selects with `target` option   |
+| Multi-tenant, locale per panel             | Multiple selects with `target` + distinct `id` |
 | SEO-friendly URLs per locale               | Eleventy URL prefix (above)             |
 | No FOUC, cookie-backed, server-rendered    | Cookie + Express / Eleventy edge function (see [./ssr.md](./ssr.md)) |
 

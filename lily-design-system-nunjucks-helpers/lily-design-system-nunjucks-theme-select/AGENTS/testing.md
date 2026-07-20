@@ -11,13 +11,14 @@ helper. For the catalog-wide test rules see
 
 ```ts
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import nunjucks from "nunjucks";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
     autoInit,
+    CIRCLE_WITH_RIGHT_HALF_BLACK,
     initThemeSelect,
     normaliseThemesUrl,
     themeHref,
@@ -38,6 +39,16 @@ function renderMacro(opts: Record<string, unknown>): string {
     return env.renderString(src, { opts });
 }
 
+function renderMacroWithCaller(
+    opts: Record<string, unknown>,
+    body: string,
+): string {
+    const src =
+        `{% from "./theme-select.njk" import themeSelect %}` +
+        `{% call themeSelect(opts) %}${body}{% endcall %}`;
+    return env.renderString(src, { opts });
+}
+
 function mountIntoBody(html: string): HTMLElement {
     document.body.innerHTML = html;
     return document.body.querySelector(
@@ -46,12 +57,38 @@ function mountIntoBody(html: string): HTMLElement {
 }
 
 beforeEach(() => {
-    document.head.innerHTML = "";
-    document.body.innerHTML = "";
     document.documentElement.removeAttribute("data-theme");
+    document.head
+        .querySelectorAll("link[data-lily-theme-select]")
+        .forEach((n) => n.remove());
+    document.body.innerHTML = "";
     localStorage.clear();
 });
 ```
+
+## Reading the DOM parts
+
+Every assertion needs one or more of the four parts, so the suite
+factors out a `partsOf(root)` helper:
+
+```ts
+function partsOf(root: HTMLElement) {
+    return {
+        root,
+        button: root.querySelector(".theme-select-button") as HTMLButtonElement,
+        list: root.querySelector(".theme-select-list") as HTMLElement,
+        options: Array.from(
+            root.querySelectorAll<HTMLElement>(".theme-select-option"),
+        ),
+        input: root.querySelector(
+            "[data-lily-theme-select-input]",
+        ) as HTMLInputElement,
+    };
+}
+```
+
+Paired with a `setup()` that renders, mounts, and inits in one step,
+most tests are three lines.
 
 ## Two-phase test pattern
 
@@ -74,30 +111,130 @@ test("§7.7 initThemeSelect injects a managed <link>", () => {
 });
 ```
 
-The macro-only phase (`renderMacro` → `expect(html).toContain(…)`)
-is enough for §7.1–§7.6 (markup contract). The init phase
-(`mountIntoBody` → `initThemeSelect` → DOM asserts) covers §7.7
-onward.
+The macro-only phase covers the markup contract; the init phase
+(`mountIntoBody` → `initThemeSelect` → DOM asserts) covers the
+lifecycle and the keyboard contract.
 
-## Driving a select change
+Assert against the parsed DOM rather than the HTML string. The
+markup now has four elements and a dozen attributes, so
+`expect(html).toContain("…")` is both brittle and unreadable;
+mount first, then query.
 
-The client.js attaches a `change` listener on the `<select>`, so
-events must bubble:
+## Driving a selection
+
+There is no `change` event any more. Selection goes through the
+button and the listbox, so tests dispatch keyboard and mouse
+events. Both helpers must bubble:
 
 ```ts
-const select = root as HTMLSelectElement;
-select.value = "dark";
-select.dispatchEvent(new Event("change", { bubbles: true }));
+function key(el: Element, k: string, init: KeyboardEventInit = {}) {
+    el.dispatchEvent(
+        new KeyboardEvent("keydown", { key: k, bubbles: true, ...init }),
+    );
+}
 
-expect(document.documentElement.dataset.theme).toBe("dark");
-const link = document.head.querySelector<HTMLLinkElement>(
-    'link[data-lily-theme-select="theme"]',
-);
-expect(link!.href).toMatch(/\/assets\/themes\/dark\.css$/);
+function click(el: Element) {
+    el.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+}
 ```
 
-`Event` (not `InputEvent`) is enough — the listener only inspects
-`e.target.value`.
+Keyboard path — open, move, confirm:
+
+```ts
+const { button, list, input } = setup();
+key(button, "ArrowDown");   // open, focus moves to the <ul>
+key(list, "ArrowDown");     // active option = index 1
+key(list, "Enter");         // select + apply + close + refocus button
+
+expect(document.documentElement.dataset.theme).toBe("dark");
+expect(input.value).toBe("dark");
+expect(list.hasAttribute("hidden")).toBe(true);
+expect(document.activeElement).toBe(button);
+```
+
+Mouse path — open, click an option:
+
+```ts
+const { button, options } = setup();
+click(button);
+click(options[2]);
+expect(document.documentElement.dataset.theme).toBe("abyss");
+```
+
+`click` must bubble because the outside-dismissal handler is
+attached to `document`.
+
+## Asserting open / closed state
+
+Four signals move together; assert the ones the clause is about:
+
+```ts
+expect(list.hasAttribute("hidden")).toBe(false);
+expect(button.getAttribute("aria-expanded")).toBe("true");
+expect(list.getAttribute("aria-activedescendant")).toBe(options[0].id);
+expect(options[0].hasAttribute("data-active")).toBe(true);
+```
+
+On close, `hidden` returns, `aria-expanded` goes `"false"`,
+`aria-activedescendant` is removed, and no option has `data-active`.
+
+Keep `aria-selected` assertions distinct from `data-active` ones:
+`aria-selected` follows the **applied** theme, so arrowing without
+confirming must not move it.
+
+## Testing typeahead
+
+The buffer resets 500 ms after the last keystroke, so use fake
+timers when a test spans that window:
+
+```ts
+vi.useFakeTimers();
+try {
+    const { button, list, options } = setup();
+    key(button, "ArrowDown");
+    key(list, "d");
+    key(list, "a");                       // "da" → "Dark"
+    expect(list.getAttribute("aria-activedescendant")).toBe(options[1].id);
+    vi.advanceTimersByTime(600);          // buffer expires
+    key(list, "a");                       // fresh search → "Abyss"
+    expect(list.getAttribute("aria-activedescendant")).toBe(options[2].id);
+} finally {
+    vi.useRealTimers();
+}
+```
+
+Modifier chords must be inert: `key(list, "a", { ctrlKey: true })`
+leaves the active descendant where it was.
+
+## Testing the caller block
+
+`{% call %}` replaces the glyph inside the button and nothing else:
+
+```ts
+const root = mountIntoBody(
+    renderMacroWithCaller(
+        { label: "Theme", themesUrl: "/t/", themes: ["light", "dark"] },
+        `<span class="my-glyph" aria-hidden="true">T</span>`,
+    ),
+);
+const button = root.querySelector(".theme-select-button")!;
+expect(button.querySelector(".my-glyph")).not.toBeNull();
+expect(button.querySelector(".theme-select-icon")).toBeNull();
+expect(button.getAttribute("aria-label")).toBe("Theme");
+```
+
+`CIRCLE_WITH_RIGHT_HALF_BLACK` is exported so the default-glyph test
+can compare against it instead of hardcoding `"◑"`.
+
+## jsdom caveats
+
+- `scrollIntoView` is not implemented in jsdom. The client guards
+  the call, so no stub is needed — but don't assert on scrolling.
+- Focus assertions work: the listbox has `tabindex="-1"`, so
+  `list.focus()` sets `document.activeElement`.
+- `FocusEvent` needs an explicit `relatedTarget` for the
+  focus-leaves-the-root test; the handler reads it to decide whether
+  focus stayed inside.
 
 ## Asserting the managed `<link>`
 
@@ -166,6 +303,14 @@ test("macro renders without touching DOM", () => {
 This guarantees no `document.*` access leaked into the render
 path.
 
+The complementary guard is that the *server* markup is inert but
+well-formed: mount without calling `initThemeSelect` and assert the
+listbox is `hidden`, `aria-expanded` is `"false"`, nothing carries
+`data-active` or `aria-activedescendant`, exactly one option is
+`aria-selected="true"`, and the hidden input is pre-filled. That
+last assertion is the only no-JS affordance the control has, so it
+is worth its own test.
+
 ## autoInit test
 
 ```ts
@@ -184,12 +329,20 @@ test("§7.13-ish autoInit wires every root on the page", () => {
 
 ## Section map
 
-| §7 group        | Test focus                                       |
-| --------------- | ------------------------------------------------ |
-| 7.1 — 7.6       | Macro DOM contract (rendered HTML string)        |
-| 7.7 — 7.11      | Client.js apply lifecycle (jsdom mutations)      |
-| 7.12            | Pure helpers (normaliseThemesUrl, themeHref)     |
-| 7.13            | Attribute spread + autoInit                      |
+| §7 group        | Test focus                                            |
+| --------------- | ----------------------------------------------------- |
+| 7.1 — 7.6       | Macro DOM contract: root, button, listbox, glyph, ids, labels |
+| 7.7 — 7.11      | Client.js apply lifecycle (jsdom mutations)           |
+| 7.12            | Pure helpers (normaliseThemesUrl, themeHref)          |
+| 7.13            | Attribute spread, destroy, autoInit                   |
+| 7.14 — 7.16     | Server-rendered state: closed listbox, one selected option, pre-filled hidden input |
+| 7.17 — 7.19     | `data-lily-theme-select-value` channel + the `{% call %}` glyph override |
+| 7.20 — 7.24     | Keyboard and pointer contract (APG listbox)           |
+
+The old "only the placeholder is `selected`" regression guard is
+retired along with the placeholder. Its replacement is §7.14–§7.16:
+the meaningful pre-hydration invariants are now that the listbox is
+closed and that exactly one option is marked selected.
 
 ## One test per §7 acceptance
 

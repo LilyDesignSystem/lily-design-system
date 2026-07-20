@@ -6,8 +6,9 @@ rationale and common usage.
 
 ## `Label` — required, `string`
 
-`aria-label` on the `<select>`. Always supplied, always
-translatable. Screen readers announce it as the control's name.
+`aria-label` on **both** the button and the `<ul role="listbox">`.
+Always supplied, always translatable. Screen readers announce it as the
+control's name.
 
 ```razor
 <ThemeSelect Label="Theme" ... />
@@ -19,24 +20,23 @@ In an i18n setup with `IStringLocalizer<T>`:
 <ThemeSelect Label="@Localizer["chooseTheme"]" ... />
 ```
 
-## `Placeholder` — optional, `string?`
+This one carries more weight than a typical label. The button renders
+only a glyph, and the glyph is `aria-hidden="true"` — so `Label` is the
+control's *entire* accessible name, with no visible-text fallback. An
+empty or untranslated `Label` leaves the control announcing as a bare
+"button". See [`accessibility.md`](accessibility.md#1-the-accessible-name-rests-entirely-on-aria-label).
 
-Text of the always-displayed placeholder option. The closed `<select>`
-shows this word rather than the active theme name, so the control stays
-as narrow as the word itself instead of stretching to the widest theme
-name. Defaults to `Label`.
+## `Placeholder` — **removed**
 
-Like `Label`, it is a parameter rather than a hardcoded string, so the
-package emits no user-facing English of its own.
+There is no `Placeholder` parameter. It existed only to pin a native
+`<select>`'s closed display to a short word; there is no `<select>` any
+more. Passing it is a compile error.
 
-```razor
-<ThemeSelect Label="Choose a theme" Placeholder="Theme" ... />
-```
-
-The accessible name still comes from `Label`; `Placeholder` only
-changes the visible text of the leading option. See
-[`accessibility.md`](accessibility.md) for the tradeoff this creates
-for screen-reader users.
+The closed control now shows a glyph, so if you want the active theme
+visible, render a status region next to the control — see
+[`accessibility.md`](accessibility.md#the-status-region-is-still-the-recommended-pattern)
+and the `.theme-select-status` hook in
+[`styling.md`](styling.md#the-status-region).
 
 ## `ThemesUrl` — required, `string`
 
@@ -113,9 +113,44 @@ swallowed — the select continues to work in-memory.
 <ThemeSelect StorageKey="lily-theme" ... />
 ```
 
+## `DetectFromSystem` — optional, `bool` — defaults to `false`
+
+Opt in to resolving the OS colour scheme on first visit. The component
+probes `matchMedia("(prefers-color-scheme: dark)")` once, during initial
+value resolution, and maps the answer onto a supported slug via the
+public `ThemeSelect.MatchSystemTheme` helper.
+
+Detection sits in the middle of the resolution order:
+
+```
+Value > StorageKey > DetectFromSystem > DefaultValue > "light" > Themes[0]
+```
+
+so a returning visitor's stored choice always beats the OS preference —
+detection only ever decides the first visit.
+
+```razor
+<ThemeSelect DetectFromSystem="true" StorageKey="lily-theme" ... />
+```
+
+If the OS prefers a scheme this control does not offer (`dark` with no
+`"dark"` slug in `Themes`), detection yields nothing and resolution
+falls through to `DefaultValue`.
+
+Detection resolves **once**, on first render. It does not subscribe to
+the media query, so it will not re-theme a page when the user flips
+their OS while the tab is open — that would fight a selection the user
+made by hand. To follow OS changes live, add your own listener and call
+`SetThemeAsync`; see
+[recipes.md](recipes.md#track-os-colour-scheme-changes-live).
+
+The counterpart on LocaleSelect is `DetectFromNavigator`, which reads
+`navigator.languages` in the same slot.
+
 ## `Name` — optional, `string` — defaults to `"theme"`
 
-The `name` attribute on the `<select>`. It also serves as the
+The `name` attribute on the hidden input that carries `Value` for form
+participation. It also serves as the
 discriminator on the managed `<link>` element
 (`data-lily-theme-select="{Name}"`), so multiple selects can
 coexist by giving each a distinct `Name`.
@@ -169,21 +204,27 @@ component.
 
 ## `ChildContent` — optional, `RenderFragment<ThemeSelectContext>?`
 
-Custom rendering of the options. The fragment receives a
+**Replaces the glyph inside the button.** It does *not* render the
+options — those are always component-owned, so the listbox semantics
+cannot be broken by a consumer override. The fragment receives a
 `ThemeSelectContext`. See
 [custom-rendering.md](./custom-rendering.md) for patterns.
 
 ```razor
 <ThemeSelect ...>
     <ChildContent Context="ctx">
-        @* custom markup using ctx.Themes, ctx.SetTheme, ... *@
+        <svg class="my-icon" aria-hidden="true" ...>...</svg>
     </ChildContent>
 </ThemeSelect>
 ```
 
+Supplying `ChildContent` removes the default `.theme-select-icon`
+span. Keep whatever you render `aria-hidden="true"` — the accessible
+name must keep coming from the button's `aria-label` (i.e. `Label`).
+
 ## `CssClass` — optional, `string`
 
-Extra CSS class hook on the `<select>`. Always emitted after
+Extra CSS class hook on the root `<div>`. Always emitted after
 `"theme-select"`, so consumer styles can use either selector.
 
 ```razor
@@ -191,13 +232,13 @@ Extra CSS class hook on the `<select>`. Always emitted after
 ```
 
 The root element ends up as
-`<select class="theme-select my-theme-select" …>`.
+`<div class="theme-select my-theme-select" …>`.
 
 ## `AdditionalAttributes` — optional, `Dictionary<string, object>?`
 
 Captured by `[Parameter(CaptureUnmatchedValues = true)]`. Any
 attribute not explicitly bound to a parameter falls through to the
-root `<select>`. Use this to attach test IDs, analytics handlers,
+root `<div>`. Use this to attach test IDs, analytics handlers,
 and overrides without forking the component:
 
 ```razor
@@ -209,22 +250,83 @@ and overrides without forking the component:
     id="appearance-select" />
 ```
 
-Both `data-testid` and `id` land on the `<select>`.
+Both `data-testid` and `id` land on the root `<div>` — not on the
+button. To target the button, use the `.theme-select-button` class hook
+or a descendant selector.
+
+## Static helpers
+
+Pure and side-effect free, so they are usable without rendering the
+component at all:
+
+| Member | Purpose |
+| ------ | ------- |
+| `NormaliseThemesUrl(string)` | Ensure the themes URL ends with exactly one `/`. |
+| `ThemeHref(themesUrl, slug, extension)` | Construct a theme stylesheet href. |
+| `ThemeName(string)` | Slug → title-cased display label. |
+| `MatchSystemTheme(bool?, IReadOnlyList<string>)` | OS colour-scheme preference → supported slug, or `""`. |
+
+### `ThemeName(string slug)`
+
+The single public implementation of the default label rule — each
+hyphen-separated word title-cased:
+
+```csharp
+ThemeSelect.ThemeName("high-contrast");   // "High Contrast"
+ThemeSelect.ThemeName("light");           // "Light"
+```
+
+The component's own option labels come from this exact function (after
+checking `ThemeLabels`), so an external control driving the select via
+`SetThemeAsync` renders identical labels without duplicating the rule.
+Before it was public, every example in the catalog hand-rolled its own
+copy of the title-casing.
+
+It mirrors `Locales.LocaleName` on LocaleSelect.
+
+### `MatchSystemTheme(bool? prefersDark, IReadOnlyList<string> themes)`
+
+The pure decision behind `DetectFromSystem`. The browser reading happens
+in the component's interop probe; this function is the separately
+testable mapping:
+
+```csharp
+ThemeSelect.MatchSystemTheme(true,  new[] { "light", "dark" });  // "dark"
+ThemeSelect.MatchSystemTheme(false, new[] { "light", "dark" });  // "light"
+ThemeSelect.MatchSystemTheme(true,  new[] { "light", "sepia" }); // ""  (unsupported)
+ThemeSelect.MatchSystemTheme(null,  new[] { "light", "dark" });  // ""  (matchMedia absent)
+```
+
+`prefersDark` is the result of
+`matchMedia("(prefers-color-scheme: dark)").matches`, or `null` when
+`matchMedia` is unavailable — prerender, static SSR, or a host without
+the API. **Null always yields `""`**, which is what keeps detection
+SSR-safe.
+
+It mirrors `Locales.MatchNavigatorLanguage` on LocaleSelect, which takes
+the navigator list the same way.
 
 ## Render fragment context
 
-`ThemeSelectContext`:
+`ThemeSelectContext` — mirrors the canonical Svelte `ChildArgs`:
 
 ```csharp
 public sealed class ThemeSelectContext
 {
-    public required IReadOnlyList<string> Themes { get; init; }
+    /// Currently selected theme slug.
     public required string Value { get; init; }
-    public required Func<string, Task> SetTheme { get; init; }
-    public required string Name { get; init; }
+    /// Is the listbox open?
+    public required bool Open { get; init; }
+    /// Resolve a slug to its display label.
     public required Func<string, string> LabelFor { get; init; }
 }
 ```
+
+The old `Themes`, `SetTheme` and `Name` members are gone: the fragment
+no longer renders options, so it no longer needs them. To drive the
+control imperatively from your own UI, call the public
+`SetThemeAsync(string slug)` method on a `@ref` to the component
+instead.
 
 See [custom-rendering.md](./custom-rendering.md) for usage.
 

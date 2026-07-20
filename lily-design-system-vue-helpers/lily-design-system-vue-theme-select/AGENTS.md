@@ -22,11 +22,14 @@ Ships no CSS; consumer styles the `theme-select` class hook.
 ## Public surface
 
 - Default export: `ThemeSelect` component.
-- Named exports: `ThemeSelect`, `normaliseThemesUrl`, `themeHref`.
-- Type exports: `Props`, `SlotArgs`.
+- Named exports: `ThemeSelect`, `normaliseThemesUrl`, `themeHref`,
+  `themeName`, `matchSystemTheme`,
+  `nextThemeSelectId`, `CIRCLE_WITH_RIGHT_HALF_BLACK`.
+- Type exports: `Props`, `SlotArgs`, `ChildArgs` (alias of `SlotArgs`).
 
 Required props: `label`, `themesUrl`, `themes`. Full table in
-[spec/index.md §4.1](./spec/index.md#41-props).
+[spec/index.md §4.1](./spec/index.md#41-props). There is no
+`placeholder` prop — it was removed with the `<select>`.
 
 ## Behaviour contract (one paragraph)
 
@@ -37,32 +40,44 @@ On every theme change the select (1) sets the `href` of one managed
 `document.documentElement`), (3) optionally writes the slug to
 `localStorage[storageKey]`, and (4) emits the `change` event. SSR-safe
 — all DOM writes happen inside `onMounted` / `watch`. Initial value
-resolves from `value` > storage > `defaultValue` > `"light"` (if
-present) > `themes[0]`. The `<select>` element's own value is never
-bound to the selection: on `change` the component reads the chosen
-slug, resets `select.value = ""` so the closed control keeps showing
-the placeholder, and then applies the slug. The real selection lives
-in `value` / `v-model:value`.
+resolves from `value` > storage > `matchSystemTheme` (if
+`detectFromSystem`) > `defaultValue` > `"light"` (if
+present) > `themes[0]`. The control is an icon button that opens a
+listbox; the selection lives in `value` / `v-model:value`, in the
+hidden input, and in `data-theme` on the target.
 
 ## HTML
 
-`<select class="theme-select {class}" aria-label="{label}"
-name="{name}">` whose first child is always a component-owned
-`<option class="theme-select-option theme-select-placeholder" value=""
-selected>{placeholder ?? label}</option>`, followed by one native
-`<option>` per slug. Custom rendering via the default scoped slot
-receiving `{ themes, value, setTheme, name, labelFor }` — the
-placeholder is rendered outside the slot, so it survives custom
-rendering.
+A root `<div class="theme-select {class}">` (`$attrs` falls through to
+it) containing three things: a hidden `<input type="hidden"
+name="{name}" value="{value}">` for form participation; a
+`<button type="button" class="theme-select-button" aria-label="{label}"
+aria-haspopup="listbox" aria-expanded aria-controls="{listId}">`
+wrapping `<span class="theme-select-icon" aria-hidden="true">◑</span>`;
+and a `<ul class="theme-select-list" role="listbox" aria-label="{label}"
+tabindex="-1" hidden aria-activedescendant>` of
+`<li class="theme-select-option" role="option" aria-selected
+data-active>`. The glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK,
+exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`. The default scoped slot
+replaces the **button glyph** — not the options — and receives
+`{ value, open, labelFor }`.
 
 ## Accessibility
 
 - WCAG 2.2 AAA target.
-- The native `<select>` provides Arrow / Home / End / typeahead
-  semantics.
-- `aria-label` carries the consumer-supplied accessible name.
+- The component implements the WAI-ARIA APG listbox keyboard contract
+  itself: Arrow keys (clamping, no wrap), Home / End, Enter / Space to
+  commit, Escape to cancel, Tab to close, printable-character typeahead
+  with a 500 ms buffer. Focus moves to the `<ul>` on open and returns to
+  the button on commit or cancel.
+- The button is icon-only, so `aria-label` is its **only** accessible
+  name; the glyph is `aria-hidden="true"`.
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
+- Because the closed control shows only a glyph, the documented pattern
+  pairs the select with a consumer-rendered
+  `.theme-select-status` live region. See
+  [docs/accessibility.md](./docs/accessibility.md).
 
 ## Conventions this package follows
 

@@ -8,15 +8,54 @@ rules live in [`../../AGENTS/ssr.md`](../../AGENTS/ssr.md).
 
 The macro is pure: same `opts` in, same HTML out. It does not
 touch `localStorage`, `navigator`, `document.head`, or any DOM
-API. If the consumer passes `opts.value="dark"`, the `<select>` root
-gets `data-lily-theme-select-value="dark"` rendered server-side. The
-`<option>`s are untouched: the placeholder stays the only `selected`
-option, so the closed control shows the placeholder word from byte
-zero and never flashes the theme name.
+API.
+
+What it does emit server-side:
+
+- The root `<div>` with every `data-lily-theme-select-*` config
+  attribute. If the consumer passes `opts.value="dark"`, the root
+  gets `data-lily-theme-select-value="dark"`; the attribute is
+  omitted entirely when `value` is empty.
+- A collapsed `<button aria-expanded="false">` and a `<ul
+  role="listbox" hidden>`.
+- A server-resolved selected option:
+  `value or defaultValue or ("light" if present else themes[0])`.
+  Exactly one `<li>` carries `aria-selected="true"`.
+- A hidden `<input>` pre-filled with that same slug.
 
 The managed `<link>` is **not** created at render time.
 `data-theme` is **not** written to `<html>` at render time. Those
-happen when the client.js runs in the browser.
+happen when the client.js runs in the browser. Neither is the
+server's choice final: `localStorage` and `matchMedia` are both
+client-only, so the client may correct `aria-selected` and the hidden
+input on hydration. What it will **not** override is an explicit
+`opts.value` — that is the first input in the client's resolution
+order, ahead of storage and detection alike, so a server-resolved
+theme survives hydration intact.
+
+## The no-JS regression (read this before promising progressive enhancement)
+
+The macro used to render a native `<select>`, which worked without
+JavaScript. It no longer does. The control is an icon button plus a
+listbox, and **every** interactive behaviour — opening, closing,
+focus movement, arrow keys, typeahead, selection — lives in
+`theme-select.client.js`. Server-rendered markup alone gives the
+user a button that does nothing.
+
+The single no-JS affordance that survives is the hidden input: it is
+pre-filled server-side, so a form that wraps the control still
+submits a theme value. That is the whole of it.
+
+Consequences worth stating plainly to consumers:
+
+- Do not describe this helper as progressively enhanced beyond the
+  hidden input.
+- If a working no-JS theme switcher is a hard requirement, render a
+  form of links or submit buttons instead of this helper, and let
+  the server set the cookie.
+- The zero-flicker recipes below are about the *first paint*, not
+  about no-JS operation. They make the page look right before
+  hydration; they do not make the button work before hydration.
 
 ## Why this matters
 
@@ -173,9 +212,10 @@ const html = nunjucks.render("page.njk", {
 require("node:fs").writeFileSync("dist/index.html", html);
 ```
 
-The macro outputs a complete `<select>` carrying
-`data-lily-theme-select-value="dark"`; no DOM touched, no errors
-thrown.
+The macro outputs the complete root `<div>` — hidden input, button,
+listbox — carrying `data-lily-theme-select-value="dark"`; no DOM
+touched, no errors thrown. The written file needs the client.js
+loaded alongside it to be interactive.
 
 ## Why the macro doesn't auto-resolve cookies
 

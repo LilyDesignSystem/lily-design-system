@@ -8,8 +8,11 @@ this file is the per-helper contract.
 
 - **Runner.** vitest in `jsdom` environment.
 - **Renderer.** `@testing-library/react`.
-- **User events.** `@testing-library/user-event` (preferred) or
-  `fireEvent`.
+- **User events.** `fireEvent`. The reference suite uses it throughout:
+  the control's own keyboard handlers are what is under test, so the
+  extra realism `@testing-library/user-event` adds (pointer sequences,
+  focus simulation) buys little and makes the `keyDown`-on-the-`<ul>`
+  assertions harder to express.
 
 ## Test file
 
@@ -51,25 +54,33 @@ Map each §7 clause to one or more vitest test ids:
 
 | §7 # | Topic                          | Hook                                                          |
 | ---- | ------------------------------ | ------------------------------------------------------------- |
-| 7.1  | `<select>` (implicit combobox) | `screen.getByRole("combobox").tagName === "SELECT"`          |
-| 7.2  | `aria-label` is `label`        | `screen.getByLabelText(label)`                                |
-| 7.3  | One option per locale, `name` on select | `within(select).getAllByRole("option")`             |
-| 7.4  | Each `<option lang>`           | iterate `<option>` elements, assert `.lang`                   |
-| 7.5  | Default rendering uses `defaultLocaleLabels` | check `.textContent` per option               |
-| 7.6  | Document root gets `lang`+`dir` after mount | `waitFor` `documentElement.lang` / `.dir`        |
+| 7.1  | Button + listbox + root div    | `screen.getByRole("button")` attrs; `.locale-select-icon`; root `tagName === "DIV"` |
+| 7.2  | `aria-label` names both        | `getByRole("button", { name })`; list `aria-label`            |
+| 7.3  | One option per locale, hidden input `name` | `document.querySelectorAll(".locale-select-option")`; `input[type="hidden"]` |
+| 7.4  | `hidden` until activated; one `aria-selected` | click the button; assert `hidden` / `aria-expanded` |
+| 7.5  | Each option `lang`; none on button or list | iterate options, assert `.getAttribute("lang")` |
+| 7.6  | Labels from `localeLabels` / `defaultLocaleLabels` | `screen.getByText(...)`               |
 | 7.7  | `bcp47LocaleTag("en_US")`      | pure                                                          |
 | 7.8  | `bcp47LocaleTag("zh_Hant_TW")` | pure                                                          |
 | 7.9  | `bcp47LocaleTag("en")`         | pure                                                          |
 | 7.10 | `isRtlLocale` RTL cases        | pure (ar, he_IL, uz_Arab_AF)                                  |
 | 7.11 | `isRtlLocale` LTR cases        | pure (en, fr_CA)                                              |
 | 7.12 | `localeName("en_US")`          | pure (from `locales.tsv`)                                     |
-| 7.13 | Storage key persists           | first render writes; unmount; second render reads             |
-| 7.14 | `value` prop wins              | preset storage; render with `value`; assert applied           |
-| 7.15 | `applyDir={false}` omits dir   | RTL value, assert `documentElement.dir === ""`                |
-| 7.16 | Custom `target`                | render with `target={ref}`; assert `target.lang`, root unchanged |
-| 7.17 | `onChange` fires on apply      | `vi.fn()` spy in `onChange`                                   |
-| 7.18 | `children` render prop         | mock `children`, assert `ChildArgs` shape                     |
-| 7.19 | Extra attrs spread             | render with `data-testid`; query by data attribute            |
+| 7.13 | Initial `lang` is BCP 47 form  | `flush()`, assert `documentElement.lang`                      |
+| 7.14 | `dir` is rtl / ltr             | RTL and LTR `defaultValue`, assert `documentElement.dir`      |
+| 7.15 | `applyDir={false}` omits dir   | RTL value, assert `!documentElement.hasAttribute("dir")`      |
+| 7.16 | Selection updates lang/dir, fires `onChange` (consumer form) | `pick(code)`, `vi.fn()` spy |
+| 7.17 | Custom `target`                | render with `target`; assert `target.lang`, root untouched    |
+| 7.18 | Storage key persists           | first render writes; unmount; second render reads             |
+| 7.19 | `value` prop wins              | preset storage; render with `value`; assert applied           |
+| 7.20 | Navigator exact match          | stub `navigator.languages`; assert resolved locale            |
+| 7.21 | Navigator language-only match  | stub `["fr-CA"]` against `["en","fr"]`                        |
+| 7.22 | Extra attrs spread onto the root div | render with `data-testid`; assert `tagName === "DIV"`   |
+| 7.23 | `children` replaces the glyph  | assert no `.locale-select-icon`; assert `value` / `open` / `labelFor` |
+| 7.24 | Opening keys and focus transfer | `fireEvent.keyDown(button, { key })`; assert `document.activeElement` |
+| 7.25 | Active-descendant movement, clamping, Home / End, `data-active` | `fireEvent.keyDown(list, …)`; assert `aria-activedescendant` |
+| 7.26 | Select / cancel / Tab, and focus return | `Enter`, `Space`, `Escape`, `Tab` on the list         |
+| 7.27 | Typeahead and pointer          | printable keys, buffer reset via fake timers, option click, outside click |
 
 ## Mounting
 
@@ -85,7 +96,7 @@ import LocaleSelect, {
 
 const LOCALES = ["en", "en_US", "fr", "fr_CA", "ar"];
 
-test("§7.6 — initial value applies lang+dir to document root", async () => {
+test("§7.13 — initial value applies lang+dir to document root", async () => {
     render(<LocaleSelect label="Language" locales={LOCALES} defaultValue="ar" />);
     await waitFor(() => {
         expect(document.documentElement.lang).toBe("ar");
@@ -97,10 +108,38 @@ test("§7.6 — initial value applies lang+dir to document root", async () => {
 `waitFor` is required for any assertion that depends on the first-mount
 effect.
 
+## Three helpers the suite leans on
+
+The listbox has no accessible-name query shortcut while it is `hidden`,
+selecting a locale is now two interactions rather than one, and focus
+moves in an effect after the commit. The suite defines all three as
+small helpers:
+
+```tsx
+/** Yield one macrotask so post-commit effects have run. */
+function flush(): Promise<void> {
+    return new Promise((r) => setTimeout(r, 0));
+}
+
+function getList(): HTMLElement {
+    return document.querySelector(".locale-select-list") as HTMLElement;
+}
+
+/** Open the listbox and click the option for `code`. */
+function pick(code: string, locales: string[] = LOCALES): void {
+    fireEvent.click(screen.getByRole("button"));
+    const opts = document.querySelectorAll(".locale-select-option");
+    fireEvent.click(opts[locales.indexOf(code)]);
+}
+```
+
+`pick()` replaces the old `user.selectOptions(...)` call everywhere a
+test needs to change the locale.
+
 ## Asserting the language attribute round-trip
 
 ```tsx
-test("§7.6 — en_US is written as en-US (BCP 47 hyphen)", async () => {
+test("§7.13 — en_US is written as en-US (BCP 47 hyphen)", async () => {
     render(<LocaleSelect label="Language" locales={LOCALES} defaultValue="en_US" />);
     await waitFor(() => {
         expect(document.documentElement.lang).toBe("en-US");
@@ -114,10 +153,7 @@ attribute. The `value` mirrors the consumer form back.
 ## Asserting user selection
 
 ```tsx
-import userEvent from "@testing-library/user-event";
-
-test("§7.17 — selecting an option fires onChange and updates lang/dir", async () => {
-    const user = userEvent.setup();
+test("§7.16 — selecting an option fires onChange and updates lang/dir", async () => {
     const onChange = vi.fn();
     render(
         <LocaleSelect
@@ -131,7 +167,7 @@ test("§7.17 — selecting an option fires onChange and updates lang/dir", async
         expect(document.documentElement.lang).toBe("en");
     });
 
-    await user.selectOptions(screen.getByRole("combobox"), "ar");
+    pick("ar");
 
     await waitFor(() => {
         expect(document.documentElement.lang).toBe("ar");
@@ -141,15 +177,73 @@ test("§7.17 — selecting an option fires onChange and updates lang/dir", async
 });
 ```
 
-`user.selectOptions` fires the change event on the `<select>`.
-`getByRole("combobox")` matches the native `<select>` via its implicit
-combobox role and its `aria-label`.
+`getByRole("button")` matches the trigger via its `aria-label`. The
+options are queried by class, not by `getAllByRole("option")`, because
+the listbox is `hidden` until the button is clicked and hidden subtrees
+are excluded from the accessibility tree.
+
+## Asserting the keyboard contract
+
+The keyboard suite drives `fireEvent.keyDown` on the button to open and
+on the `<ul>` to navigate, then asserts `aria-activedescendant` against
+the list's children ids:
+
+```tsx
+function openWith(key: string) {
+    render(<LocaleSelect label="Language" locales={LOCALES} />);
+    const button = screen.getByRole("button");
+    fireEvent.keyDown(button, { key });
+    return { button, list: getList() };
+}
+
+test("§7.25 — ArrowDown / ArrowUp move the active descendant and clamp", () => {
+    const { list } = openWith("ArrowDown");
+    fireEvent.keyDown(list, { key: "ArrowDown" });
+    expect(list.getAttribute("aria-activedescendant")).toBe(list.children[1].id);
+    fireEvent.keyDown(list, { key: "ArrowUp" });
+    fireEvent.keyDown(list, { key: "ArrowUp" }); // clamps, does not wrap
+    expect(list.getAttribute("aria-activedescendant")).toBe(list.children[0].id);
+});
+
+test("§7.26 — Enter selects, closes, and returns focus to the button", async () => {
+    const { button, list } = openWith("ArrowDown");
+    fireEvent.keyDown(list, { key: "ArrowDown" });
+    fireEvent.keyDown(list, { key: "Enter" });
+    await flush();
+    expect(list.hasAttribute("hidden")).toBe(true);
+    expect(document.activeElement).toBe(button);
+});
+```
+
+Focus assertions need `await flush()` because focus moves in an effect
+after the commit, not synchronously with the key event.
+
+Typeahead's buffer reset is the one place fake timers are required:
+
+```tsx
+test("§7.27 — the typeahead buffer resets after the idle window", () => {
+    vi.useFakeTimers();
+    try {
+        render(<LocaleSelect label="Language" locales={LOCALES} />);
+        const list = getList();
+        fireEvent.keyDown(screen.getByRole("button"), { key: "ArrowDown" });
+        fireEvent.keyDown(list, { key: "a" });
+        vi.advanceTimersByTime(600);
+        fireEvent.keyDown(list, { key: "f" });
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[2].id);
+    } finally {
+        vi.useRealTimers();
+    }
+});
+```
+
+Always restore real timers in a `finally`, or later tests inherit the
+fake clock.
 
 ## Asserting persistence
 
 ```tsx
-test("§7.13 — storageKey survives unmount/remount", async () => {
-    const user = userEvent.setup();
+test("§7.18 — storageKey survives unmount/remount", async () => {
     const { unmount } = render(
         <LocaleSelect
             label="Language"
@@ -161,7 +255,7 @@ test("§7.13 — storageKey survives unmount/remount", async () => {
     await waitFor(() => {
         expect(document.documentElement.lang).toBe("en");
     });
-    await user.selectOptions(screen.getByRole("combobox"), "fr");
+    pick("fr");
     await waitFor(() => {
         expect(localStorage.getItem("lily-locale")).toBe("fr");
     });
@@ -186,7 +280,7 @@ test("§7.13 — storageKey survives unmount/remount", async () => {
 ## Asserting the controlled `value` short-circuit
 
 ```tsx
-test("§7.14 — value prop wins over storage and defaultValue", async () => {
+test("§7.19 — value prop wins over storage and defaultValue", async () => {
     localStorage.setItem("lily-locale", "ar");
     render(
         <LocaleSelect
@@ -225,7 +319,7 @@ test("§7.15 — applyDir={false} skips dir attribute", async () => {
 ## Asserting custom `target`
 
 ```tsx
-test("§7.16 — custom target receives lang/dir, root is untouched", async () => {
+test("§7.17 — custom target receives lang/dir, root is untouched", async () => {
     const target = document.createElement("section");
     document.body.appendChild(target);
 
@@ -251,7 +345,7 @@ test("§7.16 — custom target receives lang/dir, root is untouched", async () =
 ## Asserting spread props
 
 ```tsx
-test("§7.19 — extra attributes spread onto the select", () => {
+test("§7.22 — extra attributes spread onto the root div", () => {
     render(
         <LocaleSelect
             label="Language"
@@ -262,33 +356,45 @@ test("§7.19 — extra attributes spread onto the select", () => {
     );
     const el = screen.getByTestId("custom");
     expect(el.id).toBe("my-id");
-    expect(el.tagName).toBe("SELECT");
+    expect(el.tagName).toBe("DIV");
+    expect(el.className).toContain("locale-select");
 });
 ```
 
 ## Asserting the `children` render prop
 
+`children` replaces the glyph inside the button, so assert both that
+the default `.locale-select-icon` is gone and that the custom node
+lands inside `.locale-select-button`:
+
 ```tsx
-test("§7.18 — children receives ChildArgs", () => {
-    const spy = vi.fn<[ChildArgs], React.ReactNode>(() => <span>x</span>);
+test("§7.23 — children replace the button glyph and receive ChildArgs", async () => {
     render(
-        <LocaleSelect label="Language" locales={LOCALES}>
-            {spy}
+        <LocaleSelect label="Language" locales={LOCALES} value="fr">
+            {(args: ChildArgs) => (
+                <span
+                    data-testid="custom"
+                    data-open={String(args.open)}
+                    data-value={args.value}
+                    data-label-en-us={args.labelFor("en_US")}
+                >
+                    custom glyph
+                </span>
+            )}
         </LocaleSelect>,
     );
-    expect(spy).toHaveBeenCalled();
-    const args = spy.mock.calls[0][0];
-    expect(args.locales).toEqual(LOCALES);
-    expect(args.name).toBe("locale");
-    expect(typeof args.setLocale).toBe("function");
-    expect(typeof args.labelFor).toBe("function");
-    expect(typeof args.tagFor).toBe("function");
-    expect(typeof args.isRtl).toBe("function");
-    expect(args.tagFor("en_US")).toBe("en-US");
-    expect(args.isRtl("ar")).toBe(true);
-    expect(args.labelFor("en_US")).toBe("English (United States)");
+    await flush();
+    const node = screen.getByTestId("custom");
+    expect(node.closest("button")?.className).toContain("locale-select-button");
+    expect(document.querySelector(".locale-select-icon")).toBeNull();
+    expect(node.getAttribute("data-open")).toBe("false");
+    expect(node.getAttribute("data-value")).toBe("fr");
+    expect(node.getAttribute("data-label-en-us")).toBe("English (United States)");
 });
 ```
+
+A companion test opens the listbox and asserts `data-open` flips to
+`"true"`, which is the only way `open` is observable.
 
 ## Pure helper tests
 
@@ -342,7 +448,7 @@ StrictMode's intentional double-invocation.
 ## navigator.languages mocking
 
 ```tsx
-test("§7.6 — detectFromNavigator picks first matching language", async () => {
+test("§7.21 — detectFromNavigator picks first matching language", async () => {
     const original = navigator.languages;
     Object.defineProperty(navigator, "languages", {
         value: ["fr-CA", "en"],
@@ -373,6 +479,8 @@ test("§7.6 — detectFromNavigator picks first matching language", async () => 
 - CSS / styling.
 - `Intl.DisplayNames` output (browser-specific; the helper handles the
   fallback chain).
+- `scrollIntoView` on the active option — jsdom does not implement it,
+  which is why the call site is optional (`el?.scrollIntoView?.(…)`).
 - Cross-tab `storage` events (consumer concern).
 - Server-side rendering output (see `ssr.md` for the e2e approach).
 

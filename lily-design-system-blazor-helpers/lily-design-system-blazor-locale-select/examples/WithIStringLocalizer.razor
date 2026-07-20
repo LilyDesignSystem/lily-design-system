@@ -1,0 +1,63 @@
+@*
+    With IStringLocalizer — wiring Microsoft.Extensions.Localization (IStringLocalizer<T>).
+
+    The select's bindable Value is mirrored into the current CultureInfo
+    via OnChange. Every Localizer["…"] call in templates re-evaluates
+    automatically when the culture changes.
+
+    Prerequisites in Program.cs:
+        builder.Services.AddLocalization(o => o.ResourcesPath = "Resources");
+
+    Resource files:
+        Resources/SharedResources.cs       (empty marker)
+        Resources/SharedResources.resx     (English defaults)
+        Resources/SharedResources.fr.resx
+        Resources/SharedResources.ar.resx
+
+    Outcome: choosing a locale flips CultureInfo.DefaultThreadCurrentCulture
+    and IStringLocalizer<SharedResources> resolves the right strings.
+*@
+
+@page "/examples/locale-select/with-istring-localizer"
+@rendermode InteractiveServer
+@using System.Globalization
+@using LilyDesignSystem.Blazor.Helpers
+@using Microsoft.Extensions.Localization
+
+@* In a real project, inject IStringLocalizer<SharedResources>. The
+   demo stand-in keeps this example runnable in isolation. *@
+@inject IStringLocalizer<SharedResourcesDemo> Loc
+
+<LocaleSelect
+    Label="@Loc["chooseLanguage"]"
+    Locales="@(new[] { "en", "fr", "ar" })"
+    LocaleLabels="@(new Dictionary<string, string>
+    {
+        ["en"] = Loc["english"],
+        ["fr"] = Loc["french"],
+        ["ar"] = Loc["arabic"],
+    })"
+    @bind-Value="locale"
+    StorageKey="app-locale"
+    DetectFromNavigator="true"
+    OnChange="OnLocaleChange" />
+
+<h1>@Loc["greeting"]</h1>
+<p>@Loc["body"]</p>
+
+@code {
+    private string locale = "en";
+
+    private void OnLocaleChange(string code)
+    {
+        var ci = new CultureInfo(Locales.Bcp47LocaleTag(code));
+        CultureInfo.DefaultThreadCurrentCulture = ci;
+        CultureInfo.DefaultThreadCurrentUICulture = ci;
+        StateHasChanged();
+    }
+}
+
+@* Marker class. In a real project this lives in Resources/SharedResourcesDemo.cs. *@
+@code {
+    public sealed class SharedResourcesDemo { }
+}

@@ -158,10 +158,18 @@ pre-rendering happens through the host attributes, not the rendered
 children. The children are recreated on every `connectedCallback`.
 
 This is *fine*: the first paint shows the consumer's CSS applied to
-the un-upgraded `<theme-select>` host (empty), then the select
-upgrades and the rendered `<select>` appears. The visible change is
-the appearance of the `<select>`, not a re-paint of the rest of the
-page — because the inlined `<html data-theme>` is unchanged.
+the un-upgraded `<theme-select>` host (empty), then the element
+upgrades and the rendered button appears. The visible change is the
+appearance of one icon button, not a re-paint of the rest of the
+page — because the inlined `<html data-theme>` is unchanged. It is
+also a small change: reserve space for the button in your CSS
+(`theme-select { display: inline-block; min-inline-size: … }`) to
+avoid a layout shift when it appears.
+
+Element ids are generated from a module-level counter
+(`nextThemeSelectId()`), never from `Math.random()` or `Date.now()`,
+so nothing in the rendered markup differs between runs or between
+server and client.
 
 ## Hydration mismatch (not really)
 

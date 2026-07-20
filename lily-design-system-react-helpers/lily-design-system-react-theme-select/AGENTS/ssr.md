@@ -30,14 +30,31 @@ The select outputs deterministic HTML based purely on the resolved
 `value`:
 
 ```html
-<select class="theme-select" aria-label="Theme" name="theme">
-    <option class="theme-select-option" value="light">Light</option>
-    <option class="theme-select-option" value="dark">Dark</option>
-</select>
+<div class="theme-select">
+    <input type="hidden" name="theme" value="light" />
+    <button type="button" class="theme-select-button" aria-label="Theme"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="theme-select-«r0»-list">
+        <span class="theme-select-icon" aria-hidden="true">◑</span>
+    </button>
+    <ul class="theme-select-list" id="theme-select-«r0»-list" role="listbox"
+        aria-label="Theme" tabindex="-1" hidden>
+        <li class="theme-select-option" id="theme-select-«r0»-option-0"
+            role="option" aria-selected="true">Light</li>
+        <li class="theme-select-option" id="theme-select-«r0»-option-1"
+            role="option" aria-selected="false">Dark</li>
+    </ul>
+</div>
 ```
 
-If `value` is supplied as a non-empty string, the corresponding option
-is rendered selected. Otherwise no option is selected.
+The listbox always renders closed (`hidden`, `aria-expanded="false"`)
+on the server. If `value` is supplied as a non-empty string, the
+corresponding option carries `aria-selected="true"` and the hidden
+input carries the slug; otherwise no option is selected.
+
+Ids come from `useId`, so the server-generated ids match what the
+client generates and hydration is clean. Do not replace them with
+`Math.random()` / `Date.now()` if you fork.
 
 ## What happens on hydration
 

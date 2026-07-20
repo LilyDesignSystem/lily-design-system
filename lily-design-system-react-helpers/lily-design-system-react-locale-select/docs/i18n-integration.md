@@ -335,7 +335,7 @@ form-control identities don't collide:
 <LocaleSelect label="Panel" name="panel-locale" target={panelRef.current} {...} />
 ```
 
-See [examples/09-scoped-target.tsx](../examples/09-scoped-target.tsx)
+See [examples/scoped-target.tsx](../examples/scoped-target.tsx)
 for the scoped-target pattern.
 
 ---

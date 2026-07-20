@@ -24,13 +24,26 @@ This Vue port mirrors the contract and behaviour, swapping in Vue 3
 idioms (Composition API, `defineProps`, `defineModel`, `ref`,
 `watch`, `onMounted`, slots).
 
+> **Breaking change (unreleased).** The control is no longer a native
+> `<select>`. It is now an icon button (🌐, U+1F310 GLOBE WITH
+> MERIDIANS) that opens a WAI-ARIA APG listbox. The `placeholder`
+> prop is removed — there is no `<select>` left to pin — and the
+> default slot now replaces the button glyph rather than the options.
+> Everything downstream (`lang` / `dir` application, RTL detection,
+> persistence, navigator detection, `change`, initial-value
+> resolution, SSR safety, the exported pure helpers) is unchanged.
+> The per-option `lang` attribute survives the rewrite: each
+> `<li role="option">` still carries its locale's BCP 47 tag, so
+> endonyms are still pronounced in their own language (WCAG 3.1.2).
+
 ---
 
 ## 1. Goal
 
 Give a Vue 3 application a drop-in, headless locale select that:
 
-1. Renders an accessible native `<select>` of available locales.
+1. Renders an accessible icon button that opens a listbox of
+   available locales.
 2. **Applies the chosen locale** by setting `lang="…"` and
    `dir="ltr|rtl"` on the document root (or on a consumer-supplied
    target).
@@ -52,10 +65,6 @@ Give a Vue 3 application a drop-in, headless locale select that:
 - **Translation**. This component does not translate strings. It only
   signals the locale to the consumer's i18n library via the `lang`
   attribute, the `change` event, and the `v-model:value` binding.
-  Default rendering is a native `<select>` for symmetry with
-  `ThemeSelect` and because it scales to long locale lists and pops
-  the OS-native picker on mobile. Consumers who want radios, buttons,
-  or a combobox use the default slot.
 - **Locale negotiation**. The component does not implement
   `Intl.LocaleMatcher` / RFC 4647 best-fit / lookup.
 - **Auto-discovery**. The consumer always supplies the list of
@@ -65,9 +74,12 @@ Give a Vue 3 application a drop-in, headless locale select that:
 - **Nuxt-only features**. The component only depends on Vue 3 + DOM
   APIs and runs in any Vue 3 host (Nuxt, plain Vite + Vue, Astro,
   Storybook).
-- **Custom default rendering**. The default is a native `<select>`.
-  Consumers who want radios, buttons, or a combobox use the default
-  slot.
+- **Custom option rendering**. The listbox, its `<li role="option">`
+  children, the keyboard contract, and the apply lifecycle are all
+  component-owned. The default slot replaces the button glyph only.
+  Consumers who need a different control shape (radios, an
+  always-visible button row, a free-text combobox) render their own
+  markup and bind it to the same value.
 
 ## 3. Architectural decisions
 
@@ -99,18 +111,17 @@ Give a Vue 3 application a drop-in, headless locale select that:
 
 | Prop                | Type                                  | Required | Default                  | Purpose |
 | ------------------- | ------------------------------------- | -------- | ------------------------ | ------- |
-| `label`             | `string`                              | yes      | —                        | Accessible name for the `<select>`. |
-| `placeholder`       | `string`                              | no       | value of `label`         | Text of the always-displayed placeholder option. The closed `<select>` shows this instead of the active locale name. |
+| `label`             | `string`                              | yes      | —                        | Accessible name for **both** the button and the listbox. The button is icon-only, so this is its only name. |
 | `locales`           | `string[]`                            | yes      | —                        | Available locale codes. |
 | `value`             | `string` (`v-model:value`)            | no       | `""`                     | Currently selected locale code. |
 | `defaultValue`      | `string`                              | no       | `"en"` if present in `locales`, else first | Initial locale. |
 | `storageKey`        | `string`                              | no       | `undefined`              | If set, persist to `localStorage` under this key. |
 | `detectFromNavigator` | `boolean`                           | no       | `false`                  | Resolve `navigator.language` on first visit. |
-| `name`              | `string`                              | no       | `"locale"`               | `name` attribute of the `<select>`. |
+| `name`              | `string`                              | no       | `"locale"`               | `name` of the hidden input that carries the value in a form. |
 | `target`            | `HTMLElement \| null`                 | no       | `document.documentElement` | Element that receives `lang` and `dir`. |
 | `applyDir`          | `boolean`                             | no       | `true`                   | If false, the select only writes `lang` and never touches `dir`. |
 | `localeLabels`      | `Record<string, string>`              | no       | `{}`                     | Optional pretty labels per locale code. |
-| `class`             | `string`                              | no       | `""`                     | Extra CSS class on the `<select>` root. |
+| `class`             | `string`                              | no       | `""`                     | Extra CSS class on the root `<div>`. |
 
 ### 4.2 Events
 
@@ -121,53 +132,76 @@ Give a Vue 3 application a drop-in, headless locale select that:
 
 ### 4.3 Slots
 
-Default slot — when provided, replaces the built-in `<select>` markup.
-The slot receives the following scoped props:
+Default slot — when provided, replaces the **button glyph**. It does
+not render the options: the listbox, its `<li role="option">`
+children, the keyboard contract, and the apply lifecycle are all
+component-owned. The slot receives the following scoped props:
 
 ```ts
 type SlotArgs = {
-  /** The locale codes to render as options. */
-  locales: string[];
-  /** Currently selected locale code (consumer form). */
+  /** Currently selected locale code (consumer form, not BCP 47-normalised). */
   value: string;
-  /** Apply a locale imperatively (also updates `v-model:value`). */
-  setLocale: (locale: string) => void;
-  /** `name` attribute of the `<select>`. */
-  name: string;
+  /** Is the listbox open? */
+  open: boolean;
   /** Resolve a locale code to its display label. */
   labelFor: (locale: string) => string;
-  /** BCP 47 tag form of a locale code (`en_US` → `en-US`). */
-  tagFor: (locale: string) => string;
-  /** Is the locale right-to-left? */
-  isRtl: (locale: string) => boolean;
 };
 ```
 
+`ChildArgs` is exported as an alias of `SlotArgs`, matching the
+canonical Svelte helper's type name.
+
+Whatever the slot renders is decorative: the button's accessible name
+always comes from `label` via `aria-label`. Slot content should be
+`aria-hidden="true"` or text-free so it does not compete with that
+name.
+
 ### 4.4 DOM contract
 
-- Root element: `<select class="locale-select {class}"
-  aria-label="{label}" name="{name}">`.
-- **First child, always:** a component-owned placeholder
-  `<option class="locale-select-option locale-select-placeholder"
-  value="" selected>{placeholder ?? label}</option>`. It is rendered
-  in both the default and the custom-slot code paths, so a consumer
-  slot cannot displace it. It carries no `lang` attribute — it is not
-  a locale.
-- Remaining default children: one `<option class="locale-select-option"
-  value="{locale}" lang="{tagFor(locale)}">{labelFor(locale)}</option>`
-  per locale code.
-- The `<select>` element's own value is **not** bound to the active
-  locale. Its DOM selection stays pinned to the placeholder: on
-  `change` the component reads the chosen code, immediately resets
-  `select.value = ""`, and then applies the code. The closed control
-  therefore always reads `placeholder ?? label` rather than the
-  active locale name, which keeps the control as narrow as that one
-  word. The real selection lives in `value` / `v-model:value` and in
-  `lang` / `dir` on the target.
+```html
+<div class="locale-select {class}" ...$attrs>
+  <input type="hidden" name="{name}" value="{value}" />
+  <button type="button" class="locale-select-button"
+          aria-label="{label}" aria-haspopup="listbox"
+          aria-expanded="false" aria-controls="{listId}">
+    <span class="locale-select-icon" aria-hidden="true">🌐</span>
+  </button>
+  <ul class="locale-select-list" id="{listId}" role="listbox"
+      aria-label="{label}" tabindex="-1" hidden
+      aria-activedescendant="{optionId of active, only while open}">
+    <li class="locale-select-option" id="{optionId}" role="option"
+        aria-selected="true|false" data-active
+        lang="{tagFor(locale)}">{labelFor(locale)}</li>
+  </ul>
+</div>
+```
+
+- Root element: a `<div class="locale-select {class}">`. `$attrs`
+  falls through to it via the default Vue `inheritAttrs` behaviour.
+- The button is icon-only. The glyph is `🌐` (U+1F310 GLOBE WITH
+  MERIDIANS, `&#127760;`), exported as `GLOBE_WITH_MERIDIANS`,
+  wrapped in `aria-hidden="true"` so it can never become the
+  accessible name.
+- The hidden input preserves form participation and carries `name`.
+- `aria-expanded` tracks the open state; `aria-controls` points at the
+  listbox id.
+- The listbox carries `hidden` while closed, `tabindex="-1"` so it can
+  receive focus on open, and `aria-activedescendant` **only while
+  open** — it is removed on close.
+- One `<li class="locale-select-option" role="option">` per locale
+  code, with a stable per-instance `id`, `aria-selected` reflecting
+  the active code, and `data-active` on the keyboard-active option.
 - Each option carries `lang="{tagFor(locale)}"` so assistive
   technology pronounces the option text in the appropriate language
-  even when the document language differs.
-- `lang="{tagFor(slug)}"` is set on the `target` element on every
+  even when the document language differs. The button and the
+  listbox itself carry **no** `lang` of their own — they are not
+  locale-specific.
+- Option ids come from an incrementing module counter
+  (`nextLocaleSelectId()`), so they are stable and SSR-safe — never
+  `Math.random()` or `Date.now()`.
+- The selection lives in `value` / `v-model:value`, in the hidden
+  input, and in `lang` / `dir` on the target.
+- `lang="{tagFor(code)}"` is set on the `target` element on every
   apply.
 - If `applyDir` is true, `dir="rtl"` or `dir="ltr"` is set on the
   `target` element on every apply.
@@ -180,8 +214,10 @@ type SlotArgs = {
 - `LocaleSelect` (named alias)
 - `bcp47LocaleTag`, `isRtlLocale`, `localeName`,
   `matchNavigatorLanguage`, `defaultLocaleLabels` (pure helpers)
+- `nextLocaleSelectId` (per-instance id generator)
+- `GLOBE_WITH_MERIDIANS` (the default button glyph)
 - `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS` (constants)
-- `type Props`, `type SlotArgs`
+- `type Props`, `type SlotArgs`, `type ChildArgs`
 
 ## 5. Behaviour
 
@@ -254,7 +290,8 @@ Applying a locale `code` performs, in order:
 
 ### 5.7 Reactivity
 
-A single `watch` on `value` re-applies the locale whenever it
+An externally-supplied `value` is mirrored into an internal `current`
+ref, and a `watch` on `current` re-applies the locale whenever it
 changes. Other prop changes (`target`, `applyDir`, `localeLabels`)
 take effect on the next locale change.
 
@@ -267,30 +304,51 @@ no DOM is touched.
 
 ### 6.1 Roles and properties
 
-- `<select>` has an implicit `combobox` role and is the announced
-  control.
-- `aria-label={label}` supplies the accessible name.
-- The native `<select>` and its `<option>` children get the
-  `combobox` / `option` roles, current-value state, and keyboard
-  semantics for free.
+- A `<button aria-haspopup="listbox" aria-expanded aria-controls>` is
+  the trigger. Because it is icon-only, `aria-label={label}` is its
+  **only** accessible name — the glyph is `aria-hidden="true"`.
+- A `<ul role="listbox" aria-label={label}>` holds one
+  `<li role="option" aria-selected>` per locale code.
+- The active option is conveyed with `aria-activedescendant` on the
+  listbox (focus stays on the `<ul>`), per the APG listbox pattern.
+- `data-active` mirrors the active option for consumer CSS;
+  `aria-selected` mirrors the committed selection for assistive
+  technology.
 - Each option carries `lang="{tagFor(locale)}"` so assistive
   technology can switch pronunciation for the option text. WCAG 3.1.2
-  (Language of Parts).
+  (Language of Parts). The button and the listbox carry no `lang`.
 - The document root receives `lang` and (by default) `dir` — WCAG
   3.1.1 (Language of Page) and 1.4.10 (Reflow).
 
 ### 6.2 Keyboard contract
 
-Provided by the platform (native `<select>`):
+Implemented by the component, following the WAI-ARIA APG listbox
+pattern. Focus moves to the `<ul>` on open and returns to the button
+on commit or cancel.
 
-| Key                       | Action                                      |
-| ------------------------- | ------------------------------------------- |
-| `Tab` / `Shift+Tab`       | Move focus to / from the select.            |
-| `Arrow Down` / `Arrow Up` | Select the next / previous option.          |
-| `Home` / `End`            | Select the first / last option.             |
-| Typeahead                 | Type characters to jump to a matching option. |
-| `Enter` / `Space`         | Open the option list (platform-dependent).  |
-| `Escape`                  | Close the option list.                       |
+On the **button**:
+
+| Key                  | Action                                                        |
+| -------------------- | ------------------------------------------------------------- |
+| `ArrowDown`          | Open, active option = the selected one (or index 0).          |
+| `Enter` / `Space`    | Open, active option = the selected one (or index 0).          |
+| `ArrowUp`            | Open, active option = the **last** option.                    |
+| `Tab` / `Shift+Tab`  | Move focus away (native).                                     |
+
+On the **listbox**:
+
+| Key                  | Action                                                        |
+| -------------------- | ------------------------------------------------------------- |
+| `ArrowDown`          | Move the active option down one. **Clamps** — no wrapping.    |
+| `ArrowUp`            | Move the active option up one. **Clamps** — no wrapping.      |
+| `Home` / `End`       | Jump to the first / last option.                              |
+| `Enter` / `Space`    | Select the active option, apply it, close, refocus the button.|
+| `Escape`             | Close and refocus the button **without** changing the value.  |
+| `Tab`                | Close without stealing focus back.                            |
+| Printable characters | Typeahead over the option **labels**, 500 ms buffer reset.    |
+
+Pointer and focus behaviour: clicking an option selects it; clicking
+outside the root closes the listbox; focus leaving the root closes it.
 
 ### 6.3 Internationalisation
 
@@ -308,15 +366,22 @@ run under vitest + jsdom + `@vue/test-utils`.
 
 ### 7.1 Markup contract (mirrors §4.4)
 
-1. Renders a `<select>` (implicit `combobox` role).
-2. `aria-label` is the supplied `label`.
-3. Renders the leading placeholder `<option>` plus one `<option>` per
-   entry in `locales` (`locales.length + 1` options in total); the
-   `<select>` carries the supplied `name` attribute.
-4. The first `<option>` has `value=""`; each following option's
-   `value` attribute is the locale code.
-5. Each locale option (i.e. every option after the placeholder)
-   carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form).
+1. Renders a `<button type="button">` with `aria-haspopup="listbox"`,
+   `aria-expanded="false"`, and an `aria-controls` pointing at an
+   element with `role="listbox"`. The root is a `<div>` carrying the
+   `locale-select` class hook plus the consumer's `class`. The button
+   renders `🌐` (U+1F310) inside
+   `<span class="locale-select-icon" aria-hidden="true">`.
+2. `aria-label` is the supplied `label` on **both** the button and the
+   listbox.
+3. Renders one `<li class="locale-select-option">` per entry in
+   `locales`, and a hidden input carrying the supplied `name` and the
+   resolved value.
+4. The listbox carries `hidden` until the button is activated; then
+   `hidden` is dropped and `aria-expanded` becomes `"true"`. Exactly
+   one option carries `aria-selected="true"` — the active locale.
+5. Each option carries `lang="{tagFor(locale)}"` (BCP 47 hyphen
+   form). The button and the listbox carry no `lang` of their own.
 6. The default rendering shows `localeLabels[code]
    ?? defaultLocaleLabels[code] ?? code` as the visible option text.
 
@@ -337,9 +402,10 @@ run under vitest + jsdom + `@vue/test-utils`.
 14. After mount, `target.dir` is `"rtl"` for an RTL initial locale
     and `"ltr"` otherwise (when `applyDir` is unspecified / true).
 15. When `applyDir` is `false`, the `dir` attribute is not written.
-16. Selecting a different option updates `target.lang`, updates
-    `target.dir`, and emits `change` with the new locale code in its
-    consumer form (not the BCP 47-normalised tag).
+16. Clicking a different option updates `target.lang`, updates
+    `target.dir`, emits `change` with the new locale code in its
+    consumer form (not the BCP 47-normalised tag), and round-trips
+    `v-model:value`.
 17. A custom `target` element receives `lang` and `dir` instead of
     `document.documentElement`.
 
@@ -356,29 +422,38 @@ run under vitest + jsdom + `@vue/test-utils`.
 
 ### 7.5 Spread + custom slot (mirrors §4.1, §4.3)
 
-22. Extra attributes spread through onto the `<select>` (e.g.
+22. Extra attributes spread through onto the root `<div>` (e.g.
     `data-testid`).
-23. A custom default slot receives `SlotArgs` with `locales`, `name`,
-    `tagFor`, and `isRtl` exposed.
+23. A custom default slot replaces the button glyph — the
+    `.locale-select-icon` span is absent — and receives the `SlotArgs`
+    contract (`value`, `open`, `labelFor`). Its `open` flag tracks the
+    listbox state.
 
-### 7.6 Always-visible placeholder (mirrors §4.4)
+### 7.6 Keyboard contract (mirrors §6.2)
 
-24. The placeholder `<option class="locale-select-placeholder">`
-    renders the `label` text, carries `value=""`, and the
-    `<select>`'s own `value` stays `""` after the initial locale has
-    been resolved and applied to `lang`.
-25. When `placeholder` is supplied it overrides `label` as the
-    placeholder option's text, while `aria-label` still carries
-    `label`.
-26. Choosing an option applies the locale (`lang` updates) and snaps
-    the `<select>`'s own `value` back to `""`.
+24. `ArrowDown`, `Enter` and `Space` on the button all open the
+    listbox. `ArrowUp` opens with the **last** option active. Opening
+    moves focus to the `<ul>`.
+25. Opening puts `aria-activedescendant` on the selected option. On
+    the listbox, `ArrowDown` / `ArrowUp` move it and clamp at both
+    ends rather than wrapping; `Home` / `End` jump to the first / last
+    option; exactly one option carries `data-active`.
+26. `Enter` selects the active option, applies it, closes the listbox
+    (`hidden` returns, `aria-expanded` becomes `"false"`), and returns
+    focus to the button. `Space` selects too. `Escape` closes without
+    changing the locale. `Tab` closes without stealing focus back.
+    `aria-activedescendant` is removed once closed.
+27. Printable characters run a typeahead over the option labels.
+    Clicking an option selects and applies it. Clicking outside the
+    root closes the listbox.
 
 ## 8. Out-of-scope (future, not implemented here)
 
 - A complementary `LocaleView` helper that displays the active
   locale's pretty name.
-- A `LocaleSelect` sibling that defaults to radio-group markup. For
-  now the default slot covers that case.
+- A `LocaleSelect` sibling that renders an always-visible radio group
+  or button row. The default slot no longer covers that case — it
+  replaces the button glyph only.
 - An `Intl.LocaleMatcher` / RFC 4647 lookup integration.
 - A built-in `Accept-Language`-header server helper for SSR locale
   negotiation.
@@ -387,7 +462,7 @@ run under vitest + jsdom + `@vue/test-utils`.
 
 - Package directory:
   `lily-design-system-vue-helpers/lily-design-system-vue-locale-select/`
-- Spec version: 0.1.0
+- Spec version: 0.3.0
 - Created: 2026-06-05
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
   (or contact for other terms)

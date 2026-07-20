@@ -1,47 +1,75 @@
 # Accessibility — ThemeSelect (Svelte)
 
-The select targets WCAG 2.2 AAA and uses a native HTML `<select>`,
-which carries the WAI-ARIA `combobox` semantics for free. This file
-is the Svelte 5 view of the contract; the canonical contract is in
-[`../spec/index.md`](../spec/index.md) §6.
+The select targets WCAG 2.2 AAA. It is an **icon button that opens a
+listbox**, built to the WAI-ARIA APG **Listbox** pattern — not a
+native `<select>`, and not the APG Combobox pattern. This file is the
+Svelte 5 view of the contract; the canonical contract is in
+[`../spec/index.md`](../spec/index.md) §6, and the full tradeoff
+discussion is in [`../docs/accessibility.md`](../docs/accessibility.md).
 
 ## Roles and properties
 
-| Element        | Role / Property            | Source        |
-| -------------- | -------------------------- | ------------- |
-| `<select>`     | implicit `role="combobox"` | Browser       |
-| `<select>`     | `aria-label={label}`       | Consumer prop |
-| `<select>`     | `name`                     | Select        |
-| `<option>`     | implicit `role="option"`   | Browser       |
-| `<option>`     | selected state (implicit)  | Browser       |
+| Element          | Role / Property                                 | Source        |
+| ---------------- | ----------------------------------------------- | ------------- |
+| `<button>`       | implicit `role="button"`                        | Browser       |
+| `<button>`       | `aria-label={label}`                            | Consumer prop |
+| `<button>`       | `aria-haspopup="listbox"`                       | Component     |
+| `<button>`       | `aria-expanded="true\|false"`                   | Component     |
+| `<button>`       | `aria-controls="{listId}"`                      | Component     |
+| `<span>` (glyph) | `aria-hidden="true"`                            | Component     |
+| `<ul>`           | `role="listbox"`                                | Component     |
+| `<ul>`           | `aria-label={label}`                            | Consumer prop |
+| `<ul>`           | `aria-activedescendant="{optionId}"` while open  | Component     |
+| `<li>`           | `role="option"`                                 | Component     |
+| `<li>`           | `aria-selected="true\|false"`                   | Component     |
 
-The select does not add ARIA where native semantics already cover
-the need. There is no `aria-pressed`, no manual focus management —
-the native `<select>` behaviour is exactly the platform combobox.
+Focus sits on the `<ul>` while open; the active option is conveyed by
+`aria-activedescendant` rather than by moving DOM focus onto an `<li>`.
 
 ## Keyboard contract
 
-Provided entirely by the platform's native `<select>`:
+Implemented by the component — none of it is inherited from the
+platform.
 
-| Key                  | Action                                            |
-| -------------------- | ------------------------------------------------- |
-| `Tab`                | Move focus to the select (one stop).              |
-| `Shift+Tab`          | Move focus away from the select.                  |
-| `Arrow Down`         | Select the next option.                           |
-| `Arrow Up`           | Select the previous option.                       |
-| `Home` / `End`       | Select the first / last option.                   |
-| Typeahead            | Type characters to jump to a matching option.     |
-| `Enter` / `Space`    | Open the option list (platform-dependent).        |
-| `Escape`             | Close the option list.                            |
+Button: `Enter` / `Space` / `ArrowDown` open with the selected option
+active; `ArrowUp` opens with the last option active; `Tab` moves focus
+in and out (single tab stop).
+
+Listbox: `ArrowDown` / `ArrowUp` move the active option and **clamp**
+(no wrap); `Home` / `End` jump to first / last; `Enter` / `Space`
+select, apply, close, and refocus the button; `Escape` closes and
+refocuses without changing the value; `Tab` closes without stealing
+focus back; printable characters run a typeahead over the labels with a
+500 ms buffer reset, searching forward from the active option and
+wrapping once.
+
+Pointer: clicking an option selects it; clicking outside the root or
+moving focus out of it closes the listbox.
 
 ## State signals
 
-The active state is exposed in three independent channels — no
+The active state is exposed in four independent channels — no
 colour-only meaning is required:
 
-1. The selected `<option>` in the `<select>`.
+1. `aria-selected="true"` on the active `<li role="option">`.
 2. `data-theme="<slug>"` on the target element (default `<html>`).
-3. The `value` prop (bound via `bind:value`).
+3. The hidden input's `value` (form participation).
+4. The `value` prop (bound via `bind:value`).
+
+## The three tradeoffs
+
+Do not paper over these when editing docs; state them:
+
+1. **Icon-only naming.** The glyph is `aria-hidden`, so `aria-label` is
+   the control's entire accessible name, with no visible-text fallback.
+2. **Hand-rolled listbox.** Weaker assistive-technology and mobile
+   support than a native `<select>`. For some audiences a native
+   `<select>` — i.e. the headless `ThemeSelect` container upstream — is
+   the better choice.
+3. **Font-dependent glyph.** U+25D1 may substitute, render as tofu, or
+   be missing entirely, depending on the device's installed fonts.
+
+Full text and mitigations: [`../docs/accessibility.md`](../docs/accessibility.md).
 
 ## Internationalisation
 
@@ -65,20 +93,30 @@ transitions on the `data-theme` swap.
 
 ## Screen-reader smoke test
 
-- VoiceOver (macOS) announces the control as "{label}, pop-up
-  button" and each option as "{labelFor(slug)}, selected / N of M".
-- NVDA announces "{label} combo box" and each option similarly.
-- Selection changes are announced because the underlying control
-  value changes.
+Coverage varies (tradeoff 2), so treat these as expectations, not
+evidence:
+
+- VoiceOver (macOS) announces "{label}, pop-up button, collapsed";
+  opening announces the listbox and the active option.
+- NVDA announces "{label} button, collapsed"; arrowing announces
+  "{labelFor(slug)}, selected / N of M".
+- Mobile readers are the weakest case — test on device.
 
 ## Common mistakes to avoid
 
-- **Replacing the `<select>` with a div in custom-rendering.** The
-  `children` snippet renders inside the `<select>`; do not wrap a div
-  *around* the select if you need combobox semantics.
-- **Hiding the `<select>` with `display: none`.** That removes it
-  from the accessibility tree. Use a visually-hidden pattern
-  (`clip-path: inset(50%)` or the `.sr-only` recipe) instead.
+- **Passing an empty or untranslated `label`.** It is the entire
+  accessible name; the glyph is `aria-hidden`.
+- **Rendering options in the `children` snippet.** The snippet replaces
+  the **glyph inside the button**; the listbox and its options are
+  component-owned.
+- **Rendering interactive content in the snippet.** Its output lives
+  inside a `<button>`; nested interactive elements are invalid HTML.
+- **Shipping no positioning CSS for `.theme-select-list`.** It renders
+  in normal flow and shifts the page on open.
+- **Styling `[aria-selected]` but not `[data-active]`.** Keyboard users
+  then have no visible cursor.
+- **Hiding the button with `display: none`.** That removes it from the
+  accessibility tree. Use `clip-path: inset(50%)` instead.
 - **Forgetting to translate `themeLabels`.** The select only knows
   what the consumer tells it; locale-aware copy is the consumer's
   responsibility.
@@ -87,25 +125,34 @@ transitions on the `data-theme` swap.
 
 ## Svelte-specific notes
 
-- `aria-label` is bound via `aria-label={label}`. Avoid passing it
-  twice (e.g. once as a baked-in attribute and once through
-  `restProps`); the spread wins by template-attribute order.
-- When a consumer scopes the select via a `children` snippet, the
-  `<select>` and its `aria-label` still apply. The snippet replaces
-  the **inside** (the options), not the wrapping control.
-- `{@render children(args)}` is not a live region. If a consumer's
-  snippet needs to announce "Theme changed to Dark", they have to
-  write the live region themselves.
+- `aria-label` is bound on both the `<button>` and the `<ul>` via
+  `aria-label={label}`. `restProps` spreads onto the **root `<div>`**,
+  not onto the button, so an `aria-label` passed through rest-props
+  lands in the wrong place — pass `label` instead.
+- The `children` snippet replaces the glyph inside the `<button>`. The
+  button's `aria-label` still wins as the accessible name, so visible
+  text rendered by the snippet is overridden for assistive technology.
+- `{@render children(args)}` is not a live region. If a consumer needs
+  to announce "Theme changed to Dark", they write the live region
+  themselves — see the status-region section in
+  [`../docs/accessibility.md`](../docs/accessibility.md).
+- Option ids come from the module-level `nextThemeSelectId()` counter,
+  which is SSR-safe. Never swap it for `Math.random()` / `Date.now()`.
 
 ## Testing for a11y
 
 ```ts
-const { container } = render(ThemeSelect, {
+render(ThemeSelect, {
     props: { label: "Theme", themesUrl: "/t/", themes: ["light", "dark"] },
 });
-const root = container.querySelector("select");
-expect(root!.getAttribute("aria-label")).toBe("Theme");
-expect(container.querySelectorAll("option")).toHaveLength(2);
+const button = screen.getByRole("button");
+expect(button.getAttribute("aria-label")).toBe("Theme");
+expect(button.getAttribute("aria-haspopup")).toBe("listbox");
+expect(button.getAttribute("aria-expanded")).toBe("false");
+
+const list = document.getElementById(button.getAttribute("aria-controls")!);
+expect(list!.getAttribute("role")).toBe("listbox");
+expect(document.querySelectorAll('[role="option"]')).toHaveLength(2);
 ```
 
 For broader a11y testing run axe-core in a real Svelte host. See
@@ -114,8 +161,10 @@ for the catalog-wide guidance.
 
 ## References
 
-- WAI-ARIA APG — Combobox pattern:
-  <https://www.w3.org/WAI/ARIA/apg/patterns/combobox/>
+- WAI-ARIA APG — Listbox pattern:
+  <https://www.w3.org/WAI/ARIA/apg/patterns/listbox/>
+- WAI-ARIA APG — Select-Only Combobox (closest published example):
+  <https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/>
 - WCAG 2.2 AAA quick reference:
   <https://www.w3.org/WAI/WCAG22/quickref/?levels=aaa>
 - WCAG 1.4.1 Use of Color:

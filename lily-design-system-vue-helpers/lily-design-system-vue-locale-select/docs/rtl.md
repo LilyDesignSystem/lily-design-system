@@ -142,10 +142,12 @@ mirrored CSS:
 
 ## Mixing LTR and RTL on one page
 
-The select's default rendering already does this: each `<option>`
-carries its own `lang` attribute, so the browser's bidi
-algorithm renders "Français" left-to-right and "العربية"
-right-to-left within the same `<select>`.
+The select's rendering already does this: each `<li role="option">`
+carries its own `lang` attribute, so the browser's bidi algorithm
+renders "Français" left-to-right and "العربية" right-to-left within
+the same listbox. Because the listbox is ordinary DOM rather than an
+OS-drawn popup, mixed-script option lists lay out predictably across
+platforms.
 
 If you embed user-supplied text whose language you don't know,
 wrap it with a `<bdi>` element. `<bdi>` isolates a span from the

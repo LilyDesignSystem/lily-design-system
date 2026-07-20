@@ -1,173 +1,155 @@
 # Custom rendering
 
-The default macro body emits a native `<select>` with `<option>`
-children. When you need a different visual — swatch buttons, a
-flyout — the macro accepts a caller block via Nunjucks's `{% call %}`
-syntax. Two patterns are supported:
+The macro owns the root `<div>`, the hidden input, the button's ARIA
+attributes, and the listbox. The one thing it hands over is the
+**button's glyph**. Three levels of customisation are available,
+in increasing order of how much you take on:
 
-1. **Caller block** — wrap the macro invocation with `{% call %}`
-   and supply replacement markup for the option list.
-2. **Hand-written markup + client.js** — skip the macro entirely
-   and write the `<select>` by hand with the same `data-lily-*`
-   hooks; the client.js doesn't care where the markup came from.
+1. **Caller block** — replace the glyph with your own icon. The
+   supported, recommended path.
+2. **CSS only** — keep the default glyph and restyle everything.
+3. **Hand-written markup + client.js** — skip the macro entirely and
+   emit the DOM contract yourself.
 
-## Pattern 1: caller block
+## Pattern 1: caller block (the glyph override)
 
-The shipped `theme-select.njk` is a one-shot emitter that doesn't
-currently inspect `caller`. To take advantage of caller-block
-custom rendering, copy the macro into your project, replace the
-default `{% for slug in opts.themes %}` body with a call to
-`caller()`, and pass the resolver helpers via a context object.
-
-A self-contained caller-style variant looks like:
+Nunjucks templates are strings and cannot pass first-class
+functions, so `{% call %}` is the language's equivalent of
+"children". The macro checks `caller` and, when present, renders the
+block body **inside the button** in place of the default
+`<span class="theme-select-icon">`:
 
 ```njk
-{% macro themeSelectCustom(opts) %}
-<select
-  class="theme-select{% if opts.classes %} {{ opts.classes }}{% endif %}"
-  aria-label="{{ opts.label }}"
-  name="{{ opts.name | default('theme') }}"
-  data-lily-theme-select-root
-  data-lily-theme-select-name="{{ opts.name | default('theme') }}"
-  data-lily-theme-select-themes-url="{{ opts.themesUrl }}"
-  data-lily-theme-select-extension="{{ opts.extension | default('.css') }}"
-  data-lily-theme-select-storage-key="{{ opts.storageKey | default('') }}"
-  data-lily-theme-select-default-value="{{ opts.defaultValue | default('') }}"
->
-  <option class="theme-select-option theme-select-placeholder" value="" selected>{{ opts.placeholder | default(opts.label) }}</option>
-  {{ caller() if caller else "" }}
-</select>
-{% endmacro %}
-```
+{% from "../theme-select.njk" import themeSelect %}
 
-Keep the placeholder `<option>` as the first child even in a custom
-rendering: it is component-owned, and the client.js relies on it. On
-every change the client resets `select.value` to `""`, so without a
-`value=""` option to fall back to, the control would land on your
-first real option and the width guarantee would be lost. Your caller
-block supplies only the real options.
-
-Then in the template:
-
-```njk
-{% call themeSelectCustom({
+{% call themeSelect({
     label: "Theme",
     themesUrl: "/assets/themes/",
     themes: ["light", "dark", "abyss"],
-    name: "theme"
+    storageKey: "lily:theme"
 }) %}
-{% for slug in ["light", "dark", "abyss"] %}
-<button
-    type="button"
-    class="theme-select-swatch"
-    data-theme="{{ slug }}"
-    aria-pressed="false"
->{{ slug | capitalize }}</button>
-{% endfor %}
+    <svg class="my-glyph" width="16" height="16"
+         aria-hidden="true" focusable="false">
+        <use href="#icon-palette"></use>
+    </svg>
 {% endcall %}
 ```
 
-A small piece of JS wires the buttons:
+Everything else is unchanged: the options are still rendered from
+`opts.themes`, the keyboard contract still works, and
+`autoInit()` still wires it.
 
-```html
-<script type="module">
-    import { initThemeSelect } from "/path/to/theme-select.client.js";
-    document
-        .querySelectorAll("[data-lily-theme-select-root]")
-        .forEach((root) => {
-            const ctrl = initThemeSelect(root, {
-                onChange(slug) {
-                    root.querySelectorAll(".theme-select-swatch").forEach(
-                        (b) => b.setAttribute(
-                            "aria-pressed",
-                            String(b.dataset.theme === slug),
-                        ),
-                    );
-                },
-            });
-            root.querySelectorAll(".theme-select-swatch").forEach((b) =>
-                b.addEventListener("click", () =>
-                    ctrl.setTheme(b.dataset.theme),
-                ),
-            );
-        });
-</script>
+Two rules:
+
+- **Mark the glyph `aria-hidden="true"`** (and `focusable="false"`
+  on SVG). The button is icon-only, so its accessible name must keep
+  coming from `aria-label`. A visible-text glyph would be read out
+  ahead of, or instead of, the label.
+- **Do not nest an interactive element** inside the button — no
+  nested `<button>`, `<a>`, or anything focusable.
+
+The caller block does **not** render options. That was the old
+native-`<select>` behaviour; a `{% call %}` body emitting
+`<option>` elements now produces invalid markup inside a
+`<button>` and no working choices.
+
+## Pattern 2: CSS only
+
+Most "custom rendering" requests are really styling requests, and
+the class hooks cover them without forking anything:
+
+| Hook                                   | Element                          |
+| -------------------------------------- | -------------------------------- |
+| `.theme-select`                        | Root `<div>`                     |
+| `.theme-select-button`                 | The trigger                      |
+| `.theme-select-icon`                   | The default glyph `<span>`       |
+| `.theme-select-list`                   | The `<ul role="listbox">`        |
+| `.theme-select-option`                 | Each `<li role="option">`        |
+| `[aria-expanded="true"]`               | Open state, on the button        |
+| `[data-active]`                        | The keyboard cursor, on an option |
+| `[aria-selected="true"]`               | The applied theme, on an option  |
+
+```css
+.theme-select { position: relative; display: inline-block; }
+.theme-select-list { position: absolute; inset-inline-start: 0; z-index: 1; }
+.theme-select-list[hidden] { display: none; }
+.theme-select-option[data-active] { background: Highlight; }
+.theme-select-option[aria-selected="true"]::after { content: "\2713"; }
 ```
 
-This gives you full visual control while keeping the lifecycle
-(apply, persist, link swap) in the helper.
-
-## Pattern 2: `bodyCaller` opt
-
-When you want to pass a partial that the macro itself invokes
-(equivalent to a React render prop), the macro accepts an
-`opts.bodyCaller` key whose value is a string of pre-rendered
-HTML. The macro injects it verbatim:
-
-```njk
-{# In a separate template file: #}
-{% macro swatchBody(themes) %}
-{% for slug in themes %}
-<button type="button" class="theme-select-swatch" data-theme="{{ slug }}">
-    {{ slug | capitalize }}
-</button>
-{% endfor %}
-{% endmacro %}
-
-{# In your page: #}
-{% set body = swatchBody(["light", "dark", "abyss"]) %}
-{{ themeSelect({
-    label: "Theme",
-    themesUrl: "/assets/themes/",
-    themes: ["light", "dark", "abyss"],
-    bodyCaller: body
-}) }}
-```
-
-The macro is shipped with the `<option>` default for now; to use
-this `bodyCaller` pattern, copy the macro and replace the
-`{% for slug in opts.themes %}…{% endfor %}` block with
-`{{ opts.bodyCaller | safe if opts.bodyCaller else defaultBody }}`.
+The client toggles the `hidden` attribute on the list, so let
+`hidden` win rather than overriding it with `display` rules that
+leave a closed list in the accessibility tree.
 
 ## Pattern 3: hand-written markup
 
-The client.js doesn't require the macro at all. Write the
-`<select>` by hand:
+The client.js doesn't require the macro at all — it reads the DOM
+contract. Emit it yourself and `initThemeSelect` will wire it:
 
 ```html
-<select
+<div
     class="theme-select"
-    aria-label="Theme"
-    name="theme"
     data-lily-theme-select-root
+    data-lily-theme-select-name="theme"
     data-lily-theme-select-themes-url="/assets/themes/"
+    data-lily-theme-select-extension=".css"
     data-lily-theme-select-storage-key="my-app:theme"
 >
-    <option class="theme-select-option" value="light">Light</option>
-    <option class="theme-select-option" value="dark">Dark</option>
-</select>
+    <input type="hidden" name="theme" value="light" data-lily-theme-select-input>
+    <button type="button" class="theme-select-button" aria-label="Theme"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="my-theme-list" data-lily-theme-select-button>
+        <span class="theme-select-icon" aria-hidden="true">&#9681;</span>
+    </button>
+    <ul class="theme-select-list" id="my-theme-list" role="listbox"
+        aria-label="Theme" tabindex="-1" hidden data-lily-theme-select-list>
+        <li class="theme-select-option" id="my-theme-option-0" role="option"
+            aria-selected="true" data-value="light">Light</li>
+        <li class="theme-select-option" id="my-theme-option-1" role="option"
+            aria-selected="false" data-value="dark">Dark</li>
+    </ul>
+</div>
 ```
 
-Wire it the same way as Pattern 1.
+The parts the client.js requires:
 
-## What the rendering should *not* do
+- `[data-lily-theme-select-root]` — the element you pass to
+  `initThemeSelect`, carrying the `data-lily-theme-select-*` config.
+- `[data-lily-theme-select-button]` — the trigger. Without it,
+  `initThemeSelect` returns a no-op controller.
+- `[data-lily-theme-select-list]` — the listbox. Also required.
+- `[role="option"]` children with `data-value="{slug}"`. Their text
+  content is the typeahead corpus; their `id`s feed
+  `aria-activedescendant`, so every id must be unique in the
+  document.
+- `[data-lily-theme-select-input]` — optional. When present, the
+  client mirrors the applied slug into its `value`.
 
-- Don't mutate `document.head` or `data-theme` from the caller
-  block — let the client.js own that lifecycle.
-- Don't add a competing `name` to your controls — share the one on
-  the macro (passed via `data-lily-theme-select-name`).
-- Don't render outside the `<select>`; the client.js assumes
-  the active root is the select.
+You are then on the hook for the parts the macro would have got
+right: unique ids, `aria-controls` matching the list id,
+`aria-selected` on exactly one option, and the pre-filled hidden
+input.
 
-## Why Nunjucks doesn't have render props
+## What custom rendering should *not* do
 
-Nunjucks templates are strings; they don't pass first-class
-functions. The `{% call %}` block is the language's idiomatic
-escape hatch for "let the caller supply markup". The other
-framework helpers in this catalog (Svelte snippets, React render
-props, Vue scoped slots) all bottom out to the same DOM contract
-— the markup hands the consumer access to a function that calls
-`setTheme(slug)`.
+- Don't mutate `document.head` or `data-theme` yourself — let the
+  client.js own that lifecycle.
+- Don't attach your own open/close or keyboard handlers. The
+  client.js owns them; a second handler will double-toggle.
+- Don't add a second element with the same `name` — share the one
+  the macro emits.
+- Don't reuse a `name` across two instances without also passing
+  distinct `id`s; the listbox and option ids are derived from `id`,
+  which defaults to `theme-select-{name}`.
+
+## Custom rendering does not fix the no-JS gap
+
+None of these patterns make the control work without JavaScript.
+Open/close, focus movement, and the keyboard contract all live in
+`theme-select.client.js`, and hand-written markup has exactly the
+same limitation as macro-rendered markup: the button does nothing
+until the module runs. The pre-filled hidden input is the only
+no-JS affordance. See [ssr.md](./ssr.md).
 
 ---
 

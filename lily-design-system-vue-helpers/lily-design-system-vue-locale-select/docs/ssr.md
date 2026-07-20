@@ -281,10 +281,15 @@ because:
 
 - `onMounted` never fires during SSR, so no DOM writes happen
   server-side.
-- The `<option>`'s `selected` state is rendered from `value`, which
-  the consumer controls and which is identical on both sides as
-  long as it's seeded from the same source (cookie / route param /
+- The `aria-selected` state on each `<li role="option">`, and the
+  hidden input's `value`, are rendered from `value` — which the
+  consumer controls and which is identical on both sides as long as
+  it's seeded from the same source (cookie / route param /
   server-resolved state).
+- Element ids come from the `nextLocaleSelectId()` module counter,
+  not `Math.random()` or `Date.now()`, so the `id` /
+  `aria-controls` / `aria-activedescendant` wiring matches across the
+  boundary.
 
 The two cases that produce hydration warnings:
 
@@ -312,11 +317,11 @@ const app = createSSRApp(LocaleSelect, {
     value: "fr",
 });
 const html = await renderToString(app);
-// html contains <select …> with the "fr" option selected.
+// html contains the globe button plus a hidden listbox whose "fr"
+// option carries aria-selected="true".
 ```
 
-The resulting string contains the rendered `<select>` with the `fr`
-option `selected`. No DOM is touched on the server.
+No DOM is touched on the server.
 
 ---
 

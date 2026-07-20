@@ -9,21 +9,23 @@ Every example assumes:
 
 - Vue 3 with `<script setup lang="ts">`.
 - No CSS dependency — the select is headless. Consumers style the
-  `locale-select` (the `<select>`) and `locale-select-option` (each
-  `<option>`) class hooks.
+  `locale-select` (root `<div>`), `locale-select-button`,
+  `locale-select-icon`, `locale-select-list` (the
+  `<ul role="listbox">`), and `locale-select-option` (each
+  `<li role="option">`) class hooks.
 
-| #  | File                                            | Demonstrates                                                       |
-|----|-------------------------------------------------|--------------------------------------------------------------------|
-| 1  | [`01-radios.vue`](./01-radios.vue)              | Default native `<select>` rendering, plus the `.locale-select-status` live region every consumer should ship. |
-| 2  | [`02-select.vue`](./02-select.vue)              | Custom `<option>` markup / styling the native select via the default scoped slot. |
-| 3  | [`03-buttons.vue`](./03-buttons.vue)            | Toggle-button group with short codes / glyphs and `aria-pressed`.  |
-| 4  | [`04-rtl-demo.vue`](./04-rtl-demo.vue)          | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
-| 5  | [`05-nhs-style.vue`](./05-nhs-style.vue)        | NHS UK-style language banner with endonyms and a `class` hook.     |
-| 6  | [`06-with-vue-i18n.vue`](./06-with-vue-i18n.vue) | Binding to vue-i18n's `locale` ref.                              |
-| 7  | [`07-with-paraglide.vue`](./07-with-paraglide.vue) | Driving Paraglide JS's `setLocale()` from `@change`.            |
-| 8  | [`08-ssr-cookie.vue`](./08-ssr-cookie.vue)      | Nuxt 3 `useCookie()` + `useHead()` for flicker-free SSR.           |
-| 9  | [`09-scoped-target.vue`](./09-scoped-target.vue) | Multiple per-region selects, each scoped to its own panel.        |
-| 10 | [`10-combobox.vue`](./10-combobox.vue)          | Native `<datalist>` type-ahead for all 436 built-in locales.       |
+| File                                                 | Demonstrates                                                       |
+|------------------------------------------------------|--------------------------------------------------------------------|
+| [`basic.vue`](./basic.vue)                           | The default rendering, plus the `.locale-select-status` live region every consumer should ship. |
+| [`custom-rendering.vue`](./custom-rendering.vue)     | Custom button glyph via the default scoped slot — the active locale's short code plus a caret. |
+| [`script-aware-glyph.vue`](./script-aware-glyph.vue) | Script-aware button glyph: the active locale rendered in its own script and direction. |
+| [`rtl-demo.vue`](./rtl-demo.vue)                     | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
+| [`nhs-style.vue`](./nhs-style.vue)                   | NHS UK-style utility banner with endonyms, a `class` hook, and a status line. |
+| [`with-vue-i18n.vue`](./with-vue-i18n.vue)           | Binding to vue-i18n's `locale` ref.                                |
+| [`with-paraglide.vue`](./with-paraglide.vue)         | Driving Paraglide JS's `setLocale()` from `@change`.               |
+| [`ssr-cookie.vue`](./ssr-cookie.vue)                 | Nuxt 3 `useCookie()` + `useHead()` for flicker-free SSR.           |
+| [`scoped-target.vue`](./scoped-target.vue)           | Multiple per-region selects, each scoped to its own panel.         |
+| [`combobox.vue`](./combobox.vue)                     | Built-in typeahead over all 436 built-in locales, plus a side-by-side `<datalist>` combobox. |
 
 ## Running the examples
 
@@ -50,24 +52,52 @@ Vue templates use kebab-case for props: `storage-key`,
 `<script setup>` we use camelCase to match the TypeScript types
 exported from `LocaleSelect.vue` (`Props`, `SlotArgs`).
 
+## The control the examples render
+
+Every example renders the same control: an icon button
+(`<button class="locale-select-button" aria-label="…"
+aria-haspopup="listbox">`, showing 🌐 U+1F310 by default) that opens a
+`<ul class="locale-select-list" role="listbox">` of
+`<li class="locale-select-option" role="option" lang="…">`. The
+component implements the WAI-ARIA APG listbox keyboard contract
+itself — arrows (clamping, no wrap), `Home` / `End`, `Enter` /
+`Space` to commit, `Escape` to cancel, `Tab` to close, and
+printable-character typeahead with a 500 ms buffer. Focus moves to
+the `<ul>` on open and returns to the button on commit or cancel.
+
+Two consequences worth remembering while reading the examples:
+
+- Because the button is icon-only, `label` is its **entire**
+  accessible name. Several examples pair the control with a
+  `.locale-select-status` live region so the active locale appears
+  somewhere; see [`../docs/accessibility.md`](../docs/accessibility.md)
+  for why that is the default pattern rather than an add-on.
+- `name` is the name of the **hidden input**, not of a `<select>`, so
+  the value still posts with a surrounding form.
+
 ## Default slot scoped args
 
-Every example that uses the default slot destructures these:
+The default slot replaces the **button glyph** — not the options. The
+listbox, the option markup, the keyboard contract, and the apply
+lifecycle (lang / dir / storage / change) all stay component-owned.
+`custom-rendering.vue` and `script-aware-glyph.vue` destructure these:
 
 ```ts
 type SlotArgs = {
-    locales: string[];        // The locale codes to render.
-    value: string;            // Currently selected code (consumer form).
-    setLocale: (code: string) => void; // Apply imperatively.
-    name: string;             // Shared `name` attribute for the control.
+    value: string;    // Currently selected code (consumer form).
+    open: boolean;    // Is the listbox open?
     labelFor: (code: string) => string; // Display label.
-    tagFor: (code: string) => string;   // BCP 47 hyphen form.
-    isRtl: (code: string) => boolean;   // RTL detection.
 };
 ```
 
-The select still owns the apply lifecycle (lang/dir/storage/change)
-regardless of what markup the slot emits.
+`ChildArgs` is exported as an alias of `SlotArgs`, matching the
+canonical Svelte helper's type name.
+
+Slot content is decorative: the button's accessible name always comes
+from `label` via `aria-label`, so mark slot markup `aria-hidden="true"`
+or keep it text-free. If you need a different control shape entirely,
+render it yourself alongside the component and bind both to the same
+ref — `combobox.vue` does exactly that.
 
 ## See also
 

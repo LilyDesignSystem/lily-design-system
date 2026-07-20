@@ -3,6 +3,10 @@
 A reusable, headless Blazor theme select that **loads themes
 dynamically at runtime** from a developer-specified directory.
 
+The control is an **icon button** (`◑`) that opens a **dropdown
+listbox** of the available themes, built to the WAI-ARIA Authoring
+Practices listbox pattern. It is not a native `<select>`.
+
 The single source of truth is [spec/index.md](./spec/index.md). This file is the
 comprehensive user guide. For topic deep-dives see
 [docs/](./docs/) and for working code see [examples/](./examples/).
@@ -13,10 +17,12 @@ comprehensive user guide. For topic deep-dives see
 - [Install](#install)
 - [Quick start](#quick-start)
 - [How it works](#how-it-works)
+- [Rendered markup](#rendered-markup)
+- [Keyboard](#keyboard)
 - [Default theme](#default-theme)
 - [Parameters](#parameters)
 - [Events](#events)
-- [Custom option rendering](#custom-option-rendering)
+- [Custom button content](#custom-button-content)
 - [Persistence](#persistence)
 - [Accessibility](#accessibility)
 - [SSR and hydration](#ssr-and-hydration)
@@ -97,13 +103,13 @@ package; the helper is two source files (`ThemeSelect.razor` +
 ```
 
 The status line is part of the pattern, not decoration. The closed
-control always reads the placeholder word ("Theme") rather than the
-active theme name, so this line is the only place either a sighted user
-or a screen reader can read the current selection back. `aria-live="polite"`
+control is a bare glyph, so nothing on screen says which theme is
+active; this line is the only place a sighted user reads the current
+selection back without opening the listbox. `aria-live="polite"`
 announces changes only, staying silent on first paint. Render it visible
 by default; hide it with a visually-hidden class only if the design
 truly cannot spare the space. Full rationale:
-[docs/accessibility.md](./docs/accessibility.md#the-placeholder-tradeoff).
+[docs/accessibility.md](./docs/accessibility.md#the-status-region-is-still-the-recommended-pattern).
 
 When the user picks `dark`, the component:
 
@@ -134,59 +140,108 @@ On every theme change the select performs four steps via a single
 All four steps are gated on `OnAfterRenderAsync(firstRender: true)`,
 so static-SSR / prerender renders the markup with no DOM mutation.
 
-## The placeholder option
-
-The rendered markup leads with a component-owned placeholder option:
+## Rendered markup
 
 ```html
-<select class="theme-select" aria-label="Theme" name="theme">
-    <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
-    <option class="theme-select-option" value="light">Light</option>
-    <option class="theme-select-option" value="dark">Dark</option>
-</select>
+<div class="theme-select">
+    <input type="hidden" name="theme" value="light" />
+    <button type="button" class="theme-select-button"
+            aria-label="Theme" aria-haspopup="listbox"
+            aria-expanded="false" aria-controls="theme-select-1-list">
+        <span class="theme-select-icon" aria-hidden="true">&#9681;</span>
+    </button>
+    <ul class="theme-select-list" id="theme-select-1-list" role="listbox"
+        aria-label="Theme" tabindex="-1" hidden>
+        <li class="theme-select-option" id="theme-select-1-option-0"
+            role="option" aria-selected="true">Light</li>
+        <li class="theme-select-option" id="theme-select-1-option-1"
+            role="option" aria-selected="false">Dark</li>
+    </ul>
+</div>
 ```
 
-The placeholder is always the selected option. Choosing a theme applies
-it normally and then snaps the `<select>`'s own value straight back to
-the placeholder, so the closed control keeps reading
-`Placeholder ?? Label` instead of the active theme name. That keeps the
-control as narrow as a single word even when theme names are long
-(`united-kingdom-national-health-service-england-for-patients`).
+- **The root `<div>`** carries the `theme-select` class hook plus your
+  `CssClass`, and everything captured by `AdditionalAttributes` spreads
+  onto it.
+- **The hidden input** carries `Name` and `Value` so the control still
+  participates in a form. The listbox itself is not a form control.
+- **The glyph** is `◑` (U+25D1 CIRCLE WITH RIGHT HALF BLACK), wrapped in
+  `aria-hidden="true"`. The accessible name therefore comes wholly from
+  `Label` via the button's `aria-label` — never from the glyph. An empty
+  `Label` leaves the control unnameable.
+- **The listbox** carries `hidden` while closed and drops it while open;
+  `aria-expanded` on the button tracks the same state. The sample above
+  is the closed state. While open, `aria-activedescendant` on the `<ul>`
+  points at the active option, which also carries `data-active` as a
+  styling hook — both attributes are emitted only while open.
+- List and option ids come from a monotonic process-wide counter
+  (`theme-select-{n}`), so they are stable across re-render and safe
+  under SSR.
 
 The real selection lives in `Value`, which stays two-way bindable.
-Everything downstream is unchanged: the `<link>` swap, `data-theme`,
-`localStorage` persistence, `OnChange`, and initial-value resolution all
-behave exactly as before.
 
-`Placeholder` defaults to `Label`. Set it when you want a short visible
-word but a fuller accessible name:
+### The list needs positioning CSS
 
-```razor
-<ThemeSelect Label="Choose a theme" Placeholder="Theme" ... />
-```
-
-The placeholder renders in both the default and the `ChildContent`
-code paths.
-
-**Accessibility cost:** screen readers no longer announce the active
-theme as the control's value. See
-[docs/accessibility.md](./docs/accessibility.md#the-placeholder-tradeoff)
-for how to surface it elsewhere.
+The package ships no CSS, so the open `<ul>` is an ordinary in-flow
+element and will push the rest of your page down. Give the root
+`position: relative` and the list `position: absolute` — the ready-made
+block is in
+[docs/styling.md](./docs/styling.md#the-list-needs-positioning-css--the-package-ships-none).
 
 ### Sizing the control
 
-Because the closed control always shows the short placeholder word, you
-can size it to that word instead of to the widest theme name:
+Because the closed control is an icon button, size it to the glyph
+rather than to the widest theme name — and give it a floor so it stays a
+clear target even if the platform substitutes or drops the character:
 
 ```css
-.theme-select {
-    field-sizing: content;  /* Chrome 123+: size to the shown option */
-    width: auto;
-    max-width: 12ch;        /* fallback for Firefox / Safari */
+.theme-select-button {
+    min-inline-size: 2.25rem;
+    min-block-size: 2.25rem;
 }
 ```
 
 See [docs/styling.md](./docs/styling.md) for the full hook list.
+
+## Keyboard
+
+The component implements the WAI-ARIA APG listbox pattern itself; none
+of it comes free from the browser.
+
+On the **button**:
+
+| Key                 | Action                                                 |
+| ------------------- | ------------------------------------------------------ |
+| `Tab` / `Shift+Tab` | Move focus to / away from the button (one stop).       |
+| `Arrow Down`        | Open, active option = the selected one (else index 0). |
+| `Enter` / `Space`   | Open, active option = the selected one (else index 0). |
+| `Arrow Up`          | Open with the **last** option active.                  |
+
+Opening moves focus to the `<ul>`.
+
+On the **listbox**:
+
+| Key               | Action                                                                 |
+| ----------------- | ---------------------------------------------------------------------- |
+| `Arrow Down`      | Move the active option down one; **clamps** at the last (no wrap).     |
+| `Arrow Up`        | Move the active option up one; **clamps** at the first (no wrap).      |
+| `Home`            | Jump to the first option.                                              |
+| `End`             | Jump to the last option.                                               |
+| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
+| `Escape`          | Close and return focus **without** changing the value.                 |
+| `Tab`             | Close **without** stealing focus back.                                 |
+| Printable chars   | Typeahead over the option *labels*, 500 ms buffer reset.               |
+
+Pointer and focus:
+
+- Clicking an option selects it, applies it, and closes the listbox.
+- Focus leaving the root closes the listbox without changing the value.
+
+Two clauses deviate from the canonical Svelte implementation because of
+Blazor's declarative event bindings — no `preventDefault` on keydown,
+and `focusout` rather than a document click listener. Both are described
+in [spec/index.md §6.4](./spec/index.md#64-framework-deviations) and
+[docs/accessibility.md](./docs/accessibility.md#blazor-specific-deviations).
 
 ## Default theme
 
@@ -196,13 +251,14 @@ is:
 
 1. `Value` parameter (if non-empty)
 2. `localStorage[StorageKey]` (if `StorageKey` is set and readable)
-3. `DefaultValue` parameter
-4. `"light"` (if present in `Themes`)
-5. `Themes[0]`
-6. `""` — nothing is applied; the select waits for user interaction
+3. `prefers-color-scheme` (only when `DetectFromSystem` is true)
+4. `DefaultValue` parameter
+5. `"light"` (if present in `Themes`)
+6. `Themes[0]`
+7. `""` — nothing is applied; the select waits for user interaction
 
 The select never displays the word `"default"`. Option labels default
-to the slug with its first letter upper-cased
+to each hyphen-separated word of the slug, title-cased
 (e.g. `"light"` → `"Light"`); override with `ThemeLabels`.
 
 ## Parameters
@@ -211,19 +267,23 @@ The complete table is in [spec/index.md §4.1](./spec/index.md#41-parameters). H
 
 | Parameter      | Type                                  | Required | Notes                                      |
 | -------------- | ------------------------------------- | -------- | ------------------------------------------ |
-| `Label`        | `string`                              | yes      | `aria-label` on the select.                |
-| `Placeholder`  | `string?`                             | no       | Text of the always-shown placeholder option; defaults to `Label`. |
+| `Label`        | `string`                              | yes      | `aria-label` on the button AND the listbox. The button is icon-only, so this is its entire accessible name. |
 | `ThemesUrl`    | `string`                              | yes      | Trailing `/` is auto-added.                |
 | `Themes`       | `IReadOnlyList<string>`               | yes      | Available slugs.                           |
 | `Value`        | `string` (`@bind-Value`)              | no       | Two-way bind for the current slug.         |
 | `DefaultValue` | `string?`                             | no       | Initial when nothing else applies.         |
 | `StorageKey`   | `string?`                             | no       | `localStorage` persistence.                |
-| `Name`         | `string`                              | no       | `<select>` `name`; defaults to `"theme"`.  |
+| `DetectFromSystem` | `bool`                            | no       | Follow OS `prefers-color-scheme` on first visit; off by default. |
+| `Name`         | `string`                              | no       | `name` on the hidden input AND the `data-lily-theme-select` discriminator on the managed `<link>`; defaults to `"theme"`. |
 | `Extension`    | `string`                              | no       | Defaults to `".css"`.                      |
 | `ThemeLabels`  | `IReadOnlyDictionary<string,string>`  | no       | Per-slug display label override.           |
 | `OnChange`     | `EventCallback<string>`               | no       | Callback fired after apply.                |
-| `ChildContent` | `RenderFragment<ThemeSelectContext>?` | no       | Custom rendering of the options.           |
-| `CssClass`     | `string`                              | no       | Extra CSS class on the `<select>` root.    |
+| `ChildContent` | `RenderFragment<ThemeSelectContext>?` | no       | Replaces the glyph inside the button. It does not render options. |
+| `CssClass`     | `string`                              | no       | Extra CSS class merged into the root `<div>`. |
+| `AdditionalAttributes` | `Dictionary<string,object>?`  | no       | Unmatched attributes; spread onto the root `<div>`. |
+
+There is **no `Placeholder` parameter**. It existed only to pin a native
+`<select>`'s closed display, and there is no `<select>` any more.
 
 See [docs/parameters-reference.md](./docs/parameters-reference.md)
 for a field-by-field reference.
@@ -239,11 +299,12 @@ for a field-by-field reference.
 wire `OnChange` for analytics, cookie writes, or imperative
 side-effect coordination.
 
-## Custom option rendering
+## Custom button content
 
-Pass a `ChildContent` `RenderFragment<ThemeSelectContext>` to take
-full control of the option markup. The fragment receives a
-`ThemeSelectContext` with `{ Themes, Value, SetTheme, Name, LabelFor }`:
+Pass a `ChildContent` `RenderFragment<ThemeSelectContext>` to replace
+the default glyph **inside the button**. It does not render the options
+— the listbox is owned by the component. The fragment receives a
+`ThemeSelectContext` with `{ Value, Open, LabelFor }`:
 
 ```razor
 <ThemeSelect
@@ -253,21 +314,42 @@ full control of the option markup. The fragment receives a
     @bind-Value="theme">
 
     <ChildContent Context="ctx">
-        @foreach (var t in ctx.Themes)
-        {
-            <button type="button"
-                    class="theme-select-swatch"
-                    data-theme="@t"
-                    aria-pressed="@(ctx.Value == t)"
-                    @onclick="@(() => ctx.SetTheme(t))">
-                @ctx.LabelFor(t)
-            </button>
-        }
+        @* An inline SVG is the robust alternative to the font glyph. *@
+        <svg class="theme-select-glyph" aria-hidden="true"
+             width="18" height="18" viewBox="0 0 20 20">
+            <circle cx="10" cy="10" r="9" fill="none" stroke="currentColor" />
+            <path d="M10 1a9 9 0 0 1 0 18Z" fill="currentColor" />
+        </svg>
     </ChildContent>
 </ThemeSelect>
 ```
 
-Working example: [`examples/CustomRendering.razor`](./examples/CustomRendering.razor).
+Keep the replacement `aria-hidden="true"`: the button's accessible name
+still comes from `Label`, and visible text inside the button would
+compete with it. `Open` lets the face react to the listbox state, and
+`LabelFor` resolves a slug to its display label — so a text-plus-glyph
+button face is also possible:
+
+```razor
+<ChildContent Context="ctx">
+    <span aria-hidden="true">@ctx.LabelFor(ctx.Value) @(ctx.Open ? "▴" : "▾")</span>
+</ChildContent>
+```
+
+To drive selection imperatively — from your own swatch grid, a keyboard
+shortcut, or an OS colour-scheme listener — call `SetThemeAsync(string)`
+on a `@ref` to the component. The old `ctx.SetTheme` callback is gone
+along with the option-rendering role:
+
+```razor
+<ThemeSelect @ref="select" Label="Theme" ... />
+<button type="button" @onclick="@(() => select!.SetThemeAsync("dark"))">Dark</button>
+
+@code {
+    private ThemeSelect? select;
+}
+```
+
 Topic guide: [`docs/custom-rendering.md`](./docs/custom-rendering.md).
 
 ## Persistence
@@ -287,19 +369,34 @@ recipe.
 
 ## Accessibility
 
-- The root is a `<select>` with the implicit `role="combobox"` and
-  `aria-label="@Label"`.
-- The native `<select>` gives Arrow / Home / End / typeahead
-  semantics for free; the select does not override any keyboard
-  behaviour.
-- The active state is exposed in two independent channels:
-  `data-theme` on the document root, and the `Value` binding. No
+- The trigger is a `<button type="button">` with `aria-label="@Label"`,
+  `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls`
+  pointing at the list.
+- The popup is a `<ul role="listbox" tabindex="-1">` of
+  `<li role="option" aria-selected>`. Focus stays on the `<ul>` while
+  open; the active option is conveyed by `aria-activedescendant`, per
+  the APG listbox pattern.
+- Arrow / `Home` / `End` / typeahead semantics are implemented by the
+  component (see [Keyboard](#keyboard)); none of them come free from
+  the browser.
+- The active state is exposed in three independent channels:
+  `data-theme` on the document root, the `Value` binding (mirrored onto
+  the hidden input), and `aria-selected` on exactly one option. No
   colour-only meaning is required.
-- **Tradeoff:** the always-selected placeholder means the active theme
-  is *not* announced as the control's value. Surface it elsewhere — see
-  [docs/accessibility.md](./docs/accessibility.md#the-placeholder-tradeoff).
+- **Tradeoff 1:** the button is icon-only and the glyph is
+  `aria-hidden`, so the accessible name rests entirely on `Label`. An
+  empty or untranslated `Label` leaves the control unnameable.
+- **Tradeoff 2:** a custom listbox has weaker assistive-technology
+  support than a native `<select>`, which the platform renders with its
+  own picker — behaviour varies more, especially on mobile screen
+  readers and in virtual/browse modes.
+- **Tradeoff 3:** the glyph is a font character (U+25D1), not a shipped
+  asset, so it may render at an unexpected weight, be substituted, or
+  be missing entirely. Supply your own `ChildContent` and a
+  `min-inline-size` if that matters.
 - WCAG 2.2 AAA is the target; visible focus styling is the
-  consumer's CSS responsibility.
+  consumer's CSS responsibility — including a `[data-active]` cue on
+  the active option, which is never focused.
 
 Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 
@@ -337,8 +434,8 @@ example: [`examples/Preloaded.razor`](./examples/Preloaded.razor).
 ## Multiple selects in one app
 
 Pass a distinct `Name` parameter to each select. The `Name` is used
-as both the `<select>` `name` (so the selects stay independent) and
-the discriminator on the managed `<link>` element
+as both the hidden input's `name` (so the selects stay independent in
+a form) and the discriminator on the managed `<link>` element
 (`data-lily-theme-select="{Name}"`).
 
 Example: [`examples/MultipleSelects.razor`](./examples/MultipleSelects.razor).

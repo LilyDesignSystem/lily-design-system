@@ -1,8 +1,9 @@
 # LocaleSelect (Vue helper)
 
-A reusable, headless Vue 3 locale select that applies the chosen
-locale to the document root via `lang` and `dir`, with optional
-`localStorage` persistence and `navigator.languages` detection.
+A reusable, headless Vue 3 locale select — an icon button that opens
+a WAI-ARIA APG listbox — that applies the chosen locale to the
+document root via `lang` and `dir`, with optional `localStorage`
+persistence and `navigator.languages` detection.
 
 For the full contract see [spec/index.md](./spec/index.md) — it is the single
 source of truth for the API, behaviour, and tests. For topic
@@ -13,6 +14,7 @@ deep-dives see [docs/](./docs/) and for working code see
 
 - [Install](#install)
 - [Quick start](#quick-start)
+- [The control](#the-control)
 - [BCP 47 normalisation](#bcp-47-normalisation)
 - [RTL auto-detection](#rtl-auto-detection)
 - [Examples](#examples)
@@ -44,6 +46,7 @@ import LocaleSelect, {
     localeName,
     matchNavigatorLanguage,
     defaultLocaleLabels,
+    GLOBE_WITH_MERIDIANS,
     type Props,
     type SlotArgs,
 } from "./lily-design-system-vue-locale-select";
@@ -52,9 +55,10 @@ import LocaleSelect, {
 ## Quick start
 
 Render the select with a `label` and the list of locales your app
-supports. The select writes `lang` and `dir` onto `<html>` so your
-i18n library, your CSS (`html[dir="rtl"]`), and assistive
-technology all see the change.
+supports. The control is a globe button; activating it opens a
+listbox of the locales. The select writes `lang` and `dir` onto
+`<html>` so your i18n library, your CSS (`html[dir="rtl"]`), and
+assistive technology all see the change.
 
 ```vue
 <script setup lang="ts">
@@ -82,14 +86,14 @@ const locale = ref("");
 ```
 
 The status line is part of the quick start on purpose. The closed
-`<select>` is placeholder-pinned — it always reads the placeholder
-word, never "French" — so the status region is the only channel that
-announces the active locale to a screen-reader user. It is visible by
-default (sighted and cognitive-accessibility users benefit too), and
-`aria-live="polite"` means it stays silent on first paint and speaks
-once per change. Opting out is a deliberate decision, not the
-default; see [`docs/accessibility.md`](./docs/accessibility.md) for
-the full tradeoff and the visually-hidden variant.
+control is a bare glyph — it never reads "French" — so the status
+region is the only channel that reports the active locale, on screen
+or to a screen reader. It is visible by default (sighted and
+cognitive-accessibility users benefit too), and `aria-live="polite"`
+means it stays silent on first paint and speaks once per change.
+Opting out is a deliberate decision, not the default; see
+[`docs/accessibility.md`](./docs/accessibility.md) for the full
+tradeoff and the visually-hidden variant.
 
 When the user picks `ar`, the component:
 
@@ -103,6 +107,64 @@ The select does NOT translate strings — that is the consumer's i18n
 library (e.g. `vue-i18n`, Tolgee, Paraglide, raw `Intl.*`). Wire
 the bindable `value` or the `change` event to your library so it
 loads the right messages.
+
+## The control
+
+The rendered markup is a root `<div>` holding three things: a hidden
+input for form participation, an icon button, and a listbox.
+
+```html
+<div class="locale-select">
+    <input type="hidden" name="locale" value="en" />
+    <button type="button" class="locale-select-button" aria-label="Language"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="locale-select-1-list">
+        <span class="locale-select-icon" aria-hidden="true">🌐</span>
+    </button>
+    <ul class="locale-select-list" id="locale-select-1-list" role="listbox"
+        aria-label="Language" tabindex="-1" hidden>
+        <li class="locale-select-option" id="locale-select-1-option-0"
+            role="option" aria-selected="true" data-active lang="en">English</li>
+        <li class="locale-select-option" id="locale-select-1-option-1"
+            role="option" aria-selected="false" lang="cy">Welsh</li>
+    </ul>
+</div>
+```
+
+Points worth knowing:
+
+- **The button is icon-only.** The glyph is 🌐 (U+1F310 GLOBE WITH
+  MERIDIANS), exported as `GLOBE_WITH_MERIDIANS`, and it is
+  `aria-hidden="true"` — so `label` is the button's *entire*
+  accessible name. The same `label` also names the listbox.
+- **It costs one glyph of width** no matter how many locales you
+  support, which is why it replaced the native `<select>`: a select
+  grows to fit the longest option, and the built-in table has 436 of
+  them.
+- **Each `<li role="option">` keeps its own `lang`**, so a screen
+  reader pronounces "Cymraeg" with a Welsh voice (WCAG 3.1.2,
+  Language of Parts). The button and the list carry no `lang`.
+- **`name` is the hidden input's name**, so the value still posts
+  with a surrounding form.
+- **Element ids come from a module counter** (`nextLocaleSelectId()`),
+  so they are stable across SSR and hydration.
+- **The keyboard contract is the APG listbox pattern**, implemented
+  by the component: arrows (clamping, no wrap), `Home` / `End`,
+  `Enter` / `Space` to commit, `Escape` to cancel, `Tab` to close,
+  and printable-character typeahead over the labels. See
+  [Accessibility](#accessibility).
+
+Because the closed control shows only a glyph, the active locale has
+no on-screen representation of its own. Surface it yourself — the
+quick start above shows the `.locale-select-status` pattern this
+package treats as the default.
+
+To style the control, target the class hooks from your own stylesheet
+(the helper ships zero CSS): `.locale-select` (root),
+`.locale-select-button`, `.locale-select-icon`, `.locale-select-list`,
+and `.locale-select-option` (with `[data-active]` for the
+keyboard-active row and `[aria-selected="true"]` for the committed
+one).
 
 ## BCP 47 normalisation
 
@@ -146,7 +208,7 @@ yourself.
 
 ## Examples
 
-### Default `<select>` with NHS-style markup
+### Minimal mount
 
 ```vue
 <script setup lang="ts">
@@ -158,60 +220,11 @@ const locale = ref("en");
 <template>
     <LocaleSelect label="Language" :locales="['en', 'cy']" v-model:value="locale" />
 </template>
-
-<!-- Renders:
-<select class="locale-select" aria-label="Language" name="locale">
-    <option class="locale-select-option locale-select-placeholder" value="" selected>Language</option>
-    <option class="locale-select-option" value="en" lang="en">English</option>
-    <option class="locale-select-option" value="cy" lang="cy">Welsh</option>
-</select>
--->
 ```
 
-Each locale option carries its own `lang` attribute so a screen
-reader pronounces "Cymraeg" with a Welsh voice (WCAG 3.1.2, Language
-of Parts).
-
-### The always-visible placeholder
-
-The **first child of the `<select>` is always a component-owned
-placeholder option** carrying `value=""` and the
-`.locale-select-placeholder` class hook. The `<select>` element's own
-value is never bound to the active locale: after each change the
-component resets `select.value = ""`, so the closed control always
-shows the placeholder word rather than the selected locale name.
-
-That keeps the control as narrow as one word instead of growing to
-fit the longest locale name in your list — which matters when the
-list runs to hundreds of entries.
-
-The placeholder text defaults to `label`; pass `placeholder` to
-override it when the accessible name should be more descriptive than
-the visible word:
-
-```vue
-<LocaleSelect label="Choose a language" placeholder="Locale" ... />
-```
-
-The placeholder is rendered outside the default slot, so it survives
-custom option rendering too. No string is hardcoded — the text always
-comes from a prop.
-
-The active locale still lives in `v-model:value` and in `lang` / `dir`
-on the target. Because the closed control no longer announces the
-active locale to screen readers, surface it elsewhere when that
-matters — see [`docs/accessibility.md`](./docs/accessibility.md).
-
-To size the control to the placeholder, style the `.locale-select`
-hook from your own stylesheet (the helper ships zero CSS):
-
-```css
-.locale-select {
-    field-sizing: content; /* Chrome 123+: size to the shown option */
-    width: auto;
-    max-width: 12ch; /* fallback for Firefox / Safari */
-}
-```
+That renders the markup shown under [The control](#the-control): a
+globe button and a hidden listbox with one `<li role="option">` per
+locale, each carrying its own `lang`.
 
 ### Pretty labels for the option text
 
@@ -228,10 +241,12 @@ raw code). Override per-code with `localeLabels`:
 />
 ```
 
-### Driving custom `<option>` markup
+### Replacing the button glyph
 
-Use the default scoped slot for full markup control. The select
-still owns the apply lifecycle:
+The default scoped slot replaces the **button glyph** — not the
+options. The listbox, the option markup, the keyboard contract, and
+the apply lifecycle all stay component-owned. The slot receives
+`{ value, open, labelFor }`:
 
 ```vue
 <LocaleSelect
@@ -240,46 +255,32 @@ still owns the apply lifecycle:
     v-model:value="locale"
     storage-key="lily-locale"
 >
-    <template #default="{ locales, value, setLocale, labelFor, tagFor }">
-        <select
-            aria-label="Language"
-            @change="(e) => setLocale((e.target as HTMLSelectElement).value)"
+    <template #default="{ value, open, labelFor }">
+        <span
+            class="locale-select-code"
+            :title="labelFor(value)"
+            aria-hidden="true"
+            >{{ value.split(/[-_]/)[0].toUpperCase() }}</span
         >
-            <option
-                v-for="l in locales"
-                :key="l"
-                :value="l"
-                :lang="tagFor(l)"
-                :selected="value === l"
-            >
-                {{ labelFor(l) }}
-            </option>
-        </select>
+        <span class="locale-select-caret" aria-hidden="true">{{
+            open ? "▴" : "▾"
+        }}</span>
     </template>
 </LocaleSelect>
 ```
 
-### Driving a button group
+Whatever the slot renders is decorative. The button's accessible name
+always comes from `label` via `aria-label`, so mark slot content
+`aria-hidden="true"` (or keep it text-free) rather than letting it
+compete for the name. Showing the active locale's short code is the
+common case — it gives sighted users the value the bare glyph hides.
 
-```vue
-<LocaleSelect label="Language" :locales="['en', 'fr', 'ar']" v-model:value="locale">
-    <template #default="{ locales, value, setLocale, labelFor, tagFor, isRtl }">
-        <ul class="locale-select-list" role="list">
-            <li v-for="l in locales" :key="l">
-                <button
-                    type="button"
-                    :aria-pressed="value === l"
-                    :lang="tagFor(l)"
-                    :dir="isRtl(l) ? 'rtl' : 'ltr'"
-                    @click="setLocale(l)"
-                >
-                    {{ labelFor(l) }}
-                </button>
-            </li>
-        </ul>
-    </template>
-</LocaleSelect>
-```
+If you need a genuinely different control shape — an always-visible
+button row, a free-text combobox — render it yourself alongside the
+component and bind both to the same ref. `LocaleSelect` keeps owning
+the apply lifecycle; your markup is simply a second way to write the
+bound value. See
+[`examples/combobox.vue`](./examples/combobox.vue).
 
 ### Wiring an i18n library (`vue-i18n`)
 
@@ -328,9 +329,10 @@ const locale = ref(props.initialLocale);
 </template>
 ```
 
-During SSR the component renders the `<select>` with the supplied
-value selected, and the document already arrives with the correct
-`lang` attribute on `<html>`.
+During SSR the component renders the button and the hidden listbox
+with the supplied value marked `aria-selected="true"`, and the
+document already arrives with the correct `lang` attribute on
+`<html>`.
 
 ### Render into a scoped target instead of `<html>`
 
@@ -386,10 +388,17 @@ See [spec/index.md §4](./spec/index.md#4-public-api) for the full table.
 
 Required props: `label`, `locales`.
 
-Common optional props: `placeholder` (text of the always-displayed
-placeholder option; defaults to `label`), `value` (bindable via
-`v-model:value`), `defaultValue`, `storageKey`, `detectFromNavigator`,
-`localeLabels`, `applyDir`, `target`, `class`, `name`.
+`label` names **both** the button and the listbox. The button is
+icon-only, so this is its only accessible name — pick it carefully;
+see [Accessibility](#accessibility).
+
+Common optional props: `value` (bindable via `v-model:value`),
+`defaultValue`, `storageKey`, `detectFromNavigator`, `localeLabels`,
+`applyDir`, `target`, `class` (on the root `<div>`), `name` (on the
+hidden input).
+
+There is no `placeholder` prop — it was removed along with the
+`<select>` it used to pin.
 
 ## Events
 
@@ -400,25 +409,44 @@ placeholder option; defaults to `label`), `value` (bindable via
 
 ## Accessibility
 
-- `<select aria-label="…">` is the announced control (implicit
-  `combobox` role).
-- The native `<select>` gives Arrow / Home / End / typeahead
-  semantics for free.
-- Each locale `<option>` carries `lang="…"` so its name is
+- The control is a `<button aria-haspopup="listbox" aria-expanded
+  aria-controls>` paired with a `<ul role="listbox">` of
+  `<li role="option" aria-selected>` — the WAI-ARIA APG listbox
+  pattern.
+- The keyboard contract is implemented by the component: on the
+  button, `ArrowDown` / `Enter` / `Space` open with the selected
+  option active and `ArrowUp` opens with the last one active; on the
+  listbox, arrows move the active option (clamping, never wrapping),
+  `Home` / `End` jump to the ends, `Enter` / `Space` commit,
+  `Escape` cancels, `Tab` closes, and printable characters run a
+  500 ms typeahead over the labels. Focus moves to the `<ul>` on open
+  and returns to the button on commit or cancel; the active option
+  travels via `aria-activedescendant`.
+- Each locale `<li role="option">` carries `lang="…"` so its name is
   pronounced in the right language (WCAG 3.1.2, Language of Parts).
 - The document root carries `lang` and (by default) `dir` so the
   page satisfies WCAG 3.1.1 (Language of Page) and bidi
   text/layout inverts correctly for RTL locales.
-- No colour-only meaning; the active state is visible in the
-  resolved `lang` / `dir` attributes and in the `v-model:value`
-  binding.
-- **Tradeoff:** because the closed control always reads the
-  placeholder, a screen-reader user does not hear the active locale
-  announced as the combobox value. The default pattern compensates
-  with a visible `.locale-select-status` region carrying
-  `aria-live="polite"` — shipped in the quick start and in
-  [`examples/01-radios.vue`](./examples/01-radios.vue). Removing it
-  is the deliberate choice.
+- No colour-only meaning; the active state is in `aria-selected`, the
+  hidden input, the resolved `lang` / `dir` attributes, and the
+  `v-model:value` binding.
+
+Three tradeoffs come with the icon-button shape, and all three are
+worth reading before you ship it:
+
+1. **The button has no visible text**, so `label` is its whole
+   accessible name — with a particular irony for a *language* picker,
+   since `label` is itself written in one language.
+2. **A custom listbox has weaker assistive-technology support** than
+   the native `<select>` it replaced, and there is no OS-native
+   picker on mobile.
+3. **The 🌐 glyph renders however the user's fonts render it** — or
+   not at all.
+
+The compensating pattern is a visible `.locale-select-status` region
+carrying `aria-live="polite"`, shipped in the quick start above.
+[`docs/accessibility.md`](./docs/accessibility.md) has the full
+reasoning for all of it.
 
 ## SSR
 
@@ -455,6 +483,11 @@ server (cookie / `Accept-Language`) and pass it as `value`. See
 | [docs/i18n-integration.md](./docs/i18n-integration.md) | Wiring vue-i18n, @intlify, Tolgee, raw `Intl.*`, Nuxt i18n strategies. |
 | [docs/ssr.md](./docs/ssr.md)                         | Cookie, URL-prefix, Accept-Language, FOUC avoidance for Nuxt 3.         |
 | [docs/accessibility.md](./docs/accessibility.md)     | WCAG 2.2 AAA mapping, keyboard contract, screen-reader matrix.          |
+| [docs/props-reference.md](./docs/props-reference.md) | Field-by-field reference for every public prop and event.              |
+| [docs/styling.md](./docs/styling.md)                 | Class and attribute hooks, listbox positioning, baseline CSS.          |
+| [docs/custom-rendering.md](./docs/custom-rendering.md) | Replacing the button glyph via the default scoped slot.              |
+| [docs/recipes.md](./docs/recipes.md)                 | Task-shaped answers: endonyms, cookies, scoped targets, Intl.          |
+| [docs/troubleshooting.md](./docs/troubleshooting.md) | Symptom-first fixes for the common failure modes.                      |
 
 ## Examples directory
 
@@ -463,16 +496,16 @@ copy into your project.
 
 | Example                                                                                 | Demonstrates                                                       |
 | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [01-radios.vue](./examples/01-radios.vue)                                               | The default native `<select>` rendering.                          |
-| [02-select.vue](./examples/02-select.vue)                                               | Custom `<select>` markup via the default scoped slot.             |
-| [03-buttons.vue](./examples/03-buttons.vue)                                             | Toggle-button group with short codes / glyphs.                     |
-| [04-rtl-demo.vue](./examples/04-rtl-demo.vue)                                           | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
-| [05-nhs-style.vue](./examples/05-nhs-style.vue)                                         | NHS UK-style language banner with endonyms.                        |
-| [06-with-vue-i18n.vue](./examples/06-with-vue-i18n.vue)                                 | Binding to vue-i18n's `locale` ref.                                |
-| [07-with-paraglide.vue](./examples/07-with-paraglide.vue)                               | Driving Paraglide JS's `setLocale()` from `@change`.               |
-| [08-ssr-cookie.vue](./examples/08-ssr-cookie.vue)                                       | Nuxt 3 cookie-based SSR — no flash of default locale.              |
-| [09-scoped-target.vue](./examples/09-scoped-target.vue)                                 | Multiple per-region selects, each scoped to its own panel.         |
-| [10-combobox.vue](./examples/10-combobox.vue)                                           | Native `<datalist>` type-ahead for 436 locales.                    |
+| [basic.vue](./examples/basic.vue)                                               | The default rendering, plus the `.locale-select-status` live region. |
+| [custom-rendering.vue](./examples/custom-rendering.vue)                                               | Custom button glyph — the active locale's short code — via the default slot. |
+| [script-aware-glyph.vue](./examples/script-aware-glyph.vue)                                             | Script-aware button glyph: the active locale in its own script and direction. |
+| [rtl-demo.vue](./examples/rtl-demo.vue)                                           | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
+| [nhs-style.vue](./examples/nhs-style.vue)                                         | NHS UK-style utility banner with endonyms and a status line.       |
+| [with-vue-i18n.vue](./examples/with-vue-i18n.vue)                                 | Binding to vue-i18n's `locale` ref.                                |
+| [with-paraglide.vue](./examples/with-paraglide.vue)                               | Driving Paraglide JS's `setLocale()` from `@change`.               |
+| [ssr-cookie.vue](./examples/ssr-cookie.vue)                                       | Nuxt 3 cookie-based SSR — no flash of default locale.              |
+| [scoped-target.vue](./examples/scoped-target.vue)                                 | Multiple per-region selects, each scoped to its own panel.         |
+| [combobox.vue](./examples/combobox.vue)                                           | Built-in typeahead over 436 locales, plus a side-by-side `<datalist>` combobox. |
 
 ---
 

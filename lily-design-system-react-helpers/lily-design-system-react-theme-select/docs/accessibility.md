@@ -1,53 +1,122 @@
 # Accessibility
 
-The select targets WCAG 2.2 AAA and uses the platform's native
-`<select>` combobox, so the keyboard, focus, and selection semantics
-come from the browser.
+The select targets WCAG 2.2 AAA. It is an icon button that opens a
+dropdown listbox, implementing the WAI-ARIA APG **listbox** pattern —
+so the keyboard, focus, and selection semantics are the component's
+responsibility, not the browser's.
 
 ## Roles and properties
 
-| Element        | Role / Property         | Source        |
-| -------------- | ----------------------- | ------------- |
-| `<select>`     | implicit `role="combobox"` | Browser    |
-| `<select>`     | `aria-label={label}`    | Consumer prop |
-| `<option>`     | implicit `role="option"` | Browser      |
-| `<option>`     | implicit selected state | Browser       |
+| Element                   | Role / Property                                          | Source        |
+| ------------------------- | -------------------------------------------------------- | ------------- |
+| `<button>`                | `aria-label={label}`                                      | Consumer prop |
+| `<button>`                | `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` | Component  |
+| `<span class="theme-select-icon">` | `aria-hidden="true"`                             | Component     |
+| `<ul>`                    | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` | Component |
+| `<ul>`                    | `aria-activedescendant` (only while open)                 | Component     |
+| `<li>`                    | `role="option"`, `aria-selected`                          | Component     |
+| `<li>`                    | `data-active` on the keyboard-active option               | Component     |
 
-The select does not add ARIA where native semantics already cover the
-need. There is no `aria-pressed`, no manual focus management — the
-native `<select>` behaviour is the accessible baseline. The accessible
-name of the control comes from `aria-label` on the `<select>`.
+The active option is tracked with `aria-activedescendant` on a focused
+listbox — not with roving `tabindex` on the options. Option ids come
+from React's `useId`, so they are stable across server and client
+render.
 
 ## Keyboard contract
 
-Provided entirely by the platform's native `<select>`:
+Implemented by the component. Nothing is inherited from a native
+`<select>`.
 
-| Key                  | Action                                        |
-| -------------------- | --------------------------------------------- |
-| `Tab` / `Shift+Tab`  | Move focus to / from the select (one tab stop). |
-| `Arrow Down`         | Select the next option.                       |
-| `Arrow Up`           | Select the previous option.                   |
-| `Home` / `End`       | Select the first / last option.               |
-| Typeahead            | Type characters to jump to a matching option. |
-| `Enter` / `Space`    | Open the option list (platform-dependent).    |
-| `Escape`             | Close the option list.                        |
+On the **button**:
+
+| Key                             | Action                                              |
+| ------------------------------- | --------------------------------------------------- |
+| `Tab` / `Shift+Tab`             | Move focus to / from the button (one tab stop).     |
+| `ArrowDown` / `Enter` / `Space` | Open, with the currently-selected option active (or the first). Focus moves to the listbox. |
+| `ArrowUp`                       | Open with the **last** option active. Focus moves to the listbox. |
+
+On the **listbox**:
+
+| Key                     | Action                                                        |
+| ----------------------- | -------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — it does not wrap. |
+| `Home` / `End`          | Jump to the first / last option.                               |
+| `Enter` / `Space`       | Select the active option, apply it, close, and return focus to the button. |
+| `Escape`                | Close and return focus to the button, leaving the value unchanged. |
+| `Tab`                   | Close without stealing focus back, so focus moves on normally. |
+| Printable character     | Typeahead over the option labels; the buffer accumulates and resets after 500 ms of inactivity. |
+
+Pointer: clicking an option selects it; clicking the button again,
+clicking outside the control, or moving focus out of it all close
+without changing the value.
 
 ## State signals
 
 The active theme is exposed via `data-theme="<slug>"` on the target
 element (default `<html>`) — no colour-only meaning is required.
 
-### The status region is the default pattern
+## The tradeoffs this pattern accepts
 
-The `<select>` always displays its placeholder option, so its own
-`value` stays empty and never tracks the selection. That keeps the
-control narrow, but it costs something real: a screen-reader user
-focusing the control hears "{placeholder ?? label}" rather than the
-name of the theme currently in effect, and there is no longer a
-selected-option state to announce.
+A button-plus-listbox buys a compact, fully styleable control. It is
+not free. Three costs are worth stating plainly before you adopt it.
+
+### 1. An icon-only control depends entirely on `aria-label`
+
+The glyph is `aria-hidden="true"`, so it contributes nothing to the
+accessible name. `label` is the **only** name the button has. Omit it,
+mistranslate it, or overwrite it via `restProps` and the control becomes
+an unnamed button — a WCAG 4.1.2 failure, not a nicety.
+
+Two related hazards:
+
+- If you pass `children` that render visible text, the visible text and
+  the announced name can diverge. That is WCAG 2.5.3 (Label in Name).
+  Either keep custom glyph content `aria-hidden="true"`, or make `label`
+  begin with the visible text.
+- An icon-only trigger also has no *visible* label. Sighted users who
+  do not recognise the half-circle glyph get no hint of what the button
+  does. Pair it with a visible caption, or use `children` to render the
+  theme name alongside the glyph.
+
+### 2. A custom listbox has weaker assistive-tech support than `<select>`
+
+A native `<select>` gets platform-level treatment: the OS renders it,
+screen readers have decades of special-cased handling for it, and mobile
+readers substitute their own picker UI. None of that applies here. A
+`<div>`/`<ul>` listbox is announced only as well as its ARIA describes
+it, and `aria-activedescendant` support — the mechanism this pattern
+relies on to report the active option while focus stays on the list — is
+the least uniformly implemented part of ARIA. Expect real differences
+across screen reader + browser + OS combinations, especially on mobile.
+
+The component follows the APG listbox pattern faithfully, which is the
+best available mitigation, but "follows the spec" is not the same as
+"announces identically everywhere". **Test with real screen readers**
+(see the smoke-test section below) rather than assuming parity with the
+native control it replaced.
+
+### 3. The glyph may not render
+
+`◑` (U+25D1 CIRCLE WITH RIGHT HALF BLACK) is a Unicode geometric shape,
+not a bundled icon. Whether it appears depends on the fonts installed on
+the user's device. It may render at an unexpected weight or baseline,
+fall back to a `.notdef` box, or be missing entirely on stripped-down
+systems. The package ships no fonts and no icon assets, by design.
+
+If your product needs certainty about what the button shows, do not rely
+on the default: pass `children` and render your own inline SVG (or a
+glyph from a font you actually ship). Whatever you render, keep it
+`aria-hidden` and let `label` carry the name.
+
+## The status region is the default pattern
+
+The closed button shows only a glyph and announces only `label`. It
+never states the theme currently in effect — there is no combobox value
+to read, and no selected-option state until the listbox is opened.
 
 **So the select is not shipped alone.** Every example in this package,
-and the quick start in `index.md`, pairs it with a visible status line:
+and the quick start in [`../index.md`](../index.md), pairs it with a
+visible status line:
 
 ```tsx
 const [theme, setTheme] = useState("");
@@ -64,13 +133,13 @@ into when you happen to care about accessibility.
 
 Why it is shaped this way:
 
-- **Visible, not `sr-only`.** Once the control snaps back to the
-  placeholder the active theme is invisible to *everyone*, not just to
-  screen-reader users. A visible line serves sighted users and
-  cognitive accessibility, and AAA favours showing state over hiding
-  it (WCAG 1.4.1 — no colour-only meaning). Teams that truly cannot
-  spare the line should hide the element with the visually-hidden
-  recipe in [styling.md](./styling.md) and keep it in the DOM.
+- **Visible, not `sr-only`.** With an icon-only trigger the active
+  theme is invisible to *everyone*, not just to screen-reader users. A
+  visible line serves sighted users and cognitive accessibility, and
+  AAA favours showing state over hiding it (WCAG 1.4.1 — no
+  colour-only meaning). Teams that truly cannot spare the line should
+  hide the element with the visually-hidden recipe in
+  [styling.md](./styling.md) and keep it in the DOM.
 - **`aria-live="polite"`, not `role="alert"`.** A polite live region
   announces *mutations*, so it is silent on first paint and speaks once
   per user-initiated change, without moving focus (WCAG 3.2.2).
@@ -78,15 +147,18 @@ Why it is shaped this way:
   your `themeLabels` value, so the line reads "Active theme: Dark"
   rather than "Active theme: dark".
 
-**Honest limits.** This does not fully restore what the pinned
-placeholder costs. The control's *own* accessible value is still the
-placeholder word, so a user who tabs back to the select later — rather
-than being present for the change announcement — still hears "Theme",
-not "Dark". A live region announces transitions; it does not give the
-combobox a queryable value. The status text is the only durable record
-on screen, which is another reason to keep it visible. If your product
-needs the control itself to report its value, drop the placeholder
-pinning instead and let the `<select>` bind normally.
+**Honest limits.** A status region does not restore what an icon-only
+trigger costs. The button's *own* accessible name is still just
+`label`, so a user who tabs back to the control later — rather than
+being present for the change announcement — hears "Theme", not "Dark".
+A live region announces transitions; it does not give the button a
+queryable value. The status text is the only durable record on screen,
+which is another reason to keep it visible.
+
+If your product needs the control itself to report its value, use
+`children` to render the active theme's label inside the button
+(`labelFor(value)`) and extend `label` to match, so the visible text and
+the accessible name agree.
 
 The region's copy stays the consumer's to own — the helper does not
 render one, because only the consumer knows the surrounding wording and
@@ -105,6 +177,13 @@ The select does not suppress `:focus` or `:focus-visible` styling. The
 consumer's CSS is responsible for the visible focus ring. NHS-UK and
 Lily™ themes ship a high-contrast focus outline that meets AAA.
 
+Two elements take focus, so style both: the `.theme-select-button` and
+the `.theme-select-list` (which receives focus while open). Style
+`[data-active]` on the options too — with `aria-activedescendant` the
+options never receive real DOM focus, so `:focus-visible` will never
+match them and the user would otherwise have no visual cue for what
+`Enter` is about to select.
+
 ## Reduced motion
 
 The select performs no animation. Theme CSS files are responsible for
@@ -113,13 +192,24 @@ the `data-theme` swap.
 
 ## Screen-reader smoke test
 
-- VoiceOver (macOS) announces the control as "{label}, pop-up button"
-  and each entry as "{labelFor(slug)}, N of M".
-- NVDA announces "{label} combo box" and reads the placeholder option.
-- Selection changes are **not** announced by the control itself, since
-  its value snaps back to the placeholder. Verify the
-  `.theme-select-status` region instead — it should speak once per
-  change and stay silent on load (see "State signals" above).
+This matters more here than it did with a native `<select>` — see
+tradeoff 2 above. Check, at minimum:
+
+- The closed button announces as "{label}, button, collapsed" (wording
+  varies by reader). It should **not** announce the glyph.
+- Activating it announces the listbox and its `label`, and reads the
+  active option.
+- `ArrowDown` / `ArrowUp` announce each newly-active option as it
+  changes — this is the `aria-activedescendant` path, and the most
+  likely thing to be weak or silent on a given reader.
+- `Escape` returns you to the button and re-announces it.
+- Selection changes are **not** announced by the control itself. Verify
+  the `.theme-select-status` region instead — it should speak once per
+  change and stay silent on load.
+
+Cover VoiceOver + Safari, NVDA + Firefox, and JAWS + Chrome. If a
+combination announces the active option poorly, the status region is
+what keeps the control usable there.
 
 ## React 19 specifics
 
@@ -132,27 +222,32 @@ the `data-theme` swap.
 
 ## Common mistakes to avoid
 
-- **Returning non-`<option>` children from custom-rendering.** The
-  `children` render prop renders inside the `<select>`, which only
-  accepts `<option>` / `<optgroup>`. Render other controls outside the
-  select and call `setTheme`.
-- **Removing the `aria-label`.** It is the accessible name of the
-  select; without it the control is unnamed.
+- **Rendering visible text in `children` without `aria-hidden`.** The
+  visible text and the `aria-label` then disagree — WCAG 2.5.3.
+- **Removing or overriding the `aria-label`.** It is the *only*
+  accessible name the control has; without it the button is unnamed.
+- **Assuming the glyph will render.** Ship your own SVG via `children`
+  if the visual must be certain.
 - **Forgetting to translate `themeLabels`.** The select only knows
   what the consumer tells it; locale-aware copy is the consumer's
   responsibility.
 - **Setting `outline: none` in CSS.** Visible focus is a WCAG AAA
-  requirement; the select preserves the browser default. Don't strip
-  it.
+  requirement — on the button *and* the listbox. Don't strip it.
+- **Styling only `:focus-visible` on the options.** They never take DOM
+  focus; style `[data-active]` instead.
+- **Shipping without a screen-reader pass.** A custom listbox earns no
+  free pass from the platform.
 
 ## References
 
-- MDN — `<select>` element:
-  <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select>
-- MDN — `<option>` element:
-  <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option>
-- WAI-ARIA APG — Combobox pattern:
-  <https://www.w3.org/WAI/ARIA/apg/patterns/combobox/>
+- WAI-ARIA APG — Listbox pattern:
+  <https://www.w3.org/WAI/ARIA/apg/patterns/listbox/>
+- WAI-ARIA APG — Select-Only Combobox example:
+  <https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/>
+- MDN — `aria-activedescendant`:
+  <https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-activedescendant>
+- MDN — `aria-haspopup`:
+  <https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-haspopup>
 - WCAG 2.2 AAA quick reference:
   <https://www.w3.org/WAI/WCAG22/quickref/?levels=aaa>
 

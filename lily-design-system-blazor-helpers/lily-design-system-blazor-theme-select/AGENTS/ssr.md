@@ -10,17 +10,31 @@ Under static SSR / prerender, no `OnAfterRenderAsync` callback fires
 and the select does not touch the DOM. The rendered HTML looks like:
 
 ```html
-<select class="theme-select" aria-label="Theme" name="theme">
-    <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
-    <option class="theme-select-option" value="light">Light</option>
-    …
-</select>
+<div class="theme-select">
+    <input type="hidden" name="theme" value="light" />
+    <button type="button" class="theme-select-button" aria-label="Theme"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="theme-select-1-list">
+        <span class="theme-select-icon" aria-hidden="true">◑</span>
+    </button>
+    <ul class="theme-select-list" id="theme-select-1-list" role="listbox"
+        aria-label="Theme" tabindex="-1" hidden>
+        <li class="theme-select-option" id="theme-select-1-option-0"
+            role="option" aria-selected="true">Light</li>
+        …
+    </ul>
+</div>
 ```
 
-The placeholder option is `selected` server-side and stays selected
-thereafter; no theme `<option>` is ever marked `selected`, even when
-the consumer passes `Value="light"`. The selection lives in `Value` and
-in `data-theme` on the document root.
+The listbox arrives closed: `hidden` on the `<ul>`,
+`aria-expanded="false"` on the button, and no
+`aria-activedescendant`. The selection is visible server-side in
+three places — the hidden input's `value`, `aria-selected="true"` on
+the matching option, and (once the consumer pre-seeds it)
+`data-theme` on the document root.
+
+Ids come from a monotonic process-wide counter, so they are stable
+across the SSR / interactive boundary within a render.
 
 The managed `<link>` is **not** created on the server. `data-theme`
 is **not** written to `<html>` on the server. Those happen on
@@ -209,10 +223,11 @@ The select stays consistent because:
 
 The two cases that produce warnings:
 
-1. The server rendered `Value=""` (no option selected), but the
-   client `OnAfterRenderAsync` resolved `Value="dark"` from
-   `localStorage`. The first paint sees no selection; the next
-   render frame sees one. Pre-seed `Value` server-side to fix.
+1. The server rendered `Value=""` (no option `aria-selected`, empty
+   hidden input), but the client `OnAfterRenderAsync` resolved
+   `Value="dark"` from `localStorage`. The first paint sees no
+   selection; the next render frame sees one. Pre-seed `Value`
+   server-side to fix.
 2. The consumer passes `Value="@SomeAsyncResolvedValue"` whose
    result differs between SSR and the first interactive render.
    Ensure the source is deterministic across the boundary.

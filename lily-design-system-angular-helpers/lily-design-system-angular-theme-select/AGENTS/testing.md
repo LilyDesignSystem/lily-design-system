@@ -10,60 +10,80 @@ to this helper. For the catalog-wide test rules see
 ## Setup
 
 ```ts
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, test, expect, beforeEach, afterEach, vi } from "vitest";
 import { TestBed, type ComponentFixture } from "@angular/core/testing";
 import {
     ThemeSelect,
+    CIRCLE_WITH_RIGHT_HALF_BLACK,
     themeHref,
     normaliseThemesUrl,
 } from "./theme-select.component";
 
+let fixtures: ComponentFixture<unknown>[] = [];
+
 beforeEach(() => {
     // Reset shared state between tests.
-    document.head.innerHTML = "";
     document.documentElement.removeAttribute("data-theme");
+    document.head
+        .querySelectorAll("link[data-lily-theme-select]")
+        .forEach((n) => n.remove());
     localStorage.clear();
 });
 
+afterEach(() => {
+    // Destroy fixtures so the (document:click) host binding unwinds.
+    for (const fixture of fixtures) fixture.destroy();
+    fixtures = [];
+    document.documentElement.removeAttribute("data-theme");
+});
+
 function mount(
-    inputs: Record<string, unknown>,
+    inputs: Record<string, unknown> = {},
 ): ComponentFixture<ThemeSelect> {
     const fixture = TestBed.createComponent(ThemeSelect);
+    fixture.componentRef.setInput("label", "Theme");
+    fixture.componentRef.setInput("themesUrl", "/assets/themes/");
+    fixture.componentRef.setInput("themes", ["light", "dark", "abyss"]);
     for (const [key, value] of Object.entries(inputs)) {
         fixture.componentRef.setInput(key, value);
     }
     fixture.detectChanges();
+    fixtures.push(fixture);
     return fixture;
 }
 ```
 
-Each test re-runs the whole `effect()` lifecycle by calling
-`mount({ inputs… })`.
+**Destroying fixtures in `afterEach` is not optional.** The component
+registers a `(document:click)` host binding; leaked fixtures keep
+listening and a later test's click closes an earlier test's listbox.
+
+Query helpers worth having, since every assertion reaches for the
+same three elements:
+
+```ts
+const button = (f) => f.nativeElement.querySelector(".theme-select-button");
+const list   = (f) => f.nativeElement.querySelector(".theme-select-list");
+const options = (f) =>
+    Array.from(f.nativeElement.querySelectorAll(".theme-select-option"));
+```
 
 ## Async waits
 
-The select's `effect()` callback fires synchronously inside
-`fixture.detectChanges()`. When the effect writes back to `value`
-(initial-value resolution), a second `detectChanges()` flushes the
-follow-up tick:
+Two async hops matter:
+
+1. The `effect()`'s initial-value write-back, which needs a
+   macrotask flush plus a re-render.
+2. `openList()` / `closeList()`, which move focus inside a
+   `queueMicrotask` (the target is `hidden` at call time).
+
+A `flush()` + `detectChanges()` pair covers both:
 
 ```ts
-const fixture = mount({ /* … */ });
-// detectChanges() above runs the first effect pass; if value was
-// resolved to a new slug, a second pass applies it.
+const flush = () => new Promise<void>((r) => setTimeout(r, 0));
+
+const fixture = mount();
+await flush();
 fixture.detectChanges();
-```
-
-For DOM async (e.g. a `<link>`'s `load` event), use
-`vi.waitFor()`:
-
-```ts
-import { vi } from "vitest";
-
-await vi.waitFor(() => {
-    const link = document.head.querySelector('link[data-lily-theme-select="theme"]');
-    expect(link?.getAttribute("href")).toContain("dark.css");
-});
 ```
 
 ## `[(value)]` emulation
@@ -73,13 +93,13 @@ Two-way binding via `[(value)]` desugars to `[value]="x"` plus
 binding, subscribe to the model:
 
 ```ts
-const fixture = mount({ label: "T", themesUrl: "/t/", themes: ["light", "dark"] });
+const fixture = mount();
 const emissions: string[] = [];
-fixture.componentRef.instance.value.subscribe(v => emissions.push(v));
+fixture.componentInstance.value.subscribe((v) => emissions.push(v));
 
-const select = fixture.nativeElement.querySelector("select") as HTMLSelectElement;
-select.value = "dark";
-select.dispatchEvent(new Event("change", { bubbles: true }));
+click(fixture, button(fixture));       // open
+click(fixture, options(fixture)[1]);   // choose "dark"
+await flush();
 fixture.detectChanges();
 
 expect(emissions.at(-1)).toBe("dark");
@@ -88,17 +108,130 @@ expect(emissions.at(-1)).toBe("dark");
 `model()` signals support `.subscribe(...)` directly because they
 expose an `OutputEmitterRef` for the implicit `valueChange` half.
 
-## Triggering a select change
+## Driving the control
+
+Clicks and keydowns must bubble, and every one needs a re-render:
 
 ```ts
-const select = fixture.nativeElement.querySelector("select") as HTMLSelectElement;
-select.value = "dark";
-select.dispatchEvent(new Event("change", { bubbles: true }));
+function click(fixture: ComponentFixture<unknown>, target: HTMLElement): void {
+    target.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    fixture.detectChanges();
+}
+
+function press(
+    fixture: ComponentFixture<unknown>,
+    target: HTMLElement,
+    key: string,
+): void {
+    target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
+    fixture.detectChanges();
+}
+```
+
+Open-then-choose is the common path:
+
+```ts
+click(fixture, button(fixture));
+click(fixture, options(fixture)[2]);
+await flush();
 fixture.detectChanges();
 ```
 
-Directly dispatching `change` mirrors how a real user selection
-flows through Angular's `(change)` binding.
+Keyboard equivalents target the button to open and the `<ul>`
+afterwards — never an `<li>`, which never receives focus:
+
+```ts
+press(fixture, button(fixture), "ArrowDown");  // opens, focuses the <ul>
+await flush();
+fixture.detectChanges();
+press(fixture, list(fixture), "ArrowDown");    // moves the active option
+press(fixture, list(fixture), "Enter");        // selects and closes
+```
+
+## Asserting open state and the active option
+
+Open state lives on two attributes; the active option on a third:
+
+```ts
+expect(list(fixture).hasAttribute("hidden")).toBe(false);
+expect(button(fixture).getAttribute("aria-expanded")).toBe("true");
+expect(list(fixture).getAttribute("aria-activedescendant"))
+    .toBe(list(fixture).children[1].id);
+```
+
+Assert against `children[i].id` rather than a hardcoded id string —
+`nextThemeSelectId()` increments across the whole test file, so the
+absolute numbers depend on how many components mounted before.
+
+For uniqueness, mount two and compare the id sets:
+
+```ts
+const a = mount(), b = mount();
+const idsA = options(a).map((o) => o.id);
+const idsB = options(b).map((o) => o.id);
+expect(new Set([...idsA, ...idsB]).size).toBe(idsA.length + idsB.length);
+```
+
+## Testing the typeahead buffer reset
+
+The 500 ms reset needs fake timers:
+
+```ts
+vi.useFakeTimers();
+try {
+    const fixture = mount();
+    press(fixture, button(fixture), "ArrowDown");
+    const ul = list(fixture);
+    press(fixture, ul, "d");
+    vi.advanceTimersByTime(600);
+    // The buffer is empty again, so "a" alone matches "Abyss".
+    press(fixture, ul, "a");
+    expect(ul.getAttribute("aria-activedescendant")).toBe(ul.children[2].id);
+} finally {
+    vi.useRealTimers();
+}
+```
+
+Note `vi.useFakeTimers()` also stops the `flush()` helper resolving,
+so use `mount()` (not the settled variant) inside fake-timer blocks.
+
+## Testing the custom glyph template
+
+`contentChild(TemplateRef)` needs real projection, so wrap the
+component in a host:
+
+```ts
+@Component({
+    standalone: true,
+    imports: [ThemeSelect],
+    template: `
+        <lily-theme-select label="Theme" [themesUrl]="url" [themes]="themes">
+            <ng-template let-args>
+                <span data-testid="custom" [attr.data-value]="args.value">…</span>
+            </ng-template>
+        </lily-theme-select>
+    `,
+})
+class IconTemplateHost {
+    readonly url = "/assets/themes/";
+    readonly themes = ["light", "dark", "abyss"];
+}
+```
+
+Then assert the custom node sits inside the button and the default
+glyph is gone:
+
+```ts
+const custom = fixture.nativeElement.querySelector('[data-testid="custom"]');
+expect(custom.closest("button")?.className).toContain("theme-select-button");
+expect(fixture.nativeElement.querySelector(".theme-select-icon")).toBeNull();
+```
+
+## jsdom gaps
+
+`scrollIntoView` is not implemented in jsdom. The component calls it
+optionally (`el?.scrollIntoView?.(…)`), so no stub is needed — but
+don't assert on scrolling.
 
 ## Asserting the managed `<link>`
 
@@ -135,12 +268,12 @@ Run `localStorage.clear()` in `beforeEach` to keep tests isolated.
 needed:
 
 ```ts
-it("§7.13 normaliseThemesUrl appends a slash", () => {
+test("§7.19 normaliseThemesUrl appends a slash", () => {
     expect(normaliseThemesUrl("/x")).toBe("/x/");
     expect(normaliseThemesUrl("/x/")).toBe("/x/");
 });
 
-it("§7.13 themeHref builds the full URL", () => {
+test("§7.19 themeHref builds the full URL", () => {
     expect(themeHref("/x/", "dark", ".css")).toBe("/x/dark.css");
 });
 ```
@@ -149,11 +282,11 @@ it("§7.13 themeHref builds the full URL", () => {
 
 ```ts
 const events: string[] = [];
-fixture.componentRef.instance.themeChange.subscribe((slug) => events.push(slug));
+fixture.componentInstance.themeChange.subscribe((slug) => events.push(slug));
 
-const select = fixture.nativeElement.querySelector("select") as HTMLSelectElement;
-select.value = "dark";
-select.dispatchEvent(new Event("change", { bubbles: true }));
+click(fixture, button(fixture));
+click(fixture, options(fixture)[1]);
+await flush();
 fixture.detectChanges();
 
 expect(events).toContain("dark");
@@ -182,7 +315,15 @@ protection.
 ## What every §7 test asserts
 
 See the per-clause map in
-[`../spec/index.md` §7](../spec/index.md#7-testing-acceptance-criteria). Each
-`it(...)` description starts with the clause number, e.g.
-`it("§7.6 resolves the initial theme to 'light' …", …)`. Keep the
-naming convention so a reviewer can spot a missing clause.
+[`../spec/index.md` §7](../spec/index.md#7-testing-acceptance-criteria)
+— clauses §7.1 through §7.19. Each `test(...)` description starts with
+the clause number, e.g.
+`test("§7.6 default initial value is 'light' when present in themes", …)`.
+Keep the naming convention so a reviewer can spot a missing clause;
+several clauses have more than one test, but every test names exactly
+one clause and every clause has at least one test.
+
+The suite groups them into four `describe` blocks: markup contract
+(§7.1–§7.5), keyboard contract (§7.14–§7.18), dynamic loading
+(§7.6–§7.11), and the custom icon template (§7.12–§7.13), plus a
+`TestBed`-free block for the pure helpers (§7.19).

@@ -4,6 +4,125 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed
+
+- Examples renamed from their radio-group-era filenames to descriptive
+  ones matching the theme-select convention. None of them had rendered
+  the thing its name claimed for some time:
+  - `01-radios.njk` → `01-basic.njk`
+  - `02-select.njk` → `02-custom-labels.njk`
+  - `03-buttons.njk` → `03-custom-rendering.njk`
+  - `10-combobox.njk` → `10-typeahead.njk`
+
+  `examples/README.md` and every inbound link were updated, and the
+  in-file "the filename predates the current control" disclaimers were
+  dropped as no longer true.
+
+### Changed (BREAKING — DOM contract)
+
+- **The control is no longer a native `<select>`.** It is now an icon
+  `<button>` that opens a `<ul role="listbox">`. The root element
+  changes from `<select class="locale-select">` to
+  `<div class="locale-select">`. Every consumer selector, test, and
+  stylesheet that assumed a `<select>` / `<option>` DOM must be
+  updated.
+- **`placeholder` opt removed.** This supersedes the 0.3.0
+  placeholder-pinning work: there is no `<select>` left to pin, and
+  the closed control now shows a glyph rather than a word. The
+  `.locale-select-placeholder` class hook is removed with it.
+- The `name` opt now names a hidden `<input>` inside the root rather
+  than the `<select>` itself, and is now also the default id prefix.
+- The `{% call %}` block body now replaces the button's **glyph**
+  rather than the control's options.
+
+### Added
+
+- Four topic guides, bringing the docs set level with theme-select's:
+  `docs/macro-opts-reference.md`, `docs/custom-rendering.md`,
+  `docs/recipes.md`, and `docs/troubleshooting.md`. Written for
+  locale-select rather than adapted from the theme-select originals.
+  The locale-specific guides (`bcp47`, `rtl`, `i18n-integration`,
+  `concepts`) are unchanged; `preloading` is theme-only and has no
+  locale counterpart.
+- Icon button rendering U+1F310 GLOBE WITH MERIDIANS followed by
+  U+FE0E VARIATION SELECTOR-15 (`&#127760;&#65038;`)
+  inside an `aria-hidden="true"` span, named solely by `aria-label`.
+  VS15 requests the text presentation: without it browsers reach for
+  the colour-emoji font and the globe renders blue, which does not
+  match theme-select's monochrome ◑ (U+25D1 is not an emoji codepoint
+  and needs no selector). Verified in Chromium.
+- Full WAI-ARIA APG listbox keyboard contract in
+  `locale-select.client.js`: `ArrowDown` / `Enter` / `Space` open
+  (`ArrowUp` opens on the last option); arrows move the active option
+  and clamp without wrapping; `Home` / `End` jump; `Enter` / `Space`
+  select, apply, close, and return focus; `Escape` closes without
+  changing the value; `Tab` closes without stealing focus back;
+  printable characters run a typeahead over the labels with a 500 ms
+  buffer reset. Click-to-select, click-outside-to-close, and
+  focus-out-to-close are wired too.
+- Hidden `<input type="hidden" name="{name}">`, pre-filled
+  server-side with the consumer-form code, preserving form
+  participation.
+- `id` opt (optional, string): id prefix for the listbox
+  (`{id}-list`) and its options (`{id}-option-{i}`). Defaults to
+  `locale-select-{name}`. Ids are deterministic and SSR-safe — no
+  `Math.random`, no `Date.now`. Pass an explicit `id` when two
+  instances share a `name`.
+- `GLOBE_WITH_MERIDIANS` export from the client module.
+- New class hooks: `.locale-select-button`, `.locale-select-icon`,
+  `.locale-select-list`, `.locale-select-option`, plus the
+  `[data-active]` and `[aria-selected]` state hooks. Positioning CSS
+  for the listbox is the consumer's job; the package ships none. See
+  [docs/styling.md](./docs/styling.md).
+- Server-side selected resolution: the macro marks exactly one option
+  `aria-selected="true"` (`value or defaultValue or "en" or
+  locales[0]`) and pre-fills the hidden input to match.
+
+### Regression (documented, not fixed)
+
+- **The control does not work without JavaScript.** The button has no
+  handler and the listbox renders `hidden`, so with JS disabled there
+  is no way to change the locale. The previous native `<select>` was
+  fully operable with no JS — it was a real form control that could be
+  submitted inside a `<form>` with zero script. The only surviving
+  no-JS affordance is the pre-filled hidden input, which lets a form
+  submit carry a locale but does not let the user change it. Stated
+  plainly in [docs/ssr.md](./docs/ssr.md), which now shows how to
+  render your own `<select>` and wire it with the exported pure
+  helpers if no-JS operability is required.
+
+### Unchanged
+
+- Options keep `lang="{tagFor(code)}"` for WCAG 3.1.2 (Language of
+  Parts); the button and the listbox deliberately do not.
+- `data-lily-locale-select-value` remains the sole channel by which
+  `opts.value` reaches the client, and still prevents a pre-hydration
+  flash.
+- `lang` / `dir` application, RTL detection, `localStorage`
+  persistence, `navigator.languages` detection, `onChange` (still
+  receives the consumer-form code, not the BCP 47 tag), initial-value
+  resolution order, SSR safety, and every exported pure helper
+  (`bcp47LocaleTag`, `isRtlLocale`, `localeName`,
+  `matchNavigatorLanguage`, `defaultLocaleLabels`,
+  `RTL_LANGUAGE_TAGS`, `RTL_SCRIPT_SUBTAGS`).
+- `initLocaleSelect(root, opts?)` and `autoInit(opts?)` keep their
+  signatures and still return `{setLocale, destroy}`. `destroy()` now
+  also detaches the `document` click listener.
+
+### Documentation
+
+- `docs/accessibility.md` rewritten. The 0.3.0 placeholder tradeoff is
+  gone; three new tradeoffs are stated honestly: the accessible name
+  rests entirely on `aria-label`, a custom listbox has weaker AT
+  support than a native `<select>`, and the glyph may render
+  differently or be missing depending on platform fonts. The
+  status-region guidance is kept — the closed button shows only a
+  glyph, so it matters more than before.
+- `docs/ssr.md` reverses its former "client.js is progressive
+  enhancement" claim, which is no longer true.
+
 ## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING — DOM contract)

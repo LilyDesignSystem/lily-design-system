@@ -47,47 +47,87 @@ The helper is a **macro + client.js pair**:
 
 ## Behaviour contract (one paragraph)
 
-The macro emits a `<select class="locale-select">` with
-`data-lily-locale-select-*` hooks describing the select's name,
+The macro emits a `<div class="locale-select">` with
+`data-lily-locale-select-*` hooks describing the control's name,
 storage key, default value, navigator flag, apply-dir flag, and — when
 `opts.value` is set — the consumer's initial value
-(`data-lily-locale-select-value`). On
+(`data-lily-locale-select-value`). Inside it are a hidden input, an
+icon `<button>`, and a `<ul role="listbox" hidden>`. On
 `initLocaleSelect(root)`, the client
 (1) resolves the initial code from value-attribute > storage >
 navigator (when enabled) > default-value > `"en"` > first-option,
 (2) sets `target.lang = bcp47LocaleTag(code)`, (3) optionally sets
 `target.dir = isRtlLocale(code) ? "rtl" : "ltr"`, (4) optionally
-writes to `localStorage`, (5) snaps the `<select>` back to its
-placeholder option (`select.value = ""`), (6) calls `onChange(code)`.
-The `<select>`'s own value never tracks the active locale — on
-`change` the client reads the chosen code, resets the control to `""`,
-then applies.
+writes to `localStorage`, (5) mirrors the consumer-form code into the
+hidden input and re-derives every option's `aria-selected`, (6) calls
+`onChange(code)`. The client ALSO owns the entire listbox interaction:
+open/close, focus movement, the APG keyboard contract, and typeahead.
 
 ## HTML
 
-`<select class="locale-select {classes}" aria-label="{label}"
-name="{name}" data-lily-locale-select-root …>` whose first child is
-the always-rendered placeholder `<option class="locale-select-option
-locale-select-placeholder" value="" selected>{placeholder ??
-label}</option>` (no `lang` — it is not a locale), followed by one
-`<option class="locale-select-option" value="{locale}"
-lang="{tagFor(locale)}">…</option>` per locale code.
+```html
+<div class="locale-select {classes}" data-lily-locale-select-root …>
+  <input type="hidden" name="{name}" value="{selected}"
+         data-lily-locale-select-input>
+  <button type="button" class="locale-select-button" aria-label="{label}"
+          aria-haspopup="listbox" aria-expanded="false"
+          aria-controls="{id}-list" data-lily-locale-select-button>
+    <span class="locale-select-icon" aria-hidden="true">&#127760;&#65038;</span>
+  </button>
+  <ul class="locale-select-list" id="{id}-list" role="listbox"
+      aria-label="{label}" tabindex="-1" hidden data-lily-locale-select-list>
+    <li class="locale-select-option" id="{id}-option-{i}" role="option"
+        aria-selected="true|false" data-value="{locale}"
+        lang="{tagFor(locale)}">{labelFor(locale)}</li>
+  </ul>
+</div>
+```
 
-The placeholder is the **only** option ever rendered `selected` — real
-options never carry `selected`, even when `opts.value` is set. That
-value travels on `data-lily-locale-select-value` instead, so the closed
-control reads the placeholder word from byte zero and never flashes the
-locale name before the client runs.
+The glyph is U+1F310 GLOBE WITH MERIDIANS + U+FE0E VARIATION
+SELECTOR-15 (`&#127760;&#65038;`), `aria-hidden`. VS15 forces the text
+presentation so the globe stays monochrome and matches theme-select's
+◑ instead of rendering as a blue colour emoji. A
+`{% call %}` block body replaces the glyph inside the button (the
+Nunjucks equivalent of `children`); it does not render options.
+
+Options keep `lang="{tagFor(locale)}"`; the button and the `<ul>`
+deliberately do not.
+
+Server markup marks exactly ONE option `aria-selected="true"`,
+resolved as `value or defaultValue or ("en" if present else
+locales[0])`, and pre-fills the hidden input with it (consumer form,
+not BCP 47). The listbox is rendered `hidden` with no
+`aria-activedescendant` and no `data-active` — those are client-owned
+open-state concerns. `opts.value` still travels ONLY on
+`data-lily-locale-select-value`.
+
+Ids are `{id}-list` / `{id}-option-{i}` where `id` defaults to
+`locale-select-{name}`. Deterministic and SSR-safe; two instances
+sharing a `name` need an explicit distinct `id`.
+
+There is **no** `placeholder` param and **no**
+`.locale-select-placeholder` hook — both were removed with the
+`<select>`.
 
 ## Accessibility
 
-- WCAG 2.2 AAA target.
-- The native `<select>` provides Arrow / Home / End / typeahead /
-  Tab semantics with no JS keyboard handlers.
+- WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern.
+- The client provides Arrow / Home / End / Enter / Space / Escape /
+  Tab / typeahead semantics; none of it works before the client runs.
+- `aria-label` is the ONLY accessible name the button has, since the
+  glyph is `aria-hidden`.
+- `aria-selected` tracks the applied locale; `data-active` tracks the
+  keyboard cursor. They are different things.
 - Each option carries its own `lang` for WCAG 3.1.2 (Language of
   Parts).
 - The document root receives `lang` and (by default) `dir` for WCAG
   3.1.1 (Language of Page) and 1.4.10 (Reflow / bidi).
+- Known tradeoffs, documented honestly in `docs/accessibility.md`: an
+  icon-only control depends entirely on `aria-label`; a custom listbox
+  has weaker AT support than a native `<select>`; the glyph may render
+  differently or be missing depending on platform fonts.
+- **No-JS regression**: the button will not open without the client
+  module. Stated plainly in `docs/ssr.md`.
 
 ## Conventions this package follows
 
