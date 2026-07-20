@@ -7,6 +7,10 @@
 //   1. Set `target.lang = bcp47LocaleTag(code)`.
 //   2. Optionally set `target.dir = isRtlLocale(code) ? "rtl" : "ltr"`.
 //   3. Optionally persist to localStorage.
+//   0. Read the consumer's `value` prop from
+//      `data-lily-locale-select-value` (the macro never renders
+//      `selected` on a real option, so the placeholder is the only
+//      selected option in the server HTML and there is no flash).
 //   4. Snap the <select> back to its leading placeholder option, so the
 //      closed control always reads the placeholder word rather than the
 //      active locale name. The real selection lives in `lang` / `dir` /
@@ -130,6 +134,12 @@ export function initLocaleSelect(root, opts = {}) {
         "true";
     const applyDir =
         root.getAttribute("data-lily-locale-select-apply-dir") !== "false";
+    // The consumer's `value` prop. The macro emits it as a data
+    // attribute rather than rendering `selected` on the matching option,
+    // so the placeholder stays the only `selected` option and the closed
+    // control never flashes the locale name before the client runs.
+    const valueAttr =
+        root.getAttribute("data-lily-locale-select-value") || "";
 
     function applyLocale(code) {
         if (!code) return;
@@ -151,16 +161,8 @@ export function initLocaleSelect(root, opts = {}) {
 
     let initial = "";
 
-    // 1. value prop — rendered as the `selected` option by the macro.
-    // Read `defaultSelected` (reflects the HTML `selected` attribute);
-    // `root.value` is unreliable here because a <select> reports its
-    // first option as the value even when none is explicitly selected.
-    // The leading placeholder option is also rendered `selected`, so skip
-    // it by requiring a non-empty value.
-    const selectedOption = Array.from(root.options).find(
-        (o) => o.defaultSelected && o.value !== "",
-    );
-    if (selectedOption) initial = selectedOption.value;
+    // 1. value prop — read from `data-lily-locale-select-value`.
+    initial = valueAttr;
 
     // 2. storage
     if (!initial && storageKey) initial = safeStorageGet(storageKey) || "";

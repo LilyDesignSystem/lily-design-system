@@ -12,9 +12,50 @@ exposes.
 | `.theme-select.{consumerClass}`           | Both classes when `class` is passed. |
 | `.theme-select > .theme-select-option`    | Each `<option>` in the select, including the placeholder. |
 | `.theme-select-placeholder`               | The leading placeholder `<option>` (`value=""`). Always the first child, in both default and custom-slot rendering. |
+| `.theme-select-status`                    | The consumer-rendered live region that announces the active theme. Not emitted by the component — you render it next to the select, as every example does. See [accessibility.md](./accessibility.md). |
 
 If you pass a default slot, only `.theme-select` is guaranteed on
 the root; the inner classes are up to your markup.
+
+## Styling the status region
+
+`.theme-select-status` is the sibling element that carries the active
+theme (`<p class="theme-select-status" aria-live="polite">`). It is
+**visible by default** — that is the shipped pattern, because the
+active theme is otherwise invisible once the control snaps back to
+the placeholder.
+
+```css
+.theme-select-status {
+    margin-block-start: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--color-base-content, inherit);
+}
+```
+
+### Visually-hidden variant
+
+If the design genuinely cannot spare the line, **hide it — do not
+delete it.** This keeps the polite announcement for screen-reader
+users while removing the visual line:
+
+```css
+.theme-select-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+```
+
+Use `clip-path`, not `display: none` or `visibility: hidden` — the
+latter two remove the element from the accessibility tree, which
+silences the live region and defeats the point.
 
 ## Attribute hooks
 

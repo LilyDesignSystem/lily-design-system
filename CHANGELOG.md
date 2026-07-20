@@ -9,7 +9,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
-## Unreleased
+## Helpers 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING — helpers)
 
@@ -48,6 +48,31 @@ highlights.
   colours, matching `.theme-select-option`.
 
 The helper packages still ship zero CSS.
+
+### Added (helpers)
+
+- The compensating status region is the default pattern in every helper's
+  examples and quick-start: a visible `aria-live="polite"` element
+  reporting the active theme/locale, with a `{helper}-status` class hook.
+  Placeholder-pinning means the control no longer announces its value to
+  a screen reader, and against the WCAG 2.2 AAA target a documented
+  suggestion was not enough — the pattern adopters copy now has the
+  compensation in it. Each `docs/accessibility.md` keeps an explicit
+  "what this does and does not fix" note.
+
+### Fixed (helpers)
+
+- nunjucks: pre-hydration flash when `opts.value` was set. The initial
+  value now travels as a `data-lily-*-select-value` attribute instead of
+  a server-rendered `selected` on the real option, so the placeholder is
+  the only selected option in the server HTML and nothing flashes before
+  hydration. Resolution order unchanged.
+
+### Released
+
+- theme-select and locale-select at **0.3.0** in all seven catalogs
+  (12 npm `package.json`, 2 NuGet `.csproj`); text-size-select stays at
+  0.1.0. Publish with `bin/publish-helpers`.
 
 ## 0.6.0 — 2026-07-03
 

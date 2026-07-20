@@ -18,41 +18,83 @@ responsibility.
 | WCAG 1.4.1 Use of Color | Selection state is exposed via the `lang` attribute and the `[(value)]` binding — not colour alone. |
 | Native `<select>` | Single-selection combobox with full keyboard and screen-reader support — provided by the platform. |
 
-## Tradeoff: the closed control does not announce the active locale
+## The status region is part of the pattern
 
 The `<select>` always displays its leading placeholder option, so its
 own `value` is permanently `""`. This keeps the control narrow, but it
 costs something real: a screen-reader user focusing the control hears
 the accessible name and the placeholder word ("Locale"), **not** the
-locale currently in effect. The active locale is no longer
-discoverable from the combobox alone.
+locale currently in effect, and no option in the open list is marked
+selected. The active locale is not discoverable from the combobox
+alone.
 
 The `lang` attribute on the document root still carries the active
 locale, and assistive technology uses it for pronunciation — but users
 cannot *hear* which locale is selected by focusing the control.
 
-Where that matters, surface the active selection elsewhere. Two
-recipes:
+Because Lily targets WCAG 2.2 AAA, the compensation is **the default,
+not a suggestion**. Every example in [`examples/`](../examples/) ships
+it, the [quick start](../index.md#quick-start) opens with it, and it
+is what an adopter copying this package gets unless they take it out.
+Removing it is the deliberate choice; adding it is not.
+
+The pattern: bind `[(value)]` and render a visible status line beside
+the control.
 
 ```html
-<!-- 1. Visible text next to the control. Also helps sighted users. -->
-<lily-locale-select label="Locale" [locales]="locales"
+<lily-locale-select label="Language" [locales]="locales"
                     [(value)]="locale" />
-<span class="locale-active" [attr.lang]="locale()">{{ locale() }}</span>
+
+<p class="locale-select-status" aria-live="polite">
+    Active language:
+    <span [attr.lang]="tagFor(locale())">{{ nameFor(locale()) }}</span>
+</p>
 ```
 
-```html
-<!-- 2. A polite live region announcing each change. Supply the
-        phrasing yourself so it stays translatable. -->
-<lily-locale-select label="Locale" [locales]="locales"
-                    (localeChange)="announce($event)" />
-<p role="status" aria-live="polite">{{ announcement() }}</p>
+```ts
+// In the component class — both are exported from the package barrel.
+nameFor = localeName;
+tagFor = bcp47LocaleTag;
 ```
 
-Prefer the visible-text recipe: it serves sighted, low-vision, and
-screen-reader users at once, and needs no live-region timing care.
-Give that visible text its own `lang` so it is pronounced in the
-language it names, exactly as the options are.
+Why each part is the way it is:
+
+- **Visible, not `sr-only`.** Naming the current setting in plain text
+  serves sighted, low-vision, and cognitively-impaired users as well as
+  screen-reader users, and it needs no live-region timing care. AAA
+  favours the visible form.
+- **`aria-live="polite"` announces mutations only.** The region is
+  silent on first paint and speaks once on each subsequent change — a
+  confirmation per switch, not a greeting on load. (`role="status"`
+  carries an implicit `aria-live="polite"`; either is fine, but do not
+  use `assertive` — a locale change is not an interruption.)
+- **`localeName()`** is the package's exported label resolver, so the
+  status text shows the same human label as the option ("Français",
+  not `fr`).
+- **The name carries its own `lang`**, via `bcp47LocaleTag()`, for
+  exactly the reason each `<option>` does — see [Per-option `lang` is
+  important](#per-option-lang-is-important) below. Wrap only the name;
+  the surrounding "Active language:" text stays in the page language.
+- **`locale-select-status`** is the class hook, kebab-case like the
+  rest of the system.
+
+If a design truly cannot spare the space, keep the element and its
+`aria-live` and hide it visually with a `.sr-only` recipe
+(`clip-path: inset(50%)` + `position: absolute` — never
+`display: none`, which removes it from the accessibility tree along
+with its announcements). Dropping it entirely puts the control back in
+the state described at the top of this section.
+
+### What this does and does not fix
+
+Honest accounting. The status region gives the user a way to *learn*
+the active locale, announced on every change. It does not restore the
+native combobox semantics: focusing the control still does not speak
+the current value, the open list still marks no option as selected,
+and a user arrowing through options still gets no "selected" state to
+orient by. Those are real losses that no sibling element recovers —
+they are the price of the placeholder-pinned control, and the reason
+this tradeoff is documented rather than declared solved.
 
 ## Per-option `lang` is important
 
@@ -105,12 +147,19 @@ position so the user can keep choosing.
 
 ## Screen-reader behaviour matrix
 
+The control is placeholder-pinned, so what a reader announces on
+focus is the **placeholder word**, not the active locale:
+
 | Reader     | OS       | Browser   | What's announced when user lands on the select |
 | ---------- | -------- | --------- | ---------------------------------------------- |
-| VoiceOver  | macOS 14 | Safari 17 | "Language, pop-up button, English". Opening and arrowing announces each option's `lang`-correct pronunciation. |
-| NVDA       | Windows  | Firefox   | "Language combo box, English, 1 of 5". Pronounces "Français" in French voice if French voice installed. |
-| JAWS       | Windows  | Chrome    | "Language combo box, English, 1 of 5". |
-| TalkBack   | Android  | Chrome    | "Language, English, drop-down list, double-tap to activate". |
+| VoiceOver  | macOS 14 | Safari 17 | "Language, pop-up button, Language" — the placeholder, not the active locale. Opening and arrowing announces each option's `lang`-correct pronunciation, with no option marked selected. |
+| NVDA       | Windows  | Firefox   | "Language combo box, Language". Pronounces "Français" in French voice if French voice installed. |
+| JAWS       | Windows  | Chrome    | "Language combo box, Language". |
+| TalkBack   | Android  | Chrome    | "Language, drop-down list, double-tap to activate". |
+
+In every row the active locale is announced by the
+`locale-select-status` live region on change, not by the control —
+which is why that region is part of the default pattern.
 
 The "lang-correct pronunciation" depends on the reader having a
 matching voice package installed. NVDA's default ships with

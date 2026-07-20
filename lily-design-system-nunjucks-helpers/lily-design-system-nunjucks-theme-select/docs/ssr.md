@@ -17,8 +17,9 @@ touch:
 - the file system
 - environment variables
 
-If the consumer passes `opts.value="dark"`, the matching `<option>`
-gets `selected` rendered server-side.
+If the consumer passes `opts.value="dark"`, the `<select>` root gets
+`data-lily-theme-select-value="dark"` rendered server-side. The
+rendered `<option>`s are unaffected — see the next section.
 
 The managed `<link>` is not created on the server. `data-theme`
 is not written to `<html>` on the server. Those happen on the
@@ -38,24 +39,36 @@ The fix is to **resolve the theme on the server** and inline both:
 
 so that CSS is in place before any pixel is painted.
 
-### The `opts.value` selected-option flash
+### The `opts.value` selected-option flash — fixed
 
-`opts.value` is communicated to the client by rendering `selected` on
-the matching `<option>` — that is how the client resolves the initial
-theme (step 2 of the resolution order). The placeholder option is
-*also* rendered `selected`, and when a `<select>` has two selected
-options the browser picks the **last** one. So between first paint and
-`initThemeSelect(root)` the closed control briefly shows the theme
-name rather than the placeholder word; the client then snaps it back
-to `""`.
+**There is no longer a pre-hydration flash when you pass
+`opts.value`.** Earlier versions communicated `opts.value` to the
+client by rendering `selected` on the matching `<option>`. Because the
+placeholder option is *also* rendered `selected`, and a browser
+resolves two selected options in favour of the **last** one, the closed
+control briefly showed the theme name between first paint and
+`initThemeSelect(root)`, then snapped back to the placeholder word.
 
-This is cosmetic and confined to the control itself — it does not
-affect `data-theme`, the `<link>` href, or the page. It only occurs
-when you pass `opts.value`; without it the placeholder is the only
-selected option and there is no flash. If it matters, either style
-`.theme-select` with a fixed `width` so the snap-back doesn't reflow,
-or omit `opts.value` and let `storageKey` / `defaultValue` resolve the
-initial theme instead.
+The macro now passes the value out-of-band instead:
+
+```html
+<select class="theme-select" … data-lily-theme-select-value="dark">
+  <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
+  <option class="theme-select-option" value="light">Light</option>
+  <option class="theme-select-option" value="dark">Dark</option>
+</select>
+```
+
+The placeholder is the only `selected` option in the server HTML no
+matter what `opts.value` is, so the closed control reads the
+placeholder word from byte zero. `initThemeSelect(root)` reads
+`data-lily-theme-select-value` during initial-value resolution (step 2
+of the order in §5.2) and applies the theme — mutating `data-theme`
+and the managed `<link>`, never the rendered options.
+
+The attribute is omitted entirely when `opts.value` is unset, so it
+falls through to `defaultValue` / `"light"` / first-option exactly as
+before. Pass `opts.value` freely: it costs nothing visually.
 
 ## Eleventy (build time)
 
@@ -222,11 +235,13 @@ There is no virtual-DOM hydration mismatch in this catalog
 because the macro is one-shot HTML, not a diff. The only
 cross-render gotcha is:
 
-- The server renders `value=""` (no option selected), but the
-  client picks a non-empty value from `localStorage`. The user
-  briefly sees no option selected, then the chosen option fills
-  in.
-- **Fix.** Resolve the value server-side and pass it as
+- The server renders no `data-lily-theme-select-value`, but the client
+  picks a non-empty value from `localStorage`. The page therefore
+  paints unthemed for one frame before `data-theme` and the managed
+  `<link>` land. The `<select>` itself is unaffected — it reads the
+  placeholder word throughout.
+- **Fix.** Resolve the value server-side, write `<html data-theme>`
+  and the theme `<link>` into the shell yourself, and pass the slug as
   `opts.value`.
 
 ## Plain `nunjucks.render`

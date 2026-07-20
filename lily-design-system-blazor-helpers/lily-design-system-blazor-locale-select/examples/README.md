@@ -15,7 +15,8 @@ Every example assumes:
 - No CSS dependency — the select is headless. Consumers style
   the `locale-select`, `locale-select-option`,
   `locale-select-list`, `locale-select-select`, and
-  `locale-select-option` class hooks.
+  `locale-select-option` class hooks, plus `locale-select-status`
+  for the consumer-rendered status region (see Example 1).
 
 | #  | File                                                  | Demonstrates                                                       |
 |----|-------------------------------------------------------|--------------------------------------------------------------------|

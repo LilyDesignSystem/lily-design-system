@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING)
 
@@ -38,6 +38,18 @@ and the project follows [Semantic Versioning](https://semver.org/).
 - Per-option `lang` attributes are unchanged on the locale options.
 - Still ships zero CSS. The width recipe lives in the root `themes/`
   stylesheets.
+
+### Added (examples & docs)
+
+- The compensating status region is now the **default pattern**, not a
+  suggestion: the entry-point example and the `index.md` quick-start both
+  ship a visible `<p class="locale-select-status" aria-live="polite">`
+  showing the active locale via the exported `localeName`.
+  `aria-live="polite"` announces mutations only, so it stays silent on
+  first paint and speaks on each change. `docs/accessibility.md`
+  reframes opting *out* as the deliberate choice and keeps an explicit
+  "what this does and does not fix" note — the region announces
+  transitions, it does not restore combobox value semantics.
 
 ## 0.2.0 — 2026-07-03
 
@@ -139,4 +151,5 @@ and HTML ports port from this contract clause-for-clause.
   are byte-identical across every port.
 
 [Unreleased]: https://github.com/lilydesignsystem/lily-design-system
+[0.3.0]: https://github.com/lilydesignsystem/lily-design-system
 [0.1.0]: https://github.com/lilydesignsystem/lily-design-system

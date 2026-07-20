@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.3.0 — 2026-07-20
 
 ### Added
 
@@ -38,6 +38,18 @@ Downstream behaviour is otherwise unchanged: the managed `<link>`
 swap, `data-theme` application, `localStorage` persistence,
 `themeChange`, and initial-value resolution all behave exactly as
 before, and `value` remains the two-way bindable source of truth.
+
+### Added (examples & docs)
+
+- The compensating status region is now the **default pattern**, not a
+  suggestion: the basic example and the `index.md` quick-start both ship
+  a visible `<p class="theme-select-status" aria-live="polite">` showing
+  the active theme. `aria-live="polite"` announces mutations only, so it
+  stays silent on first paint and speaks on each change.
+  `docs/accessibility.md` reframes opting *out* as the deliberate choice
+  and keeps an explicit "what this does and does not fix" note — the
+  region announces transitions, it does not restore combobox value
+  semantics.
 
 ## 0.2.0 — 2026-07-03
 
@@ -139,4 +151,5 @@ order match clause-for-clause.
   fall-through).
 
 [Unreleased]: https://github.com/lilydesignsystem/lily-design-system
+[0.3.0]: https://github.com/lilydesignsystem/lily-design-system
 [0.1.0]: https://github.com/lilydesignsystem/lily-design-system

@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING)
 
@@ -45,6 +45,18 @@ and the project follows [Semantic Versioning](https://semver.org/).
   announced as the combobox value. Consumers who need it announced
   should surface the active theme in visible text or a polite live
   region — see [`docs/accessibility.md`](docs/accessibility.md).
+
+### Added (examples & docs)
+
+- The compensating status region is now the **default pattern**, not a
+  suggestion: the basic example and the `index.md` quick-start both ship
+  a visible `<p class="theme-select-status" aria-live="polite">` showing
+  the active theme. `aria-live="polite"` announces mutations only, so it
+  stays silent on first paint and speaks on each change.
+  `docs/accessibility.md` reframes opting *out* as the deliberate choice
+  and keeps an explicit "what this does and does not fix" note — the
+  region announces transitions, it does not restore combobox value
+  semantics.
 
 ## 0.2.0 — 2026-07-03
 
@@ -146,4 +158,5 @@ order match clause-for-clause.
   fire. Static SSR renders the markup but doesn't mutate the DOM.
 
 [Unreleased]: https://github.com/lilydesignsystem/lily-design-system
+[0.3.0]: https://github.com/lilydesignsystem/lily-design-system
 [0.1.0]: https://github.com/lilydesignsystem/lily-design-system

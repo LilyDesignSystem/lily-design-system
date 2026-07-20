@@ -8,8 +8,11 @@ rules live in [`../../AGENTS/ssr.md`](../../AGENTS/ssr.md).
 
 The macro is pure: same `opts` in, same HTML out. It does not
 touch `localStorage`, `navigator`, `document.head`, or any DOM
-API. If the consumer passes `opts.value="dark"`, the matching
-`<option>` gets `selected` rendered server-side.
+API. If the consumer passes `opts.value="dark"`, the `<select>` root
+gets `data-lily-theme-select-value="dark"` rendered server-side. The
+`<option>`s are untouched: the placeholder stays the only `selected`
+option, so the closed control shows the placeholder word from byte
+zero and never flashes the theme name.
 
 The managed `<link>` is **not** created at render time.
 `data-theme` is **not** written to `<html>` at render time. Those
@@ -170,8 +173,9 @@ const html = nunjucks.render("page.njk", {
 require("node:fs").writeFileSync("dist/index.html", html);
 ```
 
-The macro outputs a complete `<select>` with the `"dark"` option
-`selected`; no DOM touched, no errors thrown.
+The macro outputs a complete `<select>` carrying
+`data-lily-theme-select-value="dark"`; no DOM touched, no errors
+thrown.
 
 ## Why the macro doesn't auto-resolve cookies
 

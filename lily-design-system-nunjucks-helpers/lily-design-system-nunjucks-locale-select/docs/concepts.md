@@ -60,7 +60,7 @@ Conceptually:
                                           ▼
                                           1. Read data-lily-* hooks
                                           2. Resolve initial code
-                                             (selected > storage >
+                                             (value attr > storage >
                                               navigator > default >
                                               "en" > first)
                                           3. target.lang = bcp47Tag(code)
@@ -122,8 +122,9 @@ Keeping them separate means:
 
 - The client.js writes synchronously to `localStorage` on every
   apply.
-- On a fresh mount with no `value` opt (no `<option>` rendered
-  `selected`), the stored value is read back.
+- On a fresh mount with no `value` opt (no
+  `data-lily-locale-select-value` attribute), the stored value is read
+  back.
 - Storage errors (private mode, quota) are swallowed silently; the
   select degrades to the navigator / default / `"en"` / first-option
   fallback chain.
@@ -131,8 +132,8 @@ Keeping them separate means:
 If you have a Nunjucks-rendering server (Express, Eleventy, Astro,
 Cloudflare Workers), prefer a cookie instead — it survives the
 round-trip and avoids a flash of default locale on first paint.
-Pass the cookie value as `opts.value` so the matching `<option>` is
-rendered `selected` server-side. See [./ssr.md](./ssr.md).
+Pass the cookie value as `opts.value`, which the macro serialises as
+`data-lily-locale-select-value` server-side. See [./ssr.md](./ssr.md).
 
 ## Where navigator detection fits in
 
@@ -158,7 +159,8 @@ Three layers, mirroring the lifecycle:
    needed.
 2. **Macro output** — `nunjucks.renderString(template, ctx)` and
    assert that the HTML contains the expected `<option>`s, hooks, and
-   `selected` flag for the seeded `value`.
+   `data-lily-locale-select-value` for the seeded `value` — and that
+   the placeholder is still the only `selected` option.
 3. **DOM contract** — after rendering into jsdom and calling
    `initLocaleSelect(root)`, assert `document.documentElement.lang`
    and `.dir`. Drive a `change` on the `<select>` and assert again.

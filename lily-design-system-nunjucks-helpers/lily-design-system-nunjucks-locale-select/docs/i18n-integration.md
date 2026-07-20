@@ -12,7 +12,8 @@ generic **ICU MessageFormat APIs**.
 The wiring pattern is always the same:
 
 1. Render the select with `opts.value` set to the server-resolved
-   locale (so the right `<option>` is `selected` on first paint).
+   locale (carried on `data-lily-locale-select-value`, so the client
+   resolves it on first init).
 2. In `initLocaleSelect(root, { onChange })`, push the chosen code
    into your i18n runtime (often via a cookie + reload, sometimes
    via an in-page state update).

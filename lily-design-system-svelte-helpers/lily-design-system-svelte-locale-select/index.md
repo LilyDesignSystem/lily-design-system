@@ -38,7 +38,10 @@ all see the change.
 
 ```svelte
 <script lang="ts">
-    import LocaleSelect from "./lily-design-system-svelte-locale-select/LocaleSelect.svelte";
+    import LocaleSelect, {
+        bcp47LocaleTag,
+        localeName,
+    } from "./lily-design-system-svelte-locale-select/LocaleSelect.svelte";
 
     let locale = $state("");
 </script>
@@ -50,7 +53,26 @@ all see the change.
     storageKey="lily-locale"
     detectFromNavigator
 />
+
+<p class="locale-select-status" aria-live="polite">
+    Active language:
+    <span lang={bcp47LocaleTag(locale)}>{localeName(locale)}</span>
+</p>
 ```
+
+The status line is part of the pattern, not an optional extra. The
+closed control is placeholder-pinned — it always reads "Language"
+rather than the active locale name, which is what keeps it that narrow
+— so a screen reader never hears the active locale announced as the
+combobox value. That matters more here than for most controls: someone
+who has landed on a page in a language they cannot read needs to
+confirm what the control is currently set to. `aria-live="polite"`
+announces mutations only, so it stays silent on first paint and speaks
+once per change, and the `lang` on the `<span>` keeps the locale name
+pronounced in its own language. Keep it visible if you can; if you
+cannot spare the space, hide it visually but keep the element and the
+live region. Full reasoning and the opt-out:
+[docs/accessibility.md](./docs/accessibility.md).
 
 When the user picks `ar`, the component:
 

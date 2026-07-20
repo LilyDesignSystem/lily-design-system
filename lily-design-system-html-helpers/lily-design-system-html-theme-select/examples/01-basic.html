@@ -10,6 +10,32 @@
 
     The host element has no children until connectedCallback runs;
     the page may briefly look unstyled before the JS bundle loads.
+
+    THE STATUS LINE IS PART OF THE PATTERN — copy it along with the
+    select. The closed control always reads the placeholder ("Theme"),
+    never the active theme name, so without this line there is nowhere
+    the current selection is announced or displayed. See
+    docs/accessibility.md.
+
+    Three things to note about it:
+
+    1. It is VISIBLE by default, not sr-only. Sighted users get the
+       same "which theme am I on?" answer that screen-reader users do,
+       which is what WCAG 2.2 AAA favours. For designs that genuinely
+       cannot spare the space, swap the <p> for a visually-hidden
+       variant (position: absolute; width: 1px; height: 1px;
+       overflow: hidden; clip-path: inset(50%)) — keep the element in
+       the accessibility tree; never use display: none or hidden.
+
+    2. aria-live="polite" announces MUTATIONS only, so the region is
+       silent on first paint and speaks once per change. That is the
+       behaviour we want: no announcement on page load, a polite
+       confirmation on every switch.
+
+    3. The initial text is authored in the markup rather than written
+       by JS on startup, which keeps first paint mutation-free (and so
+       silent). It matches the resolved initial theme — "light", since
+       this example sets no storage-key or default-value.
 -->
 <html lang="en">
 <head>
@@ -25,5 +51,25 @@
         themes-url="/assets/themes/"
         themes="light,dark,abyss"
     ></theme-select>
+
+    <p class="theme-select-status" aria-live="polite">Active theme: Light</p>
+
+    <script type="module">
+        await customElements.whenDefined("theme-select");
+
+        const select = document.querySelector("theme-select");
+        const status = document.querySelector(".theme-select-status");
+
+        // theme-select exposes no label helper, so read the human label
+        // straight off the option the element rendered. That way any
+        // theme-labels overrides are picked up for free, and the status
+        // line never shows a raw slug.
+        const labelFor = (slug) =>
+            select.querySelector(`option[value="${slug}"]`)?.textContent ?? slug;
+
+        select.addEventListener("themechange", (e) => {
+            status.textContent = `Active theme: ${labelFor(e.detail.theme)}`;
+        });
+    </script>
 </body>
 </html>

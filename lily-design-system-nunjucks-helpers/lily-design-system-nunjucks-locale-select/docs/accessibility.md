@@ -17,39 +17,68 @@ what's built in and what remains the consumer's responsibility.
 | WCAG 1.4.1 Use of Color | Selection state is exposed in the `lang` / `dir` attributes on the target — not colour alone. (Not via the `<select>`'s value; see the tradeoff below.) |
 | Native `<select>` | Single-selection combobox with full keyboard and screen-reader support — provided by the platform. |
 
-## Tradeoff: the control does not announce the active locale
+## The status region is part of the pattern
 
 The `<select>` always displays its leading placeholder option, and the
 client snaps `select.value` back to `""` after every change. This
 keeps the control narrow and predictable, but it has a real
 accessibility cost: a screen-reader user focusing the combobox hears
 the placeholder word ("Locale") as its value, **not** the locale that
-is currently active. The active locale is no longer discoverable from
-the control itself.
+is currently active. The active locale is not discoverable from the
+control itself.
 
-Where knowing the active locale matters, surface it elsewhere:
+That cost is real and this page does not claim it away. What it does
+claim is where the compensation belongs: **in the pattern, by
+default.** Lily targets WCAG 2.2 AAA, so the locale select ships
+alongside a status region in the quick start and in
+[`../examples/01-radios.njk`](../examples/01-radios.njk). Pair the
+control with the region; **opting out is the deliberate choice, not
+opting in.**
 
-- Render the active locale as visible text next to the control (this
-  also helps sighted users).
-- Announce changes from a polite live region the consumer owns:
+```njk
+{{ localeSelect({
+    label: "Language",
+    locales: ["en", "fr", "ar"]
+}) }}
+<p class="locale-select-status" aria-live="polite"></p>
+```
 
-  ```html
-  <p aria-live="polite" id="locale-status"></p>
-  ```
+```js
+import { autoInit, localeName } from "./locale-select.client.js";
 
-  ```js
-  initLocaleSelect(root, {
-      onChange: (code) => {
-          document.getElementById("locale-status").textContent =
-              translate("Language changed to {name}", { name: labels[code] });
-      },
-  });
-  ```
+const status = document.querySelector(".locale-select-status");
 
-  The announcement text is consumer-supplied and translatable, so this
-  stays i18n-clean. Note the document `lang` changes at the same
-  moment, so give the status element its own `lang` if the message is
-  written in the newly selected language.
+autoInit({
+    onChange(code) {
+        status.textContent =
+            translate("Active language: {name}", { name: localeName(code) });
+    },
+});
+```
+
+Why this shape:
+
+- **Visible, not `sr-only`, by default.** A visible line helps sighted
+  users and cognitive accessibility too, and satisfies WCAG 1.4.1
+  without relying on the control. The visually-hidden variant is in
+  [`./styling.md`](./styling.md) for designs that genuinely cannot
+  spare the space — prefer shrinking it over deleting it.
+- **`aria-live="polite"` announces mutations only**, so the region is
+  silent on first paint and speaks on each subsequent change. That is
+  the intended behaviour: no announcement the user did not cause.
+- **The announcement text is consumer-supplied and translatable**, so
+  this stays i18n-clean. `localeName(code)` resolves the human name
+  from the built-in table, so the region shows "English (United
+  States)" rather than `en_US`.
+- **`.locale-select-status`** is the class hook, kebab-case like the
+  rest of the system. See [`./styling.md`](./styling.md).
+- **Mind the region's own `lang`.** The document `lang` changes at the
+  same moment the region updates, so give the status element its own
+  `lang` if the message is written in the newly selected language.
+
+What this does *not* fix: focusing the closed combobox still announces
+the placeholder word. The status region tells the user what is active;
+it does not make the control self-describing.
 
 ## Per-option `lang` is important
 

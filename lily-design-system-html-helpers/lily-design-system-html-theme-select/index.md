@@ -95,7 +95,33 @@ don't throw.
     themes="light,dark,abyss"
     storage-key="lily-theme"
 ></theme-select>
+
+<p class="theme-select-status" aria-live="polite">Active theme: Light</p>
+
+<script type="module">
+    await customElements.whenDefined("theme-select");
+
+    const select = document.querySelector("theme-select");
+    const status = document.querySelector(".theme-select-status");
+    const labelFor = (slug) =>
+        select.querySelector(`option[value="${slug}"]`)?.textContent ?? slug;
+
+    select.addEventListener("themechange", (e) => {
+        status.textContent = `Active theme: ${labelFor(e.detail.theme)}`;
+    });
+</script>
 ```
+
+**The status line is part of the pattern, not an optional extra.**
+The closed control always reads the placeholder ("Theme"), never the
+active theme name, so this line is the only place the current
+selection is displayed and announced. `aria-live="polite"` speaks on
+each change and stays silent on first paint — which is why the
+initial text is authored in the markup rather than written by JS on
+startup. Making it visible (rather than `sr-only`) serves sighted
+and cognitive-accessibility users too. See
+[`docs/accessibility.md`](./docs/accessibility.md) for the full
+rationale and the visually-hidden variant.
 
 When the user selects `dark`, the element:
 
@@ -136,8 +162,9 @@ Set `placeholder` to make that text differ from the accessible name:
 Because the select's own `value` is always `""`, read the selection
 from `el.value` (or the `themechange` detail) — never from the
 rendered `<select>`. Note that this also means the active theme is
-not announced to screen readers as the control's value; see
-[Accessibility](#accessibility).
+not announced to screen readers as the control's value, which is why
+the [Quick start](#quick-start) pairs the element with a status
+region by default; see [Accessibility](#accessibility).
 
 ## How it works
 
@@ -293,9 +320,10 @@ before first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
 - **Tradeoff:** because the closed control always reads the
   placeholder, the active theme is *not* announced as the combobox
   value. Screen-reader users lose the one place the current
-  selection used to be spoken. Where that matters, surface the
-  active theme in visible text or a polite `role="status"` region —
-  see [`docs/accessibility.md`](./docs/accessibility.md).
+  selection used to be spoken. The compensating status region shown
+  in [Quick start](#quick-start) is the **default pattern** — ship
+  it unless you have a specific reason not to. See
+  [`docs/accessibility.md`](./docs/accessibility.md).
 - WCAG 2.2 AAA is the target; visible focus styling is the
   consumer's CSS responsibility.
 

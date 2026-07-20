@@ -69,6 +69,13 @@ import type { Props, ChildArgs } from "./lily-design-system-svelte-theme-select"
   import ThemeSelect from "./lily-design-system-svelte-theme-select/ThemeSelect.svelte";
 
   let theme = $state("");
+
+  function labelFor(slug: string): string {
+    return slug
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  }
 </script>
 
 <ThemeSelect
@@ -78,7 +85,22 @@ import type { Props, ChildArgs } from "./lily-design-system-svelte-theme-select"
   bind:value={theme}
   storageKey="lily-theme"
 />
+
+<p class="theme-select-status" aria-live="polite">
+  Active theme: {labelFor(theme)}
+</p>
 ```
+
+The status line is part of the pattern, not an optional extra. The
+closed control is placeholder-pinned — it always reads "Theme" rather
+than the active theme name, which is what keeps it one word wide — so
+a screen reader never hears the active theme announced as the combobox
+value. The `<p>` is the only place the active theme is stated.
+`aria-live="polite"` announces mutations only, so it stays silent on
+first paint and speaks once per change. Keep it visible if you can;
+if you cannot spare the space, hide it visually but keep the element
+and the live region. Full reasoning and the opt-out:
+[docs/accessibility.md](./docs/accessibility.md).
 
 When the user picks `dark`, the component:
 

@@ -72,8 +72,8 @@ for the full recipe.
    "POST", body: JSON.stringify({ theme: slug }) })` to write the
    cookie.
 3. On the server, prefer the cookie. On the client, prefer the
-   server-supplied `opts.value` (which short-circuits the storage
-   read by being the selected `<option>` at init time).
+   server-supplied `opts.value` (which the client reads from
+   `data-lily-theme-select-value` at init time).
 
 ## Build a flyout / dropdown UI
 

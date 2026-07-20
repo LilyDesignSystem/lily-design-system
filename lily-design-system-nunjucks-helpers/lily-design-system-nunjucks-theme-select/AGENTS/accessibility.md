@@ -39,13 +39,21 @@ The client.js never installs JS keyboard handlers; the native
 
 ## State signals
 
-The active state is exposed in three independent channels — no
+The active state is exposed in two independent channels — no
 colour-only meaning is required:
 
-1. The selected `<option>` (browser-managed) on the `<select>`.
-2. `data-theme="<slug>"` on the target element (default `<html>`).
-3. The managed `<link rel="stylesheet" data-lily-theme-select="…">`
+1. `data-theme="<slug>"` on the target element (default `<html>`).
+2. The managed `<link rel="stylesheet" data-lily-theme-select="…">`
    in `document.head`.
+
+The `<select>`'s own selected `<option>` is deliberately **not** a
+channel: the placeholder is always the selected option and
+`select.value` is snapped back to `""` after every apply. A
+screen-reader user therefore cannot learn the active theme from the
+control. The compensating `.theme-select-status` region
+(`aria-live="polite"`, fed from `onChange`) is part of the default
+pattern and ships in the examples — see
+[`../docs/accessibility.md`](../docs/accessibility.md).
 
 ## Internationalisation
 

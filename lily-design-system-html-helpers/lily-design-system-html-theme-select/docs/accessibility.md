@@ -87,38 +87,67 @@ technology user loses the one place the current selection was
 previously spoken. The same applies to the visual state: nothing in
 the control itself now indicates which theme is active.
 
-If the active theme matters to your users, surface it elsewhere:
-
-- Render it as visible text next to the select (which also serves
-  sighted users), or
-- Announce it through a polite live region on change (see the next
-  section), or
-- Both — a `role="status"` element whose text is the active theme
-  covers both audiences with one node.
-
 The element still writes `data-theme` on the target, so the active
-theme remains observable to CSS and to your own scripts.
+theme remains observable to CSS and to your own scripts — but that
+is machine-readable state, not something a user perceives.
 
-## Announcing the theme change
+## The status region is the default pattern
 
-`themechange` is a JS event, not an ARIA live region. If you want a
-spoken confirmation of the new theme (e.g. "Theme changed to dark"),
-wire a status element yourself:
+Because of that gap, **the select ships paired with a compensating
+status region**. It is in
+[`examples/01-basic.html`](../examples/01-basic.html) and in the
+`index.md` quick start, so the first thing an adopter copies already
+has it. Leaving it out is the deliberate choice — a decision to make
+knowingly, with a reason — not something to opt into later:
 
 ```html
-<div role="status" id="theme-status" aria-live="polite"></div>
 <theme-select label="Theme" themes-url="/t/" themes="light,dark"></theme-select>
+
+<p class="theme-select-status" aria-live="polite">Active theme: Light</p>
+
 <script type="module">
-    const status = document.getElementById("theme-status");
-    document.querySelector("theme-select")
-        .addEventListener("themechange", (e) => {
-            status.textContent = `Theme changed to ${e.detail.theme}`;
-        });
+    await customElements.whenDefined("theme-select");
+
+    const select = document.querySelector("theme-select");
+    const status = document.querySelector(".theme-select-status");
+    const labelFor = (slug) =>
+        select.querySelector(`option[value="${slug}"]`)?.textContent ?? slug;
+
+    select.addEventListener("themechange", (e) => {
+        status.textContent = `Active theme: ${labelFor(e.detail.theme)}`;
+    });
 </script>
 ```
 
-The `role="status"` element politely announces its text on change
-without interrupting the user.
+Why it is shaped this way:
+
+- **Visible, not `sr-only`.** The gap is not screen-reader-only:
+  nothing in the control indicates the active theme to *anyone*. A
+  visible line answers "which theme am I on?" for sighted users and
+  helps cognitive accessibility, which is what AAA favours. The
+  visually-hidden variant is in
+  [styling.md](./styling.md#the-status-region) for designs that
+  genuinely cannot spare the space.
+- **`aria-live="polite"` announces mutations only**, so the region
+  is silent on first paint and speaks once per change. No
+  interruption, no page-load chatter.
+- **Initial text authored in the markup**, not written by JS at
+  startup — a startup write is a mutation, and mutations are what
+  the live region announces. Under SSR/SSG, render it from the same
+  resolved value you inline as the `value` attribute.
+- **`labelFor` reads the rendered `<option>`** rather than
+  re-deriving the name, so `theme-labels` overrides and translations
+  are picked up for free and the line never shows a raw slug.
+
+### What this does and does not fix
+
+It restores the *information*, not the *semantics*. The combobox's
+own accessible value is still the placeholder; a screen-reader user
+tabbing onto the control still hears "Theme" and must read on to
+learn the active value. That is a genuine residual cost of the
+placeholder-pinned design. If your users depend on the control
+itself announcing its value, don't pin the placeholder — let the
+`<select>` track the selection and accept the wider control.
 
 ## Common mistakes to avoid
 

@@ -1,6 +1,6 @@
 # CHANGELOG — lily-design-system-react-theme-select
 
-## [Unreleased]
+## 0.3.0 — 2026-07-20
 
 ### Added
 
@@ -36,6 +36,18 @@
   value. Consumers who need that should surface the active theme
   separately — as visible text or via a polite live region. See
   `docs/accessibility.md`.
+
+### Added (examples & docs)
+
+- The compensating status region is now the **default pattern**, not a
+  suggestion: the basic example and the `index.md` quick-start both ship
+  a visible `<p class="theme-select-status" aria-live="polite">` showing
+  the active theme. `aria-live="polite"` announces mutations only, so it
+  stays silent on first paint and speaks on each change.
+  `docs/accessibility.md` reframes opting *out* as the deliberate choice
+  and keeps an explicit "what this does and does not fix" note — the
+  region announces transitions, it does not restore combobox value
+  semantics.
 
 ## 0.2.0 — 2026-07-03
 

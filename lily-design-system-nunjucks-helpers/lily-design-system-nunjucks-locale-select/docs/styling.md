@@ -12,6 +12,46 @@ exposes. For RTL-specific layout guidance see [rtl.md](./rtl.md).
 | `.locale-select.{classes}`                  | Both classes when `opts.classes` is set. |
 | `.locale-select > .locale-select-option`    | Each `<option>`, including the placeholder. |
 | `.locale-select-placeholder`                | The always-displayed leading placeholder `<option>` (`value=""`, no `lang`). |
+| `.locale-select-status`                     | The consumer-rendered status region announcing the active locale (see [accessibility.md](./accessibility.md)). Ships in the examples; not emitted by the macro. |
+
+### The status region
+
+The closed `<select>` never shows the active locale, so the pattern
+pairs it with a visible `aria-live="polite"` status line. Style it as
+ordinary body text next to the control:
+
+```css
+.locale-select-status {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--theme-color-text-muted, #4b5563);
+}
+```
+
+Keep it **visible** by default — it helps sighted and
+cognitive-accessibility users too. Where a design genuinely cannot
+spare the space, make it visually hidden rather than removing it, so
+screen-reader users still get the announcement:
+
+```css
+/* Visually hidden, still announced. Prefer the visible variant. */
+.locale-select-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+```
+
+The region inherits the document's `dir`, so it flips with an RTL
+locale automatically. If the message text is written in the newly
+selected language, set the element's own `lang` alongside its
+`textContent`.
 
 ## Attribute hooks
 

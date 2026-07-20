@@ -18,7 +18,7 @@ Every example assumes:
 
 | #  | File                                                         | Demonstrates                                                       |
 | -- | ------------------------------------------------------------ | ------------------------------------------------------------------ |
-| 1  | [`01-radios.tsx`](./01-radios.tsx)                           | Default `<select>` rendering with controlled `value` + `onChange`. |
+| 1  | [`01-radios.tsx`](./01-radios.tsx)                           | Default `<select>` rendering with controlled `value` + `onChange`, plus the default status line. |
 | 2  | [`02-select.tsx`](./02-select.tsx)                           | `children` render prop with a custom `<select>`.                   |
 | 3  | [`03-buttons.tsx`](./03-buttons.tsx)                         | `children` render prop with button group + `aria-pressed`.         |
 | 4  | [`04-rtl-demo.tsx`](./04-rtl-demo.tsx)                       | RTL locales (ar, he, fa, ur, ps) showing `dir` flipping.            |

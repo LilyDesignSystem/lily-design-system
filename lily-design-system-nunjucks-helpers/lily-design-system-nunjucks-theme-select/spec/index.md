@@ -98,7 +98,7 @@ that:
 | `placeholder`  | `string`                   | no       | value of `label`         | Text of the always-displayed placeholder option. The closed `<select>` shows this instead of the active theme name, so the control stays as narrow as this word. |
 | `themesUrl`    | `string`                   | yes      | —                        | Base URL of the themes directory. Trailing `/` is auto-normalised at runtime. |
 | `themes`       | `array<string>`            | yes      | —                        | Available theme slugs (e.g. `["light", "dark", "abyss"]`). |
-| `value`        | `string`                   | no       | `""`                     | Initial selected theme slug to render as the selected option. |
+| `value`        | `string`                   | no       | `""`                     | Initial theme slug. Emitted as `data-lily-theme-select-value` for the client to read; it is **not** rendered as a `selected` option (see §4.2). |
 | `defaultValue` | `string`                   | no       | —                        | Initial theme when nothing else is supplied at runtime. |
 | `storageKey`   | `string`                   | no       | `""`                     | If non-empty, the client.js persists the selection to `localStorage`. |
 | `name`         | `string`                   | no       | `"theme"`                | `<select>` `name` attribute (default "theme"). |
@@ -120,15 +120,25 @@ and otherwise from the slug with its first character upper-cased
   data-lily-theme-select-themes-url="{themesUrl}"
   data-lily-theme-select-extension="{extension}"
   data-lily-theme-select-storage-key="{storageKey}"
-  data-lily-theme-select-default-value="{defaultValue}">`.
+  data-lily-theme-select-default-value="{defaultValue}"
+  data-lily-theme-select-value="{value}">`.
+- `data-lily-theme-select-value` is emitted **only when `opts.value` is
+  non-empty**; it is the sole channel by which the consumer's `value`
+  prop reaches the client.
 - The FIRST child of the `<select>` is the component-owned placeholder
   option: `<option class="theme-select-option theme-select-placeholder"
   value="" selected>{placeholder ?? label}</option>`. It is always
   rendered, always carries an empty `value`, and is the option the
   closed control displays.
-- Then one `<option class="theme-select-option" value="{slug}"
-  selected={value===slug}>{labelFor(slug)}</option>` per slug, inside
-  the `<select>`.
+- The placeholder is the **only** option that ever carries `selected`
+  in the macro output. A `<select>` with two `selected` options is
+  resolved by the browser in favour of the *last* one, so rendering
+  `selected` on the matching real option would paint the theme name
+  until the client snapped it back — a visible flash on every load
+  where `opts.value` is set. The macro therefore never does it.
+- Then one `<option class="theme-select-option"
+  value="{slug}">{labelFor(slug)}</option>` per slug, inside
+  the `<select>` — never `selected`.
 - The `<select>`'s own `value` is therefore **not** a mirror of the
   active theme: after every apply it is snapped back to `""` (the
   placeholder) by the client. The active theme lives in `data-theme`
@@ -177,10 +187,10 @@ The initial theme is the first non-empty value of:
 
 1. `localStorage.getItem(storageKey)` (only if `storageKey` is set
    and the read does not throw).
-2. The `value` of the selected `<option>` that the macro rendered
-   (i.e. the consumer's `value` prop). The leading placeholder option
-   is also rendered `selected`, so it is skipped here by requiring a
-   non-empty value.
+2. The `<select>`'s `data-lily-theme-select-value` attribute (i.e. the
+   consumer's `value` prop). The macro omits the attribute entirely
+   when `opts.value` is unset, so an absent attribute reads as `""`
+   and falls through.
 3. The `<select>`'s `data-lily-theme-select-default-value` attribute.
 4. `"light"` if present among the rendered option values.
 5. The first option value, or `""` if none.
@@ -278,6 +288,17 @@ jsdom document populated from the macro output.
     option's text, while `aria-label` still carries `label`.
 16. Firing a `change` event with a real slug applies that theme AND
     snaps the `<select>` value back to `""`.
+17. When `opts.value` is set, the server-rendered markup contains
+    exactly ONE `selected` option and it is the placeholder. No real
+    option carries `selected`, and the `<select>`'s value is `""`
+    before any client code runs. (Regression guard for the
+    pre-hydration flash — see §4.2.)
+18. When `opts.value` is set, the `<select>` carries
+    `data-lily-theme-select-value="{value}"`, and
+    `initThemeSelect(root)` resolves the initial theme from it (in
+    preference to `defaultValue`).
+19. When `opts.value` is unset, the `<select>` carries no
+    `data-lily-theme-select-value` attribute at all.
 
 ## 8. Out-of-scope (future)
 

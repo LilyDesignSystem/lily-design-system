@@ -7,6 +7,43 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows
 [Semantic Versioning](https://semver.org/).
 
+## 0.3.0 — 2026-07-20
+
+### Changed (BREAKING)
+
+- `theme-select` and `locale-select` bumped to **0.3.0**: both are now
+  *placeholder-pinned*. The closed `<select>` always displays a short
+  placeholder word ("Theme", "Locale") instead of the active value, so
+  the control is only ever as wide as that word rather than as wide as
+  the longest option. Each renders a leading placeholder `<option>` with
+  an empty value, carrying a new optional `placeholder` macro opt
+  (defaults to the existing `label`, so no user-facing string is
+  hardcoded), and pins the element's own selection to it — snapping back
+  after every change.
+- DOM contract: option count is `choices.length + 1`, the first option's
+  value is `""`, and the element's own `value` no longer tracks the
+  selection. Behaviour contracts (DOM application, persistence, SSR
+  safety, i18n) are otherwise unchanged.
+- `text-size-select` is untouched and stays at **0.1.0**.
+
+### Added
+
+- The compensating status region is now the default pattern in the
+  examples and quick-starts: a visible `aria-live="polite"` element
+  reporting the active value, wired through `autoInit({ onChange })`.
+  It exists because placeholder-pinning means the control no longer
+  announces its value to a screen reader; each package's
+  `docs/accessibility.md` documents that tradeoff honestly rather than
+  treating it as solved.
+
+### Fixed
+
+- Pre-hydration flash when `opts.value` was set. The initial value now
+  travels as a `data-lily-{theme,locale}-select-value` attribute on the
+  root instead of a server-rendered `selected` on the matching real
+  option, so the placeholder is the only `selected` option in the server
+  HTML and nothing flashes before hydration. Resolution order unchanged.
+
 ## 0.2.0 — 2026-07-03
 
 ### Changed (BREAKING)

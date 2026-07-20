@@ -11,9 +11,25 @@ to the consumer. This guide lists the hooks the select exposes.
 | `.theme-select.{consumerClass}`   | Both classes when `className` is passed. |
 | `.theme-select > .theme-select-option` | Each `<option>`.                    |
 | `.theme-select-placeholder`       | The leading placeholder `<option>` (also carries `.theme-select-option`). |
+| `.theme-select-status`            | The consumer-rendered status line announcing the active theme. Not emitted by the component — you render it, and the examples always do. |
 
 If you pass a `children` render prop, only `.theme-select` is
 guaranteed on the root; the inner classes are up to your markup.
+
+### `.theme-select-status`
+
+The status line is part of the default pattern, not decoration: the
+closed control is placeholder-pinned, so this element is the only place
+the active theme is stated. See
+[accessibility.md](./accessibility.md). Style it as ordinary body copy:
+
+```css
+.theme-select-status {
+    margin-block-start: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--theme-color-base-content, currentColor);
+}
+```
 
 ## Attribute hooks
 
@@ -52,6 +68,32 @@ Drop into the consumer's app stylesheet:
     outline-offset: 2px;
 }
 ```
+
+## Visually-hidden status line
+
+Prefer the status line visible — it is the only on-screen record of the
+active theme, and it helps sighted and cognitively-loaded users, not
+just screen-reader users. When a design genuinely cannot spare the
+space, **hide the element rather than removing it** so the announcement
+still happens:
+
+```css
+.theme-select-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip-path: inset(50%);
+}
+```
+
+Do not use `display: none` or `visibility: hidden` — both remove the
+element from the accessibility tree, so the live region goes silent and
+you lose the compensation entirely.
 
 ## CSS-in-JS
 

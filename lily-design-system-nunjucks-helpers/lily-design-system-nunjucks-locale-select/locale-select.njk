@@ -12,7 +12,11 @@
                            the selected locale name, so the control stays as
                            narrow as this word. Defaults to `label`.
     locales              — array<string>, required. Available locale codes.
-    value                — string. Initial selected code (rendered checked).
+    value                — string. Initial code, emitted as
+                           data-lily-locale-select-value for the client to
+                           read. The placeholder stays the only `selected`
+                           option, so the closed control never flashes the
+                           locale name.
     defaultValue         — string. Initial code when nothing else is supplied.
     storageKey           — string. If non-empty, client.js persists to localStorage.
     detectFromNavigator  — boolean. If true, client.js resolves navigator.languages.
@@ -48,12 +52,13 @@
   data-lily-locale-select-default-value="{{ defaultValue }}"
   data-lily-locale-select-detect-from-navigator="{{ 'true' if detectFromNavigator else 'false' }}"
   data-lily-locale-select-apply-dir="{{ 'true' if applyDir else 'false' }}"
+  {%- if value %} data-lily-locale-select-value="{{ value }}"{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
 <option class="locale-select-option locale-select-placeholder" value="" selected>{{ placeholder }}</option>
 {%- for locale in opts.locales -%}
   {%- set tag = locale | replace("_", "-") -%}
-  <option class="locale-select-option" value="{{ locale }}" lang="{{ tag }}"{% if value == locale %} selected{% endif %}>
+  <option class="locale-select-option" value="{{ locale }}" lang="{{ tag }}">
     {%- if localeLabels[locale] -%}
       {{ localeLabels[locale] }}
     {%- else -%}

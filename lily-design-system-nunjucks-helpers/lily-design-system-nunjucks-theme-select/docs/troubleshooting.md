@@ -27,8 +27,9 @@ to a real file. Check that:
 
 ## "Flash of unstyled theme on first paint"
 
-**Likely cause.** The macro rendered with no `opts.value`, so no
-`<option>` is `selected` at first paint. The client.js reads
+**Likely cause.** The macro rendered with no `opts.value`, so the
+`<select>` carries no `data-lily-theme-select-value` at first paint.
+The client.js reads
 `localStorage["my-app:theme"]` and applies the stored theme on
 hydration; users see a frame of default-styled content first.
 

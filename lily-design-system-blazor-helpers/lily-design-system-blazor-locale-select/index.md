@@ -56,10 +56,25 @@ technology all see the change.
     StorageKey="lily-locale"
     DetectFromNavigator="true" />
 
+<p class="locale-select-status" aria-live="polite">
+    Active language:
+    <span lang="@Locales.Bcp47LocaleTag(locale)">@Locales.LocaleName(locale)</span>
+</p>
+
 @code {
     private string locale = "";
 }
 ```
+
+The status line is part of the pattern, not decoration. The closed
+control always reads the placeholder word ("Language") rather than the
+active locale name, so this line is the only place either a sighted user
+or a screen reader can read the current selection back. `aria-live="polite"`
+announces changes only, staying silent on first paint. The locale's own
+name carries its own `lang` so it is pronounced correctly (WCAG 3.1.2).
+Render it visible by default; hide it with a visually-hidden class only
+if the design truly cannot spare the space. Full rationale:
+[docs/accessibility.md](./docs/accessibility.md#the-placeholder-tradeoff).
 
 When the user picks `ar`, the component:
 

@@ -12,6 +12,7 @@ exposes.
 | `.theme-select.{CssClass}`                | Both classes when `CssClass` is passed. |
 | `.theme-select > .theme-select-option`    | Each `<option>`.                 |
 | `.theme-select > .theme-select-placeholder` | The leading placeholder `<option>` — the one the closed control always displays. |
+| `.theme-select-status`                    | The consumer-rendered status region echoing the active theme. Not emitted by the component — see below. |
 
 If you pass a `ChildContent` fragment, `.theme-select` on the root and
 the leading `.theme-select-placeholder` option are still guaranteed
@@ -54,6 +55,54 @@ Drop into the consumer's app stylesheet (e.g.
     outline-offset: 2px;
 }
 ```
+
+## The status region
+
+The closed control always shows the placeholder word, never the active
+theme, so the recommended pattern pairs the select with a status region
+that echoes the selection. You render that element yourself; the
+component does not emit it. Use the `.theme-select-status` hook so the
+class name stays consistent across the design system:
+
+```razor
+<ThemeSelect Label="Theme" @bind-Value="theme" ... />
+<p class="theme-select-status" aria-live="polite">Active theme: @label</p>
+```
+
+Style it as ordinary text. It is **visible by default** — sighted users
+have lost the selection readout too, so hiding it helps no one:
+
+```css
+.theme-select-status {
+    margin-block-start: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--color-base-content, currentColor);
+}
+```
+
+### Visually-hidden variant
+
+Only if the layout genuinely cannot spare the space, keep the element in
+the DOM and hide it visually. Never use `display: none` or
+`visibility: hidden` — both remove it from the accessibility tree and
+the live region stops announcing:
+
+```css
+.theme-select-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+```
+
+Rationale and the full tradeoff:
+[accessibility.md](./accessibility.md#the-compensating-status-region-is-the-default-pattern).
 
 ## Don'ts
 

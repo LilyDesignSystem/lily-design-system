@@ -13,8 +13,11 @@ Nunjucks render time
   ▼
 localeSelect(opts) macro
   │  emits <select data-lily-locale-select-root …>
-  │   with selected option = opts.value (if non-empty)
-  │   and per-option <option lang="{tagFor(locale)}">
+  │   with data-lily-locale-select-value = opts.value (if non-empty)
+  │   and per-option <option lang="{tagFor(locale)}">.
+  │   The placeholder is the ONLY `selected` option — no real option
+  │   is ever rendered `selected`, so the closed control reads the
+  │   placeholder word from byte zero (no pre-hydration flash).
   │
   ▼
 HTML response sent to browser
@@ -31,7 +34,7 @@ autoInit() finds [data-lily-locale-select-root] in DOM
   ▼
 For each root, initLocaleSelect(root) runs:
   1. Read data-lily-* attrs into local vars
-  2. Resolve initial code (selected > storage > navigator > default > "en" > first)
+  2. Resolve initial code (value attr > storage > navigator > default > "en" > first)
   3. If initial: applyLocale(initial)
   4. Attach change listener at the select
   │
@@ -78,9 +81,8 @@ const options = readOptions(root);
 const optionValues = options.map((o) => o.value);
 let initial = "";
 
-// 1. value prop — rendered as the selected option by the macro.
-const selected = options.find((o) => o.selected);
-if (selected) initial = selected.value;
+// 1. value prop — read from the data attribute the macro emits.
+initial = root.getAttribute("data-lily-locale-select-value") || "";
 
 // 2. storage
 if (!initial && storageKey) initial = safeStorageGet(storageKey) || "";
@@ -108,8 +110,15 @@ if (initial) applyLocale(initial);
 
 The resolution order is documented in
 [`../spec/index.md` §5.2](../spec/index.md#52-initial-value-resolution).
-Putting the selected option (consumer's `value`) first means a
-server-resolved cookie always wins — important for flicker-free SSR.
+Putting the consumer's `value` first means a server-resolved cookie
+always wins — important for flicker-free SSR.
+
+`opts.value` is read from the `data-lily-locale-select-value`
+attribute, **not** from a `selected` option. The macro deliberately
+never renders `selected` on a real option: the placeholder must be the
+only selected option in the server HTML, otherwise the browser (which
+honours the *last* `selected` option) would paint the locale name and
+the client would then snap it back — a visible flash on every load.
 
 ## Apply
 
@@ -122,8 +131,7 @@ function applyLocale(code) {
         target.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
     }
     if (storageKey) safeStorageSet(storageKey, code);
-    const select = readSelect(root);
-    if (select) select.value = code;
+    root.value = ""; // snap back to the placeholder option
     if (typeof opts.onChange === "function") opts.onChange(code);
 }
 ```
@@ -150,8 +158,8 @@ response.
 The macro never writes `lang` / `dir` to `<html>`. Those happen
 in the client.js on hydration. To avoid a first-paint flash,
 write `<html lang="…" dir="…">` in your layout (substituting from
-a cookie / header / session) and pass `opts.value` so the
-matching option is selected.
+a cookie / header / session) and pass `opts.value`, which the macro
+emits as `data-lily-locale-select-value` for the client to pick up.
 
 ## Reactivity
 

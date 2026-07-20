@@ -36,28 +36,41 @@ const html = nunjucks.render("page.njk", {
 
 Same `opts` in, same HTML out. It does not touch `localStorage`,
 `navigator`, `document.documentElement`, or any DOM API. If the
-consumer passes `opts.value="fr"`, the matching `<option>` gets
-`selected` rendered server-side and that `<option lang="fr">` carries
-the BCP 47 tag.
+consumer passes `opts.value="fr"`, the `<select>` root gets
+`data-lily-locale-select-value="fr"` rendered server-side; the
+`<option lang="fr">` still carries its BCP 47 tag, but no `selected`
+attribute — see the next section.
 
-### The `opts.value` selected-option flash
+### The `opts.value` selected-option flash — fixed
 
-`opts.value` is communicated to the client by rendering `selected` on
-the matching `<option>` — that is how the client resolves the initial
-locale (step 1 of the resolution order). The placeholder option is
-*also* rendered `selected`, and when a `<select>` has two selected
-options the browser picks the **last** one. So between first paint and
-`initLocaleSelect(root)` the closed control briefly shows the locale
-name rather than the placeholder word; the client then snaps it back
-to `""`.
+**There is no longer a pre-hydration flash when you pass
+`opts.value`.** Earlier versions communicated `opts.value` to the
+client by rendering `selected` on the matching `<option>`. Because the
+placeholder option is *also* rendered `selected`, and a browser
+resolves two selected options in favour of the **last** one, the closed
+control briefly showed the locale name between first paint and
+`initLocaleSelect(root)`, then snapped back to the placeholder word.
 
-This is cosmetic and confined to the control itself — it does not
-affect `lang`, `dir`, or the page. It only occurs when you pass
-`opts.value`; without it the placeholder is the only selected option
-and there is no flash. If it matters, either style `.locale-select`
-with a fixed `width` so the snap-back doesn't reflow, or omit
-`opts.value` and let `storageKey` / `defaultValue` resolve the
-initial locale instead.
+The macro now passes the value out-of-band instead:
+
+```html
+<select class="locale-select" … data-lily-locale-select-value="fr">
+  <option class="locale-select-option locale-select-placeholder" value="" selected>Locale</option>
+  <option class="locale-select-option" value="en" lang="en">English</option>
+  <option class="locale-select-option" value="fr" lang="fr">Français</option>
+</select>
+```
+
+The placeholder is the only `selected` option in the server HTML no
+matter what `opts.value` is, so the closed control reads the
+placeholder word from byte zero. `initLocaleSelect(root)` reads
+`data-lily-locale-select-value` during initial-value resolution (step 1
+of the order in §5.2) and applies the locale — mutating `lang` / `dir`,
+never the rendered options.
+
+The attribute is omitted entirely when `opts.value` is unset, so it
+falls through to storage / navigator / `defaultValue` exactly as
+before. Pass `opts.value` freely: it costs nothing visually.
 
 The macro does **not** write `lang` / `dir` to `<html>`. That
 happens in the client.js on hydration. To avoid a first-paint
@@ -68,8 +81,8 @@ substituting from a cookie / header / session value.
 
 The reference pattern: the Nunjucks layout receives `lang` and
 `dir` in the template context, written into `<html>` directly, and
-passes the same `lang` as `opts.value` into the macro so the
-matching `<option>` is selected from byte zero.
+passes the same `lang` as `opts.value` into the macro so the client
+resolves the same locale without a round-trip.
 
 ### Express + cookie-parser
 
@@ -144,7 +157,8 @@ Result:
 
 - First paint: `<html lang="fr" dir="ltr">` arrives in the HTML
   response. No flash, no layout shift.
-- Select mounts already showing the right option selected.
+- Select mounts showing the placeholder word (by design), with the
+  active locale already applied to `<html lang dir>`.
 - User picks `ar`. Select writes `<html lang="ar" dir="rtl">`,
   callback writes the cookie, page reloads. Next request re-paints
   the page in Arabic from the very first byte.
@@ -208,13 +222,14 @@ There is no virtual-DOM hydration mismatch in this catalog
 because the macro is one-shot HTML, not a diff. The only
 cross-render gotcha is:
 
-- The server renders no `selected` option (because `opts.value=""`),
-  but the client picks a non-empty value from `localStorage`. The
-  user briefly sees the first option selected, then the right
-  option jumps to `selected` after JS runs.
-- **Fix.** Resolve the locale server-side (cookie / header /
-  URL / session) and pass it as `opts.value`. Then the `<option>` is
-  rendered `selected` from byte zero.
+- The server renders no `data-lily-locale-select-value` (because
+  `opts.value=""`), but the client picks a non-empty value from
+  `localStorage`. The page therefore paints with the layout's `lang` /
+  `dir` for one frame before the client rewrites them. The `<select>`
+  itself is unaffected — it reads the placeholder word throughout.
+- **Fix.** Resolve the locale server-side (cookie / header / URL /
+  session), write `<html lang dir>` in your layout, and pass the code
+  as `opts.value`.
 
 ## Accept-Language fallback
 

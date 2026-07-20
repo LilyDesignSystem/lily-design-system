@@ -59,7 +59,9 @@ technology all see the change.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import LocaleSelect from "./lily-design-system-vue-locale-select/LocaleSelect.vue";
+import LocaleSelect, {
+    localeName,
+} from "./lily-design-system-vue-locale-select/LocaleSelect.vue";
 
 const locale = ref("");
 </script>
@@ -72,8 +74,22 @@ const locale = ref("");
         storage-key="lily-locale"
         detect-from-navigator
     />
+
+    <p class="locale-select-status" aria-live="polite">
+        Current language: {{ localeName(locale) }}
+    </p>
 </template>
 ```
+
+The status line is part of the quick start on purpose. The closed
+`<select>` is placeholder-pinned — it always reads the placeholder
+word, never "French" — so the status region is the only channel that
+announces the active locale to a screen-reader user. It is visible by
+default (sighted and cognitive-accessibility users benefit too), and
+`aria-live="polite"` means it stays silent on first paint and speaks
+once per change. Opting out is a deliberate decision, not the
+default; see [`docs/accessibility.md`](./docs/accessibility.md) for
+the full tradeoff and the visually-hidden variant.
 
 When the user picks `ar`, the component:
 
@@ -398,8 +414,11 @@ placeholder option; defaults to `label`), `value` (bindable via
   binding.
 - **Tradeoff:** because the closed control always reads the
   placeholder, a screen-reader user does not hear the active locale
-  announced as the combobox value. Surface it with visible text or a
-  polite live region where that matters.
+  announced as the combobox value. The default pattern compensates
+  with a visible `.locale-select-status` region carrying
+  `aria-live="polite"` — shipped in the quick start and in
+  [`examples/01-radios.vue`](./examples/01-radios.vue). Removing it
+  is the deliberate choice.
 
 ## SSR
 

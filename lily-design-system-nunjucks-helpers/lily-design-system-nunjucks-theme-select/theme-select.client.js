@@ -7,6 +7,10 @@
 //   1. Inject/update a managed <link rel="stylesheet"> in <head>.
 //   2. Set data-theme="<slug>" on the resolved target (default <html>).
 //   3. Optionally persist to localStorage.
+//   0. Read the consumer's `value` prop from
+//      `data-lily-theme-select-value` (the macro never renders
+//      `selected` on a real option, so the placeholder is the only
+//      selected option in the server HTML and there is no flash).
 //   4. Snap the <select> back to its leading placeholder option, so the
 //      closed control always reads the placeholder word rather than the
 //      active theme name. The real selection lives in `data-theme` /
@@ -85,6 +89,11 @@ export function initThemeSelect(root, opts = {}) {
         root.getAttribute("data-lily-theme-select-storage-key") || "";
     const defaultValue =
         root.getAttribute("data-lily-theme-select-default-value") || "";
+    // The consumer's `value` prop. The macro emits it as a data
+    // attribute rather than rendering `selected` on the matching option,
+    // so the placeholder stays the only `selected` option and the closed
+    // control never flashes the theme name before the client runs.
+    const valueAttr = root.getAttribute("data-lily-theme-select-value") || "";
 
     function applyTheme(slug) {
         if (!slug) return;
@@ -99,21 +108,11 @@ export function initThemeSelect(root, opts = {}) {
         if (typeof opts.onChange === "function") opts.onChange(slug);
     }
 
-    // §5.2 initial value resolution: storage > selected option > default > "light" > first
+    // §5.2 initial value resolution: storage > value attribute > default > "light" > first
     const values = optionValues(root);
     let initial = "";
     if (storageKey) initial = safeStorageGet(storageKey) || "";
-    if (!initial) {
-        // The macro renders `selected` on the value option; read it back
-        // via `defaultSelected` (the HTML `selected` attribute), because
-        // `root.value` reports the first option even when none is
-        // explicitly selected. The leading placeholder option is also
-        // rendered `selected`, so skip it by requiring a non-empty value.
-        const selectedOption = Array.from(root.options).find(
-            (o) => o.defaultSelected && o.value !== "",
-        );
-        if (selectedOption) initial = selectedOption.value;
-    }
+    if (!initial) initial = valueAttr;
     if (!initial && defaultValue) initial = defaultValue;
     if (!initial && values.includes("light")) initial = "light";
     if (!initial && values.length > 0) initial = values[0];

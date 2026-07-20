@@ -143,23 +143,32 @@ Root element (macro output):
     data-lily-locale-select-default-value="{defaultValue}"
     data-lily-locale-select-detect-from-navigator="{true|false}"
     data-lily-locale-select-apply-dir="{true|false}"
+    data-lily-locale-select-value="{value}"   <!-- only when opts.value is set -->
 >
     <!-- placeholder option, then per-locale option markup -->
 </select>
 ```
 
 The FIRST child is always the component-owned placeholder option. It
-carries no `lang` — it is not a locale:
+carries no `lang` — it is not a locale — and it is the **only** option
+ever rendered `selected`:
 
 ```html
 <option class="locale-select-option locale-select-placeholder" value="" selected>{placeholder ?? label}</option>
 ```
 
-Then the default option markup (one per `locales` entry):
+Then the default option markup (one per `locales` entry) — never
+`selected`, whatever `opts.value` is:
 
 ```html
 <option class="locale-select-option" value="{locale}" lang="{tagFor(locale)}">{labelFor(locale)}</option>
 ```
+
+`opts.value` reaches the client through the
+`data-lily-locale-select-value` attribute instead. Rendering `selected`
+on the matching option would make the browser (which honours the
+*last* `selected` option) paint the locale name until the client
+snapped it back — a visible flash on every load.
 
 The `<select>`'s own `value` is always `""`: the client snaps it back
 to the placeholder after every apply, so the closed control reads the

@@ -76,6 +76,10 @@ import { ref } from "vue";
 import ThemeSelect from "./lily-design-system-vue-theme-select/ThemeSelect.vue";
 
 const theme = ref("");
+
+function labelFor(slug: string): string {
+    return slug.charAt(0).toUpperCase() + slug.slice(1);
+}
 </script>
 
 <template>
@@ -86,8 +90,23 @@ const theme = ref("");
         v-model:value="theme"
         storage-key="lily-theme"
     />
+
+    <p class="theme-select-status" aria-live="polite">
+        Active theme: {{ labelFor(theme) }}
+    </p>
 </template>
 ```
+
+The status line is part of the quick start on purpose. The closed
+`<select>` is placeholder-pinned — it always reads "Theme", never
+"Dark" — so the status region is the only channel that announces the
+active theme to a screen-reader user. It is visible by default
+(sighted and cognitive-accessibility users benefit too), and
+`aria-live="polite"` means it stays silent on first paint and speaks
+once per change. Opting out is a deliberate decision, not the
+default; see [`docs/accessibility.md`](./docs/accessibility.md) for
+the full tradeoff and [`docs/styling.md`](./docs/styling.md) for the
+visually-hidden variant.
 
 When the user picks `dark`, the component:
 
@@ -135,8 +154,10 @@ comes from a prop.
 
 The active theme still lives in `v-model:value` and in `data-theme`
 on the target. Because the closed control no longer announces the
-active theme to screen readers, surface it elsewhere when that
-matters — see [`docs/accessibility.md`](./docs/accessibility.md).
+active theme to screen readers, the pattern this package ships pairs
+the select with a `.theme-select-status` live region (see the quick
+start above) — that is the default, not an opt-in extra. See
+[`docs/accessibility.md`](./docs/accessibility.md).
 
 To size the control to the placeholder, see the width recipe in
 [`docs/styling.md`](./docs/styling.md).
@@ -263,8 +284,11 @@ before first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
   meaning is required.
 - **Tradeoff:** because the closed control always reads the
   placeholder, a screen-reader user does not hear the active theme
-  announced as the combobox value. Surface it with visible text or a
-  polite live region where that matters.
+  announced as the combobox value. The default pattern compensates
+  with a visible `.theme-select-status` region carrying
+  `aria-live="polite"` — shipped in the quick start and in
+  [`examples/basic.vue`](./examples/basic.vue). Removing it is the
+  deliberate choice.
 - WCAG 2.2 AAA is the target; visible focus styling is the
   consumer's CSS responsibility.
 

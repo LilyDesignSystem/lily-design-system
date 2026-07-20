@@ -19,7 +19,7 @@ Every example assumes:
 
 | #  | File                                                       | Demonstrates                              |
 | -- | ---------------------------------------------------------- | ----------------------------------------- |
-| 1  | [`basic.tsx`](./basic.tsx)                                 | Minimal three-theme select.               |
+| 1  | [`basic.tsx`](./basic.tsx)                                 | Minimal three-theme select + the default status line. |
 | 2  | [`two-way-binding.tsx`](./two-way-binding.tsx)             | Controlled `value` + `onChange`.          |
 | 3  | [`persistence.tsx`](./persistence.tsx)                     | `localStorage` survival across reloads.   |
 | 4  | [`custom-labels.tsx`](./custom-labels.tsx)                 | `themeLabels` for i18n / display names.   |

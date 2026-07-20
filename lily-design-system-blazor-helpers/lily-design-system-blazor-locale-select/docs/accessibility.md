@@ -33,37 +33,54 @@ combobox, Locale" rather than "Locale, combobox, Français". The
 selection is still fully operable and still applied to `lang` / `dir`;
 it is simply not readable back off this control.
 
-Where that matters, surface the active locale somewhere else:
+### The compensating status region is the default pattern
 
-- Visible text next to the select — which also helps sighted users,
-  since the closed control no longer shows the selection either:
+Because of that cost, the select is not meant to be shipped alone. The
+pattern is the select **plus** a status region echoing the active
+locale, and that is what
+[`examples/01_Radios.razor`](../examples/01_Radios.razor) and the
+[quick start](../index.md#quick-start) show. Omitting the status region
+is the deliberate opt-out; including it is not an enhancement you opt
+into.
 
-  ```razor
-  <LocaleSelect Label="Choose a locale" Placeholder="Locale"
-                @bind-Value="locale" ... />
-  <p class="locale-select-status" lang="@Locales.Bcp47LocaleTag(locale)">
-      @Locales.LocaleName(locale)
-  </p>
-  ```
+```razor
+<LocaleSelect Label="Choose a locale" Placeholder="Locale"
+              @bind-Value="locale" ... />
 
-  Give that text its own `lang`, for the same WCAG 3.1.2 reason the
-  options carry one.
+<p class="locale-select-status" aria-live="polite">
+    @Localizer["currentLanguage"]
+    <span lang="@Locales.Bcp47LocaleTag(locale)">@Locales.LocaleName(locale)</span>
+</p>
+```
 
-- A polite live region, if the change should be announced as it
-  happens:
+Why this shape:
 
-  ```razor
-  <div role="status" aria-live="polite">
-      @Localizer["localeChangedTo", Locales.LocaleName(locale)]
-  </div>
-  ```
+- **Visible, not `sr-only`, by default.** The closed control no longer
+  shows the selection to *anyone*, so sighted users need the echo as
+  much as screen-reader users do; visible text also helps cognitive
+  accessibility, which AAA weighs heavily. If a design truly cannot
+  spare the space, keep the element and apply a visually-hidden class —
+  never `display: none` or `visibility: hidden`, which drop it from the
+  accessibility tree and silence the live region.
+- **`aria-live="polite"`, not `assertive`.** A locale change is not an
+  interruption. `polite` also means the region announces only on
+  *mutation*, so it stays quiet on first paint and speaks once per
+  change. (`role="status"` implies `aria-live="polite"` and is an
+  equivalent spelling — use one, not both.)
+- **Scope `lang` to the locale name, not the whole sentence.** The
+  surrounding copy is in the viewer's language; only the endonym
+  ("Français", "العربية") needs the locale's own tag, for the same
+  WCAG 3.1.2 reason the options carry one.
+- **Show the human label, not the raw code.** `Locales.LocaleName(code)`
+  gives the pretty name from the built-in table.
 
-  Keep it `polite`, not `assertive`: a locale change is not an
-  interruption.
-
-If neither fits your design, prefer a plain `<select>` bound to
-`Value` over this helper — announcing the selection is worth more than
-a narrow control.
+Be honest about what this does and does not fix. The status region
+restores the *information*; it does not restore the combobox's own
+`Value` semantics. A screen-reader user who tabs back to the control
+still hears the placeholder, and no option in the open list is marked
+selected. If your users depend on reading the selection off the control
+itself, prefer a plain `<select>` bound to `Value` over this helper —
+announcing the selection is worth more than a narrow control.
 
 ## Per-option `lang` is important
 

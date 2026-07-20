@@ -89,7 +89,39 @@ don't throw.
     storage-key="lily-locale"
     detect-from-navigator
 ></locale-select>
+
+<p class="locale-select-status" aria-live="polite">Active language: English</p>
+
+<script type="module">
+    import { localeName } from "/dist/locale-select.js";
+
+    await customElements.whenDefined("locale-select");
+
+    const status = document.querySelector(".locale-select-status");
+
+    document.querySelector("locale-select")
+        .addEventListener("localechange", (e) => {
+            status.textContent = `Active language: ${localeName(e.detail.locale)}`;
+        });
+</script>
 ```
+
+**The status line is part of the pattern, not an optional extra.**
+The closed control always reads the placeholder ("Language"), never
+the active locale name, so this line is the only place the current
+selection is displayed and announced. `aria-live="polite"` speaks on
+each change and stays silent on first paint — which is why the
+initial text is authored in the markup rather than written by JS on
+startup. Making it visible (rather than `sr-only`) serves sighted
+and cognitive-accessibility users too. See
+[`docs/accessibility.md`](./docs/accessibility.md) for the full
+rationale and the visually-hidden variant.
+
+Note that with `storage-key` or `detect-from-navigator` set, the
+resolved initial locale may not be the one authored in the markup.
+Render that opening text from the same server-side/build-time value
+you pass as the `value` attribute — see
+[`docs/ssr.md`](./docs/ssr.md).
 
 When the user picks `ar`, the element:
 
@@ -349,9 +381,10 @@ first paint), see [`docs/ssr.md`](./docs/ssr.md) and
 - **Tradeoff:** because the closed control always reads the
   placeholder, the active locale is *not* announced as the combobox
   value. Screen-reader users lose the one place the current
-  selection used to be spoken. Where that matters, surface the
-  active locale in visible text or a polite `role="status"` region —
-  see [`docs/accessibility.md`](./docs/accessibility.md).
+  selection used to be spoken. The compensating status region shown
+  in [Quick start](#quick-start) is the **default pattern** — ship
+  it unless you have a specific reason not to. See
+  [`docs/accessibility.md`](./docs/accessibility.md).
 
 Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 

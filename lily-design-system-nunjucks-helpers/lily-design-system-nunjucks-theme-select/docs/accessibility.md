@@ -43,38 +43,63 @@ colour-only meaning is required:
 Note that the `<select>`'s own selected `<option>` is deliberately
 **not** one of these channels — see below.
 
-## Tradeoff: the control does not announce the active theme
+## The status region is part of the pattern
 
 The `<select>` always displays its leading placeholder option, and the
 client snaps `select.value` back to `""` after every change. This
 keeps the control narrow and predictable, but it has a real
 accessibility cost: a screen-reader user focusing the combobox hears
 the placeholder word ("Theme") as its value, **not** the theme that is
-currently active. The active theme is no longer discoverable from the
+currently active. The active theme is not discoverable from the
 control itself.
 
-Where knowing the active theme matters, surface it elsewhere:
+That cost is real and this page does not claim it away. What it does
+claim is where the compensation belongs: **in the pattern, by
+default.** Lily targets WCAG 2.2 AAA, so the theme select ships
+alongside a status region in the quick start and in
+[`../examples/01-basic.njk`](../examples/01-basic.njk). Pair the
+control with the region; **opting out is the deliberate choice, not
+opting in.**
 
-- Render the active theme as visible text next to the control (this
-  also helps sighted users, and satisfies WCAG 1.4.1 without relying
-  on the control).
-- Announce changes from a polite live region the consumer owns:
+```njk
+{{ themeSelect({
+  label: "Theme",
+  themesUrl: "/assets/themes/",
+  themes: ["light", "dark", "abyss"]
+}) }}
+<p class="theme-select-status" aria-live="polite"></p>
+```
 
-  ```html
-  <p aria-live="polite" id="theme-status"></p>
-  ```
+```js
+const status = document.querySelector(".theme-select-status");
 
-  ```js
-  initThemeSelect(root, {
-      onChange: (slug) => {
-          document.getElementById("theme-status").textContent =
-              translate("Theme changed to {name}", { name: labels[slug] });
-      },
-  });
-  ```
+autoInit({
+    onChange(slug) {
+        status.textContent =
+            translate("Active theme: {name}", { name: labels[slug] });
+    },
+});
+```
 
-  The announcement text is consumer-supplied and translatable, so this
-  stays i18n-clean.
+Why this shape:
+
+- **Visible, not `sr-only`, by default.** A visible line helps sighted
+  users and cognitive accessibility too, and satisfies WCAG 1.4.1
+  without relying on the control. The visually-hidden variant is in
+  [`./styling.md`](./styling.md) for designs that genuinely cannot
+  spare the space — prefer shrinking it over deleting it.
+- **`aria-live="polite"` announces mutations only**, so the region is
+  silent on first paint and speaks on each subsequent change. That is
+  the intended behaviour: no announcement the user did not cause.
+- **The announcement text is consumer-supplied and translatable**, so
+  this stays i18n-clean. Show the human label
+  (`opts.themeLabels[slug]`), not the raw slug.
+- **`.theme-select-status`** is the class hook, kebab-case like the
+  rest of the system. See [`./styling.md`](./styling.md).
+
+What this does *not* fix: focusing the closed combobox still announces
+the placeholder word. The status region tells the user what is active;
+it does not make the control self-describing.
 
 ## Internationalisation
 

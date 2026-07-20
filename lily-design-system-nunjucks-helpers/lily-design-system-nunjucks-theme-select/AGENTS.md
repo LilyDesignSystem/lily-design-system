@@ -46,9 +46,11 @@ The helper is a **macro + client.js pair**:
 
 The macro emits a `<select class="theme-select">` carrying the `name`
 attribute and `data-lily-theme-select-*` hooks describing the select's
-name, themes URL, extension, storage key, and default value. On
+name, themes URL, extension, storage key, default value, and — when
+`opts.value` is set — the consumer's initial value
+(`data-lily-theme-select-value`). On
 `initThemeSelect(root)`, the client (1) resolves the initial slug
-from storage > selected option > default-value > `"light"` >
+from storage > value attribute > default-value > `"light"` >
 first-option, (2) injects/updates a managed `<link
 rel="stylesheet" data-lily-theme-select="{name}">` whose href is
 `${themesUrl}${slug}${extension}`, (3) sets `data-theme="{slug}"` on
@@ -67,6 +69,12 @@ always-rendered placeholder `<option class="theme-select-option
 theme-select-placeholder" value="" selected>{placeholder ??
 label}</option>`, followed by one `<option class="theme-select-option"
 value="{slug}">…</option>` per slug.
+
+The placeholder is the **only** option ever rendered `selected` — real
+options never carry `selected`, even when `opts.value` is set. That
+value travels on `data-lily-theme-select-value` instead, so the closed
+control reads the placeholder word from byte zero and never flashes the
+theme name before the client runs.
 
 ## Accessibility
 

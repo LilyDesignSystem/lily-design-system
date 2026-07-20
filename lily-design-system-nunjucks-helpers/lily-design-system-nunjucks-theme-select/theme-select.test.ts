@@ -303,6 +303,49 @@ describe("ThemeSelect — client.js lifecycle (§7.7–§7.11, §7.13)", () => {
         expect(root.getAttribute("data-testid")).toBe("tp");
     });
 
+    test("§7.17 opts.value never renders `selected` on a real option — the placeholder is the only selected option (no pre-hydration flash)", () => {
+        const html = renderMacro({
+            label: "Theme",
+            themesUrl: URL_TRAILING,
+            themes: THEMES,
+            value: "abyss",
+        });
+        const root = mountIntoBody(html) as HTMLSelectElement;
+        const selected = Array.from(root.options).filter(
+            (o) => o.defaultSelected,
+        );
+        expect(selected.length).toBe(1);
+        expect(selected[0].classList.contains("theme-select-placeholder")).toBe(
+            true,
+        );
+        // The closed control reads the placeholder from byte zero.
+        expect(root.value).toBe("");
+    });
+
+    test("§7.18 opts.value is carried on data-lily-theme-select-value and resolves the initial theme", () => {
+        const html = renderMacro({
+            label: "Theme",
+            themesUrl: URL_TRAILING,
+            themes: THEMES,
+            value: "abyss",
+            defaultValue: "dark",
+        });
+        const root = mountIntoBody(html);
+        expect(root.getAttribute("data-lily-theme-select-value")).toBe("abyss");
+        initThemeSelect(root);
+        expect(document.documentElement.dataset.theme).toBe("abyss");
+    });
+
+    test("§7.19 the value data attribute is omitted entirely when opts.value is unset", () => {
+        const html = renderMacro({
+            label: "Theme",
+            themesUrl: URL_TRAILING,
+            themes: THEMES,
+        });
+        const root = mountIntoBody(html);
+        expect(root.hasAttribute("data-lily-theme-select-value")).toBe(false);
+    });
+
     test("autoInit wires every select on the page", () => {
         const html1 = renderMacro({
             label: "Theme A",
