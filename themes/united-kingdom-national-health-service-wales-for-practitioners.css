@@ -2337,10 +2337,35 @@
 
     /* The glyph is decorative (aria-hidden); the button's aria-label
        carries the accessible name. Sized up a little so a single
-       character reads as an affordance. */
+       character reads as an affordance.
+
+       The two glyphs do NOT have the same ink-to-em ratio, so a single
+       font-size makes them look mismatched. Measured against the
+       components' own resolved fonts: U+25D1 (half circle) inks 0.842
+       of its em box, U+1F310 (globe) inks 0.996 — the globe reads
+       1.183x larger at equal font-size. Each icon therefore carries its
+       own optical correction so the two buttons look the same size.
+
+       The ratio depends on the consumer's font stack, so the factor is
+       a custom property rather than a baked-in number: override
+       --lily-select-icon-scale if your stack resolves these glyphs to
+       different faces than the reference measurement. */
     :where(.theme-select-icon, .locale-select-icon) {
-        font-size: 1.25em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: calc(1.25em * var(--lily-select-icon-scale, 1));
         line-height: 1;
+    }
+
+    /* U+25D1 is the reference: no correction. */
+    :where(.theme-select-icon) {
+        --lily-select-icon-scale: 1;
+    }
+
+    /* U+1F310 inks 1.183x the reference, so scale it by 1/1.183. */
+    :where(.locale-select-icon) {
+        --lily-select-icon-scale: 0.845;
     }
 
     :where(.theme-select-list, .locale-select-list) {
