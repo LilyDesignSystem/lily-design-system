@@ -6,6 +6,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Added
+
+- A one-time `console.warn` when `value` and a stored theme disagree,
+  naming both and the version the precedence reversed in. The order flip
+  below is otherwise silent for exactly the consumers it affects — those
+  setting both `value` and `storageKey` — so it is surfaced at runtime
+  rather than left to be discovered. No warning when the two agree, when
+  only one is set, or on any other path.
+
 ### Changed (BREAKING — initial-value resolution order)
 
 - **`opts.value` now beats `localStorage`.** The initial-theme

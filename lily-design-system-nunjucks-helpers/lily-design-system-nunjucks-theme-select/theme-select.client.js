@@ -367,7 +367,18 @@ export function initThemeSelect(root, opts = {}) {
     initial = valueAttr;
 
     // 2. storage
-    if (!initial && storageKey) initial = safeStorageGet(storageKey) || "";
+    const storedValue = storageKey ? safeStorageGet(storageKey) || "" : "";
+
+    // The precedence between these two reversed in 0.4.0, so a consumer
+    // who set both and relied on storage winning would otherwise change
+    // behaviour silently on upgrade. Warn once per select, and only when
+    // the two actually disagree — when they agree, or only one is set,
+    // the outcome is identical to 0.3.x and there is nothing to say.
+    if (valueAttr && storedValue && valueAttr !== storedValue) {
+        warnResolutionOrderChanged(root, valueAttr, storedValue);
+    }
+
+    if (!initial) initial = storedValue;
 
     // 3. system colour-scheme preference
     if (!initial && detectFromSystem) initial = matchSystemTheme(values);
@@ -395,6 +406,35 @@ export function initThemeSelect(root, opts = {}) {
             document.removeEventListener("click", onDocumentClick);
         },
     };
+}
+
+/** Selects that have already warned, so the message appears once each. */
+const warnedRoots = new WeakSet();
+
+/**
+ * Announce the 0.4.0 precedence reversal to a consumer whose `value` and
+ * stored theme disagree. Silent in production-ish environments that strip
+ * console.warn, and never thrown — this is advisory, not an error.
+ *
+ * @param {HTMLElement} root
+ * @param {string} value
+ * @param {string} stored
+ */
+function warnResolutionOrderChanged(root, value, stored) {
+    try {
+        if (warnedRoots.has(root)) return;
+        warnedRoots.add(root);
+        if (typeof console === "undefined" || !console.warn) return;
+        console.warn(
+            `[lily theme-select] value="${value}" now takes precedence over ` +
+                `the stored theme "${stored}". This reversed in 0.4.0: ` +
+                `previously the stored value won. If you want the stored ` +
+                `value to keep winning, stop passing "value" and let storage ` +
+                `resolve it. See the package CHANGELOG for the rationale.`,
+        );
+    } catch {
+        // never let a warning break initialisation
+    }
 }
 
 /**
