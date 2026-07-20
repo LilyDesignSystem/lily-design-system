@@ -725,6 +725,38 @@ describe("ThemeSelect — initial-value precedence (§7.28)", () => {
         expect(localStorage.getItem("lily-theme")).toBe("dark");
     });
 
+    test("§7.29 warns once when value and storage disagree", () => {
+        const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+        localStorage.setItem("lily-theme", "abyss");
+        setup({ value: "dark", storageKey: "lily-theme" });
+        expect(warn).toHaveBeenCalledTimes(1);
+        const msg = String(warn.mock.calls[0][0]);
+        // Names both values and points at the version, so the reader can
+        // tell what changed without digging.
+        expect(msg).toContain("dark");
+        expect(msg).toContain("abyss");
+        expect(msg).toContain("0.4.0");
+        warn.mockRestore();
+    });
+
+    test("§7.29 stays silent when value and storage agree", () => {
+        const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+        localStorage.setItem("lily-theme", "dark");
+        setup({ value: "dark", storageKey: "lily-theme" });
+        expect(warn).not.toHaveBeenCalled();
+        warn.mockRestore();
+    });
+
+    test("§7.29 stays silent when only one of the two is set", () => {
+        const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+        setup({ value: "dark" });
+        localStorage.setItem("lily-theme", "abyss");
+        setup({ storageKey: "lily-theme" });
+        // Neither case changed behaviour in 0.4.0, so neither warrants noise.
+        expect(warn).not.toHaveBeenCalled();
+        warn.mockRestore();
+    });
+
     test("§7.28 storage still applies when opts.value is absent", () => {
         localStorage.setItem("lily-theme", "abyss");
         setup({ storageKey: "lily-theme" });
