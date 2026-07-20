@@ -125,6 +125,31 @@ Use logical properties throughout your CSS:
 }
 ```
 
+This matters for the select's own CSS too. The package ships none,
+so you position the dropdown yourself — and this is the one control
+on the page whose direction context can change under it, since
+picking an Arabic locale flips `<html dir>` and re-mirrors the list
+for the next open. Anchor it with logical properties:
+
+```css
+/* Bad — the list stays on the physical left after switching to RTL */
+.locale-select-list {
+    position: absolute;
+    left: 0;
+}
+
+/* Good — the list follows the writing direction */
+.locale-select {
+    position: relative;
+}
+.locale-select-list {
+    position: absolute;
+    z-index: 10;
+    inset-block-start: 100%;
+    inset-inline-start: 0;
+}
+```
+
 For chevrons, arrows, and "next/previous" iconography, either use
 mirrored CSS:
 
@@ -142,10 +167,14 @@ mirrored CSS:
 
 ## Mixing LTR and RTL on one page
 
-The select's default rendering already does this: each `<option>`
-carries its own `lang` attribute, so the browser's bidi
-algorithm renders "Français" left-to-right and "العربية"
-right-to-left within the same `<select>`.
+The select's default rendering already does this: each
+`<li role="option">` carries its own `lang` attribute, so the
+browser's bidi algorithm renders "Français" left-to-right and
+"العربية" right-to-left within the same list. Because the options
+are ordinary DOM elements rather than entries in a platform
+`<select>` popup, the per-option `lang` is honoured for rendering
+and for screen-reader pronunciation — native popups are drawn by
+the OS and commonly ignore it.
 
 If you embed user-supplied text whose language you don't know,
 wrap it with a `<bdi>` element. `<bdi>` isolates a span from the

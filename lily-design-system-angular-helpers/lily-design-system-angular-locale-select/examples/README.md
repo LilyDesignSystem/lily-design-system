@@ -9,22 +9,35 @@ Every example assumes:
 
 - Angular 20 with standalone components and signal inputs.
 - No CSS dependency — the select is headless. Consumers style the
-  `locale-select`, `locale-select-option`, `locale-select-list`,
-  `locale-select-select`, and `locale-select-combobox-label` class
-  hooks.
+  `locale-select` (root), `locale-select-button`, `locale-select-icon`,
+  `locale-select-list`, and `locale-select-option` hooks the component
+  emits, plus the example-only `locale-select-status`,
+  `locale-select-hidden`, `locale-button-group`,
+  `locale-select-select`, and `locale-select-combobox-label` hooks.
+- **The listbox needs positioning CSS and this package ships none.**
+  The `<ul class="locale-select-list">` sits in normal document flow,
+  so it pushes content down when opened unless you give it
+  `position: absolute` inside a `position: relative` root. Use
+  `inset-inline-start`, not `left`, so it follows `dir="rtl"`.
+- `locale-select-hidden` (the `sibling-select`, `sibling-buttons`,
+  `nhs-style`, and `combobox` examples) must resolve to
+  `display: none`, **not** an `.sr-only` clip-path recipe. Those
+  examples replace the helper's UI with their own affordance; leaving
+  the helper's globe button exposed to assistive technology would give
+  screen-reader and keyboard users a duplicate language control.
 
-| #  | File                                                          | Demonstrates                                                       |
-|----|---------------------------------------------------------------|--------------------------------------------------------------------|
-| 1  | [`01-radios.component.ts`](./01-radios.component.ts)          | Default native `<select>` rendering.                              |
-| 2  | [`02-select.component.ts`](./02-select.component.ts)          | Sibling `<select>` bound to the same `[(value)]` signal for long locale lists. |
-| 3  | [`03-buttons.component.ts`](./03-buttons.component.ts)        | Toggle-button group with short codes / glyphs and `aria-pressed`.  |
-| 4  | [`04-rtl-demo.component.ts`](./04-rtl-demo.component.ts)      | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
-| 5  | [`05-nhs-style.component.ts`](./05-nhs-style.component.ts)    | NHS UK-style language banner with endonyms and a `className` hook. |
-| 6  | [`06-with-transloco.component.ts`](./06-with-transloco.component.ts) | Binding to Transloco's `setActiveLang()`.                  |
-| 7  | [`07-with-ngx-translate.component.ts`](./07-with-ngx-translate.component.ts) | Driving `TranslateService.use()` from `(localeChange)`. |
-| 8  | [`08-ssr-cookie.component.ts`](./08-ssr-cookie.component.ts)  | Analog v1 cookie-based SSR — no flash of default locale.           |
-| 9  | [`09-scoped-target.component.ts`](./09-scoped-target.component.ts) | Multiple per-region selects, each scoped to its own panel.    |
-| 10 | [`10-combobox.component.ts`](./10-combobox.component.ts)      | Native `<datalist>` type-ahead for all 436 built-in locales.       |
+| #  | File                                                                   | Demonstrates                                                                          |
+|----|------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
+| 1  | [`basic.component.ts`](./basic.component.ts)                           | Default icon-button + APG listbox rendering, with the status region.                  |
+| 2  | [`sibling-select.component.ts`](./sibling-select.component.ts)         | Sibling native `<select>` bound to the same `[(value)]` signal for long locale lists. |
+| 3  | [`sibling-buttons.component.ts`](./sibling-buttons.component.ts)       | Toggle-button group with short codes / glyphs and `aria-pressed`.                     |
+| 4  | [`rtl-demo.component.ts`](./rtl-demo.component.ts)                     | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.                             |
+| 5  | [`nhs-style.component.ts`](./nhs-style.component.ts)                   | NHS UK-style language banner with endonyms and a `className` hook.                    |
+| 6  | [`with-transloco.component.ts`](./with-transloco.component.ts)         | Binding to Transloco's `setActiveLang()`.                                             |
+| 7  | [`with-ngx-translate.component.ts`](./with-ngx-translate.component.ts) | Driving `TranslateService.use()` from `(localeChange)`.                               |
+| 8  | [`analog-cookie.component.ts`](./analog-cookie.component.ts)           | Analog v1 cookie-based SSR — no flash of default locale.                              |
+| 9  | [`scoped-target.component.ts`](./scoped-target.component.ts)           | Multiple per-region selects, each scoped to its own panel.                            |
+| 10 | [`combobox.component.ts`](./combobox.component.ts)                     | Native `<datalist>` type-ahead for all 436 built-in locales.                          |
 
 ## Running the examples
 
@@ -62,12 +75,30 @@ with the template in the `template:` field of the `@Component`
 decorator. This matches the Angular 20 convention used throughout
 the angular-headless library.
 
-## Slot-args contract (for sibling widgets)
+## Replacing the button glyph
 
-Because v0.1.0 doesn't yet expose `ng-content` projection inside
-the `<select>`, the recommended pattern for custom affordances
-(button group, combobox) is a sibling widget bound to the same
-`[(value)]` signal. The select still owns:
+Project an `<ng-template>` into `<lily-locale-select>` to replace the
+default globe glyph. It receives the `ChildArgs` context —
+`{ $implicit, value, open, labelFor }` — and can be typed with the
+optional `LocaleSelectIcon` marker directive:
+
+```html
+<lily-locale-select label="Language" [locales]="locales" [(value)]="locale">
+    <ng-template lilyLocaleSelectIcon let-args>
+        {{ args.labelFor(args.value) }}
+    </ng-template>
+</lily-locale-select>
+```
+
+The template replaces the **glyph only**. It never renders options —
+the listbox is component-owned.
+
+## Sibling-widget contract (for a different affordance)
+
+To replace the whole affordance rather than just the glyph — a button
+group, a native `<select>`, a filtering combobox — hide the helper and
+bind a sibling widget to the same `[(value)]` signal. The helper still
+owns:
 
 - `lang` / `dir` writes to the target
 - `localStorage` persistence (if `storageKey` is set)
@@ -78,9 +109,11 @@ The sibling widget owns:
 
 - The custom markup (button group, `<select>`, combobox).
 - The click → `signal.set(...)` plumbing.
+- Its own accessible naming and keyboard behaviour.
 
 This split lets the select stay headless while consumers pick any
-UI affordance.
+UI affordance. The `sibling-select`, `sibling-buttons`, `nhs-style`,
+and `combobox` examples all use it.
 
 ## See also
 

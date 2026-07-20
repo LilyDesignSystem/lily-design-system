@@ -1,5 +1,5 @@
 <!--
-    Example 9 — All 41 Lily / DaisyUI themes.
+    All 45 Lily themes.
 
     This is the full catalog shipped in `../../themes/`. Drop them all
     into `public/assets/themes/` and the select will swap between them.
@@ -11,6 +11,7 @@ import ThemeSelect from "../ThemeSelect.vue";
 const themes = [
     "abyss",
     "acid",
+    "adobe-spectrum",
     "aqua",
     "autumn",
     "black",
@@ -34,6 +35,7 @@ const themes = [
     "light",
     "lofi",
     "luxury",
+    "mozilla-protocol",
     "night",
     "nord",
     "pastel",
@@ -41,15 +43,17 @@ const themes = [
     "silk",
     "sunset",
     "synthwave",
-    "valentine",
-    "winter",
-    "wireframe",
+    "united-kingdom-government-digital-service",
     "united-kingdom-national-health-service-england-for-patients",
     "united-kingdom-national-health-service-england-for-practitioners",
     "united-kingdom-national-health-service-scotland-for-patients",
     "united-kingdom-national-health-service-scotland-for-practitioners",
     "united-kingdom-national-health-service-wales-for-patients",
     "united-kingdom-national-health-service-wales-for-practitioners",
+    "united-states-web-design-system",
+    "valentine",
+    "winter",
+    "wireframe",
 ];
 </script>
 

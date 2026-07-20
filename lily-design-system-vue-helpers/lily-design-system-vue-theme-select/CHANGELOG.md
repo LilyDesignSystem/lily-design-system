@@ -4,29 +4,165 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## 0.2.0 — 2026-07-03
+## Unreleased
+
+### Added
+
+- `themeName(slug)` — exported label resolver that title-cases each
+  hyphen-separated word (`"high-contrast"` → `"High Contrast"`).
+  Mirrors `localeName(code)` on locale-select. The internal `labelFor`
+  now delegates to it, so the title-casing rule has exactly one
+  implementation instead of being hand-duplicated across examples.
+- `detectFromSystem` prop (optional `boolean`, default `false`) —
+  resolves the first-visit theme from `prefers-color-scheme`. Mirrors
+  `detectFromNavigator` on locale-select and occupies the same slot in
+  the resolution order: `value` > storage > **detection** >
+  `defaultValue` > `"light"` > `themes[0]`.
+- `matchSystemTheme(themes)` — exported pure helper behind that prop.
+  Maps the OS colour-scheme preference to `"dark"` / `"light"` and
+  returns `""` when the resolved slug is not in `themes`, or when
+  `matchMedia` is unavailable (SSR; jsdom does not implement it
+  either). Mirrors `matchNavigatorLanguage`.
+- Both new helpers are re-exported from the `index.ts` barrel.
+
+### Changed
+
+- `examples/system-preference.vue` now uses `detect-from-system`
+  instead of hand-resolving the media query into `default-value`, and
+  keeps the live-tracking listener as the documented opt-in.
+- `examples/lily-themes.vue` regenerated from the root `themes/`
+  catalog: 45 slugs, up from a stale 41 that predated the
+  Adobe Spectrum, Mozilla Protocol, GOV.UK GDS, and USWDS themes.
+  `index.md` and `examples/README.md` corrected to say 45.
+
+### Fixed
+
+- CHANGELOG entry order: 0.3.0 now precedes 0.2.0 (they were inverted).
+- `spec/index.md` claimed "Spec version: 0.1.0" despite 0.2.0 and
+  0.3.0 having shipped; now 0.3.0.
+- `spec/index.md` listed "a `prefers-color-scheme` integration" as
+  out-of-scope while this release implements it. The out-of-scope
+  entry is narrowed to *tracking* the preference after first paint,
+  which remains a consumer concern.
 
 ### Changed (BREAKING)
 
-- Migrated from the radio-group "picker" rendering to a native
-  `<select>` (landed in-tree 2026-06-17): the root element is now
-  `<select class="theme-select">` with one `<option class="theme-select-option">`
-  per choice, replacing the former `<fieldset role="radiogroup">` with
-  `<input type="radio">` children. The package was renamed from the
-  `*-picker` name to `*-select` accordingly.
-- Class-hook contract changed: `theme-select` now names the `<select>` root
-  and `theme-select-option` is the only sub-class; the radio/label sub-class
-  hooks are gone.
-- Keyboard interaction is the native `<select>` contract (Arrow keys,
-  Home / End, first-letter typeahead) instead of radio-group cycling.
-- Custom rendering (snippet / render prop / slot / template) now renders
-  `<option>` elements inside the `<select>`.
+- **The control is no longer a native `<select>`.** It is now an icon
+  button that opens a WAI-ARIA APG listbox. The root element changes
+  from `<select class="theme-select">` to
+  `<div class="theme-select">`, containing three children:
+  - a hidden `<input type="hidden" name="{name}" value="{value}">`,
+    which preserves form participation;
+  - a `<button type="button" class="theme-select-button"
+    aria-label="{label}" aria-haspopup="listbox" aria-expanded
+    aria-controls="{listId}">` wrapping
+    `<span class="theme-select-icon" aria-hidden="true">◑</span>`;
+  - a `<ul class="theme-select-list" role="listbox"
+    aria-label="{label}" tabindex="-1" hidden aria-activedescendant>`
+    of `<li class="theme-select-option" role="option" aria-selected
+    data-active>`.
+
+  Consumers selecting `select.theme-select`, reading `selectEl.value`,
+  or styling `option.theme-select-option` must migrate. The active
+  theme is read from the `v-model:value` binding, from `data-theme` on
+  the target, or from the hidden input.
+
+- **The `placeholder` prop is removed.** It described the leading
+  `<option>` of the old `<select>`, and there is no `<select>` left to
+  pin. The `.theme-select-placeholder` class hook is removed with it,
+  along with the 0.3.0 "snapping back to the placeholder" behaviour —
+  there is nothing left that snaps.
+
+- **The default slot now replaces the button glyph, not the options.**
+  `SlotArgs` changes from
+  `{ themes, value, setTheme, name, labelFor }` to
+  `{ value, open, labelFor }`. The listbox, its options, the keyboard
+  contract, and the apply lifecycle are component-owned and can no
+  longer be overridden from the slot. Slot content is decorative: the
+  accessible name always comes from `label` via `aria-label`, so slot
+  markup should be `aria-hidden="true"` or text-free, and must not be
+  interactive (it renders inside the `<button>`).
+
+- **Keyboard interaction is now component-implemented** rather than
+  inherited from the platform. Following the APG listbox pattern: on
+  the button, `ArrowDown` / `Enter` / `Space` open with the selected
+  option active and `ArrowUp` opens with the last option active, and
+  opening moves focus to the `<ul>`. On the listbox, `ArrowDown` /
+  `ArrowUp` move the active option and **clamp** rather than wrap,
+  `Home` / `End` jump to the first / last, `Enter` / `Space` commit and
+  refocus the button, `Escape` closes without changing the value, `Tab`
+  closes without stealing focus back, and printable characters run a
+  typeahead over the option labels with a 500 ms buffer reset. Clicking
+  an option selects it; clicking outside or moving focus out of the
+  root closes the listbox.
+
+### Added
+
+- `nextThemeSelectId()` — SSR-safe per-instance id generator backed by
+  a module counter (never `Math.random()` / `Date.now()`), used for the
+  listbox and option ids.
+- `CIRCLE_WITH_RIGHT_HALF_BLACK` — the default button glyph, `"◑"`
+  (U+25D1, `&#9681;`).
+- `type ChildArgs` — alias of `SlotArgs`, matching the canonical Svelte
+  helper's type name.
+- New acceptance clauses §7.13–§7.17 in `spec/index.md` with matching
+  tests: the slot replaces the glyph and receives `SlotArgs`; the three
+  open keys and the `ArrowUp`-opens-last rule; active-descendant
+  movement, clamping, and `Home` / `End`; commit / cancel / `Tab`
+  semantics and `aria-activedescendant` teardown; typeahead, option
+  clicks, and outside-click close.
 
 ### Unchanged
 
-- The behaviour contract: DOM application (`data-theme` + managed `<link>` swap), optional
-  `localStorage` persistence, SSR safety, and the no-hardcoded-strings
-  i18n rule are as in 0.1.0.
+- The whole downstream lifecycle: the managed
+  `<link data-lily-theme-select="{name}">` swap, `data-theme` on the
+  target, optional `localStorage` persistence, the `change` and
+  `update:value` events, `v-model:value`, initial-value resolution
+  (`value` > storage > `defaultValue` > `"light"` > `themes[0]`), SSR
+  safety, and the exported pure helpers `normaliseThemesUrl` /
+  `themeHref`.
+- `name` still discriminates the managed `<link>`; it is now also the
+  hidden input's `name`.
+- The no-hardcoded-strings i18n rule.
+
+### Accessibility
+
+`docs/accessibility.md` is rewritten around the three tradeoffs this
+design makes, replacing the 0.3.0 placeholder-pinning tradeoff (which
+no longer exists):
+
+1. **Icon-only control.** `aria-label` from `label` is the button's
+   entire accessible name; a wrong or untranslated `label` leaves it
+   unnamed, and WCAG 2.5.3 (Label in Name) has no visible text to match
+   against.
+2. **A scripted listbox is less robust than a native `<select>`.** No
+   platform-native screen reader behaviour, no OS picker on touch
+   devices, and uneven real-world `aria-activedescendant` and
+   forms-mode support. APG-conformant and keyboard-complete, but a
+   genuine robustness regression traded for a compact, consistent,
+   styleable control.
+3. **The `◑` glyph is font-dependent** — it may be re-weighted,
+   substituted, or missing (tofu). Ship an SVG through the slot if that
+   matters.
+
+The `.theme-select-status` live-region guidance is retained and is now
+more load-bearing, not less: the closed button shows only a glyph, so
+the active theme has no on-screen and no announced representation
+unless the consumer renders one.
+
+### Docs
+
+- `docs/styling.md` — hooks are now `theme-select`,
+  `theme-select-button`, `theme-select-icon`, `theme-select-list`,
+  `theme-select-option`, plus `[data-active]` and `[aria-selected]`;
+  `theme-select-placeholder` is gone. Adds a positioning section: the
+  package ships no CSS, so the listbox needs `position: absolute` under
+  a `position: relative` root, and `[data-active]` must be styled or
+  keyboard navigation looks inert.
+- `AGENTS.md`, `AGENTS/{accessibility,api,lifecycle,ssr,testing}.md`,
+  `index.md`, `docs/{custom-rendering,props-reference,recipes,ssr,troubleshooting}.md`,
+  and `examples/README.md` updated for the new markup, props, slot
+  contract, keyboard model, and test harness.
 
 ## 0.3.0 — 2026-07-20
 
@@ -93,6 +229,30 @@ and the project follows [Semantic Versioning](https://semver.org/).
   and keeps an explicit "what this does and does not fix" note — the
   region announces transitions, it does not restore combobox value
   semantics.
+
+## 0.2.0 — 2026-07-03
+
+### Changed (BREAKING)
+
+- Migrated from the radio-group "picker" rendering to a native
+  `<select>` (landed in-tree 2026-06-17): the root element is now
+  `<select class="theme-select">` with one `<option class="theme-select-option">`
+  per choice, replacing the former `<fieldset role="radiogroup">` with
+  `<input type="radio">` children. The package was renamed from the
+  `*-picker` name to `*-select` accordingly.
+- Class-hook contract changed: `theme-select` now names the `<select>` root
+  and `theme-select-option` is the only sub-class; the radio/label sub-class
+  hooks are gone.
+- Keyboard interaction is the native `<select>` contract (Arrow keys,
+  Home / End, first-letter typeahead) instead of radio-group cycling.
+- Custom rendering (snippet / render prop / slot / template) now renders
+  `<option>` elements inside the `<select>`.
+
+### Unchanged
+
+- The behaviour contract: DOM application (`data-theme` + managed `<link>` swap), optional
+  `localStorage` persistence, SSR safety, and the no-hardcoded-strings
+  i18n rule are as in 0.1.0.
 
 ## 0.1.0 — 2026-06-05
 

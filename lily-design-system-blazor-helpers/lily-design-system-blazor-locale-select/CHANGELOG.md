@@ -4,6 +4,159 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed
+
+- **The default glyph gains U+FE0E VARIATION SELECTOR-15.**
+  `LocaleSelect.GlobeWithMeridians` is now the two-codepoint sequence
+  `"\U0001F310\uFE0E"` (was `"\U0001F310"`). VS15 requests the *text*
+  presentation, so the globe renders monochrome in the current text
+  colour instead of as a blue colour-emoji — matching ThemeSelect's
+  `◑` (U+25D1), which is not an emoji codepoint and already rendered as
+  text. Verified in Chromium.
+
+  Consumers asserting on the exact glyph string must update to the
+  two-codepoint sequence. VS15 is a *request*: platforms that ignore it
+  still paint a colour globe, so `docs/styling.md` documents a
+  font-stack fallback and `ChildContent` remains the guaranteed route
+  to a monochrome mark.
+
+### Added
+
+- **Five shared topic docs**, bringing the doc set level with
+  theme-select's: `docs/parameters-reference.md`, `docs/styling.md`,
+  `docs/custom-rendering.md`, `docs/recipes.md`, and
+  `docs/troubleshooting.md`. Written for locale-select rather than
+  adapted from the theme-select copies. The locale-specific docs
+  (`bcp47`, `rtl`, `i18n-integration`, `concepts`) are unchanged;
+  `preloading` stays theme-only, since it is about stylesheet
+  preloading and has no locale counterpart.
+
+- **Examples renamed to descriptive names**, matching theme-select's
+  convention and dropping the numeric prefixes left over from the
+  radio-group era. None of these files has rendered radios, a
+  `<select>`, or a button group since the icon-button/listbox port:
+
+  | Was | Now |
+  | --- | --- |
+  | `01_Radios.razor` | `Basic.razor` |
+  | `02_Select.razor` | `CustomRendering.razor` |
+  | `03_Buttons.razor` | `ExternalButtons.razor` |
+  | `04_RtlDemo.razor` | `RtlDemo.razor` |
+  | `05_NhsStyle.razor` | `NhsStyle.razor` |
+  | `06_WithIStringLocalizer.razor` | `WithIStringLocalizer.razor` |
+  | `07_WithResX.razor` | `WithResX.razor` |
+  | `08_SsrCookie.razor` | `SsrCookie.razor` |
+  | `09_ScopedTarget.razor` | `ScopedTarget.razor` |
+  | `10_Combobox.razor` | `Combobox.razor` |
+
+  All inbound links updated (`examples/README.md`, `index.md`,
+  `AGENTS/ssr.md`, and the ResX layout comment inside `WithResX.razor`).
+
+### Fixed
+
+- `index.md` no longer marks examples 2, 3, 5, and 10 as "⚠️ Stale —
+  written against the previous native-`<select>` API". They were
+  rewritten for the icon-button/listbox API; no example passes the
+  removed `Placeholder` parameter. The warning was itself stale.
+
+### Changed (BREAKING)
+
+- **The control is no longer a native `<select>`.** It is now an icon
+  button that opens a dropdown listbox, built to the WAI-ARIA APG
+  listbox pattern. The root element changes from `<select>` to `<div>`:
+
+  ```html
+  <div class="locale-select {CssClass}">
+    <input type="hidden" name="{Name}" value="{Value}" />
+    <button type="button" class="locale-select-button" aria-label="{Label}"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
+      <span class="locale-select-icon" aria-hidden="true">&#127760;</span>
+    </button>
+    <ul class="locale-select-list" id="{listId}" role="listbox" aria-label="{Label}"
+        tabindex="-1" hidden aria-activedescendant="{active option id, open only}">
+      <li class="locale-select-option" id="{optionId}" role="option"
+          aria-selected="true|false" data-active
+          lang="{TagFor(code)}">{LabelFor(code)}</li>
+    </ul>
+  </div>
+  ```
+
+  Consumers must update: any CSS or test selector targeting
+  `select.locale-select` or `option.locale-select-option`;
+  `AdditionalAttributes` and `CssClass` now land on the root `<div>`,
+  not on a form control. Per-option `lang` is preserved — and is now
+  honoured more reliably, since the options are real DOM nodes rather
+  than an OS-drawn popup. The button and the list carry no `lang`.
+
+- **`Placeholder` is removed.** It existed only to pin the native
+  `<select>`'s closed display to a short word. There is no `<select>`
+  left to pin, so the parameter is gone and passing it is a compile
+  error. The closed control is an icon button; to show the active
+  locale, render a status region beside it — see
+  [`docs/accessibility.md`](./docs/accessibility.md#the-status-region-is-still-the-recommended-pattern).
+
+- **The 0.3.0 snap-back interop write is removed.** The component no
+  longer calls `Object.assign(el, { value: "" })` through `IJSRuntime`.
+  There is no `<select>` DOM value to reset.
+
+- **`LocaleSelectContext` is narrowed, and `ChildContent` changes
+  meaning.** The fragment now **replaces the glyph inside the button**
+  rather than rendering the options; options are always
+  component-owned, so neither the listbox semantics nor the per-option
+  `lang` can be broken by a consumer override. The context drops
+  `Locales`, `SetLocale`, `Name`, `TagFor` and `IsRtl`, keeping
+  `{ Value, Open, LabelFor }` to mirror the canonical Svelte
+  `ChildArgs`. The dropped helpers remain available as statics on the
+  `Locales` class; to drive selection imperatively, call the public
+  `SetLocaleAsync(string)` on a `@ref` to the component.
+
+- **The `.locale-select-placeholder` CSS hook is gone.** The hooks are
+  now `.locale-select`, `.locale-select-button`, `.locale-select-icon`,
+  `.locale-select-list`, `.locale-select-option`, plus the
+  `[data-active]` and `[aria-selected]` state selectors.
+
+### Added
+
+- Full WAI-ARIA APG listbox keyboard contract, implemented by the
+  component: `ArrowDown` / `Enter` / `Space` open on the selected
+  option and `ArrowUp` opens on the last; arrows move and **clamp**
+  (no wrapping); `Home` / `End` jump; `Enter` / `Space` select-apply-
+  close-and-refocus; `Escape` closes without changing the value; `Tab`
+  closes without stealing focus; printable characters run a 500 ms
+  typeahead over the labels. Clicking an option selects it; focus
+  leaving the root closes the listbox.
+- Focus management via `ElementReference.FocusAsync()` — opening moves
+  focus to the `<ul>`, selecting or escaping returns it to the button.
+- `LocaleSelect.GlobeWithMeridians` — the default glyph constant,
+  `"🌐"` (U+1F310).
+- A hidden `<input>` carrying `Name` / `Value` so the control still
+  participates in form submission.
+- Stable, SSR-safe element ids from a monotonic process-wide counter
+  (`locale-select-{n}-list`, `locale-select-{n}-option-{i}`) — no
+  randomness and no clock reads.
+
+### Unchanged
+
+`lang` / `dir` application, RTL detection, `localStorage` persistence,
+`navigator` detection, `OnChange` / `ValueChanged`, initial-value
+resolution, SSR safety, and every pure helper on the static `Locales`
+class (`Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`,
+`MatchNavigatorLanguage`, `DefaultLocaleLabels`, `RtlLanguageTags`,
+`RtlScriptSubtags`) all behave exactly as before.
+
+### Known deviations from the canonical Svelte implementation
+
+- No `preventDefault` on keydown: Blazor evaluates
+  `@onkeydown:preventDefault` at render time, not per event, so it
+  cannot spare `Tab`. Arrow keys and `Space` therefore still scroll the
+  page. A suppress-next-click flag stops `Enter` / `Space` toggling the
+  listbox twice.
+- No document-level click listener (this package ships no JavaScript);
+  outside interaction closes the listbox via the root's `focusout`
+  instead.
+
 ## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING)

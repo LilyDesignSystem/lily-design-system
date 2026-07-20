@@ -47,16 +47,17 @@ beforeEach(() => {
     localStorage.clear();
 });
 
-it("renders a select with an accessible name", () => {
+it("renders a button with an accessible name", () => {
     const el = document.createElement("theme-select") as ThemeSelect;
     el.setAttribute("label", "Theme");
     el.setAttribute("themes-url", "/themes/");
     el.setAttribute("themes", "light,dark");
     document.body.appendChild(el); // triggers connectedCallback
 
-    const root = el.querySelector("select");
-    expect(root).not.toBeNull();
-    expect(root!.getAttribute("aria-label")).toBe("Theme");
+    const button = el.querySelector(".theme-select-button");
+    expect(button).not.toBeNull();
+    expect(button!.getAttribute("aria-label")).toBe("Theme");
+    expect(button!.getAttribute("aria-haspopup")).toBe("listbox");
 });
 ```
 
@@ -93,8 +94,8 @@ const a = createSelect({ "themes": "light,dark" });
 const b = createSelect({});
 b.themes = ["light", "dark"];
 
-expect(a.querySelectorAll("option").length).toBe(2);
-expect(b.querySelectorAll("option").length).toBe(2);
+expect(a.querySelectorAll(".theme-select-option").length).toBe(2);
+expect(b.querySelectorAll(".theme-select-option").length).toBe(2);
 ```
 
 ## Common assertions
@@ -102,8 +103,11 @@ expect(b.querySelectorAll("option").length).toBe(2);
 | Goal                                | Pattern                                                                       |
 | ----------------------------------- | ----------------------------------------------------------------------------- |
 | Wait for `connectedCallback`        | Append; the callback is synchronous in jsdom.                                 |
-| Find an option by value             | `el.querySelector('option[value="dark"]')`                                    |
-| Change the selection                | `select.value = "dark"; select.dispatchEvent(new Event("change"))`            |
+| Find the nth option                 | `el.querySelectorAll(".theme-select-option")[1]`                             |
+| Open the listbox                    | `button.dispatchEvent(new MouseEvent("click", { bubbles: true }))`           |
+| Change the selection                | Open, then click an option — or set `el.value = "dark"` directly              |
+| Press a key                         | `list.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }))` |
+| Read the active option              | `list.getAttribute("aria-activedescendant")`                                 |
 | Capture a CustomEvent               | `let detail; el.addEventListener("themechange", (e) => detail = e.detail);`   |
 | Inspect document mutations          | `document.documentElement.dataset.theme`                                      |
 | Re-mount fresh                      | `el.remove(); document.body.appendChild(otherEl);`                            |
@@ -127,17 +131,49 @@ also works:
 document.body.addEventListener("themechange", (e) => { /* … */ });
 ```
 
-## Triggering a select change
+## Triggering a selection change
+
+For `<theme-select>` / `<locale-select>`, open the listbox and click
+an option:
 
 ```ts
-const select = el.querySelector<HTMLSelectElement>("select")!;
-select.value = "dark";
-select.dispatchEvent(new Event("change", { bubbles: true }));
+const click = (el: Element) =>
+    el.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+
+click(el.querySelector(".theme-select-button")!);
+click(el.querySelectorAll(".theme-select-option")[1]);
 ```
 
-The element's `change` listener (attached in `#render()`) writes to
-`el.value`, which feeds back through `attributeChangedCallback` →
-`#applyTheme()` → `dispatchEvent`.
+The option's `click` listener writes to `el.value`, which feeds back
+through `attributeChangedCallback` → `#applyTheme()` →
+`dispatchEvent`. Setting `el.value = "dark"` directly drives the same
+path and is fine when the test is about the lifecycle rather than
+the interaction.
+
+### Keyboard
+
+`fireEvent`-style helpers are not available; dispatch
+`KeyboardEvent`s directly. The button handles the opening keys and
+the `<ul>` handles the rest:
+
+```ts
+const press = (el: Element, key: string) =>
+    el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
+
+press(button, "ArrowDown");        // opens, focuses the <ul>
+press(list, "End");                // active option → last
+press(list, "Enter");              // select + close + refocus button
+```
+
+Two jsdom notes:
+
+- `Element.prototype.scrollIntoView` does not exist in jsdom. The
+  implementation calls it optionally (`?.()`), so tests need no stub.
+- jsdom may dispatch `focusout` with a null `relatedTarget` before
+  the new focus target is committed. The implementation re-checks
+  `document.activeElement` on a microtask before closing, so
+  `await`ing a macrotask after a focus-moving interaction is enough
+  to observe the settled state.
 
 ## Asserting the managed `<link>` (theme select)
 
@@ -202,22 +238,36 @@ it("themeHref builds the full URL", () => {
 
 ## Subclass tests (custom rendering)
 
-The HTML helpers expose "custom rendering" by subclassing the class
-and overriding `#render()`. The pattern is:
+Light DOM has no `<slot>`, so "custom rendering" means subclassing.
+`#render()` is a private field and cannot be overridden; the
+sanctioned hook on the listbox helpers is the public
+`renderButtonContent()`, which replaces the glyph inside the button
+and leaves the base class owning the button, the listbox, the aria
+wiring, and the keyboard contract:
 
 ```ts
 import { ThemeSelect } from "./theme-select";
 
-class SwatchPicker extends ThemeSelect {
-    // Override the private render via a public hook.
-    // (See per-helper API.md for the exact extension surface.)
+class LabelledThemeSelect extends ThemeSelect {
+    renderButtonContent(): Node {
+        const span = document.createElement("span");
+        span.textContent = this.labelFor(this.value);
+        return span;
+    }
 }
-customElements.define("swatch-picker", SwatchPicker);
+customElements.define("labelled-theme-select", LabelledThemeSelect);
 ```
 
-Tests assert that the subclassed element still owns the lifecycle
-(managed `<link>`, `data-theme` write, `themechange` event) while
-emitting bespoke option markup.
+Tests should assert two things: that the custom content replaced the
+default `.theme-select-icon`, and that the base lifecycle still runs
+(managed `<link>`, `data-theme` write, `themechange` event). Also
+assert the aria wiring survived — `aria-haspopup`, `aria-label`, and
+an `aria-controls` that resolves to the listbox — since that is
+exactly what a bad subclass breaks.
+
+A subclass that replaces the rendering wholesale (post-processing
+after `super.connectedCallback()`) takes over the accessibility and
+keyboard contracts too; test it as a new widget, not as a variant.
 
 ## SSR sanity
 

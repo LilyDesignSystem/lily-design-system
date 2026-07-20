@@ -11,7 +11,8 @@ the custom-element callbacks.
 parser sees <locale-select label="…" locales="…">
   │
   ▼
-constructor (no-op)
+constructor
+  ↳ #baseId = nextLocaleSelectId()   // "locale-select-{n}"
   │
   ▼  (per observed attribute)
 attributeChangedCallback("locales" | "label" | …, null, "…")
@@ -29,17 +30,28 @@ appendChild → connectedCallback:
        > "en" if present
        > locales[0]
   ↳ if resolved !== current attribute: setAttribute("value", resolved)
-  ↳ #render()
+  ↳ #render()          — builds div > input[hidden] + button + ul
+  ↳ document.addEventListener("click", #onDocumentClick)
   ↳ if value is non-empty: #applyLocale(value)
 
-user picks an option
+user opens the list (click, ArrowDown, Enter, Space, ArrowUp)
   │
   ▼
-select.change → setter writes el.value = newCode
+openList(startIndex?):
+  ↳ #activeIndex = startIndex ?? (selected index, else 0)
+  ↳ #open = true
+  ↳ #syncState()       — aria-expanded, hidden, aria-activedescendant, data-active
+  ↳ #listEl.focus()    — focus moves to the <ul>, per the APG listbox pattern
+  ↳ scroll the active option into view
+
+user picks an option (click, Enter, Space)
+  │
+  ▼
+#choose(index) → this.value = code  →  closeList()
   │
   ▼
 attributeChangedCallback("value", oldValue, newValue):
-  ↳ #render() — to update which option is selected
+  ↳ #syncState()       — NO rebuild; see "Why value never rebuilds" below
   ↳ #applyLocale(newValue) — only if isConnected
 
 #applyLocale(code):
@@ -54,8 +66,37 @@ element removed from document
   │
   ▼
 disconnectedCallback:
-  ↳ no-op (lang/dir on <html> are author-managed once written)
+  ↳ document.removeEventListener("click", #onDocumentClick)
+  ↳ clearTimeout(#typeaheadTimer)
+  ↳ lang / dir on <html> are left alone (author-managed once written)
 ```
+
+## Two update paths: rebuild vs. sync
+
+This is the most important thing to know about the element's
+reactivity, and it changed with the icon-button + listbox rendering.
+
+| Trigger                                              | Path         | Effect |
+| ---------------------------------------------------- | ------------ | ------ |
+| `locales`, `locale-labels`, `label`, `name`, `class`  | `#render()`  | Recreates the whole rendered subtree. Closes the list first (`#open = false`, `#activeIndex = -1`), because a rebuild cannot preserve focus inside it. |
+| `value`                                               | `#syncState()` | Mutates attributes in place: the hidden input's `value`, `aria-expanded`, `hidden`, `aria-activedescendant`, and each option's `aria-selected` / `data-active`. |
+| `openList()` / `closeList()` / arrow keys / typeahead | `#syncState()` | Same in-place mutation. |
+
+### Why `value` never rebuilds
+
+The user selects a locale *while the listbox is open and focused*.
+If assigning `this.value` rebuilt the DOM, `replaceChildren()` would
+destroy the focused `<ul>` and the element that
+`aria-activedescendant` points at, dropping focus to `<body>` and
+losing the active descendant mid-interaction. So the `value` branch
+of `attributeChangedCallback` calls `#syncState()` only.
+
+`#syncState()` nonetheless rebuilds the button's children by calling
+`renderButtonContent()` again — the button is not the focus holder
+while the list is open, so refreshing it is safe, and it keeps a
+subclass's value- or open-dependent button content current without
+any listener. See
+[`../docs/custom-rendering.md`](../docs/custom-rendering.md#timing--when-the-hook-re-runs).
 
 ## Why `connectedCallback` and not the constructor
 
@@ -67,6 +108,11 @@ element is in a document tree, so it is the canonical place to:
 - Resolve the initial value.
 - Render children.
 - Mutate `document.documentElement.lang` / `dir`.
+
+The constructor does one thing: claim an id prefix via
+`nextLocaleSelectId()`. That is pure bookkeeping, not DOM access, so
+it is legal there — and doing it once per instance is what keeps
+`listId` / `optionId(i)` stable across rebuilds.
 
 ## Initial-value resolution
 
@@ -106,7 +152,7 @@ Inside `connectedCallback`:
 ```
 
 `setAttribute("value", initial)` re-enters
-`attributeChangedCallback`, which renders and applies. The
+`attributeChangedCallback`, which syncs state and applies. The
 re-entrant call is idempotent.
 
 ## Apply
@@ -132,6 +178,37 @@ re-entrant call is idempotent.
 }
 ```
 
+## Open / close lifecycle
+
+`openList()` and `closeList()` are public, so consumers and
+subclasses can drive the list without re-implementing it.
+
+- `openList(startIndex?)` — no-ops when `locales` is empty. Sets the
+  active index (explicit `startIndex`, else the selected option, else
+  0), flips `#open`, syncs state, moves focus to the `<ul>`, and
+  scrolls the active option into view. (`scrollIntoView` is called
+  optionally — jsdom does not implement it.)
+- `closeList(refocus = true)` — no-ops when already closed. Clears
+  the active index, syncs state (which removes
+  `aria-activedescendant` and re-hides the list), and returns focus
+  to the button unless `refocus` is `false`.
+
+`refocus: false` is used by the two paths where pulling focus back
+would be wrong: `Tab` (the user is deliberately leaving) and the
+outside-click / focusout handlers (focus already moved elsewhere).
+
+## Document-level listeners
+
+`connectedCallback` registers a `click` listener on `document` that
+closes the list when the click lands outside the rendered root;
+`disconnectedCallback` removes it. The rendered root also carries a
+`focusout` listener that closes the list when focus leaves the
+control — it re-checks `document.activeElement` on the next
+microtask, because some engines (and jsdom) dispatch `focusout` with
+a null `relatedTarget` before the new focus target is committed.
+
+The typeahead timer is also cleared on disconnect.
+
 ## Why `localechange` carries the consumer form, not the BCP 47 form
 
 The `lang` attribute on the DOM is normalised to BCP 47 hyphen form,
@@ -140,14 +217,6 @@ consumer's original form (`en_US` if the consumer put `en_US` in
 `locales`). This keeps round-trips lossless and lets the consumer's
 i18n library — which might use the underscore form internally —
 receive the same string it stored.
-
-## Reactivity
-
-Only the `value` attribute triggers a re-apply. Other observed
-attributes trigger a re-render (when relevant — `locales`,
-`locale-labels`, `label`, `name`, `class`) but do not re-apply the
-locale. The next user-driven change applies with the updated
-attributes.
 
 ## Watch vs the navigator-detection helper
 
@@ -164,6 +233,10 @@ The class file has no top-level DOM access. The barrel guards
 so importing under Node throws no error. `connectedCallback` only
 fires when the element is in a document tree, which never happens
 in Node.
+
+The id counter is a plain module-level integer, so ids are
+deterministic rather than random — a server render and a client
+upgrade produce the same sequence.
 
 The static-site-generator recipe for flicker-free first paint is:
 pre-render `<html lang="…" dir="…">` and the matching `<locale-select
@@ -183,11 +256,9 @@ themselves:
 
 ```ts
 const select = document.querySelector("locale-select")!;
-select.addEventListener("disconnectedreset", () => {
-    document.documentElement.removeAttribute("lang");
-    document.documentElement.removeAttribute("dir");
-});
-// (then) select.remove();
+document.documentElement.removeAttribute("lang");
+document.documentElement.removeAttribute("dir");
+select.remove();
 ```
 
 ## Boolean attribute parsing

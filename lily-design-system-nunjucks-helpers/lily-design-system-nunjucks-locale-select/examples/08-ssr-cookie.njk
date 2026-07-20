@@ -2,12 +2,18 @@
   Example 08 — Cookie-resolved value, server-rendered.
 
   The select accepts `opts.value`, which the macro serialises as
-  `data-lily-locale-select-value` server-side (never as a `selected`
-  option, so the control shows the placeholder word from byte zero).
-  Combine with a cookie-resolved value in the template context and
-  you get a flicker-free render: the `<html lang dir>` arrives with
-  the right values from byte zero, and the client applies the same
-  locale without a round-trip.
+  `data-lily-locale-select-value` server-side — the sole channel by
+  which it reaches the client. The macro also marks the matching
+  <li role="option"> `aria-selected="true"` and pre-fills the hidden
+  input with the same code. Combine with a cookie-resolved value in
+  the template context and you get a flicker-free render: the
+  `<html lang dir>` arrives with the right values from byte zero, and
+  the client applies the same locale without a round-trip.
+
+  The pre-filled hidden input is also the one thing that still works
+  with JS disabled: the trigger button opens nothing until
+  locale-select.client.js runs, but a form submitted unenhanced still
+  carries a locale. See ../docs/ssr.md.
 
   This example assumes the consumer's host (Express, Eleventy
   edge function, Cloudflare Workers) has already resolved the

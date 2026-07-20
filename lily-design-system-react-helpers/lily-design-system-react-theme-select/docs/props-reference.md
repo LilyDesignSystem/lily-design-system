@@ -6,8 +6,9 @@ common usage.
 
 ## `label` — required, string
 
-`aria-label` on the `<select>`. Always supplied, always translatable.
-Screen readers announce it as the control's name.
+`aria-label` on both the trigger `<button>` and the `<ul
+role="listbox">`. Always supplied, always translatable. Screen readers
+announce it as the control's name.
 
 ```tsx
 <ThemeSelect label="Theme" {...required} />
@@ -15,23 +16,10 @@ Screen readers announce it as the control's name.
 <ThemeSelect label="主题" {...required} />
 ```
 
-## `placeholder` — optional, string — defaults to `label`
-
-Text of the placeholder `<option>` that is always the first child of
-the `<select>` and always the option the closed control displays. The
-select's own `value` never tracks the active theme, so the control
-stays as narrow as this word no matter how long the theme names are.
-
-Supply it when the accessible name you want (`label`) is longer than
-the word you want shown in the closed control:
-
-```tsx
-<ThemeSelect label="Choose a colour theme" placeholder="Theme" {...required} />
-// aria-label is "Choose a colour theme"; the closed select reads "Theme".
-```
-
-Like `label`, this is consumer-supplied and translatable — the package
-never emits a hardcoded user-facing string.
+This prop carries more weight than it did with a native `<select>`: the
+button holds only an `aria-hidden` glyph, so `label` is the **only**
+accessible name the control has. See
+[accessibility.md](./accessibility.md).
 
 ## `themesUrl` — required, string
 
@@ -49,10 +37,11 @@ Acceptable values:
 
 ## `themes` — required, string[]
 
-The slugs of the themes the select exposes as options. The slug is
-used both as the `<option>` `value` and as the URL path segment when
-constructing the stylesheet href. Choose slugs that are safe URL path
-segments — kebab-case ASCII is recommended.
+The slugs of the themes the select exposes as options — one
+`<li role="option">` each, in array order. The slug is used both as the
+option's identity and as the URL path segment when constructing the
+stylesheet href. Choose slugs that are safe URL path segments —
+kebab-case ASCII is recommended.
 
 ## `value` — optional, string
 
@@ -92,12 +81,41 @@ Errors (private mode, quota, disabled storage) are silently swallowed
 <ThemeSelect storageKey="lily-theme" {...required} />
 ```
 
+## `detectFromSystem` — optional, boolean — defaults to `false`
+
+On first visit only — no `value`, nothing in storage — resolve the OS
+colour-scheme preference and use it if the resulting slug is one you
+offer.
+
+```tsx
+<ThemeSelect detectFromSystem storageKey="lily-theme" {...required} />
+```
+
+The resolution reads `matchMedia("(prefers-color-scheme: dark)")` and
+maps it to `"dark"` or `"light"`. If that slug is not in `themes` — or
+if `matchMedia` is unavailable, as during SSR — detection yields
+nothing and resolution falls through to `defaultValue`.
+
+Storage **beats** detection: an explicit past choice outranks an OS
+preference. `value` beats both. The full order is
+`value` > storage > detection > `defaultValue` > `"light"` > `themes[0]`,
+mirroring `detectFromNavigator` in locale-select.
+
+This resolves the preference **once**, at mount. To keep tracking the
+OS as it changes, add a `matchMedia` change listener and write to a
+controlled `value` — see
+[`../examples/system-preference.tsx`](../examples/system-preference.tsx).
+
+Off by default, because a theme flip on first paint surprises users who
+have already themed the rest of your app another way.
+
 ## `name` — optional, string — defaults to `"theme"`
 
-The `name` attribute on the `<select>`. It also serves as the
-discriminator on the managed `<link>` element
-(`data-lily-theme-select="{name}"`), so multiple selects can coexist
-by giving each a distinct `name`.
+Two jobs. It is the `name` of the hidden
+`<input type="hidden">` that carries the active slug — so the control
+still submits with a surrounding form — and it is the discriminator on
+the managed `<link>` element (`data-lily-theme-select="{name}"`), so
+multiple selects can coexist by giving each a distinct `name`.
 
 ## `extension` — optional, string — defaults to `".css"`
 
@@ -126,9 +144,13 @@ back to `document.documentElement` until the ref resolves.
 ## `themeLabels` — optional, Record<string, string>
 
 Per-slug display label override. When unset, default labels title-case
-the slug: `"light"` → `"Light"`, `"abyss"` → `"Abyss"`. Use
-`themeLabels` for i18n or for slugs that don't gracefully title-case
-(e.g. `"united-kingdom-national-health-service-england-for-patients"`).
+each hyphen-separated word of the slug: `"light"` → `"Light"`,
+`"high-contrast"` → `"High Contrast"`. Use `themeLabels` for i18n or for
+slugs that don't gracefully title-case (e.g.
+`"united-kingdom-national-health-service-england-for-patients"`).
+
+The labels are also what the listbox typeahead matches against, so a
+`themeLabels` override changes which keystrokes jump where.
 
 ## `onChange` — optional, (slug: string) => void
 
@@ -147,48 +169,56 @@ analytics, server sync, or notifying sibling components.
 
 ## `children` — optional, (args: ChildArgs) => React.ReactNode
 
-Custom rendering of the options. The render prop receives:
+Replaces the glyph **inside the trigger button**. It does not render
+the options — the component owns those. The render prop receives:
 
 ```ts
 type ChildArgs = {
-    themes: string[];
-    value: string;
-    setTheme: (theme: string) => void;
-    name: string;
-    labelFor: (theme: string) => string;
+    value: string;                       // the active slug
+    open: boolean;                       // is the listbox expanded?
+    labelFor: (theme: string) => string; // resolved display label
 };
 ```
 
-See [custom-rendering.md](./custom-rendering.md) for patterns.
+Keep whatever you render `aria-hidden="true"`; the button's accessible
+name comes from `label`. See
+[custom-rendering.md](./custom-rendering.md) for patterns.
 
 ## `className` — optional, string
 
-Extra CSS class hook on the `<select>`. Always emitted after
+Extra CSS class hook on the root `<div>`. Always emitted after
 `"theme-select"`, so consumer styles can use either selector.
 
 ```tsx
 <ThemeSelect className="my-custom-class" {...required} />
 // Renders:
-// <select class="theme-select my-custom-class" ...>
+// <div class="theme-select my-custom-class" ...>
 ```
 
-## `...restProps` — any `<select>` attributes
+It reaches only the root. The button, list, and options carry their own
+component-owned hooks — see [styling.md](./styling.md).
 
-Spread onto the root. Use to attach `data-*`, `id`, event handlers,
-and ARIA overrides.
+## `...restProps` — any `<div>` attributes
+
+Spread onto the root `<div>`. Use to attach `data-*`, `id`, event
+handlers, and ARIA overrides.
 
 ```tsx
 <ThemeSelect
     id="theme-select-1"
     data-testid="theme-select"
-    aria-describedby="theme-help"
     {...required}
 />
 ```
 
-The select's TypeScript surface accepts any
-`React.SelectHTMLAttributes<HTMLSelectElement>` except `onChange`
-and `children`, which are reserved for the select's own contract.
+The TypeScript surface accepts any
+`React.HTMLAttributes<HTMLDivElement>` except `onChange`, `children`,
+and `defaultValue`, which are reserved for the component's own
+contract.
+
+Note that rest props land on the wrapper, not on the button — so
+`aria-describedby` here describes the group, not the trigger. To
+describe the trigger itself, extend the `label` text instead.
 
 ---
 

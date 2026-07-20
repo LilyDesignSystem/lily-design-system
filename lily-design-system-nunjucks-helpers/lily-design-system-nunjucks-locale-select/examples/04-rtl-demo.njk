@@ -7,8 +7,15 @@
 
   Outcome: live preview pane reflects current `lang` and `dir`,
   with the matching localised sample text rendered in its own
-  script (per-option `lang` on the <label> drives screen reader
-  pronunciation; the document-root `lang`/`dir` drives layout).
+  script (per-option `lang` on each <li role="option"> drives screen
+  reader pronunciation; the document-root `lang`/`dir` drives
+  layout).
+
+  Note that the listbox itself mirrors under `dir="rtl"` too, so this
+  is also a check on your own CSS: use logical properties
+  (`inset-inline-start`, `text-align: start`) on
+  `.locale-select-list` and `.locale-select-option` or the popup will
+  anchor to the wrong edge. See ../docs/rtl.md.
 #}
 {% from "../locale-select.njk" import localeSelect %}
 

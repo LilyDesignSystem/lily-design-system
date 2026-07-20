@@ -12,17 +12,30 @@ Under SSR, `effect()` callbacks may run but the `typeof document
 renders:
 
 ```html
-<select class="locale-select" aria-label="Language" name="locale">
-    <option class="locale-select-option locale-select-placeholder" value="" selected>Language</option>
-    <option class="locale-select-option" value="en" lang="en">English</option>
-    …
-</select>
+<div class="locale-select">
+    <input type="hidden" name="locale" value="en" />
+    <button type="button" class="locale-select-button" aria-label="Language"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="locale-select-1-list">
+        <span class="locale-select-icon" aria-hidden="true">&#127760;</span>
+    </button>
+    <ul class="locale-select-list" id="locale-select-1-list" role="listbox"
+        aria-label="Language" tabindex="-1" hidden>
+        <li class="locale-select-option" id="locale-select-1-option-0" role="option"
+            aria-selected="true" lang="en">English</li>
+        …
+    </ul>
+</div>
 ```
 
-The placeholder option is the selected one server-side and
-client-side alike, whatever `value` is — the `<select>` is not bound
-to `value`. So the control's own DOM never differs between server and
-client render.
+The list renders closed (`hidden`, `aria-expanded="false"`) on both
+sides, so the open/close state can never mismatch.
+
+Ids come from the `nextLocaleSelectId()` module counter, not
+`Math.random()` or `Date.now()`, so `aria-controls`, the list `id`,
+and every option `id` are identical server-side and client-side.
+That is the whole reason the counter exists — swapping it for
+randomness would reintroduce hydration mismatches on every mount.
 
 The `lang` and `dir` attributes on the document root are **not**
 written on the server unless the consumer pre-sets them via a
@@ -46,7 +59,7 @@ server-side.
 ## Analog v1 cookie recipe (recommended)
 
 End-to-end code lives in
-[`../examples/08-ssr-cookie.component.ts`](../examples/08-ssr-cookie.component.ts).
+[`../examples/analog-cookie.component.ts`](../examples/analog-cookie.component.ts).
 The shape:
 
 ### Server middleware
@@ -268,10 +281,16 @@ const locale = Astro.cookies.get("locale")?.value ?? "en";
 If you see an Angular warning like "NG0500: Hydration: node
 mismatch", the most common cause is:
 
-- The server rendered no selected `<option>` (because `value`
-  was empty), but the client picked a non-empty value from
-  `localStorage`.
+- The server resolved a different locale than the client did — e.g.
+  the server had no cookie and fell back to `"en"`, while the client
+  read `"ar"` from `localStorage`. The `aria-selected`, `data-active`,
+  and hidden-input `value` attributes then differ.
 - **Fix.** Resolve the locale server-side and pass it as `value`.
+
+Ids are not a source of mismatch here (see above), but they become
+one if two different component trees mount in a different order on
+the server and the client, since the counter is per-module and
+increments in construction order.
 
 ## Plain Angular CLI (no SSR)
 

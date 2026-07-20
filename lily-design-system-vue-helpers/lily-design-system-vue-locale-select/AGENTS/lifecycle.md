@@ -25,17 +25,27 @@ applyLocale:
   3. if storageKey: localStorage.setItem(storageKey, code)
   4. emit("change", code) — consumer-form, not BCP 47 normalised
 
-user picks an option
+user opens the listbox (click, ArrowDown/ArrowUp/Enter/Space)
   │
   ▼
-onInputChange ─► emit("update:value", next)
-  │                  │
-  │                  ▼
-  │                watch on props.value fires
-  │                  │
-  ▼                  ▼
-  (v-model resolves)  applyLocale(next)
+openList ─► activeIndex = selected (or 0, or last for ArrowUp)
+  │         open = true; await nextTick(); listEl.focus()
+  │
+  ▼
+user commits (click an option, or Enter/Space on the active one)
+  │
+  ▼
+choose(index) ─► setLocale(code) ─► current = code; emit("update:value", code)
+  │                                    │
+  │                                    ▼
+  │                                  watch on `current` fires
+  │                                    │
+  ▼                                    ▼
+closeList() → button.focus()          applyLocale(code)
 ```
+
+Escape and Tab take the `closeList` branch without ever calling
+`setLocale`, so cancelling never applies a locale.
 
 ## Why `onMounted` + `watch`, not `watchEffect`
 
@@ -47,11 +57,14 @@ predictable.
 
 ## Initial-value resolution
 
-Inside `onMounted`:
+Inside `onMounted`, which also registers the outside-click listener
+that closes the listbox:
 
 ```ts
 onMounted(() => {
-    let initial = props.value;
+    document.addEventListener("click", onDocumentClick);
+
+    let initial = current.value;
 
     if (!initial && props.storageKey) {
         try {
@@ -78,7 +91,8 @@ onMounted(() => {
             "";
     }
 
-    if (initial && initial !== props.value) {
+    if (initial && initial !== current.value) {
+        current.value = initial;
         emit("update:value", initial);
         return;
     }
@@ -123,9 +137,15 @@ form internally — receive the same string it stored.
 
 ## Reactivity
 
-Only `props.value` is watched. Other props are read inside the
-apply function on every fire, so changes take effect on the next
-value change, not retroactively.
+Two watches, both narrow. One mirrors an externally-supplied
+`props.value` into the internal `current` ref; the other watches
+`current` and applies. Nothing else is watched: other props are read
+inside the apply function on every fire, so changes take effect on
+the next value change, not retroactively.
+
+The open / active state (`open`, `activeIndex`) is plain local `ref`
+state. It never feeds back into `value`, so opening and arrowing
+around the listbox applies nothing until the user commits.
 
 If a consumer wants to re-apply when `target` changes, they can
 write back to `value`:
@@ -147,8 +167,11 @@ watch(target, () => {
 ## SSR
 
 During server rendering, `onMounted` and `watch` are no-ops. The
-template renders the `<select>` using whatever `value` was passed; the
-`lang` and `dir` attributes are not written to `<html>` (no DOM).
+template renders the button and the (hidden) listbox using whatever
+`value` was passed; the `lang` and `dir` attributes are not written to
+`<html>` (no DOM). Element ids come from the `nextLocaleSelectId()`
+module counter rather than `Math.random()` / `Date.now()`, so the
+server and client markup agree.
 
 That's the recipe for flicker-free SSR: pre-resolve the locale on
 the server, write `lang="…"` and `dir="…"` on `<html>` via Nuxt's
@@ -157,7 +180,11 @@ the server, write `lang="…"` and `dir="…"` on `<html>` via Nuxt's
 
 ## Unmount
 
-The component does not clean up `lang` / `dir` on unmount. That's
+`onBeforeUnmount` removes the document-level click listener and
+clears the pending typeahead timer. Both are the component's own
+resources, so both go.
+
+The component does **not** clean up `lang` / `dir` on unmount. That's
 intentional: the select may be unmounted because the consumer
 navigated away from a settings page; the locale should stay
 applied.

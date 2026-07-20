@@ -1,6 +1,6 @@
-import { mount } from "@vue/test-utils";
+import { mount, type VueWrapper } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
-import { defineComponent, h, ref } from "vue";
+import { defineComponent, nextTick, ref } from "vue";
 
 import LocaleSelect, {
     bcp47LocaleTag,
@@ -11,13 +11,47 @@ import LocaleSelect, {
 
 const LOCALES = ["en", "en_US", "fr", "fr_CA", "ar"];
 
-function flush(): Promise<void> {
-    return new Promise((r) => setTimeout(r, 0));
+/** Let Vue's scheduler, the onMounted effects, and any nextTick chains settle. */
+async function flush(): Promise<void> {
+    await nextTick();
+    await new Promise((r) => setTimeout(r, 0));
+    await nextTick();
 }
 
 function resetRoot(): void {
     document.documentElement.removeAttribute("lang");
     document.documentElement.removeAttribute("dir");
+}
+
+const wrappers: VueWrapper<any>[] = [];
+
+function build(props: Record<string, unknown>, options: Record<string, unknown> = {}) {
+    const wrapper = mount(LocaleSelect, {
+        props: { label: "Language", locales: LOCALES, ...props },
+        attachTo: document.body,
+        ...options,
+    });
+    wrappers.push(wrapper);
+    return wrapper;
+}
+
+function parts(wrapper: VueWrapper<any>) {
+    return {
+        button: wrapper.find("button.locale-select-button"),
+        list: wrapper.find("ul.locale-select-list"),
+        options: wrapper.findAll("li.locale-select-option"),
+    };
+}
+
+/** Open the listbox and click the option for `code`. */
+async function pick(
+    wrapper: VueWrapper<any>,
+    code: string,
+    locales: string[] = LOCALES,
+): Promise<void> {
+    const { button, options } = parts(wrapper);
+    await button.trigger("click");
+    await options[locales.indexOf(code)].trigger("click");
 }
 
 beforeEach(() => {
@@ -30,6 +64,8 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+    while (wrappers.length) wrappers.pop()!.unmount();
+    document.body.innerHTML = "";
     resetRoot();
 });
 
@@ -79,173 +115,275 @@ describe("LocaleSelect — pure helpers (§7.2)", () => {
     });
 });
 
-describe("LocaleSelect — markup contract (§4.4, §7.1)", () => {
-    test("§7.1 renders a native <select> root", () => {
-        const wrapper = mount(LocaleSelect, {
-            props: { label: "Language", locales: LOCALES },
-            attachTo: document.body,
-        });
-        const select = wrapper.find("select.locale-select");
-        expect(select.exists()).toBe(true);
-        expect(select.element.tagName).toBe("SELECT");
+describe("LocaleSelect — markup contract (§4.3, §7.1)", () => {
+    test("§7.1 renders a button that controls a listbox", () => {
+        const wrapper = build({});
+        const { button } = parts(wrapper);
+        expect(button.element.tagName).toBe("BUTTON");
+        expect(button.attributes("type")).toBe("button");
+        expect(button.attributes("aria-haspopup")).toBe("listbox");
+        expect(button.attributes("aria-expanded")).toBe("false");
+        const listId = button.attributes("aria-controls");
+        expect(listId).toBeTruthy();
+        expect(document.getElementById(listId!)?.getAttribute("role")).toBe("listbox");
     });
 
-    test("§7.2 aria-label is the supplied label", () => {
-        const wrapper = mount(LocaleSelect, {
-            props: { label: "Choose language", locales: LOCALES },
-            attachTo: document.body,
-        });
-        expect(wrapper.find("select").attributes("aria-label")).toBe("Choose language");
+    test("§7.1 the root is a div carrying the class hook", () => {
+        const wrapper = build({ class: "my-hook" });
+        expect(wrapper.element.tagName).toBe("DIV");
+        expect(wrapper.classes()).toContain("locale-select");
+        expect(wrapper.classes()).toContain("my-hook");
     });
 
-    test("§7.3 one option per locale; the select carries the supplied name", () => {
-        const wrapper = mount(LocaleSelect, {
-            props: { label: "Language", locales: LOCALES, name: "lang" },
-            attachTo: document.body,
-        });
-        const options = wrapper.findAll("option");
-        // One placeholder option plus one option per locale.
-        expect(options.length).toBe(LOCALES.length + 1);
-        expect(wrapper.find("select").attributes("name")).toBe("lang");
+    test("§7.1 the button renders the globe glyph, hidden from assistive tech", () => {
+        const wrapper = build({});
+        const icon = wrapper.find(".locale-select-icon");
+        // U+1F310 GLOBE WITH MERIDIANS + U+FE0E VARIATION SELECTOR-15.
+        // VS15 forces text presentation so the globe renders monochrome,
+        // matching theme-select's ◑ rather than the colour-emoji globe.
+        expect(icon.text()).toBe("\u{1F310}\uFE0E");
+        expect(icon.attributes("aria-hidden")).toBe("true");
     });
 
-    test("§7.4 each option carries the locale code as its value, after the empty placeholder", () => {
-        const wrapper = mount(LocaleSelect, {
-            props: { label: "Language", locales: LOCALES },
-            attachTo: document.body,
-        });
-        const options = wrapper.findAll("option");
-        expect(options.map((o) => (o.element as HTMLOptionElement).value)).toEqual([
-            "",
-            ...LOCALES,
-        ]);
+    test("§7.2 aria-label names the button and the listbox", () => {
+        const wrapper = build({ label: "Choose language" });
+        const { button, list } = parts(wrapper);
+        expect(button.attributes("aria-label")).toBe("Choose language");
+        expect(list.attributes("aria-label")).toBe("Choose language");
+    });
+
+    test("§7.3 one option per locale; the hidden input carries the supplied name", async () => {
+        const wrapper = build({ name: "lang" });
+        await flush();
+        expect(parts(wrapper).options.length).toBe(LOCALES.length);
+        const hidden = wrapper.find('input[type="hidden"]')
+            .element as HTMLInputElement;
+        expect(hidden.name).toBe("lang");
+        expect(hidden.value).toBe("en");
+    });
+
+    test("§7.4 the listbox is hidden until the button is activated", async () => {
+        const wrapper = build({});
+        const { button, list } = parts(wrapper);
+        expect(list.element.hasAttribute("hidden")).toBe(true);
+        await button.trigger("click");
+        await flush();
+        expect(list.element.hasAttribute("hidden")).toBe(false);
+        expect(button.attributes("aria-expanded")).toBe("true");
+    });
+
+    test("§7.4 the active locale is the aria-selected option", async () => {
+        const wrapper = build({});
+        await flush();
+        await parts(wrapper).button.trigger("click");
+        await flush();
+        const selected = wrapper.findAll('[role="option"][aria-selected="true"]');
+        expect(selected.length).toBe(1);
+        expect(selected[0].attributes("lang")).toBe("en");
     });
 
     test("§7.5 each option carries lang in BCP 47 hyphen form", () => {
-        const wrapper = mount(LocaleSelect, {
-            props: { label: "Language", locales: ["en", "en_US", "zh_Hant_TW"] },
-            attachTo: document.body,
-        });
-        // Skip index 0: the placeholder is not a locale and carries no lang.
-        const options = wrapper.findAll(".locale-select-option");
-        expect(options[1].attributes("lang")).toBe("en");
-        expect(options[2].attributes("lang")).toBe("en-US");
-        expect(options[3].attributes("lang")).toBe("zh-Hant-TW");
+        const wrapper = build({ locales: ["en", "en_US", "zh_Hant_TW"] });
+        const opts = parts(wrapper).options;
+        expect(opts[0].attributes("lang")).toBe("en");
+        expect(opts[1].attributes("lang")).toBe("en-US");
+        expect(opts[2].attributes("lang")).toBe("zh-Hant-TW");
     });
 
-    test("§7.24 the placeholder option renders the label and stays displayed", async () => {
-        const wrapper = mount(LocaleSelect, {
-            props: { label: "Locale", locales: LOCALES },
-            attachTo: document.body,
-        });
-        await flush();
-        await flush();
-        const select = wrapper.find("select").element as HTMLSelectElement;
-        const placeholder = select.querySelector(
-            ".locale-select-placeholder",
-        ) as HTMLOptionElement;
-        expect(placeholder.textContent?.trim()).toBe("Locale");
-        expect(placeholder.value).toBe("");
-        // The closed control shows the placeholder, not the active locale.
-        expect(select.value).toBe("");
-        expect(document.documentElement.getAttribute("lang")).toBe("en");
-    });
-
-    test("§7.25 the placeholder prop overrides the label as placeholder text", () => {
-        const wrapper = mount(LocaleSelect, {
-            props: {
-                label: "Choose a locale",
-                placeholder: "Locale",
-                locales: LOCALES,
-            },
-            attachTo: document.body,
-        });
-        const placeholder = wrapper.find(".locale-select-placeholder");
-        expect(placeholder.text().trim()).toBe("Locale");
-        expect(wrapper.find("select").attributes("aria-label")).toBe("Choose a locale");
-    });
-
-    test("§7.26 choosing a locale applies it and snaps the select back to the placeholder", async () => {
-        const wrapper = mount(LocaleSelect, {
-            props: { label: "Locale", locales: LOCALES },
-            attachTo: document.body,
-        });
-        await flush();
-        await flush();
-        const select = wrapper.find("select");
-        await select.setValue(LOCALES[1]);
-        await flush();
-        await flush();
-        expect(document.documentElement.getAttribute("lang")).toBe(
-            LOCALES[1].replace(/_/g, "-"),
-        );
-        expect((select.element as HTMLSelectElement).value).toBe("");
+    test("§7.5 the button and the list carry no lang of their own", () => {
+        const wrapper = build({});
+        const { button, list } = parts(wrapper);
+        expect(button.attributes("lang")).toBeUndefined();
+        expect(list.attributes("lang")).toBeUndefined();
     });
 
     test("§7.6 visible option text uses localeLabels override when supplied", () => {
-        const wrapper = mount(LocaleSelect, {
-            props: {
-                label: "Language",
-                locales: ["en", "fr"],
-                localeLabels: { en: "English", fr: "Français" },
-            },
-            attachTo: document.body,
+        const wrapper = build({
+            locales: ["en", "fr"],
+            localeLabels: { en: "English", fr: "Français" },
         });
         expect(wrapper.text()).toContain("English");
         expect(wrapper.text()).toContain("Français");
     });
 
     test("§7.6 falls back to defaultLocaleLabels when localeLabels missing", () => {
-        const wrapper = mount(LocaleSelect, {
-            props: { label: "Language", locales: ["en_US"] },
-            attachTo: document.body,
-        });
+        const wrapper = build({ locales: ["en_US"] });
         expect(wrapper.text()).toContain("English (United States)");
+    });
+});
+
+describe("LocaleSelect — keyboard contract (APG listbox, §7.6)", () => {
+    async function openWith(key: string) {
+        const wrapper = build({});
+        await flush();
+        const { button, list } = parts(wrapper);
+        await button.trigger("keydown", { key });
+        await flush();
+        return { wrapper, button, list, el: list.element as HTMLElement };
+    }
+
+    test("§7.24 ArrowDown, Enter and Space all open the listbox", async () => {
+        for (const key of ["ArrowDown", "Enter", " "]) {
+            const { el } = await openWith(key);
+            expect(el.hasAttribute("hidden")).toBe(false);
+            while (wrappers.length) wrappers.pop()!.unmount();
+        }
+    });
+
+    test("§7.24 ArrowUp opens with the last option active", async () => {
+        const { el } = await openWith("ArrowUp");
+        expect(el.getAttribute("aria-activedescendant")).toBe(
+            el.children[LOCALES.length - 1].id,
+        );
+    });
+
+    test("§7.24 opening moves focus to the listbox", async () => {
+        const { el } = await openWith("ArrowDown");
+        expect(document.activeElement).toBe(el);
+    });
+
+    test("§7.25 opening puts the active descendant on the selected locale", async () => {
+        const { el } = await openWith("ArrowDown");
+        // "en" resolves as the initial locale, so it is index 0.
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[0].id);
+    });
+
+    test("§7.25 ArrowDown / ArrowUp move the active descendant and clamp", async () => {
+        const { list, el } = await openWith("ArrowDown");
+        await list.trigger("keydown", { key: "ArrowDown" });
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[1].id);
+        await list.trigger("keydown", { key: "ArrowUp" });
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[0].id);
+        // Clamps at the top rather than wrapping.
+        await list.trigger("keydown", { key: "ArrowUp" });
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[0].id);
+    });
+
+    test("§7.25 ArrowDown clamps at the bottom rather than wrapping", async () => {
+        const { list, el } = await openWith("ArrowUp");
+        await list.trigger("keydown", { key: "ArrowDown" });
+        expect(el.getAttribute("aria-activedescendant")).toBe(
+            el.children[LOCALES.length - 1].id,
+        );
+    });
+
+    test("§7.25 the active option carries data-active", async () => {
+        const { list, el } = await openWith("ArrowDown");
+        await list.trigger("keydown", { key: "ArrowDown" });
+        const active = el.querySelectorAll("[data-active]");
+        expect(active.length).toBe(1);
+        expect(active[0].id).toBe(el.children[1].id);
+    });
+
+    test("§7.25 Home and End jump to the first and last option", async () => {
+        const { list, el } = await openWith("ArrowDown");
+        await list.trigger("keydown", { key: "End" });
+        expect(el.getAttribute("aria-activedescendant")).toBe(
+            el.children[LOCALES.length - 1].id,
+        );
+        await list.trigger("keydown", { key: "Home" });
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[0].id);
+    });
+
+    test("§7.26 Enter selects the active option, applies it, and closes", async () => {
+        const { button, list, el } = await openWith("ArrowDown");
+        await list.trigger("keydown", { key: "ArrowDown" });
+        await list.trigger("keydown", { key: "Enter" });
+        await flush();
+        expect(el.hasAttribute("hidden")).toBe(true);
+        expect(button.attributes("aria-expanded")).toBe("false");
+        expect(document.documentElement.getAttribute("lang")).toBe("en-US");
+    });
+
+    test("§7.26 Space selects the active option too", async () => {
+        const { list } = await openWith("ArrowDown");
+        await list.trigger("keydown", { key: "ArrowDown" });
+        await list.trigger("keydown", { key: " " });
+        await flush();
+        expect(document.documentElement.getAttribute("lang")).toBe("en-US");
+    });
+
+    test("§7.26 Enter returns focus to the button", async () => {
+        const { button, list } = await openWith("ArrowDown");
+        await list.trigger("keydown", { key: "Enter" });
+        await flush();
+        expect(document.activeElement).toBe(button.element);
+    });
+
+    test("§7.26 Escape closes without changing the locale", async () => {
+        const { list, el } = await openWith("ArrowDown");
+        await list.trigger("keydown", { key: "ArrowDown" });
+        await list.trigger("keydown", { key: "Escape" });
+        await flush();
+        expect(el.hasAttribute("hidden")).toBe(true);
+        expect(document.documentElement.getAttribute("lang")).toBe("en");
+    });
+
+    test("§7.26 Tab closes without stealing focus back to the button", async () => {
+        const { button, list, el } = await openWith("ArrowDown");
+        await list.trigger("keydown", { key: "Tab" });
+        await flush();
+        expect(el.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).not.toBe(button.element);
+    });
+
+    test("§7.26 aria-activedescendant is dropped once the listbox closes", async () => {
+        const { list, el } = await openWith("ArrowDown");
+        await list.trigger("keydown", { key: "Escape" });
+        await flush();
+        expect(el.hasAttribute("aria-activedescendant")).toBe(false);
+    });
+
+    test("§7.27 typeahead moves the active descendant by label prefix", async () => {
+        const { list, el } = await openWith("ArrowDown");
+        await list.trigger("keydown", { key: "F" });
+        // "French" is index 2 in LOCALES.
+        expect(el.getAttribute("aria-activedescendant")).toBe(el.children[2].id);
+    });
+
+    test("§7.27 clicking an option selects and applies it", async () => {
+        const wrapper = build({});
+        await flush();
+        await pick(wrapper, "ar");
+        await flush();
+        expect(document.documentElement.getAttribute("lang")).toBe("ar");
+        expect(document.documentElement.getAttribute("dir")).toBe("rtl");
+    });
+
+    test("§7.27 clicking outside the root closes the listbox", async () => {
+        const wrapper = build({});
+        await flush();
+        const { button, list } = parts(wrapper);
+        await button.trigger("click");
+        await flush();
+        expect((list.element as HTMLElement).hasAttribute("hidden")).toBe(false);
+        document.body.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        await flush();
+        expect((list.element as HTMLElement).hasAttribute("hidden")).toBe(true);
     });
 });
 
 describe("LocaleSelect — locale application (§5.5, §7.3)", () => {
     test("§7.13 sets target.lang to the BCP 47 form of the resolved initial locale", async () => {
-        mount(LocaleSelect, {
-            props: { label: "Language", locales: LOCALES, defaultValue: "en_US" },
-            attachTo: document.body,
-        });
-        await flush();
+        build({ defaultValue: "en_US" });
         await flush();
         expect(document.documentElement.lang).toBe("en-US");
     });
 
     test("§7.14 sets dir=rtl for an RTL initial locale", async () => {
-        mount(LocaleSelect, {
-            props: { label: "Language", locales: ["ar", "en"], defaultValue: "ar" },
-            attachTo: document.body,
-        });
-        await flush();
+        build({ locales: ["ar", "en"], defaultValue: "ar" });
         await flush();
         expect(document.documentElement.dir).toBe("rtl");
     });
 
     test("§7.14 sets dir=ltr for an LTR initial locale", async () => {
-        mount(LocaleSelect, {
-            props: { label: "Language", locales: ["en", "ar"], defaultValue: "en" },
-            attachTo: document.body,
-        });
-        await flush();
+        build({ locales: ["en", "ar"], defaultValue: "en" });
         await flush();
         expect(document.documentElement.dir).toBe("ltr");
     });
 
     test("§7.15 when applyDir=false, dir is never written", async () => {
-        mount(LocaleSelect, {
-            props: {
-                label: "Language",
-                locales: ["ar", "en"],
-                defaultValue: "ar",
-                applyDir: false,
-            },
-            attachTo: document.body,
-        });
-        await flush();
+        build({ locales: ["ar", "en"], defaultValue: "ar", applyDir: false });
         await flush();
         expect(document.documentElement.hasAttribute("dir")).toBe(false);
         expect(document.documentElement.lang).toBe("ar");
@@ -255,7 +393,7 @@ describe("LocaleSelect — locale application (§5.5, §7.3)", () => {
         const Host = defineComponent({
             components: { LocaleSelect },
             setup() {
-                const locale = ref("en");
+                const locale = ref("");
                 const changes: string[] = [];
                 return { locale, changes };
             },
@@ -263,68 +401,44 @@ describe("LocaleSelect — locale application (§5.5, §7.3)", () => {
                 <LocaleSelect
                     label="Language"
                     :locales="['en', 'en_US', 'fr', 'fr_CA', 'ar']"
-                    v-model:value="locale"
                     default-value="en"
+                    v-model:value="locale"
                     @change="(v) => changes.push(v)"
                 />
             `,
         });
         const wrapper = mount(Host, { attachTo: document.body });
+        wrappers.push(wrapper);
         await flush();
-        await flush();
-        await wrapper.find("select").setValue("ar");
-        await flush();
+        await wrapper.find("button.locale-select-button").trigger("click");
+        await wrapper.findAll("li.locale-select-option")[4].trigger("click");
         await flush();
         expect(document.documentElement.lang).toBe("ar");
         expect(document.documentElement.dir).toBe("rtl");
         expect((wrapper.vm as any).changes).toContain("ar");
+        expect((wrapper.vm as any).locale).toBe("ar");
     });
 
-    test("§7.16 change event receives the consumer-form code (not BCP 47)", async () => {
-        const Host = defineComponent({
-            components: { LocaleSelect },
-            setup() {
-                const locale = ref("en");
-                const changes: string[] = [];
-                return { locale, changes };
-            },
-            template: `
-                <LocaleSelect
-                    label="Language"
-                    :locales="['en', 'en_US', 'fr', 'fr_CA', 'ar']"
-                    v-model:value="locale"
-                    default-value="en"
-                    @change="(v) => changes.push(v)"
-                />
-            `,
-        });
-        const wrapper = mount(Host, { attachTo: document.body });
+    test("§7.16 change receives the consumer-form code (not BCP 47)", async () => {
+        const seen: string[] = [];
+        const wrapper = build(
+            { defaultValue: "en", onChange: (v: string) => seen.push(v) },
+        );
         await flush();
+        await pick(wrapper, "en_US");
         await flush();
-        await wrapper.find("select").setValue("en_US");
-        await flush();
-        await flush();
-        const changes = (wrapper.vm as any).changes as string[];
-        expect(changes[changes.length - 1]).toBe("en_US");
+        expect(seen[seen.length - 1]).toBe("en_US");
         expect(document.documentElement.lang).toBe("en-US");
     });
 
     test("§7.17 a custom target receives lang and dir", async () => {
         const target = document.createElement("section");
         document.body.appendChild(target);
-        mount(LocaleSelect, {
-            props: {
-                label: "Language",
-                locales: ["ar", "en"],
-                defaultValue: "ar",
-                target,
-            },
-            attachTo: document.body,
-        });
-        await flush();
+        build({ locales: ["ar", "en"], defaultValue: "ar", target });
         await flush();
         expect(target.getAttribute("lang")).toBe("ar");
         expect(target.getAttribute("dir")).toBe("rtl");
+        // Document root must remain untouched.
         expect(document.documentElement.hasAttribute("lang")).toBe(false);
         expect(document.documentElement.hasAttribute("dir")).toBe(false);
         target.remove();
@@ -333,57 +447,22 @@ describe("LocaleSelect — locale application (§5.5, §7.3)", () => {
 
 describe("LocaleSelect — initial-value resolution (§5.2, §5.3, §7.4)", () => {
     test("§7.18 persists to localStorage and reads back on a fresh mount", async () => {
-        const Host = defineComponent({
-            components: { LocaleSelect },
-            setup() {
-                const locale = ref("");
-                return { locale };
-            },
-            template: `
-                <LocaleSelect
-                    label="Language"
-                    :locales="['en', 'en_US', 'fr', 'fr_CA', 'ar']"
-                    v-model:value="locale"
-                    storage-key="lily-locale"
-                />
-            `,
-        });
-        const wrapper = mount(Host, { attachTo: document.body });
+        const wrapper = build({ storageKey: "lily-locale" });
         await flush();
-        await flush();
-        await wrapper.find("select").setValue("fr");
-        await flush();
+        await pick(wrapper, "fr");
         await flush();
         expect(localStorage.getItem("lily-locale")).toBe("fr");
         wrapper.unmount();
         resetRoot();
 
-        mount(LocaleSelect, {
-            props: {
-                label: "Language",
-                locales: LOCALES,
-                storageKey: "lily-locale",
-            },
-            attachTo: document.body,
-        });
-        await flush();
+        build({ storageKey: "lily-locale" });
         await flush();
         expect(document.documentElement.lang).toBe("fr");
     });
 
     test("§7.19 a supplied non-empty value prop wins over storage and defaults", async () => {
         localStorage.setItem("lily-locale", "ar");
-        mount(LocaleSelect, {
-            props: {
-                label: "Language",
-                locales: LOCALES,
-                value: "en",
-                storageKey: "lily-locale",
-                defaultValue: "fr",
-            },
-            attachTo: document.body,
-        });
-        await flush();
+        build({ value: "en", storageKey: "lily-locale", defaultValue: "fr" });
         await flush();
         expect(document.documentElement.lang).toBe("en");
     });
@@ -397,15 +476,7 @@ describe("LocaleSelect — initial-value resolution (§5.2, §5.3, §7.4)", () =
             configurable: true,
             get: () => ["fr-CA", "fr"],
         });
-        mount(LocaleSelect, {
-            props: {
-                label: "Language",
-                locales: ["en", "fr_CA", "fr"],
-                detectFromNavigator: true,
-            },
-            attachTo: document.body,
-        });
-        await flush();
+        build({ locales: ["en", "fr_CA", "fr"], detectFromNavigator: true });
         await flush();
         expect(document.documentElement.lang).toBe("fr-CA");
         if (original) Object.defineProperty(window.navigator, "languages", original);
@@ -420,15 +491,7 @@ describe("LocaleSelect — initial-value resolution (§5.2, §5.3, §7.4)", () =
             configurable: true,
             get: () => ["fr-CA"],
         });
-        mount(LocaleSelect, {
-            props: {
-                label: "Language",
-                locales: ["en", "fr"],
-                detectFromNavigator: true,
-            },
-            attachTo: document.body,
-        });
-        await flush();
+        build({ locales: ["en", "fr"], detectFromNavigator: true });
         await flush();
         expect(document.documentElement.lang).toBe("fr");
         if (original) Object.defineProperty(window.navigator, "languages", original);
@@ -436,38 +499,53 @@ describe("LocaleSelect — initial-value resolution (§5.2, §5.3, §7.4)", () =
 });
 
 describe("LocaleSelect — spread + custom slot (§4.1, §7.5)", () => {
-    test("§7.22 extra attributes spread onto the select", () => {
-        const wrapper = mount(LocaleSelect, {
-            props: { label: "Language", locales: LOCALES },
-            attrs: { "data-testid": "lp" },
-            attachTo: document.body,
-        });
-        expect(wrapper.find("select").attributes("data-testid")).toBe("lp");
+    test("§7.22 extra attributes spread onto the root div", () => {
+        const wrapper = build({}, { attrs: { "data-testid": "lp" } });
+        expect(wrapper.element.tagName).toBe("DIV");
+        expect(wrapper.attributes("data-testid")).toBe("lp");
     });
 
-    test("§7.23 default slot receives SlotArgs", () => {
-        // Capture the scoped-slot args directly: jsdom does not reliably
-        // render an <option> inserted into a <select> via a slot, so we
-        // assert on the args the component hands the slot (the contract).
+    test("§7.23 the default slot replaces the button glyph and receives SlotArgs", async () => {
         let captured: any;
-        mount(LocaleSelect, {
-            props: {
-                label: "Language",
-                locales: LOCALES,
-                name: "lang",
-            },
-            slots: {
-                default: (args: any) => {
-                    captured = args;
-                    return h("option", { value: "x" }, "x");
+        const wrapper = build(
+            { value: "fr" },
+            {
+                slots: {
+                    default: (args: any) => {
+                        captured = args;
+                        return "custom glyph";
+                    },
                 },
             },
-            attachTo: document.body,
-        });
-        expect(captured.locales).toEqual(LOCALES);
-        expect(captured.name).toBe("lang");
-        expect(captured.tagFor("en_US")).toBe("en-US");
-        expect(captured.isRtl("ar")).toBe(true);
-        expect(typeof captured.setLocale).toBe("function");
+        );
+        await flush();
+        // The custom glyph replaces the default globe inside the button.
+        expect(wrapper.find("button.locale-select-button").text()).toContain(
+            "custom glyph",
+        );
+        expect(wrapper.find(".locale-select-icon").exists()).toBe(false);
+        expect(captured.open).toBe(false);
+        expect(captured.value).toBe("fr");
+        expect(captured.labelFor("en_US")).toBe("English (United States)");
+    });
+
+    test("§7.23 the slot's open flag tracks the listbox state", async () => {
+        const seen: boolean[] = [];
+        const wrapper = build(
+            {},
+            {
+                slots: {
+                    default: (args: any) => {
+                        seen.push(args.open);
+                        return "glyph";
+                    },
+                },
+            },
+        );
+        await flush();
+        await wrapper.find("button.locale-select-button").trigger("click");
+        await flush();
+        expect(seen[0]).toBe(false);
+        expect(seen[seen.length - 1]).toBe(true);
     });
 });

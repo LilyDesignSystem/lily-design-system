@@ -40,9 +40,8 @@ root `<Routes>` element in `App.razor`.
 **Likely cause.** The select rendered server-side with no `Value`,
 then on hydration its lifecycle hook resolved `Value="dark"` from
 `localStorage` and switched the theme. The result is a visible flash.
-(The `<select>` itself never shows the theme — it always shows the
-placeholder — so the flash is in the page's theme CSS, not the
-control.)
+(The trigger button shows only its glyph, so the flash is in the
+page's theme CSS, not in the control.)
 
 **Fix.** Resolve the theme on the server (cookie, header, session
 store) and pass it to the select via `Value`. See [ssr.md](./ssr.md).
@@ -57,12 +56,42 @@ Checklist:
 - No other component is overwriting the same key on mount.
 - The select is interactive (not statically rendered).
 
-## "The word 'default' appears in my select"
+## "The word 'default' appears in my option list"
 
 It does not come from this component. The select only emits the
 slug (title-cased) or the value from `ThemeLabels`. Check the
 consumer markup wrapping the select for hardcoded "(default)"
 annotations.
+
+## "My `Placeholder` no longer compiles"
+
+**Likely cause.** The `Placeholder` parameter was removed. It only
+existed to pin the closed display of the old native `<select>`;
+there is no `<select>` any more, and the trigger button shows a
+glyph rather than a text label.
+
+**Fix.** Delete the attribute. The control's accessible name is
+`Label`. If you were using the placeholder text to show the active
+theme on screen, render it yourself next to the control — a status
+region works well:
+
+```razor
+<ThemeSelect Label="Theme" ThemesUrl="/assets/themes/"
+             Themes="@themes" @bind-Value="theme" />
+<p role="status">@theme</p>
+```
+
+## "The open list pushes my page around"
+
+**Likely cause.** The package ships no CSS at all, so the
+`<ul class="theme-select-list">` is an ordinary in-flow block. When
+it stops being `hidden`, it takes up layout space and shoves
+following content down.
+
+**Fix.** Position it out of flow: `position: relative` on the root
+`.theme-select` and `position: absolute` on `.theme-select-list`.
+The full block, including the logical `inset-inline-start` that
+mirrors correctly under RTL, is in [styling.md](./styling.md).
 
 ## "Multiple selects fight over `<html data-theme>`"
 
@@ -157,17 +186,31 @@ await Task.Yield();
 // JSInterop.Invocations is populated now.
 ```
 
-## "ChildContent renders but SetTheme doesn't work"
+## "My ChildContent options disappeared"
 
-Verify you're calling the async function correctly:
+**Likely cause.** `ChildContent` used to render the option list.
+It now replaces the **glyph inside the trigger button**, and the
+options are built by the component from `Themes`. Any `<option>` /
+`<li role="option">` markup in the fragment lands inside the
+`<button>`, where it is invalid and invisible as an option.
+
+**Fix.** Delete the option markup from the fragment and let
+`Themes` drive the list. To select a theme from your own UI, take a
+`@ref` to the component and `await select.SetThemeAsync(slug)`; see
+[custom-rendering.md](./custom-rendering.md).
+
+## "SetThemeAsync doesn't seem to apply"
+
+Verify you're awaiting it:
 
 ```razor
-@onclick="@(async () => await ctx.SetTheme(t))"
+@onclick="@(async () => await select!.SetThemeAsync(slug))"
 ```
 
-A common mistake is `@onclick="@(() => ctx.SetTheme(t))"` — that
-works at runtime but doesn't `await` the task, which can confuse
-bUnit tests and may swallow exceptions silently.
+A common mistake is `@onclick="@(() => select!.SetThemeAsync(slug))"`
+— that works at runtime but doesn't `await` the task, which can
+confuse bUnit tests and may swallow exceptions silently. Also check
+the `@ref` is non-null: it is only assigned after the first render.
 
 ## "Console: NullReferenceException in OnAfterRenderAsync"
 

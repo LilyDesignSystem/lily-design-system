@@ -1,6 +1,6 @@
 <!doctype html>
 <!--
-    Example 3 — Buttons with aria-pressed.
+    Example 3 — Buttons with aria-pressed (a TIER 2 subclass).
 
     A row of toggle buttons (one per locale) is a common pattern for
     short locale lists (2–5). Each button:
@@ -9,8 +9,29 @@
       - sits in a role="group" so assistive tech announces the
         whole row as one widget.
 
-    The subclass replaces the default <select> with buttons; the
-    base class still owns lang / dir / storage / localechange.
+    THIS IS TIER 2 CUSTOMISATION, AND TIER 2 HAS A PRICE. The base
+    class's keyboard contract (ArrowDown to open, arrows to move,
+    Enter to select, Escape to close, typeahead) is bound to the DOM
+    the base class built. Hide that DOM and the contract goes with
+    it. This example is safe only because native <button> elements
+    bring their own keyboard semantics: each is a tab stop, Enter and
+    Space activate it. If you replace the dropdown with something
+    that ISN'T natively operable, you must implement the keyboard
+    contract yourself. See docs/custom-rendering.md.
+
+    What this subclass preserves, deliberately:
+      - The .locale-select class hook, because it appends INTO the
+        base root rather than replacing it. Lose the root and the
+        consumer's CSS hook disappears.
+      - The hidden <input name=…>, so form participation still works.
+        (`hidden` on the button doesn't affect form submission.)
+      - The apply lifecycle: it writes `this.value` and lets the base
+        class own lang / dir / storage / localechange. It never
+        touches document.documentElement or dispatches the event.
+
+    What it drops: the button, the listbox, and everything ARIA that
+    went with them. aria-pressed on a button group is a legitimate
+    substitute pattern — it just has to be complete.
 
     Note: locale-select.ts may need compilation to .js — adjust
     the <script src=…> per your build output.
@@ -75,14 +96,22 @@
             }
             attributeChangedCallback(name, oldVal, newVal) {
                 super.attributeChangedCallback(name, oldVal, newVal);
+                // A `value` change syncs state in place rather than
+                // rebuilding, so re-run on it too to refresh
+                // aria-pressed.
                 if (name === "value" || name === "locales") this._rerender();
             }
             _rerender() {
-                const select = this.querySelector("select.locale-select");
-                if (!select) return;
-                // Replace the default <select> with a row of buttons.
-                select.hidden = true;
-                this.querySelector(".locale-select-buttons")?.remove();
+                // The base root is a <div class="locale-select">
+                // holding the hidden input, the button, and the <ul>.
+                const root = this.querySelector("div.locale-select");
+                if (!root) return;
+
+                // Hide the base control; keep the root and the hidden
+                // input so the class hook and form participation live on.
+                const trigger = root.querySelector(".locale-select-button");
+                if (trigger) trigger.hidden = true;
+                root.querySelector(".locale-select-buttons")?.remove();
 
                 const row = document.createElement("div");
                 row.className = "locale-select-buttons";
@@ -93,13 +122,15 @@
                     const btn = document.createElement("button");
                     btn.type = "button";
                     btn.setAttribute("aria-pressed", String(this.value === locale));
-                    btn.setAttribute("lang", locale.replace(/_/g, "-"));
+                    // Per-option lang, exactly as the base <li> options carry.
+                    btn.setAttribute("lang", this.tagFor(locale));
                     btn.textContent =
                         NATIVE[locale] ?? defaultLocaleLabels[locale] ?? locale;
+                    // Write the value and let the base class apply it.
                     btn.addEventListener("click", () => { this.value = locale; });
                     row.appendChild(btn);
                 }
-                this.appendChild(row);
+                root.appendChild(row);
             }
         }
         customElements.define("button-locale-select", ButtonLocaleSelect);

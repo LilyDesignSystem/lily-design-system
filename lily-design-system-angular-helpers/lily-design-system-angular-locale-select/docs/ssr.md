@@ -175,8 +175,9 @@ Result:
 
 - First paint: `<html lang="fr" dir="ltr">` arrives in the HTML
   response. No flash, no layout shift.
-- Select mounts showing its placeholder (it always does); the
-  active locale is `locale()`, hydrated from `INITIAL_LOCALE`.
+- Select mounts as a closed icon button (it always does); the
+  active locale is `locale()`, hydrated from `INITIAL_LOCALE`, and
+  marked `aria-selected="true"` on its option in the hidden list.
 - User picks `ar`. The fetch writes the cookie and the select's
   `effect()` writes `<html lang="ar" dir="rtl">`. Next request
   re-paints the page in Arabic from the very first byte.
@@ -272,10 +273,15 @@ default because:
 
 - `effect()` callbacks honour the `typeof document` guard, so no
   DOM writes happen server-side.
-- The selected `<option>` is rendered from `value`, which the
-  consumer controls and which is identical on both sides as long
-  as it's seeded from the same source (cookie / route param /
-  server-resolved state).
+- `aria-selected` and the hidden input's `value` are rendered from
+  `value`, which the consumer controls and which is identical on both
+  sides as long as it's seeded from the same source (cookie / route
+  param / server-resolved state).
+- The list renders closed (`hidden`, `aria-expanded="false"`) on both
+  sides, so the open/close state cannot mismatch.
+- Element ids come from the `nextLocaleSelectId()` module counter, not
+  `Math.random()` or `Date.now()`, so `aria-controls`, the list `id`,
+  and every option `id` match byte-for-byte across the boundary.
 
 The two cases that produce hydration warnings:
 
@@ -283,8 +289,8 @@ The two cases that produce hydration warnings:
    locale — a visible "active locale" label, say. The server
    rendered it from `value=""` but the client `effect()` resolved
    `value="fr"` from `localStorage`. Fix by pre-seeding `value` on
-   the server. (The `<select>` itself cannot mismatch: the
-   placeholder option is the selected one on both sides.)
+   the server. The same divergence also flips `aria-selected` and the
+   hidden input's `value` inside the control itself.
 2. The consumer uses `[value]="someServerOnlyComputed"` whose
    result differs between SSR and client. Fix by ensuring the
    source is serialisable across the boundary (cookie, route
@@ -369,8 +375,8 @@ SSR tests:
 The select itself has no SSR-specific code path to test beyond
 "the component compiles in SSR mode and applies the seeded `value`".
 The reference test suite covers that under jsdom by asserting that
-`value` drives the `lang` / `dir` writes on mount — not by asserting
-which option is selected, since that is always the placeholder.
+`value` drives the `lang` / `dir` writes on mount, and that the
+resolved locale is the one option carrying `aria-selected="true"`.
 
 ---
 

@@ -18,10 +18,19 @@ export {
     defaultLocaleLabels,
     RTL_LANGUAGE_TAGS,
     RTL_SCRIPT_SUBTAGS,
+    nextLocaleSelectId,
+    GLOBE_WITH_MERIDIANS,
     type LocaleSelectProps,
     type LocaleSelectChangeDetail,
 } from "./locale-select";
 ```
+
+`GLOBE_WITH_MERIDIANS` is the default button glyph (U+1F310 followed
+by U+FE0E VARIATION SELECTOR-15 — two codepoints; VS15 forces the
+monochrome text presentation).
+`nextLocaleSelectId()` is the module-level id counter that produces
+the `listId` / `optionId` prefixes — deterministic and SSR-safe, no
+`Math.random()` or `Date.now()`.
 
 It additionally performs the side-effectful registration:
 
@@ -45,6 +54,7 @@ import {
     localeName,
     matchNavigatorLanguage,
     defaultLocaleLabels,
+    GLOBE_WITH_MERIDIANS,
     type LocaleSelectProps,
     type LocaleSelectChangeDetail,
 } from "./lily-design-system-html-locale-select";
@@ -55,7 +65,6 @@ import {
 | Attribute               | Type            | Required | Default                                  |
 | ----------------------- | --------------- | -------- | ---------------------------------------- |
 | `label`                 | `string`        | yes      | —                                        |
-| `placeholder`           | `string`        | no       | value of `label`                         |
 | `locales`               | `string` (CSV)  | yes      | —                                        |
 | `value`                 | `string`        | no       | `""`                                     |
 | `default-value`         | `string`        | no       | resolves to `"en"` or `locales[0]`       |
@@ -66,26 +75,48 @@ import {
 | `locale-labels`         | `string` (JSON) | no       | `"{}"`                                   |
 | `class`                 | `string`        | no       | `""`                                     |
 
-`label` and `locales` are required. The boolean-attribute convention
-follows HTML: presence is truthy unless the literal value is
-`"false"`; absence is the default (which is `false` for
-`detect-from-navigator` and `true` for `apply-dir`).
+`label` and `locales` are required. `label` is applied as
+`aria-label` to **both** the button and the listbox; because the
+control is icon-only it is the only accessible name that exists.
+
+There is **no `placeholder` attribute**. It was a 0.3.0 mechanism for
+pinning a native `<select>`'s displayed text; there is no `<select>`
+left to pin.
+
+The boolean-attribute convention follows HTML: presence is truthy
+unless the literal value is `"false"`; absence is the default (which
+is `false` for `detect-from-navigator` and `true` for `apply-dir`).
 
 ## JS property mirrors
 
 | Property                  | Type                     | Notes                                              |
 | ------------------------- | ------------------------ | -------------------------------------------------- |
 | `el.label`                | `string`                 | round-trips with `label`                           |
-| `el.placeholder`          | `string`                 | round-trips with `placeholder`; falls back to `el.label` |
 | `el.locales`              | `string[]`               | CSV-encoded in `locales`                           |
 | `el.value`                | `string`                 | round-trips with `value` (consumer-form code)      |
 | `el.defaultValue`         | `string`                 | round-trips with `default-value`                   |
 | `el.storageKey`           | `string`                 | round-trips with `storage-key`                     |
 | `el.detectFromNavigator`  | `boolean`                | mirrors boolean attribute                          |
-| `el.name`                 | `string`                 | round-trips with `name`                            |
+| `el.name`                 | `string`                 | round-trips with `name`; lands on the hidden input |
 | `el.applyDir`             | `boolean`                | mirrors boolean attribute                          |
 | `el.localeLabels`         | `Record<string, string>` | JSON-encoded in `locale-labels`                    |
 | `el.target`               | `HTMLElement \| null`    | no attribute form — JS-only                        |
+
+## Listbox surface
+
+Public members with no attribute form, added with the icon-button +
+listbox rendering:
+
+| Member                         | Kind            | Notes                                                                 |
+| ------------------------------ | --------------- | --------------------------------------------------------------------- |
+| `el.open`                      | getter          | Is the listbox open? Read-only; drive it with `openList` / `closeList`.|
+| `el.listId`                    | getter          | `id` of the `<ul role="listbox">`, e.g. `"locale-select-1-list"`.      |
+| `el.optionId(index)`           | method          | `id` of the option at `index`, e.g. `"locale-select-1-option-2"`.      |
+| `el.openList(startIndex?)`     | method          | Open; `startIndex` overrides the active option (default: the selected one, else 0). Moves focus to the `<ul>`. |
+| `el.closeList(refocus = true)` | method          | Close; refocuses the button unless `refocus` is `false`.               |
+| `el.labelFor(code)`            | method          | `localeLabels[code] ?? defaultLocaleLabels[code] ?? Intl.DisplayNames ?? code`. |
+| `el.tagFor(locale)`            | method          | Instance wrapper around `bcp47LocaleTag`.                             |
+| `el.renderButtonContent()`     | **overridable** | Builds the button's content. See below.                               |
 
 ## Events
 
@@ -119,34 +150,56 @@ export function matchNavigatorLanguage(
     navLangs: readonly string[],
     locales: readonly string[],
 ): string | "";
+export function nextLocaleSelectId(): string;
+export const GLOBE_WITH_MERIDIANS: string;
 export const defaultLocaleLabels: Record<string, string>;
 export const RTL_LANGUAGE_TAGS: ReadonlySet<string>;
 export const RTL_SCRIPT_SUBTAGS: ReadonlySet<string>;
 ```
 
-All pure functions are side-effect-free; consumers can call them
-from tests, server code, or other components without instantiating
-the select.
+All of these except `nextLocaleSelectId` are side-effect-free;
+consumers can call them from tests, server code, or other components
+without instantiating the select. `nextLocaleSelectId` advances a
+module-level counter, so call it only when you actually need an id.
 
 ## Custom rendering by subclassing
 
-`<locale-select>` doesn't expose Vue-style scoped slots or Svelte
-snippets. The customisation surface is subclassing:
+Light DOM has no `<slot>`, so subclassing is the customisation
+surface. Two tiers — full guide in
+[`../docs/custom-rendering.md`](../docs/custom-rendering.md).
+
+**Tier 1**, the direct analogue of the other frameworks' `children`
+snippet / render prop, and the path to recommend:
 
 ```ts
 import { LocaleSelect } from "./locale-select";
 
-class ButtonLocaleSelect extends LocaleSelect {
-    connectedCallback(): void {
-        super.connectedCallback();
-        // Replace the rendered <select> with a row of buttons.
+class FlagLocaleSelect extends LocaleSelect {
+    renderButtonContent(): Node {
+        const span = document.createElement("span");
+        span.textContent = this.labelFor(this.value);  // ChildArgs.value + labelFor
+        span.dataset.open = String(this.open);          // ChildArgs.open
+        return span;
     }
 }
-customElements.define("button-locale-select", ButtonLocaleSelect);
+customElements.define("flag-locale-select", FlagLocaleSelect);
 ```
 
-See [`../docs/concepts.md`](../docs/concepts.md) and the
-`examples/03-buttons.html` example.
+Whatever `Node` it returns replaces the default
+`<span class="locale-select-icon">` inside the button. The base class
+still builds the button and the listbox, so all the aria wiring and
+the entire keyboard contract keep working. The hook re-runs on
+structural rebuilds (`locales`, `locale-labels`, `label`, `name`,
+`class`) **and** on every state sync (a `value` change, each open and
+close), so content derived from `this.value` or `this.open` stays
+current with no listener needed — matching the reactive `children`
+snippet in the other frameworks.
+
+**Tier 2**, post-processing after `super.connectedCallback()`,
+replaces the rendering entirely and takes over the whole
+accessibility *and* keyboard contract. The invariants it must
+preserve are enumerated in
+[`../docs/custom-rendering.md`](../docs/custom-rendering.md#invariants-a-tier-2-subclass-must-preserve).
 
 ## DOM contract
 
@@ -160,27 +213,43 @@ Host element:
 ></locale-select>
 ```
 
-Rendered children (recreated on every `#render()`):
+Rendered children (recreated on every structural `#render()`):
 
 ```html
-<select class="locale-select {class}" aria-label="{label}" name="{name}">
-    <option class="locale-select-option locale-select-placeholder" value="" selected>{placeholder ?? label}</option>
-    <option class="locale-select-option" value="en" lang="en">English</option>
-    <option class="locale-select-option" value="fr" lang="fr">French</option>
-    <option class="locale-select-option" value="ar" lang="ar">Arabic</option>
-</select>
+<div class="locale-select {class}">
+    <input type="hidden" name="{name}" value="fr" />
+    <button type="button" class="locale-select-button"
+            aria-label="{label}" aria-haspopup="listbox"
+            aria-expanded="false" aria-controls="locale-select-1-list">
+        <span class="locale-select-icon" aria-hidden="true">&#127760;&#65038;</span>
+    </button>
+    <ul class="locale-select-list" id="locale-select-1-list" role="listbox"
+        aria-label="{label}" tabindex="-1" hidden>
+        <li class="locale-select-option" id="locale-select-1-option-0"
+            role="option" aria-selected="false" lang="en">English</li>
+        <li class="locale-select-option" id="locale-select-1-option-1"
+            role="option" aria-selected="true" data-active lang="fr">French</li>
+        <li class="locale-select-option" id="locale-select-1-option-2"
+            role="option" aria-selected="false" lang="ar">Arabic</li>
+    </ul>
+</div>
 ```
 
-Each locale `<option>` carries `lang="{tagFor(locale)}"` (BCP 47
-hyphen form) so assistive technology pronounces the option name in
-its own language (WCAG 3.1.2, Language of Parts). The placeholder
-carries no `lang`: it is UI copy in the page language.
+Contract notes:
 
-The leading placeholder is component-owned and is the only option
-ever marked `selected`. The `<select>`'s own `value` is always `""`:
-the `change` handler reads the chosen code, resets `select.value` to
-`""`, then assigns `this.value`. Read the selection from `el.value`
-or the `localechange` detail, never from the rendered `<select>`.
+- Each `<li>` carries `lang="{tagFor(locale)}"` (BCP 47 hyphen form)
+  so assistive technology pronounces the option name in its own
+  language (WCAG 3.1.2, Language of Parts). **The button and the
+  `<ul>` carry no `lang`** — they are not locale-specific.
+- The glyph span is `aria-hidden="true"`; the accessible name comes
+  from the button's `aria-label` alone.
+- `aria-activedescendant` appears on the `<ul>` **only while open**.
+- `data-active` (keyboard-highlighted) and `aria-selected` (applied)
+  are different things.
+- The hidden `<input>` preserves form participation and the `name`.
+- Ids come from `nextLocaleSelectId()`, so instances never collide.
+
+Read the selection from `el.value` or the `localechange` detail.
 
 Document mutations (only inside `connectedCallback` /
 `attributeChangedCallback`):

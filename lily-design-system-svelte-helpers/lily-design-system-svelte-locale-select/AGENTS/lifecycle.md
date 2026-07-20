@@ -165,8 +165,14 @@ write back to `value`:
 ## SSR
 
 During server rendering, `$effect` is a no-op. The template renders
-the `<select>` using whatever `value` was passed; the `lang` and `dir`
-attributes are not written to `<html>` (no DOM).
+the button, the (hidden) listbox, and the `<li>` options using
+whatever `value` was passed — which decides `aria-selected` and the
+hidden input — while the `lang` and `dir` attributes are not written
+to `<html>` (no DOM).
+
+Option ids come from the module-level `nextLocaleSelectId()` counter,
+so server and client generate identical ids in the same mount order
+and hydration matches.
 
 That's the recipe for flicker-free SSR: pre-resolve the locale on
 the server, write `lang="…"` and `dir="…"` on `<html>` via

@@ -115,9 +115,9 @@ after the slug works.
 ## Multiple regions with independent themes
 
 See [`../examples/multiple-selects.component.ts`](../examples/multiple-selects.component.ts).
-Each select gets a distinct `name` (so the radios and managed
-`<link>`s don't collide) and a distinct `target` (so `data-theme`
-goes on the section root rather than `<html>`).
+Each select gets a distinct `name` (so the hidden inputs and the
+managed `<link>`s don't collide) and a distinct `target` (so
+`data-theme` goes on the section root rather than `<html>`).
 
 ## Programmatically switch themes from a sibling component
 

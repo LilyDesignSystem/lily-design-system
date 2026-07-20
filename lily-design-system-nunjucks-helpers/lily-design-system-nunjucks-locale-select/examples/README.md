@@ -16,20 +16,32 @@ Every example assumes:
   written to the `lang` attribute).
 - The consumer styles the `locale-select` CSS class hook. The
   helper ships zero CSS.
+- **The control needs JavaScript.** The macro renders an icon button
+  and a `hidden` listbox; the button opens nothing until
+  `locale-select.client.js` runs. Every example therefore loads the
+  module. The hidden input is pre-filled server-side, so a no-JS form
+  submit still carries a locale — that is the only unenhanced
+  affordance. See [`../docs/ssr.md`](../docs/ssr.md).
+
+Files 01, 02, 03, and 10 were named in the radio-group era
+(`01-radios`, `02-select`, `03-buttons`, `10-combobox`) and none of
+them has rendered radios, a `<select>`, a button group, or a combobox
+for some time. They are now named for what they show, matching the
+theme-select catalog's convention.
 
 | #  | File                                                              | Demonstrates                                                       |
 |----|-------------------------------------------------------------------|--------------------------------------------------------------------|
-| 1  | [`01-radios.njk`](./01-radios.njk)                                | Default native `<select>` via `{{ localeSelect({...}) }}`.         |
-| 2  | [`02-select.njk`](./02-select.njk)                                | Default `<select>` with a long list and `localeLabels`.           |
-| 3  | [`03-buttons.njk`](./03-buttons.njk)                              | Button group + `aria-pressed` via the `{% call %}` block.         |
+| 1  | [`01-basic.njk`](./01-basic.njk)                                  | The default control: icon button + listbox, plus the status region. |
+| 2  | [`02-custom-labels.njk`](./02-custom-labels.njk)                  | A longer locale list with `localeLabels` driving option text and typeahead. |
+| 3  | [`03-custom-rendering.njk`](./03-custom-rendering.njk)            | Replacing the trigger glyph via the `{% call %}` block, and the styling hooks. |
 | 4  | [`04-rtl-demo.njk`](./04-rtl-demo.njk)                            | RTL locales (ar, he, fa, ur, ps) showing `dir` flipping.           |
 | 5  | [`05-nhs-style.njk`](./05-nhs-style.njk)                          | Kebab-case `locale-select` class + NHS-style language banner.      |
 | 6  | [`06-with-eleventy-i18n.njk`](./06-with-eleventy-i18n.njk)        | Eleventy i18n plugin pattern (URL-prefixed locales).               |
 | 7  | [`07-with-intl.njk`](./07-with-intl.njk)                          | Native `Intl.DateTimeFormat` / `NumberFormat` client-side update.  |
 | 8  | [`08-ssr-cookie.njk`](./08-ssr-cookie.njk)                        | Eleventy / Express + cookie-resolved initial value before render.  |
-| 9  | [`09-scoped-target.njk`](./09-scoped-target.njk)                  | `target` option pointing to a specific element.                    |
-| 10 | [`10-combobox.njk`](./10-combobox.njk)                            | Combobox / listbox pattern via `{% call %}` block.                 |
-|    | [`localeSelectCustom.njk`](./localeSelectCustom.njk)              | Forked helper macro for the caller-block examples.                 |
+| 9  | [`09-scoped-target.njk`](./09-scoped-target.njk)                  | `target` option pointing to a specific element; distinct `id` per instance. |
+| 10 | [`10-typeahead.njk`](./10-typeahead.njk)                          | A 57-locale list and the built-in label typeahead.                 |
+|    | [`localeSelectCustom.njk`](./localeSelectCustom.njk)              | Reusable wrapper macro that swaps the glyph via `{% call %}`.      |
 
 ## Running the examples
 
@@ -42,9 +54,9 @@ try one is:
 2. Serve the static-asset directory containing
    `locale-select.client.js` and `locales.js` (the compiled JS
    form of the `locales.ts` source).
-3. Visit the route. The macro renders the `<select>`; the
-   client.js mounts and applies `lang` / `dir` to `<html>` on
-   first paint.
+3. Visit the route. The macro renders the collapsed button and the
+   hidden listbox; the client.js mounts, wires the interaction, and
+   applies `lang` / `dir` to `<html>` on first paint.
 
 ## onChange vs v-model / bind:value
 
@@ -52,31 +64,51 @@ Nunjucks doesn't have reactive bindings like Svelte / Vue /
 React. The closest equivalent is the `onChange` callback on
 `initLocaleSelect(root, opts)` (and on `autoInit(opts)`),
 combined with the consumer maintaining whatever store they want
-to keep in sync. Every example past `01-radios.njk` shows the
+to keep in sync. Every example past `01-basic.njk` shows the
 pattern.
+
+There is no `change` event to listen for: the control is a button
+plus a `<ul role="listbox">`, not a form control. Read the active
+locale from `onChange(code)`, from `lang` on the target, or from the
+hidden input's value.
 
 ## Caller block
 
-The shipped `locale-select.njk` does not inspect `caller` — the
-default rendering is a native `<select>`. Examples 03, 05, and 10
-use a forked macro
-[`localeSelectCustom.njk`](./localeSelectCustom.njk) that replaces
-the macro body with `{{ caller() }}`. Copy this fork into your
-project when you need a control the default `<select>` can't be.
+Calling `localeSelect` with a `{% call %}` block replaces the default
+globe glyph **inside the trigger button** with the block body — the
+Nunjucks equivalent of "children". It does not render options; the
+listbox always comes from `opts.locales`.
 
-The fork emits a `<div role="group">` carrying all the
-`data-lily-locale-select-*` hooks, so the client.js's
-`initLocaleSelect(root)` still wires the lifecycle. Your caller
-block renders whatever markup you want (a button group, a combobox
-input, a swatch grid); you wire click / change events to
-`ctrl.setLocale(code)` from inline JS.
+[`localeSelectCustom.njk`](./localeSelectCustom.njk) packages that
+pattern as a reusable wrapper macro with an inline SVG globe, so a
+project can share one branded trigger. Example 03 uses the wrapper;
+example 05 uses the plain macro with the default glyph.
+
+Keep any replacement glyph `aria-hidden="true"` and non-interactive:
+the button's accessible name is `opts.label` via `aria-label`.
+
+If you need a control the macro cannot render at all, hand-write the
+DOM with the same hooks — `data-lily-locale-select-root`, `-button`,
+`-list`, `-input`, plus `role="option"` and `data-value` on each
+choice. `initLocaleSelect(root)` works against any conforming DOM and
+returns an inert controller when the button or the list is missing.
+
+## Ids
+
+Listbox and option ids come from `opts.id`, which defaults to
+`"locale-select-{name}"`. Two instances on one page that share a
+`name` need an explicit distinct `id`, or their ids collide and
+`aria-controls` / `aria-activedescendant` break. Example 09 shows
+this. Nunjucks macros cannot hold a module counter, so there is no
+automatic uniqueness.
 
 ## Naming
 
 - Macro keys are camelCase: `locales`, `defaultValue`,
   `localeLabels`, `storageKey`, `detectFromNavigator`, `applyDir`.
 - CSS class hooks are kebab-case: `locale-select`,
-  `locale-select-option`.
+  `locale-select-button`, `locale-select-icon`,
+  `locale-select-list`, `locale-select-option`.
 - `data-lily-locale-select-*` attributes are kebab-case
   throughout.
 
@@ -94,4 +126,11 @@ input, a swatch grid); you wire click / change events to
   cookie-resolved value before render.
 - [../docs/bcp47.md](../docs/bcp47.md) — BCP 47 tag composition.
 - [../docs/accessibility.md](../docs/accessibility.md) —
-  WCAG 2.2 AAA + native `<select>` accessibility.
+  WCAG 2.2 AAA, the APG listbox contract, and the tradeoffs.
+- [../docs/macro-opts-reference.md](../docs/macro-opts-reference.md) —
+  every `localeSelect(opts)` key, field by field.
+- [../docs/custom-rendering.md](../docs/custom-rendering.md) —
+  glyph override, CSS-only styling, hand-written DOM.
+- [../docs/recipes.md](../docs/recipes.md) — task-shaped solutions.
+- [../docs/troubleshooting.md](../docs/troubleshooting.md) —
+  symptoms, causes, fixes.

@@ -11,7 +11,7 @@ maps the Svelte canonical's `$effect` lifecycle to Blazor's
 mount (server-side render of markup)
   │
   ▼
-SSR / prerender produces <select> markup with options — no DOM mutation, no IJSRuntime call.
+SSR / prerender produces the button + hidden <ul role="listbox"> markup — no DOM mutation, no IJSRuntime call.
   │
   ▼
 interactivity activates (Blazor Server circuit established, or WASM loaded)
@@ -34,10 +34,28 @@ ApplyThemeAsync(slug):
   3. JS eval: if StorageKey: localStorage.setItem(StorageKey, slug)
   4. await OnChange.InvokeAsync(slug)
 
-user picks a different option
+user activates the button (click, ArrowDown / ArrowUp / Enter / Space)
   │
   ▼
-onchange handler ─► SetThemeAsync(next)
+OpenList(startIndex?) ─► _open = true; _activeIndex = selected (or startIndex)
+  │                       _focusListPending = true; _suppressFocusOut = true
+  │                       StateHasChanged()
+  │                       │
+  │                       ▼
+  │                     OnAfterRenderAsync ─► _listElement.FocusAsync()
+  │
+  ▼
+user picks a different option (click on <li>, or Enter / Space in the listbox)
+  │
+  ▼
+ChooseAsync(index) ─► CloseList()   ─► _open = false; _activeIndex = -1
+  │                   │                _focusButtonPending = true; _suppressFocusOut = true
+  │                   │                StateHasChanged()
+  │                   │                │
+  │                   │                ▼
+  │                   │              OnAfterRenderAsync ─► _buttonElement.FocusAsync()
+  │                   ▼
+  │                 SetThemeAsync(next)
   │                   │
   │                   ▼
   │                 Value = next
@@ -45,6 +63,11 @@ onchange handler ─► SetThemeAsync(next)
   │                 await ApplyThemeAsync(next)
   │                 StateHasChanged()
 ```
+
+`Escape` and `Tab` close without choosing: `Escape` calls
+`CloseList()` (refocus the button), `Tab` calls `CloseList(false)` so
+focus moves on. Focus leaving the root fires `OnRootFocusOutAsync`,
+which also closes with `CloseList(false)`.
 
 ## Why `OnAfterRenderAsync`, not `OnInitializedAsync`
 
@@ -65,19 +88,26 @@ Inside `OnAfterRenderAsync`:
 ```csharp
 protected override async Task OnAfterRenderAsync(bool firstRender)
 {
-    if (!firstRender || _initialised) return;
-    _initialised = true;
-
-    var initial = await ResolveInitialAsync();
-    if (string.IsNullOrEmpty(initial)) return;
-
-    if (initial != Value)
+    if (firstRender && !_initialised)
     {
-        Value = initial;
-        await ValueChanged.InvokeAsync(Value);
-        StateHasChanged();
+        _initialised = true;
+
+        var initial = await ResolveInitialAsync();
+        if (!string.IsNullOrEmpty(initial))
+        {
+            if (initial != Value)
+            {
+                Value = initial;
+                await ValueChanged.InvokeAsync(Value);
+                StateHasChanged();
+            }
+            await ApplyThemeAsync(initial);
+        }
     }
-    await ApplyThemeAsync(initial);
+
+    // Deferred focus — see "Open / close and focus" below.
+    if (_focusListPending) { _focusListPending = false; await TryFocusAsync(_listElement); }
+    if (_focusButtonPending) { _focusButtonPending = false; await TryFocusAsync(_buttonElement); }
 }
 ```
 
@@ -106,9 +136,33 @@ private async Task<string> ResolveInitialAsync()
 }
 ```
 
-Resolving + emitting `ValueChanged` triggers a re-render so the
-right `<option>` is selected. The subsequent `ApplyThemeAsync` writes
-the DOM.
+Resolving + emitting `ValueChanged` triggers a re-render so the right
+`<li>` carries `aria-selected="true"` and the hidden input carries the
+resolved slug. The subsequent `ApplyThemeAsync` writes the DOM.
+
+## Open / close and focus
+
+The `<ul>` carries `hidden` while closed, and a `hidden` element
+cannot take focus. So focus is never moved inline with the state
+change — it is deferred one render:
+
+- `OpenList(startIndex?)` sets `_open = true`, seeds `_activeIndex`
+  from the selected option (or `startIndex`, which `ArrowUp` uses to
+  open on the last option), raises `_focusListPending`, and calls
+  `StateHasChanged()`.
+- `CloseList(refocus)` clears `_open`, `_activeIndex`, and the
+  typeahead buffer, and raises `_focusButtonPending` when `refocus`
+  is true.
+- The next `OnAfterRenderAsync` — by which point `hidden` has been
+  added or removed — consumes the pending flag and calls
+  `ElementReference.FocusAsync` on the `<ul>` or the `<button>`.
+  `TryFocusAsync` swallows interop failures so a prerender pass
+  cannot throw.
+
+Both open and close also set `_suppressFocusOut`, because the focus
+move the component just made will itself raise a `focusout` on the
+root. Blazor's `FocusEventArgs` has no `relatedTarget`, so flagging
+self-made moves is the only way to tell them from a real departure.
 
 ## Apply
 
@@ -132,9 +186,10 @@ private async Task ApplyThemeAsync(string slug)
 }
 ```
 
-`SetThemeAsync` is `public` so the `ChildContent`
-`RenderFragment<ThemeSelectContext>` can call it via
-`ctx.SetTheme(slug)`.
+`SetThemeAsync` is `public` so a consumer holding a `@ref` to the
+component can apply a theme imperatively from their own UI. It is not
+reachable from `ThemeSelectContext`, which carries only `Value`,
+`Open`, and `LabelFor`.
 
 ## Why one giant `eval` call per change
 
@@ -148,8 +203,8 @@ makes the change atomic and cheap:
 3. Set `data-theme` on `<html>`.
 4. Persist to `localStorage` (if requested).
 
-A consumer who wants finer-grained interop can override
-`ChildContent` and bypass `SetTheme` entirely, but the default path
+A consumer who wants finer-grained interop can drive the control
+themselves through a `@ref` and `SetThemeAsync`, but the default path
 is one round-trip per change.
 
 ## Reactivity
@@ -215,5 +270,7 @@ can implement `IAsyncDisposable` in a wrapping component themselves.
 | `_initialised = false` | construction                            | Select is ready to render its markup.               |
 | `OnAfterRenderAsync(true)` | first interactive render             | Resolve initial value, apply, fire callbacks.       |
 | `_initialised = true` | after first render                       | Future renders skip the initial-value path.         |
-| `SetThemeAsync(slug)` | user click / `ChildContent` invocation   | Mutate state, fire callbacks, apply, re-render.     |
+| `_open = true`  | button click / `ArrowDown` / `ArrowUp` / `Enter` / `Space` | Reveal the listbox, seed `_activeIndex`, focus the `<ul>` after render. |
+| `_open = false` | option chosen / `Escape` / `Tab` / root `focusout` | Re-hide the listbox; refocus the button unless `Tab` or `focusout` closed it. |
+| `SetThemeAsync(slug)` | option chosen, or a consumer `@ref` call | Mutate state, fire callbacks, apply, re-render.     |
 | dispose / unmount | parent removed from render tree              | No-op; theme persists.                              |

@@ -26,7 +26,8 @@ attributes on the document root) and the persistence choice.
 
 Give a Blazor application a drop-in, headless locale select that:
 
-1. Renders an accessible `<select>` of available locales.
+1. Renders an accessible icon button that opens a dropdown listbox of
+   available locales (WAI-ARIA APG listbox pattern).
 2. **Applies the chosen locale** by setting `lang="…"` and `dir="ltr|rtl"`
    on the document root (or on a consumer-supplied target).
 3. Auto-detects script direction: RTL for locales using Arabic,
@@ -57,8 +58,8 @@ Give a Blazor application a drop-in, headless locale select that:
   available locale codes.
 - **Bundling translation files**. No JSON / RESX assets ship with
   this helper.
-- **A radio-group default rendering**. The default is a native
-  `<select>` for symmetry with `ThemeSelect`.
+- **A radio-group default rendering**. The default is an icon button
+  plus a listbox, for symmetry with `ThemeSelect`.
 
 ## 3. Architectural decisions
 
@@ -86,68 +87,100 @@ Give a Blazor application a drop-in, headless locale select that:
 
 | Parameter             | Type                                  | Required | Default                       | Purpose |
 | --------------------- | ------------------------------------- | -------- | ----------------------------- | ------- |
-| `Label`               | `string`                              | yes      | —                             | Accessible name for the select. |
-| `Placeholder`         | `string?`                             | no       | `Label`                       | Text of the always-displayed placeholder option. The closed `<select>` shows this instead of the selected locale name, so the control stays as narrow as this word. |
+| `Label`               | `string`                              | yes      | —                             | Accessible name for the button AND the listbox. The button is icon-only, so this is its entire accessible name. |
 | `Locales`             | `IReadOnlyList<string>`               | yes      | —                             | Available locale codes. |
 | `Value`               | `string`                              | no       | `""`                          | Currently selected locale code. Two-way bindable via `@bind-Value`. |
 | `ValueChanged`        | `EventCallback<string>`               | no       | —                             | Two-way binding callback. |
 | `DefaultValue`        | `string?`                             | no       | `"en"` if present, else `Locales[0]` | Initial locale when nothing else is supplied. |
 | `StorageKey`          | `string?`                             | no       | `null`                        | If set, persist selection to `localStorage`. |
 | `DetectFromNavigator` | `bool`                                | no       | `false`                       | If true and no value/storage entry exists, resolve `navigator.language`. |
-| `Name`                | `string`                              | no       | `"locale"`                    | `name` set on the `<select>`. |
-| `ApplyDir`            | `bool`                                | no       | `true`                        | If false, the select only writes `lang` and never touches `dir`. |
+| `Name`                | `string`                              | no       | `"locale"`                    | `name` set on the hidden input. |
+| `ApplyDir`            | `bool`                                | no       | `true`                        | If false, the control only writes `lang` and never touches `dir`. |
 | `LocaleLabels`        | `IReadOnlyDictionary<string,string>`  | no       | empty                         | Optional pretty labels per locale code. |
-| `ChildContent`        | `RenderFragment<LocaleSelectContext>?`| no       | default option markup         | Custom rendering of the options. |
-| `OnChange`            | `EventCallback<string>`               | no       | —                             | Fires after the select applies a new locale. |
-| `CssClass`            | `string`                              | no       | `""`                          | Extra CSS class merged into the `<select>` root. |
-| `AdditionalAttributes`| `Dictionary<string,object>?`          | no       | —                             | Captures unmatched attributes; spread onto the root. |
+| `ChildContent`        | `RenderFragment<LocaleSelectContext>?`| no       | the default glyph             | **Replaces the glyph inside the button.** It does not render options. |
+| `OnChange`            | `EventCallback<string>`               | no       | —                             | Fires after the control applies a new locale. |
+| `CssClass`            | `string`                              | no       | `""`                          | Extra CSS class merged into the root `<div>`. |
+| `AdditionalAttributes`| `Dictionary<string,object>?`          | no       | —                             | Captures unmatched attributes; spread onto the root `<div>`. |
+
+There is **no `Placeholder` parameter**. It existed only to pin a native
+`<select>`'s closed display; there is no `<select>` any more.
 
 ### 4.2 `LocaleSelectContext`
+
+Mirrors the canonical Svelte `ChildArgs`:
 
 ```csharp
 public sealed class LocaleSelectContext
 {
-    public required IReadOnlyList<string> Locales { get; init; }
+    /// Currently selected locale code (consumer form, not BCP 47).
     public required string Value { get; init; }
-    public required Func<string, Task> SetLocale { get; init; }
-    public required string Name { get; init; }
+    /// Is the listbox open?
+    public required bool Open { get; init; }
+    /// Resolve a locale code to its display label.
     public required Func<string, string> LabelFor { get; init; }
-    public required Func<string, string> TagFor { get; init; }
-    public required Func<string, bool> IsRtl { get; init; }
 }
 ```
 
+Public constant: `LocaleSelect.GlobeWithMeridians` — the default glyph,
+`"🌐︎"` (U+1F310 `&#127760;` followed by U+FE0E VARIATION SELECTOR-15
+`&#65038;`). VS15 selects the text presentation so the globe renders
+monochrome, matching ThemeSelect's U+25D1 `◑`.
+
+Public method: `Task SetLocaleAsync(string code)` — apply a locale
+imperatively, for consumers driving the control from their own UI.
+
+The pure helpers `Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`,
+`MatchNavigatorLanguage`, `DefaultLocaleLabels`, `RtlLanguageTags`, and
+`RtlScriptSubtags` remain on the static `Locales` class, unchanged.
+
 ### 4.3 DOM contract
 
-- Root element: `<select class="locale-select {CssClass}"
-  aria-label="{Label}" name="{Name}">`.
-- **First child, always:** a component-owned placeholder option
+The control is an icon button plus a dropdown listbox:
 
-  ```html
-  <option class="locale-select-option locale-select-placeholder" value="" selected>
-    {Placeholder ?? Label}
-  </option>
-  ```
+```html
+<div class="locale-select {CssClass}" ...AdditionalAttributes>
+  <input type="hidden" name="{Name}" value="{Value}" />
+  <button type="button" class="locale-select-button"
+          aria-label="{Label}" aria-haspopup="listbox"
+          aria-expanded="false" aria-controls="{listId}">
+    <span class="locale-select-icon" aria-hidden="true">&#127760;</span>
+  </button>
+  <ul class="locale-select-list" id="{listId}" role="listbox"
+      aria-label="{Label}" tabindex="-1" hidden
+      aria-activedescendant="{optionId of active, only while open}">
+    <li class="locale-select-option" id="{optionId}" role="option"
+        aria-selected="true|false" data-active
+        lang="{TagFor(locale)}">{LabelFor(locale)}</li>
+  </ul>
+</div>
+```
 
-  It precedes the real options in BOTH the default and the
-  `ChildContent` code paths, and it is the only option ever marked
-  `selected`. It carries no `lang`, because it is not a locale.
-- Default children after the placeholder: one
-  `<option class="locale-select-option" value="{locale}"
-  lang="{TagFor(locale)}">{LabelFor(locale)}</option>` per locale code.
-  Real options are never marked `selected` — the `<select>`'s own DOM
-  value does not track `Value`.
-- **Snap-back:** on `change` the component reads the chosen code, resets
-  the live element's value to `""` (`Object.assign(el, { value: "" })`
-  through `IJSRuntime`, wrapped in try/catch so prerender is safe), and
-  only then applies the code. The closed control therefore always reads
-  `Placeholder ?? Label`; the real selection lives in `Value`, which
-  remains two-way bindable. `lang` / `dir` application, `localStorage`
-  persistence, `OnChange` / `ValueChanged`, and initial-value resolution
-  are all unchanged.
-- Each locale `<option>` carries `lang="{TagFor(locale)}"` so assistive
-  technology pronounces option text in the appropriate language.
-- `lang="{TagFor(slug)}"` is set on `document.documentElement` (or
+- The root is a `<div>` carrying the `locale-select` class hook plus
+  `CssClass`; `AdditionalAttributes` spread onto it.
+- The glyph is `🌐︎` (U+1F310 GLOBE WITH MERIDIANS `&#127760;` plus
+  U+FE0E VARIATION SELECTOR-15 `&#65038;`), wrapped in
+  `aria-hidden="true"`. The accessible name comes from the
+  button's `aria-label` — never from the glyph.
+- `ChildContent` **replaces the glyph inside the button** and receives
+  `{ Value, Open, LabelFor }`. It no longer renders options.
+- The hidden input preserves form participation and the `Name`
+  parameter.
+- Each option carries `lang="{TagFor(locale)}"` so assistive technology
+  pronounces the option text in the appropriate language — WCAG 3.1.2.
+  The button and the list carry **no** `lang`.
+- `hidden` is present on the `<ul>` while closed and absent while open;
+  `aria-expanded` on the button tracks the same state.
+- `aria-activedescendant` is emitted only while open and only when it
+  points at a real option. The active option additionally carries a
+  `data-active` attribute as a styling hook.
+- Option ids are `{instance}-option-{index}` and the list id is
+  `{instance}-list`, where `{instance}` is `locale-select-{n}` from a
+  monotonic process-wide counter. Stable and SSR-safe — never `Random`
+  or a clock read.
+- There is no `<select>`, no placeholder option, and no snap-back
+  interop write. The real selection lives in `Value`, which remains
+  two-way bindable.
+- `lang="{TagFor(code)}"` is set on `document.documentElement` (or
   the consumer's target via JS interop) on every apply.
 - If `ApplyDir` is true, `dir="rtl"` or `dir="ltr"` is set on every
   apply.
@@ -231,28 +264,80 @@ attempted and no DOM is touched.
 
 ### 6.1 Roles and properties
 
-- `<select>` has the browser's implicit `role="combobox"` and is the
-  announced control.
-- `aria-label={Label}` supplies the accessible name.
-- Each `<option>` has the implicit `role="option"`, with selected
-  state managed by the browser.
-- Each `<option>` carries `lang="{TagFor(locale)}"` — WCAG 3.1.2
-  (Language of Parts).
+- The `<button type="button">` is the trigger. It carries
+  `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls`
+  pointing at the list id.
+- `aria-label={Label}` supplies the accessible name for the button and
+  the listbox. The button is icon-only, so `Label` is load-bearing:
+  without it the control is unnameable.
+- The `<ul role="listbox" tabindex="-1">` receives focus while open;
+  the active option is conveyed by `aria-activedescendant`, per the APG
+  listbox pattern (focus stays on the list, not on the options).
+- Each `<li role="option">` carries `aria-selected`. Exactly one option
+  is `aria-selected="true"` whenever `Value` matches a code.
+- Each option carries `lang="{TagFor(locale)}"` — WCAG 3.1.2 (Language
+  of Parts).
+- The glyph is `aria-hidden="true"` and never contributes to the name.
 - The document root receives `lang` and (by default) `dir` — WCAG
   3.1.1 (Language of Page) and 1.4.10 (Reflow / bidi).
 
 ### 6.2 Keyboard contract
 
-| Key             | Action                                          |
-| --------------- | ----------------------------------------------- |
-| `Tab`           | Move focus to the select (one stop).            |
-| `Shift+Tab`     | Move focus away from the select.                |
-| `Arrow Down`    | Select the next option.                         |
-| `Arrow Up`      | Select the previous option.                     |
-| `Home` / `End`  | Select the first / last option.                 |
-| Typeahead       | Type characters to jump to a matching option.   |
-| `Enter` / `Space` | Open the option list (platform-dependent).    |
-| `Escape`        | Close the option list.                          |
+Implemented by the component, following the WAI-ARIA APG listbox
+pattern.
+
+On the **button**:
+
+| Key                        | Action                                                   |
+| -------------------------- | -------------------------------------------------------- |
+| `Tab` / `Shift+Tab`        | Move focus to / away from the button (one stop).         |
+| `Arrow Down`               | Open, active option = the selected one (else index 0).   |
+| `Enter` / `Space`          | Open, active option = the selected one (else index 0).   |
+| `Arrow Up`                 | Open with the **last** option active.                    |
+
+Opening moves focus to the `<ul>`.
+
+On the **listbox**:
+
+| Key             | Action                                                              |
+| --------------- | ------------------------------------------------------------------- |
+| `Arrow Down`    | Move the active option down one; **clamps** at the last (no wrap).  |
+| `Arrow Up`      | Move the active option up one; **clamps** at the first (no wrap).   |
+| `Home`          | Jump to the first option.                                           |
+| `End`           | Jump to the last option.                                            |
+| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
+| `Escape`        | Close and return focus **without** changing the value.              |
+| `Tab`           | Close **without** stealing focus back.                              |
+| Printable chars | Typeahead over the option *labels*, 500 ms buffer reset.            |
+
+Pointer and focus:
+
+- Clicking an option selects it, applies it, and closes.
+- Focus leaving the root closes the listbox without changing the value.
+
+### 6.2.1 Framework deviations
+
+Two clauses cannot be met faithfully with Blazor's declarative event
+bindings; both are behavioural refinements, not contract breaks.
+
+- **No `preventDefault` on keydown.** Blazor evaluates
+  `@onkeydown:preventDefault` at render time, not per event, so it
+  cannot be applied to arrow keys while leaving `Tab` alone. Arrow keys
+  and `Space` therefore also scroll the page in their default way. To
+  keep `Enter` / `Space` from toggling the listbox twice (a `<button>`
+  synthesises a click for both), the component swallows the click that
+  follows a keydown it already handled.
+- **No document-level click listener.** The Svelte reference closes on
+  any outside click via `<svelte:document onclick>`. Blazor has no
+  declarative equivalent and this package ships no JavaScript, so
+  closing on outside interaction is driven by the root's `focusout`
+  instead. Because Blazor's `FocusEventArgs` does not expose
+  `relatedTarget`, the component flags focus moves it makes itself and
+  ignores the matching `focusout`.
+
+`@onmousedown:preventDefault` **is** applied to the `<ul>`: that one is
+unconditional and correct, and it stops a click on an option from
+blurring the listbox before the click handler runs.
 
 ### 6.3 Internationalisation
 
@@ -277,8 +362,10 @@ References this helper relies on:
   <https://html.spec.whatwg.org/multipage/dom.html#the-lang-and-xml:lang-attributes>
 - HTML Living Standard `dir` attribute:
   <https://html.spec.whatwg.org/multipage/dom.html#the-dir-attribute>
-- HTML Living Standard `<select>` element:
-  <https://html.spec.whatwg.org/multipage/form-elements.html#the-select-element>
+- WAI-ARIA Authoring Practices — Listbox pattern:
+  <https://www.w3.org/WAI/ARIA/apg/patterns/listbox/>
+- WAI-ARIA Authoring Practices — Select-Only Combobox:
+  <https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/>
 
 ## 7. Testing acceptance criteria
 
@@ -287,72 +374,81 @@ run under bUnit + xUnit.
 
 ### 7.1 Markup contract (mirrors §4.3)
 
-1. Renders a `<select>` carrying the supplied `Name` attribute.
-2. `aria-label` is the supplied `Label`.
-3. Renders one `<option>` per entry in `Locales`, plus the leading
-   placeholder option (so `Locales.Count + 1` options).
-4. Each locale `<option>`'s `value` attribute is the locale code, after
-   the leading placeholder whose value is `""`.
-5. Each locale `<option>` carries `lang="{TagFor(locale)}"` (BCP 47
-   hyphen form); the placeholder at index 0 carries no `lang`.
-6. The default rendering shows `LocaleLabels[code] ??
+1. The root is a `<div class="locale-select">` containing a
+   `<button type="button" class="locale-select-button">` with
+   `aria-haspopup="listbox"`, `aria-expanded="false"`, and
+   `aria-controls` pointing at a `<ul role="listbox" tabindex="-1">`.
+   No `<select>` is rendered.
+2. The button renders `<span class="locale-select-icon"
+   aria-hidden="true">🌐︎</span>` (U+1F310 + U+FE0E), matching the
+   public `LocaleSelect.GlobeWithMeridians` constant.
+3. `aria-label` is the supplied `Label` on BOTH the button and the
+   listbox.
+4. One `<li class="locale-select-option" role="option">` per entry in
+   `Locales`; the hidden input carries the supplied `Name` and the
+   resolved `Value`.
+5. Each option carries `lang="{TagFor(locale)}"` (BCP 47 hyphen form);
+   the button and the listbox carry no `lang`.
+6. The listbox carries `hidden` until the button is activated;
+   activating toggles both `hidden` and `aria-expanded`.
+7. Exactly one option is `aria-selected="true"` — the active locale.
+   While closed there is no `aria-activedescendant`; opening points it
+   at the active option, which also carries `data-active`.
+8. The default rendering shows `LocaleLabels[code] ??
    DefaultLocaleLabels[code] ?? code` as the visible option text.
+9. List and option ids are stable across re-render and unique across
+   instances, prefixed `locale-select-`.
 
-### 7.2 Pure helpers (mirrors §5.1, §5.6)
+### 7.2 Keyboard contract (mirrors §6.2)
 
-7. `Bcp47LocaleTag("en_US")` is `"en-US"`.
-8. `Bcp47LocaleTag("zh_Hant_TW")` is `"zh-Hant-TW"`.
-9. `Bcp47LocaleTag("en")` is `"en"`.
-10. `IsRtlLocale("ar")`, `IsRtlLocale("he_IL")`, and
-    `IsRtlLocale("uz_Arab_AF")` are all `true`.
-11. `IsRtlLocale("en")` and `IsRtlLocale("fr_CA")` are both `false`.
-12. `LocaleName("en_US")` returns `"English (United States)"` from the
+10. `ArrowDown`, `Enter` and `Space` on the button each open the
+    listbox with the currently-selected option active.
+11. `ArrowUp` on the button opens with the **last** option active.
+12. `ArrowDown` / `ArrowUp` inside the listbox move the active option
+    and **clamp** at both ends (no wrapping).
+13. `Home` / `End` jump to the first / last option.
+14. `Enter` and `Space` inside the listbox select the active option,
+    apply it, and close; the callbacks report the CONSUMER-form code
+    (not the BCP 47 tag), and an RTL choice sets `dir="rtl"`.
+15. `Escape` closes the listbox **without** changing the value and
+    without applying anything.
+16. Printable characters run a typeahead over the option labels; a
+    buffer that matches nothing leaves the active option unmoved.
+17. Clicking an option selects it, applies it, and closes the listbox.
+18. Focus leaving the root closes the listbox without changing the
+    value.
+
+### 7.3 Pure helpers (mirrors §5.1, §5.5, §5.6)
+
+19. `Bcp47LocaleTag("en_US")` is `"en-US"`.
+20. `Bcp47LocaleTag("zh_Hant_TW")` is `"zh-Hant-TW"`; `"en"` is
+    unchanged.
+21. `IsRtlLocale("ar")`, `IsRtlLocale("he_IL")` and
+    `IsRtlLocale("uz_Arab_AF")` (any case) are `true`;
+    `IsRtlLocale("en")`, `IsRtlLocale("fr_CA")` and `IsRtlLocale("")`
+    are `false`.
+22. `LocaleName("en_US")` returns `"English (United States)"` from the
     built-in table.
-
-### 7.3 Locale application (mirrors §5.5)
-
-13. After the first render, the interop call sets `lang` to the BCP 47
-    form of the resolved initial locale.
-14. After the first render with an RTL locale, the interop call sets
-    `dir="rtl"`; for an LTR locale, `dir="ltr"`.
-15. When `ApplyDir` is false, the interop call does not write `dir`.
-16. Selecting a different `<option>` updates `Value`, fires `OnChange` /
-    `ValueChanged` with the consumer-form code (not the BCP 47 tag),
-    and invokes interop with the new lang / dir.
-17. The interop script includes the language tag normalised via
+23. The apply script sets `lang` to the BCP 47 form, normalised via
     `Bcp47LocaleTag`.
+24. The apply script sets `dir` from RTL detection, and omits the `dir`
+    write entirely when `ApplyDir` is false (while still writing
+    `lang`).
+25. When `StorageKey` is set, the apply script writes to
+    `localStorage`; when it is not set, it contains no such write.
+26. `MatchNavigatorLanguage` matches exactly first, then falls back to
+    a language-only match, and returns `""` when nothing matches.
 
-### 7.4 Initial-value resolution (mirrors §5.2, §5.3)
+### 7.4 Lifecycle, spread, custom rendering
 
-18. When `StorageKey` is set, the interop script contains the storage
-    write.
-19. When `Value` is supplied as a non-empty parameter, the
+27. When `Value` is supplied as a non-empty parameter, the
     initial-value resolution skips storage and defaults and applies
     that value.
-20. (Reserved — `DetectFromNavigator` exact-match is documented in
-    `MatchNavigatorLanguage` unit tests.)
-21. (Reserved — `DetectFromNavigator` language-only fallback is
-    documented in `MatchNavigatorLanguage` unit tests.)
-
-### 7.5 Spread + custom children (mirrors §4.1, §4.2)
-
-22. Extra attributes captured by `AdditionalAttributes` spread through
-    onto the `<select>` (e.g. `data-testid`).
-23. A custom `ChildContent` renders custom `<option>` elements and
-    receives `LocaleSelectContext` with `Locales`, `Name`, `TagFor`,
-    and `IsRtl` exposed.
-
-### 7.6 Placeholder (mirrors §4.3)
-
-24. The placeholder option is the first child of the `<select>`,
-    carries `class="locale-select-option locale-select-placeholder"`,
-    `value=""`, and the text `Label`; it is the only option marked
-    `selected`; and the resolved initial locale is still applied.
-25. When `Placeholder` is supplied it overrides `Label` as the
-    placeholder text, while `aria-label` still carries `Label`.
-26. Choosing an option applies the chosen locale AND snaps the select
-    back to the placeholder: the live element's value is reset through
-    interop, and the placeholder remains the only `selected` option.
+28. Extra attributes captured by `AdditionalAttributes` spread through
+    onto the root `<div>` (e.g. `data-testid`).
+29. A custom `ChildContent` render fragment **replaces** the glyph
+    inside the button (the default `.locale-select-icon` is absent) and
+    receives `Value`, `Open`, and `LabelFor`.
 
 ## 8. Out-of-scope (future, not implemented here)
 

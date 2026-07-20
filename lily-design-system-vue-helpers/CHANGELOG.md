@@ -7,6 +7,70 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows
 [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING)
+
+- `theme-select` and `locale-select` are no longer native `<select>`
+  elements. Each is now an **icon button that opens a dropdown
+  listbox**: a root `<div class="{helper}">` holding a hidden input for
+  form participation, a
+  `<button class="{helper}-button" aria-haspopup="listbox">` showing a
+  single glyph, and a `<ul class="{helper}-list" role="listbox">` of
+  `<li class="{helper}-option" role="option">`. The glyphs are ◑
+  (U+25D1 CIRCLE WITH RIGHT HALF BLACK) for `theme-select` and 🌐
+  (U+1F310 GLOBE WITH MERIDIANS) for `locale-select`, each wrapped in
+  `aria-hidden="true"` so the accessible name always comes from
+  `aria-label`. `text-size-select` is untouched and keeps its native
+  `<select>`.
+- **The `placeholder` prop is removed** from both helpers. It existed
+  only to pin the closed `<select>` to a short word; there is no
+  `<select>` left to pin, so the 0.3.0 placeholder tradeoff is gone
+  along with the `{helper}-placeholder` class hook.
+- **The default scoped slot now replaces the button glyph, not the
+  options.** It receives `{ value, open, labelFor }` (`SlotArgs`, also
+  exported as `ChildArgs`) instead of the old
+  `{ themes/locales, value, setTheme/setLocale, name, labelFor, … }`.
+  The listbox, its option markup, and the keyboard contract are
+  component-owned and cannot be displaced by a slot.
+- Both helpers now implement the **WAI-ARIA APG listbox keyboard
+  contract** themselves rather than inheriting the platform's native
+  `<select>` behaviour: arrow keys that clamp rather than wrap,
+  `Home` / `End`, `Enter` / `Space` to commit, `Escape` to cancel,
+  `Tab` to close without stealing focus, and printable-character
+  typeahead over the labels with a 500 ms buffer. Focus moves to the
+  `<ul>` on open and returns to the button on commit or cancel; the
+  active option is conveyed with `aria-activedescendant`.
+
+### Added
+
+- `nextThemeSelectId` / `nextLocaleSelectId` — per-instance id
+  generators backed by an incrementing module counter, so option ids
+  are stable and SSR-safe.
+- `CIRCLE_WITH_RIGHT_HALF_BLACK` / `GLOBE_WITH_MERIDIANS` — the default
+  button glyphs, exported for consumers building their own triggers.
+- New class hooks: `{helper}-button`, `{helper}-icon`, `{helper}-list`,
+  plus `[data-active]` on the keyboard-active option.
+
+### Unchanged
+
+- The managed `<link>` swap, `data-theme`, `lang` / `dir`, RTL
+  detection, `localStorage` persistence, navigator detection, the
+  `change` and `update:value` events, `v-model:value`, initial-value
+  resolution, SSR safety, and every exported pure helper.
+
+### Documentation
+
+- Each helper's `docs/accessibility.md` is rewritten around the three
+  new tradeoffs: an icon-only control depends entirely on `aria-label`;
+  a scripted listbox has weaker real-world assistive-technology support
+  than a native `<select>`; and the glyph's rendering depends on
+  platform fonts. The `.{helper}-status` live-region guidance is kept
+  and is now more strongly recommended, since the closed button shows
+  only a glyph.
+- The listbox needs positioning CSS; the packages ship none. See each
+  `docs/styling.md`.
+
 ## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING)

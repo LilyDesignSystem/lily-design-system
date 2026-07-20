@@ -16,9 +16,12 @@ recipes.
    hook only runs when the component is interactive (in a Blazor
    Server circuit or after the WASM module loads). Under static
    SSR / prerender, it never fires.
-3. **Initial state comes from parameters.** The select renders the
+3. **Initial state comes from parameters.** Each helper renders its
    markup using whatever `Value` the consumer supplied. With no
-   `Value`, no option is selected on the server.
+   `Value`, nothing is marked as chosen on the server: `TextSizeSelect`
+   emits no `selected` `<option>`, and the listbox helpers
+   (`ThemeSelect`, `LocaleSelect`) emit `aria-selected="false"` on
+   every `<li role="option">` and an empty hidden input.
 4. **Interop is wrapped in try/catch.** A prerender circuit can
    throw `InvalidOperationException` if it hasn't established
    interactivity yet; the helpers swallow that so the first paint
@@ -42,10 +45,14 @@ difference is *when* the post-render hook fires.
 ## Static SSR (no interactivity)
 
 Under fully-static SSR, `OnAfterRenderAsync` never fires and no JS
-interop is possible. The select:
+interop is possible. Each helper:
 
-- Renders its `<select>` markup with whatever `Value` the consumer
-  supplied (a server-resolved cookie value is the common pattern).
+- Renders its full markup with whatever `Value` the consumer supplied
+  (a server-resolved cookie value is the common pattern). For
+  `TextSizeSelect` that is the `<select>` and its `<option>` children;
+  for the listbox helpers it is the root `<div>`, the hidden input, the
+  icon button, and the closed `<ul role="listbox" hidden>` with its
+  options.
 - Does **not** write `<link>` / `data-theme` / `lang` / `dir` — the
   consumer is responsible for those on the server side.
 
@@ -53,6 +60,19 @@ This means static SSR is supported, but the consumer has to
 pre-resolve the user-preference state and emit the right `<html>`
 attributes themselves. The helpers don't break; they just don't
 mutate the DOM when there's no DOM to mutate.
+
+One shape difference matters here. A static-SSR `TextSizeSelect` is
+still a working native control: the browser will open it and, inside a
+`<form>`, post the chosen value without any JavaScript. The listbox
+helpers are not — opening the listbox, moving the active option, and
+selecting are all component-implemented, so with no interactivity they
+render as an inert button and a hidden list. The hidden input still
+posts the server-supplied `Value`, but the user cannot change it until
+the component becomes interactive. Under Blazor Web App "auto" or
+"interactive" render modes this is a non-issue; under genuinely static
+SSR, plan for a no-JS fallback (a plain `<form>` posting to an
+endpoint) if theme and locale switching must work without
+interactivity.
 
 ## Cookie + interactive recipe (Blazor Web App)
 

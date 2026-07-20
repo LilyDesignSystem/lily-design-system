@@ -137,19 +137,30 @@ or imperative `appendChild`. No Shadow DOM. The reasons:
   markup directly — no `::part()` ceremony.
 - The rendered children are crawlable by search engines and
   inspectable in DevTools without "shadow root" indirection.
-- Slot-style customisation is delivered through subclassing
-  (override `#render()`), not Shadow DOM `<slot>` elements.
+- Slot-style customisation is delivered through subclassing, not
+  Shadow DOM `<slot>` elements. `#render()` is a private field and
+  is deliberately not overridable; the sanctioned hook is the public
+  `renderButtonContent()` method on the listbox helpers, with
+  wholesale replacement available via post-processing after
+  `super.connectedCallback()`. Each package's
+  `docs/custom-rendering.md` has the detail.
 
 ## Class hooks
 
-The kebab-case base class lives on the rendered root child
-(`<select class="theme-select">`), not on the custom-element
-itself. The custom element is the container that owns the lifecycle;
-the rendered `<select>` is what the consumer styles.
+The kebab-case base class lives on the rendered root child, not on
+the custom-element itself. The custom element is the container that
+owns the lifecycle; what it renders is what the consumer styles.
+
+The rendered root differs by helper: `<theme-select>` and
+`<locale-select>` render a `<div class="theme-select">` wrapping a
+hidden input, a `<button class="theme-select-button">`, and a
+`<ul class="theme-select-list">` of `<li class="theme-select-option">`;
+`<text-size-select>` renders a `<select class="text-size-select">`
+with `<option>` children.
 
 The consumer's optional `class` attribute on the custom element is
-re-applied to the rendered `<select>` so `<theme-select
-class="extra-class">` produces `<select class="theme-select
+re-applied to that rendered root, so `<theme-select
+class="extra-class">` produces `<div class="theme-select
 extra-class">`.
 
 ## SSR
@@ -173,7 +184,8 @@ Everything visual and locale-specific is the consumer's. See
 ## Naming
 
 - Class hooks are kebab-case derivatives of the tag name:
-  `theme-select`, `theme-select-option`.
+  `theme-select`, `theme-select-button`, `theme-select-icon`,
+  `theme-select-list`, `theme-select-option`.
 - Data attributes the consumer / CSS may want to observe use
   `data-*` (e.g. `data-theme`, `data-lily-theme-select`).
 - Don't introduce new ARIA attributes — use the platform's.

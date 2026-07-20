@@ -27,11 +27,14 @@ the Blazor framework.
 
 The select:
 
-- Renders semantic HTML (`<select>` + `<option>`) with the native
-  form-control semantics the browser provides.
+- Renders a semantic trigger `<button type="button">` plus a
+  `<ul role="listbox">` of `<li role="option">` entries, following
+  the WAI-ARIA APG listbox pattern, with a hidden `<input>` for
+  form participation.
 - Carries a stable kebab-case class hook (`locale-select`,
-  `locale-select-option`) on every element so your CSS can target
-  it without prefixes or specificity tricks.
+  `locale-select-button`, `locale-select-icon`,
+  `locale-select-list`, `locale-select-option`) on every element so
+  your CSS can target it without prefixes or specificity tricks.
 - Ships **no** colour, spacing, typography, font, icon, or
   animation decisions. You supply all of that.
 - Ships **no** translated strings. The `Label` parameter and
@@ -64,26 +67,26 @@ Each instance manages a single bindable `Value`:
 Both DOM mutation and storage are side effects, so they belong in
 `OnAfterRenderAsync` / `SetLocaleAsync`, not in property setters.
 
-## Why `<select>` by default
+## Why an icon button plus a listbox by default
 
 Three reasons:
 
-1. **Scales to long lists**. A native `<select>` stays compact
+1. **Scales to long lists**. The trigger is one glyph-sized button
    regardless of how many locales you support, where a radio group
    grows linearly and dominates the layout past a handful of
    options.
 2. **Symmetry with `ThemeSelect`**. The sibling helper in this
    catalog uses the same shape, so the two compose visually and
    semantically without surprises.
-3. **Escape hatch is one fragment away**. The `ChildContent`
-   `RenderFragment<LocaleSelectContext>` hands you the full state
-   machine — locales, value, `SetLocale`, `TagFor`, `IsRtl`,
-   `LabelFor` — so a custom `<select>` or button group is a 10-line
-   rewrite, not a fork.
+3. **Real DOM options**. Each `<li role="option">` is an ordinary
+   element you can style and that carries its own `lang`, which a
+   native `<select>` popup could not reliably give us.
 
-For a handful of locales you can use the fragment to render a
-button group for extra discoverability. See
-[examples/03_Buttons.razor](../examples/03_Buttons.razor).
+If you want a different control shape entirely — a button group, a
+row of flags — drive the component from your own markup: take a
+`@ref` and call `SetLocaleAsync(code)`. `ChildContent` is a
+narrower tool: it replaces the glyph inside the trigger button and
+does not render options.
 
 ## Why a separate `Value` and `lang` attribute
 
@@ -135,8 +138,8 @@ Three layers, mirroring the lifecycle:
    Unit-test them in isolation with plain xUnit.
 2. **DOM contract** — after mount, inspect
    `JSInterop.Invocations` for the `eval` call that sets `lang`
-   and `dir`. Drive a `ChangeAsync` on the `<select>` and inspect
-   again.
+   and `dir`. Click the trigger button, click an
+   `<li role="option">`, and inspect again.
 3. **Bindable + OnChange** — drive `Value` programmatically
    and assert the same DOM observations; assert that `OnChange`
    was invoked.
@@ -157,11 +160,16 @@ The select exposes its bindable on `Value`. Always use
 The `<TContext>` parameter is the Blazor pattern for "render-prop"
 or "scoped slot". It gives the consumer:
 
-- A strongly-typed context (`LocaleSelectContext` with `Locales`,
-  `Value`, `SetLocale`, `Name`, `LabelFor`, `TagFor`, `IsRtl`).
+- A strongly-typed context (`LocaleSelectContext` with `Value`,
+  `Open`, `LabelFor`).
 - A single render-tree node owned by the select.
 - Predictable lifetime — the fragment renders when the select
   renders.
+
+The pure helpers the context used to carry (`TagFor`, `IsRtl`) live
+on the static `Locales` class — `Locales.Bcp47LocaleTag(code)` and
+`Locales.IsRtlLocale(code)` — so you can call them from anywhere,
+including server-side code.
 
 ### Static helpers vs an interface
 

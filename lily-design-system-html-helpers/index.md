@@ -55,6 +55,14 @@ Shared design decisions across the catalog:
 - **Light DOM**: the custom element itself uses light DOM (not
   Shadow DOM), so the consumer's CSS reaches the rendered markup
   via stable kebab-case class hooks.
+- **Two rendering shapes**: `<theme-select>` and `<locale-select>`
+  render an icon button that opens a `role="listbox"` dropdown,
+  implementing the WAI-ARIA APG listbox keyboard contract in JS.
+  `<text-size-select>` renders a native `<select>` and inherits the
+  platform's. Because light DOM has no `<slot>`, the customisation
+  surface is subclassing — override `renderButtonContent()` to
+  replace the button glyph without giving up the accessibility
+  contract.
 - **Attribute-driven config**: attributes are kebab-case strings
   (`themes-url`, `storage-key`, `default-value`, `apply-dir`).
   Array-valued options (`themes`, `locales`) accept either a
@@ -145,7 +153,7 @@ Differences between this catalog and the Svelte canonical:
 | Two-way binding      | `bind:value`                           | Read/write `el.value` / `el.setAttribute("value", …)`       |
 | Reactive state       | `$state`, `$bindable`                  | Internal `#private` fields + `attributeChangedCallback`     |
 | Reactive side-effects | `$effect`                              | `connectedCallback` + `attributeChangedCallback`            |
-| Render props / slots | Snippet (`{#snippet children(...)}`)   | Subclass the element class, override `#render()`            |
+| Render props / slots | Snippet (`{#snippet children(...)}`)   | Subclass the element class, override `renderButtonContent()` |
 | Stylesheet head      | `<svelte:head>`                        | Imperative `document.head.appendChild(...)`                 |
 | Change notification  | `onchange` prop callback               | `CustomEvent("themechange" / "localechange")`               |
 | SSR                  | `hooks.server.ts` + `transformPageChunk` | Static-site generator (Eleventy / Astro / Hugo) renders attributes, client upgrades |

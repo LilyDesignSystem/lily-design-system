@@ -1,74 +1,151 @@
 # Custom rendering
 
-The default `children` is a list of native `<option>` elements inside
-the `<select>`. When you need a different option layout — grouped
-options via `<optgroup>`, custom labels — pass your own render prop.
-The render output is placed inside the `<select>`, so it should return
-`<option>` (or `<optgroup>`) elements.
+The `children` render prop replaces the glyph **inside the trigger
+button**. Nothing else. The component owns the listbox, the options,
+their ids, their ARIA state, and the whole keyboard contract — so a
+custom glyph cannot break the pattern.
 
-If you need a fundamentally different control — swatch buttons, a
-segmented control, a flyout menu — render that control outside the
-select and drive it by calling `setTheme` from a wrapper (see the
-button-group pattern below).
+By default the button holds:
+
+```html
+<span class="theme-select-icon" aria-hidden="true">◑</span>
+```
+
+that is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`&#9681;`), exported from
+`ThemeSelect.tsx` as `CIRCLE_WITH_RIGHT_HALF_BLACK`. Passing `children`
+replaces that span entirely — the `.theme-select-icon` hook disappears
+unless you re-render it yourself.
 
 ## The ChildArgs contract
 
-The render prop receives one argument with five fields:
+The render prop receives one argument with three fields:
 
 ```ts
 type ChildArgs = {
-    themes: string[];                    // the available slugs
     value: string;                       // the active slug
-    setTheme: (theme: string) => void;   // imperative apply (writes value)
-    name: string;                        // shared identity for the select
+    open: boolean;                       // is the listbox expanded?
     labelFor: (theme: string) => string; // resolved display label
 };
 ```
 
-`setTheme(slug)` writes the new slug to internal state (uncontrolled)
-or calls `onChange` so the consumer can update `value` (controlled),
-then performs the four steps in
-[spec/index.md §5.3](../spec/index.md#53-applying-a-theme).
+- `value` — the active slug. Empty string until the first-mount
+  resolution completes.
+- `open` — whether the listbox is currently expanded. Useful for
+  flipping a caret.
+- `labelFor(slug)` — `themeLabels[slug]` when supplied, otherwise the
+  slug with each hyphen-separated word title-cased.
+
+There is no `setTheme`, no `themes`, and no `name`: a glyph has no
+reason to mutate the selection or enumerate the catalog. Consumers who
+need to drive the value from their own UI use the controlled
+`value` + `onChange` pair instead — see
+[Driving the theme from your own control](#driving-the-theme-from-your-own-control).
+
+## The one rule
+
+**Keep everything you render `aria-hidden="true"`.**
+
+The button's accessible name comes from `aria-label`, which is the
+`label` prop. Anything visible you render that is *not* hidden joins the
+accessible name computation and can leave the announced name out of step
+with the visible text — WCAG 2.5.3, Label in Name. Either hide your
+glyph content, or make `label` start with the visible text.
 
 ## Patterns
 
-### Custom option labels and grouping
-
-The render output lands inside the `<select>`, so return `<option>`
-(and optionally `<optgroup>`) elements:
+### A live swatch of the active theme
 
 ```tsx
-<ThemeSelect label="Theme" themesUrl="/assets/themes/" themes={["light", "dark", "abyss"]}>
-    {({ themes, value, labelFor }) => (
-        <optgroup label="Available themes">
-            {themes.map((t) => (
-                <option
-                    key={t}
-                    className="theme-select-option"
-                    value={t}
-                >
-                    {labelFor(t)}
-                </option>
-            ))}
-        </optgroup>
+<ThemeSelect
+    label="Theme"
+    themesUrl="/assets/themes/"
+    themes={["light", "dark", "abyss"]}
+>
+    {({ value, open, labelFor }) => (
+        <>
+            <span
+                className="theme-select-swatch"
+                data-theme={value}
+                aria-hidden="true"
+            />
+            <span aria-hidden="true">{labelFor(value)}</span>
+            <span aria-hidden="true">{open ? "▴" : "▾"}</span>
+        </>
     )}
 </ThemeSelect>
 ```
 
-The select's own `onChange` calls `setTheme` with the chosen
-`<option>`'s `value`, so you do not wire click handlers per option —
-the native `<select>` does it for you.
+The `data-theme` on the swatch lets your CSS preview the theme's colours
+through the same `:root[data-theme]` cascade the themes themselves use.
 
-### Swatch buttons (rendered outside the select)
+Working file: [`../examples/custom-rendering.tsx`](../examples/custom-rendering.tsx).
 
-A `<select>` only accepts `<option>` / `<optgroup>` children, so a
-button group is built standalone and driven by `setTheme`. Wrap the
-select so you can call `setTheme` imperatively, or lift the state into
-your own component and call the exported helpers. The simplest form
-uses a controlled `value` and your own buttons:
+### Your own SVG icon
+
+The default glyph is a Unicode character, so its appearance depends on
+the fonts installed on the user's device — it can render at an odd
+weight, fall back to a box, or be missing. When the visual must be
+certain, ship your own vector:
 
 ```tsx
-function ThemeSwatches({ value, setTheme, themes, labelFor }: {
+<ThemeSelect label="Theme" themesUrl="/assets/themes/" themes={themes}>
+    {() => (
+        <svg
+            className="theme-select-icon"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            aria-hidden="true"
+            focusable="false"
+        >
+            <circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" />
+            <path d="M8 1a7 7 0 0 1 0 14Z" fill="currentColor" />
+        </svg>
+    )}
+</ThemeSelect>
+```
+
+`focusable="false"` keeps legacy Internet Explorer / Edge from putting
+the SVG in the tab order; `aria-hidden` keeps it out of the name.
+
+### A visible text trigger
+
+If you want the button to state the active theme rather than show an
+icon, render the label and extend `label` so the accessible name still
+contains the visible text:
+
+```tsx
+<ThemeSelect
+    label={`Theme: ${labelFor(theme)}`}
+    themesUrl="/assets/themes/"
+    themes={themes}
+    value={theme}
+    onChange={setTheme}
+>
+    {({ value, labelFor }) => (
+        <span aria-hidden="true">{labelFor(value)}</span>
+    )}
+</ThemeSelect>
+```
+
+This also removes the reason to ship the separate status region
+described in [accessibility.md](./accessibility.md) — the control itself
+now reports its value.
+
+## Driving the theme from your own control
+
+`children` cannot change the theme. To build a different control
+entirely — swatch buttons, a segmented control, a command palette entry
+— run the select in controlled mode and drive `value` from your own
+state:
+
+```tsx
+function ThemeSwatches({
+    value,
+    setTheme,
+    themes,
+    labelFor,
+}: {
     value: string;
     setTheme: (slug: string) => void;
     themes: string[];
@@ -93,84 +170,51 @@ function ThemeSwatches({ value, setTheme, themes, labelFor }: {
 }
 ```
 
-`aria-pressed` carries the active state. The `data-theme` on each
-button lets your CSS preview the swatch colours by hooking into the
-same `:root[data-theme]` cascade.
-
-### Segmented control with explicit roles
-
-Like the swatch buttons, a segmented control is rendered standalone
-(not inside the `<select>`) because it isn't an `<option>` list:
-
-```tsx
-function ThemeSegments({ value, setTheme, themes, labelFor }: {
-    value: string;
-    setTheme: (slug: string) => void;
-    themes: string[];
-    labelFor: (slug: string) => string;
-}) {
-    return (
-        <div role="tablist" className="segmented">
-            {themes.map((t) => (
-                <button
-                    key={t}
-                    type="button"
-                    role="tab"
-                    aria-selected={value === t}
-                    onClick={() => setTheme(t)}
-                >
-                    {labelFor(t)}
-                </button>
-            ))}
-        </div>
-    );
-}
-```
+Render it alongside a controlled `<ThemeSelect value={theme}
+onChange={setTheme} />` — writing `value` is what applies the theme, so
+your buttons and the select stay in step. You own the keyboard contract
+of whatever pattern you build: a button group gets `aria-pressed` and
+`Tab` between buttons, with no arrow-key navigation unless you add it.
 
 ## What the render prop should *not* do
 
+- Don't render the options. The component owns them; anything you
+  render lands inside the button.
+- Don't render interactive elements (`<button>`, `<a>`, `<input>`).
+  They would nest inside the trigger button, which is invalid HTML and
+  breaks activation.
 - Don't mutate `document.head` or `data-theme` directly; let the
-  select own that lifecycle.
-- Don't return non-`<option>` children from the render prop — they
-  render inside the `<select>`, which only accepts `<option>` /
-  `<optgroup>`. For other controls, render outside the select and
-  call `setTheme`.
-- Don't call `setTheme` inside a render — only inside event handlers
-  or effects.
+  component own that lifecycle.
+- Don't leave content un-`aria-hidden`. See [The one rule](#the-one-rule).
 
 ## React-specific tips
 
-### Stable function identity
+### `labelFor` identity
 
-The select doesn't memoize `setTheme` with `useCallback`. If a
-deeply nested child relies on referential equality for memo
-optimisations, wrap with `useCallback` yourself in the render prop:
+`labelFor` is re-created on each render — it is a pure function of
+`themeLabels`, so don't rely on referential equality for memo
+optimisations. If a deeply nested child needs a stable reference, wrap
+it yourself:
 
 ```tsx
-{({ setTheme }) => {
-    const onClick = useCallback(
-        (slug: string) => () => setTheme(slug),
-        [setTheme],
-    );
+{({ value, labelFor }) => {
+    const stable = useCallback(labelFor, [value]);
     // …
 }}
 ```
 
-This is rarely needed — most consumers use inline arrow functions.
-
-### Keys
-
-Each rendered option needs a stable `key`. The slug is canonical.
-
-```tsx
-{themes.map((t) => <button key={t}>{labelFor(t)}</button>)}
-```
+This is rarely needed; glyph content is cheap to re-render.
 
 ### Children type
 
 `children` is typed as `(args: ChildArgs) => React.ReactNode`, not
 `React.ReactNode`. Passing a raw element (not a function) is a
 TypeScript error, by design.
+
+### Fragments
+
+The render output goes straight inside the `<button>`, so a fragment
+with several spans is fine — no wrapper element is required or added.
 
 ---
 

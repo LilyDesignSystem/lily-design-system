@@ -11,17 +11,28 @@ fires and the select does not touch the DOM. The rendered HTML
 looks like:
 
 ```html
-<select class="locale-select" aria-label="Language" name="locale">
-    <option class="locale-select-option locale-select-placeholder" value="" selected>Language</option>
-    <option class="locale-select-option" value="en" lang="en">English</option>
-    …
-</select>
+<div class="locale-select">
+    <input type="hidden" name="locale" value="en" />
+    <button type="button" class="locale-select-button" aria-label="Language"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="locale-select-1-list">
+        <span class="locale-select-icon" aria-hidden="true">&#127760;</span>
+    </button>
+    <ul class="locale-select-list" id="locale-select-1-list" role="listbox"
+        aria-label="Language" tabindex="-1" hidden>
+        <li class="locale-select-option" id="locale-select-1-option-0"
+            role="option" aria-selected="true" lang="en">English</li>
+        …
+    </ul>
+</div>
 ```
 
-The placeholder option is `selected` server-side and stays selected
-thereafter; no locale `<option>` is ever marked `selected`, even when
-the consumer passes `Value="ar"`. The selection lives in `Value` and in
-`lang` / `dir` on the document root.
+The listbox arrives closed (`hidden`, `aria-expanded="false"`) and
+without `aria-activedescendant`. The selected locale is marked with
+`aria-selected="true"` and mirrored into the hidden input, so the
+server-rendered markup already reflects the `Value` the consumer
+passed. Ids come from a monotonic process-wide counter, so they are
+stable across the prerender / hydration boundary.
 
 The `lang` and `dir` attributes on the document root are **not**
 written on the server. Those happen on hydration unless the consumer
@@ -45,7 +56,7 @@ server-side.
 ## Blazor Web App cookie recipe (recommended)
 
 End-to-end code lives in
-[`../examples/08_SsrCookie.razor`](../examples/08_SsrCookie.razor).
+[`../examples/SsrCookie.razor`](../examples/SsrCookie.razor).
 The shape:
 
 ### `Program.cs`

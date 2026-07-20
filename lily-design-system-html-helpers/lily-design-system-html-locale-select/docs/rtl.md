@@ -192,10 +192,22 @@ The select keeps `lang` accurate; the selectors do the rest.
 
 ## Mixing LTR and RTL on one page
 
-The select's default rendering already does this: each `<option>`
-carries its own `lang` attribute, so the browser's bidi
-algorithm renders "Français" left-to-right and "العربية"
-right-to-left within the same `<select>`.
+The select's default rendering already does this: each
+`<li role="option">` carries its own `lang` attribute, so the
+browser's bidi algorithm renders "Français" left-to-right and
+"العربية" right-to-left within the same listbox.
+
+Position the dropdown with logical properties so it flips with the
+document direction rather than staying pinned to the left:
+
+```css
+.locale-select { position: relative; display: inline-block; }
+.locale-select-list {
+    position: absolute;
+    inset-inline-start: 0;   /* not `left: 0` */
+    inset-block-start: calc(100% + 0.25rem);
+}
+```
 
 If you embed user-supplied text whose language you don't know, wrap
 it with a `<bdi>` element. `<bdi>` isolates a span from the

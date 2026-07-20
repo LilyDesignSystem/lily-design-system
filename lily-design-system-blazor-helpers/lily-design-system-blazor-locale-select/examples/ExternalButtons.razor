@@ -1,0 +1,91 @@
+@*
+    External buttons — a toggle-button group driving the select via @ref.
+
+    ChildContent only replaces the glyph inside the button, so a button
+    group can no longer live inside the component. Instead the group sits
+    beside it and drives it imperatively through the public method
+    `SetLocaleAsync(code)`, reached via `@ref`. The component still owns
+    the whole lifecycle: lang, dir, storage, OnChange, and Value.
+
+    Per-button `lang` / `dir` / `title` come from the pure statics on the
+    `Locales` class — `Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName` — which
+    are public and side-effect free, exactly what an external control needs.
+
+    Use this when you want a prominent, tap-friendly affordance on small
+    screens, or when you want to render flags / abbreviations.
+
+    Note: the component still renders its own icon button and listbox. If
+    you want ONLY the button group, visually hide `.locale-select-button`
+    (a visually-hidden / clip-rect class) — never `display: none` on the
+    whole `.locale-select` control, because a display:none subtree can stop
+    the component's render and focus lifecycle from behaving normally. If
+    you want no component at all, skip it and call the `Locales` statics
+    from your own code, writing `lang` / `dir` yourself.
+
+    Outcome: a horizontal <ul> of <button>s beside the select. Clicking one
+    applies the locale exactly as picking it from the listbox would.
+*@
+
+@page "/examples/locale-select/buttons"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<LocaleSelect
+    @ref="localeSelect"
+    Label="Language"
+    Locales="@Codes"
+    @bind-Value="locale" />
+
+<ul class="locale-button-group" role="list">
+    @foreach (var l in Codes)
+    {
+        var code = l;
+        <li>
+            <button type="button"
+                    aria-pressed="@(locale == code)"
+                    lang="@Locales.Bcp47LocaleTag(code)"
+                    dir="@(Locales.IsRtlLocale(code) ? "rtl" : "ltr")"
+                    title="@Locales.LocaleName(code)"
+                    @onclick="@(() => ApplyAsync(code))">
+                @ShortCode(code)
+            </button>
+        </li>
+    }
+</ul>
+
+<p class="locale-select-status" aria-live="polite">
+    Selected: <code>@locale</code>
+</p>
+
+@code {
+    private static readonly string[] Codes =
+        new[] { "en", "fr", "es", "de", "ar", "he" };
+
+    private LocaleSelect? localeSelect;
+
+    private string locale = "en";
+
+    // Drive the component; it applies lang/dir/storage and pushes the new
+    // value back through @bind-Value.
+    private async Task ApplyAsync(string code)
+    {
+        if (localeSelect is not null)
+        {
+            await localeSelect.SetLocaleAsync(code);
+        }
+    }
+
+    // Short two-letter codes for compact display.
+    private static readonly Dictionary<string, string> SHORT = new()
+    {
+        ["en"] = "EN",
+        ["fr"] = "FR",
+        ["es"] = "ES",
+        ["de"] = "DE",
+        ["ar"] = "ع",
+        ["he"] = "ע",
+    };
+
+    private static string ShortCode(string code) =>
+        SHORT.TryGetValue(code, out var s) ? s : code.ToUpperInvariant();
+}

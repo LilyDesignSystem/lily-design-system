@@ -13,7 +13,9 @@ mount
 $effect (first run, browser only)
   │
   ▼
-initialised? ── no ──► resolve initial value (value > storage > defaultValue > "light" > themes[0])
+initialised? ── no ──► resolve initial value
+  │                     (value > storage > matchSystemTheme (if detectFromSystem)
+  │                      > defaultValue > "light" > themes[0])
   │                       │
   │                       ▼
   │                     if resolved !== current: value = resolved  (bind-back; $effect re-runs)
@@ -28,17 +30,43 @@ applyTheme:
   3. if storageKey: localStorage.setItem(storageKey, slug)
   4. onChange?.(slug)
 
-user picks an option
+user picks an option (click, or Enter / Space on the active option)
   │
   ▼
-onSelectChange ─► value = next
-  │                  │
-  │                  ▼
-  │                $effect re-runs (value changed)
-  │                  │
-  ▼                  ▼
-  (bind:value resolves)  applyTheme(next)
+choose(index) ─► setTheme(slug) ─► value = next
+  │                                   │
+  │                                   ▼
+  │                                 $effect re-runs (value changed)
+  │                                   │
+  ▼                                   ▼
+  closeList() → refocus button    applyTheme(next)
 ```
+
+## Open / close lifecycle
+
+Selection state and open state are deliberately separate. `value` is
+the applied theme; `open` and `activeIndex` are transient UI state that
+never touch `$effect`.
+
+```
+openList(startIndex?)
+  activeIndex = startIndex ?? (index of value, else 0)
+  open = true
+  queueMicrotask: listEl.focus(); scrollActiveIntoView()
+
+closeList(refocus = true)
+  if !open: return
+  open = false
+  activeIndex = -1
+  if refocus: queueMicrotask: buttonEl.focus()
+```
+
+`closeList(false)` is used where focus is already going somewhere else
+— `Tab`, an outside click, or focus leaving the root — so the component
+never yanks focus back from where the user sent it.
+
+The `queueMicrotask` wrappers matter: the DOM node must exist (and the
+`hidden` attribute must be gone) before focus can land on it.
 
 ## Why one `$effect`, not two
 
@@ -76,6 +104,9 @@ $effect(() => {
                 // ignore private-mode / quota errors
             }
         }
+        if (!initial && detectFromSystem) {
+            initial = matchSystemTheme(themes);
+        }
         if (!initial) {
             initial =
                 defaultValue ??
@@ -95,6 +126,14 @@ $effect(() => {
 The early `return` after `value = initial` is important: it lets the
 effect rerun with the new `value` and apply the theme through the
 normal path, instead of double-applying.
+
+`matchSystemTheme` sits below storage on purpose: a user who explicitly
+picked a theme keeps it when they later flip their OS setting. It slots
+into exactly the position `matchNavigatorLanguage` occupies in
+`locale-select`, which is what makes the two helpers' resolution orders
+readable side by side. It returns `""` — never throws — when
+`matchMedia` is unavailable, so SSR and jsdom fall through cleanly to
+the next step.
 
 ## Apply
 
@@ -166,7 +205,8 @@ This forces the select's `$effect` to fire.
 ## SSR
 
 During server rendering, `$effect` is a no-op. The template renders
-the `<option>`s using whatever `value` was passed; the managed
+the button, the listbox, and the `<li>` options using whatever `value`
+was passed (which decides `aria-selected` and the hidden input); the managed
 `<link>` is not created (no DOM); `data-theme` is not written.
 
 That's the recipe for flicker-free SSR: pre-resolve the theme on

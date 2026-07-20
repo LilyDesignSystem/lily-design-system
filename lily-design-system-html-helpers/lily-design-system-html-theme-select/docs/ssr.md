@@ -23,8 +23,8 @@ The rendered HTML before JS upgrade looks like:
 ></theme-select>
 ```
 
-No `<select>`, no options, no `<link>` in `<head>` — those all
-appear on hydration.
+No button, no listbox, no `<link>` in `<head>` — those all appear on
+hydration.
 
 ## What happens on hydration
 
@@ -33,10 +33,15 @@ HTML parser hits the closing tag:
 
 1. Resolves the initial slug per
    [spec/index.md §5.2](../spec/index.md#52-initial-value-resolution).
-2. Renders the `<select>` and options as children.
+2. Renders the `<div>` root, hidden `<input>`, icon button, and
+   listbox as children.
 3. Injects the managed `<link>` into `<head>` (or reuses an
    existing one).
 4. Sets `data-theme` on the target.
+
+Element ids come from a module-level counter
+(`nextThemeSelectId()`), never from `Math.random()` or `Date.now()`,
+so the rendered markup is deterministic across runs.
 
 If the resolved slug differs from the one the consumer pre-rendered
 in `<html data-theme>`, the user sees one frame of the wrong theme
@@ -209,6 +214,20 @@ HTML template, not a render function. SSG hosts simply render the
 host tag verbatim. The `customElements.define` call in `index.ts`
 is skipped under Node (the guard reads `typeof customElements !==
 "undefined"`).
+
+## Reserve space for the control
+
+Because the control renders nothing until it upgrades, the icon
+button appears mid-paint and can shift surrounding content. Give the
+host an intrinsic size in your CSS so the space is already there:
+
+```css
+theme-select {
+    display: inline-block;
+    min-inline-size: 2.5rem;
+    min-block-size: 2.25rem;
+}
+```
 
 ---
 

@@ -41,8 +41,8 @@ wrote, plus any pre-resolved attributes:
 ></locale-select>
 ```
 
-No `<select>`, no `<option>`s, no `lang` / `dir` writes — those all
-appear on hydration.
+No button, no listbox, no `lang` / `dir` writes — those all appear on
+hydration.
 
 ## What happens on hydration
 
@@ -53,7 +53,9 @@ HTML parser hits the closing tag:
    [spec/index.md §5.2](../spec/index.md). The value attribute wins, then
    `localStorage[storageKey]`, then navigator detection, then
    `default-value`, then `"en"`, then `locales[0]`.
-2. Renders the `<select>` and `<option>` children.
+2. Renders the `<div>` root, the hidden `<input>`, the button, and
+   the `<ul role="listbox">` children. Option ids come from a
+   deterministic module counter, so they match between renders.
 3. Writes `<html lang="{tag}" dir="{ltr|rtl}">`.
 4. Dispatches `localechange`.
 

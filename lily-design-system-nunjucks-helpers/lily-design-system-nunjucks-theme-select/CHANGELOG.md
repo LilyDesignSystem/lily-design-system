@@ -4,6 +4,150 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING — initial-value resolution order)
+
+- **`opts.value` now beats `localStorage`.** The initial-theme
+  resolution order changes from
+
+  ```
+  storage > value > defaultValue > "light" > first
+  ```
+
+  to
+
+  ```
+  value > storage > system detection > defaultValue > "light" > first
+  ```
+
+  **Who is affected.** Any consumer that passes `opts.value` *and*
+  sets `storageKey`. If you set only one of the two, nothing changes
+  for you.
+
+  **What was wrong.** `opts.value` is how a Nunjucks consumer passes a
+  theme they already resolved on the server — from a cookie, a
+  session, a signed-in user's stored preference. That is precisely the
+  case this catalog exists to serve. Storage-first silently overrode
+  it with whatever was left in `localStorage`, so a user who changed
+  their theme on another device, or whose account preference was
+  updated server-side, got the stale local value and the consumer had
+  no way to win short of clearing storage themselves. Every other Lily
+  helper — the canonical Svelte one, and every locale-select in every
+  catalog — already resolved value-first; nunjucks-theme-select was
+  the lone outlier.
+
+  **Migration.** If you relied on storage outranking a passed value,
+  make it explicit at the call site: read `localStorage` in your own
+  page script and pass the result as `opts.value`. Consumers who set
+  `storageKey` and pass no `opts.value` need no change — storage is
+  still the next input consulted, so a returning visitor with a saved
+  choice and no server-resolved theme lands exactly where they did
+  before.
+
+  The old rationale in `AGENTS/lifecycle.md` ("a user who picked dark
+  two weeks ago should land on dark today") has been rewritten rather
+  than left contradicting the code.
+
+### Changed (BREAKING — DOM contract)
+
+- **The control is no longer a native `<select>`.** It is now an icon
+  `<button>` that opens a `<ul role="listbox">`. The root element
+  changes from `<select class="theme-select">` to
+  `<div class="theme-select">`. Every consumer selector, test, and
+  stylesheet that assumed a `<select>` / `<option>` DOM must be
+  updated.
+- **`placeholder` opt removed.** This supersedes the 0.3.0
+  placeholder-pinning work: there is no `<select>` left to pin, and
+  the closed control now shows a glyph rather than a word. The
+  `.theme-select-placeholder` class hook is removed with it.
+- The `name` opt now names a hidden `<input>` inside the root rather
+  than the `<select>` itself. It still discriminates the managed
+  `<link data-lily-theme-select="{name}">`, and it is now also the
+  default id prefix.
+- The `{% call %}` block body now replaces the button's **glyph**
+  rather than the control's options.
+
+### Added
+
+- `themeName(slug)` export on `theme-select.client.js`:
+  `"high-contrast"` → `"High Contrast"`. Mirrors locale-select's
+  `localeName(code)`, and replaces the title-casing rule that examples
+  across the catalogs had been hand-duplicating. The macro applies the
+  same rule in template syntax — a Nunjucks macro cannot call into the
+  client module — and a test asserts the two agree for every slug.
+- `detectFromSystem` opt (boolean, default `false`) plus the
+  `matchSystemTheme(themes)` export. Mirrors locale-select's
+  `detectFromNavigator` / `matchNavigatorLanguage`. Reads
+  `matchMedia("(prefers-color-scheme: dark)")`, maps to `"dark"` /
+  `"light"`, and returns `""` when that slug is not among the rendered
+  options or when `matchMedia` is unavailable. It resolves in the
+  client only — there is no `matchMedia` at Nunjucks render time — so
+  the macro emits `data-lily-theme-select-detect-from-system` and its
+  server-rendered `aria-selected` continues to resolve from
+  `value or defaultValue or "light" or themes[0]`. See spec §5.8.
+- Icon button rendering U+25D1 CIRCLE WITH RIGHT HALF BLACK
+  (`&#9681;`) inside an `aria-hidden="true"` span, named solely by
+  `aria-label`.
+- Full WAI-ARIA APG listbox keyboard contract in
+  `theme-select.client.js`: `ArrowDown` / `Enter` / `Space` open (
+  `ArrowUp` opens on the last option); arrows move the active option
+  and clamp without wrapping; `Home` / `End` jump; `Enter` / `Space`
+  select, apply, close, and return focus; `Escape` closes without
+  changing the value; `Tab` closes without stealing focus back;
+  printable characters run a typeahead over the labels with a 500 ms
+  buffer reset. Click-to-select, click-outside-to-close, and
+  focus-out-to-close are wired too.
+- Hidden `<input type="hidden" name="{name}">`, pre-filled
+  server-side, preserving form participation.
+- `id` opt (optional, string): id prefix for the listbox
+  (`{id}-list`) and its options (`{id}-option-{i}`). Defaults to
+  `theme-select-{name}`. Ids are deterministic and SSR-safe — no
+  `Math.random`, no `Date.now`. Pass an explicit `id` when two
+  instances share a `name`.
+- `CIRCLE_WITH_RIGHT_HALF_BLACK` export from the client module.
+- New class hooks: `.theme-select-button`, `.theme-select-icon`,
+  `.theme-select-list`, `.theme-select-option`, plus the
+  `[data-active]` and `[aria-selected]` state hooks. Positioning CSS
+  for the listbox is the consumer's job; the package ships none. See
+  [docs/styling.md](./docs/styling.md).
+- Server-side selected resolution: the macro marks exactly one option
+  `aria-selected="true"` (`value or defaultValue or "light" or
+  themes[0]`) and pre-fills the hidden input to match.
+
+### Regression (documented, not fixed)
+
+- **The control does not work without JavaScript.** The button has no
+  handler and the listbox renders `hidden`, so with JS disabled there
+  is no way to change the theme. The previous native `<select>` was
+  fully operable with no JS. The only surviving no-JS affordance is
+  the pre-filled hidden input, which lets a form submit carry a theme.
+  Stated plainly in [docs/ssr.md](./docs/ssr.md); consumers who need
+  no-JS operability should use the headless catalog's plain
+  `theme-select` `<select>` container instead.
+
+### Unchanged
+
+- `data-lily-theme-select-value` remains the sole channel by which
+  `opts.value` reaches the client, and still prevents a pre-hydration
+  flash.
+- `data-theme` application, the managed `<link>` swap, `localStorage`
+  persistence, `onChange`, initial-value resolution order, SSR safety,
+  and the exported pure helpers `normaliseThemesUrl` / `themeHref`.
+- `initThemeSelect(root, opts?)` and `autoInit(opts?)` keep their
+  signatures and still return `{setTheme, destroy}`. `destroy()` now
+  also detaches the `document` click listener.
+
+### Documentation
+
+- `docs/accessibility.md` rewritten. The 0.3.0 placeholder tradeoff is
+  gone; three new tradeoffs are stated honestly: the accessible name
+  rests entirely on `aria-label`, a custom listbox has weaker AT
+  support than a native `<select>`, and the glyph may render
+  differently or be missing depending on platform fonts. The
+  status-region guidance is kept — the closed button shows only a
+  glyph, so it matters more than before.
+
 ## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING — DOM contract)

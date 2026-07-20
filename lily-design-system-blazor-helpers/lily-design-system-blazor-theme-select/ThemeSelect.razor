@@ -4,41 +4,66 @@
     ThemeSelect — Blazor helper component.
     Single source of truth: spec/index.md (§1–§9).
 
-    Renders an accessible native <select> of available themes. On every
-    selection it (1) swaps the href of a managed <link> in <head>,
-    (2) sets data-theme on <html>, (3) optionally persists to
-    localStorage, and (4) invokes OnChange / ValueChanged.
+    Renders an icon button that opens a dropdown listbox of available
+    themes (WAI-ARIA APG listbox pattern). On every selection it
+    (1) swaps the href of a managed <link> in <head>, (2) sets
+    data-theme on <html>, (3) optionally persists to localStorage, and
+    (4) invokes OnChange / ValueChanged.
 
     All DOM writes happen through IJSRuntime inside OnAfterRenderAsync,
     so the component is SSR / prerender safe.
 *@
 
-<select class="@RootClass"
-        aria-label="@Label"
-        name="@Name"
-        @ref="_selectElement"
-        @onchange="OnSelectAsync"
-        @attributes="AdditionalAttributes">
-    @*
-        The placeholder option is component-owned and is always the selected
-        option, so the closed <select> reads `Placeholder ?? Label` rather
-        than the active theme name. It is the first child in BOTH the
-        default and the custom-ChildContent code paths. The real selection
-        lives in `Value`, not in the <select>'s own DOM value.
-    *@
-    <option class="theme-select-option theme-select-placeholder"
-            value=""
-            selected>@PlaceholderText</option>
-    @if (ChildContent is not null)
-    {
-        @ChildContent(BuildContext())
-    }
-    else
-    {
-        @foreach (var theme in Themes)
+<div class="@RootClass"
+     @onfocusout="OnRootFocusOutAsync"
+     @attributes="AdditionalAttributes">
+
+    @* Preserves form participation; the listbox itself is not a form control. *@
+    <input type="hidden" name="@Name" value="@Value" />
+
+    <button type="button"
+            class="theme-select-button"
+            @ref="_buttonElement"
+            aria-label="@Label"
+            aria-haspopup="listbox"
+            aria-expanded="@(_open ? "true" : "false")"
+            aria-controls="@ListId"
+            @onclick="OnButtonClickAsync"
+            @onkeydown="OnButtonKeyDownAsync">
+        @if (ChildContent is not null)
         {
-            <option class="theme-select-option"
-                    value="@theme">@LabelFor(theme)</option>
+            @ChildContent(BuildContext())
         }
-    }
-</select>
+        else
+        {
+            @* The glyph is decorative: the accessible name is the button's
+               aria-label, never the character itself. *@
+            <span class="theme-select-icon" aria-hidden="true">@CircleWithRightHalfBlack</span>
+        }
+    </button>
+
+    @* mousedown default is suppressed so clicking an option does not blur
+       the listbox before the click handler runs. *@
+    <ul class="theme-select-list"
+        id="@ListId"
+        role="listbox"
+        aria-label="@Label"
+        aria-activedescendant="@ActiveDescendantId"
+        tabindex="-1"
+        hidden="@(!_open)"
+        @ref="_listElement"
+        @onkeydown="OnListKeyDownAsync"
+        @onmousedown:preventDefault="true">
+        @for (var i = 0; i < Themes.Count; i++)
+        {
+            var index = i;
+            var theme = Themes[index];
+            <li class="theme-select-option"
+                id="@OptionId(index)"
+                role="option"
+                aria-selected="@(theme == Value ? "true" : "false")"
+                data-active="@(index == _activeIndex ? "" : null)"
+                @onclick="() => ChooseAsync(index)">@LabelFor(theme)</li>
+        }
+    </ul>
+</div>

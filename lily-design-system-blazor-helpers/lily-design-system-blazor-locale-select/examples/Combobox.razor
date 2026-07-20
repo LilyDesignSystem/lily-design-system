@@ -1,0 +1,91 @@
+@*
+    Combobox — an external combobox with native <datalist> type-ahead.
+
+    For long locale lists (50+) where scrolling the listbox is too tedious.
+    ChildContent only replaces the glyph inside the button, so the combobox
+    sits beside the component and drives it through the public
+    `SetLocaleAsync(code)` method via `@ref`. The component still owns the
+    lifecycle — lang, dir, storage, OnChange, Value.
+
+    Labels are resolved from the pure statics on the `Locales` class:
+    `Locales.DefaultLocaleLabels` supplies the code list and
+    `Locales.LocaleName` resolves each code to its English name. Nothing
+    here needs the component's internal LabelFor.
+
+    Outcome: type "Fr" — the combobox suggests "French", "French (Canada)",
+    "Frisian", etc. Pick one and the component applies it.
+
+    Browser support note: native <datalist> is widely supported but iOS
+    Safari's UX is limited, and an <input list> is NOT the WAI-ARIA APG
+    combobox pattern (no aria-expanded / aria-activedescendant / managed
+    listbox). For a fully APG-compliant combobox, swap in Lily's headless
+    Combobox primitive or a Blazor combobox library (FluentUI, MudBlazor),
+    and keep driving SetLocaleAsync the same way.
+
+    Note: the component still renders its own icon button and listbox. To
+    show only the combobox, visually hide `.locale-select-button` with a
+    visually-hidden class — never `display: none` on the whole
+    `.locale-select` control, which can stop its render and focus
+    lifecycle from behaving normally.
+*@
+
+@page "/examples/locale-select/combobox"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<LocaleSelect
+    @ref="localeSelect"
+    Label="Language"
+    Locales="@allLocales"
+    @bind-Value="locale"
+    StorageKey="combobox-locale" />
+
+<label for="locale-combobox">Find a language</label>
+<input id="locale-combobox"
+       type="text"
+       list="locale-options"
+       placeholder="Start typing a language…"
+       value="@(inputValue.Length > 0 ? inputValue : Locales.LocaleName(locale))"
+       @oninput="OnInput"
+       @onchange="OnSubmitAsync" />
+
+<datalist id="locale-options">
+    @foreach (var l in allLocales)
+    {
+        <option value="@Locales.LocaleName(l)" lang="@Locales.Bcp47LocaleTag(l)">@l</option>
+    }
+</datalist>
+
+<p class="locale-select-status" aria-live="polite">
+    Selected locale: <code>@locale</code>
+    (@Locales.LocaleName(locale))
+</p>
+
+@code {
+    private LocaleSelect? localeSelect;
+
+    private string locale = "en";
+    private string inputValue = "";
+
+    private readonly string[] allLocales =
+        Locales.DefaultLocaleLabels.Keys.ToArray();
+
+    private void OnInput(ChangeEventArgs e)
+    {
+        inputValue = e.Value?.ToString() ?? "";
+    }
+
+    // Validate the typed text against the supported set before applying;
+    // a datalist does not constrain input, so free text must be rejected.
+    private async Task OnSubmitAsync(ChangeEventArgs e)
+    {
+        var typed = e.Value?.ToString() ?? "";
+        var match = allLocales.FirstOrDefault(l =>
+            string.Equals(Locales.LocaleName(l), typed, StringComparison.OrdinalIgnoreCase));
+        if (match is not null && localeSelect is not null)
+        {
+            await localeSelect.SetLocaleAsync(match);
+            inputValue = "";
+        }
+    }
+}

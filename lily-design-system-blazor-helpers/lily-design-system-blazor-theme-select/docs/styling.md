@@ -6,18 +6,37 @@ exposes.
 
 ## Class hooks
 
-| Selector                                  | Element                          |
-| ----------------------------------------- | -------------------------------- |
-| `.theme-select`                           | The root `<select>`.             |
-| `.theme-select.{CssClass}`                | Both classes when `CssClass` is passed. |
-| `.theme-select > .theme-select-option`    | Each `<option>`.                 |
-| `.theme-select > .theme-select-placeholder` | The leading placeholder `<option>` — the one the closed control always displays. |
-| `.theme-select-status`                    | The consumer-rendered status region echoing the active theme. Not emitted by the component — see below. |
+| Selector                    | Element                                                                                              |
+| --------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `.theme-select`             | The root `<div>`.                                                                                      |
+| `.theme-select.{CssClass}`  | Both classes when `CssClass` is passed.                                                                |
+| `.theme-select-button`      | The icon `<button>` that opens the listbox.                                                            |
+| `.theme-select-icon`        | The `<span>` wrapping the default glyph. **Absent** when you supply `ChildContent`.                    |
+| `.theme-select-list`        | The `<ul role="listbox">`. Carries `hidden` while closed. **Needs positioning CSS — see below.**       |
+| `.theme-select-option`      | Each `<li role="option">`.                                                                             |
+| `.theme-select-status`      | The consumer-rendered status region echoing the active theme. Not emitted by the component — see below. |
 
-If you pass a `ChildContent` fragment, `.theme-select` on the root and
-the leading `.theme-select-placeholder` option are still guaranteed
-(the placeholder is component-owned and renders in both code paths);
-the rest of the inner markup is up to you.
+The old `.theme-select-placeholder` hook is **gone**. There is no
+placeholder option any more; the control is a button plus a listbox.
+
+If you pass a `ChildContent` fragment it replaces the glyph inside the
+button, so `.theme-select-icon` disappears while every other hook
+stays.
+
+## State hooks
+
+| Selector                              | Meaning                                                     |
+| ------------------------------------- | ----------------------------------------------------------- |
+| `.theme-select-list[hidden]`          | The listbox is closed.                                       |
+| `.theme-select-button[aria-expanded="true"]` | The listbox is open.                                  |
+| `.theme-select-option[aria-selected="true"]` | The active theme — the current selection.             |
+| `.theme-select-option[data-active]`   | The keyboard-active option (the `aria-activedescendant` target). |
+
+`[data-active]` and `[aria-selected]` are different things and both
+need a style. `[aria-selected]` is *what is chosen*; `[data-active]` is
+*where the arrow keys are*. Focus sits on the `<ul>`, never on an
+option, so without a `[data-active]` cue a sighted keyboard user cannot
+see where they are.
 
 ## Attribute hooks
 
@@ -26,31 +45,87 @@ the rest of the inner markup is up to you.
 | `data-theme="<slug>"`              | `<html>`            | Active theme indicator for theme CSS files. |
 | `data-lily-theme-select="<name>"`  | the managed `<link>`        | Discriminator for multiple selects. |
 
-## Suggested baseline CSS
+## The list needs positioning CSS — the package ships none
 
-Drop into the consumer's app stylesheet (e.g.
-`wwwroot/css/site.css`):
+This is the one piece of CSS the control does not work well without.
+The `<ul>` is an ordinary in-flow element, so an open listbox will push
+the rest of your page down unless you take it out of flow yourself:
 
 ```css
 .theme-select {
-    /*
-       The closed control always shows the short placeholder word rather
-       than the (often long) active theme name, so the select can be
-       sized to that word instead of to the widest option.
-    */
-    field-sizing: content;  /* Chrome 123+: size to the shown option */
-    width: auto;
-    max-width: 12ch;        /* fallback for Firefox / Safari */
+    position: relative;
+    display: inline-block;
+}
 
+.theme-select-list {
+    position: absolute;
+    z-index: 10;
+    inset-block-start: 100%;
+    inset-inline-start: 0;   /* logical: mirrors correctly under RTL */
+    min-width: 100%;
+    max-height: 16rem;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+```
+
+Use logical properties (`inset-inline-start`, not `left`) so the list
+stays anchored when the document `dir` flips.
+
+## Suggested baseline CSS
+
+Drop into the consumer's app stylesheet (e.g.
+`wwwroot/css/site.css`), on top of the positioning block above:
+
+```css
+.theme-select-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* The glyph is a font character; reserve a stable target even if
+       the platform substitutes or drops it. */
+    min-inline-size: 2.25rem;
+    min-block-size: 2.25rem;
     padding: 0.25rem 0.5rem;
     border: 1px solid var(--color-base-300, currentColor);
     border-radius: var(--radius-selector, 0.25rem);
     background: var(--color-base-100, white);
     color: var(--color-base-content, currentColor);
     cursor: pointer;
+    line-height: 1;
 }
 
-.theme-select:focus-visible {
+.theme-select-icon {
+    font-size: 1.125rem;
+}
+
+.theme-select-list {
+    border: 1px solid var(--color-base-300, currentColor);
+    border-radius: var(--radius-selector, 0.25rem);
+    background: var(--color-base-100, white);
+    color: var(--color-base-content, currentColor);
+}
+
+.theme-select-option {
+    padding: 0.25rem 0.75rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.theme-select-option[aria-selected="true"] {
+    font-weight: 600;
+}
+
+.theme-select-option[data-active],
+.theme-select-option:hover {
+    background: var(--color-primary, Highlight);
+    color: var(--color-primary-content, HighlightText);
+}
+
+.theme-select-button:focus-visible,
+.theme-select-list:focus-visible {
     outline: 2px solid var(--color-primary, currentColor);
     outline-offset: 2px;
 }
@@ -58,11 +133,11 @@ Drop into the consumer's app stylesheet (e.g.
 
 ## The status region
 
-The closed control always shows the placeholder word, never the active
-theme, so the recommended pattern pairs the select with a status region
-that echoes the selection. You render that element yourself; the
-component does not emit it. Use the `.theme-select-status` hook so the
-class name stays consistent across the design system:
+The closed control shows only a glyph, never the active theme, so the
+recommended pattern pairs it with a status region that echoes the
+selection. You render that element yourself; the component does not
+emit it. Use the `.theme-select-status` hook so the class name stays
+consistent across the design system:
 
 ```razor
 <ThemeSelect Label="Theme" @bind-Value="theme" ... />
@@ -102,15 +177,23 @@ the live region stops announcing:
 ```
 
 Rationale and the full tradeoff:
-[accessibility.md](./accessibility.md#the-compensating-status-region-is-the-default-pattern).
+[accessibility.md](./accessibility.md#the-status-region-is-still-the-recommended-pattern).
 
 ## Don'ts
 
-- Don't hide the options with `display: none`. The native
-  `<option>` elements are the accessibility tree's anchor point;
-  keep them in the DOM.
-- Don't override the select's `aria-*` attributes from CSS. They
+- Don't hide the options with `display: none`. The `<li role="option">`
+  elements are the accessibility tree's anchor point; keep them in the
+  DOM. The component's own `hidden` on the `<ul>` is the correct
+  mechanism — don't add a second one.
+- Don't style `.theme-select-list` open/closed by anything other than
+  the component's `hidden` attribute. Forcing it visible desynchronises
+  it from `aria-expanded`.
+- Don't override the control's `aria-*` attributes from CSS. They
   are part of the accessibility contract.
+- Don't rely on the glyph rendering identically everywhere. It is a
+  font character (U+25D1), not a shipped asset; give the button a
+  `min-inline-size` / `min-block-size` so it stays a clear target, or
+  supply your own `ChildContent` (inline SVG).
 - Don't add Blazor scoped CSS (`.razor.css` files) targeting the
   select's internal elements — the select is in a different
   assembly so the `b-XXXX` scoped attribute won't match. Use a
@@ -187,10 +270,10 @@ class on a wrapper and select against that:
 </section>
 ```
 
-The two selects share `<html data-theme>` but render their own
-`<select>` controls. To keep them truly independent, scope your theme
-CSS to `.settings-region[data-theme]` etc. and update those
-attributes yourself via `OnChange` handlers.
+The two selects share `<html data-theme>` but render their own button +
+listbox controls. To keep them truly independent, scope your theme CSS
+to `.settings-region[data-theme]` etc. and update those attributes
+yourself via `OnChange` handlers.
 
 ## Theming the select itself
 
@@ -203,7 +286,8 @@ theme, set its colours via `var(--color-*)` custom properties in
 your CSS:
 
 ```css
-.theme-select {
+.theme-select-button,
+.theme-select-list {
     background: var(--color-base-100);  /* re-binds on theme change */
     color: var(--color-base-content);
 }

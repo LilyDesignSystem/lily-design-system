@@ -6,27 +6,46 @@ error handling.
 
 ## Follow the OS colour scheme on first visit
 
+Pass `detectFromSystem` — you no longer need to resolve the media query
+yourself:
+
 ```svelte
 <script lang="ts">
   import ThemeSelect from "../ThemeSelect.svelte";
-
-  const prefersDark =
-    typeof window !== "undefined" &&
-    window.matchMedia?.("(prefers-color-scheme: dark)").matches;
 </script>
 
 <ThemeSelect
   label="Theme"
   themesUrl="/assets/themes/"
   themes={["light", "dark"]}
-  defaultValue={prefersDark ? "dark" : "light"}
+  detectFromSystem
   storageKey="my-app:theme"
 />
 ```
 
-The user's explicit choice (via `storageKey`) wins on later visits.
+Detection sits below storage in the resolution order, so the user's
+explicit choice wins on later visits. It resolves to `"dark"` or
+`"light"` only when that slug is in `themes`; otherwise resolution
+falls through to `defaultValue`.
+
+To use the underlying helper directly — on the server, in a store, or
+to decide something else — import it:
+
+```ts
+import { matchSystemTheme } from "../ThemeSelect.svelte";
+
+matchSystemTheme(["light", "dark"]);  // "dark" | "light"
+matchSystemTheme(["solarized"]);      // "" — neither slug on offer
+```
+
+It returns `""` rather than throwing when `matchMedia` is unavailable,
+so it is safe to call during SSR.
 
 ## Track OS colour scheme changes live
+
+`detectFromSystem` resolves the preference **once**, on first mount. To
+keep following it for the whole session, add your own listener and
+write to the bound `value`:
 
 ```svelte
 <script lang="ts">
@@ -68,12 +87,36 @@ for the full recipe.
    server-supplied value via `value` (which short-circuits the
    storage read).
 
-## Build a flyout / dropdown UI
+## Style the flyout
 
-Use [custom-rendering](./custom-rendering.md) to swap the native
-`<select>` for a button-triggered popover rendered outside the select.
-Call `setTheme` from your custom controls so the select still owns the
-loading lifecycle.
+The control **is** a button-triggered flyout now — no custom rendering
+needed. What it does not ship is the CSS that positions the popup; see
+[styling.md § Positioning the listbox](./styling.md#positioning-the-listbox).
+
+To change what the *trigger* looks like, use
+[custom-rendering](./custom-rendering.md): the `children` snippet
+replaces the glyph inside the button.
+
+## Show the active theme next to the control
+
+The closed control is one glyph, so nothing on the page states the
+active theme unless you state it:
+
+```svelte
+<script lang="ts">
+  import ThemeSelect, { themeName } from "../ThemeSelect.svelte";
+  let theme = $state("");
+</script>
+
+<ThemeSelect label="Theme" themesUrl="/assets/themes/" themes={["light", "dark"]} bind:value={theme} />
+
+<p class="theme-select-status" aria-live="polite">
+  Active theme: {themeName(theme)}
+</p>
+```
+
+`themeName` is the same function the options use, so the two cannot
+drift apart. Reasoning: [accessibility.md § The status region](./accessibility.md#the-status-region).
 
 ## Serve themes from a CDN
 
@@ -107,7 +150,7 @@ the slug works.
 ## Multiple regions with independent themes
 
 See [`../examples/multiple-selects.svelte`](../examples/multiple-selects.svelte).
-Each select gets a distinct `name` (so the `<select>` names and
+Each select gets a distinct `name` (so the hidden inputs and the
 managed `<link>`s don't collide) and a distinct `target` (so
 `data-theme` goes on the section root rather than `<html>`).
 

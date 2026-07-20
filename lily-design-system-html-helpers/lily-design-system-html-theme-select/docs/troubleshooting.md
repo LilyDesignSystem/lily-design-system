@@ -46,11 +46,75 @@ const select = document.querySelector("theme-select");
 // safe to interact
 ```
 
-## "Element upgrades but stays empty (no select)"
+## "The dropdown pushes the page down instead of floating over it"
+
+**Likely cause.** The package ships no CSS, and that includes
+positioning. The `<ul class="theme-select-list">` is an ordinary
+flow element until you position it.
+
+**Fix.**
+
+```css
+.theme-select { position: relative; }
+.theme-select-list {
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline-start: 0;
+    z-index: 10;
+}
+```
+
+## "The dropdown is always visible, even when closed"
+
+**Likely cause.** You set a `display` value on
+`.theme-select-list`. A class selector outranks the user-agent
+`[hidden] { display: none }` rule, so your `display` wins and the
+closed list stays on screen.
+
+**Fix.** Re-assert the hidden rule after yours, or scope your rule
+to the open state:
+
+```css
+.theme-select-list { display: grid; }
+.theme-select-list[hidden] { display: none; }
+
+/* or */
+.theme-select-list:not([hidden]) { display: grid; }
+```
+
+## "Keyboard users can't see which option they're on"
+
+**Likely cause.** You styled `:focus` or `:hover` on the options but
+not `[data-active]`. Focus stays on the `<ul>` while the list is
+open — it never moves to an `<li>` — so `.theme-select-option:focus`
+never matches. The keyboard highlight is `[data-active]`.
+
+**Fix.**
+
+```css
+.theme-select-option[data-active] { background: #eee; }
+.theme-select-list:focus-visible { outline: 2px solid currentColor; }
+```
+
+Also make sure `[data-active]` and `[aria-selected="true"]` look
+different: the first is where `Enter` would land, the second is the
+theme already applied.
+
+## "The button shows a box / question mark instead of an icon"
+
+**Likely cause.** Tofu. The glyph is a plain Unicode character
+(U+25D1) and the package bundles no fonts, so rendering depends
+entirely on the platform's installed fonts.
+
+**Fix.** Override `renderButtonContent()` and return your own inline
+SVG — see
+[custom-rendering.md](./custom-rendering.md#recipe-an-inline-svg-icon).
+
+## "Element upgrades but stays empty (no button)"
 
 **Likely cause.** Required attributes (`label`, `themes-url`,
-`themes`) are missing. The select doesn't throw — it just renders
-no options.
+`themes`) are missing. The control doesn't throw — it just renders
+no options, and `openList()` no-ops when `themes` is empty.
 
 **Fix.** Confirm the host has all three attributes:
 
@@ -69,16 +133,28 @@ Checklist:
 - The page is not opened via `file://` — some browsers disable
   `localStorage` on the `file://` protocol.
 
-## "The word 'default' appears in my select"
+## "The word 'default' appears in my option list"
 
-It does not come from this component. The select only emits the
+It does not come from this component. The control only emits the
 slug (title-cased) or the value from `theme-labels`. Check the
-consumer markup wrapping the select for hardcoded "(default)"
+consumer markup wrapping the control for hardcoded "(default)"
 annotations.
 
-## "Multiple selects fight over `<html data-theme>`"
+## "The list closes as soon as I click inside it"
 
-When two selects share `document.documentElement` as the target,
+**Likely cause.** Something is moving focus out of the rendered root
+— a focus-trap library, a framework re-render, or a wrapper that
+calls `focus()` elsewhere. The element closes on a click outside the
+root and on focus leaving the root.
+
+**Fix.** Ensure the list stays inside `.theme-select` in the DOM. If
+you teleport / portal it elsewhere, both the outside-click check and
+the focus-out check will treat it as external and close it
+immediately.
+
+## "Multiple controls fight over `<html data-theme>`"
+
+When two controls share `document.documentElement` as the target,
 the last apply wins. Either pass a per-select `target` (via the
 `el.target` JS property), or designate one select as the "global"
 one and have the others apply their themes to a wrapping element
@@ -140,13 +216,38 @@ Checklist:
 
 ## "Subclassing breaks: my `#render()` override isn't called"
 
-Private methods (`#x`) in TypeScript / JavaScript are *truly*
-private — subclasses cannot override them. Override
-`connectedCallback` / `attributeChangedCallback` instead, call
-`super.<callback>(...)`, and then post-process the children.
+Private fields (`#x`) in TypeScript / JavaScript are *truly*
+private — subclasses cannot override them.
 
-See [custom-rendering.md](./custom-rendering.md) for the canonical
-pattern.
+For custom **button content**, which is the common case, override
+the public `renderButtonContent()` instead. It is the supported
+hook, and the base class keeps owning the aria wiring and the whole
+keyboard contract.
+
+For a different **structure**, override `connectedCallback` /
+`attributeChangedCallback`, call `super.<callback>(...)`, and then
+post-process the children — accepting that you take over the entire
+accessibility contract in doing so.
+
+See [custom-rendering.md](./custom-rendering.md) for both tiers.
+
+## "My `renderButtonContent()` output goes stale"
+
+**Likely cause.** You cached the returned node and hand back the same
+instance on every call. The hook's return value *replaces* the
+button's children, so a reused node is detached and reattached rather
+than re-evaluated, and any text you set once never changes.
+
+The hook itself re-runs on structural rebuilds (`themes`,
+`theme-labels`, `label`, `name`, `class`) *and* on every state sync
+(a `value` change, each open and close), so content that reads
+`this.value` or `this.open` does stay current.
+
+**Fix.** Build and return a fresh `Node` on each call. For purely
+visual open/closed styling, prefer
+`.theme-select-button[aria-expanded="true"]` in CSS over
+re-rendering on `this.open`. See
+[custom-rendering.md](./custom-rendering.md#timing).
 
 ## "`customElements.define` throws DOMException: tag already defined"
 

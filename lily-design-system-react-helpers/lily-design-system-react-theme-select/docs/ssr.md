@@ -11,14 +11,29 @@ Vite SSR), no `useEffect` runs and the select does not touch the
 DOM. The rendered HTML looks like:
 
 ```html
-<select class="theme-select" aria-label="Theme" name="theme">
-    <option class="theme-select-option" value="light">Light</option>
-    <option class="theme-select-option" value="dark">Dark</option>
-    …
-</select>
+<div class="theme-select">
+    <input type="hidden" name="theme" value="" />
+    <button type="button" class="theme-select-button" aria-label="Theme"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="theme-select-«r0»-list">
+        <span class="theme-select-icon" aria-hidden="true">◑</span>
+    </button>
+    <ul class="theme-select-list" id="theme-select-«r0»-list" role="listbox"
+        aria-label="Theme" tabindex="-1" hidden>
+        <li class="theme-select-option" id="theme-select-«r0»-option-0"
+            role="option" aria-selected="false">Light</li>
+        <li class="theme-select-option" id="theme-select-«r0»-option-1"
+            role="option" aria-selected="false">Dark</li>
+        …
+    </ul>
+</div>
 ```
 
-No option is selected unless the consumer supplied a non-empty `value`.
+The listbox always renders closed on the server. No option carries
+`aria-selected="true"` unless the consumer supplied a non-empty `value`.
+
+The ids come from React's `useId`, so they match between the server
+render and the client render and hydrate cleanly.
 
 ## What happens on hydration
 

@@ -140,12 +140,31 @@ mirrored CSS:
 
 …or use a `:dir(rtl)` selector to swap the source asset.
 
+### Positioning the listbox in both directions
+
+This package ships zero CSS, so overlaying the `<ul>` on the page is
+your job — and it is a place where a hard-coded `left` bites. Anchor
+it with logical properties so it follows the `dir` this very component
+sets:
+
+```css
+.locale-select {
+    position: relative;
+}
+
+.locale-select-list {
+    position: absolute;
+    top: 100%;
+    inset-inline-start: 0; /* not `left: 0` */
+}
+```
+
 ## Mixing LTR and RTL on one page
 
-The select's default rendering already does this: each `<option>`
-carries its own `lang` attribute, so the browser's bidi algorithm
-renders "Français" left-to-right and "العربية" right-to-left within
-the same `<select>`.
+The select's default rendering already does this: each
+`<li role="option">` carries its own `lang` attribute, so the
+browser's bidi algorithm renders "Français" left-to-right and
+"العربية" right-to-left within the same listbox.
 
 If you embed user-supplied text whose language you don't know,
 wrap it with a `<bdi>` element. `<bdi>` isolates a span from the

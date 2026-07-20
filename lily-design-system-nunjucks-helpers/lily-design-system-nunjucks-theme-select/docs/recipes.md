@@ -36,8 +36,17 @@ app.get("/", (req, res) => {
 }) }}
 ```
 
-The user's explicit choice (via `storageKey`) wins on later
-visits.
+Note the division of labour once both are set. `value` outranks
+storage, so the cookie the server resolved is what applies — which is
+what you want here, because the `onChange` handler writes the user's
+explicit choice *into* that cookie, so the server's answer already is
+the user's latest choice, and it follows them across devices.
+`storageKey` is then a same-device cache for the case where the cookie
+is missing or expired.
+
+If you set `storageKey` **without** passing `value`, storage is the
+first thing consulted and the user's explicit choice wins on later
+visits exactly as you would expect.
 
 ## Track OS colour scheme changes live
 
@@ -71,16 +80,50 @@ for the full recipe.
 2. In the `onChange` handler, also `fetch("/api/theme", { method:
    "POST", body: JSON.stringify({ theme: slug }) })` to write the
    cookie.
-3. On the server, prefer the cookie. On the client, prefer the
-   server-supplied `opts.value` (which the client reads from
-   `data-lily-theme-select-value` at init time).
+3. On the server, prefer the cookie and pass it as `opts.value`. The
+   client then prefers it automatically: `value` is the first input in
+   the resolution order, ahead of the `localStorage` entry you kept in
+   step 1. That is exactly the migration behaviour you want — the
+   cookie leads, storage covers the users who have not been through an
+   `onChange` yet.
+4. Once traffic has cycled through, drop `storageKey` if you no longer
+   want a same-device cache.
 
-## Build a flyout / dropdown UI
+## Replace the button glyph with your own icon
 
-Use [custom-rendering](./custom-rendering.md) to swap the native
-select for a button-triggered popover. Keep the select's `<select>`
-around the flyout *trigger* so screen readers still hear the
-control label.
+The control is already a button-triggered dropdown. The one piece
+of markup it hands over is the glyph, via a `{% call %}` block:
+
+```njk
+{% call themeSelect({
+    label: "Theme",
+    themesUrl: "/assets/themes/",
+    themes: ["light", "dark"]
+}) %}
+    <svg width="16" height="16" aria-hidden="true" focusable="false">
+        <use href="#icon-palette"></use>
+    </svg>
+{% endcall %}
+```
+
+Keep `aria-hidden="true"` on the glyph — the button's accessible
+name must keep coming from `aria-label`. Everything else (the
+listbox, the ARIA wiring, the keyboard contract) stays
+macro-rendered. Full details in
+[custom-rendering](./custom-rendering.md).
+
+## Style the open listbox
+
+The client toggles `hidden` on the `<ul>` and sets `data-active` on
+the option under the keyboard cursor, so positioning and highlight
+are pure CSS:
+
+```css
+.theme-select { position: relative; display: inline-block; }
+.theme-select-list { position: absolute; inset-inline-start: 0; z-index: 1; }
+.theme-select-option[data-active] { background: Highlight; }
+.theme-select-option[aria-selected="true"]::after { content: "\2713"; }
+```
 
 ## Serve themes from a CDN
 
@@ -170,9 +213,9 @@ Hoist it to a shared module:
 </script>
 ```
 
-## Lazy-load the select
+## Lazy-load the runtime
 
-The macro renders the `<select>` eagerly. To delay the runtime, put
+The macro renders the markup eagerly. To delay the runtime, put
 the client.js import inside an `IntersectionObserver`:
 
 ```html
@@ -193,9 +236,13 @@ the client.js import inside an `IntersectionObserver`:
 </script>
 ```
 
-The `<select>` remains interactive without JS (form-submission
-level), and the apply lifecycle kicks in once the select scrolls
-into view.
+Be aware of what this trades away: until the module loads, the
+button is dead. It will not open the listbox, and there is no
+native fallback — the control is not a `<select>` any more. Only
+defer the runtime for a control that is genuinely below the fold,
+and prefer a plain deferred `<script type="module">` unless the
+byte savings are measured and real. See [ssr.md](./ssr.md) for the
+full no-JS picture.
 
 ---
 

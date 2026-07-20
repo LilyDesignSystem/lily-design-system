@@ -14,6 +14,7 @@ using Bunit;
 using Bunit.JSInterop;
 using LilyDesignSystem.Blazor.Helpers;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web; // KeyboardEventArgs
 using Xunit;
 
 namespace LilyDesignSystem.Blazor.Helpers.Tests;
@@ -35,21 +36,28 @@ public class ThemeSelectTests : TestContext
 
 `JSRuntimeMode.Loose` lets unmatched interop calls return their
 default value instead of throwing. The two explicit setups make
-sure `eval`-based DOM mutations don't blow up.
+sure `eval`-based DOM mutations don't blow up, and Loose mode also
+covers the `FocusAsync` interop the open / close lifecycle issues.
 
 ## Standard mount
 
 ```csharp
 [Fact]
-public void Section_7_1_Renders_Select()
+public void Section_7_1_Renders_Button_Controlling_A_Listbox()
 {
     var cut = RenderComponent<ThemeSelect>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, UrlTrailing)
         .Add(x => x.Themes, Themes));
 
-    var root = cut.Find("select");
-    Assert.Contains("theme-select", root.GetAttribute("class") ?? "");
+    var root = cut.Find("div.theme-select");
+    Assert.Empty(cut.FindAll("select"));
+
+    var button = cut.Find("button.theme-select-button");
+    Assert.Equal("listbox", button.GetAttribute("aria-haspopup"));
+
+    var list = cut.Find("ul.theme-select-list");
+    Assert.Equal(button.GetAttribute("aria-controls"), list.GetAttribute("id"));
 }
 ```
 
@@ -61,7 +69,7 @@ continuations may still be pending after `RenderComponent` returns.
 
 ```csharp
 [Fact]
-public async Task Section_7_7_Interop_Fires_With_Constructed_Href()
+public async Task Section_7_19_Interop_Fires_With_Constructed_Href()
 {
     var cut = RenderComponent<ThemeSelect>(p => p
         .Add(x => x.Label, "Theme")
@@ -94,15 +102,53 @@ await Task.Yield();
 Assert.Equal("light", captured);
 ```
 
-## Triggering a select change
+## Opening the listbox and choosing an option
+
+Pointer path — click the button, then click an `<li>`:
 
 ```csharp
-var select = cut.Find("select");
-await select.ChangeAsync(new() { Value = "abyss" });
+cut.Find("button").Click();
+cut.FindAll("li.theme-select-option")[2].Click();
+
+Assert.True(cut.Find("ul").HasAttribute("hidden"));
+Assert.Equal("abyss", cut.Find("input[type='hidden']").GetAttribute("value"));
 ```
 
-`ChangeAsync` dispatches the `change` event with the supplied
-payload. The select's `@onchange` handler reads `e.Value`.
+Keyboard path — bUnit dispatches `keydown` with a
+`KeyboardEventArgs`, so the idiom is:
+
+```csharp
+cut.Find("ul").KeyDown(new KeyboardEventArgs { Key = "ArrowDown" });
+```
+
+The suite wraps that in a helper, because every keyboard test needs
+both the button and the listbox target:
+
+```csharp
+private static void Key(IRenderedComponent<ThemeSelect> cut, string selector, string key)
+    => cut.Find(selector).KeyDown(new KeyboardEventArgs { Key = key });
+
+Key(cut, "button", "ArrowDown");   // open on the selected option
+Key(cut, "ul", "End");             // jump to the last option
+Key(cut, "ul", " ");               // Space selects, applies, closes
+```
+
+Assert the active option through `aria-activedescendant` rather than
+focus — the APG listbox pattern keeps focus on the `<ul>`:
+
+```csharp
+Assert.Equal(cut.FindAll("li")[0].GetAttribute("id"),
+    cut.Find("ul").GetAttribute("aria-activedescendant"));
+```
+
+Focus departure is `FocusOut()` on the root. The component swallows
+the first one (its own button → listbox move), so a test that wants a
+real departure dispatches two:
+
+```csharp
+cut.Find("div.theme-select").FocusOut();
+cut.Find("div.theme-select").FocusOut();
+```
 
 ## Asserting interop calls
 
@@ -132,7 +178,7 @@ needed:
 
 ```csharp
 [Fact]
-public void Section_7_11_Url_Normalisation()
+public void Section_7_22_Url_Normalisation()
 {
     Assert.Equal("/assets/themes/", ThemeSelect.NormaliseThemesUrl(UrlTrailing));
     Assert.Equal("/assets/themes/", ThemeSelect.NormaliseThemesUrl(UrlNoTrailing));
@@ -154,16 +200,21 @@ Assert.Contains("\"dark\"", script);
 
 ## ChildContent tests
 
+`ChildContent` replaces the glyph inside the button, so the test
+asserts both that the default `.theme-select-icon` is gone and that
+the fragment received `Value`, `Open`, and `LabelFor`:
+
 ```csharp
 [Fact]
-public void Section_7_13_ChildContent_Receives_Context()
+public async Task Section_7_24_ChildContent_Replaces_The_Glyph_And_Receives_Context()
 {
     RenderFragment<ThemeSelectContext> custom = ctx => builder =>
     {
-        builder.OpenElement(0, "div");
+        builder.OpenElement(0, "span");
         builder.AddAttribute(1, "data-testid", "custom");
-        builder.AddAttribute(2, "data-name", ctx.Name);
-        builder.AddContent(3, string.Join(",", ctx.Themes));
+        builder.AddAttribute(2, "data-open", ctx.Open.ToString());
+        builder.AddAttribute(3, "data-label", ctx.LabelFor(ctx.Value));
+        builder.AddContent(4, ctx.Value);
         builder.CloseElement();
     };
 
@@ -171,12 +222,18 @@ public void Section_7_13_ChildContent_Receives_Context()
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, UrlTrailing)
         .Add(x => x.Themes, Themes)
-        .Add(x => x.Name, "scheme")
         .Add(x => x.ChildContent, custom));
+    await Task.Yield();
 
-    var div = cut.Find("[data-testid='custom']");
-    Assert.Equal("scheme", div.GetAttribute("data-name"));
-    Assert.Contains("light,dark,abyss", div.TextContent);
+    Assert.Empty(cut.FindAll(".theme-select-icon"));
+
+    var custom_ = cut.Find("[data-testid='custom']");
+    Assert.Contains("theme-select-button",
+        custom_.ParentElement?.GetAttribute("class") ?? "");
+    Assert.Equal("Light", custom_.GetAttribute("data-label"));
+
+    cut.Find("button").Click();
+    Assert.Equal("True", cut.Find("[data-testid='custom']").GetAttribute("data-open"));
 }
 ```
 
@@ -187,21 +244,22 @@ without an extra .razor file.
 
 ```csharp
 [Fact]
-public void Section_7_12_AdditionalAttributes_Spread()
+public void Section_7_23_AdditionalAttributes_Spread_Onto_The_Root()
 {
     var cut = RenderComponent<ThemeSelect>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, UrlTrailing)
         .Add(x => x.Themes, Themes)
-        .AddUnmatched("data-testid", "tp"));
+        .AddUnmatched("data-testid", "ts"));
 
-    Assert.Equal("tp", cut.Find("select").GetAttribute("data-testid"));
+    Assert.Equal("ts", cut.Find("div.theme-select").GetAttribute("data-testid"));
 }
 ```
 
 `AddUnmatched` adds the attribute to the
 `CaptureUnmatchedValues = true` parameter dictionary; the select
-binds it via `@attributes="AdditionalAttributes"`.
+binds it via `@attributes="AdditionalAttributes"` on the root
+`<div>`.
 
 ## One test per §7 acceptance
 
@@ -211,22 +269,56 @@ cross-reference the spec without scrolling:
 
 ```csharp
 [Fact]
-public async Task Section_7_6_Initial_Value_Resolves_To_Light_Or_First() { … }
+public async Task Section_7_18_Initial_Value_Resolves_To_Light_Or_First() { … }
 ```
 
 Section map:
 
-| §7 group       | Test focus                                       |
-| -------------- | ------------------------------------------------ |
-| 7.1–7.5 markup | DOM contract: select, options, labels            |
-| 7.6 init       | Initial-value resolution order                   |
-| 7.7 apply      | Interop call carries the constructed href        |
-| 7.8 change     | Option change updates Value + fires callbacks    |
-| 7.9 storage    | StorageKey embedded in apply script              |
-| 7.10 explicit  | Explicit Value wins over storage / defaults      |
-| 7.11 normalise | URL normalisation                                |
-| 7.12 spread    | AdditionalAttributes fall-through                |
-| 7.13 children  | ChildContent receives ThemeSelectContext         |
+| §7 clause        | Test focus                                                        |
+| ---------------- | ----------------------------------------------------------------- |
+| **Markup contract** |                                                                |
+| 7.1 structure    | Root `<div>`, button with `aria-haspopup`/`aria-expanded`/`aria-controls`, `<ul role="listbox" tabindex="-1">`, no `<select>` |
+| 7.2 glyph        | `.theme-select-icon` renders `◑`, `aria-hidden="true"`, matches `CircleWithRightHalfBlack` |
+| 7.3 naming       | `aria-label` on BOTH the button and the listbox                   |
+| 7.4 options      | One `li.theme-select-option` per theme; hidden input carries `Name` + resolved `Value` |
+| 7.5 open state   | `hidden` until activated; activating toggles `hidden` + `aria-expanded` |
+| 7.6 selection    | Exactly one `aria-selected="true"`; no `aria-activedescendant` while closed; opening points it at the active option, which also carries `data-active` |
+| 7.7 labels       | Title-cased slugs, `ThemeLabels` override, "default" never emitted |
+| 7.8 ids          | List / option ids stable across re-render, unique across instances, `theme-select-` prefixed |
+| **Keyboard contract (WAI-ARIA APG listbox)** |                                       |
+| 7.9 open         | `ArrowDown` / `Enter` / `Space` on the button open on the selected option |
+| 7.10 open-last   | `ArrowUp` on the button opens with the last option active         |
+| 7.11 arrows      | Arrows move the active option and **clamp** at both ends          |
+| 7.12 home/end    | `Home` / `End` jump to first / last                               |
+| 7.13 commit      | `Enter` and `Space` in the listbox select, apply, and close       |
+| 7.14 escape      | `Escape` closes without changing the value or applying anything   |
+| 7.15 typeahead   | Printable characters run a label typeahead; a non-matching buffer leaves the active option unmoved |
+| 7.16 click       | Clicking an option selects, applies, and closes                   |
+| 7.17 focusout    | Focus leaving the root closes without changing the value          |
+| **Dynamic loading and lifecycle** |                                                  |
+| 7.18 init        | Initial value resolves to `"light"` or `Themes[0]`; `ValueChanged` fires |
+| 7.19 apply       | Interop call carries the constructed href                         |
+| 7.20 storage     | `StorageKey` embedded in the apply script (absent when unset); managed `<link>` discriminated by `Name` |
+| 7.21 explicit    | Explicit `Value` wins over storage / defaults                     |
+| 7.22 normalise   | URL normalisation                                                 |
+| **Spread and custom rendering** |                                                    |
+| 7.23 spread      | `AdditionalAttributes` fall through onto the root `<div>`         |
+| 7.24 children    | `ChildContent` replaces the glyph and receives `Value` / `Open` / `LabelFor` |
+
+## Testing the Blazor deviations
+
+Two behaviours exist only because of Blazor's event model
+(`spec/index.md` §6.4), and they shape how the tests are written:
+
+- **Suppress-next-click.** `@onkeydown:preventDefault` is evaluated
+  at render time, so it cannot be applied to the arrows while sparing
+  `Tab`; instead a flag swallows the click a `<button>` synthesises
+  after `Enter` / `Space`. A test that sends `Enter` to the button
+  should assert the listbox ends up **open**, not toggled twice.
+- **`focusout` instead of a document click listener.** The package
+  ships no JS, and `FocusEventArgs` has no `relatedTarget`, so
+  self-made focus moves are flagged and ignored. Hence the two
+  `FocusOut()` dispatches shown above.
 
 ## Don't
 

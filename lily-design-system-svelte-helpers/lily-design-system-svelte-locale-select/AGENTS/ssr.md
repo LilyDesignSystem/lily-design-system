@@ -6,7 +6,7 @@ recipes; the canonical rules live in
 [`../../AGENTS/ssr.md`](../../AGENTS/ssr.md).
 
 A complete runnable SvelteKit example for the layout side lives in
-[`../examples/08-ssr-cookie.svelte`](../examples/08-ssr-cookie.svelte);
+[`../examples/ssr-cookie.svelte`](../examples/ssr-cookie.svelte);
 the in-file comments show the matching `hooks.server.ts`,
 `app.html`, and POST endpoint code.
 
@@ -15,14 +15,29 @@ the in-file comments show the matching `hooks.server.ts`,
 Under SSR, `$effect` is a no-op. The select renders:
 
 ```html
-<select class="locale-select" aria-label="Language" name="locale">
-    <option class="locale-select-option" value="en" lang="en">English</option>
-    …
-</select>
+<div class="locale-select">
+    <input type="hidden" name="locale" value="" />
+    <button type="button" class="locale-select-button" aria-label="Language"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="locale-select-1-list">
+        <span class="locale-select-icon" aria-hidden="true">&#127760;&#65038;</span>
+    </button>
+    <ul class="locale-select-list" id="locale-select-1-list" role="listbox"
+        aria-label="Language" tabindex="-1" hidden>
+        <li class="locale-select-option" id="locale-select-1-option-0"
+            role="option" aria-selected="false" lang="en">English</li>
+        …
+    </ul>
+</div>
 ```
 
-If the consumer passes `value="ar"`, the corresponding `<option>` is
-rendered selected server-side.
+If the consumer passes `value="ar"`, the corresponding option gets
+`aria-selected="true"` and the hidden input gets `value="ar"`
+server-side.
+
+Option ids come from the module-level `nextLocaleSelectId()` counter,
+not from `Math.random()` / `Date.now()`, so server and client agree and
+hydration matches.
 
 The `lang` and `dir` attributes on the document root are **not**
 written on the server. Those happen on hydration unless the consumer
@@ -251,5 +266,6 @@ const { html } = render(LocaleSelect, {
 });
 ```
 
-The resulting string contains the rendered `<select>` with the `fr`
-option selected. No DOM touched.
+The resulting string contains the rendered button and listbox, with
+the `fr` option carrying `aria-selected="true"` and the hidden input
+carrying `value="fr"`. No DOM touched.

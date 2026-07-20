@@ -22,7 +22,6 @@ Import and invoke:
 | Key            | Type                     | Required | Default                                          |
 | -------------- | ------------------------ | -------- | ------------------------------------------------ |
 | `label`        | `string`                 | yes      | —                                                |
-| `placeholder`  | `string`                 | no       | value of `label`                                 |
 | `themesUrl`    | `string`                 | yes      | —                                                |
 | `themes`       | `string[]`               | yes      | —                                                |
 | `value`        | `string`                 | no       | `""`                                             |
@@ -31,19 +30,39 @@ Import and invoke:
 | `name`         | `string`                 | no       | `"theme"`                                        |
 | `extension`    | `string`                 | no       | `".css"`                                         |
 | `themeLabels`  | `Record<string,string>`  | no       | `{}`                                             |
+| `id`           | `string`                 | no       | `"theme-select-{name}"`                          |
 | `classes`      | `string`                 | no       | `""`                                             |
 | `attributes`   | `Record<string,string>`  | no       | `{}`                                             |
 
-The macro emits a `<select>` carrying the `name` attribute and the
+The macro emits a `<div>` root carrying the
 `data-lily-theme-select-*` configuration attributes the client.js
-reads on init. `opts.attributes` is spread onto the root after those
-so consumers can override `id`, `data-testid`, etc.
+reads on init; the `name` rides on the hidden input inside it.
+`opts.attributes` is spread onto the root after those so consumers
+can override `id`, `data-testid`, etc.
+
+`id` is the id prefix for the listbox (`{id}-list`) and its options
+(`{id}-option-{index}`). Nunjucks macros cannot hold a module-level
+counter, so an explicit `id` is this framework's stable-id
+mechanism: two instances that share a `name` MUST be given distinct
+`id`s or their listbox and option ids collide.
+
+### Caller block
+
+A `{% call %}` block body replaces the default glyph **inside the
+button**. It does not render options.
+
+```njk
+{% call themeSelect({label: "Theme", themesUrl: "/t/", themes: ["light", "dark"]}) %}
+    <svg aria-hidden="true" focusable="false">…</svg>
+{% endcall %}
+```
 
 ## Client.js exports
 
 `theme-select.client.js` is an ES module:
 
 ```js
+export const CIRCLE_WITH_RIGHT_HALF_BLACK: string; // "◑" (U+25D1)
 export function normaliseThemesUrl(themesUrl: string): string;
 export function themeHref(
     themesUrl: string,
@@ -66,8 +85,12 @@ export function autoInit(
 ```
 
 `autoInit()` is the common entry point; `initThemeSelect(root)` is
-useful when the consumer already has a reference to a single
-`<select>` (e.g. inside another component's lifecycle).
+useful when the consumer already has a reference to a single root
+`<div>` (e.g. inside another component's lifecycle).
+
+`CIRCLE_WITH_RIGHT_HALF_BLACK` is the code point the macro renders
+as the default button glyph, exported so tests and custom
+renderings can reference it without re-typing it.
 
 ### Pure helpers
 
@@ -87,8 +110,8 @@ server code, or other modules without instantiating the select.
 
 | Property    | Type                       | Notes                                              |
 | ----------- | -------------------------- | -------------------------------------------------- |
-| `setTheme`  | `(slug: string) => void`   | Apply a theme imperatively; same code path as a select change (and likewise leaves `select.value` at `""`). |
-| `destroy`   | `() => void`               | Remove the `change` listener; keeps applied DOM.   |
+| `setTheme`  | `(slug: string) => void`   | Apply a theme imperatively; same code path as choosing an option (link swap, `data-theme`, storage, hidden input, `aria-selected`, `onChange`). |
+| `destroy`   | `() => void`               | Remove every listener (button, listbox, root `focusout`, document `click`) and clear the typeahead timer; keeps applied DOM. |
 
 `destroy()` does **not** restore the previous theme or remove the
 managed `<link>`. The intent is that a select can be unmounted
@@ -115,13 +138,11 @@ emits the same markup regardless.
 
 ## DOM contract
 
-Root element (macro output):
+Macro output:
 
 ```html
-<select
+<div
     class="theme-select {classes}"
-    aria-label="{label}"
-    name="{name}"
     data-lily-theme-select-root
     data-lily-theme-select-name="{name}"
     data-lily-theme-select-themes-url="{themesUrl}"
@@ -130,37 +151,66 @@ Root element (macro output):
     data-lily-theme-select-default-value="{defaultValue}"
     data-lily-theme-select-value="{value}"   <!-- only when opts.value is set -->
 >
-    <!-- placeholder option, then per-slug option markup -->
-</select>
+    <input type="hidden" name="{name}" value="{selected}" data-lily-theme-select-input>
+    <button type="button" class="theme-select-button" aria-label="{label}"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="{id}-list"
+            data-lily-theme-select-button>
+        <span class="theme-select-icon" aria-hidden="true">&#9681;</span>
+    </button>
+    <ul class="theme-select-list" id="{id}-list" role="listbox" aria-label="{label}"
+        tabindex="-1" hidden data-lily-theme-select-list>
+        <li class="theme-select-option" id="{id}-option-{index}" role="option"
+            aria-selected="true|false" data-value="{slug}">{labelFor(slug)}</li>
+        <!-- one <li> per themes entry -->
+    </ul>
+</div>
 ```
 
-The FIRST child is always the component-owned placeholder option, and
-it is the **only** option ever rendered `selected`:
+The glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK, wrapped in
+`aria-hidden="true"`. The button is icon-only, so `aria-label` is its
+**only** accessible name. A `{% call %}` block body replaces the
+`<span class="theme-select-icon">` and nothing else.
 
-```html
-<option class="theme-select-option theme-select-placeholder" value="" selected>{placeholder ?? label}</option>
-```
-
-Then the default option markup (one per `themes` entry) — never
-`selected`, whatever `opts.value` is:
-
-```html
-<option class="theme-select-option" value="{slug}">{labelFor(slug)}</option>
-```
+`{selected}` is the server-side resolution
+`value or defaultValue or ("light" if present else themes[0])`.
+Exactly one `<li>` carries `aria-selected="true"`; every other one
+carries `"false"` explicitly. The hidden input is pre-filled with the
+same slug, so a no-JS form submit still carries a theme.
 
 `opts.value` reaches the client through the
-`data-lily-theme-select-value` attribute instead. Rendering `selected`
-on the matching option would make the browser (which honours the
-*last* `selected` option) paint the theme name until the client snapped
-it back — a visible flash on every load.
+`data-lily-theme-select-value` attribute, and that remains the only
+channel for it. The attribute is omitted entirely when `opts.value`
+is empty.
 
-The `<select>`'s own `value` is always `""`: the client snaps it back
-to the placeholder after every apply, so the closed control reads the
-placeholder word rather than the active theme name. Read the active
-theme from `data-theme` or from the `onChange(slug)` argument.
+The client may correct the server's choice after hydration:
+`localStorage` and `matchMedia` are both client-only, so a stored
+theme or a detected system preference can resolve to something the
+macro could not know about. `value` itself is never corrected away —
+it is the FIRST input in the client's resolution order, ahead of
+storage. (It used to sit behind storage; that was the outlier this
+catalog carried, and it is fixed. See `AGENTS/lifecycle.md`.)
 
-Document mutations (only inside `initThemeSelect` and subsequent
-events):
+**No-JS caveat.** The button does not open the listbox until the
+client.js has run — open / close, focus movement, and the keyboard
+contract are all client-side. Nothing in the server markup
+substitutes for them. State this plainly wherever progressive
+enhancement comes up; it is a real regression from the native
+`<select>` the macro used to render.
+
+Client mutations on the root (only inside `initThemeSelect` and
+subsequent events):
+
+- `button[aria-expanded]` toggles `"true"` / `"false"`.
+- `ul[hidden]` is removed on open, restored on close.
+- `ul[aria-activedescendant]` points at the active option's id while
+  open, and is removed on close.
+- `li[data-active]` marks the active option (a consumer CSS hook;
+  `aria-activedescendant` is the assistive-technology channel).
+- `li[aria-selected]` tracks the **applied** theme, not the active
+  option.
+- `input[value]` mirrors the applied slug.
+
+Document mutations (likewise client-only):
 
 ```html
 <!-- in document.head -->
@@ -174,7 +224,9 @@ events):
 
 ## Versioning
 
-The API surface above is the v0.1.0 contract. Any breaking change
-(rename, removal, type narrowing of an existing opt or export)
-bumps the minor version while v0.x; once v1.0 ships, breaking
-changes bump the major.
+The API surface above is the current unreleased contract, which
+breaks 0.3.0: the root element changed from `<select>` to `<div>`,
+the `placeholder` opt was removed, and `id` was added. See
+[CHANGELOG.md](../CHANGELOG.md). Any breaking change (rename,
+removal, type narrowing of an existing opt or export) bumps the minor
+version while v0.x; once v1.0 ships, breaking changes bump the major.

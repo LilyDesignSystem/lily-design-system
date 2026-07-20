@@ -1,5 +1,5 @@
 <!--
-  Example 9 — All 41 Lily / DaisyUI themes.
+  Example 9 — All 45 Lily reference themes.
 
   This is the full catalog shipped in `../../themes/`. Drop them all
   into `static/assets/themes/` and the select will swap between them.
@@ -11,6 +11,7 @@
   const themes = [
     "abyss",
     "acid",
+    "adobe-spectrum",
     "aqua",
     "autumn",
     "black",
@@ -34,6 +35,7 @@
     "light",
     "lofi",
     "luxury",
+    "mozilla-protocol",
     "night",
     "nord",
     "pastel",
@@ -41,6 +43,7 @@
     "silk",
     "sunset",
     "synthwave",
+    "united-kingdom-government-digital-service",
     "valentine",
     "winter",
     "wireframe",
@@ -50,6 +53,7 @@
     "united-kingdom-national-health-service-scotland-for-practitioners",
     "united-kingdom-national-health-service-wales-for-patients",
     "united-kingdom-national-health-service-wales-for-practitioners",
+    "united-states-web-design-system",
   ];
 </script>
 

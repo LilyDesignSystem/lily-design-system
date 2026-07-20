@@ -1,11 +1,17 @@
 /*
-    Example 8 — Follow the OS `prefers-color-scheme`.
+    Follow the OS `prefers-color-scheme`.
 
-    The select has no opinion about light vs. dark; it just owns the
-    selection contract. To make the first-visit default follow the
-    OS, resolve the media query yourself and pass the resolved slug
-    as `defaultValue`. The user can still pick anything they like
-    afterwards, and the choice persists via `storageKey`.
+    Set `detectFromSystem` and the select resolves the OS colour-scheme
+    preference to `"dark"` or `"light"` on first visit — but only if
+    that slug is actually in your `themes` list, and only when nothing
+    higher in the resolution order supplied a value:
+
+        value > storage > detectFromSystem > defaultValue > "light" > themes[0]
+
+    So a returning visitor's stored choice still wins: the OS is a
+    first-visit default, not an override. `matchSystemTheme` is exported
+    if you want the same resolution outside the component (server-side
+    rendering, a route guard, a test).
 
     If you want the select to *track* the OS preference over time
     (re-apply when the user toggles their system setting), add a
@@ -29,16 +35,12 @@ import { ThemeSelect } from "../theme-select.component";
             label="Theme"
             themesUrl="/assets/themes/"
             [themes]="['light', 'dark']"
-            [defaultValue]="prefersDark ? 'dark' : 'light'"
+            [detectFromSystem]="true"
             [(value)]="theme"
             storageKey="my-app:theme"
         />
     `,
 })
 export class SystemPreferenceExample {
-    readonly prefersDark =
-        typeof window !== "undefined" &&
-        window.matchMedia?.("(prefers-color-scheme: dark)").matches;
-
     theme = signal("");
 }

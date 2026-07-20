@@ -2,18 +2,29 @@
   Example 05 — NHS UK-style language banner.
 
   Mirrors the NHS UK Design System's pattern of placing a language
-  chooser in a top utility banner. The banner uses native button-
-  group markup but with the `locale-select` class hook so consumer
-  CSS can target it without duplication.
+  chooser in a top utility banner. The control keeps the
+  `locale-select` class hook so consumer CSS can target it without
+  duplication, plus a `classes` opt for the banner-specific styling.
 
   Each option is an endonym — the language's own name in its own
-  script — which is the NHS pattern. Per-option `lang` on the
-  <button> drives screen reader pronunciation.
+  script — which is the NHS pattern. Per-option `lang` on each
+  <li role="option"> drives screen reader pronunciation.
 
-  Outcome: a <header> banner with the select rendered as a horizontal
-  button list. Each entry shows the language in its own script.
+  The banner is deliberately narrow, which is what the icon-only
+  trigger buys: the button stays one glyph wide no matter how long
+  "繁體中文" or "Gàidhlig" is, and the endonyms live in the listbox.
+
+  Caveat worth stating plainly in a public-sector context: this
+  control does not work with JavaScript disabled. The button opens
+  nothing until locale-select.client.js runs. If your service must
+  switch language unenhanced, render a plain <form> of links or
+  submit buttons instead of (or beside) this helper. See
+  ../docs/ssr.md.
+
+  Outcome: a <header> banner with a compact language trigger.
+  Opening it lists nine languages, each in its own script.
 #}
-{% from "./localeSelectCustom.njk" import localeSelectCustom %}
+{% from "../locale-select.njk" import localeSelect %}
 
 {% set LOCALES = ["en", "cy", "gd", "ga", "fr", "pl", "ur", "bn", "zh_Hant"] %}
 {% set NATIVE = {
@@ -31,27 +42,21 @@
 <header class="utility-banner" aria-label="Site utilities">
     <span class="brand">NHS</span>
 
-    {% call localeSelectCustom({
+    {{ localeSelect({
         label: "Language",
         locales: LOCALES,
+        localeLabels: NATIVE,
         value: "en",
         storageKey: "nhs-locale",
+        id: "banner-locale",
         classes: "utility-banner-languages"
-    }) %}
-        <ul class="locale-select-list" role="list">
-            {% for code in LOCALES %}
-            <li>
-                <button
-                    type="button"
-                    class="locale-select-button"
-                    data-locale="{{ code }}"
-                    aria-pressed="{{ 'true' if code == 'en' else 'false' }}"
-                    lang="{{ code | replace('_', '-') }}"
-                >{{ NATIVE[code] }}</button>
-            </li>
-            {% endfor %}
-        </ul>
-    {% endcall %}
+    }) }}
+
+    {#
+      The closed trigger shows only a glyph, so the active language is
+      surfaced here. Visible by default — see ../docs/accessibility.md.
+    #}
+    <p class="locale-select-status" aria-live="polite"></p>
 </header>
 
 <main>
@@ -60,28 +65,14 @@
 </main>
 
 <script type="module">
-    import { initLocaleSelect } from "../locale-select.client.js";
+    import { autoInit, localeName } from "../locale-select.client.js";
 
-    document
-        .querySelectorAll("[data-lily-locale-select-root]")
-        .forEach((root) => {
-            const ctrl = initLocaleSelect(root, {
-                onChange(code) {
-                    document.getElementById("current-locale").textContent = code;
-                    root.querySelectorAll(".locale-select-button")
-                        .forEach((b) => {
-                            b.setAttribute(
-                                "aria-pressed",
-                                String(b.dataset.locale === code),
-                            );
-                        });
-                },
-            });
-            root.querySelectorAll(".locale-select-button")
-                .forEach((b) => {
-                    b.addEventListener("click", () => {
-                        ctrl.setLocale(b.dataset.locale);
-                    });
-                });
-        });
+    const status = document.querySelector(".locale-select-status");
+
+    autoInit({
+        onChange(code) {
+            document.getElementById("current-locale").textContent = code;
+            status.textContent = `Active language: ${localeName(code)}`;
+        },
+    });
 </script>

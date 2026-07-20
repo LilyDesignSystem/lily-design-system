@@ -1,92 +1,237 @@
 # Styling
 
-The select is headless: it ships no CSS. Every visual decision
-belongs to the consumer. This guide lists the hooks the select
-exposes.
+The control is headless: it ships **no CSS at all**. Every visual
+decision belongs to the consumer. This guide lists the hooks the
+control exposes.
+
+## The list has no positioning until you give it some
+
+Read this before anything else. The element renders the dropdown as
+an ordinary `<ul>` in normal flow and toggles the `hidden` attribute
+on it. It sets no `position`, no `z-index`, no offsets — headless
+means headless.
+
+So out of the box the list does not overlay the page. It appears
+*below the button, in flow*, pushing subsequent content down when it
+opens. That is almost never what you want, and it is not a bug.
+
+The minimum fix is two declarations:
+
+```css
+.theme-select { position: relative; }
+
+.theme-select-list {
+    position: absolute;
+    inset-block-start: 100%;   /* directly under the button */
+    inset-inline-start: 0;
+    z-index: 10;
+}
+```
+
+Everything else — width, collision handling, flipping above the
+button near the viewport edge, animation — is likewise yours. The
+element does no measuring and no repositioning.
 
 ## Class hooks
 
-| Selector                                             | Element                                  |
-| ---------------------------------------------------- | ---------------------------------------- |
-| `theme-select` (the host element tag)                | The custom-element host.                 |
-| `.theme-select`                                      | The rendered `<select>`.                 |
-| `.theme-select.{consumerClass}`                      | Both classes when `class` is passed.     |
-| `.theme-select-option`                               | Each `<option>`, including the placeholder. |
-| `.theme-select-placeholder`                          | The leading placeholder `<option>` (always the displayed one). |
-| `.theme-select-status`                               | The consumer-rendered status region announcing the active theme. |
+| Selector                                | Element                                              |
+| --------------------------------------- | ---------------------------------------------------- |
+| `theme-select` (the host element tag)   | The custom-element host.                             |
+| `.theme-select`                         | The rendered `<div>` root.                           |
+| `.theme-select.{consumerClass}`         | Both classes when `class` is passed.                 |
+| `.theme-select-button`                  | The trigger `<button>`.                              |
+| `.theme-select-icon`                    | The `<span>` wrapping the glyph (default content only). |
+| `.theme-select-list`                    | The `<ul role="listbox">`.                           |
+| `.theme-select-option`                  | Each `<li role="option">`.                           |
+| `.theme-select-status`                  | The consumer-rendered status region announcing the active theme. |
 
 `.theme-select-status` is not emitted by the element — you render it
-yourself, next to the select. It is listed here because it is part of
-the default pattern (see
+yourself, next to the control. It is listed here because it is part
+of the default pattern (see
 [accessibility.md](./accessibility.md#the-status-region-is-the-default-pattern)),
 so the class name is a shared convention worth styling consistently.
 
-The host element (`<theme-select>` itself) inherits no styles from
-the select; you can style it directly if you need to (e.g.
-`theme-select { display: block; }`).
+The hidden `<input>` carries no class: it is `type="hidden"` and
+never rendered.
 
-If you subclass the element, only the host tag and the
-`.theme-select` class are guaranteed; the inner classes are up to
-your subclass.
+If you subclass the element and replace its rendering, only the host
+tag and the `.theme-select` root class are guaranteed; the inner
+classes are up to your subclass.
+
+## State hooks
+
+These are what make the control legible without any JS of your own.
+
+| Selector                                     | Meaning                                                        |
+| -------------------------------------------- | -------------------------------------------------------------- |
+| `.theme-select-button[aria-expanded="true"]` | The list is open.                                              |
+| `.theme-select-list[hidden]`                 | The list is closed. (The UA stylesheet already hides it.)      |
+| `.theme-select-option[data-active]`          | The **keyboard-highlighted** option — where `Enter` would land. |
+| `.theme-select-option[aria-selected="true"]` | The **chosen** option — the theme currently applied.           |
+
+`[data-active]` and `[aria-selected]` are different things and often
+disagree while the list is open. Style them distinctly: a background
+for the active option, a check mark or weight change for the
+selected one. If you style them identically, a keyboard user cannot
+tell where they are from what they have.
+
+Because focus sits on the `<ul>` while the list is open (not on any
+`<li>`), `.theme-select-option:focus` never matches. Use
+`[data-active]`.
 
 ## Attribute hooks
 
 | Attribute                          | On                          | Purpose                          |
 | ---------------------------------- | --------------------------- | -------------------------------- |
 | `data-theme="<slug>"`              | `target` (default `<html>`) | Active theme indicator for theme CSS files. |
-| `data-lily-theme-select="<name>"`  | the managed `<link>`        | Discriminator for multiple selects. |
+| `data-lily-theme-select="<name>"`  | the managed `<link>`        | Discriminator for multiple controls. |
 
-## Targeting the custom element vs the rendered select
+## A minimal worked example
 
-Both selectors work; pick whichever reads more clearly:
-
-```css
-/* Target the custom element directly (the host): */
-theme-select { display: block; max-width: 30rem; }
-
-/* Target the rendered select: */
-.theme-select {
-    display: block;
-}
-```
-
-The host tag is good for layout (block/grid context); the
-`.theme-select` class is good for `<select>`-specific styling.
-
-## Suggested baseline CSS
-
-Drop into the consumer's app stylesheet:
+Everything the control needs to look and behave like a normal
+dropdown menu. Drop it into the consumer's stylesheet:
 
 ```css
+/* 1. The root is the positioning context for the dropdown. */
 theme-select {
-    display: block;
+    display: inline-block;
 }
 
 .theme-select {
-    padding: 0.25rem 0.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+/* 2. The trigger button. */
+.theme-select-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem 0.5rem;
     border: 1px solid var(--color-base-300, currentColor);
     border-radius: var(--radius-selector, 0.25rem);
     background: var(--color-base-100, white);
     color: var(--color-base-content, currentColor);
     cursor: pointer;
+    line-height: 1;
 }
 
-.theme-select:focus-visible {
+.theme-select-button:focus-visible {
     outline: 2px solid var(--color-primary, currentColor);
     outline-offset: 2px;
 }
 
+.theme-select-icon {
+    font-size: 1.125rem;
+}
+
+/* 3. The dropdown itself. Without position/z-index it renders in
+      flow and pushes the page down when it opens. */
+.theme-select-list {
+    position: absolute;
+    inset-block-start: calc(100% + 0.25rem);
+    inset-inline-start: 0;
+    z-index: 10;
+    min-inline-size: 12rem;
+    margin: 0;
+    padding: 0.25rem 0;
+    list-style: none;
+    border: 1px solid var(--color-base-300, currentColor);
+    border-radius: var(--radius-selector, 0.25rem);
+    background: var(--color-base-100, white);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+}
+
+/* 4. Respect `hidden`. Any `display` rule on the list would
+      override the UA stylesheet's `display: none` and leave the
+      closed list visible — so scope display to :not([hidden]) or
+      re-assert it here. */
+.theme-select-list[hidden] {
+    display: none;
+}
+
+/* 5. Focus lives on the <ul> while open, so style its ring too. */
+.theme-select-list:focus-visible {
+    outline: 2px solid var(--color-primary, currentColor);
+    outline-offset: 2px;
+}
+
+/* 6. Options. */
 .theme-select-option {
-    /* Native <option> styling is limited; most browsers ignore
-       custom backgrounds. Keep it simple. */
+    padding: 0.35rem 0.75rem;
+    cursor: pointer;
     color: var(--color-base-content, currentColor);
+}
+
+/* The keyboard-highlighted option — where Enter would land. */
+.theme-select-option[data-active] {
+    background: var(--color-base-200, #eee);
+}
+
+/* The chosen option — the theme currently applied. Deliberately a
+   different signal from [data-active]: they often disagree. */
+.theme-select-option[aria-selected="true"] {
+    font-weight: 600;
+}
+
+.theme-select-option[aria-selected="true"]::after {
+    content: " ✓";
+}
+
+/* Pointer hover mirrors the keyboard highlight. */
+.theme-select-option:hover {
+    background: var(--color-base-200, #eee);
 }
 ```
 
+### The `hidden` trap
+
+This is the one thing that reliably bites. Setting a `display` value
+on `.theme-select-list` — `display: flex`, `display: grid`, even
+`display: block` — overrides the user-agent stylesheet's
+`[hidden] { display: none }`, because a class selector outranks it.
+The result is a dropdown that is permanently visible.
+
+Two ways out. Either re-assert the hidden rule after your display
+rule:
+
+```css
+.theme-select-list { display: grid; }
+.theme-select-list[hidden] { display: none; }
+```
+
+Or scope the display rule so it never applies while closed:
+
+```css
+.theme-select-list:not([hidden]) { display: grid; }
+```
+
+Never style the closed state with `display: none` on the options
+themselves, and never swap `hidden` for `visibility: hidden` — the
+element relies on `hidden` and assistive technology relies on the
+list leaving the accessibility tree when closed.
+
+## Targeting the host vs the rendered root
+
+Both selectors work; pick whichever reads more clearly:
+
+```css
+/* Target the custom element directly (the host): */
+theme-select { display: inline-block; }
+
+/* Target the rendered root: */
+.theme-select { position: relative; }
+```
+
+The host tag is good for outer layout (how the control sits in the
+page); the `.theme-select` class is good for the control's internal
+layout, and it is the one that must carry `position: relative`,
+since the list is its child.
+
 ## The status region
 
-The default pattern pairs the select with a visible status line that
-names the active theme, because the closed control never does. Style
+The default pattern pairs the control with a visible status line
+naming the active theme, because the closed button never does. Style
 it as ordinary body text:
 
 ```css
@@ -126,53 +271,35 @@ Prefer the visible version where you can — it serves sighted and
 cognitive-accessibility users too, which is what the AAA target
 favours.
 
-## Keeping the control narrow
+## Long option lists
 
-The closed `<select>` always displays the placeholder option rather
-than the active theme name, so its intrinsic width is governed by
-one short word instead of the longest theme label. To let the
-control actually shrink to that width:
+The catalog can be large — Lily ships 45 reference themes. Cap the
+list's height and let it scroll; the element already calls
+`scrollIntoView({ block: "nearest" })` on the active option as the
+keyboard moves it, so keyboard navigation stays visible inside a
+scrolling list:
 
 ```css
-.theme-select {
-    field-sizing: content;  /* Chrome 123+: size to the shown option */
-    width: auto;
-    max-width: 12ch;        /* fallback for Firefox / Safari */
+.theme-select-list {
+    max-block-size: 20rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 ```
-
-`field-sizing: content` sizes the control to the option currently
-shown. Browsers without it fall back to `max-width`, which clamps
-the default "widest option" sizing. Adjust the `ch` value to the
-length of your placeholder text — remember it is translated, so
-leave headroom.
 
 ## Don'ts
 
-- Don't hide the `<option>` elements with `display: none`. They are
-  the accessibility tree's anchor point. Keep the native `<select>`
-  intact; if you need a different visual, subclass and own the a11y
-  contract.
-- Don't override the select's `aria-*` attributes from CSS. They
+- Don't set a `display` on `.theme-select-list` without handling
+  `[hidden]` — see the trap above.
+- Don't rely on `.theme-select-option:focus`; focus stays on the
+  `<ul>`. Use `[data-active]`.
+- Don't style `[data-active]` and `[aria-selected]` the same.
+- Don't hide options with `display: none`. They are the
+  accessibility tree's anchor point.
+- Don't override the control's `aria-*` attributes from CSS. They
   are part of the accessibility contract.
 - Don't write CSS inside `theme-select.ts` — the helper is
   headless. Style from the consumer side.
-
-## Default browser styles to override
-
-`<select>` has a platform-native appearance (the chrome dropdown
-control). Reset or restyle it in the consumer CSS if you want a
-custom look:
-
-```css
-.theme-select {
-    /* Opt out of the native control chrome for a custom look. */
-    appearance: none;
-    padding: 0.25rem 0.5rem;
-    border: 1px solid currentColor;
-    border-radius: 0.25rem;
-}
-```
 
 ## Theme CSS file conventions
 
@@ -195,16 +322,16 @@ so multiple themes can coexist on the page without overlap:
 }
 ```
 
-The select swaps the `<link>` `href` to load the right file *and*
+The element swaps the `<link>` `href` to load the right file *and*
 sets `data-theme` to switch which `:root[data-theme]` rules apply.
 Either signal alone is enough; both together make preloading
 strategies work.
 
-## Custom-element vs select specificity
+## Custom-element vs class specificity
 
 `theme-select` (custom element) has specificity 0,0,1 (one type
-selector). `.theme-select` (class on the `<select>`) has specificity
-0,1,0. If you write rules at both levels, the `<select>` class
+selector). `.theme-select` (class on the rendered root) has
+specificity 0,1,0. If you write rules at both levels, the class
 wins:
 
 ```css

@@ -27,17 +27,28 @@ dependencies.
 
 The select:
 
-- Renders semantic HTML (`<select>` + `<option>`) with the native
-  platform combobox semantics.
+- Renders semantic HTML — a `<button>` and a `<ul role="listbox">`
+  of `<li role="option">` items — wired up per the WAI-ARIA APG
+  listbox pattern.
 - Carries a stable kebab-case class hook (`locale-select`,
-  `locale-select-option`) on every element so your CSS can target
-  it without prefixes or specificity tricks.
+  `locale-select-button`, `locale-select-icon`, `locale-select-list`,
+  `locale-select-option`) on every element so your CSS can target it
+  without prefixes or specificity tricks.
 - Ships **no** colour, spacing, typography, font, icon, or
-  animation decisions. You supply all of that.
+  animation decisions. You supply all of that — including, notably,
+  the dropdown's **positioning**. Until you give the root
+  `position: relative` and the list `position: absolute`, the list
+  renders in normal flow.
 - Ships **no** translated strings. The `label` attribute and
   `locale-labels` attribute are passed through verbatim, and the
   built-in 436-row English-name table is the fallback for option
   labels (not for `label`).
+
+Headless here does **not** mean behaviourless. The keyboard contract
+is the one thing the element implements rather than delegates:
+because there is no native `<select>` underneath, arrow keys, Home /
+End, Enter / Space / Escape / Tab, and typeahead are all its own
+JavaScript. See [spec/index.md §4.7](../spec/index.md#47-keyboard-contract).
 
 ## The lifecycle
 
@@ -56,6 +67,7 @@ Each instance manages a single bindable `value`:
        ┌───────────────────────────────────────────┐
        │   attributeChangedCallback("value", …)     │
        │                                            │
+       │   #syncState()  — attributes, not a rebuild│
        │   target.lang = BCP-47(value)              │
        │   target.dir  = rtl|ltr                    │
        │   localStorage.setItem(...)                │
@@ -66,23 +78,43 @@ Each instance manages a single bindable `value`:
 DOM mutation and storage are side effects, so they belong in
 lifecycle callbacks, not in property getters.
 
-## Why a native `<select>` by default
+Note the `#syncState()` step. A `value` change deliberately does
+**not** rebuild the rendered DOM: the user selects a locale while the
+listbox is open and focused, and a rebuild would destroy the focused
+`<ul>` and the element `aria-activedescendant` points at. Only
+structural attributes (`locales`, `locale-labels`, `label`, `name`,
+`class`) rebuild, and those close the list first.
 
-Three reasons:
+## Why an icon button and a listbox
 
-1. **Compactness**. A native `<select>` collapses any number of
-   locales into one widget and pops the OS-native option list on
-   demand — it scales from 2 to 100+ locales without layout cost.
-2. **Symmetry with `<theme-select>`**. The sibling helper uses the
-   same shape, so the two compose visually and semantically
-   without surprises.
-3. **Escape hatch is one subclass away**. Extending `LocaleSelect`
-   and overriding the children gives full control — the lifecycle
-   stays on the superclass.
+The control used to be a native `<select>`. It is now an icon button
+that opens a `role="listbox"` dropdown. Two reasons:
 
-For custom presentation (buttons, combobox), subclass and replace
-the rendered children. See `examples/03-buttons.html` and
-`examples/10-combobox.html`.
+1. **Compactness at any locale count.** A glyph-sized trigger stays
+   the same width whether you ship 2 locales or 400, and it composes
+   into a dense utility bar next to the sibling `<theme-select>`,
+   which uses the identical shape.
+2. **Full control of the option list's presentation.** A native
+   `<select>`'s popup is drawn by the OS and cannot be styled,
+   grouped, or annotated. A `<ul>` of `<li>` items is ordinary DOM.
+
+**This trade is not free, and the package does not pretend
+otherwise.** A native `<select>` gave combobox semantics, platform
+keyboard behaviour, the mobile OS picker, and battle-tested
+assistive-technology support at zero cost. A hand-rolled listbox is
+well-specified by the APG but has weaker and more variable support,
+particularly on mobile screen readers, and gets no native picker. If
+that trade is wrong for your audience, the sibling
+`<text-size-select>` still renders a native `<select>` and is the
+shape to copy. The full accounting is in
+[accessibility.md](./accessibility.md#tradeoffs).
+
+For custom presentation, subclass: override `renderButtonContent()`
+for different button content (safe), or post-process the rendered
+children for a different structure (you then own the accessibility
+and keyboard contracts). See
+[custom-rendering.md](./custom-rendering.md),
+`examples/03-buttons.html`, and `examples/10-combobox.html`.
 
 ## Why a separate `value` and `target.lang`
 
@@ -133,9 +165,13 @@ Three layers, mirroring the lifecycle:
    `localeName`, `matchNavigatorLanguage` are pure functions.
    Unit-test them in isolation.
 2. **DOM contract** — after mount, assert
-   `document.documentElement.lang` and `.dir`. Drive an option
-   change and assert again.
-3. **Bindable + change event** — drive `el.value` programmatically
+   `document.documentElement.lang` and `.dir`. Drive a selection by
+   clicking the button and then an option (there is no `select.value`
+   to set) and assert again.
+3. **Keyboard contract** — dispatch `keydown` events at the button
+   and the `<ul>`, and assert `aria-expanded`, `hidden`,
+   `aria-activedescendant`, and `document.activeElement`.
+4. **Bindable + change event** — drive `el.value` programmatically
    and assert the same DOM observations; capture the
    `localechange` CustomEvent's detail.
 

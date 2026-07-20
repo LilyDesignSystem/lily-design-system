@@ -6,8 +6,9 @@ for the formal contract; this file documents the React 19 mechanics.
 ## Mount order
 
 ```
-1. React renders <select> with no option selected (or with the option
-   selected per the consumer-supplied `value`).
+1. React renders the root <div>, the hidden input, the button, and the
+   (hidden) listbox. No option is aria-selected until a value resolves,
+   or the consumer-supplied `value` selects one.
 2. First-mount useEffect (empty deps) runs:
    a. Resolves the initial slug from value/storage/default/light.
    b. If uncontrolled and slug differs from internal state → setState.
@@ -18,7 +19,12 @@ for the formal contract; this file documents the React 19 mechanics.
    b. Writes data-theme, link.href, localStorage, calls onChange.
 ```
 
-## The two effects
+The open/close state machine is independent of this value lifecycle:
+opening the listbox never applies a theme, and applying a theme happens
+through `setTheme` → the value-change effect regardless of how the
+selection was made (click, `Enter`, or `Space`).
+
+## The two value-lifecycle effects
 
 ### Effect 1 — first-mount resolution
 
@@ -77,6 +83,26 @@ Properties:
 - Only `currentValue` in deps. Other props (`themesUrl`, `target`,
   etc.) are deliberately not dependencies — they take effect on the
   next slug change, not retroactively, per [`spec/index.md §5.4`](../spec/index.md#54-reactivity).
+
+## The four interaction effects
+
+These run alongside the value lifecycle and never apply a theme.
+
+| Effect | Deps | What it does |
+| ------ | ---- | ------------ |
+| Focus transfer | `[open]` | On open, `listRef.current?.focus()`. On close, focus the button — but only when `refocusRef.current` was set, i.e. the close came from a selection or `Escape`, not from `Tab` / outside click / focus loss. |
+| Scroll into view | `[open, activeIndex]` | `scrollIntoView({ block: "nearest" })` on the active option. jsdom does not implement it, hence the optional call. |
+| Outside click | `[open]` | While open, a `document` `click` listener closes the list when the target is outside `rootRef`. Removed on close / unmount. |
+| Typeahead cleanup | `[]` | Clears any pending buffer-reset timer on unmount. |
+
+Focus moves in an effect rather than in the handler because the target
+element's `hidden` attribute is only removed after the commit — focusing
+a still-`hidden` element is a no-op.
+
+`onRootBlur` is wired to the root `<div>`'s `onBlur`. React's `onBlur`
+is the delegated equivalent of the native `focusout` event: it bubbles,
+so the root sees focus leaving any descendant. It closes with
+`refocus = false`, since focus has already gone somewhere else.
 
 ## resolveInitialTheme
 
@@ -165,29 +191,35 @@ managed link.
 
 ```tsx
 function setTheme(slug: string): void {
-    if (!isControlled) setInternalValue(slug);
-    applyTheme(slug);
+    if (isControlled) {
+        applyTheme(slug);
+    } else {
+        setInternalValue(slug);
+    }
 }
 ```
 
-Direct apply path for the `children` render prop and for the
-`onChange` handler on the default `<select>` markup. In uncontrolled
-mode it both updates internal state AND applies — the apply
-happens immediately so the user sees the change instantly, and
-the state update triggers a re-render (but effect 2 is gated so it
-doesn't re-apply).
+The single write path, reached from `choose(index)` — which is called by
+an option click and by `Enter` / `Space` on the listbox.
 
-## Select onChange
+In **controlled** mode the consumer owns `value`, so the theme is
+applied straight away; the DOM stays in step even if the consumer never
+writes the value back. In **uncontrolled** mode only internal state is
+written, and the value-change effect performs the apply — so
+`applyTheme` runs exactly once per change either way.
 
-The native `<select>`'s onChange handler:
+## choose
 
 ```tsx
-onChange={(e) => setTheme(e.target.value)}
+function choose(index: number): void {
+    const slug = themes[index];
+    if (slug) setTheme(slug);
+    closeList();
+}
 ```
 
-A plain inline function (no `useCallback`) because the select's render
-identity changes with every state update anyway, so memoising
-this handler doesn't reduce work meaningfully.
+`closeList()` defaults to `refocus = true`, which is why committing via
+click or keyboard both hand focus back to the button.
 
 ## SSR
 
@@ -197,8 +229,11 @@ During server rendering:
   called (defensive).
 - `useEffect` never runs on the server.
 - `localStorage` is never read.
-- The `<select>` renders with `value` controlling which option is
-  selected. If `value` is empty, no option is selected.
+- The listbox renders `hidden` with `open === false`, and `value`
+  controls which option carries `aria-selected="true"`. If `value` is
+  empty, no option is selected.
+- Option ids come from `useId`, so the server and client agree and
+  hydration is clean.
 
 After hydration the effects run as documented above.
 
@@ -237,8 +272,11 @@ useEffect(() => () => {
 The select re-renders on:
 
 - `value` prop change (controlled mode).
-- `internalValue` state change (uncontrolled mode, only during
-  first-mount resolution).
+- `internalValue` state change (uncontrolled mode).
+- `open` state change (button click, open key, close key, outside
+  click, focus loss).
+- `activeIndex` state change (every Arrow / Home / End / typeahead
+  keystroke while open).
 - Any other prop change (themes, themesUrl, label, …).
 
 It does NOT re-render on:

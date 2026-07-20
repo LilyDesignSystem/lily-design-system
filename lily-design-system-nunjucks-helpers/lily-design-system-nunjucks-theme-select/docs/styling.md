@@ -1,24 +1,49 @@
 # Styling
 
-The select is headless: it ships no CSS. Every visual decision
+The control is headless: it ships no CSS. Every visual decision
 belongs to the consumer. This guide lists the hooks the macro
 exposes.
 
+**The package ships no positioning.** The listbox is a plain `<ul>` in
+normal flow, so without CSS it pushes the page around when it opens.
+Positioning it is the consumer's job — see
+[Positioning the listbox](#positioning-the-listbox) below. This is not
+an oversight; a headless helper cannot know whether your list should
+drop down, drop up, anchor right, or render in a popover.
+
 ## Class hooks
 
-| Selector                                  | Element                              |
-| ----------------------------------------- | ------------------------------------ |
-| `.theme-select`                           | The root `<select>`.                 |
-| `.theme-select.{classes}`                 | Both classes when `opts.classes` is set. |
-| `.theme-select > .theme-select-option`    | Each `<option>`, including the placeholder. |
-| `.theme-select-placeholder`               | The always-displayed leading placeholder `<option>` (`value=""`). |
-| `.theme-select-status`                    | The consumer-rendered status region announcing the active theme (see [accessibility.md](./accessibility.md)). Ships in the examples; not emitted by the macro. |
+| Selector                        | Element                              |
+| ------------------------------- | ------------------------------------ |
+| `.theme-select`                 | The root `<div>`.                    |
+| `.theme-select.{classes}`       | Both classes when `opts.classes` is set. |
+| `.theme-select-button`          | The icon `<button>` that opens the listbox. |
+| `.theme-select-icon`            | The `<span>` wrapping the default glyph. Absent when a `{% call %}` block overrides it. |
+| `.theme-select-list`            | The `<ul role="listbox">`.           |
+| `.theme-select-option`          | Each `<li role="option">`.           |
+| `.theme-select-status`          | The consumer-rendered status region announcing the active theme (see [accessibility.md](./accessibility.md)). Ships in the examples; not emitted by the macro. |
+
+The `.theme-select-placeholder` hook is **gone**. There is no
+placeholder option any more.
+
+### State hooks
+
+| Selector                                    | Meaning                                   |
+| ------------------------------------------- | ----------------------------------------- |
+| `.theme-select-list:not([hidden])`          | The listbox is open.                      |
+| `.theme-select-button[aria-expanded="true"]`| The button while its listbox is open.     |
+| `.theme-select-option[aria-selected="true"]`| The applied theme.                        |
+| `.theme-select-option[data-active]`         | The keyboard-active option (roving highlight). Distinct from selected. |
+
+Style `[data-active]` and `[aria-selected]` differently: the first is
+"where the keyboard cursor is", the second is "what is in effect". A
+user arrowing through the list expects to see both at once.
 
 ### The status region
 
-The closed `<select>` never shows the active theme, so the pattern
-pairs it with a visible `aria-live="polite"` status line. Style it as
-ordinary body text next to the control:
+The closed button shows only a glyph, so the pattern pairs it with a
+visible `aria-live="polite"` status line. Style it as ordinary body
+text next to the control:
 
 ```css
 .theme-select-status {
@@ -48,46 +73,117 @@ screen-reader users still get the announcement:
 }
 ```
 
-If you use the `{% call %}` caller block, only `.theme-select` is
-guaranteed on the root; the inner classes are up to your markup.
+If you use the `{% call %}` caller block, the block body replaces the
+glyph only. `.theme-select-icon` disappears; every other hook — root,
+button, list, options — is still emitted by the macro.
 
 ## Attribute hooks
 
 | Attribute                          | On                          | Purpose                          |
 | ---------------------------------- | --------------------------- | -------------------------------- |
 | `data-theme="<slug>"`              | `target` (default `<html>`) | Active theme indicator for theme CSS files. |
-| `data-lily-theme-select="<name>"`  | the managed `<link>`        | Discriminator for multiple selects. |
-| `data-lily-theme-select-root`      | the `<select>`              | `autoInit()` selector.            |
+| `data-lily-theme-select="<name>"`  | the managed `<link>`        | Discriminator for multiple controls. |
+| `data-lily-theme-select-root`      | the root `<div>`            | `autoInit()` selector.            |
+| `data-lily-theme-select-button`    | the `<button>`              | Client lookup hook.               |
+| `data-lily-theme-select-list`      | the `<ul>`                  | Client lookup hook.               |
+| `data-lily-theme-select-input`     | the hidden `<input>`        | Client lookup hook.               |
+| `data-active`                      | the active `<li>`           | Roving keyboard highlight.        |
 
-## Suggested baseline CSS
+## Positioning the listbox
 
-Drop into the consumer's app stylesheet:
+The macro emits no positioning. The minimum viable pattern is an
+absolutely-positioned list inside a relatively-positioned root:
 
 ```css
 .theme-select {
-    /* The closed control always shows the placeholder word, so it can be
-       sized to that word instead of to the longest theme name. */
-    field-sizing: content;  /* Chrome 123+: size to the shown option */
-    width: auto;
-    max-width: 12ch;        /* fallback for Firefox / Safari */
+    position: relative;
+    display: inline-block;
+}
 
-    padding: 0.25rem 0.5rem;
+.theme-select-list {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 100%;
+    z-index: 10;
+    min-width: max-content;
+    margin: 0;
+    padding: 0.25rem 0;
+    list-style: none;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+```
+
+The `max-height` plus `overflow-y` matter: the client calls
+`scrollIntoView({block: "nearest"})` on the active option as the
+keyboard moves through the list, which only does anything if the list
+is a scroll container.
+
+Use `inset-inline-start` rather than `left` so the list anchors
+correctly under RTL.
+
+## Suggested baseline CSS
+
+Drop into the consumer's app stylesheet, after the positioning rules
+above:
+
+```css
+.theme-select-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* Icon-only: keep the hit target at least 44x44 (WCAG 2.5.8 AAA). */
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0.25rem;
     border: 1px solid var(--theme-color-base-300, currentColor);
     border-radius: var(--theme-radius-selector, 0.25rem);
     background: var(--theme-color-base-background, white);
     color: var(--theme-color-base-content, currentColor);
     cursor: pointer;
+    line-height: 1;
 }
 
-.theme-select:focus-visible {
+.theme-select-icon {
+    font-size: 1.25rem;
+}
+
+/* The list takes DOM focus while open, so give it a visible ring too. */
+.theme-select-button:focus-visible,
+.theme-select-list:focus-visible {
     outline: 2px solid var(--theme-color-primary, currentColor);
     outline-offset: 2px;
 }
 
-.theme-select-option {
-    /* <option> styling support is limited and platform-dependent. */
+.theme-select-list {
+    border: 1px solid var(--theme-color-base-300, currentColor);
+    border-radius: var(--theme-radius-selector, 0.25rem);
     background: var(--theme-color-base-background, white);
     color: var(--theme-color-base-content, currentColor);
+}
+
+.theme-select-option {
+    padding: 0.375rem 0.75rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* Where the keyboard cursor is. */
+.theme-select-option[data-active] {
+    background: var(--theme-color-base-200, #e5e7eb);
+}
+
+/* What is actually applied. Not colour-only: add a mark. */
+.theme-select-option[aria-selected="true"] {
+    font-weight: 600;
+}
+
+.theme-select-option[aria-selected="true"]::before {
+    content: "\2713\00a0"; /* check mark + nbsp */
+}
+
+.theme-select-option:not([aria-selected="true"])::before {
+    content: "\00a0\00a0"; /* keep the labels aligned */
 }
 ```
 
@@ -96,22 +192,28 @@ Drop into the consumer's app stylesheet:
 For an NHS UK-aligned utility banner look:
 
 ```css
-.utility-banner .theme-select {
-    padding: 0.5rem 0.75rem;
+.utility-banner .theme-select-button {
     border: 2px solid transparent;
 }
 
-.utility-banner .theme-select:focus-visible {
+.utility-banner .theme-select-button:focus-visible {
     border-color: #005eb8; /* NHS blue */
 }
 ```
 
 ## Don'ts
 
-- Don't hide the `<select>` with `display: none`. It is the
+- **Don't override `hidden` with a `display` rule.** A bare
+  `.theme-select-list { display: block }` beats the `hidden`
+  attribute and pins the list permanently open, out of sync with
+  `aria-expanded`. Scope open-state styling to
+  `.theme-select-list:not([hidden])`.
+- Don't hide the button with `display: none`. It is the
   accessibility tree's anchor point. Use `clip-path` or a
   `.sr-only` recipe if you need to render only a custom trigger.
-- Don't override the select's `aria-*` attributes from CSS. They
+- Don't rely on colour alone to mark the selected option (WCAG 1.4.1).
+  Pair it with a check mark, weight, or icon, as above.
+- Don't override the control's `aria-*` attributes from CSS. They
   are part of the accessibility contract.
 - Don't write CSS inside the macro file. The helper is headless.
 
@@ -135,7 +237,7 @@ Each theme CSS file scopes its rules to its `data-theme` slug:
 }
 ```
 
-The select's role is to swap which file is loaded (via the
+The control's role is to swap which file is loaded (via the
 managed `<link>`) and which slug is active (via the `data-theme`
 attribute). The rules above ensure only the active theme's
 properties apply, regardless of how many theme files are
@@ -164,7 +266,7 @@ button {
 }
 ```
 
-With the select active, switching themes swaps every variable in
+With the control active, switching themes swaps every variable in
 one tick — no JavaScript involvement beyond the `data-theme`
 attribute write.
 

@@ -1,29 +1,47 @@
 {#
-  ThemeSelect macro — accessible native <select> of available themes.
+  ThemeSelect macro — icon button that opens a listbox of themes.
 
-  HTML tag: <select>
+  HTML tag: <div> (root), <button> + <ul role="listbox">
   CSS class: theme-select
   Companion runtime: theme-select.client.js
 
+  BREAKING (Unreleased): this macro no longer renders a native
+  <select>. It renders an icon button (U+25D1 CIRCLE WITH RIGHT HALF
+  BLACK) that opens a listbox. The `placeholder` param is GONE — there
+  is no <select> left to pin a placeholder onto.
+
   Params (single `opts` object):
-    label         — string, required. aria-label for the <select>.
-    placeholder   — string. Text of the always-displayed placeholder
-                    option. The closed <select> shows this instead of the
-                    selected theme name, so the control stays as narrow as
-                    this word. Defaults to `label`.
+    label         — string, required. aria-label for the button AND the
+                    listbox. The button is icon-only, so this is the
+                    ONLY accessible name it has.
     themesUrl     — string, required. Base URL of the themes directory.
     themes        — array<string>, required. Available theme slugs.
     value         — string. Initial slug, emitted as
                     data-lily-theme-select-value for the client to read.
-                    The placeholder stays the only `selected` option, so
-                    the closed control never flashes the theme name.
     defaultValue  — string. Initial slug when nothing else is supplied.
     storageKey    — string. If non-empty, client.js persists to localStorage.
-    name          — string. <select> `name` attribute (default "theme").
+    detectFromSystem — boolean. If true, client.js resolves
+                    `prefers-color-scheme` to "dark"/"light" when neither
+                    `value` nor storage supplied a slug. Client-only:
+                    matchMedia does not exist at render time, so this
+                    never affects the server-rendered aria-selected.
+    name          — string. Hidden-input `name` AND the discriminator on
+                    the managed <link data-lily-theme-select="{name}">
+                    (default "theme").
     extension     — string. Appended to slug for URL (default ".css").
     themeLabels   — object<string,string>. Pretty label per slug.
-    classes       — string. Extra CSS classes on the <select> root.
+    id            — string. Id prefix for the listbox and its options.
+                    Defaults to "theme-select-{name}". Supply an explicit
+                    id when rendering two instances that share a `name`.
+    classes       — string. Extra CSS classes on the root <div>.
     attributes    — object. Extra HTML attributes spread onto the root.
+
+  Custom glyph: call the macro with a `{% call %}` block and the block
+  body replaces the default glyph inside the button:
+
+    {% call themeSelect({label: "Theme", themesUrl: "/t/", themes: [...]}) %}
+      <svg aria-hidden="true">…</svg>
+    {% endcall %}
 
   Usage:
     {% from "./theme-select.njk" import themeSelect %}
@@ -36,6 +54,9 @@
 
   Then load theme-select.client.js once and call autoInit().
 
+  NOTE: the button does nothing until theme-select.client.js runs. See
+  docs/ssr.md — this is a real no-JS regression from the old <select>.
+
   Spec: spec/index.md §4.1 (macro parameters), §4.2 (DOM contract).
 #}
 {%- macro themeSelect(opts) -%}
@@ -44,30 +65,43 @@
 {%- set value = opts.value | default("") -%}
 {%- set storageKey = opts.storageKey | default("") -%}
 {%- set defaultValue = opts.defaultValue | default("") -%}
+{%- set detectFromSystem = opts.detectFromSystem | default(false) -%}
 {%- set themeLabels = opts.themeLabels | default({}) -%}
-{%- set placeholder = opts.placeholder | default(opts.label) -%}
-<select
+{%- set id = opts.id | default("theme-select-" + name) -%}
+{%- set listId = id + "-list" -%}
+{#- Server-side selected resolution. storage and the system colour-scheme
+    preference are client-only — there is no localStorage and no
+    matchMedia at render time — so the client may correct this after
+    hydration; the point is that the server markup always marks exactly
+    one option aria-selected. -#}
+{%- set fallback = "light" if "light" in opts.themes else opts.themes[0] -%}
+{%- set selected = value or defaultValue or fallback -%}
+<div
   class="theme-select{% if opts.classes %} {{ opts.classes }}{% endif %}"
-  aria-label="{{ opts.label }}"
-  name="{{ name }}"
   data-lily-theme-select-root
   data-lily-theme-select-name="{{ name }}"
   data-lily-theme-select-themes-url="{{ opts.themesUrl }}"
   data-lily-theme-select-extension="{{ extension }}"
   data-lily-theme-select-storage-key="{{ storageKey }}"
   data-lily-theme-select-default-value="{{ defaultValue }}"
+  data-lily-theme-select-detect-from-system="{{ 'true' if detectFromSystem else 'false' }}"
   {%- if value %} data-lily-theme-select-value="{{ value }}"{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-<option class="theme-select-option theme-select-placeholder" value="" selected>{{ placeholder }}</option>
+<input type="hidden" name="{{ name }}" value="{{ selected }}" data-lily-theme-select-input>
+<button type="button" class="theme-select-button" aria-label="{{ opts.label }}" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ listId }}" data-lily-theme-select-button>
+{%- if caller %}{{ caller() }}{% else %}<span class="theme-select-icon" aria-hidden="true">&#9681;</span>{% endif -%}
+</button>
+<ul class="theme-select-list" id="{{ listId }}" role="listbox" aria-label="{{ opts.label }}" tabindex="-1" hidden data-lily-theme-select-list>
 {%- for slug in opts.themes -%}
-  <option class="theme-select-option" value="{{ slug }}">
+  <li class="theme-select-option" id="{{ id }}-option-{{ loop.index0 }}" role="option" aria-selected="{{ 'true' if slug == selected else 'false' }}" data-value="{{ slug }}">
     {%- if themeLabels[slug] -%}
       {{ themeLabels[slug] }}
     {%- else -%}
       {{ slug | replace(r/-/g, " ") | title }}
     {%- endif -%}
-  </option>
+  </li>
 {%- endfor -%}
-</select>
+</ul>
+</div>
 {%- endmacro -%}

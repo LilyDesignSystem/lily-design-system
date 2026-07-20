@@ -11,7 +11,8 @@ maps the Svelte canonical's `$effect` lifecycle to Blazor's
 mount (server-side render of markup)
   │
   ▼
-SSR / prerender produces <select> markup with options — no DOM mutation, no IJSRuntime call.
+SSR / prerender produces the <div> + <button> + hidden <ul role="listbox"> markup
+— no DOM mutation, no IJSRuntime call.
   │
   ▼
 interactivity activates (Blazor Server circuit, or WASM loaded)
@@ -35,17 +36,43 @@ ApplyLocaleAsync(code):
   3. JS eval: if StorageKey: localStorage.setItem(StorageKey, code)
   4. await OnChange.InvokeAsync(code)  — consumer-form, not BCP 47 normalised
 
-user picks a different option
+user activates the button (click, ArrowDown / ArrowUp / Enter / Space)
   │
   ▼
-onchange handler ─► SetLocaleAsync(next)
-  │                   │
-  │                   ▼
-  │                 Value = next
-  │                 await ValueChanged.InvokeAsync(Value)
-  │                 await ApplyLocaleAsync(next)
-  │                 StateHasChanged()
+OpenList(startIndex?) ─► _open = true
+  │                      _activeIndex = startIndex ?? selected ?? 0
+  │                      _focusListPending = true; _suppressFocusOut = true
+  │                      StateHasChanged()
+  │                      │
+  │                      ▼
+  │                    OnAfterRenderAsync ─► _listElement.FocusAsync()
+  │                      (deferred: the <ul> cannot take focus while it
+  │                       still carries `hidden`)
+  ▼
+user picks a different option (click on <li>, or Enter / Space on the active one)
+  │
+  ▼
+ChooseAsync(index) ─► CloseList()  ─► _open = false; _activeIndex = -1
+  │                    │               _focusButtonPending = true
+  │                    │               _suppressFocusOut = true
+  │                    │               StateHasChanged()
+  │                    │               │
+  │                    │               ▼
+  │                    │             OnAfterRenderAsync ─► _buttonElement.FocusAsync()
+  │                    ▼
+  │                  SetLocaleAsync(next)
+  │                    │
+  │                    ▼
+  │                  Value = next
+  │                  await ValueChanged.InvokeAsync(Value)
+  │                  await ApplyLocaleAsync(next)
+  │                  StateHasChanged()
 ```
+
+`Escape` runs `CloseList()` without a `SetLocaleAsync`; `Tab` runs
+`CloseList(refocus: false)` so focus moves on; the root's `focusout`
+does the same. Because both pending-focus flags are consumed inside
+`OnAfterRenderAsync`, a focus move never races the `hidden` toggle.
 
 ## Why `OnAfterRenderAsync`, not `OnInitializedAsync`
 
@@ -115,9 +142,10 @@ private async Task ApplyLocaleAsync(string code)
 }
 ```
 
-`SetLocaleAsync` is `public` so the `ChildContent`
-`RenderFragment<LocaleSelectContext>` can call it via
-`ctx.SetLocale(code)`.
+`SetLocaleAsync` is `public` so consumers can drive the control from
+their own UI — hold a `@ref` to the component and call it. It is not
+reachable from `LocaleSelectContext`, which now carries only `Value`,
+`Open`, and `LabelFor`.
 
 ## Why one giant `eval` call per change
 
@@ -130,9 +158,9 @@ and cheap:
 2. Set `dir` on `<html>` (if `ApplyDir`).
 3. Persist to `localStorage` (if `StorageKey`).
 
-A consumer who wants finer-grained interop can override
-`ChildContent` and bypass `SetLocale` entirely, but the default
-path is one round-trip per change.
+A consumer who wants finer-grained interop can bypass the component
+and write `lang` / `dir` themselves, but the default path is one
+round-trip per change.
 
 ## Why `OnChange` emits the consumer form, not the BCP 47 form
 
@@ -199,5 +227,7 @@ write the result to the bound `Value`.
 | `_initialised = false` | construction                            | Select is ready to render its markup.               |
 | `OnAfterRenderAsync(true)` | first interactive render             | Resolve initial value, apply, fire callbacks.       |
 | `_initialised = true` | after first render                       | Future renders skip the initial-value path.         |
-| `SetLocaleAsync(code)` | user click / `ChildContent` invocation   | Mutate state, fire callbacks, apply, re-render.     |
+| `_open = true`  | button click / `ArrowDown` / `ArrowUp` / `Enter` / `Space` | Show the list, seed `_activeIndex`, queue focus onto the `<ul>`. |
+| `_open = false` | selection, `Escape`, `Tab`, or root `focusout` | Hide the list, clear `_activeIndex` and the typeahead buffer; queue focus back onto the button unless `refocus: false`. |
+| `SetLocaleAsync(code)` | option chosen, or a consumer `@ref` call  | Mutate state, fire callbacks, apply, re-render.     |
 | dispose / unmount | parent removed from render tree              | No-op; locale persists.                              |

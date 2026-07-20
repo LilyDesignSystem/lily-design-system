@@ -6,32 +6,20 @@ rationale and common usage.
 
 ## `label` — required, string
 
-`aria-label` on the `<select>`. Always supplied, always
-translatable. Screen readers announce it as the control's name.
+`aria-label` on **both** the trigger `<button>` and the
+`<ul role="listbox">`. Always supplied, always translatable.
 
-## `placeholder` — optional, string — defaults to `label`
+The button is icon-only, so this is its *entire* accessible name —
+there is no visible text to fall back to. A wrong, missing, or
+untranslated `label` leaves the control announced as a bare "button".
+Treat it as load-bearing copy and route it through the same
+translation pipeline as the rest of your strings. See
+[accessibility.md](./accessibility.md) for the full tradeoff.
 
-Text of the always-displayed placeholder option — the first
-`<option>` in the select, which carries `value=""` and the
-`.theme-select-placeholder` hook.
-
-The `<select>`'s own value is pinned to this option: after every
-change the component snaps `select.value` back to `""`, so the
-closed control always reads the placeholder word rather than the
-active theme name. That keeps the control as narrow as one word
-instead of growing to fit the longest theme name.
-
-Supply `placeholder` when the accessible name should be more
-descriptive than the visible word:
-
-```vue
-<ThemeSelect label="Choose a colour theme" placeholder="Theme" ... />
-```
-
-The active theme still lives in `v-model:value` and in `data-theme`
-on the target element — see
-[accessibility.md](./accessibility.md) for how to surface it to
-screen-reader users.
+> **Removed in the icon-button rewrite:** `placeholder`. It described
+> the leading `<option>` of the old native `<select>`, and there is no
+> `<select>` left to pin. Delete the prop from your usage; the
+> `.theme-select-placeholder` class hook is gone too.
 
 ## `themesUrl` — required, string
 
@@ -50,10 +38,15 @@ Acceptable values:
 
 ## `themes` — required, string[]
 
-The slugs of the themes the select exposes as options. The slug is
-used both as the `<option>` `value` and as the URL path segment when
-constructing the stylesheet href. Choose slugs that are safe URL
-path segments — kebab-case ASCII is recommended.
+The slugs of the themes the select exposes as options — one
+`<li role="option">` per entry, in array order. The slug is used both
+as the option's identity and as the URL path segment when constructing
+the stylesheet href. Choose slugs that are safe URL path segments —
+kebab-case ASCII is recommended.
+
+Array order is the keyboard order: `ArrowDown` walks it forwards,
+`Home` / `End` jump to `themes[0]` / the last entry, and `ArrowUp` on
+the closed button opens with the last entry active.
 
 ## `value` — optional, string (v-model:value)
 
@@ -87,10 +80,13 @@ swallowed — the select continues to work in-memory.
 
 ## `name` — optional, string — defaults to `"theme"`
 
-The `name` attribute on the `<select>`. It also serves as the
-discriminator on the managed `<link>` element
-(`data-lily-theme-select="{name}"`), so multiple selects can
-coexist by giving each a distinct `name`.
+The `name` attribute on the hidden `<input type="hidden">` that carries
+the active slug, so the select participates in a surrounding `<form>`
+exactly as the old native `<select>` did.
+
+It also serves as the discriminator on the managed `<link>` element
+(`data-lily-theme-select="{name}"`), so multiple selects can coexist by
+giving each a distinct `name`.
 
 ## `extension` — optional, string — defaults to `".css"`
 
@@ -133,33 +129,44 @@ Use `themeLabels` for i18n or for slugs that don't gracefully
 title-case (e.g.
 `"united-kingdom-national-health-service-england-for-patients"`).
 
+These labels are also what the listbox typeahead matches against, so
+localising them localises the typeahead too.
+
 ## `class` — optional, string
 
-Extra CSS class hook on the `<select>`. Always emitted after
+Extra CSS class hook on the root `<div>`. Always emitted after
 `"theme-select"`, so consumer styles can use either selector.
 
 ## Default scoped slot
 
-Custom rendering of the options. The slot receives:
+Replaces the **button glyph** — not the options. The slot receives:
 
 ```ts
 type SlotArgs = {
-    themes: string[];
-    value: string;
-    setTheme: (theme: string) => void;
-    name: string;
-    labelFor: (theme: string) => string;
+    value: string;                        // the active slug
+    open: boolean;                        // is the listbox open?
+    labelFor: (theme: string) => string;  // resolved display label
 };
 ```
 
-See [custom-rendering.md](./custom-rendering.md) for patterns.
+`ChildArgs` is exported as an alias of `SlotArgs`.
+
+Slot content is decorative: the button's accessible name always comes
+from `label` via `aria-label`, so keep the content `aria-hidden="true"`
+or text-free, and never render interactive markup inside it. See
+[custom-rendering.md](./custom-rendering.md) for patterns.
 
 ## Attribute fall-through
 
-Any other attribute (`id`, `data-*`, `@click`, ARIA overrides) flows
-to the root `<select>` via Vue's default `inheritAttrs: true`.
-Use this to attach test IDs, analytics handlers, and overrides
-without forking the component.
+Any other attribute (`id`, `data-*`, `@click`) flows to the root
+`<div>` via Vue's default `inheritAttrs: true`. Use this to attach test
+IDs, analytics handlers, and layout hooks without forking the
+component.
+
+Note the limit: fall-through reaches the root `<div>`, **not** the
+button or the listbox. Passing `aria-label` as a bare attribute puts it
+on the wrapper and leaves the button's own name untouched — use the
+`label` prop for that.
 
 ---
 

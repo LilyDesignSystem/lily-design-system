@@ -4,6 +4,142 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Added
+
+- **`ThemeSelect.ThemeName(string slug)` — public static.** The single
+  implementation of the default label rule (`"high-contrast"` ->
+  `"High Contrast"`). The private instance `LabelFor` now delegates to
+  it, so there is exactly one copy of the rule; `ThemeLabels` still
+  overrides. Previously the rule lived only in a private method, which
+  forced every example across the seven catalogs to hand-duplicate the
+  title-casing. Mirrors `Locales.LocaleName` on LocaleSelect.
+- **`DetectFromSystem` parameter (`bool`, default `false`).** Opt in to
+  resolving `prefers-color-scheme` on first visit. Slots into the
+  resolution order in the position navigator detection occupies for
+  LocaleSelect:
+
+  ```
+  Value > StorageKey > DetectFromSystem > DefaultValue > "light" > Themes[0]
+  ```
+
+  A returning visitor's stored choice therefore always beats the OS
+  preference; detection only ever decides the first visit. Off by
+  default, so no existing behaviour changes.
+- **`ThemeSelect.MatchSystemTheme(bool? prefersDark, themes)` — public
+  static.** The pure decision behind `DetectFromSystem`: maps an OS
+  colour-scheme preference onto a supported slug, returning `""` when
+  the slug is not offered **or when `prefersDark` is null**, which is
+  how "matchMedia unavailable" (prerender, static SSR, a host without
+  the API) is represented. Mirrors
+  `Locales.MatchNavigatorLanguage(navLangs, locales)`, which takes its
+  browser-read input the same way — the interop probe reads the
+  browser, the pure function makes the decision and is separately
+  testable.
+
+### Changed
+
+- `examples/SystemPreference.razor` and the "Follow the OS colour
+  scheme on first visit" recipe now use `DetectFromSystem` instead of
+  hand-resolving the media query in `OnAfterRenderAsync` and passing
+  the result as `DefaultValue`. The old approach still works but gets
+  the precedence subtly wrong.
+- `spec/index.md` §8 no longer lists "a `prefers-color-scheme`
+  integration" as out of scope. A *live* subscription remains out of
+  scope: re-theming a page when the OS flips while the tab is open
+  would fight a selection the user made by hand.
+
+### Changed (BREAKING)
+
+- **The control is no longer a native `<select>`.** It is now an icon
+  button that opens a dropdown listbox, built to the WAI-ARIA APG
+  listbox pattern. The root element changes from `<select>` to `<div>`:
+
+  ```html
+  <div class="theme-select {CssClass}">
+    <input type="hidden" name="{Name}" value="{Value}" />
+    <button type="button" class="theme-select-button" aria-label="{Label}"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="{listId}">
+      <span class="theme-select-icon" aria-hidden="true">&#9681;</span>
+    </button>
+    <ul class="theme-select-list" id="{listId}" role="listbox" aria-label="{Label}"
+        tabindex="-1" hidden aria-activedescendant="{active option id, open only}">
+      <li class="theme-select-option" id="{optionId}" role="option"
+          aria-selected="true|false" data-active>{LabelFor(slug)}</li>
+    </ul>
+  </div>
+  ```
+
+  Consumers must update: any CSS or test selector targeting
+  `select.theme-select` or `option.theme-select-option`;
+  `AdditionalAttributes` and `CssClass` now land on the root `<div>`,
+  not on a form control.
+
+- **`Placeholder` is removed.** It existed only to pin the native
+  `<select>`'s closed display to a short word. There is no `<select>`
+  left to pin, so the parameter is gone and passing it is a compile
+  error. The closed control is an icon button; to show the active
+  theme, render a status region beside it — see
+  [`docs/accessibility.md`](./docs/accessibility.md#the-status-region-is-still-the-recommended-pattern).
+
+- **The 0.3.0 snap-back interop write is removed.** The component no
+  longer calls `Object.assign(el, { value: "" })` through `IJSRuntime`
+  after a change. There is no `<select>` DOM value to reset.
+
+- **`ThemeSelectContext` is narrowed, and `ChildContent` changes
+  meaning.** The fragment now **replaces the glyph inside the button**
+  rather than rendering the options; options are always
+  component-owned, so the listbox semantics cannot be broken by a
+  consumer override. The context drops `Themes`, `SetTheme` and
+  `Name`, keeping `{ Value, Open, LabelFor }` to mirror the canonical
+  Svelte `ChildArgs`. To drive selection imperatively, call the public
+  `SetThemeAsync(string)` on a `@ref` to the component.
+
+- **The `.theme-select-placeholder` CSS hook is gone.** The hooks are
+  now `.theme-select`, `.theme-select-button`, `.theme-select-icon`,
+  `.theme-select-list`, `.theme-select-option`, plus the
+  `[data-active]` and `[aria-selected]` state selectors.
+
+### Added
+
+- Full WAI-ARIA APG listbox keyboard contract, implemented by the
+  component: `ArrowDown` / `Enter` / `Space` open on the selected
+  option and `ArrowUp` opens on the last; arrows move and **clamp**
+  (no wrapping); `Home` / `End` jump; `Enter` / `Space` select-apply-
+  close-and-refocus; `Escape` closes without changing the value; `Tab`
+  closes without stealing focus; printable characters run a 500 ms
+  typeahead over the labels. Clicking an option selects it; focus
+  leaving the root closes the listbox.
+- Focus management via `ElementReference.FocusAsync()` — opening moves
+  focus to the `<ul>`, selecting or escaping returns it to the button.
+- `ThemeSelect.CircleWithRightHalfBlack` — the default glyph constant,
+  `"◑"` (U+25D1).
+- A hidden `<input>` carrying `Name` / `Value` so the control still
+  participates in form submission. `Name` continues to discriminate the
+  managed `<link data-lily-theme-select="{Name}">`.
+- Stable, SSR-safe element ids from a monotonic process-wide counter
+  (`theme-select-{n}-list`, `theme-select-{n}-option-{i}`) — no
+  randomness and no clock reads.
+
+### Unchanged
+
+The managed `<link>` swap, `data-theme`, `localStorage` persistence,
+`OnChange` / `ValueChanged`, initial-value resolution, SSR safety, and
+the static `NormaliseThemesUrl` / `ThemeHref` helpers all behave
+exactly as before.
+
+### Known deviations from the canonical Svelte implementation
+
+- No `preventDefault` on keydown: Blazor evaluates
+  `@onkeydown:preventDefault` at render time, not per event, so it
+  cannot spare `Tab`. Arrow keys and `Space` therefore still scroll the
+  page. A suppress-next-click flag stops `Enter` / `Space` toggling the
+  listbox twice.
+- No document-level click listener (this package ships no JavaScript);
+  outside interaction closes the listbox via the root's `focusout`
+  instead.
+
 ## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING)

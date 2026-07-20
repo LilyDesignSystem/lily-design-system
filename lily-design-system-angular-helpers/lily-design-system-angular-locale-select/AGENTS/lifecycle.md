@@ -28,16 +28,46 @@ effect run 2 (triggered by value.set(resolved)):
     3. if storageKey: localStorage.setItem(storageKey, code)
     4. localeChange.emit(code) — consumer-form, not BCP 47 normalised
 
-user picks an option
+user picks an option (click, or Enter / Space on the active option)
   │
   ▼
-(change)="onChange($any($event.target).value)"
-  this.value.set(next)
+choose(index)
+  this.value.set(locales()[index])
+  closeList()  →  open=false, activeIndex=-1, focus back to the button
     │
     ▼
   effect re-runs because value() changed
     applyLocale(next)
 ```
+
+## The open / close state machine
+
+Independent of the value lifecycle above, and holding no effects of
+its own:
+
+```
+closed  ── click button ─────────────► open, active = selected (or 0)
+        ── ArrowDown / Enter / Space ► open, active = selected (or 0)
+        ── ArrowUp ──────────────────► open, active = last
+                                        │
+                                        ▼
+                            focus moves to the <ul> (queueMicrotask)
+                            active option scrolled into view
+
+open    ── ArrowDown / ArrowUp ──────► move active, clamped at both ends
+        ── Home / End ───────────────► active = first / last
+        ── printable char ───────────► typeahead over labels (500 ms buffer)
+        ── Enter / Space ────────────► choose(active) → value change + close + refocus
+        ── click an option ──────────► choose(i)      → value change + close + refocus
+        ── Escape ───────────────────► close + refocus, value unchanged
+        ── Tab ──────────────────────► close, focus NOT pulled back
+        ── click outside root ───────► close, focus NOT pulled back
+        ── focusout leaves root ─────► close, focus NOT pulled back
+```
+
+`closeList(refocus = true)` is the single exit; the three
+"focus NOT pulled back" paths pass `refocus = false` so the browser
+(or the user's click) keeps control of where focus lands.
 
 ## Why `effect()` and not `ngOnInit` + `ngOnChanges`
 
@@ -185,15 +215,22 @@ export class Settings {
 
 During server rendering, the `effect()` callback may run but the
 `typeof document` guard prevents DOM mutation. The template renders
-the `<select>` with its placeholder option selected regardless of
-`value`; `lang` and `dir` attributes are not written to `<html>`
-server-side.
+the button and the closed (`hidden`) listbox; `lang` and `dir`
+attributes are not written to `<html>` server-side. Per-instance ids
+come from the `nextLocaleSelectId()` module counter rather than
+`Math.random()` / `Date.now()`, so the server and client agree on
+`aria-controls`, the list `id`, and every option `id`.
 
 That's the recipe for flicker-free SSR: pre-resolve the locale on
 the server, bridge it via an injection token, and use it as the
 `value` input. See [`./ssr.md`](./ssr.md).
 
 ## Destroy
+
+`inject(DestroyRef).onDestroy(…)` clears the pending typeahead
+timer. Nothing else needs unwinding: the outside-click listener is a
+`host: { "(document:click)": … }` binding and the focus-out listener
+is a `(focusout)` template binding, so Angular removes both.
 
 The component does not clean up `lang` / `dir` on destroy. That's
 intentional: the select may be destroyed because the consumer

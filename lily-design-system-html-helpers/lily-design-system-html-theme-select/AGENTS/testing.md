@@ -17,38 +17,69 @@ import { themeHref, normalizeThemesUrl } from "./theme-select";
 
 beforeEach(() => {
     // Reset shared state between tests.
-    document.head.innerHTML = "";
-    document.body.innerHTML = "";
     document.documentElement.removeAttribute("data-theme");
-    localStorage.clear();
+    document.head
+        .querySelectorAll("link[data-lily-theme-select]")
+        .forEach((n) => n.remove());
+    document.body.replaceChildren();
+    try {
+        localStorage.clear();
+    } catch {
+        /* ignore */
+    }
 });
 ```
 
-Each test creates a fresh element with `document.createElement`,
-sets attributes, and appends it. `connectedCallback` runs
-synchronously in jsdom, so no `await` is needed.
+Remove only the managed `<link>` elements rather than clearing
+`document.head` wholesale — jsdom keeps other head content the
+harness relies on. Each test creates a fresh element with
+`document.createElement`, sets attributes, and appends it.
+`connectedCallback` runs synchronously in jsdom, but `await flush()`
+before asserting so deferred handlers have settled.
 
 ## Standard mount
 
 ```ts
-function mountSelect(attrs: Record<string, string>): ThemeSelect {
+function mount(attrs: Record<string, string>): ThemeSelect {
     const el = document.createElement("theme-select") as ThemeSelect;
     for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
     document.body.appendChild(el);
     return el;
 }
 
-it("§7.1 renders a select with an aria-label", () => {
-    const el = mountSelect({
-        label: "Theme",
-        "themes-url": "/themes/",
-        themes: "light,dark",
-    });
-    const root = el.querySelector("select");
-    expect(root).not.toBeNull();
-    expect(root!.getAttribute("aria-label")).toBe("Theme");
+test("§7.2 aria-label names the button and the listbox", async () => {
+    mount({ label: "Choose theme", "themes-url": "/themes/", themes: "light,dark" });
+    await flush();
+    expect(button().getAttribute("aria-label")).toBe("Choose theme");
+    expect(list().getAttribute("aria-label")).toBe("Choose theme");
 });
 ```
+
+## Query helpers
+
+The suite defines four small accessors rather than repeating
+selectors, plus `press` / `click` event helpers and a `flush` that
+awaits a macrotask:
+
+```ts
+const button = () => document.body.querySelector<HTMLButtonElement>(".theme-select-button")!;
+const list   = () => document.body.querySelector<HTMLUListElement>(".theme-select-list")!;
+const options = () => [...document.body.querySelectorAll<HTMLLIElement>(".theme-select-option")];
+
+function press(el: Element, key: string): void {
+    el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
+}
+function click(el: Element): void {
+    el.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+}
+function flush(): Promise<void> {
+    return new Promise((r) => setTimeout(r, 0));
+}
+```
+
+`flush()` after mounting matters: `connectedCallback` runs
+synchronously, but the focus-out handler defers to a microtask, so
+tests that assert on close state need the turn of the event loop.
 
 ## Attribute timing
 
@@ -64,18 +95,53 @@ expect(document.documentElement.dataset.theme).toBe("dark");
 
 ## Triggering an option change
 
-```ts
-const select = el.querySelector<HTMLSelectElement>("select")!;
-select.value = "dark";
-select.dispatchEvent(new Event("change", { bubbles: true }));
+Open the list, then click the option:
 
+```ts
+function pick(slug: string, themes: string[]): void {
+    click(button());
+    click(options()[themes.indexOf(slug)]);
+}
+
+pick("dark", ["light", "dark", "abyss"]);
 expect(el.getAttribute("value")).toBe("dark");
 expect(document.documentElement.dataset.theme).toBe("dark");
 ```
 
-The `<select>`'s `change` listener (attached in `#render()`) writes
-back to `el.value`, which feeds through `attributeChangedCallback`
-→ `#applyTheme` → `dispatchEvent`.
+The option's `click` listener (attached in `#render()`) writes back
+to `el.value`, which feeds through `attributeChangedCallback` →
+`#applyTheme` → `dispatchEvent`.
+
+## Exercising the keyboard contract
+
+Dispatch `keydown` on the button to open, then on the `<ul>` — that
+is where focus lives while open:
+
+```ts
+press(button(), "ArrowDown");
+expect(document.activeElement).toBe(list());
+expect(list().getAttribute("aria-activedescendant")).toBe(options()[0].id);
+
+press(list(), "ArrowDown");
+press(list(), "Enter");
+expect(list().hasAttribute("hidden")).toBe(true);
+expect(document.activeElement).toBe(button());
+```
+
+Assert the active descendant by comparing against `options()[i].id`
+rather than hardcoding an id string — ids come from a module-level
+counter that increments across the whole suite run, so their exact
+values depend on how many elements earlier tests mounted.
+
+## Asserting open / closed state
+
+```ts
+expect(list().hasAttribute("hidden")).toBe(true);          // closed
+expect(button().getAttribute("aria-expanded")).toBe("false");
+expect(list().hasAttribute("aria-activedescendant")).toBe(false);
+```
+
+`aria-activedescendant` is absent while closed, not empty.
 
 ## Asserting the managed `<link>`
 
@@ -131,14 +197,39 @@ document.body.addEventListener("themechange", (e) => {
 ## Property vs attribute equivalence
 
 ```ts
-const a = mountSelect({ themes: "light,dark,abyss" });
-const b = mountSelect({});
+const a = mount({ themes: "light,dark,abyss" });
+const b = mount({});
 b.themes = ["light", "dark", "abyss"]; // assigns through the setter
 
-expect(a.querySelectorAll("option").length).toBe(3);
-expect(b.querySelectorAll("option").length).toBe(3);
+expect(a.querySelectorAll(".theme-select-option").length).toBe(3);
+expect(b.querySelectorAll(".theme-select-option").length).toBe(3);
 expect(b.getAttribute("themes")).toBe("light,dark,abyss");
 ```
+
+## Testing a `renderButtonContent()` subclass
+
+Define the subclass and register it once at module scope, guarded
+so a re-run doesn't throw:
+
+```ts
+class GlyphlessThemeSelect extends ThemeSelect {
+    renderButtonContent(): Node {
+        const span = document.createElement("span");
+        span.setAttribute("data-testid", "custom");
+        span.setAttribute("data-open", String(this.open));
+        span.setAttribute("data-value", this.value);
+        return span;
+    }
+}
+if (!customElements.get("glyphless-theme-select")) {
+    customElements.define("glyphless-theme-select", GlyphlessThemeSelect);
+}
+```
+
+Assert both halves: that the custom node replaced the glyph
+(`.theme-select-icon` is gone) and that the base class's aria wiring
+survived (`aria-haspopup`, `aria-label`, a resolvable
+`aria-controls`).
 
 ## Pure-helper tests
 
@@ -146,15 +237,17 @@ expect(b.getAttribute("themes")).toBe("light,dark,abyss");
 needed:
 
 ```ts
-it("§7.11 normalizeThemesUrl appends a slash", () => {
+test("normalizeThemesUrl appends a missing trailing slash", () => {
     expect(normalizeThemesUrl("/x")).toBe("/x/");
-    expect(normalizeThemesUrl("/x/")).toBe("/x/");
 });
 
-it("themeHref builds the full URL", () => {
+test("themeHref builds the href", () => {
     expect(themeHref("/x/", "dark", ".css")).toBe("/x/dark.css");
 });
 ```
+
+These sit in their own `describe` block and carry no `§` number:
+they exercise `spec/index.md` §5.1 rather than a §7 clause.
 
 ## SSR sanity (module load only)
 

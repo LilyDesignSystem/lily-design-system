@@ -11,6 +11,20 @@
     locale-labels attribute. The select still owns lang / dir
     application on the document root.
 
+    THIS IS A TIER 2 SUBCLASS. It hides the base icon button and
+    listbox and renders its own always-visible list, which means it
+    takes over the accessibility and keyboard contracts — safe here
+    only because native <button> elements bring their own. It appends
+    into the base <div class="locale-select"> root rather than
+    replacing it, so the class hook and the hidden <input name=…>
+    (form participation) survive. It writes only `this.value` and
+    lets the base class own lang / dir / storage / localechange.
+
+    An always-visible row is arguably the better choice for a public
+    health service: no glyph to misinterpret, no dropdown to discover,
+    and every language visible in its own script. See
+    docs/custom-rendering.md for the full tier-2 invariant list.
+
     Note: locale-select.ts may need compilation to .js — adjust the
     <script src=…> per your build output.
 -->
@@ -117,11 +131,17 @@
                 }
             }
             _rerender() {
-                const select = this.querySelector("select.locale-select");
-                if (!select) return;
-                // Replace the default <select> with a list of buttons.
-                select.hidden = true;
-                this.querySelector(".nhs-locale-list")?.remove();
+                // The base root is a <div class="locale-select">
+                // holding the hidden input, the button, and the <ul>.
+                const root = this.querySelector("div.locale-select");
+                if (!root) return;
+
+                // Hide the base icon button; keep the root (class hook)
+                // and the hidden input (form participation).
+                const trigger = root.querySelector(".locale-select-button");
+                if (trigger) trigger.hidden = true;
+                root.querySelector(".nhs-locale-list")?.remove();
+
                 const ul = document.createElement("ul");
                 ul.className = "nhs-locale-list";
                 ul.setAttribute("role", "list");
@@ -131,14 +151,16 @@
                     const btn = document.createElement("button");
                     btn.type = "button";
                     btn.setAttribute("aria-pressed", String(this.value === locale));
-                    btn.setAttribute("lang", locale.replace(/_/g, "-"));
+                    // Per-option lang, as the base <li> options carry.
+                    btn.setAttribute("lang", this.tagFor(locale));
                     btn.textContent =
                         labels[locale] ?? defaultLocaleLabels[locale] ?? locale;
+                    // Write the value; the base class applies it.
                     btn.addEventListener("click", () => { this.value = locale; });
                     li.appendChild(btn);
                     ul.appendChild(li);
                 }
-                this.appendChild(ul);
+                root.appendChild(ul);
             }
         }
         customElements.define("nhs-locale-select", NhsLocaleSelect);

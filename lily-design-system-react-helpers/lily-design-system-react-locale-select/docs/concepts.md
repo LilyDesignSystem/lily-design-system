@@ -25,15 +25,25 @@ zero string tables, zero dependencies beyond React.
 
 The select:
 
-- Renders semantic HTML (a native `<select>` with `<option>` children),
-  which the browser exposes as a `combobox` with `option` children.
-- Carries a stable kebab-case class hook (`locale-select` on the
-  `<select>`, `locale-select-option` on each `<option>`) so your CSS can
-  target it without prefixes or specificity tricks.
+- Renders semantic HTML with explicit ARIA — a `<button>` that opens a
+  `<ul role="listbox">` of `<li role="option">` children, following the
+  WAI-ARIA APG Listbox pattern.
+- Carries stable kebab-case class hooks — `locale-select` on the root
+  `<div>`, plus `locale-select-button`, `locale-select-icon`,
+  `locale-select-list`, and `locale-select-option` — so your CSS can
+  target any part without prefixes or specificity tricks. State rides
+  on `aria-selected` and `data-active`.
 - Ships **no** colour, spacing, typography, font, icon, or animation
-  decisions. You supply all of that.
+  decisions. You supply all of that — **including the list's
+  positioning**, since the package ships no CSS at all. Open and close
+  are the `hidden` attribute and nothing more.
 - Ships **no** translated strings. The `label` prop and `localeLabels`
   prop are passed through verbatim.
+
+The one visual decision it does make is the default glyph: U+1F310
+GLOBE WITH MERIDIANS, as a text character rather than a bundled asset.
+It is `aria-hidden`, and `children` replaces it — see
+[accessibility.md](./accessibility.md) for why you might want to.
 
 ## The lifecycle
 
@@ -62,24 +72,37 @@ Each instance manages a single `value`:
 The effects are intentional — both DOM mutation and storage are side
 effects, so they belong in `useEffect`, not `useMemo`.
 
-## Why a native `<select>` by default
+## Why a button and a listbox rather than a `<select>`
 
 Three reasons:
 
-1. **Compactness**. A native `<select>` is one widget regardless of how
-   many locales you support, so it scales cleanly from 2 to 200+ codes
-   without dominating the layout.
-2. **Symmetry with `ThemeSelect`**. The sibling helper in this
-   directory uses the same shape, so the two compose visually and
-   semantically without surprises.
-3. **Escape hatch is one render prop away**. The `children` render prop
-   hands you the full state machine — locales, value, `setLocale`,
-   `tagFor`, `isRtl`, `labelFor`, `name` — so a custom `<select>` or
-   button group is a 10-line rewrite, not a fork.
+1. **Compactness**. The closed control is an icon, so it costs one
+   glyph of width no matter how many locales you support — and the list
+   itself is one widget, so it scales from 2 to 200+ codes without
+   dominating the layout.
+2. **Styling control**. Native `<option>` elements are barely
+   styleable; a `<ul role="listbox">` is ordinary markup. Endonyms in
+   mixed scripts, per-option spacing, and the active-option indicator
+   are all yours to style.
+3. **The lifecycle is unchanged**. Swapping the control did not touch
+   `lang` / `dir` application, RTL detection, persistence, navigator
+   detection, `onChange`, or initial-value resolution.
 
-For very long locale lists (50+), use the children render prop to render
-a combobox with type-ahead. See
-[examples/10-combobox.tsx](../examples/10-combobox.tsx).
+It is a real trade, not a free upgrade. A native `<select>` gets
+platform-level assistive-technology treatment, announces its value
+while collapsed, and pops the OS picker on mobile; this control gets
+none of that for free and reimplements the keyboard contract in JS.
+[accessibility.md](./accessibility.md) sets out the three costs
+honestly — the `aria-label`-only accessible name, the weaker
+assistive-tech support, and the font-dependent, culturally-loaded
+glyph.
+
+For very long locale lists (50+), the built-in typeahead (type a label
+prefix while the list is open) is the navigation affordance. See
+[examples/all-locales.tsx](../examples/all-locales.tsx). An editable,
+free-text combobox is out of scope — `children` replaces the glyph
+only, so building one means composing a different primitive with this
+package's exported pure helpers.
 
 ## Why a separate `value` and `target.lang`
 
@@ -160,9 +183,12 @@ Three layers, mirroring the lifecycle:
    `matchNavigatorLanguage` are pure functions. Unit-test them in
    isolation.
 2. **DOM contract** — after mount, assert `document.documentElement.lang`
-   and `.dir`. Drive a `change` on the `<select>` and assert again.
+   and `.dir`. Click the button, click an option, and assert again.
 3. **Controlled + onChange** — drive `value` programmatically and
    assert the same DOM observations.
+4. **Interaction** — the keyboard contract is now the component's own
+   code, so it needs its own tests: open keys, arrow clamping, Home /
+   End, select, `Escape`, `Tab`, focus transfer, and typeahead.
 
 See [../LocaleSelect.test.tsx](../LocaleSelect.test.tsx) for the
 reference suite that covers every `spec/index.md` §7 acceptance item.
@@ -176,11 +202,15 @@ It lives in `lily-design-system-react-helpers/` as a sibling to
 - `ThemeSelect` writes `data-theme` and a managed `<link>`.
 - `LocaleSelect` writes `lang` and `dir`.
 
-Both share the native `<select>` shape, the
-`children`-render-prop escape hatch, and the same `storageKey` /
-controlled-value pattern. Drop both at the top of your layout and the
-two together cover the entire "visual personalisation + linguistic
-personalisation" surface for a public-sector or healthcare app.
+Both share the same icon-button-plus-listbox shape, the same
+glyph-override `children` contract, the same `storageKey` /
+controlled-value pattern, and the same no-hardcoded-strings rule — only
+the glyph differs (`ThemeSelect` uses U+25D1 CIRCLE WITH RIGHT HALF
+BLACK, `◑`). So they compose visually and semantically without
+surprises, and one set of CSS rules styles both. Drop both at the top
+of your layout and the two together cover the entire "visual
+personalisation + linguistic personalisation" surface for a
+public-sector or healthcare app.
 
 ---
 

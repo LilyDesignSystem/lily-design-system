@@ -8,76 +8,92 @@ consumer-facing guide; this file is the AI-coding contract.
 
 | WCAG / APG item | How the select satisfies it                                |
 | --------------- | ---------------------------------------------------------- |
-| Native `<select>` | `<select aria-label>` + native `<option>` elements.      |
-| WCAG 2.1.1 Keyboard      | Tab / Arrow / Home / End / typeahead — native select semantics. |
+| APG Listbox pattern      | Button (`aria-haspopup="listbox"`) + `<ul role="listbox">` with `aria-activedescendant`. |
+| WCAG 2.1.1 Keyboard      | Component-implemented: open keys, Arrow / Home / End, commit, dismiss, typeahead. |
 | WCAG 2.4.7 Focus Visible | Browser default; helper never sets `outline: none`.  |
-| WCAG 4.1.2 Name, Role, Value | implicit `role="combobox"`, `aria-label`, selected state. |
-| WCAG 1.4.1 Use of Color  | State conveyed via the selected option and `data-theme`. |
-| WCAG 3.2.2 On Input      | Focus is never moved by the select on change.         |
+| WCAG 4.1.2 Name, Role, Value | `aria-label` on button + listbox, `aria-expanded`, `aria-selected`. |
+| WCAG 1.4.1 Use of Color  | State conveyed via `aria-selected`, `data-active`, and `data-theme`. |
+| WCAG 3.2.2 On Input      | Committing returns focus to the trigger — a predictable, user-initiated move, not a context change. |
 
 ## Roles and properties
 
-| Element     | Attribute                  | Source        |
-| ----------- | -------------------------- | ------------- |
-| `<select>`  | implicit `role="combobox"` | Browser       |
-| `<select>`  | `aria-label={label}`       | Consumer prop |
-| `<select>`  | `name`                     | Component     |
-| `<option>`  | implicit `role="option"`   | Browser       |
-| `<option>`  | implicit selected state    | Browser       |
+| Element     | Attribute                          | Source        |
+| ----------- | ---------------------------------- | ------------- |
+| `<div>`     | class hook `theme-select`          | Component     |
+| `<input type="hidden">` | `name`, `value`        | Component     |
+| `<button>`  | `aria-label={label}`               | Consumer prop |
+| `<button>`  | `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` | Component |
+| `<span class="theme-select-icon">` | `aria-hidden="true"` | Component |
+| `<ul>`      | `role="listbox"`, `aria-label={label}`, `tabindex="-1"`, `hidden` | Component |
+| `<ul>`      | `aria-activedescendant` (while open only) | Component |
+| `<li>`      | `role="option"`, `aria-selected`, `data-active` | Component |
 
 The component never adds:
 
-- `aria-pressed` (the select uses native selected state).
-- `aria-activedescendant`. Not needed — the native select handles it.
-- A focus management API. The browser handles it.
+- `aria-pressed` — selection state lives on `aria-selected`.
+- A roving `tabindex` over the options — the listbox itself takes focus
+  and `aria-activedescendant` tracks the active option.
+
+Ids for the listbox and every option derive from `useId`, so they are
+stable across SSR and hydration.
 
 ## Keyboard contract
 
-| Key                  | Action                                        |
-| -------------------- | --------------------------------------------- |
-| `Tab` / `Shift+Tab`  | Move focus to / from the select (one tab stop). |
-| `Arrow Down`         | Select the next option.                       |
-| `Arrow Up`           | Select the previous option.                   |
-| `Home` / `End`       | Select the first / last option.               |
-| Typeahead            | Type characters to jump to a matching option. |
-| `Enter` / `Space`    | Open the option list (platform-dependent).    |
-| `Escape`             | Close the option list.                        |
+On the **button**:
 
-All provided by the platform. The select adds zero JS keyboard
-handlers.
+| Key                             | Action                                                    |
+| ------------------------------- | --------------------------------------------------------- |
+| `Tab` / `Shift+Tab`             | Move focus to / from the button (one tab stop).           |
+| `ArrowDown` / `Enter` / `Space` | Open with the selected option active (else index 0); focus moves to the listbox. |
+| `ArrowUp`                       | Open with the **last** option active; focus moves to the listbox. |
+
+On the **listbox**:
+
+| Key                     | Action                                                          |
+| ----------------------- | ---------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option. Clamps at the ends — no wrapping.        |
+| `Home` / `End`          | Jump to the first / last option.                                 |
+| `Enter` / `Space`       | Select the active option, apply, close, return focus to button.  |
+| `Escape`                | Close and return focus to the button; value unchanged.           |
+| `Tab`                   | Close without stealing focus back.                               |
+| Printable character     | Typeahead over the labels; buffer resets after 500 ms idle.      |
+
+Pointer: clicking an option selects it; clicking the button again,
+clicking outside, or focus leaving the root closes without changing the
+value.
 
 ## When the consumer overrides children
 
-The `children` render prop renders inside the `<select>`, so it should
-return `<option>` / `<optgroup>` elements; the native keyboard contract
-still applies.
+The `children` render prop replaces **only the glyph inside the
+button**. The keyboard contract, the options, and every ARIA attribute
+stay with the component, so overriding children cannot break the
+pattern.
 
-If the consumer wants a fundamentally different control (button group,
-segmented control, custom combobox), they render it outside the select
-and call `setTheme` imperatively — and they take responsibility for the
-keyboard contract of whichever pattern they build:
-
-- **Button group.** `aria-pressed` for state, Tab between
-  buttons. No Arrow-key navigation by default.
-- **Custom combobox.** APG Combobox pattern — consumer wires
-  arrow keys, listbox, focus management.
+The one thing a consumer can break: putting a visible, non-`aria-hidden`
+label inside the button changes nothing about the accessible name
+(`aria-label` wins), which can leave the visible text and the announced
+name out of sync — a WCAG 2.5.3 (Label in Name) hazard. Keep custom
+glyph content `aria-hidden="true"`, or make `label` start with the
+visible text.
 
 ## Focus management
 
-The select never calls `.focus()` or `.blur()`. The focused element
-on each render is whichever the browser puts focus on.
+The component moves focus deliberately in exactly two places:
 
-This satisfies WCAG 3.2.2 (On Input): changing the selected option
-must not cause a focus or context change.
+- Opening the listbox moves focus from the button to the `<ul>`.
+- Committing a selection or pressing `Escape` returns focus to the
+  button.
+
+`Tab`, an outside click, and focus leaving the root all close the list
+without moving focus, so the user's own focus travel is never
+interrupted.
 
 ## Live regions
 
-The select has no `aria-live`. Selection changes propagate through
-the native select's value change, which screen readers announce
-automatically.
-
-If the consumer wants to announce the theme change separately (e.g.
-"Theme changed to dark"), they wire their own live region:
+The component has no `aria-live`. The closed button shows only a glyph
+and announces only `label`, so it never states the active theme.
+Consumers who want the active theme announced or displayed wire their
+own status region — see [`../docs/accessibility.md`](../docs/accessibility.md):
 
 ```tsx
 const [announce, setAnnounce] = useState("");
@@ -99,11 +115,16 @@ consumer's CSS supplies the focus ring. NHS-UK and Lily themes
 ship a high-contrast focus outline that meets AAA.
 
 ```css
-.theme-select:focus-visible {
+.theme-select-button:focus-visible,
+.theme-select-list:focus-visible {
     outline: 2px solid var(--theme-color-primary, currentColor);
     outline-offset: 2px;
 }
 ```
+
+The listbox takes focus while open, so it needs a focus style too — and
+the active option needs a visible `[data-active]` treatment, since
+that is what the user is actually moving.
 
 ## Reduced motion
 
@@ -115,12 +136,16 @@ on the `data-theme` swap.
 
 | Reader     | OS       | Browser   | What's announced when user lands on the control |
 | ---------- | -------- | --------- | ------------------------------------------------ |
-| VoiceOver  | macOS    | Safari    | "{label}, pop-up button" → "{option}, selected, N of M". |
-| NVDA       | Windows  | Firefox   | "{label} combo box" → "{option} N of M". |
-| JAWS       | Windows  | Chrome    | "{label} combo box, {option}, N of M". |
-| TalkBack   | Android  | Chrome    | "{label}, drop-down list, {option}, N of M, double-tap to activate". |
+| VoiceOver  | macOS    | Safari    | "{label}, pop-up button, collapsed" → on open, "{label}, list box" → "{option}, selected". |
+| NVDA       | Windows  | Firefox   | "{label} button collapsed" → on open, "{label} list box" → "{option} N of M". |
+| JAWS       | Windows  | Chrome    | "{label} button" → on open, "{label} list box, {option}, N of M". |
+| TalkBack   | Android  | Chrome    | "{label}, button, double-tap to activate" → list items read individually. |
 
-Selection changes are announced because the select's value changes.
+Verify these by hand — a custom listbox does not get the platform-level
+treatment a native `<select>` does, and `aria-activedescendant` support
+varies across reader + browser combinations. The button never announces
+the active theme (it holds only an `aria-hidden` glyph), so pair it with
+a status region if the value must be discoverable on focus.
 
 ## i18n
 
@@ -131,23 +156,30 @@ Selection changes are announced because the select's value changes.
 
 ## Common mistakes to avoid (when forking / extending)
 
-- **Don't replace the `<select>` with a div.** The native `<select>`
-  IS the accessible control; removing it breaks announcement and
-  keyboard support.
-- **Don't return non-`<option>` children from `children`.** They render
-  inside the `<select>`, which only accepts `<option>` / `<optgroup>`.
-- **Don't remove the `aria-label`.** It is the select's accessible
-  name.
-- **Don't manage focus manually.** The browser already does it
-  correctly.
-- **Don't set `outline: none` on the select.** Visible focus is a
-  WCAG AAA requirement.
+- **Don't drop the `aria-hidden` on the glyph.** A decorative glyph in
+  the accessible name tree produces announcements like "black circle
+  button".
+- **Don't remove the `aria-label`.** It is the *only* accessible name
+  the control has — the glyph supplies none.
+- **Don't give the options a real `tabindex`.** The pattern is
+  `aria-activedescendant` on a focused listbox, not roving focus;
+  mixing the two breaks both.
+- **Don't drop `aria-activedescendant` on close.** It is set only while
+  open; a stale value points at an option inside a `hidden` subtree.
+- **Don't set `outline: none`** on the button or the listbox. Both take
+  focus, and visible focus is a WCAG AAA requirement.
+- **Don't reintroduce a native `<select>` alongside this.** Pick one
+  control; two overlapping ones double-announce.
 
 ## Testing accessibility
 
-- The vitest suite asserts the `<select>` (implicit `combobox` role),
-  `aria-label`, `name`, and per-option `value`.
-- Manual: VoiceOver + Safari, NVDA + Firefox, JAWS + Chrome.
+- The vitest suite asserts the button/listbox wiring (`aria-haspopup`,
+  `aria-expanded`, `aria-controls`, `aria-label` on both), the
+  `aria-hidden` glyph, `aria-selected`, `data-active`, and the full
+  keyboard contract (§7.14–§7.18).
+- Manual: VoiceOver + Safari, NVDA + Firefox, JAWS + Chrome. Manual
+  passes matter more here than they did with a native `<select>` —
+  see the screen-reader table above.
 - Automated: axe-core via Playwright (run from the example app).
-- Keyboard-only: Tab into the select, Arrow keys between options,
-  no mouse needed.
+- Keyboard-only: Tab to the button, open, Arrow between options,
+  `Enter` to commit, `Escape` to dismiss — no mouse needed.

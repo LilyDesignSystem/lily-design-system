@@ -86,29 +86,57 @@ full recipe.
    server-supplied value via `value` (which short-circuits the
    storage read).
 
-## Build a flyout / dropdown UI
+## Position the dropdown listbox
 
-Use [custom-rendering](./custom-rendering.md) to render a
-button-triggered popover outside the select and drive it with
-`setTheme`. Give the popover trigger an `aria-label` so screen readers
-still hear the control's name.
+The control already *is* a flyout — a button that opens a listbox — but
+the package ships no CSS, so the list renders in normal flow until you
+position it:
+
+```css
+.theme-select {
+    position: relative;
+    display: inline-block;
+}
+
+.theme-select-list {
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline-start: 0;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+```
+
+Full walkthrough, including the `[data-active]` highlight and the
+`hidden` interaction, in [styling.md](./styling.md).
+
+## Show the active theme on the trigger
+
+The default trigger is an icon button that never states the theme in
+effect. Pass `children` to render the label alongside the glyph, and
+extend `label` so the accessible name matches the visible text:
 
 ```tsx
-<ThemeSelect label="Theme" themesUrl="/t/" themes={["light", "dark"]}>
-    {({ themes, value, setTheme, labelFor }) => (
-        <Popover>
-            <PopoverTrigger>{labelFor(value)}</PopoverTrigger>
-            <PopoverContent>
-                {themes.map((t) => (
-                    <button key={t} onClick={() => setTheme(t)}>
-                        {labelFor(t)}
-                    </button>
-                ))}
-            </PopoverContent>
-        </Popover>
+<ThemeSelect
+    label={`Theme: ${labelFor(theme)}`}
+    themesUrl="/t/"
+    themes={["light", "dark"]}
+    value={theme}
+    onChange={setTheme}
+>
+    {({ value, open, labelFor }) => (
+        <>
+            <span aria-hidden="true">{labelFor(value)}</span>
+            <span aria-hidden="true">{open ? "▴" : "▾"}</span>
+        </>
     )}
 </ThemeSelect>
 ```
+
+Otherwise keep the status-region pattern from
+[accessibility.md](./accessibility.md).
 
 ## Serve themes from a CDN
 

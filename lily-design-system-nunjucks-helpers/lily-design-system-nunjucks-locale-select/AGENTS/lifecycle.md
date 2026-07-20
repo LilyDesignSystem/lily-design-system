@@ -12,18 +12,19 @@ Nunjucks render time
   │
   ▼
 localeSelect(opts) macro
-  │  emits <select data-lily-locale-select-root …>
+  │  emits <div data-lily-locale-select-root …> containing
+  │   a hidden input, a trigger <button>, and a <ul role="listbox" hidden>
   │   with data-lily-locale-select-value = opts.value (if non-empty)
-  │   and per-option <option lang="{tagFor(locale)}">.
-  │   The placeholder is the ONLY `selected` option — no real option
-  │   is ever rendered `selected`, so the closed control reads the
-  │   placeholder word from byte zero (no pre-hydration flash).
+  │   and per-option <li lang="{tagFor(locale)}">.
+  │   Exactly one <li> is aria-selected="true" and the hidden input is
+  │   pre-filled with the same code, resolved server-side.
   │
   ▼
 HTML response sent to browser
   │
   ▼
-Browser parses HTML, paints static select
+Browser parses HTML, paints the collapsed button
+  │  (the button is INERT here — nothing opens until the module runs)
   │
   ▼
 <script type="module"> imports locale-select.client.js
@@ -33,52 +34,70 @@ autoInit() finds [data-lily-locale-select-root] in DOM
   │
   ▼
 For each root, initLocaleSelect(root) runs:
-  1. Read data-lily-* attrs into local vars
-  2. Resolve initial code (value attr > storage > navigator > default > "en" > first)
-  3. If initial: applyLocale(initial)
-  4. Attach change listener at the select
+  1. Query the button, the listbox, the hidden input, the options
+  2. Read data-lily-* attrs into local vars
+  3. Attach listeners: button click + keydown, list keydown + click,
+     root focusout, document click
+  4. Resolve initial code (value attr > storage > navigator > default > "en" > first)
+  5. If initial: applyLocale(initial)
   │
   ▼
 applyLocale(code):
   1. target.setAttribute("lang", bcp47LocaleTag(code))
   2. if applyDir: target.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr")
   3. if storageKey: localStorage.setItem(storageKey, code)
-  4. select.value = ""  // snap back to the placeholder option
-  5. opts.onChange?.(code)  // consumer-form code, not BCP 47
+  4. hiddenInput.value = code        // form participation
+  5. aria-selected="true" on the matching <li>, "false" on the rest
+  6. opts.onChange?.(code)  // consumer-form code, not BCP 47
 
-User picks an option
+User opens the listbox (click, Enter, Space, ArrowDown, ArrowUp)
   │
   ▼
-select fires a "change" event
+openList(startIndex?):
+  list.hidden = false; button aria-expanded = "true";
+  active option = startIndex ?? the selected one ?? 0;
+  focus moves to the <ul>, active option conveyed via aria-activedescendant
   │
   ▼
-listener reads chosen = select.value
+User moves (Arrow / Home / End / typeahead) — active option only,
+nothing is applied yet
   │
   ▼
-select.value = ""          // snap back to the placeholder
+User commits (Enter, Space, or click on an <li>)
   │
   ▼
-if (chosen) applyLocale(chosen)  // picking the placeholder is a no-op
+choose(index): applyLocale(values[index]); closeList()
+  │
+  ▼
+closeList(refocus = true):
+  list.hidden = true; button aria-expanded = "false";
+  active option cleared; focus returns to the button
 ```
 
-The snap-back runs synchronously inside the listener, so a consumer's
-own `change` listener that reads `event.target.value` will see `""`.
-Use `opts.onChange(code)` or read `lang` from the target instead.
+Escape, Tab, an outside click, and focus leaving the root all close
+without applying anything. Escape refocuses the button; Tab, the
+outside click, and the `focusout` path close with `refocus = false`,
+so focus keeps moving where the user sent it.
 
 ## Why a separate "init" and "apply"
 
 `initLocaleSelect` runs once per root; `applyLocale` runs every
-time the user changes the selection. The split lets the
+time the user commits a selection. The split lets the
 controller's `setLocale(code)` reuse the same code path as the
 user picking an option — both flow through `applyLocale`.
+
+Moving the active option is deliberately *not* applying it: arrowing
+through the listbox changes only `aria-activedescendant` and
+`data-active`. Nothing touches `lang`, `dir`, storage, the hidden
+input, or `onChange` until Enter, Space, or a click commits.
 
 ## Initial-value resolution
 
 Inside `initLocaleSelect(root)`:
 
 ```js
-const options = readOptions(root);
-const optionValues = options.map((o) => o.value);
+const options = Array.from(list.querySelectorAll('[role="option"]'));
+const optionValues = options.map((o) => o.getAttribute("data-value") || "");
 let initial = "";
 
 // 1. value prop — read from the data attribute the macro emits.
@@ -114,32 +133,38 @@ Putting the consumer's `value` first means a server-resolved cookie
 always wins — important for flicker-free SSR.
 
 `opts.value` is read from the `data-lily-locale-select-value`
-attribute, **not** from a `selected` option. The macro deliberately
-never renders `selected` on a real option: the placeholder must be the
-only selected option in the server HTML, otherwise the browser (which
-honours the *last* `selected` option) would paint the locale name and
-the client would then snap it back — a visible flash on every load.
+attribute, **not** from the server-marked `aria-selected` option. The
+macro marks one option selected so the pre-hydration markup is
+coherent, but the client re-resolves from scratch: storage and
+`navigator` are client-only signals the macro could not have seen.
+When they disagree, the client's resolution wins and it rewrites
+`aria-selected` and the hidden input to match.
 
 ## Apply
 
 ```js
 function applyLocale(code) {
     if (!code) return;
+    current = code;
     const target = opts.target || document.documentElement;
     target.setAttribute("lang", bcp47LocaleTag(code));
     if (applyDir) {
         target.setAttribute("dir", isRtlLocale(code) ? "rtl" : "ltr");
     }
     if (storageKey) safeStorageSet(storageKey, code);
-    root.value = ""; // snap back to the placeholder option
+    if (input) input.value = code;
+    options.forEach((o, i) => {
+        o.setAttribute("aria-selected", values[i] === code ? "true" : "false");
+    });
     if (typeof opts.onChange === "function") opts.onChange(code);
 }
 ```
 
-Two mutations to the DOM (three when `applyDir`), one to storage,
-one callback. No intermediate state.
+Two mutations on the target (three when `applyDir`), one to storage,
+one to the hidden input, one `aria-selected` sweep, one callback. No
+intermediate state.
 
-## Why `change` / `onChange` emits the consumer form
+## Why `onChange` emits the consumer form
 
 The DOM `lang` attribute is normalised to BCP 47 hyphen form
 (`en-US`), but the `onChange` callback payload preserves the
@@ -161,21 +186,33 @@ write `<html lang="…" dir="…">` in your layout (substituting from
 a cookie / header / session) and pass `opts.value`, which the macro
 emits as `data-lily-locale-select-value` for the client to pick up.
 
+The server markup is **not** fully usable on its own. The button has
+no behaviour until the client module runs: the listbox stays
+`hidden`, and there is no unenhanced fallback for opening it. This is
+a genuine regression from the earlier native `<select>`, which the
+browser operated with no JS at all. The only no-JS affordance left is
+the hidden input, pre-filled server-side, so a form submitted without
+JS still carries the resolved locale. Say so plainly to consumers who
+must support script-off users.
+
 ## Reactivity
 
-The client.js attaches one `change` listener at the `<select>`.
-Every option change triggers `applyLocale`. The controller's
-`setLocale` does the same. If a consumer mutates a `data-lily-*`
-attribute after init, the client.js does **not** re-read it.
+The client.js attaches listeners on the button (click, keydown), the
+listbox (keydown, click), the root (`focusout`), and `document`
+(click, for outside-dismissal). Committing an option triggers
+`applyLocale`; the controller's `setLocale` does the same. If a
+consumer mutates a `data-lily-*` attribute after init, the client.js
+does **not** re-read it.
 
 ## Unmount / cleanup
 
-`controller.destroy()` removes the `change` listener. It does
-**not**:
+`controller.destroy()` removes every listener it attached and clears
+the pending typeahead timer. It does **not**:
 
 - restore the previous `lang` / `dir`;
 - clear the `localStorage` entry;
-- reset the `<select>` value to a default.
+- reset the hidden input or `aria-selected` to a default;
+- close an open listbox.
 
 The select may be unmounted because the user navigated away
 from a settings page; the chosen locale should stay applied.

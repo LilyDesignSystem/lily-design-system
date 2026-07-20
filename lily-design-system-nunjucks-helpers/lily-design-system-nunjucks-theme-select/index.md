@@ -57,12 +57,13 @@ differ.
 
 The helper is a **macro + client.js** pair:
 
-- The macro (`theme-select.njk`) renders the `<select>` markup
-  server-side or at static-site build time.
+- The macro (`theme-select.njk`) renders the icon button and the
+  listbox markup server-side or at static-site build time.
 - The client (`theme-select.client.js`) is an ES module the
   consumer loads once per page. It picks up the markup via
-  `data-lily-theme-select-*` attributes and owns the browser-side
-  lifecycle (storage, dynamic `<link>` swap, `data-theme` set).
+  `data-lily-theme-select-*` attributes and owns both the listbox
+  **interaction** (open / close, focus, keyboard) and the theme
+  **lifecycle** (storage, dynamic `<link>` swap, `data-theme` set).
 
 ```
 Nunjucks render time                 │  Browser runtime
@@ -70,20 +71,28 @@ Nunjucks render time                 │  Browser runtime
 {{ themeSelect({…}) }}                │  import { autoInit } from
    │                                  │    "./theme-select.client.js";
    ▼                                  │  autoInit();
-<select                               │     │
+<div                                  │     │
   class="theme-select"                │     ▼
-  name="theme"                        │  finds [data-lily-theme-select-root]
-  data-lily-theme-select-root         │     │
-  data-lily-theme-select-themes-url   │     ▼
-  …>                                  │  resolves initial value
-  <option value="…">…</option>        │     │
-  …                                   │     ▼
-</select>                             │  applyTheme(slug):
-                                      │    - swaps <link> href
+  data-lily-theme-select-root         │  finds [data-lily-theme-select-root]
+  data-lily-theme-select-themes-url   │     │
+  …>                                  │     ▼
+  <input type="hidden" name="theme">  │  wires button + listbox events
+  <button class="theme-select-button" │     │
+          aria-haspopup="listbox">◑   │     ▼
+  <ul class="theme-select-list"       │  resolves initial value
+      role="listbox" hidden>          │     │
+    <li role="option">…</li>          │     ▼
+  </ul>                               │  applyTheme(slug):
+</div>                                │    - swaps <link> href
                                       │    - sets data-theme
                                       │    - writes localStorage
+                                      │    - mirrors the hidden input
+                                      │      and aria-selected
                                       │    - calls onChange(slug)
 ```
+
+The button is **inert until the client.js runs** — see
+[SSR and the first paint](#ssr-and-the-first-paint).
 
 ## Install
 
@@ -120,9 +129,9 @@ APIs client-side. No bundler required.
   storageKey: "lily-theme"
 }) }}
 
-{# Status region: the closed <select> shows the placeholder word
-   ("Theme"), never the active theme, so the active theme is surfaced
-   here instead — visibly, for sighted and screen-reader users alike.
+{# Status region: the closed control is an icon-only button, so it
+   never shows the active theme's name. Surface it here instead —
+   visibly, for sighted and screen-reader users alike.
    See docs/accessibility.md. #}
 <p class="theme-select-status" aria-live="polite"></p>
 ```
@@ -163,7 +172,7 @@ When the user picks `dark`, the client:
 
 ## How it works
 
-On every theme change the client.js performs four steps, in order:
+On every theme change the client.js performs five steps, in order:
 
 1. **Locate or create** a managed
    `<link rel="stylesheet" data-lily-theme-select="{name}">` in
@@ -174,38 +183,50 @@ On every theme change the client.js performs four steps, in order:
 3. **Set `data-theme="{slug}"`** on the resolved target element
    (defaults to `document.documentElement`). Theme CSS files match
    this attribute via their `:root[data-theme="…"]` selector.
-4. **Persist + notify**: if `storageKey` is set, write to
-   `localStorage` (silently swallowing private-mode errors); then
-   snap the `<select>` back to its placeholder option
-   (`select.value = ""`) and call `opts.onChange(slug)` if supplied.
+4. **Persist**: if `storageKey` is set, write to `localStorage`
+   (silently swallowing private-mode errors).
+5. **Mirror + notify**: write the slug into the hidden input, set
+   `aria-selected="true"` on the matching `<li>` (and `"false"` on
+   every other), and call `opts.onChange(slug)` if supplied.
 
-All four steps run only on the client. The macro is pure; no DOM
+All five steps run only on the client. The macro is pure; no DOM
 mutation happens during Nunjucks render.
 
-### The always-visible placeholder
+### The icon button and the listbox
 
-The macro renders a component-owned placeholder as the first
-`<option>` of the `<select>`:
+The macro renders a `<div>` root holding three things: a hidden input
+for form participation, an icon-only button, and a listbox that starts
+`hidden`:
 
 ```html
-<select class="theme-select" aria-label="Theme" name="theme" …>
-  <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
-  <option class="theme-select-option" value="light">Light</option>
-  <option class="theme-select-option" value="dark">Dark</option>
-</select>
+<div class="theme-select" data-lily-theme-select-root …>
+  <input type="hidden" name="theme" value="light" data-lily-theme-select-input>
+  <button type="button" class="theme-select-button" aria-label="Theme"
+          aria-haspopup="listbox" aria-expanded="false"
+          aria-controls="theme-select-theme-list"
+          data-lily-theme-select-button>
+    <span class="theme-select-icon" aria-hidden="true">◑</span>
+  </button>
+  <ul class="theme-select-list" id="theme-select-theme-list" role="listbox"
+      aria-label="Theme" tabindex="-1" hidden data-lily-theme-select-list>
+    <li class="theme-select-option" id="theme-select-theme-option-0"
+        role="option" aria-selected="true" data-value="light">Light</li>
+    <li class="theme-select-option" id="theme-select-theme-option-1"
+        role="option" aria-selected="false" data-value="dark">Dark</li>
+  </ul>
+</div>
 ```
 
-The closed control therefore always reads the placeholder word
-("Theme" by default, or `opts.placeholder` when you supply it) rather
-than the name of the active theme, so the control's width stays
-constant no matter how long your theme names are. After each change
-the client resets `select.value` to `""`.
+The default glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`),
+wrapped in `aria-hidden="true"`: it is decoration, and the button's
+accessible name comes **only** from `aria-label="{label}"`. Because
+the button shows a fixed-width glyph rather than the theme name, the
+control's width stays constant no matter how long your theme names
+are.
 
-This means **the `<select>`'s own value is not the active theme**. The
-active theme lives in `data-theme` on the target, in `localStorage`
-when `storageKey` is set, and in the `onChange(slug)` argument. If a
-consumer `change` listener reads `event.target.value` it will see
-`""` — use `onChange` instead.
+The active theme lives in `data-theme` on the target, in the hidden
+input, in `aria-selected` on the options, in `localStorage` when
+`storageKey` is set, and in the `onChange(slug)` argument.
 
 ## Default theme
 
@@ -213,28 +234,49 @@ The default theme is `"light"` whenever `"light"` appears in your
 `themes` list. The full resolution order on first `initThemeSelect`
 call is:
 
-1. `localStorage.getItem(storageKey)` (when `storageKey` is set and
-   readable).
-2. The `<select>`'s `data-lily-theme-select-value` (i.e. the
-   consumer's `opts.value`). The macro emits this attribute instead
-   of rendering `selected` on the matching option, so the closed
-   control never flashes the theme name before the client runs — see
+1. The root's `data-lily-theme-select-value` (i.e. the consumer's
+   `opts.value`). This attribute is still the only channel by which
+   `opts.value` reaches the client — see
    [docs/ssr.md](./docs/ssr.md).
-3. The `<select>`'s `data-lily-theme-select-default-value`
+2. `localStorage.getItem(storageKey)` (when `storageKey` is set and
+   readable).
+3. `matchSystemTheme(themes)` — only when `detectFromSystem` is on.
+4. The root's `data-lily-theme-select-default-value`
    (i.e. `opts.defaultValue`).
-4. `"light"` if present among the rendered option values.
-5. The first option value, or `""` if none.
+5. `"light"` if present among the rendered option values.
+6. The first option value, or `""` if none.
+
+`value` outranking storage is a **change**: the helper used to resolve
+storage first, which silently overrode a server-resolved theme with a
+stale local one. See the BREAKING entry in
+[CHANGELOG.md](./CHANGELOG.md).
+
+The macro also resolves a **server-side** selected option, so the
+rendered HTML always marks exactly one `<li>` `aria-selected="true"`
+and pre-fills the hidden input. That resolution is
+`value or defaultValue or ("light" if present else themes[0])` —
+`localStorage` and `matchMedia` are client-only, so the client may
+correct the choice after hydration.
 
 The macro never displays the word `"default"`. Option labels
-default to the slug with its first letter upper-cased
-(e.g. `"light"` → `"Light"`); override with `opts.themeLabels`.
+default to the title-cased slug (e.g. `"light"` → `"Light"`,
+`"high-contrast"` → `"High Contrast"`); override with
+`opts.themeLabels`. That same rule is exported from the client module
+as `themeName(slug)`, so you can render a theme's display name outside
+the control without re-deriving it.
 
 ## Macro parameters
 
 Full table in [spec/index.md §4.1](./spec/index.md#41-macro-parameters).
-Required: `label`, `themesUrl`, `themes`. Optional: `placeholder`,
-`value`, `defaultValue`, `storageKey`, `name`, `extension`,
-`themeLabels`, `classes`, `attributes`.
+Required: `label`, `themesUrl`, `themes`. Optional: `value`,
+`defaultValue`, `storageKey`, `name`, `extension`, `themeLabels`,
+`id`, `classes`, `attributes`.
+
+`id` is the id prefix for the listbox (`{id}-list`) and its options
+(`{id}-option-{index}`). It defaults to `"theme-select-{name}"`, so
+two instances that share a `name` **must** be given distinct `id`s —
+Nunjucks macros cannot hold a module-level counter, so an explicit
+`id` is this framework's stable-id mechanism.
 
 See [docs/macro-opts-reference.md](./docs/macro-opts-reference.md)
 for a field-by-field reference.
@@ -249,15 +291,19 @@ import {
     autoInit,
     normaliseThemesUrl,
     themeHref,
+    CIRCLE_WITH_RIGHT_HALF_BLACK,
 } from "./theme-select.client.js";
 ```
 
 - `autoInit(opts?)` — find every `[data-lily-theme-select-root]`
   on the page and wire it.
-- `initThemeSelect(root, opts?)` — wire a single `<select>`; returns
-  `{setTheme, destroy}`.
+- `initThemeSelect(root, opts?)` — wire a single root `<div>`;
+  returns `{setTheme, destroy}`.
 - `normaliseThemesUrl(url)` — ensure exactly one trailing `/`.
 - `themeHref(url, slug, extension)` — build the full href.
+- `CIRCLE_WITH_RIGHT_HALF_BLACK` — the default button glyph (`◑`),
+  exported so tests and custom renderings can reference it without
+  re-typing the code point.
 
 Optional `opts`:
 
@@ -270,14 +316,15 @@ The returned controller is the imperative escape hatch:
 ```js
 const controller = initThemeSelect(root, { onChange: console.log });
 controller.setTheme("dark");   // apply imperatively
-controller.destroy();            // remove the change listener
+controller.destroy();            // remove every listener
 ```
 
 ## Custom rendering
 
-The default macro body emits a native `<select>` with `<option>`
-children. When you need a different visual — swatch buttons, a flyout
-— use the `{% call %}` caller-block pattern:
+The button's glyph is the one part of the markup the macro hands
+over. Nunjucks has no render props, so its equivalent of "children"
+is a `{% call %}` block: the block body replaces the default
+`<span class="theme-select-icon">◑</span>` **inside** the button.
 
 ```njk
 {% call themeSelect({
@@ -285,15 +332,22 @@ children. When you need a different visual — swatch buttons, a flyout
     themesUrl: "/assets/themes/",
     themes: ["light", "dark"]
 }) %}
-<button type="button" data-theme="light" aria-pressed="false">Light</button>
-<button type="button" data-theme="dark" aria-pressed="false">Dark</button>
+<svg class="my-glyph" width="16" height="16" aria-hidden="true" focusable="false">
+    <use href="#icon-palette"></use>
+</svg>
 {% endcall %}
 ```
 
-The macro wraps the caller's markup in the same `<select>` root so
-the helper's `data-lily-*` hooks still apply. You wire button clicks
-to the client.js via `initThemeSelect(root, { onChange: … })` and call
-`controller.setTheme(slug)`.
+Everything else — the root `<div>`, the hidden input, the button's
+ARIA attributes, and the listbox with its options — is still
+rendered by the macro, so the helper's `data-lily-*` hooks and the
+client.js keyboard contract keep working unchanged. Mark your glyph
+`aria-hidden="true"`: the accessible name must keep coming from
+`aria-label`.
+
+The caller block no longer renders the options; a `{% call %}` body
+that emits `<option>` elements is stale markup from the
+native-`<select>` era.
 
 Topic guide: [`docs/custom-rendering.md`](./docs/custom-rendering.md).
 
@@ -314,34 +368,70 @@ recipe.
 
 ## Accessibility
 
-- The root is a `<select>` (implicit `combobox` role) with
-  `aria-label="{label}"`; each `<option>` has the implicit `option`
-  role.
-- The native `<select>` gives Arrow / Home / End / typeahead / Tab
-  semantics for free; the helper does not override any keyboard
-  behaviour.
-- The active state is exposed in two independent channels:
-  `data-theme` on the root and the current `<link>` href. No
-  colour-only meaning is required.
-- **Tradeoff, and the default answer to it**: the closed control always
-  reads the placeholder, so a screen-reader user no longer hears the
-  active theme announced as the combobox value. The examples and the
-  quick start therefore ship a visible `.theme-select-status` region
-  with `aria-live="polite"` next to the select. Treat that region as
-  part of the pattern; omitting it is the deliberate choice.
+- The trigger is a `<button type="button">` with
+  `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls`
+  pointing at the list. Its accessible name comes only from
+  `aria-label="{label}"` — the glyph is `aria-hidden="true"`.
+- The list is a `<ul role="listbox" aria-label="{label}" tabindex="-1">`
+  whose `<li role="option">` children each carry
+  `aria-selected="true"` or `"false"`. Focus moves to the list on
+  open; the active option is conveyed with `aria-activedescendant`,
+  per the WAI-ARIA APG listbox pattern.
+- The active state is exposed in several independent channels:
+  `data-theme` on the target, the current `<link>` href, the hidden
+  input's value, and `aria-selected`. No colour-only meaning is
+  required.
+- **Tradeoff, and the default answer to it**: the closed button is
+  icon-only, so a screen-reader user hears the control's label but
+  not the active theme until the listbox is opened. The examples and
+  the quick start therefore ship a visible `.theme-select-status`
+  region with `aria-live="polite"` next to the control. Treat that
+  region as part of the pattern; omitting it is the deliberate
+  choice.
 - WCAG 2.2 AAA is the target; visible focus styling is the
   consumer's CSS responsibility.
+
+### Keyboard
+
+Implemented entirely by the client.js — none of it works before the
+script runs.
+
+| Key                   | Where     | Action                                                            |
+| --------------------- | --------- | ----------------------------------------------------------------- |
+| `Arrow Down`          | Button    | Open, active option = the selected one (or the first).            |
+| `Enter` / `Space`     | Button    | Same as `Arrow Down`.                                             |
+| `Arrow Up`            | Button    | Open with the **last** option active.                             |
+| `Arrow Down` / `Up`   | Listbox   | Move the active option. Clamps at the ends — no wrapping.         |
+| `Home` / `End`        | Listbox   | Jump to the first / last option.                                  |
+| `Enter` / `Space`     | Listbox   | Select the active option, apply it, close, refocus the button.    |
+| `Escape`              | Listbox   | Close and refocus the button without changing the theme.          |
+| `Tab`                 | Listbox   | Close without stealing focus back, so Tab proceeds normally.      |
+| Printable characters  | Listbox   | Typeahead over the option labels; the buffer resets after 500 ms. |
+
+Opening moves focus to the `<ul>`. Clicking an option selects it;
+clicking outside, or focus leaving the root, closes the listbox.
 
 Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
 
 ## SSR and the first paint
 
 Nunjucks **is** the server side. The macro is pure — same `opts`
-in, same HTML out. The browser sees a static native select showing
-the placeholder word, with your `opts.value` carried on
-`data-lily-theme-select-value` (never as a `selected` option, so
-there is no pre-hydration flash). The client.js then takes over for
-the runtime lifecycle.
+in, same HTML out — and it emits a complete, correctly-labelled
+control: the collapsed button, the hidden listbox, exactly one
+option marked `aria-selected="true"`, and a hidden input pre-filled
+with that slug. Your `opts.value` is additionally carried on
+`data-lily-theme-select-value` for the client to read.
+
+**The server-rendered markup is not fully usable without
+JavaScript.** The button will not open the listbox until
+`theme-select.client.js` has run — open/close, focus movement, and
+the whole keyboard contract live in the client. This is a real
+regression versus the native `<select>` this helper used to render.
+The one no-JS affordance that remains is the hidden input: it is
+pre-filled server-side, so a no-JS form submit still carries a
+theme. If a fully no-JS theme switcher is a hard requirement, ship a
+server-rendered form of links or submit buttons instead of this
+helper.
 
 For zero-flicker first paint, read the cookie or session value in
 your Nunjucks host (Eleventy edge function, Express middleware,
@@ -371,24 +461,35 @@ example: [`examples/05-preloaded.njk`](./examples/05-preloaded.njk).
 ## Multiple selects in one page
 
 Pass a distinct `name` to each macro call. The `name` is used as
-both the `<select>` `name` attribute and the discriminator on the
-managed `<link>` element (`data-lily-theme-select="{name}"`).
+both the hidden input's `name` attribute and the discriminator on
+the managed `<link>` element (`data-lily-theme-select="{name}"`).
+Because the default id prefix is derived from `name`, distinct names
+also give the two listboxes distinct ids.
+
+If two instances genuinely must share a `name`, give each an
+explicit `id` as well — otherwise their listboxes and options
+collide on duplicate ids and `aria-controls` /
+`aria-activedescendant` resolve to the wrong element.
 
 Example: [`examples/03-multiple-selects.njk`](./examples/03-multiple-selects.njk).
 
 ## Styling
 
-The select ships no CSS. Class hooks: `.theme-select` on the root,
-`.theme-select-option` on each option, `.theme-select-placeholder` on
-the leading placeholder option. Because the closed control always
-shows the placeholder word, you can cap its width:
+The control ships no CSS. Class hooks: `.theme-select` on the root
+`<div>`, `.theme-select-button` on the trigger,
+`.theme-select-icon` on the default glyph, `.theme-select-list` on
+the listbox, and `.theme-select-option` on each option. The
+client.js also sets `data-active` on the active option while the
+listbox is open, and toggles the list's `hidden` attribute.
+
+The listbox is a plain in-flow `<ul>` until you style it, so most
+consumers position it themselves:
 
 ```css
-.theme-select {
-    field-sizing: content;  /* Chrome 123+: size to the shown option */
-    width: auto;
-    max-width: 12ch;        /* fallback for Firefox / Safari */
-}
+.theme-select { position: relative; }
+.theme-select-list { position: absolute; z-index: 1; }
+.theme-select-option[data-active] { /* active-option highlight */ }
+.theme-select-option[aria-selected="true"] { /* selected marker */ }
 ```
 
 Topic guide: [`docs/styling.md`](./docs/styling.md).
@@ -400,7 +501,7 @@ Quick cookbook in [`docs/recipes.md`](./docs/recipes.md):
 - Following the OS colour scheme via `prefers-color-scheme`.
 - Reading a theme cookie in an Eleventy edge function before render.
 - Migrating from a `localStorage`-only select to a cookie-backed one.
-- Building a flyout / dropdown UI around the select.
+- Replacing the button glyph with your own icon.
 - Loading themes from a CDN.
 
 ## Troubleshooting

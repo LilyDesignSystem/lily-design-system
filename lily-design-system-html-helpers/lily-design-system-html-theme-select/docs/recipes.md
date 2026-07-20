@@ -6,24 +6,40 @@ more error handling.
 
 ## Follow the OS colour scheme on first visit
 
+Add the `detect-from-system` boolean attribute. No script needed.
+
 ```html
 <theme-select
     label="Theme"
     themes-url="/assets/themes/"
     themes="light,dark"
     storage-key="my-app:theme"
+    detect-from-system
 ></theme-select>
-
-<script type="module">
-    const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
-    const select = document.querySelector("theme-select");
-    select.setAttribute("default-value", prefersDark ? "dark" : "light");
-</script>
 ```
 
-The user's explicit choice (via `storage-key`) wins on later visits.
+Detection sits between storage and `default-value` in the resolution
+order (`value` > storage > detection > `default-value` > `"light"` >
+first), so a user's explicit past choice still wins on later visits,
+and a server-rendered `value` still wins over both.
+
+It maps `prefers-color-scheme` to the slug `"dark"` or `"light"`. If
+your catalog has no slug by that name, detection returns `""` and
+resolution falls through — reach for the exported helper and your own
+mapping instead:
+
+```ts
+import { matchSystemTheme } from "lily-design-system-html-theme-select";
+
+// Catalog uses "midnight" rather than "dark".
+const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+select.setAttribute("default-value", prefersDark ? "midnight" : "daylight");
+```
 
 ## Track OS colour scheme changes live
+
+`detect-from-system` resolves the *initial* value only; it does not
+subscribe. To follow the OS while the page is open, add a listener:
 
 ```html
 <theme-select
@@ -77,13 +93,84 @@ for the full recipe.
 </script>
 ```
 
-## Build a flyout / dropdown UI
+## Position the dropdown
 
-Subclass `ThemeSelect` and replace the `<select>` markup with a
-disclosure button + popover. Wrap the popover *trigger* in a
-`role="group"` container with an `aria-label` so screen readers
-still hear the group label. See
-[custom-rendering.md](./custom-rendering.md) for the pattern.
+The control already *is* a disclosure button plus a listbox — but it
+ships no CSS, so the list renders in flow until you position it:
+
+```css
+.theme-select { position: relative; }
+
+.theme-select-list {
+    position: absolute;
+    inset-block-start: calc(100% + 0.25rem);
+    inset-inline-start: 0;
+    z-index: 10;
+}
+```
+
+Full worked example, including the `[hidden]` trap to avoid:
+[styling.md](./styling.md#a-minimal-worked-example).
+
+## Put the theme name on the button
+
+The default button is icon-only, so nothing shows the active theme.
+Override `renderButtonContent()` to render the label instead of (or
+beside) the glyph:
+
+```ts
+class LabelledThemeSelect extends ThemeSelect {
+    renderButtonContent(): Node {
+        const span = document.createElement("span");
+        span.className = "theme-select-button-label";
+        span.textContent = this.labelFor(this.value);
+        return span;
+    }
+}
+customElements.define("labelled-theme-select", LabelledThemeSelect);
+```
+
+No listener is needed: the hook re-runs on every state sync as well
+as on structural rebuilds, so the label follows `this.value`
+automatically. See
+[custom-rendering.md](./custom-rendering.md#timing).
+
+## Show the active theme in a status region
+
+The recommended default. `labelFor()` is public, so the status line
+picks up `theme-labels` and translations for free:
+
+```html
+<theme-select label="Theme" themes-url="/assets/themes/" themes="light,dark"></theme-select>
+<p class="theme-select-status" aria-live="polite">Active theme: Light</p>
+
+<script type="module">
+    await customElements.whenDefined("theme-select");
+    const select = document.querySelector("theme-select");
+    const status = document.querySelector(".theme-select-status");
+    select.addEventListener("themechange", (e) => {
+        status.textContent = `Active theme: ${select.labelFor(e.detail.theme)}`;
+    });
+</script>
+```
+
+## Open or close the list from your own code
+
+`openList()` and `closeList()` are public:
+
+```ts
+const select = document.querySelector<ThemeSelect>("theme-select")!;
+
+select.openList();        // open on the selected option
+select.openList(0);       // open on the first option
+select.closeList();       // close, returning focus to the button
+select.closeList(false);  // close, leaving focus where it is
+
+if (select.open) { /* … */ }
+```
+
+Useful for a keyboard shortcut that opens the theme menu, or for
+closing every open dropdown when a modal opens.
 
 ## Serve themes from a CDN
 
@@ -135,9 +222,9 @@ after the slug works.
 </script>
 ```
 
-Each select gets a distinct `name` (so the `<select>`s and managed
-`<link>`s don't collide) and a distinct `target` (so `data-theme`
-goes on the section root rather than `<html>`).
+Each control gets a distinct `name` (so the hidden inputs and
+managed `<link>`s don't collide) and a distinct `target` (so
+`data-theme` goes on the section root rather than `<html>`).
 
 ## Programmatically switch themes from a sibling component
 

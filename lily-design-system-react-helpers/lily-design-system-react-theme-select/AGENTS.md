@@ -22,13 +22,25 @@ no CSS; consumer styles the `theme-select` class hook.
 ## Public surface
 
 - Default export: `ThemeSelect` component.
-- Named exports: `ThemeSelect`, `normalizeThemesUrl`, `themeHref`.
+- Named exports: `ThemeSelect`, `normalizeThemesUrl`, `themeHref`,
+  `themeName`, `matchSystemTheme`.
 - Type exports: `Props`, `ChildArgs`.
+- `themeName(slug)` is the single implementation of the title-casing
+  label rule (`"high-contrast"` → `"High Contrast"`); the internal
+  `labelFor` delegates to it, and it mirrors `localeName` in
+  locale-select. Consumers should use it instead of re-deriving labels.
+- `matchSystemTheme(themes)` resolves `prefers-color-scheme` to a
+  supported slug, returning `""` when the slug is absent or when
+  `matchMedia` is unavailable (SSR, and jsdom). It mirrors
+  `matchNavigatorLanguage` in locale-select and backs the
+  `detectFromSystem` prop.
+- `ThemeSelect.tsx` also exports `CIRCLE_WITH_RIGHT_HALF_BLACK` (the
+  default glyph, U+25D1); the barrel does not re-export it.
 
-Required props: `label`, `themesUrl`, `themes`. Optional
-`placeholder` overrides the placeholder-option text (defaults to
-`label`). Full table in
-[spec/index.md §4.1](./spec/index.md#41-props).
+Required props: `label`, `themesUrl`, `themes`. Optional `children` is a
+render prop that replaces the glyph inside the button and receives
+`{ value, open, labelFor }` — it does **not** render the options. Full
+table in [spec/index.md §4.1](./spec/index.md#41-props).
 
 ## Behaviour contract (one paragraph)
 
@@ -38,28 +50,49 @@ On every theme change the select (1) sets the `href` of one managed
 `data-theme="{slug}"` on `target` (defaults to `document.documentElement`),
 (3) optionally writes the slug to `localStorage[storageKey]`, and (4)
 calls `onChange(slug)`. SSR-safe — all DOM writes happen inside
-`useEffect`. Initial value resolves from `value` > storage >
-`defaultValue` > `"light"` (if present) > `themes[0]`. The `<select>`'s
-own DOM value is pinned to `""` and snaps back to the placeholder
-option after every change, so the closed control always reads
-`placeholder ?? label` rather than the active theme; the real selection
-lives in `value` / internal state and everything downstream is
-unchanged.
+`useEffect`. Initial value resolves from `value` > storage > system
+detection (if `detectFromSystem`) > `defaultValue` > `"light"` (if
+present) > `themes[0]`. The control is an
+icon button that opens a listbox; the component owns the open/close
+state, the active-option state, and the whole keyboard contract, and it
+returns focus to the button when a selection or `Escape` closes the list.
 
 ## HTML
 
-`<select className="theme-select {className}" aria-label="{label}" name="{name}" value="">`
-whose first child is always the component-owned placeholder
-`<option className="theme-select-option theme-select-placeholder" value="">{placeholder ?? label}</option>`,
-followed by one native `<option>` per slug. Custom rendering via the
-`children` render prop receiving `{ themes, value, setTheme, name, labelFor }`;
-the render output goes inside the `<select>`, after the placeholder.
+```html
+<div class="theme-select {className}" ...restProps>
+  <input type="hidden" name="{name}" value="{value}" />
+  <button type="button" class="theme-select-button"
+          aria-label="{label}" aria-haspopup="listbox"
+          aria-expanded="false" aria-controls="{listId}">
+    <span class="theme-select-icon" aria-hidden="true">◑</span>
+  </button>
+  <ul class="theme-select-list" id="{listId}" role="listbox"
+      aria-label="{label}" tabindex="-1" hidden
+      aria-activedescendant="{optionId of active, only while open}">
+    <li class="theme-select-option" id="{optionId}" role="option"
+        aria-selected="true|false" data-active>Light</li>
+  </ul>
+</div>
+```
+
+Ids come from `useId`, so they are stable and hydration-safe. Custom
+rendering via the `children` render prop receiving
+`{ value, open, labelFor }` replaces the glyph inside the button only —
+the component owns the options.
 
 ## Accessibility
 
-- WCAG 2.2 AAA target.
-- The native `<select>` provides Arrow / Home / End / typeahead semantics.
-- `aria-label` carries the consumer-supplied accessible name.
+- WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern.
+- The component implements the keyboard contract itself: open with
+  `ArrowDown` / `Enter` / `Space` (`ArrowUp` opens on the last option),
+  then `ArrowUp` / `ArrowDown` (clamping), `Home` / `End`, `Enter` /
+  `Space` to commit, `Escape` to dismiss, `Tab` to move on, and
+  printable-character typeahead with a 500 ms buffer.
+- `aria-label` carries the consumer-supplied accessible name on both the
+  button and the listbox. The glyph is `aria-hidden`, so `label` is the
+  only source of the accessible name.
+- Active option is tracked with `aria-activedescendant`, not roving focus.
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
 

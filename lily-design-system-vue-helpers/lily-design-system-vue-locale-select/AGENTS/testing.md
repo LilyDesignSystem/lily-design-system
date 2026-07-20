@@ -44,16 +44,22 @@ it("§7.10 isRtlLocale handles script subtags", () => {
 
 ## Standard mount
 
+Because the listbox takes DOM focus on open, mount with
+`attachTo: document.body` for anything that asserts focus or
+keyboard behaviour.
+
 ```ts
-it("§7.1 renders a select with the supplied aria-label", async () => {
+it("§7.1 renders a button that controls a listbox", async () => {
     const wrapper = mount(LocaleSelect, {
         props: { label: "Language", locales: ["en", "fr"] },
+        attachTo: document.body,
     });
     await wrapper.vm.$nextTick();
-    const root = wrapper.find("select");
-    expect(root.exists()).toBe(true);
-    expect(root.attributes("aria-label")).toBe("Language");
-    expect(wrapper.findAll("option")).toHaveLength(2);
+    const button = wrapper.find("button.locale-select-button");
+    expect(button.attributes("aria-label")).toBe("Language");
+    expect(button.attributes("aria-haspopup")).toBe("listbox");
+    expect(button.attributes("aria-expanded")).toBe("false");
+    expect(wrapper.findAll("li.locale-select-option")).toHaveLength(2);
 });
 ```
 
@@ -67,18 +73,59 @@ expect(document.documentElement.dir).toBe("rtl");
 ## Asserting per-option `lang`
 
 ```ts
-const options = wrapper.findAll("option.locale-select-option");
+const options = wrapper.findAll("li.locale-select-option");
 expect(options[0].attributes("lang")).toBe("en");
 expect(options[1].attributes("lang")).toBe("fr-CA");
 ```
 
-## Driving a `<select>` change
+## Picking an option
+
+Open the listbox first — the options are inside a `hidden` `<ul>`
+until then, and clicking one is what commits it:
 
 ```ts
-const select = wrapper.find("select");
-await select.setValue("fr");
-expect(wrapper.emitted("update:value")?.[0]).toEqual(["fr"]);
-expect(wrapper.emitted("change")?.[0]).toEqual(["fr"]);
+const button = wrapper.find("button.locale-select-button");
+await button.trigger("click");
+await wrapper.findAll("li.locale-select-option")[1].trigger("click");
+expect(wrapper.emitted("update:value")?.at(-1)).toEqual(["fr"]);
+expect(wrapper.emitted("change")?.at(-1)).toEqual(["fr"]);
+```
+
+## Driving the keyboard contract
+
+Keydowns go to the button to open, and to the `<ul>` once open. The
+component focuses the `<ul>` inside an `await nextTick()`, so flush
+the scheduler before asserting focus:
+
+```ts
+await button.trigger("keydown", { key: "ArrowDown" });
+await flush();
+const list = wrapper.find("ul.locale-select-list");
+expect(document.activeElement).toBe(list.element);
+
+await list.trigger("keydown", { key: "ArrowDown" });
+expect(list.attributes("aria-activedescendant")).toBe(
+    list.element.children[1].id,
+);
+
+await list.trigger("keydown", { key: "Enter" });
+await flush();
+expect(list.element.hasAttribute("hidden")).toBe(true);
+expect(document.activeElement).toBe(button.element);
+```
+
+`flush()` in the suite is `nextTick()` → `setTimeout(0)` →
+`nextTick()`, which lets the `onMounted` effects and the focus
+`nextTick` chains all settle.
+
+Typeahead is a plain keydown with a single printable character;
+clicking outside is a `MouseEvent` dispatched on `document.body`:
+
+```ts
+await list.trigger("keydown", { key: "F" }); // jumps to "French"
+document.body.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+await flush();
+expect(list.element.hasAttribute("hidden")).toBe(true);
 ```
 
 ## Mocking `navigator.languages`
@@ -141,25 +188,34 @@ const wrapper = mount(LocaleSelect, {
 
 ## Scoped-slot tests
 
+The default slot replaces the button glyph, so assert both that the
+custom content rendered inside the button and that the built-in
+`.locale-select-icon` span is gone:
+
 ```ts
 let captured: any = null;
 const wrapper = mount(LocaleSelect, {
-    props: { label: "L", locales: ["en", "fr"] },
+    props: { label: "L", locales: ["en", "fr"], value: "fr" },
     slots: {
         default: (args: any) => {
             captured = args;
-            return [];
+            return "custom glyph";
         },
     },
 });
 await wrapper.vm.$nextTick();
-expect(captured.locales).toEqual(["en", "fr"]);
-expect(typeof captured.setLocale).toBe("function");
-expect(typeof captured.tagFor).toBe("function");
-expect(typeof captured.isRtl).toBe("function");
-expect(captured.tagFor("en_US")).toBe("en-US");
-expect(captured.isRtl("ar")).toBe(true);
+expect(wrapper.find("button.locale-select-button").text()).toContain(
+    "custom glyph",
+);
+expect(wrapper.find(".locale-select-icon").exists()).toBe(false);
+expect(captured.value).toBe("fr");
+expect(captured.open).toBe(false);
+expect(captured.labelFor("en_US")).toBe("English (United States)");
 ```
+
+Because the slot function re-runs on every render, pushing
+`args.open` into an array is the cleanest way to assert that the flag
+tracks the listbox state.
 
 ## SSR sanity test
 
@@ -176,6 +232,7 @@ it("renders cleanly under SSR", async () => {
         }),
     );
     expect(html).toContain('aria-label="Language"');
+    expect(html).toContain('aria-haspopup="listbox"');
     expect(html).toContain('value="fr"');
 });
 ```
@@ -191,10 +248,11 @@ the naming convention so a reviewer can spot a missing clause.
 
 Section map:
 
-| §7 group        | Test focus                                       |
-| --------------- | ------------------------------------------------ |
-| 7.1 markup      | DOM contract: select, name, value, lang          |
-| 7.2 pure helpers| bcp47LocaleTag, isRtlLocale, localeName          |
-| 7.3 application | target.lang, target.dir, applyDir, emit("change") |
-| 7.4 init value  | storage / value / navigator / defaultValue ordering |
-| 7.5 spread/slot | $attrs fall-through and SlotArgs contract         |
+| §7 group        | Clauses | Test focus                                       |
+| --------------- | ------- | ------------------------------------------------ |
+| 7.1 markup      | 1–6     | Root div, button + listbox wiring, glyph, hidden input, per-option `lang`, labels |
+| 7.2 pure helpers| 7–12    | bcp47LocaleTag, isRtlLocale, localeName, matchNavigatorLanguage |
+| 7.3 application | 13–17   | target.lang, target.dir, applyDir, emit("change"), custom target |
+| 7.4 init value  | 18–21   | storage / value / navigator / defaultValue ordering |
+| 7.5 spread/slot | 22–23   | `$attrs` fall-through and the `SlotArgs` contract |
+| 7.6 keyboard    | 24–27   | Open keys, arrow clamping, Home/End, commit / cancel / Tab, typeahead, outside click |

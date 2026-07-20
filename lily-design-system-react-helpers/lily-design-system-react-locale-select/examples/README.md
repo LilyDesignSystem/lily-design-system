@@ -16,18 +16,26 @@ Every example assumes:
 
 ## Index
 
-| #  | File                                                         | Demonstrates                                                       |
-| -- | ------------------------------------------------------------ | ------------------------------------------------------------------ |
-| 1  | [`01-radios.tsx`](./01-radios.tsx)                           | Default `<select>` rendering with controlled `value` + `onChange`, plus the default status line. |
-| 2  | [`02-select.tsx`](./02-select.tsx)                           | `children` render prop with a custom `<select>`.                   |
-| 3  | [`03-buttons.tsx`](./03-buttons.tsx)                         | `children` render prop with button group + `aria-pressed`.         |
-| 4  | [`04-rtl-demo.tsx`](./04-rtl-demo.tsx)                       | RTL locales (ar, he, fa, ur, ps) showing `dir` flipping.            |
-| 5  | [`05-nhs-style.tsx`](./05-nhs-style.tsx)                     | Class hook + NHS-style markup demonstrating the styling layer.     |
-| 6  | [`06-with-react-intl.tsx`](./06-with-react-intl.tsx)         | Wired through `react-intl`'s `IntlProvider`.                       |
-| 7  | [`07-with-react-i18next.tsx`](./07-with-react-i18next.tsx)   | Wired through `react-i18next`'s `useTranslation` hook.             |
-| 8  | [`08-ssr-cookie.tsx`](./08-ssr-cookie.tsx)                   | Next.js App Router pattern with cookie-resolved initial locale.    |
-| 9  | [`09-scoped-target.tsx`](./09-scoped-target.tsx)             | `target` prop pointing at a panel ref instead of `<html>`.         |
-| 10 | [`10-combobox.tsx`](./10-combobox.tsx)                       | `children` render prop with a combobox / `<datalist>` pattern.     |
+| File                                                   | Demonstrates                                                          |
+| ------------------------------------------------------ | --------------------------------------------------------------------- |
+| [`basic.tsx`](./basic.tsx)                             | Default globe-button rendering with controlled `value` + `onChange`, plus the default status line. |
+| [`custom-rendering.tsx`](./custom-rendering.tsx)       | `children` glyph override: active short code + open/closed chevron.   |
+| [`compact-glyph.tsx`](./compact-glyph.tsx)             | `children` glyph override: compact short codes / script characters.   |
+| [`rtl-demo.tsx`](./rtl-demo.tsx)                       | RTL locales (ar, he, fa, ur, ps) showing `dir` flipping.               |
+| [`nhs-style.tsx`](./nhs-style.tsx)                     | NHS-style banner; `children` pairs the globe with the active endonym.  |
+| [`with-react-intl.tsx`](./with-react-intl.tsx)         | Wired through `react-intl`'s `IntlProvider`.                          |
+| [`with-react-i18next.tsx`](./with-react-i18next.tsx)   | Wired through `react-i18next`'s `useTranslation` hook.                |
+| [`ssr-cookie.tsx`](./ssr-cookie.tsx)                   | Next.js App Router pattern with cookie-resolved initial locale.       |
+| [`scoped-target.tsx`](./scoped-target.tsx)             | `target` prop pointing at a panel ref instead of `<html>`.            |
+| [`all-locales.tsx`](./all-locales.tsx)                 | All 436 locales, navigated with the built-in listbox typeahead.       |
+
+`custom-rendering`, `compact-glyph`, `nhs-style`, and `all-locales` are
+built around the `children` glyph override. In every one, `children`
+replaces the globe **inside the button** and receives
+`{ value, open, labelFor }` — it does not render the options, which the
+component owns along with the whole keyboard contract. Each marks its
+glyph content `aria-hidden="true"`, because the button is already named
+by the `label` prop.
 
 ## Running the examples
 
@@ -39,33 +47,36 @@ These files are illustrations, not a build. The fastest way to try one:
    in each example).
 3. `pnpm dev` and visit the route.
 
-Examples 06 and 07 mock the i18n libraries (`react-intl`,
-`react-i18next`) with tiny inline stand-ins so they compile without
-their dependencies installed. In your real app, replace the stand-ins
-with the real imports — the select wiring stays the same.
+`with-react-intl` and `with-react-i18next` mock the i18n libraries with
+tiny inline stand-ins so they compile without their dependencies
+installed. In your real app, replace the stand-ins with the real
+imports — the select wiring stays the same.
 
-Example 08 is split: the client portion (`LocaleClient`) is the
+`ssr-cookie` is split: the client portion (`LocaleClient`) is the
 exported component, and the companion server component (`app/layout.tsx`)
 is shown in a block comment at the bottom of the file. Paste both into
 the right places in your Next.js project.
 
 ## What each example tests
 
-The examples doubles as a hand-driven test plan:
+The examples double as a hand-driven test plan:
 
-- **01** — `value` + `onChange` round-trip, default labels from
-  `defaultLocaleLabels`, default `<select>` rendering.
-- **02** — `children` render prop receives `{ locales, value, setLocale,
-  name, labelFor, tagFor, isRtl }`.
-- **03** — `aria-pressed` accessibility for button-group fallback;
-  `localeLabels` overrides.
-- **04** — `isRtlLocale` predicate and `bcp47LocaleTag` exported
+- **basic** — `value` + `onChange` round-trip, default labels from
+  `defaultLocaleLabels`, default globe-button rendering, status line.
+- **custom-rendering** — `children` receives `{ value, open, labelFor }`;
+  `open` drives the chevron; `storageKey` + `detectFromNavigator`.
+- **compact-glyph** — compact glyph override with `localeLabels`-style
+  short codes, including non-Latin script characters.
+- **rtl-demo** — `isRtlLocale` predicate and `bcp47LocaleTag` exported
   helpers; reactive `dir` switching.
-- **05** — `className` prop, class-hook approach for styled layers.
-- **06** / **07** — externalised i18n state wiring.
-- **08** — SSR + cookie + server/client component boundary.
-- **09** — `target` prop, multiple instances with distinct `name`.
-- **10** — long lists via combobox.
+- **nhs-style** — `className` prop and class hooks for styled layers;
+  `GLOBE_WITH_MERIDIANS` re-used explicitly alongside the endonym.
+- **with-react-intl** / **with-react-i18next** — externalised i18n state
+  wiring.
+- **ssr-cookie** — SSR + cookie + server/client component boundary.
+- **scoped-target** — `target` prop, multiple instances with distinct
+  `name`.
+- **all-locales** — long lists navigated by the built-in APG typeahead.
 
 If a future change breaks any of these patterns, the example file
 breaks too — they're the canonical reference.

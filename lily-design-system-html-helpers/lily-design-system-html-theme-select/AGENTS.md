@@ -7,9 +7,11 @@ below is a fast index.
 
 A reusable vanilla HTML/JS headless theme select, packaged as the
 `<theme-select>` custom element. **Loads theme CSS files dynamically
-at runtime** from a developer-supplied directory URL. Ships no CSS;
-consumer styles the `theme-select` class hook on the rendered
-children.
+at runtime** from a developer-supplied directory URL. The control is
+an **icon button that opens a dropdown listbox** (WAI-ARIA APG
+listbox pattern) — not a native `<select>`. Ships no CSS; the
+consumer styles the `theme-select` class hooks on the rendered
+children, and must supply the list's positioning.
 
 ## Files
 
@@ -25,11 +27,21 @@ children.
 
 - Class `ThemeSelect extends HTMLElement` (registered as
   `<theme-select>` on import of `index.ts`).
-- Named exports: `ThemeSelect`, `normalizeThemesUrl`, `themeHref`.
+- Named exports: `ThemeSelect`, `themeName`, `matchSystemTheme`,
+  `normalizeThemesUrl`, `themeHref`, `nextThemeSelectId`,
+  `CIRCLE_WITH_RIGHT_HALF_BLACK`. `themeName` and `matchSystemTheme`
+  are the mirrors of locale-select's `localeName` and
+  `matchNavigatorLanguage`.
 - Type exports: `ThemeSelectProps`, `ThemeSelectChangeDetail`.
+- Instance members beyond the attribute mirrors: `open` (getter),
+  `listId` (getter), `optionId(index)`, `openList(startIndex?)`,
+  `closeList(refocus = true)`, `labelFor(slug)`, and
+  `renderButtonContent()` — the overridable rendering hook.
 
 Required attributes: `label`, `themes-url`, `themes`. Full table in
 [spec/index.md §4.1](./spec/index.md#41-observed-attributes).
+There is no `placeholder` attribute; it was removed with the native
+`<select>`.
 
 ## Behaviour contract (one paragraph)
 
@@ -40,38 +52,57 @@ On every theme change the element (1) sets the `href` of one managed
 `document.documentElement`), (3) optionally writes the slug to
 `localStorage[storageKey]`, and (4) dispatches a `themechange`
 `CustomEvent`. Initial value resolves from `value` > storage >
-`default-value` > `"light"` (if present) > `themes[0]`.
+system detection (if `detect-from-system` is set) > `default-value` >
+`"light"` (if present) > `themes[0]` — the same shape locale-select
+uses, with `detect-from-navigator` in the detection slot.
 
-The rendered `<select>` never tracks the selection. Its own DOM
-selection stays pinned to the leading placeholder option: on
-`change` the handler reads the chosen slug, immediately resets
-`select.value = ""`, and only then assigns the element's `value`.
-The real selection lives on `this.value` (attribute + property) and
-everything downstream — link href, `data-theme`, persistence,
-`themechange`, initial-value resolution — is unchanged.
+The real selection lives on `this.value` (attribute + property);
+consumers read it from there or from the `themechange` detail. A
+`value` change syncs state attributes in place rather than
+rebuilding the DOM, because a rebuild while the listbox is open
+would destroy focus and the active descendant.
 
 ## HTML
 
-`<theme-select>` contains one rendered `<select class="theme-select
-{class}" aria-label="{label}" name="{name}">` whose first child is
-the component-owned placeholder
-`<option class="theme-select-option theme-select-placeholder" value="" selected>`
-carrying `placeholder ?? label` as its text, followed by one native
-`<option class="theme-select-option">` per slug. No option other
-than the placeholder is ever marked `selected`.
+`<theme-select>` contains one rendered
+`<div class="theme-select {class}">` holding, in order: a hidden
+`<input name="{name}">` for form participation; a
+`<button type="button" class="theme-select-button" aria-label="{label}"
+aria-haspopup="listbox" aria-expanded aria-controls="{listId}">`
+whose content defaults to
+`<span class="theme-select-icon" aria-hidden="true">◑</span>`
+(U+25D1, exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`); and a
+`<ul class="theme-select-list" id="{listId}" role="listbox"
+aria-label="{label}" tabindex="-1" hidden>` with one
+`<li class="theme-select-option" role="option" aria-selected>` per
+slug. `aria-activedescendant` sits on the `<ul>` only while open;
+`data-active` marks the keyboard-highlighted option, which is a
+different thing from `aria-selected`. Full markup:
+[spec/index.md §4.5](./spec/index.md#45-dom-contract).
 
 ## Accessibility
 
-- WCAG 2.2 AAA target.
-- The native `<select>` provides combobox semantics: Tab to focus,
-  Arrow keys to change selection, typeahead.
-- `aria-label` carries the consumer-supplied accessible name.
+- WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern.
+- The keyboard contract is implemented in JS, not inherited from
+  the platform. Button: `ArrowDown`/`Enter`/`Space` open,
+  `ArrowUp` opens on the last option. List: arrows move and clamp,
+  `Home`/`End` jump, `Enter`/`Space` select and refocus the button,
+  `Escape` closes without changing the value, `Tab` closes without
+  stealing focus, printable characters run a 500 ms typeahead.
+  Table: [spec/index.md §6.2](./spec/index.md#62-keyboard-contract).
+- Focus sits on the `<ul>` while open, never on an `<li>`; the
+  highlighted option is conveyed by `aria-activedescendant`.
+- `aria-label` carries the consumer-supplied accessible name on both
+  the button and the list. The glyph is `aria-hidden="true"`.
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
-- Because the closed control always reads the placeholder, the
-  active theme is NOT announced as the combobox value. Consumers
-  who need it should surface it in visible text or a polite live
-  region — see `docs/accessibility.md`.
+- Three known tradeoffs — icon-only naming (and WCAG 2.5.3), a
+  custom listbox being weaker than a native `<select>` in AT, and
+  platform-dependent glyph rendering — are recorded in
+  [spec/index.md §6.5](./spec/index.md#65-known-tradeoffs) and
+  `docs/accessibility.md`. The closed button shows only a glyph, so
+  consumers should surface the active theme in visible text or a
+  polite live region.
 
 ## Conventions this package follows
 

@@ -142,7 +142,7 @@ mirrored CSS:
 The select's default rendering already does this: each `<option>`
 carries its own `lang` attribute, so the browser's bidi
 algorithm renders "Français" left-to-right and "العربية"
-right-to-left within the same `<select>`.
+right-to-left within the same listbox.
 
 If you embed user-supplied text whose language you don't know, wrap it
 with a `<bdi>` element. `<bdi>` isolates a span from the surrounding

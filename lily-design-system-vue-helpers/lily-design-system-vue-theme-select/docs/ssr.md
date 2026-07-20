@@ -10,14 +10,26 @@ Under SSR, no `onMounted` callback fires and the select does not
 touch the DOM. The rendered HTML looks like:
 
 ```html
-<select class="theme-select" aria-label="Theme" name="theme">
-    <option class="theme-select-option" value="light">Light</option>
-    …
-</select>
+<div class="theme-select">
+    <input type="hidden" name="theme" value="light" />
+    <button type="button" class="theme-select-button" aria-label="Theme"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="theme-select-1-list">
+        <span class="theme-select-icon" aria-hidden="true">◑</span>
+    </button>
+    <ul class="theme-select-list" id="theme-select-1-list" role="listbox"
+        aria-label="Theme" tabindex="-1" hidden>
+        <li class="theme-select-option" id="theme-select-1-option-0"
+            role="option" aria-selected="true">Light</li>
+        …
+    </ul>
+</div>
 ```
 
-No `<option>` is selected unless the consumer supplied a non-empty
-`value`.
+The listbox always renders — closed via the `hidden` attribute, not by
+conditional rendering — so the server and client markup match
+structurally. No option carries `aria-selected="true"`, and the hidden
+input is empty, unless the consumer supplied a non-empty `value`.
 
 ## What happens on hydration
 

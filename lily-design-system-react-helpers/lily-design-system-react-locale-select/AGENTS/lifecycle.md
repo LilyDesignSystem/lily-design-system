@@ -6,8 +6,8 @@ for the formal contract; this file documents the React 19 mechanics.
 ## Mount order
 
 ```
-1. React renders <select> with the first option selected (or with the
-   option matching the consumer-supplied `value`).
+1. React renders the root <div>, the hidden input, the button, and the
+   listbox (closed, `hidden`). `useId` fixes the list and option ids.
 2. First-mount useEffect (empty deps) runs:
    a. Resolves the initial code from value/storage/navigator/default.
    b. If uncontrolled and code differs from internal state → setState.
@@ -18,7 +18,10 @@ for the formal contract; this file documents the React 19 mechanics.
    b. Writes lang, dir, localStorage, calls onChange.
 ```
 
-## The two effects
+The disclosure state (`open`, `activeIndex`) is independent of the
+locale lifecycle and starts closed on every mount.
+
+## The locale effects
 
 ### Effect 1 — first-mount resolution
 
@@ -73,6 +76,85 @@ Properties:
 - Gated on `initialisedRef`.
 - Empty-string guard skips initial render's empty value.
 - Only `currentValue` in deps.
+
+## The disclosure effects
+
+Four more effects manage the listbox. They never touch the locale.
+
+### Effect 3 — focus transfer, keyed on `open`
+
+```tsx
+React.useEffect(() => {
+    if (open) {
+        listRef.current?.focus();
+    } else if (refocusRef.current) {
+        refocusRef.current = false;
+        buttonRef.current?.focus();
+    }
+}, [open]);
+```
+
+Focus moves *after* the commit, so the `<ul>` is already unhidden when
+`.focus()` runs. `refocusRef` is set by `closeList(true)` — selection,
+`Escape`, and the button toggle — and left unset by `closeList(false)`
+for `Tab`, outside clicks, and focus-out, where the user has already
+chosen where focus goes.
+
+### Effect 4 — keep the active option in view
+
+```tsx
+React.useEffect(() => {
+    if (open) scrollActiveIntoView(activeIndex);
+}, [open, activeIndex]);
+```
+
+Calls `el?.scrollIntoView?.({ block: "nearest" })`. The optional call
+matters: jsdom does not implement `scrollIntoView`, so tests would
+throw without it.
+
+### Effect 5 — outside-click close
+
+```tsx
+React.useEffect(() => {
+    if (!open) return;
+    function onDocumentClick(event: MouseEvent) { /* … */ }
+    document.addEventListener("click", onDocumentClick);
+    return () => document.removeEventListener("click", onDocumentClick);
+}, [open]);
+```
+
+Only subscribed while open, and always torn down. Closes with
+`closeList(false)`.
+
+### Effect 6 — typeahead timer cleanup
+
+```tsx
+React.useEffect(() => () => clearTimeout(typeaheadTimerRef.current), []);
+```
+
+Drops any pending 500 ms buffer-reset timer on unmount.
+
+## Focus-out closing
+
+`onRootBlur` is wired to the root `<div>`'s `onBlur`. React's `onBlur`
+is the delegated equivalent of the native `focusout` event: unlike the
+DOM's own `blur`, it bubbles, so the root sees focus leaving any
+descendant. The handler returns early when `event.relatedTarget` is
+still inside the root (button ↔ list moves), and otherwise closes with
+`closeList(false)`.
+
+## Selecting an option
+
+```tsx
+function choose(index: number): void {
+    const code = locales[index];
+    if (code) setLocale(code);
+    closeList();
+}
+```
+
+Used by both `Enter` / `Space` on the list and by an option's
+`onClick`, so pointer and keyboard selection share one path.
 
 ## resolveInitialLocale
 
@@ -215,25 +297,40 @@ Try/catch guards old browsers, jsdom, and any environment where
 
 ```tsx
 function setLocale(code: string): void {
-    if (!isControlled) setInternalValue(code);
-    applyLocale(code);
+    if (isControlled) {
+        // The consumer owns `value`; apply straight away so the DOM
+        // stays in step even if they never write the value back.
+        applyLocale(code);
+    } else {
+        // Effect 2 runs applyLocale, so the locale is applied exactly
+        // once per change.
+        setInternalValue(code);
+    }
 }
 ```
 
-Used by the default `<select>` onChange handler and by the `children`
-render prop. In uncontrolled mode updates internal state AND
-applies; in controlled mode the consumer's `onChange` (inside
-`applyLocale`) updates the prop.
+The two branches are deliberately asymmetric. In controlled mode the
+component cannot rely on `value` changing (the consumer may ignore
+`onChange`), so it applies directly. In uncontrolled mode the state
+write is enough — Effect 2 fires on the new `currentValue` and applies
+it, so applying here too would double-fire `onChange`.
+
+`setLocale` is reached only through `choose(index)`; it is no longer
+exposed on `ChildArgs`, because `children` now renders the button glyph
+rather than the options.
 
 ## SSR
 
 During server rendering:
 
 - `typeof document === "undefined"` so `applyLocale` no-ops.
-- `useEffect` never runs.
+- `useEffect` never runs — no focus transfer, no document click
+  listener, no timers.
 - `navigator.languages` not read.
-- The `<select>` renders with `value` controlling which option is
-  selected.
+- The listbox renders closed (`hidden`), with `aria-expanded="false"`
+  and no `aria-activedescendant`.
+- `useId` produces the same list and option ids on server and client,
+  so `aria-controls` and the option ids hydrate without mismatch.
 
 After hydration the effects run as documented above.
 
@@ -261,6 +358,8 @@ The select re-renders on:
 
 - `value` prop change (controlled).
 - `internalValue` state change (uncontrolled, during resolution).
+- `open` / `activeIndex` state change (every arrow key, every typeahead
+  hit, every open and close).
 - Any other prop change.
 
 It does NOT re-render on:

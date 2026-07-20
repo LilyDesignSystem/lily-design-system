@@ -2281,7 +2281,7 @@
     /* Native <select> styling — drop the UA chrome and draw our own caret
        via two stacked linear-gradients. Practitioner density: 28px tall to
        match the input baseline. */
-    :where(.theme-select, .select, .select-with-extras, .tree-select) {
+    :where(select.theme-select, .select, .select-with-extras, .tree-select) {
         width: 100%;
         min-height: 1.75rem;
         padding: 0.25rem 1.5rem 0.25rem 0.375rem; /* extra right padding for caret */
@@ -2306,23 +2306,87 @@
         color: var(--lily-text);
     }
 
-    /* theme-select and locale-select are preference pickers, not form
-       fields: the closed control always shows a short placeholder word
-       ("Theme", "Locale") rather than the active value, so it sizes to
-       that word instead of stretching to the container or to the widest
-       option. field-sizing sizes to the displayed option in Chromium;
-       max-width caps the fallback everywhere else. The :has() guard
-       scopes this to the *-helpers packages, which are the only ones
-       that render a placeholder option: the catalog theme-select
-       component shares the class hook but shows its real value and
-       keeps the full-width form-field sizing above. */
+    /* theme-select and locale-select ship as an icon button that opens a
+       listbox, so they are styled as a popup rather than a form field.
+       The :has() guard scopes these to the *-helpers packages: the
+       catalog theme-select component shares the class hook but is a
+       native <select> and keeps the form-field rules above. */
     :where(
-        .theme-select:has(> .theme-select-placeholder),
-        .locale-select:has(> .locale-select-placeholder)
+        .theme-select:has(> .theme-select-button),
+        .locale-select:has(> .locale-select-button)
     ) {
-        width: auto;
-        max-width: 12ch;
-        field-sizing: content;
+        position: relative;
+        display: inline-block;
+    }
+
+    :where(.theme-select-button, .locale-select-button) {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.5rem;
+        min-height: 2.5rem;
+        padding: var(--lily-space-xs);
+        font: inherit;
+        line-height: 1;
+        color: var(--lily-text);
+        background-color: var(--lily-surface);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-md);
+        cursor: pointer;
+    }
+
+    /* The glyph is decorative (aria-hidden); the button's aria-label
+       carries the accessible name. Sized up a little so a single
+       character reads as an affordance. */
+    :where(.theme-select-icon, .locale-select-icon) {
+        font-size: 1.25em;
+        line-height: 1;
+    }
+
+    :where(.theme-select-list, .locale-select-list) {
+        position: absolute;
+        z-index: 10;
+        inset-inline-start: 0;
+        min-width: max-content;
+        max-height: 60vh;
+        margin-block-start: var(--lily-space-xs);
+        padding: var(--lily-space-xs);
+        overflow-y: auto;
+        list-style: none;
+        color: var(--lily-text);
+        background-color: var(--lily-surface);
+        border: var(--border) solid var(--lily-border-strong);
+        border-radius: var(--lily-radius-md);
+        box-shadow: var(--lily-shadow-md);
+    }
+
+    /* Explicit, because the rules above would otherwise beat the UA
+       stylesheet's [hidden] { display: none }. */
+    :where(.theme-select-list, .locale-select-list)[hidden] {
+        display: none;
+    }
+
+    :where(.theme-select-list, .locale-select-list)
+        > :where(.theme-select-option, .locale-select-option) {
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        border-radius: var(--lily-radius-sm);
+        cursor: pointer;
+    }
+
+    /* data-active is the keyboard cursor (aria-activedescendant); focus
+       stays on the listbox, so this is the only visible cue for it. */
+    :where(.theme-select-list, .locale-select-list) > :where([data-active]) {
+        background-color: var(--lily-surface-alt);
+        outline: var(--lily-focus-ring);
+        outline-offset: -2px;
+    }
+
+    /* aria-selected marks the applied theme/locale, which is not the
+       same thing as the keyboard cursor. Both can be visible at once. */
+    :where(.theme-select-list, .locale-select-list)
+        > :where([aria-selected="true"]) {
+        font-weight: 600;
+        background-color: var(--lily-surface-sunken);
     }
 
     /* Locale options inherit the select colours, same as theme options. */

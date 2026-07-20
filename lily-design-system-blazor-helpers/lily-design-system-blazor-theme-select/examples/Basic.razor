@@ -6,11 +6,11 @@
     "light" is in the list), sets data-theme="light" on <html>, and
     injects a <link rel="stylesheet"> pointing at /assets/themes/light.css.
 
-    The status line is part of the pattern, not an extra. The closed
-    control always reads the placeholder word ("Theme"), never the active
-    theme name — so without this line neither a sighted user nor a screen
-    reader can read the current selection back off the control. See
-    docs/accessibility.md.
+    The status line is part of the pattern, not an extra. The control is
+    an icon button: it shows only the ◑ glyph and its accessible name is
+    always the Label ("Theme"), never the active theme name — so without
+    this line neither a sighted user nor a screen reader can read the
+    current selection back off the control. See docs/accessibility.md.
 
     aria-live="polite" announces mutations only, so this stays silent on
     first paint and speaks once on each subsequent change — exactly what

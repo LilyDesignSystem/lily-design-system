@@ -1,0 +1,100 @@
+@*
+    NHS style — an NHS UK-style language banner.
+
+    Mirrors the NHS UK Design System's pattern of placing a language
+    chooser in a top utility banner, showing every language as an endonym
+    in its own script.
+
+    Since ChildContent now only replaces the glyph inside the button, the
+    banner's language list is an external control that drives the component
+    through the public `SetLocaleAsync(code)` method via `@ref`. The
+    component keeps ownership of the lifecycle — lang, dir, storage,
+    OnChange, Value — while the banner supplies the NHS-style presentation.
+
+    Endonyms carry their own `lang` (WCAG 3.1.2 Language of Parts) via
+    `Locales.Bcp47LocaleTag`, so "Cymraeg" is spoken with a Welsh voice.
+
+    Note: the component still renders its own icon button and listbox. An
+    NHS-style banner that wants only the endonym row should visually hide
+    `.locale-select-button` with a visually-hidden class — never
+    `display: none` on the whole `.locale-select` control, which can stop
+    its render and focus lifecycle from behaving normally.
+
+    Outcome: a <header> banner with a horizontal endonym list. Each entry
+    shows the language in its own script and applies it on click.
+*@
+
+@page "/examples/locale-select/nhs-style"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<header class="utility-banner" aria-label="Site utilities">
+    <span>NHS</span>
+
+    <LocaleSelect
+        @ref="localeSelect"
+        Label="Language"
+        Locales="@Codes"
+        LocaleLabels="@NATIVE"
+        @bind-Value="locale"
+        StorageKey="nhs-locale"
+        CssClass="utility-banner-languages" />
+
+    <ul class="utility-banner-language-list" role="list">
+        @foreach (var l in Codes)
+        {
+            var code = l;
+            <li>
+                <button type="button"
+                        aria-pressed="@(locale == code)"
+                        lang="@Locales.Bcp47LocaleTag(code)"
+                        @onclick="@(() => ApplyAsync(code))">
+                    @NativeName(code)
+                </button>
+            </li>
+        }
+    </ul>
+</header>
+
+<main lang="@Locales.Bcp47LocaleTag(locale)">
+    <h1>Welcome</h1>
+    <p>Current locale: <code>@locale</code></p>
+</main>
+
+@code {
+    private static readonly string[] Codes =
+        new[] { "en", "cy", "gd", "ga", "fr", "pl", "ur", "bn", "zh_Hant" };
+
+    private LocaleSelect? localeSelect;
+
+    private string locale = "en";
+
+    // Drive the component; it applies lang/dir/storage and pushes the new
+    // value back through @bind-Value.
+    private async Task ApplyAsync(string code)
+    {
+        if (localeSelect is not null)
+        {
+            await localeSelect.SetLocaleAsync(code);
+        }
+    }
+
+    // Endonyms — each language in its own script. The same dictionary is
+    // handed to the component as LocaleLabels so the listbox options and
+    // the banner buttons can never drift apart.
+    private static readonly Dictionary<string, string> NATIVE = new()
+    {
+        ["en"] = "English",
+        ["cy"] = "Cymraeg",
+        ["gd"] = "Gàidhlig",
+        ["ga"] = "Gaeilge",
+        ["fr"] = "Français",
+        ["pl"] = "Polski",
+        ["ur"] = "اردو",
+        ["bn"] = "বাংলা",
+        ["zh_Hant"] = "繁體中文",
+    };
+
+    private static string NativeName(string code) =>
+        NATIVE.TryGetValue(code, out var name) ? name : Locales.LocaleName(code);
+}

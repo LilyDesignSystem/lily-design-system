@@ -38,49 +38,86 @@ escaping. None of the helpers in this catalog use it; if a future
 helper needs to render markdown, the rendering belongs to the
 consumer.
 
-### Scoped slots and the select contract
+### Two control shapes in this catalog
 
-The default rendering is a native `<select>` whose children are
-`<option>` elements. A scoped slot replaces only the inside of the
-`<select>`, so the combobox container is preserved even when
-consumers render their own `<option>` set.
+The helpers no longer share one markup model. Know which you are
+touching before you port anything:
 
-If a custom slot renders non-`<option>` markup (e.g. `<button>`
-swatches), the consumer is no longer inside a native `<select>` and
-must add `aria-pressed` (button group) themselves, or render those
-controls outside the helper and call `setTheme` / `setLocale` from a
-wrapper. See the per-helper `docs/accessibility.md` for patterns.
+| Helper             | Control                                       |
+| ------------------ | --------------------------------------------- |
+| `theme-select`     | Icon button (◑) + `role="listbox"` popup.     |
+| `locale-select`    | Icon button (🌐) + `role="listbox"` popup.    |
+| `text-size-select` | Native `<select>` with one `<option>` per size. |
+
+`theme-select` and `locale-select` were converted from native
+`<select>` elements to icon-button-plus-listbox widgets. Their root is
+a `<div>`, the trigger is a `<button aria-haspopup="listbox">`, and
+the popup is a `<ul role="listbox">` of `<li role="option">`.
+`text-size-select` is untouched and keeps the native `<select>`.
+
+### Scoped slots and the glyph contract
+
+For `theme-select` and `locale-select`, the default scoped slot
+replaces the **button glyph only** — it does not render the options.
+The listbox, its option markup, the ARIA state, and the keyboard
+contract are all component-owned and cannot be displaced by a slot.
+
+Slot content is decorative. The button's accessible name always comes
+from `label` via `aria-label`, so slot content must be
+`aria-hidden="true"` or text-free; otherwise it competes with that
+name. See the per-helper `docs/accessibility.md`.
 
 ### Label vs aria-label
 
-The helpers carry the consumer's name as `aria-label={label}` on the
-root `<select>`, which exposes the implicit `combobox` role. There is
-no separate visible label by default; consumers who want a visible
-label can pair the `<select>` with their own `<label>` element
-outside the helper and point it at the helper via `id` /
-`aria-labelledby`.
+The helpers carry the consumer's name as `aria-label={label}`. For the
+two icon-button helpers this is the **only** accessible name — the
+button has no visible text — and the same `label` also names the
+listbox. Consumers who want a visible label should render their own
+text next to the helper; a `.{helper}-status` live region is the
+documented pattern (see the per-helper `docs/accessibility.md`).
 
 ## Keyboard
 
-The native `<select>` provides Tab / Shift+Tab, Arrow Down / Up to
-move selection, Home / End, typeahead, Enter / Space to open, and
-Escape to close — all for free. None of the helpers add keyboard
-handlers; if a scoped slot renders non-`<option>` controls, the
-consumer becomes responsible for keyboard behaviour.
+`text-size-select` inherits the platform's native `<select>` keyboard
+model for free and adds no handlers.
+
+`theme-select` and `locale-select` implement the WAI-ARIA APG listbox
+pattern themselves. On the button, `ArrowDown` / `Enter` / `Space`
+open with the selected option active and `ArrowUp` opens with the last
+option active; opening moves focus to the `<ul>`. On the listbox,
+`ArrowDown` / `ArrowUp` move the active option and **clamp** (no
+wrapping), `Home` / `End` jump to first / last, `Enter` / `Space`
+commit and return focus to the button, `Escape` cancels and returns
+focus without changing the value, `Tab` closes without stealing focus
+back, and printable characters run a typeahead over the labels with a
+500 ms buffer. The active option is conveyed with
+`aria-activedescendant` on the `<ul>`, not by moving DOM focus.
+
+When porting, keep the clamping (the APG listbox pattern does not
+wrap) and keep `aria-activedescendant` absent while closed.
 
 ## Focus management
 
-The helpers never call `.focus()` automatically. Changing the
-selection does not move focus elsewhere on the page (WCAG 3.2.2,
-On Input). When wiring `onChange` to navigation (`router.push`,
-`vue-router`), preserve scroll position and avoid focus jumps.
+`text-size-select` never calls `.focus()`.
+
+`theme-select` and `locale-select` move focus deliberately and only
+within their own control: to the `<ul>` when the listbox opens, and
+back to the button when it closes via commit or `Escape`. `Tab` and
+click-outside close **without** pulling focus back, so the user's own
+focus move is never fought. Focus is never moved elsewhere on the page
+in response to a selection (WCAG 3.2.2, On Input).
+
+Because focus moves after a reactive state change, the focus call must
+wait for Vue to flush the DOM — `await nextTick()` before `.focus()`.
+A `hidden` element cannot take focus, so focusing the `<ul>` in the
+same tick that sets `open` silently fails.
 
 ## Screen-reader pronunciation (locale select)
 
-Each `<option>` carries `lang="…"` so screen readers switch
-pronunciation per option (WCAG 3.1.2, Language of Parts). Custom
-scoped-slot renderings must keep this attribute on the rendered
-element.
+Each `<li role="option">` carries `lang="…"` so screen readers switch
+pronunciation per option (WCAG 3.1.2, Language of Parts). The button
+and the list itself carry no `lang`. This survived the conversion from
+the native `<select>` and must be preserved in any port.
 
 ## Visible focus
 

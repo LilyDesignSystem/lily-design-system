@@ -212,18 +212,30 @@ else
 ```
 
 The `*Context` record is a `sealed class` with `required init` fields,
-typed for clarity. Consumers write:
+typed for clarity.
+
+What the fragment substitutes for differs by control shape. For the
+listbox helpers (`ThemeSelect`, `LocaleSelect`) it replaces the **glyph
+inside the trigger button** — never the options, which stay
+component-owned so the listbox semantics cannot be broken from outside.
+The context is correspondingly small (`Value`, `Open`, `LabelFor`):
 
 ```razor
 <ThemeSelect Label="Theme" ThemesUrl="/t/" Themes="…">
     <ChildContent Context="ctx">
-        @foreach (var t in ctx.Themes)
-        {
-            <button @onclick="@(() => ctx.SetTheme(t))">@t</button>
-        }
+        @* Replaces the ◑ glyph. Keep it aria-hidden: the accessible
+           name still comes from the button's aria-label (Label). *@
+        <svg class="my-icon" aria-hidden="true" viewBox="0 0 16 16">…</svg>
     </ChildContent>
 </ThemeSelect>
 ```
+
+For `TextSizeSelect`, which is still a native `<select>`, the fragment
+renders the options and the context carries the full choice list.
+
+To drive a listbox helper from your own UI, take a `@ref` and call the
+public `SetThemeAsync` / `SetLocaleAsync` method — the fragment context
+deliberately exposes no setter.
 
 ## OnAfterRenderAsync
 
@@ -287,7 +299,8 @@ parameter; the existing helpers don't.
 ## What never lives in the helper
 
 - Bundled CSS, fonts, icons, or images.
-- A locale-aware default for `Label` / `Placeholder` / `Error`.
+- A locale-aware default for any user-facing string parameter
+  (`Label`, `ThemeLabels` / `LocaleLabels` / `SizeLabels` entries).
 - Routing, data fetching, persistence wrappers, network calls.
 - Animations or transitions.
 

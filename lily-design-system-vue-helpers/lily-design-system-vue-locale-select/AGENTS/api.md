@@ -9,12 +9,14 @@ The barrel (`index.ts`) re-exports:
 
 ```ts
 export { default, default as LocaleSelect } from "./LocaleSelect.vue";
-export type { Props, SlotArgs } from "./LocaleSelect.vue";
+export type { Props, SlotArgs, ChildArgs } from "./LocaleSelect.vue";
 export {
     bcp47LocaleTag,
     isRtlLocale,
     localeName,
     matchNavigatorLanguage,
+    nextLocaleSelectId,
+    GLOBE_WITH_MERIDIANS,
     defaultLocaleLabels,
     RTL_LANGUAGE_TAGS,
     RTL_SCRIPT_SUBTAGS,
@@ -49,9 +51,15 @@ import LocaleSelect, {
 | `localeLabels`        | `Record<string, string>` | no       | `{}`                                               |
 | `class`               | `string`                 | no       | `""`                                               |
 
+`label` names **both** the button and the listbox; the button is
+icon-only, so it is the button's only accessible name. `name` is the
+`name` of the hidden input that carries the value in a form. `class`
+lands on the root `<div>`. There is no `placeholder` prop — it was
+removed with the `<select>`.
+
 `value` is two-way bindable via `v-model:value`. Other attributes
 (`id`, `data-*`, event handlers, ARIA overrides) fall through to
-the root `<select>` via Vue's default `inheritAttrs`.
+the root `<div>` via Vue's default `inheritAttrs`.
 
 ## Events
 
@@ -65,7 +73,8 @@ defineEmits<{
 `update:value` is the half of `v-model:value` that flows from the
 component back to the parent. It fires:
 
-- after a `<select>` change,
+- when an option is committed (clicked, or `Enter` / `Space` on the
+  active option),
 - once on `onMounted` if the resolved initial value differs from
   the supplied `value` prop.
 
@@ -75,37 +84,43 @@ i18n library to load message bundles.
 
 ## Default scoped slot
 
-The default slot's `SlotArgs`:
+The default slot replaces the **button glyph** — not the options. The
+listbox, its `<li role="option">` children, the keyboard contract, and
+the apply lifecycle stay component-owned. Its `SlotArgs`:
 
 ```ts
 export type SlotArgs = {
-    locales: string[];
     value: string;
-    setLocale: (locale: string) => void;
-    name: string;
+    open: boolean;
     labelFor: (locale: string) => string;
-    tagFor: (locale: string) => string;
-    isRtl: (locale: string) => boolean;
 };
+
+export type ChildArgs = SlotArgs; // alias matching the Svelte canonical
 ```
 
 Consumers consume it via `<template #default="{ … }">`:
 
 ```vue
-<LocaleSelect label="…" :locales="[…]">
-    <template #default="{ locales, value, setLocale, name, labelFor, tagFor, isRtl }">
-        <!-- custom markup -->
+<LocaleSelect label="Language" :locales="['en', 'fr', 'ar']">
+    <template #default="{ value, open, labelFor }">
+        <span :title="labelFor(value)" aria-hidden="true">
+            {{ value.toUpperCase() }}{{ open ? " ▴" : " ▾" }}
+        </span>
     </template>
 </LocaleSelect>
 ```
 
-When no slot is supplied, the select renders the default `<select>`
+Slot content is decorative: the button's accessible name always comes
+from `label` via `aria-label`, so slot markup should be
+`aria-hidden="true"` or text-free.
+
+When no slot is supplied, the button renders
+`<span class="locale-select-icon" aria-hidden="true">🌐</span>` — the
 markup documented in `spec/index.md §4.4`.
 
 ## Pure helpers
 
-Five pure helpers are exported from the SFC's first `<script>`
-block:
+The pure helpers are exported from the SFC's first `<script>` block:
 
 ```ts
 export function bcp47LocaleTag(locale: string): string;
@@ -115,7 +130,10 @@ export function matchNavigatorLanguage(
     navLangs: readonly string[],
     locales: readonly string[],
 ): string | "";
+// per-instance id generator (module counter; SSR-safe):
+export function nextLocaleSelectId(): string;
 // + the constants:
+export const GLOBE_WITH_MERIDIANS: string; // "\u{1F310}"
 export const defaultLocaleLabels: Record<string, string>;
 export const RTL_LANGUAGE_TAGS: ReadonlySet<string>;
 export const RTL_SCRIPT_SUBTAGS: ReadonlySet<string>;
@@ -123,22 +141,28 @@ export const RTL_SCRIPT_SUBTAGS: ReadonlySet<string>;
 
 All pure functions are side-effect-free; consumers can call them
 from tests, server code, or other components without instantiating
-the select.
+the select. `nextLocaleSelectId` is the one exception — it increments
+a module-level counter, which is exactly what makes the element ids
+stable and SSR-safe (never `Math.random()` or `Date.now()`).
 
 ## DOM contract
 
-Root element:
-
 ```html
-<select class="locale-select {class}" aria-label="{label}" name="{name}">
-    <!-- default slot output -->
-</select>
-```
-
-Default option markup (one per `locales` entry):
-
-```html
-<option class="locale-select-option" value="{locale}" lang="{tagFor(locale)}">{{ labelFor(locale) }}</option>
+<div class="locale-select {class}" ...$attrs>
+    <input type="hidden" name="{name}" value="{value}" />
+    <button type="button" class="locale-select-button"
+            aria-label="{label}" aria-haspopup="listbox"
+            aria-expanded="false" aria-controls="{listId}">
+        <!-- default slot output, or: -->
+        <span class="locale-select-icon" aria-hidden="true">🌐</span>
+    </button>
+    <ul class="locale-select-list" id="{listId}" role="listbox"
+        aria-label="{label}" tabindex="-1" hidden aria-activedescendant>
+        <li class="locale-select-option" id="{optionId}" role="option"
+            aria-selected="true|false" data-active
+            lang="{tagFor(locale)}">{{ labelFor(locale) }}</li>
+    </ul>
+</div>
 ```
 
 Document mutations (only inside `onMounted` / `watch`):
@@ -151,8 +175,8 @@ Document mutations (only inside `onMounted` / `watch`):
 
 ## Type re-exports
 
-`Props` and `SlotArgs` are re-exported from `index.ts` so consumers
-can type their wrapping code:
+`Props`, `SlotArgs`, and `ChildArgs` are re-exported from `index.ts`
+so consumers can type their wrapping code:
 
 ```ts
 import type { Props, SlotArgs } from "./lily-design-system-vue-locale-select";

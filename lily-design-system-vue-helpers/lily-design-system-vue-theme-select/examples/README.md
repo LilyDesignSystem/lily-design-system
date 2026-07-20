@@ -10,7 +10,7 @@ Every example assumes:
 - A directory of theme CSS files served at `/assets/themes/`
   (typically `public/assets/themes/light.css`,
   `public/assets/themes/dark.css`, …). The
-  [Lily themes](../../../themes/) catalog ships 41 ready-to-use
+  [Lily themes](../../../themes/) catalog ships 45 ready-to-use
   themes.
 - Each theme CSS file scopes its tokens with
   `:root[data-theme="<slug>"]`.
@@ -21,11 +21,11 @@ Every example assumes:
 | 2 | [`two-way-binding.vue`](./two-way-binding.vue)| `v-model:value` and `@change`.            |
 | 3 | [`persistence.vue`](./persistence.vue)        | `localStorage` survival across reloads.   |
 | 4 | [`custom-labels.vue`](./custom-labels.vue)    | `themeLabels` for i18n / display names.   |
-| 5 | [`custom-rendering.vue`](./custom-rendering.vue) | Default scoped slot — swatch buttons.  |
+| 5 | [`custom-rendering.vue`](./custom-rendering.vue) | Custom button glyph via the default scoped slot. |
 | 6 | [`preloaded.vue`](./preloaded.vue)            | Zero-flicker switching via preloading.    |
 | 7 | [`multiple-selects.vue`](./multiple-selects.vue) | Two selects in one page via `name`.    |
 | 8 | [`system-preference.vue`](./system-preference.vue) | Follow `prefers-color-scheme`.      |
-| 9 | [`lily-themes.vue`](./lily-themes.vue)        | All 41 Lily / DaisyUI themes at once.     |
+| 9 | [`lily-themes.vue`](./lily-themes.vue)        | All 45 Lily themes at once.     |
 | 10 | [`nuxt-cookie/`](./nuxt-cookie/)             | SSR-resolved theme via a cookie (Nuxt 3). |
 
 ## Running the examples
@@ -42,25 +42,78 @@ one is:
 
 ## Default rendering
 
-By default the component renders a native `<select>` with one
-`<option>` per slug:
+By default the component renders an icon button that opens a listbox:
 
 ```html
-<select class="theme-select" aria-label="Theme" name="theme">
-  <option class="theme-select-option" value="light">Light</option>
-  <option class="theme-select-option" value="dark">Dark</option>
-  <option class="theme-select-option" value="abyss">Abyss</option>
-</select>
+<div class="theme-select">
+  <input type="hidden" name="theme" value="light" />
+  <button type="button" class="theme-select-button" aria-label="Theme"
+          aria-haspopup="listbox" aria-expanded="false"
+          aria-controls="theme-select-1-list">
+    <span class="theme-select-icon" aria-hidden="true">◑</span>
+  </button>
+  <ul class="theme-select-list" id="theme-select-1-list" role="listbox"
+      aria-label="Theme" tabindex="-1" hidden>
+    <li class="theme-select-option" id="theme-select-1-option-0"
+        role="option" aria-selected="true">Light</li>
+    <li class="theme-select-option" id="theme-select-1-option-1"
+        role="option" aria-selected="false">Dark</li>
+    <li class="theme-select-option" id="theme-select-1-option-2"
+        role="option" aria-selected="false">Abyss</li>
+  </ul>
+</div>
 ```
 
-Style hooks: `theme-select` on the `<select>`, `theme-select-option`
-on each `<option>`.
+Style hooks: `theme-select` on the root `<div>`, `theme-select-button`
+on the trigger, `theme-select-icon` on the glyph span,
+`theme-select-list` on the `<ul>`, `theme-select-option` on each
+`<li>`. Plus two attribute hooks on the options: `[aria-selected]` for
+the committed theme, `[data-active]` for the keyboard-active one.
 
-Keyboard / ARIA follow the native `<select>` model: Tab focuses the
-select; Arrow Up/Down change the selection; Home/End jump to the
-first/last option; typeahead matches by typed characters; Enter/Space
-open the option list; Escape closes it. The browser owns the option
-semantics, so no extra ARIA state or focus management is needed.
+The package ships **no CSS at all**, including no positioning — so
+without consumer styles the listbox opens in normal document flow and
+pushes the page down. See
+[`../docs/styling.md`](../docs/styling.md#positioning-the-listbox).
+
+Keyboard and ARIA are **implemented by the component**, following the
+WAI-ARIA APG listbox pattern — there is no native `<select>` doing this
+for us. On the button, `ArrowDown` / `Enter` / `Space` open the listbox
+with the selected option active, and `ArrowUp` opens with the last
+option active; opening moves focus to the `<ul>`. On the listbox,
+`ArrowUp` / `ArrowDown` move the active option and clamp at both ends
+(no wrapping), `Home` / `End` jump to the first / last, `Enter` /
+`Space` commit and return focus to the button, `Escape` cancels without
+changing the value, `Tab` closes without stealing focus back, and
+printable characters run a typeahead over the option labels with a
+500 ms buffer. Clicking an option selects it; clicking outside, or
+moving focus out of the root, closes the listbox.
+
+Because focus stays on the `<ul>` and the active option is conveyed
+with `aria-activedescendant`, the options are never focused and never
+tab stops.
+
+## Default slot scoped args
+
+The default slot replaces the **button glyph** — not the options. The
+listbox, its options, the keyboard contract, and the apply lifecycle
+are all component-owned.
+
+```ts
+type SlotArgs = {
+    value: string;                       // the active slug
+    open: boolean;                       // is the listbox open?
+    labelFor: (theme: string) => string; // resolved display label
+};
+```
+
+`ChildArgs` is an exported alias of `SlotArgs`, matching the canonical
+Svelte helper's type name.
+
+Slot content is decorative: the button's accessible name always comes
+from `label` via `aria-label`, so keep it `aria-hidden="true"` or
+text-free, and never render interactive markup inside it — it lands
+inside the `<button>`. See
+[`custom-rendering.vue`](./custom-rendering.vue).
 
 ## v-model conventions
 

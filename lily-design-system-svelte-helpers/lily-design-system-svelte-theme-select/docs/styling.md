@@ -3,76 +3,157 @@
 The select is headless: it ships no CSS. Every visual decision belongs
 to the consumer. This guide lists the hooks the select exposes.
 
+**The listbox needs positioning CSS from you.** Without it the `<ul>`
+renders in normal document flow and pushes the rest of the page down
+when it opens. See [Positioning the listbox](#positioning-the-listbox).
+
 ## Class hooks
 
-| Selector                                  | Element                              |
-| ----------------------------------------- | ------------------------------------ |
-| `.theme-select`                           | The root `<select>`.                 |
-| `.theme-select.{consumerClass}`           | Both classes when `class` is passed. |
-| `.theme-select > .theme-select-option`    | Each `<option>` in the select.       |
-| `.theme-select-placeholder`               | The leading placeholder `<option>` — the one the closed control always displays. |
-| `.theme-select-status`                    | The status line stating the active theme. Rendered by the consumer *next to* the select, not by the component — see [The status line](#the-status-line). |
+| Selector                  | Element                                                    |
+| ------------------------- | ---------------------------------------------------------- |
+| `.theme-select`           | The root `<div>`.                                          |
+| `.theme-select.{consumerClass}` | Both classes when `class` is passed.                 |
+| `.theme-select-button`    | The trigger `<button type="button">`.                      |
+| `.theme-select-icon`      | The `<span>` wrapping the `◑` glyph. Absent when a `children` snippet replaces the glyph. |
+| `.theme-select-list`      | The popup `<ul role="listbox">`.                           |
+| `.theme-select-option`    | Each `<li role="option">`.                                 |
+| `.theme-select-status`    | The status line stating the active theme. Rendered by the consumer *next to* the select, not by the component — see [The status line](#the-status-line). |
 
-If you pass a `children` snippet, only `.theme-select` is guaranteed
-on the root; the inner classes are up to your markup.
+The `theme-select-placeholder` hook from 0.3.0 **no longer exists.**
+There is no placeholder option, because there is no `<select>`.
+
+If you pass a `children` snippet it replaces the glyph inside the
+button, so `.theme-select-icon` disappears but every other hook stays.
 
 ## Attribute hooks
 
-| Attribute                          | On                  | Purpose                          |
-| ---------------------------------- | ------------------- | -------------------------------- |
-| `data-theme="<slug>"`              | `target` (default `<html>`) | Active theme indicator for theme CSS files. |
-| `data-lily-theme-select="<name>"`  | the managed `<link>`        | Discriminator for multiple selects. |
+| Attribute                         | On                            | Purpose                                     |
+| --------------------------------- | ----------------------------- | ------------------------------------------- |
+| `[aria-expanded="true"]`          | `.theme-select-button`        | The listbox is open. Style the trigger's open state. |
+| `[hidden]`                        | `.theme-select-list`          | The listbox is closed.                      |
+| `[aria-selected="true"]`          | `.theme-select-option`        | The **applied** theme.                      |
+| `[data-active]`                   | `.theme-select-option`        | The **keyboard-active** option. Bare attribute, present on at most one option, only while open. |
+| `data-theme="<slug>"`             | `target` (default `<html>`)   | Active theme indicator for theme CSS files. |
+| `data-lily-theme-select="<name>"` | the managed `<link>`          | Discriminator for multiple selects.         |
 
-## Suggested baseline CSS
+`[aria-selected]` and `[data-active]` are different things and both
+need styling. `aria-selected` is "this is the theme in force";
+`data-active` is "this is where the keyboard cursor is right now". They
+coincide when the listbox first opens and diverge as soon as the user
+arrows.
 
-Drop into the consumer's app stylesheet:
+## Positioning the listbox
+
+The minimum that makes the control behave like a popup:
 
 ```css
 .theme-select {
+  position: relative;
+  display: inline-block;
+}
+
+.theme-select-list {
+  position: absolute;
+  z-index: 10;
+  inset-block-start: 100%;
+  inset-inline-start: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-block-size: 20rem;
+  overflow-y: auto;
+}
+
+.theme-select-list[hidden] {
+  display: none;
+}
+```
+
+Notes:
+
+- `inset-inline-*` rather than `left` / `right`, so the popup flips
+  correctly under `dir="rtl"`.
+- `max-block-size` plus `overflow-y` matters for large catalogs: the
+  component calls `scrollIntoView({ block: "nearest" })` on the active
+  option, which only does something useful if the list actually
+  scrolls.
+- `[hidden]` needs an explicit `display: none` because a `display`
+  declaration on a styled `<ul>` overrides the UA's `[hidden]` rule.
+  Getting this wrong leaves the closed list permanently visible.
+
+## Suggested baseline CSS
+
+```css
+.theme-select-button {
   padding: 0.25rem 0.5rem;
   border: 1px solid var(--color-base-300, currentColor);
   border-radius: var(--radius-selector, 0.25rem);
   background: var(--color-base-100, white);
   color: inherit;
   cursor: pointer;
+  line-height: 1;
 }
 
-.theme-select:focus-visible {
+.theme-select-button:focus-visible {
   outline: 2px solid var(--color-primary, currentColor);
   outline-offset: 2px;
 }
-```
 
-## Sizing the control to the placeholder
+.theme-select-option {
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
+}
 
-The closed control always displays the placeholder word ("Theme"), never
-the active theme name — so it can be sized to that word rather than to
-the widest option:
+/* Where the keyboard cursor is. */
+.theme-select-option[data-active] {
+  background: var(--color-base-200, #eee);
+}
 
-```css
-.theme-select {
-  width: auto;
-  max-width: 12ch;
-  field-sizing: content;
+/* Which theme is actually applied. */
+.theme-select-option[aria-selected="true"] {
+  font-weight: 600;
 }
 ```
 
-`field-sizing: content` (Chromium 123+) sizes the control to the option
-it is displaying, which is always the placeholder. `max-width` caps the
-fallback in Firefox and Safari, which still size to the widest option.
+Do not convey the applied theme by colour alone (WCAG 1.4.1) — the
+weight change above, a checkmark, or a text prefix all work.
 
-The root [`themes/`](../../../themes) stylesheets ship this rule already,
-scoped with `:has(> .theme-select-placeholder)` so it applies to this
-helper and not to the catalog `theme-select` component, which shares the
-class hook but displays its real value. If you write the rule yourself
-and use both, scope it the same way.
+## Sizing the control
+
+The whole point of the icon button is that it is one glyph wide
+regardless of the catalog, so there is nothing to cap. The
+`field-sizing: content` recipe from 0.3.0 is obsolete along with the
+`<select>` it sized.
+
+The listbox is what now needs a width decision, since it is absolutely
+positioned and will otherwise shrink-wrap to its content:
+
+```css
+.theme-select-list {
+  min-inline-size: 12rem;
+}
+```
+
+## The glyph
+
+`.theme-select-icon` holds a bare Unicode character, U+25D1. Its
+rendering depends on the fonts installed on the user's device — see
+[accessibility.md § Tradeoff 3](./accessibility.md#tradeoff-3--the-glyph-is-font-dependent).
+Pin a font stack you have verified:
+
+```css
+.theme-select-icon {
+  font-family: system-ui, "Segoe UI Symbol", "Apple Symbols", sans-serif;
+  font-size: 1.125em;
+}
+```
 
 ## The status line
 
-Because the closed control always shows the placeholder, the default
-pattern pairs the select with a live region that states the active
-theme — see
-[accessibility.md](./accessibility.md#the-compensating-status-region-is-the-default-pattern).
+The closed control shows only a glyph, so the active theme is not
+written anywhere on the page unless you write it. The recommended
+pattern pairs the select with a polite live region — see
+[accessibility.md § The status region](./accessibility.md#the-status-region).
 The component does not render it; you do, with the
 `.theme-select-status` hook:
 
@@ -82,9 +163,8 @@ The component does not render it; you do, with the
 </p>
 ```
 
-Keep it **visible** by default. It helps sighted users and users who
-benefit from an explicit confirmation of what just changed, and AAA
-favours showing it. A minimal visible treatment:
+Keep it **visible** by default — that is now the main reason to have
+it. A minimal treatment:
 
 ```css
 .theme-select-status {
@@ -118,11 +198,14 @@ and defeats the point.
 
 ## Don'ts
 
-- Don't hide the `<select>` with `display: none`. It is the
-  accessibility tree's anchor point. Use `clip-path` or a
-  `.sr-only` recipe if you need to visually replace it.
-- Don't override the select's `aria-*` attributes from CSS. They are
-  part of the accessibility contract.
+- Don't hide the button with `display: none`. It is the accessibility
+  tree's anchor point. Use `clip-path` or a `.sr-only` recipe if you
+  need to visually replace it.
+- Don't forget `.theme-select-list[hidden] { display: none; }`.
+- Don't style only `[aria-selected]` and skip `[data-active]`, or
+  keyboard users lose their cursor.
+- Don't override the component's `aria-*` attributes from CSS or
+  rest-props. They are part of the accessibility contract.
 
 ---
 

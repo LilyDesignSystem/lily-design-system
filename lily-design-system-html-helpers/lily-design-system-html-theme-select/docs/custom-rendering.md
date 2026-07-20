@@ -1,220 +1,303 @@
 # Custom rendering
 
-The default rendering is a native `<select>` with `<option>`
-children. When you need a different visual — swatch buttons, a
-segmented control, a flyout menu — subclass `ThemeSelect` and
-override the rendering step.
+The default rendering is an icon button that opens a dropdown
+listbox. When you need something else — your own SVG on the button,
+the active theme's name in place of the glyph, a segmented control —
+the customisation surface is **subclassing `ThemeSelect`**.
 
-The HTML helpers don't expose Vue scoped slots or Svelte snippets;
-the customisation surface is JavaScript class extension. The base
-class keeps owning the lifecycle (managed `<link>`, `data-theme`
-write, `themechange` event); the subclass only changes how options
-appear.
+The Svelte, React, and Vue siblings pass a `children` snippet /
+render prop / slot that replaces the glyph inside the button and
+receives `{ value, open, labelFor }`. Custom elements in light DOM
+have no equivalent: `<slot>` is a Shadow DOM mechanism, and these
+helpers commit to light DOM (see
+[`../../AGENTS/conventions.md`](../../AGENTS/conventions.md)). So
+the HTML helper offers two tiers instead.
 
-## Subclassing the class
+| Tier | Hook | Keeps accessibility | Use when |
+| ---- | ---- | ------------------- | -------- |
+| 1 | `renderButtonContent()` | Yes, entirely | You want different button content — the common case. |
+| 2 | Post-process after `super.connectedCallback()` | No — you own it | You want a fundamentally different structure. |
+
+**Prefer Tier 1.** It is the only path that cannot break the
+accessibility contract.
+
+## Tier 1 — override `renderButtonContent()`
+
+This is the direct analogue of the other frameworks' `children`.
+Return any `Node`; it is placed inside the button, replacing the
+default `<span class="theme-select-icon">`.
 
 ```ts
 import { ThemeSelect } from "./lily-design-system-html-theme-select";
 
-class SwatchPicker extends ThemeSelect {
-    // The class's #render() is private. Subclasses get a different
-    // hook: after super.connectedCallback() runs (the default
-    // <select>+options are now in place), post-process the children.
-    connectedCallback(): void {
-        super.connectedCallback();
-        this.#renderSwatches();
-    }
-
-    attributeChangedCallback(name: string, old: string | null, value: string | null): void {
-        super.attributeChangedCallback(name, old, value);
-        if (name === "value" || name === "themes" || name === "theme-labels") {
-            this.#renderSwatches();
-        }
-    }
-
-    #renderSwatches(): void {
-        const select = this.querySelector("select");
-        if (!select) return;
-        select.replaceWith(this.#buildSwatchContainer());
-    }
-
-    #buildSwatchContainer(): HTMLElement {
-        const container = document.createElement("div");
-        container.className = "theme-select";
-        container.setAttribute("role", "group");
-        container.setAttribute("aria-label", this.label);
-        const themes = this.themes;
-        const current = this.value;
-        const labels = this.themeLabels;
-        for (const theme of themes) {
-            const btn = document.createElement("button");
-            btn.type = "button";
-            btn.className = "theme-select-swatch";
-            btn.dataset.theme = theme;
-            btn.setAttribute("aria-pressed", String(current === theme));
-            btn.textContent =
-                labels[theme] ?? theme.charAt(0).toUpperCase() + theme.slice(1);
-            btn.addEventListener("click", () => { this.value = theme; });
-            container.appendChild(btn);
-        }
-        return container;
+class MyThemeSelect extends ThemeSelect {
+    renderButtonContent(): Node {
+        const span = document.createElement("span");
+        span.textContent = this.labelFor(this.value);   // ChildArgs.value + labelFor
+        span.dataset.open = String(this.open);           // ChildArgs.open
+        return span;
     }
 }
 
-customElements.define("swatch-picker", SwatchPicker);
+customElements.define("my-theme-select", MyThemeSelect);
 ```
 
-Use it in HTML:
-
 ```html
-<swatch-picker
+<my-theme-select
     label="Theme"
     themes-url="/assets/themes/"
     themes="light,dark,abyss"
-></swatch-picker>
+></my-theme-select>
 ```
 
-The swatch buttons replace the `<select>`; everything else
-(lifecycle, event, persistence) still works because the base class's
-`attributeChangedCallback` still runs.
+What you get inside the hook — the stand-ins for the `ChildArgs`
+the other frameworks pass:
 
-## Patterns
+| Member                 | Stands in for      | Notes                                              |
+| ---------------------- | ------------------ | -------------------------------------------------- |
+| `this.value`           | `ChildArgs.value`  | The active slug.                                    |
+| `this.open`            | `ChildArgs.open`   | Whether the listbox is open at render time.         |
+| `this.labelFor(slug)`  | `ChildArgs.labelFor` | Applies `theme-labels`, else title-cases the slug. |
 
-### Swatch buttons
+What the base class still owns, unchanged:
 
-Pattern above. Trade-offs:
+- The `<div class="theme-select">` root and the consumer `class`.
+- The button element itself, its `type="button"`, and all of
+  `aria-label`, `aria-haspopup`, `aria-expanded`, `aria-controls`.
+- The `<ul role="listbox">`, every `<li role="option">`, their ids,
+  `aria-selected`, `data-active`, and `aria-activedescendant`.
+- The entire keyboard contract.
+- The hidden `<input>`, the managed `<link>`, `data-theme`,
+  `localStorage`, and the `themechange` event.
 
-- `aria-pressed` carries the active state on each button.
-- The base class renders a native `<select>`; once you swap in
-  buttons, the subclass owns its own a11y contract. Wrap the buttons
-  in a `role="group"` container with an `aria-label` so the group is
-  announced:
+### Timing
+
+`renderButtonContent()` re-runs whenever anything it can read
+changes, so content derived from `this.value` or `this.open` stays
+current without any work on your part. Concretely it is called:
+
+- on every structural rebuild — a change to `themes`,
+  `theme-labels`, `label`, `name`, or `class`; and
+- on every state sync — a `value` change, and each open or close.
+
+This is what makes the hook behave like the reactive `children`
+snippet the Svelte, React, and Vue helpers pass. A value-dependent
+button is therefore just the obvious code, with no listener to wire
+up:
 
 ```ts
-const select = this.querySelector("select");
-if (select) {
-    const group = document.createElement("div");
-    group.className = "theme-select";
-    group.setAttribute("role", "group");
-    group.setAttribute("aria-label", this.label);
-    // … add buttons to group …
-    select.replaceWith(group);
+class LabelledThemeSelect extends ThemeSelect {
+    renderButtonContent(): Node {
+        const span = document.createElement("span");
+        span.textContent = this.labelFor(this.value);
+        return span;
+    }
 }
 ```
 
-### Customizing the native `<select>`
+Two consequences worth knowing:
 
-The default rendering is already a native `<select>`. To group
-options or add an extra attribute, post-process it after the base
-class lays it down:
+- **Return a fresh Node each call.** The returned node replaces the
+  button's previous children, so don't cache one node and hand back
+  the same instance.
+- **Don't hang state off the returned node.** If you attach event
+  listeners inside `renderButtonContent()` they are discarded with
+  the old node on the next call, which is usually what you want; if
+  you need durable listeners, attach them to the host element in
+  `connectedCallback()` instead.
+
+For purely visual open/closed styling, prefer the CSS selector
+`.theme-select-button[aria-expanded="true"]` over re-rendering on
+`this.open` — the base class keeps that attribute in sync and CSS
+avoids the DOM churn entirely.
+
+### Recipe: an inline SVG icon
+
+The default glyph is a plain Unicode character with no bundled font,
+so it renders differently across platforms and can even come out as
+tofu. Supplying your own SVG is the fix:
 
 ```ts
-class SelectPicker extends ThemeSelect {
+class SvgThemeSelect extends ThemeSelect {
+    renderButtonContent(): Node {
+        const ns = "http://www.w3.org/2000/svg";
+        const svg = document.createElementNS(ns, "svg");
+        svg.setAttribute("class", "theme-select-icon");
+        svg.setAttribute("aria-hidden", "true");   // keep it out of the name
+        svg.setAttribute("focusable", "false");    // and out of the tab order
+        svg.setAttribute("viewBox", "0 0 16 16");
+        svg.setAttribute("width", "16");
+        svg.setAttribute("height", "16");
+
+        const circle = document.createElementNS(ns, "circle");
+        circle.setAttribute("cx", "8");
+        circle.setAttribute("cy", "8");
+        circle.setAttribute("r", "7");
+        circle.setAttribute("fill", "currentColor");
+        svg.appendChild(circle);
+
+        return svg;
+    }
+}
+customElements.define("svg-theme-select", SvgThemeSelect);
+```
+
+Keep `aria-hidden="true"` on whatever you return. Without it the
+graphic can leak into the accessible name and compete with
+`aria-label`.
+
+### Recipe: glyph plus visible text
+
+The icon-only default fails WCAG 2.5.3 Label in Name unless the
+consumer adds a visible label. Returning a fragment with both fixes
+that at the source:
+
+```ts
+class TextThemeSelect extends ThemeSelect {
+    renderButtonContent(): Node {
+        const fragment = document.createDocumentFragment();
+
+        const icon = document.createElement("span");
+        icon.className = "theme-select-icon";
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = "◑";
+        fragment.appendChild(icon);
+
+        const text = document.createElement("span");
+        text.className = "theme-select-button-text";
+        text.textContent = this.label;   // matches aria-label — 2.5.3 satisfied
+        fragment.appendChild(text);
+
+        return fragment;
+    }
+}
+```
+
+A `DocumentFragment` is a `Node`, so returning one to add several
+children works.
+
+## Tier 2 — replacing the whole rendering
+
+`#render()` is a private field and genuinely cannot be overridden —
+`#`-private members in JavaScript are not visible to subclasses. A
+subclass that wants a different structure must post-process after
+the base class has rendered:
+
+```ts
+class SegmentedThemeSelect extends ThemeSelect {
     connectedCallback(): void {
         super.connectedCallback();
-        this.#decorateSelect();
+        this.#rebuild();
     }
-    attributeChangedCallback(name: string, old: string | null, value: string | null): void {
-        super.attributeChangedCallback(name, old, value);
-        if (name === "value" || name === "themes") this.#decorateSelect();
+
+    attributeChangedCallback(n: string, o: string | null, v: string | null): void {
+        super.attributeChangedCallback(n, o, v);
+        if (n === "value" || n === "themes" || n === "theme-labels") this.#rebuild();
     }
-    #decorateSelect(): void {
-        const select = this.querySelector("select");
-        if (!select) return;
-        select.classList.add("my-fancy-select");
-        // e.g. wrap options in <optgroup>, add a size, etc.
-    }
-}
-customElements.define("select-picker", SelectPicker);
-```
 
-The combobox role comes free from `<select>`; the subclass only
-adds visual / structural decoration.
-
-### Custom option markup
-
-Keep the native `<select>` but tweak its options:
-
-```ts
-class FancyOptions extends ThemeSelect {
-    connectedCallback(): void {
-        super.connectedCallback();
-        for (const option of this.querySelectorAll("option.theme-select-option")) {
-            option.classList.add("my-fancy-option");
-        }
+    #rebuild(): void {
+        const root = this.querySelector(".theme-select");
+        if (!root) return;
+        // … build and install your own structure …
     }
 }
-customElements.define("fancy-options", FancyOptions);
+customElements.define("segmented-theme-select", SegmentedThemeSelect);
 ```
 
-This is the lightest-touch subclass: keep the `<select>`, just add
-classes / data-attributes to its options.
+**A subclass that does this takes over the entire accessibility
+contract.** Be clear-eyed about the scale of that: the base class's
+keyboard handling is bound to the DOM the base class built. Replace
+that DOM and the keyboard contract goes with it — every arrow key,
+`Home`/`End`, `Enter`/`Space`, `Escape`, `Tab`, and the typeahead.
+None of it survives on markup the base class does not recognise.
 
-## What the subclass should *not* do
+### The invariants Tier 2 must preserve
 
-- Don't mutate `document.head` or `data-theme` directly; let the
-  base class own that lifecycle.
-- Don't add a competing `name` to your controls — use
-  `this.name`.
-- Keep the `theme-select` CSS class hook on whatever element you
-  render in place of the default `<select>`, otherwise the host's
-  CSS class hook is gone.
+1. **Keep the `theme-select` class hook** on whatever root you
+   render, or the consumer's CSS hook disappears.
+2. **Keep the button/listbox pairing intact**:
+   `aria-haspopup="listbox"` on the trigger, `aria-expanded` kept in
+   sync with the open state, `aria-controls` pointing at the list's
+   `id`, and the list carrying `role="listbox"` with that matching
+   `id`.
+3. **Keep the accessible name on both the trigger and the list**
+   (`aria-label` from `this.label`). An icon-only button with no
+   name is unusable.
+4. **Every option needs `role="option"`, a unique stable `id`, and
+   `aria-selected`**; the list needs `aria-activedescendant`
+   pointing at the active option while open, and no
+   `aria-activedescendant` at all while closed. Reuse
+   `this.listId` and `this.optionId(i)` for the ids.
+5. **Keep the glyph (or its replacement) `aria-hidden="true"`** so
+   it never becomes the accessible name.
+6. **Keep the hidden `<input>`** carrying `this.name` and the
+   current value, or form participation breaks — and for
+   `<theme-select>` the managed `<link>` discriminator goes with it.
+7. **Re-implement the full keyboard contract**, or reuse
+   `openList()` / `closeList()` and drive them yourself from your
+   own handlers.
+8. **Write the chosen value to `this.value`** and let the base class
+   own the apply lifecycle. Never touch `document.head`,
+   `data-theme`, or `localStorage` directly, and never dispatch
+   `themechange` yourself.
 
-### The placeholder option is a base-class contract
+The full keyboard contract you are signing up to re-implement is in
+[`../spec/index.md` §6.2](../spec/index.md#62-keyboard-contract).
 
-The base class renders a leading
-`<option class="theme-select-option theme-select-placeholder" value="" selected>`
-and keeps `select.value` pinned to it, so the closed control always
-reads the placeholder word rather than the active theme name. A
-subclass that replaces the rendering replaces that too, and owns
-the consequences:
+### If you only need different styling
 
-- If your subclass keeps a `<select>`, render the same placeholder
-  option first and snap `select.value` back to `""` on change, or
-  the control's width will grow to the longest theme label again.
-- If your subclass renders something other than a `<select>` (a
-  swatch grid, a segmented control), the placeholder is not
-  meaningful — but you then own showing the active theme yourself,
-  which the base class deliberately does not do.
-- Either way, keep writing the chosen slug to `this.value`; that is
-  what drives the base class's apply lifecycle.
+You almost certainly do not need Tier 2. The class hooks
+(`theme-select`, `-button`, `-icon`, `-list`, `-option`) plus the
+`[data-active]` and `[aria-selected]` state selectors cover most
+visual redesigns from CSS alone, with zero accessibility risk. See
+[styling.md](./styling.md).
 
-## Why subclassing, not slots
+## What a subclass should *not* do
 
-Native HTML's `<slot>` element is a Shadow DOM mechanism. The
-helpers commit to light DOM (for the reasons in
-[`../AGENTS/conventions.md`](../../AGENTS/conventions.md)), so
-`<slot>` isn't available without opting into Shadow DOM.
-
-Subclassing is the platform-native customisation surface for custom
-elements: the language already supports `class X extends Y`, and the
-host attributes (`value`, `themes`, etc.) round-trip through the
-superclass's setters without modification.
+- Don't mutate `document.head`, `data-theme`, or `localStorage`
+  directly; let the base class own that lifecycle.
+- Don't dispatch `themechange` yourself — the base class fires it on
+  every apply, and a second event double-counts.
+- Don't add a competing `name` to your controls — use `this.name`.
+- Don't remove the `theme-select` class hook from the root.
+- Don't put text into the button without either keeping it
+  consistent with `aria-label` or marking it `aria-hidden`.
 
 ## Tests for subclasses
 
 Subclass tests live in your own test file (not in
-`theme-select.test.ts`). The pattern:
+`theme-select.test.ts`). Assert both halves — that your content
+landed, and that the base class's wiring survived:
 
 ```ts
-class SwatchPicker extends ThemeSelect { /* … */ }
-customElements.define("swatch-picker", SwatchPicker);
+class MyThemeSelect extends ThemeSelect { /* … */ }
+customElements.define("my-theme-select", MyThemeSelect);
 
-it("subclass renders swatches", () => {
-    const el = document.createElement("swatch-picker") as SwatchPicker;
+test("renderButtonContent replaces the glyph and keeps the aria wiring", async () => {
+    const el = document.createElement("my-theme-select") as MyThemeSelect;
+    el.setAttribute("label", "Theme");
     el.setAttribute("themes-url", "/t/");
     el.setAttribute("themes", "light,dark");
-    el.setAttribute("label", "Theme");
     document.body.appendChild(el);
-    expect(el.querySelectorAll("button.theme-select-swatch").length).toBe(2);
+
+    // Your content replaced the default glyph.
+    expect(el.querySelector('[data-testid="custom"]')).not.toBeNull();
+    expect(el.querySelector(".theme-select-icon")).toBeNull();
+
+    // The base class's structure is untouched.
+    const btn = el.querySelector<HTMLButtonElement>(".theme-select-button")!;
+    expect(btn.getAttribute("aria-haspopup")).toBe("listbox");
+    expect(btn.getAttribute("aria-label")).toBe("Theme");
+    expect(el.querySelector(`#${btn.getAttribute("aria-controls")}`)).not.toBeNull();
 });
 
-it("subclass still fires themechange", () => {
-    const el = document.createElement("swatch-picker") as SwatchPicker;
+test("subclass still fires themechange through the base lifecycle", async () => {
+    const el = document.createElement("my-theme-select") as MyThemeSelect;
+    el.setAttribute("label", "Theme");
     el.setAttribute("themes-url", "/t/");
     el.setAttribute("themes", "light,dark");
-    el.setAttribute("label", "Theme");
     document.body.appendChild(el);
+
     let detail;
     el.addEventListener("themechange", (e) => { detail = (e as CustomEvent).detail; });
     el.value = "dark";
@@ -223,7 +306,12 @@ it("subclass still fires themechange", () => {
 ```
 
 The base class's lifecycle continues to fire because
-`super.connectedCallback()` runs first.
+`super.connectedCallback()` runs first — and, for Tier 1, because
+you never intercepted the lifecycle at all.
+
+A Tier 2 subclass needs considerably more than this: a test per
+keyboard key, per aria attribute, and per open/close path. That
+testing burden is itself a reason to prefer Tier 1.
 
 ---
 

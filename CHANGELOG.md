@@ -9,6 +9,101 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Helpers 0.4.0 — 2026-07-20
+
+### Changed (BREAKING — helpers)
+
+- **`theme-select` and `locale-select` are no longer native `<select>`
+  elements.** Each is now a single-glyph **icon button that opens a
+  listbox** — ◑ (U+25D1) for theme-select, 🌐 (U+1F310 + U+FE0E) for
+  locale-select. A single character is the smallest footprint a header
+  control can have; it also removes the reason the short-lived 0.3.0
+  placeholder-pinning existed, so the `placeholder` prop is **removed**
+  from both.
+- New DOM: `<div class="{helper}">` wrapping a hidden input (form
+  participation, carries `name`), a `<button class="{helper}-button">`
+  whose only content is an `aria-hidden` glyph span, and a
+  `<ul class="{helper}-list" role="listbox" hidden>` of
+  `<li class="{helper}-option" role="option" aria-selected>`. The
+  consumer's `children` slot now overrides the **glyph**, not the
+  options.
+- Keyboard follows the WAI-ARIA APG **listbox** pattern, hand-built
+  because the native semantics are gone: ArrowDown / ArrowUp / Enter /
+  Space open (ArrowUp starts on the last option), focus moves to the
+  list, the cursor is `aria-activedescendant` (mirrored to `data-active`
+  for CSS), arrows clamp rather than wrap, Home / End jump, printable
+  characters typeahead over labels, Enter / Space select and return
+  focus to the button, Escape closes without changing the value, Tab
+  closes and moves on.
+- `text-size-select` is untouched and remains a native `<select>` at
+  0.1.0.
+- **`AGENTS/helpers.md` amended.** Its "Native `<select>` only" rule —
+  written when the June 2026 migration removed the radio-group picker —
+  now describes two deliberate shapes, and records the full keyboard
+  contract. The radio-group markup remains forbidden.
+
+### Changed (harmonisation)
+
+- The two helpers are now symmetric, which they had quietly stopped
+  being:
+  - **Glyph presentation.** The globe gains U+FE0E VARIATION
+    SELECTOR-15 so it renders monochrome rather than as a colour emoji,
+    matching ◑. Verified in Chromium.
+  - **Exported label resolver.** theme-select exports `themeName` to
+    mirror locale-select's `localeName`; the internal `labelFor`
+    delegates to it, removing the hand-duplicated title-casing rule that
+    had spread into examples across every catalog. (Nunjucks cannot
+    delegate — its macro title-cases in template syntax — so agreement
+    is enforced by a test instead.)
+  - **First-visit detection.** theme-select gains `detectFromSystem`
+    and the exported `matchSystemTheme`, mirroring
+    `detectFromNavigator` / `matchNavigatorLanguage`, at the same
+    position in the resolution order:
+    `value > storage > detection > defaultValue > fallback > first`.
+  - **File shape.** locale-select gains the shared docs it lacked
+    (props/attributes reference, styling, custom-rendering, recipes,
+    troubleshooting), and its examples are renamed off the stale
+    radio-group names (`01-radios`, `02-select`, `03-buttons` — none of
+    which had rendered radios, a select, or buttons since June).
+
+### Fixed
+
+- **nunjucks theme-select resolution order.** It resolved
+  `storage > value` while every other package resolved `value > storage`;
+  Svelte is canonical, so it is flipped. A consumer passing a
+  server-resolved `opts.value` from a cookie — precisely what the
+  nunjucks catalog exists for — previously had it silently overridden by
+  stale `localStorage`. BREAKING for consumers setting both `value` and
+  `storageKey`.
+- **The `lily-themes` example listed 41 theme slugs and was missing four
+  themes** (`adobe-spectrum`, `mozilla-protocol`,
+  `united-kingdom-government-digital-service`,
+  `united-states-web-design-system`) in every catalog. The prose also
+  called them "Lily / DaisyUI themes", wrong on both count and
+  attribution — only 35 of the 45 are DaisyUI-derived.
+
+### Changed (themes)
+
+- The 45 `themes/*.css` stylesheets now style the button and popup
+  (`{helper}-button`, `{helper}-icon`, `{helper}-list`, plus
+  `[data-active]` for the keyboard cursor and `[aria-selected]` for the
+  applied value, which are deliberately distinct). Scoped by
+  `:has(> .{helper}-button)`, and the native-select rules narrowed to
+  `select.theme-select`, so the catalog `theme-select` component — a
+  real `<select>` sharing the class hook — keeps its form-field styling.
+
+### Accessibility
+
+- The 0.3.0 placeholder tradeoff is gone; three new ones are documented
+  honestly in every package's `docs/accessibility.md` rather than
+  glossed: an icon-only control's accessible name rests **entirely** on
+  `aria-label`; a hand-rolled listbox has weaker assistive-tech support
+  than a native `<select>`, and a native select remains the better
+  choice for some audiences; and the glyph is a font-dependent character
+  that may substitute or fail to render. The nunjucks packages
+  additionally state that **without JavaScript the control cannot be
+  operated at all**, which the native `<select>` could.
+
 ## Helpers 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING — helpers)

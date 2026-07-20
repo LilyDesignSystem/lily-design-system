@@ -17,7 +17,8 @@ constructor — registers one `effect(() => …)` that reads `value()`
   │
   ▼
 effect run 1 (initialised=false):
-  resolve initial value (value > storage > defaultValue > "light" > themes[0])
+  resolve initial value
+  (value > storage > detectFromSystem > defaultValue > "light" > themes[0])
     │
     ├── if resolved !== current: this.value.set(resolved); set initialised=true; return
     │
@@ -30,16 +31,54 @@ effect run 2 (triggered by value.set(resolved)):
     3. if storageKey: localStorage.setItem(storageKey, slug)
     4. themeChange.emit(slug)
 
-user picks an option
+user picks an option (click on the <li>, or Enter / Space on the
+active option in the open listbox)
   │
   ▼
-(change)="onChange($any($event.target).value)"
-  this.value.set(next)
+choose(index)
+  this.value.set(themes()[index])
+  closeList()  →  open=false, activeIndex=-1, focus back to the button
     │
     ▼
   effect re-runs because value() changed
     applyTheme(next)
 ```
+
+## The open/close lifecycle
+
+Separate from — and orthogonal to — the theme-application effect
+above. Open state is two plain signals (`open`, `activeIndex`), not
+part of the `effect()` graph:
+
+```
+button click / ArrowDown / Enter / Space   →  openList()
+button ArrowUp                             →  openList(themes().length - 1)
+    activeIndex = startIndex ?? (selected index, else 0)
+    open = true
+    queueMicrotask: listEl.focus(); scrollActiveIntoView()
+
+listbox ArrowDown/ArrowUp                  →  moveActive(±1), clamped
+listbox Home / End                         →  activeIndex = 0 / last
+listbox printable char                     →  runTypeahead(char), 500 ms buffer
+listbox Enter / Space                      →  choose(activeIndex)
+listbox Escape                             →  closeList()        (refocus button)
+listbox Tab                                →  closeList(false)   (leave focus alone)
+root focusout to outside                   →  closeList(false)
+document click outside the root            →  closeList(false)
+```
+
+`closeList(refocus = true)` returns early if already closed, clears
+`activeIndex` to `-1`, and — when `refocus` is true — moves focus
+back to the button in a `queueMicrotask`. The microtask matters:
+Angular has to re-render the `hidden` attribute before the browser
+will accept focus on the button.
+
+`queueMicrotask` is also why the open path focuses the `<ul>`
+asynchronously — the element is `hidden` at the moment `open.set(true)`
+runs, and a hidden element cannot take focus.
+
+The typeahead timer is the only resource needing teardown; it is
+cleared through `inject(DestroyRef).onDestroy(...)`.
 
 ## Why `effect()` and not `ngOnInit` + `ngOnChanges`
 
@@ -198,9 +237,11 @@ export class Settings {
 
 During server rendering, the `effect()` callback may run but the
 `typeof document` guard prevents DOM mutation. The template renders
-the `<select>` and its `<option>`s using whatever `value` was
-passed; the managed `<link>` is not created (no DOM); `data-theme`
-is not written.
+the root `<div>`, the hidden input, the button, and the closed
+(`hidden`) listbox using whatever `value` was passed; the managed
+`<link>` is not created (no DOM); `data-theme` is not written. Ids
+come from the `nextThemeSelectId()` counter, so they match between
+the server and client renders and hydration does not complain.
 
 That's the recipe for flicker-free SSR: pre-resolve the theme on
 the server (cookie / header), bridge it via an injection token,
@@ -209,7 +250,12 @@ and use it as the `value` input. See
 
 ## Destroy
 
-The component does not clean up the managed `<link>` or the
+`inject(DestroyRef).onDestroy(...)` clears the pending typeahead
+timer. The `(document:click)` host binding and the `(focusout)`
+binding are Angular-managed, so they unregister with the view; there
+is no manual `removeEventListener` to get wrong.
+
+The component does **not** clean up the managed `<link>` or the
 `data-theme` attribute on destroy. That's intentional:
 
 - The select may be destroyed because the consumer navigated away
@@ -252,9 +298,12 @@ This is rare. Most apps want the theme to outlive the select.
 | `extension()`    | apply                            | next value change rewrites the `<link>` href       |
 | `target()`       | apply                            | next value change writes `data-theme` on the new target |
 | `name()`         | apply                            | next value change creates / locates a new managed link |
-| `themeLabels()`  | template (via `labelFor`)        | re-renders template                                |
+| `themeLabels()`  | template (via `labelFor`)        | re-renders template; also changes typeahead matching |
 | `className()`    | template                         | re-renders template                                |
+| `open()`         | template + `activeDescendant()`  | shows / hides the listbox, flips `aria-expanded`   |
+| `activeIndex()`  | template + `activeDescendant()`  | moves `data-active` and `aria-activedescendant`    |
 
 The minimal effect signature (only `value()` re-runs it) keeps the
 work bounded — no unnecessary stylesheet loads when peripheral
-inputs change.
+inputs change. `open()` and `activeIndex()` are deliberately *outside*
+that effect: opening a listbox must never re-fetch a stylesheet.

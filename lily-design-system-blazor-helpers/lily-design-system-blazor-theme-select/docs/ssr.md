@@ -11,17 +11,26 @@ callback fires and the select does not touch the DOM. The rendered
 HTML looks like:
 
 ```html
-<select class="theme-select" aria-label="Theme" name="theme">
-    <option class="theme-select-option theme-select-placeholder" value="" selected>Theme</option>
-    <option class="theme-select-option" value="light">Light</option>
-    …
-</select>
+<div class="theme-select">
+    <input type="hidden" name="theme" value="light" />
+    <button type="button" class="theme-select-button" aria-label="Theme"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="theme-select-1-list">
+        <span class="theme-select-icon" aria-hidden="true">◑</span>
+    </button>
+    <ul class="theme-select-list" id="theme-select-1-list" role="listbox"
+        aria-label="Theme" tabindex="-1" hidden>
+        <li class="theme-select-option" id="theme-select-1-option-0"
+            role="option" aria-selected="true">Light</li>
+        …
+    </ul>
+</div>
 ```
 
-The leading placeholder option is the selected one, always — including
-when the consumer supplies a non-empty `Value`. The selection is carried
-by `Value` and by `data-theme` on the document root, never by the
-`<select>` element itself.
+The listbox renders closed (`hidden`, `aria-expanded="false"`) with no
+`aria-activedescendant`. The selection is carried by `Value` — echoed
+into the hidden input and into `aria-selected` on the matching option
+— and by `data-theme` on the document root.
 
 ## What happens on hydration
 
@@ -163,11 +172,11 @@ warning about DOM mismatch. The select stays consistent because:
 
 The two cases that produce noticeable behaviour drift:
 
-1. Server rendered `Value=""` (no option selected), client
-   `OnAfterRenderAsync` resolved `Value="dark"` from
-   `localStorage`. The first paint sees no selection; the
-   subsequent render frame sees one. Pre-seed `Value` server-side
-   to avoid.
+1. Server rendered `Value=""` (no option `aria-selected="true"`,
+   empty hidden input), client `OnAfterRenderAsync` resolved
+   `Value="dark"` from `localStorage`. The first paint sees no
+   selection; the subsequent render frame sees one. Pre-seed
+   `Value` server-side to avoid.
 2. Consumer passes `Value="@SomeAsyncResolvedValue"` whose result
    differs between prerender and the first interactive render.
    Ensure the source is deterministic across the boundary.
@@ -177,14 +186,17 @@ The two cases that produce noticeable behaviour drift:
 For a fully-static SSR-only Blazor Web App page (no interactive
 render mode), `OnAfterRenderAsync` never fires. The select:
 
-- Renders its `<select>` markup with the server-supplied `Value`.
+- Renders its button + closed-listbox markup with the
+  server-supplied `Value`.
 - Does not mutate the DOM (there is no DOM yet — just an HTML
   response).
 - Does not run `IJSRuntime` calls (would throw under static SSR).
 
 The consumer is responsible for emitting `<html data-theme="…">`
 and the right `<link>` on the server. The select is purely
-presentational under static SSR.
+presentational under static SSR — with no interactivity the button
+cannot open the listbox, so give the page an interactive render mode
+if the user is meant to change the theme from it.
 
 ## Testing SSR
 
@@ -192,16 +204,16 @@ The bUnit suite runs in a synthetic interactive context, so it
 doesn't directly exercise the static-SSR path. To test:
 
 - **Markup determinism**: assert that
-  `RenderComponent<ThemeSelect>(...)` produces the expected
-  `<select>` for a given `Value` parameter. The same markup is
-  what static SSR would emit.
+  `RenderComponent<ThemeSelect>(...)` produces the expected button
+  and closed listbox for a given `Value` parameter. The same markup
+  is what static SSR would emit.
 - **No-throw on first render**: catch any exception during the
   first synchronous render. The select's `[Inject] IJSRuntime JS`
   is loaded lazily — it's not touched until
   `OnAfterRenderAsync(true)`.
 - **Integration tests**: run a real Blazor Web App with the select
   on a static-render page and check the HTTP response body for the
-  expected `<select>` markup.
+  expected `<div class="theme-select">` markup.
 
 ---
 

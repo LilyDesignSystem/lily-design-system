@@ -9,12 +9,13 @@
 
     The status line is part of the basic pattern, not an add-on.
 
-    The closed control is placeholder-pinned: it always reads "Theme",
-    never the active theme name. That keeps it one word wide, but it
-    means a screen-reader user focusing the control does not hear which
-    theme is in effect, and no option in the open list is marked
-    selected. The <p class="theme-select-status"> below compensates: it
-    names the active theme in text, for everyone.
+    The control is an icon button that opens a listbox. Closed, it
+    shows only the half-circle glyph — it never names the active theme,
+    visually or in the accessibility tree, since its accessible name is
+    the static aria-label. So a user returning to the page has no way
+    to learn which theme is in effect without opening the list. The
+    <p class="theme-select-status"> below compensates: it names the
+    active theme in text, for everyone.
 
     Two deliberate choices:
 
@@ -33,6 +34,12 @@
     labelFor() is the component's own label resolver, reached through
     the #themeSelect template reference, so the status line shows the
     same human label as the option ("Abyss", not "abyss").
+
+    One more thing this example does NOT ship, because the package
+    ships zero CSS: positioning for the listbox. Without
+    `position: relative` on .theme-select and `position: absolute` on
+    .theme-select-list, the open list pushes page content around. See
+    docs/styling.md.
 */
 import { ChangeDetectionStrategy, Component, signal } from "@angular/core";
 import { ThemeSelect } from "../theme-select.component";

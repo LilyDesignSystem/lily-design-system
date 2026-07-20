@@ -9,7 +9,7 @@ Every example assumes:
 
 - A directory of theme CSS files served at `/assets/themes/`
   (typically `public/assets/themes/light.css`, etc.). The
-  [Lily themes](../../../themes/) catalog ships 41 ready-to-use
+  [Lily themes](../../../themes/) catalog ships 45 ready-to-use
   themes.
 - A built copy of the `theme-select` ES module at
   `/dist/theme-select.js` (or any path you prefer; adjust the
@@ -26,9 +26,19 @@ Every example assumes:
 | 5  | [`05-preloaded.html`](./05-preloaded.html)  | Zero-flicker switching via preloading.    |
 | 6  | [`06-system-preference.html`](./06-system-preference.html) | Follow `prefers-color-scheme`. |
 | 7  | [`07-two-way-binding.html`](./07-two-way-binding.html) | Read/write `el.value`, `themechange`. |
-| 8  | [`08-lily-themes.html`](./08-lily-themes.html) | All 41 Lily / DaisyUI themes.          |
-| 9  | [`09-custom-rendering.html`](./09-custom-rendering.html) | Subclass with swatch buttons.    |
+| 8  | [`08-lily-themes.html`](./08-lily-themes.html) | All 45 Lily themes.                    |
+| 9  | [`09-custom-rendering.html`](./09-custom-rendering.html) | `renderButtonContent()`: inline SVG, and glyph + theme name. |
 | 10 | [`eleventy-cookie/`](./eleventy-cookie/)    | Cookie-driven first-paint via Eleventy.   |
+
+## The examples ship their own CSS — deliberately
+
+The package ships no CSS at all, and that includes the dropdown's
+positioning: the `<ul class="theme-select-list">` renders in normal
+flow until the consumer gives the root `position: relative` and the
+list `position: absolute`. Examples 1 and 9 carry a `<style>` block
+with the minimum needed, including the `[hidden]` re-assertion that
+keeps the closed list hidden. Copy it as a starting point; the full
+version is in [`../docs/styling.md`](../docs/styling.md).
 
 ## Running the examples
 
@@ -81,6 +91,16 @@ select.addEventListener("themechange", (e) => {
 
 Because the event bubbles, `document.body.addEventListener(...)`
 also works.
+
+Use the element's public `labelFor(slug)` to turn the slug into a
+display name — it applies `theme-labels` overrides and falls back to
+the title-cased slug:
+
+```ts
+select.addEventListener("themechange", (e) => {
+    console.log(select.labelFor(e.detail.theme));
+});
+```
 
 ## See also
 

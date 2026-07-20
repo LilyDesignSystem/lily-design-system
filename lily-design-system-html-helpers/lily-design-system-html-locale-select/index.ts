@@ -17,6 +17,8 @@ import {
     defaultLocaleLabels,
     RTL_LANGUAGE_TAGS,
     RTL_SCRIPT_SUBTAGS,
+    nextLocaleSelectId,
+    GLOBE_WITH_MERIDIANS,
 } from "./locale-select.js";
 
 export {
@@ -28,6 +30,8 @@ export {
     defaultLocaleLabels,
     RTL_LANGUAGE_TAGS,
     RTL_SCRIPT_SUBTAGS,
+    nextLocaleSelectId,
+    GLOBE_WITH_MERIDIANS,
 };
 export type { LocaleSelectProps, LocaleSelectChangeDetail } from "./locale-select.js";
 

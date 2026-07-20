@@ -10,13 +10,28 @@ Under SSR, no `$effect` runs and the select does not touch the DOM.
 The rendered HTML looks like:
 
 ```html
-<select class="theme-select" aria-label="Theme" name="theme">
-  <option class="theme-select-option" value="light">Light</option>
-  …
-</select>
+<div class="theme-select">
+  <input type="hidden" name="theme" value="" />
+  <button type="button" class="theme-select-button" aria-label="Theme"
+          aria-haspopup="listbox" aria-expanded="false" aria-controls="theme-select-1-list">
+    <span class="theme-select-icon" aria-hidden="true">◑</span>
+  </button>
+  <ul class="theme-select-list" id="theme-select-1-list" role="listbox"
+      aria-label="Theme" tabindex="-1" hidden>
+    <li class="theme-select-option" id="theme-select-1-option-0"
+        role="option" aria-selected="false">Light</li>
+    …
+  </ul>
+</div>
 ```
 
-No option is selected unless the consumer supplied a non-empty `value`.
+No option is `aria-selected` and the hidden input is empty unless the
+consumer supplied a non-empty `value`.
+
+Option ids come from an incrementing module counter
+(`nextThemeSelectId`), not from `Math.random()` or `Date.now()`, so the
+server and the client generate the same ids in the same mount order and
+hydration matches.
 
 ## What happens on hydration
 
@@ -76,6 +91,22 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
   </body>
 </html>
 ```
+
+### Hydration mismatch
+
+If Svelte logs a `hydration_mismatch` warning, the usual cause is that
+the server rendered with an empty `value` while the client resolved a
+non-empty one from `localStorage`, `detectFromSystem`, or
+`defaultValue` — so `aria-selected` and the hidden input's `value`
+differ between the two passes.
+
+The fix is the same as for the flash: resolve the theme on the server
+and pass it as `value`.
+
+Note that `detectFromSystem` can only ever run on the client —
+`matchMedia` does not exist on the server — so enabling it guarantees a
+client-side resolution step unless `value` or storage short-circuits
+it first.
 
 ### Plain Vite + Svelte recipe
 

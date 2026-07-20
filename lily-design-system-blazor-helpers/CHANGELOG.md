@@ -7,6 +7,78 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows
 [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING)
+
+- `theme-select` and `locale-select` are no longer native `<select>`
+  elements. Each is now an **icon button that opens a dropdown
+  listbox**, built to the WAI-ARIA APG listbox pattern: a root
+  `<div class="{helper}">`, a hidden `<input>` carrying `Name` /
+  `Value` for form participation, a
+  `<button class="{helper}-button" aria-haspopup="listbox">` wrapping an
+  `aria-hidden` glyph (`◑` U+25D1 for theme, `🌐` U+1F310 for locale),
+  and a `<ul class="{helper}-list" role="listbox" tabindex="-1" hidden>`
+  of `<li role="option" aria-selected data-active>`. locale-select
+  options keep their per-locale `lang`; the button and list carry none.
+- This **supersedes the 0.3.0 placeholder-pinning work**. There is no
+  `<select>` left to pin, so the `Placeholder` parameter is removed from
+  both helpers, the `.{helper}-placeholder` CSS hook is gone, and the
+  `Object.assign(el, { value: "" })` snap-back interop write is deleted.
+- `ChildContent` changes meaning: it now **replaces the glyph inside the
+  button** and receives a narrowed context of `{ Value, Open, LabelFor }`.
+  It no longer renders options — those are component-owned, so the
+  listbox semantics (and locale-select's per-option `lang`) cannot be
+  broken by a consumer override. `ThemeSelectContext` drops `Themes`,
+  `SetTheme` and `Name`; `LocaleSelectContext` drops `Locales`,
+  `SetLocale`, `Name`, `TagFor` and `IsRtl` — those pure helpers remain
+  as statics on the `Locales` class. Imperative selection is now
+  `SetThemeAsync` / `SetLocaleAsync` via a `@ref`.
+- Consumers must update any CSS or test selector targeting
+  `select.{helper}` or `option.{helper}-option`, and note that
+  `CssClass` and `AdditionalAttributes` now land on a root `<div>`
+  rather than on a form control.
+- `text-size-select` is untouched and keeps its native `<select>`.
+
+### Added
+
+- The full APG listbox keyboard contract in both helpers, implemented
+  by the component rather than inherited from the browser: `ArrowDown` /
+  `Enter` / `Space` open on the selected option and `ArrowUp` opens on
+  the last; arrows move and **clamp** (no wrapping); `Home` / `End`
+  jump; `Enter` / `Space` select-apply-close-and-refocus; `Escape`
+  closes without changing the value; `Tab` closes without stealing
+  focus; printable characters run a 500 ms typeahead over the labels.
+  Clicking an option selects it; focus leaving the root closes.
+- Focus management via `ElementReference.FocusAsync()`, deferred to
+  `OnAfterRenderAsync` because the listbox cannot take focus while it
+  still carries `hidden`.
+- Public glyph constants `ThemeSelect.CircleWithRightHalfBlack` and
+  `LocaleSelect.GlobeWithMeridians`.
+- Stable, SSR-safe element ids from a monotonic process-wide counter —
+  no randomness and no clock reads.
+
+### Notes
+
+- The status-region pattern survives the rewrite and stays the
+  recommendation, but for a different reason: the selection *is* now
+  readable off the control (one option carries `aria-selected="true"`),
+  so the status region compensates for the closed button being a bare
+  glyph rather than for missing semantics.
+- Each package's `docs/accessibility.md` replaces the retired
+  placeholder tradeoff with the three real ones: an icon-only control
+  depends entirely on `aria-label`; a custom listbox has weaker
+  assistive-technology support than a native `<select>`; and the glyph
+  is a font character that may render differently or be missing
+  depending on the platform.
+- Two clauses of the canonical Svelte contract could not be ported
+  faithfully to Blazor — no `preventDefault` on keydown (Blazor
+  evaluates it at render time and so cannot spare `Tab`; a
+  suppress-next-click flag stops `Enter` / `Space` double-toggling),
+  and no document-level click listener (the packages ship no
+  JavaScript; the root's `focusout` closes instead). Both are recorded
+  in each spec and in `docs/accessibility.md`.
+
 ## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING)

@@ -37,53 +37,91 @@ The helper is a **macro + client.js pair**:
 
 ### Client.js
 
-- `import { initThemeSelect, autoInit, normaliseThemesUrl, themeHref } from "./theme-select.client.js"`
+- `import { initThemeSelect, autoInit, normaliseThemesUrl, themeHref, themeName, matchSystemTheme, CIRCLE_WITH_RIGHT_HALF_BLACK } from "./theme-select.client.js"`
+- `themeName(slug)` mirrors locale-select's `localeName(code)`:
+  `"high-contrast"` → `"High Contrast"`. It is the single JS statement
+  of the label rule; the macro applies the same rule in template syntax
+  (a Nunjucks macro cannot call into the module), and a test holds the
+  two in agreement.
+- `matchSystemTheme(themes)` mirrors locale-select's
+  `matchNavigatorLanguage(navLangs, locales)`. Client-only: returns `""`
+  when `matchMedia` is unavailable.
 - Required call: `initThemeSelect(rootElement, opts?)` or
   `autoInit(opts?)` to wire every `[data-lily-theme-select-root]` on
   the page.
 
 ## Behaviour contract (one paragraph)
 
-The macro emits a `<select class="theme-select">` carrying the `name`
-attribute and `data-lily-theme-select-*` hooks describing the select's
-name, themes URL, extension, storage key, default value, and — when
-`opts.value` is set — the consumer's initial value
-(`data-lily-theme-select-value`). On
-`initThemeSelect(root)`, the client (1) resolves the initial slug
-from storage > value attribute > default-value > `"light"` >
-first-option, (2) injects/updates a managed `<link
-rel="stylesheet" data-lily-theme-select="{name}">` whose href is
+The macro emits a `<div class="theme-select">` carrying
+`data-lily-theme-select-*` hooks describing the control's name, themes
+URL, extension, storage key, default value, and — when `opts.value` is
+set — the consumer's initial value (`data-lily-theme-select-value`).
+Inside it are a hidden input, an icon `<button>`, and a
+`<ul role="listbox" hidden>`. On `initThemeSelect(root)`, the client
+(1) resolves the initial slug from value attribute > storage > system
+colour-scheme detection (when `detectFromSystem` is on) > default-value
+> `"light"` > first-option, (2) injects/updates a managed
+`<link rel="stylesheet" data-lily-theme-select="{name}">` whose href is
 `${themesUrl}${slug}${extension}`, (3) sets `data-theme="{slug}"` on
 the resolved target (defaults to `document.documentElement`), (4)
-optionally writes to `localStorage`, (5) snaps the `<select>` back to
-its placeholder option (`select.value = ""`), (6) calls
-`onChange(slug)`. The `<select>`'s own value never tracks the active
-theme — on `change` the client reads the chosen slug, resets the
-control to `""`, then applies.
+optionally writes to `localStorage`, (5) mirrors the slug into the
+hidden input and re-derives every option's `aria-selected`, (6) calls
+`onChange(slug)`. The client ALSO owns the entire listbox interaction:
+open/close, focus movement, the APG keyboard contract, and typeahead.
 
 ## HTML
 
-`<select class="theme-select {classes}" aria-label="{label}"
-name="{name}" data-lily-theme-select-root …>` whose first child is the
-always-rendered placeholder `<option class="theme-select-option
-theme-select-placeholder" value="" selected>{placeholder ??
-label}</option>`, followed by one `<option class="theme-select-option"
-value="{slug}">…</option>` per slug.
+```html
+<div class="theme-select {classes}" data-lily-theme-select-root …>
+  <input type="hidden" name="{name}" value="{selected}"
+         data-lily-theme-select-input>
+  <button type="button" class="theme-select-button" aria-label="{label}"
+          aria-haspopup="listbox" aria-expanded="false"
+          aria-controls="{id}-list" data-lily-theme-select-button>
+    <span class="theme-select-icon" aria-hidden="true">&#9681;</span>
+  </button>
+  <ul class="theme-select-list" id="{id}-list" role="listbox"
+      aria-label="{label}" tabindex="-1" hidden data-lily-theme-select-list>
+    <li class="theme-select-option" id="{id}-option-{i}" role="option"
+        aria-selected="true|false" data-value="{slug}">{labelFor(slug)}</li>
+  </ul>
+</div>
+```
 
-The placeholder is the **only** option ever rendered `selected` — real
-options never carry `selected`, even when `opts.value` is set. That
-value travels on `data-lily-theme-select-value` instead, so the closed
-control reads the placeholder word from byte zero and never flashes the
-theme name before the client runs.
+The glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK, `aria-hidden`. A
+`{% call %}` block body replaces the glyph inside the button (the
+Nunjucks equivalent of `children`); it does not render options.
+
+Server markup marks exactly ONE option `aria-selected="true"`,
+resolved as `value or defaultValue or ("light" if present else
+themes[0])`, and pre-fills the hidden input with it. The listbox is
+rendered `hidden` with no `aria-activedescendant` and no `data-active`
+— those are client-owned open-state concerns. `opts.value` still
+travels ONLY on `data-lily-theme-select-value`.
+
+Ids are `{id}-list` / `{id}-option-{i}` where `id` defaults to
+`theme-select-{name}`. Deterministic and SSR-safe; two instances
+sharing a `name` need an explicit distinct `id`.
+
+There is **no** `placeholder` param and **no**
+`.theme-select-placeholder` hook — both were removed with the
+`<select>`.
 
 ## Accessibility
 
-- WCAG 2.2 AAA target.
-- The native `<select>` provides Arrow / Home / End / typeahead / Tab
-  semantics.
-- `<select>` has the implicit `combobox` role; each `<option>` has the
-  implicit `option` role.
-- `aria-label` carries the consumer-supplied control name.
+- WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern.
+- The client provides Arrow / Home / End / Enter / Space / Escape /
+  Tab / typeahead semantics; none of it works before the client runs.
+- `aria-label` is the ONLY accessible name the button has, since the
+  glyph is `aria-hidden`.
+- `aria-selected` tracks the applied theme; `data-active` tracks the
+  keyboard cursor. They are different things.
+- Known tradeoffs, documented honestly in `docs/accessibility.md`: an
+  icon-only control depends entirely on `aria-label`; a custom listbox
+  has weaker AT support than a native `<select>`; the glyph may render
+  differently or be missing depending on platform fonts.
+- **No-JS regression**: the button will not open without the client
+  module. Stated plainly in `docs/ssr.md`.
 - Option labels default to title-cased slugs; the word "default" is
   never emitted.
 

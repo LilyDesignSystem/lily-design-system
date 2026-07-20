@@ -23,7 +23,7 @@ Every example assumes:
 | 2 | [`TwoWayBinding.razor`](./TwoWayBinding.razor)     | `@bind-Value` and `OnChange`.                   |
 | 3 | [`Persistence.razor`](./Persistence.razor)         | `localStorage` survival across reloads.         |
 | 4 | [`CustomLabels.razor`](./CustomLabels.razor)       | `ThemeLabels` for i18n / display names.         |
-| 5 | [`CustomRendering.razor`](./CustomRendering.razor) | `RenderFragment<ThemeSelectContext>` — swatch buttons. |
+| 5 | [`CustomRendering.razor`](./CustomRendering.razor) | `RenderFragment<ThemeSelectContext>` — custom button face (inline SVG, state-aware). |
 | 6 | [`Preloaded.razor`](./Preloaded.razor)             | Zero-flicker switching via `<HeadContent>` preloads. |
 | 7 | [`MultipleSelects.razor`](./MultipleSelects.razor) | Two selects in one page via distinct `Name`.    |
 | 8 | [`SystemPreference.razor`](./SystemPreference.razor) | Follow OS `prefers-color-scheme`.             |

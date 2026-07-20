@@ -1,7 +1,8 @@
 # ThemeSelect (Svelte helper)
 
-A reusable, headless Svelte 5 theme select that **loads themes
-dynamically at runtime** from a developer-specified directory.
+A reusable, headless Svelte 5 theme select — an **icon button that
+opens a WAI-ARIA APG listbox** — that **loads themes dynamically at
+runtime** from a developer-specified directory.
 
 The single source of truth is [spec/index.md](./spec/index.md). This file is the
 human-readable guide. For topic deep-dives see
@@ -13,9 +14,11 @@ human-readable guide. For topic deep-dives see
 - [Install](#install)
 - [Quick start](#quick-start)
 - [How it works](#how-it-works)
+- [Rendered markup](#rendered-markup)
+- [Keyboard](#keyboard)
 - [Default theme](#default-theme)
 - [Props](#props)
-- [Custom option rendering](#custom-option-rendering)
+- [Custom button rendering](#custom-button-rendering)
 - [Persistence](#persistence)
 - [Accessibility](#accessibility)
 - [SSR and hydration](#ssr-and-hydration)
@@ -66,16 +69,9 @@ import type { Props, ChildArgs } from "./lily-design-system-svelte-theme-select"
 
 ```svelte
 <script lang="ts">
-  import ThemeSelect from "./lily-design-system-svelte-theme-select/ThemeSelect.svelte";
+  import ThemeSelect, { themeName } from "./lily-design-system-svelte-theme-select/ThemeSelect.svelte";
 
   let theme = $state("");
-
-  function labelFor(slug: string): string {
-    return slug
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  }
 </script>
 
 <ThemeSelect
@@ -87,20 +83,26 @@ import type { Props, ChildArgs } from "./lily-design-system-svelte-theme-select"
 />
 
 <p class="theme-select-status" aria-live="polite">
-  Active theme: {labelFor(theme)}
+  Active theme: {themeName(theme)}
 </p>
 ```
 
-The status line is part of the pattern, not an optional extra. The
-closed control is placeholder-pinned — it always reads "Theme" rather
-than the active theme name, which is what keeps it one word wide — so
-a screen reader never hears the active theme announced as the combobox
-value. The `<p>` is the only place the active theme is stated.
-`aria-live="polite"` announces mutations only, so it stays silent on
-first paint and speaks once per change. Keep it visible if you can;
-if you cannot spare the space, hide it visually but keep the element
-and the live region. Full reasoning and the opt-out:
-[docs/accessibility.md](./docs/accessibility.md).
+3. **Style the listbox.** The package ships zero CSS, and the popup
+   needs positioning or it will render in normal flow and shove the
+   page down when it opens. See
+   [docs/styling.md § Positioning the listbox](./docs/styling.md#positioning-the-listbox).
+
+`themeName` is the same function the options use, so the status line
+and the control cannot drift apart.
+
+The status line is recommended, though no longer strictly compensatory.
+The listbox marks the active option with `aria-selected="true"`, so a
+user who opens the control does hear which theme is current. But the
+*closed* control is one glyph, so nothing on the page states the active
+theme unless you state it. `aria-live="polite"` announces mutations
+only, so it stays silent on first paint and speaks once per change.
+Full reasoning and when to omit it:
+[docs/accessibility.md](./docs/accessibility.md#the-status-region).
 
 When the user picks `dark`, the component:
 
@@ -130,30 +132,79 @@ On every theme change the select performs four steps, in order:
 All four steps are SSR-safe — the component only mutates the DOM
 inside a `$effect`, which never runs on the server.
 
-### The closed control always reads the placeholder
+## Rendered markup
 
-The `<select>` renders a leading placeholder option and pins its own
-selection to it, so the closed control always shows the word
-`placeholder ?? label` — "Theme" — rather than the name of the active
-theme. That keeps the control as narrow as that one word instead of as
-wide as the longest theme name, which matters when the catalog includes
-slugs like `united-kingdom-national-health-service-england-for-patients`.
-
-The active theme still lives in the bindable `value` prop, and all four
-steps above are driven from it exactly as before. Only the element's own
-`value` differs: it stays `""`.
-
-Size the control in your own CSS — this package ships none:
-
-```css
-.theme-select:has(> .theme-select-placeholder) {
-  width: auto;
-  max-width: 12ch;
-  field-sizing: content; /* Chromium: size to the displayed option */
-}
+```html
+<div class="theme-select">
+  <input type="hidden" name="theme" value="dark" />
+  <button type="button" class="theme-select-button" aria-label="Theme"
+          aria-haspopup="listbox" aria-expanded="false"
+          aria-controls="theme-select-1-list">
+    <span class="theme-select-icon" aria-hidden="true">◑</span>
+  </button>
+  <ul class="theme-select-list" id="theme-select-1-list" role="listbox"
+      aria-label="Theme" tabindex="-1" hidden>
+    <li class="theme-select-option" id="theme-select-1-option-0"
+        role="option" aria-selected="false">Light</li>
+    <li class="theme-select-option" id="theme-select-1-option-1"
+        role="option" aria-selected="true">Dark</li>
+    <li class="theme-select-option" id="theme-select-1-option-2"
+        role="option" aria-selected="false">Abyss</li>
+  </ul>
+</div>
 ```
 
-The root [`themes/`](../../themes) stylesheets already carry this rule.
+### Why an icon button
+
+The closed control costs one glyph of page width whether the catalog
+holds three themes or forty-five with names like
+`united-kingdom-national-health-service-england-for-patients`. A native
+`<select>` is as wide as its longest option, or truncates it.
+
+The glyph is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`◑`, `&#9681;`),
+exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is `aria-hidden`; the
+accessible name comes from `label`.
+
+This shape has three real costs — an icon-only control's name rests
+entirely on `aria-label`, a hand-rolled listbox has weaker
+assistive-technology support than a native `<select>`, and the glyph is
+a font-dependent character that may substitute or fail to render. They
+are set out in full, with mitigations, in
+[docs/accessibility.md](./docs/accessibility.md). **For some audiences
+a native `<select>` is the better choice** — read that page before
+adopting this helper in an accessibility-critical context.
+
+The hidden input keeps the control working inside a `<form>`. Its
+`name` also discriminates the managed `<link>`, so two selects on one
+page need two distinct `name`s.
+
+## Keyboard
+
+Follows the WAI-ARIA APG
+[Listbox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/).
+Every key is implemented by the component — none of it comes from the
+platform.
+
+On the **button**:
+
+| Key | Action |
+| --- | ------ |
+| `Enter` / `Space` / `Arrow Down` | Open with the selected option active. |
+| `Arrow Up` | Open with the **last** option active. |
+
+On the **listbox** (focus moves there on open):
+
+| Key | Action |
+| --- | ------ |
+| `Arrow Down` / `Arrow Up` | Move the active option; **clamps**, does not wrap. |
+| `Home` / `End` | Jump to the first / last option. |
+| `Enter` / `Space` | Select, apply, close, refocus the button. |
+| `Escape` | Close and refocus **without** changing the theme. |
+| `Tab` | Close without stealing focus back. |
+| Printable character | Typeahead over the labels; 500 ms buffer. |
+
+Clicking an option selects it; clicking outside or moving focus out of
+the root closes the listbox.
 
 ## Default theme
 
@@ -162,14 +213,37 @@ The default theme is `"light"` whenever `"light"` appears in your
 
 1. `value` prop (if non-empty)
 2. `localStorage[storageKey]` (if `storageKey` is set and readable)
-3. `defaultValue` prop
-4. `"light"` (if present in `themes`)
-5. `themes[0]`
-6. `""` — nothing is applied; the select waits for user interaction
+3. `matchSystemTheme(themes)` (only if `detectFromSystem` is set)
+4. `defaultValue` prop
+5. `"light"` (if present in `themes`)
+6. `themes[0]`
+7. `""` — nothing is applied; the select waits for user interaction
 
-The select never displays the word `"default"`. Option labels default
-to the slug with its first letter upper-cased
-(e.g. `"light"` → `"Light"`); override with `themeLabels`.
+The select never displays the word `"default"`. Option labels come from
+`themeName(slug)`, which title-cases each hyphen-separated word
+(`"high-contrast"` → `"High Contrast"`); override with `themeLabels`.
+
+### Following the OS colour scheme
+
+Pass `detectFromSystem` to resolve `prefers-color-scheme` to the
+`"dark"` or `"light"` slug on first visit — but only when that slug is
+in `themes`, and only when neither `value` nor storage supplied one, so
+an explicit user choice always wins:
+
+```svelte
+<ThemeSelect
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark"]}
+  detectFromSystem
+  storageKey="lily-theme"
+/>
+```
+
+It resolves **once**, on mount. To keep following the OS setting for
+the whole session, add a `matchMedia` listener — see
+[docs/recipes.md](./docs/recipes.md). This mirrors `locale-select`'s
+`detectFromNavigator`.
 
 ## Props
 
@@ -177,27 +251,31 @@ The complete table is in [spec/index.md §4.1](./spec/index.md#41-props). Highli
 
 | Prop          | Type                     | Required | Notes                                      |
 | ------------- | ------------------------ | -------- | ------------------------------------------ |
-| `label`       | `string`                 | yes      | `aria-label` on the `<select>`; also the default placeholder text. |
-| `placeholder` | `string`                 | no       | Word the closed control always shows; defaults to `label`. |
+| `label`       | `string`                 | yes      | `aria-label` on the button **and** the listbox. The control's entire accessible name. |
 | `themesUrl`   | `string`                 | yes      | Trailing `/` is auto-added.                |
 | `themes`      | `string[]`               | yes      | Available slugs.                           |
 | `value`       | `string` (bindable)      | no       | Two-way bind for the current slug.         |
 | `defaultValue`| `string`                 | no       | Initial when nothing else applies.         |
 | `storageKey`  | `string`                 | no       | `localStorage` persistence.                |
-| `name`        | `string`                 | no       | `<select>` `name`; defaults to `"theme"`.  |
+| `detectFromSystem` | `boolean`           | no       | Resolve `prefers-color-scheme` on first visit. |
+| `name`        | `string`                 | no       | Hidden input `name`, and the managed `<link>` discriminator; defaults to `"theme"`. |
 | `extension`   | `string`                 | no       | Defaults to `".css"`.                      |
 | `target`      | `HTMLElement \| null`    | no       | `data-theme` target; defaults to `<html>`. |
 | `themeLabels` | `Record<string, string>` | no       | Per-slug display label override.           |
 | `onChange`    | `(slug) => void`         | no       | Callback fired after apply.                |
-| `children`    | `Snippet<[ChildArgs]>`   | no       | Custom rendering of the options.           |
+| `children`    | `Snippet<[ChildArgs]>`   | no       | Replaces the button's glyph.               |
+
+**There is no `placeholder` prop.** It was removed along with the
+native `<select>` it belonged to.
 
 See [docs/props-reference.md](./docs/props-reference.md) for a
 field-by-field reference.
 
-## Custom option rendering
+## Custom button rendering
 
-Pass a `children` snippet to take full control of the option markup.
-The snippet receives `{ themes, value, setTheme, name, labelFor }`:
+Pass a `children` snippet to replace the glyph inside the trigger
+button. It receives `{ value, open, labelFor }` — and it does **not**
+render the options; the listbox is component-owned.
 
 ```svelte
 <ThemeSelect
@@ -206,19 +284,17 @@ The snippet receives `{ themes, value, setTheme, name, labelFor }`:
   themes={["light", "dark", "abyss"]}
   bind:value={theme}
 >
-  {#snippet children({ themes, value, setTheme, labelFor })}
-    {#each themes as t (t)}
-      <button
-        type="button"
-        aria-pressed={value === t}
-        onclick={() => setTheme(t)}
-      >
-        {labelFor(t)}
-      </button>
-    {/each}
+  {#snippet children({ value, open, labelFor })}
+    <span aria-hidden="true">◑</span>
+    <span class="theme-select-text">{labelFor(value)}</span>
+    <span aria-hidden="true">{open ? "▴" : "▾"}</span>
   {/snippet}
 </ThemeSelect>
 ```
+
+Adding a visible word like this is the recommended mitigation for the
+icon-only naming tradeoff, at the cost of the narrow control. An inline
+SVG here also removes the font dependency on the Unicode glyph.
 
 Working example: [`examples/custom-rendering.svelte`](./examples/custom-rendering.svelte).
 Topic guide: [`docs/custom-rendering.md`](./docs/custom-rendering.md).
@@ -239,29 +315,44 @@ first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
 
 ## Accessibility
 
-- The root is a native `<select>` (implicit `combobox` role) with
-  `aria-label={label}` and a `name`.
-- The native `<select>` gives Arrow / Home / End / typeahead
-  semantics for free; the select does not override any keyboard
-  behaviour.
-- The active state is exposed via `data-theme` on the root and the
-  `value` binding. No colour-only meaning is required.
-- **Tradeoff.** The closed control always displays the placeholder word,
-  not the active theme, so the active theme is *not* announced as the
-  combobox value. Surface it separately where that matters — see
-  [`docs/accessibility.md`](./docs/accessibility.md).
-- WCAG 2.2 AAA is the target; visible focus styling is the
+- Built to the WAI-ARIA APG **Listbox** pattern: a `<button
+  aria-haspopup="listbox">` controlling a `<ul role="listbox">` whose
+  active option is tracked with `aria-activedescendant`.
+- `aria-label={label}` names both the button and the listbox.
+- The full keyboard contract is implemented by the component — see
+  [Keyboard](#keyboard).
+- The active state is exposed four ways: `aria-selected` on the option,
+  `data-theme` on the target, the hidden input's value, and the `value`
+  binding. No colour-only meaning is required.
+- WCAG 2.2 AAA is the target; visible focus styling — and the
+  active-option indicator (`[data-active]`, `[aria-selected]`) — is the
   consumer's CSS responsibility.
 
-Topic guide: [`docs/accessibility.md`](./docs/accessibility.md).
+**Three tradeoffs, stated plainly:**
+
+1. The button is icon-only, so its accessible name rests **entirely**
+   on `aria-label`. An empty or untranslated `label` leaves the control
+   announced as a bare "button", with no fallback.
+2. A hand-rolled listbox has **weaker assistive-technology support**
+   than a native `<select>` — particularly on mobile, where a native
+   select opens the OS picker. For some audiences a native `<select>`
+   is genuinely the better choice; the headless `ThemeSelect` container
+   in `lily-design-system-svelte-headless` is one.
+3. The glyph is a **font-dependent character**. It may substitute to a
+   mismatched font, or render as a "tofu" box, or not render at all,
+   depending on what is installed on the device.
+
+Each has mitigations. Read
+[`docs/accessibility.md`](./docs/accessibility.md) before adopting this
+helper in an accessibility-critical context.
 
 ## SSR and hydration
 
 The select compiles cleanly under `@sveltejs/vite-plugin-svelte` SSR.
-On the server no effects run and no DOM is touched. The rendered markup
-shows the placeholder option, as it always does — the supplied `value`
-lives in the prop, not in the element's own selection, so there is
-nothing for hydration to correct.
+On the server no effects run and no DOM is touched. The markup renders
+with whatever `value` was supplied, which decides `aria-selected` and
+the hidden input's value. Option ids come from an incrementing module
+counter, so server and client agree and hydration matches.
 
 For zero-flicker SSR, resolve the theme on the server (e.g. from a
 cookie) and pass it as `value`. See
@@ -290,7 +381,7 @@ example: [`examples/preloaded.svelte`](./examples/preloaded.svelte).
 ## Multiple selects in one app
 
 Pass a distinct `name` prop to each select. The `name` is used as
-both the `<select>` `name` and the discriminator on the managed
+both the hidden input's `name` and the discriminator on the managed
 `<link>` element (`data-lily-theme-select="{name}"`).
 
 Example: [`examples/multiple-selects.svelte`](./examples/multiple-selects.svelte).
