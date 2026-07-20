@@ -1,0 +1,54 @@
+@*
+    Example 3 — Custom labels for i18n / display names.
+
+    By default the control title-cases each slug via
+    TextSizeSelect.SizeName ("x-large" -> "X Large"). SizeLabels
+    overrides that per slug, which is how you localise the option text.
+
+    The component ships no natural-language strings of its own, so every
+    user-facing word on this page comes from the consumer: Label, the
+    SizeLabels values, and the status line. In a real app these come from
+    IStringLocalizer<T> or your resource files rather than a literal
+    dictionary — see docs/accessibility.md for that shape.
+
+    Label matters most: the button is icon-only and aria-hidden on the
+    glyph, so Label is the control's ENTIRE accessible name. An
+    untranslated Label leaves the control announced in the wrong
+    language; an empty one leaves it announced as just "button".
+*@
+
+@page "/examples/text-size-select/custom-labels"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<TextSizeSelect
+    Label="Taille du texte"
+    Sizes="@Sizes"
+    SizeLabels="@SizeLabels"
+    @bind-Value="size" />
+
+<p class="text-size-select-status" aria-live="polite">
+    Taille du texte : @SizeLabel(size)
+</p>
+
+@code {
+    private static readonly string[] Sizes =
+        new[] { "small", "medium", "large", "x-large" };
+
+    private static readonly Dictionary<string, string> SizeLabels = new()
+    {
+        ["small"] = "Petit",
+        ["medium"] = "Moyen",
+        ["large"] = "Grand",
+        ["x-large"] = "Très grand",
+    };
+
+    private string size = "";
+
+    // Look the status label up in the same dictionary the select uses,
+    // so the two can never drift apart.
+    private static string SizeLabel(string slug) =>
+        string.IsNullOrEmpty(slug) ? "aucune"
+            : SizeLabels.TryGetValue(slug, out var pretty) ? pretty
+            : TextSizeSelect.SizeName(slug);
+}

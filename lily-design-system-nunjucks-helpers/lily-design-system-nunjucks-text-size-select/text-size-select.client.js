@@ -2,21 +2,67 @@
 //
 // Pairs with text-size-select.njk. The macro renders the markup with
 // `data-lily-text-size-select-*` hooks; this module picks them up in
-// the browser and owns the lifecycle:
+// the browser and owns two things:
 //
-//   1. Set `target.dataset.textSize = slug` (data-text-size attribute).
-//   2. Mirror the active slug onto the <select> value (select the option).
-//   3. Optionally persist to localStorage.
+// A. The listbox INTERACTION (new in the icon-button release): open /
+//    close, focus movement, the APG listbox keyboard contract, and
+//    typeahead. None of this exists in the server markup — the button
+//    is inert until this module runs. See docs/ssr.md.
+//
+// B. The text-size LIFECYCLE (unchanged):
+//   0. Read the consumer's `value` prop from
+//      `data-lily-text-size-select-value`. This is the only channel by
+//      which `opts.value` reaches the client, and it is what keeps the
+//      pre-hydration paint honest.
+//   1. Set `data-text-size="{slug}"` on the resolved target
+//      (default <html>).
+//   2. Optionally persist to localStorage.
+//   3. Mirror the active slug into the hidden input (form
+//      participation) and onto the options' aria-selected state.
 //   4. Call opts.onChange(slug).
 //
 // The consumer owns the actual typography via CSS keyed on
 // `[data-text-size="{slug}"]`. This module makes no visual decisions.
 //
+// There is deliberately no system-preference detection: unlike
+// `prefers-color-scheme` (theme-select) and `navigator.languages`
+// (locale-select), the web platform exposes no OS "preferred text
+// size" signal.
+//
 // See spec/index.md §4.3 (client.js exports), §5 (behaviour).
 
-// ---------------------------------------------------------------
-// Storage helpers
-// ---------------------------------------------------------------
+/**
+ * Default button glyph: U+0041 LATIN CAPITAL LETTER A.
+ *
+ * A plain letter rather than a pictograph, deliberately. The obvious
+ * candidate — U+1F5DB DECREASE FONT SIZE SYMBOL — has no real glyph in
+ * common font stacks and falls back to a crude bitmap shape, and it
+ * means *decrease* rather than *size*. "A" renders in the page's own
+ * font on every platform, stays monochrome like theme-select's ◑, and
+ * is the conventional text-size affordance.
+ */
+export const LATIN_CAPITAL_LETTER_A = "A";
+
+/** How long the typeahead buffer survives between keystrokes, in ms. */
+const TYPEAHEAD_RESET_MS = 500;
+
+/**
+ * Resolve a size slug to its display label: each hyphen-separated word
+ * title-cased, so "x-large" renders as "X Large".
+ *
+ * Mirrors `themeName` in theme-select and `localeName` in
+ * locale-select. This is the JS statement of the rule the macro applies
+ * in template syntax with `| replace(r/-/g, " ") | title`; a Nunjucks
+ * macro cannot call into this module, and delegating would force every
+ * consumer to register a custom filter, so the two are kept in
+ * agreement by a test rather than by delegation.
+ */
+export function sizeName(size) {
+    return String(size || "")
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+}
 
 function safeStorageGet(key) {
     try {
@@ -34,54 +80,259 @@ function safeStorageSet(key, value) {
     }
 }
 
-function optionValues(select) {
-    return Array.from(select.options).map((o) => o.value);
+/** jsdom and older browsers do not always implement scrollIntoView. */
+function scrollIntoViewIfPossible(el) {
+    if (el && typeof el.scrollIntoView === "function") {
+        el.scrollIntoView({ block: "nearest" });
+    }
 }
 
-// ---------------------------------------------------------------
-// Init
-// ---------------------------------------------------------------
-
 /**
- * Wire one rendered TextSizeSelect.
+ * Wire one rendered TextSizeSelect root.
  *
- * @param {HTMLSelectElement} root - The <select data-lily-text-size-select-root>.
+ * @param {HTMLElement} root - The <div data-lily-text-size-select-root>.
  * @param {{onChange?: (size:string)=>void, target?: HTMLElement|null}=} opts
  * @returns {{setSize: (size: string) => void, destroy: () => void}}
  */
 export function initTextSizeSelect(root, opts = {}) {
-    if (typeof document === "undefined" || !root) {
-        return { setSize: () => {}, destroy: () => {} };
-    }
+    const noop = { setSize: () => {}, destroy: () => {} };
+    if (typeof document === "undefined" || !root) return noop;
+
+    const button = root.querySelector("[data-lily-text-size-select-button]");
+    const list = root.querySelector("[data-lily-text-size-select-list]");
+    const input = root.querySelector("[data-lily-text-size-select-input]");
+    if (!button || !list) return noop;
+
+    const options = Array.from(list.querySelectorAll('[role="option"]'));
+    const values = options.map((o) => o.getAttribute("data-value") || "");
+    const labels = options.map((o) => (o.textContent || "").trim());
 
     const storageKey =
         root.getAttribute("data-lily-text-size-select-storage-key") || "";
     const defaultValue =
         root.getAttribute("data-lily-text-size-select-default-value") || "";
+    // The consumer's `value` prop. The macro emits it as a data
+    // attribute rather than baking it into a control the browser would
+    // paint before hydration.
+    const valueAttr =
+        root.getAttribute("data-lily-text-size-select-value") || "";
+
+    let current = "";
+    let open = false;
+    let activeIndex = -1;
+    let typeahead = "";
+    let typeaheadTimer;
+
+    // -----------------------------------------------------------------
+    // Applying a size
+    // -----------------------------------------------------------------
 
     function applySize(slug) {
         if (!slug) return;
+        current = slug;
         const target = opts.target || document.documentElement;
         target.setAttribute("data-text-size", slug);
         if (storageKey) safeStorageSet(storageKey, slug);
-        // Select the option matching the active slug.
-        root.value = slug;
+        // The hidden input carries the value into any enclosing form.
+        if (input) input.value = slug;
+        // Keep the listbox's selected state in sync with the applied size.
+        options.forEach((o, i) => {
+            o.setAttribute(
+                "aria-selected",
+                values[i] === slug ? "true" : "false",
+            );
+        });
         if (typeof opts.onChange === "function") opts.onChange(slug);
     }
 
-    // §5.2 initial value resolution
-    const values = optionValues(root);
+    // -----------------------------------------------------------------
+    // Open / close / active-option movement
+    // -----------------------------------------------------------------
+
+    function setActive(index) {
+        activeIndex = index;
+        options.forEach((o, i) => {
+            if (i === index) o.setAttribute("data-active", "");
+            else o.removeAttribute("data-active");
+        });
+        if (index >= 0 && options[index]) {
+            list.setAttribute("aria-activedescendant", options[index].id);
+            scrollIntoViewIfPossible(options[index]);
+        } else {
+            list.removeAttribute("aria-activedescendant");
+        }
+    }
+
+    function openList(startIndex) {
+        const selected = values.indexOf(current);
+        const start =
+            typeof startIndex === "number"
+                ? startIndex
+                : selected >= 0
+                  ? selected
+                  : 0;
+        open = true;
+        list.hidden = false;
+        button.setAttribute("aria-expanded", "true");
+        setActive(start);
+        // Focus moves to the listbox; the active option is conveyed via
+        // aria-activedescendant, per the APG listbox pattern.
+        list.focus();
+    }
+
+    function closeList(refocus = true) {
+        if (!open) return;
+        open = false;
+        list.hidden = true;
+        button.setAttribute("aria-expanded", "false");
+        setActive(-1);
+        if (refocus) button.focus();
+    }
+
+    function choose(index) {
+        const slug = values[index];
+        if (slug) applySize(slug);
+        closeList();
+    }
+
+    function moveActive(delta) {
+        if (options.length === 0) return;
+        // Clamp rather than wrap, matching the canonical Svelte helper.
+        const next = Math.min(
+            Math.max(activeIndex + delta, 0),
+            options.length - 1,
+        );
+        setActive(next);
+    }
+
+    function runTypeahead(char) {
+        typeahead += char.toLowerCase();
+        clearTimeout(typeaheadTimer);
+        typeaheadTimer = setTimeout(() => {
+            typeahead = "";
+        }, TYPEAHEAD_RESET_MS);
+        const from = activeIndex < 0 ? 0 : activeIndex;
+        // Search forward from the active option, wrapping once.
+        for (let n = 0; n < options.length; n++) {
+            const i = (from + n) % options.length;
+            if (labels[i].toLowerCase().startsWith(typeahead)) {
+                setActive(i);
+                return;
+            }
+        }
+    }
+
+    // -----------------------------------------------------------------
+    // Event handlers
+    // -----------------------------------------------------------------
+
+    function onButtonClick() {
+        if (open) closeList();
+        else openList();
+    }
+
+    function onButtonKeydown(event) {
+        switch (event.key) {
+            case "ArrowDown":
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                openList();
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                openList(options.length - 1);
+                break;
+            default:
+                break;
+        }
+    }
+
+    function onListKeydown(event) {
+        switch (event.key) {
+            case "ArrowDown":
+                event.preventDefault();
+                moveActive(1);
+                break;
+            case "ArrowUp":
+                event.preventDefault();
+                moveActive(-1);
+                break;
+            case "Home":
+                event.preventDefault();
+                setActive(0);
+                break;
+            case "End":
+                event.preventDefault();
+                setActive(options.length - 1);
+                break;
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                if (activeIndex >= 0) choose(activeIndex);
+                break;
+            case "Escape":
+                event.preventDefault();
+                closeList();
+                break;
+            case "Tab":
+                // Tab moves on: close without stealing focus back.
+                closeList(false);
+                break;
+            default:
+                if (
+                    event.key.length === 1 &&
+                    !event.ctrlKey &&
+                    !event.metaKey &&
+                    !event.altKey
+                ) {
+                    runTypeahead(event.key);
+                }
+        }
+    }
+
+    function onListClick(event) {
+        const li =
+            event.target && event.target.closest
+                ? event.target.closest('[role="option"]')
+                : null;
+        if (!li) return;
+        const index = options.indexOf(li);
+        if (index >= 0) choose(index);
+    }
+
+    function onRootFocusOut(event) {
+        const next = event.relatedTarget;
+        if (next && root.contains(next)) return;
+        closeList(false);
+    }
+
+    function onDocumentClick(event) {
+        if (!open) return;
+        const t = event.target;
+        if (t && !root.contains(t)) closeList(false);
+    }
+
+    button.addEventListener("click", onButtonClick);
+    button.addEventListener("keydown", onButtonKeydown);
+    list.addEventListener("keydown", onListKeydown);
+    list.addEventListener("click", onListClick);
+    root.addEventListener("focusout", onRootFocusOut);
+    document.addEventListener("click", onDocumentClick);
+
+    // -----------------------------------------------------------------
+    // §5.1 initial value resolution
+    // value attribute > storage > default > "medium" > first
+    //
+    // Unchanged by the icon-button release: `value` already beat
+    // storage here, so unlike theme-select there is no precedence
+    // reversal to warn about.
+    // -----------------------------------------------------------------
 
     let initial = "";
 
-    // 1. value prop — rendered as the `selected` option by the macro.
-    // Read `defaultSelected` (reflects the HTML `selected` attribute);
-    // `root.value` is unreliable here because a <select> reports its
-    // first option as the value even when none is explicitly selected.
-    const selectedOption = Array.from(root.options).find(
-        (o) => o.defaultSelected,
-    );
-    if (selectedOption) initial = selectedOption.value;
+    // 1. value prop — read from `data-lily-text-size-select-value`.
+    initial = valueAttr;
 
     // 2. storage
     if (!initial && storageKey) initial = safeStorageGet(storageKey) || "";
@@ -97,21 +348,17 @@ export function initTextSizeSelect(root, opts = {}) {
 
     if (initial) applySize(initial);
 
-    function onChange(e) {
-        const target = e.target;
-        if (
-            target &&
-            target.tagName === "SELECT" &&
-            typeof target.value === "string"
-        ) {
-            applySize(target.value);
-        }
-    }
-    root.addEventListener("change", onChange);
-
     return {
         setSize: applySize,
-        destroy: () => root.removeEventListener("change", onChange),
+        destroy: () => {
+            clearTimeout(typeaheadTimer);
+            button.removeEventListener("click", onButtonClick);
+            button.removeEventListener("keydown", onButtonKeydown);
+            list.removeEventListener("keydown", onListKeydown);
+            list.removeEventListener("click", onListClick);
+            root.removeEventListener("focusout", onRootFocusOut);
+            document.removeEventListener("click", onDocumentClick);
+        },
     };
 }
 

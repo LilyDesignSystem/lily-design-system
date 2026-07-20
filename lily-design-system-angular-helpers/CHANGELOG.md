@@ -8,6 +8,73 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows
 [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING)
+
+- **`text-size-select` becomes an icon button + APG listbox.** It was
+  deliberately left as a native `<select>` when `theme-select` and
+  `locale-select` moved to the icon-button shape; it now joins them, so
+  all three helpers in the catalog are structurally identical.
+- DOM contract replaced. The root is a `<div class="text-size-select">`
+  containing a hidden input (preserving `name` and form participation),
+  a `<button class="text-size-select-button">` carrying `aria-label`,
+  `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls`, and a
+  `<ul class="text-size-select-list" role="listbox">` of
+  `<li class="text-size-select-option" role="option">` children. The old
+  `<select>` / `<option>` markup and its class hooks are gone — consumer
+  CSS targeting them must be rewritten, and the consumer now supplies
+  the listbox positioning.
+- `className` now lands on the root `<div>`, not the `<select>`.
+  `name` now names the hidden input, not the `<select>`.
+- The `children` / projected-template slot **replaces the button
+  glyph**, not the options, and receives `{ value, open, labelFor }`.
+- The component now owns the entire keyboard contract, since there is
+  no native control underneath: `ArrowDown` / `ArrowUp` / `Enter` /
+  `Space` open (`ArrowUp` starts on the last option), focus moves to
+  the list, the cursor is `aria-activedescendant` mirrored to
+  `data-active`, arrows clamp rather than wrap, `Home` / `End` jump,
+  printable characters typeahead over the labels with a 500 ms buffer,
+  `Enter` / `Space` select and refocus the button, `Escape` closes
+  unchanged, and `Tab` closes without stealing focus.
+
+### Added
+
+- **Default button glyph `"A"`** (U+0041 LATIN CAPITAL LETTER A),
+  exported as `LATIN_CAPITAL_LETTER_A`. A plain letter rather than a
+  pictograph: U+1F5DB DECREASE FONT SIZE SYMBOL was the first choice
+  but has no real glyph in common font stacks and means *decrease*
+  rather than *size*. "A" renders in the page's own font everywhere and
+  stays monochrome like theme-select's `◑`.
+- **`sizeName(slug)` is exported**, mirroring `themeName` /
+  `localeName`. `sizeName("x-large")` returns `"X Large"`, and the
+  component's `labelFor` delegates to it so there is one
+  implementation. `sizeLabels` entries still override it.
+- **`TextSizeSelectIcon`** marker directive
+  (`ng-template[lilyTextSizeSelectIcon]`) for typed `let-` variables on
+  the projected glyph template, and **`nextTextSizeSelectId`**, the
+  SSR-safe module-counter id generator.
+- **`docs/accessibility.md`** — roles, the full keyboard contract, and
+  the same three tradeoffs the sibling helpers document: the
+  accessible name rests entirely on `aria-label`, a hand-rolled
+  listbox has weaker assistive-technology support than a native
+  `<select>` (which remains the better control for some audiences),
+  and the glyph is font-dependent — though "A" is materially safer
+  there than a pictograph. Keeps the WCAG 1.4.4 (Resize Text)
+  guidance that is this helper's specific concern.
+- Test suite grew from 15 to 48 cases, including a keyboard suite
+  mirroring the canonical Svelte one.
+
+### Not changed
+
+- `data-text-size` application, `localStorage` persistence, the
+  `sizeChange` output, initial-value resolution
+  (`value` > storage > `defaultValue` > `"medium"` > `sizes[0]`), and
+  SSR safety are all unchanged.
+- No detection prop was added: unlike `prefers-color-scheme` for
+  themes or `navigator.languages` for locales, there is no OS
+  "preferred text size" media query to read.
+
 ## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING)

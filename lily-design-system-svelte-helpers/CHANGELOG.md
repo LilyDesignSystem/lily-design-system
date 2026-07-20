@@ -7,6 +7,38 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows
 [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Added
+
+- **`lily-design-system-svelte-share-button` 0.1.0** — a new helper, and
+  the first that owns an *action* rather than a user preference: it
+  applies nothing to the document and persists nothing. A single-glyph
+  button (↪, U+21AA) opens the native share sheet where the browser has
+  one, and otherwise a disclosure list of consumer-supplied destinations
+  plus copy-to-clipboard. No social-network endpoints ship with it.
+  Destinations are real `<a>` elements rather than `role="menuitem"`, so
+  middle-click and open-in-new-tab survive.
+
+### Changed (BREAKING)
+
+- **`text-size-select` is now an icon button + APG listbox**, matching
+  `theme-select` and `locale-select`. It was the last native `<select>`
+  among the helpers. Button glyph is `"A"` (U+0041): the obvious
+  candidate U+1F5DB has no real glyph in common font stacks and falls
+  back to a crude bitmap shape, and means *decrease* rather than *size*.
+- `sizeName` is exported to mirror `themeName` / `localeName`, and
+  `labelFor` delegates to it. No detection prop was added — there is no
+  OS "preferred text size" equivalent to `prefers-color-scheme`.
+
+### Fixed
+
+- `CSS.escape` in all three `*-select` helpers threw inside the keydown
+  handler under jsdom, which has no `CSS` object at all. The throw landed
+  *after* `activeIndex` was assigned, so the suites stayed green while
+  that path never ran. Replaced with `document.getElementById`, which
+  needs no escaping for these generated ids.
+
 ## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING)

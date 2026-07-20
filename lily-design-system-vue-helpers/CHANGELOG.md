@@ -11,29 +11,39 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `theme-select` and `locale-select` are no longer native `<select>`
+- **All three helpers** — `theme-select`, `locale-select`, and
+  `text-size-select` — are no longer native `<select>`
   elements. Each is now an **icon button that opens a dropdown
   listbox**: a root `<div class="{helper}">` holding a hidden input for
   form participation, a
   `<button class="{helper}-button" aria-haspopup="listbox">` showing a
   single glyph, and a `<ul class="{helper}-list" role="listbox">` of
   `<li class="{helper}-option" role="option">`. The glyphs are ◑
-  (U+25D1 CIRCLE WITH RIGHT HALF BLACK) for `theme-select` and 🌐
-  (U+1F310 GLOBE WITH MERIDIANS) for `locale-select`, each wrapped in
-  `aria-hidden="true"` so the accessible name always comes from
-  `aria-label`. `text-size-select` is untouched and keeps its native
-  `<select>`.
-- **The `placeholder` prop is removed** from both helpers. It existed
+  (U+25D1 CIRCLE WITH RIGHT HALF BLACK) for `theme-select`, 🌐
+  (U+1F310 GLOBE WITH MERIDIANS) for `locale-select`, and `A`
+  (U+0041 LATIN CAPITAL LETTER A) for `text-size-select`, each wrapped
+  in `aria-hidden="true"` so the accessible name always comes from
+  `aria-label`.
+
+  `theme-select` and `locale-select` converted first;
+  `text-size-select` was deliberately held back and has now joined
+  them, so the catalog is one shape again. Its glyph is a plain letter
+  rather than a pictograph: U+1F5DB DECREASE FONT SIZE SYMBOL has no
+  real glyph in common font stacks and means *decrease* rather than
+  *size*.
+- **The `placeholder` prop is removed** from `theme-select` and
+  `locale-select`. It existed
   only to pin the closed `<select>` to a short word; there is no
   `<select>` left to pin, so the 0.3.0 placeholder tradeoff is gone
-  along with the `{helper}-placeholder` class hook.
+  along with the `{helper}-placeholder` class hook. `text-size-select`
+  never had the prop.
 - **The default scoped slot now replaces the button glyph, not the
   options.** It receives `{ value, open, labelFor }` (`SlotArgs`, also
   exported as `ChildArgs`) instead of the old
-  `{ themes/locales, value, setTheme/setLocale, name, labelFor, … }`.
+  `{ themes/locales/sizes, value, setTheme/setLocale/setSize, name, labelFor, … }`.
   The listbox, its option markup, and the keyboard contract are
   component-owned and cannot be displaced by a slot.
-- Both helpers now implement the **WAI-ARIA APG listbox keyboard
+- All three helpers now implement the **WAI-ARIA APG listbox keyboard
   contract** themselves rather than inheriting the platform's native
   `<select>` behaviour: arrow keys that clamp rather than wrap,
   `Home` / `End`, `Enter` / `Space` to commit, `Escape` to cancel,
@@ -44,13 +54,29 @@ and the project follows
 
 ### Added
 
-- `nextThemeSelectId` / `nextLocaleSelectId` — per-instance id
+- `nextThemeSelectId` / `nextLocaleSelectId` / `nextTextSizeSelectId` —
+  per-instance id
   generators backed by an incrementing module counter, so option ids
   are stable and SSR-safe.
-- `CIRCLE_WITH_RIGHT_HALF_BLACK` / `GLOBE_WITH_MERIDIANS` — the default
+- `CIRCLE_WITH_RIGHT_HALF_BLACK` / `GLOBE_WITH_MERIDIANS` /
+  `LATIN_CAPITAL_LETTER_A` — the default
   button glyphs, exported for consumers building their own triggers.
+- `sizeName(slug)` on `text-size-select` — exported label resolver that
+  title-cases each hyphen-separated word (`"x-large"` → `"X Large"`),
+  completing the `themeName` / `localeName` / `sizeName` set. Each
+  helper's internal `labelFor` delegates to its resolver, so the
+  title-casing rule has exactly one implementation per helper.
 - New class hooks: `{helper}-button`, `{helper}-icon`, `{helper}-list`,
   plus `[data-active]` on the keyboard-active option.
+
+### Not added, deliberately
+
+- **No detection prop on `text-size-select`.** `theme-select` has
+  `detectFromSystem` and `locale-select` has `detectFromNavigator`, but
+  the web exposes no OS "preferred text size" signal — no media query
+  equivalent to `prefers-color-scheme`, no `navigator` field. Recorded
+  in that helper's `spec/index.md` §2 and §8 so it is not re-proposed
+  as an oversight.
 
 ### Unchanged
 
@@ -62,12 +88,21 @@ and the project follows
 ### Documentation
 
 - Each helper's `docs/accessibility.md` is rewritten around the three
-  new tradeoffs: an icon-only control depends entirely on `aria-label`;
+  new tradeoffs (new file for `text-size-select`): an icon-only control
+  depends entirely on `aria-label`;
   a scripted listbox has weaker real-world assistive-technology support
-  than a native `<select>`; and the glyph's rendering depends on
-  platform fonts. The `.{helper}-status` live-region guidance is kept
+  than a native `<select>` — plainly, a native `<select>` remains the
+  better choice for some audiences; and the glyph's rendering depends
+  on platform fonts. On that last point `text-size-select`'s `A` is
+  materially safer than a pictograph. The `.{helper}-status`
+  live-region guidance is kept
   and is now more strongly recommended, since the closed button shows
   only a glyph.
+- `text-size-select`'s page keeps its specific WCAG concern, **1.4.4
+  (Resize Text)**, with the obligations that come with it: size
+  typography in relative units or the attribute does nothing, test at
+  the largest size combined with 200% browser zoom, and never disable
+  zoom on the strength of shipping the control.
 - The listbox needs positioning CSS; the packages ship none. See each
   `docs/styling.md`.
 

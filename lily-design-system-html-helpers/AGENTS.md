@@ -30,12 +30,12 @@ Each helper follows the file shape in
   consumer's CSS targets the rendered children directly via the
   kebab-case class hooks the element emits (`theme-select-option`,
   `locale-select-option`, etc.).
-- Two rendering shapes. `<theme-select>` and `<locale-select>`
-  render an icon button that opens a `role="listbox"` dropdown
-  (WAI-ARIA APG listbox pattern, keyboard implemented in JS);
-  `<text-size-select>` renders a native `<select>`. Do not
-  reintroduce the native `<select>` — or its `placeholder`
-  attribute — to the first two.
+- One rendering shape. All three helpers render an icon button that
+  opens a `role="listbox"` dropdown (WAI-ARIA APG listbox pattern,
+  keyboard implemented in JS). Do not reintroduce the native
+  `<select>` — or its `placeholder` attribute — to any of them.
+  `<text-size-select>` was the last holdout and joined the other two;
+  its glyph is `"A"` (U+0041) rather than a pictograph.
 - Attributes are kebab-case; observed attributes trigger
   `attributeChangedCallback`. Array attributes are
   comma-separated strings; the matching JS property accepts an
@@ -53,9 +53,8 @@ Each helper follows the file shape in
 - [`AGENTS/testing.md`](./AGENTS/testing.md) — vitest + jsdom harness,
   attribute timing, CustomEvent capture, mocking.
 - [`AGENTS/accessibility.md`](./AGENTS/accessibility.md) — WCAG 2.2 AAA,
-  the APG listbox pattern used by theme-select / locale-select, the
-  native `<select>` semantics text-size-select keeps, light-DOM
-  rationale.
+  the APG listbox pattern all three helpers implement, the tradeoffs
+  against the native `<select>` they replaced, light-DOM rationale.
 - [`AGENTS/ssr.md`](./AGENTS/ssr.md) — Eleventy / Astro / Hugo
   prerender + client upgrade.
 - [`AGENTS/shared/`](./AGENTS/shared/) — Lily-wide headless / i18n /

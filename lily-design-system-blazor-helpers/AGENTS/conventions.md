@@ -230,12 +230,12 @@ The context is correspondingly small (`Value`, `Open`, `LabelFor`):
 </ThemeSelect>
 ```
 
-For `TextSizeSelect`, which is still a native `<select>`, the fragment
-renders the options and the context carries the full choice list.
+`LocaleSelect` and `TextSizeSelect` work identically; only the default
+glyph differs (`🌐` and `A`).
 
-To drive a listbox helper from your own UI, take a `@ref` and call the
-public `SetThemeAsync` / `SetLocaleAsync` method — the fragment context
-deliberately exposes no setter.
+To drive a helper from your own UI, take a `@ref` and call the public
+`SetThemeAsync` / `SetLocaleAsync` / `SetSizeAsync` method — the
+fragment context deliberately exposes no setter.
 
 ## OnAfterRenderAsync
 

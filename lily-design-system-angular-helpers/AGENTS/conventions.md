@@ -127,6 +127,12 @@ The component reads via `this.value()` and writes via
 
 ## Change handlers and template casts
 
+None of the three current helpers needs this any more: all of them
+render an icon button + listbox and handle `(click)` / `(keydown)`
+with typed handler methods rather than reading `$event.target`
+inline. The rule below still stands for any future helper that binds
+a native input's value.
+
 When reading the changed-input value inside a template event binding:
 
 ```html

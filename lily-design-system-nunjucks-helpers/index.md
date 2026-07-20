@@ -45,17 +45,23 @@ This split exists because:
 
 ### How much survives without JavaScript
 
-This differs per helper, and it is worth being precise about:
+Very little, and it is worth being blunt about it:
 
-- **`text-size-select`** still renders a native `<select>`, so it is a
-  fully functional form control with or without JS.
-- **`theme-select` and `locale-select`** are icon buttons that open a
-  custom listbox. **They are not operable without JS**: the button has
-  no handler and the listbox renders `hidden`. Their macros do emit a
+- **All three helpers** — `theme-select`, `locale-select`, and
+  `text-size-select` — are icon buttons that open a custom listbox.
+  **None of them is operable without JS**: the button has no handler
+  and the listbox renders `hidden`. Each macro does emit a
   server-filled hidden `<input>`, so a form submit still carries a
-  value, but the user cannot change it. This is a deliberate tradeoff
-  taken in the icon-button release, and each package's `docs/ssr.md`
-  documents it and shows the no-JS alternative.
+  value, but the user cannot change it.
+- The markup still *paints* correctly server-side, and the chosen
+  value is applied on the document root, so a value you resolve on the
+  server survives with no JS. It is the *choosing* that requires the
+  client module.
+- This is a deliberate tradeoff taken in the icon-button release: an
+  icon-sized control and full styling control over the open list, paid
+  for with a native `<select>` that worked everywhere. Each package's
+  `docs/ssr.md` documents it and shows the no-JS alternative (the
+  headless catalog's plain `<select>` containers).
 
 ## Conventions
 

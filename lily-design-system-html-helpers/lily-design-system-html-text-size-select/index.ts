@@ -8,9 +8,14 @@
  * `customElements.define(...)` themselves.
  */
 
-import { TextSizeSelect } from "./text-size-select.js";
+import {
+    TextSizeSelect,
+    sizeName,
+    nextTextSizeSelectId,
+    LATIN_CAPITAL_LETTER_A,
+} from "./text-size-select.js";
 
-export { TextSizeSelect };
+export { TextSizeSelect, sizeName, nextTextSizeSelectId, LATIN_CAPITAL_LETTER_A };
 export type {
     TextSizeSelectProps,
     TextSizeSelectChangeDetail,

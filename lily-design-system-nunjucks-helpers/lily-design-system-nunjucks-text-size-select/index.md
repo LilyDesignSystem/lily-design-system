@@ -1,11 +1,18 @@
 # TextSizeSelect (Nunjucks helper)
 
-A reusable, headless Nunjucks 3 + vanilla-JS text-size select that
+A reusable, headless Nunjucks 3 + vanilla-JS text-size control that
 applies the chosen size to the document root via `data-text-size`,
 with optional `localStorage` persistence.
 
 The single source of truth is [spec/index.md](./spec/index.md). This file is the
 user guide.
+
+> **BREAKING (Unreleased).** This helper no longer renders a native
+> `<select>`. It renders an icon button that opens a listbox, matching
+> `theme-select` and `locale-select`. Consumers must now load
+> `text-size-select.client.js` — without it the button is inert. See
+> [CHANGELOG.md](./CHANGELOG.md) for the migration, and
+> [docs/ssr.md](./docs/ssr.md) for the no-JS consequences.
 
 ## Why this exists
 
@@ -18,8 +25,8 @@ contract cleanly:
   ES module for the runtime.
 - **Your CSS** owns the actual typography, keyed on
   `[data-text-size="{slug}"]`.
-- **Consumers** own the visual style of the select via the
-  `text-size-select` class hook.
+- **Consumers** own the visual style of the control via the
+  `text-size-select` class hooks.
 
 The helper is a direct port of the Svelte canonical
 `lily-design-system-svelte-text-size-select`. The DOM contract and
@@ -29,12 +36,14 @@ behaviour match clause-for-clause; only the framework idioms differ.
 
 The helper is a **macro + client.js** pair:
 
-- The macro (`text-size-select.njk`) renders the `<select>` markup
-  server-side or at static-site build time.
+- The macro (`text-size-select.njk`) renders the markup server-side or
+  at static-site build time.
 - The client (`text-size-select.client.js`) is an ES module the
   consumer loads once per page. It picks up the markup via
-  `data-lily-text-size-select-*` hooks and owns the browser-side
-  lifecycle (storage, `data-text-size` apply, change events).
+  `data-lily-text-size-select-*` hooks and owns **both** the
+  browser-side lifecycle (storage, `data-text-size` apply, change
+  events) **and** the whole listbox interaction (open/close, focus,
+  keyboard, typeahead).
 
 ```
 Nunjucks render time                 │  Browser runtime
@@ -42,18 +51,20 @@ Nunjucks render time                 │  Browser runtime
 {{ textSizeSelect({…}) }}            │  import { autoInit } from
    │                                  │    "./text-size-select.client.js";
    ▼                                  │  autoInit();
-<select                               │     │
-  class="text-size-select"            │     ▼
-  aria-label="Text size"              │  finds [data-lily-text-size-select-root]
-  name="text-size"                    │     │
+<div class="text-size-select"         │     │
   data-lily-text-size-select-root     │     ▼
-  data-lily-text-size-select-*        │  resolves initial slug
-  …>                                  │     │
-  <option value="medium">             │     ▼
-    Medium                            │  applySize(slug):
-  </option>                           │    - target.dataset.textSize = slug
-  …                                   │    - localStorage.setItem(...)
-</select>                             │    - opts.onChange(slug)
+  data-lily-text-size-select-*>       │  finds [data-lily-text-size-select-root]
+  <input type="hidden">               │     │
+  <button aria-haspopup="listbox">    │     ▼
+    <span aria-hidden="true">A</span> │  resolves initial slug
+  </button>                           │     │
+  <ul role="listbox" hidden>          │     ▼
+    <li role="option">Medium</li>     │  applySize(slug):
+    …                                 │    - target.dataset.textSize = slug
+  </ul>                               │    - localStorage.setItem(...)
+</div>                                │    - hidden input + aria-selected
+                                      │    - opts.onChange(slug)
+                                      │  …and wires the listbox keyboard
 ```
 
 ## Install
@@ -81,18 +92,29 @@ APIs client-side.
     sizes: ["small", "medium", "large", "x-large"],
     storageKey: "lily-text-size"
 }) }}
+
+{# The control is icon-only, so it never shows the active size.
+   Pair it with a status region — see docs/accessibility.md. #}
+<p class="text-size-select-status" aria-live="polite"></p>
 ```
 
-2. Load the client.js once per page:
+2. Load the client.js once per page. **This is not optional** — the
+   button does not open without it:
 
 ```html
 <script type="module">
     import { autoInit } from "/path/to/text-size-select.client.js";
-    autoInit();
+    const status = document.querySelector(".text-size-select-status");
+    autoInit({
+        onChange(slug) {
+            status.textContent = `Text size: ${slug}`;
+        },
+    });
 </script>
 ```
 
-3. Style each size in your CSS:
+3. Style each size in your CSS. **This is the half that actually
+   satisfies WCAG 1.4.4** — the helper only signals the choice:
 
 ```css
 [data-text-size="small"]   { font-size: 0.875rem; }
@@ -101,37 +123,93 @@ APIs client-side.
 [data-text-size="x-large"] { font-size: 1.5rem; }
 ```
 
+Use relative units throughout. Absolute `px` defeats both this control
+and the user's own browser settings.
+
 When the user picks `large`, the client:
 
 - sets `data-text-size="large"` on `<html>`,
 - writes `"large"` to `localStorage["lily-text-size"]`,
+- mirrors `"large"` into the hidden input and the options'
+  `aria-selected`,
 - fires `onChange("large")` if provided.
 
-The select does NOT define the typographic scale — that is the
-consumer's CSS job.
+A worked end-to-end example, including the type scale, is in
+[`examples/01-basic.njk`](./examples/01-basic.njk).
+
+## Markup
+
+```html
+<div class="text-size-select" data-lily-text-size-select-root …>
+  <input type="hidden" name="text-size" value="medium">
+  <button type="button" class="text-size-select-button"
+          aria-label="Text size" aria-haspopup="listbox"
+          aria-expanded="false" aria-controls="text-size-select-text-size-list">
+    <span class="text-size-select-icon" aria-hidden="true">A</span>
+  </button>
+  <ul class="text-size-select-list" id="text-size-select-text-size-list"
+      role="listbox" aria-label="Text size" tabindex="-1" hidden>
+    <li class="text-size-select-option" role="option"
+        aria-selected="true" data-value="medium">Medium</li>
+    …
+  </ul>
+</div>
+```
+
+The package ships **no CSS at all**, including none for positioning the
+open listbox. Style it with `.text-size-select-list:not([hidden])` —
+never `display: block`, which would override the `hidden` attribute
+that is the open-state contract.
+
+### Why the glyph is "A"
+
+A plain Latin capital letter, not a pictograph. U+1F5DB DECREASE FONT
+SIZE SYMBOL has no real glyph in common font stacks — it degrades to a
+crude bitmap shape — and it means *decrease* rather than *size*. "A"
+renders in the page's own font everywhere and is the conventional
+text-size affordance.
+
+Override it with a `{% call %}` block:
+
+```njk
+{% call textSizeSelect({label: "Text size", sizes: ["small", "large"]}) %}
+    <span aria-hidden="true">Aa</span>
+{% endcall %}
+```
+
+The block replaces the **glyph**, not the label, and does not render
+options. Keep whatever you put there `aria-hidden="true"` — the
+accessible name must stay on `aria-label`.
 
 ## Initial size
 
 The initial slug on `initTextSizeSelect(root)` resolves to the first
 non-empty value of:
 
-1. The `value` of any `<option>` the macro rendered with `selected`
-   (i.e. `opts.value`).
+1. `data-lily-text-size-select-value` (i.e. `opts.value`).
 2. `localStorage.getItem(storageKey)` (when set and readable).
-3. The `<select>`'s `data-lily-text-size-select-default-value`
-   (i.e. `opts.defaultValue`).
-4. `"medium"` if present among the rendered option values.
+3. `data-lily-text-size-select-default-value` (i.e. `opts.defaultValue`).
+4. `"medium"` if present among the option values.
 5. The first option value, or `""` if none.
 
 ## Macro parameters
 
 Full table in [spec/index.md §4.1](./spec/index.md#41-macro-parameters).
 Required: `label`, `sizes`. Optional: `value`, `defaultValue`,
-`storageKey`, `name` (default `"text-size"`), `sizeLabels`,
-`classes`, `attributes`.
+`storageKey`, `name` (default `"text-size"`), `sizeLabels`, `id`
+(default `"text-size-select-{name}"`), `classes`, `attributes`.
+
+`label` is the accessible name for **both** the button and the
+listbox. The button is icon-only, so this is the only accessible name
+it has — it is load-bearing.
 
 Default option labels title-case the slug per hyphen-word
-(`x-large` → `X Large`). Pass `sizeLabels` to override any label.
+(`x-large` → `X Large`). Pass `sizeLabels` to override any label;
+typeahead matches the rendered label, so overrides participate.
+
+There is deliberately **no** detection prop: unlike
+`prefers-color-scheme` and `navigator.languages`, the web platform
+exposes no OS "preferred text size" signal.
 
 ## Client.js API
 
@@ -139,13 +217,18 @@ Default option labels title-case the slug per hyphen-word
 import {
     initTextSizeSelect,
     autoInit,
+    sizeName,
+    LATIN_CAPITAL_LETTER_A,
 } from "./text-size-select.client.js";
 ```
 
 - `autoInit(opts?)` — find every
   `[data-lily-text-size-select-root]` and wire it.
-- `initTextSizeSelect(root, opts?)` — wire a single `<select>`;
-  returns `{setSize, destroy}`.
+- `initTextSizeSelect(root, opts?)` — wire a single root; returns
+  `{setSize, destroy}`.
+- `sizeName(slug)` — `"x-large"` → `"X Large"`. The JS statement of
+  the label rule the macro applies in template syntax.
+- `LATIN_CAPITAL_LETTER_A` — the default glyph, `"A"`.
 
 Optional `opts`:
 
@@ -153,13 +236,30 @@ Optional `opts`:
 - `target` — element receiving `data-text-size` (defaults to
   `<html>`).
 
+## Keyboard
+
+Owned entirely by the client.js; none of it works before that module
+runs. On the button: `ArrowDown` / `Enter` / `Space` open (`ArrowUp`
+opens on the last option). On the list: arrows move and clamp,
+`Home` / `End` jump, `Enter` / `Space` select, `Escape` closes
+unchanged, `Tab` closes and moves on, printable characters run
+typeahead. Full table in
+[docs/accessibility.md](./docs/accessibility.md).
+
 ## Accessibility
 
-- `<select aria-label="…">` is the announced combobox container.
-- The native `<select>` gives Arrow / Home / End / typeahead / Tab
-  semantics for free.
-- Directly supports WCAG 1.4.4 (Resize Text).
-- WCAG 2.2 AAA is the target.
+- WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern.
+- Directly supports WCAG 1.4.4 (Resize Text) — provided your CSS
+  actually delivers the resize.
+- `aria-label` is the only accessible name the button has.
+- **Without JavaScript the button cannot be operated at all**, which
+  the old native `<select>` could. This matters more for a text-size
+  control than for its siblings; browser zoom remains the backstop.
+
+The honest tradeoffs — the `aria-label` dependency, weaker AT support
+than a native `<select>`, and glyph rendering — are documented in
+[docs/accessibility.md](./docs/accessibility.md), and the SSR and
+no-JS consequences in [docs/ssr.md](./docs/ssr.md).
 
 ## Testing
 

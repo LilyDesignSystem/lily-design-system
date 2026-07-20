@@ -1,26 +1,67 @@
 {#
-  TextSizeSelect macro — accessible native <select> of text sizes.
+  TextSizeSelect macro — icon button that opens a listbox of text sizes.
 
-  HTML tag: <select>
+  HTML tag: <div> (root), <button> + <ul role="listbox">
   CSS class: text-size-select
   Companion runtime: text-size-select.client.js
 
+  BREAKING (Unreleased): this macro no longer renders a native
+  <select>. It renders an icon button (U+0041 LATIN CAPITAL LETTER A)
+  that opens a listbox, matching theme-select and locale-select. All
+  three helpers are now the same shape.
+
+  Why "A" and not a pictograph: U+1F5DB DECREASE FONT SIZE SYMBOL has
+  no real glyph in common font stacks — it falls back to a crude bitmap
+  shape — and it means *decrease* rather than *size*. "A" renders in
+  the page's own font everywhere, stays monochrome like theme-select's
+  ◑, and is the conventional text-size affordance.
+
   Params (single `opts` object):
-    label         — string, required. aria-label for the <select>.
+    label         — string, required. aria-label for the button AND the
+                    listbox. The button is icon-only, so this is the
+                    ONLY accessible name it has.
     sizes         — array<string>, required. Available size slugs.
-    value         — string. Initial selected slug (rendered selected).
+    value         — string. Initial slug, emitted as
+                    data-lily-text-size-select-value for the client to
+                    read.
     defaultValue  — string. Initial slug when nothing else is supplied.
     storageKey    — string. If non-empty, client.js persists to localStorage.
-    name          — string. <select> `name` (default "text-size").
+    name          — string. Hidden-input `name` (default "text-size").
     sizeLabels    — object<string,string>. Pretty label per slug.
-    classes       — string. Extra CSS classes on the <select> root.
+    id            — string. Id prefix for the listbox and its options.
+                    Defaults to "text-size-select-{name}". Supply an
+                    explicit id when rendering two instances that share
+                    a `name`.
+    classes       — string. Extra CSS classes on the root <div>.
     attributes    — object. Extra HTML attributes spread onto the root.
 
-  The chosen slug is applied to the document root via
-  `data-text-size="{slug}"`; the consumer styles each
-  `[data-text-size="…"]` to a real typographic scale.
+  There is deliberately NO detection prop. Unlike theme-select's
+  `prefers-color-scheme` and locale-select's `navigator.languages`,
+  the web platform exposes no OS "preferred text size" signal, so
+  there is nothing to detect.
 
-  Spec: spec/index.md §4.1, §4.2.
+  Custom glyph: call the macro with a `{% call %}` block and the block
+  body replaces the default glyph inside the button:
+
+    {% call textSizeSelect({label: "Text size", sizes: [...]}) %}
+      <svg aria-hidden="true">…</svg>
+    {% endcall %}
+
+  Usage:
+    {% from "./text-size-select.njk" import textSizeSelect %}
+    {{ textSizeSelect({
+      label: "Text size",
+      sizes: ["small", "medium", "large", "x-large"],
+      storageKey: "lily-text-size"
+    }) }}
+
+  Then load text-size-select.client.js once and call autoInit().
+
+  NOTE: the button does nothing until text-size-select.client.js runs.
+  See docs/ssr.md — this is a real no-JS regression from the old
+  <select>.
+
+  Spec: spec/index.md §4.1 (macro parameters), §4.2 (DOM contract).
 #}
 {%- macro textSizeSelect(opts) -%}
 {%- set name = opts.name | default("text-size") -%}
@@ -28,24 +69,37 @@
 {%- set storageKey = opts.storageKey | default("") -%}
 {%- set defaultValue = opts.defaultValue | default("") -%}
 {%- set sizeLabels = opts.sizeLabels | default({}) -%}
-<select
+{%- set id = opts.id | default("text-size-select-" + name) -%}
+{%- set listId = id + "-list" -%}
+{#- Server-side selected resolution. localStorage is client-only —
+    there is no storage at render time — so the client may correct this
+    after hydration; the point is that the server markup always marks
+    exactly one option aria-selected. -#}
+{%- set fallback = "medium" if "medium" in opts.sizes else opts.sizes[0] -%}
+{%- set selected = value or defaultValue or fallback -%}
+<div
   class="text-size-select{% if opts.classes %} {{ opts.classes }}{% endif %}"
-  aria-label="{{ opts.label }}"
-  name="{{ name }}"
   data-lily-text-size-select-root
   data-lily-text-size-select-name="{{ name }}"
   data-lily-text-size-select-storage-key="{{ storageKey }}"
   data-lily-text-size-select-default-value="{{ defaultValue }}"
+  {%- if value %} data-lily-text-size-select-value="{{ value }}"{% endif %}
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
+<input type="hidden" name="{{ name }}" value="{{ selected }}" data-lily-text-size-select-input>
+<button type="button" class="text-size-select-button" aria-label="{{ opts.label }}" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ listId }}" data-lily-text-size-select-button>
+{%- if caller %}{{ caller() }}{% else %}<span class="text-size-select-icon" aria-hidden="true">A</span>{% endif -%}
+</button>
+<ul class="text-size-select-list" id="{{ listId }}" role="listbox" aria-label="{{ opts.label }}" tabindex="-1" hidden data-lily-text-size-select-list>
 {%- for slug in opts.sizes -%}
-  <option class="text-size-select-option" value="{{ slug }}"{% if value == slug %} selected{% endif %}>
+  <li class="text-size-select-option" id="{{ id }}-option-{{ loop.index0 }}" role="option" aria-selected="{{ 'true' if slug == selected else 'false' }}" data-value="{{ slug }}">
     {%- if sizeLabels[slug] -%}
       {{ sizeLabels[slug] }}
     {%- else -%}
       {{ slug | replace(r/-/g, " ") | title }}
     {%- endif -%}
-  </option>
+  </li>
 {%- endfor -%}
-</select>
+</ul>
+</div>
 {%- endmacro -%}

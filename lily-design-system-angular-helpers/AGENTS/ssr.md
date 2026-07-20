@@ -19,8 +19,15 @@ provides the Analog-flavoured wiring recipes.
    mismatches.
 4. **`value` is the SSR bridge.** When you want a flicker-free first
    paint, resolve the value server-side and pass it as a
-   model-signal input. The component renders the matching `<option>`
-   as selected on the server, then hydrates without any DOM swap.
+   model-signal input. The component renders the matching
+   `<li role="option">` with `aria-selected="true"` and the hidden
+   input with that value on the server, then hydrates without any DOM
+   swap.
+5. **Element ids are deterministic.** Each helper's id generator
+   (`nextThemeSelectId`, `nextLocaleSelectId`,
+   `nextTextSizeSelectId`) is an incrementing module counter, never
+   `Math.random` / `Date.now`, so the `aria-controls` and
+   `aria-activedescendant` wiring matches across server and client.
 
 ## Analog v1 cookie strategy (recommended)
 

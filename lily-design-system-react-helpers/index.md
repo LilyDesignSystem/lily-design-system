@@ -57,9 +57,10 @@ Shared design decisions across the catalog:
   references; tests assert against those numbers; docs link back.
 - **Render-prop children**: when consumers need to override the
   default markup, they pass a `children` function that receives the
-  select's `ChildArgs` (state + setter + helpers).
-- **Rest-prop spread**: every helper spreads `...restProps` onto the
-  root `<select>` so consumers can pass arbitrary HTML attributes
+  helper's `ChildArgs`. For all three selects that function replaces
+  the **button glyph**, not the options — the component owns those.
+- **Rest-prop spread**: every helper spreads `...restProps` onto its
+  root `<div>` so consumers can pass arbitrary HTML attributes
   (`id`, `data-*`, event handlers, ARIA overrides).
 
 ## Differences from the headless library
@@ -117,19 +118,28 @@ entrypoint. Per-topic AGENTS files live in
 
 ## Cross-helper compatibility
 
-The two selects in the current catalog are deliberately compatible:
+The three selects in the current catalog are deliberately compatible:
 
-- `ThemeSelect` and `LocaleSelect` both render a
-  `<select aria-label="…">` so a row of selects in the same banner
-  has consistent semantics.
-- The two selects do not share state. Each owns its own
+- `ThemeSelect`, `LocaleSelect`, and `TextSizeSelect` all render the
+  same icon-button-plus-listbox shape — a
+  `<div class="{helper}">` wrapping a hidden input, an
+  `aria-label`led `<button aria-haspopup="listbox">` holding one
+  `aria-hidden` glyph (◑, 🌐, and "A" respectively), and a
+  `<ul role="listbox">` of `<li role="option">`. A row of them in the
+  same banner has consistent semantics, keyboard behaviour, and
+  footprint.
+- The three selects do not share state. Each owns its own
   `localStorage` key, its own `data-*` attribute, and its own
   managed DOM nodes.
-- The class hooks (`theme-select`, `locale-select`) are independent
-  so a single stylesheet rule can target either.
+- The class hooks (`theme-select`, `locale-select`,
+  `text-size-select`) are independent so a single stylesheet rule can
+  target any one of them.
+- Each exports its own label resolver under a parallel name —
+  `themeName`, `localeName`, `sizeName` — all applying the same
+  title-cased-slug rule.
 
-Mounting both selects in one banner is the recommended pattern when
-your app has both a colour scheme and a language preference.
+Mounting all three selects in one banner is the recommended pattern
+when your app has colour-scheme, language, and text-size preferences.
 
 ## License
 

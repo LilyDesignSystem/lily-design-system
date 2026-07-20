@@ -22,16 +22,23 @@ boundary and is awkward across an open one. The catalog stays in
 light DOM so consumer-supplied `aria-*` references work without
 ceremony.
 
-### Two rendering shapes in this catalog
+### One rendering shape across the catalog
 
-The helpers no longer share one markup shape. Know which you are
-reading about:
+All three helpers share one markup shape — an icon button that opens
+an APG listbox — and one keyboard implementation:
 
-| Helper | Rendering | Keyboard comes from |
-| ------ | --------- | ------------------- |
-| `<theme-select>` | Icon button + `role="listbox"` dropdown | The element's own JS handlers |
-| `<locale-select>` | Icon button + `role="listbox"` dropdown | The element's own JS handlers |
-| `<text-size-select>` | Native `<select>` + `<option>` children | The platform |
+| Helper | Rendering | Glyph | Keyboard comes from |
+| ------ | --------- | ----- | ------------------- |
+| `<theme-select>` | Icon button + `role="listbox"` dropdown | `◑` U+25D1 | The element's own JS handlers |
+| `<locale-select>` | Icon button + `role="listbox"` dropdown | U+1F310 + VS15 | The element's own JS handlers |
+| `<text-size-select>` | Icon button + `role="listbox"` dropdown | `A` U+0041 | The element's own JS handlers |
+
+`<text-size-select>` was deliberately left as a native `<select>` when
+the other two converted, and joined them afterwards. Its glyph is a
+plain ASCII letter rather than a pictograph: U+1F5DB DECREASE FONT
+SIZE SYMBOL has no real glyph in common font stacks and means
+*decrease* rather than *size*, whereas "A" exists in every font,
+inherits the page's typeface, and is the conventional affordance.
 
 ### `aria-label` on the rendered control, not on the custom element
 
@@ -65,7 +72,7 @@ was not when the control was a native `<select>`.
 
 ### Custom listbox, not a native combobox
 
-`<theme-select>` and `<locale-select>` implement the WAI-ARIA APG
+All three helpers implement the WAI-ARIA APG
 listbox pattern in JavaScript: `aria-haspopup` / `aria-expanded` /
 `aria-controls` on the button, `role="listbox"` on the `<ul>`,
 `role="option"` + `aria-selected` on each `<li>`, and
@@ -78,16 +85,22 @@ keyboard behaviour, mobile OS pickers, and battle-tested AT support
 for free. Each package's `docs/accessibility.md` states the tradeoff
 in full.
 
-`<text-size-select>` still renders a native `<select>` and still gets
-all of that for free; it adds no JS keyboard handlers.
+This now applies to all three helpers, `<text-size-select>` included.
+It lands slightly harder there: a user who reaches for a text-size
+control has, by definition, a visual or cognitive access need, and is
+likelier than average to be on assistive technology. A native
+`<select>` remains the better choice for some audiences — say so
+plainly rather than treating the APG pattern as strictly better.
 
 ### CustomEvent and screen-reader announcements
 
-`themechange` / `localechange` are **not** ARIA live regions. They
-are change notifications for *consumer code*, not for assistive
-technology. If you want the theme change announced, add a
-`role="status"` or `aria-live` region elsewhere on the page and
-write into it from your `themechange` listener.
+`themechange` / `localechange` / `textsizechange` are **not** ARIA
+live regions. They are change notifications for *consumer code*, not
+for assistive technology. If you want the change announced, add a
+`role="status"` or `aria-live` region elsewhere on the page and write
+into it from your listener. Each package's `docs/accessibility.md`
+documents that status region as the default pattern, because an
+icon-only button conveys nothing about its current value when closed.
 
 ### Subclassing for custom rendering
 
@@ -107,10 +120,7 @@ surface. There are two tiers, and they differ sharply in risk:
 
 ## Keyboard
 
-`<text-size-select>` inherits Tab / Shift+Tab / Arrow / Home / End /
-typeahead / Space / Enter / Escape from its native `<select>`.
-
-`<theme-select>` and `<locale-select>` implement the APG listbox
+All three helpers implement the APG listbox
 contract themselves — on the button, ArrowDown / Enter / Space open
 (ArrowUp opens with the last option active); on the listbox, arrows
 move the active option and clamp, Home / End jump to the ends,

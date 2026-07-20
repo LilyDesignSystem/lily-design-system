@@ -55,14 +55,12 @@ Shared design decisions across the catalog:
 - **Light DOM**: the custom element itself uses light DOM (not
   Shadow DOM), so the consumer's CSS reaches the rendered markup
   via stable kebab-case class hooks.
-- **Two rendering shapes**: `<theme-select>` and `<locale-select>`
-  render an icon button that opens a `role="listbox"` dropdown,
-  implementing the WAI-ARIA APG listbox keyboard contract in JS.
-  `<text-size-select>` renders a native `<select>` and inherits the
-  platform's. Because light DOM has no `<slot>`, the customisation
-  surface is subclassing — override `renderButtonContent()` to
-  replace the button glyph without giving up the accessibility
-  contract.
+- **One rendering shape**: all three helpers render an icon button
+  that opens a `role="listbox"` dropdown, implementing the WAI-ARIA
+  APG listbox keyboard contract in JS. Because light DOM has no
+  `<slot>`, the customisation surface is subclassing — override
+  `renderButtonContent()` to replace the button glyph without giving
+  up the accessibility contract.
 - **Attribute-driven config**: attributes are kebab-case strings
   (`themes-url`, `storage-key`, `default-value`, `apply-dir`).
   Array-valued options (`themes`, `locales`) accept either a

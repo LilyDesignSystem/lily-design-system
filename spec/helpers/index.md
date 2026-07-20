@@ -2,7 +2,7 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Each framework ships a `*-helpers` catalog of small, opinionated, reusable packages that sit alongside the headless library; where a headless component is a pure container, a helper owns one user-preference lifecycle end to end (selection + DOM application + optional persistence). The three helpers in every catalog today are `theme-select`, `locale-select`, and `text-size-select`, each rendered as a native `<select>` control.
+**Summary.** Each framework ships a `*-helpers` catalog of small, opinionated, reusable packages that sit alongside the headless library; where a headless component is a pure container, a helper owns one user-preference lifecycle end to end (selection + DOM application + optional persistence). The three helpers in every catalog today are `theme-select`, `locale-select`, and `text-size-select`, each rendered as a single-glyph icon button that opens a WAI-ARIA APG listbox.
 
 ## Scope
 
@@ -14,7 +14,7 @@ It does **not** cover: the headless 490-component catalog and its rules (see [he
 
 - **One job per helper.** Each helper owns the entire lifecycle of one user-preference dimension (theme, language, text size) and composes cleanly with the others.
 - **Higher-level than headless, not a replacement.** The headless `ThemeSelect` is a pure `<select>` container the consumer wires up; the helper adds dynamic stylesheet loading, attribute application, and persistence. Both layers can coexist in one app.
-- **Native `<select>` markup.** Every helper renders one native `<select>` with one `<option>` per choice — native keyboard semantics, no custom widget code. (The original radio-group "picker" markup was migrated to `<select>` in June 2026.)
+- **Icon button + listbox markup.** Every helper renders a `<button>` carrying an `aria-hidden` glyph, which opens a `role="listbox"` popup implementing the APG keyboard contract. The native keyboard semantics of a `<select>` are therefore hand-rolled, which is a real cost — see each package's `docs/accessibility.md`. (History: radio-group "picker" → native `<select>` in June 2026 → icon button + listbox in July 2026. The picker markup must not be reintroduced.)
 - **Headless still.** No bundled CSS, fonts, icons, or images — the consumer styles every visual aspect via a kebab-case class hook.
 - **SSR-safe.** No DOM writes outside the framework's mount/effect lifecycle (`$effect` / `onMount` / equivalent).
 - **i18n-clean.** Every user-facing string comes from a prop.
@@ -53,7 +53,7 @@ Each helper subproject follows the same spec-driven shape (Svelte example; other
 | `dist/` | Build output (`build.js` per catalog; `files`/`exports` maps, `svelte` condition where relevant). |
 | `docs/`, `examples/` | Topic guides and runnable examples (optional). |
 
-Each `*-helpers` catalog directory, and each helper inside it, is its own `git subtree` pushed to a standalone remote. All 21 helper packages (7 catalogs × 3 helpers) publish via [`bin/publish-helpers`](../../bin/publish-helpers) (npm registries for the JS frameworks, NuGet for Blazor). theme-select and locale-select are at 0.4.0 (the breaking icon-button + listbox rewrite; 0.3.0 was the short-lived placeholder-pinned `<select>`, 0.2.0 the radio-group → `<select>` migration); text-size-select is at 0.1.0 (still a native `<select>`).
+Each `*-helpers` catalog directory, and each helper inside it, is its own `git subtree` pushed to a standalone remote. All 21 helper packages (7 catalogs × 3 helpers) publish via [`bin/publish-helpers`](../../bin/publish-helpers) (npm registries for the JS frameworks, NuGet for Blazor). theme-select and locale-select are at 0.4.0 (the breaking icon-button + listbox rewrite; 0.3.0 was the short-lived placeholder-pinned `<select>`, 0.2.0 the radio-group → `<select>` migration); text-size-select is at 0.2.0 (the same rewrite, reaching it one release later).
 
 ## theme-select contract
 
@@ -86,19 +86,38 @@ A drop-in headless locale selector that applies a BCP 47 locale to the document.
 | Persistence | Optional `localStorage`; optional `navigator.language` prefix-match fallback on first visit. |
 | Non-goals | No translation, no locale negotiation/best-fit, no auto-discovery, no bundled translation files — it only signals the locale to the consumer's i18n library via `lang`, `onChange`, and the bindable value. |
 
+## share-button contract
+
+An action helper rather than a preference helper: it applies nothing to
+the document and persists nothing. Svelte catalog only, for now.
+
+| Aspect | Contract |
+| ------ | -------- |
+| Markup | `<div class="share-button {class}">` containing `<button class="share-button-trigger" aria-label aria-expanded aria-controls>` whose only content is an `aria-hidden` `<span class="share-button-icon">↪</span>` (U+21AA), a `<ul class="share-button-list" hidden>` of `<li>` holding `<a class="share-button-target">` destinations and an optional `<button class="share-button-copy">`, and a `<p class="share-button-status" aria-live="polite">`. |
+| Pattern | **Disclosure, not menu or listbox.** Destinations are navigation, so they are real links with no `role` override — `role="menuitem"` would strip middle-click, open-in-new-tab and copy-link-address, and the APG suggests a disclosure when items are links. |
+| Required props | `label`. `targets` and `copyLabel` are both optional, but at least one is needed for the list to have contents. |
+| Destinations | Consumer-supplied. Each `ShareTarget` carries `id`, `label`, and `href(url, title, text)`. **No social-network endpoints ship with the package** — an editorial and privacy decision that belongs to the consumer, and the URLs change. |
+| Native sheet | `strategy: "auto"` (default) calls `navigator.share` when it exists and skips the list; `"native"` always tries; `"list"` never does. A rejected (dismissed) sheet ends the interaction rather than falling through to the list. |
+| Copy | `navigator.clipboard.writeText(url)`; success fires `onCopy` and announces `copiedLabel`, failure announces `copyFailedLabel` and never throws. The copy item renders only when `copyLabel` is supplied — a default would be hardcoded English. |
+| URL | `url` defaults to the current page, resolved lazily so SSR never touches `location`. |
+| Keyboard | Arrows move focus between items and clamp; Home/End jump; Escape closes and returns focus to the trigger; Tab closes and moves on. Items are real focusable elements, so focus moves for real rather than via `aria-activedescendant`. |
+| Class-hook exception | The trigger is `share-button-trigger`, not `share-button-button`, since `.share-button-button` reads badly. |
+
 ## text-size-select contract
 
 A drop-in headless text-size selector for reader-preference sizing.
 
 | Aspect | Contract |
 | ------ | -------- |
-| Markup | `<select class="text-size-select {class}" aria-label="{label}" name="text-size">` with one `<option class="text-size-select-option" value="{slug}">` per size. |
+| Markup | `<div class="text-size-select {class}">` containing a hidden input (carries `name`), `<button class="text-size-select-button" aria-label="{label}" aria-haspopup="listbox" aria-expanded aria-controls>` whose only content is an `aria-hidden` `<span class="text-size-select-icon">A</span>` (U+0041), and `<ul class="text-size-select-list" role="listbox" tabindex="-1" hidden>` of `<li class="text-size-select-option" role="option" aria-selected>`. |
+| Display | A single-glyph button, symmetric with theme-select and locale-select. "A" is a plain in-font letter rather than a pictograph: U+1F5DB (DECREASE FONT SIZE SYMBOL) was rejected because it falls back to a crude bitmap glyph in common font stacks and means *decrease* rather than *size*. |
 | Required props | `label`, `sizes`. |
 | Activation | Sets `data-text-size="{slug}"` on `target` (defaults to `document.documentElement`); consumer CSS maps each value to font sizing. |
-| Labels | Title-cases hyphenated slugs (`x-large` → `X Large`); `sizeLabels` map overrides. |
+| Labels | The exported `sizeName` title-cases hyphenated slugs (`x-large` → `X Large`), mirroring `themeName` / `localeName`; `sizeLabels` map overrides. |
 | Persistence | Optional `localStorage[storageKey]`, try/catch-guarded. |
 | SSR | All DOM writes inside the mount/effect lifecycle. |
-| Keyboard | Native `<select>` semantics. |
+| Keyboard | WAI-ARIA APG listbox, identical to the other two helpers. Button: ArrowDown / ArrowUp / Enter / Space open (ArrowUp starts on the last option). List: arrows move and clamp, Home/End jump, printable characters typeahead over labels, Enter/Space select and return focus to the button, Escape closes without changing the value, Tab closes and moves on. |
+| No detection | Unlike theme-select (`detectFromSystem`) and locale-select (`detectFromNavigator`), there is no first-visit detection: no OS-level "preferred text size" is exposed to the web platform. |
 
 ## Differences from the headless library
 
@@ -111,19 +130,20 @@ A drop-in headless text-size selector for reader-preference sizing.
 
 ## Acceptance criteria
 
-- [x] Each of the seven framework catalogs ships `theme-select`, `locale-select`, and `text-size-select` helpers.
+- [x] Each of the seven framework catalogs ships `theme-select`, `locale-select`, and `text-size-select` helpers. The Svelte catalog additionally ships `share-button`; porting it to the other six is open work.
 - [x] Every helper has a numbered `spec/index.md` and a test file asserting each acceptance clause.
 - [x] JS-framework helpers ship an npm `package.json`; Blazor helpers ship a NuGet `.csproj` (Razor class library).
-- [x] Every helper renders a native `<select>` with per-choice `<option>` elements and native keyboard semantics.
+- [x] Every helper renders an icon button plus a `role="listbox"` popup with per-choice `role="option"` items.
 - [x] theme-select swaps a managed `<link>` href, sets `data-theme` on the document root, and persists optionally to `localStorage`, SSR-safe.
 - [x] locale-select sets `lang` + `dir`, auto-detects RTL scripts, emits BCP 47 hyphenated tags, and performs no translation.
-- [x] text-size-select sets `data-text-size` on the target and persists optionally.
-- [x] theme-select and locale-select render an icon button + APG listbox in all seven catalogs; `text-size-select` keeps its native `<select>`.
-- [x] Both icon-button helpers implement the full APG listbox keyboard contract (open keys, clamped arrows, Home/End, typeahead, Enter/Space select with focus return, Escape without change, Tab passthrough), verified in a real browser as well as in unit tests.
+- [x] text-size-select sets `data-text-size` on the target and persists optionally, and renders the same icon-button + listbox shape as the other two.
+- [x] All three helpers render an icon button + APG listbox in all seven catalogs — ◑ (U+25D1), 🌐 (U+1F310 + U+FE0E), "A" (U+0041), optically matched via `--lily-select-icon-scale`.
+- [x] All three icon-button helpers implement the full APG listbox keyboard contract (open keys, clamped arrows, Home/End, typeahead, Enter/Space select with focus return, Escape without change, Tab passthrough), verified in a real browser as well as in unit tests.
 - [x] The glyph is `aria-hidden` and the accessible name comes from `aria-label`; the `children` slot overrides the glyph, not the options.
-- [x] The two helpers are symmetric: matching exported label resolvers (`themeName` / `localeName`), matching first-visit detection (`detectFromSystem` / `detectFromNavigator`) at the same position in the resolution order, matching glyph presentation (both monochrome), and matching doc + example file shape.
+- [x] The helpers are symmetric: matching exported label resolvers (`themeName` / `localeName` / `sizeName`), matching monochrome glyph presentation, and matching doc + example file shape. theme-select and locale-select additionally match on first-visit detection (`detectFromSystem` / `detectFromNavigator`) at the same position in the resolution order; text-size-select has no equivalent to detect.
 - [x] The 45 root `themes/` stylesheets style the button and popup, scoped by `:has(> .{helper}-button)` so the catalog `theme-select` component — a native `<select>` sharing the class hook — keeps its form-field styling.
-- [x] Helpers ship no bundled CSS, fonts, icons, or images and take no hardcoded user-facing strings.
+- [x] Helpers ship no bundled CSS, fonts, icons, or images and take no hardcoded user-facing strings — nor, in `share-button`'s case, any third-party endpoint.
+- [x] `share-button` renders a disclosure of real links plus a clipboard action, announces the copy outcome politely, and prefers the native share sheet where the platform has one.
 - [x] The svelte-helpers catalog is the canonical reference; the other six are idiom-faithful ports.
 - [x] Each `*-helpers` catalog and each helper is a git subtree with a standalone remote.
 - [x] Each helper builds a `dist/` via the catalog `build.js` and publishes via `bin/publish-helpers`.

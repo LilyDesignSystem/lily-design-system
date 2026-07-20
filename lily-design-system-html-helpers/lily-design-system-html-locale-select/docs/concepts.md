@@ -104,9 +104,11 @@ keyboard behaviour, the mobile OS picker, and battle-tested
 assistive-technology support at zero cost. A hand-rolled listbox is
 well-specified by the APG but has weaker and more variable support,
 particularly on mobile screen readers, and gets no native picker. If
-that trade is wrong for your audience, the sibling
-`<text-size-select>` still renders a native `<select>` and is the
-shape to copy. The full accounting is in
+that trade is wrong for your audience, render a native `<select>` of
+your own against `el.locales` / `el.value` and let this element handle
+only the application and persistence — every helper in this catalog
+now uses the listbox shape, so there is no longer a native-`<select>`
+sibling to copy. The full accounting is in
 [accessibility.md](./accessibility.md#tradeoffs).
 
 For custom presentation, subclass: override `renderButtonContent()`

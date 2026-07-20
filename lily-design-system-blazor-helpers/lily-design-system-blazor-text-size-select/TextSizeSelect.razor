@@ -4,31 +4,65 @@
     TextSizeSelect — Blazor helper component.
     Single source of truth: spec/index.md (§1–§9).
 
-    Renders an accessible native <select> of text-size slugs. On every
-    selection it sets `data-text-size="{slug}"` on the document root,
-    optionally persists to `localStorage`, and invokes OnChange /
-    ValueChanged with the chosen slug.
+    Renders an icon button that opens a dropdown listbox of available
+    text sizes (WAI-ARIA APG listbox pattern). On every selection it
+    (1) sets data-text-size on <html>, (2) optionally persists to
+    localStorage, and (3) invokes OnChange / ValueChanged.
 
     All DOM writes happen through IJSRuntime inside OnAfterRenderAsync,
     so the component is SSR / prerender safe.
 *@
 
-<select class="@RootClass"
-        aria-label="@Label"
-        name="@Name"
-        @onchange="OnSelectAsync"
-        @attributes="AdditionalAttributes">
-    @if (ChildContent is not null)
-    {
-        @ChildContent(BuildContext())
-    }
-    else
-    {
-        @foreach (var size in Sizes)
+<div class="@RootClass"
+     @onfocusout="OnRootFocusOutAsync"
+     @attributes="AdditionalAttributes">
+
+    @* Preserves form participation; the listbox itself is not a form control. *@
+    <input type="hidden" name="@Name" value="@Value" />
+
+    <button type="button"
+            class="text-size-select-button"
+            @ref="_buttonElement"
+            aria-label="@Label"
+            aria-haspopup="listbox"
+            aria-expanded="@(_open ? "true" : "false")"
+            aria-controls="@ListId"
+            @onclick="OnButtonClickAsync"
+            @onkeydown="OnButtonKeyDownAsync">
+        @if (ChildContent is not null)
         {
-            <option class="text-size-select-option"
-                    value="@size"
-                    selected="@(Value == size)">@LabelFor(size)</option>
+            @ChildContent(BuildContext())
         }
-    }
-</select>
+        else
+        {
+            @* The glyph is decorative: the accessible name is the button's
+               aria-label, never the character itself. *@
+            <span class="text-size-select-icon" aria-hidden="true">@LatinCapitalLetterA</span>
+        }
+    </button>
+
+    @* mousedown default is suppressed so clicking an option does not blur
+       the listbox before the click handler runs. *@
+    <ul class="text-size-select-list"
+        id="@ListId"
+        role="listbox"
+        aria-label="@Label"
+        aria-activedescendant="@ActiveDescendantId"
+        tabindex="-1"
+        hidden="@(!_open)"
+        @ref="_listElement"
+        @onkeydown="OnListKeyDownAsync"
+        @onmousedown:preventDefault="true">
+        @for (var i = 0; i < Sizes.Count; i++)
+        {
+            var index = i;
+            var size = Sizes[index];
+            <li class="text-size-select-option"
+                id="@OptionId(index)"
+                role="option"
+                aria-selected="@(size == Value ? "true" : "false")"
+                data-active="@(index == _activeIndex ? "" : null)"
+                @onclick="() => ChooseAsync(index)">@LabelFor(size)</li>
+        }
+    </ul>
+</div>

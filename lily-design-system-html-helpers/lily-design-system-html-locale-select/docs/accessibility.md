@@ -160,9 +160,11 @@ than by arrow keys, which is exactly the interaction model
 `aria-activedescendant` serves least well.
 
 This element does not get the native mobile picker and cannot. If
-your audience is mobile-first and screen-reader-heavy,
-`<text-size-select>` in this same catalog still renders a native
-`<select>` and is the shape to copy.
+your audience is mobile-first and screen-reader-heavy, render a native
+`<select>` of your own against `el.locales` / `el.value` and let this
+element handle only the application and persistence — every helper in
+this catalog now uses the listbox shape, so there is no longer a
+native-`<select>` sibling to copy.
 
 ### 3. Glyph rendering is platform-dependent
 

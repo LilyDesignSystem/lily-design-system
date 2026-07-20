@@ -11,54 +11,90 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `theme-select` and `locale-select` are no longer native `<select>`
-  elements. Each is now an **icon button that opens a dropdown
-  listbox**: a `<div>` root containing a hidden `<input>`, a
-  glyph-only `<button>` (U+25D1 for theme, U+1F310 for locale), and a
+- **All three helpers** are no longer native `<select>` elements. Each
+  is now an **icon button that opens a dropdown listbox**: a `<div>`
+  root containing a hidden `<input>`, a glyph-only `<button>` (U+25D1
+  for theme, U+1F310 for locale, U+0041 "A" for text size), and a
   `<ul role="listbox" hidden>` of `<li role="option">`. The client
   modules gained the full WAI-ARIA APG listbox keyboard contract.
-- This **supersedes the 0.3.0 placeholder-pinning work** in both
-  helpers: with no `<select>` there is nothing to pin, so the
+- `theme-select` and `locale-select` converted first; `text-size-select`
+  joins them here, so the catalog is once again internally consistent.
+- This **supersedes the 0.3.0 placeholder-pinning work** in theme-select
+  and locale-select: with no `<select>` there is nothing to pin, so the
   `placeholder` opt and the `{helper}-placeholder` class hook are
-  removed from both.
-- `text-size-select` is **untouched** and keeps its native `<select>`
-  and its `placeholder` opt.
+  removed from both. `text-size-select` never had a `placeholder` opt.
+- `text-size-select` gains a hidden `<input name="{name}">` for form
+  participation. The `name` opt now names that input rather than the
+  `<select>`; its default is still `"text-size"`.
+
+### Note on the text-size glyph
+
+The button glyph is `"A"` (U+0041 LATIN CAPITAL LETTER A), not a
+pictograph. U+1F5DB DECREASE FONT SIZE SYMBOL was the first choice but
+has no real glyph in common font stacks — it degrades to a crude bitmap
+shape — and it means *decrease* rather than *size*. "A" renders in the
+page's own font everywhere, stays monochrome like theme-select's ◑, and
+is the conventional text-size affordance. It is materially safer than a
+pictograph against the "glyph may not render" tradeoff.
+
+`text-size-select` deliberately gains **no** detection prop. Unlike
+`prefers-color-scheme` (theme) and `navigator.languages` (locale), the
+web platform exposes no OS "preferred text size" signal.
 
 ### Added
 
-- New class hooks on both converted helpers: `{helper}-button`,
+- New class hooks on all three helpers: `{helper}-button`,
   `{helper}-icon`, `{helper}-list`, `{helper}-option`, plus
   `[data-active]` and `[aria-selected]` state hooks. The packages ship
   no positioning CSS for the listbox; that is the consumer's job.
-- New `id` macro opt on both converted helpers, defaulting to
+- New `id` macro opt on all three helpers, defaulting to
   `{helper}-{name}`, giving deterministic SSR-safe ids for the listbox
   and its options. A Nunjucks macro cannot hold an incrementing module
   counter the way the canonical Svelte helper does, so this parameter
   is the framework's stable-id mechanism; two instances sharing a
   `name` need distinct `id`s.
-- The `{% call %}` block on both converted helpers now overrides the
+- The `{% call %}` block on all three helpers now overrides the
   button's glyph — the Nunjucks equivalent of the canonical helper's
   `children`.
+- `text-size-select.client.js` exports `sizeName(slug)` and
+  `LATIN_CAPITAL_LETTER_A`, mirroring theme-select's `themeName` /
+  `CIRCLE_WITH_RIGHT_HALF_BLACK` and locale-select's `localeName`.
+  `sizeName` title-cases hyphen-separated words (`"x-large"` →
+  `"X Large"`). As with the other two helpers, the macro cannot call
+  into the client module — delegating would force every consumer to
+  register a custom Nunjucks filter — so the macro restates the rule in
+  template syntax and a test holds the two in agreement.
+- `text-size-select` now emits `data-lily-text-size-select-value` for
+  `opts.value`, the same out-of-band mechanism the other two use to
+  avoid a pre-hydration flash.
 
 ### Regression (documented, not fixed)
 
-- `theme-select` and `locale-select` **no longer work without
-  JavaScript.** Their buttons have no handler and their listboxes
-  render `hidden`, so with JS disabled the user cannot change theme or
-  locale. The native `<select>` they replaced was fully operable with
-  no JS. The pre-filled hidden input keeps form submission working but
-  is not a choice path. Each package's `docs/ssr.md` states this
-  plainly and points at the alternative.
+- **No helper in this catalog works without JavaScript any more.**
+  Every button has no handler and every listbox renders `hidden`, so
+  with JS disabled the user cannot change theme, locale, or text size.
+  The native `<select>` elements they replaced were fully operable with
+  no JS whatsoever. The pre-filled hidden input keeps form submission
+  working but is not a choice path. Each package's `docs/ssr.md` states
+  this plainly and points at the alternative.
+- This regression is worth weighing especially carefully for
+  `text-size-select`, whose entire purpose is WCAG 1.4.4 (Resize Text)
+  — the users most likely to need it overlap with users on constrained
+  or assistive setups. `docs/accessibility.md` says so directly.
 
 ### Unchanged
 
-- `data-lily-theme-select-value` / `data-lily-locale-select-value`
-  remain the sole channel by which `opts.value` reaches each client,
-  and still prevent a pre-hydration flash.
+- `data-lily-{theme,locale,text-size}-select-value` remain the sole
+  channel by which `opts.value` reaches each client, and still prevent
+  a pre-hydration flash.
 - All downstream behaviour: the managed `<link>` swap, `data-theme`,
-  `lang` / `dir`, RTL detection, `localStorage` persistence, navigator
-  detection, `onChange`, initial-value resolution, SSR safety, and
-  every exported pure helper.
+  `lang` / `dir`, RTL detection, `data-text-size` application,
+  `localStorage` persistence, navigator detection, `onChange`,
+  initial-value resolution, SSR safety, and every exported pure helper.
+- `text-size-select`'s initial-value order is unchanged
+  (`value > storage > defaultValue > "medium" > sizes[0]`). Unlike
+  theme-select, `value` already beat storage here, so there is no
+  precedence reversal and no migration warning.
 
 ## 0.3.0 — 2026-07-20
 

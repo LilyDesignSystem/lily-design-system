@@ -1,0 +1,51 @@
+@*
+    Example 4 — Custom button face via ChildContent.
+
+    ChildContent REPLACES the glyph inside the button. It does not
+    render options: those are component-owned, so a consumer override
+    cannot break the listbox semantics (role, aria-selected, ids,
+    aria-activedescendant).
+
+    The fragment receives TextSizeSelectContext:
+
+        Value    — the currently selected slug
+        Open     — is the listbox open? (use it for a caret / rotation)
+        LabelFor — the component's own label resolver, honouring SizeLabels
+
+    An inline SVG is the robust choice: the default "A" glyph is a font
+    character, so it inherits the page's typeface and — being a text-size
+    control — scales with the very setting it adjusts. An SVG sized in
+    px stays put. See docs/accessibility.md tradeoff 3.
+
+    Keep Label set. ChildContent changes what is DRAWN; the accessible
+    name still comes from the button's aria-label.
+*@
+
+@page "/examples/text-size-select/custom-rendering"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<TextSizeSelect
+    Label="Text size"
+    Sizes="@Sizes"
+    @bind-Value="size">
+    <ChildContent Context="ctx">
+        @* Decorative: the accessible name is the button's aria-label. *@
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path d="M4 20 L10 4 L16 20 M6.5 14 H13.5"
+                  fill="none" stroke="currentColor" stroke-width="2" />
+        </svg>
+        <span class="caret" aria-hidden="true">@(ctx.Open ? "▲" : "▼")</span>
+    </ChildContent>
+</TextSizeSelect>
+
+<p class="text-size-select-status" aria-live="polite">
+    Text size: @(string.IsNullOrEmpty(size) ? "none" : TextSizeSelect.SizeName(size))
+</p>
+
+@code {
+    private static readonly string[] Sizes =
+        new[] { "small", "medium", "large", "x-large" };
+
+    private string size = "";
+}

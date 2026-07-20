@@ -151,12 +151,12 @@ The kebab-case base class lives on the rendered root child, not on
 the custom-element itself. The custom element is the container that
 owns the lifecycle; what it renders is what the consumer styles.
 
-The rendered root differs by helper: `<theme-select>` and
-`<locale-select>` render a `<div class="theme-select">` wrapping a
-hidden input, a `<button class="theme-select-button">`, and a
-`<ul class="theme-select-list">` of `<li class="theme-select-option">`;
-`<text-size-select>` renders a `<select class="text-size-select">`
-with `<option>` children.
+The rendered root is the same shape for all three helpers: a
+`<div class="{helper}">` wrapping a hidden input, a
+`<button class="{helper}-button">` holding a
+`<span class="{helper}-icon">`, and a `<ul class="{helper}-list">` of
+`<li class="{helper}-option">`. Substitute `theme-select`,
+`locale-select`, or `text-size-select` for `{helper}`.
 
 The consumer's optional `class` attribute on the custom element is
 re-applied to that rendered root, so `<theme-select

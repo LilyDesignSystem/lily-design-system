@@ -1,10 +1,14 @@
 # `<text-size-select>` (HTML helper)
 
 A reusable, headless vanilla HTML/JS **text-size select**, packaged as
-the `<text-size-select>` custom element. Renders a native `<select>` of
-text-size slugs and, on every change, sets `data-text-size="{slug}"` on
-a target element (default `document.documentElement`), optionally
-persisting the choice to `localStorage`.
+the `<text-size-select>` custom element. Renders an icon button that
+opens a dropdown listbox (WAI-ARIA APG listbox pattern) of text-size
+slugs and, on every change, sets `data-text-size="{slug}"` on a target
+element (default `document.documentElement`), optionally persisting the
+choice to `localStorage`.
+
+It is structurally identical to its `theme-select` and `locale-select`
+siblings — all three helpers in this catalog are the same shape.
 
 The single source of truth is [spec/index.md](./spec/index.md). This file is the
 comprehensive user guide.
@@ -34,9 +38,12 @@ only the framework idioms differ.
 // One side-effect import registers <text-size-select> globally:
 import "./lily-design-system-html-text-size-select";
 
-// Or grab the class + types:
+// Or grab the class, helpers, and types:
 import {
     TextSizeSelect,
+    sizeName,                 // "x-large" → "X Large"
+    nextTextSizeSelectId,
+    LATIN_CAPITAL_LETTER_A,   // the default "A" glyph
     type TextSizeSelectProps,
     type TextSizeSelectChangeDetail,
 } from "./lily-design-system-html-text-size-select";
@@ -56,6 +63,8 @@ don't throw.
     sizes="small,medium,large,x-large"
     storage-key="lily-text-size"
 ></text-size-select>
+
+<p class="text-size-select-status" aria-live="polite">Text size: Medium</p>
 ```
 
 When the user picks `large`, the element:
@@ -65,15 +74,27 @@ When the user picks `large`, the element:
 - dispatches `new CustomEvent("textsizechange", { detail: { size: "large" }, bubbles: true, composed: true })`.
 
 The element does **not** style anything — your CSS maps each slug to a
-real font scale. Wire `textsizechange` (or read `el.value`) if you need
-to react in JS:
+real font scale. The closed button shows only the "A" glyph, so the
+status region above is the default pattern: it is the only thing that
+tells a user which size is active. Wire `textsizechange` (or read
+`el.value`) to keep it current:
 
 ```ts
 const select = document.querySelector("text-size-select")!;
+const status = document.querySelector(".text-size-select-status")!;
+
 select.addEventListener("textsizechange", (e) => {
     const { size } = (e as CustomEvent<{ size: string }>).detail;
-    // analytics, etc.
+    status.textContent = `Text size: ${select.labelFor(size)}`;
 });
+```
+
+Because the list is a plain flow element, give it positioning — the
+helper ships no CSS at all:
+
+```css
+.text-size-select { position: relative; }
+.text-size-select-list { position: absolute; z-index: 10; }
 ```
 
 ## Default size
@@ -93,16 +114,33 @@ The default slug is `"medium"` whenever `"medium"` appears in your
 The complete table is in [spec/index.md §4.1](./spec/index.md#41-observed-attributes).
 Highlights:
 
-| Attribute       | Type          | Required | Notes                                |
-| --------------- | ------------- | -------- | ------------------------------------ |
-| `label`         | string        | yes      | `aria-label` on the `<select>`.      |
-| `sizes`         | string (CSV)  | yes      | Available slugs.                     |
-| `value`         | string        | no       | Current slug.                        |
-| `default-value` | string        | no       | Initial when nothing else applies.   |
-| `storage-key`   | string        | no       | `localStorage` persistence.          |
-| `name`          | string        | no       | Defaults to `"text-size"`.           |
-| `size-labels`   | string (JSON) | no       | Per-slug label overrides.            |
-| `class`         | string        | no       | Extra class on the `<select>`.       |
+| Attribute       | Type          | Required | Notes                                       |
+| --------------- | ------------- | -------- | ------------------------------------------- |
+| `label`         | string        | yes      | `aria-label` on the button *and* the list.  |
+| `sizes`         | string (CSV)  | yes      | Available slugs.                            |
+| `value`         | string        | no       | Current slug.                               |
+| `default-value` | string        | no       | Initial when nothing else applies.          |
+| `storage-key`   | string        | no       | `localStorage` persistence.                 |
+| `name`          | string        | no       | Defaults to `"text-size"`; on the hidden input. |
+| `size-labels`   | string (JSON) | no       | Per-slug label overrides.                   |
+| `class`         | string        | no       | Extra class on the root `<div>`.            |
+
+There is no detection attribute. Unlike `theme-select`
+(`detect-from-system`) and `locale-select` (`detect-from-navigator`),
+the platform exposes no preferred-text-size signal to detect.
+
+## Class hooks
+
+| Class                      | Element                                      |
+| -------------------------- | -------------------------------------------- |
+| `text-size-select`         | root `<div>`                                 |
+| `text-size-select-button`  | the icon `<button>`                          |
+| `text-size-select-icon`    | the `<span>` holding the "A" glyph           |
+| `text-size-select-list`    | the `<ul role="listbox">`                    |
+| `text-size-select-option`  | each `<li role="option">`                    |
+
+Style `[data-active]` (keyboard-highlighted) differently from
+`[aria-selected="true"]` (chosen) — they mean different things.
 
 ## JS properties
 
@@ -135,14 +173,47 @@ Pass `storage-key` to persist the active slug to `localStorage`. On a
 fresh mount the select reads back the stored slug as part of the
 initial-value resolution. Storage errors are silently swallowed.
 
+## Custom rendering
+
+Subclass and override `renderButtonContent()` to replace the glyph.
+It is the HTML-helper stand-in for the `children` snippet the Svelte /
+React / Vue siblings take, and `this.value`, `this.open`, and
+`this.labelFor(...)` are all readable inside it:
+
+```ts
+class MyTextSizeSelect extends TextSizeSelect {
+    renderButtonContent(): Node {
+        const span = document.createElement("span");
+        span.textContent = `A — ${this.labelFor(this.value)}`;
+        return span;
+    }
+}
+customElements.define("my-text-size-select", MyTextSizeSelect);
+```
+
+The base class still builds the button and listbox, so the aria wiring
+and the whole keyboard contract keep working.
+
 ## Accessibility
 
-- The rendered root is a `<select>` (implicit `role="combobox"`) with
-  `aria-label={label}`.
-- The native `<select>` gives Arrow / Home / End / typeahead / Tab
-  semantics for free.
-- Directly supports WCAG 2.2 — 1.4.4 (Resize Text) and 1.4.12 (Text
-  Spacing).
+- The control is an icon button (`aria-haspopup="listbox"`,
+  `aria-expanded`, `aria-controls`) opening a `<ul role="listbox">`.
+  `aria-label={label}` names both.
+- The keyboard contract is implemented in JS, not inherited from the
+  platform: `ArrowDown`/`Enter`/`Space` open, `ArrowUp` opens on the
+  last option, arrows clamp, `Home`/`End` jump, `Enter`/`Space`
+  select, `Escape` closes unchanged, `Tab` moves on, printable
+  characters run a 500 ms typeahead.
+- Focus sits on the `<ul>` while open; the highlighted option is
+  conveyed by `aria-activedescendant`. Style
+  `.text-size-select-list:focus-visible` and
+  `.text-size-select-option[data-active]`, or keyboard users get no
+  feedback.
+- Directly supports WCAG 2.2 — 1.4.4 (Resize Text), 1.4.10 (Reflow),
+  and 1.4.12 (Text Spacing).
+- Three known tradeoffs (icon-only naming, a custom listbox being
+  weaker than a native `<select>`, font-dependent glyph rendering) are
+  documented honestly in [docs/accessibility.md](./docs/accessibility.md).
 
 ## SSR and static-site generation
 
@@ -166,13 +237,14 @@ Exercises every numbered acceptance criterion in
 
 | File                       | Purpose                                          |
 | -------------------------- | ------------------------------------------------ |
-| `spec/index.md`                  | Single source of truth.                          |
+| `spec/index.md`            | Single source of truth.                          |
 | `AGENTS.md`                | Fast-index pointer; loads the AGENTS bundle.     |
 | `CLAUDE.md`                | `@AGENTS.md`.                                    |
 | `text-size-select.ts`      | The custom-element class.                        |
 | `text-size-select.test.ts` | vitest suite.                                    |
 | `index.ts`                 | Barrel + side-effectful `customElements.define`. |
 | `index.md`                 | This file.                                       |
+| `docs/accessibility.md`    | Roles, keyboard contract, known tradeoffs.       |
 
 ## License
 

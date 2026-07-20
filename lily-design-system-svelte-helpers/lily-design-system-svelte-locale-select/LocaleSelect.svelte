@@ -230,7 +230,12 @@
 
     function scrollActiveIntoView(): void {
         if (activeIndex < 0 || !listEl) return;
-        const el = listEl.querySelector<HTMLElement>(`#${CSS.escape(optionId(activeIndex))}`);
+        // getElementById, not a `#id` selector: ids here are generated and
+        // contain nothing needing escaping, and `CSS` is absent entirely in
+        // jsdom — `CSS.escape` there throws inside the keydown handler,
+        // after activeIndex is already assigned, so the suite stays green
+        // while this path never actually runs.
+        const el = document.getElementById(optionId(activeIndex));
         el?.scrollIntoView({ block: "nearest" });
     }
 

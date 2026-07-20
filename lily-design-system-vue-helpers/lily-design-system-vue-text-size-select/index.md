@@ -1,10 +1,10 @@
 # TextSizeSelect (Vue helper)
 
-A reusable, headless Vue 3 **text-size select**. Renders a native
-`<select>` of text-size slugs and, on every change, sets
-`data-text-size="{slug}"` on a target element (default
-`document.documentElement`), optionally persisting the choice to
-`localStorage`. Ships no CSS — the consumer maps each size slug to
+A reusable, headless Vue 3 **text-size select**. Renders an icon
+button that opens a WAI-ARIA APG listbox of text-size slugs and, on
+every change, sets `data-text-size="{slug}"` on a target element
+(default `document.documentElement`), optionally persisting the choice
+to `localStorage`. Ships no CSS — the consumer maps each size slug to
 real typography via CSS, e.g.:
 
 ```css
@@ -18,8 +18,18 @@ This supports WCAG 2.2 — 1.4.4 (Resize Text) and 1.4.12 (Text
 Spacing) — by letting users pick a comfortable reading size that the
 app remembers.
 
+Same shape as the `theme-select` and `locale-select` helpers: all
+three are an icon button plus a listbox, so you wire them identically.
+
 For the full contract see [spec/index.md](./spec/index.md) — it is the single
 source of truth for the API, behaviour, and tests.
+
+> **Breaking change (unreleased).** This helper used to render a
+> native `<select>`. It is now an icon button + listbox. The default
+> slot now replaces the **button glyph** rather than the options, and
+> its scoped props change from `{ sizes, value, setSize, name,
+> labelFor }` to `{ value, open, labelFor }`. See
+> [CHANGELOG.md](./CHANGELOG.md) for the migration.
 
 ## Install
 
@@ -35,6 +45,8 @@ Or via the barrel (recommended; gives you the types too):
 
 ```ts
 import TextSizeSelect, {
+    sizeName,
+    LATIN_CAPITAL_LETTER_A,
     type Props,
     type SlotArgs,
 } from "./lily-design-system-vue-text-size-select";
@@ -48,6 +60,7 @@ import { ref } from "vue";
 import TextSizeSelect from "./lily-design-system-vue-text-size-select/TextSizeSelect.vue";
 
 const size = ref("");
+const sizeLabels = { small: "Small", medium: "Medium", large: "Large", "x-large": "X Large" };
 </script>
 
 <template>
@@ -57,6 +70,10 @@ const size = ref("");
         v-model:value="size"
         storage-key="lily-text-size"
     />
+
+    <p class="text-size-select-status" aria-live="polite">
+        Text size: {{ sizeLabels[size] ?? size }}
+    </p>
 </template>
 ```
 
@@ -70,26 +87,43 @@ When the user picks `x-large`, the component:
 The select does NOT change any typography itself — that is the
 consumer's CSS, keyed on `[data-text-size="…"]`.
 
+**Ship the status region.** The control is icon-only, so nothing on
+screen or in the accessibility tree announces which size is active
+unless you render it. See
+[docs/accessibility.md](./docs/accessibility.md).
+
 ## Examples
 
-### Default `<select>`
+### Default rendering
 
 ```vue
 <TextSizeSelect label="Text size" :sizes="['small', 'medium', 'large']" v-model:value="size" />
 
 <!-- Renders:
-<select class="text-size-select" aria-label="Text size" name="text-size">
-    <option class="text-size-select-option" value="small">Small</option>
-    <option class="text-size-select-option" value="medium">Medium</option>
-    <option class="text-size-select-option" value="large">Large</option>
-</select>
+<div class="text-size-select">
+    <input type="hidden" name="text-size" value="medium" />
+    <button type="button" class="text-size-select-button" aria-label="Text size"
+            aria-haspopup="listbox" aria-expanded="false" aria-controls="text-size-select-1-list">
+        <span class="text-size-select-icon" aria-hidden="true">A</span>
+    </button>
+    <ul class="text-size-select-list" id="text-size-select-1-list" role="listbox"
+        aria-label="Text size" tabindex="-1" hidden>
+        <li class="text-size-select-option" id="text-size-select-1-option-0"
+            role="option" aria-selected="false">Small</li>
+        <li class="text-size-select-option" id="text-size-select-1-option-1"
+            role="option" aria-selected="true" data-active>Medium</li>
+        <li class="text-size-select-option" id="text-size-select-1-option-2"
+            role="option" aria-selected="false">Large</li>
+    </ul>
+</div>
 -->
 ```
 
 ### Pretty labels for the option text
 
 By default the select title-cases each hyphen-word of the slug
-(`x-large` → `X Large`). Override per-slug with `sizeLabels`:
+(`x-large` → `X Large`, via the exported `sizeName`). Override
+per-slug with `sizeLabels`:
 
 ```vue
 <TextSizeSelect
@@ -100,27 +134,30 @@ By default the select title-cases each hyphen-word of the slug
 />
 ```
 
-### Driving custom `<option>` markup
+Typeahead matches against these labels, so localising them also
+localises the typeahead.
 
-Use the default scoped slot for full markup control. The select still
-owns the apply lifecycle:
+### Replacing the button glyph
+
+The default slot replaces the **glyph inside the button** — not the
+options. The listbox and the whole keyboard contract stay
+component-owned. Keep the content decorative and `aria-hidden`, so it
+never competes with `aria-label`:
 
 ```vue
 <TextSizeSelect label="Text size" :sizes="['small', 'medium', 'large']" v-model:value="size">
-    <template #default="{ sizes, value, setSize, labelFor }">
-        <select
-            aria-label="Text size"
-            @change="(e) => setSize((e.target as HTMLSelectElement).value)"
+    <template #default="{ open }">
+        <svg
+            class="text-size-select-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            aria-hidden="true"
+            focusable="false"
+            :data-open="open ? '' : undefined"
         >
-            <option
-                v-for="s in sizes"
-                :key="s"
-                :value="s"
-                :selected="value === s"
-            >
-                {{ labelFor(s) }}
-            </option>
-        </select>
+            <text x="8" y="12" text-anchor="middle" font-size="12" fill="currentColor">A</text>
+        </svg>
     </template>
 </TextSizeSelect>
 ```
@@ -151,12 +188,16 @@ const panelSize = ref("large");
 
 ## Props
 
-See [spec/index.md §4](./spec/index.md#4-props) for the full table.
+See [spec/index.md §4.1](./spec/index.md#41-props) for the full table.
 
 Required props: `label`, `sizes`.
 
 Common optional props: `value` (bindable via `v-model:value`),
 `defaultValue`, `storageKey`, `sizeLabels`, `target`, `class`, `name`.
+
+There is no `placeholder` prop and no detection prop — there is no OS
+"preferred text size" media query equivalent to
+`prefers-color-scheme`.
 
 ## Events
 
@@ -165,16 +206,28 @@ Common optional props: `value` (bindable via `v-model:value`),
 | `update:value`  | `string` | After selection, drives `v-model:value`.              |
 | `change`        | `string` | After the select applies a new size (the slug).       |
 
+## Keyboard
+
+On the button: `ArrowDown` / `Enter` / `Space` open on the selected
+option; `ArrowUp` opens on the last option. On the listbox: arrows
+move and clamp (no wrap), `Home` / `End` jump, printable characters
+run a typeahead over the labels, `Enter` / `Space` commit and refocus
+the button, `Escape` cancels, `Tab` closes and moves on. Full table in
+[spec/index.md §6.2](./spec/index.md#62-keyboard-contract).
+
 ## Accessibility
 
-- `<select aria-label="…">` is the announced control (implicit
-  `combobox` role).
-- The native `<select>` gives Arrow / Home / End / typeahead
-  semantics for free.
 - WCAG 2.2 AAA target; directly supports 1.4.4 (Resize Text) by
   letting users pick and persist a comfortable reading size.
-- No colour-only meaning; the active state is visible in the
-  `<select>`'s current value and the resolved `data-text-size`.
+- The button is icon-only, so `aria-label` (from `label`) is its
+  **only** accessible name.
+- The component implements the APG listbox pattern itself — it no
+  longer inherits native `<select>` semantics. That trade is
+  documented honestly in
+  [docs/accessibility.md](./docs/accessibility.md); a native `<select>`
+  remains the more conservative choice for some audiences.
+- No colour-only meaning: the active size is in `aria-selected`, in
+  `data-text-size`, and in the hidden input.
 
 ## SSR
 
@@ -186,13 +239,15 @@ The select is SSR-safe — all DOM writes happen inside `onMounted` /
 
 | File                          | Purpose                                          |
 | ----------------------------- | ------------------------------------------------ |
-| `spec/index.md`                     | Single source of truth — API, behaviour, tests.  |
+| `spec/index.md`               | Single source of truth — API, behaviour, tests.  |
 | `AGENTS.md`                   | Fast-index pointer for AI agents.                |
 | `CLAUDE.md`                   | `@AGENTS.md`.                                    |
 | `TextSizeSelect.vue`          | The component implementation.                    |
 | `TextSizeSelect.test.ts`      | vitest suite covering every spec §7 item.        |
 | `index.ts`                    | Re-export barrel.                                |
 | `index.md`                    | This file.                                       |
+| `docs/accessibility.md`       | Accessibility rationale and tradeoffs.           |
+| `CHANGELOG.md`                | Release record.                                  |
 
 ---
 

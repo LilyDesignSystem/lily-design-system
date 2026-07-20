@@ -2262,13 +2262,20 @@
        native <select> and keeps the form-field rules above. */
     :where(
         .theme-select:has(> .theme-select-button),
-        .locale-select:has(> .locale-select-button)
+        .locale-select:has(> .locale-select-button),
+        .text-size-select:has(> .text-size-select-button),
+        .share-button
     ) {
         position: relative;
         display: inline-block;
     }
 
-    :where(.theme-select-button, .locale-select-button) {
+    :where(
+        .theme-select-button,
+        .locale-select-button,
+        .text-size-select-button,
+        .share-button-trigger
+    ) {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -2299,7 +2306,12 @@
        a custom property rather than a baked-in number: override
        --lily-select-icon-scale if your stack resolves these glyphs to
        different faces than the reference measurement. */
-    :where(.theme-select-icon, .locale-select-icon) {
+    :where(
+        .theme-select-icon,
+        .locale-select-icon,
+        .text-size-select-icon,
+        .share-button-icon
+    ) {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -2317,7 +2329,55 @@
         --lily-select-icon-scale: 0.845;
     }
 
-    :where(.theme-select-list, .locale-select-list) {
+    /* U+0041 "A" is a cap-height letter, so it inks only 0.673 of its em
+       box against U+25D1's 0.842 — it needs scaling UP, not down. */
+    :where(.text-size-select-icon) {
+        --lily-select-icon-scale: 1.25;
+    }
+
+    /* U+21AA "↪" is a small arrow glyph, inking only 0.633 of its em box
+       against U+25D1's 0.842, so it scales up by 0.842/0.633. */
+    :where(.share-button-icon) {
+        --lily-select-icon-scale: 1.331;
+    }
+
+    /* The share list holds real links and a button rather than options,
+       so its items get the same padding without the option selectors. */
+    :where(.share-button-list) > :where(.share-button-list-item) {
+        list-style: none;
+    }
+
+    :where(.share-button-target, .share-button-copy) {
+        display: block;
+        width: 100%;
+        padding: var(--lily-space-xs) var(--lily-space-sm);
+        font: inherit;
+        text-align: start;
+        color: var(--lily-text);
+        background: none;
+        border: 0;
+        border-radius: var(--lily-radius-sm);
+        cursor: pointer;
+    }
+
+    :where(.share-button-target:hover, .share-button-copy:hover) {
+        background-color: var(--lily-surface-alt);
+    }
+
+    /* Copy feedback. Never display:none this — that silences the live
+       region for screen-reader users. */
+    :where(.share-button-status) {
+        margin-block-start: var(--lily-space-xs);
+        font-size: 0.875em;
+        color: var(--lily-text-muted);
+    }
+
+    :where(
+        .theme-select-list,
+        .locale-select-list,
+        .text-size-select-list,
+        .share-button-list
+    ) {
         position: absolute;
         z-index: 10;
         inset-inline-start: 0;
@@ -2336,12 +2396,21 @@
 
     /* Explicit, because the rules above would otherwise beat the UA
        stylesheet's [hidden] { display: none }. */
-    :where(.theme-select-list, .locale-select-list)[hidden] {
+    :where(
+        .theme-select-list,
+        .locale-select-list,
+        .text-size-select-list,
+        .share-button-list
+    )[hidden] {
         display: none;
     }
 
-    :where(.theme-select-list, .locale-select-list)
-        > :where(.theme-select-option, .locale-select-option) {
+    :where(.theme-select-list, .locale-select-list, .text-size-select-list)
+        > :where(
+            .theme-select-option,
+            .locale-select-option,
+            .text-size-select-option
+        ) {
         padding: var(--lily-space-xs) var(--lily-space-sm);
         border-radius: var(--lily-radius-sm);
         cursor: pointer;
@@ -2349,7 +2418,8 @@
 
     /* data-active is the keyboard cursor (aria-activedescendant); focus
        stays on the listbox, so this is the only visible cue for it. */
-    :where(.theme-select-list, .locale-select-list) > :where([data-active]) {
+    :where(.theme-select-list, .locale-select-list, .text-size-select-list)
+        > :where([data-active]) {
         background-color: var(--lily-surface-alt);
         outline: var(--lily-focus-ring);
         outline-offset: -2px;
@@ -2357,7 +2427,7 @@
 
     /* aria-selected marks the applied theme/locale, which is not the
        same thing as the keyboard cursor. Both can be visible at once. */
-    :where(.theme-select-list, .locale-select-list)
+    :where(.theme-select-list, .locale-select-list, .text-size-select-list)
         > :where([aria-selected="true"]) {
         font-weight: 600;
         background-color: var(--lily-surface-sunken);

@@ -18,10 +18,9 @@ recipes.
    SSR / prerender, it never fires.
 3. **Initial state comes from parameters.** Each helper renders its
    markup using whatever `Value` the consumer supplied. With no
-   `Value`, nothing is marked as chosen on the server: `TextSizeSelect`
-   emits no `selected` `<option>`, and the listbox helpers
-   (`ThemeSelect`, `LocaleSelect`) emit `aria-selected="false"` on
-   every `<li role="option">` and an empty hidden input.
+   `Value`, nothing is marked as chosen on the server: every helper
+   emits `aria-selected="false"` on every `<li role="option">` and an
+   empty hidden input.
 4. **Interop is wrapped in try/catch.** A prerender circuit can
    throw `InvalidOperationException` if it hasn't established
    interactivity yet; the helpers swallow that so the first paint
@@ -48,11 +47,9 @@ Under fully-static SSR, `OnAfterRenderAsync` never fires and no JS
 interop is possible. Each helper:
 
 - Renders its full markup with whatever `Value` the consumer supplied
-  (a server-resolved cookie value is the common pattern). For
-  `TextSizeSelect` that is the `<select>` and its `<option>` children;
-  for the listbox helpers it is the root `<div>`, the hidden input, the
-  icon button, and the closed `<ul role="listbox" hidden>` with its
-  options.
+  (a server-resolved cookie value is the common pattern): the root
+  `<div>`, the hidden input, the icon button, and the closed
+  `<ul role="listbox" hidden>` with its options.
 - Does **not** write `<link>` / `data-theme` / `lang` / `dir` — the
   consumer is responsible for those on the server side.
 
@@ -61,18 +58,19 @@ pre-resolve the user-preference state and emit the right `<html>`
 attributes themselves. The helpers don't break; they just don't
 mutate the DOM when there's no DOM to mutate.
 
-One shape difference matters here. A static-SSR `TextSizeSelect` is
-still a working native control: the browser will open it and, inside a
-`<form>`, post the chosen value without any JavaScript. The listbox
-helpers are not — opening the listbox, moving the active option, and
-selecting are all component-implemented, so with no interactivity they
-render as an inert button and a hidden list. The hidden input still
-posts the server-supplied `Value`, but the user cannot change it until
-the component becomes interactive. Under Blazor Web App "auto" or
+One consequence of dropping the native `<select>` matters here. A
+native control would still work under static SSR: the browser opens it
+and, inside a `<form>`, posts the chosen value without any JavaScript.
+These helpers do not — opening the listbox, moving the active option,
+and selecting are all component-implemented, so with no interactivity
+they render as an inert button and a hidden list. The hidden input
+still posts the server-supplied `Value`, but the user cannot change it
+until the component becomes interactive. Under Blazor Web App "auto" or
 "interactive" render modes this is a non-issue; under genuinely static
 SSR, plan for a no-JS fallback (a plain `<form>` posting to an
-endpoint) if theme and locale switching must work without
-interactivity.
+endpoint) if theme, locale, or text-size switching must work without
+interactivity. Since text size is an access need, that fallback is
+worth more here than for the other two.
 
 ## Cookie + interactive recipe (Blazor Web App)
 

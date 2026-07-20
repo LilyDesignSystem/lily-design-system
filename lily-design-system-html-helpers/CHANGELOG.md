@@ -7,6 +7,73 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows
 [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING)
+
+- `text-size-select` is now an **icon button that opens a WAI-ARIA APG
+  listbox**, matching `theme-select` and `locale-select`. It was
+  deliberately left as a native `<select>` when those two converted;
+  it now joins them, so all three helpers in this catalog are the same
+  shape and share one keyboard implementation.
+- DOM contract replaced. The rendered root is a
+  `<div class="text-size-select {class}">` holding a hidden
+  `<input name="{name}">`, a
+  `<button class="text-size-select-button" aria-haspopup="listbox"
+  aria-expanded aria-controls>` whose content defaults to
+  `<span class="text-size-select-icon" aria-hidden="true">A</span>`,
+  and a `<ul class="text-size-select-list" role="listbox" tabindex="-1"
+  hidden>` of `<li class="text-size-select-option" role="option">`.
+  The `<select>` and its `<option>` children are gone. Consumer CSS
+  targeting `select.text-size-select` or `option.text-size-select-option`
+  must be rewritten, and the list needs positioning
+  (`position: absolute`) or it renders in normal flow.
+- The keyboard contract is now implemented in JS rather than inherited
+  from the platform: `ArrowDown`/`Enter`/`Space` open (`ArrowUp` opens
+  on the last option), arrows move the active descendant and clamp,
+  `Home`/`End` jump, `Enter`/`Space` select and refocus the button,
+  `Escape` closes without changing the value, `Tab` closes without
+  stealing focus, and printable characters run a 500 ms typeahead over
+  the option labels.
+- The `class` attribute now lands on the root `<div>`, not on a
+  `<select>`; `name` now lands on the hidden `<input>`.
+
+### Added
+
+- `sizeName(slug)` exported resolver (title-cases hyphen-separated
+  words: `"x-large"` → `"X Large"`), mirroring `themeName` and
+  `localeName`. The internal `labelFor` delegates to it, so there is
+  exactly one implementation of the title-casing rule.
+- `LATIN_CAPITAL_LETTER_A` exported glyph constant, and
+  `nextTextSizeSelectId()` for the SSR-safe module-counter ids.
+- `renderButtonContent()` — the overridable rendering hook standing in
+  for the `children` snippet the Svelte/React/Vue siblings take. It
+  re-runs on every structural rebuild *and* every state sync, so
+  derived content never goes stale.
+- Public `open` / `listId` getters, `optionId(index)`,
+  `openList(startIndex?)`, `closeList(refocus?)`, and `labelFor(slug)`.
+- `docs/accessibility.md`, covering roles, the focus model,
+  `data-active` vs `aria-selected`, the status-region pattern, and the
+  three known tradeoffs. WCAG 1.4.4 (Resize Text) guidance is kept and
+  expanded — it is this helper's specific concern.
+- A keyboard test suite mirroring the canonical Svelte one. The
+  catalog suite goes from 116 to 141 passing tests.
+
+### Notes
+
+- The glyph is `"A"` (U+0041), not a pictograph. U+1F5DB DECREASE FONT
+  SIZE SYMBOL has no real glyph in common font stacks and means
+  *decrease* rather than *size*; "A" renders in the page's own font
+  everywhere and is materially safer than any pictograph on the
+  font-dependence tradeoff.
+- No detection prop was added: there is no OS "preferred text size"
+  media query equivalent to `prefers-color-scheme` or
+  `navigator.languages`.
+- Unchanged: `data-text-size` application, `localStorage` persistence,
+  the `textsizechange` event, initial-value resolution
+  (`value` > storage > `default-value` > `"medium"` > `sizes[0]`), and
+  SSR safety.
+
 ## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING)
