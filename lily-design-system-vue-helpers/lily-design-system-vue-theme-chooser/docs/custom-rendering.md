@@ -163,7 +163,7 @@ question entirely:
 
 ```vue
 <slot v-bind="{ value: current, open, labelFor }">
-    <span class="theme-chooser-icon" aria-hidden="true">◑</span>
+    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
 </slot>
 ```
 

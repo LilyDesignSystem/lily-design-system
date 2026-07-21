@@ -8,7 +8,7 @@ custom glyph cannot break the pattern.
 By default the button holds:
 
 ```html
-<span class="theme-chooser-icon" aria-hidden="true">◑</span>
+<span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
 ```
 
 that is U+25D1 CIRCLE WITH RIGHT HALF BLACK (`&#9681;`), exported from

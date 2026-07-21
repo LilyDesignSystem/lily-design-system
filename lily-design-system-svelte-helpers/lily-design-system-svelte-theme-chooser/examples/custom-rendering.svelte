@@ -51,7 +51,7 @@
   bind:value={theme}
 >
   {#snippet children({ value, open, labelFor })}
-    <span aria-hidden="true">◑</span>
+    <span aria-hidden="true">&#9681;</span>
     <span class="theme-chooser-text">{labelFor(value)}</span>
     <span aria-hidden="true">{open ? "▴" : "▾"}</span>
   {/snippet}

@@ -69,7 +69,7 @@ class LabelledShareChooser extends ShareChooser {
     const icon = document.createElement("span");
     icon.className = "share-chooser-icon";
     icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "➤";
+    icon.textContent = "\u27A4";
     const text = document.createElement("span");
     text.className = "share-chooser-text";
     text.textContent = this.label;   // reuse the same string

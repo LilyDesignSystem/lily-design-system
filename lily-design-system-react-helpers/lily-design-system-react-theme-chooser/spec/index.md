@@ -124,7 +124,7 @@ type ChildArgs = {
 ```
 
 The render output replaces the default
-`<span class="theme-chooser-icon" aria-hidden="true">◑</span>`. It sits
+`<span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>`. It sits
 inside the button, whose accessible name always comes from `label` via
 `aria-label` — so custom glyph content should be `aria-hidden` and must
 never be relied on for naming.
@@ -139,7 +139,7 @@ The rendered tree is:
   <button type="button" class="theme-chooser-button"
           aria-label="{label}" aria-haspopup="listbox"
           aria-expanded="false" aria-controls="{listId}">
-    <span class="theme-chooser-icon" aria-hidden="true">◑</span>
+    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
   </button>
   <ul class="theme-chooser-list" id="{listId}" role="listbox"
       aria-label="{label}" tabindex="-1" hidden
@@ -159,7 +159,7 @@ The rendered tree is:
   `aria-label="{label}"`, `aria-haspopup="listbox"`, `aria-expanded`
   tracking open state, and `aria-controls` pointing at the listbox id.
 - **Glyph.** The default button content is
-  `<span class="theme-chooser-icon" aria-hidden="true">◑</span>` — U+25D1
+  `<span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>` — U+25D1
   CIRCLE WITH RIGHT HALF BLACK (`&#9681;`), exported as
   `CIRCLE_WITH_RIGHT_HALF_BLACK`. It is `aria-hidden`, so the button's
   accessible name comes solely from `label` via `aria-label`. Supplying
@@ -366,7 +366,7 @@ under vitest + jsdom + `@testing-library/react`.
       `aria-expanded="false"`, and an `aria-controls` that resolves to an
       element with `role="listbox"`.
    2. The button holds `<span class="theme-chooser-icon"
-      aria-hidden="true">◑</span>` (U+25D1, `&#9681;`).
+      aria-hidden="true">&#9681;</span>` (U+25D1, `&#9681;`).
    3. The root is a `<div>` whose class is `theme-chooser` plus the
       consumer's `className`.
 2. `aria-label` is the supplied `label` on **both** the button and the

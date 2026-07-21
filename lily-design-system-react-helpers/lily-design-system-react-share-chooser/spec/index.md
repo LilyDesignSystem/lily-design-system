@@ -119,7 +119,7 @@ clipboard write rather than being the DOM's `ClipboardEvent` handler.
 <div class="share-chooser {className}" ...restProps>
   <button type="button" class="share-chooser-button"
           aria-label="{label}" aria-expanded aria-controls="{listId}">
-    <span class="share-chooser-icon" aria-hidden="true">➤</span>
+    <span class="share-chooser-icon" aria-hidden="true">&#10148;</span>
   </button>
   <ul class="share-chooser-list" id="{listId}" hidden>
     <li class="share-chooser-list-item">

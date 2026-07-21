@@ -111,7 +111,7 @@ interactive elements, and it must not introduce a competing accessible
 name — `aria-label` from `label` is the button's name.
 
 When no slot is supplied, the button renders
-`<span class="theme-chooser-icon" aria-hidden="true">◑</span>`, as
+`<span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>`, as
 documented in `spec/index.md §4.4`.
 
 ## Pure helpers
@@ -146,7 +146,7 @@ listbox and option ids.
             aria-label="{label}" aria-haspopup="listbox"
             aria-expanded="false" aria-controls="{listId}">
         <!-- default slot output, or: -->
-        <span class="theme-chooser-icon" aria-hidden="true">◑</span>
+        <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
     </button>
     <ul class="theme-chooser-list" id="{listId}" role="listbox"
         aria-label="{label}" tabindex="-1" hidden

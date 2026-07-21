@@ -276,7 +276,7 @@ describe("ThemeChooser — markup contract (§4.2, §7.1–§7.5)", () => {
         );
         const icon = document.querySelector(".theme-chooser-icon") as HTMLElement;
         // U+25D1 CIRCLE WITH RIGHT HALF BLACK, decimal &#9681;
-        expect(icon.textContent).toBe("◑");
+        expect(icon.textContent).toBe("\u25D1");
         expect(icon.getAttribute("aria-hidden")).toBe("true");
     });
 

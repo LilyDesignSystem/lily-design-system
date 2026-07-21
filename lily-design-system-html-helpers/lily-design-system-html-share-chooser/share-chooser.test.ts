@@ -177,7 +177,7 @@ describe("<share-chooser> — pure helpers", () => {
     });
 
     test("BLACK_RIGHTWARDS_ARROWHEAD is U+27A4", () => {
-        expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
+        expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("\u27A4");
         expect(BLACK_RIGHTWARDS_ARROWHEAD.codePointAt(0)).toBe(0x27a4);
     });
 
@@ -220,7 +220,7 @@ describe("<share-chooser> — markup contract (§7.1–§7.6)", () => {
         await flush();
         const icon = document.body.querySelector<HTMLElement>(".share-chooser-icon")!;
         // U+27A4 BLACK RIGHTWARDS ARROWHEAD
-        expect(icon.textContent).toBe("➤");
+        expect(icon.textContent).toBe("\u27A4");
         expect(icon.getAttribute("aria-hidden")).toBe("true");
         expect(icon.closest("button")).toBe(trigger());
     });
@@ -850,7 +850,7 @@ describe("<share-chooser> — HTML custom-element surface", () => {
         try {
             const mod = await import("./index.js");
             expect(mod.ShareChooser).toBeDefined();
-            expect(mod.BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
+            expect(mod.BLACK_RIGHTWARDS_ARROWHEAD).toBe("\u27A4");
         } finally {
             (globalThis as any).customElements = original;
         }

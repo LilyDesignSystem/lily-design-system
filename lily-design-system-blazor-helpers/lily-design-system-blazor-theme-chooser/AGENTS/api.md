@@ -19,7 +19,7 @@ The static helpers, the default-glyph constant, and the imperative
 setter used by tests and consumers are public:
 
 ```csharp
-public const string CircleWithRightHalfBlack = "◑"; // U+25D1
+public const string CircleWithRightHalfBlack = "\u25D1"; // U+25D1
 public static string NormaliseThemesUrl(string themesUrl);
 public static string ThemeHref(string themesUrl, string slug, string extension);
 public Task SetThemeAsync(string slug);

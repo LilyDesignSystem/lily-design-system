@@ -208,8 +208,8 @@ describe("ShareChooser — markup contract (§7.1–§7.6)", () => {
         const { root } = setup();
         const icon = root.querySelector(".share-chooser-icon") as HTMLElement;
         // U+27A4 BLACK RIGHTWARDS ARROWHEAD, emitted as &#10148;
-        expect(icon.textContent).toBe("➤");
-        expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
+        expect(icon.textContent).toBe("\u27A4");
+        expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("\u27A4");
         expect(BLACK_RIGHTWARDS_ARROWHEAD.codePointAt(0)).toBe(0x27a4);
         expect(icon.getAttribute("aria-hidden")).toBe("true");
     });

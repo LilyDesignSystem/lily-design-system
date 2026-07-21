@@ -186,6 +186,47 @@ test_implementation_nunjucks_example() {
     done
 }
 
+##
+# Helper chooser glyphs must not appear as bare non-ASCII characters in the
+# places that RENDER them: the exported constant, and the icon markup. A
+# bare glyph is near-invisible in an editor and a variation selector
+# (U+FE0E) has no visual form at all — one was nearly lost to a careless
+# edit, and a plain sed cannot see a numeric codepoint assertion either.
+#
+# Code contexts must use an escape ("\u27A4"); markup contexts must use an
+# HTML entity (&#10148;). Prose is not checked: a changelog explaining that
+# the glyph moved from one character to another has to show them.
+#
+# ASCII "A" (U+0041) is exempt — it cannot be mangled, and escaping it
+# would only make it harder to read.
+##
+test_helper_glyphs_are_escaped() (
+    # NOTE: this script runs under `set -euf`; -f disables globbing, so
+    # file lists come from find, as everywhere else here.
+    find "$top" -type d -name 'lily-design-system-*-chooser' -not -path '*/node_modules/*' \
+    | while IFS= read -r pkg; do
+        find "$pkg" -maxdepth 1 -type f \
+            \( -name '*.ts' -o -name '*.tsx' -o -name '*.vue' -o -name '*.svelte' \
+               -o -name '*.cs' -o -name '*.js' -o -name '*.njk' -o -name '*.razor' \) \
+        | while IFS= read -r file; do
+            case "$file" in *.test.*|*.spec.*|*Tests.cs) continue ;; esac
+
+            # The exported glyph constant, in any framework's spelling.
+            if grep -e 'CIRCLE_WITH_RIGHT_HALF_BLACK *=' -e 'GLOBE_WITH_MERIDIANS *=' \
+                    -e 'BLACK_RIGHTWARDS_ARROWHEAD *=' -e 'CircleWithRightHalfBlack *=' \
+                    -e 'GlobeWithMeridians *=' -e 'BlackRightwardsArrowhead *=' "$file" \
+               | grep -q -e '◑' -e '➤' -e '🌐' -e '︎'; then
+                err "glyph constant holds a bare character; use an escape such as \\u27A4: $file"
+            fi
+
+            # The icon markup that emits the glyph.
+            if grep -- '-chooser-icon' "$file" | grep -q -e '◑' -e '➤' -e '🌐' -e '︎'; then
+                err "icon markup holds a bare character; use an entity such as &#10148;: $file"
+            fi
+        done
+    done
+)
+
 test_repository
 test_catalog_consistency
 test_components
@@ -195,6 +236,7 @@ test_implementations_with_vite
 test_implementations_with_svelte
 test_implementation_nunjucks_headless
 test_implementation_nunjucks_example
+test_helper_glyphs_are_escaped
 
 if test -s "$ERRFLAG"; then
     >&2 printf %s\\n "bin/test: FAILED"

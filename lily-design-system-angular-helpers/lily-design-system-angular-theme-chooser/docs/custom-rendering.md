@@ -15,7 +15,7 @@ So: the glyph is yours, the listbox is the component's.
 ## The basic form
 
 Project an `<ng-template>` as the component's content. It replaces the
-default `<span class="theme-chooser-icon" aria-hidden="true">◑</span>`
+default `<span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>`
 inside the button.
 
 ```html

@@ -178,7 +178,7 @@ an error (§5.3).
   <div class="share-chooser {class}">
     <button type="button" class="share-chooser-button"
             aria-label="{label}" aria-expanded="false" aria-controls="{listId}">
-      <span class="share-chooser-icon" aria-hidden="true">➤</span>
+      <span class="share-chooser-icon" aria-hidden="true">&#10148;</span>
     </button>
     <ul class="share-chooser-list" id="{listId}" hidden>
       <li class="share-chooser-list-item">

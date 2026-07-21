@@ -140,7 +140,7 @@ inside a `$effect`, which never runs on the server.
   <button type="button" class="theme-chooser-button" aria-label="Theme"
           aria-haspopup="listbox" aria-expanded="false"
           aria-controls="theme-chooser-1-list">
-    <span class="theme-chooser-icon" aria-hidden="true">◑</span>
+    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
   </button>
   <ul class="theme-chooser-list" id="theme-chooser-1-list" role="listbox"
       aria-label="Theme" tabindex="-1" hidden>
@@ -285,7 +285,7 @@ render the options; the listbox is component-owned.
   bind:value={theme}
 >
   {#snippet children({ value, open, labelFor })}
-    <span aria-hidden="true">◑</span>
+    <span aria-hidden="true">&#9681;</span>
     <span class="theme-chooser-text">{labelFor(value)}</span>
     <span aria-hidden="true">{open ? "▴" : "▾"}</span>
   {/snippet}

@@ -101,7 +101,7 @@ public partial class ShareChooser : ComponentBase
     /// monochrome alongside ThemeChooser's ◑, LocaleChooser's 🌐 and
     /// TextSizeChooser's "A".
     /// </remarks>
-    public const string BlackRightwardsArrowhead = "➤";
+    public const string BlackRightwardsArrowhead = "\u27A4";
 
     /// <summary>Monotonic instance counter; SSR-safe (no randomness, no clock).</summary>
     private static int _uid;

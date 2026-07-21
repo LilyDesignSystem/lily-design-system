@@ -138,7 +138,7 @@ The control is a button that opens a WAI-ARIA APG listbox:
     <button type="button" class="theme-chooser-button" aria-label="Theme"
             aria-haspopup="listbox" aria-expanded="false"
             aria-controls="theme-chooser-1-list">
-        <span class="theme-chooser-icon" aria-hidden="true">◑</span>
+        <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
     </button>
     <ul class="theme-chooser-list" id="theme-chooser-1-list" role="listbox"
         aria-label="Theme" tabindex="-1" hidden>

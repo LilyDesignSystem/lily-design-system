@@ -136,7 +136,7 @@ public sealed class ShareEventArgs
 <div class="share-chooser {CssClass}" ...AdditionalAttributes>
   <button type="button" class="share-chooser-button"
           aria-label="{Label}" aria-expanded aria-controls="{listId}">
-    <span class="share-chooser-icon" aria-hidden="true">➤</span>
+    <span class="share-chooser-icon" aria-hidden="true">&#10148;</span>
   </button>
   <ul class="share-chooser-list" id="{listId}" hidden>
     <li class="share-chooser-list-item">

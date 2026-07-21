@@ -157,8 +157,8 @@ describe("ThemeChooser — markup contract (§4.2, §7.1–§7.5)", () => {
     const fixture = mount();
     const icon = q<HTMLElement>(fixture, ".theme-chooser-icon");
     // U+25D1 CIRCLE WITH RIGHT HALF BLACK, decimal &#9681;
-    expect(icon.textContent).toBe("◑");
-    expect(CIRCLE_WITH_RIGHT_HALF_BLACK).toBe("◑");
+    expect(icon.textContent).toBe("\u25D1");
+    expect(CIRCLE_WITH_RIGHT_HALF_BLACK).toBe("\u25D1");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
   });
 

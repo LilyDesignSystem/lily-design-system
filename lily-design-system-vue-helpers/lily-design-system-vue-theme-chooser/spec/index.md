@@ -151,7 +151,7 @@ name.
   <button type="button" class="theme-chooser-button"
           aria-label="{label}" aria-haspopup="listbox"
           aria-expanded="false" aria-controls="{listId}">
-    <span class="theme-chooser-icon" aria-hidden="true">◑</span>
+    <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
   </button>
   <ul class="theme-chooser-list" id="{listId}" role="listbox"
       aria-label="{label}" tabindex="-1" hidden

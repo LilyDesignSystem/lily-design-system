@@ -78,9 +78,9 @@ public class ThemeChooserTests : TestContext
 
         var icon = cut.Find(".theme-chooser-icon");
         // U+25D1 CIRCLE WITH RIGHT HALF BLACK, decimal &#9681;
-        Assert.Equal("◑", icon.TextContent.Trim());
+        Assert.Equal("\u25D1", icon.TextContent.Trim());
         Assert.Equal("true", icon.GetAttribute("aria-hidden"));
-        Assert.Equal("◑", ThemeChooser.CircleWithRightHalfBlack);
+        Assert.Equal("\u25D1", ThemeChooser.CircleWithRightHalfBlack);
     }
 
     // -----------------------------------------------------------------

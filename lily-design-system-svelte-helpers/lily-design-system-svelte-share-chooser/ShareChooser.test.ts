@@ -99,8 +99,8 @@ describe("ShareChooser — markup contract (§7.1–§7.6)", () => {
         render(ShareChooser, { props: { label: "Share", targets: TARGETS, url: URL_UNDER_TEST } });
         const icon = document.querySelector(".share-chooser-icon") as HTMLElement;
         // U+27A4 BLACK RIGHTWARDS ARROWHEAD
-        expect(icon.textContent).toBe("➤");
-        expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
+        expect(icon.textContent).toBe("\u27A4");
+        expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("\u27A4");
         expect(icon.getAttribute("aria-hidden")).toBe("true");
     });
 

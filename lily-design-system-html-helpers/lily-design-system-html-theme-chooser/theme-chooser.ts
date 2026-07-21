@@ -10,7 +10,7 @@
  */
 
 /** Default button glyph: U+25D1 CIRCLE WITH RIGHT HALF BLACK. */
-export const CIRCLE_WITH_RIGHT_HALF_BLACK = "◑";
+export const CIRCLE_WITH_RIGHT_HALF_BLACK = "\u25D1";
 
 /** Change-event detail dispatched on every applied theme. */
 export type ThemeChooserChangeDetail = {

@@ -326,7 +326,7 @@ run under bUnit + xUnit.
    `aria-controls` pointing at a `<ul role="listbox" tabindex="-1">`.
    No `<select>` is rendered.
 2. The button renders `<span class="theme-chooser-icon"
-   aria-hidden="true">◑</span>` (U+25D1), matching the public
+   aria-hidden="true">&#9681;</span>` (U+25D1), matching the public
    `ThemeChooser.CircleWithRightHalfBlack` constant.
 3. `aria-label` is the supplied `Label` on BOTH the button and the
    listbox.

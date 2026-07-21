@@ -172,7 +172,7 @@ describe("ThemeChooser — markup contract (§4.2, §7.1–§7.5)", () => {
         const wrapper = build({});
         const icon = wrapper.find(".theme-chooser-icon");
         // U+25D1 CIRCLE WITH RIGHT HALF BLACK, decimal &#9681;
-        expect(icon.text()).toBe("◑");
+        expect(icon.text()).toBe("\u25D1");
         expect(icon.attributes("aria-hidden")).toBe("true");
     });
 

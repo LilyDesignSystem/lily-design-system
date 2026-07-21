@@ -137,7 +137,7 @@ Every attribute also has a mirrored camelCase property, plus read-only
   <div class="share-chooser">
     <button type="button" class="share-chooser-button"
             aria-label="Share" aria-expanded="false" aria-controls="share-chooser-1-list">
-      <span class="share-chooser-icon" aria-hidden="true">➤</span>
+      <span class="share-chooser-icon" aria-hidden="true">&#10148;</span>
     </button>
     <ul class="share-chooser-list" id="share-chooser-1-list" hidden>
       <li class="share-chooser-list-item">
@@ -206,7 +206,7 @@ class LabelledShareChooser extends ShareChooser {
     const icon = document.createElement("span");
     icon.className = "share-chooser-icon";
     icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "➤";
+    icon.textContent = "\u27A4";
     const text = document.createElement("span");
     text.textContent = this.open ? "Close" : "Share";
     frag.append(icon, text);

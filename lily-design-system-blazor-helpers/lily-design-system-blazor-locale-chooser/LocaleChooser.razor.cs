@@ -36,7 +36,7 @@ public partial class LocaleChooser : ComponentBase
     /// ThemeChooser's U+25D1. Without it browsers pick the colour-emoji
     /// font and the globe comes out blue.
     /// </summary>
-    public const string GlobeWithMeridians = "\U0001F310︎";
+    public const string GlobeWithMeridians = "\U0001F310\uFE0E";
 
     /// <summary>Typeahead buffer lifetime, per the APG listbox pattern.</summary>
     private static readonly TimeSpan TypeaheadWindow = TimeSpan.FromMilliseconds(500);

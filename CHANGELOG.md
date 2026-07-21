@@ -9,6 +9,39 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Chooser glyphs escaped in source — 2026-07-21
+
+### Changed
+
+- The four chooser glyphs no longer appear as bare characters in the
+  source that renders them. **Code contexts use an escape** —
+  `"\u25D1"`, `"\u{1F310}\uFE0E"`, `"\u27A4"` — and **markup contexts
+  use an HTML entity**: `&#9681;`, `&#127760;&#65038;`, `&#10148;`.
+  A bare glyph is near-invisible in an editor, and U+FE0E has no visual
+  form at all; one was nearly lost to a careless edit earlier in this
+  work.
+- ASCII `"A"` (U+0041) is deliberately left literal — it cannot be
+  mangled, and escaping it would only make it harder to read.
+- Two constants were already carrying a **bare U+FE0E** appended to an
+  escaped globe (`"\U0001F310︎"` in Blazor, `"\u{1F310}︎"` in
+  Nunjucks) — exactly the invisible-character hazard this closes.
+
+### Added
+
+- `bin/test` now enforces it, checking the glyph constants and the icon
+  markup in every chooser package. Verified by planting a regression of
+  each kind and confirming both fail.
+- Prose is deliberately **not** checked: a changelog explaining that the
+  glyph moved from one character to another has to show them, and tests
+  asserting rendered output legitimately contain the character.
+
+### Note
+
+- The first version of this check silently passed everything. `bin/test`
+  runs under `set -euf`, and `-f` disables globbing, so its file globs
+  never expanded — which is why every other check in that script uses
+  `find`. Worth knowing before adding another one.
+
 ## share-chooser glyph — 2026-07-21
 
 ### Changed

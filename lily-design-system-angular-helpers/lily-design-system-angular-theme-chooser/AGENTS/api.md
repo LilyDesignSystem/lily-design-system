@@ -169,7 +169,7 @@ in a field initialiser and derives `{base}-list` and
 ## Constants
 
 ```ts
-export const CIRCLE_WITH_RIGHT_HALF_BLACK = "◑";  // U+25D1, &#9681;
+export const CIRCLE_WITH_RIGHT_HALF_BLACK = "\u25D1";  // U+25D1, &#9681;
 ```
 
 The default button glyph. Exported so consumers can reuse the same
@@ -192,7 +192,7 @@ code point.
         (click)="toggle()"
         (keydown)="onButtonKeydown($event)"
     >
-        <span class="theme-chooser-icon" aria-hidden="true">◑</span>
+        <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
     </button>
 
     <ul

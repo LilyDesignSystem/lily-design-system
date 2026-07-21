@@ -25,7 +25,7 @@ NuGet package is `LilyDesignSystem.Blazor.ShareChooser`.
   <div class="share-chooser {CssClass}">
     <button type="button" class="share-chooser-button" aria-label="{Label}"
             aria-expanded="false" aria-controls="{listId}">
-      <span class="share-chooser-icon" aria-hidden="true">➤</span>
+      <span class="share-chooser-icon" aria-hidden="true">&#10148;</span>
     </button>
     <ul class="share-chooser-list" id="{listId}" hidden>
       <li class="share-chooser-list-item">

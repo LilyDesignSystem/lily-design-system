@@ -64,7 +64,7 @@ Public surface: `ThemeChooser` (default and named), `normalizeThemesUrl`,
     control still submits with a surrounding form;
   - `<button type="button" class="theme-chooser-button" aria-label
     aria-haspopup="listbox" aria-expanded aria-controls>` holding
-    `<span class="theme-chooser-icon" aria-hidden="true">◑</span>`;
+    `<span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>`;
   - `<ul class="theme-chooser-list" role="listbox" aria-label
     tabindex="-1" hidden>` with one
     `<li class="theme-chooser-option" role="option" aria-selected>` per

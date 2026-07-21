@@ -70,7 +70,7 @@ would destroy focus and the active descendant.
 `<button type="button" class="theme-chooser-button" aria-label="{label}"
 aria-haspopup="listbox" aria-expanded aria-controls="{listId}">`
 whose content defaults to
-`<span class="theme-chooser-icon" aria-hidden="true">◑</span>`
+`<span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>`
 (U+25D1, exported as `CIRCLE_WITH_RIGHT_HALF_BLACK`); and a
 `<ul class="theme-chooser-list" id="{listId}" role="listbox"
 aria-label="{label}" tabindex="-1" hidden>` with one

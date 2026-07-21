@@ -2,7 +2,7 @@
     import type { Snippet } from "svelte";
 
     /** Default button glyph: U+25D1 CIRCLE WITH RIGHT HALF BLACK. */
-    export const CIRCLE_WITH_RIGHT_HALF_BLACK = "◑";
+    export const CIRCLE_WITH_RIGHT_HALF_BLACK = "\u25D1";
 
     /** Arguments passed to a custom `children` snippet (the button glyph). */
     export type ChildArgs = {

@@ -114,7 +114,7 @@ What to do:
   ```svelte
   <ThemeChooser label="Theme" {themesUrl} {themes} bind:value={theme}>
     {#snippet children({ labelFor, value })}
-      <span aria-hidden="true">◑</span>
+      <span aria-hidden="true">&#9681;</span>
       <span class="theme-chooser-text">{labelFor(value)}</span>
     {/snippet}
   </ThemeChooser>

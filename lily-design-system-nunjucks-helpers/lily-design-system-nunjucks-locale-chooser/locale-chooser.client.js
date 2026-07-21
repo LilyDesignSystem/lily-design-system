@@ -44,7 +44,7 @@ export { defaultLocaleLabels, RTL_LANGUAGE_TAGS, RTL_SCRIPT_SUBTAGS };
  * renders blue, which does not match theme-chooser's monochrome ◑
  * (U+25D1 is not an emoji codepoint, so it needs no selector).
  */
-export const GLOBE_WITH_MERIDIANS = "\u{1F310}︎";
+export const GLOBE_WITH_MERIDIANS = "\u{1F310}\uFE0E";
 
 /** How long the typeahead buffer survives between keystrokes, in ms. */
 const TYPEAHEAD_RESET_MS = 500;

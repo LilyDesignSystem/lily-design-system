@@ -96,7 +96,7 @@ the record stays accurate. None of it was published to npm.
   - a `<button type="button" class="theme-chooser-button"
     aria-label="{label}" aria-haspopup="listbox" aria-expanded
     aria-controls="{listId}">` wrapping
-    `<span class="theme-chooser-icon" aria-hidden="true">◑</span>`;
+    `<span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>`;
   - a `<ul class="theme-chooser-list" role="listbox"
     aria-label="{label}" tabindex="-1" hidden aria-activedescendant>`
     of `<li class="theme-chooser-option" role="option" aria-selected
