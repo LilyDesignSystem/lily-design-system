@@ -29,9 +29,9 @@ published; a renamed package carries no release history.
 ### Changed
 
 - Renamed from `lily-design-system-html-locale-select`. The custom
-  element is `<locale-chooser>` (was `<locale-select>`), the class is
-  `LocaleChooser` (was `LocaleSelect`), and the class hooks are
-  `locale-chooser*` (were `locale-select*`). Behaviour is unchanged.
+  element is `<locale-chooser>` (was `<locale-chooser>`), the class is
+  `LocaleChooser` (was `LocaleChooser`), and the class hooks are
+  `locale-chooser*` (were `locale-chooser*`). Behaviour is unchanged.
 
 Previously released in-tree as `lily-design-system-html-locale-select`;
 that history is preserved below and did not ship under the current
@@ -39,11 +39,11 @@ package name.
 
 ---
 
-## Prior history (as `lily-design-system-html-locale-select`)
+## Prior history — released in-tree as `lily-design-system-html-locale-select`
 
-## Unreleased
+### Unreleased
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - **The control is no longer a native `<select>`.** It is now an
   **icon button that opens a dropdown listbox**, implementing the
@@ -98,7 +98,7 @@ package name.
   platform fonts. The compensating status region is more useful than
   before, not less — the closed button shows only a glyph.
 
-### Added
+#### Added
 
 - **The default glyph gains U+FE0E VARIATION SELECTOR-15.**
   `GLOBE_WITH_MERIDIANS` is now `"\u{1F310}\uFE0E"` (two codepoints,
@@ -139,7 +139,7 @@ package name.
   2.5.3, live-updating button label), and the eight invariants a
   tier-2 subclass must preserve.
 
-### Unchanged
+#### Unchanged
 
 - Every attribute except `placeholder`; the `localechange`
   `CustomEvent` (same `{ locale }` detail, still `bubbles: true,
@@ -148,7 +148,7 @@ package name.
   initial-value resolution; the exported pure helpers; per-option
   `lang` for WCAG 3.1.2; and SSR safety.
 
-### Renamed (examples)
+#### Renamed (examples)
 
 - `examples/01-default.html` → `examples/01-basic.html`, matching
   theme-chooser's `01-basic.html` so the two helpers offer the same
@@ -161,7 +161,7 @@ The last two were named for rendering models the element no longer
 uses. (`03-buttons.html` keeps its name: it is a tier-2 subclass that
 really does render a button group.)
 
-### Added (docs)
+#### Added (docs)
 
 Docs brought to parity with theme-chooser, so the two helpers offer
 the same file shape. Written for locale-chooser rather than
@@ -186,9 +186,9 @@ theme-chooser's topic-specific docs (`preloading.md`) have no locale
 counterpart and were not invented; locale-chooser's
 (`bcp47.md`, `rtl.md`, `concepts.md`, `i18n-integration.md`) stay.
 
-## 0.3.0 — 2026-07-20
+### 0.3.0 — 2026-07-20
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - The closed `<select>` now always reads a placeholder word instead
   of the active locale name, so the control stays as narrow as that
@@ -214,7 +214,7 @@ counterpart and were not invented; locale-chooser's
   `lang` / `dir` are still written, so AT pronunciation is
   unaffected.
 
-### Added
+#### Added
 
 - `placeholder` attribute / property (optional, string). Text of the
   placeholder option; defaults to `label`, keeping the package free
@@ -223,14 +223,14 @@ counterpart and were not invented; locale-chooser's
 - `index.md` documents the `.locale-chooser-placeholder` class hook
   and a `field-sizing: content` / `max-width` width recipe.
 
-### Unchanged
+#### Unchanged
 
 - `value` remains the real selection; `lang` / `dir` application,
   `localStorage` persistence, navigator detection, the
   `localechange` event, and initial-value resolution all behave
   exactly as before.
 
-### Added (examples & docs)
+#### Added (examples & docs)
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the entry-point example and the `index.md` quick-start both
@@ -242,9 +242,9 @@ counterpart and were not invented; locale-chooser's
   "what this does and does not fix" note — the region announces
   transitions, it does not restore combobox value semantics.
 
-## 0.2.0 — 2026-07-03
+### 0.2.0 — 2026-07-03
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
@@ -260,20 +260,20 @@ counterpart and were not invented; locale-chooser's
 - Custom rendering (snippet / render prop / slot / template) now renders
   `<option>` elements inside the `<select>`.
 
-### Unchanged
+#### Unchanged
 
 - The behaviour contract: DOM application (`lang` / `dir`), optional
   `localStorage` persistence, SSR safety, and the no-hardcoded-strings
   i18n rule are as in 0.1.0.
 
-## 0.1.0 — 2026-06-05
+### 0.1.0 — 2026-06-05
 
 Initial release. Ported from the Svelte canonical
 `lily-design-system-svelte-locale-chooser`. The DOM contract,
 behaviour, and acceptance criteria match the canonical clause-for-
 clause.
 
-### Added
+#### Added
 
 - `<locale-chooser>` custom element extending `HTMLElement`.
 - Side-effectful registration in `index.ts`, guarded by
@@ -307,7 +307,7 @@ clause.
   buttons, RTL, NHS-style banner, FormatJS, native `Intl.*`, SSR
   cookie pre-seed, scoped target, and combobox.
 
-### Conventions
+#### Conventions
 
 - Light DOM rendering — no Shadow DOM.
 - One rendered `<select class="locale-chooser {class}"
@@ -327,7 +327,7 @@ clause.
   `value > localStorage > navigator > default-value > "en" >
   locales[0]`.
 
-### Spelling note
+#### Spelling note
 
 The HTML catalog uses `bcp47LocaleTag` (American style, no
 hyphenated capitalisation) to match DOM-API convention. The Svelte
@@ -335,7 +335,7 @@ canonical uses `bcp47LocaleTag` too — both packages agree on this
 one. Other helper names mirror the Svelte canonical exactly:
 `isRtlLocale`, `localeName`, `matchNavigatorLanguage`.
 
-### Subclassing for custom rendering
+#### Subclassing for custom rendering
 
 Custom rendering happens by extending the `LocaleChooser` class and
 overriding `connectedCallback` / `attributeChangedCallback`

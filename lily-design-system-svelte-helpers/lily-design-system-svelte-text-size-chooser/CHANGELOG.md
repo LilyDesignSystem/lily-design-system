@@ -28,16 +28,16 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-## Prior history
+## Prior history — released in-tree as `lily-design-system-svelte-text-size-select`
 
 Previously released in-tree as `lily-design-system-svelte-text-size-select`. Everything below happened
 under that name. Identifiers in these entries (class hooks, symbols, data
 attributes) have been updated to their current spellings so the document
 reads coherently; the events they describe are unchanged.
 
-## 0.2.0 — 2026-07-21
+### 0.2.0 — 2026-07-21
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - **No longer a native `<select>`.** This helper is now an icon button
   that opens a WAI-ARIA APG listbox, matching `theme-chooser` and
@@ -58,7 +58,7 @@ reads coherently; the events they describe are unchanged.
   Space select and return focus to the button, Escape closes without
   changing the value, Tab closes and moves on.
 
-### Added
+#### Added
 
 - Button glyph `"A"` (U+0041). The obvious candidate, U+1F5DB DECREASE
   FONT SIZE SYMBOL, has no real glyph in common font stacks and falls
@@ -68,7 +68,7 @@ reads coherently; the events they describe are unchanged.
 - `sizeName` exported, mirroring `themeName` / `localeName`; the
   internal `labelFor` delegates to it.
 
-### Unchanged
+#### Unchanged
 
 - `data-text-size` application, `localStorage` persistence, `onChange`,
   and initial-value resolution (`value` > storage > `defaultValue` >
@@ -76,7 +76,7 @@ reads coherently; the events they describe are unchanged.
 - No first-visit detection prop: unlike `prefers-color-scheme` and
   `navigator.languages`, the platform exposes no preferred text size.
 
-### Accessibility
+#### Accessibility
 
 - The tradeoffs are documented in `docs/accessibility.md` rather than
   glossed: the accessible name now rests entirely on `aria-label`; a

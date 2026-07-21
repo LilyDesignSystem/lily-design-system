@@ -19,18 +19,18 @@ and the project follows
   `lily-design-system-html-share-chooser`. Nothing had been published
   under the new names, so each version resets to 0.1.0 rather than
   implying releases that never existed. The rename also clears the
-  collision between the old `theme-select` helper and the Lily catalog
+  collision between the old `theme-chooser` helper and the Lily catalog
   component of the same name.
-- Custom element tags: `<theme-select>` → `<theme-chooser>`,
-  `<locale-select>` → `<locale-chooser>`, `<text-size-select>` →
-  `<text-size-chooser>`, `<share-button>` → `<share-chooser>`, along
+- Custom element tags: `<theme-chooser>` → `<theme-chooser>`,
+  `<locale-chooser>` → `<locale-chooser>`, `<text-size-chooser>` →
+  `<text-size-chooser>`, `<share-chooser>` → `<share-chooser>`, along
   with their `customElements.define(...)` calls.
-- Classes: `ThemeSelect` → `ThemeChooser`, `LocaleSelect` →
-  `LocaleChooser`, `TextSizeSelect` → `TextSizeChooser`, `ShareButton`
+- Classes: `ThemeChooser` → `ThemeChooser`, `LocaleChooser` →
+  `LocaleChooser`, `TextSizeChooser` → `TextSizeChooser`, `ShareChooser`
   → `ShareChooser`, plus derived exports such as `nextThemeSelectId` →
   `nextThemeChooserId`.
-- CSS class hooks: every `.theme-select*` / `.locale-select*` /
-  `.text-size-select*` / `.share-button*` hook becomes `.*-chooser*`.
+- CSS class hooks: every `.theme-chooser*` / `.locale-chooser*` /
+  `.text-size-chooser*` / `.share-chooser*` hook becomes `.*-chooser*`.
 - Data attributes: `data-lily-theme-select` →
   `data-lily-theme-chooser`, and the same shape for the siblings.
 - **`share-chooser` loses its trigger-class exception.** The trigger is

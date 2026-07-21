@@ -18,17 +18,17 @@ their package changes.
   | `lily-design-system-react-text-size-select` | `lily-design-system-react-text-size-chooser` |
   | `lily-design-system-react-share-button` | `lily-design-system-react-share-chooser` |
 
-  The rename is full-depth: directories, file names (`ThemeSelect.tsx` →
+  The rename is full-depth: directories, file names (`ThemeChooser.tsx` →
   `ThemeChooser.tsx` and so on), package ids, exported symbols
-  (`ThemeSelect` → `ThemeChooser`, `LocaleSelect` → `LocaleChooser`,
-  `TextSizeSelect` → `TextSizeChooser`, `ShareButton` → `ShareChooser`,
-  plus derived names such as `nextShareButtonId` → `nextShareChooserId`),
-  CSS class hooks (`.theme-select*` → `.theme-chooser*`, `.share-button*`
+  (`ThemeChooser` → `ThemeChooser`, `LocaleChooser` → `LocaleChooser`,
+  `TextSizeChooser` → `TextSizeChooser`, `ShareChooser` → `ShareChooser`,
+  plus derived names such as `nextShareChooserId` → `nextShareChooserId`),
+  CSS class hooks (`.theme-chooser*` → `.theme-chooser*`, `.share-chooser*`
   → `.share-chooser*`), and data attributes (`data-lily-theme-select` →
   `data-lily-theme-chooser`, and the locale / text-size equivalents).
-- `theme-select` in particular collided with the catalog component of the
+- `theme-chooser` in particular collided with the catalog component of the
   same slug in `components.tsv` — a genuine `<select>` that owns the
-  `.theme-select` hook. None of these helpers has been a `<select>` since
+  `.theme-chooser` hook. None of these helpers has been a `<select>` since
   the listbox port, so `-chooser` is both accurate and unambiguous.
 - `share-chooser` loses its naming exception. Its trigger hook was
   `share-button-trigger` only because `.share-button-button` read badly;

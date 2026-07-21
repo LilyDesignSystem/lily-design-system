@@ -21,8 +21,8 @@ the `Props` and `ChildArgs` types. Required props are `label` and
 ### Renamed
 
 - Previously released in-tree as `lily-design-system-react-locale-select`.
-  The rename to `-locale-chooser` also renames the `LocaleSelect` symbol
-  to `LocaleChooser`, the `locale-select*` class hooks to
+  The rename to `-locale-chooser` also renames the `LocaleChooser` symbol
+  to `LocaleChooser`, the `locale-chooser*` class hooks to
   `locale-chooser*`, and the `data-lily-locale-select*` attributes to
   `data-lily-locale-chooser*`. It brings the helper into line with the
   catalog-wide `*-chooser` naming and keeps the `-select` suffix reserved
@@ -145,14 +145,14 @@ the `Props` and `ChildArgs` types. Required props are `label` and
 
 ---
 
-## Prior history — in-tree as `lily-design-system-react-locale-select`
+## Prior history — released in-tree as `lily-design-system-react-locale-select`
 
 The releases below were never published to npm under any name; they are
 the in-tree development history of this package before the rename.
 
-## 0.3.0 — 2026-07-20
+### 0.3.0 — 2026-07-20
 
-### Added
+#### Added
 
 - `placeholder` prop (optional, `string`, defaults to `label`): the text
   of the always-displayed placeholder option. Keeps the package
@@ -160,7 +160,7 @@ the in-tree development history of this package before the rename.
 - `locale-chooser-placeholder` class hook on the placeholder `<option>`
   (alongside `locale-chooser-option`).
 
-### Changed (BREAKING — DOM contract)
+#### Changed (BREAKING — DOM contract)
 
 - The `<select>` now renders a placeholder `<option value="">` as its
   **first child**, in both the default and the custom-`children` code
@@ -173,7 +173,7 @@ the in-tree development history of this package before the rename.
   the placeholder, so the closed control always reads
   `placeholder ?? label` and stays as narrow as that word.
 
-### Unchanged
+#### Unchanged
 
 - The behaviour contract: the resolved selection still lives in `value`
   / internal state, and `lang` / `dir` application, optional
@@ -181,7 +181,7 @@ the in-tree development history of this package before the rename.
   `onChange`, initial-value resolution, and SSR safety are all as in
   0.2.0. The placeholder carries no `lang` — it is not a locale.
 
-### Accessibility note
+#### Accessibility note
 
 - Because the closed control always reads the placeholder,
   screen-reader users no longer hear the active locale announced as the
@@ -190,7 +190,7 @@ the in-tree development history of this package before the rename.
   announced should surface it separately — as visible text or via a
   polite live region. See `docs/accessibility.md`.
 
-### Added (examples & docs)
+#### Added (examples & docs)
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the entry-point example and the `index.md` quick-start both
@@ -202,9 +202,9 @@ the in-tree development history of this package before the rename.
   "what this does and does not fix" note — the region announces
   transitions, it does not restore combobox value semantics.
 
-## 0.2.0 — 2026-07-03
+### 0.2.0 — 2026-07-03
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
@@ -220,15 +220,15 @@ the in-tree development history of this package before the rename.
 - Custom rendering (snippet / render prop / slot / template) now renders
   `<option>` elements inside the `<select>`.
 
-### Unchanged
+#### Unchanged
 
 - The behaviour contract: DOM application (`lang` / `dir`), optional
   `localStorage` persistence, SSR safety, and the no-hardcoded-strings
   i18n rule are as in 0.1.0.
 
-## [0.1.0] — 2026-06-05
+### [0.1.0] — 2026-06-05
 
-### Added
+#### Added
 
 - Initial implementation of `LocaleChooser` for React 19.
 - `LocaleChooser.tsx` — function component with hooks
@@ -269,7 +269,7 @@ the in-tree development history of this package before the rename.
   `07-with-react-i18next.tsx`, `08-ssr-cookie.tsx`,
   `09-scoped-target.tsx`, `10-combobox.tsx`.
 
-### Parity with Svelte counterpart
+#### Parity with Svelte counterpart
 
 This helper mirrors
 `lily-design-system-svelte-helpers/lily-design-system-svelte-locale-chooser`:
@@ -290,7 +290,7 @@ This helper mirrors
 - Same `defaultLocaleLabels` 436-row table (byte-identical
   `locales.tsv`).
 
-### Differences from the Svelte counterpart
+#### Differences from the Svelte counterpart
 
 - `value` is a controlled prop paired with `onChange`, not a
   `$bindable()` two-way binding.
@@ -307,7 +307,7 @@ This helper mirrors
   (`react-intl`, `react-i18next`, Lingui, raw `Intl.*`) rather than the
   Svelte-specific four (`svelte-i18n`, Paraglide, Tolgee, raw `Intl.*`).
 
-### Tracking
+#### Tracking
 
 - Package directory:
   `lily-design-system-react-helpers/lily-design-system-react-locale-chooser/`

@@ -21,8 +21,8 @@ props are `label` and `sizes`.
 
 - Previously released in-tree as
   `lily-design-system-react-text-size-select`. The rename to
-  `-text-size-chooser` also renames the `TextSizeSelect` symbol to
-  `TextSizeChooser`, the `text-size-select*` class hooks to
+  `-text-size-chooser` also renames the `TextSizeChooser` symbol to
+  `TextSizeChooser`, the `text-size-chooser*` class hooks to
   `text-size-chooser*`, and the `data-lily-text-size-select*` attributes to
   `data-lily-text-size-chooser*`. It brings the helper into line with the
   catalog-wide `*-chooser` naming and keeps the `-select` suffix reserved
@@ -149,14 +149,14 @@ props are `label` and `sizes`.
 
 ---
 
-## Prior history — in-tree as `lily-design-system-react-text-size-select`
+## Prior history — released in-tree as `lily-design-system-react-text-size-select`
 
 The releases below were never published to npm under any name; they are
 the in-tree development history of this package before the rename.
 
-## 0.1.0 — 2026-06-05
+### 0.1.0 — 2026-06-05
 
-### Added
+#### Added
 
 - Initial release: a native `<select>` of text-size slugs that applies
   `data-text-size` to the document root, with optional `localStorage`

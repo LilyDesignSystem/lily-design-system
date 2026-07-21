@@ -41,9 +41,14 @@ The entries below record this package's history under its former name.
 
 ---
 
-## Unreleased
+## Prior history — released in-tree as `lily-design-system-angular-locale-select`
 
-### Changed (symmetry with theme-chooser)
+These entries describe the package before the July 2026 rename. Their
+version numbers were never published under the current name.
+
+#### Unreleased (pre-rename)
+
+#### Changed (symmetry with theme-chooser)
 
 - **The default globe glyph gains U+FE0E VARIATION SELECTOR-15.**
   `GLOBE_WITH_MERIDIANS` is now `"\u{1F310}\uFE0E"` rather than
@@ -54,7 +59,7 @@ The entries below record this package's history under its former name.
   Consumers who assert on the glyph's exact code points need to expect
   the two-codepoint sequence.
 
-### Added (docs and examples)
+#### Added (docs and examples)
 
 - **Five shared topic guides**, so locale-chooser and theme-chooser now
   offer the same doc shape: `docs/props-reference.md`,
@@ -65,7 +70,7 @@ The entries below record this package's history under its former name.
   they are; `preloading` remains theme-only since it is about
   stylesheet preloading.
 
-### Changed (examples renamed)
+#### Changed (examples renamed)
 
 - **Examples move from the radio-group era's ordinal names to
   descriptive ones**, matching theme-chooser's convention. None of the
@@ -92,7 +97,7 @@ The entries below record this package's history under its former name.
   and the matching `example-*` selectors. All inbound links in
   `index.md`, `examples/README.md`, `docs/`, and `AGENTS/` follow.
 
-### Changed (BREAKING — DOM contract, API, and keyboard)
+#### Changed (BREAKING — DOM contract, API, and keyboard)
 
 - **The control is no longer a native `<select>`.** It is now an icon
   button that opens a WAI-ARIA APG listbox. The root is a
@@ -129,7 +134,7 @@ The entries below record this package's history under its former name.
   that replaces the **button glyph only** — it never renders options —
   and receives `ChildArgs`: `{ $implicit, value, open, labelFor }`.
 
-### Added
+#### Added
 
 - `locale-chooser-button`, `locale-chooser-icon`, and
   `locale-chooser-list` class hooks. The package still ships zero CSS.
@@ -150,7 +155,7 @@ The entries below record this package's history under its former name.
   hydration stays clean.
 - `ChildArgs` type export — the projected template's context.
 
-### Unchanged
+#### Unchanged
 
 Everything downstream of the selection behaves exactly as before:
 `lang` / `dir` application, RTL detection, `localStorage`
@@ -163,7 +168,7 @@ helpers `bcp47LocaleTag` / `isRtlLocale` / `localeName` /
 `lang="{bcp47}"` for WCAG 3.1.2 (Language of Parts); the button and
 the list still carry none.
 
-### Accessibility
+#### Accessibility
 
 The 0.3.0 placeholder tradeoff is gone, replaced by three new ones,
 documented without spin in `docs/accessibility.md`: an icon-only
@@ -175,9 +180,9 @@ entirely depending on platform fonts. The status-region guidance is
 retained and still applies — the closed button shows only a glyph and
 never the active locale name.
 
-## 0.3.0 — 2026-07-20
+### 0.3.0 — 2026-07-20
 
-### Added
+#### Added
 
 - `placeholder` input (optional, `string`). Sets the text of the new
   leading placeholder option. Defaults to the `label` value, so the
@@ -186,7 +191,7 @@ never the active locale name.
   The package still ships zero CSS; see the root `themes/` stylesheets
   for the shipped width implementation.
 
-### Changed (BREAKING — DOM contract)
+#### Changed (BREAKING — DOM contract)
 
 - The `<select>` now renders a leading
   `<option class="locale-chooser-option locale-chooser-placeholder" value="" selected>`
@@ -213,7 +218,7 @@ application, `localStorage` persistence, `navigator` detection,
 `localeChange`, and initial-value resolution all behave exactly as
 before, and `value` remains the two-way bindable source of truth.
 
-### Added (examples & docs)
+#### Added (examples & docs)
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the entry-point example and the `index.md` quick-start both
@@ -225,9 +230,9 @@ before, and `value` remains the two-way bindable source of truth.
   "what this does and does not fix" note — the region announces
   transitions, it does not restore combobox value semantics.
 
-## 0.2.0 — 2026-07-03
+### 0.2.0 — 2026-07-03
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
@@ -243,17 +248,17 @@ before, and `value` remains the two-way bindable source of truth.
 - Custom rendering (snippet / render prop / slot / template) now renders
   `<option>` elements inside the `<select>`.
 
-### Unchanged
+#### Unchanged
 
 - The behaviour contract: DOM application (`lang` / `dir`), optional
   `localStorage` persistence, SSR safety, and the no-hardcoded-strings
   i18n rule are as in 0.1.0.
 
-## 0.1.0 — 2026-06-05
+### 0.1.0 — 2026-06-05
 
 Initial release.
 
-### Added
+#### Added
 
 - `locale-chooser.component.ts` — Angular 20 standalone component.
   Implements the full Svelte canonical contract:
@@ -298,7 +303,7 @@ Initial release.
   `08-ssr-cookie.component.ts`, `09-scoped-target.component.ts`,
   `10-combobox.component.ts`, plus a `README.md` index.
 
-### Conventions
+#### Conventions
 
 - Angular 20 standalone component, `OnPush`, `@for` control flow.
 - Signal inputs (`input<T>()`, `input.required<T>()`), model signal
@@ -311,7 +316,7 @@ Initial release.
   `typeof document !== "undefined"`.
 - Tested under vitest + jsdom + `@angular/core/testing` `TestBed`.
 
-### Parity
+#### Parity
 
 This is a direct port of the Svelte canonical
 `lily-design-system-svelte-locale-chooser` v0.1.0. The DOM
@@ -319,7 +324,7 @@ contract, BCP 47 normalisation rules, RTL detection sets,
 initial-value resolution order, and apply order match
 clause-for-clause.
 
-### Notes
+#### Notes
 
 - The `onChange` callback prop from the Svelte canonical maps to
   the `localeChange` Angular output. Use `(localeChange)="..."`

@@ -38,12 +38,12 @@ vanilla custom element.
 ### Changed
 
 - Renamed from `lily-design-system-html-share-button`. The custom
-  element is `<share-chooser>` (was `<share-button>`), the class is
-  `ShareChooser` (was `ShareButton`), and the class hooks are
-  `share-chooser*` (were `share-button*`).
+  element is `<share-chooser>` (was `<share-chooser>`), the class is
+  `ShareChooser` (was `ShareChooser`), and the class hooks are
+  `share-chooser*` (were `share-chooser*`).
 - **The trigger's class is now `share-chooser-button`**, matching the
   `{helper}-button` convention the sibling helpers use. Under the old
-  name it was `share-button-trigger`, a documented exception made
+  name it was `share-chooser-trigger`, a documented exception made
   because `.share-button-button` read badly; the rename removes the
   reason for the exception, and the exception is removed with it.
 - The `share-title` attribute keeps its name. `title` is a global HTML

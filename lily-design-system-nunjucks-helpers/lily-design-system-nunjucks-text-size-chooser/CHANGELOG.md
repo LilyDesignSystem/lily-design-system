@@ -33,7 +33,7 @@ helper into line with its three siblings, all now `*-chooser`.
 
 ---
 
-## Prior history — as `lily-design-system-nunjucks-text-size-select`
+## Prior history — released in-tree as `lily-design-system-nunjucks-text-size-select`
 
 The entries below record this package's development under its
 former name. Nothing was ever published under the
@@ -43,9 +43,9 @@ package. They are kept because the DOM contract, keyboard
 behaviour and breaking changes they describe are still the ones
 in force.
 
-## 0.2.0 — 2026-07-21
+### 0.2.0 — 2026-07-21
 
-### Changed (BREAKING — the control is no longer a `<select>`)
+#### Changed (BREAKING — the control is no longer a `<select>`)
 
 - **The macro no longer renders a native `<select>`.** It renders a
   `<div>` root containing a hidden `<input>`, a glyph-only `<button>`,
@@ -69,7 +69,7 @@ in force.
   the apply lifecycle. Now the client.js also owns open/close, focus,
   keyboard, and typeahead — without it the button is inert.
 
-### Added
+#### Added
 
 - Class hooks: `.text-size-chooser-button`, `.text-size-chooser-icon`,
   `.text-size-chooser-list`, `.text-size-chooser-option`, plus
@@ -106,7 +106,7 @@ in force.
   `examples/01-basic.njk` demonstrating the control with its status
   region and a worked type scale.
 
-### Note on the glyph
+#### Note on the glyph
 
 The button glyph is `"A"` (U+0041 LATIN CAPITAL LETTER A), not a
 pictograph. U+1F5DB DECREASE FONT SIZE SYMBOL was the first choice but
@@ -117,13 +117,13 @@ is the conventional text-size affordance. It is materially safer than a
 pictograph against the "glyph may not render" tradeoff: if "A" does not
 render, the page has no readable text at all.
 
-### Not added, deliberately
+#### Not added, deliberately
 
 - **No detection prop.** Unlike theme-chooser's `prefers-color-scheme`
   and locale-chooser's `navigator.languages`, the web platform exposes
   no OS "preferred text size" signal, so there is nothing to detect.
 
-### Regression (documented, not fixed)
+#### Regression (documented, not fixed)
 
 - **The control no longer works without JavaScript.** The button has no
   handler and the listbox renders `hidden`, so with JS disabled the
@@ -137,7 +137,7 @@ render, the page has no readable text at all.
   both say so plainly, and note that browser zoom and the user's own
   default font size remain the backstop.
 
-### Unchanged
+#### Unchanged
 
 - `data-text-size` application, `localStorage` persistence, `onChange`,
   the `target` opt, and SSR safety.
@@ -150,7 +150,7 @@ render, the page has no readable text at all.
 - Zero CSS, zero fonts, zero icons; every user-facing string comes from
   `opts`.
 
-## 0.1.0 — 2026-07-03
+### 0.1.0 — 2026-07-03
 
 Initial release: a native-`<select>` text-size helper that sets
 `data-text-size` on the document root, with optional `localStorage`

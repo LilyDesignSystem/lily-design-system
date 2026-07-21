@@ -12,9 +12,9 @@ and the project follows
 ### Renamed (BREAKING)
 
 - **Every helper in the catalog is renamed to `*-chooser`**, resolving a
-  name collision: `theme-select` and `theme-select-option` are catalog
+  name collision: `theme-chooser` and `theme-select-option` are catalog
   *components* in `components.tsv`, and the helper was sharing both the
-  slug and the `.theme-select` class hook with one of them.
+  slug and the `.theme-chooser` class hook with one of them.
 
   | Was | Becomes |
   | --- | ------- |
@@ -23,7 +23,7 @@ and the project follows
   | `lily-design-system-blazor-text-size-select` | `lily-design-system-blazor-text-size-chooser` |
   | `lily-design-system-blazor-share-button` | `lily-design-system-blazor-share-chooser` |
 
-  NuGet ids follow: `LilyDesignSystem.Blazor.ThemeSelect` ->
+  NuGet ids follow: `LilyDesignSystem.Blazor.ThemeChooser` ->
   `LilyDesignSystem.Blazor.ThemeChooser`, and likewise for the other
   three. Components, contexts, class hooks, generated ids and the
   `data-lily-theme-select` link discriminator all move to `chooser`.

@@ -24,12 +24,12 @@ and the project follows
   | `lily-design-system-angular-share-button` | `lily-design-system-angular-share-chooser` |
 
 - Selectors: `lily-theme-select` → `lily-theme-chooser`, and likewise
-  for locale, text-size and share. Component classes: `ThemeSelect` →
-  `ThemeChooser`, `LocaleSelect` → `LocaleChooser`, `TextSizeSelect` →
-  `TextSizeChooser`, `ShareButton` → `ShareChooser`. Marker directives
+  for locale, text-size and share. Component classes: `ThemeChooser` →
+  `ThemeChooser`, `LocaleChooser` → `LocaleChooser`, `TextSizeChooser` →
+  `TextSizeChooser`, `ShareChooser` → `ShareChooser`. Marker directives
   and id generators follow (`ThemeSelectIcon` → `ThemeChooserIcon`,
   `nextThemeSelectId` → `nextThemeChooserId`, …).
-- Class hooks: `.theme-select*` → `.theme-chooser*` and the same for
+- Class hooks: `.theme-chooser*` → `.theme-chooser*` and the same for
   the other three. Data attributes: `data-lily-theme-select` →
   `data-lily-theme-chooser`, etc.
 - **`share-chooser` loses its naming exception.** Its trigger hook was
@@ -42,7 +42,7 @@ and the project follows
   said "select". The HTML-catalog-style event names
   (`themechange`, `localechange`, `textsizechange`, `share`, `copy`,
   `nativeshare`) contain no "select" and are likewise unchanged.
-- The catalog component `theme-select` in the root `components.tsv` is
+- The catalog component `theme-chooser` in the root `components.tsv` is
   a **different thing** and is untouched. The duplicate class hook
   between it and this helper is exactly what this rename removes.
 - The catalog `build` script now discovers packages by globbing for

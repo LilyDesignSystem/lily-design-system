@@ -9,8 +9,8 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ### Renamed
 
 - Previously developed in-tree as `lily-design-system-react-share-button`.
-  The rename to `-share-chooser` also renames the `ShareButton` symbol to
-  `ShareChooser` and the `share-button*` class hooks to `share-chooser*`.
+  The rename to `-share-chooser` also renames the `ShareChooser` symbol to
+  `ShareChooser` and the `share-chooser*` class hooks to `share-chooser*`.
   It brings the helper into line with the catalog-wide `*-chooser` naming,
   and it retires the old naming exception: the trigger's hook was
   `share-button-trigger` only because `.share-button-button` read badly,

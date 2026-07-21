@@ -25,9 +25,9 @@ and the project follows
   …), CSS class hooks and their derivatives, and the
   `data-lily-{helper}-chooser` attributes.
 
-  Two motivations. First, `theme-select` collided with the catalog
+  Two motivations. First, `theme-chooser` collided with the catalog
   component of the same name in `components.tsv`, which shares the hook
-  `.theme-select`; the helpers no longer contend for it. Second, none of
+  `.theme-chooser`; the helpers no longer contend for it. Second, none of
   these controls is a native `<select>` any more — all four are icon
   buttons opening WAI-ARIA APG listboxes — so "select" had stopped
   describing them.

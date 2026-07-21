@@ -15,7 +15,7 @@ the catalog's macro + `client.js` split.
 
 The rename also retires the trigger-class exception: the button is now
 `.share-chooser-button`, matching `theme-chooser`, `locale-chooser` and
-`text-size-chooser`. It was `share-button-trigger` only because
+`text-size-chooser`. It was `share-chooser-trigger` only because
 `.share-button-button` read badly, and the new name removes the reason.
 
 ### The package as it stands
@@ -40,7 +40,7 @@ The rename also retires the trigger-class exception: the button is now
 
 ---
 
-## Prior history — as `lily-design-system-nunjucks-share-button`
+## Prior history — released in-tree as `lily-design-system-nunjucks-share-button`
 
 The entries below record this package's development under its
 former name. Nothing was ever published under the
@@ -50,13 +50,13 @@ package. They are kept because the DOM contract, keyboard
 behaviour and breaking changes they describe are still the ones
 in force.
 
-## 0.1.0 — 2026-07-21 (drafted, never published)
+### 0.1.0 — 2026-07-21 (drafted, never published)
 
 Initial release. Port of the canonical
 `lily-design-system-svelte-share-chooser` helper to the Nunjucks catalog,
 following the catalog's macro + `client.js` split.
 
-### Added
+#### Added
 
 - **`share-chooser.njk`** — the `shareChooser(opts)` macro. Renders a
   `<div class="share-chooser">` root containing a glyph-only
@@ -76,7 +76,7 @@ following the catalog's macro + `client.js` split.
 - Docs: `spec/index.md`, `index.md`, `AGENTS.md`, `CLAUDE.md`,
   `docs/accessibility.md`, `docs/ssr.md`, `examples/`.
 
-### Deviation from the canonical Svelte helper — `href` is a string
+#### Deviation from the canonical Svelte helper — `href` is a string
 
 **This is the one place this port could not follow the canonical API,
 and it is deliberate.**
@@ -126,7 +126,7 @@ function ergonomics server-side can have them that way.
 
 Rationale in full: `spec/index.md` §3.3.
 
-### Degradation without JavaScript — partial, and better than the siblings
+#### Degradation without JavaScript — partial, and better than the siblings
 
 Unlike `theme-chooser`, `locale-chooser` and `text-size-chooser`, which are
 **totally inert** without their client module, this helper degrades
@@ -147,7 +147,7 @@ while this helper's primary affordance is *navigation*, which HTML does
 on its own. Stated precisely in `docs/ssr.md`, including how to render a
 permanently-open list if full no-JS operation is a hard requirement.
 
-### Notes carried over from the canonical helper
+#### Notes carried over from the canonical helper
 
 - **No social-network endpoints ship.** No URL templates for X /
   Facebook / LinkedIn / Reddit or anything else. Which networks exist is

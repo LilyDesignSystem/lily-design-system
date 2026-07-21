@@ -36,9 +36,14 @@ The entries below record this package's history under its former name.
 
 ---
 
-## 0.2.0 — 2026-07-21
+## Prior history — released in-tree as `lily-design-system-angular-text-size-select`
 
-### Changed (BREAKING)
+These entries describe the package before the July 2026 rename. Their
+version numbers were never published under the current name.
+
+### 0.2.0 — 2026-07-21
+
+#### Changed (BREAKING)
 
 - **No longer a native `<select>`.** This helper is now an icon button
   that opens a WAI-ARIA APG listbox, matching `theme-chooser` and
@@ -59,7 +64,7 @@ The entries below record this package's history under its former name.
   Space select and return focus to the button, Escape closes without
   changing the value, Tab closes and moves on.
 
-### Added
+#### Added
 
 - Button glyph `"A"` (U+0041). The obvious candidate, U+1F5DB DECREASE
   FONT SIZE SYMBOL, has no real glyph in common font stacks and falls
@@ -69,7 +74,7 @@ The entries below record this package's history under its former name.
 - `sizeName` exported, mirroring `themeName` / `localeName`; the
   internal `labelFor` delegates to it.
 
-### Unchanged
+#### Unchanged
 
 - `data-text-size` application, `localStorage` persistence, `onChange`,
   and initial-value resolution (`value` > storage > `defaultValue` >
@@ -77,7 +82,7 @@ The entries below record this package's history under its former name.
 - No first-visit detection prop: unlike `prefers-color-scheme` and
   `navigator.languages`, the platform exposes no preferred text size.
 
-### Accessibility
+#### Accessibility
 
 - The tradeoffs are documented in `docs/accessibility.md` rather than
   glossed: the accessible name now rests entirely on `aria-label`; a

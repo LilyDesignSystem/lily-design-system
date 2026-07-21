@@ -17,13 +17,13 @@ Unreleased there.
 
 Renamed in this package:
 
-- Component and context: `LocaleSelect` -> `LocaleChooser`,
+- Component and context: `LocaleChooser` -> `LocaleChooser`,
   `LocaleSelectContext` -> `LocaleChooserContext`.
-- Class hooks: `.locale-select*` -> `.locale-chooser*`, including the
-  `--locale-select-{bg,fg,border}` custom properties documented in
+- Class hooks: `.locale-chooser*` -> `.locale-chooser*`, including the
+  `--locale-chooser-{bg,fg,border}` custom properties documented in
   `docs/styling.md`.
-- Generated element ids: `locale-select-{n}` -> `locale-chooser-{n}`.
-- Files: `LocaleSelect.razor{,.cs}` -> `LocaleChooser.razor{,.cs}`,
+- Generated element ids: `locale-chooser-{n}` -> `locale-chooser-{n}`.
+- Files: `LocaleChooser.razor{,.cs}` -> `LocaleChooser.razor{,.cs}`,
   `LocaleSelectTests.cs` -> `LocaleChooserTests.cs`.
 
 `Locales.LocaleName`, `MatchNavigatorLanguage` and every parameter name
@@ -39,11 +39,11 @@ selectors. Nothing else moves.
 
 ---
 
-## Earlier history — released in-tree as `lily-design-system-blazor-locale-select`
+## Prior history — released in-tree as `lily-design-system-blazor-locale-select`
 
-### Unreleased
+#### Unreleased
 
-#### Changed
+##### Changed
 
 - **The default glyph gains U+FE0E VARIATION SELECTOR-15.**
   `LocaleChooser.GlobeWithMeridians` is now the two-codepoint sequence
@@ -59,7 +59,7 @@ selectors. Nothing else moves.
   font-stack fallback and `ChildContent` remains the guaranteed route
   to a monochrome mark.
 
-#### Added
+##### Added
 
 - **Five shared topic docs**, bringing the doc set level with
   theme-chooser's: `docs/parameters-reference.md`, `docs/styling.md`,
@@ -91,14 +91,14 @@ selectors. Nothing else moves.
   All inbound links updated (`examples/README.md`, `index.md`,
   `AGENTS/ssr.md`, and the ResX layout comment inside `WithResX.razor`).
 
-#### Fixed
+##### Fixed
 
 - `index.md` no longer marks examples 2, 3, 5, and 10 as "⚠️ Stale —
   written against the previous native-`<select>` API". They were
   rewritten for the icon-button/listbox API; no example passes the
   removed `Placeholder` parameter. The warning was itself stale.
 
-#### Changed (BREAKING)
+##### Changed (BREAKING)
 
 - **The control is no longer a native `<select>`.** It is now an icon
   button that opens a dropdown listbox, built to the WAI-ARIA APG
@@ -154,7 +154,7 @@ selectors. Nothing else moves.
   `.locale-chooser-list`, `.locale-chooser-option`, plus the
   `[data-active]` and `[aria-selected]` state selectors.
 
-#### Added
+##### Added
 
 - Full WAI-ARIA APG listbox keyboard contract, implemented by the
   component: `ArrowDown` / `Enter` / `Space` open on the selected
@@ -174,7 +174,7 @@ selectors. Nothing else moves.
   (`locale-chooser-{n}-list`, `locale-chooser-{n}-option-{i}`) — no
   randomness and no clock reads.
 
-#### Unchanged
+##### Unchanged
 
 `lang` / `dir` application, RTL detection, `localStorage` persistence,
 `navigator` detection, `OnChange` / `ValueChanged`, initial-value
@@ -183,7 +183,7 @@ class (`Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`,
 `MatchNavigatorLanguage`, `DefaultLocaleLabels`, `RtlLanguageTags`,
 `RtlScriptSubtags`) all behave exactly as before.
 
-#### Known deviations from the canonical Svelte implementation
+##### Known deviations from the canonical Svelte implementation
 
 - No `preventDefault` on keydown: Blazor evaluates
   `@onkeydown:preventDefault` at render time, not per event, so it
@@ -194,9 +194,9 @@ class (`Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`,
   outside interaction closes the listbox via the root's `focusout`
   instead.
 
-### 0.3.0 — 2026-07-20
+#### 0.3.0 — 2026-07-20
 
-#### Changed (BREAKING)
+##### Changed (BREAKING)
 
 - The closed `<select>` now always reads a placeholder word instead of
   the active locale name, so the control stays narrow regardless of how
@@ -219,7 +219,7 @@ class (`Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`,
   `localStorage` persistence, `navigator` detection, `OnChange` /
   `ValueChanged`, and initial-value resolution all behave as before.
 
-#### Added
+##### Added
 
 - `Placeholder` parameter (`string?`, defaults to `Label`) — the text
   of the always-displayed placeholder option. Like every other
@@ -229,7 +229,7 @@ class (`Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`,
   (`field-sizing: content` with a `max-width` fallback) in
   [`index.md`](index.md).
 
-#### Accessibility
+##### Accessibility
 
 - Documented tradeoff: because the closed control always reads the
   placeholder, screen-reader users no longer hear the active locale
@@ -238,7 +238,7 @@ class (`Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`,
   or a polite live region — see
   [`docs/accessibility.md`](docs/accessibility.md).
 
-#### Added (examples & docs)
+##### Added (examples & docs)
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the entry-point example and the `index.md` quick-start both
@@ -250,9 +250,9 @@ class (`Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`,
   "what this does and does not fix" note — the region announces
   transitions, it does not restore combobox value semantics.
 
-### 0.2.0 — 2026-07-03
+#### 0.2.0 — 2026-07-03
 
-#### Changed (BREAKING)
+##### Changed (BREAKING)
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
@@ -268,17 +268,17 @@ class (`Bcp47LocaleTag`, `IsRtlLocale`, `LocaleName`,
 - Custom rendering (snippet / render prop / slot / template) now renders
   `<option>` elements inside the `<select>`.
 
-#### Unchanged
+##### Unchanged
 
 - The behaviour contract: DOM application (`lang` / `dir`), optional
   `localStorage` persistence, SSR safety, and the no-hardcoded-strings
   i18n rule are as in 0.1.0.
 
-### 0.1.0 — 2026-06-05
+#### 0.1.0 — 2026-06-05
 
 Initial release.
 
-#### Added
+##### Added
 
 - `LocaleChooser.razor` + `LocaleChooser.razor.cs` — partial-class
   Blazor component in namespace `LilyDesignSystem.Blazor.Helpers`.
@@ -325,7 +325,7 @@ Initial release.
   `08_SsrCookie.razor`, `09_ScopedTarget.razor`,
   `10_Combobox.razor`, plus a `README.md` index.
 
-#### Conventions
+##### Conventions
 
 - Blazor 10 / .NET 10, `Nullable enable`, `ImplicitUsings enable`.
 - Partial class split between `.razor` and `.razor.cs`.
@@ -338,14 +338,14 @@ Initial release.
   `OnAfterRenderAsync` so the component is SSR / prerender safe.
 - Tested under bUnit + xUnit.
 
-#### Parity
+##### Parity
 
 This is a direct port of the Svelte canonical
 `lily-design-system-svelte-locale-chooser` v0.1.0. The DOM contract,
 BCP 47 normalisation rules, RTL detection sets, initial-value
 resolution order, and apply order match clause-for-clause.
 
-#### Notes
+##### Notes
 
 - The `onChange` callback prop from the Svelte canonical maps to
   the `OnChange` Blazor `EventCallback<string>`. Use

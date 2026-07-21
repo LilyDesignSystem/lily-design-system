@@ -23,17 +23,17 @@ and the project follows
   | `lily-design-system-nunjucks-text-size-select` | `lily-design-system-nunjucks-text-size-chooser` | 0.2.0 |
   | `lily-design-system-nunjucks-share-button` | `lily-design-system-nunjucks-share-chooser` | 0.1.0 (unpublished) |
 
-- **The motivating collision.** `theme-select` is also the slug of a
+- **The motivating collision.** `theme-chooser` is also the slug of a
   catalog component in `components.tsv`, and the helper shared its
-  `.theme-select` class hook while being an entirely different control.
+  `.theme-chooser` class hook while being an entirely different control.
   The catalog component is untouched by this rename; only the helpers
   move.
 - **Renamed throughout**: directories, `*.njk` / `*.client.js` /
   `*.test.ts` filenames, macro names (`themeSelect` → `themeChooser`,
   `shareButton` → `shareChooser`, and likewise for locale and
   text-size), exported symbols (`initThemeSelect` → `initThemeChooser`,
-  `nextShareButtonId` → `nextShareChooserId`, …), CSS class hooks
-  (`.theme-select` → `.theme-chooser` and every `-button` / `-icon` /
+  `nextShareChooserId` → `nextShareChooserId`, …), CSS class hooks
+  (`.theme-chooser` → `.theme-chooser` and every `-button` / `-icon` /
   `-list` / `-option` / `-list-item` / `-target` / `-copy` / `-status`
   derivative), `data-lily-*-select-*` → `data-lily-*-chooser-*`
   attributes, and the id-prefix defaults derived from the helper name

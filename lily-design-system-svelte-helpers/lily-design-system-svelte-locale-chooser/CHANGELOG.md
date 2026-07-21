@@ -29,16 +29,16 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-## Prior history
+## Prior history — released in-tree as `lily-design-system-svelte-locale-select`
 
 Previously released in-tree as `lily-design-system-svelte-locale-select`. Everything below happened
 under that name. Identifiers in these entries (class hooks, symbols, data
 attributes) have been updated to their current spellings so the document
 reads coherently; the events they describe are unchanged.
 
-## Unreleased
+### Unreleased
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - **The control is no longer a native `<select>`.** It is now an icon
   button that opens a WAI-ARIA APG listbox. The root is a `<div
@@ -83,7 +83,7 @@ reads coherently; the events they describe are unchanged.
 - The `field-sizing: content` width recipe is obsolete along with the
   `<select>` it sized.
 
-### Changed
+#### Changed
 
 - **The globe glyph gains U+FE0E VARIATION SELECTOR-15.**
   `GLOBE_WITH_MERIDIANS` is now `"\u{1F310}︎"`, not
@@ -93,7 +93,7 @@ reads coherently; the events they describe are unchanged.
   page header. Verified in Chromium. Tests assert the full
   two-codepoint sequence.
 
-### Added
+#### Added
 
 - A hidden `<input type="hidden" name="{name}">` preserving form
   participation now that there is no native form control. It carries
@@ -101,7 +101,7 @@ reads coherently; the events they describe are unchanged.
 - `GLOBE_WITH_MERIDIANS` glyph constant and `nextLocaleChooserId()` (an
   SSR-safe incrementing id generator) on the module script.
 
-### Added (docs and examples)
+#### Added (docs and examples)
 
 - Five shared topic guides, so this package offers the same doc set as
   `theme-chooser` rather than a subset: `docs/props-reference.md`,
@@ -138,7 +138,7 @@ reads coherently; the events they describe are unchanged.
   and `persistence` replaces the `<datalist>` combobox with
   `storageKey` + `detectFromNavigator`.
 
-### Changed (accessibility)
+#### Changed (accessibility)
 
 - **The 0.3.0 placeholder tradeoff is gone.** There is no pinned
   select, and the listbox marks the active option with
@@ -161,7 +161,7 @@ reads coherently; the events they describe are unchanged.
   matters more here than for a theme select, because the active locale
   is only self-evident to someone who can already read the page.
 
-### Unchanged
+#### Unchanged
 
 - Everything downstream: `lang` / `dir` application, RTL detection,
   `localStorage` persistence, `navigator.languages` detection,
@@ -175,9 +175,9 @@ reads coherently; the events they describe are unchanged.
   across every port.
 - Still ships zero CSS, no fonts, no icons, no images.
 
-## 0.3.0 — 2026-07-20
+### 0.3.0 — 2026-07-20
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - The closed `<select>` now always displays a placeholder word ("Locale")
   instead of the active locale name, so the control is only ever as wide
@@ -195,12 +195,12 @@ reads coherently; the events they describe are unchanged.
   for how to surface it separately — this matters more for locale than
   for most controls.
 
-### Added
+#### Added
 
 - `placeholder` prop (optional, string, defaults to `label`) — the text
   of the placeholder option.
 
-### Unchanged
+#### Unchanged
 
 - `value` remains the single source of truth and stays two-way bindable;
   `lang` / `dir` application, `localStorage` persistence,
@@ -210,7 +210,7 @@ reads coherently; the events they describe are unchanged.
 - Still ships zero CSS. The width recipe lives in the root `themes/`
   stylesheets.
 
-### Added (examples & docs)
+#### Added (examples & docs)
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the entry-point example and the `index.md` quick-start both
@@ -222,9 +222,9 @@ reads coherently; the events they describe are unchanged.
   "what this does and does not fix" note — the region announces
   transitions, it does not restore combobox value semantics.
 
-## 0.2.0 — 2026-07-03
+### 0.2.0 — 2026-07-03
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
@@ -240,19 +240,19 @@ reads coherently; the events they describe are unchanged.
 - Custom rendering (snippet / render prop / slot / template) now renders
   `<option>` elements inside the `<select>`.
 
-### Unchanged
+#### Unchanged
 
 - The behaviour contract: DOM application (`lang` / `dir`), optional
   `localStorage` persistence, SSR safety, and the no-hardcoded-strings
   i18n rule are as in 0.1.0.
 
-## 0.1.0 — 2026-06-05
+### 0.1.0 — 2026-06-05
 
 Initial release. This is the **canonical reference implementation**
 for Lily's locale select; the Vue, React, Angular, Blazor, Nunjucks,
 and HTML ports port from this contract clause-for-clause.
 
-### Added
+#### Added
 
 - `LocaleChooser.svelte` — Svelte 5 component using runes throughout
   (`$props`, `$bindable`, `$effect`). Implements:
@@ -296,7 +296,7 @@ and HTML ports port from this contract clause-for-clause.
   `09-scoped-target.svelte`, `10-combobox.svelte`, plus a
   `README.md` index.
 
-### Conventions
+#### Conventions
 
 - **Svelte 5 runes** throughout. No legacy `export let`, no `$:`,
   no `createEventDispatcher`.
@@ -308,7 +308,7 @@ and HTML ports port from this contract clause-for-clause.
   class hook.
 - **Tested** under vitest + jsdom + `@testing-library/svelte`.
 
-### Notes
+#### Notes
 
 - The canonical reference catalog for the framework-helper layer.
   Vue, React, Angular, Blazor, Nunjucks, and HTML ports adopt this

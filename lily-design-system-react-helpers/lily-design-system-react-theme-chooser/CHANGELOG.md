@@ -20,12 +20,12 @@ Public surface: `ThemeChooser` (default and named), `normalizeThemesUrl`,
 ### Renamed
 
 - Previously released in-tree as `lily-design-system-react-theme-select`.
-  The rename to `-theme-chooser` also renames the `ThemeSelect` symbol to
-  `ThemeChooser`, the `theme-select*` class hooks to `theme-chooser*`, and
+  The rename to `-theme-chooser` also renames the `ThemeChooser` symbol to
+  `ThemeChooser`, the `theme-chooser*` class hooks to `theme-chooser*`, and
   the `data-lily-theme-select` attribute to `data-lily-theme-chooser`.
   It disambiguates this helper from the catalog component of the same
   slug in `components.tsv`, which is a genuine `<select>` and owns the
-  `.theme-select` hook. Nothing was ever published under the old name, so
+  `.theme-chooser` hook. Nothing was ever published under the old name, so
   the version restarts at `0.1.0` rather than continuing the in-tree
   numbering; the entries below record that earlier history.
 
@@ -147,14 +147,14 @@ Public surface: `ThemeChooser` (default and named), `normalizeThemesUrl`,
 
 ---
 
-## Prior history — in-tree as `lily-design-system-react-theme-select`
+## Prior history — released in-tree as `lily-design-system-react-theme-select`
 
 The releases below were never published to npm under any name; they are
 the in-tree development history of this package before the rename.
 
-## 0.3.0 — 2026-07-20
+### 0.3.0 — 2026-07-20
 
-### Added
+#### Added
 
 - `placeholder` prop (optional, `string`, defaults to `label`): the text
   of the always-displayed placeholder option. Keeps the package
@@ -162,7 +162,7 @@ the in-tree development history of this package before the rename.
 - `theme-chooser-placeholder` class hook on the placeholder `<option>`
   (alongside `theme-chooser-option`).
 
-### Changed (BREAKING — DOM contract)
+#### Changed (BREAKING — DOM contract)
 
 - The `<select>` now renders a placeholder `<option value="">` as its
   **first child**, in both the default and the custom-`children` code
@@ -174,14 +174,14 @@ the in-tree development history of this package before the rename.
   the placeholder, so the closed control always reads
   `placeholder ?? label` and stays as narrow as that word.
 
-### Unchanged
+#### Unchanged
 
 - The behaviour contract: the resolved selection still lives in `value`
   / internal state, and `data-theme`, the managed `<link>` swap,
   optional `localStorage` persistence, `onChange`, initial-value
   resolution, and SSR safety are all as in 0.2.0.
 
-### Accessibility note
+#### Accessibility note
 
 - Because the closed control always reads the placeholder, screen-reader
   users no longer hear the active theme announced as the combobox
@@ -189,7 +189,7 @@ the in-tree development history of this package before the rename.
   separately — as visible text or via a polite live region. See
   `docs/accessibility.md`.
 
-### Added (examples & docs)
+#### Added (examples & docs)
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the basic example and the `index.md` quick-start both ship
@@ -201,9 +201,9 @@ the in-tree development history of this package before the rename.
   region announces transitions, it does not restore combobox value
   semantics.
 
-## 0.2.0 — 2026-07-03
+### 0.2.0 — 2026-07-03
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
@@ -219,15 +219,15 @@ the in-tree development history of this package before the rename.
 - Custom rendering (snippet / render prop / slot / template) now renders
   `<option>` elements inside the `<select>`.
 
-### Unchanged
+#### Unchanged
 
 - The behaviour contract: DOM application (`data-theme` + managed `<link>` swap), optional
   `localStorage` persistence, SSR safety, and the no-hardcoded-strings
   i18n rule are as in 0.1.0.
 
-## [0.1.0] — 2026-06-05
+### [0.1.0] — 2026-06-05
 
-### Added
+#### Added
 
 - Initial implementation of `ThemeChooser` for React 19.
 - `ThemeChooser.tsx` — function component with hooks
@@ -256,7 +256,7 @@ the in-tree development history of this package before the rename.
   `multiple-choosers.tsx`, `system-preference.tsx`, `lily-themes.tsx`,
   `next-cookie/` (Next.js App Router cookie SSR recipe).
 
-### Parity with Svelte counterpart
+#### Parity with Svelte counterpart
 
 This helper mirrors
 `lily-design-system-svelte-helpers/lily-design-system-svelte-theme-chooser`:
@@ -272,7 +272,7 @@ This helper mirrors
 - Same `onChange(slug)` callback firing after every apply.
 - Same `ChildArgs` shape passed to the render prop.
 
-### Differences from the Svelte counterpart
+#### Differences from the Svelte counterpart
 
 - `value` is a controlled prop, not a `$bindable()` two-way binding.
   Consumer pairs `value` + `onChange` (or omits both for uncontrolled
@@ -284,7 +284,7 @@ This helper mirrors
 - SSR recipe uses Next.js App Router `cookies()` + a client component
   wrapper, not SvelteKit's `transformPageChunk`.
 
-### Tracking
+#### Tracking
 
 - Package directory:
   `lily-design-system-react-helpers/lily-design-system-react-theme-chooser/`

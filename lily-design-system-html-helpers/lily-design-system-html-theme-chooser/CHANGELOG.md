@@ -34,9 +34,9 @@ published; a renamed package carries no release history.
 ### Changed
 
 - Renamed from `lily-design-system-html-theme-select`. The custom
-  element is `<theme-chooser>` (was `<theme-select>`), the class is
-  `ThemeChooser` (was `ThemeSelect`), the class hooks are
-  `theme-chooser*` (were `theme-select*`), and the managed link's
+  element is `<theme-chooser>` (was `<theme-chooser>`), the class is
+  `ThemeChooser` (was `ThemeChooser`), the class hooks are
+  `theme-chooser*` (were `theme-chooser*`), and the managed link's
   attribute is `data-lily-theme-chooser` (was
   `data-lily-theme-select`). The rename removes the collision with the
   Lily catalog component of the same old name. Behaviour is unchanged.
@@ -47,11 +47,11 @@ package name.
 
 ---
 
-## Prior history (as `lily-design-system-html-theme-select`)
+## Prior history — released in-tree as `lily-design-system-html-theme-select`
 
-## Unreleased
+### Unreleased
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - **`<theme-chooser>` is no longer a native `<select>`.** It now
   renders an **icon button that opens a dropdown listbox**, following
@@ -111,7 +111,7 @@ package name.
   picker; and the button's Unicode glyph renders differently per
   platform (no font is bundled) and can come out as tofu.
 
-### Added
+#### Added
 
 - **`themeName(theme)` — exported label resolver.** Title-cases each
   hyphen-separated word of a slug (`"high-contrast"` →
@@ -171,7 +171,7 @@ package name.
   demonstrates `renderButtonContent()` with an inline SVG and with a
   glyph-plus-theme-name button.
 
-### Unchanged
+#### Unchanged
 
 - Every other attribute, the `themechange` `CustomEvent` (same
   detail shape, still `bubbles: true, composed: true`), the managed
@@ -182,9 +182,9 @@ package name.
 - The sibling `<text-size-chooser>` keeps its native `<select>` and
   is unaffected by this change.
 
-## 0.3.0 — 2026-07-20
+### 0.3.0 — 2026-07-20
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - The closed `<select>` now always reads a placeholder word instead
   of the active theme name, so the control stays as narrow as that
@@ -206,7 +206,7 @@ package name.
   need it should surface the active theme in visible text or a
   polite live region — see `docs/accessibility.md`.
 
-### Added
+#### Added
 
 - `placeholder` attribute / property (optional, string). Text of the
   placeholder option; defaults to `label`, keeping the package free
@@ -215,14 +215,14 @@ package name.
 - `docs/styling.md` documents the `.theme-chooser-placeholder` class
   hook and a `field-sizing: content` / `max-width` width recipe.
 
-### Unchanged
+#### Unchanged
 
 - `value` remains the real selection; `data-theme` application, the
   managed `<link>` href swap, `localStorage` persistence, the
   `themechange` event, and initial-value resolution all behave
   exactly as before.
 
-### Added (examples & docs)
+#### Added (examples & docs)
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the basic example and the `index.md` quick-start both ship
@@ -234,9 +234,9 @@ package name.
   region announces transitions, it does not restore combobox value
   semantics.
 
-## 0.2.0 — 2026-07-03
+### 0.2.0 — 2026-07-03
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
@@ -252,20 +252,20 @@ package name.
 - Custom rendering (snippet / render prop / slot / template) now renders
   `<option>` elements inside the `<select>`.
 
-### Unchanged
+#### Unchanged
 
 - The behaviour contract: DOM application (`data-theme` + managed `<link>` swap), optional
   `localStorage` persistence, SSR safety, and the no-hardcoded-strings
   i18n rule are as in 0.1.0.
 
-## 0.1.0 — 2026-06-05
+### 0.1.0 — 2026-06-05
 
 Initial release. Ported from the Svelte canonical
 `lily-design-system-svelte-theme-chooser`. The DOM contract,
 behaviour, and acceptance criteria match the canonical clause-for-
 clause.
 
-### Added
+#### Added
 
 - `<theme-chooser>` custom element extending `HTMLElement`.
 - Side-effectful registration in `index.ts`, guarded by
@@ -286,7 +286,7 @@ clause.
 - 13 acceptance criteria in `spec/index.md` §7; one vitest test per
   clause in `theme-chooser.test.ts`.
 
-### Conventions
+#### Conventions
 
 - Light DOM rendering — no Shadow DOM.
 - One managed `<link rel="stylesheet" data-lily-theme-chooser="{name}">`
@@ -299,14 +299,14 @@ clause.
 - Initial value resolves from
   `value > localStorage > default-value > "light" > themes[0]`.
 
-### Spelling note
+#### Spelling note
 
 The HTML catalog uses `normalizeThemesUrl` (American `z`) to match
 DOM-API convention. The Svelte canonical uses `normaliseThemesUrl`
 (British `s`). Consumers porting between frameworks rename the
 import.
 
-### Subclassing for custom rendering
+#### Subclassing for custom rendering
 
 Custom rendering happens by extending the `ThemeChooser` class and
 overriding `connectedCallback` / `attributeChangedCallback` (private

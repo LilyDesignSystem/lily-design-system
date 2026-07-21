@@ -30,9 +30,9 @@ package carries no release history.
 ### Changed
 
 - Renamed from `lily-design-system-html-text-size-select`. The custom
-  element is `<text-size-chooser>` (was `<text-size-select>`), the
-  class is `TextSizeChooser` (was `TextSizeSelect`), and the class
-  hooks are `text-size-chooser*` (were `text-size-select*`). Behaviour
+  element is `<text-size-chooser>` (was `<text-size-chooser>`), the
+  class is `TextSizeChooser` (was `TextSizeChooser`), and the class
+  hooks are `text-size-chooser*` (were `text-size-chooser*`). Behaviour
   is unchanged.
 
 Previously released in-tree as
@@ -41,11 +41,11 @@ below and did not ship under the current package name.
 
 ---
 
-## Prior history (as `lily-design-system-html-text-size-select`)
+## Prior history — released in-tree as `lily-design-system-html-text-size-select`
 
-## 0.2.0 — 2026-07-21
+### 0.2.0 — 2026-07-21
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - **No longer a native `<select>`.** This helper is now an icon button
   that opens a WAI-ARIA APG listbox, matching `theme-chooser` and
@@ -66,7 +66,7 @@ below and did not ship under the current package name.
   Space select and return focus to the button, Escape closes without
   changing the value, Tab closes and moves on.
 
-### Added
+#### Added
 
 - Button glyph `"A"` (U+0041). The obvious candidate, U+1F5DB DECREASE
   FONT SIZE SYMBOL, has no real glyph in common font stacks and falls
@@ -76,7 +76,7 @@ below and did not ship under the current package name.
 - `sizeName` exported, mirroring `themeName` / `localeName`; the
   internal `labelFor` delegates to it.
 
-### Unchanged
+#### Unchanged
 
 - `data-text-size` application, `localStorage` persistence, `onChange`,
   and initial-value resolution (`value` > storage > `defaultValue` >
@@ -84,7 +84,7 @@ below and did not ship under the current package name.
 - No first-visit detection prop: unlike `prefers-color-scheme` and
   `navigator.languages`, the platform exposes no preferred text size.
 
-### Accessibility
+#### Accessibility
 
 - The tradeoffs are documented in `docs/accessibility.md` rather than
   glossed: the accessible name now rests entirely on `aria-label`; a

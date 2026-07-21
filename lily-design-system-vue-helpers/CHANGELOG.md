@@ -21,14 +21,14 @@ and the project follows
   | `lily-design-system-vue-text-size-select` | `lily-design-system-vue-text-size-chooser` |
   | `lily-design-system-vue-share-button` | `lily-design-system-vue-share-chooser` |
 
-  `theme-select` and `theme-select-option` are two of the 490 components
+  `theme-chooser` and `theme-select-option` are two of the 490 components
   in the Lily catalog — a different thing entirely from the helper that
   shared the name. Renaming the helpers removes that collision and gives
   all four a consistent noun.
 
   The rename is full-depth: directories, file names, package ids,
-  exported symbols (`ThemeSelect` → `ThemeChooser`, `nextShareButtonId` →
-  `nextShareChooserId`, …), class hooks (`.theme-select` →
+  exported symbols (`ThemeChooser` → `ThemeChooser`, `nextShareChooserId` →
+  `nextShareChooserId`, …), class hooks (`.theme-chooser` →
   `.theme-chooser` and every derivative), and data attributes
   (`data-lily-theme-select` → `data-lily-theme-chooser`, and the locale /
   text-size / share equivalents). `themeName`, `localeName` and
@@ -180,7 +180,7 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `theme-select` and `locale-select` bumped to **0.3.0**: both are now
+- `theme-chooser` and `locale-chooser` bumped to **0.3.0**: both are now
   *placeholder-pinned*. The closed `<select>` always displays a short
   placeholder word ("Theme", "Locale") instead of the active value, so
   the control is only ever as wide as that word rather than as wide as
@@ -194,7 +194,7 @@ and the project follows
   selection. The bindable `value` prop is the single source of truth.
   Behaviour contracts (DOM application, persistence, SSR safety, i18n)
   are otherwise unchanged.
-- `text-size-select` is untouched and stays at **0.1.0**.
+- `text-size-chooser` is untouched and stays at **0.1.0**.
 
 ### Added
 
@@ -209,7 +209,7 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `theme-select` and `locale-select` bumped to **0.2.0**: migrated from
+- `theme-chooser` and `locale-chooser` bumped to **0.2.0**: migrated from
   the radio-group "picker" rendering to a native `<select>` with
   `<option>` children (landed in-tree 2026-06-17), with renamed packages
   (`*-picker` → `*-select`), changed class hooks, and native `<select>`
@@ -218,7 +218,7 @@ and the project follows
 
 ### Added
 
-- `text-size-select` **0.1.0** — native-`<select>` text-size helper that
+- `text-size-chooser` **0.1.0** — native-`<select>` text-size helper that
   sets `data-text-size` on the document root, with optional
   `localStorage` persistence (added 2026-06-17; born select-based, so it
   carries no picker migration).

@@ -11,9 +11,9 @@ The package was renamed from `lily-design-system-nunjucks-theme-select`;
 because no release has ever been published under the new name, the
 version restarts at 0.1.0 rather than continuing the old 0.4.0 line.
 
-The rename also retires a real collision: `theme-select` is the slug of
+The rename also retires a real collision: `theme-chooser` is the slug of
 a catalog component in `components.tsv`, and the helper shared its
-`.theme-select` class hook while being a completely different control.
+`.theme-chooser` class hook while being a completely different control.
 `theme-chooser` is unambiguous.
 
 ### The package as it stands
@@ -40,7 +40,7 @@ a catalog component in `components.tsv`, and the helper shared its
 
 ---
 
-## Prior history — as `lily-design-system-nunjucks-theme-select`
+## Prior history — released in-tree as `lily-design-system-nunjucks-theme-select`
 
 The entries below record this package's development under its
 former name. Nothing was ever published under the
@@ -50,9 +50,9 @@ package. They are kept because the DOM contract, keyboard
 behaviour and breaking changes they describe are still the ones
 in force.
 
-## Unreleased
+### Unreleased
 
-### Added
+#### Added
 
 - A one-time `console.warn` when `value` and a stored theme disagree,
   naming both and the version the precedence reversed in. The order flip
@@ -61,7 +61,7 @@ in force.
   rather than left to be discovered. No warning when the two agree, when
   only one is set, or on any other path.
 
-### Changed (BREAKING — initial-value resolution order)
+#### Changed (BREAKING — initial-value resolution order)
 
 - **`opts.value` now beats `localStorage`.** The initial-theme
   resolution order changes from
@@ -104,12 +104,12 @@ in force.
   two weeks ago should land on dark today") has been rewritten rather
   than left contradicting the code.
 
-### Changed (BREAKING — DOM contract)
+#### Changed (BREAKING — DOM contract)
 
 - **The control is no longer a native `<select>`.** It is now an icon
   `<button>` that opens a `<ul role="listbox">`. The root element
-  changes from `<select class="theme-chooser">` to
-  `<div class="theme-chooser">`. Every consumer selector, test, and
+  changes from a `<select>` to a
+  `<div>`, both carrying the `theme-chooser` hook. Every consumer selector, test, and
   stylesheet that assumed a `<select>` / `<option>` DOM must be
   updated.
 - **`placeholder` opt removed.** This supersedes the 0.3.0
@@ -123,7 +123,7 @@ in force.
 - The `{% call %}` block body now replaces the button's **glyph**
   rather than the control's options.
 
-### Added
+#### Added
 
 - `themeName(slug)` export on `theme-chooser.client.js`:
   `"high-contrast"` → `"High Contrast"`. Mirrors locale-chooser's
@@ -170,7 +170,7 @@ in force.
   `aria-selected="true"` (`value or defaultValue or "light" or
   themes[0]`) and pre-fills the hidden input to match.
 
-### Regression (documented, not fixed)
+#### Regression (documented, not fixed)
 
 - **The control does not work without JavaScript.** The button has no
   handler and the listbox renders `hidden`, so with JS disabled there
@@ -181,7 +181,7 @@ in force.
   no-JS operability should use the headless catalog's plain
   `theme-chooser` `<select>` container instead.
 
-### Unchanged
+#### Unchanged
 
 - `data-lily-theme-chooser-value` remains the sole channel by which
   `opts.value` reaches the client, and still prevents a pre-hydration
@@ -193,7 +193,7 @@ in force.
   signatures and still return `{setTheme, destroy}`. `destroy()` now
   also detaches the `document` click listener.
 
-### Documentation
+#### Documentation
 
 - `docs/accessibility.md` rewritten. The 0.3.0 placeholder tradeoff is
   gone; three new tradeoffs are stated honestly: the accessible name
@@ -203,9 +203,9 @@ in force.
   status-region guidance is kept — the closed button shows only a
   glyph, so it matters more than before.
 
-## 0.3.0 — 2026-07-20
+### 0.3.0 — 2026-07-20
 
-### Changed (BREAKING — DOM contract)
+#### Changed (BREAKING — DOM contract)
 
 - The `<select>` now always displays a component-owned placeholder
   option, so the closed control reads the literal placeholder word
@@ -223,7 +223,7 @@ in force.
   `""`; use the `onChange(slug)` callback or read `data-theme` from
   the target instead.
 
-### Added
+#### Added
 
 - `placeholder` macro opt (optional, string): text of the placeholder
   option. Defaults to `label`, so no hardcoded user-facing string is
@@ -233,13 +233,13 @@ in force.
   (`field-sizing: content` / `max-width`) in
   [docs/styling.md](./docs/styling.md).
 
-### Unchanged
+#### Unchanged
 
 - `data-theme` application, the managed `<link>` swap, `localStorage`
   persistence, `onChange`, initial-value resolution, and SSR safety
   all behave exactly as before.
 
-### Accessibility note
+#### Accessibility note
 
 - Because the closed control always reads the placeholder, a
   screen-reader user no longer hears the active theme announced as the
@@ -247,7 +247,7 @@ in force.
   theme in visible text or a polite live region — see
   [docs/accessibility.md](./docs/accessibility.md).
 
-### Added (examples & docs)
+#### Added (examples & docs)
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the basic example and the `index.md` quick-start both ship
@@ -257,7 +257,7 @@ in force.
   and keeps an explicit note that focusing the closed control still
   announces only the placeholder.
 
-### Fixed
+#### Fixed
 
 - Pre-hydration flash. The macro previously signalled `opts.value` by
   server-rendering `selected` on the matching real option; the browser
@@ -268,9 +268,9 @@ in force.
   only `selected` option in the server-rendered HTML. Initial-value
   resolution order is unchanged.
 
-## 0.2.0 — 2026-07-03
+### 0.2.0 — 2026-07-03
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
@@ -286,17 +286,17 @@ in force.
 - Custom rendering (snippet / render prop / slot / template) now renders
   `<option>` elements inside the `<select>`.
 
-### Unchanged
+#### Unchanged
 
 - The behaviour contract: DOM application (`data-theme` + managed `<link>` swap), optional
   `localStorage` persistence, SSR safety, and the no-hardcoded-strings
   i18n rule are as in 0.1.0.
 
-## 0.1.0 — 2026-06-05
+### 0.1.0 — 2026-06-05
 
 Initial release.
 
-### Added
+#### Added
 
 - `theme-chooser.njk` — Nunjucks 3 macro emitting a native
   `<select class="theme-chooser">` with one
@@ -349,7 +349,7 @@ Initial release.
     `_includes/base.njk`, `_data/site.js`, `index.njk`,
     `functions/_middleware.js`, `functions/api/theme.js`.
 
-### Conventions
+#### Conventions
 
 - Nunjucks 3 macro syntax with a single `opts` parameter object.
 - camelCase macro name (`themeChooser`); kebab-case file path
@@ -362,7 +362,7 @@ Initial release.
 - Tested under vitest + jsdom; macro rendered via
   `nunjucks.renderString`.
 
-### Parity
+#### Parity
 
 This is a direct port of the Svelte canonical
 `lily-design-system-svelte-theme-chooser` v0.1.0 and the Vue port
@@ -370,7 +370,7 @@ This is a direct port of the Svelte canonical
 managed-link discriminator, initial-value resolution, and apply
 order match clause-for-clause.
 
-### Notes
+#### Notes
 
 - The `onChange` callback prop from the Svelte canonical maps to
   the `onChange` field on the client.js init opts.

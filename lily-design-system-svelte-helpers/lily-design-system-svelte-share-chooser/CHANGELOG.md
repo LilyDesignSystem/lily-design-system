@@ -15,7 +15,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
   `share-chooser-list-item`, `share-chooser-target`,
   `share-chooser-copy`, `share-chooser-status`) all carry the new name.
 - **The trigger's class hook is now `share-chooser-button`**, replacing
-  `share-button-trigger`. That exception existed only because
+  `share-chooser-trigger`. That exception existed only because
   `.share-button-button` read badly; under the new name the problem
   disappears, so this helper follows the same `{helper}-button`
   convention as its siblings. The documented exception is removed.
@@ -33,16 +33,16 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-## Prior history
+## Prior history — released in-tree as `lily-design-system-svelte-share-button`
 
 Previously released in-tree as `lily-design-system-svelte-share-button`. Everything below happened
 under that name. Identifiers in these entries (class hooks, symbols, data
 attributes) have been updated to their current spellings so the document
 reads coherently; the events they describe are unchanged.
 
-## 0.1.0 — 2026-07-20
+### 0.1.0 — 2026-07-20
 
-### Added
+#### Added
 
 - Initial release. A headless share control: a single-glyph button
   (↪, U+21AA) that opens the **native share sheet** via `navigator.share`
@@ -64,7 +64,7 @@ reads coherently; the events they describe are unchanged.
 - Exports `canShareNatively`, `canCopy`, `nextShareChooserId`,
   `RIGHTWARDS_ARROW_WITH_HOOK`.
 
-### Notes
+#### Notes
 
 - Unlike the `*-select` helpers, this owns an *action*, not a preference:
   it applies nothing to the document and persists nothing.

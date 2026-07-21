@@ -17,14 +17,14 @@ Unreleased there.
 
 Renamed in this package:
 
-- Component and context: `ThemeSelect` -> `ThemeChooser`,
+- Component and context: `ThemeChooser` -> `ThemeChooser`,
   `ThemeSelectContext` -> `ThemeChooserContext`.
-- Class hooks: `.theme-select`, `-button`, `-icon`, `-list`, `-option`
+- Class hooks: `.theme-chooser`, `-button`, `-icon`, `-list`, `-option`
   -> `.theme-chooser`, `-button`, `-icon`, `-list`, `-option`.
 - The managed `<link>` discriminator: `data-lily-theme-select` ->
   `data-lily-theme-chooser`.
-- Generated element ids: `theme-select-{n}` -> `theme-chooser-{n}`.
-- Files: `ThemeSelect.razor{,.cs}` -> `ThemeChooser.razor{,.cs}`,
+- Generated element ids: `theme-chooser-{n}` -> `theme-chooser-{n}`.
+- Files: `ThemeChooser.razor{,.cs}` -> `ThemeChooser.razor{,.cs}`,
   `ThemeSelectTests.cs` -> `ThemeChooserTests.cs`,
   `examples/MultipleSelects.razor` -> `examples/MultipleChoosers.razor`.
 
@@ -41,11 +41,11 @@ selectors. Nothing else moves.
 
 ---
 
-## Earlier history — released in-tree as `lily-design-system-blazor-theme-select`
+## Prior history — released in-tree as `lily-design-system-blazor-theme-select`
 
-### Unreleased
+#### Unreleased
 
-#### Added
+##### Added
 
 - **`ThemeChooser.ThemeName(string slug)` — public static.** The single
   implementation of the default label rule (`"high-contrast"` ->
@@ -77,7 +77,7 @@ selectors. Nothing else moves.
   browser, the pure function makes the decision and is separately
   testable.
 
-#### Changed
+##### Changed
 
 - `examples/SystemPreference.razor` and the "Follow the OS colour
   scheme on first visit" recipe now use `DetectFromSystem` instead of
@@ -89,7 +89,7 @@ selectors. Nothing else moves.
   scope: re-theming a page when the OS flips while the tab is open
   would fight a selection the user made by hand.
 
-#### Changed (BREAKING)
+##### Changed (BREAKING)
 
 - **The control is no longer a native `<select>`.** It is now an icon
   button that opens a dropdown listbox, built to the WAI-ARIA APG
@@ -140,7 +140,7 @@ selectors. Nothing else moves.
   `.theme-chooser-list`, `.theme-chooser-option`, plus the
   `[data-active]` and `[aria-selected]` state selectors.
 
-#### Added
+##### Added
 
 - Full WAI-ARIA APG listbox keyboard contract, implemented by the
   component: `ArrowDown` / `Enter` / `Space` open on the selected
@@ -161,14 +161,14 @@ selectors. Nothing else moves.
   (`theme-chooser-{n}-list`, `theme-chooser-{n}-option-{i}`) — no
   randomness and no clock reads.
 
-#### Unchanged
+##### Unchanged
 
 The managed `<link>` swap, `data-theme`, `localStorage` persistence,
 `OnChange` / `ValueChanged`, initial-value resolution, SSR safety, and
 the static `NormaliseThemesUrl` / `ThemeHref` helpers all behave
 exactly as before.
 
-#### Known deviations from the canonical Svelte implementation
+##### Known deviations from the canonical Svelte implementation
 
 - No `preventDefault` on keydown: Blazor evaluates
   `@onkeydown:preventDefault` at render time, not per event, so it
@@ -179,9 +179,9 @@ exactly as before.
   outside interaction closes the listbox via the root's `focusout`
   instead.
 
-### 0.3.0 — 2026-07-20
+#### 0.3.0 — 2026-07-20
 
-#### Changed (BREAKING)
+##### Changed (BREAKING)
 
 - The closed `<select>` now always reads a placeholder word instead of
   the active theme name, so the control stays narrow regardless of how
@@ -203,7 +203,7 @@ exactly as before.
   `data-theme`, `localStorage` persistence, `OnChange` /
   `ValueChanged`, and initial-value resolution all behave as before.
 
-#### Added
+##### Added
 
 - `Placeholder` parameter (`string?`, defaults to `Label`) — the text
   of the always-displayed placeholder option. Like every other
@@ -213,7 +213,7 @@ exactly as before.
   (`field-sizing: content` with a `max-width` fallback) in
   [`docs/styling.md`](docs/styling.md).
 
-#### Accessibility
+##### Accessibility
 
 - Documented tradeoff: because the closed control always reads the
   placeholder, screen-reader users no longer hear the active theme
@@ -221,7 +221,7 @@ exactly as before.
   should surface the active theme in visible text or a polite live
   region — see [`docs/accessibility.md`](docs/accessibility.md).
 
-#### Added (examples & docs)
+##### Added (examples & docs)
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the basic example and the `index.md` quick-start both ship
@@ -233,9 +233,9 @@ exactly as before.
   region announces transitions, it does not restore combobox value
   semantics.
 
-### 0.2.0 — 2026-07-03
+#### 0.2.0 — 2026-07-03
 
-#### Changed (BREAKING)
+##### Changed (BREAKING)
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
@@ -251,17 +251,17 @@ exactly as before.
 - Custom rendering (snippet / render prop / slot / template) now renders
   `<option>` elements inside the `<select>`.
 
-#### Unchanged
+##### Unchanged
 
 - The behaviour contract: DOM application (`data-theme` + managed `<link>` swap), optional
   `localStorage` persistence, SSR safety, and the no-hardcoded-strings
   i18n rule are as in 0.1.0.
 
-### 0.1.0 — 2026-06-05
+#### 0.1.0 — 2026-06-05
 
 Initial release.
 
-#### Added
+##### Added
 
 - `ThemeChooser.razor` + `ThemeChooser.razor.cs` — partial-class Blazor
   component in namespace `LilyDesignSystem.Blazor.Helpers`. Implements
@@ -298,7 +298,7 @@ Initial release.
   `LilyThemes.razor`, plus `BlazorServerCookie/` with `App.razor`,
   `SettingsPage.razor`, and a `Program.snippet.cs` outline.
 
-#### Conventions
+##### Conventions
 
 - Blazor 10 / .NET 10, `Nullable enable`, `ImplicitUsings enable`.
 - Partial class split between `.razor` and `.razor.cs`.
@@ -311,14 +311,14 @@ Initial release.
   `OnAfterRenderAsync` so the component is SSR / prerender safe.
 - Tested under bUnit + xUnit.
 
-#### Parity
+##### Parity
 
 This is a direct port of the Svelte canonical
 `lily-design-system-svelte-theme-chooser` v0.1.0. The DOM contract,
 managed-link discriminator, initial-value resolution, and apply
 order match clause-for-clause.
 
-#### Notes
+##### Notes
 
 - The `onChange` callback prop from the Svelte canonical maps to the
   `OnChange` Blazor `EventCallback<string>`. Use

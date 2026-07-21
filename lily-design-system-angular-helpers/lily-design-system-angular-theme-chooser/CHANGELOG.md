@@ -36,7 +36,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
   marker directive, class hooks and the `data-lily-theme-chooser`
   attribute all changed with it. The version resets to 0.1.0 because
   nothing has ever been published under the new name.
-- The catalog component `theme-select` in `components.tsv` is a
+- The catalog component `theme-chooser` in `components.tsv` is a
   different thing entirely and is untouched — removing that collision is
   why this rename happened.
 
@@ -44,9 +44,14 @@ The entries below record this package's history under its former name.
 
 ---
 
-## Unreleased
+## Prior history — released in-tree as `lily-design-system-angular-theme-select`
 
-### Added (symmetry with locale-chooser)
+These entries describe the package before the July 2026 rename. Their
+version numbers were never published under the current name.
+
+#### Unreleased (pre-rename)
+
+#### Added (symmetry with locale-chooser)
 
 - **`themeName(theme)` is exported.** locale-chooser has exported
   `localeName(code)` all along; theme-chooser had no equivalent, so
@@ -77,7 +82,7 @@ The entries below record this package's history under its former name.
   instead of hand-rolling the media query.
 
 
-### Changed (BREAKING — the control is no longer a `<select>`)
+#### Changed (BREAKING — the control is no longer a `<select>`)
 
 - **`<select>` → icon button + WAI-ARIA APG listbox.** The rendered
   control is now a root `<div class="theme-chooser">` containing a
@@ -136,7 +141,7 @@ The entries below record this package's history under its former name.
   and join with spaces (`"high-contrast"` → `"High Contrast"`),
   rather than upper-casing only the first character.
 
-### Added
+#### Added
 
 - `ThemeChooserIcon` — optional exported marker directive
   (`ng-template[lilyThemeChooserIcon]`) giving typed `let-` variables
@@ -153,7 +158,7 @@ The entries below record this package's history under its former name.
 - `ChildArgs` — type-only export describing the icon template's
   context.
 
-### Unchanged
+#### Unchanged
 
 Everything downstream of the selection: the managed `<link>` swap,
 `data-theme` application, optional `localStorage` persistence, the
@@ -162,7 +167,7 @@ resolution (`value` > storage > `defaultValue` > `"light"` >
 `themes[0]`), SSR safety, and the pure helpers `normaliseThemesUrl` /
 `themeHref`.
 
-### Accessibility (docs)
+#### Accessibility (docs)
 
 `docs/accessibility.md` replaces the removed 0.3.0 placeholder
 tradeoff with the three this change introduces, stated without spin:
@@ -176,9 +181,9 @@ coverage. The status-region pattern is retained and still the
 default: the closed button shows only a glyph and never names the
 active theme.
 
-## 0.3.0 — 2026-07-20
+### 0.3.0 — 2026-07-20
 
-### Added
+#### Added
 
 - `placeholder` input (optional, `string`). Sets the text of the new
   leading placeholder option. Defaults to the `label` value, so the
@@ -187,7 +192,7 @@ active theme.
   a width recipe (`field-sizing: content` + `max-width`) in
   `docs/styling.md`. The package still ships zero CSS.
 
-### Changed (BREAKING — DOM contract)
+#### Changed (BREAKING — DOM contract)
 
 - The `<select>` now renders a leading
   `<option class="theme-chooser-option theme-chooser-placeholder" value="" selected>`
@@ -211,7 +216,7 @@ swap, `data-theme` application, `localStorage` persistence,
 `themeChange`, and initial-value resolution all behave exactly as
 before, and `value` remains the two-way bindable source of truth.
 
-### Added (examples & docs)
+#### Added (examples & docs)
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the basic example and the `index.md` quick-start both ship
@@ -223,9 +228,9 @@ before, and `value` remains the two-way bindable source of truth.
   region announces transitions, it does not restore combobox value
   semantics.
 
-## 0.2.0 — 2026-07-03
+### 0.2.0 — 2026-07-03
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
@@ -241,17 +246,17 @@ before, and `value` remains the two-way bindable source of truth.
 - Custom rendering (snippet / render prop / slot / template) now renders
   `<option>` elements inside the `<select>`.
 
-### Unchanged
+#### Unchanged
 
 - The behaviour contract: DOM application (`data-theme` + managed `<link>` swap), optional
   `localStorage` persistence, SSR safety, and the no-hardcoded-strings
   i18n rule are as in 0.1.0.
 
-## 0.1.0 — 2026-06-05
+### 0.1.0 — 2026-06-05
 
 Initial release.
 
-### Added
+#### Added
 
 - `theme-chooser.component.ts` — Angular 20 standalone component.
   Implements the full Svelte canonical contract:
@@ -289,7 +294,7 @@ Initial release.
   `app.config.server.ts`, `tokens/initial-theme.ts`,
   `server/middleware/theme.ts`, `server/routes/api/theme.post.ts`.
 
-### Conventions
+#### Conventions
 
 - Angular 20 standalone component, `OnPush`, `@for` control flow.
 - Signal inputs (`input<T>()`, `input.required<T>()`), model signal
@@ -302,14 +307,14 @@ Initial release.
   `typeof document !== "undefined"`.
 - Tested under vitest + jsdom + `@angular/core/testing` `TestBed`.
 
-### Parity
+#### Parity
 
 This is a direct port of the Svelte canonical
 `lily-design-system-svelte-theme-chooser` v0.1.0. The DOM contract,
 managed-link discriminator, initial-value resolution, and apply
 order match clause-for-clause.
 
-### Notes
+#### Notes
 
 - The `onChange` callback prop from the Svelte canonical maps to
   the `themeChange` Angular output. Use `(themeChange)="..."` in

@@ -17,12 +17,12 @@ Unreleased there.
 
 Renamed in this package:
 
-- Component and context: `TextSizeSelect` -> `TextSizeChooser`,
+- Component and context: `TextSizeChooser` -> `TextSizeChooser`,
   `TextSizeSelectContext` -> `TextSizeChooserContext`.
-- Class hooks: `.text-size-select*` -> `.text-size-chooser*`.
-- Generated element ids: `text-size-select-{n}` ->
+- Class hooks: `.text-size-chooser*` -> `.text-size-chooser*`.
+- Generated element ids: `text-size-chooser-{n}` ->
   `text-size-chooser-{n}`.
-- Files: `TextSizeSelect.razor{,.cs}` -> `TextSizeChooser.razor{,.cs}`,
+- Files: `TextSizeChooser.razor{,.cs}` -> `TextSizeChooser.razor{,.cs}`,
   `TextSizeSelectTests.cs` -> `TextSizeChooserTests.cs`.
 
 The applied attribute stays `data-text-size`, and `sizeName` and every
@@ -38,11 +38,11 @@ selectors. Nothing else moves.
 
 ---
 
-## Earlier history — released in-tree as `lily-design-system-blazor-text-size-select`
+## Prior history — released in-tree as `lily-design-system-blazor-text-size-select`
 
-### 0.2.0 — 2026-07-21
+#### 0.2.0 — 2026-07-21
 
-#### Changed (BREAKING)
+##### Changed (BREAKING)
 
 - **The control is no longer a native `<select>`.** It is now an **icon
   button that opens a dropdown listbox**, built to the WAI-ARIA APG
@@ -89,7 +89,7 @@ selectors. Nothing else moves.
   not have it either. Supply a `SizeLabels` entry if you relied on the
   old stripping.
 
-#### Added
+##### Added
 
 - The full APG listbox keyboard contract, implemented by the component
   rather than inherited from the browser: `ArrowDown` / `Enter` /
@@ -114,7 +114,7 @@ selectors. Nothing else moves.
   set (`Basic`, `Persistence`, `CustomLabels`, `CustomRendering`,
   `ExternalButtons`), matching the other two helpers.
 
-#### Not added, deliberately
+##### Not added, deliberately
 
 - **No `DetectFromSystem` parameter.** ThemeChooser detects
   `prefers-color-scheme` and LocaleChooser detects `navigator.languages`,
@@ -123,14 +123,14 @@ selectors. Nothing else moves.
   already served by browser zoom and the browser's own
   minimum-font-size, which this helper must not fight.
 
-#### Unchanged
+##### Unchanged
 
 - `data-text-size` application on the document root, `localStorage`
   persistence, `OnChange` / `ValueChanged`, the initial-value resolution
   order (`Value` > storage > `DefaultValue` > `"medium"` > `Sizes[0]`),
   and SSR / prerender safety.
 
-#### Notes
+##### Notes
 
 - The status-region pattern stays the recommendation, but for a
   different reason: the selection *is* now readable off the control
@@ -155,9 +155,9 @@ selectors. Nothing else moves.
 - Test count for this helper goes from 12 to 23 `[Fact]`s, one per
   `spec/index.md §7` clause; the catalog suite goes from 77 to 88.
 
-### 0.1.0 — 2026-06-17
+#### 0.1.0 — 2026-06-17
 
-#### Added
+##### Added
 
 - Initial release: a headless Blazor text-size select rendering a native
   `<select>` of size slugs, applying `data-text-size` to the document

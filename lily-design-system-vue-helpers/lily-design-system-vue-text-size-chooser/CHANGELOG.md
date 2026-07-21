@@ -12,8 +12,8 @@ the version resets to 0.1.0 rather than continuing the in-tree 0.2.0.
 
 The rename is full-depth:
 
-- Component and default export: `TextSizeSelect` -> `TextSizeChooser`.
-- Class hooks: `.text-size-select*` -> `.text-size-chooser`,
+- Component and default export: `TextSizeChooser` -> `TextSizeChooser`.
+- Class hooks: `.text-size-chooser*` -> `.text-size-chooser`,
   `.text-size-chooser-button`, `.text-size-chooser-icon`,
   `.text-size-chooser-list`, `.text-size-chooser-option`.
 - Data attributes: `data-lily-text-size-select*` ->
@@ -37,34 +37,34 @@ The rename is full-depth:
   types.
 - Ships no CSS, fonts, icons, or images. SSR-safe.
 
-## Prior history (as `lily-design-system-vue-text-size-select`)
+## Prior history — released in-tree as `lily-design-system-vue-text-size-select`
 
 Everything below happened in-tree under the former name, and is
 kept verbatim -- headings demoted one level, old names intact -- so
 the record stays accurate. None of it was published to npm.
 
-### 0.2.0 — 2026-07-21
+#### 0.2.0 — 2026-07-21
 
-#### Changed (BREAKING)
+##### Changed (BREAKING)
 
 - **The control is no longer a native `<select>`.** It is now an icon
-  button that opens a WAI-ARIA APG listbox, matching `theme-select`
-  and `locale-select` — all three helpers are now the same shape. The
-  root element changes from `<select class="text-size-select">` to
-  `<div class="text-size-select">`, containing three children:
+  button that opens a WAI-ARIA APG listbox, matching `theme-chooser`
+  and `locale-chooser` — all three helpers are now the same shape. The
+  root element changes from a `<select>` to a
+  `<div>`, both carrying the `text-size-chooser` hook, containing three children:
   - a hidden `<input type="hidden" name="{name}" value="{value}">`,
     which preserves form participation;
-  - a `<button type="button" class="text-size-select-button"
+  - a `<button type="button" class="text-size-chooser-button"
     aria-label="{label}" aria-haspopup="listbox" aria-expanded
     aria-controls="{listId}">` wrapping
-    `<span class="text-size-select-icon" aria-hidden="true">A</span>`;
-  - a `<ul class="text-size-select-list" role="listbox"
+    `<span class="text-size-chooser-icon" aria-hidden="true">A</span>`;
+  - a `<ul class="text-size-chooser-list" role="listbox"
     aria-label="{label}" tabindex="-1" hidden aria-activedescendant>`
-    of `<li class="text-size-select-option" role="option" aria-selected
+    of `<li class="text-size-chooser-option" role="option" aria-selected
     data-active>`.
 
-  Consumers selecting `select.text-size-select`, reading
-  `selectEl.value`, or styling `option.text-size-select-option` must
+  Consumers selecting `select.text-size-chooser`, reading
+  `selectEl.value`, or styling `option.text-size-chooser-option` must
   migrate. The active size is read from the `v-model:value` binding,
   from `data-text-size` on the target, or from the hidden input.
 
@@ -91,12 +91,12 @@ the record stays accurate. None of it was published to npm.
   an option selects it; clicking the button again, clicking outside, or
   moving focus out of the root closes the listbox.
 
-#### Added
+##### Added
 
 - `sizeName(slug)` — exported label resolver that title-cases each
   hyphen-separated word (`"x-large"` → `"X Large"`). Mirrors
-  `themeName(slug)` on theme-select and `localeName(code)` on
-  locale-select. The internal `labelFor` now delegates to it, so the
+  `themeName(slug)` on theme-chooser and `localeName(code)` on
+  locale-chooser. The internal `labelFor` now delegates to it, so the
   title-casing rule has exactly one implementation.
 - `nextTextSizeSelectId()` — SSR-safe per-instance id generator backed
   by a module counter (never `Math.random()` / `Date.now()`), used for
@@ -118,7 +118,7 @@ the record stays accurate. None of it was published to npm.
 - `docs/accessibility.md` — new in this release; see below.
 - `CHANGELOG.md` — this file.
 
-#### Unchanged
+##### Unchanged
 
 - The whole downstream lifecycle: `data-text-size` on the target,
   optional `localStorage` persistence, the `change` and `update:value`
@@ -126,20 +126,20 @@ the record stays accurate. None of it was published to npm.
   > `defaultValue` > `"medium"` > `sizes[0]`), and SSR safety.
 - The no-hardcoded-strings i18n rule.
 
-#### Not added, deliberately
+##### Not added, deliberately
 
-- **No detection prop.** `theme-select` gained `detectFromSystem` and
-  `locale-select` has `detectFromNavigator`, but there is no OS
+- **No detection prop.** `theme-chooser` gained `detectFromSystem` and
+  `locale-chooser` has `detectFromNavigator`, but there is no OS
   "preferred text size" signal exposed to the web — no media query
   equivalent to `prefers-color-scheme`, no `navigator` field. The
-  resolution chain is therefore the theme-select chain minus its
+  resolution chain is therefore the theme-chooser chain minus its
   detection step. Recorded in `spec/index.md` §2 and §8 so it is not
   re-proposed as an oversight.
 
-#### Accessibility
+##### Accessibility
 
 `docs/accessibility.md` is new and is built around the same three
-tradeoffs documented for `theme-select` and `locale-select`:
+tradeoffs documented for `theme-chooser` and `locale-chooser`:
 
 1. **Icon-only control.** `aria-label` from `label` is the button's
    entire accessible name; a wrong or untranslated `label` leaves it
@@ -168,20 +168,20 @@ layout at the largest size *combined with* 200% browser zoom. It states
 that the helper complements browser zoom rather than replacing it, and
 that zoom must never be disabled on the strength of shipping it.
 
-A `.text-size-select-status` live-region pattern is documented as the
+A `.text-size-chooser-status` live-region pattern is documented as the
 default, as on the other two helpers: the closed button shows only a
 glyph, so the active size has no on-screen and no announced
 representation unless the consumer renders one. It has a bonus unique
 to this helper — the status text renders at the selected size, so it
 doubles as a live preview.
 
-### 0.1.0 — 2026-06-05
+#### 0.1.0 — 2026-06-05
 
 Initial release.
 
-#### Added
+##### Added
 
-- `TextSizeSelect.vue` — Vue 3 SFC with `<script setup lang="ts">`.
+- `TextSizeChooser.vue` — Vue 3 SFC with `<script setup lang="ts">`.
   Rendered `<select aria-label="…" name="…">` with one `<option>` per
   size slug, set `data-text-size="{slug}"` on the resolved target
   element (defaulting to `document.documentElement`), optional
@@ -189,25 +189,25 @@ Initial release.
   try/catch, two-way binding via `v-model:value`, a `change` event for
   post-apply side effects, and a default scoped slot for custom
   rendering with `{ sizes, value, setSize, name, labelFor }`.
-- `index.ts` barrel re-exporting `default`, `TextSizeSelect`, and the
+- `index.ts` barrel re-exporting `default`, `TextSizeChooser`, and the
   `Props` + `SlotArgs` types.
-- `TextSizeSelect.test.ts` — vitest suite asserting every numbered
+- `TextSizeChooser.test.ts` — vitest suite asserting every numbered
   acceptance criterion in `spec/index.md` §7.
 - `spec/index.md` — spec-driven contract, version 0.1.0.
 
-#### Conventions
+##### Conventions
 
 - Vue 3 Composition API, `<script setup lang="ts">`.
 - Zero runtime dependencies beyond `vue`.
 - SSR-safe: all DOM writes inside `onMounted` / `watch`.
 - Tested under vitest + jsdom + `@vue/test-utils`.
 
-#### Parity
+##### Parity
 
 A direct port of the Svelte canonical
 `lily-design-system-svelte-text-size-select` v0.1.0.
 
-#### Notes
+##### Notes
 
 - The `onChange` callback prop from the Svelte canonical maps to the
   `change` Vue event. Use `@change="..."` in templates.

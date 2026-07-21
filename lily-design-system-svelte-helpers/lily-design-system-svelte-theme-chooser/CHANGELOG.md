@@ -16,7 +16,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
   `theme-chooser-placeholder`, `theme-chooser-status`,
   `theme-chooser-swatch`, `theme-chooser-text`) and the managed-link
   data attribute (`data-lily-theme-chooser`, `data-lily-theme-chooser-value`)
-  all carry the new name. The old `theme-select` hook collided with the
+  all carry the new name. The old `theme-chooser` hook collided with the
   catalog component of the same name; that collision is now gone.
 - A headless Svelte 5 theme chooser: an icon button (`◑`) that opens a
   WAI-ARIA APG listbox, loads theme stylesheets at runtime from a
@@ -33,16 +33,16 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-## Prior history
+## Prior history — released in-tree as `lily-design-system-svelte-theme-select`
 
 Previously released in-tree as `lily-design-system-svelte-theme-select`. Everything below happened
 under that name. Identifiers in these entries (class hooks, symbols, data
 attributes) have been updated to their current spellings so the document
 reads coherently; the events they describe are unchanged.
 
-## Unreleased
+### Unreleased
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - **The control is no longer a native `<select>`.** It is now an icon
   button that opens a WAI-ARIA APG listbox. The root is a `<div
@@ -82,7 +82,7 @@ reads coherently; the events they describe are unchanged.
 - The `field-sizing: content` width recipe is obsolete along with the
   `<select>` it sized.
 
-### Added
+#### Added
 
 - `detectFromSystem` prop (boolean, default `false`) — resolves
   `prefers-color-scheme` to a supported theme on first visit. It sits
@@ -103,7 +103,7 @@ reads coherently; the events they describe are unchanged.
 - A hidden `<input type="hidden" name="{name}">` preserving form
   participation now that there is no native form control.
 
-### Changed (accessibility)
+#### Changed (accessibility)
 
 - **The 0.3.0 placeholder tradeoff is gone.** There is no pinned
   select, and the listbox marks the active option with
@@ -122,7 +122,7 @@ reads coherently; the events they describe are unchanged.
   a different reason: it no longer compensates for missing semantics,
   it compensates for the *closed* control showing only a glyph.
 
-### Unchanged
+#### Unchanged
 
 - Everything downstream: the managed `<link>` swap, `data-theme`,
   `localStorage` persistence, `onChange`, initial-value resolution
@@ -130,16 +130,16 @@ reads coherently; the events they describe are unchanged.
   `normaliseThemesUrl` / `themeHref` helpers.
 - Still ships zero CSS, no fonts, no icons, no images.
 
-### Known gap
+#### Known gap
 
 - `index.ts` does not yet re-export `themeName`, `matchSystemTheme`, or
   `CIRCLE_WITH_RIGHT_HALF_BLACK`; import them from
   `./ThemeChooser.svelte` directly. Widening the barrel to match
   `locale-chooser`'s is a pending follow-up.
 
-## 0.3.0 — 2026-07-20
+### 0.3.0 — 2026-07-20
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - The closed `<select>` now always displays a placeholder word ("Theme")
   instead of the active theme name, so the control is only ever as wide
@@ -156,12 +156,12 @@ reads coherently; the events they describe are unchanged.
   combobox value. See [docs/accessibility.md](./docs/accessibility.md)
   for how to surface it separately.
 
-### Added
+#### Added
 
 - `placeholder` prop (optional, string, defaults to `label`) — the text
   of the placeholder option.
 
-### Unchanged
+#### Unchanged
 
 - `value` remains the single source of truth and stays two-way bindable;
   link swapping, `data-theme`, `localStorage` persistence, `onChange`,
@@ -170,7 +170,7 @@ reads coherently; the events they describe are unchanged.
   [docs/styling.md](./docs/styling.md) and in the root `themes/`
   stylesheets.
 
-### Added (examples & docs)
+#### Added (examples & docs)
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the basic example and the `index.md` quick-start both ship
@@ -182,9 +182,9 @@ reads coherently; the events they describe are unchanged.
   region announces transitions, it does not restore combobox value
   semantics.
 
-## 0.2.0 — 2026-07-03
+### 0.2.0 — 2026-07-03
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
@@ -200,19 +200,19 @@ reads coherently; the events they describe are unchanged.
 - Custom rendering (snippet / render prop / slot / template) now renders
   `<option>` elements inside the `<select>`.
 
-### Unchanged
+#### Unchanged
 
 - The behaviour contract: DOM application (`data-theme` + managed `<link>` swap), optional
   `localStorage` persistence, SSR safety, and the no-hardcoded-strings
   i18n rule are as in 0.1.0.
 
-## 0.1.0 — 2026-06-05
+### 0.1.0 — 2026-06-05
 
 Initial release. This is the **canonical reference implementation**
 for Lily's theme select; the Vue, React, Angular, Blazor, Nunjucks,
 and HTML ports port from this contract clause-for-clause.
 
-### Added
+#### Added
 
 - `ThemeChooser.svelte` — Svelte 5 component using runes throughout
   (`$props`, `$bindable`, `$effect`). Implements:
@@ -249,7 +249,7 @@ and HTML ports port from this contract clause-for-clause.
   with `hooks.server.ts`, `app.html.snippet`, `+layout.server.ts`,
   `+layout.svelte`, `+page.svelte`, `api+server.ts`, `README.md`.
 
-### Conventions
+#### Conventions
 
 - **Svelte 5 runes** throughout. No legacy `export let`, no `$:`,
   no `createEventDispatcher`.
@@ -261,7 +261,7 @@ and HTML ports port from this contract clause-for-clause.
   hook.
 - **Tested** under vitest + jsdom + `@testing-library/svelte`.
 
-### Notes
+#### Notes
 
 - The canonical reference catalog for the framework-helper layer.
   Vue, React, Angular, Blazor, Nunjucks, and HTML ports adopt this

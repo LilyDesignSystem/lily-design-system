@@ -35,7 +35,7 @@ rename brings the helper into line with its three siblings, all now
 
 ---
 
-## Prior history — as `lily-design-system-nunjucks-locale-select`
+## Prior history — released in-tree as `lily-design-system-nunjucks-locale-select`
 
 The entries below record this package's development under its
 former name. Nothing was ever published under the
@@ -45,9 +45,9 @@ package. They are kept because the DOM contract, keyboard
 behaviour and breaking changes they describe are still the ones
 in force.
 
-## Unreleased
+### Unreleased
 
-### Changed
+#### Changed
 
 - Examples renamed from their radio-group-era filenames to descriptive
   ones matching the theme-chooser convention. None of them had rendered
@@ -61,12 +61,12 @@ in force.
   in-file "the filename predates the current control" disclaimers were
   dropped as no longer true.
 
-### Changed (BREAKING — DOM contract)
+#### Changed (BREAKING — DOM contract)
 
 - **The control is no longer a native `<select>`.** It is now an icon
   `<button>` that opens a `<ul role="listbox">`. The root element
-  changes from `<select class="locale-chooser">` to
-  `<div class="locale-chooser">`. Every consumer selector, test, and
+  changes from a `<select>` to a
+  `<div>`, both carrying the `locale-chooser` hook. Every consumer selector, test, and
   stylesheet that assumed a `<select>` / `<option>` DOM must be
   updated.
 - **`placeholder` opt removed.** This supersedes the 0.3.0
@@ -78,7 +78,7 @@ in force.
 - The `{% call %}` block body now replaces the button's **glyph**
   rather than the control's options.
 
-### Added
+#### Added
 
 - Four topic guides, bringing the docs set level with theme-chooser's:
   `docs/macro-opts-reference.md`, `docs/custom-rendering.md`,
@@ -121,7 +121,7 @@ in force.
   `aria-selected="true"` (`value or defaultValue or "en" or
   locales[0]`) and pre-fills the hidden input to match.
 
-### Regression (documented, not fixed)
+#### Regression (documented, not fixed)
 
 - **The control does not work without JavaScript.** The button has no
   handler and the listbox renders `hidden`, so with JS disabled there
@@ -134,7 +134,7 @@ in force.
   render your own `<select>` and wire it with the exported pure
   helpers if no-JS operability is required.
 
-### Unchanged
+#### Unchanged
 
 - Options keep `lang="{tagFor(code)}"` for WCAG 3.1.2 (Language of
   Parts); the button and the listbox deliberately do not.
@@ -152,7 +152,7 @@ in force.
   signatures and still return `{setLocale, destroy}`. `destroy()` now
   also detaches the `document` click listener.
 
-### Documentation
+#### Documentation
 
 - `docs/accessibility.md` rewritten. The 0.3.0 placeholder tradeoff is
   gone; three new tradeoffs are stated honestly: the accessible name
@@ -164,9 +164,9 @@ in force.
 - `docs/ssr.md` reverses its former "client.js is progressive
   enhancement" claim, which is no longer true.
 
-## 0.3.0 — 2026-07-20
+### 0.3.0 — 2026-07-20
 
-### Changed (BREAKING — DOM contract)
+#### Changed (BREAKING — DOM contract)
 
 - The `<select>` now always displays a component-owned placeholder
   option, so the closed control reads the literal placeholder word
@@ -185,7 +185,7 @@ in force.
   `""`; use the `onChange(code)` callback or read `lang` from the
   target instead.
 
-### Added
+#### Added
 
 - `placeholder` macro opt (optional, string): text of the placeholder
   option. Defaults to `label`, so no hardcoded user-facing string is
@@ -195,14 +195,14 @@ in force.
   [docs/styling.md](./docs/styling.md) with the class/attribute hook
   tables and a width recipe (`field-sizing: content` / `max-width`).
 
-### Unchanged
+#### Unchanged
 
 - `lang` / `dir` application, RTL auto-detection, `localStorage`
   persistence, `navigator.languages` detection, `onChange`,
   initial-value resolution, and SSR safety all behave exactly as
   before.
 
-### Accessibility note
+#### Accessibility note
 
 - Because the closed control always reads the placeholder, a
   screen-reader user no longer hears the active locale announced as
@@ -210,7 +210,7 @@ in force.
   active locale in visible text or a polite live region — see
   [docs/accessibility.md](./docs/accessibility.md).
 
-### Added (examples & docs)
+#### Added (examples & docs)
 
 - The compensating status region is now the **default pattern**, not a
   suggestion: the entry-point example and the `index.md` quick-start
@@ -220,7 +220,7 @@ in force.
   opting *out* as the deliberate choice and keeps an explicit note that
   focusing the closed control still announces only the placeholder.
 
-### Fixed
+#### Fixed
 
 - Pre-hydration flash. The macro previously signalled `opts.value` by
   server-rendering `selected` on the matching real option; the browser
@@ -231,9 +231,9 @@ in force.
   only `selected` option in the server-rendered HTML. Initial-value
   resolution order is unchanged.
 
-## 0.2.0 — 2026-07-03
+### 0.2.0 — 2026-07-03
 
-### Changed (BREAKING)
+#### Changed (BREAKING)
 
 - Migrated from the radio-group "picker" rendering to a native
   `<select>` (landed in-tree 2026-06-17): the root element is now
@@ -249,15 +249,15 @@ in force.
 - Custom rendering (snippet / render prop / slot / template) now renders
   `<option>` elements inside the `<select>`.
 
-### Unchanged
+#### Unchanged
 
 - The behaviour contract: DOM application (`lang` / `dir`), optional
   `localStorage` persistence, SSR safety, and the no-hardcoded-strings
   i18n rule are as in 0.1.0.
 
-## Unreleased
+### Unreleased
 
-### Changed
+#### Changed
 
 - Default rendering changed from a single-selection group of native
   toggle controls to a native `<select>` with one
@@ -271,11 +271,11 @@ in force.
   text content. Matches the Svelte canonical's `<select>` rendering
   clause-for-clause.
 
-## 0.1.0 — 2026-06-05
+### 0.1.0 — 2026-06-05
 
 Initial release.
 
-### Added
+#### Added
 
 - `locale-chooser.njk` — Nunjucks 3 macro emitting a native
   `<select>` with one `<option>` per locale code. Single `opts`
@@ -335,7 +335,7 @@ Initial release.
     02, 03, 05, and 10.
   - `README.md` — examples index.
 
-### Conventions
+#### Conventions
 
 - Nunjucks 3 macro syntax with a single `opts` parameter object.
 - camelCase macro name (`localeChooser`); kebab-case file path
@@ -348,7 +348,7 @@ Initial release.
 - Tested under vitest + jsdom; macro rendered via
   `nunjucks.renderString`.
 
-### Parity
+#### Parity
 
 This is a direct port of the Svelte canonical
 `lily-design-system-svelte-locale-chooser` v0.1.0. The DOM
@@ -356,7 +356,7 @@ contract, initial-value resolution, BCP 47 normalisation, RTL
 detection, navigator matching, and apply order match clause-for-
 clause.
 
-### Notes
+#### Notes
 
 - The `onChange` callback prop from the Svelte canonical maps to
   the `onChange` field on the client.js init opts.
