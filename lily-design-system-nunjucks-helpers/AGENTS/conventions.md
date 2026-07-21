@@ -123,7 +123,7 @@ and lets consumers compose options via plain JavaScript objects in
 Eleventy data files:
 
 ```js
-// _data/themeSelectOptions.js
+// _data/themeChooserOptions.js
 export default {
     label: "Theme",
     themesUrl: "/assets/themes/",
@@ -132,19 +132,19 @@ export default {
 ```
 
 ```njk
-{{ themeSelect(themeSelectOptions) }}
+{{ themeChooser(themeChooserOptions) }}
 ```
 
 ## camelCase macro / kebab-case path / kebab-case class
 
 | Aspect              | Convention                                     | Example                |
 | ------------------- | ---------------------------------------------- | ---------------------- |
-| Macro name          | camelCase (Nunjucks rejects hyphens in idents) | `themeSelect`          |
-| File path           | kebab-case                                     | `theme-select.njk`     |
-| Client.js path      | kebab-case + `.client.js`                      | `theme-select.client.js` |
-| Root CSS class      | kebab-case                                     | `theme-select`         |
-| Sub-element classes | kebab-case derivatives                         | `theme-select-option`  |
-| `data-*` hooks      | `data-lily-<kebab>-…`                          | `data-lily-theme-select-root` |
+| Macro name          | camelCase (Nunjucks rejects hyphens in idents) | `themeChooser`          |
+| File path           | kebab-case                                     | `theme-chooser.njk`     |
+| Client.js path      | kebab-case + `.client.js`                      | `theme-chooser.client.js` |
+| Root CSS class      | kebab-case                                     | `theme-chooser`         |
+| Sub-element classes | kebab-case derivatives                         | `theme-chooser-option`  |
+| `data-*` hooks      | `data-lily-<kebab>-…`                          | `data-lily-theme-chooser-root` |
 
 ## `data-lily-*` hook attributes
 
@@ -155,7 +155,7 @@ companion `*.client.js` reads them on `initHelperName(root)`:
 - `data-lily-{name}-root` — identifies the root for `autoInit()`.
 - `data-lily-{name}-{kebab-cased-opt}="{value}"` — one per non-empty
   configuration option (storage key, default value, etc.).
-- `data-lily-{name}` on the managed `<link>` (theme select only)
+- `data-lily-{name}` on the managed `<link>` (theme chooser only)
   serves as a discriminator when multiple selects coexist.
 
 Boolean opts are serialised as the strings `"true"` / `"false"`.
@@ -233,7 +233,7 @@ Everything visual and locale-specific is the consumer's. See
 ## Naming
 
 - Class hooks are kebab-case derivatives of the macro name:
-  `theme-select`, `theme-select-option`.
+  `theme-chooser`, `theme-chooser-option`.
 - Data attributes the consumer / CSS may want to observe use
-  `data-*` (e.g. `data-theme`, `data-lily-theme-select`).
+  `data-*` (e.g. `data-theme`, `data-lily-theme-chooser`).
 - Don't introduce new ARIA attributes — use the platform's.

@@ -9,9 +9,60 @@ and the project follows
 
 ## Unreleased
 
+### Changed (BREAKING — every package renamed to `*-chooser`)
+
+- **All four helpers are renamed** and their versions **reset to
+  `0.1.0`**, because nothing has ever been published under the new
+  names and carrying the old numbers forward would imply releases that
+  never existed:
+
+  | Was | Becomes | Old version |
+  | --- | ------- | ----------- |
+  | `lily-design-system-nunjucks-theme-select` | `lily-design-system-nunjucks-theme-chooser` | 0.4.0 |
+  | `lily-design-system-nunjucks-locale-select` | `lily-design-system-nunjucks-locale-chooser` | 0.4.0 |
+  | `lily-design-system-nunjucks-text-size-select` | `lily-design-system-nunjucks-text-size-chooser` | 0.2.0 |
+  | `lily-design-system-nunjucks-share-button` | `lily-design-system-nunjucks-share-chooser` | 0.1.0 (unpublished) |
+
+- **The motivating collision.** `theme-select` is also the slug of a
+  catalog component in `components.tsv`, and the helper shared its
+  `.theme-select` class hook while being an entirely different control.
+  The catalog component is untouched by this rename; only the helpers
+  move.
+- **Renamed throughout**: directories, `*.njk` / `*.client.js` /
+  `*.test.ts` filenames, macro names (`themeSelect` → `themeChooser`,
+  `shareButton` → `shareChooser`, and likewise for locale and
+  text-size), exported symbols (`initThemeSelect` → `initThemeChooser`,
+  `nextShareButtonId` → `nextShareChooserId`, …), CSS class hooks
+  (`.theme-select` → `.theme-chooser` and every `-button` / `-icon` /
+  `-list` / `-option` / `-list-item` / `-target` / `-copy` / `-status`
+  derivative), `data-lily-*-select-*` → `data-lily-*-chooser-*`
+  attributes, and the id-prefix defaults derived from the helper name
+  (`theme-select-{name}` → `theme-chooser-{name}`).
+- **`share-chooser` loses its trigger-class exception.** The button is
+  now `.share-chooser-button` with a `data-lily-share-chooser-button`
+  hook, matching the other three; the `share-button-trigger` /
+  `data-lily-share-button-trigger` pair is gone, along with the
+  exception's documentation in `spec/index.md`, `AGENTS.md`, `index.md`
+  and the package changelog.
+- **Event names are unchanged** — `themechange`, `localechange`,
+  `textsizechange`, `share`, `copy` and `nativeshare` never contained
+  "select".
+- **`themeName` / `localeName` / `sizeName` are unchanged** — they never
+  said "select".
+
+### Changed
+
+- **The catalog build script discovers its packages.** `npm run build`
+  previously iterated a hardcoded list of four directory names, which
+  meant a renamed or added helper silently went unbuilt. It now globs
+  `lily-design-system-nunjucks-*/`, builds every directory holding a
+  `package.json`, and **fails loudly** if such a directory is missing
+  its `{name}.client.js` / `{name}.njk` pair or if no packages are
+  discovered at all.
+
 ### Added
 
-- **`lily-design-system-nunjucks-share-button` 0.1.0** — a new helper,
+- **`lily-design-system-nunjucks-share-chooser` 0.1.0** — a new helper,
   ported from the canonical Svelte one. A glyph-only button (↪, U+21AA)
   that opens the **native share sheet** where the browser provides one,
   and otherwise a disclosure list of consumer-supplied destinations
@@ -29,7 +80,7 @@ and the project follows
      `role="menuitem"` would strip middle-click, open-in-new-tab and
      copy-link-address — the affordances a share list exists to offer.
      Copy is a real `<button>`. The trigger's class is
-     `share-button-trigger`, not `share-button-button`, the one
+     `share-chooser-button`, not `share-chooser-button`, the one
      deliberate bend in the catalog's `{helper}-button` convention.
   3. **It degrades partially without JavaScript, where the `*-select`
      helpers do not at all.** Its destination links are real anchors
@@ -48,7 +99,7 @@ and the project follows
   rendering server-side and already holds the url/title/text, so this
   costs one line, and it is what makes the anchors complete enough for
   the no-JS story above. The function form survives on the client
-  (`initShareButton(root, {targets})` rewrites anchors from function
+  (`initShareChooser(root, {targets})` rewrites anchors from function
   hrefs, matched by `data-target-id`) and in any filter the consumer
   registers. `shareTargetHref()` accepts both forms. Full rationale in
   the package's `spec/index.md` §3.3 and `CHANGELOG.md`.
@@ -63,13 +114,13 @@ and the project follows
   for theme, U+1F310 for locale, U+0041 "A" for text size), and a
   `<ul role="listbox" hidden>` of `<li role="option">`. The client
   modules gained the full WAI-ARIA APG listbox keyboard contract.
-- `theme-select` and `locale-select` converted first; `text-size-select`
+- `theme-chooser` and `locale-chooser` converted first; `text-size-chooser`
   joins them here, so the catalog is once again internally consistent.
-- This **supersedes the 0.3.0 placeholder-pinning work** in theme-select
-  and locale-select: with no `<select>` there is nothing to pin, so the
+- This **supersedes the 0.3.0 placeholder-pinning work** in theme-chooser
+  and locale-chooser: with no `<select>` there is nothing to pin, so the
   `placeholder` opt and the `{helper}-placeholder` class hook are
-  removed from both. `text-size-select` never had a `placeholder` opt.
-- `text-size-select` gains a hidden `<input name="{name}">` for form
+  removed from both. `text-size-chooser` never had a `placeholder` opt.
+- `text-size-chooser` gains a hidden `<input name="{name}">` for form
   participation. The `name` opt now names that input rather than the
   `<select>`; its default is still `"text-size"`.
 
@@ -79,11 +130,11 @@ The button glyph is `"A"` (U+0041 LATIN CAPITAL LETTER A), not a
 pictograph. U+1F5DB DECREASE FONT SIZE SYMBOL was the first choice but
 has no real glyph in common font stacks — it degrades to a crude bitmap
 shape — and it means *decrease* rather than *size*. "A" renders in the
-page's own font everywhere, stays monochrome like theme-select's ◑, and
+page's own font everywhere, stays monochrome like theme-chooser's ◑, and
 is the conventional text-size affordance. It is materially safer than a
 pictograph against the "glyph may not render" tradeoff.
 
-`text-size-select` deliberately gains **no** detection prop. Unlike
+`text-size-chooser` deliberately gains **no** detection prop. Unlike
 `prefers-color-scheme` (theme) and `navigator.languages` (locale), the
 web platform exposes no OS "preferred text size" signal.
 
@@ -102,15 +153,15 @@ web platform exposes no OS "preferred text size" signal.
 - The `{% call %}` block on all three helpers now overrides the
   button's glyph — the Nunjucks equivalent of the canonical helper's
   `children`.
-- `text-size-select.client.js` exports `sizeName(slug)` and
-  `LATIN_CAPITAL_LETTER_A`, mirroring theme-select's `themeName` /
-  `CIRCLE_WITH_RIGHT_HALF_BLACK` and locale-select's `localeName`.
+- `text-size-chooser.client.js` exports `sizeName(slug)` and
+  `LATIN_CAPITAL_LETTER_A`, mirroring theme-chooser's `themeName` /
+  `CIRCLE_WITH_RIGHT_HALF_BLACK` and locale-chooser's `localeName`.
   `sizeName` title-cases hyphen-separated words (`"x-large"` →
   `"X Large"`). As with the other two helpers, the macro cannot call
   into the client module — delegating would force every consumer to
   register a custom Nunjucks filter — so the macro restates the rule in
   template syntax and a test holds the two in agreement.
-- `text-size-select` now emits `data-lily-text-size-select-value` for
+- `text-size-chooser` now emits `data-lily-text-size-chooser-value` for
   `opts.value`, the same out-of-band mechanism the other two use to
   avoid a pre-hydration flash.
 
@@ -124,7 +175,7 @@ web platform exposes no OS "preferred text size" signal.
   working but is not a choice path. Each package's `docs/ssr.md` states
   this plainly and points at the alternative.
 - This regression is worth weighing especially carefully for
-  `text-size-select`, whose entire purpose is WCAG 1.4.4 (Resize Text)
+  `text-size-chooser`, whose entire purpose is WCAG 1.4.4 (Resize Text)
   — the users most likely to need it overlap with users on constrained
   or assistive setups. `docs/accessibility.md` says so directly.
 
@@ -137,16 +188,16 @@ web platform exposes no OS "preferred text size" signal.
   `lang` / `dir`, RTL detection, `data-text-size` application,
   `localStorage` persistence, navigator detection, `onChange`,
   initial-value resolution, SSR safety, and every exported pure helper.
-- `text-size-select`'s initial-value order is unchanged
+- `text-size-chooser`'s initial-value order is unchanged
   (`value > storage > defaultValue > "medium" > sizes[0]`). Unlike
-  theme-select, `value` already beat storage here, so there is no
+  theme-chooser, `value` already beat storage here, so there is no
   precedence reversal and no migration warning.
 
 ## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING)
 
-- `theme-select` and `locale-select` bumped to **0.3.0**: both are now
+- `theme-chooser` and `locale-chooser` bumped to **0.3.0**: both are now
   *placeholder-pinned*. The closed `<select>` always displays a short
   placeholder word ("Theme", "Locale") instead of the active value, so
   the control is only ever as wide as that word rather than as wide as
@@ -159,7 +210,7 @@ web platform exposes no OS "preferred text size" signal.
   value is `""`, and the element's own `value` no longer tracks the
   selection. Behaviour contracts (DOM application, persistence, SSR
   safety, i18n) are otherwise unchanged.
-- `text-size-select` is untouched and stays at **0.1.0**.
+- `text-size-chooser` is untouched and stays at **0.1.0**.
 
 ### Added
 
@@ -183,7 +234,7 @@ web platform exposes no OS "preferred text size" signal.
 
 ### Changed (BREAKING)
 
-- `theme-select` and `locale-select` bumped to **0.2.0**: migrated from
+- `theme-chooser` and `locale-chooser` bumped to **0.2.0**: migrated from
   the radio-group "picker" rendering to a native `<select>` with
   `<option>` children (landed in-tree 2026-06-17), with renamed packages
   (`*-picker` → `*-select`), changed class hooks, and native `<select>`
@@ -192,7 +243,7 @@ web platform exposes no OS "preferred text size" signal.
 
 ### Added
 
-- `text-size-select` **0.1.0** — native-`<select>` text-size helper that
+- `text-size-chooser` **0.1.0** — native-`<select>` text-size helper that
   sets `data-text-size` on the document root, with optional
   `localStorage` persistence (added 2026-06-17; born select-based, so it
   carries no picker migration).
@@ -205,17 +256,17 @@ client-side ES module.
 
 ### Added
 
-- `lily-design-system-nunjucks-theme-select` v0.1.0 — runtime-loading
-  theme select. The `themeSelect(opts)` macro emits a native
-  `<select class="theme-select">` with `data-lily-theme-select-*`
-  hooks; the companion `theme-select.client.js` injects a managed
+- `lily-design-system-nunjucks-theme-chooser` v0.1.0 — runtime-loading
+  theme chooser. The `themeChooser(opts)` macro emits a native
+  `<select class="theme-chooser">` with `data-lily-theme-chooser-*`
+  hooks; the companion `theme-chooser.client.js` injects a managed
   `<link rel="stylesheet">` in `<head>`, sets `data-theme="{slug}"`
   on the document root, optionally persists to `localStorage`, and
   mirrors the active slug onto the `<select>` value. 13 acceptance
   criteria covered.
-- `lily-design-system-nunjucks-locale-select` v0.1.0 — BCP 47 locale
-  select. The `localeSelect(opts)` macro emits a native
-  `<select class="locale-select">` whose `<option>`s carry per-option
+- `lily-design-system-nunjucks-locale-chooser` v0.1.0 — BCP 47 locale
+  select. The `localeChooser(opts)` macro emits a native
+  `<select class="locale-chooser">` whose `<option>`s carry per-option
   `lang="{tag}"` attributes; the client.js writes `lang` and
   `dir` on the document root, with optional `localStorage`
   persistence and `navigator.languages` detection. Built-in 436-row

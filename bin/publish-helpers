@@ -2,7 +2,7 @@
 # Publish the Lily Design System helper packages.
 #
 #   - npm packages: the svelte / react / vue / angular / html / nunjucks
-#     the `*-select` and `*-button` helpers in each catalog. The globs are
+#     the `*-chooser` helpers in each catalog. The globs are
 #     deliberately broad — every loop guards on package.json / dist / *.csproj
 #     existing — so a new helper is picked up without editing this script.
 #   - NuGet packages: the Blazor helpers.
@@ -50,6 +50,12 @@ done
 
 echo "== Blazor NuGet packages =="
 NUPKG_OUT="$ROOT/dist-nuget"
+# Clean first. The push loop below publishes every .nupkg in this
+# directory, so stale artefacts from an earlier run — including ones
+# built under package names that have since been renamed away — would be
+# pushed to nuget.org and claim those names irreversibly.
+rm -rf "$NUPKG_OUT"
+mkdir -p "$NUPKG_OUT"
 for proj in "$ROOT"/lily-design-system-blazor-helpers/lily-design-system-blazor-*/*.csproj; do
   [ -f "$proj" ] || continue
   echo "--> pack $(basename "$proj")"

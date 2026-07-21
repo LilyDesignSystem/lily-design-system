@@ -10,10 +10,10 @@ DOM application) for one small, common job.
 
 | Helper                                                                                  | Purpose                                                        |
 | --------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`lily-design-system-react-theme-select`](./lily-design-system-react-theme-select/)     | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
-| [`lily-design-system-react-locale-select`](./lily-design-system-react-locale-select/)   | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
-| [`lily-design-system-react-text-size-select`](./lily-design-system-react-text-size-select/) | Pick a text size; sets `data-text-size` on the document root.  |
-| [`lily-design-system-react-share-button`](./lily-design-system-react-share-button/) | Share the page: native share sheet, else a list of destinations + copy the URL. |
+| [`lily-design-system-react-theme-chooser`](./lily-design-system-react-theme-chooser/)     | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
+| [`lily-design-system-react-locale-chooser`](./lily-design-system-react-locale-chooser/)   | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-react-text-size-chooser`](./lily-design-system-react-text-size-chooser/) | Pick a text size; sets `data-text-size` on the document root.  |
+| [`lily-design-system-react-share-chooser`](./lily-design-system-react-share-chooser/) | Share the page: native share sheet, else a list of destinations + copy the URL. |
 
 ## Conventions
 
@@ -54,7 +54,7 @@ Shared design decisions across the catalog:
 - **One job per helper**: each helper owns one complete interaction
   end to end and composes cleanly with the others. For the three
   selects that job is a user-preference dimension (theme, language,
-  text size). `share-button` is the exception that proves the shape:
+  text size). `share-chooser` is the exception that proves the shape:
   it owns an *action* rather than a preference, so it applies nothing
   to the document and persists nothing — but it ships the same
   headless contract, the same class-hook convention, and the same
@@ -73,7 +73,7 @@ Shared design decisions across the catalog:
 
 The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle. A consumer
-typing on top of `ThemeSelect` from `lily-design-system-react-headless`
+typing on top of `ThemeChooser` from `lily-design-system-react-headless`
 writes their own select markup, their own persistence, and their own
 loading.
 
@@ -126,7 +126,7 @@ entrypoint. Per-topic AGENTS files live in
 
 The three selects in the current catalog are deliberately compatible:
 
-- `ThemeSelect`, `LocaleSelect`, and `TextSizeSelect` all render the
+- `ThemeChooser`, `LocaleChooser`, and `TextSizeChooser` all render the
   same icon-button-plus-listbox shape — a
   `<div class="{helper}">` wrapping a hidden input, an
   `aria-label`led `<button aria-haspopup="listbox">` holding one
@@ -137,8 +137,8 @@ The three selects in the current catalog are deliberately compatible:
 - The three selects do not share state. Each owns its own
   `localStorage` key, its own `data-*` attribute, and its own
   managed DOM nodes.
-- The class hooks (`theme-select`, `locale-select`,
-  `text-size-select`) are independent so a single stylesheet rule can
+- The class hooks (`theme-chooser`, `locale-chooser`,
+  `text-size-chooser`) are independent so a single stylesheet rule can
   target any one of them.
 - Each exports its own label resolver under a parallel name —
   `themeName`, `localeName`, `sizeName` — all applying the same

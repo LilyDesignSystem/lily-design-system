@@ -38,7 +38,7 @@ etc.) as a prop and either pass it through to `Intl.*` formatters
 or expose it via a data attribute so consumers can format. The
 helpers do not pick a default locale.
 
-`LocaleSelect` is itself the producer of the locale; everything
+`LocaleChooser` is itself the producer of the locale; everything
 else in the catalog (and downstream Lily components) consume it
 via the `lang` attribute on `<html>`.
 
@@ -70,9 +70,9 @@ string.
 ## RTL / bidirectional text
 
 Right-to-left and bidirectional text are inherited from the
-consumer's `dir` attribute and CSS. `LocaleSelect` writes
+consumer's `dir` attribute and CSS. `LocaleChooser` writes
 `dir="rtl"` or `dir="ltr"` to `<html>` based on the chosen locale
-(see `../../lily-design-system-react-locale-select/docs/rtl.md`).
+(see `../../lily-design-system-react-locale-chooser/docs/rtl.md`).
 Other helpers do not assume LTR layout.
 
 ## React-specific application
@@ -85,7 +85,7 @@ plus the underlying state. They wrap or replace the default
 markup with their own i18n strings.
 
 ```tsx
-<ThemeSelect label="主题" themesUrl="/t/" themes={["light", "dark"]}>
+<ThemeChooser label="主题" themesUrl="/t/" themes={["light", "dark"]}>
     {({ themes, value, setTheme, labelFor }) =>
         themes.map((t) => (
             <button
@@ -97,7 +97,7 @@ markup with their own i18n strings.
             </button>
         ))
     }
-</ThemeSelect>
+</ThemeChooser>
 ```
 
 `labelFor` is the helper's resolution chain (override map → built-in
@@ -136,11 +136,11 @@ data flows into client props; the i18n library runs server-side.
 Two cases where the React helpers ship default English text — both
 intentional and overridable:
 
-1. `LocaleSelect`'s built-in `defaultLocaleLabels` table (in
+1. `LocaleChooser`'s built-in `defaultLocaleLabels` table (in
    `locales.ts`, derived from `locales.tsv`). This is the
    English-name list — overridable per-locale via the
    `localeLabels` prop.
-2. `ThemeSelect`'s default `labelFor` title-cases the slug. This
+2. `ThemeChooser`'s default `labelFor` title-cases the slug. This
    is a deterministic transformation, not a translation —
    overridable via the `themeLabels` prop.
 
@@ -165,7 +165,7 @@ strings, so testing one locale path covers all of them.
 
 - Repo root `AGENTS/internationalization.md` — canonical
   cross-framework rules.
-- `lily-design-system-react-locale-select/docs/i18n-integration.md`
+- `lily-design-system-react-locale-chooser/docs/i18n-integration.md`
   — wiring react-intl, react-i18next, Paraglide, Tolgee.
-- `lily-design-system-react-locale-select/docs/bcp47.md` — BCP 47
+- `lily-design-system-react-locale-chooser/docs/bcp47.md` — BCP 47
   tag composition and `Intl.DisplayNames`.

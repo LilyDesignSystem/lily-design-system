@@ -1,0 +1,18 @@
+@*
+    Example 3 — localStorage persistence.
+
+    Pass `StorageKey` to make the select remember the user's choice across
+    reloads. On a fresh interactive mount the select reads the stored slug
+    and re-applies it before the user interacts. Quota / private-mode
+    errors are silently swallowed.
+*@
+
+@page "/examples/theme-chooser/persistence"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<ThemeChooser
+    Label="Theme"
+    ThemesUrl="/assets/themes/"
+    Themes="@(new[] { "light", "dark", "abyss" })"
+    StorageKey="my-app:theme" />

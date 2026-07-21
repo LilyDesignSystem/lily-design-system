@@ -1,0 +1,57 @@
+{#
+  Example 09 — Custom rendering via the `{% call %}` block.
+
+  Nunjucks has no render props, so `{% call %}` is its equivalent of
+  "children". The shipped themeChooser macro checks `caller` and, when
+  present, renders the block body INSIDE the button in place of the
+  default `<span class="theme-chooser-icon">◑</span>`.
+
+  That is the whole extension point. The root <div>, the hidden
+  input, the button's ARIA attributes, and the <ul role="listbox">
+  with one <li role="option"> per theme are all still emitted by the
+  macro, so the client.js keyboard contract works unchanged.
+
+  Two variants below:
+
+    A. Inline `{% call %}` — override the glyph at one call site.
+    B. A wrapper macro (themeChooserCustom.njk) that bakes the same
+       glyph in for a whole project.
+
+  The glyph must be aria-hidden="true": the button is icon-only, so
+  its accessible name has to come from aria-label alone.
+
+  Nothing here renders <option> elements. That was the old
+  native-<select> behaviour and no longer applies — see
+  ../docs/custom-rendering.md.
+#}
+{% from "../theme-chooser.njk" import themeChooser %}
+{% from "./themeChooserCustom.njk" import themeChooserCustom %}
+
+{# A. Inline glyph override. #}
+{% call themeChooser({
+    label: "Theme",
+    id: "inline-theme",
+    themesUrl: "/assets/themes/",
+    themes: ["light", "dark", "abyss", "cupcake", "dracula"],
+    storageKey: "lily:theme"
+}) %}
+    <span class="my-glyph" aria-hidden="true">&#9681;</span>
+{% endcall %}
+
+{# B. Same override, factored into a project-local wrapper macro.
+     Note the distinct `id`: both controls default to name="theme",
+     so without it their listbox and option ids would collide. #}
+{{ themeChooserCustom({
+    label: "Theme",
+    id: "wrapped-theme",
+    themesUrl: "/assets/themes/",
+    themes: ["light", "dark", "abyss", "cupcake", "dracula"],
+    storageKey: "lily:theme"
+}) }}
+
+<script type="module">
+    import { initThemeChooser } from "../theme-chooser.client.js";
+    document
+        .querySelectorAll("[data-lily-theme-chooser-root]")
+        .forEach((root) => initThemeChooser(root));
+</script>

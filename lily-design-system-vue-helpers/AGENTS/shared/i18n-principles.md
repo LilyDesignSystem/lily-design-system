@@ -32,7 +32,7 @@ these rules without exception.
   : "item"` logic; they accept the rendered string.
 - Right-to-left and bidirectional text are inherited from the
   consumer's `dir` attribute and CSS — helpers do not assume LTR
-  layout in their structural HTML. The `locale-select` helper goes
+  layout in their structural HTML. The `locale-chooser` helper goes
   one step further: it auto-detects the script direction and writes
   `dir="rtl"` / `dir="ltr"` to the document root on every change.
 
@@ -49,13 +49,13 @@ Paraglide, or any other library. They expose:
   (load message bundles, refetch locale-dependent data, navigate to
   a localised URL).
 
-The locale-select also writes `<html lang>` and `<html dir>`, which
+The locale-chooser also writes `<html lang>` and `<html dir>`, which
 many i18n libraries read on initialisation; that integration usually
 needs no extra wiring.
 
 ### `Intl.DisplayNames`
 
-The locale select uses `Intl.DisplayNames` opportunistically (third
+The locale chooser uses `Intl.DisplayNames` opportunistically (third
 fallback in `labelFor`). It never throws — calls are wrapped in a
 try/catch so SSR and older environments degrade silently.
 
@@ -68,7 +68,7 @@ When a future helper does, it accepts the locale as a prop and uses
 
 ### Locale negotiation
 
-The locale select implements a simple two-step exact-then-prefix
+The locale chooser implements a simple two-step exact-then-prefix
 matcher in `matchNavigatorLanguage`. It does not implement RFC
 4647 best-fit lookup. If you need full RFC 4647 matching, run your
 own resolver (`@formatjs/intl-localematcher`, `negotiator`) and pass
@@ -78,12 +78,12 @@ the result as `value`.
 
 The catalog has no `Accept-Language` parsing helper. Nuxt servers
 read it via `getRequestHeader(event, "accept-language")`; see the
-locale-select's `docs/ssr.md` for the Nuxt recipe.
+locale-chooser's `docs/ssr.md` for the Nuxt recipe.
 
 ### What "i18n-clean" looks like in a test
 
 ```ts
-const wrapper = mount(LocaleSelect, {
+const wrapper = mount(LocaleChooser, {
     props: { label: "Langue", locales: ["en", "fr"] },
 });
 const select = wrapper.find("select");

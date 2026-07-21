@@ -1,0 +1,212 @@
+<!doctype html>
+<!--
+    Example 9 — Custom rendering via renderButtonContent().
+
+    The HTML helpers don't have Vue scoped slots or Svelte snippets:
+    <slot> is a Shadow DOM mechanism and these helpers commit to light
+    DOM. The equivalent of the other frameworks' `children` is a public,
+    overridable method — renderButtonContent(). Whatever Node it returns
+    is placed inside the button, replacing the default
+    <span class="theme-chooser-icon"> glyph.
+
+    Inside the hook you have the same information the other frameworks
+    pass as ChildArgs:
+
+      this.value          → ChildArgs.value
+      this.open           → ChildArgs.open
+      this.labelFor(slug) → ChildArgs.labelFor
+
+    The base class still builds the button and the listbox, so every
+    aria attribute and the entire keyboard contract keep working. This
+    is the recommended customisation path — the only one that cannot
+    break accessibility.
+
+    Two subclasses below:
+
+      <svg-theme-chooser>   replaces the Unicode glyph with an inline
+                           SVG, so the icon renders identically on every
+                           platform (the default glyph is a bare
+                           character with no bundled font, and can come
+                           out as tofu).
+
+      <text-theme-chooser>  renders the glyph AND the active theme's
+                           name, which also fixes the icon-only
+                           control's WCAG 2.5.3 Label in Name failure.
+
+    Note that <text-theme-chooser> needs no change listener. A `value`
+    change syncs state in place rather than rebuilding the whole tree
+    (so that changing the theme while the list is open doesn't destroy
+    focus), but the button's content is re-rendered as part of that
+    sync — so renderButtonContent() output that reads this.value or
+    this.open stays current on its own, exactly like the reactive
+    `children` snippet in the Svelte / React / Vue helpers.
+    Just return a fresh Node each call; never cache one.
+
+    A subclass that wants a fundamentally different STRUCTURE has to
+    post-process after super.connectedCallback() — #render() is a
+    private field and cannot be overridden — and takes over the whole
+    accessibility contract in doing so. See docs/custom-rendering.md.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>theme-chooser — custom button rendering</title>
+    <script type="module" src="/dist/theme-chooser.js"></script>
+    <style>
+        /* Shared dropdown positioning. The package ships no CSS, so
+           without this the list renders in flow. */
+        .theme-chooser {
+            position: relative;
+            display: inline-block;
+        }
+
+        .theme-chooser-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.35rem 0.6rem;
+            border: 1px solid currentColor;
+            border-radius: 0.25rem;
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .theme-chooser-button:focus-visible,
+        .theme-chooser-list:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
+        }
+
+        .theme-chooser-list {
+            position: absolute;
+            inset-block-start: calc(100% + 0.25rem);
+            inset-inline-start: 0;
+            z-index: 10;
+            min-inline-size: 10rem;
+            margin: 0;
+            padding: 0.25rem 0;
+            list-style: none;
+            border: 1px solid currentColor;
+            border-radius: 0.25rem;
+            background: Canvas;
+        }
+
+        /* Re-assert the UA rule that the class selector above beats. */
+        .theme-chooser-list[hidden] {
+            display: none;
+        }
+
+        .theme-chooser-option {
+            padding: 0.35rem 0.75rem;
+            cursor: pointer;
+        }
+
+        .theme-chooser-option[data-active] {
+            background: Highlight;
+            color: HighlightText;
+        }
+
+        .theme-chooser-option[aria-selected="true"]::after {
+            content: " ✓";
+        }
+
+        /* Rotate the caret on the text variant when the list opens.
+           Drive this from aria-expanded, which the base class keeps in
+           sync, rather than from this.open at render time. */
+        .theme-chooser-button[aria-expanded="true"] .theme-chooser-caret {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <h1>Theme chooser — custom button rendering</h1>
+
+    <h2>Inline SVG icon</h2>
+    <svg-theme-chooser
+        label="Theme"
+        themes-url="/assets/themes/"
+        themes="light,dark,abyss"
+    ></svg-theme-chooser>
+
+    <h2>Glyph plus visible theme name</h2>
+    <text-theme-chooser
+        label="Theme"
+        themes-url="/assets/themes/"
+        themes="light,dark,abyss"
+        name="text-theme"
+    ></text-theme-chooser>
+
+    <script type="module">
+        import { ThemeChooser } from "/dist/theme-chooser.js";
+
+        // ---- Tier 1a: swap the glyph for an inline SVG ----
+
+        class SvgThemeChooser extends ThemeChooser {
+            renderButtonContent() {
+                const ns = "http://www.w3.org/2000/svg";
+                const svg = document.createElementNS(ns, "svg");
+                svg.setAttribute("class", "theme-chooser-icon");
+                // Keep it out of the accessible name and the tab order;
+                // the button's aria-label is the name.
+                svg.setAttribute("aria-hidden", "true");
+                svg.setAttribute("focusable", "false");
+                svg.setAttribute("viewBox", "0 0 16 16");
+                svg.setAttribute("width", "16");
+                svg.setAttribute("height", "16");
+
+                // A half-filled circle, matching the default glyph.
+                const ring = document.createElementNS(ns, "circle");
+                ring.setAttribute("cx", "8");
+                ring.setAttribute("cy", "8");
+                ring.setAttribute("r", "7");
+                ring.setAttribute("fill", "none");
+                ring.setAttribute("stroke", "currentColor");
+                ring.setAttribute("stroke-width", "1.5");
+                svg.appendChild(ring);
+
+                const half = document.createElementNS(ns, "path");
+                half.setAttribute("d", "M8 1 A7 7 0 0 1 8 15 Z");
+                half.setAttribute("fill", "currentColor");
+                svg.appendChild(half);
+
+                return svg;
+            }
+        }
+
+        customElements.define("svg-theme-chooser", SvgThemeChooser);
+
+        // ---- Tier 1b: glyph plus the active theme's name ----
+
+        class TextThemeChooser extends ThemeChooser {
+            renderButtonContent() {
+                const fragment = document.createDocumentFragment();
+
+                const icon = document.createElement("span");
+                icon.className = "theme-chooser-icon";
+                icon.setAttribute("aria-hidden", "true");
+                icon.textContent = "◑";
+                fragment.appendChild(icon);
+
+                // Visible text that matches the accessible name pattern,
+                // so speech-input users have a word to say (WCAG 2.5.3).
+                const text = document.createElement("span");
+                text.className = "theme-chooser-button-text";
+                text.textContent = this.labelFor(this.value);
+                fragment.appendChild(text);
+
+                const caret = document.createElement("span");
+                caret.className = "theme-chooser-caret";
+                caret.setAttribute("aria-hidden", "true");
+                caret.textContent = "▾";
+                fragment.appendChild(caret);
+
+                return fragment;
+            }
+        }
+
+        customElements.define("text-theme-chooser", TextThemeChooser);
+    </script>
+</body>
+</html>

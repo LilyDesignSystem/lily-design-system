@@ -10,18 +10,57 @@ and the project follows
 
 ## Unreleased
 
+### Changed (BREAKING) — every helper renamed to `*-chooser`
+
+- **All four helpers are renamed**, directory, package name, component
+  class, Angular selector, marker directive, class hooks and data
+  attributes alike:
+
+  | Was | Now |
+  | --- | --- |
+  | `lily-design-system-angular-theme-select` | `lily-design-system-angular-theme-chooser` |
+  | `lily-design-system-angular-locale-select` | `lily-design-system-angular-locale-chooser` |
+  | `lily-design-system-angular-text-size-select` | `lily-design-system-angular-text-size-chooser` |
+  | `lily-design-system-angular-share-button` | `lily-design-system-angular-share-chooser` |
+
+- Selectors: `lily-theme-select` → `lily-theme-chooser`, and likewise
+  for locale, text-size and share. Component classes: `ThemeSelect` →
+  `ThemeChooser`, `LocaleSelect` → `LocaleChooser`, `TextSizeSelect` →
+  `TextSizeChooser`, `ShareButton` → `ShareChooser`. Marker directives
+  and id generators follow (`ThemeSelectIcon` → `ThemeChooserIcon`,
+  `nextThemeSelectId` → `nextThemeChooserId`, …).
+- Class hooks: `.theme-select*` → `.theme-chooser*` and the same for
+  the other three. Data attributes: `data-lily-theme-select` →
+  `data-lily-theme-chooser`, etc.
+- **`share-chooser` loses its naming exception.** Its trigger hook was
+  `share-button-trigger` because `.share-button-button` read badly;
+  under the new name the problem is gone, so the trigger is plain
+  `share-chooser-button`, matching the other three helpers.
+- **All four versions reset to `0.1.0`.** A renamed npm package has no
+  history under its new name, and nothing has been published.
+- `themeName` / `localeName` / `sizeName` are unchanged — they never
+  said "select". The HTML-catalog-style event names
+  (`themechange`, `localechange`, `textsizechange`, `share`, `copy`,
+  `nativeshare`) contain no "select" and are likewise unchanged.
+- The catalog component `theme-select` in the root `components.tsv` is
+  a **different thing** and is untouched. The duplicate class hook
+  between it and this helper is exactly what this rename removes.
+- The catalog `build` script now discovers packages by globbing for
+  `ng-package.json` rather than listing them, so a new or renamed
+  helper cannot be silently skipped.
+
 ### Changed (BREAKING)
 
-- **`text-size-select` becomes an icon button + APG listbox.** It was
-  deliberately left as a native `<select>` when `theme-select` and
-  `locale-select` moved to the icon-button shape; it now joins them, so
+- **`text-size-chooser` becomes an icon button + APG listbox.** It was
+  deliberately left as a native `<select>` when `theme-chooser` and
+  `locale-chooser` moved to the icon-button shape; it now joins them, so
   all three helpers in the catalog are structurally identical.
-- DOM contract replaced. The root is a `<div class="text-size-select">`
+- DOM contract replaced. The root is a `<div class="text-size-chooser">`
   containing a hidden input (preserving `name` and form participation),
-  a `<button class="text-size-select-button">` carrying `aria-label`,
+  a `<button class="text-size-chooser-button">` carrying `aria-label`,
   `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls`, and a
-  `<ul class="text-size-select-list" role="listbox">` of
-  `<li class="text-size-select-option" role="option">` children. The old
+  `<ul class="text-size-chooser-list" role="listbox">` of
+  `<li class="text-size-chooser-option" role="option">` children. The old
   `<select>` / `<option>` markup and its class hooks are gone — consumer
   CSS targeting them must be rewritten, and the consumer now supplies
   the listbox positioning.
@@ -45,14 +84,14 @@ and the project follows
   pictograph: U+1F5DB DECREASE FONT SIZE SYMBOL was the first choice
   but has no real glyph in common font stacks and means *decrease*
   rather than *size*. "A" renders in the page's own font everywhere and
-  stays monochrome like theme-select's `◑`.
+  stays monochrome like theme-chooser's `◑`.
 - **`sizeName(slug)` is exported**, mirroring `themeName` /
   `localeName`. `sizeName("x-large")` returns `"X Large"`, and the
   component's `labelFor` delegates to it so there is one
   implementation. `sizeLabels` entries still override it.
-- **`TextSizeSelectIcon`** marker directive
-  (`ng-template[lilyTextSizeSelectIcon]`) for typed `let-` variables on
-  the projected glyph template, and **`nextTextSizeSelectId`**, the
+- **`TextSizeChooserIcon`** marker directive
+  (`ng-template[lilyTextSizeChooserIcon]`) for typed `let-` variables on
+  the projected glyph template, and **`nextTextSizeChooserId`**, the
   SSR-safe module-counter id generator.
 - **`docs/accessibility.md`** — roles, the full keyboard contract, and
   the same three tradeoffs the sibling helpers document: the
@@ -79,7 +118,7 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `theme-select` and `locale-select` bumped to **0.3.0**: both are now
+- `theme-chooser` and `locale-chooser` bumped to **0.3.0**: both are now
   *placeholder-pinned*. The closed `<select>` always displays a short
   placeholder word ("Theme", "Locale") instead of the active value, so
   the control is only ever as wide as that word rather than as wide as
@@ -93,7 +132,7 @@ and the project follows
   selection. The bindable `value` prop is the single source of truth.
   Behaviour contracts (DOM application, persistence, SSR safety, i18n)
   are otherwise unchanged.
-- `text-size-select` is untouched and stays at **0.1.0**.
+- `text-size-chooser` is untouched and stays at **0.1.0**.
 
 ### Added
 
@@ -108,7 +147,7 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `theme-select` and `locale-select` bumped to **0.2.0**: migrated from
+- `theme-chooser` and `locale-chooser` bumped to **0.2.0**: migrated from
   the radio-group "picker" rendering to a native `<select>` with
   `<option>` children (landed in-tree 2026-06-17), with renamed packages
   (`*-picker` → `*-select`), changed class hooks, and native `<select>`
@@ -117,7 +156,7 @@ and the project follows
 
 ### Added
 
-- `text-size-select` **0.1.0** — native-`<select>` text-size helper that
+- `text-size-chooser` **0.1.0** — native-`<select>` text-size helper that
   sets `data-text-size` on the document root, with optional
   `localStorage` persistence (added 2026-06-17; born select-based, so it
   carries no picker migration).
@@ -129,12 +168,12 @@ catalog with the Vue helpers as the stylistic mirror:
 
 ### Added
 
-- `lily-design-system-angular-theme-select` v0.1.0 — runtime-loading
+- `lily-design-system-angular-theme-chooser` v0.1.0 — runtime-loading
   theme select with `data-theme` swap, `<link>`-based stylesheet
   injection, `localStorage` persistence, and a `className` input
   for the consumer's CSS hook. Fully mirrors the Svelte canonical
   contract; 13 acceptance criteria covered.
-- `lily-design-system-angular-locale-select` v0.1.0 — BCP 47 locale
+- `lily-design-system-angular-locale-chooser` v0.1.0 — BCP 47 locale
   select that writes `lang` and `dir` on the document root, with
   optional `localStorage` persistence and `navigator.languages`
   detection. Built-in 436-row locale-name table and RTL detection.

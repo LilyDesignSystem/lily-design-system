@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Lily Design System - Nunjucks helpers catalog (dev/test harness)",
   "scripts": {
-    "build": "for d in lily-design-system-nunjucks-theme-select lily-design-system-nunjucks-locale-select lily-design-system-nunjucks-text-size-select lily-design-system-nunjucks-share-button; do name=${d#lily-design-system-nunjucks-}; tsup \"$d/$name.client.js\" --format esm --dts --clean --out-dir \"$d/dist\" && mv \"$d/dist/$name.client.js\" \"$d/dist/index.js\" && mv \"$d/dist/$name.client.d.ts\" \"$d/dist/index.d.ts\" && cp \"$d/$name.njk\" \"$d/dist/\"; done",
+    "build": "set -e; built=0; for d in lily-design-system-nunjucks-*/; do d=${d%/}; [ -f \"$d/package.json\" ] || continue; name=${d#lily-design-system-nunjucks-}; if [ ! -f \"$d/$name.client.js\" ] || [ ! -f \"$d/$name.njk\" ]; then echo \"build: $d has package.json but no $name.client.js + $name.njk\" >&2; exit 1; fi; tsup \"$d/$name.client.js\" --format esm --dts --clean --out-dir \"$d/dist\"; mv \"$d/dist/$name.client.js\" \"$d/dist/index.js\"; mv \"$d/dist/$name.client.d.ts\" \"$d/dist/index.d.ts\"; cp \"$d/$name.njk\" \"$d/dist/\"; built=$((built+1)); done; if [ \"$built\" -eq 0 ]; then echo 'build: no helper packages discovered' >&2; exit 1; fi; echo \"build: $built helper package(s) built\"",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui"

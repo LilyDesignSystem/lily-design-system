@@ -9,15 +9,57 @@ and the project follows
 
 ## Unreleased
 
+### Changed (BREAKING)
+
+- **All four helpers renamed to `*-chooser`, and all four reset to
+  0.1.0.**
+
+  | Was | Now |
+  | --- | --- |
+  | `lily-design-system-vue-theme-select` | `lily-design-system-vue-theme-chooser` |
+  | `lily-design-system-vue-locale-select` | `lily-design-system-vue-locale-chooser` |
+  | `lily-design-system-vue-text-size-select` | `lily-design-system-vue-text-size-chooser` |
+  | `lily-design-system-vue-share-button` | `lily-design-system-vue-share-chooser` |
+
+  `theme-select` and `theme-select-option` are two of the 490 components
+  in the Lily catalog — a different thing entirely from the helper that
+  shared the name. Renaming the helpers removes that collision and gives
+  all four a consistent noun.
+
+  The rename is full-depth: directories, file names, package ids,
+  exported symbols (`ThemeSelect` → `ThemeChooser`, `nextShareButtonId` →
+  `nextShareChooserId`, …), class hooks (`.theme-select` →
+  `.theme-chooser` and every derivative), and data attributes
+  (`data-lily-theme-select` → `data-lily-theme-chooser`, and the locale /
+  text-size / share equivalents). `themeName`, `localeName` and
+  `sizeName` are unchanged — they never said "select". The emitted
+  events (`change`, `share`, `copy`, `nativeShare`) are unchanged too.
+
+  Versions reset to 0.1.0 because a renamed package has no history: none
+  of these were ever published, and carrying 0.4.0 forward would imply
+  releases that never existed under the new names. Each package's
+  `CHANGELOG.md` keeps its prior in-tree history below the new 0.1.0
+  entry, under the old names.
+
+- **`share-chooser` loses its trigger naming exception.** The trigger
+  was `.share-button-trigger` only because `.share-button-button` read
+  badly; under the new name that problem disappears, so it is now
+  `.share-chooser-button`, matching the other three helpers.
+
+- The catalog `build.mjs` now **discovers** its publishable sub-packages
+  by scanning for directories with a `package.json` and an `index.ts`,
+  instead of carrying a hardcoded list that had to be edited by hand on
+  every rename or addition.
+
 ### Added
 
-- **A fourth helper: `lily-design-system-vue-share-button` at 0.1.0.**
+- **A fourth helper: `lily-design-system-vue-share-chooser` at 0.1.0.**
   A headless share control — a single-glyph button (↪, U+21AA) that
   opens the **native share sheet** via `navigator.share` where the
   browser provides one, and otherwise a disclosure list of
   consumer-supplied destinations plus a built-in copy-the-URL action.
   Ported from the canonical
-  `lily-design-system-svelte-share-button` 0.1.0, with the §7 clause
+  `lily-design-system-svelte-share-chooser` 0.1.0, with the §7 clause
   numbering kept identical across the two suites.
 
   It is the first helper in this catalog that owns an **action**
@@ -30,8 +72,8 @@ and the project follows
   with no `role` override — `role="menuitem"` would strip
   middle-click, open-in-new-tab and copy-link-address — and focus
   moves for real rather than via `aria-activedescendant`. The trigger's
-  class hook is `share-button-trigger`, not `share-button-button`: the
-  one deliberate bend in the `{helper}-button` convention.
+  class hook is `share-chooser-button`, following the same
+  `{helper}-button` convention as the other three helpers.
 
   No social-network endpoints ship with the package, and there is no
   default `copyLabel` — both are deliberate, and both are recorded in
@@ -39,31 +81,31 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- **All three helpers** — `theme-select`, `locale-select`, and
-  `text-size-select` — are no longer native `<select>`
+- **All three helpers** — `theme-chooser`, `locale-chooser`, and
+  `text-size-chooser` — are no longer native `<select>`
   elements. Each is now an **icon button that opens a dropdown
   listbox**: a root `<div class="{helper}">` holding a hidden input for
   form participation, a
   `<button class="{helper}-button" aria-haspopup="listbox">` showing a
   single glyph, and a `<ul class="{helper}-list" role="listbox">` of
   `<li class="{helper}-option" role="option">`. The glyphs are ◑
-  (U+25D1 CIRCLE WITH RIGHT HALF BLACK) for `theme-select`, 🌐
-  (U+1F310 GLOBE WITH MERIDIANS) for `locale-select`, and `A`
-  (U+0041 LATIN CAPITAL LETTER A) for `text-size-select`, each wrapped
+  (U+25D1 CIRCLE WITH RIGHT HALF BLACK) for `theme-chooser`, 🌐
+  (U+1F310 GLOBE WITH MERIDIANS) for `locale-chooser`, and `A`
+  (U+0041 LATIN CAPITAL LETTER A) for `text-size-chooser`, each wrapped
   in `aria-hidden="true"` so the accessible name always comes from
   `aria-label`.
 
-  `theme-select` and `locale-select` converted first;
-  `text-size-select` was deliberately held back and has now joined
+  `theme-chooser` and `locale-chooser` converted first;
+  `text-size-chooser` was deliberately held back and has now joined
   them, so the catalog is one shape again. Its glyph is a plain letter
   rather than a pictograph: U+1F5DB DECREASE FONT SIZE SYMBOL has no
   real glyph in common font stacks and means *decrease* rather than
   *size*.
-- **The `placeholder` prop is removed** from `theme-select` and
-  `locale-select`. It existed
+- **The `placeholder` prop is removed** from `theme-chooser` and
+  `locale-chooser`. It existed
   only to pin the closed `<select>` to a short word; there is no
   `<select>` left to pin, so the 0.3.0 placeholder tradeoff is gone
-  along with the `{helper}-placeholder` class hook. `text-size-select`
+  along with the `{helper}-placeholder` class hook. `text-size-chooser`
   never had the prop.
 - **The default scoped slot now replaces the button glyph, not the
   options.** It receives `{ value, open, labelFor }` (`SlotArgs`, also
@@ -82,14 +124,14 @@ and the project follows
 
 ### Added
 
-- `nextThemeSelectId` / `nextLocaleSelectId` / `nextTextSizeSelectId` —
+- `nextThemeChooserId` / `nextLocaleChooserId` / `nextTextSizeChooserId` —
   per-instance id
   generators backed by an incrementing module counter, so option ids
   are stable and SSR-safe.
 - `CIRCLE_WITH_RIGHT_HALF_BLACK` / `GLOBE_WITH_MERIDIANS` /
   `LATIN_CAPITAL_LETTER_A` — the default
   button glyphs, exported for consumers building their own triggers.
-- `sizeName(slug)` on `text-size-select` — exported label resolver that
+- `sizeName(slug)` on `text-size-chooser` — exported label resolver that
   title-cases each hyphen-separated word (`"x-large"` → `"X Large"`),
   completing the `themeName` / `localeName` / `sizeName` set. Each
   helper's internal `labelFor` delegates to its resolver, so the
@@ -99,8 +141,8 @@ and the project follows
 
 ### Not added, deliberately
 
-- **No detection prop on `text-size-select`.** `theme-select` has
-  `detectFromSystem` and `locale-select` has `detectFromNavigator`, but
+- **No detection prop on `text-size-chooser`.** `theme-chooser` has
+  `detectFromSystem` and `locale-chooser` has `detectFromNavigator`, but
   the web exposes no OS "preferred text size" signal — no media query
   equivalent to `prefers-color-scheme`, no `navigator` field. Recorded
   in that helper's `spec/index.md` §2 and §8 so it is not re-proposed
@@ -116,17 +158,17 @@ and the project follows
 ### Documentation
 
 - Each helper's `docs/accessibility.md` is rewritten around the three
-  new tradeoffs (new file for `text-size-select`): an icon-only control
+  new tradeoffs (new file for `text-size-chooser`): an icon-only control
   depends entirely on `aria-label`;
   a scripted listbox has weaker real-world assistive-technology support
   than a native `<select>` — plainly, a native `<select>` remains the
   better choice for some audiences; and the glyph's rendering depends
-  on platform fonts. On that last point `text-size-select`'s `A` is
+  on platform fonts. On that last point `text-size-chooser`'s `A` is
   materially safer than a pictograph. The `.{helper}-status`
   live-region guidance is kept
   and is now more strongly recommended, since the closed button shows
   only a glyph.
-- `text-size-select`'s page keeps its specific WCAG concern, **1.4.4
+- `text-size-chooser`'s page keeps its specific WCAG concern, **1.4.4
   (Resize Text)**, with the obligations that come with it: size
   typography in relative units or the attribute does nothing, test at
   the largest size combined with 200% browser zoom, and never disable

@@ -46,7 +46,7 @@ afterEach(() => cleanup());
 ```ts
 import { describe, it, expect, beforeEach } from "vitest";
 import { render } from "@testing-library/svelte";
-import ThemeSelect from "./ThemeSelect.svelte";
+import ThemeChooser from "./ThemeChooser.svelte";
 
 beforeEach(() => {
     document.head.innerHTML = "";
@@ -57,14 +57,14 @@ beforeEach(() => {
 });
 
 it("§7.1 renders a <select> with the base class and label", () => {
-    const { container } = render(ThemeSelect, {
+    const { container } = render(ThemeChooser, {
         props: {
             label: "Theme",
             themesUrl: "/themes/",
             themes: ["light", "dark"],
         },
     });
-    const root = container.querySelector("select.theme-select");
+    const root = container.querySelector("select.theme-chooser");
     expect(root).not.toBeNull();
     expect(root!.getAttribute("aria-label")).toBe("Theme");
 });
@@ -96,7 +96,7 @@ component instance Svelte returns:
 import { tick } from "svelte";
 
 it("§7.6 resolves the initial theme to 'light'", async () => {
-    const { component } = render(ThemeSelect, {
+    const { component } = render(ThemeChooser, {
         props: {
             label: "Theme",
             themesUrl: "/t/",
@@ -126,7 +126,7 @@ it("§7.13 children snippet receives ChildArgs", async () => {
         captured = args();
         return { render: () => "<div data-testid='custom'></div>" };
     });
-    render(ThemeSelect, {
+    render(ThemeChooser, {
         props: {
             label: "Theme",
             themesUrl: "/t/",
@@ -152,10 +152,10 @@ DOM-only call ran:
 
 ```ts
 import { render as ssrRender } from "svelte/server";
-import ThemeSelect from "./ThemeSelect.svelte";
+import ThemeChooser from "./ThemeChooser.svelte";
 
 it("renders cleanly under SSR", () => {
-    const { html } = ssrRender(ThemeSelect, {
+    const { html } = ssrRender(ThemeChooser, {
         props: {
             label: "Theme",
             themesUrl: "/t/",
@@ -163,7 +163,7 @@ it("renders cleanly under SSR", () => {
             value: "light",
         },
     });
-    expect(html).toContain('class="theme-select');
+    expect(html).toContain('class="theme-chooser');
     expect(html).toContain('value="light"');
 });
 ```

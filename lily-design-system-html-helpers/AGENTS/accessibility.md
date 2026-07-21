@@ -29,11 +29,11 @@ an APG listbox — and one keyboard implementation:
 
 | Helper | Rendering | Glyph | Keyboard comes from |
 | ------ | --------- | ----- | ------------------- |
-| `<theme-select>` | Icon button + `role="listbox"` dropdown | `◑` U+25D1 | The element's own JS handlers |
-| `<locale-select>` | Icon button + `role="listbox"` dropdown | U+1F310 + VS15 | The element's own JS handlers |
-| `<text-size-select>` | Icon button + `role="listbox"` dropdown | `A` U+0041 | The element's own JS handlers |
+| `<theme-chooser>` | Icon button + `role="listbox"` dropdown | `◑` U+25D1 | The element's own JS handlers |
+| `<locale-chooser>` | Icon button + `role="listbox"` dropdown | U+1F310 + VS15 | The element's own JS handlers |
+| `<text-size-chooser>` | Icon button + `role="listbox"` dropdown | `A` U+0041 | The element's own JS handlers |
 
-`<text-size-select>` was deliberately left as a native `<select>` when
+`<text-size-chooser>` was deliberately left as a native `<select>` when
 the other two converted, and joined them afterwards. Its glyph is a
 plain ASCII letter rather than a pictograph: U+1F5DB DECREASE FONT
 SIZE SYMBOL has no real glyph in common font stacks and means
@@ -43,25 +43,25 @@ inherits the page's typeface, and is the conventional affordance.
 ### `aria-label` on the rendered control, not on the custom element
 
 The accessible name belongs on the rendered control, not on the
-`<theme-select>` host. The host element has no role and is silent.
+`<theme-chooser>` host. The host element has no role and is silent.
 
 ```html
-<theme-select label="Theme">
+<theme-chooser label="Theme">
     <!-- the host has no role; nothing announced. -->
-    <div class="theme-select">
+    <div class="theme-chooser">
         <input type="hidden" name="theme" value="light" />
         <!-- the button is what the screen reader names. -->
-        <button type="button" class="theme-select-button"
+        <button type="button" class="theme-chooser-button"
                 aria-label="Theme" aria-haspopup="listbox"
-                aria-expanded="false" aria-controls="theme-select-1-list">
-            <span class="theme-select-icon" aria-hidden="true">◑</span>
+                aria-expanded="false" aria-controls="theme-chooser-1-list">
+            <span class="theme-chooser-icon" aria-hidden="true">◑</span>
         </button>
-        <ul class="theme-select-list" id="theme-select-1-list"
+        <ul class="theme-chooser-list" id="theme-chooser-1-list"
             role="listbox" aria-label="Theme" tabindex="-1" hidden>
             <!-- one <li role="option"> per theme -->
         </ul>
     </div>
-</theme-select>
+</theme-chooser>
 ```
 
 Both the button and the listbox carry `aria-label`. The glyph inside
@@ -85,7 +85,7 @@ keyboard behaviour, mobile OS pickers, and battle-tested AT support
 for free. Each package's `docs/accessibility.md` states the tradeoff
 in full.
 
-This now applies to all three helpers, `<text-size-select>` included.
+This now applies to all three helpers, `<text-size-chooser>` included.
 It lands slightly harder there: a user who reaches for a text-size
 control has, by definition, a visual or cognitive access need, and is
 likelier than average to be on assistive technology. A native
@@ -140,7 +140,7 @@ the user was headed. When wiring `themechange` to navigation
 (`window.location = …`), preserve scroll position and avoid focus
 jumps.
 
-## Screen-reader pronunciation (locale select)
+## Screen-reader pronunciation (locale chooser)
 
 Each `<li role="option">` carries `lang="…"` so screen readers
 switch pronunciation per option (WCAG 3.1.2, Language of Parts). The
@@ -165,13 +165,13 @@ transitions on `data-theme` changes are responsible for honouring
 vitest + jsdom is enough for ARIA-attribute assertions:
 
 ```ts
-const el = document.createElement("theme-select");
+const el = document.createElement("theme-chooser");
 el.setAttribute("label", "Theme");
 el.setAttribute("themes-url", "/t/");
 el.setAttribute("themes", "light,dark");
 document.body.appendChild(el);
 
-const button = el.querySelector(".theme-select-button")!;
+const button = el.querySelector(".theme-chooser-button")!;
 expect(button.getAttribute("aria-label")).toBe("Theme");
 expect(button.getAttribute("aria-haspopup")).toBe("listbox");
 
@@ -189,7 +189,7 @@ meaningful audit must run against the consumer's styled markup.
 
 - **Set `role` on the custom element itself.** The roles belong on
   the rendered button and listbox. Setting `role="combobox"` or
-  `role="listbox"` on `<theme-select>` produces a duplicate
+  `role="listbox"` on `<theme-chooser>` produces a duplicate
   announcement.
 - **Hide the element with `display: none`.** Removes the entire
   rendered tree from the accessibility tree. Use a visually-hidden

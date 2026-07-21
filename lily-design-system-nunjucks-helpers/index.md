@@ -10,13 +10,13 @@ DOM application) for one small, common job.
 
 | Helper                                                                                      | Purpose                                                          |
 | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| [`lily-design-system-nunjucks-theme-select`](./lily-design-system-nunjucks-theme-select/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.       |
-| [`lily-design-system-nunjucks-locale-select`](./lily-design-system-nunjucks-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.  |
-| [`lily-design-system-nunjucks-text-size-select`](./lily-design-system-nunjucks-text-size-select/) | Pick a text size; sets `data-text-size` on the document root.    |
-| [`lily-design-system-nunjucks-share-button`](./lily-design-system-nunjucks-share-button/) | Share the page: native share sheet, or a list of destinations + copy. |
+| [`lily-design-system-nunjucks-theme-chooser`](./lily-design-system-nunjucks-theme-chooser/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.       |
+| [`lily-design-system-nunjucks-locale-chooser`](./lily-design-system-nunjucks-locale-chooser/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.  |
+| [`lily-design-system-nunjucks-text-size-chooser`](./lily-design-system-nunjucks-text-size-chooser/) | Pick a text size; sets `data-text-size` on the document root.    |
+| [`lily-design-system-nunjucks-share-chooser`](./lily-design-system-nunjucks-share-chooser/) | Share the page: native share sheet, or a list of destinations + copy. |
 
 The first three helpers own a **user preference** — selection + DOM
-application + optional persistence. `share-button` owns an **action**:
+application + optional persistence. `share-chooser` owns an **action**:
 it applies nothing to the document and persists nothing.
 
 ## The split: macro + client.js
@@ -51,10 +51,10 @@ This split exists because:
 ### How much survives without JavaScript
 
 Little, and it differs between the preference helpers and
-`share-button`. Worth being blunt about both:
+`share-chooser`. Worth being blunt about both:
 
-- **The three `*-select` helpers** — `theme-select`, `locale-select`,
-  and `text-size-select` — are icon buttons that open a custom listbox.
+- **The three `*-select` helpers** — `theme-chooser`, `locale-chooser`,
+  and `text-size-chooser` — are icon buttons that open a custom listbox.
   **None of them is operable without JS**: the button has no handler
   and the listbox renders `hidden`. Each macro does emit a
   server-filled hidden `<input>`, so a form submit still carries a
@@ -68,7 +68,7 @@ Little, and it differs between the preference helpers and
   for with a native `<select>` that worked everywhere. Each package's
   `docs/ssr.md` documents it and shows the no-JS alternative (the
   headless catalog's plain `<select>` containers).
-- **`share-button` degrades better**, and the difference is one of kind
+- **`share-chooser` degrades better**, and the difference is one of kind
   rather than degree. Its destination links are real `<a href>`
   elements with final URLs rendered server-side, so with no JS they
   still navigate, middle-click, open in a new tab, and expose "copy
@@ -78,7 +78,7 @@ Little, and it differs between the preference helpers and
   preference to the document, which is inherently a runtime act, while
   this one's primary affordance is navigation, which HTML has always
   done unassisted. See
-  [`share-button/docs/ssr.md`](./lily-design-system-nunjucks-share-button/docs/ssr.md),
+  [`share-chooser/docs/ssr.md`](./lily-design-system-nunjucks-share-chooser/docs/ssr.md),
   which also shows how to render a permanently-open list when full
   no-JS operation is a hard requirement.
 
@@ -156,7 +156,7 @@ layers can coexist in one app; the helpers are not a replacement.
 The helpers commit to a small set of Nunjucks 3 conventions:
 
 - A single `{% macro foo(opts) %}` … `{% endmacro %}` per file.
-- camelCase macro names: `themeSelect`, `localeSelect`.
+- camelCase macro names: `themeChooser`, `localeChooser`.
 - kebab-case file paths and CSS class hooks.
 - All defaults resolved with `{% set x = opts.x | default("…") %}`
   at the top of the macro body.
@@ -201,7 +201,7 @@ the runtime. The acceptance criteria are listed in each `spec/index.md` §7
 and the test file matches one `test(...)` per numbered item.
 
 ```bash
-cd lily-design-system-nunjucks-theme-select
+cd lily-design-system-nunjucks-theme-chooser
 pnpm test
 ```
 

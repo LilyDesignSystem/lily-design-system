@@ -1,0 +1,58 @@
+@*
+    RTL demo — Arabic, Hebrew, Persian, Urdu, Pashto.
+
+    Visualises the select's auto-detection in action. Switching to any
+    of the RTL locales writes `dir="rtl"` to <html> and the entire
+    page mirrors. Switching back to English restores LTR.
+
+    Outcome: live preview pane reflects current lang and dir.
+*@
+
+@page "/examples/locale-chooser/rtl-demo"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<LocaleChooser
+    Label="Direction demo"
+    Locales="@(new[] { "en", "ar", "he", "fa", "ur", "ps" })"
+    LocaleLabels="@NATIVE"
+    @bind-Value="locale" />
+
+<section lang="@Locales.Bcp47LocaleTag(locale)"
+         dir="@(Locales.IsRtlLocale(locale) ? "rtl" : "ltr")">
+    <h2>@NATIVE[locale]</h2>
+    <p>@SAMPLE[locale]</p>
+    <p>
+        <strong>Detected direction:</strong>
+        <code>@(Locales.IsRtlLocale(locale) ? "rtl" : "ltr")</code>
+    </p>
+    <p>
+        <strong>BCP 47 tag:</strong>
+        <code>@Locales.Bcp47LocaleTag(locale)</code>
+    </p>
+</section>
+
+@code {
+    private string locale = "en";
+
+    // Endonyms — names of each language in its own language.
+    private static readonly Dictionary<string, string> NATIVE = new()
+    {
+        ["en"] = "English",
+        ["ar"] = "العربية",
+        ["he"] = "עברית",
+        ["fa"] = "فارسی",
+        ["ur"] = "اردو",
+        ["ps"] = "پښتو",
+    };
+
+    private static readonly Dictionary<string, string> SAMPLE = new()
+    {
+        ["en"] = "The quick brown fox jumps over the lazy dog.",
+        ["ar"] = "نص تجريبي يقرأ من اليمين إلى اليسار.",
+        ["he"] = "טקסט לדוגמה הנקרא מימין לשמאל.",
+        ["fa"] = "متن نمونه‌ای که از راست به چپ خوانده می‌شود.",
+        ["ur"] = "نمونہ متن جو دائیں سے بائیں پڑھا جاتا ہے۔",
+        ["ps"] = "د ښي خوا څخه کیڼ خوا ته د نمونې متن.",
+    };
+}

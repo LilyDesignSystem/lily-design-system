@@ -58,8 +58,8 @@ export async function onRequest(context) {
 
 ```njk
 {# index.njk #}
-{% from "./theme-select.njk" import themeSelect %}
-{{ themeSelect({
+{% from "./theme-chooser.njk" import themeChooser %}
+{{ themeChooser({
   label: "Theme",
   themesUrl: "/assets/themes/",
   themes: ["light", "dark", "abyss"],
@@ -79,12 +79,12 @@ locale labels in `_data/`:
 
 ```js
 // _data/localeLabels.js
-import { defaultLocaleLabels } from "../../lily-design-system-nunjucks-locale-select/locale-select.client.js";
+import { defaultLocaleLabels } from "../../lily-design-system-nunjucks-locale-chooser/locale-chooser.client.js";
 export default defaultLocaleLabels;
 ```
 
 ```njk
-{{ localeSelect({
+{{ localeChooser({
   label: "Language",
   locales: ["en", "fr", "ar"],
   localeLabels: localeLabels
@@ -98,7 +98,7 @@ Eleventy passthrough copies the client.js to the output:
 ```js
 // .eleventy.js
 eleventyConfig.addPassthroughCopy(
-    "lily-design-system-nunjucks-theme-select/theme-select.client.js",
+    "lily-design-system-nunjucks-theme-chooser/theme-chooser.client.js",
 );
 ```
 
@@ -106,12 +106,12 @@ Then in your base layout:
 
 ```njk
 <script type="module">
-  import { autoInit } from "/lily-design-system-nunjucks-theme-select/theme-select.client.js";
+  import { autoInit } from "/lily-design-system-nunjucks-theme-chooser/theme-chooser.client.js";
   autoInit();
 </script>
 ```
 
-`autoInit()` wires every `[data-lily-theme-select-root]` it finds on
+`autoInit()` wires every `[data-lily-theme-chooser-root]` it finds on
 the page.
 
 ## Express + nunjucks

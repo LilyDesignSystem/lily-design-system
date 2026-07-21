@@ -35,8 +35,8 @@ and letting the platform call `connectedCallback`:
 
 ```ts
 import { describe, it, expect, beforeEach } from "vitest";
-import "./index"; // side-effectfully registers <theme-select>
-import type { ThemeSelect } from "./theme-select";
+import "./index"; // side-effectfully registers <theme-chooser>
+import type { ThemeChooser } from "./theme-chooser";
 
 beforeEach(() => {
     document.head.innerHTML = "";
@@ -48,13 +48,13 @@ beforeEach(() => {
 });
 
 it("renders a button with an accessible name", () => {
-    const el = document.createElement("theme-select") as ThemeSelect;
+    const el = document.createElement("theme-chooser") as ThemeChooser;
     el.setAttribute("label", "Theme");
     el.setAttribute("themes-url", "/themes/");
     el.setAttribute("themes", "light,dark");
     document.body.appendChild(el); // triggers connectedCallback
 
-    const button = el.querySelector(".theme-select-button");
+    const button = el.querySelector(".theme-chooser-button");
     expect(button).not.toBeNull();
     expect(button!.getAttribute("aria-label")).toBe("Theme");
     expect(button!.getAttribute("aria-haspopup")).toBe("listbox");
@@ -69,7 +69,7 @@ Attributes set before `appendChild` are picked up in
 
 ```ts
 // Pre-append:
-const el = document.createElement("theme-select") as ThemeSelect;
+const el = document.createElement("theme-chooser") as ThemeChooser;
 el.setAttribute("themes", "light,dark");
 document.body.appendChild(el);
 
@@ -94,8 +94,8 @@ const a = createSelect({ "themes": "light,dark" });
 const b = createSelect({});
 b.themes = ["light", "dark"];
 
-expect(a.querySelectorAll(".theme-select-option").length).toBe(2);
-expect(b.querySelectorAll(".theme-select-option").length).toBe(2);
+expect(a.querySelectorAll(".theme-chooser-option").length).toBe(2);
+expect(b.querySelectorAll(".theme-chooser-option").length).toBe(2);
 ```
 
 ## Common assertions
@@ -103,7 +103,7 @@ expect(b.querySelectorAll(".theme-select-option").length).toBe(2);
 | Goal                                | Pattern                                                                       |
 | ----------------------------------- | ----------------------------------------------------------------------------- |
 | Wait for `connectedCallback`        | Append; the callback is synchronous in jsdom.                                 |
-| Find the nth option                 | `el.querySelectorAll(".theme-select-option")[1]`                             |
+| Find the nth option                 | `el.querySelectorAll(".theme-chooser-option")[1]`                             |
 | Open the listbox                    | `button.dispatchEvent(new MouseEvent("click", { bubbles: true }))`           |
 | Change the selection                | Open, then click an option — or set `el.value = "dark"` directly              |
 | Press a key                         | `list.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }))` |
@@ -116,9 +116,9 @@ expect(b.querySelectorAll(".theme-select-option").length).toBe(2);
 ## Capturing CustomEvents
 
 ```ts
-const events: ThemeSelectChangeDetail[] = [];
+const events: ThemeChooserChangeDetail[] = [];
 el.addEventListener("themechange", (e) => {
-    events.push((e as CustomEvent<ThemeSelectChangeDetail>).detail);
+    events.push((e as CustomEvent<ThemeChooserChangeDetail>).detail);
 });
 el.value = "dark"; // triggers attributeChangedCallback → applyTheme → dispatchEvent
 expect(events.at(-1)).toEqual({ theme: "dark" });
@@ -133,15 +133,15 @@ document.body.addEventListener("themechange", (e) => { /* … */ });
 
 ## Triggering a selection change
 
-For `<theme-select>` / `<locale-select>`, open the listbox and click
+For `<theme-chooser>` / `<locale-chooser>`, open the listbox and click
 an option:
 
 ```ts
 const click = (el: Element) =>
     el.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
 
-click(el.querySelector(".theme-select-button")!);
-click(el.querySelectorAll(".theme-select-option")[1]);
+click(el.querySelector(".theme-chooser-button")!);
+click(el.querySelectorAll(".theme-chooser-option")[1]);
 ```
 
 The option's `click` listener writes to `el.value`, which feeds back
@@ -175,11 +175,11 @@ Two jsdom notes:
   `await`ing a macrotask after a focus-moving interaction is enough
   to observe the settled state.
 
-## Asserting the managed `<link>` (theme select)
+## Asserting the managed `<link>` (theme chooser)
 
 ```ts
 const link = document.head.querySelector<HTMLLinkElement>(
-    'link[data-lily-theme-select="theme"]',
+    'link[data-lily-theme-chooser="theme"]',
 );
 expect(link).not.toBeNull();
 expect(link!.href).toMatch(/\/themes\/light\.css$/);
@@ -224,7 +224,7 @@ Object.defineProperty(navigator, "languages", {
 mount needed:
 
 ```ts
-import { normalizeThemesUrl, themeHref } from "./theme-select";
+import { normalizeThemesUrl, themeHref } from "./theme-chooser";
 
 it("§7.7 normalizeThemesUrl appends a slash", () => {
     expect(normalizeThemesUrl("/x")).toBe("/x/");
@@ -246,20 +246,20 @@ and leaves the base class owning the button, the listbox, the aria
 wiring, and the keyboard contract:
 
 ```ts
-import { ThemeSelect } from "./theme-select";
+import { ThemeChooser } from "./theme-chooser";
 
-class LabelledThemeSelect extends ThemeSelect {
+class LabelledThemeChooser extends ThemeChooser {
     renderButtonContent(): Node {
         const span = document.createElement("span");
         span.textContent = this.labelFor(this.value);
         return span;
     }
 }
-customElements.define("labelled-theme-select", LabelledThemeSelect);
+customElements.define("labelled-theme-chooser", LabelledThemeChooser);
 ```
 
 Tests should assert two things: that the custom content replaced the
-default `.theme-select-icon`, and that the base lifecycle still runs
+default `.theme-chooser-icon`, and that the base lifecycle still runs
 (managed `<link>`, `data-theme` write, `themechange` event). Also
 assert the aria wiring survived — `aria-haspopup`, `aria-label`, and
 an `aria-controls` that resolves to the listbox — since that is
@@ -283,7 +283,7 @@ it("the class module is import-safe under SSR", async () => {
     try {
         // Importing the barrel must not throw.
         const mod = await import("./index");
-        expect(mod.ThemeSelect).toBeDefined();
+        expect(mod.ThemeChooser).toBeDefined();
     } finally {
         (globalThis as any).customElements = original;
     }

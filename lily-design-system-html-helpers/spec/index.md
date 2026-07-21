@@ -33,10 +33,10 @@ Out of scope:
 
 | Helper | Purpose |
 | ------ | ------- |
-| [`lily-design-system-html-theme-select`](../lily-design-system-html-theme-select/) | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence. |
-| [`lily-design-system-html-locale-select`](../lily-design-system-html-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
-| [`lily-design-system-html-text-size-select`](../lily-design-system-html-text-size-select/) | Pick a text size; sets `data-text-size` on the document root. |
-| [`lily-design-system-html-share-button`](../lily-design-system-html-share-button/) | Share the page: native share sheet, or a disclosure list of consumer-supplied destinations + copy the URL. |
+| [`lily-design-system-html-theme-chooser`](../lily-design-system-html-theme-chooser/) | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence. |
+| [`lily-design-system-html-locale-chooser`](../lily-design-system-html-locale-chooser/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-html-text-size-chooser`](../lily-design-system-html-text-size-chooser/) | Pick a text size; sets `data-text-size` on the document root. |
+| [`lily-design-system-html-share-chooser`](../lily-design-system-html-share-chooser/) | Share the page: native share sheet, or a disclosure list of consumer-supplied destinations + copy the URL. |
 
 ## 4. Conventions
 
@@ -58,16 +58,16 @@ Every helper subproject follows the same shape:
   helpers take the locale identifier and never pick a default.
 - **SSR-safe**: DOM writes happen only after mount, never during render.
 - **One job per helper**: each helper owns one job end to end and
-  composes cleanly with the others. For the three `*-select` helpers
+  composes cleanly with the others. For the three preference helpers
   that job is the full lifecycle of one preference dimension; for
-  `share-button` it is a single action, which applies nothing to the
+  `share-chooser` it is a single action, which applies nothing to the
   document and persists nothing.
 - **Spec-driven**: tests assert against numbered spec sections; docs link back.
 
 ## 6. Acceptance criteria
 
-- [x] Catalog ships `theme-select`, `locale-select`, `text-size-select`,
-      and `share-button` helper subprojects.
+- [x] Catalog ships `theme-chooser`, `locale-chooser`, `text-size-chooser`,
+      and `share-chooser` helper subprojects.
 - [x] Each helper has its component source, tests, `spec/index.md`, and package.json.
 - [x] Each helper is headless (no bundled CSS/fonts/icons) and i18n-clean.
 - [x] Catalog dir has `index.md`, `README.md` symlink, `AGENTS.md`,
@@ -81,12 +81,12 @@ package manifest. The catalog mirrors the canonical
 [`lily-design-system-svelte-helpers`](../../lily-design-system-svelte-helpers/)
 reference with HTML idioms substituted.
 
-`share-button` (0.1.0) is the newest and the first non-preference
+`share-chooser` (0.1.0) is the newest and the first non-preference
 helper. It is also the one place the catalog's single-rendering-shape
 rule is deliberately broken: its items are links, so it renders a
 **disclosure** with real `<a>` elements rather than the APG listbox the
-`*-select` helpers use. See its
-[`spec/index.md` §3](../lily-design-system-html-share-button/spec/index.md#3-architectural-decisions).
+preference helpers use. See its
+[`spec/index.md` §3](../lily-design-system-html-share-chooser/spec/index.md#3-architectural-decisions).
 
 ## 8. References
 

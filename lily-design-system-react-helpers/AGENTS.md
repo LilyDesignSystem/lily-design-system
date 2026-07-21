@@ -8,10 +8,10 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-react-theme-select`](./lily-design-system-react-theme-select/) — dynamic theme CSS loader.
-- [`lily-design-system-react-locale-select`](./lily-design-system-react-locale-select/) — `lang` + `dir` locale select.
-- [`lily-design-system-react-text-size-select`](./lily-design-system-react-text-size-select/) — `data-text-size` text-size select.
-- [`lily-design-system-react-share-button`](./lily-design-system-react-share-button/) — native share sheet, or a disclosure list of destinations plus copy-the-URL.
+- [`lily-design-system-react-theme-chooser`](./lily-design-system-react-theme-chooser/) — dynamic theme CSS loader.
+- [`lily-design-system-react-locale-chooser`](./lily-design-system-react-locale-chooser/) — `lang` + `dir` locale chooser.
+- [`lily-design-system-react-text-size-chooser`](./lily-design-system-react-text-size-chooser/) — `data-text-size` text-size chooser.
+- [`lily-design-system-react-share-chooser`](./lily-design-system-react-share-chooser/) — native share sheet, or a disclosure list of destinations plus copy-the-URL.
 
 ## Working rules
 

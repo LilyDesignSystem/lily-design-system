@@ -75,7 +75,7 @@ The `<html lang dir>` arrives in the HTTP response from byte zero
 "use client";
 
 import * as React from "react";
-import { LocaleSelect } from "../lily-design-system-react-locale-select";
+import { LocaleChooser } from "../lily-design-system-react-locale-chooser";
 
 export function LocaleClient({
     initialLocale,
@@ -92,7 +92,7 @@ export function LocaleClient({
 
     return (
         <>
-            <LocaleSelect
+            <LocaleChooser
                 label="Language"
                 locales={["en", "fr", "ar"]}
                 value={locale}
@@ -129,7 +129,7 @@ export async function setLocaleCookie(locale: string) {
 And call from `onChange`:
 
 ```tsx
-<LocaleSelect
+<LocaleChooser
     onChange={(code) => {
         setLocale(code);
         setLocaleCookie(code); // server action

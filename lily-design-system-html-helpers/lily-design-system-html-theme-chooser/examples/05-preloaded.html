@@ -1,0 +1,40 @@
+<!doctype html>
+<!--
+    Example 5 — Zero-flicker switching via preloading.
+
+    The default loading strategy fetches the active theme CSS on
+    demand — fast, but the first switch to a not-yet-loaded theme
+    incurs a network round-trip. To switch instantly, preload all
+    theme CSS files via your own <link> tags. Each theme scopes its
+    rules to :root[data-theme="<slug>"], so only the rules whose
+    attribute matches the live one are applied.
+
+    The select still mutates data-theme; the network round-trip is
+    gone.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>theme-chooser — preloaded</title>
+
+    <!-- Preload every theme up front. The select's managed <link>
+         still appears, but its href will resolve to one of these
+         already-cached stylesheets. -->
+    <link rel="stylesheet" href="/assets/themes/light.css">
+    <link rel="stylesheet" href="/assets/themes/dark.css">
+    <link rel="stylesheet" href="/assets/themes/abyss.css">
+
+    <script type="module" src="/dist/theme-chooser.js"></script>
+</head>
+<body>
+    <h1>Theme chooser — preloaded</h1>
+
+    <theme-chooser
+        label="Theme"
+        themes-url="/assets/themes/"
+        themes="light,dark,abyss"
+    ></theme-chooser>
+
+    <p>Switching themes is instant — no network round-trip.</p>
+</body>
+</html>

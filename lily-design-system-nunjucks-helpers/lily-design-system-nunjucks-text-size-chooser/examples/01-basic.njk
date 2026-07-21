@@ -1,0 +1,80 @@
+{#
+  Example 01 — Basic usage.
+
+  The minimum viable control: a label and a slug list. The client.js
+  resolves "medium" as the initial active size (since "medium" is in
+  the list) and sets data-text-size="medium" on <html>.
+
+  Drop the macro file alongside this one, the client.js next to that,
+  and load the script tag at the bottom. The script is not optional:
+  the macro renders an icon button plus a hidden listbox, and the
+  button does not open until the client.js runs. See ../docs/ssr.md —
+  that regression matters more here than in the sibling helpers,
+  because this control exists to satisfy WCAG 1.4.4 (Resize Text).
+
+  Note the status region below the control. The trigger is an
+  icon-only button, so it never displays the active size, and a
+  screen-reader user hears the active size only after opening the
+  listbox. The status line is part of the default pattern — see
+  ../docs/accessibility.md. Omitting it is the deliberate choice.
+#}
+{% from "../text-size-chooser.njk" import textSizeChooser %}
+
+{{ textSizeChooser({
+    label: "Text size",
+    sizes: ["small", "medium", "large", "x-large"],
+    storageKey: "lily-text-size"
+}) }}
+
+{#
+  Visible by default: it helps sighted users and cognitive
+  accessibility too, and WCAG 2.2 AAA favours it.
+
+  aria-live="polite" announces mutations only, so this region is
+  silent on first paint and speaks on each subsequent change.
+
+  Because this line is itself page text, it visibly changes size when
+  the user picks a new slug — immediate confirmation that the CSS
+  below is actually wired up.
+#}
+<p class="text-size-chooser-status" aria-live="polite"></p>
+
+{#
+  The helper signals the choice; it defines no typography. THIS is the
+  half that actually satisfies 1.4.4. Relative units only — absolute
+  px would defeat both this control and the user's own browser
+  settings.
+
+  In a real project these rules belong in your stylesheet, not inline;
+  they are here so the example stands alone.
+#}
+<style>
+    :root,
+    :root[data-text-size="medium"]  { --text-scale: 1; }
+    :root[data-text-size="small"]   { --text-scale: 0.875; }
+    :root[data-text-size="large"]   { --text-scale: 1.25; }
+    :root[data-text-size="x-large"] { --text-scale: 1.5; }
+
+    body { font-size: calc(1rem * var(--text-scale)); }
+</style>
+
+<script type="module">
+    import { autoInit } from "../text-size-chooser.client.js";
+
+    // Show the human label, not the raw slug. These strings are
+    // consumer-supplied and translatable — the helper never hardcodes
+    // user-facing text.
+    const SIZE_LABELS = {
+        small: "Small",
+        medium: "Medium",
+        large: "Large",
+        "x-large": "Extra large",
+    };
+    const status = document.querySelector(".text-size-chooser-status");
+
+    autoInit({
+        onChange(slug) {
+            status.textContent = `Text size: ${SIZE_LABELS[slug] ?? slug}`;
+        },
+    });
+</script>

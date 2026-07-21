@@ -24,8 +24,8 @@ provides the Analog-flavoured wiring recipes.
    input with that value on the server, then hydrates without any DOM
    swap.
 5. **Element ids are deterministic.** Each helper's id generator
-   (`nextThemeSelectId`, `nextLocaleSelectId`,
-   `nextTextSizeSelectId`) is an incrementing module counter, never
+   (`nextThemeChooserId`, `nextLocaleChooserId`,
+   `nextTextSizeChooserId`) is an incrementing module counter, never
    `Math.random` / `Date.now`, so the `aria-controls` and
    `aria-activedescendant` wiring matches across server and client.
 
@@ -76,15 +76,15 @@ export const INITIAL_LOCALE = new InjectionToken<string>("INITIAL_LOCALE", {
 
 ```ts
 import { Component, inject, signal } from "@angular/core";
-import { LocaleSelect } from "@/locale-select.component";
+import { LocaleChooser } from "@/locale-chooser.component";
 import { INITIAL_LOCALE } from "./tokens/initial-locale";
 
 @Component({
     selector: "app-root",
     standalone: true,
-    imports: [LocaleSelect],
+    imports: [LocaleChooser],
     template: `
-        <lily-locale-select
+        <lily-locale-chooser
             label="Language"
             [locales]="['en', 'fr', 'ar']"
             [(value)]="locale"
@@ -172,7 +172,7 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
         <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
     </head>
     <body>
-        <lily-theme-select
+        <lily-theme-chooser
             client:load
             label="Theme"
             themesUrl="/assets/themes/"

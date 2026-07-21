@@ -41,7 +41,7 @@ import nunjucks from "nunjucks";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { autoInit, initThemeSelect } from "./theme-select.client.js";
+import { autoInit, initThemeChooser } from "./theme-chooser.client.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const env = nunjucks.configure(__dirname, {
@@ -53,15 +53,15 @@ const env = nunjucks.configure(__dirname, {
 
 function renderMacro(opts: Record<string, unknown>): string {
     const src =
-        `{% from "./theme-select.njk" import themeSelect %}` +
-        `{{ themeSelect(opts) }}`;
+        `{% from "./theme-chooser.njk" import themeChooser %}` +
+        `{{ themeChooser(opts) }}`;
     return env.renderString(src, { opts });
 }
 
 function mountIntoBody(html: string): HTMLElement {
     document.body.innerHTML = html;
     return document.body.querySelector(
-        "[data-lily-theme-select-root]",
+        "[data-lily-theme-chooser-root]",
     ) as HTMLElement;
 }
 
@@ -94,12 +94,12 @@ that doesn't go through Nunjucks at all.
 
 | Goal                                | Pattern                                                              |
 | ----------------------------------- | -------------------------------------------------------------------- |
-| Find the root                       | `document.querySelector("[data-lily-theme-select-root]")`            |
+| Find the root                       | `document.querySelector("[data-lily-theme-chooser-root]")`            |
 | Find an option by value             | `root.querySelector('option[value="dark"]')`                        |
 | Select an option                    | `root.value = "dark"; root.dispatchEvent(new Event("change", { bubbles: true }));` |
 | Inspect document mutations          | `document.documentElement.dataset.theme`                              |
 | `localStorage` round-trip           | `localStorage.setItem(...); /* re-init */`                            |
-| Assert managed `<link>`             | `document.head.querySelector('link[data-lily-theme-select="theme"]')` |
+| Assert managed `<link>`             | `document.head.querySelector('link[data-lily-theme-chooser="theme"]')` |
 | Assert spread attribute             | `root.getAttribute("data-testid")`                                    |
 
 ## Driving a selection change
@@ -158,7 +158,7 @@ test("§7.20 detectFromNavigator picks exact match", () => {
         locales: ["en", "fr_FR", "ar"],
         detectFromNavigator: true,
     });
-    initLocaleSelect(document.querySelector("[data-lily-locale-select-root]")!);
+    initLocaleChooser(document.querySelector("[data-lily-locale-chooser-root]")!);
     expect(document.documentElement.lang).toBe("fr-FR");
 });
 ```

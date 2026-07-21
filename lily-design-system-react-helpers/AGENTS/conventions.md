@@ -57,8 +57,8 @@ practice) starts with the `"use client"` directive so it runs as a
 client component under the Next.js App Router and other React Server
 Component frameworks.
 
-Pure helper modules (e.g. `bcp47LocaleTag` in `LocaleSelect.tsx` or
-`themeHref` in `ThemeSelect.tsx`) live in the same `.tsx` file
+Pure helper modules (e.g. `bcp47LocaleTag` in `LocaleChooser.tsx` or
+`themeHref` in `ThemeChooser.tsx`) live in the same `.tsx` file
 because they are exported alongside the component. They are still
 safe to import from a server component because importing them does
 not pull in the rest of the file's runtime — the React 19 bundler
@@ -120,7 +120,7 @@ the state machine.
 - The shared `name` attribute.
 - A `labelFor(item)` resolver.
 
-Select-specific helpers (e.g. `tagFor`, `isRtl` for LocaleSelect)
+Select-specific helpers (e.g. `tagFor`, `isRtl` for LocaleChooser)
 are added as needed.
 
 ## Effects

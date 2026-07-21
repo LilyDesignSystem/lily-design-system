@@ -10,10 +10,10 @@ Each helper follows the file shape in
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-html-theme-select`](./lily-design-system-html-theme-select/) — `<theme-select>` dynamic theme CSS loader.
-- [`lily-design-system-html-locale-select`](./lily-design-system-html-locale-select/) — `<locale-select>` `lang` + `dir` locale select.
-- [`lily-design-system-html-text-size-select`](./lily-design-system-html-text-size-select/) — `<text-size-select>` `data-text-size` text-size select.
-- [`lily-design-system-html-share-button`](./lily-design-system-html-share-button/) — `<share-button>` native-sheet / disclosure share control.
+- [`lily-design-system-html-theme-chooser`](./lily-design-system-html-theme-chooser/) — `<theme-chooser>` dynamic theme CSS loader.
+- [`lily-design-system-html-locale-chooser`](./lily-design-system-html-locale-chooser/) — `<locale-chooser>` `lang` + `dir` locale chooser.
+- [`lily-design-system-html-text-size-chooser`](./lily-design-system-html-text-size-chooser/) — `<text-size-chooser>` `data-text-size` text-size chooser.
+- [`lily-design-system-html-share-chooser`](./lily-design-system-html-share-chooser/) — `<share-chooser>` native-sheet / disclosure share control.
 
 ## Working rules
 
@@ -29,15 +29,15 @@ Each helper follows the file shape in
   attributes or properties.
 - Light DOM only — no Shadow DOM, no scoped styling. The
   consumer's CSS targets the rendered children directly via the
-  kebab-case class hooks the element emits (`theme-select-option`,
-  `locale-select-option`, etc.).
-- One rendering shape for the `*-select` helpers. All three render an
+  kebab-case class hooks the element emits (`theme-chooser-option`,
+  `locale-chooser-option`, etc.).
+- One rendering shape for the preference helpers. All three render an
   icon button that opens a `role="listbox"` dropdown (WAI-ARIA APG
   listbox pattern, keyboard implemented in JS). Do not reintroduce the
   native `<select>` — or its `placeholder` attribute — to any of them.
-  `<text-size-select>` was the last holdout and joined the other two;
+  `<text-size-chooser>` was the last holdout and joined the other two;
   its glyph is `"A"` (U+0041) rather than a pictograph.
-- `<share-button>` is the deliberate exception to that rule: it is a
+- `<share-chooser>` is the deliberate exception to that rule: it is a
   **disclosure** whose items are real `<a>` elements with no `role`
   override, and focus moves to the item rather than staying on the
   `<ul>` with `aria-activedescendant`. Share destinations are

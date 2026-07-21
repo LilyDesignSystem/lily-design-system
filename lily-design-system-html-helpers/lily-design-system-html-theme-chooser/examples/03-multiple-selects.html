@@ -1,0 +1,63 @@
+<!doctype html>
+<!--
+    Example 3 — Multiple selects in one page.
+
+    Each control gets a distinct `name`. The `name` plays two roles:
+      1. It is the hidden <input>'s `name`, so the two controls
+         submit as distinct form fields and don't share state.
+      2. It is the discriminator on the managed <link> element, so
+         each control swaps its own stylesheet without stepping on
+         the other.
+
+    Option and list ids are unique per instance automatically — they
+    come from a module-level counter (nextThemeChooserId()), so two
+    controls on one page never collide on aria-controls or
+    aria-activedescendant.
+
+    This is useful for: a "global" theme + a per-section accent
+    theme; preview-vs-live theme A/B; or a settings page that
+    compares two themes side-by-side.
+
+    Note: the active `data-theme` attribute on <html> is set by
+    whichever select fires last. If you want two independent
+    regions, also set `el.target` per select so each updates a
+    different DOM subtree.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>theme-chooser — multiple</title>
+    <script type="module" src="/dist/theme-chooser.js"></script>
+</head>
+<body>
+    <h1>Multiple selects</h1>
+
+    <section id="region-a" data-region="a">
+        <h2>Region A</h2>
+        <theme-chooser
+            label="Region A theme"
+            name="region-a"
+            themes-url="/assets/themes/"
+            themes="light,dark"
+        ></theme-chooser>
+    </section>
+
+    <section id="region-b" data-region="b">
+        <h2>Region B</h2>
+        <theme-chooser
+            label="Region B theme"
+            name="region-b"
+            themes-url="/assets/themes/"
+            themes="abyss,cupcake,dracula"
+        ></theme-chooser>
+    </section>
+
+    <script type="module">
+        await customElements.whenDefined("theme-chooser");
+        const a = document.querySelector("#region-a");
+        const b = document.querySelector("#region-b");
+        a.querySelector("theme-chooser").target = a;
+        b.querySelector("theme-chooser").target = b;
+    </script>
+</body>
+</html>

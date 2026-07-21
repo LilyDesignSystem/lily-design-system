@@ -1,0 +1,61 @@
+{#
+  Example 03 — Multiple selects in one page.
+
+  Each control gets a distinct `name`. The `name` plays three roles:
+    1. It is the hidden input's `name` attribute, so the two
+       controls don't share state in an enclosing form.
+    2. It is the discriminator on the managed <link> element, so
+       each control swaps its own stylesheet without stepping on the
+       other.
+    3. It seeds the default id prefix ("theme-chooser-{name}"), so
+       distinct names also give the two listboxes distinct ids.
+
+  That third role matters: Nunjucks macros cannot generate
+  per-instance ids, so two controls sharing a `name` would emit
+  duplicate listbox and option ids and break aria-controls /
+  aria-activedescendant. If you must share a `name`, pass distinct
+  `id` values instead.
+
+  This is useful for: a "global" theme + a per-section accent theme;
+  preview-vs-live theme A/B; or a settings page that compares two
+  themes side-by-side.
+
+  Note: the active `data-theme` attribute on <html> is set by
+  whichever control fires last. To make two independent regions, pass
+  a per-control `target` via the client.js init opts (see the script
+  below).
+#}
+{% from "../theme-chooser.njk" import themeChooser %}
+
+<section class="region region-a">
+    <h2>Region A</h2>
+    {{ themeChooser({
+        label: "Region A theme",
+        name: "region-a",
+        themesUrl: "/assets/themes/",
+        themes: ["light", "dark"]
+    }) }}
+</section>
+
+<section class="region region-b">
+    <h2>Region B</h2>
+    {{ themeChooser({
+        label: "Region B theme",
+        name: "region-b",
+        themesUrl: "/assets/themes/",
+        themes: ["abyss", "cupcake", "dracula"]
+    }) }}
+</section>
+
+<script type="module">
+    import { initThemeChooser } from "../theme-chooser.client.js";
+
+    const a = document.querySelector(
+        "[data-lily-theme-chooser-root][data-lily-theme-chooser-name='region-a']",
+    );
+    const b = document.querySelector(
+        "[data-lily-theme-chooser-root][data-lily-theme-chooser-name='region-b']",
+    );
+    if (a) initThemeChooser(a, { target: a.closest("section.region-a") });
+    if (b) initThemeChooser(b, { target: b.closest("section.region-b") });
+</script>

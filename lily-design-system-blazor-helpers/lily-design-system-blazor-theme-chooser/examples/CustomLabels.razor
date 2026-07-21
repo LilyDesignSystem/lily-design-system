@@ -1,0 +1,33 @@
+@*
+    Example 4 — Custom labels.
+
+    Default labels title-case the slug ("light" → "Light"). Pass
+    `ThemeLabels` to override per-slug — useful for i18n or for slugs that
+    don't gracefully title-case (e.g. country-prefixed Lily theme slugs).
+*@
+
+@page "/examples/theme-chooser/custom-labels"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<ThemeChooser
+    Label="Thème"
+    ThemesUrl="/assets/themes/"
+    Themes="@(new[]
+    {
+        "light",
+        "dark",
+        "united-kingdom-national-health-service-england-for-patients",
+        "united-kingdom-national-health-service-england-for-practitioners",
+    })"
+    ThemeLabels="@labels" />
+
+@code {
+    private readonly Dictionary<string, string> labels = new()
+    {
+        ["light"] = "Clair",
+        ["dark"] = "Sombre",
+        ["united-kingdom-national-health-service-england-for-patients"] = "NHS England (patients)",
+        ["united-kingdom-national-health-service-england-for-practitioners"] = "NHS England (practitioners)",
+    };
+}

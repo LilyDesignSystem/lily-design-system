@@ -155,12 +155,12 @@ The rendered root is the same shape for all three helpers: a
 `<div class="{helper}">` wrapping a hidden input, a
 `<button class="{helper}-button">` holding a
 `<span class="{helper}-icon">`, and a `<ul class="{helper}-list">` of
-`<li class="{helper}-option">`. Substitute `theme-select`,
-`locale-select`, or `text-size-select` for `{helper}`.
+`<li class="{helper}-option">`. Substitute `theme-chooser`,
+`locale-chooser`, or `text-size-chooser` for `{helper}`.
 
 The consumer's optional `class` attribute on the custom element is
-re-applied to that rendered root, so `<theme-select
-class="extra-class">` produces `<div class="theme-select
+re-applied to that rendered root, so `<theme-chooser
+class="extra-class">` produces `<div class="theme-chooser
 extra-class">`.
 
 ## SSR
@@ -184,10 +184,10 @@ Everything visual and locale-specific is the consumer's. See
 ## Naming
 
 - Class hooks are kebab-case derivatives of the tag name:
-  `theme-select`, `theme-select-button`, `theme-select-icon`,
-  `theme-select-list`, `theme-select-option`.
+  `theme-chooser`, `theme-chooser-button`, `theme-chooser-icon`,
+  `theme-chooser-list`, `theme-chooser-option`.
 - Data attributes the consumer / CSS may want to observe use
-  `data-*` (e.g. `data-theme`, `data-lily-theme-select`).
+  `data-*` (e.g. `data-theme`, `data-lily-theme-chooser`).
 - Don't introduce new ARIA attributes — use the platform's.
 
 ## Pure helpers exported from each module

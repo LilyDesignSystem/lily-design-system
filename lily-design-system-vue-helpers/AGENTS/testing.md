@@ -33,7 +33,7 @@ export default defineConfig({
 ```ts
 import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
-import ThemeSelect from "./ThemeSelect.vue";
+import ThemeChooser from "./ThemeChooser.vue";
 
 beforeEach(() => {
     document.head.innerHTML = "";
@@ -44,7 +44,7 @@ beforeEach(() => {
 });
 
 it("renders a select with the consumer's aria-label", async () => {
-    const wrapper = mount(ThemeSelect, {
+    const wrapper = mount(ThemeChooser, {
         props: {
             label: "Theme",
             themesUrl: "/themes/",
@@ -78,7 +78,7 @@ it("renders a select with the consumer's aria-label", async () => {
 sides like so:
 
 ```ts
-const wrapper = mount(ThemeSelect, {
+const wrapper = mount(ThemeChooser, {
     props: {
         label: "Theme",
         themesUrl: "/themes/",
@@ -90,7 +90,7 @@ const wrapper = mount(ThemeSelect, {
 ```
 
 This makes the wrapper behave as if it were rendered inside a parent
-with `<ThemeSelect v-model:value="theme" />`.
+with `<ThemeChooser v-model:value="theme" />`.
 
 ## Scoped-slot tests
 
@@ -99,7 +99,7 @@ args:
 
 ```ts
 let captured: any = null;
-const wrapper = mount(ThemeSelect, {
+const wrapper = mount(ThemeChooser, {
     props: { label: "T", themesUrl: "/t/", themes: ["a", "b"] },
     slots: {
         default: (args: any) => {
@@ -124,7 +124,7 @@ import { renderToString } from "vue/server-renderer";
 import { createSSRApp } from "vue";
 
 const html = await renderToString(
-    createSSRApp(ThemeSelect, {
+    createSSRApp(ThemeChooser, {
         label: "Theme",
         themesUrl: "/t/",
         themes: ["light", "dark"],

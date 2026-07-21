@@ -1,0 +1,55 @@
+@*
+    Example 1 — Basic usage.
+
+    The minimum viable select: a label and a slug list. The control
+    resolves "medium" as the initial active size (since "medium" is in
+    the list) and sets data-text-size="medium" on <html>.
+
+    The status line is part of the pattern, not an extra. The control is
+    an icon button: it shows only the "A" glyph and its accessible name
+    is always the Label ("Text size"), never the active size name — so
+    without this line neither a sighted user nor a screen reader can
+    read the current selection back off the closed control. See
+    docs/accessibility.md.
+
+    aria-live="polite" announces mutations only, so this stays silent on
+    first paint and speaks once on each subsequent change — exactly what
+    a text-size switch warrants (it is not an interruption).
+
+    It is rendered visible on purpose: sighted users need the selection
+    echoed too, and visible text helps cognitive accessibility. If a
+    design genuinely cannot spare the space, keep the element and hide
+    it with a visually-hidden (sr-only) class rather than deleting it —
+    see docs/styling.md for the recipe.
+
+    The CSS that actually resizes the page is yours; see the mapping in
+    docs/styling.md. Use relative units on :root so every descendant
+    inherits, or the user's choice is silently ignored (WCAG 1.4.4).
+*@
+
+@page "/examples/text-size-chooser/basic"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<TextSizeChooser
+    Label="Text size"
+    Sizes="@Sizes"
+    @bind-Value="size" />
+
+<p class="text-size-chooser-status" aria-live="polite">
+    Text size: @SizeLabel(size)
+</p>
+
+@code {
+    private static readonly string[] Sizes =
+        new[] { "small", "medium", "large", "x-large" };
+
+    private string size = "";
+
+    // SizeName is the component's own title-casing rule, exported so the
+    // status line reads "X Large", not "x-large", and can never drift
+    // from the option labels. If you pass a SizeLabels dictionary to the
+    // select, look the label up in that same dictionary instead.
+    private static string SizeLabel(string slug) =>
+        string.IsNullOrEmpty(slug) ? "none" : TextSizeChooser.SizeName(slug);
+}

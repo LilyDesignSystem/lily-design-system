@@ -117,7 +117,7 @@ selection. The custom-named model (`value` rather than the default
 `bind:value`:
 
 ```html
-<lily-theme-select [(value)]="theme" ... />
+<lily-theme-chooser [(value)]="theme" ... />
 ```
 
 The component reads via `this.value()` and writes via
@@ -167,8 +167,8 @@ Consumers wanting to forward additional `data-*` attributes or event
 handlers attach them directly on the host:
 
 ```html
-<lily-theme-select
-  data-testid="theme-select"
+<lily-theme-chooser
+  data-testid="theme-chooser"
   (click)="trackClick($event)"
   ...
 />
@@ -176,8 +176,8 @@ handlers attach them directly on the host:
 
 Angular forwards host bindings to the component's root element via
 the host element itself; the consumer's bindings sit on the
-`<lily-theme-select>` host tag, not on the inner `<select>`. CSS
-selectors that target the helper's class hook (`.theme-select`) still
+`<lily-theme-chooser>` host tag, not on the inner `<select>`. CSS
+selectors that target the helper's class hook (`.theme-chooser`) still
 work because the inner root has that class.
 
 ## SSR
@@ -206,15 +206,15 @@ Everything visual and locale-specific is the consumer's. See
 
 ## Naming
 
-- **Selector**: `lily-{kebab-name}` — e.g. `lily-theme-select`,
-  `lily-locale-select`. The `lily-` prefix avoids collisions with
+- **Selector**: `lily-{kebab-name}` — e.g. `lily-theme-chooser`,
+  `lily-locale-chooser`. The `lily-` prefix avoids collisions with
   consumer components.
 - **Class hooks** on the inner root are kebab-case derivatives of
-  the file name: `theme-select`, `theme-select-option`,
-  `locale-select`, `locale-select-option` (locale options also carry
+  the file name: `theme-chooser`, `theme-chooser-option`,
+  `locale-chooser`, `locale-chooser-option` (locale options also carry
   a `lang` attribute).
 - **Data attributes** the consumer / CSS may want to observe use
-  `data-*` (e.g. `data-theme`, `data-lily-theme-select`).
+  `data-*` (e.g. `data-theme`, `data-lily-theme-chooser`).
 - **Don't introduce new ARIA attributes** — use the platform's.
 
 ## What we don't use

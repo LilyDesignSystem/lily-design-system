@@ -9,10 +9,46 @@ and the project follows
 
 ## Unreleased
 
+### Changed (BREAKING)
+
+- **All four helpers renamed to `*-chooser`, and all four reset to
+  0.1.0.** The packages are now
+  `lily-design-system-html-theme-chooser`,
+  `lily-design-system-html-locale-chooser`,
+  `lily-design-system-html-text-size-chooser`, and
+  `lily-design-system-html-share-chooser`. Nothing had been published
+  under the new names, so each version resets to 0.1.0 rather than
+  implying releases that never existed. The rename also clears the
+  collision between the old `theme-select` helper and the Lily catalog
+  component of the same name.
+- Custom element tags: `<theme-select>` → `<theme-chooser>`,
+  `<locale-select>` → `<locale-chooser>`, `<text-size-select>` →
+  `<text-size-chooser>`, `<share-button>` → `<share-chooser>`, along
+  with their `customElements.define(...)` calls.
+- Classes: `ThemeSelect` → `ThemeChooser`, `LocaleSelect` →
+  `LocaleChooser`, `TextSizeSelect` → `TextSizeChooser`, `ShareButton`
+  → `ShareChooser`, plus derived exports such as `nextThemeSelectId` →
+  `nextThemeChooserId`.
+- CSS class hooks: every `.theme-select*` / `.locale-select*` /
+  `.text-size-select*` / `.share-button*` hook becomes `.*-chooser*`.
+- Data attributes: `data-lily-theme-select` →
+  `data-lily-theme-chooser`, and the same shape for the siblings.
+- **`share-chooser` loses its trigger-class exception.** The trigger is
+  now `.share-chooser-button`, matching the other three helpers; it was
+  `.share-button-trigger` only because `.share-button-button` read
+  badly.
+- Event names are unchanged — `themechange`, `localechange`,
+  `textsizechange`, `share`, `copy`, `nativeshare` — as is
+  `share-chooser`'s `share-title` attribute, which avoids shadowing the
+  global `title`.
+- The catalog `build` script now **discovers** helper packages by
+  globbing `lily-design-system-html-*/index.ts` instead of carrying a
+  hardcoded package list, and fails loudly if it finds none.
+
 ### Added
 
-- **`share-button` 0.1.0** — a new helper, ported from the canonical
-  `lily-design-system-svelte-share-button`. A single-glyph trigger (↪,
+- **`share-chooser` 0.1.0** — a new helper, ported from the canonical
+  `lily-design-system-svelte-share-chooser`. A single-glyph trigger (↪,
   U+21AA) that opens the **native share sheet** where the browser
   provides one, and otherwise a **disclosure list** of consumer-supplied
   destinations plus an optional copy-the-URL action. Ships no CSS, no
@@ -25,7 +61,7 @@ and the project follows
   one-rendering-shape rule. Share destinations are navigation, so they
   are real `<a>` elements with **no `role` override** and focus moves to
   the item — a disclosure, not the APG listbox with
-  `aria-activedescendant` that the three `*-select` helpers use.
+  `aria-activedescendant` that the three preference helpers use.
   `role="menuitem"` or `role="option"` would strip middle-click,
   open-in-new-tab and copy-link-address.
 - Two forced deviations from the cross-framework API, both documented:
@@ -41,21 +77,21 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `text-size-select` is now an **icon button that opens a WAI-ARIA APG
-  listbox**, matching `theme-select` and `locale-select`. It was
+- `text-size-chooser` is now an **icon button that opens a WAI-ARIA APG
+  listbox**, matching `theme-chooser` and `locale-chooser`. It was
   deliberately left as a native `<select>` when those two converted;
   it now joins them, so all three helpers in this catalog are the same
   shape and share one keyboard implementation.
 - DOM contract replaced. The rendered root is a
-  `<div class="text-size-select {class}">` holding a hidden
+  `<div class="text-size-chooser {class}">` holding a hidden
   `<input name="{name}">`, a
-  `<button class="text-size-select-button" aria-haspopup="listbox"
+  `<button class="text-size-chooser-button" aria-haspopup="listbox"
   aria-expanded aria-controls>` whose content defaults to
-  `<span class="text-size-select-icon" aria-hidden="true">A</span>`,
-  and a `<ul class="text-size-select-list" role="listbox" tabindex="-1"
-  hidden>` of `<li class="text-size-select-option" role="option">`.
+  `<span class="text-size-chooser-icon" aria-hidden="true">A</span>`,
+  and a `<ul class="text-size-chooser-list" role="listbox" tabindex="-1"
+  hidden>` of `<li class="text-size-chooser-option" role="option">`.
   The `<select>` and its `<option>` children are gone. Consumer CSS
-  targeting `select.text-size-select` or `option.text-size-select-option`
+  targeting `select.text-size-chooser` or `option.text-size-chooser-option`
   must be rewritten, and the list needs positioning
   (`position: absolute`) or it renders in normal flow.
 - The keyboard contract is now implemented in JS rather than inherited
@@ -75,7 +111,7 @@ and the project follows
   `localeName`. The internal `labelFor` delegates to it, so there is
   exactly one implementation of the title-casing rule.
 - `LATIN_CAPITAL_LETTER_A` exported glyph constant, and
-  `nextTextSizeSelectId()` for the SSR-safe module-counter ids.
+  `nextTextSizeChooserId()` for the SSR-safe module-counter ids.
 - `renderButtonContent()` — the overridable rendering hook standing in
   for the `children` snippet the Svelte/React/Vue siblings take. It
   re-runs on every structural rebuild *and* every state sync, so
@@ -108,7 +144,7 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `theme-select` and `locale-select` bumped to **0.3.0**: both are now
+- `theme-chooser` and `locale-chooser` bumped to **0.3.0**: both are now
   *placeholder-pinned*. The closed `<select>` always displays a short
   placeholder word ("Theme", "Locale") instead of the active value, so
   the control is only ever as wide as that word rather than as wide as
@@ -122,7 +158,7 @@ and the project follows
   selection. The bindable `value` prop is the single source of truth.
   Behaviour contracts (DOM application, persistence, SSR safety, i18n)
   are otherwise unchanged.
-- `text-size-select` is untouched and stays at **0.1.0**.
+- `text-size-chooser` is untouched and stays at **0.1.0**.
 
 ### Added
 
@@ -137,7 +173,7 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `theme-select` and `locale-select` bumped to **0.2.0**: migrated from
+- `theme-chooser` and `locale-chooser` bumped to **0.2.0**: migrated from
   the radio-group "picker" rendering to a native `<select>` with
   `<option>` children (landed in-tree 2026-06-17), with renamed packages
   (`*-picker` → `*-select`), changed class hooks, and native `<select>`
@@ -146,7 +182,7 @@ and the project follows
 
 ### Added
 
-- `text-size-select` **0.1.0** — native-`<select>` text-size helper that
+- `text-size-chooser` **0.1.0** — native-`<select>` text-size helper that
   sets `data-text-size` on the document root, with optional
   `localStorage` persistence (added 2026-06-17; born select-based, so it
   carries no picker migration).
@@ -158,14 +194,14 @@ catalog to vanilla web-component (custom-element) idioms:
 
 ### Added
 
-- `lily-design-system-html-theme-select` v0.1.0 — `<theme-select>`
-  runtime-loading theme select. Imperatively swaps a managed
-  `<link rel="stylesheet" data-lily-theme-select="{name}">` in
+- `lily-design-system-html-theme-chooser` v0.1.0 — `<theme-chooser>`
+  runtime-loading theme chooser. Imperatively swaps a managed
+  `<link rel="stylesheet" data-lily-theme-chooser="{name}">` in
   `<head>`, writes `data-theme` to `<html>`, optionally persists to
   `localStorage`, dispatches a `themechange` `CustomEvent`. 13
   acceptance criteria covered.
-- `lily-design-system-html-locale-select` v0.1.0 — `<locale-select>`
-  BCP 47 locale select that writes `lang` and `dir` on the document
+- `lily-design-system-html-locale-chooser` v0.1.0 — `<locale-chooser>`
+  BCP 47 locale chooser that writes `lang` and `dir` on the document
   root, with optional `localStorage` persistence and
   `navigator.languages` detection. Built-in 436-row locale-name
   table and RTL detection. Dispatches a `localechange`

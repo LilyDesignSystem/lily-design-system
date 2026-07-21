@@ -2274,26 +2274,26 @@
         color: var(--lily-text);
     }
 
-    /* theme-select and locale-select ship as an icon button that opens a
-       listbox, so they are styled as a popup rather than a form field.
-       The :has() guard scopes these to the *-helpers packages: the
-       catalog theme-select component shares the class hook but is a
-       native <select> and keeps the form-field rules above. */
+    /* The four *-chooser helpers are an icon button that opens a popup,
+       so they are styled as a popup rather than a form field. No :has()
+       guard is needed any more: before the July 2026 rename these shared
+       the `.theme-select` hook with the catalog theme-select component
+       and had to be told apart. Distinct names, no collision. */
     :where(
-        .theme-select:has(> .theme-select-button),
-        .locale-select:has(> .locale-select-button),
-        .text-size-select:has(> .text-size-select-button),
-        .share-button
+        .theme-chooser,
+        .locale-chooser,
+        .text-size-chooser,
+        .share-chooser
     ) {
         position: relative;
         display: inline-block;
     }
 
     :where(
-        .theme-select-button,
-        .locale-select-button,
-        .text-size-select-button,
-        .share-button-trigger
+        .theme-chooser-button,
+        .locale-chooser-button,
+        .text-size-chooser-button,
+        .share-chooser-button
     ) {
         display: inline-flex;
         align-items: center;
@@ -2323,50 +2323,50 @@
 
        The ratio depends on the consumer's font stack, so the factor is
        a custom property rather than a baked-in number: override
-       --lily-select-icon-scale if your stack resolves these glyphs to
+       --lily-chooser-icon-scale if your stack resolves these glyphs to
        different faces than the reference measurement. */
     :where(
-        .theme-select-icon,
-        .locale-select-icon,
-        .text-size-select-icon,
-        .share-button-icon
+        .theme-chooser-icon,
+        .locale-chooser-icon,
+        .text-size-chooser-icon,
+        .share-chooser-icon
     ) {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: calc(1.25em * var(--lily-select-icon-scale, 1));
+        font-size: calc(1.25em * var(--lily-chooser-icon-scale, 1));
         line-height: 1;
     }
 
     /* U+25D1 is the reference: no correction. */
-    :where(.theme-select-icon) {
-        --lily-select-icon-scale: 1;
+    :where(.theme-chooser-icon) {
+        --lily-chooser-icon-scale: 1;
     }
 
     /* U+1F310 inks 1.183x the reference, so scale it by 1/1.183. */
-    :where(.locale-select-icon) {
-        --lily-select-icon-scale: 0.845;
+    :where(.locale-chooser-icon) {
+        --lily-chooser-icon-scale: 0.845;
     }
 
     /* U+0041 "A" is a cap-height letter, so it inks only 0.673 of its em
        box against U+25D1's 0.842 — it needs scaling UP, not down. */
-    :where(.text-size-select-icon) {
-        --lily-select-icon-scale: 1.25;
+    :where(.text-size-chooser-icon) {
+        --lily-chooser-icon-scale: 1.25;
     }
 
     /* U+21AA "↪" is a small arrow glyph, inking only 0.633 of its em box
        against U+25D1's 0.842, so it scales up by 0.842/0.633. */
-    :where(.share-button-icon) {
-        --lily-select-icon-scale: 1.331;
+    :where(.share-chooser-icon) {
+        --lily-chooser-icon-scale: 1.331;
     }
 
     /* The share list holds real links and a button rather than options,
        so its items get the same padding without the option selectors. */
-    :where(.share-button-list) > :where(.share-button-list-item) {
+    :where(.share-chooser-list) > :where(.share-chooser-list-item) {
         list-style: none;
     }
 
-    :where(.share-button-target, .share-button-copy) {
+    :where(.share-chooser-target, .share-chooser-copy) {
         display: block;
         width: 100%;
         padding: var(--lily-space-xs) var(--lily-space-sm);
@@ -2379,23 +2379,23 @@
         cursor: pointer;
     }
 
-    :where(.share-button-target:hover, .share-button-copy:hover) {
+    :where(.share-chooser-target:hover, .share-chooser-copy:hover) {
         background-color: var(--lily-surface-alt);
     }
 
     /* Copy feedback. Never display:none this — that silences the live
        region for screen-reader users. */
-    :where(.share-button-status) {
+    :where(.share-chooser-status) {
         margin-block-start: var(--lily-space-xs);
         font-size: 0.875em;
         color: var(--lily-text-muted);
     }
 
     :where(
-        .theme-select-list,
-        .locale-select-list,
-        .text-size-select-list,
-        .share-button-list
+        .theme-chooser-list,
+        .locale-chooser-list,
+        .text-size-chooser-list,
+        .share-chooser-list
     ) {
         position: absolute;
         z-index: 10;
@@ -2416,19 +2416,19 @@
     /* Explicit, because the rules above would otherwise beat the UA
        stylesheet's [hidden] { display: none }. */
     :where(
-        .theme-select-list,
-        .locale-select-list,
-        .text-size-select-list,
-        .share-button-list
+        .theme-chooser-list,
+        .locale-chooser-list,
+        .text-size-chooser-list,
+        .share-chooser-list
     )[hidden] {
         display: none;
     }
 
-    :where(.theme-select-list, .locale-select-list, .text-size-select-list)
+    :where(.theme-chooser-list, .locale-chooser-list, .text-size-chooser-list)
         > :where(
-            .theme-select-option,
-            .locale-select-option,
-            .text-size-select-option
+            .theme-chooser-option,
+            .locale-chooser-option,
+            .text-size-chooser-option
         ) {
         padding: var(--lily-space-xs) var(--lily-space-sm);
         border-radius: var(--lily-radius-sm);
@@ -2437,7 +2437,7 @@
 
     /* data-active is the keyboard cursor (aria-activedescendant); focus
        stays on the listbox, so this is the only visible cue for it. */
-    :where(.theme-select-list, .locale-select-list, .text-size-select-list)
+    :where(.theme-chooser-list, .locale-chooser-list, .text-size-chooser-list)
         > :where([data-active]) {
         background-color: var(--lily-surface-alt);
         outline: var(--lily-focus-ring);
@@ -2446,14 +2446,14 @@
 
     /* aria-selected marks the applied theme/locale, which is not the
        same thing as the keyboard cursor. Both can be visible at once. */
-    :where(.theme-select-list, .locale-select-list, .text-size-select-list)
+    :where(.theme-chooser-list, .locale-chooser-list, .text-size-chooser-list)
         > :where([aria-selected="true"]) {
         font-weight: 600;
         background-color: var(--lily-surface-sunken);
     }
 
     /* Locale options inherit the select colours, same as theme options. */
-    :where(.locale-select-option) {
+    :where(.locale-chooser-option) {
         background-color: var(--lily-surface);
         color: var(--lily-text);
     }

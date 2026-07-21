@@ -11,10 +11,10 @@ specific pattern.
 | Standard / pattern             | Where it applies                                       |
 | ------------------------------ | ------------------------------------------------------ |
 | WCAG 2.2 AAA                   | Every helper, every demo, every example.               |
-| HTML Living Standard — `<select>` | `ThemeSelect`, `LocaleSelect` default rendering.    |
+| HTML Living Standard — `<select>` | `ThemeChooser`, `LocaleChooser` default rendering.    |
 | WAI-ARIA APG 1.2 — Combobox    | Optional rendering via `children` render prop.         |
 | HTML Living Standard           | `lang`, `dir`, `select`, `option`.                     |
-| RFC 5646 (BCP 47)              | `LocaleSelect` `lang` attribute output.                |
+| RFC 5646 (BCP 47)              | `LocaleChooser` `lang` attribute output.                |
 
 ## Required commitments
 
@@ -49,16 +49,16 @@ specific pattern.
 | `<select>`                     | `aria-label={label}`       | Consumer prop     |
 | `<select>`                     | `name`                     | Component         |
 | `<option>`                     | Implicit `role="option"`   | Browser           |
-| `<option>` (LocaleSelect only) | `lang="{tagFor(locale)}"`  | Component         |
+| `<option>` (LocaleChooser only) | `lang="{tagFor(locale)}"`  | Component         |
 
 The components do not add any manual focus management or
 `aria-activedescendant`. The native `<select>` element already
 implements the listbox/combobox behaviour the operating system
 provides.
 
-## Per-option language (LocaleSelect)
+## Per-option language (LocaleChooser)
 
-`LocaleSelect` carries `lang` on each `<option>` so screen
+`LocaleChooser` carries `lang` on each `<option>` so screen
 readers pronounce the option text in the correct language. This is
 WCAG 3.1.2 (Language of Parts).
 
@@ -130,7 +130,7 @@ Tested against the major combinations:
 | JAWS       | Windows  | Chrome    | "{label} combo box, {option}, 1 of N". |
 | TalkBack   | Android  | Chrome    | "{label}, {option}, drop-down list, 1 of N, double-tap to activate". |
 
-For `LocaleSelect`, "lang-correct pronunciation" depends on the
+For `LocaleChooser`, "lang-correct pronunciation" depends on the
 reader having a matching voice package installed. NVDA's default
 ships with English only; users add other voices through eSpeak NG
 or commercial voice packs.
@@ -142,8 +142,8 @@ large, 7:1 AAA) is the consumer's CSS responsibility. Safe defaults
 for the selected option:
 
 ```css
-.theme-select option:checked,
-.locale-select option:checked {
+.theme-chooser option:checked,
+.locale-chooser option:checked {
     color: var(--theme-color-primary, #003087);
     font-weight: 600;
 }

@@ -17,8 +17,8 @@ from Svelte to Angular.
 
 All three helpers render an icon button that opens a custom
 [WAI-ARIA APG listbox](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/).
-None of them uses a native `<select>` any more — `theme-select` and
-`locale-select` migrated first, and `text-size-select` joined them,
+None of them uses a native `<select>` any more — `theme-chooser` and
+`locale-chooser` migrated first, and `text-size-chooser` joined them,
 so the three are structurally identical.
 
 There is **no native control underneath**. Every role, state, focus
@@ -44,7 +44,7 @@ marks the value actually in effect. They are usually on different
 options — never treat them as interchangeable.
 
 Element ids come from each helper's module-counter id generator
-(`nextThemeSelectId`, `nextLocaleSelectId`, `nextTextSizeSelectId`)
+(`nextThemeChooserId`, `nextLocaleChooserId`, `nextTextSizeChooserId`)
 — deterministic, unique per instance, and identical across server and
 client renders, so the wiring survives hydration. Never use
 `Math.random` or `Date.now`.
@@ -97,9 +97,9 @@ plainly, and new helpers must do the same rather than glossing them:
    the mobile platform picker. A native `<select>` remains the better
    control for some audiences; choosing one over these helpers is a
    legitimate decision.
-3. The default glyph is font-dependent. `theme-select`'s `◑` (U+25D1)
+3. The default glyph is font-dependent. `theme-chooser`'s `◑` (U+25D1)
    may render as tofu or in an unexpected weight;
-   `text-size-select`'s `"A"` (U+0041) is materially safer, being an
+   `text-size-chooser`'s `"A"` (U+0041) is materially safer, being an
    ordinary letter in the page's own font.
 
 The compensating pattern — a visible `aria-live="polite"` status
@@ -148,16 +148,16 @@ when closed.
 ### `host` bindings vs root element bindings
 
 Angular forwards `class`, `style`, and `(event)` bindings declared
-on the host element (`<lily-theme-select>`) onto a host node, not
+on the host element (`<lily-theme-chooser>`) onto a host node, not
 onto the inner root `<div>` the helper renders. This means a
-consumer who writes `<lily-theme-select class="my-extra">` ends up
+consumer who writes `<lily-theme-chooser class="my-extra">` ends up
 with `class="my-extra"` on the *outer* host node, not on the root
 `<div>`. To get a single class hook the consumer can style, the
 helpers expose a `className` input that the consumer threads through
 to the inner root:
 
 ```html
-<lily-theme-select [className]="'my-extra'" ... />
+<lily-theme-chooser [className]="'my-extra'" ... />
 ```
 
 This is the Angular equivalent of Vue's `inheritAttrs`-driven
@@ -180,7 +180,7 @@ exists).
 
 ### `lang` on inner options
 
-The `LocaleSelect`'s default template carries
+The `LocaleChooser`'s default template carries
 `[attr.lang]="tagFor(locale)"` on each `<li role="option">` so screen
 readers switch pronunciation per option. `tagFor` is part of the
 public contract for that reason.
@@ -213,7 +213,7 @@ Changing the value programmatically via `[(value)]` never moves focus
 (WCAG 3.2.2, On Input). When wiring `(themeChange)` to navigation,
 preserve scroll position and avoid focus jumps.
 
-## Screen-reader pronunciation (locale select)
+## Screen-reader pronunciation (locale chooser)
 
 Each `<li role="option">` carries `lang="…"` so screen readers switch
 pronunciation per option (WCAG 3.1.2, Language of Parts). Custom

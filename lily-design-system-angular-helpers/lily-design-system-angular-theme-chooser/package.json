@@ -1,0 +1,24 @@
+{
+  "name": "lily-design-system-angular-theme-chooser",
+  "version": "0.1.0",
+  "description": "Lily Design System - Angular 20 theme chooser",
+  "peerDependencies": {
+    "@angular/core": ">=20.0.0 <22.0.0",
+    "@angular/common": ">=20.0.0 <22.0.0"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "cd .. && pnpm build",
+    "prepublishOnly": "cd .. && pnpm build"
+  },
+  "keywords": [
+    "lily",
+    "design",
+    "system",
+    "angular",
+    "theme",
+    "chooser"
+  ],
+  "author": "joel@joelparkerhenderson.com",
+  "license": "MIT"
+}

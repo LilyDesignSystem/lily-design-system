@@ -9,6 +9,79 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Helpers renamed to `*-chooser` — 2026-07-21
+
+### Changed (BREAKING — all helper packages)
+
+- Every helper in all seven catalogs is renamed:
+
+  | Was | Now |
+  | --- | --- |
+  | `lily-design-system-{fw}-theme-select` | `lily-design-system-{fw}-theme-chooser` |
+  | `lily-design-system-{fw}-locale-select` | `lily-design-system-{fw}-locale-chooser` |
+  | `lily-design-system-{fw}-text-size-select` | `lily-design-system-{fw}-text-size-chooser` |
+  | `lily-design-system-{fw}-share-button` | `lily-design-system-{fw}-share-chooser` |
+
+- Full depth: directories, npm / NuGet package ids, exported symbols
+  (`ThemeSelect` → `ThemeChooser`, `nextShareButtonId` →
+  `nextShareChooserId`, …), CSS class hooks and every derivative,
+  `data-lily-*-select` → `data-lily-*-chooser`, Angular selectors, HTML
+  custom-element tags, and the `--lily-select-icon-scale` custom
+  property → `--lily-chooser-icon-scale`.
+- `themeName` / `localeName` / `sizeName` and the DOM events
+  (`themechange`, `share`, `copy`, …) are unchanged — none said "select".
+- **`share-chooser` loses its naming exception.** Its trigger hook was
+  `share-button-trigger` because `.share-button-button` read badly; the
+  new name removes the problem, so it is plain `.share-chooser-button`.
+
+### NOT renamed
+
+- The **catalog components** `theme-select` and `theme-select-option` —
+  two of the 490 in `components.tsv` — keep their names, along with
+  their `components/` docs, headless implementations, example demos and
+  github.io routes. They are a different thing from the helpers and are
+  cross-checked by `bin/test`.
+
+### Changed (themes)
+
+- The 45 `themes/*.css` rename the helper hooks and **delete the
+  `:has(> .{helper}-button)` guard**. That guard existed only because the
+  helper and the catalog `theme-select` component shared the
+  `.theme-select` hook and had to be told apart; distinct names remove
+  the collision outright. The catalog component keeps its
+  `select.theme-select` form-field rule.
+
+### Changed (versions)
+
+- Every helper package resets to **0.1.0**. A renamed package has no
+  history under its new name, so numbering a first release 0.4.0 would
+  imply releases that never existed. Nothing had been published, so the
+  reset costs nothing. Each CHANGELOG preserves its pre-rename history
+  below a provenance heading.
+
+### Fixed
+
+- **`el?.scrollIntoView(...)` guarded the element but not the method.**
+  jsdom implements no `scrollIntoView`, so the call threw inside the
+  keydown handler of the canonical theme-chooser and locale-chooser —
+  *after* `activeIndex` was assigned, so 45 unhandled exceptions went by
+  with the suite still green and that code path never running. Now
+  `el?.scrollIntoView?.(...)`. Same shape as the earlier `CSS.escape`
+  bug; the other six catalogs had each independently added the guard.
+- Several catalog build scripts hardcoded package names and would have
+  silently built nothing after the rename. The nunjucks, html, vue and
+  angular scripts now discover packages and **fail loudly** when they
+  find none, closing the "published a package with no code in it"
+  failure mode for good.
+
+### Verification
+
+- 1231 tests pass with **unchanged counts** in every catalog (127
+  svelte, 182 react, 181 vue, 205 angular, 193 html, 221 nunjucks, 122
+  blazor). A rename must not move a test count; where one moved it was a
+  test asserting the retired `share-button-trigger` exception, rewritten
+  rather than deleted.
+
 ## Helpers — text-size-select 0.2.0, share-button 0.1.0 — 2026-07-21
 
 ### Changed (BREAKING — text-size-select)

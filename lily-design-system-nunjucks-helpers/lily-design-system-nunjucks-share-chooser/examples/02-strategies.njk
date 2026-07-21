@@ -1,0 +1,52 @@
+{# Strategy, and the callbacks.
+
+   auto   — native share sheet if the browser has one, else the list.
+   native — always attempt the sheet.
+   list   — never; always the in-page list.
+
+   A DISMISSED sheet ends the interaction. It does not fall through to
+   the list, because that would resurrect UI the user just dismissed.
+#}
+{% from "share-chooser.njk" import shareChooser %}
+
+{% set targets = [
+    {id: "mastodon", label: "Mastodon", href: "https://mastodon.example/share?url=https%3A%2F%2Fexample.test"}
+] %}
+
+{# Predictable everywhere: one behaviour you can test and style. #}
+{{ shareChooser({
+    label: "Share (list only)",
+    name: "list-only",
+    strategy: "list",
+    targets: targets,
+    copyLabel: "Copy link",
+    copiedLabel: "Link copied",
+    copyFailedLabel: "Could not copy — copy the link from the address bar"
+}) }}
+
+{# Platform-native where available. Note the cost: behaviour differs by
+   device, and the OS sheet is a surface you cannot test from your own
+   code. See ../docs/accessibility.md. #}
+{{ shareChooser({
+    label: "Share (native when available)",
+    name: "auto",
+    strategy: "auto",
+    targets: targets,
+    copyLabel: "Copy link"
+}) }}
+
+<script type="module">
+    import { autoInit } from "/js/share-chooser.client.js";
+
+    autoInit({
+        onShare(id, url) {
+            console.log("chose destination", id, "for", url);
+        },
+        onCopy(url) {
+            console.log("copied", url);
+        },
+        onNativeShare(url) {
+            console.log("used the OS share sheet for", url);
+        },
+    });
+</script>

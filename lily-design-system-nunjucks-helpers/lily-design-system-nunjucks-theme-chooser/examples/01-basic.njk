@@ -1,0 +1,55 @@
+{#
+  Example 01 — Basic usage.
+
+  The minimum viable select: a label, a themes directory, and a slug
+  list. The client.js resolves "light" as the initial active theme
+  (since "light" is in the list), sets data-theme="light" on <html>,
+  and injects a <link rel="stylesheet"> pointing at
+  /assets/themes/light.css.
+
+  Drop the macro file alongside this one, the client.js next to that,
+  and load the script tag at the bottom. The script is not optional:
+  the macro renders an icon button plus a hidden listbox, and the
+  button does not open until the client.js runs. See ../docs/ssr.md.
+
+  Note the status region below the control. The trigger is an
+  icon-only button, so it never displays the active theme, and a
+  screen-reader user hears the active theme only after opening the
+  listbox. The status line is part of the default pattern — see
+  ../docs/accessibility.md. Omitting it is the deliberate choice.
+#}
+{% from "../theme-chooser.njk" import themeChooser %}
+
+{{ themeChooser({
+    label: "Theme",
+    themesUrl: "/assets/themes/",
+    themes: ["light", "dark", "abyss"]
+}) }}
+
+{#
+  Visible by default: it helps sighted users and cognitive
+  accessibility too, and WCAG 2.2 AAA favours it. For designs that
+  cannot spare the space, make it visually hidden instead of dropping
+  it — recipe in ../docs/styling.md.
+
+  aria-live="polite" announces mutations only, so this region is
+  silent on first paint and speaks on each subsequent change. That is
+  the intended behaviour.
+#}
+<p class="theme-chooser-status" aria-live="polite"></p>
+
+<script type="module">
+    import { autoInit } from "../theme-chooser.client.js";
+
+    // Show the human label, not the raw slug. These strings are
+    // consumer-supplied and translatable — the helper never hardcodes
+    // user-facing text.
+    const THEME_LABELS = { light: "Light", dark: "Dark", abyss: "Abyss" };
+    const status = document.querySelector(".theme-chooser-status");
+
+    autoInit({
+        onChange(slug) {
+            status.textContent = `Active theme: ${THEME_LABELS[slug] ?? slug}`;
+        },
+    });
+</script>

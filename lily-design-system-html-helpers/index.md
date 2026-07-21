@@ -8,7 +8,7 @@ these helpers wrap a complete lifecycle (selection + persistence +
 DOM application) for one small, common job — and ship that lifecycle
 as a registered custom element you drop into any page.
 
-Most helpers own a **user preference**. `<share-button>` is the first
+Most helpers own a **user preference**. `<share-chooser>` is the first
 that owns an **action** instead: it applies nothing to the document and
 persists nothing, but it owns its interaction end to end and ships the
 same headless contract.
@@ -17,10 +17,10 @@ same headless contract.
 
 | Helper                                                                              | Custom element     | Purpose                                                        |
 | ----------------------------------------------------------------------------------- | ------------------ | -------------------------------------------------------------- |
-| [`lily-design-system-html-theme-select`](./lily-design-system-html-theme-select/)   | `<theme-select>`   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
-| [`lily-design-system-html-locale-select`](./lily-design-system-html-locale-select/) | `<locale-select>`  | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
-| [`lily-design-system-html-text-size-select`](./lily-design-system-html-text-size-select/) | `<text-size-select>` | Pick a text size; sets `data-text-size` on the document root. |
-| [`lily-design-system-html-share-button`](./lily-design-system-html-share-button/) | `<share-button>`   | Share the page: native share sheet, or a disclosure list of your destinations + copy the URL. |
+| [`lily-design-system-html-theme-chooser`](./lily-design-system-html-theme-chooser/)   | `<theme-chooser>`   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
+| [`lily-design-system-html-locale-chooser`](./lily-design-system-html-locale-chooser/) | `<locale-chooser>`  | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-html-text-size-chooser`](./lily-design-system-html-text-size-chooser/) | `<text-size-chooser>` | Pick a text size; sets `data-text-size` on the document root. |
+| [`lily-design-system-html-share-chooser`](./lily-design-system-html-share-chooser/) | `<share-chooser>`   | Share the page: native share sheet, or a disclosure list of your destinations + copy the URL. |
 
 ## Conventions
 
@@ -61,10 +61,10 @@ Shared design decisions across the catalog:
 - **Light DOM**: the custom element itself uses light DOM (not
   Shadow DOM), so the consumer's CSS reaches the rendered markup
   via stable kebab-case class hooks.
-- **One rendering shape per pattern**: the three `*-select` helpers
+- **One rendering shape per pattern**: the three preference helpers
   render an icon button that opens a `role="listbox"` dropdown,
   implementing the WAI-ARIA APG listbox keyboard contract in JS.
-  `<share-button>` is the deliberate exception — its items are links,
+  `<share-chooser>` is the deliberate exception — its items are links,
   so it is a **disclosure** with real `<a>` elements, no `role`
   override, and real focus movement rather than
   `aria-activedescendant`. Because light DOM has no `<slot>`, the
@@ -82,7 +82,7 @@ Shared design decisions across the catalog:
   and `share` / `copy` / `nativeshare`) carrying a strongly-typed
   `detail` object. No `update:value` pattern — the element's
   attribute / property is the source of truth. Where a member cannot
-  be an attribute because it carries a function — `<share-button>`'s
+  be an attribute because it carries a function — `<share-chooser>`'s
   `targets` and its three callbacks — it is exposed as a JS property
   and paired with an event, which is the primary contract.
 - **TypeScript** on the public surface; types exported from
@@ -121,7 +121,7 @@ The helpers commit to a small set of platform features:
   objects).
 - `CustomEvent` for change notifications: `bubbles: true`,
   `composed: true`, `detail` typed via an exported helper type
-  (`ThemeSelectChangeDetail`, `LocaleSelectChangeDetail`).
+  (`ThemeChooserChangeDetail`, `LocaleChooserChangeDetail`).
 - Imperative DOM mutation in the element body — no template
   libraries, no Shadow DOM, no string templating helpers.
 
@@ -132,7 +132,7 @@ and tests stay in lock-step across frameworks.
 
 The HTML headless library mirrors the canonical 490-component
 catalog. Each entry is a static HTML snippet plus a minimal
-initialisation hook. A consumer typing on top of `theme-select.html`
+initialisation hook. A consumer typing on top of `theme-chooser.html`
 from `lily-design-system-html-headless` writes their own radio
 markup, their own persistence, and their own dynamic loading.
 
@@ -182,7 +182,7 @@ file matches one `it(...)` per numbered item, named with the section
 number for fast cross-referencing.
 
 ```bash
-cd lily-design-system-html-theme-select
+cd lily-design-system-html-theme-chooser
 pnpm test
 ```
 

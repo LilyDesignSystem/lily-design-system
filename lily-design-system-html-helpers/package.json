@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Lily Design System - HTML (web component) helpers catalog (dev/test harness)",
   "scripts": {
-    "build": "for d in lily-design-system-html-theme-select lily-design-system-html-locale-select lily-design-system-html-text-size-select lily-design-system-html-share-button; do tsup \"$d/index.ts\" --format esm --dts --out-dir \"$d/dist\" || exit 1; done",
+    "build": "found=0; for e in lily-design-system-html-*/index.ts; do [ -f \"$e\" ] || continue; found=1; d=$(dirname \"$e\"); echo \"building $d\"; tsup \"$e\" --format esm --dts --out-dir \"$d/dist\" || exit 1; done; [ \"$found\" = 1 ] || { echo 'build: no helper packages discovered' >&2; exit 1; }",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui"

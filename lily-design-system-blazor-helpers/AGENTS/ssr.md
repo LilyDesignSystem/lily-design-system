@@ -132,7 +132,7 @@ record ThemeBody(string Theme);
 ```razor
 @inject NavigationManager Nav
 
-<ThemeSelect
+<ThemeChooser
     Label="Theme"
     ThemesUrl="/assets/themes/"
     Themes="@(new[]{ "light", "dark", "abyss" })"
@@ -171,7 +171,7 @@ Same shape; substitute `lang` and `dir`:
 @{
     var cookieLocale = HttpContextAccessor.HttpContext?
         .Request.Cookies["locale"] ?? "en";
-    var dir = LocaleSelectDirection(cookieLocale);
+    var dir = LocaleChooserDirection(cookieLocale);
 }
 <html lang="@cookieLocale" dir="@dir">
     <head>…</head>
@@ -181,11 +181,11 @@ Same shape; substitute `lang` and `dir`:
 </html>
 ```
 
-Where `LocaleSelectDirection` can call the public helper
-`Locales.IsRtlLocale(code)` from `lily-design-system-blazor-locale-select`.
+Where `LocaleChooserDirection` can call the public helper
+`Locales.IsRtlLocale(code)` from `lily-design-system-blazor-locale-chooser`.
 
 ```csharp
-private static string LocaleSelectDirection(string code) =>
+private static string LocaleChooserDirection(string code) =>
     LilyDesignSystem.Blazor.Helpers.Locales.IsRtlLocale(code) ? "rtl" : "ltr";
 ```
 
@@ -197,7 +197,7 @@ the right resource set), wire the select's `OnChange` to set
 `CultureInfo.DefaultThreadCurrentCulture`:
 
 ```razor
-<LocaleSelect
+<LocaleChooser
     Label="Language"
     Locales="@(new[]{ "en", "fr", "ar" })"
     @bind-Value="locale"

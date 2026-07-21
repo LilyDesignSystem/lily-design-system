@@ -10,10 +10,10 @@ DOM application) for one small, common job.
 
 | Helper                                                                            | Purpose                                                        |
 | --------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`lily-design-system-vue-theme-select`](./lily-design-system-vue-theme-select/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
-| [`lily-design-system-vue-locale-select`](./lily-design-system-vue-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
-| [`lily-design-system-vue-text-size-select`](./lily-design-system-vue-text-size-select/) | Pick a text size; sets `data-text-size` on the document root. |
-| [`lily-design-system-vue-share-button`](./lily-design-system-vue-share-button/) | Share the page: native share sheet where available, else a destination list + copy the URL. |
+| [`lily-design-system-vue-theme-chooser`](./lily-design-system-vue-theme-chooser/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
+| [`lily-design-system-vue-locale-chooser`](./lily-design-system-vue-locale-chooser/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-vue-text-size-chooser`](./lily-design-system-vue-text-size-chooser/) | Pick a text size; sets `data-text-size` on the document root. |
+| [`lily-design-system-vue-share-chooser`](./lily-design-system-vue-share-chooser/) | Share the page: native share sheet where available, else a destination list + copy the URL. |
 
 ## Conventions
 
@@ -54,11 +54,11 @@ Shared design decisions across the catalog:
 - **SSR-safe**: no DOM writes outside `onMounted` / `watch`.
 - **i18n-clean**: every user-facing string comes from a prop.
 - **One job per helper**: each helper owns one complete interaction
-  end to end and composes cleanly with the others. For the `*-select`
-  helpers that job is a user-preference lifecycle (selection + DOM
-  application + optional persistence); for `share-button` it is an
-  **action** — it applies nothing to the document and persists
-  nothing.
+  end to end and composes cleanly with the others. For the three
+  `*-chooser` preference helpers that job is a user-preference
+  lifecycle (selection + DOM application + optional persistence); for
+  `share-chooser` it is an **action** — it applies nothing to the
+  document and persists nothing.
 - **Spec-driven**: every helper has a `spec/index.md` numbered with §
   references; tests assert against those numbers; docs link back.
 
@@ -66,7 +66,7 @@ Shared design decisions across the catalog:
 
 The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle. A consumer
-typing on top of `ThemeSelect` from `lily-design-system-vue-headless`
+typing on top of `ThemeChooser` from `lily-design-system-vue-headless`
 writes their own option markup, their own persistence, and their own
 loading.
 
@@ -108,7 +108,7 @@ Each helper ships a vitest suite that runs under jsdom +
 item, named with the section number for fast cross-referencing.
 
 ```bash
-cd lily-design-system-vue-theme-select
+cd lily-design-system-vue-theme-chooser
 pnpm test
 ```
 

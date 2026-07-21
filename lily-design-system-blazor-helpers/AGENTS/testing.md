@@ -48,9 +48,9 @@ using Xunit;
 
 namespace LilyDesignSystem.Blazor.Helpers.Tests;
 
-public class ThemeSelectTests : TestContext
+public class ThemeChooserTests : TestContext
 {
-    public ThemeSelectTests()
+    public ThemeChooserTests()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
         JSInterop.SetupVoid("eval", _ => true).SetVoidResult();
@@ -72,7 +72,7 @@ shape covers the catalog.
 [Fact]
 public void Section_7_1_Renders_Button_And_Listbox()
 {
-    var cut = RenderComponent<ThemeSelect>(p => p
+    var cut = RenderComponent<ThemeChooser>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, "/assets/themes/")
         .Add(x => x.Themes, new[] { "light", "dark" }));
@@ -89,14 +89,14 @@ public void Section_7_1_Renders_Button_And_Listbox()
 }
 ```
 
-`TextSizeSelect` mounts identically; only the required parameters
+`TextSizeChooser` mounts identically; only the required parameters
 differ (`Label` + `Sizes`, no URL):
 
 ```csharp
 [Fact]
 public void Section_7_1_Renders_Button_And_Listbox()
 {
-    var cut = RenderComponent<TextSizeSelect>(p => p
+    var cut = RenderComponent<TextSizeChooser>(p => p
         .Add(x => x.Label, "Text size")
         .Add(x => x.Sizes, new[] { "small", "medium" }));
 
@@ -134,7 +134,7 @@ when the handler awaits interop you then assert on.
 A full open-move-select cycle:
 
 ```csharp
-var cut = RenderComponent<ThemeSelect>(p => p
+var cut = RenderComponent<ThemeChooser>(p => p
     .Add(x => x.Label, "Theme")
     .Add(x => x.ThemesUrl, "/assets/themes/")
     .Add(x => x.Themes, new[] { "light", "dark", "abyss" }));
@@ -174,8 +174,8 @@ move and swallows the matching event. Tests have to reproduce both:
 
 ```csharp
 cut.Find("button").Click();                 // open; focus moves to the <ul>
-cut.Find("div.theme-select").FocusOut();    // swallowed — the component's own move
-cut.Find("div.theme-select").FocusOut();    // the real departure
+cut.Find("div.theme-chooser").FocusOut();    // swallowed — the component's own move
+cut.Find("div.theme-chooser").FocusOut();    // the real departure
 Assert.NotNull(cut.Find("ul").GetAttribute("hidden"));
 ```
 
@@ -191,7 +191,7 @@ wire the callback explicitly:
 
 ```csharp
 var captured = "";
-var cut = RenderComponent<ThemeSelect>(p => p
+var cut = RenderComponent<ThemeChooser>(p => p
     .Add(x => x.Label, "Theme")
     .Add(x => x.ThemesUrl, "/t/")
     .Add(x => x.Themes, new[] { "light", "dark" })
@@ -233,7 +233,7 @@ button**, not the options, and the context is
 `{ Value, Open, LabelFor }`:
 
 ```csharp
-RenderFragment<ThemeSelectContext> custom = ctx => builder =>
+RenderFragment<ThemeChooserContext> custom = ctx => builder =>
 {
     builder.OpenElement(0, "span");
     builder.AddAttribute(1, "data-testid", "custom");
@@ -242,7 +242,7 @@ RenderFragment<ThemeSelectContext> custom = ctx => builder =>
     builder.CloseElement();
 };
 
-var cut = RenderComponent<ThemeSelect>(p => p
+var cut = RenderComponent<ThemeChooser>(p => p
     .Add(x => x.Label, "Theme")
     .Add(x => x.ThemesUrl, "/t/")
     .Add(x => x.Themes, new[] { "light", "dark" })
@@ -251,11 +251,11 @@ await Task.Yield();
 
 var span = cut.Find("[data-testid='custom']");
 Assert.Equal("Light", span.TextContent);
-Assert.Empty(cut.FindAll(".theme-select-icon"));   // default glyph replaced
+Assert.Empty(cut.FindAll(".theme-chooser-icon"));   // default glyph replaced
 Assert.Equal(2, cut.FindAll("li[role='option']").Count);  // options untouched
 ```
 
-`TextSizeSelect`'s `ChildContent` behaves the same way: it replaces the
+`TextSizeChooser`'s `ChildContent` behaves the same way: it replaces the
 `A` glyph, receives `{ Value, Open, LabelFor }`, and leaves the options
 untouched.
 
@@ -314,7 +314,7 @@ flushes the message loop and lets those continuations land:
 [Fact]
 public async Task Section_7_7_Interop_Fires_With_Constructed_Href()
 {
-    var cut = RenderComponent<ThemeSelect>(p => p
+    var cut = RenderComponent<ThemeChooser>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, "/assets/themes/")
         .Add(x => x.Themes, new[] { "light" }));

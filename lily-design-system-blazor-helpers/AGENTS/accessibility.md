@@ -20,9 +20,9 @@ most of the notes below branch on it.
 
 | Helper             | Root                | Shape                                              |
 | ------------------ | ------------------- | -------------------------------------------------- |
-| `ThemeSelect`      | `<div>`             | Icon button (`◑`) + dropdown `<ul role="listbox">`. |
-| `LocaleSelect`     | `<div>`             | Icon button (`🌐`) + dropdown `<ul role="listbox">`. |
-| `TextSizeSelect`   | `<div>`             | Icon button (`A`) + dropdown `<ul role="listbox">`. |
+| `ThemeChooser`      | `<div>`             | Icon button (`◑`) + dropdown `<ul role="listbox">`. |
+| `LocaleChooser`     | `<div>`             | Icon button (`🌐`) + dropdown `<ul role="listbox">`. |
+| `TextSizeChooser`   | `<div>`             | Icon button (`A`) + dropdown `<ul role="listbox">`. |
 
 "The **listbox helpers**" below means all three: they share one shape.
 They follow the WAI-ARIA APG listbox pattern: an icon-only
@@ -32,7 +32,7 @@ aria-activedescendant>` of `<li role="option" aria-selected>`. A hidden
 `<input name="{Name}" value="{Value}">` carries form participation. The
 glyph lives in a `<span class="{helper}-icon" aria-hidden="true">`.
 
-`TextSizeSelect` joined this shape last; before that it was a real
+`TextSizeChooser` joined this shape last; before that it was a real
 native `<select>` that inherited the platform's combobox semantics
 wholesale. Its glyph is `A` (U+0041) rather than a pictograph — a plain
 Latin letter is covered by every font stack, so it avoids the tofu /
@@ -72,7 +72,7 @@ it must stay decorative: the accessible name is still the button's
 `aria-label`, and content that duplicates it will double up. The
 listbox itself is never consumer-rendered, so the listbox semantics —
 roles, `aria-selected`, ids, `aria-activedescendant`, and
-locale-select's per-option `lang` — cannot be broken by a consumer
+locale-chooser's per-option `lang` — cannot be broken by a consumer
 override, and the APG keyboard contract stays intact. Consumers who
 want to drive selection from their own UI call `SetThemeAsync` /
 `SetLocaleAsync` / `SetSizeAsync` through a `@ref`.
@@ -207,7 +207,7 @@ bUnit + xUnit is enough for ARIA-attribute assertions:
 [Fact]
 public void Has_Aria_Label()
 {
-    var cut = RenderComponent<ThemeSelect>(p => p
+    var cut = RenderComponent<ThemeChooser>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, "/t/")
         .Add(x => x.Themes, new[] { "light" }));
@@ -220,7 +220,7 @@ public void Has_Aria_Label()
 }
 ```
 
-`LocaleSelect` and `TextSizeSelect` assert identically; only the
+`LocaleChooser` and `TextSizeChooser` assert identically; only the
 required parameters and the glyph class differ.
 
 For full audits run axe-core in a real Blazor host (Blazor Server,

@@ -1,0 +1,63 @@
+{#
+  Example 01 — The default control: an icon button that opens a
+  listbox.
+
+  The simplest possible mount. The trigger button shows a globe glyph
+  (U+1F310), and opening it reveals a <ul role="listbox"> with one
+  <li role="option"> per locale. Each option renders its locale's
+  pretty name (from the `localeLabels` opt; falls back to the bare
+  code) and its own `lang="…"` so screen readers pronounce each in
+  the right language.
+
+  Outcome: a collapsed button. Enter / Space / ArrowDown opens the
+  listbox; Enter, Space, or a click commits, which writes
+  `<html lang="…" dir="…">`, fills the hidden input, and fires
+  `onChange`.
+
+  Note the status region below the control. The closed button shows
+  only the glyph, never the active locale, so a screen-reader user
+  would otherwise have no way to hear which locale is active. The
+  status line is part of the default pattern — see
+  ../docs/accessibility.md. Omitting it is the deliberate choice.
+
+  Note also that none of this works before locale-chooser.client.js
+  loads: the button opens nothing without JS. The hidden input is
+  pre-filled server-side, so a no-JS form submit still carries a
+  locale, but that is the only unenhanced affordance. See
+  ../docs/ssr.md.
+#}
+{% from "../locale-chooser.njk" import localeChooser %}
+
+{{ localeChooser({
+    label: "Choose your language",
+    locales: ["en", "fr", "ar"],
+    localeLabels: { en: "English", fr: "Français", ar: "العربية" },
+    value: "en"
+}) }}
+
+{#
+  Visible by default: it helps sighted users and cognitive
+  accessibility too, and WCAG 2.2 AAA favours it. For designs that
+  cannot spare the space, make it visually hidden instead of dropping
+  it — recipe in ../docs/styling.md.
+
+  aria-live="polite" announces mutations only, so this region is
+  silent on first paint and speaks on each subsequent change. That is
+  the intended behaviour.
+#}
+<p class="locale-chooser-status" aria-live="polite"></p>
+
+<script type="module">
+    import { autoInit, localeName } from "../locale-chooser.client.js";
+
+    const status = document.querySelector(".locale-chooser-status");
+
+    autoInit({
+        onChange(code) {
+            // localeName() resolves the human name from the built-in
+            // table ("en_US" -> "English (United States)"), so the
+            // region shows a real language name, not a raw code.
+            status.textContent = `Active language: ${localeName(code)}`;
+        },
+    });
+</script>

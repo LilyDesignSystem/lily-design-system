@@ -1,0 +1,143 @@
+{#
+  ShareChooser macro — glyph button that opens the native share sheet
+  where the browser has one, and otherwise a disclosure list of
+  consumer-supplied destinations plus a copy-the-URL action.
+
+  HTML tag: <div> (root), <button> + <ul> (disclosure, NOT a menu)
+  CSS class: share-chooser
+  Companion runtime: share-chooser.client.js
+
+  This is the first helper in the catalog that owns an ACTION rather
+  than a user preference. It applies nothing to the document and
+  persists nothing: no localStorage, no data-* on the document root.
+
+  ---------------------------------------------------------------------
+  NUNJUCKS DEVIATION — `href` is a STRING here, not a function
+  ---------------------------------------------------------------------
+
+  The canonical Svelte helper types a target's `href` as
+  `(url, title, text) => string`, so the consumer owns the whole URL and
+  no endpoint convention is baked in. A Nunjucks macro cannot call an
+  arbitrary JavaScript function: templates may only call filters and
+  globals that the consumer has registered on the environment, so a
+  function passed through `opts` would render as the empty string.
+
+  Therefore the macro takes each target's `href` as an ALREADY-RESOLVED
+  string. This costs the consumer nothing they were not already doing —
+  they are building the page server-side and already hold the url, title
+  and text — and it keeps the server output honest: the anchors carry
+  real, final hrefs, which is what makes the no-JS story work (see
+  docs/ssr.md).
+
+  The function-based API survives on the client, where functions are
+  callable: pass `targets` with function `href`s to
+  `initShareChooser(root, {targets})` and the client re-resolves every
+  anchor's href from the live URL. See spec/index.md §3.3.
+
+  Params (single `opts` object):
+    label       — string, required. aria-label for the trigger button.
+                  The button is glyph-only, so this is the ONLY
+                  accessible name it has.
+    targets     — array of objects, each:
+                    id      — string, required. Passed back to onShare.
+                    label   — string, required. Visible link text.
+                    href    — string, required. The FULL destination URL,
+                              already built by the consumer. See the
+                              deviation note above.
+                    newTab  — boolean, default true. False renders the
+                              link without target="_blank".
+    url         — string. The URL to share. Emitted as
+                  data-lily-share-chooser-url for the client; when unset
+                  the client falls back to location.href at share time.
+    title       — string. Passed to the native share sheet.
+    text        — string. Passed to the native share sheet.
+    copyLabel   — string. The copy item renders ONLY when this is
+                  supplied — there is no default, because a default
+                  would be a hardcoded English string.
+    copiedLabel — string. Announced in the status region after a
+                  successful copy.
+    copyFailedLabel — string. Announced when the clipboard write fails.
+    strategy    — "auto" | "native" | "list", default "auto".
+    name        — string, default "share". Discriminator used to derive
+                  ids.
+    id          — string. Id prefix for the list and its items.
+                  Defaults to "share-chooser-{name}". Supply an explicit
+                  id when rendering two instances that share a `name`.
+    classes     — string. Extra CSS classes on the root <div>.
+    attributes  — object. Extra HTML attributes spread onto the root.
+
+  Custom glyph: call the macro with a `{% call %}` block and the block
+  body replaces the default glyph inside the button:
+
+    {% call shareChooser({label: "Share", targets: [...]}) %}
+      <svg aria-hidden="true">…</svg>
+    {% endcall %}
+
+  Usage:
+    {% from "./share-chooser.njk" import shareChooser %}
+    {{ shareChooser({
+      label: "Share this page",
+      url: page.url,
+      targets: [
+        {id: "mastodon", label: "Mastodon", href: mastodonHref},
+        {id: "email", label: "Email", href: mailtoHref, newTab: false}
+      ],
+      copyLabel: "Copy link",
+      copiedLabel: "Link copied",
+      copyFailedLabel: "Could not copy — copy it from the address bar"
+    }) }}
+
+  Then load share-chooser.client.js once and call autoInit().
+
+  NOTE: the destination links WORK without JavaScript — they are real
+  hrefs — but the list cannot be opened and copy does not function. See
+  docs/ssr.md.
+
+  NO SOCIAL-NETWORK ENDPOINTS SHIP WITH THIS PACKAGE. Which networks
+  exist is an editorial and privacy decision belonging to the consumer,
+  and share URLs change.
+
+  Spec: spec/index.md §4.1 (macro parameters), §4.2 (DOM contract).
+#}
+{%- macro shareChooser(opts) -%}
+{%- set name = opts.name | default("share") -%}
+{%- set id = opts.id | default("share-chooser-" + name) -%}
+{%- set listId = id + "-list" -%}
+{%- set strategy = opts.strategy | default("auto") -%}
+{%- set targets = opts.targets | default([]) -%}
+<div
+  class="share-chooser{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  data-lily-share-chooser-root
+  data-lily-share-chooser-name="{{ name }}"
+  data-lily-share-chooser-strategy="{{ strategy }}"
+  {%- if opts.url %} data-lily-share-chooser-url="{{ opts.url }}"{% endif %}
+  {%- if opts.title %} data-lily-share-chooser-title="{{ opts.title }}"{% endif %}
+  {%- if opts.text %} data-lily-share-chooser-text="{{ opts.text }}"{% endif %}
+  {%- if opts.copiedLabel %} data-lily-share-chooser-copied-label="{{ opts.copiedLabel }}"{% endif %}
+  {%- if opts.copyFailedLabel %} data-lily-share-chooser-copy-failed-label="{{ opts.copyFailedLabel }}"{% endif %}
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+<button type="button" class="share-chooser-button" aria-label="{{ opts.label }}" aria-expanded="false" aria-controls="{{ listId }}" data-lily-share-chooser-button>
+{%- if caller %}{{ caller() }}{% else %}<span class="share-chooser-icon" aria-hidden="true">&#8618;</span>{% endif -%}
+</button>
+<ul class="share-chooser-list" id="{{ listId }}" hidden data-lily-share-chooser-list>
+{%- for target in targets -%}
+  {#- A real link, not role="menuitem": these ARE navigation, and
+      menuitem would strip middle-click, open-in-new-tab and
+      copy-link-address. No role override is emitted, deliberately. -#}
+  <li class="share-chooser-list-item">
+    <a class="share-chooser-target" id="{{ id }}-target-{{ loop.index0 }}" data-target-id="{{ target.id }}" href="{{ target.href }}"{% if target.newTab !== false %} target="_blank"{% endif %} rel="noopener noreferrer">{{ target.label }}</a>
+  </li>
+{%- endfor -%}
+{%- if opts.copyLabel -%}
+  <li class="share-chooser-list-item">
+    <button type="button" class="share-chooser-copy" id="{{ id }}-copy" data-lily-share-chooser-copy>{{ opts.copyLabel }}</button>
+  </li>
+{%- endif -%}
+</ul>
+{#- Copying gives no visual feedback of its own, so the outcome is
+    announced. Empty until something happens, so it stays silent on
+    load; aria-live announces mutations only. -#}
+<p class="share-chooser-status" aria-live="polite" data-lily-share-chooser-status></p>
+</div>
+{%- endmacro -%}
