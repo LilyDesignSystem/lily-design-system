@@ -29,7 +29,7 @@ well and what it costs — the costs are real and are not talked around.
 **The name rests entirely on `aria-label`.** An icon-only control has no
 visible text fallback. If `label` is wrong, missing, or untranslated,
 there is nothing else for anyone to go on — sighted users included, since
-↪ is not self-evidently "share". WCAG 2.5.3 (Label in Name) has no
+➤ is not self-evidently "share". WCAG 2.5.3 (Label in Name) has no
 visible text to match against. If you can spare the space, pair the
 button with visible text.
 
@@ -40,7 +40,7 @@ scripts cannot describe one flow, and it means you cannot fully test the
 control on one device. Force one with `strategy="list"` if consistency
 matters more than native integration.
 
-**The glyph is font-dependent.** ↪ (U+21AA) is an in-font arrow rather
+**The glyph is font-dependent.** ➤ (U+27A4) is an in-font arrow rather
 than a pictograph, so it is far safer than an emoji — it renders in the
 page's own font and stays monochrome. It is still not guaranteed on every
 font stack. Override it with the default scoped slot if your stack lacks

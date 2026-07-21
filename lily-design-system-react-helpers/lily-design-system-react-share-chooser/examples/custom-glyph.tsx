@@ -5,7 +5,7 @@
  * the trigger and receives `{ open, url }`, so the button can reflect
  * the list state. It does NOT render the list — the component owns that.
  *
- * Reach for this when your font stack lacks ↪ (U+21AA), or when you have
+ * Reach for this when your font stack lacks ➤ (U+27A4), or when you have
  * an icon system of your own. The accessible name still comes from
  * `label`, so whatever you render stays decorative.
  */

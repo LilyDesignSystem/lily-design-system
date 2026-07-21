@@ -1,6 +1,6 @@
 # ShareChooser (Blazor helper)
 
-A headless Blazor 10 share control: a single-glyph button (↪) that opens
+A headless Blazor 10 share control: a single-glyph button (➤) that opens
 the **native share sheet** where the browser has one, and otherwise shows
 a list of destinations you supply, plus **copy the page URL**.
 
@@ -140,7 +140,7 @@ so a `@ref` lets you trigger the control from elsewhere:
 
 ```razor
 <ShareChooser Label="Share" Targets="@Targets">
-    <span class="my-icon" aria-hidden="true">@(context.Open ? "▲" : "↪")</span>
+    <span class="my-icon" aria-hidden="true">@(context.Open ? "▲" : "➤")</span>
 </ShareChooser>
 ```
 
@@ -155,7 +155,7 @@ Required: `Label`. Everything else is optional.
 
 | Member | Purpose |
 | ------ | ------- |
-| `ShareChooser.RightwardsArrowWithHook` | The default glyph, `"↪"` (U+21AA). |
+| `ShareChooser.BlackRightwardsArrowhead` | The default glyph, `"➤"` (U+27A4). |
 | `ShareChooser.NextShareChooserId()` | Mint a stable, prerender-safe id prefix. |
 | `ShareChooser.CanShareNativelyAsync(js)` | Does this browser have a share sheet? |
 | `ShareChooser.CanCopyAsync(js)` | Does this browser have an async clipboard? |
@@ -181,7 +181,7 @@ Class hooks: `.share-chooser` (root), `.share-chooser-button`,
 
 The package ships no CSS. The root [`themes/`](../../themes/)
 stylesheets style the button and popup, including the optical glyph
-sizing that keeps ↪ visually the same size as the other helpers' glyphs.
+sizing that keeps ➤ visually the same size as the other helpers' glyphs.
 
 Position the root and the list yourself (`position: relative` /
 `position: absolute`), or an open list shoves the page around.

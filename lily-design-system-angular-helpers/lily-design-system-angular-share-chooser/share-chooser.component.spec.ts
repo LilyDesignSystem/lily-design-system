@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import {
   ShareChooser,
   ShareChooserIcon,
-  RIGHTWARDS_ARROW_WITH_HOOK,
+  BLACK_RIGHTWARDS_ARROWHEAD,
   canCopy,
   canShareNatively,
   nextShareChooserId,
@@ -198,12 +198,12 @@ describe("ShareChooser — markup contract (§4.2, §7.1–§7.6)", () => {
     expect(root.classList.contains("extra")).toBe(true);
   });
 
-  test("§7.1 the button renders ↪, hidden from assistive tech", () => {
+  test("§7.1 the button renders ➤, hidden from assistive tech", () => {
     const fixture = mount();
     const icon = q<HTMLElement>(fixture, ".share-chooser-icon");
-    // U+21AA RIGHTWARDS ARROW WITH HOOK
-    expect(icon.textContent).toBe("↪");
-    expect(RIGHTWARDS_ARROW_WITH_HOOK).toBe("↪");
+    // U+27A4 BLACK RIGHTWARDS ARROWHEAD
+    expect(icon.textContent).toBe("➤");
+    expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
     expect(icon.getAttribute("aria-hidden")).toBe("true");
   });
 
@@ -640,7 +640,7 @@ describe("ShareChooser — custom glyph template (§7.22)", () => {
 
     const custom = q<HTMLElement>(fixture, '[data-testid="custom"]');
     expect(custom).toBeTruthy();
-    // The custom glyph replaces the default ↪ inside the trigger.
+    // The custom glyph replaces the default ➤ inside the trigger.
     expect(custom.closest("button")?.className).toContain("share-chooser-button");
     expect(q(fixture, ".share-chooser-icon")).toBeNull();
     expect(custom.getAttribute("data-open")).toBe("false");

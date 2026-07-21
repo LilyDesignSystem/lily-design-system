@@ -94,14 +94,14 @@ public sealed class ShareChooserContext
 
 public partial class ShareChooser : ComponentBase
 {
-    /// <summary>Default button glyph: U+21AA RIGHTWARDS ARROW WITH HOOK.</summary>
+    /// <summary>Default button glyph: U+27A4 BLACK RIGHTWARDS ARROWHEAD.</summary>
     /// <remarks>
     /// An in-font arrow rather than a pictograph, matching the other helpers'
     /// rule: it renders in the page's own font on every platform and stays
     /// monochrome alongside ThemeChooser's ◑, LocaleChooser's 🌐 and
     /// TextSizeChooser's "A".
     /// </remarks>
-    public const string RightwardsArrowWithHook = "↪";
+    public const string BlackRightwardsArrowhead = "➤";
 
     /// <summary>Monotonic instance counter; SSR-safe (no randomness, no clock).</summary>
     private static int _uid;
@@ -143,7 +143,7 @@ public partial class ShareChooser : ComponentBase
     /// <summary>Whether to prefer the native share sheet.</summary>
     [Parameter] public ShareStrategy Strategy { get; set; } = ShareStrategy.Auto;
 
-    /// <summary>Replaces the default ↪ glyph inside the button.</summary>
+    /// <summary>Replaces the default ➤ glyph inside the button.</summary>
     [Parameter] public RenderFragment<ShareChooserContext>? ChildContent { get; set; }
 
     /// <summary>Fires after a destination is chosen.</summary>

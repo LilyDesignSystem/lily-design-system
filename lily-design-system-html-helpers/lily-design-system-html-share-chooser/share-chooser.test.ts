@@ -5,7 +5,7 @@ import {
     canCopy,
     canShareNatively,
     nextShareChooserId,
-    RIGHTWARDS_ARROW_WITH_HOOK,
+    BLACK_RIGHTWARDS_ARROWHEAD,
     type ShareChooserShareDetail,
     type ShareChooserUrlDetail,
     type ShareTarget,
@@ -176,9 +176,9 @@ describe("<share-chooser> — pure helpers", () => {
         expect(a).not.toBe(b);
     });
 
-    test("RIGHTWARDS_ARROW_WITH_HOOK is U+21AA", () => {
-        expect(RIGHTWARDS_ARROW_WITH_HOOK).toBe("↪");
-        expect(RIGHTWARDS_ARROW_WITH_HOOK.codePointAt(0)).toBe(0x21aa);
+    test("BLACK_RIGHTWARDS_ARROWHEAD is U+27A4", () => {
+        expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
+        expect(BLACK_RIGHTWARDS_ARROWHEAD.codePointAt(0)).toBe(0x27a4);
     });
 
     test("canCopy reflects navigator.clipboard.writeText", () => {
@@ -215,12 +215,12 @@ describe("<share-chooser> — markup contract (§7.1–§7.6)", () => {
         expect(document.body.querySelector(".share-chooser-trigger")).toBeNull();
     });
 
-    test("§7.1 the button renders ↪, hidden from assistive tech", async () => {
+    test("§7.1 the button renders ➤, hidden from assistive tech", async () => {
         mount({ label: "Share", url: URL_UNDER_TEST });
         await flush();
         const icon = document.body.querySelector<HTMLElement>(".share-chooser-icon")!;
-        // U+21AA RIGHTWARDS ARROW WITH HOOK
-        expect(icon.textContent).toBe("↪");
+        // U+27A4 BLACK RIGHTWARDS ARROWHEAD
+        expect(icon.textContent).toBe("➤");
         expect(icon.getAttribute("aria-hidden")).toBe("true");
         expect(icon.closest("button")).toBe(trigger());
     });
@@ -850,7 +850,7 @@ describe("<share-chooser> — HTML custom-element surface", () => {
         try {
             const mod = await import("./index.js");
             expect(mod.ShareChooser).toBeDefined();
-            expect(mod.RIGHTWARDS_ARROW_WITH_HOOK).toBe("↪");
+            expect(mod.BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
         } finally {
             (globalThis as any).customElements = original;
         }

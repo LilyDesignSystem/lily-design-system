@@ -5,7 +5,7 @@ everything below is a fast index.
 
 ## What this package is
 
-A Blazor 10 headless share control. A single-glyph button (↪, U+21AA)
+A Blazor 10 headless share control. A single-glyph button (➤, U+27A4)
 that uses the **native share sheet** when the browser has one, and
 otherwise opens a disclosure list of consumer-supplied destinations plus
 a built-in copy-the-URL action. Ships no CSS, no icons, no JS file, and
@@ -35,8 +35,8 @@ for the deviations that could not be avoided.
   `LilyDesignSystem.Blazor.Helpers`.
 - Types: `ShareTarget`, `ShareStrategy`, `ShareChooserContext`,
   `ShareEventArgs`, `NativeShareOutcome`.
-- Constant: `ShareChooser.RightwardsArrowWithHook` — the default glyph
-  `"↪"` (U+21AA).
+- Constant: `ShareChooser.BlackRightwardsArrowhead` — the default glyph
+  `"➤"` (U+27A4).
 - Statics: `NextShareChooserId()`, `CanShareNativelyAsync(IJSRuntime)`,
   `CanCopyAsync(IJSRuntime)`. The two probes are **async** because the
   browser is only reachable over interop; both return `false` during

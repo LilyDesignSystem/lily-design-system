@@ -5,7 +5,7 @@ everything below is a fast index.
 
 ## What this package is
 
-A Vue 3 headless share control. A single-glyph button (↪, U+21AA) that
+A Vue 3 headless share control. A single-glyph button (➤, U+27A4) that
 uses the **native share sheet** when the browser has one, and otherwise
 opens a disclosure list of consumer-supplied destinations plus a
 built-in copy-the-URL action. Ships no CSS, no icons, and no
@@ -30,7 +30,7 @@ When the two disagree, the Svelte side wins.
 
 - Default export: `ShareChooser` component.
 - Named exports: `ShareChooser`, `canShareNatively`, `canCopy`,
-  `nextShareChooserId`, `RIGHTWARDS_ARROW_WITH_HOOK`.
+  `nextShareChooserId`, `BLACK_RIGHTWARDS_ARROWHEAD`.
 - Type exports: `Props`, `SlotArgs`, `ChildArgs` (alias of `SlotArgs`),
   `ShareTarget`, `ShareStrategy`.
 

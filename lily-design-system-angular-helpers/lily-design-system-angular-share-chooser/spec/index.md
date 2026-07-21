@@ -24,7 +24,7 @@ Sibling files:
 
 Give an Angular 20 application a drop-in, headless share control that:
 
-1. Renders a single-glyph button (↪, U+21AA) matching the other Lily
+1. Renders a single-glyph button (➤, U+27A4) matching the other Lily
    helpers.
 2. Uses the **native share sheet** where the browser provides one.
 3. Otherwise opens a list of consumer-supplied destinations, plus a
@@ -107,7 +107,7 @@ Give an Angular 20 application a drop-in, headless share control that:
 | `nativeShare` | `string` (the URL) | The native sheet was used instead of the list. |
 
 Content projection: a single `<ng-template>` (queried via
-`contentChild(TemplateRef)`) replaces the ↪ glyph inside the trigger and
+`contentChild(TemplateRef)`) replaces the ➤ glyph inside the trigger and
 receives `ChildArgs` as both `$implicit` and named properties. The
 optional `ShareChooserIcon` marker directive
 (`ng-template[lilyShareChooserIcon]`) types the `let-` variables. The
@@ -132,7 +132,7 @@ type ShareEvent = { targetId: string; url: string };
 <div class="share-chooser {className}">
   <button type="button" class="share-chooser-button"
           aria-label="{label}" aria-expanded aria-controls="{listId}">
-    <span class="share-chooser-icon" aria-hidden="true">↪</span>
+    <span class="share-chooser-icon" aria-hidden="true">➤</span>
   </button>
   <ul class="share-chooser-list" id="{listId}" hidden>
     <li class="share-chooser-list-item">
@@ -159,7 +159,7 @@ is dropped for a destination whose `newTab` is `false`.
 ### 4.3 Re-exports
 
 `index.ts` exports `ShareChooser`, `ShareChooserIcon`, `canShareNatively`,
-`canCopy`, `nextShareChooserId`, `RIGHTWARDS_ARROW_WITH_HOOK`, and the
+`canCopy`, `nextShareChooserId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the
 types `ChildArgs`, `ShareTarget`, `ShareStrategy`, `ShareEvent`.
 
 `nextShareChooserId()` is an incrementing module counter — stable, unique
@@ -248,8 +248,8 @@ number, and no clause is unexercised.
 - *renders a disclosure button controlling a list* — `<button type="button">`
   with `aria-label`, `aria-expanded="false"`, and `aria-controls` pointing
   at the `<ul>`'s id.
-- *the button renders ↪, hidden from assistive tech* — the icon span's
-  text is U+21AA, matches `RIGHTWARDS_ARROW_WITH_HOOK`, and is
+- *the button renders ➤, hidden from assistive tech* — the icon span's
+  text is U+27A4, matches `BLACK_RIGHTWARDS_ARROWHEAD`, and is
   `aria-hidden="true"`.
 
 ### 7.2 The list is hidden until the button is activated

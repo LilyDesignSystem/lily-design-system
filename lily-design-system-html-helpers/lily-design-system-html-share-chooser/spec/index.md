@@ -26,7 +26,7 @@ Sibling files:
 
 Give any HTML page a drop-in, headless share control that:
 
-1. Renders a single-glyph button (↪, U+21AA) matching the other Lily
+1. Renders a single-glyph button (➤, U+27A4) matching the other Lily
    helpers.
 2. Uses the **native share sheet** where the browser provides one.
 3. Otherwise opens a disclosure list of consumer-supplied destinations,
@@ -178,7 +178,7 @@ an error (§5.3).
   <div class="share-chooser {class}">
     <button type="button" class="share-chooser-button"
             aria-label="{label}" aria-expanded="false" aria-controls="{listId}">
-      <span class="share-chooser-icon" aria-hidden="true">↪</span>
+      <span class="share-chooser-icon" aria-hidden="true">➤</span>
     </button>
     <ul class="share-chooser-list" id="{listId}" hidden>
       <li class="share-chooser-list-item">
@@ -220,7 +220,7 @@ current. The trigger's own aria wiring is not the subclass's to change.
 ### 4.8 Re-exports
 
 `index.ts` exports `ShareChooser`, `canShareNatively`, `canCopy`,
-`nextShareChooserId`, `RIGHTWARDS_ARROW_WITH_HOOK`, and the types
+`nextShareChooserId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the types
 `ShareChooserProps`, `ShareChooserShareDetail`, `ShareChooserUrlDetail`,
 `ShareTarget`, `ShareStrategy`. Importing it registers `<share-chooser>`.
 

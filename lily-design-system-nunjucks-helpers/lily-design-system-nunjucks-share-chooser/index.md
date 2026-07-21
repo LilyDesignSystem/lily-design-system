@@ -1,6 +1,6 @@
 # Lily Design System — Nunjucks ShareChooser
 
-A headless share control for Nunjucks 3: a single-glyph button (↪) that
+A headless share control for Nunjucks 3: a single-glyph button (➤) that
 opens the **native share sheet** where the browser provides one, and
 otherwise a disclosure list of your destinations plus a built-in **copy
 the page URL** action.
@@ -147,7 +147,7 @@ import {
     canCopy,
     nextShareChooserId,
     shareTargetHref,
-    RIGHTWARDS_ARROW_WITH_HOOK,
+    BLACK_RIGHTWARDS_ARROWHEAD,
 } from "lily-design-system-nunjucks-share-chooser";
 ```
 

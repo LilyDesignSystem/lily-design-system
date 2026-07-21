@@ -1,7 +1,7 @@
 # Custom rendering — `<share-chooser>`
 
 Light DOM has no `<slot>`, so the customisation surface is
-**subclassing**. Override `renderButtonContent()` to replace the ↪
+**subclassing**. Override `renderButtonContent()` to replace the ➤
 glyph; whatever it returns is placed inside the trigger.
 
 This is the HTML-helper equivalent of the `children` snippet the Svelte,
@@ -30,7 +30,7 @@ strands focus.
 
 ## Inline SVG instead of the glyph
 
-The safest option if your font stack might lack U+21AA.
+The safest option if your font stack might lack U+27A4.
 
 ```js
 import { ShareChooser } from "lily-design-system-html-share-chooser/share-chooser";
@@ -69,7 +69,7 @@ class LabelledShareChooser extends ShareChooser {
     const icon = document.createElement("span");
     icon.className = "share-chooser-icon";
     icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "↪";
+    icon.textContent = "➤";
     const text = document.createElement("span");
     text.className = "share-chooser-text";
     text.textContent = this.label;   // reuse the same string
@@ -93,7 +93,7 @@ class ChevronShareChooser extends ShareChooser {
     const span = document.createElement("span");
     span.className = "share-chooser-icon";
     span.setAttribute("aria-hidden", "true");
-    span.textContent = this.open ? "×" : "↪";
+    span.textContent = this.open ? "×" : "➤";
     return span;
   }
 }

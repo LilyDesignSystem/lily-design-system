@@ -51,7 +51,7 @@ Consequences to weigh before shipping:
 
   ```njk
   {% call shareChooser({label: "Share this article", targets: t}) %}
-    <span aria-hidden="true">↪</span> Share
+    <span aria-hidden="true">➤</span> Share
   {% endcall %}
   ```
 
@@ -63,7 +63,7 @@ Consequences to weigh before shipping:
 
 ## The glyph is font-dependent
 
-The default glyph is U+21AA RIGHTWARDS ARROW WITH HOOK (↪), chosen the
+The default glyph is U+27A4 BLACK RIGHTWARDS ARROWHEAD (➤), chosen the
 same way as the other helpers' glyphs: an in-font arrow rather than a
 pictograph. It inherits the page's font, stays monochrome, respects
 `currentColor`, and scales with the type.
@@ -72,7 +72,7 @@ It is **much** safer than an emoji — no colour-font substitution, no
 platform-specific redesign, no "share icon" that looks like a different
 product on each OS — but it is not guaranteed. A font without the
 codepoint renders tofu (▯). If your font stack is narrow or you serve a
-subsetted webfont, either check U+21AA is in the subset or override the
+subsetted webfont, either check U+27A4 is in the subset or override the
 glyph with an inline SVG via `{% call %}`.
 
 Whatever you substitute, keep it `aria-hidden="true"` — the name comes

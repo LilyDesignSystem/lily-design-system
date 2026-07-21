@@ -1,6 +1,6 @@
 # ShareChooser (Vue helper)
 
-A headless Vue 3 share control: a single-glyph button (↪) that opens the
+A headless Vue 3 share control: a single-glyph button (➤) that opens the
 **native share sheet** where the browser has one, and otherwise shows a
 list of destinations you supply, plus **copy the page URL**.
 
@@ -126,7 +126,7 @@ The default scoped slot replaces the button glyph and receives
 ```vue
 <ShareChooser label="Share this page" :targets="targets">
   <template #default="{ open }">
-    <span aria-hidden="true">{{ open ? "×" : "↪" }}</span>
+    <span aria-hidden="true">{{ open ? "×" : "➤" }}</span>
   </template>
 </ShareChooser>
 ```
@@ -156,7 +156,7 @@ Class hooks: `.share-chooser` (root), `.share-chooser-button`,
 `.share-chooser-target`, `.share-chooser-copy`, `.share-chooser-status`.
 
 The package ships no CSS. The root `themes/` stylesheets style the button
-and popup, including the optical glyph sizing that keeps ↪ visually the
+and popup, including the optical glyph sizing that keeps ➤ visually the
 same size as the other helpers' glyphs.
 
 ## Tests

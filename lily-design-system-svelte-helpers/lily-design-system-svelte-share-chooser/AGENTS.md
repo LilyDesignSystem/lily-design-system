@@ -5,7 +5,7 @@ everything below is a fast index.
 
 ## What this package is
 
-A Svelte 5 headless share control. A single-glyph button (↪, U+21AA)
+A Svelte 5 headless share control. A single-glyph button (➤, U+27A4)
 that uses the **native share sheet** when the browser has one, and
 otherwise opens a disclosure list of consumer-supplied destinations plus
 a built-in copy-the-URL action. Ships no CSS, no icons, and no
@@ -25,7 +25,7 @@ third-party endpoints.
 ## Public surface
 
 Default export `ShareChooser`; named `ShareChooser`, `canShareNatively`,
-`canCopy`, `nextShareChooserId`, `RIGHTWARDS_ARROW_WITH_HOOK`; types
+`canCopy`, `nextShareChooserId`, `BLACK_RIGHTWARDS_ARROWHEAD`; types
 `Props`, `ChildArgs`, `ShareTarget`, `ShareStrategy`.
 
 Required prop: `label`.

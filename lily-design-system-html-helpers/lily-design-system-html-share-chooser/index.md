@@ -1,7 +1,7 @@
 # `<share-chooser>` — Lily Design System HTML helper
 
 A headless share control, packaged as a vanilla custom element. A
-single-glyph button (↪) that opens the **native share sheet** where the
+single-glyph button (➤) that opens the **native share sheet** where the
 browser provides one, and otherwise a **disclosure list** of your
 destinations plus a built-in copy-the-URL action.
 
@@ -137,7 +137,7 @@ Every attribute also has a mirrored camelCase property, plus read-only
   <div class="share-chooser">
     <button type="button" class="share-chooser-button"
             aria-label="Share" aria-expanded="false" aria-controls="share-chooser-1-list">
-      <span class="share-chooser-icon" aria-hidden="true">↪</span>
+      <span class="share-chooser-icon" aria-hidden="true">➤</span>
     </button>
     <ul class="share-chooser-list" id="share-chooser-1-list" hidden>
       <li class="share-chooser-list-item">
@@ -206,7 +206,7 @@ class LabelledShareChooser extends ShareChooser {
     const icon = document.createElement("span");
     icon.className = "share-chooser-icon";
     icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "↪";
+    icon.textContent = "➤";
     const text = document.createElement("span");
     text.textContent = this.open ? "Close" : "Share";
     frag.append(icon, text);

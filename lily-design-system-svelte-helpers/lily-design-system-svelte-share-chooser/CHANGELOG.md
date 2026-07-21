@@ -19,7 +19,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
   `.share-button-button` read badly; under the new name the problem
   disappears, so this helper follows the same `{helper}-button`
   convention as its siblings. The documented exception is removed.
-- A headless Svelte 5 share control: a single-glyph button (↪) that
+- A headless Svelte 5 share control: a single-glyph button (➤) that
   opens the native share sheet via `navigator.share` where the browser
   has one, and otherwise a disclosure list of consumer-supplied
   destinations plus a copy-the-page-URL action. No social-network
@@ -45,7 +45,7 @@ reads coherently; the events they describe are unchanged.
 #### Added
 
 - Initial release. A headless share control: a single-glyph button
-  (↪, U+21AA) that opens the **native share sheet** via `navigator.share`
+  (➤, U+27A4) that opens the **native share sheet** via `navigator.share`
   where the browser provides one, and otherwise a disclosure list of
   consumer-supplied destinations plus a built-in copy-the-URL action.
 - `targets` are supplied by the consumer, each with its own `href(url,
@@ -62,7 +62,7 @@ reads coherently; the events they describe are unchanged.
 - Keyboard: arrows move between items and clamp, Home/End jump, Escape
   closes and returns focus to the trigger, Tab closes and moves on.
 - Exports `canShareNatively`, `canCopy`, `nextShareChooserId`,
-  `RIGHTWARDS_ARROW_WITH_HOOK`.
+  `BLACK_RIGHTWARDS_ARROWHEAD`.
 
 #### Notes
 

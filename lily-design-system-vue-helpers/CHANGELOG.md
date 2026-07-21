@@ -54,7 +54,7 @@ and the project follows
 ### Added
 
 - **A fourth helper: `lily-design-system-vue-share-chooser` at 0.1.0.**
-  A headless share control — a single-glyph button (↪, U+21AA) that
+  A headless share control — a single-glyph button (➤, U+27A4) that
   opens the **native share sheet** via `navigator.share` where the
   browser provides one, and otherwise a disclosure list of
   consumer-supplied destinations plus a built-in copy-the-URL action.

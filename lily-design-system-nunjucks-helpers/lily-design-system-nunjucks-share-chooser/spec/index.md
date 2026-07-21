@@ -23,7 +23,7 @@ Sibling files:
 
 Give a Nunjucks application a drop-in, headless share control that:
 
-1. Renders a single-glyph button (↪, U+21AA) matching the other Lily
+1. Renders a single-glyph button (➤, U+27A4) matching the other Lily
    helpers.
 2. Uses the **native share sheet** where the browser provides one.
 3. Otherwise opens a list of consumer-supplied destinations, plus a
@@ -144,7 +144,7 @@ exported as the pure resolver and accepts **both** forms, so one
 | `id` | string | no | `share-chooser-{name}` | Id prefix for the list and items. |
 | `classes` | string | no | — | Extra classes on the root. |
 | `attributes` | object | no | — | Extra HTML attributes spread onto the root. |
-| `{% call %}` body | — | no | the ↪ glyph | Replaces the glyph inside the button. |
+| `{% call %}` body | — | no | the ➤ glyph | Replaces the glyph inside the button. |
 
 Each entry in `targets`:
 
@@ -162,7 +162,7 @@ Each entry in `targets`:
   <button type="button" class="share-chooser-button" aria-label="{label}"
           aria-expanded="false" aria-controls="{id}-list"
           data-lily-share-chooser-button>
-    <span class="share-chooser-icon" aria-hidden="true">&#8618;</span>
+    <span class="share-chooser-icon" aria-hidden="true">&#10148;</span>
   </button>
   <ul class="share-chooser-list" id="{id}-list" hidden data-lily-share-chooser-list>
     <li class="share-chooser-list-item">
@@ -188,7 +188,7 @@ The list is rendered `hidden`; nothing server-side removes it.
 ### 4.3 client.js exports
 
 `initShareChooser`, `autoInit`, `canShareNatively`, `canCopy`,
-`nextShareChooserId`, `shareTargetHref`, `RIGHTWARDS_ARROW_WITH_HOOK`.
+`nextShareChooserId`, `shareTargetHref`, `BLACK_RIGHTWARDS_ARROWHEAD`.
 
 `initShareChooser(root, opts?)` opts: `url`, `title`, `text`, `strategy`,
 `targets`, `copiedLabel`, `copyFailedLabel`, `onShare(id, url)`,

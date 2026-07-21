@@ -5,7 +5,7 @@ import ShareChooser, {
     canCopy,
     canShareNatively,
     nextShareChooserId,
-    RIGHTWARDS_ARROW_WITH_HOOK,
+    BLACK_RIGHTWARDS_ARROWHEAD,
     type ShareTarget,
 } from "./ShareChooser";
 
@@ -118,12 +118,12 @@ describe("ShareChooser — markup contract (§7.1–§7.6)", () => {
         expect(document.getElementById(listId!)?.tagName).toBe("UL");
     });
 
-    test("§7.1 the button renders ↪, hidden from assistive tech", () => {
+    test("§7.1 the button renders ➤, hidden from assistive tech", () => {
         render(<ShareChooser label="Share" targets={TARGETS} url={URL_UNDER_TEST} />);
         const icon = document.querySelector(".share-chooser-icon") as HTMLElement;
-        // U+21AA RIGHTWARDS ARROW WITH HOOK
-        expect(icon.textContent).toBe("↪");
-        expect(RIGHTWARDS_ARROW_WITH_HOOK).toBe("↪");
+        // U+27A4 BLACK RIGHTWARDS ARROWHEAD
+        expect(icon.textContent).toBe("➤");
+        expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
         expect(icon.getAttribute("aria-hidden")).toBe("true");
     });
 

@@ -1,6 +1,6 @@
 # ShareChooser (Svelte helper)
 
-A headless Svelte 5 share control: a single-glyph button (↪) that opens
+A headless Svelte 5 share control: a single-glyph button (➤) that opens
 the **native share sheet** where the browser has one, and otherwise shows
 a list of destinations you supply, plus **copy the page URL**.
 
@@ -122,7 +122,7 @@ Class hooks: `.share-chooser` (root), `.share-chooser-button`,
 `.share-chooser-target`, `.share-chooser-copy`, `.share-chooser-status`.
 
 The package ships no CSS. The root `themes/` stylesheets style the button
-and popup, including the optical glyph sizing that keeps ↪ visually the
+and popup, including the optical glyph sizing that keeps ➤ visually the
 same size as the other helpers' glyphs.
 
 ## Tests

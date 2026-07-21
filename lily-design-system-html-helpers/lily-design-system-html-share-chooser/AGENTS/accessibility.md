@@ -74,8 +74,8 @@ do not soften them:
 2. **`strategy="auto"` splits behaviour by platform.** On a phone the OS
    sheet opens and the consumer's `targets` are never shown. Only
    `strategy="list"` guarantees they are reachable.
-3. **The glyph is font-dependent.** ↪ is in-font and far safer than an
-   emoji, but a font lacking U+21AA renders tofu.
+3. **The glyph is font-dependent.** ➤ is in-font and far safer than an
+   emoji, but a font lacking U+27A4 renders tofu.
 4. **Copy fails invisibly** — insecure context, denied permission,
    unfocused document, or no API at all. The announcement is the entire
    recovery path, so `copy-failed-label` must be *actionable*, and

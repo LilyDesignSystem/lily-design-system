@@ -6,7 +6,7 @@ everything below is a fast index.
 ## What this package is
 
 A reusable vanilla HTML/JS headless share control, packaged as the
-`<share-chooser>` custom element. A single-glyph button (↪, U+21AA) that
+`<share-chooser>` custom element. A single-glyph button (➤, U+27A4) that
 uses the **native share sheet** when the browser has one, and otherwise
 opens a **disclosure list** of consumer-supplied destinations plus a
 built-in copy-the-URL action. Ships no CSS, no icons, and no third-party
@@ -32,7 +32,7 @@ Svelte wins on behaviour; this package supplies the custom-element idiom.
 - Class `ShareChooser extends HTMLElement` (registered as
   `<share-chooser>` on import of `index.ts`).
 - Named exports: `ShareChooser`, `canShareNatively`, `canCopy`,
-  `nextShareChooserId`, `RIGHTWARDS_ARROW_WITH_HOOK`.
+  `nextShareChooserId`, `BLACK_RIGHTWARDS_ARROWHEAD`.
 - Type exports: `ShareChooserProps`, `ShareChooserShareDetail`,
   `ShareChooserUrlDetail`, `ShareTarget`, `ShareStrategy`.
 - Instance members beyond the attribute mirrors: `open`, `status`,
@@ -76,7 +76,7 @@ owns an action, not a preference.
 `<div class="share-chooser {class}">` holding, in order: a
 `<button type="button" class="share-chooser-button" aria-label="{label}"
 aria-expanded aria-controls="{listId}">` whose content defaults to
-`<span class="share-chooser-icon" aria-hidden="true">↪</span>`; a
+`<span class="share-chooser-icon" aria-hidden="true">➤</span>`; a
 `<ul class="share-chooser-list" id="{listId}" hidden>` of
 `<li class="share-chooser-list-item">` containing
 `<a class="share-chooser-target" data-target-id target="_blank"

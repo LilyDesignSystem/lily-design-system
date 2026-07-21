@@ -102,7 +102,7 @@ From `share-chooser.ts` and re-exported by `index.ts`:
 - `ShareChooser` (class)
 - `canShareNatively()`, `canCopy()` — SSR-safe capability probes
 - `nextShareChooserId()` — module-counter id minter
-- `RIGHTWARDS_ARROW_WITH_HOOK` — the `"↪"` glyph constant
+- `BLACK_RIGHTWARDS_ARROWHEAD` — the `"➤"` glyph constant
 - types `ShareChooserProps`, `ShareChooserShareDetail`,
   `ShareChooserUrlDetail`, `ShareTarget`, `ShareStrategy`
 

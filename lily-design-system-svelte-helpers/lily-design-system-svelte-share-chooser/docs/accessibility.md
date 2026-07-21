@@ -26,7 +26,7 @@ well and what it costs — the costs are real and are not talked around.
 **The name rests entirely on `aria-label`.** An icon-only control has no
 visible text fallback. If `label` is wrong, missing, or untranslated,
 there is nothing else for anyone to go on — sighted users included, since
-↪ is not self-evidently "share". If you can spare the space, pair the
+➤ is not self-evidently "share". If you can spare the space, pair the
 button with visible text.
 
 **Behaviour differs by platform.** With `strategy="auto"`, a phone opens
@@ -35,7 +35,7 @@ the better experience on each, but it means your help text and support
 scripts cannot describe one flow. Force one with `strategy="list"` if
 consistency matters more.
 
-**The glyph is font-dependent.** ↪ (U+21AA) is an in-font arrow rather
+**The glyph is font-dependent.** ➤ (U+27A4) is an in-font arrow rather
 than a pictograph, so it is far safer than an emoji — it renders in the
 page's own font and stays monochrome. It is still not guaranteed on every
 font stack. Override it with the `children` snippet if your stack lacks it.

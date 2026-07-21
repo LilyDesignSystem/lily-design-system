@@ -27,7 +27,7 @@ Sibling files:
 
 Give a Blazor 10 application a drop-in, headless share control that:
 
-1. Renders a single-glyph button (↪, U+21AA) matching the other Lily
+1. Renders a single-glyph button (➤, U+27A4) matching the other Lily
    helpers.
 2. Uses the **native share sheet** where the browser provides one.
 3. Otherwise opens a list of consumer-supplied destinations, plus a
@@ -99,7 +99,7 @@ Give a Blazor 10 application a drop-in, headless share control that:
 | `CopiedLabel` | `string?` | no | `null` | Announced in the status region after a successful copy. |
 | `CopyFailedLabel` | `string?` | no | `null` | Announced when the clipboard write fails. |
 | `Strategy` | `ShareStrategy` | no | `Auto` | Whether to prefer the native sheet. |
-| `ChildContent` | `RenderFragment<ShareChooserContext>?` | no | the ↪ glyph | Replaces the button glyph. |
+| `ChildContent` | `RenderFragment<ShareChooserContext>?` | no | the ➤ glyph | Replaces the button glyph. |
 | `OnShare` | `EventCallback<ShareEventArgs>` | no | — | Fires when a destination is chosen. |
 | `OnCopy` | `EventCallback<string>` | no | — | Fires after a successful copy, with the URL. |
 | `OnNativeShare` | `EventCallback<string>` | no | — | Fires when the native sheet was used instead of the list. |
@@ -136,7 +136,7 @@ public sealed class ShareEventArgs
 <div class="share-chooser {CssClass}" ...AdditionalAttributes>
   <button type="button" class="share-chooser-button"
           aria-label="{Label}" aria-expanded aria-controls="{listId}">
-    <span class="share-chooser-icon" aria-hidden="true">↪</span>
+    <span class="share-chooser-icon" aria-hidden="true">➤</span>
   </button>
   <ul class="share-chooser-list" id="{listId}" hidden>
     <li class="share-chooser-list-item">
@@ -169,7 +169,7 @@ Blazor has no module barrel, so the Svelte package's re-exports become
 
 | Svelte export | Blazor equivalent |
 | ------------- | ----------------- |
-| `RIGHTWARDS_ARROW_WITH_HOOK` | `ShareChooser.RightwardsArrowWithHook` |
+| `BLACK_RIGHTWARDS_ARROWHEAD` | `ShareChooser.BlackRightwardsArrowhead` |
 | `nextShareChooserId()` | `ShareChooser.NextShareChooserId()` |
 | `canShareNatively()` | `ShareChooser.CanShareNativelyAsync(IJSRuntime)` |
 | `canCopy()` | `ShareChooser.CanCopyAsync(IJSRuntime)` |

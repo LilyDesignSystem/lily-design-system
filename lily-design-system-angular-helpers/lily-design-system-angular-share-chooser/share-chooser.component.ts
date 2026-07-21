@@ -14,14 +14,14 @@ import {
 } from "@angular/core";
 
 /**
- * Default button glyph: U+21AA RIGHTWARDS ARROW WITH HOOK.
+ * Default button glyph: U+27A4 BLACK RIGHTWARDS ARROWHEAD.
  *
  * An in-font arrow rather than a pictograph, matching the other helpers'
  * rule: it renders in the page's own font on every platform and stays
  * monochrome alongside theme-chooser's ◑, locale-chooser's 🌐 and
  * text-size-chooser's "A".
  */
-export const RIGHTWARDS_ARROW_WITH_HOOK = "↪";
+export const BLACK_RIGHTWARDS_ARROWHEAD = "➤";
 
 /**
  * One destination in the share list.
@@ -86,7 +86,7 @@ export function nextShareChooserId(): string {
  *
  * ```html
  * <lily-share-chooser label="Share">
- *   <ng-template lilyShareChooserIcon let-args>{{ args.open ? "×" : "↪" }}</ng-template>
+ *   <ng-template lilyShareChooserIcon let-args>{{ args.open ? "×" : "➤" }}</ng-template>
  * </lily-share-chooser>
  * ```
  *
@@ -109,7 +109,7 @@ export class ShareChooserIcon {
 /**
  * ShareChooser — a headless share control.
  *
- * A single-glyph button (↪) that opens the **native share sheet** where
+ * A single-glyph button (➤) that opens the **native share sheet** where
  * the browser provides one, and otherwise a disclosure list of
  * consumer-supplied destinations plus a built-in copy-the-URL action.
  *
@@ -236,7 +236,7 @@ export class ShareChooser {
     viewChild.required<ElementRef<HTMLButtonElement>>("buttonEl");
   private readonly listRef = viewChild.required<ElementRef<HTMLUListElement>>("listEl");
 
-  protected readonly glyph = RIGHTWARDS_ARROW_WITH_HOOK;
+  protected readonly glyph = BLACK_RIGHTWARDS_ARROWHEAD;
 
   private readonly baseId = nextShareChooserId();
   protected readonly listId = `${this.baseId}-list`;

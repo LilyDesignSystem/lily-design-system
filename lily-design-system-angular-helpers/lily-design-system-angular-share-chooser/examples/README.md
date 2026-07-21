@@ -9,7 +9,7 @@ standalone component that can be dropped into any Angular 20 host
 |---|------|--------------|
 | 1 | [`basic.component.ts`](./basic.component.ts) | Consumer-supplied destinations, the built-in copy item, and the announced copy outcome. |
 | 2 | [`strategy.component.ts`](./strategy.component.ts) | `auto` / `native` / `list`, and what a dismissed native sheet does. |
-| 3 | [`custom-glyph.component.ts`](./custom-glyph.component.ts) | Projecting an `<ng-template>` to replace the ↪ glyph — including with visible text. |
+| 3 | [`custom-glyph.component.ts`](./custom-glyph.component.ts) | Projecting an `<ng-template>` to replace the ➤ glyph — including with visible text. |
 
 Every example assumes:
 

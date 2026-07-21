@@ -1,5 +1,5 @@
 /*
-    Example 3 — Replacing the ↪ glyph.
+    Example 3 — Replacing the ➤ glyph.
 
     Project an <ng-template> into <lily-share-chooser> to replace the
     default glyph. It receives the ChildArgs context — { open, url } —
@@ -11,12 +11,12 @@
 
     Two reasons you might reach for this:
 
-    1. Your font stack lacks U+21AA. It is an in-font arrow rather than
+    1. Your font stack lacks U+27A4. It is an in-font arrow rather than
        a pictograph, so it is far safer than an emoji, but "safer" is
        not "guaranteed".
 
     2. You want visible text. An icon-only control's accessible name
-       rests entirely on aria-label, with no visible fallback — and ↪ is
+       rests entirely on aria-label, with no visible fallback — and ➤ is
        not self-evidently "share" to a sighted user either. If you can
        spare the space, a word is simply better. Keep `label` supplied
        even then: it remains the button's accessible name.

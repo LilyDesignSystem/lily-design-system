@@ -20,7 +20,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 - Initial release. An Angular 20 port of the canonical Svelte
   `share-chooser` helper: a headless share control whose single-glyph
-  button (↪, U+21AA) opens the **native share sheet** via
+  button (➤, U+27A4) opens the **native share sheet** via
   `navigator.share` where the browser provides one, and otherwise a
   disclosure list of consumer-supplied destinations plus a built-in
   copy-the-URL action.
@@ -46,7 +46,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
   `ChildArgs` (`{ open, url }`); the optional `ShareChooserIcon` marker
   directive types the `let-` variables.
 - Exports `canShareNatively`, `canCopy`, `nextShareChooserId`,
-  `RIGHTWARDS_ARROW_WITH_HOOK`, and the types `ChildArgs`,
+  `BLACK_RIGHTWARDS_ARROWHEAD`, and the types `ChildArgs`,
   `ShareTarget`, `ShareStrategy`, `ShareEvent`.
 - 47 vitest cases mapped onto the `spec/index.md` §7 clauses.
 
@@ -76,7 +76,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 - The tradeoffs are documented in `docs/accessibility.md` rather than
   glossed: the accessible name rests entirely on `aria-label` with no
   visible fallback; behaviour differs by platform under
-  `strategy="auto"`; the glyph is font-dependent (though ↪ is in-font
+  `strategy="auto"`; the glyph is font-dependent (though ➤ is in-font
   and materially safer than an emoji); and copy can fail for reasons
   invisible to the user, so `copyFailedLabel` should be actionable.
 

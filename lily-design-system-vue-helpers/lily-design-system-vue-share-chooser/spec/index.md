@@ -23,7 +23,7 @@ Sibling files:
 
 Give a Vue 3 application a drop-in, headless share control that:
 
-1. Renders a single-glyph button (↪, U+21AA) matching the other Lily
+1. Renders a single-glyph button (➤, U+27A4) matching the other Lily
    helpers.
 2. Uses the **native share sheet** where the browser provides one.
 3. Otherwise opens a list of consumer-supplied destinations, plus a
@@ -134,7 +134,7 @@ type ShareTarget = {
 <div class="share-chooser {class}">
   <button type="button" class="share-chooser-button"
           aria-label="{label}" aria-expanded aria-controls="{listId}">
-    <span class="share-chooser-icon" aria-hidden="true">↪</span>
+    <span class="share-chooser-icon" aria-hidden="true">➤</span>
   </button>
   <ul class="share-chooser-list" id="{listId}" hidden>
     <li class="share-chooser-list-item">
@@ -158,7 +158,7 @@ rename to `share-chooser` removed the need for that exception.)
 ### 4.5 Re-exports
 
 `index.ts` exports `default`, `ShareChooser`, `canShareNatively`,
-`canCopy`, `nextShareChooserId`, `RIGHTWARDS_ARROW_WITH_HOOK`, and the
+`canCopy`, `nextShareChooserId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the
 types `Props`, `SlotArgs`, `ChildArgs` (alias of `SlotArgs`),
 `ShareTarget`, `ShareStrategy`.
 

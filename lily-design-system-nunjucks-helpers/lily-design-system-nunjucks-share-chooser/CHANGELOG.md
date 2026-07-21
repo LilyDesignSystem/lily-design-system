@@ -22,7 +22,7 @@ The rename also retires the trigger-class exception: the button is now
 
 - **`share-chooser.njk`** — the `shareChooser(opts)` macro. Renders a
   `<div class="share-chooser">` root containing a glyph-only
-  `<button class="share-chooser-button">` (U+21AA), a
+  `<button class="share-chooser-button">` (U+27A4), a
   `<ul class="share-chooser-list" hidden>` of destination `<a>` elements
   plus an optional copy `<button>`, and a polite
   `<p class="share-chooser-status">` live region. Ids are deterministic,
@@ -32,7 +32,7 @@ The rename also retires the trigger-class exception: the button is now
   dismissal, the `navigator.share` path, and clipboard copy. Exports
   `initShareChooser`, `autoInit`, `canShareNatively`, `canCopy`,
   `nextShareChooserId`, `shareTargetHref`, and
-  `RIGHTWARDS_ARROW_WITH_HOOK`.
+  `BLACK_RIGHTWARDS_ARROWHEAD`.
 - **Owns an action, not a preference** — applies nothing to the document
   root and persists nothing.
 - **`share-chooser.test.ts`** — 55 vitest cases mapped 1:1 onto the §7
@@ -70,7 +70,7 @@ following the catalog's macro + `client.js` split.
   dismissal, the `navigator.share` path, and clipboard copy. Exports
   `initShareChooser`, `autoInit`, `canShareNatively`, `canCopy`,
   `nextShareChooserId`, `shareTargetHref`, and
-  `RIGHTWARDS_ARROW_WITH_HOOK`.
+  `BLACK_RIGHTWARDS_ARROWHEAD`.
 - **`share-chooser.test.ts`** — 55 vitest cases mapped 1:1 onto the §7
   clauses of `spec/index.md`.
 - Docs: `spec/index.md`, `index.md`, `AGENTS.md`, `CLAUDE.md`,

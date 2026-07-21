@@ -2,14 +2,14 @@
     import type { Snippet } from "svelte";
 
     /**
-     * Default button glyph: U+21AA RIGHTWARDS ARROW WITH HOOK.
+     * Default button glyph: U+27A4 BLACK RIGHTWARDS ARROWHEAD.
      *
      * An in-font arrow rather than a pictograph, matching the other helpers'
      * rule: it renders in the page's own font on every platform and stays
      * monochrome alongside theme-chooser's ◑, locale-chooser's 🌐 and
      * text-size-chooser's "A".
      */
-    export const RIGHTWARDS_ARROW_WITH_HOOK = "↪";
+    export const BLACK_RIGHTWARDS_ARROWHEAD = "➤";
 
     /**
      * One destination in the share list.
@@ -68,7 +68,7 @@
          * the sheet; `"list"` always shows the list.
          */
         strategy?: ShareStrategy;
-        /** Replaces the default ↪ glyph inside the button. */
+        /** Replaces the default ➤ glyph inside the button. */
         children?: Snippet<[ChildArgs]>;
         /** Fires after a destination is chosen, with its `id`. */
         onShare?: (targetId: string, url: string) => void;
@@ -297,7 +297,7 @@
             {@render children({ open, url: currentUrl() })}
         {:else}
             <span class="share-chooser-icon" aria-hidden="true"
-                >{RIGHTWARDS_ARROW_WITH_HOOK}</span
+                >{BLACK_RIGHTWARDS_ARROWHEAD}</span
             >
         {/if}
     </button>

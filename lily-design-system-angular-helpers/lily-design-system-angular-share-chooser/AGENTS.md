@@ -6,7 +6,7 @@ everything below is a fast index.
 ## What this package is
 
 A reusable Angular 20 headless share control. A single-glyph button
-(↪, U+21AA) that uses the **native share sheet** when the browser has
+(➤, U+27A4) that uses the **native share sheet** when the browser has
 one, and otherwise opens a disclosure list of consumer-supplied
 destinations plus a built-in copy-the-URL action. Ships no CSS, no
 icons, and no third-party endpoints.
@@ -32,7 +32,7 @@ it applies nothing to the document root and persists nothing. No
 - `ShareChooser` (component class, selector `lily-share-chooser`).
 - `ShareChooserIcon` (optional marker directive,
   `ng-template[lilyShareChooserIcon]`, for typed `let-` variables).
-- `RIGHTWARDS_ARROW_WITH_HOOK` (the default glyph, `"↪"` U+21AA).
+- `BLACK_RIGHTWARDS_ARROWHEAD` (the default glyph, `"➤"` U+27A4).
 - `canShareNatively`, `canCopy` (pure, SSR-safe capability probes).
 - `nextShareChooserId` (per-instance id generator).
 - Types `ChildArgs`, `ShareTarget`, `ShareStrategy`, `ShareEvent`.
@@ -58,7 +58,7 @@ clipboard API is a failure, never a crash. The URL is resolved lazily
 <div class="share-chooser {className}">
   <button type="button" class="share-chooser-button" aria-label="{label}"
           aria-expanded="false" aria-controls="{listId}">
-    <span class="share-chooser-icon" aria-hidden="true">↪</span>
+    <span class="share-chooser-icon" aria-hidden="true">➤</span>
   </button>
   <ul class="share-chooser-list" id="{listId}" hidden>
     <li class="share-chooser-list-item">

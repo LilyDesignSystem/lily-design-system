@@ -2257,10 +2257,11 @@
         --lily-chooser-icon-scale: 1.25;
     }
 
-    /* U+21AA "↪" is a small arrow glyph, inking only 0.633 of its em box
-       against U+25D1's 0.842, so it scales up by 0.842/0.633. */
+    /* U+27A4 "➤" inks 0.613 of its em box against U+25D1's 0.777, so it
+       scales up by 0.777/0.613. (It replaced U+21AA "↪", which inked
+       0.633 and took 1.331.) */
     :where(.share-chooser-icon) {
-        --lily-chooser-icon-scale: 1.331;
+        --lily-chooser-icon-scale: 1.268;
     }
 
     /* The share list holds real links and a button rather than options,

@@ -4,7 +4,7 @@ export {
     canShareNatively,
     canCopy,
     nextShareChooserId,
-    RIGHTWARDS_ARROW_WITH_HOOK,
+    BLACK_RIGHTWARDS_ARROWHEAD,
 } from "./ShareChooser.vue";
 export type {
     Props,

@@ -194,7 +194,7 @@ public class ShareChooserTests : TestContext
     }
 
     // -----------------------------------------------------------------
-    // §7.1 — The button renders ↪, hidden from assistive technology.
+    // §7.1 — The button renders ➤, hidden from assistive technology.
     // -----------------------------------------------------------------
     [Fact]
     public void Section_7_1_Button_Renders_Arrow_Glyph_Hidden_From_Assistive_Tech()
@@ -202,9 +202,9 @@ public class ShareChooserTests : TestContext
         var cut = Render();
 
         var icon = cut.Find(".share-chooser-icon");
-        // U+21AA RIGHTWARDS ARROW WITH HOOK.
-        Assert.Equal("↪", icon.TextContent.Trim());
-        Assert.Equal("↪", ShareChooser.RightwardsArrowWithHook);
+        // U+27A4 BLACK RIGHTWARDS ARROWHEAD.
+        Assert.Equal("➤", icon.TextContent.Trim());
+        Assert.Equal("➤", ShareChooser.BlackRightwardsArrowhead);
         // The accessible name is the button's aria-label, never the glyph.
         Assert.Equal("true", icon.GetAttribute("aria-hidden"));
     }

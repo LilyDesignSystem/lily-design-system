@@ -63,7 +63,7 @@ and the project follows
 ### Added
 
 - **`lily-design-system-nunjucks-share-chooser` 0.1.0** — a new helper,
-  ported from the canonical Svelte one. A glyph-only button (↪, U+21AA)
+  ported from the canonical Svelte one. A glyph-only button (➤, U+27A4)
   that opens the **native share sheet** where the browser provides one,
   and otherwise a disclosure list of consumer-supplied destinations
   plus a built-in copy-the-URL action. Ships no CSS, no icons, and no

@@ -24,7 +24,7 @@ Sibling files:
 
 Give a React 19 application a drop-in, headless share control that:
 
-1. Renders a single-glyph button (↪, U+21AA) matching the other Lily
+1. Renders a single-glyph button (➤, U+27A4) matching the other Lily
    helpers.
 2. Uses the **native share sheet** where the browser provides one.
 3. Otherwise opens a list of consumer-supplied destinations, plus a
@@ -89,7 +89,7 @@ Give a React 19 application a drop-in, headless share control that:
 | `copiedLabel` | `string` | no | `undefined` | Announced in the status region after a successful copy. |
 | `copyFailedLabel` | `string` | no | `undefined` | Announced when the clipboard write fails. |
 | `strategy` | `"auto" \| "native" \| "list"` | no | `"auto"` | Whether to prefer the native sheet. |
-| `children` | `(args: ChildArgs) => React.ReactNode` | no | the ↪ glyph | Replaces the button glyph. |
+| `children` | `(args: ChildArgs) => React.ReactNode` | no | the ➤ glyph | Replaces the button glyph. |
 | `onShare` | `(id, url) => void` | no | — | Fires when a destination is chosen. |
 | `onCopy` | `(url) => void` | no | — | Fires after a successful copy. |
 | `onNativeShare` | `(url) => void` | no | — | Fires when the native sheet was used instead of the list. |
@@ -119,7 +119,7 @@ clipboard write rather than being the DOM's `ClipboardEvent` handler.
 <div class="share-chooser {className}" ...restProps>
   <button type="button" class="share-chooser-button"
           aria-label="{label}" aria-expanded aria-controls="{listId}">
-    <span class="share-chooser-icon" aria-hidden="true">↪</span>
+    <span class="share-chooser-icon" aria-hidden="true">➤</span>
   </button>
   <ul class="share-chooser-list" id="{listId}" hidden>
     <li class="share-chooser-list-item">
@@ -143,7 +143,7 @@ it is stable across server and client render and survives hydration.
 ### 4.3 Re-exports
 
 `index.ts` exports `default`, `ShareChooser`, `canShareNatively`,
-`canCopy`, `nextShareChooserId`, `RIGHTWARDS_ARROW_WITH_HOOK`, and the
+`canCopy`, `nextShareChooserId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the
 types `Props`, `ChildArgs`, `ShareTarget`, `ShareStrategy`.
 
 `nextShareChooserId()` is exported for parity with the canonical Svelte

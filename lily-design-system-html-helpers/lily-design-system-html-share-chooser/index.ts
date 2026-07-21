@@ -13,14 +13,14 @@ import {
     canShareNatively,
     canCopy,
     nextShareChooserId,
-    RIGHTWARDS_ARROW_WITH_HOOK,
+    BLACK_RIGHTWARDS_ARROWHEAD,
 } from "./share-chooser.js";
 export {
     ShareChooser,
     canShareNatively,
     canCopy,
     nextShareChooserId,
-    RIGHTWARDS_ARROW_WITH_HOOK,
+    BLACK_RIGHTWARDS_ARROWHEAD,
 };
 export type {
     ShareChooserProps,

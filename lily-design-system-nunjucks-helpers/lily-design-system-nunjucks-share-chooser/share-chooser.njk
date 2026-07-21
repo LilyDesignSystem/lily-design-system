@@ -118,7 +118,7 @@
   {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
 <button type="button" class="share-chooser-button" aria-label="{{ opts.label }}" aria-expanded="false" aria-controls="{{ listId }}" data-lily-share-chooser-button>
-{%- if caller %}{{ caller() }}{% else %}<span class="share-chooser-icon" aria-hidden="true">&#8618;</span>{% endif -%}
+{%- if caller %}{{ caller() }}{% else %}<span class="share-chooser-icon" aria-hidden="true">&#10148;</span>{% endif -%}
 </button>
 <ul class="share-chooser-list" id="{{ listId }}" hidden data-lily-share-chooser-list>
 {%- for target in targets -%}

@@ -95,7 +95,7 @@ the document and persists nothing. Svelte catalog only, for now.
 
 | Aspect | Contract |
 | ------ | -------- |
-| Markup | `<div class="share-chooser {class}">` containing `<button class="share-chooser-trigger" aria-label aria-expanded aria-controls>` whose only content is an `aria-hidden` `<span class="share-chooser-icon">↪</span>` (U+21AA), a `<ul class="share-chooser-list" hidden>` of `<li>` holding `<a class="share-chooser-target">` destinations and an optional `<button class="share-chooser-copy">`, and a `<p class="share-chooser-status" aria-live="polite">`. |
+| Markup | `<div class="share-chooser {class}">` containing `<button class="share-chooser-button" aria-label aria-expanded aria-controls>` whose only content is an `aria-hidden` `<span class="share-chooser-icon">➤</span>` (U+27A4), a `<ul class="share-chooser-list" hidden>` of `<li>` holding `<a class="share-chooser-target">` destinations and an optional `<button class="share-chooser-copy">`, and a `<p class="share-chooser-status" aria-live="polite">`. |
 | Pattern | **Disclosure, not menu or listbox.** Destinations are navigation, so they are real links with no `role` override — `role="menuitem"` would strip middle-click, open-in-new-tab and copy-link-address, and the APG suggests a disclosure when items are links. |
 | Required props | `label`. `targets` and `copyLabel` are both optional, but at least one is needed for the list to have contents. |
 | Destinations | Consumer-supplied. Each `ShareTarget` carries `id`, `label`, and `href(url, title, text)`. **No social-network endpoints ship with the package** — an editorial and privacy decision that belongs to the consumer, and the URLs change. |

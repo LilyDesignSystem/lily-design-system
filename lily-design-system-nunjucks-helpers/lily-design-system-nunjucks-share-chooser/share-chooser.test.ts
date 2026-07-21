@@ -10,7 +10,7 @@ import {
     canShareNatively,
     initShareChooser,
     nextShareChooserId,
-    RIGHTWARDS_ARROW_WITH_HOOK,
+    BLACK_RIGHTWARDS_ARROWHEAD,
     shareTargetHref,
 } from "./share-chooser.client.js";
 
@@ -204,13 +204,13 @@ describe("ShareChooser — markup contract (§7.1–§7.6)", () => {
         expect(list.tagName).toBe("UL");
     });
 
-    test("§7.1 the button renders ↪, hidden from assistive tech", () => {
+    test("§7.1 the button renders ➤, hidden from assistive tech", () => {
         const { root } = setup();
         const icon = root.querySelector(".share-chooser-icon") as HTMLElement;
-        // U+21AA RIGHTWARDS ARROW WITH HOOK, emitted as &#8618;
-        expect(icon.textContent).toBe("↪");
-        expect(RIGHTWARDS_ARROW_WITH_HOOK).toBe("↪");
-        expect(RIGHTWARDS_ARROW_WITH_HOOK.codePointAt(0)).toBe(0x21aa);
+        // U+27A4 BLACK RIGHTWARDS ARROWHEAD, emitted as &#10148;
+        expect(icon.textContent).toBe("➤");
+        expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
+        expect(BLACK_RIGHTWARDS_ARROWHEAD.codePointAt(0)).toBe(0x27a4);
         expect(icon.getAttribute("aria-hidden")).toBe("true");
     });
 
@@ -628,7 +628,7 @@ describe("ShareChooser — url resolution and glyph (§7.20–§7.22)", () => {
         expect(
             (root.querySelector(".share-chooser-icon") as HTMLElement)
                 .textContent,
-        ).toBe(RIGHTWARDS_ARROW_WITH_HOOK);
+        ).toBe(BLACK_RIGHTWARDS_ARROWHEAD);
     });
 });
 

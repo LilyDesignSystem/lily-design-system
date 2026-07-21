@@ -119,7 +119,7 @@ defaults. Level them:
 
 ## Glyph sizing
 
-The ↪ arrow's optical weight varies between font families and can read
+The ➤ arrow's optical weight varies between font families and can read
 small next to body text. The root `themes/` stylesheets already handle
 this; if you are not using them:
 

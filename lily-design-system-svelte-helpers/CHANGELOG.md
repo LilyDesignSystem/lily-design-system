@@ -47,7 +47,7 @@ and the project follows
 - **`lily-design-system-svelte-share-chooser` 0.1.0** — a new helper, and
   the first that owns an *action* rather than a user preference: it
   applies nothing to the document and persists nothing. A single-glyph
-  button (↪, U+21AA) opens the native share sheet where the browser has
+  button (➤, U+27A4) opens the native share sheet where the browser has
   one, and otherwise a disclosure list of consumer-supplied destinations
   plus copy-to-clipboard. No social-network endpoints ship with it.
   Destinations are real `<a>` elements rather than `role="menuitem"`, so

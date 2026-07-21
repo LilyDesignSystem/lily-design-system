@@ -9,6 +9,32 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## share-chooser glyph — 2026-07-21
+
+### Changed
+
+- The `share-chooser` button glyph moves from **↪ U+21AA RIGHTWARDS
+  ARROW WITH HOOK** to **➤ U+27A4 BLACK RIGHTWARDS ARROWHEAD**, and the
+  exported constant renames with it: `RIGHTWARDS_ARROW_WITH_HOOK` →
+  `BLACK_RIGHTWARDS_ARROWHEAD` (`RightwardsArrowWithHook` →
+  `BlackRightwardsArrowhead` in Blazor). ➤ reads as *send* rather than
+  *go back*, and is likewise an in-font monochrome character rather than
+  a pictograph.
+- Optical scale retuned: ➤ inks 0.613 of its em box against ◑'s 0.777,
+  so `--lily-chooser-icon-scale` for the share icon goes 1.331 → 1.268
+  across the 45 `themes/*.css`. Verified in a browser against the real
+  components: all four glyphs now render within 0.52px of each other in
+  identical 40×40 buttons.
+
+### Notes
+
+- Two assertions could not be caught by a text substitution and had to
+  be found by running the suites: the HTML and Nunjucks catalogs assert
+  the codepoint numerically (`0x21aa`), and the Nunjucks macro emits the
+  glyph as an HTML entity (`&#8618;`). Both are now `0x27a4` /
+  `&#10148;`. Worth remembering if the glyph ever changes again — a
+  grep for the character alone will miss them.
+
 ## Helpers renamed to `*-chooser` — 2026-07-21
 
 ### Changed (BREAKING — all helper packages)
@@ -103,7 +129,7 @@ highlights.
 - A new helper, and the first that owns an **action** rather than a user
   preference: it applies nothing to the document and persists nothing.
   `AGENTS/helpers.md`'s definition of a helper is widened accordingly.
-- A single-glyph button (↪, U+21AA) opens the **native share sheet**
+- A single-glyph button (➤, U+27A4) opens the **native share sheet**
   where the browser provides one, and otherwise a **disclosure list** of
   consumer-supplied destinations plus **copy the page URL**.
 - **No social-network endpoints ship with it.** Which networks belong in
@@ -143,7 +169,7 @@ highlights.
 
 - The 45 `themes/*.css` style the `share-button` hooks and carry each
   glyph's optical correction. The four glyphs ink materially different
-  fractions of their em box — ◑ 0.842, 🌐 0.996, `"A"` 0.673, ↪ 0.633 —
+  fractions of their em box — ◑ 0.842, 🌐 0.996, `"A"` 0.673, ➤ 0.613 —
   so each has its own `--lily-select-icon-scale` (1, 0.845, 1.25,
   1.331). Measured against each icon's *computed* `font-family` and
   verified in a browser: 0.02px spread across all four.

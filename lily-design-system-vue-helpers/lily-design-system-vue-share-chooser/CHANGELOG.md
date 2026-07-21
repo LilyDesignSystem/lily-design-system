@@ -33,7 +33,7 @@ none of them said "button".
 
 ### The package as it stands
 
-- Headless Vue 3 share control: a single-glyph button (U+21AA RIGHTWARDS
+- Headless Vue 3 share control: a single-glyph button (U+27A4 RIGHTWARDS
   ARROW WITH HOOK) that opens the native share sheet where the browser
   has one, and otherwise discloses a list of consumer-supplied
   destinations plus an opt-in copy-the-URL action.
@@ -44,7 +44,7 @@ none of them said "button".
 - Owns an action, not a preference: no `v-model`, no `storageKey`,
   nothing written to the document.
 - Exports `ShareChooser`, `canShareNatively`, `canCopy`,
-  `nextShareChooserId`, `RIGHTWARDS_ARROW_WITH_HOOK`, and the `Props` /
+  `nextShareChooserId`, `BLACK_RIGHTWARDS_ARROWHEAD`, and the `Props` /
   `SlotArgs` / `ChildArgs` / `ShareTarget` / `ShareStrategy` types.
 - Ships no CSS, fonts, icons, or images. SSR-safe.
 
@@ -59,7 +59,7 @@ the record stays accurate. None of it was published to npm.
 ##### Added
 
 - Initial release. A headless share control: a single-glyph button
-  (↪, U+21AA) that opens the **native share sheet** via `navigator.share`
+  (➤, U+27A4) that opens the **native share sheet** via `navigator.share`
   where the browser provides one, and otherwise a disclosure list of
   consumer-supplied destinations plus a built-in copy-the-URL action.
 - `targets` are supplied by the consumer, each with its own `href(url,
@@ -76,7 +76,7 @@ the record stays accurate. None of it was published to npm.
 - Keyboard: arrows move between items and clamp, Home/End jump, Escape
   closes and returns focus to the trigger, Tab closes and moves on.
 - Exports `canShareNatively`, `canCopy`, `nextShareChooserId`,
-  `RIGHTWARDS_ARROW_WITH_HOOK`, and the types `Props`, `SlotArgs`,
+  `BLACK_RIGHTWARDS_ARROWHEAD`, and the types `Props`, `SlotArgs`,
   `ChildArgs`, `ShareTarget`, `ShareStrategy`.
 - `ShareChooser.test.ts` — 35 vitest cases under jsdom +
   `@vue/test-utils`, one or more per numbered `spec/index.md` §7 clause.

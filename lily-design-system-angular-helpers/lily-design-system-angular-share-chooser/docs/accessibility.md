@@ -34,7 +34,7 @@ well and what it costs — the costs are real and are not talked around.
 **The name rests entirely on `aria-label`.** An icon-only control has no
 visible text fallback. If `label` is wrong, missing, or untranslated,
 there is nothing else for anyone to go on — sighted users included,
-since ↪ is not self-evidently "share". If you can spare the space, pair
+since ➤ is not self-evidently "share". If you can spare the space, pair
 the button with visible text, or project an `<ng-template>` that renders
 a word instead of the glyph.
 
@@ -45,7 +45,7 @@ scripts cannot describe one flow, and a keyboard or screen-reader user
 on a touch device meets an OS surface this package does not control.
 Force one path with `strategy="list"` if consistency matters more.
 
-**The glyph is font-dependent.** ↪ (U+21AA) is an in-font arrow rather
+**The glyph is font-dependent.** ➤ (U+27A4) is an in-font arrow rather
 than a pictograph, so it is far safer than an emoji — it renders in the
 page's own font and stays monochrome alongside theme-chooser's ◑,
 locale-chooser's 🌐 and text-size-chooser's "A". It is still not

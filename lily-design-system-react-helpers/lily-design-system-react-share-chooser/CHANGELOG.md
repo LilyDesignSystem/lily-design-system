@@ -20,7 +20,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 ### Added
 
 - Initial release. A headless share control: a single-glyph button
-  (↪, U+21AA) that opens the **native share sheet** via `navigator.share`
+  (➤, U+27A4) that opens the **native share sheet** via `navigator.share`
   where the browser provides one, and otherwise a disclosure list of
   consumer-supplied destinations plus a built-in copy-the-URL action.
   Ported from the canonical Svelte helper, mirroring its spec §-numbering
@@ -39,7 +39,7 @@ and the project follows [Semantic Versioning](https://semver.org/).
 - Keyboard: arrows move between items and clamp, Home/End jump, Escape
   closes and returns focus to the trigger, Tab closes and moves on.
 - Exports `canShareNatively`, `canCopy`, `nextShareChooserId`,
-  `RIGHTWARDS_ARROW_WITH_HOOK`.
+  `BLACK_RIGHTWARDS_ARROWHEAD`.
 
 ### Notes
 

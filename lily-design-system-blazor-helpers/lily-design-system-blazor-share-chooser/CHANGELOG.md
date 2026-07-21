@@ -17,7 +17,7 @@ NuGet package is `LilyDesignSystem.Blazor.ShareChooser`.
 ### Added
 
 - **`ShareChooser`** — a headless share control. A single-glyph button
-  (↪, U+21AA) that opens the **native share sheet** where the browser
+  (➤, U+27A4) that opens the **native share sheet** where the browser
   provides one, and otherwise a **disclosure list** of consumer-supplied
   destinations plus a built-in **copy the page URL** action.
 
@@ -25,7 +25,7 @@ NuGet package is `LilyDesignSystem.Blazor.ShareChooser`.
   <div class="share-chooser {CssClass}">
     <button type="button" class="share-chooser-button" aria-label="{Label}"
             aria-expanded="false" aria-controls="{listId}">
-      <span class="share-chooser-icon" aria-hidden="true">↪</span>
+      <span class="share-chooser-icon" aria-hidden="true">➤</span>
     </button>
     <ul class="share-chooser-list" id="{listId}" hidden>
       <li class="share-chooser-list-item">
@@ -97,7 +97,7 @@ NuGet package is `LilyDesignSystem.Blazor.ShareChooser`.
   `ShareNativelyAsync()`, so consumers can drive the control from their
   own UI via a `@ref`.
 
-- **Static helpers** `RightwardsArrowWithHook`, `NextShareChooserId()`,
+- **Static helpers** `BlackRightwardsArrowhead`, `NextShareChooserId()`,
   `CanShareNativelyAsync(IJSRuntime)`, `CanCopyAsync(IJSRuntime)` — the
   C# equivalents of the Svelte package's module re-exports. The two
   capability probes are async because the browser is only reachable over

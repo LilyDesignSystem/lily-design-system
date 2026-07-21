@@ -1,7 +1,7 @@
 export {
   ShareChooser,
   ShareChooserIcon,
-  RIGHTWARDS_ARROW_WITH_HOOK,
+  BLACK_RIGHTWARDS_ARROWHEAD,
   canShareNatively,
   canCopy,
   nextShareChooserId,

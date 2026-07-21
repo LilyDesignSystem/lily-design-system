@@ -14,7 +14,7 @@ vanilla custom element.
 
 ### Added
 
-- `<share-chooser>` custom element: a single-glyph trigger (↪, U+21AA)
+- `<share-chooser>` custom element: a single-glyph trigger (➤, U+27A4)
   that opens the native share sheet where the browser provides one, and
   otherwise a disclosure list of consumer-supplied destinations plus an
   optional copy-the-URL action.
@@ -28,7 +28,7 @@ vanilla custom element.
   overridable `renderButtonContent()` hook standing in for the slot the
   other frameworks expose.
 - Pure helpers `canShareNatively()`, `canCopy()`, `nextShareChooserId()`,
-  and the `RIGHTWARDS_ARROW_WITH_HOOK` glyph constant, exported from
+  and the `BLACK_RIGHTWARDS_ARROWHEAD` glyph constant, exported from
   both the module and the barrel.
 - 52 vitest + jsdom cases mapped onto the §7 acceptance clauses, plus
   coverage of the catalog idiom (attribute/property mirroring, the

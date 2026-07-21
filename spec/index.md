@@ -699,7 +699,7 @@ Long-term:
   button + APG listbox as its siblings, so all three preference helpers
   finally share one shape; its glyph is `"A"` (U+0041), chosen because
   the obvious U+1F5DB has no real glyph in common font stacks. A new
-  `share-button` helper lands: a ↪ button that opens the native share
+  `share-button` helper lands: a ➤ button that opens the native share
   sheet where the platform has one and otherwise a disclosure list of
   consumer-supplied destinations plus copy-to-clipboard. It is the first
   helper that owns an *action* rather than a preference — applying

@@ -48,8 +48,8 @@ and the project follows
 ### Added
 
 - **`share-chooser` 0.1.0** — a new helper, ported from the canonical
-  `lily-design-system-svelte-share-chooser`. A single-glyph trigger (↪,
-  U+21AA) that opens the **native share sheet** where the browser
+  `lily-design-system-svelte-share-chooser`. A single-glyph trigger (➤,
+  U+27A4) that opens the **native share sheet** where the browser
   provides one, and otherwise a **disclosure list** of consumer-supplied
   destinations plus an optional copy-the-URL action. Ships no CSS, no
   icons, and no third-party endpoints.

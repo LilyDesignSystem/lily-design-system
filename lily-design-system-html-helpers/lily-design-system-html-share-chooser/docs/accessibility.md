@@ -37,7 +37,7 @@ attribute. Three consequences:
 - **WCAG 2.5.3 Label in Name** applies to anyone using voice control. If
   you later render visible text next to the glyph, the `aria-label` must
   *contain* that visible text, or "click Share" will fail to match.
-- **Sighted users get no name at all.** ↪ is not a widely-understood
+- **Sighted users get no name at all.** ➤ is not a widely-understood
   share symbol the way a magnifier means search. Consider a visible
   label, or a tooltip, if the surrounding context does not make it
   obvious.
@@ -72,12 +72,12 @@ cost of the native integration users on mobile expect.
 
 ## Cost 3 — the glyph is font-dependent
 
-↪ (U+21AA RIGHTWARDS ARROW WITH HOOK) is an in-font arrow, not an emoji,
+➤ (U+27A4 BLACK RIGHTWARDS ARROWHEAD) is an in-font arrow, not an emoji,
 which makes it far safer than a pictograph: it renders monochrome, at
 text weight, in the page's own font, and inherits `currentColor`. It
 sits in the same family as the sibling helpers' ◑ and "A".
 
-It is still not guaranteed. A font without U+21AA renders tofu (□), and
+It is still not guaranteed. A font without U+27A4 renders tofu (□), and
 the arrow's optical weight varies enough between families that it can
 look under- or over-sized next to your text. If your font stack is
 narrow, verify it, or override `renderButtonContent()` with inline SVG.

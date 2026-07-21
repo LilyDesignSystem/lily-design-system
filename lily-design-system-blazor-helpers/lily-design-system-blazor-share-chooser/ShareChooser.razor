@@ -4,7 +4,7 @@
     ShareChooser — Blazor helper component.
     Single source of truth: spec/index.md (§1–§9).
 
-    Renders a single-glyph button (↪, U+21AA) that opens the native share
+    Renders a single-glyph button (➤, U+27A4) that opens the native share
     sheet where the browser provides one, and otherwise a disclosure list
     of consumer-supplied destinations plus a built-in copy-the-URL action.
 
@@ -38,7 +38,7 @@
         {
             @* The glyph is decorative: the accessible name is the button's
                aria-label, never the character itself. *@
-            <span class="share-chooser-icon" aria-hidden="true">@RightwardsArrowWithHook</span>
+            <span class="share-chooser-icon" aria-hidden="true">@BlackRightwardsArrowhead</span>
         }
     </button>
 

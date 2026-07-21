@@ -5,7 +5,7 @@ import { h, nextTick } from "vue";
 import ShareChooser, {
     canCopy,
     canShareNatively,
-    RIGHTWARDS_ARROW_WITH_HOOK,
+    BLACK_RIGHTWARDS_ARROWHEAD,
     type ShareTarget,
 } from "./ShareChooser.vue";
 
@@ -139,12 +139,12 @@ describe("ShareChooser — markup contract (§7.1–§7.6)", () => {
         expect(list.element.tagName).toBe("UL");
     });
 
-    test("§7.1 the button renders ↪, hidden from assistive tech", () => {
+    test("§7.1 the button renders ➤, hidden from assistive tech", () => {
         const wrapper = build();
         const icon = wrapper.find(".share-chooser-icon");
-        // U+21AA RIGHTWARDS ARROW WITH HOOK
-        expect(icon.text()).toBe("↪");
-        expect(RIGHTWARDS_ARROW_WITH_HOOK).toBe("↪");
+        // U+27A4 BLACK RIGHTWARDS ARROWHEAD
+        expect(icon.text()).toBe("➤");
+        expect(BLACK_RIGHTWARDS_ARROWHEAD).toBe("➤");
         expect(icon.attributes("aria-hidden")).toBe("true");
     });
 

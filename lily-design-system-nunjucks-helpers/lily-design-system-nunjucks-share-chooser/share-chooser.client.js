@@ -19,14 +19,14 @@
 // See spec/index.md §4.3 (client.js exports), §5 (behaviour).
 
 /**
- * Default button glyph: U+21AA RIGHTWARDS ARROW WITH HOOK.
+ * Default button glyph: U+27A4 BLACK RIGHTWARDS ARROWHEAD.
  *
  * An in-font arrow rather than a pictograph, matching the other helpers'
  * rule: it renders in the page's own font on every platform and stays
  * monochrome alongside theme-chooser's ◑, locale-chooser's 🌐 and
  * text-size-chooser's "A".
  */
-export const RIGHTWARDS_ARROW_WITH_HOOK = "↪";
+export const BLACK_RIGHTWARDS_ARROWHEAD = "➤";
 
 /** Is a native share sheet available? SSR-safe. */
 export function canShareNatively() {

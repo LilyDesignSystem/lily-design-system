@@ -6,7 +6,7 @@ everything below is a fast index.
 ## What this package is
 
 A Nunjucks 3 + vanilla-JS headless share control. A glyph-only button
-(↪, U+21AA) that uses the **native share sheet** when the browser has
+(➤, U+27A4) that uses the **native share sheet** when the browser has
 one, and otherwise opens a disclosure list of consumer-supplied
 destinations plus a built-in copy-the-URL action. Ships no CSS, no
 icons, and no third-party endpoints.
@@ -42,7 +42,7 @@ The helper is a **macro + client.js pair**:
 ### Client.js
 
 `initShareChooser`, `autoInit`, `canShareNatively`, `canCopy`,
-`nextShareChooserId`, `shareTargetHref`, `RIGHTWARDS_ARROW_WITH_HOOK`.
+`nextShareChooserId`, `shareTargetHref`, `BLACK_RIGHTWARDS_ARROWHEAD`.
 
 ## THE DEVIATION — `href` is a string in the macro
 
@@ -112,7 +112,7 @@ where `id` defaults to `share-chooser-{name}` and `name` defaults to
 - Known costs, documented honestly in `docs/accessibility.md`: the name
   has no visible fallback; `strategy="auto"` behaves differently per
   platform and the native sheet is untestable from your code; the glyph
-  is font-dependent (↪ is in-font and far safer than an emoji, but not
+  is font-dependent (➤ is in-font and far safer than an emoji, but not
   guaranteed); and copy fails for reasons invisible to the user, so
   `copyFailedLabel` must be actionable.
 - **Partial no-JS degradation**, stated precisely in `docs/ssr.md`: the
