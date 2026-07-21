@@ -33,7 +33,7 @@ these rules without exception.
   string.
 - Right-to-left and bidirectional text are inherited from the
   consumer's `dir` attribute and CSS — helpers do not assume LTR
-  layout in their structural HTML. The `locale-select` helper goes
+  layout in their structural HTML. The `locale-chooser` helper goes
   one step further: it auto-detects the script direction and writes
   `dir="rtl"` / `dir="ltr"` to the document root on every change.
 
@@ -51,7 +51,7 @@ other library. They expose:
   data, navigate to a localised URL, set
   `CultureInfo.DefaultThreadCurrentCulture`).
 
-The locale-select also writes `<html lang>` and `<html dir>`, which
+The locale-chooser also writes `<html lang>` and `<html dir>`, which
 many i18n libraries read on initialisation; that integration usually
 needs no extra wiring.
 
@@ -60,7 +60,7 @@ needs no extra wiring.
 ```razor
 @inject IStringLocalizer<SharedResources> Localizer
 
-<LocaleSelect
+<LocaleChooser
     Label="@Localizer["chooseLanguage"]"
     Locales="@(new[]{ "en", "fr", "ar" })"
     @bind-Value="locale"
@@ -128,7 +128,7 @@ For Blazor WebAssembly culture switching, see
 | `Intl.RelativeTimeFormat` | No direct equivalent; use a NuGet package (e.g. `Humanizer`)    |
 | `Intl.PluralRules`    | `Humanizer.ToWords`, or `IStringLocalizer<T>` with `.resx` plurals |
 
-The locale-select's `Locales.LocaleName(code)` consults a built-in
+The locale-chooser's `Locales.LocaleName(code)` consults a built-in
 table; for richer names use `CultureInfo.GetCultureInfo(tag).DisplayName`
 from the consumer's code.
 
@@ -143,7 +143,7 @@ your own resolver and pass the result as `Value`.
 
 The catalog has no `Accept-Language` parsing helper. Blazor servers
 read it via `HttpContext.Request.Headers["Accept-Language"]`; see
-the locale-select's `docs/ssr.md` for the recipe.
+the locale-chooser's `docs/ssr.md` for the recipe.
 
 ### What "i18n-clean" looks like in a test
 
@@ -151,7 +151,7 @@ the locale-select's `docs/ssr.md` for the recipe.
 [Fact]
 public void Has_No_Hardcoded_English_In_Markup()
 {
-    var cut = RenderComponent<LocaleSelect>(p => p
+    var cut = RenderComponent<LocaleChooser>(p => p
         .Add(x => x.Label, "Langue")
         .Add(x => x.Locales, new[] { "en", "fr" }));
 

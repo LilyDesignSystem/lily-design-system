@@ -2,7 +2,7 @@ import { defineConfig } from "vitest/config";
 import angular from "@analogjs/vite-plugin-angular";
 
 // Standalone test harness for the Angular helpers catalog. Each helper
-// subproject (e.g. lily-design-system-angular-theme-select) keeps its
+// subproject (e.g. lily-design-system-angular-theme-chooser) keeps its
 // own `*.component.spec.ts` next to its component; vitest discovers
 // them all. Mirrors the angular-headless library harness.
 

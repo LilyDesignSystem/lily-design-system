@@ -38,9 +38,9 @@ The theme is exposed as a flat object whose keys flatten into
 Consumer CSS reads `var(--theme-color-primary)`,
 `var(--theme-space-md)`, etc.
 
-## How the HTML theme-select fits in
+## How the HTML theme-chooser fits in
 
-The HTML `<theme-select>` custom element writes one extra signal to
+The HTML `<theme-chooser>` custom element writes one extra signal to
 the document root: a `data-theme="<slug>"` attribute. Theme CSS
 files scope their rules to `:root[data-theme="<slug>"]` so the
 select's attribute mutation is enough to switch the live theme.
@@ -68,11 +68,11 @@ consumer:
 ```ts
 const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
 const initial = prefersDark ? "dark" : "light";
-document.querySelector("theme-select")!.setAttribute("default-value", initial);
+document.querySelector("theme-chooser")!.setAttribute("default-value", initial);
 ```
 
 See
-`lily-design-system-html-theme-select/examples/06-system-preference.html`.
+`lily-design-system-html-theme-chooser/examples/06-system-preference.html`.
 
 ## Forbidden in the headless layer
 
@@ -91,12 +91,12 @@ class hooks, and `data-*` attributes.
 ### Imperative `document.head.appendChild`
 
 The HTML helpers manage a single `<link rel="stylesheet"
-data-lily-theme-select="{name}">` in `document.head` via imperative
+data-lily-theme-chooser="{name}">` in `document.head` via imperative
 DOM mutation. This is simpler than any framework abstraction
 (`<svelte:head>`, `useHead`, `<Teleport to="head">`) because the
 helper *is* vanilla JS — there is no framework boundary to cross.
 
-The `data-lily-theme-select` attribute disambiguates the managed
+The `data-lily-theme-chooser` attribute disambiguates the managed
 link from any other `<link>` the consumer or framework has
 inserted; the helper never touches a `<link>` it didn't create.
 
@@ -116,7 +116,7 @@ want. Pass distinct names for independent operation.
 ### Disconnect cleanup
 
 `disconnectedCallback` removes the managed `<link>` *only* when no
-other `<theme-select>` with the same `name` remains in the document.
+other `<theme-chooser>` with the same `name` remains in the document.
 This lets two selects coordinate while still cleaning up when both
 unmount.
 

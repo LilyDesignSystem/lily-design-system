@@ -10,8 +10,10 @@ DOM application) for one small, common job.
 
 | Helper                                                                                  | Purpose                                                        |
 | --------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`lily-design-system-svelte-theme-select`](./lily-design-system-svelte-theme-select/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
-| [`lily-design-system-svelte-locale-select`](./lily-design-system-svelte-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-svelte-theme-chooser`](./lily-design-system-svelte-theme-chooser/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
+| [`lily-design-system-svelte-locale-chooser`](./lily-design-system-svelte-locale-chooser/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-svelte-text-size-chooser`](./lily-design-system-svelte-text-size-chooser/) | Pick a text size; sets `data-text-size` on the document root. |
+| [`lily-design-system-svelte-share-chooser`](./lily-design-system-svelte-share-chooser/) | Share the page: native share sheet where available, else a list of consumer-supplied destinations plus copy-the-URL. |
 
 ## Conventions
 
@@ -51,7 +53,7 @@ Shared design decisions across the catalog:
 
 The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle. A consumer
-typing on top of `ThemeSelect` from `lily-design-system-svelte-headless`
+typing on top of `ThemeChooser` from `lily-design-system-svelte-headless`
 writes their own radio markup, their own persistence, and their own
 loading.
 

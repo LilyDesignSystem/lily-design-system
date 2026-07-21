@@ -8,9 +8,10 @@ follows the file shape in [AGENTS/conventions.md](./AGENTS/conventions.md).
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-blazor-theme-select`](./lily-design-system-blazor-theme-select/) — dynamic theme CSS loader.
-- [`lily-design-system-blazor-locale-select`](./lily-design-system-blazor-locale-select/) — `lang` + `dir` locale select.
-- [`lily-design-system-blazor-text-size-select`](./lily-design-system-blazor-text-size-select/) — `data-text-size` text-size select.
+- [`lily-design-system-blazor-theme-chooser`](./lily-design-system-blazor-theme-chooser/) — dynamic theme CSS loader.
+- [`lily-design-system-blazor-locale-chooser`](./lily-design-system-blazor-locale-chooser/) — `lang` + `dir` locale select.
+- [`lily-design-system-blazor-text-size-chooser`](./lily-design-system-blazor-text-size-chooser/) — `data-text-size` text-size select.
+- [`lily-design-system-blazor-share-chooser`](./lily-design-system-blazor-share-chooser/) — share via the native sheet or a list of consumer-supplied destinations, plus copy-the-URL. Owns an *action*, not a preference: applies nothing, persists nothing.
 
 ## Working rules
 
@@ -49,9 +50,10 @@ lily-design-system-blazor-helpers/
 ├── CLAUDE.md                ← `@AGENTS.md`
 ├── index.md                 ← catalog overview
 ├── CHANGELOG.md             ← parent-level version history
-├── lily-design-system-blazor-theme-select/    ← helper 1
-├── lily-design-system-blazor-locale-select/   ← helper 2
-└── lily-design-system-blazor-text-size-select/ ← helper 3
+├── lily-design-system-blazor-theme-chooser/    ← helper 1
+├── lily-design-system-blazor-locale-chooser/   ← helper 2
+├── lily-design-system-blazor-text-size-chooser/ ← helper 3
+└── lily-design-system-blazor-share-chooser/    ← helper 4
 ```
 
 ## Topic index (parent)

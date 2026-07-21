@@ -7,11 +7,76 @@ The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows
 [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+### Changed (BREAKING)
+
+- **All four helpers renamed to `*-chooser`**, each reset to `0.1.0`:
+
+  | Was | Now |
+  | --- | --- |
+  | `lily-design-system-svelte-theme-select` | `lily-design-system-svelte-theme-chooser` |
+  | `lily-design-system-svelte-locale-select` | `lily-design-system-svelte-locale-chooser` |
+  | `lily-design-system-svelte-text-size-select` | `lily-design-system-svelte-text-size-chooser` |
+  | `lily-design-system-svelte-share-button` | `lily-design-system-svelte-share-chooser` |
+
+  A full-depth rename: directories, component and test file names,
+  package names, exported symbols (`ThemeChooser`, `nextThemeChooserId`,
+  …), CSS class hooks and their derivatives, and the
+  `data-lily-{helper}-chooser` attributes.
+
+  Two motivations. First, `theme-chooser` collided with the catalog
+  component of the same name in `components.tsv`, which shares the hook
+  `.theme-chooser`; the helpers no longer contend for it. Second, none of
+  these controls is a native `<select>` any more — all four are icon
+  buttons opening WAI-ARIA APG listboxes — so "select" had stopped
+  describing them.
+
+  Versions reset to `0.1.0` because nothing has been published under the
+  new names; carrying the old numbers forward would imply releases that
+  never existed.
+
+- **`share-chooser` loses its class-hook exception.** The trigger was
+  `share-button-trigger` because `.share-button-button` read badly. Under
+  the new name it is **`share-chooser-button`**, matching the other three
+  helpers. The documented exception is removed from its spec, `AGENTS.md`
+  and changelog.
+
+### Added
+
+- **`lily-design-system-svelte-share-chooser` 0.1.0** — a new helper, and
+  the first that owns an *action* rather than a user preference: it
+  applies nothing to the document and persists nothing. A single-glyph
+  button (➤, U+27A4) opens the native share sheet where the browser has
+  one, and otherwise a disclosure list of consumer-supplied destinations
+  plus copy-to-clipboard. No social-network endpoints ship with it.
+  Destinations are real `<a>` elements rather than `role="menuitem"`, so
+  middle-click and open-in-new-tab survive.
+
+### Changed (BREAKING)
+
+- **`text-size-chooser` is now an icon button + APG listbox**, matching
+  `theme-chooser` and `locale-chooser`. It was the last native `<select>`
+  among the helpers. Button glyph is `"A"` (U+0041): the obvious
+  candidate U+1F5DB has no real glyph in common font stacks and falls
+  back to a crude bitmap shape, and means *decrease* rather than *size*.
+- `sizeName` is exported to mirror `themeName` / `localeName`, and
+  `labelFor` delegates to it. No detection prop was added — there is no
+  OS "preferred text size" equivalent to `prefers-color-scheme`.
+
+### Fixed
+
+- `CSS.escape` in all three `*-select` helpers threw inside the keydown
+  handler under jsdom, which has no `CSS` object at all. The throw landed
+  *after* `activeIndex` was assigned, so the suites stayed green while
+  that path never ran. Replaced with `document.getElementById`, which
+  needs no escaping for these generated ids.
+
 ## 0.3.0 — 2026-07-20
 
 ### Changed (BREAKING)
 
-- `theme-select` and `locale-select` bumped to **0.3.0**: both are now
+- `theme-chooser` and `locale-chooser` bumped to **0.3.0**: both are now
   *placeholder-pinned*. The closed `<select>` always displays a short
   placeholder word ("Theme", "Locale") instead of the active value, so
   the control is only ever as wide as that word rather than as wide as
@@ -25,7 +90,7 @@ and the project follows
   selection. The bindable `value` prop is the single source of truth.
   Behaviour contracts (DOM application, persistence, SSR safety, i18n)
   are otherwise unchanged.
-- `text-size-select` is untouched and stays at **0.1.0**.
+- `text-size-chooser` is untouched and stays at **0.1.0**.
 
 ### Added
 
@@ -40,7 +105,7 @@ and the project follows
 
 ### Changed (BREAKING)
 
-- `theme-select` and `locale-select` bumped to **0.2.0**: migrated from
+- `theme-chooser` and `locale-chooser` bumped to **0.2.0**: migrated from
   the radio-group "picker" rendering to a native `<select>` with
   `<option>` children (landed in-tree 2026-06-17), with renamed packages
   (`*-picker` → `*-select`), changed class hooks, and native `<select>`
@@ -49,7 +114,7 @@ and the project follows
 
 ### Added
 
-- `text-size-select` **0.1.0** — native-`<select>` text-size helper that
+- `text-size-chooser` **0.1.0** — native-`<select>` text-size helper that
   sets `data-text-size` on the document root, with optional
   `localStorage` persistence (added 2026-06-17; born select-based, so it
   carries no picker migration).
@@ -63,11 +128,11 @@ disagree, the Svelte side wins and the others are patched.
 
 ### Added
 
-- `lily-design-system-svelte-theme-select` v0.1.0 — runtime-loading
+- `lily-design-system-svelte-theme-chooser` v0.1.0 — runtime-loading
   theme select with `data-theme` swap, managed `<link>`-based
   stylesheet injection, `localStorage` persistence, and a `children`
   snippet for custom rendering. 13 acceptance criteria covered.
-- `lily-design-system-svelte-locale-select` v0.1.0 — BCP 47 locale
+- `lily-design-system-svelte-locale-chooser` v0.1.0 — BCP 47 locale
   select that writes `lang` and `dir` on the document root, with
   optional `localStorage` persistence and `navigator.languages`
   detection. Built-in 436-row locale-name table, RTL detection set,

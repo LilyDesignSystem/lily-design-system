@@ -1,0 +1,36 @@
+{
+  "name": "lily-design-system-vue-text-size-chooser",
+  "version": "0.1.0",
+  "description": "Lily Design System - Vue 3 text size chooser",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "index.md",
+    "README.md"
+  ],
+  "scripts": {
+    "prepublishOnly": "cd .. && npm run build"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "keywords": [
+    "lily",
+    "design",
+    "system",
+    "vue",
+    "text-size",
+    "chooser"
+  ],
+  "author": "joel@joelparkerhenderson.com",
+  "license": "MIT"
+}

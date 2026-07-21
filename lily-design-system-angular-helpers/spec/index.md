@@ -33,8 +33,8 @@ Out of scope:
 
 | Helper | Purpose |
 | ------ | ------- |
-| [`lily-design-system-angular-theme-select`](../lily-design-system-angular-theme-select/) | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence. |
-| [`lily-design-system-angular-locale-select`](../lily-design-system-angular-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-angular-theme-chooser`](../lily-design-system-angular-theme-chooser/) | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence. |
+| [`lily-design-system-angular-locale-chooser`](../lily-design-system-angular-locale-chooser/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
 
 ## 4. Conventions
 
@@ -61,7 +61,7 @@ Every helper subproject follows the same shape:
 
 ## 6. Acceptance criteria
 
-- [x] Catalog ships `theme-select` and `locale-select` helper subprojects.
+- [x] Catalog ships `theme-chooser` and `locale-chooser` helper subprojects.
 - [x] Each helper has its component source, tests, `spec/index.md`, and package.json.
 - [x] Each helper is headless (no bundled CSS/fonts/icons) and i18n-clean.
 - [x] Catalog dir has `index.md`, `README.md` symlink, `AGENTS.md`,

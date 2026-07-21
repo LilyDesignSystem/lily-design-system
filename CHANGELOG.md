@@ -9,6 +9,204 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Chooser glyphs escaped in source — 2026-07-21
+
+### Changed
+
+- The four chooser glyphs no longer appear as bare characters in the
+  source that renders them. **Code contexts use an escape** —
+  `"\u25D1"`, `"\u{1F310}\uFE0E"`, `"\u27A4"` — and **markup contexts
+  use an HTML entity**: `&#9681;`, `&#127760;&#65038;`, `&#10148;`.
+  A bare glyph is near-invisible in an editor, and U+FE0E has no visual
+  form at all; one was nearly lost to a careless edit earlier in this
+  work.
+- ASCII `"A"` (U+0041) is deliberately left literal — it cannot be
+  mangled, and escaping it would only make it harder to read.
+- Two constants were already carrying a **bare U+FE0E** appended to an
+  escaped globe (`"\U0001F310︎"` in Blazor, `"\u{1F310}︎"` in
+  Nunjucks) — exactly the invisible-character hazard this closes.
+
+### Added
+
+- `bin/test` now enforces it, checking the glyph constants and the icon
+  markup in every chooser package. Verified by planting a regression of
+  each kind and confirming both fail.
+- Prose is deliberately **not** checked: a changelog explaining that the
+  glyph moved from one character to another has to show them, and tests
+  asserting rendered output legitimately contain the character.
+
+### Note
+
+- The first version of this check silently passed everything. `bin/test`
+  runs under `set -euf`, and `-f` disables globbing, so its file globs
+  never expanded — which is why every other check in that script uses
+  `find`. Worth knowing before adding another one.
+
+## share-chooser glyph — 2026-07-21
+
+### Changed
+
+- The `share-chooser` button glyph moves from **↪ U+21AA RIGHTWARDS
+  ARROW WITH HOOK** to **➤ U+27A4 BLACK RIGHTWARDS ARROWHEAD**, and the
+  exported constant renames with it: `RIGHTWARDS_ARROW_WITH_HOOK` →
+  `BLACK_RIGHTWARDS_ARROWHEAD` (`RightwardsArrowWithHook` →
+  `BlackRightwardsArrowhead` in Blazor). ➤ reads as *send* rather than
+  *go back*, and is likewise an in-font monochrome character rather than
+  a pictograph.
+- Optical scale retuned: ➤ inks 0.613 of its em box against ◑'s 0.777,
+  so `--lily-chooser-icon-scale` for the share icon goes 1.331 → 1.268
+  across the 45 `themes/*.css`. Verified in a browser against the real
+  components: all four glyphs now render within 0.52px of each other in
+  identical 40×40 buttons.
+
+### Notes
+
+- Two assertions could not be caught by a text substitution and had to
+  be found by running the suites: the HTML and Nunjucks catalogs assert
+  the codepoint numerically (`0x21aa`), and the Nunjucks macro emits the
+  glyph as an HTML entity (`&#8618;`). Both are now `0x27a4` /
+  `&#10148;`. Worth remembering if the glyph ever changes again — a
+  grep for the character alone will miss them.
+
+## Helpers renamed to `*-chooser` — 2026-07-21
+
+### Changed (BREAKING — all helper packages)
+
+- Every helper in all seven catalogs is renamed:
+
+  | Was | Now |
+  | --- | --- |
+  | `lily-design-system-{fw}-theme-select` | `lily-design-system-{fw}-theme-chooser` |
+  | `lily-design-system-{fw}-locale-select` | `lily-design-system-{fw}-locale-chooser` |
+  | `lily-design-system-{fw}-text-size-select` | `lily-design-system-{fw}-text-size-chooser` |
+  | `lily-design-system-{fw}-share-button` | `lily-design-system-{fw}-share-chooser` |
+
+- Full depth: directories, npm / NuGet package ids, exported symbols
+  (`ThemeSelect` → `ThemeChooser`, `nextShareButtonId` →
+  `nextShareChooserId`, …), CSS class hooks and every derivative,
+  `data-lily-*-select` → `data-lily-*-chooser`, Angular selectors, HTML
+  custom-element tags, and the `--lily-select-icon-scale` custom
+  property → `--lily-chooser-icon-scale`.
+- `themeName` / `localeName` / `sizeName` and the DOM events
+  (`themechange`, `share`, `copy`, …) are unchanged — none said "select".
+- **`share-chooser` loses its naming exception.** Its trigger hook was
+  `share-button-trigger` because `.share-button-button` read badly; the
+  new name removes the problem, so it is plain `.share-chooser-button`.
+
+### NOT renamed
+
+- The **catalog components** `theme-select` and `theme-select-option` —
+  two of the 490 in `components.tsv` — keep their names, along with
+  their `components/` docs, headless implementations, example demos and
+  github.io routes. They are a different thing from the helpers and are
+  cross-checked by `bin/test`.
+
+### Changed (themes)
+
+- The 45 `themes/*.css` rename the helper hooks and **delete the
+  `:has(> .{helper}-button)` guard**. That guard existed only because the
+  helper and the catalog `theme-select` component shared the
+  `.theme-select` hook and had to be told apart; distinct names remove
+  the collision outright. The catalog component keeps its
+  `select.theme-select` form-field rule.
+
+### Changed (versions)
+
+- Every helper package resets to **0.1.0**. A renamed package has no
+  history under its new name, so numbering a first release 0.4.0 would
+  imply releases that never existed. Nothing had been published, so the
+  reset costs nothing. Each CHANGELOG preserves its pre-rename history
+  below a provenance heading.
+
+### Fixed
+
+- **`el?.scrollIntoView(...)` guarded the element but not the method.**
+  jsdom implements no `scrollIntoView`, so the call threw inside the
+  keydown handler of the canonical theme-chooser and locale-chooser —
+  *after* `activeIndex` was assigned, so 45 unhandled exceptions went by
+  with the suite still green and that code path never running. Now
+  `el?.scrollIntoView?.(...)`. Same shape as the earlier `CSS.escape`
+  bug; the other six catalogs had each independently added the guard.
+- Several catalog build scripts hardcoded package names and would have
+  silently built nothing after the rename. The nunjucks, html, vue and
+  angular scripts now discover packages and **fail loudly** when they
+  find none, closing the "published a package with no code in it"
+  failure mode for good.
+
+### Verification
+
+- 1231 tests pass with **unchanged counts** in every catalog (127
+  svelte, 182 react, 181 vue, 205 angular, 193 html, 221 nunjucks, 122
+  blazor). A rename must not move a test count; where one moved it was a
+  test asserting the retired `share-button-trigger` exception, rewritten
+  rather than deleted.
+
+## Helpers — text-size-select 0.2.0, share-button 0.1.0 — 2026-07-21
+
+### Changed (BREAKING — text-size-select)
+
+- **`text-size-select` is no longer a native `<select>`.** It is now an
+  icon button opening a WAI-ARIA APG listbox, matching `theme-select`
+  and `locale-select` — it was the last native `<select>` among the
+  helpers, so all three now share one shape. Button glyph is `"A"`
+  (U+0041): the obvious candidate U+1F5DB has no real glyph in common
+  font stacks and falls back to a crude bitmap shape, and it means
+  *decrease* rather than *size*.
+- `sizeName` exported to mirror `themeName` / `localeName`. No
+  first-visit detection prop — unlike `prefers-color-scheme` and
+  `navigator.languages`, the platform exposes no preferred text size.
+- Released at **0.2.0** in all seven catalogs.
+
+### Added — `share-button` 0.1.0
+
+- A new helper, and the first that owns an **action** rather than a user
+  preference: it applies nothing to the document and persists nothing.
+  `AGENTS/helpers.md`'s definition of a helper is widened accordingly.
+- A single-glyph button (➤, U+27A4) opens the **native share sheet**
+  where the browser provides one, and otherwise a **disclosure list** of
+  consumer-supplied destinations plus **copy the page URL**.
+- **No social-network endpoints ship with it.** Which networks belong in
+  a product is an editorial and privacy decision, share URLs change, and
+  networks die. Consumers pass `targets`, each with its own
+  `href(url, title, text)`.
+- **Destinations are real `<a>` elements, not `role="menuitem"`.** A
+  menuitem role strips middle-click, open-in-new-tab and
+  copy-link-address — affordances users reach for on exactly this kind
+  of list — and the APG suggests a disclosure when items are links. Copy
+  is a real `<button>`.
+- The copy item renders only when `copyLabel` is supplied; a default
+  would be a hardcoded English string. `copiedLabel` /
+  `copyFailedLabel` are announced in a polite live region, since copying
+  is otherwise silent.
+- A dismissed (rejected) native sheet ends the interaction rather than
+  falling through to the list, which would resurrect UI the user just
+  dismissed.
+
+### Fixed
+
+- **`CSS.escape` threw under jsdom in all three `*-select` helpers.**
+  jsdom has no `CSS` object at all, so the call raised inside the keydown
+  handler — *after* `activeIndex` had been assigned, so every suite
+  stayed green while that code path never ran. Replaced with
+  `document.getElementById`, which needs no escaping for these generated
+  ids.
+- **`bin/publish-helpers` globbed `lily-design-system-*-select`**, so a
+  `share-button` package would have been silently skipped at release.
+  The globs are now broad and lean on the existing package.json / dist /
+  `*.csproj` guards.
+- `text-size-select` had no `CHANGELOG.md` in the svelte, angular, or
+  html catalogs; added, so the release record is complete across all
+  seven.
+
+### Changed (themes)
+
+- The 45 `themes/*.css` style the `share-button` hooks and carry each
+  glyph's optical correction. The four glyphs ink materially different
+  fractions of their em box — ◑ 0.842, 🌐 0.996, `"A"` 0.673, ➤ 0.613 —
+  so each has its own `--lily-select-icon-scale` (1, 0.845, 1.25,
+  1.331). Measured against each icon's *computed* `font-family` and
+  verified in a browser: 0.02px spread across all four.
+
 ## Helpers 0.4.0 — 2026-07-20
 
 ### Changed (BREAKING — helpers)

@@ -44,7 +44,7 @@ afterEach(() => {
 ```
 
 `cleanup()` is critical for the helpers because they write to
-`document.head` (the managed `<link>` for ThemeSelect) and to
+`document.head` (the managed `<link>` for ThemeChooser) and to
 `document.documentElement` (the `lang`/`dir`/`data-theme`
 attributes). Each test resets the document between cases.
 
@@ -57,7 +57,7 @@ Both helpers mutate global state (`document.head`,
 beforeEach(() => {
     // Reset document.head — remove managed <link> from previous tests.
     document.head
-        .querySelectorAll("link[data-lily-theme-select]")
+        .querySelectorAll("link[data-lily-theme-chooser]")
         .forEach((el) => el.remove());
 
     // Reset document.documentElement.
@@ -75,15 +75,15 @@ beforeEach(() => {
 Tests are numbered to match `spec/index.md §7`. The shape is:
 
 ```ts
-describe("ThemeSelect — §7 acceptance", () => {
+describe("ThemeChooser — §7 acceptance", () => {
     test("7.1 — renders a select with the base class", () => {
-        render(<ThemeSelect label="Theme" themesUrl="/t/" themes={["light", "dark"]} />);
+        render(<ThemeChooser label="Theme" themesUrl="/t/" themes={["light", "dark"]} />);
         const select = screen.getByRole("combobox", { name: "Theme" });
         expect(select.tagName).toBe("SELECT");
     });
 
     test("7.6 — initial value resolves to light when present", async () => {
-        render(<ThemeSelect label="Theme" themesUrl="/t/" themes={["light", "dark"]} />);
+        render(<ThemeChooser label="Theme" themesUrl="/t/" themes={["light", "dark"]} />);
         await waitFor(() => {
             expect(document.documentElement.dataset.theme).toBe("light");
         });
@@ -106,7 +106,7 @@ test("7.8 — choosing an option updates link and data-theme", async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
     render(
-        <ThemeSelect
+        <ThemeChooser
             label="Theme"
             themesUrl="/t/"
             themes={["light", "dark"]}
@@ -142,7 +142,7 @@ Test both modes:
 test("controlled — value prop wins over storage", () => {
     localStorage.setItem("k", "dark");
     render(
-        <ThemeSelect
+        <ThemeChooser
             label="t" themesUrl="/t/" themes={["light", "dark"]}
             value="light" storageKey="k"
         />
@@ -153,7 +153,7 @@ test("controlled — value prop wins over storage", () => {
 test("uncontrolled — storage wins over default", () => {
     localStorage.setItem("k", "dark");
     render(
-        <ThemeSelect
+        <ThemeChooser
             label="t" themesUrl="/t/" themes={["light", "dark"]}
             storageKey="k"
         />
@@ -172,7 +172,7 @@ expect(document.documentElement.dataset.theme).toBe("dark");
 
 // 2. Managed <link> in head.
 const link = document.head.querySelector<HTMLLinkElement>(
-    'link[data-lily-theme-select="theme"]'
+    'link[data-lily-theme-chooser="theme"]'
 );
 expect(link?.href).toContain("/t/dark.css");
 
@@ -182,7 +182,7 @@ expect(onChange).toHaveBeenCalledWith("dark");
 
 ## Mocking navigator.languages
 
-For `LocaleSelect.detectFromNavigator` tests:
+For `LocaleChooser.detectFromNavigator` tests:
 
 ```ts
 beforeEach(() => {
@@ -219,7 +219,7 @@ Test under StrictMode to catch double-mount bugs:
 ```tsx
 render(
     <React.StrictMode>
-        <ThemeSelect {...props} />
+        <ThemeChooser {...props} />
     </React.StrictMode>
 );
 ```

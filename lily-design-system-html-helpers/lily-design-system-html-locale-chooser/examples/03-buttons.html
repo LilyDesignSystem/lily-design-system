@@ -1,0 +1,146 @@
+<!doctype html>
+<!--
+    Example 3 — Buttons with aria-pressed (a TIER 2 subclass).
+
+    A row of toggle buttons (one per locale) is a common pattern for
+    short locale lists (2–5). Each button:
+      - exposes its pressed state via aria-pressed,
+      - carries lang so screen-reader pronunciation is correct,
+      - sits in a role="group" so assistive tech announces the
+        whole row as one widget.
+
+    THIS IS TIER 2 CUSTOMISATION, AND TIER 2 HAS A PRICE. The base
+    class's keyboard contract (ArrowDown to open, arrows to move,
+    Enter to select, Escape to close, typeahead) is bound to the DOM
+    the base class built. Hide that DOM and the contract goes with
+    it. This example is safe only because native <button> elements
+    bring their own keyboard semantics: each is a tab stop, Enter and
+    Space activate it. If you replace the dropdown with something
+    that ISN'T natively operable, you must implement the keyboard
+    contract yourself. See docs/custom-rendering.md.
+
+    What this subclass preserves, deliberately:
+      - The .locale-chooser class hook, because it appends INTO the
+        base root rather than replacing it. Lose the root and the
+        consumer's CSS hook disappears.
+      - The hidden <input name=…>, so form participation still works.
+        (`hidden` on the button doesn't affect form submission.)
+      - The apply lifecycle: it writes `this.value` and lets the base
+        class own lang / dir / storage / localechange. It never
+        touches document.documentElement or dispatches the event.
+
+    What it drops: the button, the listbox, and everything ARIA that
+    went with them. aria-pressed on a button group is a legitimate
+    substitute pattern — it just has to be complete.
+
+    Note: locale-chooser.ts may need compilation to .js — adjust
+    the <script src=…> per your build output.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>locale-chooser — buttons</title>
+    <script type="module" src="../../locale-chooser.js"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 2rem; }
+        .locale-chooser { border: 0; padding: 0; }
+        .locale-chooser-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .locale-chooser-buttons button {
+            font: inherit;
+            padding: 0.5rem 1rem;
+            border: 2px solid #4c6272;
+            background: #ffffff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .locale-chooser-buttons button[aria-pressed="true"] {
+            background: #005eb8;
+            color: #ffffff;
+            border-color: #005eb8;
+        }
+        .locale-chooser-buttons button:focus-visible {
+            outline: 3px solid #ffeb3b;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Locale chooser — toggle buttons</h1>
+
+    <button-locale-chooser
+        label="Language"
+        locales="en,fr,de,es,nl"
+    ></button-locale-chooser>
+
+    <p>Current: <code id="out">en</code></p>
+
+    <script type="module">
+        import { LocaleChooser, defaultLocaleLabels } from "../../locale-chooser.js";
+
+        const NATIVE = {
+            en: "English",
+            fr: "Français",
+            de: "Deutsch",
+            es: "Español",
+            nl: "Nederlands",
+        };
+
+        class ButtonLocaleChooser extends LocaleChooser {
+            connectedCallback() {
+                super.connectedCallback();
+                this._rerender();
+            }
+            attributeChangedCallback(name, oldVal, newVal) {
+                super.attributeChangedCallback(name, oldVal, newVal);
+                // A `value` change syncs state in place rather than
+                // rebuilding, so re-run on it too to refresh
+                // aria-pressed.
+                if (name === "value" || name === "locales") this._rerender();
+            }
+            _rerender() {
+                // The base root is a <div class="locale-chooser">
+                // holding the hidden input, the button, and the <ul>.
+                const root = this.querySelector("div.locale-chooser");
+                if (!root) return;
+
+                // Hide the base control; keep the root and the hidden
+                // input so the class hook and form participation live on.
+                const trigger = root.querySelector(".locale-chooser-button");
+                if (trigger) trigger.hidden = true;
+                root.querySelector(".locale-chooser-buttons")?.remove();
+
+                const row = document.createElement("div");
+                row.className = "locale-chooser-buttons";
+                row.setAttribute("role", "group");
+                row.setAttribute("aria-label", this.label);
+
+                for (const locale of this.locales) {
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.setAttribute("aria-pressed", String(this.value === locale));
+                    // Per-option lang, exactly as the base <li> options carry.
+                    btn.setAttribute("lang", this.tagFor(locale));
+                    btn.textContent =
+                        NATIVE[locale] ?? defaultLocaleLabels[locale] ?? locale;
+                    // Write the value and let the base class apply it.
+                    btn.addEventListener("click", () => { this.value = locale; });
+                    row.appendChild(btn);
+                }
+                root.appendChild(row);
+            }
+        }
+        customElements.define("button-locale-chooser", ButtonLocaleChooser);
+
+        await customElements.whenDefined("button-locale-chooser");
+        document
+            .querySelector("button-locale-chooser")
+            .addEventListener("localechange", (e) => {
+                document.querySelector("#out").textContent = e.detail.locale;
+            });
+    </script>
+</body>
+</html>

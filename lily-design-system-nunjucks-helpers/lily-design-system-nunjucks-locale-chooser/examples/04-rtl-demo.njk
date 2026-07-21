@@ -1,0 +1,90 @@
+{#
+  Example 04 — RTL demo (Arabic, Hebrew, Persian, Urdu, Pashto).
+
+  Visualises the select's auto-detection in action. Switching to any
+  of the five RTL locales writes `dir="rtl"` to <html> and the entire
+  page mirrors. Switching back to English restores LTR.
+
+  Outcome: live preview pane reflects current `lang` and `dir`,
+  with the matching localised sample text rendered in its own
+  script (per-option `lang` on each <li role="option"> drives screen
+  reader pronunciation; the document-root `lang`/`dir` drives
+  layout).
+
+  Note that the listbox itself mirrors under `dir="rtl"` too, so this
+  is also a check on your own CSS: use logical properties
+  (`inset-inline-start`, `text-align: start`) on
+  `.locale-chooser-list` and `.locale-chooser-option` or the popup will
+  anchor to the wrong edge. See ../docs/rtl.md.
+#}
+{% from "../locale-chooser.njk" import localeChooser %}
+
+{# Endonyms: each language in its own script. #}
+{% set NATIVE = {
+    en: "English",
+    ar: "العربية",
+    he: "עברית",
+    fa: "فارسی",
+    ur: "اردو",
+    ps: "پښتو"
+} %}
+
+{{ localeChooser({
+    label: "Direction demo",
+    locales: ["en", "ar", "he", "fa", "ur", "ps"],
+    localeLabels: NATIVE,
+    value: "en"
+}) }}
+
+<section id="preview">
+    <h2 id="preview-heading">English</h2>
+    <p id="preview-body">The quick brown fox jumps over the lazy dog.</p>
+    <p>
+        <strong>Detected direction:</strong>
+        <code id="preview-dir">ltr</code>
+    </p>
+    <p>
+        <strong>BCP 47 tag:</strong>
+        <code id="preview-tag">en</code>
+    </p>
+</section>
+
+<script type="module">
+    import {
+        autoInit,
+        bcp47LocaleTag,
+        isRtlLocale,
+    } from "../locale-chooser.client.js";
+
+    const NATIVE = {
+        en: "English",
+        ar: "العربية",
+        he: "עברית",
+        fa: "فارسی",
+        ur: "اردو",
+        ps: "پښتو",
+    };
+
+    const SAMPLE = {
+        en: "The quick brown fox jumps over the lazy dog.",
+        ar: "نص تجريبي يقرأ من اليمين إلى اليسار.",
+        he: "טקסט לדוגמה הנקרא מימין לשמאל.",
+        fa: "متن نمونه‌ای که از راست به چپ خوانده می‌شود.",
+        ur: "نمونہ متن جو دائیں سے بائیں پڑھا جاتا ہے۔",
+        ps: "د ښي خوا څخه کیڼ خوا ته د نمونې متن.",
+    };
+
+    autoInit({
+        onChange(code) {
+            const tag = bcp47LocaleTag(code);
+            const dir = isRtlLocale(code) ? "rtl" : "ltr";
+            const preview = document.getElementById("preview");
+            preview.setAttribute("lang", tag);
+            preview.setAttribute("dir", dir);
+            document.getElementById("preview-heading").textContent = NATIVE[code];
+            document.getElementById("preview-body").textContent = SAMPLE[code];
+            document.getElementById("preview-dir").textContent = dir;
+            document.getElementById("preview-tag").textContent = tag;
+        },
+    });
+</script>

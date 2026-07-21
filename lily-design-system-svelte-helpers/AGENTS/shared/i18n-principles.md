@@ -32,7 +32,7 @@ these rules without exception.
   : "item"` logic; they accept the rendered string.
 - Right-to-left and bidirectional text are inherited from the
   consumer's `dir` attribute and CSS — helpers do not assume LTR
-  layout in their structural HTML. The `locale-select` helper goes
+  layout in their structural HTML. The `locale-chooser` helper goes
   one step further: it auto-detects the script direction and writes
   `dir="rtl"` / `dir="ltr"` to the document root on every change.
 
@@ -49,7 +49,7 @@ Tolgee, or any other library. They expose:
   message bundles, refetch locale-dependent data, navigate to a
   localised URL).
 
-The locale-select also writes `<html lang>` and `<html dir>`, which
+The locale-chooser also writes `<html lang>` and `<html dir>`, which
 many i18n libraries read on initialisation; that integration usually
 needs no extra wiring.
 
@@ -58,7 +58,7 @@ needs no extra wiring.
 ```svelte
 <script lang="ts">
     import { locale } from "svelte-i18n";
-    import { LocaleSelect } from "lily-design-system-svelte-locale-select";
+    import { LocaleChooser } from "lily-design-system-svelte-locale-chooser";
 
     let code = $state($locale ?? "en");
 
@@ -67,7 +67,7 @@ needs no extra wiring.
     }
 </script>
 
-<LocaleSelect
+<LocaleChooser
     label="Language"
     locales={["en", "fr", "ar"]}
     bind:value={code}
@@ -80,12 +80,12 @@ Paraglide example:
 ```svelte
 <script lang="ts">
     import { setLocale } from "$lib/paraglide/runtime";
-    import { LocaleSelect } from "lily-design-system-svelte-locale-select";
+    import { LocaleChooser } from "lily-design-system-svelte-locale-chooser";
 
     let code = $state("en");
 </script>
 
-<LocaleSelect
+<LocaleChooser
     label="Language"
     locales={["en", "fr"]}
     bind:value={code}
@@ -123,7 +123,7 @@ see the parent [`ssr.md`](../ssr.md) for the SvelteKit recipe.
 ### What "i18n-clean" looks like in a test
 
 ```ts
-const { container } = render(LocaleSelect, {
+const { container } = render(LocaleChooser, {
     props: { label: "Langue", locales: ["en", "fr"] },
 });
 const fieldset = container.querySelector("fieldset");

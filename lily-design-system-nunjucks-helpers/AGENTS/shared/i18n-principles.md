@@ -31,7 +31,7 @@ follows these rules without exception.
   : "item"` logic; they accept the rendered string.
 - Right-to-left and bidirectional text are inherited from the
   consumer's `dir` attribute and CSS — helpers do not assume LTR
-  layout in their structural HTML. The `locale-select` helper goes
+  layout in their structural HTML. The `locale-chooser` helper goes
   one step further: its client.js auto-detects the script direction
   and writes `dir="rtl"` / `dir="ltr"` to the document root on
   every change.
@@ -47,13 +47,13 @@ The helpers don't depend on `i18next`, `gettext`,
   consumer can both feed and receive the current selection.
 - A `change` event on the root `<select>` (bubbles).
 
-The locale-select also writes `<html lang>` and `<html dir>`, which
+The locale-chooser also writes `<html lang>` and `<html dir>`, which
 many i18n libraries read on initialisation; that integration usually
 needs no extra wiring beyond an `autoInit({ onChange: setLocale })`.
 
 ### `Intl.DisplayNames`
 
-The locale select doesn't use `Intl.DisplayNames` in the macro
+The locale chooser doesn't use `Intl.DisplayNames` in the macro
 (Nunjucks doesn't have a hook for it), but consumers can populate
 `opts.localeLabels` with the output of `Intl.DisplayNames` in their
 Eleventy data file:
@@ -67,7 +67,7 @@ export default Object.fromEntries(
 ```
 
 ```njk
-{{ localeSelect({locales: [...], localeLabels: localeLabels}) }}
+{{ localeChooser({locales: [...], localeLabels: localeLabels}) }}
 ```
 
 ### Date / number / currency formatting
@@ -79,7 +79,7 @@ client.js — no `day.js`, no `moment`, no `numeral`.
 
 ### Locale negotiation
 
-The locale select's client.js implements a simple two-step
+The locale chooser's client.js implements a simple two-step
 exact-then-prefix matcher in `matchNavigatorLanguage`. It does not
 implement RFC 4647 best-fit lookup. If you need full RFC 4647
 matching, run your own resolver
@@ -110,14 +110,14 @@ don't change the test.
 
 [`@11ty/eleventy-plugin-i18n`](https://www.11ty.dev/docs/plugins/i18n/)
 gives Eleventy a `locale_url` filter and locale-aware data
-cascading. The Nunjucks locale-select pairs cleanly with it:
+cascading. The Nunjucks locale-chooser pairs cleanly with it:
 
 ```njk
 {# layouts/base.njk #}
 <html lang="{{ lang | replace('_', '-') }}">
     <body>
-        {% from "./locale-select.njk" import localeSelect %}
-        {{ localeSelect({
+        {% from "./locale-chooser.njk" import localeChooser %}
+        {{ localeChooser({
             label: "Language",
             locales: ["en", "fr", "ar"],
             value: lang,
@@ -130,5 +130,5 @@ cascading. The Nunjucks locale-select pairs cleanly with it:
 
 The select's `change` handler then needs to call
 `window.location.href = locale_url(window.location.pathname, code)`
-to navigate to the localised URL. See the locale-select's
+to navigate to the localised URL. See the locale-chooser's
 `docs/i18n-integration.md` for the full Eleventy recipe.

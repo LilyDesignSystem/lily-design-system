@@ -8,9 +8,10 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-angular-theme-select`](./lily-design-system-angular-theme-select/) — dynamic theme CSS loader.
-- [`lily-design-system-angular-locale-select`](./lily-design-system-angular-locale-select/) — `lang` + `dir` locale select.
-- [`lily-design-system-angular-text-size-select`](./lily-design-system-angular-text-size-select/) — `data-text-size` text-size select.
+- [`lily-design-system-angular-theme-chooser`](./lily-design-system-angular-theme-chooser/) — dynamic theme CSS loader.
+- [`lily-design-system-angular-locale-chooser`](./lily-design-system-angular-locale-chooser/) — `lang` + `dir` locale chooser.
+- [`lily-design-system-angular-text-size-chooser`](./lily-design-system-angular-text-size-chooser/) — `data-text-size` text-size chooser.
+- [`lily-design-system-angular-share-chooser`](./lily-design-system-angular-share-chooser/) — share via the native sheet or a list of consumer-supplied destinations, plus copy-the-URL. Owns an *action*, not a preference: applies nothing, persists nothing.
 
 ## Working rules
 

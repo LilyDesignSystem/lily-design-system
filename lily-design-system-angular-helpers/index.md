@@ -11,9 +11,10 @@ DOM application) for one small, common job.
 
 | Helper                                                                                    | Purpose                                                         |
 | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| [`lily-design-system-angular-theme-select`](./lily-design-system-angular-theme-select/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.      |
-| [`lily-design-system-angular-locale-select`](./lily-design-system-angular-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
-| [`lily-design-system-angular-text-size-select`](./lily-design-system-angular-text-size-select/) | Pick a text size; sets `data-text-size` on the document root.   |
+| [`lily-design-system-angular-theme-chooser`](./lily-design-system-angular-theme-chooser/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.      |
+| [`lily-design-system-angular-locale-chooser`](./lily-design-system-angular-locale-chooser/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-angular-text-size-chooser`](./lily-design-system-angular-text-size-chooser/) | Pick a text size; sets `data-text-size` on the document root.   |
+| [`lily-design-system-angular-share-chooser`](./lily-design-system-angular-share-chooser/) | Share the page: native share sheet where available, else a list of consumer-supplied destinations plus copy-the-URL. |
 
 ## Conventions
 
@@ -77,7 +78,7 @@ Shared design decisions across the catalog:
 
 The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle. A consumer
-typing on top of `ThemeSelect` from
+typing on top of `ThemeChooser` from
 `lily-design-system-angular-headless` writes their own select markup,
 their own persistence, and their own loading.
 
@@ -140,7 +141,7 @@ listed in each `spec/index.md` §7 and the test file matches one
 cross-referencing.
 
 ```bash
-cd lily-design-system-angular-theme-select
+cd lily-design-system-angular-theme-chooser
 pnpm test
 ```
 

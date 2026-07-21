@@ -1,0 +1,156 @@
+<!doctype html>
+<!--
+    Example 10 — Filter-as-you-type combobox via <input list> +
+    <datalist> (a TIER 2 subclass).
+
+    The default rendering already has a typeahead: open the listbox
+    and start typing, and the active option jumps to the first label
+    with that prefix (500 ms buffer). That is prefix-jump, not
+    filtering — with all 436 built-in locales you still scroll a
+    436-row list. This example trades the listbox for a text input
+    that FILTERS, which is the right shape at that scale.
+
+    Type "Fr" — the datalist narrows to "French", "French (Canada)",
+    "Frisian", etc. Pick one and the select applies it. The subclass
+    validates the typed value against the supported set before
+    writing `this.value`.
+
+    THIS IS TIER 2, so it takes over the accessibility and keyboard
+    contracts from the base class. It gets away with it because a
+    native <input list> is itself an accessible, keyboard-operable
+    combobox. It appends into the base <div class="locale-chooser">
+    root, keeping the class hook and the hidden <input name=…> for
+    form participation, and it writes only `this.value` — the base
+    class still owns lang / dir / storage / localechange.
+
+    Browser support note: native <datalist> is widely supported but
+    iOS Safari's UX is limited. For fully APG-compliant combobox
+    semantics, build a custom one or use Lily's headless Combobox
+    primitive.
+
+    Note: locale-chooser.ts may need compilation to .js — adjust the
+    <script src=…> per your build output.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>locale-chooser — combobox</title>
+    <script type="module" src="../../locale-chooser.js"></script>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 2rem; max-inline-size: 40rem; }
+        .locale-chooser { border: 0; padding: 0; }
+        .locale-chooser-combobox label {
+            display: flex; flex-direction: column; gap: 0.25rem;
+        }
+        .locale-chooser-combobox input {
+            font: inherit; padding: 0.5rem 0.75rem;
+            border: 1px solid #4c6272; border-radius: 4px;
+            min-inline-size: 20rem;
+        }
+        .meta { margin-block-start: 1rem; font-family: ui-monospace, monospace; }
+    </style>
+</head>
+<body>
+    <h1>Locale chooser — combobox</h1>
+
+    <combobox-locale-chooser
+        id="select"
+        label="Language"
+        storage-key="combobox-locale"
+    ></combobox-locale-chooser>
+
+    <p class="meta">
+        Selected: <code id="out">en</code> ·
+        BCP 47: <code id="tag">en</code>
+    </p>
+
+    <script type="module">
+        import {
+            LocaleChooser,
+            defaultLocaleLabels,
+            bcp47LocaleTag,
+        } from "../../locale-chooser.js";
+
+        // All 436 locale codes from the built-in table.
+        const ALL_LOCALES = Object.keys(defaultLocaleLabels);
+
+        class ComboboxLocaleChooser extends LocaleChooser {
+            constructor() {
+                super();
+                // Seed locales from the built-in table.
+                this.locales = ALL_LOCALES;
+            }
+            connectedCallback() {
+                super.connectedCallback();
+                this._rerender();
+            }
+            attributeChangedCallback(name, oldVal, newVal) {
+                super.attributeChangedCallback(name, oldVal, newVal);
+                if (name === "value" || name === "locales") this._rerender();
+            }
+            _rerender() {
+                // The base root is a <div class="locale-chooser">
+                // holding the hidden input, the button, and the <ul>.
+                const root = this.querySelector("div.locale-chooser");
+                if (!root) return;
+
+                // Hide the base icon button; keep the root (class hook)
+                // and the hidden input (form participation).
+                const trigger = root.querySelector(".locale-chooser-button");
+                if (trigger) trigger.hidden = true;
+                root.querySelector(".locale-chooser-combobox")?.remove();
+
+                const wrapper = document.createElement("div");
+                wrapper.className = "locale-chooser-combobox";
+
+                const label = document.createElement("label");
+                const labelText = document.createElement("span");
+                labelText.textContent = this.label;
+                label.appendChild(labelText);
+
+                const input = document.createElement("input");
+                input.type = "text";
+                input.setAttribute("list", "locale-options");
+                input.setAttribute("autocomplete", "off");
+                input.setAttribute("aria-label", this.label);
+                input.placeholder = "Start typing a language…";
+                input.value = defaultLocaleLabels[this.value] ?? this.value;
+                label.appendChild(input);
+
+                const datalist = document.createElement("datalist");
+                datalist.id = "locale-options";
+                for (const locale of this.locales) {
+                    const opt = document.createElement("option");
+                    opt.value = defaultLocaleLabels[locale] ?? locale;
+                    opt.setAttribute("lang", bcp47LocaleTag(locale));
+                    opt.textContent = locale;
+                    datalist.appendChild(opt);
+                }
+
+                input.addEventListener("change", () => {
+                    const typed = input.value.toLowerCase();
+                    const match = this.locales.find((l) => {
+                        const lbl = (defaultLocaleLabels[l] ?? l).toLowerCase();
+                        return lbl === typed || l.toLowerCase() === typed;
+                    });
+                    if (match) this.value = match;
+                });
+
+                wrapper.appendChild(label);
+                wrapper.appendChild(datalist);
+                root.appendChild(wrapper);
+            }
+        }
+        customElements.define("combobox-locale-chooser", ComboboxLocaleChooser);
+
+        await customElements.whenDefined("combobox-locale-chooser");
+        document
+            .querySelector("#select")
+            .addEventListener("localechange", (e) => {
+                document.querySelector("#out").textContent = e.detail.locale;
+                document.querySelector("#tag").textContent =
+                    e.detail.locale.replace(/_/g, "-");
+            });
+    </script>
+</body>
+</html>

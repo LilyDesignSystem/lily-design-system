@@ -19,8 +19,15 @@ provides the Analog-flavoured wiring recipes.
    mismatches.
 4. **`value` is the SSR bridge.** When you want a flicker-free first
    paint, resolve the value server-side and pass it as a
-   model-signal input. The component renders the matching `<option>`
-   as selected on the server, then hydrates without any DOM swap.
+   model-signal input. The component renders the matching
+   `<li role="option">` with `aria-selected="true"` and the hidden
+   input with that value on the server, then hydrates without any DOM
+   swap.
+5. **Element ids are deterministic.** Each helper's id generator
+   (`nextThemeChooserId`, `nextLocaleChooserId`,
+   `nextTextSizeChooserId`) is an incrementing module counter, never
+   `Math.random` / `Date.now`, so the `aria-controls` and
+   `aria-activedescendant` wiring matches across server and client.
 
 ## Analog v1 cookie strategy (recommended)
 
@@ -69,15 +76,15 @@ export const INITIAL_LOCALE = new InjectionToken<string>("INITIAL_LOCALE", {
 
 ```ts
 import { Component, inject, signal } from "@angular/core";
-import { LocaleSelect } from "@/locale-select.component";
+import { LocaleChooser } from "@/locale-chooser.component";
 import { INITIAL_LOCALE } from "./tokens/initial-locale";
 
 @Component({
     selector: "app-root",
     standalone: true,
-    imports: [LocaleSelect],
+    imports: [LocaleChooser],
     template: `
-        <lily-locale-select
+        <lily-locale-chooser
             label="Language"
             [locales]="['en', 'fr', 'ar']"
             [(value)]="locale"
@@ -165,7 +172,7 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
         <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
     </head>
     <body>
-        <lily-theme-select
+        <lily-theme-chooser
             client:load
             label="Theme"
             themesUrl="/assets/themes/"

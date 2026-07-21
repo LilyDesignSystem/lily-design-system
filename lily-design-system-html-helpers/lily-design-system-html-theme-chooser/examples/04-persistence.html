@@ -1,0 +1,32 @@
+<!doctype html>
+<!--
+    Example 4 — localStorage persistence.
+
+    Pass `storage-key` to make the select remember the user's choice
+    across reloads. On a fresh mount the select reads the stored slug
+    and re-applies it before the user interacts. Quota / private-mode
+    errors are silently swallowed.
+
+    To clear the stored choice from the console:
+        localStorage.removeItem("my-app:theme")
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>theme-chooser — persistence</title>
+    <script type="module" src="/dist/theme-chooser.js"></script>
+</head>
+<body>
+    <h1>Theme chooser — persistence</h1>
+
+    <theme-chooser
+        label="Theme"
+        themes-url="/assets/themes/"
+        themes="light,dark,abyss"
+        storage-key="my-app:theme"
+    ></theme-chooser>
+
+    <p>Try selecting a theme, reloading the page, and observing that
+       your choice is restored.</p>
+</body>
+</html>

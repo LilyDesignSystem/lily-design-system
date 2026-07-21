@@ -38,11 +38,11 @@ The theme is exposed as a flat object whose keys flatten into
 Consumer CSS reads `var(--theme-color-primary)`,
 `var(--theme-space-md)`, etc.
 
-## How the Vue theme-select fits in
+## How the Vue theme-chooser fits in
 
-The Vue `ThemeSelect` helper writes one extra signal to the document
+The Vue `ThemeChooser` helper writes one extra signal to the document
 root: a `data-theme="<slug>"` attribute. Theme CSS files scope their
-rules to `:root[data-theme="<slug>"]` so the select's attribute
+rules to `:root[data-theme="<slug>"]` so the chooser's attribute
 mutation is enough to switch the live theme.
 
 ```css
@@ -53,14 +53,14 @@ mutation is enough to switch the live theme.
 }
 ```
 
-The select does not write CSS custom properties directly. Theme
-authors do, via the `<link>` the select swaps into `<head>`.
+The chooser does not write CSS custom properties directly. Theme
+authors do, via the `<link>` the chooser swaps into `<head>`.
 
 ## Light / dark / high-contrast
 
-The select's `value` is just a string. Convention says `light`,
+The chooser's `value` is just a string. Convention says `light`,
 `dark`, and `high-contrast` slugs map to those three modes, but the
-select doesn't enforce that — any slug is valid.
+chooser doesn't enforce that — any slug is valid.
 
 A `prefers-color-scheme: dark` integration is one-line in the
 consumer:
@@ -71,7 +71,7 @@ const initial = prefersDark ? "dark" : "light";
 ```
 
 Pass `initial` as `defaultValue`. See
-`lily-design-system-vue-theme-select/examples/system-preference.vue`.
+`lily-design-system-vue-theme-chooser/examples/system-preference.vue`.
 
 ## Forbidden in the headless layer
 
@@ -109,9 +109,9 @@ the common case; a reactive token store is the consumer's choice.
 
 ### `<Teleport to="head">`
 
-Vue's `<Teleport to="head">` is an alternative to the select's
+Vue's `<Teleport to="head">` is an alternative to the chooser's
 `document.head.appendChild` for the managed `<link>`. The catalog's
-`ThemeSelect` uses imperative DOM mutation because:
+`ThemeChooser` uses imperative DOM mutation because:
 
 - It works during SSR (`<Teleport>` requires a hydrated DOM).
 - It's a single element managed across the component's lifetime, not

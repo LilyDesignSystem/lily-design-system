@@ -1,0 +1,88 @@
+@namespace LilyDesignSystem.Blazor.Helpers
+
+@*
+    ShareChooser — Blazor helper component.
+    Single source of truth: spec/index.md (§1–§9).
+
+    Renders a single-glyph button (➤, U+27A4) that opens the native share
+    sheet where the browser provides one, and otherwise a disclosure list
+    of consumer-supplied destinations plus a built-in copy-the-URL action.
+
+    A disclosure, not a menu: destinations are real <a> elements with no
+    role override, so middle-click, open-in-new-tab and copy-link-address
+    keep working. Copy is a genuine action, so it is a <button>.
+
+    All browser APIs are reached through IJSRuntime "eval" from event
+    handlers, and focus moves are deferred to OnAfterRenderAsync, so the
+    component is SSR / prerender safe and ships no JS file.
+*@
+
+<div class="@RootClass"
+     @onfocusout="OnRootFocusOutAsync"
+     @attributes="AdditionalAttributes">
+
+    <button type="button"
+            class="share-chooser-button"
+            @ref="_triggerElement"
+            aria-label="@Label"
+            aria-expanded="@(_open ? "true" : "false")"
+            aria-controls="@ListId"
+            @onclick="OnTriggerClickAsync"
+            @onkeydown="OnTriggerKeyDownAsync"
+            @onfocus="OnTriggerFocus">
+        @if (ChildContent is not null)
+        {
+            @ChildContent(BuildContext())
+        }
+        else
+        {
+            @* The glyph is decorative: the accessible name is the button's
+               aria-label, never the character itself. *@
+            <span class="share-chooser-icon" aria-hidden="true">@BlackRightwardsArrowhead</span>
+        }
+    </button>
+
+    @* mousedown default is suppressed so pressing an item does not blur
+       the focused element before the click handler runs. *@
+    <ul class="share-chooser-list"
+        id="@ListId"
+        hidden="@(!_open)"
+        @ref="_listElement"
+        @onkeydown="OnListKeyDownAsync"
+        @onmousedown:preventDefault="true">
+        @for (var i = 0; i < Targets.Count; i++)
+        {
+            var index = i;
+            var target = Targets[index];
+            <li class="share-chooser-list-item">
+                @* A real link, not role="menuitem": these ARE navigation, and
+                   menuitem would strip middle-click, open-in-new-tab and
+                   copy-link-address. *@
+                <a class="share-chooser-target"
+                   data-target-id="@target.Id"
+                   href="@target.Href(CurrentUrl(), Title, Text)"
+                   target="@(target.NewTab ? "_blank" : null)"
+                   rel="noopener noreferrer"
+                   @ref="_itemElements[index]"
+                   @onfocus="() => OnItemFocus(index)"
+                   @onclick="() => ChooseAsync(index)">@target.Label</a>
+            </li>
+        }
+
+        @if (HasCopy)
+        {
+            <li class="share-chooser-list-item">
+                <button type="button"
+                        class="share-chooser-copy"
+                        @ref="_itemElements[Targets.Count]"
+                        @onfocus="() => OnItemFocus(Targets.Count)"
+                        @onclick="CopyAsync">@CopyLabel</button>
+            </li>
+        }
+    </ul>
+
+    @* Copying gives no visual feedback of its own, so the outcome is
+       announced. Empty until something happens, so it stays silent on
+       load; aria-live announces mutations only. *@
+    <p class="share-chooser-status" aria-live="polite">@_status</p>
+</div>

@@ -45,4 +45,4 @@ These all live in example-app CSS and consume the theme CSS custom properties. T
 
 ### Reference theme stylesheets
 
-The root [themes/](../themes) directory ships 45 standalone theme stylesheets targeting the Lily class hooks — NHS England/Scotland/Wales (patient + practitioner variants), GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark themes. Selectors use `:where(...)` so consumer overrides win. The `theme-select` helper (see [helpers.md](helpers.md)) loads them at runtime by swapping a managed `<link>` href and setting `data-theme` on the document root.
+The root [themes/](../themes) directory ships 45 standalone theme stylesheets targeting the Lily class hooks — NHS England/Scotland/Wales (patient + practitioner variants), GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose light/dark themes. Selectors use `:where(...)` so consumer overrides win. The `theme-chooser` helper (see [helpers.md](helpers.md)) loads them at runtime by swapping a managed `<link>` href and setting `data-theme` on the document root.

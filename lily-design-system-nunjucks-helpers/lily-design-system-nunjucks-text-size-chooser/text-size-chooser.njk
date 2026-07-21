@@ -1,0 +1,105 @@
+{#
+  TextSizeChooser macro — icon button that opens a listbox of text sizes.
+
+  HTML tag: <div> (root), <button> + <ul role="listbox">
+  CSS class: text-size-chooser
+  Companion runtime: text-size-chooser.client.js
+
+  BREAKING (Unreleased): this macro no longer renders a native
+  <select>. It renders an icon button (U+0041 LATIN CAPITAL LETTER A)
+  that opens a listbox, matching theme-chooser and locale-chooser. All
+  three helpers are now the same shape.
+
+  Why "A" and not a pictograph: U+1F5DB DECREASE FONT SIZE SYMBOL has
+  no real glyph in common font stacks — it falls back to a crude bitmap
+  shape — and it means *decrease* rather than *size*. "A" renders in
+  the page's own font everywhere, stays monochrome like theme-chooser's
+  ◑, and is the conventional text-size affordance.
+
+  Params (single `opts` object):
+    label         — string, required. aria-label for the button AND the
+                    listbox. The button is icon-only, so this is the
+                    ONLY accessible name it has.
+    sizes         — array<string>, required. Available size slugs.
+    value         — string. Initial slug, emitted as
+                    data-lily-text-size-chooser-value for the client to
+                    read.
+    defaultValue  — string. Initial slug when nothing else is supplied.
+    storageKey    — string. If non-empty, client.js persists to localStorage.
+    name          — string. Hidden-input `name` (default "text-size").
+    sizeLabels    — object<string,string>. Pretty label per slug.
+    id            — string. Id prefix for the listbox and its options.
+                    Defaults to "text-size-chooser-{name}". Supply an
+                    explicit id when rendering two instances that share
+                    a `name`.
+    classes       — string. Extra CSS classes on the root <div>.
+    attributes    — object. Extra HTML attributes spread onto the root.
+
+  There is deliberately NO detection prop. Unlike theme-chooser's
+  `prefers-color-scheme` and locale-chooser's `navigator.languages`,
+  the web platform exposes no OS "preferred text size" signal, so
+  there is nothing to detect.
+
+  Custom glyph: call the macro with a `{% call %}` block and the block
+  body replaces the default glyph inside the button:
+
+    {% call textSizeChooser({label: "Text size", sizes: [...]}) %}
+      <svg aria-hidden="true">…</svg>
+    {% endcall %}
+
+  Usage:
+    {% from "./text-size-chooser.njk" import textSizeChooser %}
+    {{ textSizeChooser({
+      label: "Text size",
+      sizes: ["small", "medium", "large", "x-large"],
+      storageKey: "lily-text-size"
+    }) }}
+
+  Then load text-size-chooser.client.js once and call autoInit().
+
+  NOTE: the button does nothing until text-size-chooser.client.js runs.
+  See docs/ssr.md — this is a real no-JS regression from the old
+  <select>.
+
+  Spec: spec/index.md §4.1 (macro parameters), §4.2 (DOM contract).
+#}
+{%- macro textSizeChooser(opts) -%}
+{%- set name = opts.name | default("text-size") -%}
+{%- set value = opts.value | default("") -%}
+{%- set storageKey = opts.storageKey | default("") -%}
+{%- set defaultValue = opts.defaultValue | default("") -%}
+{%- set sizeLabels = opts.sizeLabels | default({}) -%}
+{%- set id = opts.id | default("text-size-chooser-" + name) -%}
+{%- set listId = id + "-list" -%}
+{#- Server-side selected resolution. localStorage is client-only —
+    there is no storage at render time — so the client may correct this
+    after hydration; the point is that the server markup always marks
+    exactly one option aria-selected. -#}
+{%- set fallback = "medium" if "medium" in opts.sizes else opts.sizes[0] -%}
+{%- set selected = value or defaultValue or fallback -%}
+<div
+  class="text-size-chooser{% if opts.classes %} {{ opts.classes }}{% endif %}"
+  data-lily-text-size-chooser-root
+  data-lily-text-size-chooser-name="{{ name }}"
+  data-lily-text-size-chooser-storage-key="{{ storageKey }}"
+  data-lily-text-size-chooser-default-value="{{ defaultValue }}"
+  {%- if value %} data-lily-text-size-chooser-value="{{ value }}"{% endif %}
+  {%- if opts.attributes %}{% for k, v in opts.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+<input type="hidden" name="{{ name }}" value="{{ selected }}" data-lily-text-size-chooser-input>
+<button type="button" class="text-size-chooser-button" aria-label="{{ opts.label }}" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ listId }}" data-lily-text-size-chooser-button>
+{%- if caller %}{{ caller() }}{% else %}<span class="text-size-chooser-icon" aria-hidden="true">A</span>{% endif -%}
+</button>
+<ul class="text-size-chooser-list" id="{{ listId }}" role="listbox" aria-label="{{ opts.label }}" tabindex="-1" hidden data-lily-text-size-chooser-list>
+{%- for slug in opts.sizes -%}
+  <li class="text-size-chooser-option" id="{{ id }}-option-{{ loop.index0 }}" role="option" aria-selected="{{ 'true' if slug == selected else 'false' }}" data-value="{{ slug }}">
+    {%- if sizeLabels[slug] -%}
+      {{ sizeLabels[slug] }}
+    {%- else -%}
+      {{ slug | replace(r/-/g, " ") | title }}
+    {%- endif -%}
+  </li>
+{%- endfor -%}
+</ul>
+</div>
+{%- endmacro -%}

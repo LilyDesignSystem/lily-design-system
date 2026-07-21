@@ -33,8 +33,10 @@ Out of scope:
 
 | Helper | Purpose |
 | ------ | ------- |
-| [`lily-design-system-vue-theme-select`](../lily-design-system-vue-theme-select/) | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence. |
-| [`lily-design-system-vue-locale-select`](../lily-design-system-vue-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-vue-theme-chooser`](../lily-design-system-vue-theme-chooser/) | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence. |
+| [`lily-design-system-vue-locale-chooser`](../lily-design-system-vue-locale-chooser/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-vue-text-size-chooser`](../lily-design-system-vue-text-size-chooser/) | Pick a text size; sets `data-text-size` on the document root. |
+| [`lily-design-system-vue-share-chooser`](../lily-design-system-vue-share-chooser/) | Share the page: native share sheet where available, else a destination disclosure + copy the URL. Owns an action, not a preference. |
 
 ## 4. Conventions
 
@@ -61,7 +63,7 @@ Every helper subproject follows the same shape:
 
 ## 6. Acceptance criteria
 
-- [x] Catalog ships `theme-select` and `locale-select` helper subprojects.
+- [x] Catalog ships `theme-chooser` and `locale-chooser` helper subprojects.
 - [x] Each helper has its component source, tests, `spec/index.md`, and package.json.
 - [x] Each helper is headless (no bundled CSS/fonts/icons) and i18n-clean.
 - [x] Catalog dir has `index.md`, `README.md` symlink, `AGENTS.md`,

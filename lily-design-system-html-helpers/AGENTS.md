@@ -10,9 +10,10 @@ Each helper follows the file shape in
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-html-theme-select`](./lily-design-system-html-theme-select/) — `<theme-select>` dynamic theme CSS loader.
-- [`lily-design-system-html-locale-select`](./lily-design-system-html-locale-select/) — `<locale-select>` `lang` + `dir` locale select.
-- [`lily-design-system-html-text-size-select`](./lily-design-system-html-text-size-select/) — `<text-size-select>` `data-text-size` text-size select.
+- [`lily-design-system-html-theme-chooser`](./lily-design-system-html-theme-chooser/) — `<theme-chooser>` dynamic theme CSS loader.
+- [`lily-design-system-html-locale-chooser`](./lily-design-system-html-locale-chooser/) — `<locale-chooser>` `lang` + `dir` locale chooser.
+- [`lily-design-system-html-text-size-chooser`](./lily-design-system-html-text-size-chooser/) — `<text-size-chooser>` `data-text-size` text-size chooser.
+- [`lily-design-system-html-share-chooser`](./lily-design-system-html-share-chooser/) — `<share-chooser>` native-sheet / disclosure share control.
 
 ## Working rules
 
@@ -28,14 +29,23 @@ Each helper follows the file shape in
   attributes or properties.
 - Light DOM only — no Shadow DOM, no scoped styling. The
   consumer's CSS targets the rendered children directly via the
-  kebab-case class hooks the element emits (`theme-select-option`,
-  `locale-select-option`, etc.).
-- Two rendering shapes. `<theme-select>` and `<locale-select>`
-  render an icon button that opens a `role="listbox"` dropdown
-  (WAI-ARIA APG listbox pattern, keyboard implemented in JS);
-  `<text-size-select>` renders a native `<select>`. Do not
-  reintroduce the native `<select>` — or its `placeholder`
-  attribute — to the first two.
+  kebab-case class hooks the element emits (`theme-chooser-option`,
+  `locale-chooser-option`, etc.).
+- One rendering shape for the preference helpers. All three render an
+  icon button that opens a `role="listbox"` dropdown (WAI-ARIA APG
+  listbox pattern, keyboard implemented in JS). Do not reintroduce the
+  native `<select>` — or its `placeholder` attribute — to any of them.
+  `<text-size-chooser>` was the last holdout and joined the other two;
+  its glyph is `"A"` (U+0041) rather than a pictograph.
+- `<share-chooser>` is the deliberate exception to that rule: it is a
+  **disclosure** whose items are real `<a>` elements with no `role`
+  override, and focus moves to the item rather than staying on the
+  `<ul>` with `aria-activedescendant`. Share destinations are
+  navigation, so a listbox or `role="menuitem"` would strip
+  middle-click, open-in-new-tab and copy-link-address. Do not
+  "harmonise" it into a listbox. It is also the first helper that owns
+  an **action** rather than a user preference: it applies nothing to the
+  document and persists nothing.
 - Attributes are kebab-case; observed attributes trigger
   `attributeChangedCallback`. Array attributes are
   comma-separated strings; the matching JS property accepts an
@@ -53,9 +63,8 @@ Each helper follows the file shape in
 - [`AGENTS/testing.md`](./AGENTS/testing.md) — vitest + jsdom harness,
   attribute timing, CustomEvent capture, mocking.
 - [`AGENTS/accessibility.md`](./AGENTS/accessibility.md) — WCAG 2.2 AAA,
-  the APG listbox pattern used by theme-select / locale-select, the
-  native `<select>` semantics text-size-select keeps, light-DOM
-  rationale.
+  the APG listbox pattern all three helpers implement, the tradeoffs
+  against the native `<select>` they replaced, light-DOM rationale.
 - [`AGENTS/ssr.md`](./AGENTS/ssr.md) — Eleventy / Astro / Hugo
   prerender + client upgrade.
 - [`AGENTS/shared/`](./AGENTS/shared/) — Lily-wide headless / i18n /

@@ -10,9 +10,10 @@ DOM application) for one small, common job.
 
 | Helper                                                                                  | Purpose                                                        |
 | --------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`lily-design-system-blazor-theme-select`](./lily-design-system-blazor-theme-select/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
-| [`lily-design-system-blazor-locale-select`](./lily-design-system-blazor-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
-| [`lily-design-system-blazor-text-size-select`](./lily-design-system-blazor-text-size-select/) | Pick a text size; sets `data-text-size` on the document root. |
+| [`lily-design-system-blazor-theme-chooser`](./lily-design-system-blazor-theme-chooser/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
+| [`lily-design-system-blazor-locale-chooser`](./lily-design-system-blazor-locale-chooser/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-blazor-text-size-chooser`](./lily-design-system-blazor-text-size-chooser/) | Pick a text size; sets `data-text-size` on the document root. |
+| [`lily-design-system-blazor-share-chooser`](./lily-design-system-blazor-share-chooser/) | Share the page: native share sheet, else a list of destinations + copy the URL. |
 
 ## Conventions
 
@@ -61,9 +62,14 @@ Shared design decisions across the catalog:
   under Blazor Server, Blazor WebAssembly, and static SSR /
   prerender hosting models.
 - **i18n-clean**: every user-facing string comes from a parameter.
-- **One job per helper**: each helper owns the entire lifecycle of
-  one user-preference dimension (theme, language, etc.) and composes
-  cleanly with the others.
+- **One job per helper**: each helper owns one complete interaction
+  end to end and composes cleanly with the others. For the three
+  selects that job is a user-preference dimension (theme, language,
+  text size). `share-chooser` is the exception that proves the shape:
+  it owns an *action* rather than a preference, so it applies nothing
+  to the document and persists nothing — but it ships the same
+  headless contract, the same class-hook convention, and the same
+  spec-driven tests.
 - **Spec-driven**: every helper has a `spec/index.md` numbered with §
   references; tests assert against those numbers; docs link back.
 
@@ -71,7 +77,7 @@ Shared design decisions across the catalog:
 
 The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle — a consumer
-typing on top of `ThemeSelect` from `lily-design-system-blazor-headless`
+typing on top of `ThemeChooser` from `lily-design-system-blazor-headless`
 writes their own option markup, their own persistence, and their own
 loading.
 
@@ -123,6 +129,15 @@ models:
 See [`AGENTS/ssr.md`](./AGENTS/ssr.md) for the strategy each helper
 uses to stay safe under static SSR.
 
+**Static SSR is safe for every helper, but sufficient only for the three
+selects.** They render correct markup and apply the preference once
+interactivity arrives, so a static-SSR page degrades gracefully.
+`share-chooser` does not: it owns an action, and an action needs a client.
+Under static SSR its trigger renders but can never open the share sheet,
+write the clipboard, or move focus — a button advertising an affordance
+it cannot honour. Give pages that use it an interactive render mode. See
+[`lily-design-system-blazor-share-chooser/docs/accessibility.md`](./lily-design-system-blazor-share-chooser/docs/accessibility.md).
+
 ## Sibling helper catalogs
 
 - [`lily-design-system-svelte-helpers`](../lily-design-system-svelte-helpers/)
@@ -140,7 +155,7 @@ per numbered item, named with the section number for fast
 cross-referencing.
 
 ```bash
-cd lily-design-system-blazor-theme-select
+cd lily-design-system-blazor-theme-chooser
 dotnet test
 ```
 

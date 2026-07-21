@@ -20,11 +20,11 @@ most of the notes below branch on it.
 
 | Helper             | Root                | Shape                                              |
 | ------------------ | ------------------- | -------------------------------------------------- |
-| `ThemeSelect`      | `<div>`             | Icon button (`◑`) + dropdown `<ul role="listbox">`. |
-| `LocaleSelect`     | `<div>`             | Icon button (`🌐`) + dropdown `<ul role="listbox">`. |
-| `TextSizeSelect`   | `<select>`          | Native combobox with native `<option>` children.   |
+| `ThemeChooser`      | `<div>`             | Icon button (`◑`) + dropdown `<ul role="listbox">`. |
+| `LocaleChooser`     | `<div>`             | Icon button (`🌐`) + dropdown `<ul role="listbox">`. |
+| `TextSizeChooser`   | `<div>`             | Icon button (`A`) + dropdown `<ul role="listbox">`. |
 
-"The **listbox helpers**" below means `ThemeSelect` and `LocaleSelect`.
+"The **listbox helpers**" below means all three: they share one shape.
 They follow the WAI-ARIA APG listbox pattern: an icon-only
 `<button type="button" aria-haspopup="listbox" aria-expanded
 aria-controls>` and a `<ul role="listbox" tabindex="-1" hidden
@@ -32,12 +32,15 @@ aria-activedescendant>` of `<li role="option" aria-selected>`. A hidden
 `<input name="{Name}" value="{Value}">` carries form participation. The
 glyph lives in a `<span class="{helper}-icon" aria-hidden="true">`.
 
-`TextSizeSelect` is unchanged: it is a real native `<select>` and
-inherits the platform's combobox semantics wholesale.
+`TextSizeChooser` joined this shape last; before that it was a real
+native `<select>` that inherited the platform's combobox semantics
+wholesale. Its glyph is `A` (U+0041) rather than a pictograph — a plain
+Latin letter is covered by every font stack, so it avoids the tofu /
+emoji-substitution risk the other two carry.
 
-Neither listbox helper has a `Placeholder` parameter any more. It only
-existed to pin a native `<select>`'s closed display, and there is no
-`<select>` to pin.
+No helper has a `Placeholder` parameter any more. It only existed to
+pin a native `<select>`'s closed display, and there is no `<select>` to
+pin.
 
 ## Blazor-specific gotchas
 
@@ -56,41 +59,29 @@ public Dictionary<string, object>? AdditionalAttributes { get; set; }
 This is the Blazor equivalent of React's `...rest` and Vue's
 `v-bind="$attrs"`.
 
-`@bind` works on `<select>` differently from Vue's
-`v-model`. `TextSizeSelect` uses an explicit `@onchange` handler so the
-event payload (the selected `<option>`'s `value`) is what flows to its
-internal `SetValueAsync`. The listbox helpers have no `<select>` and no
-change event: selection is driven by the component's own click and
-keydown handlers, and the hidden input is written from `Value` rather
-than read from.
+No helper has a `<select>`, so none of them binds a change event:
+selection is driven by the component's own click and keydown handlers,
+and the hidden `<input>` is written from `Value` rather than read from.
 
-### `RenderFragment<TContext>` and the two rendering contracts
+### `RenderFragment<TContext>` and the rendering contract
 
-`TextSizeSelect` emits one native `<option>` per slug inside the
-`<select>`. A custom `ChildContent` replaces only the inside of the
-`<select>` (the options), so the combobox container is preserved even
-when consumers render their own `<option>` elements. If such a fragment
-renders `<button>` swatches instead of options, the consumer must add
-`aria-pressed` (button group).
-
-For the listbox helpers, `ChildContent` **replaces the glyph inside the
-button** — it does not render options. The fragment receives
+`ChildContent` replaces the **glyph inside the button** in all three
+helpers — it does not render options. The fragment receives
 `{ Value, Open, LabelFor }` and its output sits inside the button, so
 it must stay decorative: the accessible name is still the button's
 `aria-label`, and content that duplicates it will double up. The
-listbox itself is never consumer-rendered, which keeps the APG
-structure and the keyboard contract intact. Consumers who want to
-drive selection from their own UI call `SetThemeAsync` /
-`SetLocaleAsync` through a `@ref`.
+listbox itself is never consumer-rendered, so the listbox semantics —
+roles, `aria-selected`, ids, `aria-activedescendant`, and
+locale-chooser's per-option `lang` — cannot be broken by a consumer
+override, and the APG keyboard contract stays intact. Consumers who
+want to drive selection from their own UI call `SetThemeAsync` /
+`SetLocaleAsync` / `SetSizeAsync` through a `@ref`.
 
 See the per-helper `docs/accessibility.md` for patterns.
 
 ### Label vs aria-label
 
-`TextSizeSelect` carries the consumer's accessible name as
-`aria-label="@Label"` on its root `<select>`.
-
-For the listbox helpers, `Label` is load-bearing in a stronger sense:
+For every helper, `Label` is load-bearing in the strongest sense:
 the trigger is icon-only and the glyph is `aria-hidden="true"`, so
 `aria-label="@Label"` is the button's *entire* accessible name. The
 same `Label` is also applied to the `<ul role="listbox">`. Without it
@@ -108,14 +99,6 @@ ThemeLabels`) and Razor escapes them by default. Don't change this —
 `@((MarkupString)userInput)` is an XSS vector.
 
 ## Keyboard
-
-### `TextSizeSelect` (native `<select>`)
-
-The native `<select>` provides Tab / Shift+Tab / Arrow Up / Arrow
-Down / Home / End / typeahead / Enter / Space / Escape for free.
-`TextSizeSelect` adds no keyboard handlers; if a `ChildContent`
-fragment renders custom controls (e.g. `<button>` swatches) instead
-of options, the consumer becomes responsible for keyboard behaviour.
 
 ### The listbox helpers (APG listbox)
 
@@ -178,11 +161,11 @@ blurring the listbox before the click handler runs.
 
 ## Focus management
 
-`TextSizeSelect` never calls `.FocusAsync()`. Changing the selection
-does not move focus elsewhere on the page (WCAG 3.2.2, On Input).
+No helper moves focus outside itself: changing the selection never
+sends focus elsewhere on the page (WCAG 3.2.2, On Input).
 
-The listbox helpers **do** move focus, but only within themselves and
-only in response to explicit user intent, which is what the APG
+The helpers **do** move focus within themselves, and only in response
+to explicit user intent, which is what the APG
 pattern requires: opening moves focus to the `<ul>`; `Enter`, `Space`,
 and `Escape` return it to the button. Focus is moved with
 `ElementReference.FocusAsync()`, deferred to `OnAfterRenderAsync`
@@ -224,7 +207,7 @@ bUnit + xUnit is enough for ARIA-attribute assertions:
 [Fact]
 public void Has_Aria_Label()
 {
-    var cut = RenderComponent<ThemeSelect>(p => p
+    var cut = RenderComponent<ThemeChooser>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, "/t/")
         .Add(x => x.Themes, new[] { "light" }));
@@ -237,12 +220,8 @@ public void Has_Aria_Label()
 }
 ```
 
-`TextSizeSelect` keeps the `<select>` form of the same assertion:
-
-```csharp
-Assert.Equal("Text size", cut.Find("select").GetAttribute("aria-label"));
-Assert.Equal(1, cut.FindAll("option").Count);
-```
+`LocaleChooser` and `TextSizeChooser` assert identically; only the
+required parameters and the glyph class differ.
 
 For full audits run axe-core in a real Blazor host (Blazor Server,
 WebAssembly hosted, Blazor Web App). The catalog has no built-in
@@ -256,19 +235,26 @@ default — they're standalone widgets, not form controls. Consumers
 wiring them into a form can bind `@bind-Value` to a model property
 and the rest is conventional Blazor data binding.
 
-## InputSelect vs raw `<select>`
+## No `InputSelect<T>`, and no `<select>` at all
 
-`TextSizeSelect` uses a raw `<select>` rather than Blazor's
-`InputSelect<T>` component because:
+No helper uses Blazor's `InputSelect<T>`, or any `<select>`. Each is a
+`<div>` / `<button>` / `<ul>` composition with a hidden `<input>` for
+form participation, because:
 
 1. `InputSelect<T>` requires an `EditContext` ancestor.
-2. The helper wants explicit control of the `name` attribute (for
-   multi-select scenarios).
-3. A raw `<select>` keeps the markup framework-agnostic so consumers
-   can apply their own CSS without fighting `InputSelect<T>`'s
-   baked-in class hooks.
+2. The helpers want explicit control of the `name` attribute (for
+   multi-control scenarios) and of the closed trigger's width, which a
+   native `<select>` pins to its longest option.
+3. Hand-rolled markup keeps the class hooks framework-agnostic so
+   consumers can apply their own CSS without fighting `InputSelect<T>`'s
+   baked-in ones.
 
-The listbox helpers sidestep the question entirely — they render no
+The cost of dropping the native control is real and is stated plainly
+in each helper's `docs/accessibility.md` — a custom listbox has weaker
+assistive-technology support than a native `<select>`, which remains
+the better choice for some audiences.
+
+The helpers sidestep the question entirely — they render no
 `<select>` at all. Form participation rides a hidden
 `<input name="{Name}" value="{Value}">`, which posts the same field a
 `<select name>` would have, without inheriting any Blazor form
@@ -282,11 +268,9 @@ delegates `@bind-Value` to the helper.
 Windows High Contrast Mode (and the newer Forced Colors Mode) overrides
 the consumer's CSS.
 
-`TextSizeSelect`'s raw `<select>` gets the OS-supplied focus and
-selected styling automatically; no extra work is needed.
-
-The listbox helpers get no such gift. A `<div>` / `<button>` / `<ul>`
-composition is styled entirely by the consumer, so under Forced Colors
+A native `<select>` would get the OS-supplied focus and selected
+styling for free. The helpers get no such gift: a `<div>` /
+`<button>` / `<ul>` composition is styled entirely by the consumer, so under Forced Colors
 the consumer's CSS must keep the trigger's focus ring and the active
 and selected options distinguishable using system colour keywords
 (`Highlight`, `HighlightText`, `ButtonText`) — the `data-active`

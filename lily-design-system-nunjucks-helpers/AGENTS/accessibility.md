@@ -46,13 +46,13 @@ whitespace between elements. Whitespace inside `<option>` doesn't
 affect accessibility, but the consistent style keeps test
 assertions stable.
 
-### Per-option `lang` (locale select)
+### Per-option `lang` (locale chooser)
 
-The locale-select macro emits `<option lang="{tagFor(locale)}">`
+The locale-chooser macro emits `<option lang="{tagFor(locale)}">`
 for each locale so screen readers pronounce the option text in
 its own language (WCAG 3.1.2). Custom-rendering paths must keep
 this attribute on the rendered element; the
-`docs/accessibility.md` of the locale select walks through the
+`docs/accessibility.md` of the locale chooser walks through the
 patterns.
 
 ### `aria-label` vs visible label
@@ -90,7 +90,7 @@ selection does not move focus elsewhere on the page (WCAG 3.2.2,
 On Input). When wiring `onChange` to navigation, preserve scroll
 position and avoid focus jumps.
 
-## Screen-reader pronunciation (locale select)
+## Screen-reader pronunciation (locale chooser)
 
 Each `<option>` carries `lang="…"` so screen readers switch
 pronunciation per option (WCAG 3.1.2, Language of Parts). Custom
@@ -124,7 +124,7 @@ A quick Eleventy + Playwright + axe pattern:
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
-test("theme select page is accessible", async ({ page }) => {
+test("theme chooser page is accessible", async ({ page }) => {
     await page.goto("/tmp/site/select/");
     const results = await new AxeBuilder({ page }).analyze();
     expect(results.violations).toEqual([]);

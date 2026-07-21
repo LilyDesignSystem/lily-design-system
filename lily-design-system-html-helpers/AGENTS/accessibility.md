@@ -22,39 +22,46 @@ boundary and is awkward across an open one. The catalog stays in
 light DOM so consumer-supplied `aria-*` references work without
 ceremony.
 
-### Two rendering shapes in this catalog
+### One rendering shape across the catalog
 
-The helpers no longer share one markup shape. Know which you are
-reading about:
+All three helpers share one markup shape — an icon button that opens
+an APG listbox — and one keyboard implementation:
 
-| Helper | Rendering | Keyboard comes from |
-| ------ | --------- | ------------------- |
-| `<theme-select>` | Icon button + `role="listbox"` dropdown | The element's own JS handlers |
-| `<locale-select>` | Icon button + `role="listbox"` dropdown | The element's own JS handlers |
-| `<text-size-select>` | Native `<select>` + `<option>` children | The platform |
+| Helper | Rendering | Glyph | Keyboard comes from |
+| ------ | --------- | ----- | ------------------- |
+| `<theme-chooser>` | Icon button + `role="listbox"` dropdown | `◑` U+25D1 | The element's own JS handlers |
+| `<locale-chooser>` | Icon button + `role="listbox"` dropdown | U+1F310 + VS15 | The element's own JS handlers |
+| `<text-size-chooser>` | Icon button + `role="listbox"` dropdown | `A` U+0041 | The element's own JS handlers |
+
+`<text-size-chooser>` was deliberately left as a native `<select>` when
+the other two converted, and joined them afterwards. Its glyph is a
+plain ASCII letter rather than a pictograph: U+1F5DB DECREASE FONT
+SIZE SYMBOL has no real glyph in common font stacks and means
+*decrease* rather than *size*, whereas "A" exists in every font,
+inherits the page's typeface, and is the conventional affordance.
 
 ### `aria-label` on the rendered control, not on the custom element
 
 The accessible name belongs on the rendered control, not on the
-`<theme-select>` host. The host element has no role and is silent.
+`<theme-chooser>` host. The host element has no role and is silent.
 
 ```html
-<theme-select label="Theme">
+<theme-chooser label="Theme">
     <!-- the host has no role; nothing announced. -->
-    <div class="theme-select">
+    <div class="theme-chooser">
         <input type="hidden" name="theme" value="light" />
         <!-- the button is what the screen reader names. -->
-        <button type="button" class="theme-select-button"
+        <button type="button" class="theme-chooser-button"
                 aria-label="Theme" aria-haspopup="listbox"
-                aria-expanded="false" aria-controls="theme-select-1-list">
-            <span class="theme-select-icon" aria-hidden="true">◑</span>
+                aria-expanded="false" aria-controls="theme-chooser-1-list">
+            <span class="theme-chooser-icon" aria-hidden="true">&#9681;</span>
         </button>
-        <ul class="theme-select-list" id="theme-select-1-list"
+        <ul class="theme-chooser-list" id="theme-chooser-1-list"
             role="listbox" aria-label="Theme" tabindex="-1" hidden>
             <!-- one <li role="option"> per theme -->
         </ul>
     </div>
-</theme-select>
+</theme-chooser>
 ```
 
 Both the button and the listbox carry `aria-label`. The glyph inside
@@ -65,7 +72,7 @@ was not when the control was a native `<select>`.
 
 ### Custom listbox, not a native combobox
 
-`<theme-select>` and `<locale-select>` implement the WAI-ARIA APG
+All three helpers implement the WAI-ARIA APG
 listbox pattern in JavaScript: `aria-haspopup` / `aria-expanded` /
 `aria-controls` on the button, `role="listbox"` on the `<ul>`,
 `role="option"` + `aria-selected` on each `<li>`, and
@@ -78,16 +85,22 @@ keyboard behaviour, mobile OS pickers, and battle-tested AT support
 for free. Each package's `docs/accessibility.md` states the tradeoff
 in full.
 
-`<text-size-select>` still renders a native `<select>` and still gets
-all of that for free; it adds no JS keyboard handlers.
+This now applies to all three helpers, `<text-size-chooser>` included.
+It lands slightly harder there: a user who reaches for a text-size
+control has, by definition, a visual or cognitive access need, and is
+likelier than average to be on assistive technology. A native
+`<select>` remains the better choice for some audiences — say so
+plainly rather than treating the APG pattern as strictly better.
 
 ### CustomEvent and screen-reader announcements
 
-`themechange` / `localechange` are **not** ARIA live regions. They
-are change notifications for *consumer code*, not for assistive
-technology. If you want the theme change announced, add a
-`role="status"` or `aria-live` region elsewhere on the page and
-write into it from your `themechange` listener.
+`themechange` / `localechange` / `textsizechange` are **not** ARIA
+live regions. They are change notifications for *consumer code*, not
+for assistive technology. If you want the change announced, add a
+`role="status"` or `aria-live` region elsewhere on the page and write
+into it from your listener. Each package's `docs/accessibility.md`
+documents that status region as the default pattern, because an
+icon-only button conveys nothing about its current value when closed.
 
 ### Subclassing for custom rendering
 
@@ -107,10 +120,7 @@ surface. There are two tiers, and they differ sharply in risk:
 
 ## Keyboard
 
-`<text-size-select>` inherits Tab / Shift+Tab / Arrow / Home / End /
-typeahead / Space / Enter / Escape from its native `<select>`.
-
-`<theme-select>` and `<locale-select>` implement the APG listbox
+All three helpers implement the APG listbox
 contract themselves — on the button, ArrowDown / Enter / Space open
 (ArrowUp opens with the last option active); on the listbox, arrows
 move the active option and clamp, Home / End jump to the ends,
@@ -130,7 +140,7 @@ the user was headed. When wiring `themechange` to navigation
 (`window.location = …`), preserve scroll position and avoid focus
 jumps.
 
-## Screen-reader pronunciation (locale select)
+## Screen-reader pronunciation (locale chooser)
 
 Each `<li role="option">` carries `lang="…"` so screen readers
 switch pronunciation per option (WCAG 3.1.2, Language of Parts). The
@@ -155,13 +165,13 @@ transitions on `data-theme` changes are responsible for honouring
 vitest + jsdom is enough for ARIA-attribute assertions:
 
 ```ts
-const el = document.createElement("theme-select");
+const el = document.createElement("theme-chooser");
 el.setAttribute("label", "Theme");
 el.setAttribute("themes-url", "/t/");
 el.setAttribute("themes", "light,dark");
 document.body.appendChild(el);
 
-const button = el.querySelector(".theme-select-button")!;
+const button = el.querySelector(".theme-chooser-button")!;
 expect(button.getAttribute("aria-label")).toBe("Theme");
 expect(button.getAttribute("aria-haspopup")).toBe("listbox");
 
@@ -179,7 +189,7 @@ meaningful audit must run against the consumer's styled markup.
 
 - **Set `role` on the custom element itself.** The roles belong on
   the rendered button and listbox. Setting `role="combobox"` or
-  `role="listbox"` on `<theme-select>` produces a duplicate
+  `role="listbox"` on `<theme-chooser>` produces a duplicate
   announcement.
 - **Hide the element with `display: none`.** Removes the entire
   rendered tree from the accessibility tree. Use a visually-hidden

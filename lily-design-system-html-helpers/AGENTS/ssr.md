@@ -77,17 +77,17 @@ module.exports = {
 <html lang="en" data-theme="{{ theme.defaultTheme }}">
     <head>
         <link rel="stylesheet" href="/assets/themes/{{ theme.defaultTheme }}.css">
-        <script type="module" src="/dist/theme-select.js"></script>
+        <script type="module" src="/dist/theme-chooser.js"></script>
     </head>
     <body>
         {{ content | safe }}
-        <theme-select
+        <theme-chooser
             label="Theme"
             themes-url="/assets/themes/"
             themes="{{ theme.available | join(',') }}"
             value="{{ theme.defaultTheme }}"
             storage-key="lily-theme"
-        ></theme-select>
+        ></theme-chooser>
     </body>
 </html>
 ```
@@ -109,22 +109,22 @@ const theme = Astro.cookies.get("theme")?.value ?? "light";
 <html lang="en" data-theme={theme}>
     <head>
         <link rel="stylesheet" href={`/assets/themes/${theme}.css`} />
-        <script type="module" src="/scripts/theme-select.js"></script>
+        <script type="module" src="/scripts/theme-chooser.js"></script>
     </head>
     <body>
-        <theme-select
+        <theme-chooser
             label="Theme"
             themes-url="/assets/themes/"
             themes="light,dark,abyss"
             value={theme}
             storage-key="lily-theme"
-        ></theme-select>
+        ></theme-chooser>
         <slot />
     </body>
 </html>
 ```
 
-Astro renders the literal `<theme-select>` tag with its attributes;
+Astro renders the literal `<theme-chooser>` tag with its attributes;
 the select upgrades on the client. Because the attributes already
 encode the resolved value, the upgrade is invisible — no flash.
 
@@ -137,15 +137,15 @@ Hugo's templates inline data the same way:
 <html lang="en" data-theme="{{ .Site.Params.defaultTheme | default "light" }}">
     <head>
         <link rel="stylesheet" href="/assets/themes/{{ .Site.Params.defaultTheme | default "light" }}.css">
-        <script type="module" src="/dist/theme-select.js"></script>
+        <script type="module" src="/dist/theme-chooser.js"></script>
     </head>
     <body>
-        <theme-select
+        <theme-chooser
             label="Theme"
             themes-url="/assets/themes/"
             themes="light,dark,abyss"
             value="{{ .Site.Params.defaultTheme | default "light" }}"
-        ></theme-select>
+        ></theme-chooser>
     </body>
 </html>
 ```
@@ -155,12 +155,12 @@ Hugo's templates inline data the same way:
 ```njk
 <html lang="{{ locale.tag }}" dir="{{ locale.dir }}">
     <body>
-        <locale-select
+        <locale-chooser
             label="Language"
             locales="en,fr,ar"
             value="{{ locale.code }}"
             storage-key="lily-locale"
-        ></locale-select>
+        ></locale-chooser>
     </body>
 </html>
 ```
@@ -178,14 +178,14 @@ file:
 <html lang="en" data-theme="light">
     <head>
         <link rel="stylesheet" href="/assets/themes/light.css">
-        <script type="module" src="/dist/theme-select.js"></script>
+        <script type="module" src="/dist/theme-chooser.js"></script>
     </head>
     <body>
-        <theme-select
+        <theme-chooser
             label="Theme"
             themes-url="/assets/themes/"
             themes="light,dark,abyss"
-        ></theme-select>
+        ></theme-chooser>
     </body>
 </html>
 ```
@@ -218,7 +218,7 @@ attributes is simpler and works in every SSG.
 
 ## What "SSG" effectively delivers
 
-- Search-engine-crawlable markup including the `<theme-select>` host.
+- Search-engine-crawlable markup including the `<theme-chooser>` host.
 - Browser-default rendering even if the JS bundle fails to load
   (the host is empty, but the rest of the page is untouched).
 - A deterministic initial state (the attributes the SSG wrote).

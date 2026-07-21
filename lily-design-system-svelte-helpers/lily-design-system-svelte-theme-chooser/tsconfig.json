@@ -1,0 +1,4 @@
+{
+  "//": "Used only by svelte-package (run with cwd = this dir) so its d.ts globs resolve relative to this package. Not published; the package.json `files` allowlist ships only dist/, index.md, README.md.",
+  "extends": "../tsconfig.json"
+}

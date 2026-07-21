@@ -1,0 +1,61 @@
+@*
+    Example 1 — Basic usage.
+
+    The minimum viable share control: a label and a list of destinations
+    you supply. With Strategy.Auto (the default), a device that has a
+    native share sheet opens that instead of the list — so on a phone
+    this renders one button and shows the OS sheet, and on a desktop the
+    same button opens the list below it.
+
+    CopyLabel is what makes the copy item appear. There is no default,
+    because a default would be a hardcoded English string. Once you
+    supply it, supply CopiedLabel and CopyFailedLabel too: copying is
+    silent, so without them the user gets no confirmation either way.
+
+    Note CopyFailedLabel says what to do instead, not just that it
+    failed. Copy can fail for reasons invisible to the user — insecure
+    context, denied permission, no async clipboard — so the message has
+    to be actionable. See docs/accessibility.md.
+
+    An interactive render mode is required. Under static SSR the markup
+    renders but OnAfterRenderAsync never fires, so the button cannot open
+    the sheet, write the clipboard, or move focus.
+*@
+
+@page "/examples/share-chooser/basic"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<ShareChooser Label="Share this page"
+             Title="An article worth reading"
+             Targets="@Targets"
+             CopyLabel="Copy link"
+             CopiedLabel="Link copied"
+             CopyFailedLabel="Could not copy — copy it from the address bar" />
+
+@code {
+    // No social endpoints ship with the package: which networks belong in
+    // a product is an editorial and privacy decision, and share URLs
+    // change. Href is a function, so you own the whole URL and its
+    // encoding.
+    private static readonly ShareTarget[] Targets =
+    {
+        new()
+        {
+            Id = "mastodon",
+            Label = "Mastodon",
+            Href = (url, title, _) =>
+                $"https://mastodon.social/share?text={Uri.EscapeDataString(title)}%20{Uri.EscapeDataString(url)}",
+        },
+        new()
+        {
+            Id = "email",
+            Label = "Email",
+            // mailto: hands off to a mail client, so a new tab would just
+            // leave an empty one behind.
+            NewTab = false,
+            Href = (url, title, _) =>
+                $"mailto:?subject={Uri.EscapeDataString(title)}&body={Uri.EscapeDataString(url)}",
+        },
+    };
+}

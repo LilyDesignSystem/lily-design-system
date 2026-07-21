@@ -28,7 +28,7 @@ Canonical component list: [components.tsv](../components.tsv) — 491 components
 
 ## Subprojects for framework helpers
 
-Each catalog ships three native-`<select>` helpers — theme-select, locale-select, text-size-select. Svelte is the canonical reference; the other six are idiom ports.
+Each catalog ships four `*-chooser` helpers — theme-chooser, locale-chooser, text-size-chooser, share-chooser. Each is an icon button that opens a popup; none is a native `<select>` any more. Svelte is the canonical reference; the other six are idiom ports.
 
 - [Lily Design System: HTML helpers](../lily-design-system-html-helpers)
 - [Lily Design System: Svelte helpers](../lily-design-system-svelte-helpers)
@@ -40,7 +40,7 @@ Each catalog ships three native-`<select>` helpers — theme-select, locale-sele
 
 ## Reference themes
 
-The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS England/Scotland/Wales patient + practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose themes) that target the Lily class hooks; the theme-select helper loads them at runtime.
+The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS England/Scotland/Wales patient + practitioner variants, GOV.UK GDS, USWDS, Adobe Spectrum, Mozilla Protocol, and general-purpose themes) that target the Lily class hooks; the theme-chooser helper loads them at runtime.
 
 ## Tools
 
@@ -54,7 +54,7 @@ The [themes/](../themes) directory ships 45 standalone theme stylesheets (NHS En
 - [update](../bin/update): Update shared files
 - [git-subtree-push](../bin/git-subtree-push): Push each subtree to its remote
 - [generate-storybook-stories.mjs](../bin/generate-storybook-stories.mjs): Generate Storybook stories
-- [publish-helpers](../bin/publish-helpers): Build and publish the 21 helper packages (npm / NuGet)
+- [publish-helpers](../bin/publish-helpers): Build and publish the 28 helper packages (npm / NuGet)
 - [generate-registries](../bin/generate-registries): Regenerate example-app catalog registries from components.tsv
 - [check-links](../bin/check-links): Verify relative markdown links resolve
 

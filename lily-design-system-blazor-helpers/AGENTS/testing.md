@@ -48,9 +48,9 @@ using Xunit;
 
 namespace LilyDesignSystem.Blazor.Helpers.Tests;
 
-public class ThemeSelectTests : TestContext
+public class ThemeChooserTests : TestContext
 {
-    public ThemeSelectTests()
+    public ThemeChooserTests()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
         JSInterop.SetupVoid("eval", _ => true).SetVoidResult();
@@ -65,14 +65,14 @@ sure `eval`-based DOM mutations don't blow up.
 
 ## Standard mount
 
-`ThemeSelect` and `LocaleSelect` are icon button + listbox controls;
-`TextSizeSelect` is a native `<select>`. The mount differs accordingly.
+All three helpers are icon button + listbox controls, so one mount
+shape covers the catalog.
 
 ```csharp
 [Fact]
 public void Section_7_1_Renders_Button_And_Listbox()
 {
-    var cut = RenderComponent<ThemeSelect>(p => p
+    var cut = RenderComponent<ThemeChooser>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, "/assets/themes/")
         .Add(x => x.Themes, new[] { "light", "dark" }));
@@ -89,18 +89,20 @@ public void Section_7_1_Renders_Button_And_Listbox()
 }
 ```
 
-`TextSizeSelect` keeps the original shape:
+`TextSizeChooser` mounts identically; only the required parameters
+differ (`Label` + `Sizes`, no URL):
 
 ```csharp
 [Fact]
-public void Section_7_1_Renders_Select_With_Options()
+public void Section_7_1_Renders_Button_And_Listbox()
 {
-    var cut = RenderComponent<TextSizeSelect>(p => p
+    var cut = RenderComponent<TextSizeChooser>(p => p
         .Add(x => x.Label, "Text size")
         .Add(x => x.Sizes, new[] { "small", "medium" }));
 
-    var root = cut.Find("select");
-    Assert.Equal(2, cut.FindAll("option").Count);
+    Assert.Equal("listbox", cut.Find("button").GetAttribute("aria-haspopup"));
+    Assert.Equal(2, cut.FindAll("li[role='option']").Count);
+    Assert.Empty(cut.FindAll("select"));              // no native select
 }
 ```
 
@@ -109,8 +111,7 @@ public void Section_7_1_Renders_Select_With_Options()
 | Goal                                     | Pattern                                                              |
 | ---------------------------------------- | -------------------------------------------------------------------- |
 | Wait for `OnAfterRenderAsync`            | `await Task.Yield();` (bUnit pumps the render queue synchronously).  |
-| Trigger a select change (**text-size only**) | `await cut.Find("select").ChangeAsync(new() { Value = "large" })` |
-| Find an option by value (**text-size only**) | `cut.Find("option[value=\"large\"]")`                            |
+| Read the committed value                 | `cut.Find("input[type='hidden']").GetAttribute("value")`             |
 | Open a listbox                           | `cut.Find("button").Click()`                                         |
 | Find all listbox options                 | `cut.FindAll("li[role='option']")`                                   |
 | Press a key on the listbox               | `cut.Find("ul").KeyDown(new KeyboardEventArgs { Key = "ArrowDown" })` |
@@ -133,7 +134,7 @@ when the handler awaits interop you then assert on.
 A full open-move-select cycle:
 
 ```csharp
-var cut = RenderComponent<ThemeSelect>(p => p
+var cut = RenderComponent<ThemeChooser>(p => p
     .Add(x => x.Label, "Theme")
     .Add(x => x.ThemesUrl, "/assets/themes/")
     .Add(x => x.Themes, new[] { "light", "dark", "abyss" }));
@@ -173,8 +174,8 @@ move and swallows the matching event. Tests have to reproduce both:
 
 ```csharp
 cut.Find("button").Click();                 // open; focus moves to the <ul>
-cut.Find("div.theme-select").FocusOut();    // swallowed — the component's own move
-cut.Find("div.theme-select").FocusOut();    // the real departure
+cut.Find("div.theme-chooser").FocusOut();    // swallowed — the component's own move
+cut.Find("div.theme-chooser").FocusOut();    // the real departure
 Assert.NotNull(cut.Find("ul").GetAttribute("hidden"));
 ```
 
@@ -190,7 +191,7 @@ wire the callback explicitly:
 
 ```csharp
 var captured = "";
-var cut = RenderComponent<ThemeSelect>(p => p
+var cut = RenderComponent<ThemeChooser>(p => p
     .Add(x => x.Label, "Theme")
     .Add(x => x.ThemesUrl, "/t/")
     .Add(x => x.Themes, new[] { "light", "dark" })
@@ -232,7 +233,7 @@ button**, not the options, and the context is
 `{ Value, Open, LabelFor }`:
 
 ```csharp
-RenderFragment<ThemeSelectContext> custom = ctx => builder =>
+RenderFragment<ThemeChooserContext> custom = ctx => builder =>
 {
     builder.OpenElement(0, "span");
     builder.AddAttribute(1, "data-testid", "custom");
@@ -241,7 +242,7 @@ RenderFragment<ThemeSelectContext> custom = ctx => builder =>
     builder.CloseElement();
 };
 
-var cut = RenderComponent<ThemeSelect>(p => p
+var cut = RenderComponent<ThemeChooser>(p => p
     .Add(x => x.Label, "Theme")
     .Add(x => x.ThemesUrl, "/t/")
     .Add(x => x.Themes, new[] { "light", "dark" })
@@ -250,13 +251,13 @@ await Task.Yield();
 
 var span = cut.Find("[data-testid='custom']");
 Assert.Equal("Light", span.TextContent);
-Assert.Empty(cut.FindAll(".theme-select-icon"));   // default glyph replaced
+Assert.Empty(cut.FindAll(".theme-chooser-icon"));   // default glyph replaced
 Assert.Equal(2, cut.FindAll("li[role='option']").Count);  // options untouched
 ```
 
-`TextSizeSelect`'s `ChildContent` still replaces the `<option>`
-elements and still receives `Sizes`, `Value`, `SetSize`, `Name`, and
-`LabelFor`.
+`TextSizeChooser`'s `ChildContent` behaves the same way: it replaces the
+`A` glyph, receives `{ Value, Open, LabelFor }`, and leaves the options
+untouched.
 
 For more readable tests, bUnit also accepts inline Razor via
 `RenderComponent` with markup, but the `RenderFragment` builder
@@ -313,7 +314,7 @@ flushes the message loop and lets those continuations land:
 [Fact]
 public async Task Section_7_7_Interop_Fires_With_Constructed_Href()
 {
-    var cut = RenderComponent<ThemeSelect>(p => p
+    var cut = RenderComponent<ThemeChooser>(p => p
         .Add(x => x.Label, "Theme")
         .Add(x => x.ThemesUrl, "/assets/themes/")
         .Add(x => x.Themes, new[] { "light" }));

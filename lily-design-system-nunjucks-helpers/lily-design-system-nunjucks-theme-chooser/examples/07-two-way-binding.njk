@@ -1,0 +1,56 @@
+{#
+  Example 07 — Two-way binding equivalent (onChange callback).
+
+  Nunjucks doesn't have reactive bindings like Svelte / Vue / React.
+  The closest equivalent is the `onChange` callback on the client.js,
+  combined with the consumer maintaining whatever store they want to
+  keep in sync. Below, we mirror the active theme into a `<output>`
+  element that sits outside the control.
+
+  This is the recipe for "use the control like v-model:value" without
+  a framework.
+
+  Note: the control already owns a hidden input (named by `opts.name`,
+  default "theme") that the client keeps in sync with the applied
+  slug. If your form wraps the control, that input is submitted for
+  free and you do not need a second one. Use `onChange` for anything
+  living outside the form — mirrors, analytics, server sync.
+
+  There is no "change" event to listen for: selection happens through
+  the button and the listbox, not a native <select>. `onChange` is the
+  supported hook.
+#}
+{% from "../theme-chooser.njk" import themeChooser %}
+
+{#
+  Wrapping the control in the <form> is all the "binding" a form
+  needs: the macro's own hidden input (name="theme") carries the
+  value, the client keeps it current, and it is pre-filled
+  server-side so it submits correctly even if the client.js never
+  runs. No second hidden input required.
+#}
+<form id="prefs">
+    {{ themeChooser({
+        label: "Theme",
+        themesUrl: "/assets/themes/",
+        themes: ["light", "dark", "abyss"],
+        storageKey: "my-app:theme"
+    }) }}
+
+    <button type="submit">Save preferences</button>
+</form>
+
+{# For anything outside the form, use onChange. #}
+<p>
+    Current theme:
+    <output id="theme-output">(resolving…)</output>
+</p>
+
+<script type="module">
+    import { autoInit } from "../theme-chooser.client.js";
+    autoInit({
+        onChange(slug) {
+            document.getElementById("theme-output").textContent = slug;
+        },
+    });
+</script>

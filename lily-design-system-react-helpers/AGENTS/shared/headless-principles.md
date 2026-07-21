@@ -17,10 +17,10 @@ keyboard semantics. Consumers ship every visual decision.
 - The first attribute on the root element is the kebab-case base
   class plus the consumer's optional `className`. For the current
   catalog this means
-  `className={\`theme-select ${className}\`.trim()}` and
-  `className={\`locale-select ${className}\`.trim()}`. Consumer
+  `className={\`theme-chooser ${className}\`.trim()}` and
+  `className={\`locale-chooser ${className}\`.trim()}`. Consumer
   CSS targets either form with a single selector.
-- Inner sub-classes (`theme-select-option`, `locale-select-option`)
+- Inner sub-classes (`theme-chooser-option`, `locale-chooser-option`)
   are kebab-case derivatives of the base class. They are stable
   contracts: consumers can rely on them, so don't rename or remove
   them between versions.
@@ -86,8 +86,8 @@ JS may want to observe:
 
 | Attribute                          | On                          | Set by                            |
 | ---------------------------------- | --------------------------- | --------------------------------- |
-| `data-theme="<slug>"`              | `target` (default `<html>`) | `ThemeSelect`                     |
-| `data-lily-theme-select="<name>"`  | the managed `<link>`        | `ThemeSelect` (discriminator)     |
+| `data-theme="<slug>"`              | `target` (default `<html>`) | `ThemeChooser`                     |
+| `data-lily-theme-chooser="<name>"`  | the managed `<link>`        | `ThemeChooser` (discriminator)     |
 
 For state that's purely for assistive technology (`aria-pressed`,
 `aria-expanded`), use the ARIA attribute, not `data-*`.

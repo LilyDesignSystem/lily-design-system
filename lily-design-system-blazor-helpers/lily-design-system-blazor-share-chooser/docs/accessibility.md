@@ -1,0 +1,86 @@
+# Accessibility
+
+WCAG 2.2 AAA is the target. This document states what the control does
+well and what it costs — the costs are real and are not talked around.
+
+## What it does
+
+- The glyph is `aria-hidden="true"`; the accessible name is the
+  consumer-supplied `Label`, rendered as `aria-label`, so it localises
+  with your copy.
+- `aria-expanded` on the trigger reflects the list state, and
+  `aria-controls` points at it.
+- Destinations keep **native link semantics**: they are real `<a>`
+  elements with no `role` override, so middle-click, open-in-new-tab and
+  copy-link-address all work. A `role="menuitem"` implementation would
+  take all three away.
+- Keyboard: `Enter` / `Space` activate, `ArrowDown` / `ArrowUp` open and
+  move between items (clamping, not wrapping), `Home` / `End` jump,
+  `Escape` closes and returns focus to the trigger, `Tab` closes and lets
+  focus move on. Items are real focusable elements, so focus moves for
+  real rather than via `aria-activedescendant`.
+- Copying is otherwise silent, so its outcome is announced in an
+  `aria-live="polite"` region that is empty on load.
+
+## What it costs
+
+**The name rests entirely on `aria-label`.** An icon-only control has no
+visible text fallback. If `Label` is wrong, missing, or untranslated,
+there is nothing else for anyone to go on — sighted users included, since
+➤ is not self-evidently "share". If you can spare the space, pair the
+button with visible text.
+
+**Behaviour differs by platform.** With `Strategy.Auto`, a phone opens
+the OS share sheet and a desktop opens the in-page list. That is usually
+the better experience on each, but it means your help text and support
+scripts cannot describe one flow. Force one with `Strategy.List` if
+consistency matters more.
+
+**The glyph is font-dependent.** ➤ (U+27A4) is an in-font arrow rather
+than a pictograph, so it is far safer than an emoji — it renders in the
+page's own font and stays monochrome. It is still not guaranteed on every
+font stack. Override it with `ChildContent` if your stack lacks it.
+
+**Copy can fail for reasons the user cannot see.** An insecure context, a
+denied permission, or a browser with no async clipboard all fail, and
+none of them are visible to the person clicking. Always supply
+`CopyFailedLabel` and make it **actionable** — say what to do instead
+("copy it from the address bar"), not just that it failed.
+
+## Blazor-specific notes
+
+**Static SSR cannot operate this control.** Under a static-SSR page the
+markup renders but `OnAfterRenderAsync` never fires, so nothing can open
+the sheet, write the clipboard, or move focus. The trigger would be a
+button that does nothing — worse than absent, because it advertises an
+affordance it cannot honour. Give the page an interactive render mode
+(`InteractiveServer`, `InteractiveWebAssembly`, or `InteractiveAuto`).
+
+**Dismissal is by focus, not by pointer.** The package ships no JS and
+adds no document-level click listener, so the list closes when focus
+leaves the root rather than on a document click. In practice clicking
+away moves focus away, so pointer dismissal works — but a click on a
+non-focusable region of the page (bare text, say) may leave the list open
+where the Svelte version would close it. If that matters for your layout,
+close it yourself from your own outside-click handling.
+
+**Keydown is not `preventDefault`ed.** Blazor evaluates
+`@onkeydown:preventDefault` at render time, so it cannot be applied per
+key, and applying it unconditionally would trap `Tab` — a keyboard trap
+is a far worse failure (WCAG 2.1.2) than a scroll on `ArrowDown`. The
+consequence is that arrow keys may also scroll the page behind an open
+list. If your layout makes that disruptive, prevent it in your own
+handler on a wrapping element.
+
+## What to check in review
+
+- `Label` is supplied, translated, and describes the action.
+- `CopiedLabel` and `CopyFailedLabel` are supplied if `CopyLabel` is.
+- Destination labels are real words, not brand glyphs.
+- The page has an interactive render mode.
+- The status region is not styled `display: none` — that silences it.
+  Use a visually-hidden recipe if you must hide it visually.
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

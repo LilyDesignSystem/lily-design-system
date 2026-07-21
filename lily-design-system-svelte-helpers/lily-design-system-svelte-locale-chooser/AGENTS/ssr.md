@@ -1,0 +1,271 @@
+# SSR — LocaleChooser (Svelte)
+
+The select runs cleanly under Svelte 5 SSR (SvelteKit, plain Vite +
+Svelte, Astro Svelte islands). This page lists the SvelteKit-specific
+recipes; the canonical rules live in
+[`../../AGENTS/ssr.md`](../../AGENTS/ssr.md).
+
+A complete runnable SvelteKit example for the layout side lives in
+[`../examples/ssr-cookie.svelte`](../examples/ssr-cookie.svelte);
+the in-file comments show the matching `hooks.server.ts`,
+`app.html`, and POST endpoint code.
+
+## What the select does on the server
+
+Under SSR, `$effect` is a no-op. The select renders:
+
+```html
+<div class="locale-chooser">
+    <input type="hidden" name="locale" value="" />
+    <button type="button" class="locale-chooser-button" aria-label="Language"
+            aria-haspopup="listbox" aria-expanded="false"
+            aria-controls="locale-chooser-1-list">
+        <span class="locale-chooser-icon" aria-hidden="true">&#127760;&#65038;</span>
+    </button>
+    <ul class="locale-chooser-list" id="locale-chooser-1-list" role="listbox"
+        aria-label="Language" tabindex="-1" hidden>
+        <li class="locale-chooser-option" id="locale-chooser-1-option-0"
+            role="option" aria-selected="false" lang="en">English</li>
+        …
+    </ul>
+</div>
+```
+
+If the consumer passes `value="ar"`, the corresponding option gets
+`aria-selected="true"` and the hidden input gets `value="ar"`
+server-side.
+
+Option ids come from the module-level `nextLocaleChooserId()` counter,
+not from `Math.random()` / `Date.now()`, so server and client agree and
+hydration matches.
+
+The `lang` and `dir` attributes on the document root are **not**
+written on the server. Those happen on hydration unless the consumer
+pre-sets them via `transformPageChunk`.
+
+## Why this matters
+
+If `<html>` arrives with `lang="en"` and the client picks `ar`,
+the page jumps:
+
+1. Browser parses `<html lang="en">` → default LTR layout.
+2. Browser fetches CSS, paints English page.
+3. JS hydrates, select's `$effect` runs, reads
+   `localStorage["app-locale"] === "ar"`, writes
+   `<html lang="ar" dir="rtl">`.
+4. Browser repaints in RTL → layout shift.
+
+Steps 2–4 cause a visible flash. Fix by pre-resolving the locale
+server-side.
+
+## SvelteKit cookie recipe (recommended)
+
+The cookie pattern uses three SvelteKit moving parts:
+`hooks.server.ts`, `app.html`, and `+layout.server.ts`.
+
+### `hooks.server.ts`
+
+```ts
+import type { Handle } from "@sveltejs/kit";
+
+const RTL = /^(ar|he|fa|ur|ps|sd|ug|yi|iw|ji|dv|ku|ckb|mzn|ks|arc)\b/;
+
+export const handle: Handle = async ({ event, resolve }) => {
+    const locale = event.cookies.get("locale") ?? "en";
+    event.locals.locale = locale;
+    return resolve(event, {
+        transformPageChunk: ({ html }) =>
+            html
+                .replace("%lily.lang%", locale)
+                .replace("%lily.dir%", RTL.test(locale) ? "rtl" : "ltr"),
+    });
+};
+```
+
+### `app.html`
+
+```html
+<!doctype html>
+<html lang="%lily.lang%" dir="%lily.dir%">
+    <head>
+        <meta charset="utf-8" />
+        %sveltekit.head%
+    </head>
+    <body>%sveltekit.body%</body>
+</html>
+```
+
+### `+layout.server.ts`
+
+```ts
+import type { LayoutServerLoad } from "./$types";
+
+export const load: LayoutServerLoad = ({ locals }) => ({
+    locale: locals.locale,
+});
+```
+
+### `+layout.svelte`
+
+```svelte
+<script lang="ts">
+    import { LocaleChooser } from "lily-design-system-svelte-locale-chooser";
+
+    let { data, children } = $props();
+    let locale = $state(data.locale);
+
+    async function persistCookie(code: string) {
+        await fetch("/api/locale", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ locale: code }),
+        });
+    }
+</script>
+
+<LocaleChooser
+    label="Language"
+    locales={["en", "fr", "ar"]}
+    bind:value={locale}
+    onChange={persistCookie}
+/>
+
+{@render children?.()}
+```
+
+### POST endpoint
+
+```ts
+// src/routes/api/locale/+server.ts
+import { json } from "@sveltejs/kit";
+import type { RequestHandler } from "./$types";
+
+const SUPPORTED = new Set(["en", "fr", "ar"]);
+
+export const POST: RequestHandler = async ({ request, cookies }) => {
+    const { locale } = await request.json();
+    if (typeof locale !== "string" || !SUPPORTED.has(locale)) {
+        return json({ error: "Unknown locale" }, { status: 400 });
+    }
+    cookies.set("locale", locale, {
+        path: "/",
+        httpOnly: false,
+        sameSite: "lax",
+        maxAge: 60 * 60 * 24 * 365,
+    });
+    return new Response(null, { status: 204 });
+};
+```
+
+Result: first paint arrives with the right `lang` and `dir`. The
+select hydrates without writing anything visible.
+
+## SvelteKit URL-prefix strategy
+
+For SEO-friendly URLs (`/en/about`, `/fr/about`), use SvelteKit's
+parameter-matching routes. Define `[locale]/*` route segments,
+validate in middleware, and drive the select from
+`$page.params.locale`.
+
+```svelte
+<script lang="ts">
+    import { page, goto } from "$app/stores";
+    import { LocaleChooser } from "lily-design-system-svelte-locale-chooser";
+
+    let current = $derived(String($page.params.locale ?? "en"));
+
+    function navigate(next: string) {
+        const newPath = $page.url.pathname.replace(/^\/(en|fr|ar)/, `/${next}`);
+        goto(newPath);
+    }
+</script>
+
+<LocaleChooser
+    label="Language"
+    locales={["en", "fr", "ar"]}
+    value={current}
+    onChange={navigate}
+/>
+```
+
+## SvelteKit Accept-Language strategy
+
+If no cookie has been set yet, fall back to the request's
+`Accept-Language` header:
+
+```ts
+// hooks.server.ts
+import type { Handle } from "@sveltejs/kit";
+
+const SUPPORTED = ["en", "fr", "ar"];
+
+function pickFromAcceptLanguage(header: string | null): string {
+    if (!header) return "en";
+    for (const item of header.split(",")) {
+        const tag = item.split(";")[0].trim().toLowerCase();
+        if (SUPPORTED.includes(tag)) return tag;
+        const base = tag.split("-")[0];
+        if (SUPPORTED.includes(base)) return base;
+    }
+    return "en";
+}
+
+export const handle: Handle = async ({ event, resolve }) => {
+    const cookie = event.cookies.get("locale");
+    event.locals.locale = cookie ?? pickFromAcceptLanguage(
+        event.request.headers.get("accept-language"),
+    );
+    return resolve(event);
+};
+```
+
+The select stays unchanged.
+
+## Astro Svelte islands
+
+```astro
+---
+const locale = Astro.cookies.get("locale")?.value ?? "en";
+const isRtl = /^(ar|he|fa|ur)/.test(locale);
+---
+<html lang={locale} dir={isRtl ? "rtl" : "ltr"}>
+    <body>
+        <LocaleChooser
+            client:load
+            label="Language"
+            locales={["en", "fr", "ar"]}
+            value={locale}
+        />
+        <slot />
+    </body>
+</html>
+```
+
+## Hydration mismatch warnings
+
+If you see a Svelte warning like "hydration_mismatch", the most
+common cause is:
+
+- The server rendered no `selected` option (because `value`
+  was empty), but the client picked a non-empty value from
+  `localStorage`.
+- **Fix.** Resolve the locale server-side and pass it as `value`.
+
+## Plain `svelte/server`
+
+```ts
+import { render } from "svelte/server";
+import LocaleChooser from "./LocaleChooser.svelte";
+
+const { html } = render(LocaleChooser, {
+    props: {
+        label: "Language",
+        locales: ["en", "fr", "ar"],
+        value: "fr",
+    },
+});
+```
+
+The resulting string contains the rendered button and listbox, with
+the `fr` option carrying `aria-selected="true"` and the hidden input
+carrying `value="fr"`. No DOM touched.

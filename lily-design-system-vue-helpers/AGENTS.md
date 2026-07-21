@@ -8,9 +8,10 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-vue-theme-select`](./lily-design-system-vue-theme-select/) — dynamic theme CSS loader.
-- [`lily-design-system-vue-locale-select`](./lily-design-system-vue-locale-select/) — `lang` + `dir` locale select.
-- [`lily-design-system-vue-text-size-select`](./lily-design-system-vue-text-size-select/) — `data-text-size` text-size select.
+- [`lily-design-system-vue-theme-chooser`](./lily-design-system-vue-theme-chooser/) — dynamic theme CSS loader.
+- [`lily-design-system-vue-locale-chooser`](./lily-design-system-vue-locale-chooser/) — `lang` + `dir` locale chooser.
+- [`lily-design-system-vue-text-size-chooser`](./lily-design-system-vue-text-size-chooser/) — `data-text-size` text-size chooser.
+- [`lily-design-system-vue-share-chooser`](./lily-design-system-vue-share-chooser/) — native share sheet / destination disclosure + copy URL.
 
 ## Working rules
 

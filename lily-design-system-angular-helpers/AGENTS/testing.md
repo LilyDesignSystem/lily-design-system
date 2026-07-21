@@ -54,7 +54,7 @@ getTestBed().initTestEnvironment(
 ```ts
 import { describe, it, expect, beforeEach } from "vitest";
 import { TestBed, type ComponentFixture } from "@angular/core/testing";
-import { ThemeSelect } from "./theme-select.component";
+import { ThemeChooser } from "./theme-chooser.component";
 
 beforeEach(() => {
     document.head.innerHTML = "";
@@ -64,8 +64,8 @@ beforeEach(() => {
     localStorage.clear();
 });
 
-function mount(inputs: Partial<ThemeSelect>): ComponentFixture<ThemeSelect> {
-    const fixture = TestBed.createComponent(ThemeSelect);
+function mount(inputs: Partial<ThemeChooser>): ComponentFixture<ThemeChooser> {
+    const fixture = TestBed.createComponent(ThemeChooser);
     Object.assign(fixture.componentRef.instance as any, {});
     for (const [key, value] of Object.entries(inputs)) {
         fixture.componentRef.setInput(key, value);
@@ -144,7 +144,7 @@ expect(events).toEqual(["dark"]);
 needed:
 
 ```ts
-import { normaliseThemesUrl, themeHref } from "./theme-select.component";
+import { normaliseThemesUrl, themeHref } from "./theme-chooser.component";
 
 it("§7.13 normaliseThemesUrl appends a slash", () => {
     expect(normaliseThemesUrl("/x")).toBe("/x/");
@@ -167,8 +167,8 @@ is enough:
 
 ```ts
 it("imports cleanly without DOM access", async () => {
-    const mod = await import("./theme-select.component");
-    expect(mod.ThemeSelect).toBeDefined();
+    const mod = await import("./theme-chooser.component");
+    expect(mod.ThemeChooser).toBeDefined();
 });
 ```
 

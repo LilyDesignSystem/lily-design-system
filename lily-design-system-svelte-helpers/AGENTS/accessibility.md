@@ -45,7 +45,7 @@ the default rendering because:
 
    ```svelte
    <label for="theme">Theme</label>
-   <ThemeSelect id="theme" label="Theme" themesUrl="/themes/" themes={themes} />
+   <ThemeChooser id="theme" label="Theme" themesUrl="/themes/" themes={themes} />
    ```
 
    (The spread `id` lands on the `<select>`; a consumer-supplied
@@ -109,7 +109,7 @@ The helpers spread `{...restProps}` onto the root element. Consumers
 can override the default ARIA wiring by passing their own attribute:
 
 ```svelte
-<ThemeSelect label="X" themesUrl="/t/" themes={["a"]} aria-labelledby="legend-id" />
+<ThemeChooser label="X" themesUrl="/t/" themes={["a"]} aria-labelledby="legend-id" />
 ```
 
 The `aria-label="X"` baked into the markup loses to the spread
@@ -128,7 +128,7 @@ custom option rendering never loses the accessible name.
 If a consumer needs a different widget entirely (swatch buttons, a
 command palette), they should drive the helper's state via
 `bind:value` / `setTheme` from their own markup, or use the upstream
-headless `ThemeSelect` (which has no opinion at all).
+headless `ThemeChooser` (which has no opinion at all).
 
 ### `{@render}` is not a live region
 

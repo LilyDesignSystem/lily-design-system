@@ -13,47 +13,99 @@ from Svelte to Angular.
 - Semantic HTML first; ARIA only where the canonical helper's
   `spec/index.md` calls it out.
 
-## The select + combobox contract
+## The icon button + listbox contract
 
-Each helper renders a native HTML `<select>`, which carries the
-WAI-ARIA `combobox` semantics for free. The helper relies entirely
-on the platform `<select>` / `<option>` pairing and adds no grouping
-wrapper, no manual selection role, and no manual focus management —
-the native control is exactly the combobox widget.
+All three helpers render an icon button that opens a custom
+[WAI-ARIA APG listbox](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/).
+None of them uses a native `<select>` any more — `theme-chooser` and
+`locale-chooser` migrated first, and `text-size-chooser` joined them,
+so the three are structurally identical.
 
-| Element    | Role / Property            | Source        |
-| ---------- | -------------------------- | ------------- |
-| `<select>` | implicit `role="combobox"` | Browser       |
-| `<select>` | `aria-label` (the name)    | Consumer prop |
-| `<select>` | `name`                     | Helper        |
-| `<option>` | implicit `role="option"`   | Browser       |
-| `<option>` | selected state (implicit)  | Browser       |
+There is **no native control underneath**. Every role, state, focus
+move, and keystroke is code in the component rather than behaviour
+supplied by the browser. That is the single most important thing to
+know when porting or reviewing a helper here.
 
-The helpers do not add ARIA where native semantics already cover the
-need. There is no `aria-pressed`, no `aria-checked`, and no manual
-focus management — the native `<select>` behaviour is the platform
-combobox.
+| Element                 | Role / Property                                         | Source        |
+| ----------------------- | ------------------------------------------------------- | ------------- |
+| root `<div>`            | none — a container, not a control                       | —             |
+| `<input type="hidden">` | `name`, `value` (form participation)                    | Helper        |
+| `<button>`              | implicit `role="button"`                                | Browser       |
+| `<button>`              | `aria-label` — its **entire** accessible name           | Consumer prop |
+| `<button>`              | `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls` | Helper    |
+| `.{helper}-icon`        | `aria-hidden="true"`                                    | Helper        |
+| `<ul>`                  | `role="listbox"`, `aria-label`, `tabindex="-1"`         | Helper        |
+| `<ul>` (open only)      | `aria-activedescendant`                                 | Helper        |
+| `<li>`                  | `role="option"`, `aria-selected`                        | Helper        |
+| `<li>`                  | `data-active` — styling hook, **not** ARIA              | Helper        |
+
+`data-active` marks where the keyboard cursor is; `aria-selected`
+marks the value actually in effect. They are usually on different
+options — never treat them as interchangeable.
+
+Element ids come from each helper's module-counter id generator
+(`nextThemeChooserId`, `nextLocaleChooserId`, `nextTextSizeChooserId`)
+— deterministic, unique per instance, and identical across server and
+client renders, so the wiring survives hydration. Never use
+`Math.random` or `Date.now`.
 
 The active state is exposed through independent channels, so no
-colour-only meaning is required: the selected `<option>` in the
-`<select>`, the `data-*` attribute the helper writes on the document
-root (`data-theme`, or `lang` / `dir` for the locale helper), and
-the `value` model signal.
+colour-only meaning is required: `aria-selected` on the chosen
+option, the hidden input's value, the attribute the helper writes on
+the document root (`data-theme`, `lang` / `dir`, `data-text-size`),
+and the `value` model signal.
 
 ## Keyboard contract
 
-Provided entirely by the platform's native `<select>`:
+Implemented by the component, identically across all three helpers.
 
-| Key               | Action                                        |
-| ----------------- | --------------------------------------------- |
-| `Tab`             | Move focus to the select (one stop).          |
-| `Shift+Tab`       | Move focus away from the select.              |
-| `Arrow Down`      | Select the next option.                       |
-| `Arrow Up`        | Select the previous option.                   |
-| `Home` / `End`    | Select the first / last option.               |
-| Typeahead         | Type characters to jump to a matching option. |
-| `Enter` / `Space` | Open the option list (platform-dependent).    |
-| `Escape`          | Close the option list.                        |
+On the **button**:
+
+| Key               | Action                                                              |
+| ----------------- | ------------------------------------------------------------------- |
+| `Tab` / `Shift+Tab` | Move focus to / away from the button (one stop).                  |
+| `Enter` / `Space` | Open the listbox with the selected option active (index 0 if none). |
+| `Arrow Down`      | Same as `Enter` / `Space`.                                          |
+| `Arrow Up`        | Open the listbox with the **last** option active.                   |
+
+Opening moves focus to the `<ul>`; focus never lands on an `<li>`.
+
+On the **listbox**:
+
+| Key               | Action                                                                |
+| ----------------- | --------------------------------------------------------------------- |
+| `Arrow Down`      | Active option down one. **Clamps** at the last option — no wrap.       |
+| `Arrow Up`        | Active option up one. **Clamps** at the first option — no wrap.        |
+| `Home` / `End`    | First / last option becomes active.                                    |
+| `Enter` / `Space` | Select the active option, apply it, close, return focus to the button. |
+| `Escape`          | Close and return focus to the button; the value is **not** changed.    |
+| `Tab`             | Close without stealing focus back; the browser moves focus onward.     |
+| Printable chars   | Typeahead over the display **labels**; the buffer resets after 500 ms. |
+
+Clicking an option selects it; clicking outside the root, or focus
+leaving the root, closes without changing the value.
+
+## The tradeoffs are documented, not solved
+
+Each helper's `docs/accessibility.md` states the same three tradeoffs
+plainly, and new helpers must do the same rather than glossing them:
+
+1. The button is icon-only, so `aria-label` is its entire accessible
+   name — which is why `label` is `input.required`.
+2. A hand-rolled listbox has weaker, less consistent
+   assistive-technology support than a native `<select>`, and loses
+   the mobile platform picker. A native `<select>` remains the better
+   control for some audiences; choosing one over these helpers is a
+   legitimate decision.
+3. The default glyph is font-dependent. `theme-chooser`'s `◑` (U+25D1)
+   may render as tofu or in an unexpected weight;
+   `text-size-chooser`'s `"A"` (U+0041) is materially safer, being an
+   ordinary letter in the page's own font.
+
+The compensating pattern — a visible `aria-live="polite"` status
+region reporting the active value — is the **default** in every
+helper's examples and quick-start, not a suggestion, because the
+closed button never announces its value.
 
 ## Angular-specific gotchas
 
@@ -67,42 +119,45 @@ is the literal string `""` or the literal string `"null"`.
 
 ```html
 <!-- Correct -->
-<select [attr.aria-label]="label() || null">
+<button [attr.aria-label]="label() || null">
 
 <!-- Incorrect — emits aria-label="" or aria-label="null" -->
-<select aria-label="{{ label() }}">
+<button aria-label="{{ label() }}">
 ```
 
 The signal-input form returns a literal `string` (not `string |
 undefined`) when the input is required, but the `|| null` guard
-protects against an unset optional input case.
+protects against an unset optional input case. Both the button and
+the listbox carry it.
 
-### `[disabled]` and `[selected]`
+### `[attr.hidden]` and `[attr.data-active]`
 
-Use the property bindings (`[selected]`, `[disabled]`) rather than
-the attribute bindings (`[attr.selected]`, `[attr.disabled]`) for
-boolean DOM properties. The property form correctly toggles the
-runtime state without leaving stale attributes in the DOM. The
-native `<select>` already reflects the selected option from its
-own `value`, so an explicit per-option binding is rarely needed:
+The listbox visibility and the keyboard cursor are attribute
+bindings with a `null` sentinel, so the attribute is *absent* rather
+than present-and-empty when off:
 
 ```html
-<option [value]="theme">{{ labelFor(theme) }}</option>
+<ul [attr.hidden]="open() ? null : ''">
+  <li [attr.data-active]="i === activeIndex() ? '' : null">
 ```
+
+`aria-activedescendant` follows the same rule — it is emitted only
+while the listbox is open, via a `computed()` that returns `null`
+when closed.
 
 ### `host` bindings vs root element bindings
 
 Angular forwards `class`, `style`, and `(event)` bindings declared
-on the host element (`<lily-theme-select>`) onto a host node, not
-onto the inner `<select>` the helper renders. This means a
-consumer who writes `<lily-theme-select class="my-extra">` ends up
-with `class="my-extra"` on the *outer* host node, not on the
-select. To get a single class hook the consumer can style, the
+on the host element (`<lily-theme-chooser>`) onto a host node, not
+onto the inner root `<div>` the helper renders. This means a
+consumer who writes `<lily-theme-chooser class="my-extra">` ends up
+with `class="my-extra"` on the *outer* host node, not on the root
+`<div>`. To get a single class hook the consumer can style, the
 helpers expose a `className` input that the consumer threads through
-to the inner select:
+to the inner root:
 
 ```html
-<lily-theme-select [className]="'my-extra'" ... />
+<lily-theme-chooser [className]="'my-extra'" ... />
 ```
 
 This is the Angular equivalent of Vue's `inheritAttrs`-driven
@@ -123,33 +178,44 @@ a multi-item navigation that needs it, set it via an `[attr.aria-current]`
 binding inside your own template (or inside a custom slot, when one
 exists).
 
-### `lang` and `dir` on inner options
+### `lang` on inner options
 
-The `LocaleSelect`'s default template carries `[attr.lang]="tagFor(locale)"`
-on each `<option>` so screen readers switch pronunciation per option.
-A custom template (when the helpers gain `ng-template`/`ng-content`
-slots) must preserve this; the `tagFor` helper is part of the public
-contract for that reason.
+The `LocaleChooser`'s default template carries
+`[attr.lang]="tagFor(locale)"` on each `<li role="option">` so screen
+readers switch pronunciation per option. `tagFor` is part of the
+public contract for that reason.
 
-## Keyboard
+### A projected template cannot change the ARIA contract
 
-The native `<select>` provides Tab / Shift+Tab / Arrow Down / Arrow
-Up / Home / End / typeahead / Enter / Space / Escape for free. None
-of the helpers add keyboard handlers; if a future helper drops the
-native `<select>`, the consumer becomes responsible for keyboard
-behaviour.
+Each helper accepts one projected `<ng-template>`, queried via
+`contentChild(TemplateRef)`, that replaces the **button glyph** — not
+the listbox, not the options, not any ARIA attribute. If a consumer
+projects text rather than a decorative glyph, the button then has
+both text content and an `aria-label`; `aria-label` wins in the
+accessibility tree, so the two must agree (WCAG 2.5.3, Label in
+Name).
 
 ## Focus management
 
-The helpers never call `.focus()` automatically. Changing the
-selection does not move focus elsewhere on the page (WCAG 3.2.2,
-On Input). When wiring `(themeChange)` to navigation (`router.navigate`,
-imperative `Router.navigateByUrl`), preserve scroll position and
-avoid focus jumps.
+Unlike the earlier native-`<select>` shape, these helpers **do** move
+focus, and must do so precisely:
 
-## Screen-reader pronunciation (locale select)
+- Opening moves focus to the `<ul>` (inside `queueMicrotask`, after
+  the `hidden` attribute is cleared — focusing a hidden element is a
+  no-op).
+- Selecting with `Enter` / `Space`, and dismissing with `Escape`,
+  return focus to the button.
+- `Tab`, an outside click, and focus leaving the root close the
+  listbox **without** pulling focus back — the browser's own focus
+  movement must win.
 
-Each `<option>` carries `lang="…"` so screen readers switch
+Changing the value programmatically via `[(value)]` never moves focus
+(WCAG 3.2.2, On Input). When wiring `(themeChange)` to navigation,
+preserve scroll position and avoid focus jumps.
+
+## Screen-reader pronunciation (locale chooser)
+
+Each `<li role="option">` carries `lang="…"` so screen readers switch
 pronunciation per option (WCAG 3.1.2, Language of Parts). Custom
 rendering must keep this attribute on the rendered element.
 
@@ -158,6 +224,16 @@ rendering must keep this attribute on the rendered element.
 The helpers ship no CSS; visible focus is the consumer's CSS
 responsibility. Don't suppress `:focus` or `:focus-visible` in
 consumer styles.
+
+Two elements take focus and both need a visible ring: the
+`.{helper}-button`, and the `.{helper}-list` while open. Because the
+`<ul>` holds focus for the whole open interaction, a listbox with no
+focus indicator leaves a keyboard user with nothing on screen tying
+the highlighted option to their keystrokes. Style
+`.{helper}-list:focus-visible` and `.{helper}-option[data-active]`
+together. The consumer also owns the listbox positioning — with no
+CSS the list sits in normal flow and shoves the page around when it
+opens.
 
 ## Reduced motion
 

@@ -19,17 +19,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\lily-design-system-blazor-theme-select\LilyDesignSystem.Blazor.ThemeSelect.csproj" />
-    <ProjectReference Include="..\..\lily-design-system-blazor-locale-select\LilyDesignSystem.Blazor.LocaleSelect.csproj" />
-    <ProjectReference Include="..\..\lily-design-system-blazor-text-size-select\LilyDesignSystem.Blazor.TextSizeSelect.csproj" />
+    <ProjectReference Include="..\..\lily-design-system-blazor-theme-chooser\LilyDesignSystem.Blazor.ThemeChooser.csproj" />
+    <ProjectReference Include="..\..\lily-design-system-blazor-locale-chooser\LilyDesignSystem.Blazor.LocaleChooser.csproj" />
+    <ProjectReference Include="..\..\lily-design-system-blazor-text-size-chooser\LilyDesignSystem.Blazor.TextSizeChooser.csproj" />
+    <ProjectReference Include="..\..\lily-design-system-blazor-share-chooser\LilyDesignSystem.Blazor.ShareChooser.csproj" />
   </ItemGroup>
 
   <!-- The per-helper *Tests.cs files live inside the package dirs (and are
        excluded from those packages); compile them here instead. -->
   <ItemGroup>
-    <Compile Include="..\..\lily-design-system-blazor-theme-select\ThemeSelectTests.cs" />
-    <Compile Include="..\..\lily-design-system-blazor-locale-select\LocaleSelectTests.cs" />
-    <Compile Include="..\..\lily-design-system-blazor-text-size-select\TextSizeSelectTests.cs" />
+    <Compile Include="..\..\lily-design-system-blazor-theme-chooser\ThemeChooserTests.cs" />
+    <Compile Include="..\..\lily-design-system-blazor-locale-chooser\LocaleChooserTests.cs" />
+    <Compile Include="..\..\lily-design-system-blazor-text-size-chooser\TextSizeChooserTests.cs" />
+    <Compile Include="..\..\lily-design-system-blazor-share-chooser\ShareChooserTests.cs" />
   </ItemGroup>
 
 </Project>

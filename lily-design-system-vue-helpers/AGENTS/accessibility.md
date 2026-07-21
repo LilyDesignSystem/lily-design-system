@@ -22,7 +22,7 @@ fall-through-attrs behaviour so consumers can pass `id`,
 `data-testid`, event handlers, and ARIA overrides without the
 component blocking them. Setting `inheritAttrs: false` removes the
 guarantee and silently breaks tests that rely on
-`<ThemeSelect data-testid="x">`.
+`<ThemeChooser data-testid="x">`.
 
 ### `v-bind="$attrs"`
 
@@ -38,27 +38,32 @@ escaping. None of the helpers in this catalog use it; if a future
 helper needs to render markdown, the rendering belongs to the
 consumer.
 
-### Two control shapes in this catalog
+### One control shape across this catalog
 
-The helpers no longer share one markup model. Know which you are
-touching before you port anything:
+All three helpers share one markup model:
 
 | Helper             | Control                                       |
 | ------------------ | --------------------------------------------- |
-| `theme-select`     | Icon button (◑) + `role="listbox"` popup.     |
-| `locale-select`    | Icon button (🌐) + `role="listbox"` popup.    |
-| `text-size-select` | Native `<select>` with one `<option>` per size. |
+| `theme-chooser`     | Icon button (◑) + `role="listbox"` popup.     |
+| `locale-chooser`    | Icon button (🌐) + `role="listbox"` popup.    |
+| `text-size-chooser` | Icon button (A) + `role="listbox"` popup.     |
 
-`theme-select` and `locale-select` were converted from native
-`<select>` elements to icon-button-plus-listbox widgets. Their root is
-a `<div>`, the trigger is a `<button aria-haspopup="listbox">`, and
-the popup is a `<ul role="listbox">` of `<li role="option">`.
-`text-size-select` is untouched and keeps the native `<select>`.
+All three were converted from native `<select>` elements to
+icon-button-plus-listbox widgets — `theme-chooser` and `locale-chooser`
+first, `text-size-chooser` after. Their root is a `<div>`, the trigger
+is a `<button aria-haspopup="listbox">`, and the popup is a
+`<ul role="listbox">` of `<li role="option">`.
+
+`text-size-chooser`'s glyph is the letter `A` (U+0041), not a
+pictograph: U+1F5DB DECREASE FONT SIZE SYMBOL has no real glyph in
+common font stacks and means *decrease* rather than *size*. A plain
+letter renders in the page's own font everywhere and stays monochrome
+like ◑.
 
 ### Scoped slots and the glyph contract
 
-For `theme-select` and `locale-select`, the default scoped slot
-replaces the **button glyph only** — it does not render the options.
+For all three helpers, the default scoped slot replaces the **button
+glyph only** — it does not render the options.
 The listbox, its option markup, the ARIA state, and the keyboard
 contract are all component-owned and cannot be displaced by a slot.
 
@@ -69,19 +74,16 @@ name. See the per-helper `docs/accessibility.md`.
 
 ### Label vs aria-label
 
-The helpers carry the consumer's name as `aria-label={label}`. For the
-two icon-button helpers this is the **only** accessible name — the
-button has no visible text — and the same `label` also names the
+The helpers carry the consumer's name as `aria-label={label}`. For all
+three this is the **only** accessible name — the button has no visible
+text — and the same `label` also names the
 listbox. Consumers who want a visible label should render their own
 text next to the helper; a `.{helper}-status` live region is the
 documented pattern (see the per-helper `docs/accessibility.md`).
 
 ## Keyboard
 
-`text-size-select` inherits the platform's native `<select>` keyboard
-model for free and adds no handlers.
-
-`theme-select` and `locale-select` implement the WAI-ARIA APG listbox
+All three helpers implement the WAI-ARIA APG listbox
 pattern themselves. On the button, `ArrowDown` / `Enter` / `Space`
 open with the selected option active and `ArrowUp` opens with the last
 option active; opening moves focus to the `<ul>`. On the listbox,
@@ -98,9 +100,7 @@ wrap) and keep `aria-activedescendant` absent while closed.
 
 ## Focus management
 
-`text-size-select` never calls `.focus()`.
-
-`theme-select` and `locale-select` move focus deliberately and only
+All three helpers move focus deliberately and only
 within their own control: to the `<ul>` when the listbox opens, and
 back to the button when it closes via commit or `Escape`. `Tab` and
 click-outside close **without** pulling focus back, so the user's own
@@ -112,7 +112,7 @@ wait for Vue to flush the DOM — `await nextTick()` before `.focus()`.
 A `hidden` element cannot take focus, so focusing the `<ul>` in the
 same tick that sets `open` silently fails.
 
-## Screen-reader pronunciation (locale select)
+## Screen-reader pronunciation (locale chooser)
 
 Each `<li role="option">` carries `lang="…"` so screen readers switch
 pronunciation per option (WCAG 3.1.2, Language of Parts). The button

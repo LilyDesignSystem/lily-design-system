@@ -1,0 +1,52 @@
+{#
+  base.njk — Eleventy layout with the theme chooser.
+
+  Uses __THEME__ as a placeholder the edge middleware substitutes
+  with the cookie value. At static-build time (no edge function),
+  the placeholder remains and the page falls back to the control's
+  client-side localStorage resolution.
+
+  Note what SSR does and does not buy here. It gets the first PAINT
+  right — <html data-theme> and the theme <link> are correct before
+  any script runs. It does not make the control usable: the button
+  only opens its listbox once theme-chooser.client.js has loaded.
+  See ../../../docs/ssr.md.
+#}
+<!doctype html>
+<html lang="en" data-theme="__THEME__">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/assets/themes/__THEME__.css">
+        <title>{{ title }}</title>
+    </head>
+    <body>
+        <header>
+            {% from "lily/theme-chooser.njk" import themeChooser %}
+            {{ themeChooser({
+                label: "Theme",
+                themesUrl: "/assets/themes/",
+                themes: site.supportedThemes,
+                value: "__THEME__",
+                storageKey: "lily-theme"
+            }) }}
+        </header>
+
+        <main>
+            {{ content | safe }}
+        </main>
+
+        <script type="module">
+            import { autoInit } from "/lily/theme-chooser.client.js";
+            autoInit({
+                onChange(slug) {
+                    fetch("/api/theme", {
+                        method: "POST",
+                        headers: { "content-type": "application/json" },
+                        body: JSON.stringify({ theme: slug }),
+                    }).catch(() => {});
+                },
+            });
+        </script>
+    </body>
+</html>

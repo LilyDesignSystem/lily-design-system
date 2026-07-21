@@ -1,0 +1,91 @@
+{#
+  Example 03 — Customising the trigger button via `{% call %}`.
+
+  The trigger button renders a globe glyph (U+1F310) by default.
+  Nunjucks's equivalent of "children" is a `{% call %}` block, and
+  its body replaces that glyph INSIDE the button — nothing else. The
+  listbox still comes from `opts.locales`; a call block cannot render
+  options.
+
+  ./localeChooserCustom.njk wraps that pattern up as a reusable macro
+  so every switcher in a project shares one branded trigger. This
+  example imports the wrapper and reflects the active locale in a
+  visible status line.
+
+  Outcome: a collapsed button showing a custom inline SVG globe.
+  Opening it (click, Enter, Space, ArrowDown, or ArrowUp for the last
+  option) reveals the standard listbox; committing an option writes
+  lang/dir, persists it, and fires onChange.
+#}
+{% from "./localeChooserCustom.njk" import localeChooserCustom %}
+
+{% set LOCALES = ["en", "fr", "es", "de", "ar", "he"] %}
+{% set NATIVE = {
+    en: "English", fr: "Français", es: "Español",
+    de: "Deutsch", ar: "العربية", he: "עברית"
+} %}
+
+{{ localeChooserCustom({
+    label: "Language",
+    locales: LOCALES,
+    localeLabels: NATIVE,
+    value: "en",
+    storageKey: "app-locale"
+}) }}
+
+{#
+  The closed button shows a glyph, never the active locale, so the
+  status region carries that information for sighted and
+  screen-reader users alike. See ../docs/accessibility.md.
+#}
+<p class="locale-chooser-status" aria-live="polite"></p>
+
+{#
+  The hooks this control gives your stylesheet. The helper ships zero
+  CSS, so put something like this in your own:
+
+    .locale-chooser { position: relative; display: inline-block; }
+
+    .locale-chooser-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: currentColor;
+        background: none;
+        border: 1px solid currentColor;
+    }
+
+    /* The client toggles aria-expanded, so open state is styleable
+       with no extra class. */
+    .locale-chooser-button[aria-expanded="true"] { background: #eef; }
+
+    .locale-chooser-list {
+        position: absolute;
+        inset-block-start: 100%;
+        inset-inline-start: 0;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .locale-chooser-list[hidden] { display: none; }
+
+    .locale-chooser-option { text-align: start; }
+
+    /* data-active = the roved-to option; aria-selected = the applied
+       locale. They are independent. */
+    .locale-chooser-option[data-active] { background: #eef; }
+    .locale-chooser-option[aria-selected="true"] { font-weight: 700; }
+#}
+
+<script type="module">
+    import { autoInit, localeName } from "../locale-chooser.client.js";
+
+    const status = document.querySelector(".locale-chooser-status");
+
+    autoInit({
+        onChange(code) {
+            status.textContent = `Active language: ${localeName(code)}`;
+        },
+    });
+</script>

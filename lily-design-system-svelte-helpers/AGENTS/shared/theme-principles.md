@@ -38,13 +38,13 @@ The theme is exposed as a flat object whose keys flatten into
 Consumer CSS reads `var(--theme-color-primary)`,
 `var(--theme-space-md)`, etc.
 
-## How the Svelte theme-select fits in
+## How the Svelte theme-chooser fits in
 
-The Svelte `ThemeSelect` helper writes two signals to the document
+The Svelte `ThemeChooser` helper writes two signals to the document
 root on every change:
 
 1. The `href` of a managed `<link rel="stylesheet"
-   data-lily-theme-select="{name}">` in `document.head`, pointing to
+   data-lily-theme-chooser="{name}">` in `document.head`, pointing to
    `${themesUrl}${slug}${extension}`.
 2. A `data-theme="<slug>"` attribute on the resolved target
    (defaults to `document.documentElement`).
@@ -81,7 +81,7 @@ const initial = prefersDark ? "dark" : "light";
 ```
 
 Pass `initial` as `defaultValue`. See
-`lily-design-system-svelte-theme-select/examples/system-preference.svelte`.
+`lily-design-system-svelte-theme-chooser/examples/system-preference.svelte`.
 
 ## Forbidden in the headless layer
 
@@ -119,7 +119,7 @@ consumer's choice.
 ### `<svelte:head>` vs imperative `document.head` mutation
 
 `<svelte:head>` is Svelte's declarative head-mutation slot. The
-catalog's `ThemeSelect` uses imperative `document.head.appendChild`
+catalog's `ThemeChooser` uses imperative `document.head.appendChild`
 for the managed `<link>` because:
 
 - The managed `<link>` is a singleton across the select's lifetime,
@@ -145,9 +145,9 @@ end-to-end recipe. The select hydrates over the pre-set
 
 ### Multiple selects in one app
 
-A consumer can mount more than one `ThemeSelect` (e.g. a quick
+A consumer can mount more than one `ThemeChooser` (e.g. a quick
 toggle in the header, a full radio list in the settings page) by
 passing distinct `name` props. Each select manages its own `<link>`
-identified by `data-lily-theme-select="{name}"`. Selections do not
+identified by `data-lily-theme-chooser="{name}"`. Selections do not
 sync between selects unless the consumer wires them together via
 the bindable `value`.

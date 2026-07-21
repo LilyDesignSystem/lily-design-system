@@ -10,9 +10,10 @@ DOM application) for one small, common job.
 
 | Helper                                                                                  | Purpose                                                        |
 | --------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`lily-design-system-react-theme-select`](./lily-design-system-react-theme-select/)     | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
-| [`lily-design-system-react-locale-select`](./lily-design-system-react-locale-select/)   | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
-| [`lily-design-system-react-text-size-select`](./lily-design-system-react-text-size-select/) | Pick a text size; sets `data-text-size` on the document root.  |
+| [`lily-design-system-react-theme-chooser`](./lily-design-system-react-theme-chooser/)     | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
+| [`lily-design-system-react-locale-chooser`](./lily-design-system-react-locale-chooser/)   | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-react-text-size-chooser`](./lily-design-system-react-text-size-chooser/) | Pick a text size; sets `data-text-size` on the document root.  |
+| [`lily-design-system-react-share-chooser`](./lily-design-system-react-share-chooser/) | Share the page: native share sheet, else a list of destinations + copy the URL. |
 
 ## Conventions
 
@@ -50,23 +51,29 @@ Shared design decisions across the catalog:
   `value` + `onChange` pair OR runs internally with `useState`.
 - **i18n-clean**: every user-facing string comes from a prop. No
   hardcoded English (or any other natural language).
-- **One job per helper**: each helper owns the entire lifecycle of
-  one user-preference dimension (theme, language, etc.) and composes
-  cleanly with the others.
+- **One job per helper**: each helper owns one complete interaction
+  end to end and composes cleanly with the others. For the three
+  selects that job is a user-preference dimension (theme, language,
+  text size). `share-chooser` is the exception that proves the shape:
+  it owns an *action* rather than a preference, so it applies nothing
+  to the document and persists nothing — but it ships the same
+  headless contract, the same class-hook convention, and the same
+  spec-driven tests.
 - **Spec-driven**: every helper has a `spec/index.md` numbered with §
   references; tests assert against those numbers; docs link back.
 - **Render-prop children**: when consumers need to override the
   default markup, they pass a `children` function that receives the
-  select's `ChildArgs` (state + setter + helpers).
-- **Rest-prop spread**: every helper spreads `...restProps` onto the
-  root `<select>` so consumers can pass arbitrary HTML attributes
+  helper's `ChildArgs`. For all three selects that function replaces
+  the **button glyph**, not the options — the component owns those.
+- **Rest-prop spread**: every helper spreads `...restProps` onto its
+  root `<div>` so consumers can pass arbitrary HTML attributes
   (`id`, `data-*`, event handlers, ARIA overrides).
 
 ## Differences from the headless library
 
 The headless library mirrors the canonical 490-component catalog.
 Each component is a pure container with no lifecycle. A consumer
-typing on top of `ThemeSelect` from `lily-design-system-react-headless`
+typing on top of `ThemeChooser` from `lily-design-system-react-headless`
 writes their own select markup, their own persistence, and their own
 loading.
 
@@ -117,19 +124,28 @@ entrypoint. Per-topic AGENTS files live in
 
 ## Cross-helper compatibility
 
-The two selects in the current catalog are deliberately compatible:
+The three selects in the current catalog are deliberately compatible:
 
-- `ThemeSelect` and `LocaleSelect` both render a
-  `<select aria-label="…">` so a row of selects in the same banner
-  has consistent semantics.
-- The two selects do not share state. Each owns its own
+- `ThemeChooser`, `LocaleChooser`, and `TextSizeChooser` all render the
+  same icon-button-plus-listbox shape — a
+  `<div class="{helper}">` wrapping a hidden input, an
+  `aria-label`led `<button aria-haspopup="listbox">` holding one
+  `aria-hidden` glyph (◑, 🌐, and "A" respectively), and a
+  `<ul role="listbox">` of `<li role="option">`. A row of them in the
+  same banner has consistent semantics, keyboard behaviour, and
+  footprint.
+- The three selects do not share state. Each owns its own
   `localStorage` key, its own `data-*` attribute, and its own
   managed DOM nodes.
-- The class hooks (`theme-select`, `locale-select`) are independent
-  so a single stylesheet rule can target either.
+- The class hooks (`theme-chooser`, `locale-chooser`,
+  `text-size-chooser`) are independent so a single stylesheet rule can
+  target any one of them.
+- Each exports its own label resolver under a parallel name —
+  `themeName`, `localeName`, `sizeName` — all applying the same
+  title-cased-slug rule.
 
-Mounting both selects in one banner is the recommended pattern when
-your app has both a colour scheme and a language preference.
+Mounting all three selects in one banner is the recommended pattern
+when your app has colour-scheme, language, and text-size preferences.
 
 ## License
 

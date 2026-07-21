@@ -2,7 +2,7 @@
 
 This file adapts the cross-framework Lily theme principles
 (`../../../AGENTS/theme.md`) to React 19. All helpers in this
-catalog follow these rules; `ThemeSelect` is the canonical
+catalog follow these rules; `ThemeChooser` is the canonical
 implementation.
 
 ## The core split
@@ -44,9 +44,9 @@ component (when present in the consumer's app):
 Consumer CSS reads `var(--theme-color-primary)`,
 `var(--theme-space-md)`, etc.
 
-## How `ThemeSelect` connects
+## How `ThemeChooser` connects
 
-`ThemeSelect` writes `data-theme="<slug>"` on a target element
+`ThemeChooser` writes `data-theme="<slug>"` on a target element
 (default `<html>`). The consumer's CSS scopes every theme file to
 `:root[data-theme="<slug>"]`:
 
@@ -73,7 +73,7 @@ The component code never sees these values; it only switches the
 
 ## Light / dark / high-contrast variants
 
-`ThemeSelect`'s `data-theme` is the activation switch. Each variant
+`ThemeChooser`'s `data-theme` is the activation switch. Each variant
 is a separate theme file:
 
 - `light.css` — default light theme.
@@ -82,7 +82,7 @@ is a separate theme file:
 - `lily-{N}.css` — Lily's 41 DaisyUI-inspired themes.
 
 The consumer drops the files into a directory and passes the
-slugs to `ThemeSelect`. Switching themes is a single attribute
+slugs to `ThemeChooser`. Switching themes is a single attribute
 write — no React state outside the select, no Context, no
 theme-provider re-render.
 
@@ -113,7 +113,7 @@ styling. CSS-in-JS interop is the consumer's choice.
 The current React helper catalog does not ship a
 `<ThemeProvider>` component. The headless library
 (`lily-design-system-react-headless`) provides one if needed;
-otherwise `ThemeSelect` writes directly to `document.documentElement`
+otherwise `ThemeChooser` writes directly to `document.documentElement`
 and consumer CSS reads from `:root[data-theme]`.
 
 The absence of a context is intentional: `data-theme` on `<html>`
@@ -124,7 +124,7 @@ mechanism. No React re-renders happen on theme change.
 
 For zero-flicker SSR, resolve the theme on the server (cookie,
 header, session store) and seed the select with `value`. See
-`lily-design-system-react-theme-select/docs/ssr.md` for the
+`lily-design-system-react-theme-chooser/docs/ssr.md` for the
 Next.js App Router recipe.
 
 ```tsx
@@ -155,7 +155,7 @@ theme in `<head>`. Each theme scopes its rules to
 select still mutates `data-theme`; the network round-trip is gone.
 
 See
-`lily-design-system-react-theme-select/docs/preloading.md` for
+`lily-design-system-react-theme-chooser/docs/preloading.md` for
 strategies.
 
 ## Consumer-side patterns
@@ -166,7 +166,7 @@ strategies.
 "use client";
 
 import { useEffect, useState } from "react";
-import { ThemeSelect } from "./lily-design-system-react-theme-select";
+import { ThemeChooser } from "./lily-design-system-react-theme-chooser";
 
 export function ThemeChooser() {
     const [defaultTheme] = useState(() => {
@@ -176,7 +176,7 @@ export function ThemeChooser() {
             : "light";
     });
     return (
-        <ThemeSelect
+        <ThemeChooser
             label="Theme"
             themesUrl="/assets/themes/"
             themes={["light", "dark"]}
@@ -195,7 +195,7 @@ The user's explicit choice (via `storageKey`) wins on later visits.
 "use client";
 
 import { useEffect, useState } from "react";
-import { ThemeSelect } from "./lily-design-system-react-theme-select";
+import { ThemeChooser } from "./lily-design-system-react-theme-chooser";
 
 export function ThemeChooser() {
     const [theme, setTheme] = useState("");
@@ -210,7 +210,7 @@ export function ThemeChooser() {
     }, []);
 
     return (
-        <ThemeSelect
+        <ThemeChooser
             label="Theme"
             themesUrl="/assets/themes/"
             themes={["light", "dark"]}
@@ -224,9 +224,9 @@ export function ThemeChooser() {
 ## See also
 
 - Repo root `AGENTS/theme.md` — canonical cross-framework rules.
-- `lily-design-system-react-theme-select/docs/preloading.md` —
+- `lily-design-system-react-theme-chooser/docs/preloading.md` —
   three preloading strategies.
-- `lily-design-system-react-theme-select/docs/ssr.md` — cookie /
+- `lily-design-system-react-theme-chooser/docs/ssr.md` — cookie /
   Next.js / Remix SSR recipes.
-- `lily-design-system-react-theme-select/docs/styling.md` — class
+- `lily-design-system-react-theme-chooser/docs/styling.md` — class
   and attribute hooks.

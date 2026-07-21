@@ -8,9 +8,10 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-nunjucks-theme-select`](./lily-design-system-nunjucks-theme-select/) — dynamic theme CSS loader.
-- [`lily-design-system-nunjucks-locale-select`](./lily-design-system-nunjucks-locale-select/) — `lang` + `dir` locale select.
-- [`lily-design-system-nunjucks-text-size-select`](./lily-design-system-nunjucks-text-size-select/) — `data-text-size` text-size select.
+- [`lily-design-system-nunjucks-theme-chooser`](./lily-design-system-nunjucks-theme-chooser/) — dynamic theme CSS loader.
+- [`lily-design-system-nunjucks-locale-chooser`](./lily-design-system-nunjucks-locale-chooser/) — `lang` + `dir` locale chooser.
+- [`lily-design-system-nunjucks-text-size-chooser`](./lily-design-system-nunjucks-text-size-chooser/) — `data-text-size` text-size chooser.
+- [`lily-design-system-nunjucks-share-chooser`](./lily-design-system-nunjucks-share-chooser/) — native share sheet / destination list + copy. Owns an **action**, not a preference: applies nothing to the document, persists nothing. Note the documented `href`-is-a-string deviation in its `spec/index.md` §3.3 — a Nunjucks macro cannot call an arbitrary JS function.
 
 ## Working rules
 

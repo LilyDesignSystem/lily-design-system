@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>share-chooser — custom rendering</title>
+<style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 40rem; }
+      share-chooser { display: inline-block; }
+      .share-chooser { position: relative; display: inline-block; }
+      .share-chooser-button {
+        font: inherit; cursor: pointer; padding: 0.4rem 0.6rem;
+        background: none; border: 1px solid currentColor; border-radius: 0.25rem;
+      }
+      .share-chooser-icon { font-size: 1.15em; line-height: 1; }
+      .share-chooser-list {
+        position: absolute; inset-block-start: 100%; inset-inline-start: 0; z-index: 10;
+        margin: 0.25rem 0 0; padding: 0.25rem 0; list-style: none; min-inline-size: max-content;
+        background: #fff; border: 1px solid #d8dde0; border-radius: 0.25rem;
+        box-shadow: 0 2px 8px rgb(0 0 0 / 0.12);
+      }
+      /* Required: the rule above would otherwise defeat [hidden]. */
+      .share-chooser-list[hidden] { display: none; }
+      .share-chooser-target, .share-chooser-copy {
+        display: block; inline-size: 100%; padding: 0.5rem 0.75rem;
+        font: inherit; color: inherit; text-align: start; text-decoration: none;
+        background: none; border: 0; cursor: pointer;
+      }
+      .share-chooser-target:hover, .share-chooser-copy:hover { background: #f0f4f5; }
+      :focus-visible { outline: 3px solid #ffeb3b; outline-offset: 2px; }
+      .share-chooser-status { margin: 0.5rem 0 0; font-size: 0.875rem; color: #4c6272; }
+    </style>
+  </head>
+  <body>
+    <h1>share-chooser — custom rendering</h1>
+    <p>
+      Light DOM has no <code>&lt;slot&gt;</code>, so subclassing stands in for
+      the children slot the Svelte / React / Vue versions expose.
+      <code>renderButtonContent()</code> sees <code>this.open</code> and
+      <code>this.currentUrl()</code>, and re-runs on every state change.
+    </p>
+
+    <h2>Inline SVG</h2>
+    <svg-share-chooser label="Share this page" copy-label="Copy link"></svg-share-chooser>
+
+    <h2>Glyph plus visible text</h2>
+    <p>
+      Note the visible text is <code>this.label</code>, so the accessible name
+      contains it — WCAG 2.5.3 Label in Name.
+    </p>
+    <labelled-share-chooser label="Share" copy-label="Copy link"></labelled-share-chooser>
+
+    <script type="module">
+      import { ShareChooser } from "/dist/share-chooser.js";
+
+      class SvgShareChooser extends ShareChooser {
+        renderButtonContent() {
+          const ns = "http://www.w3.org/2000/svg";
+          const svg = document.createElementNS(ns, "svg");
+          svg.setAttribute("class", "share-chooser-icon");
+          svg.setAttribute("aria-hidden", "true");
+          svg.setAttribute("viewBox", "0 0 24 24");
+          svg.setAttribute("width", "1em");
+          svg.setAttribute("height", "1em");
+          svg.setAttribute("fill", "currentColor");
+          const path = document.createElementNS(ns, "path");
+          path.setAttribute("d", "M14 9V5l7 7-7 7v-4H3V9h11z");
+          svg.appendChild(path);
+          return svg;
+        }
+      }
+      if (!customElements.get("svg-share-chooser"))
+        customElements.define("svg-share-chooser", SvgShareChooser);
+
+      class LabelledShareChooser extends ShareChooser {
+        renderButtonContent() {
+          const frag = document.createDocumentFragment();
+          const icon = document.createElement("span");
+          icon.className = "share-chooser-icon";
+          icon.setAttribute("aria-hidden", "true");
+          icon.textContent = this.open ? "×" : "➤";
+          const text = document.createElement("span");
+          text.style.marginInlineStart = "0.4em";
+          text.textContent = this.label;
+          frag.append(icon, text);
+          return frag;
+        }
+      }
+      if (!customElements.get("labelled-share-chooser"))
+        customElements.define("labelled-share-chooser", LabelledShareChooser);
+
+      const targets = [
+        { id: "mastodon", label: "Mastodon",
+          href: (url) => `https://mastodon.social/share?text=${encodeURIComponent(url)}` },
+      ];
+      for (const el of document.querySelectorAll("svg-share-chooser, labelled-share-chooser"))
+        el.targets = targets;
+    </script>
+  </body>
+</html>

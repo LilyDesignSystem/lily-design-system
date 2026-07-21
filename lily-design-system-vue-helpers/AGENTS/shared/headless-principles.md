@@ -19,8 +19,8 @@ decision.
   CSS can target any helper with one selector. No additional
   component-defined classes appear on the root unless the spec calls
   them out.
-- Inner sub-classes (e.g. `theme-select-option`,
-  `locale-select-option`) are kebab-case derivatives of the
+- Inner sub-classes (e.g. `theme-chooser-option`,
+  `locale-chooser-option`) are kebab-case derivatives of the
   base class. Sub-classes are stable contracts: consumers can rely
   on them, so don't rename or remove them between versions.
 - Vue's default `inheritAttrs: true` spreads `$attrs` onto the root
@@ -76,7 +76,7 @@ decision.
 - `data-*` attributes are used for state that the consumer's CSS or
   JS may want to observe — e.g. `data-visible`, `data-active`,
   `data-step-index`, `data-currency-code`, `data-width`,
-  `data-remaining-seconds`, `data-theme`, `data-lily-theme-select`.
+  `data-remaining-seconds`, `data-theme`, `data-lily-theme-chooser`.
   Use `data-*` rather than inventing new ARIA attributes when a
   state is for the consumer, not assistive technology.
 

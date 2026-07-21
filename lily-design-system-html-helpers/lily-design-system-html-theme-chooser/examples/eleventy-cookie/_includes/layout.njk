@@ -1,0 +1,27 @@
+<!doctype html>
+{# Layout: inlines <html data-theme> and the matching <link>.   #}
+{# The select is mounted with the same `value` so it does NOT     #}
+{# re-resolve from localStorage and clobber the inlined attribute. #}
+<html lang="en" data-theme="{{ theme.defaultTheme }}">
+    <head>
+        <meta charset="utf-8">
+        <title>{{ title or "Lily Theme Chooser — Eleventy" }}</title>
+        <link rel="stylesheet" href="/assets/themes/{{ theme.defaultTheme }}.css">
+        <script type="module" src="/dist/theme-chooser.js"></script>
+    </head>
+    <body>
+        <header>
+            <theme-chooser
+                label="Theme"
+                themes-url="/assets/themes/"
+                themes="{{ theme.available | join(',') }}"
+                value="{{ theme.defaultTheme }}"
+                storage-key="lily-theme"
+            ></theme-chooser>
+        </header>
+
+        <main>
+            {{ content | safe }}
+        </main>
+    </body>
+</html>
