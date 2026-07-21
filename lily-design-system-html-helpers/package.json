@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Lily Design System - HTML (web component) helpers catalog (dev/test harness)",
   "scripts": {
-    "build": "for d in lily-design-system-html-theme-select lily-design-system-html-locale-select lily-design-system-html-text-size-select; do tsup \"$d/index.ts\" --format esm --dts --out-dir \"$d/dist\" || exit 1; done",
+    "build": "for d in lily-design-system-html-theme-select lily-design-system-html-locale-select lily-design-system-html-text-size-select lily-design-system-html-share-button; do tsup \"$d/index.ts\" --format esm --dts --out-dir \"$d/dist\" || exit 1; done",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui"

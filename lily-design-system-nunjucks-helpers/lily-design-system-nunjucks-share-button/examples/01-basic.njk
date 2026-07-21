@@ -1,0 +1,46 @@
+{# Minimal ShareButton: a label, two destinations, and copy.
+
+   Note the shape of `targets`: `href` is a resolved STRING, because a
+   Nunjucks macro cannot call a function. You are rendering server-side
+   and already hold the URL, so build it here. See ../spec/index.md §3.3.
+#}
+{% from "share-button.njk" import shareButton %}
+
+{% set pageUrl = "https://example.test/articles/hello" %}
+{% set pageTitle = "Hello, world" %}
+
+{{ shareButton({
+    label: "Share this article",
+    url: pageUrl,
+    title: pageTitle,
+    targets: [
+        {
+            id: "mastodon",
+            label: "Mastodon",
+            href: "https://mastodon.example/share?url=" + (pageUrl | urlencode)
+                  + "&text=" + (pageTitle | urlencode)
+        },
+        {
+            id: "email",
+            label: "Email",
+            href: "mailto:?subject=" + (pageTitle | urlencode)
+                  + "&body=" + (pageUrl | urlencode),
+            newTab: false
+        }
+    ],
+    copyLabel: "Copy link",
+    copiedLabel: "Link copied",
+    copyFailedLabel: "Could not copy — select the address bar and copy from there"
+}) }}
+
+{# The copy item renders ONLY because copyLabel was supplied. There is
+   no default: a default would be a hardcoded English string.
+
+   copyFailedLabel names the recovery path, because a clipboard write
+   can fail for reasons the user cannot see (insecure context, blocked
+   permission) and the announcement is their only route out. #}
+
+<script type="module">
+    import { autoInit } from "/js/share-button.client.js";
+    autoInit();
+</script>

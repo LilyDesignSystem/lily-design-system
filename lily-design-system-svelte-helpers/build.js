@@ -19,11 +19,20 @@ import { fileURLToPath } from "node:url";
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 
-const packages = [
-  "lily-design-system-svelte-theme-select",
-  "lily-design-system-svelte-locale-select",
-  "lily-design-system-svelte-text-size-select",
-];
+// Discovered rather than listed: a hardcoded list silently skips any new
+// helper, and since each package's `prepublishOnly` runs this build and
+// its `files` ships only `dist/`, a skipped package publishes with no
+// code in it at all.
+const packages = fs
+  .readdirSync(root, { withFileTypes: true })
+  .filter(
+    (entry) =>
+      entry.isDirectory() &&
+      entry.name.startsWith("lily-design-system-svelte-") &&
+      fs.existsSync(path.join(root, entry.name, "index.ts")),
+  )
+  .map((entry) => entry.name)
+  .sort();
 
 const sveltePackageBin = path.join(
   root,

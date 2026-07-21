@@ -1,0 +1,75 @@
+@*
+    Example 4 — Driving the control from your own UI.
+
+    ActivateAsync(), CopyAsync() and ShareNativelyAsync() are public, so
+    a @ref lets your own buttons drive the control. Useful when the share
+    affordance belongs somewhere the component cannot sit — a toolbar, a
+    keyboard shortcut, an end-of-article call to action.
+
+    ActivateAsync() runs the full strategy: native sheet where allowed
+    and available, list otherwise. ShareNativelyAsync() attempts only the
+    sheet and returns a NativeShareOutcome so you can decide what a
+    dismissal or an unsupported browser should mean in your flow.
+
+    Two things worth keeping straight:
+
+    - The ShareButton itself is still rendered, and still needs to be. It
+      owns the list, the status region, and the focus contract. Hiding it
+      with display:none would take the list away too; if you do not want
+      the trigger visible, style .share-button-trigger — but then the
+      control's accessible name has to live on YOUR button instead.
+
+    - Your external button needs its own accessible name. Label names the
+      component's trigger, not yours.
+*@
+
+@page "/examples/share-button/external-activation"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<ShareButton @ref="_share"
+             Label="Share this page"
+             Targets="@Targets"
+             CopyLabel="Copy link"
+             CopiedLabel="Link copied"
+             CopyFailedLabel="Could not copy — copy it from the address bar"
+             OnCopy="@(url => Log($"copied {url}"))" />
+
+<p>
+    <button type="button" @onclick="ActivateAsync">Share this article</button>
+    <button type="button" @onclick="CopyAsync">Copy the link</button>
+</p>
+
+<p aria-live="polite">@_last</p>
+
+@code {
+    private ShareButton? _share;
+    private string _last = "";
+
+    private async Task ActivateAsync()
+    {
+        if (_share is not null) await _share.ActivateAsync();
+    }
+
+    private async Task CopyAsync()
+    {
+        if (_share is not null) await _share.CopyAsync();
+    }
+
+    private void Log(string message)
+    {
+        _last = message;
+        StateHasChanged();
+    }
+
+    private static readonly ShareTarget[] Targets =
+    {
+        new()
+        {
+            Id = "linkedin",
+            Label = "LinkedIn",
+            Href = (url, _, _) =>
+                $"https://www.linkedin.com/sharing/share-offsite/?url={Uri.EscapeDataString(url)}",
+        },
+    };
+}

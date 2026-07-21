@@ -1,0 +1,75 @@
+@*
+    Example 2 — Choosing a strategy.
+
+    Strategy decides whether the native share sheet is preferred over the
+    in-page list.
+
+      Auto   (default) — sheet when the browser has one, else the list.
+      Native           — always attempt the sheet.
+      List             — never attempt it; never even ask.
+
+    Auto is the right default, but it means BEHAVIOUR DIFFERS BY
+    PLATFORM: the same button shows the OS sheet on a phone and an
+    in-page list on a desktop. That is usually better on each, but your
+    help text and support scripts cannot then describe one flow. When
+    consistency matters more than native integration — a documented
+    workflow, a training video, a screenshot in a manual — pin it to
+    List.
+
+    A dismissed sheet ENDS the interaction. It does not fall through to
+    the list, because that would resurrect UI the user just dismissed.
+    OnNativeShare tells you the sheet was used instead of the list; note
+    it does not fire on dismissal, since nothing was shared.
+*@
+
+@page "/examples/share-button/strategies"
+@rendermode InteractiveServer
+@using LilyDesignSystem.Blazor.Helpers
+
+<h2>Auto — native sheet where available</h2>
+<ShareButton Label="Share (auto)"
+             Targets="@Targets"
+             Strategy="ShareStrategy.Auto"
+             CopyLabel="Copy link"
+             CopiedLabel="Link copied"
+             CopyFailedLabel="Could not copy — copy it from the address bar"
+             OnNativeShare="@(url => Log($"native sheet used for {url}"))" />
+
+<h2>List — always the in-page list</h2>
+<ShareButton Label="Share (list)"
+             Targets="@Targets"
+             Strategy="ShareStrategy.List"
+             CopyLabel="Copy link"
+             CopiedLabel="Link copied"
+             CopyFailedLabel="Could not copy — copy it from the address bar"
+             OnShare="@(args => Log($"chose {args.TargetId}"))" />
+
+<p aria-live="polite">@_last</p>
+
+@code {
+    private string _last = "";
+
+    private void Log(string message)
+    {
+        _last = message;
+        StateHasChanged();
+    }
+
+    private static readonly ShareTarget[] Targets =
+    {
+        new()
+        {
+            Id = "linkedin",
+            Label = "LinkedIn",
+            Href = (url, _, _) =>
+                $"https://www.linkedin.com/sharing/share-offsite/?url={Uri.EscapeDataString(url)}",
+        },
+        new()
+        {
+            Id = "reddit",
+            Label = "Reddit",
+            Href = (url, title, _) =>
+                $"https://www.reddit.com/submit?url={Uri.EscapeDataString(url)}&title={Uri.EscapeDataString(title)}",
+        },
+    };
+}

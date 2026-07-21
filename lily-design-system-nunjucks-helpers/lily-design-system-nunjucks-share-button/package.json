@@ -1,0 +1,34 @@
+{
+  "name": "lily-design-system-nunjucks-share-button",
+  "version": "0.1.0",
+  "description": "Lily Design System - Nunjucks 3 share button",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./template": "./dist/share-button.njk"
+  },
+  "files": [
+    "dist",
+    "index.md",
+    "README.md"
+  ],
+  "scripts": {
+    "prepublishOnly": "cd .. && npm run build"
+  },
+  "keywords": [
+    "lily",
+    "design",
+    "system",
+    "nunjucks",
+    "share",
+    "button"
+  ],
+  "author": "joel@joelparkerhenderson.com",
+  "license": "MIT"
+}

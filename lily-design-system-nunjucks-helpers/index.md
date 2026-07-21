@@ -13,6 +13,11 @@ DOM application) for one small, common job.
 | [`lily-design-system-nunjucks-theme-select`](./lily-design-system-nunjucks-theme-select/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.       |
 | [`lily-design-system-nunjucks-locale-select`](./lily-design-system-nunjucks-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.  |
 | [`lily-design-system-nunjucks-text-size-select`](./lily-design-system-nunjucks-text-size-select/) | Pick a text size; sets `data-text-size` on the document root.    |
+| [`lily-design-system-nunjucks-share-button`](./lily-design-system-nunjucks-share-button/) | Share the page: native share sheet, or a list of destinations + copy. |
+
+The first three helpers own a **user preference** — selection + DOM
+application + optional persistence. `share-button` owns an **action**:
+it applies nothing to the document and persists nothing.
 
 ## The split: macro + client.js
 
@@ -45,10 +50,11 @@ This split exists because:
 
 ### How much survives without JavaScript
 
-Very little, and it is worth being blunt about it:
+Little, and it differs between the preference helpers and
+`share-button`. Worth being blunt about both:
 
-- **All three helpers** — `theme-select`, `locale-select`, and
-  `text-size-select` — are icon buttons that open a custom listbox.
+- **The three `*-select` helpers** — `theme-select`, `locale-select`,
+  and `text-size-select` — are icon buttons that open a custom listbox.
   **None of them is operable without JS**: the button has no handler
   and the listbox renders `hidden`. Each macro does emit a
   server-filled hidden `<input>`, so a form submit still carries a
@@ -62,6 +68,19 @@ Very little, and it is worth being blunt about it:
   for with a native `<select>` that worked everywhere. Each package's
   `docs/ssr.md` documents it and shows the no-JS alternative (the
   headless catalog's plain `<select>` containers).
+- **`share-button` degrades better**, and the difference is one of kind
+  rather than degree. Its destination links are real `<a href>`
+  elements with final URLs rendered server-side, so with no JS they
+  still navigate, middle-click, open in a new tab, and expose "copy
+  link address". What is lost is the *disclosure* — the list cannot be
+  opened, and copy is inert. The packaging, not the payload. That
+  follows from what the helper does: the `*-select` helpers apply a
+  preference to the document, which is inherently a runtime act, while
+  this one's primary affordance is navigation, which HTML has always
+  done unassisted. See
+  [`share-button/docs/ssr.md`](./lily-design-system-nunjucks-share-button/docs/ssr.md),
+  which also shows how to render a permanently-open list when full
+  no-JS operation is a hard requirement.
 
 ## Conventions
 

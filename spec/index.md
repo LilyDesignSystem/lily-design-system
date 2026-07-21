@@ -649,7 +649,8 @@ Long-term:
 
 - Versioned releases per subproject npm/NuGet package (started: the 21
   helper packages publish via `bin/publish-helpers`; theme-select and
-  locale-select at 0.4.0, text-size-select at 0.1.0).
+  locale-select at 0.4.0, text-size-select at 0.2.0, share-button at
+  0.1.0).
 - Contributor onboarding documentation (currently informal).
 
 ## 14. Tracking
@@ -657,7 +658,7 @@ Long-term:
 - Package: lily
 - Version: 0.6.0
 - Created: 2025-08-09
-- Updated: 2026-07-20
+- Updated: 2026-07-21
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause (or contact
   for other terms)
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
@@ -669,6 +670,24 @@ Long-term:
 
 ### 14.1 Changelog highlights
 
+- **Helpers — text-size-select 0.2.0, share-button 0.1.0 (2026-07-21)** —
+  `text-size-select` drops the native `<select>` for the same icon
+  button + APG listbox as its siblings, so all three preference helpers
+  finally share one shape; its glyph is `"A"` (U+0041), chosen because
+  the obvious U+1F5DB has no real glyph in common font stacks. A new
+  `share-button` helper lands: a ↪ button that opens the native share
+  sheet where the platform has one and otherwise a disclosure list of
+  consumer-supplied destinations plus copy-to-clipboard. It is the first
+  helper that owns an *action* rather than a preference — applying
+  nothing, persisting nothing — so `AGENTS/helpers.md`'s definition is
+  widened. It ships no social-network endpoints, and its destinations are
+  real links rather than `role="menuitem"` so middle-click and
+  open-in-new-tab survive. Two latent bugs fixed: `CSS.escape` was
+  throwing under jsdom in all three `*-select` helpers after
+  `activeIndex` was already set, leaving the suites green while the path
+  never ran; and `bin/publish-helpers` globbed `*-select`, which would
+  have silently skipped `share-button` at release. Full record:
+  [CHANGELOG.md](../CHANGELOG.md).
 - **Helpers 0.4.0 (2026-07-20)** — `theme-select` and `locale-select`
   drop the native `<select>` for a single-glyph **icon button that opens
   an APG listbox** — ◑ (U+25D1) and 🌐 (U+1F310 + U+FE0E). One character

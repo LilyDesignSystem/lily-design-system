@@ -11,6 +11,7 @@ follows the file shape in [AGENTS/conventions.md](./AGENTS/conventions.md).
 - [`lily-design-system-blazor-theme-select`](./lily-design-system-blazor-theme-select/) — dynamic theme CSS loader.
 - [`lily-design-system-blazor-locale-select`](./lily-design-system-blazor-locale-select/) — `lang` + `dir` locale select.
 - [`lily-design-system-blazor-text-size-select`](./lily-design-system-blazor-text-size-select/) — `data-text-size` text-size select.
+- [`lily-design-system-blazor-share-button`](./lily-design-system-blazor-share-button/) — share via the native sheet or a list of consumer-supplied destinations, plus copy-the-URL. Owns an *action*, not a preference: applies nothing, persists nothing.
 
 ## Working rules
 
@@ -51,7 +52,8 @@ lily-design-system-blazor-helpers/
 ├── CHANGELOG.md             ← parent-level version history
 ├── lily-design-system-blazor-theme-select/    ← helper 1
 ├── lily-design-system-blazor-locale-select/   ← helper 2
-└── lily-design-system-blazor-text-size-select/ ← helper 3
+├── lily-design-system-blazor-text-size-select/ ← helper 3
+└── lily-design-system-blazor-share-button/    ← helper 4
 ```
 
 ## Topic index (parent)

@@ -9,6 +9,36 @@ and the project follows
 
 ## Unreleased
 
+### Added
+
+- **`share-button` 0.1.0** — a new helper, ported from the canonical
+  `lily-design-system-svelte-share-button`. A single-glyph trigger (↪,
+  U+21AA) that opens the **native share sheet** where the browser
+  provides one, and otherwise a **disclosure list** of consumer-supplied
+  destinations plus an optional copy-the-URL action. Ships no CSS, no
+  icons, and no third-party endpoints.
+- It is the first helper in this catalog that owns an **action** rather
+  than a user preference: nothing is persisted and nothing is applied to
+  the document root, so there is no `storage-key` and no SSR
+  first-paint problem.
+- It is also the deliberate exception to the catalog's
+  one-rendering-shape rule. Share destinations are navigation, so they
+  are real `<a>` elements with **no `role` override** and focus moves to
+  the item — a disclosure, not the APG listbox with
+  `aria-activedescendant` that the three `*-select` helpers use.
+  `role="menuitem"` or `role="option"` would strip middle-click,
+  open-in-new-tab and copy-link-address.
+- Two forced deviations from the cross-framework API, both documented:
+  the share title is `share-title` / `shareTitle` because `title` is a
+  global HTML attribute that would paint a tooltip over the control;
+  and `targets` plus the three callbacks are **property-only**, because
+  `ShareTarget.href` is a function that no string attribute can carry.
+  Each callback is paired with a bubbling `CustomEvent` (`share`,
+  `copy`, `nativeshare`), which is the primary contract — the same
+  shape as `themechange` / `localechange`.
+- 52 vitest + jsdom cases mapped onto the Svelte spec's §7 clauses,
+  bringing the catalog suite from 141 to 193.
+
 ### Changed (BREAKING)
 
 - `text-size-select` is now an **icon button that opens a WAI-ARIA APG

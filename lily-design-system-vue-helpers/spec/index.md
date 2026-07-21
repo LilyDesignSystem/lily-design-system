@@ -35,6 +35,8 @@ Out of scope:
 | ------ | ------- |
 | [`lily-design-system-vue-theme-select`](../lily-design-system-vue-theme-select/) | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence. |
 | [`lily-design-system-vue-locale-select`](../lily-design-system-vue-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| [`lily-design-system-vue-text-size-select`](../lily-design-system-vue-text-size-select/) | Pick a text size; sets `data-text-size` on the document root. |
+| [`lily-design-system-vue-share-button`](../lily-design-system-vue-share-button/) | Share the page: native share sheet where available, else a destination disclosure + copy the URL. Owns an action, not a preference. |
 
 ## 4. Conventions
 

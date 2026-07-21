@@ -1,6 +1,6 @@
 # CHANGELOG — lily-design-system-react-text-size-select
 
-## Unreleased
+## 0.2.0 — 2026-07-21
 
 ### Changed (BREAKING — DOM contract and public API)
 

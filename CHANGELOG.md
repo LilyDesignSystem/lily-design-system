@@ -9,6 +9,72 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Helpers — text-size-select 0.2.0, share-button 0.1.0 — 2026-07-21
+
+### Changed (BREAKING — text-size-select)
+
+- **`text-size-select` is no longer a native `<select>`.** It is now an
+  icon button opening a WAI-ARIA APG listbox, matching `theme-select`
+  and `locale-select` — it was the last native `<select>` among the
+  helpers, so all three now share one shape. Button glyph is `"A"`
+  (U+0041): the obvious candidate U+1F5DB has no real glyph in common
+  font stacks and falls back to a crude bitmap shape, and it means
+  *decrease* rather than *size*.
+- `sizeName` exported to mirror `themeName` / `localeName`. No
+  first-visit detection prop — unlike `prefers-color-scheme` and
+  `navigator.languages`, the platform exposes no preferred text size.
+- Released at **0.2.0** in all seven catalogs.
+
+### Added — `share-button` 0.1.0
+
+- A new helper, and the first that owns an **action** rather than a user
+  preference: it applies nothing to the document and persists nothing.
+  `AGENTS/helpers.md`'s definition of a helper is widened accordingly.
+- A single-glyph button (↪, U+21AA) opens the **native share sheet**
+  where the browser provides one, and otherwise a **disclosure list** of
+  consumer-supplied destinations plus **copy the page URL**.
+- **No social-network endpoints ship with it.** Which networks belong in
+  a product is an editorial and privacy decision, share URLs change, and
+  networks die. Consumers pass `targets`, each with its own
+  `href(url, title, text)`.
+- **Destinations are real `<a>` elements, not `role="menuitem"`.** A
+  menuitem role strips middle-click, open-in-new-tab and
+  copy-link-address — affordances users reach for on exactly this kind
+  of list — and the APG suggests a disclosure when items are links. Copy
+  is a real `<button>`.
+- The copy item renders only when `copyLabel` is supplied; a default
+  would be a hardcoded English string. `copiedLabel` /
+  `copyFailedLabel` are announced in a polite live region, since copying
+  is otherwise silent.
+- A dismissed (rejected) native sheet ends the interaction rather than
+  falling through to the list, which would resurrect UI the user just
+  dismissed.
+
+### Fixed
+
+- **`CSS.escape` threw under jsdom in all three `*-select` helpers.**
+  jsdom has no `CSS` object at all, so the call raised inside the keydown
+  handler — *after* `activeIndex` had been assigned, so every suite
+  stayed green while that code path never ran. Replaced with
+  `document.getElementById`, which needs no escaping for these generated
+  ids.
+- **`bin/publish-helpers` globbed `lily-design-system-*-select`**, so a
+  `share-button` package would have been silently skipped at release.
+  The globs are now broad and lean on the existing package.json / dist /
+  `*.csproj` guards.
+- `text-size-select` had no `CHANGELOG.md` in the svelte, angular, or
+  html catalogs; added, so the release record is complete across all
+  seven.
+
+### Changed (themes)
+
+- The 45 `themes/*.css` style the `share-button` hooks and carry each
+  glyph's optical correction. The four glyphs ink materially different
+  fractions of their em box — ◑ 0.842, 🌐 0.996, `"A"` 0.673, ↪ 0.633 —
+  so each has its own `--lily-select-icon-scale` (1, 0.845, 1.25,
+  1.331). Measured against each icon's *computed* `font-family` and
+  verified in a browser: 0.02px spread across all four.
+
 ## Helpers 0.4.0 — 2026-07-20
 
 ### Changed (BREAKING — helpers)

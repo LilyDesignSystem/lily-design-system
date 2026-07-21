@@ -19,6 +19,7 @@ const packages = [
   "lily-design-system-vue-theme-select",
   "lily-design-system-vue-locale-select",
   "lily-design-system-vue-text-size-select",
+  "lily-design-system-vue-share-button",
 ];
 
 function run(cmd, args, env) {

@@ -11,6 +11,7 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 - [`lily-design-system-angular-theme-select`](./lily-design-system-angular-theme-select/) — dynamic theme CSS loader.
 - [`lily-design-system-angular-locale-select`](./lily-design-system-angular-locale-select/) — `lang` + `dir` locale select.
 - [`lily-design-system-angular-text-size-select`](./lily-design-system-angular-text-size-select/) — `data-text-size` text-size select.
+- [`lily-design-system-angular-share-button`](./lily-design-system-angular-share-button/) — share via the native sheet or a list of consumer-supplied destinations, plus copy-the-URL. Owns an *action*, not a preference: applies nothing, persists nothing.
 
 ## Working rules
 

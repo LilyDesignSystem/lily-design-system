@@ -1,6 +1,6 @@
 {
   "name": "lily-design-system-react-text-size-select",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Lily Design System - React 19 text-size select",
   "type": "module",
   "main": "./dist/index.js",

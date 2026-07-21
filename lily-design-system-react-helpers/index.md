@@ -13,6 +13,7 @@ DOM application) for one small, common job.
 | [`lily-design-system-react-theme-select`](./lily-design-system-react-theme-select/)     | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
 | [`lily-design-system-react-locale-select`](./lily-design-system-react-locale-select/)   | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
 | [`lily-design-system-react-text-size-select`](./lily-design-system-react-text-size-select/) | Pick a text size; sets `data-text-size` on the document root.  |
+| [`lily-design-system-react-share-button`](./lily-design-system-react-share-button/) | Share the page: native share sheet, else a list of destinations + copy the URL. |
 
 ## Conventions
 
@@ -50,9 +51,14 @@ Shared design decisions across the catalog:
   `value` + `onChange` pair OR runs internally with `useState`.
 - **i18n-clean**: every user-facing string comes from a prop. No
   hardcoded English (or any other natural language).
-- **One job per helper**: each helper owns the entire lifecycle of
-  one user-preference dimension (theme, language, etc.) and composes
-  cleanly with the others.
+- **One job per helper**: each helper owns one complete interaction
+  end to end and composes cleanly with the others. For the three
+  selects that job is a user-preference dimension (theme, language,
+  text size). `share-button` is the exception that proves the shape:
+  it owns an *action* rather than a preference, so it applies nothing
+  to the document and persists nothing — but it ships the same
+  headless contract, the same class-hook convention, and the same
+  spec-driven tests.
 - **Spec-driven**: every helper has a `spec/index.md` numbered with §
   references; tests assert against those numbers; docs link back.
 - **Render-prop children**: when consumers need to override the

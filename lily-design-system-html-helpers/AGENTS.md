@@ -13,6 +13,7 @@ Each helper follows the file shape in
 - [`lily-design-system-html-theme-select`](./lily-design-system-html-theme-select/) — `<theme-select>` dynamic theme CSS loader.
 - [`lily-design-system-html-locale-select`](./lily-design-system-html-locale-select/) — `<locale-select>` `lang` + `dir` locale select.
 - [`lily-design-system-html-text-size-select`](./lily-design-system-html-text-size-select/) — `<text-size-select>` `data-text-size` text-size select.
+- [`lily-design-system-html-share-button`](./lily-design-system-html-share-button/) — `<share-button>` native-sheet / disclosure share control.
 
 ## Working rules
 
@@ -30,12 +31,21 @@ Each helper follows the file shape in
   consumer's CSS targets the rendered children directly via the
   kebab-case class hooks the element emits (`theme-select-option`,
   `locale-select-option`, etc.).
-- One rendering shape. All three helpers render an icon button that
-  opens a `role="listbox"` dropdown (WAI-ARIA APG listbox pattern,
-  keyboard implemented in JS). Do not reintroduce the native
-  `<select>` — or its `placeholder` attribute — to any of them.
+- One rendering shape for the `*-select` helpers. All three render an
+  icon button that opens a `role="listbox"` dropdown (WAI-ARIA APG
+  listbox pattern, keyboard implemented in JS). Do not reintroduce the
+  native `<select>` — or its `placeholder` attribute — to any of them.
   `<text-size-select>` was the last holdout and joined the other two;
   its glyph is `"A"` (U+0041) rather than a pictograph.
+- `<share-button>` is the deliberate exception to that rule: it is a
+  **disclosure** whose items are real `<a>` elements with no `role`
+  override, and focus moves to the item rather than staying on the
+  `<ul>` with `aria-activedescendant`. Share destinations are
+  navigation, so a listbox or `role="menuitem"` would strip
+  middle-click, open-in-new-tab and copy-link-address. Do not
+  "harmonise" it into a listbox. It is also the first helper that owns
+  an **action** rather than a user preference: it applies nothing to the
+  document and persists nothing.
 - Attributes are kebab-case; observed attributes trigger
   `attributeChangedCallback`. Array attributes are
   comma-separated strings; the matching JS property accepts an

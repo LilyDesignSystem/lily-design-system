@@ -1,0 +1,36 @@
+{# Replacing the default ↪ glyph with a {% call %} body.
+
+   Two reasons you might: your font stack may not carry U+21AA (it
+   renders tofu), or your users use voice control and need a visible
+   word to say. This example does both.
+
+   Keep whatever you substitute aria-hidden="true" — the accessible
+   name comes from `label`, and a second source would double-announce.
+
+   Note the visible word "Share" is CONTAINED IN the aria-label
+   ("Share this article"). That is WCAG 2.5.3 Label in Name, and it is
+   why the label is not something like "Send to a friend".
+#}
+{% from "share-button.njk" import shareButton %}
+
+{% set targets = [
+    {id: "mastodon", label: "Mastodon", href: "https://mastodon.example/share?url=https%3A%2F%2Fexample.test"}
+] %}
+
+{% call shareButton({
+    label: "Share this article",
+    targets: targets,
+    copyLabel: "Copy link",
+    copiedLabel: "Link copied",
+    copyFailedLabel: "Could not copy — select the address bar and copy from there"
+}) %}
+  <svg class="icon" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+    <path d="M11 3v3H6a4 4 0 0 0-4 4v3a6 6 0 0 1 6-4h3v3l5-6z"/>
+  </svg>
+  Share
+{% endcall %}
+
+<script type="module">
+    import { autoInit } from "/js/share-button.client.js";
+    autoInit();
+</script>

@@ -9,6 +9,34 @@ and the project follows
 
 ## Unreleased
 
+### Added
+
+- **A fourth helper: `lily-design-system-vue-share-button` at 0.1.0.**
+  A headless share control — a single-glyph button (↪, U+21AA) that
+  opens the **native share sheet** via `navigator.share` where the
+  browser provides one, and otherwise a disclosure list of
+  consumer-supplied destinations plus a built-in copy-the-URL action.
+  Ported from the canonical
+  `lily-design-system-svelte-share-button` 0.1.0, with the §7 clause
+  numbering kept identical across the two suites.
+
+  It is the first helper in this catalog that owns an **action**
+  rather than a user preference: it applies nothing to the document
+  and persists nothing, so it has no `v-model:value`, no
+  `storageKey`, and no hidden input.
+
+  It is also the one helper here that is deliberately **not** an APG
+  listbox. Its items are navigation, so they are real `<a>` elements
+  with no `role` override — `role="menuitem"` would strip
+  middle-click, open-in-new-tab and copy-link-address — and focus
+  moves for real rather than via `aria-activedescendant`. The trigger's
+  class hook is `share-button-trigger`, not `share-button-button`: the
+  one deliberate bend in the `{helper}-button` convention.
+
+  No social-network endpoints ship with the package, and there is no
+  default `copyLabel` — both are deliberate, and both are recorded in
+  its `spec/index.md` §2–§3.
+
 ### Changed (BREAKING)
 
 - **All three helpers** — `theme-select`, `locale-select`, and

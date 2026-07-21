@@ -13,6 +13,7 @@ DOM application) for one small, common job.
 | [`lily-design-system-vue-theme-select`](./lily-design-system-vue-theme-select/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
 | [`lily-design-system-vue-locale-select`](./lily-design-system-vue-locale-select/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
 | [`lily-design-system-vue-text-size-select`](./lily-design-system-vue-text-size-select/) | Pick a text size; sets `data-text-size` on the document root. |
+| [`lily-design-system-vue-share-button`](./lily-design-system-vue-share-button/) | Share the page: native share sheet where available, else a destination list + copy the URL. |
 
 ## Conventions
 
@@ -52,9 +53,12 @@ Shared design decisions across the catalog:
   styles every visual aspect via a kebab-case class hook.
 - **SSR-safe**: no DOM writes outside `onMounted` / `watch`.
 - **i18n-clean**: every user-facing string comes from a prop.
-- **One job per helper**: each helper owns the entire lifecycle of
-  one user-preference dimension (theme, language, etc.) and composes
-  cleanly with the others.
+- **One job per helper**: each helper owns one complete interaction
+  end to end and composes cleanly with the others. For the `*-select`
+  helpers that job is a user-preference lifecycle (selection + DOM
+  application + optional persistence); for `share-button` it is an
+  **action** — it applies nothing to the document and persists
+  nothing.
 - **Spec-driven**: every helper has a `spec/index.md` numbered with §
   references; tests assert against those numbers; docs link back.
 

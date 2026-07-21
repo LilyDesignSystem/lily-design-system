@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Lily Design System - React 19 helpers catalog (dev/test harness)",
   "scripts": {
-    "build": "for d in lily-design-system-react-*-select; do tsup \"$d/index.ts\" --format esm --dts --out-dir \"$d/dist\" --external react --external react-dom; done",
+    "build": "for d in lily-design-system-react-*/; do d=${d%/}; [ -f \"$d/index.ts\" ] || continue; tsup \"$d/index.ts\" --format esm --dts --out-dir \"$d/dist\" --external react --external react-dom; done",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui"

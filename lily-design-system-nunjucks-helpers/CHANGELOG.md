@@ -9,9 +9,55 @@ and the project follows
 
 ## Unreleased
 
+### Added
+
+- **`lily-design-system-nunjucks-share-button` 0.1.0** — a new helper,
+  ported from the canonical Svelte one. A glyph-only button (↪, U+21AA)
+  that opens the **native share sheet** where the browser provides one,
+  and otherwise a disclosure list of consumer-supplied destinations
+  plus a built-in copy-the-URL action. Ships no CSS, no icons, and no
+  third-party endpoints.
+
+  Three things about it are new to this catalog:
+
+  1. **It owns an action, not a preference.** Every other helper here
+     owns *selection + DOM application + optional persistence*. This
+     one applies nothing to the document and persists nothing: no
+     `localStorage`, no `data-*` on the document root.
+  2. **It is a disclosure of real links, not a listbox.** Destinations
+     are `<a>` elements with **no `role` override**, because
+     `role="menuitem"` would strip middle-click, open-in-new-tab and
+     copy-link-address — the affordances a share list exists to offer.
+     Copy is a real `<button>`. The trigger's class is
+     `share-button-trigger`, not `share-button-button`, the one
+     deliberate bend in the catalog's `{helper}-button` convention.
+  3. **It degrades partially without JavaScript, where the `*-select`
+     helpers do not at all.** Its destination links are real anchors
+     with final hrefs rendered server-side, so they navigate,
+     middle-click and copy-link-address with no client module. The list
+     cannot be opened and copy is inert — the packaging is lost, not
+     the payload. The difference is architectural: applying a
+     preference is inherently a runtime act, while navigation is
+     something HTML has always done unassisted.
+
+  **Deviation from the canonical API.** The Svelte helper types a
+  target's `href` as `(url, title, text) => string`. A Nunjucks macro
+  **cannot call an arbitrary JavaScript function** — only filters and
+  globals registered on the environment — so the macro takes each
+  target's `href` as an **already-resolved string**. The consumer is
+  rendering server-side and already holds the url/title/text, so this
+  costs one line, and it is what makes the anchors complete enough for
+  the no-JS story above. The function form survives on the client
+  (`initShareButton(root, {targets})` rewrites anchors from function
+  hrefs, matched by `data-target-id`) and in any filter the consumer
+  registers. `shareTargetHref()` accepts both forms. Full rationale in
+  the package's `spec/index.md` §3.3 and `CHANGELOG.md`.
+
+  55 vitest cases, mapped 1:1 onto the §7 acceptance clauses.
+
 ### Changed (BREAKING)
 
-- **All three helpers** are no longer native `<select>` elements. Each
+- **All three `*-select` helpers** are no longer native `<select>` elements. Each
   is now an **icon button that opens a dropdown listbox**: a `<div>`
   root containing a hidden `<input>`, a glyph-only `<button>` (U+25D1
   for theme, U+1F310 for locale, U+0041 "A" for text size), and a

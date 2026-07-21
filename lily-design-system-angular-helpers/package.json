@@ -4,10 +4,11 @@
   "type": "module",
   "description": "Lily Design System - Angular 20 helpers catalog (dev/test harness)",
   "scripts": {
-    "build": "pnpm build:theme-select && pnpm build:locale-select && pnpm build:text-size-select",
+    "build": "pnpm build:theme-select && pnpm build:locale-select && pnpm build:text-size-select && pnpm build:share-button",
     "build:theme-select": "ng-packagr -p lily-design-system-angular-theme-select/ng-package.json -c lily-design-system-angular-theme-select/tsconfig.lib.json",
     "build:locale-select": "ng-packagr -p lily-design-system-angular-locale-select/ng-package.json -c lily-design-system-angular-locale-select/tsconfig.lib.json",
     "build:text-size-select": "ng-packagr -p lily-design-system-angular-text-size-select/ng-package.json -c lily-design-system-angular-text-size-select/tsconfig.lib.json",
+    "build:share-button": "ng-packagr -p lily-design-system-angular-share-button/ng-package.json -c lily-design-system-angular-share-button/tsconfig.lib.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui"
