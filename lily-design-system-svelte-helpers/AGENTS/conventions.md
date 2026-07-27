@@ -96,13 +96,13 @@ The catalog commits to Svelte 5 runes throughout. No Svelte 4
 `export let` declarations, no `$:` reactive statements, no legacy
 `createEventDispatcher`. The runes used:
 
-| Rune        | Purpose                                                |
-| ----------- | ------------------------------------------------------ |
-| `$props()`  | Destructure props at the top of the instance `<script>`. |
-| `$bindable("")` | Mark a prop as two-way bindable via `bind:value`.   |
-| `$state(…)` | Reactive local state.                                   |
-| `$effect(…)`| Run side effects when reactive reads change.            |
-| `$derived(…)`| Pure computed values (used sparingly).                 |
+| Rune            | Purpose                                                  |
+| --------------- | -------------------------------------------------------- |
+| `$props()`      | Destructure props at the top of the instance `<script>`. |
+| `$bindable("")` | Mark a prop as two-way bindable via `bind:value`.        |
+| `$state(…)`     | Reactive local state.                                    |
+| `$effect(…)`    | Run side effects when reactive reads change.             |
+| `$derived(…)`   | Pure computed values (used sparingly).                   |
 
 No `onMount` from the legacy lifecycle API. `$effect` covers the
 "after mount" case (it only runs in the browser, never during SSR)
@@ -120,7 +120,7 @@ Consumers use Svelte's `bind:value`:
 Inside the component:
 
 ```ts
-let { value = $bindable(""), /* … */ }: Props = $props();
+let { value = $bindable("") /* … */ }: Props = $props();
 ```
 
 Writing to `value` inside the component re-renders the parent on the
@@ -176,9 +176,9 @@ unknown-keyed index signature so TypeScript accepts the spread:
 
 ```ts
 export type Props = {
-    label: string;
-    /* … known fields … */
-    [key: string]: unknown;
+  label: string;
+  /* … known fields … */
+  [key: string]: unknown;
 };
 ```
 
@@ -216,7 +216,7 @@ Everything visual and locale-specific is the consumer's. See
 - Class hooks are kebab-case derivatives of the file name:
   `theme-chooser`, `theme-chooser-option`, `theme-chooser-option-label`.
 - Data attributes the consumer / CSS may want to observe use
-  `data-*` (e.g. `data-theme`, `data-lily-theme-chooser`).
+  `data-*` (e.g. `data-theme`, `data-lily-theme-picker`).
 - Don't introduce new ARIA attributes — use the platform's.
 - Module-level helper names are camelCase (`bcp47LocaleTag`,
   `normaliseThemesUrl`).

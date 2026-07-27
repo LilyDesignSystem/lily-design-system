@@ -31,10 +31,10 @@ Out of scope:
 
 ## 3. Catalog
 
-| Helper | Purpose |
-| ------ | ------- |
-| [`lily-design-system-svelte-theme-chooser`](../lily-design-system-svelte-theme-chooser/) | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence. |
-| [`lily-design-system-svelte-locale-chooser`](../lily-design-system-svelte-locale-chooser/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
+| Helper                                                                                   | Purpose                                                                          |
+| ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| [`lily-design-system-svelte-theme-picker`](../lily-design-system-svelte-theme-picker/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap, optional persistence. |
+| [`lily-design-system-svelte-locale-picker`](../lily-design-system-svelte-locale-picker/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                  |
 
 ## 4. Conventions
 

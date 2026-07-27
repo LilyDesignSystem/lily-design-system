@@ -44,7 +44,7 @@ The Svelte `ThemeChooser` helper writes two signals to the document
 root on every change:
 
 1. The `href` of a managed `<link rel="stylesheet"
-   data-lily-theme-chooser="{name}">` in `document.head`, pointing to
+data-lily-theme-picker="{name}">` in `document.head`, pointing to
    `${themesUrl}${slug}${extension}`.
 2. A `data-theme="<slug>"` attribute on the resolved target
    (defaults to `document.documentElement`).
@@ -57,9 +57,9 @@ default "swap-link" strategy.
 
 ```css
 :root[data-theme="dark"] {
-    --theme-color-primary: #60a5fa;
-    --theme-color-base-background: #0b1220;
-    --theme-color-base-content: #f9fafb;
+  --theme-color-primary: #60a5fa;
+  --theme-color-base-background: #0b1220;
+  --theme-color-base-content: #f9fafb;
 }
 ```
 
@@ -81,7 +81,7 @@ const initial = prefersDark ? "dark" : "light";
 ```
 
 Pass `initial` as `defaultValue`. See
-`lily-design-system-svelte-theme-chooser/examples/system-preference.svelte`.
+`lily-design-system-svelte-theme-picker/examples/system-preference.svelte`.
 
 ## Forbidden in the headless layer
 
@@ -148,6 +148,6 @@ end-to-end recipe. The select hydrates over the pre-set
 A consumer can mount more than one `ThemeChooser` (e.g. a quick
 toggle in the header, a full radio list in the settings page) by
 passing distinct `name` props. Each select manages its own `<link>`
-identified by `data-lily-theme-chooser="{name}"`. Selections do not
+identified by `data-lily-theme-picker="{name}"`. Selections do not
 sync between selects unless the consumer wires them together via
 the bindable `value`.

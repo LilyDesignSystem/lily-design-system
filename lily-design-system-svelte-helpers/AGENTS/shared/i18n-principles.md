@@ -29,7 +29,7 @@ these rules without exception.
   explicit `label` prop that drives `aria-label`.
 - Plural forms, gendered phrasing, and conditional copy are the
   consumer's concern. Helpers do not embed `count !== 1 ? "items"
-  : "item"` logic; they accept the rendered string.
+: "item"` logic; they accept the rendered string.
 - Right-to-left and bidirectional text are inherited from the
   consumer's `dir` attribute and CSS — helpers do not assume LTR
   layout in their structural HTML. The `locale-chooser` helper goes
@@ -58,7 +58,7 @@ needs no extra wiring.
 ```svelte
 <script lang="ts">
     import { locale } from "svelte-i18n";
-    import { LocaleChooser } from "lily-design-system-svelte-locale-chooser";
+    import { LocaleChooser } from "lily-design-system-svelte-locale-picker";
 
     let code = $state($locale ?? "en");
 
@@ -80,7 +80,7 @@ Paraglide example:
 ```svelte
 <script lang="ts">
     import { setLocale } from "$lib/paraglide/runtime";
-    import { LocaleChooser } from "lily-design-system-svelte-locale-chooser";
+    import { LocaleChooser } from "lily-design-system-svelte-locale-picker";
 
     let code = $state("en");
 </script>
@@ -124,7 +124,7 @@ see the parent [`ssr.md`](../ssr.md) for the SvelteKit recipe.
 
 ```ts
 const { container } = render(LocaleChooser, {
-    props: { label: "Langue", locales: ["en", "fr"] },
+  props: { label: "Langue", locales: ["en", "fr"] },
 });
 const fieldset = container.querySelector("fieldset");
 expect(fieldset!.getAttribute("aria-label")).toBe("Langue");

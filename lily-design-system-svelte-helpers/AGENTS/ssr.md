@@ -25,7 +25,7 @@ recipes for pre-resolving server state.
 SvelteKit's `event.cookies` + `hooks.server.ts` is the canonical
 recipe for both selects. The end-to-end working example for the
 theme select lives under
-[`lily-design-system-svelte-theme-chooser/examples/sveltekit-cookie/`](../lily-design-system-svelte-theme-chooser/examples/sveltekit-cookie/).
+[`lily-design-system-svelte-theme-picker/examples/sveltekit-cookie/`](../lily-design-system-svelte-theme-picker/examples/sveltekit-cookie/).
 
 ### `hooks.server.ts`
 
@@ -33,17 +33,17 @@ theme select lives under
 import type { Handle } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
-    const theme = event.cookies.get("theme") ?? "light";
-    const locale = event.cookies.get("locale") ?? "en";
-    event.locals.theme = theme;
-    event.locals.locale = locale;
-    return resolve(event, {
-        transformPageChunk: ({ html }) =>
-            html
-                .replace("%lily.theme%", theme)
-                .replace("%lily.lang%", locale)
-                .replace("%lily.dir%", /^(ar|he|fa|ur)/.test(locale) ? "rtl" : "ltr"),
-    });
+  const theme = event.cookies.get("theme") ?? "light";
+  const locale = event.cookies.get("locale") ?? "en";
+  event.locals.theme = theme;
+  event.locals.locale = locale;
+  return resolve(event, {
+    transformPageChunk: ({ html }) =>
+      html
+        .replace("%lily.theme%", theme)
+        .replace("%lily.lang%", locale)
+        .replace("%lily.dir%", /^(ar|he|fa|ur)/.test(locale) ? "rtl" : "ltr"),
+  });
 };
 ```
 
@@ -52,14 +52,14 @@ export const handle: Handle = async ({ event, resolve }) => {
 ```html
 <!doctype html>
 <html lang="%lily.lang%" dir="%lily.dir%" data-theme="%lily.theme%">
-    <head>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" href="/assets/themes/%lily.theme%.css" />
-        %sveltekit.head%
-    </head>
-    <body data-sveltekit-preload-data="hover">
-        <div style="display: contents">%sveltekit.body%</div>
-    </body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/assets/themes/%lily.theme%.css" />
+    %sveltekit.head%
+  </head>
+  <body data-sveltekit-preload-data="hover">
+    <div style="display: contents">%sveltekit.body%</div>
+  </body>
 </html>
 ```
 
@@ -74,8 +74,8 @@ anything visible.
 import type { LayoutServerLoad } from "./$types";
 
 export const load: LayoutServerLoad = ({ locals }) => ({
-    theme: locals.theme,
-    locale: locals.locale,
+  theme: locals.theme,
+  locale: locals.locale,
 });
 ```
 
@@ -83,8 +83,8 @@ export const load: LayoutServerLoad = ({ locals }) => ({
 
 ```svelte
 <script lang="ts">
-    import { ThemeChooser } from "lily-design-system-svelte-theme-chooser";
-    import { LocaleChooser } from "lily-design-system-svelte-locale-chooser";
+    import { ThemeChooser } from "lily-design-system-svelte-theme-picker";
+    import { LocaleChooser } from "lily-design-system-svelte-locale-picker";
 
     let { data, children } = $props();
     let theme = $state(data.theme);
@@ -127,17 +127,17 @@ the server controls the `Set-Cookie` header. The pattern:
 import type { Actions } from "./$types";
 
 export const actions: Actions = {
-    theme: async ({ request, cookies }) => {
-        const data = await request.formData();
-        const theme = String(data.get("theme") ?? "light");
-        cookies.set("theme", theme, {
-            path: "/",
-            httpOnly: false,
-            sameSite: "lax",
-            maxAge: 60 * 60 * 24 * 365,
-        });
-        return { success: true };
-    },
+  theme: async ({ request, cookies }) => {
+    const data = await request.formData();
+    const theme = String(data.get("theme") ?? "light");
+    cookies.set("theme", theme, {
+      path: "/",
+      httpOnly: false,
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24 * 365,
+    });
+    return { success: true };
+  },
 };
 ```
 
@@ -152,12 +152,12 @@ import { render } from "svelte/server";
 import ThemeChooser from "./ThemeChooser.svelte";
 
 const { html } = render(ThemeChooser, {
-    props: {
-        label: "Theme",
-        themesUrl: "/themes/",
-        themes: ["light", "dark"],
-        value: "light",
-    },
+  props: {
+    label: "Theme",
+    themesUrl: "/themes/",
+    themes: ["light", "dark"],
+    value: "light",
+  },
 });
 ```
 

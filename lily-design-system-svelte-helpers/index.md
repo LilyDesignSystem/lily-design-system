@@ -8,12 +8,12 @@ DOM application) for one small, common job.
 
 ## Catalog
 
-| Helper                                                                                  | Purpose                                                        |
-| --------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`lily-design-system-svelte-theme-chooser`](./lily-design-system-svelte-theme-chooser/)   | Pick a visual theme; dynamic CSS load + `data-theme` swap.     |
-| [`lily-design-system-svelte-locale-chooser`](./lily-design-system-svelte-locale-chooser/) | Pick a BCP 47 locale; sets `lang` + `dir` on the document root. |
-| [`lily-design-system-svelte-text-size-chooser`](./lily-design-system-svelte-text-size-chooser/) | Pick a text size; sets `data-text-size` on the document root. |
-| [`lily-design-system-svelte-share-chooser`](./lily-design-system-svelte-share-chooser/) | Share the page: native share sheet where available, else a list of consumer-supplied destinations plus copy-the-URL. |
+| Helper                                                                                        | Purpose                                                                                                              |
+| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| [`lily-design-system-svelte-theme-picker`](./lily-design-system-svelte-theme-picker/)         | Pick a visual theme; dynamic CSS load + `data-theme` swap.                                                           |
+| [`lily-design-system-svelte-locale-picker`](./lily-design-system-svelte-locale-picker/)       | Pick a BCP 47 locale; sets `lang` + `dir` on the document root.                                                      |
+| [`lily-design-system-svelte-text-size-picker`](./lily-design-system-svelte-text-size-picker/) | Pick a text size; sets `data-text-size` on the document root.                                                        |
+| [`lily-design-system-svelte-share-picker`](./lily-design-system-svelte-share-picker/)         | Share the page: native share sheet where available, else a list of consumer-supplied destinations plus copy-the-URL. |
 
 ## Conventions
 

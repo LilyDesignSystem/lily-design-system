@@ -8,10 +8,10 @@ follows the file shape in [index.md § Conventions](./index.md#conventions).
 
 ## Helpers currently in the catalog
 
-- [`lily-design-system-svelte-theme-chooser`](./lily-design-system-svelte-theme-chooser/) — dynamic theme CSS loader.
-- [`lily-design-system-svelte-locale-chooser`](./lily-design-system-svelte-locale-chooser/) — `lang` + `dir` locale chooser.
-- [`lily-design-system-svelte-text-size-chooser`](./lily-design-system-svelte-text-size-chooser/) — `data-text-size` text-size chooser.
-- [`lily-design-system-svelte-share-chooser`](./lily-design-system-svelte-share-chooser/) — share via the native sheet or a list of consumer-supplied destinations, plus copy-the-URL. Owns an *action*, not a preference: applies nothing, persists nothing.
+- [`lily-design-system-svelte-theme-picker`](./lily-design-system-svelte-theme-picker/) — dynamic theme CSS loader.
+- [`lily-design-system-svelte-locale-picker`](./lily-design-system-svelte-locale-picker/) — `lang` + `dir` locale chooser.
+- [`lily-design-system-svelte-text-size-picker`](./lily-design-system-svelte-text-size-picker/) — `data-text-size` text-size chooser.
+- [`lily-design-system-svelte-share-picker`](./lily-design-system-svelte-share-picker/) — share via the native sheet or a list of consumer-supplied destinations, plus copy-the-URL. Owns an _action_, not a preference: applies nothing, persists nothing.
 
 ## Working rules
 

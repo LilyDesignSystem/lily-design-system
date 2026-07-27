@@ -13,12 +13,12 @@ and the project follows
 
 - **All four helpers renamed to `*-chooser`**, each reset to `0.1.0`:
 
-  | Was | Now |
-  | --- | --- |
-  | `lily-design-system-svelte-theme-select` | `lily-design-system-svelte-theme-chooser` |
-  | `lily-design-system-svelte-locale-select` | `lily-design-system-svelte-locale-chooser` |
-  | `lily-design-system-svelte-text-size-select` | `lily-design-system-svelte-text-size-chooser` |
-  | `lily-design-system-svelte-share-button` | `lily-design-system-svelte-share-chooser` |
+  | Was                                          | Now                                          |
+  | -------------------------------------------- | -------------------------------------------- |
+  | `lily-design-system-svelte-theme-select`     | `lily-design-system-svelte-theme-picker`     |
+  | `lily-design-system-svelte-locale-select`    | `lily-design-system-svelte-locale-picker`    |
+  | `lily-design-system-svelte-text-size-select` | `lily-design-system-svelte-text-size-picker` |
+  | `lily-design-system-svelte-share-button`     | `lily-design-system-svelte-share-picker`     |
 
   A full-depth rename: directories, component and test file names,
   package names, exported symbols (`ThemeChooser`, `nextThemeChooserId`,
@@ -44,8 +44,8 @@ and the project follows
 
 ### Added
 
-- **`lily-design-system-svelte-share-chooser` 0.1.0** — a new helper, and
-  the first that owns an *action* rather than a user preference: it
+- **`lily-design-system-svelte-share-picker` 0.1.0** — a new helper, and
+  the first that owns an _action_ rather than a user preference: it
   applies nothing to the document and persists nothing. A single-glyph
   button (➤, U+27A4) opens the native share sheet where the browser has
   one, and otherwise a disclosure list of consumer-supplied destinations
@@ -59,7 +59,7 @@ and the project follows
   `theme-chooser` and `locale-chooser`. It was the last native `<select>`
   among the helpers. Button glyph is `"A"` (U+0041): the obvious
   candidate U+1F5DB has no real glyph in common font stacks and falls
-  back to a crude bitmap shape, and means *decrease* rather than *size*.
+  back to a crude bitmap shape, and means _decrease_ rather than _size_.
 - `sizeName` is exported to mirror `themeName` / `localeName`, and
   `labelFor` delegates to it. No detection prop was added — there is no
   OS "preferred text size" equivalent to `prefers-color-scheme`.
@@ -68,7 +68,7 @@ and the project follows
 
 - `CSS.escape` in all three `*-select` helpers threw inside the keydown
   handler under jsdom, which has no `CSS` object at all. The throw landed
-  *after* `activeIndex` was assigned, so the suites stayed green while
+  _after_ `activeIndex` was assigned, so the suites stayed green while
   that path never ran. Replaced with `document.getElementById`, which
   needs no escaping for these generated ids.
 
@@ -77,7 +77,7 @@ and the project follows
 ### Changed (BREAKING)
 
 - `theme-chooser` and `locale-chooser` bumped to **0.3.0**: both are now
-  *placeholder-pinned*. The closed `<select>` always displays a short
+  _placeholder-pinned_. The closed `<select>` always displays a short
   placeholder word ("Theme", "Locale") instead of the active value, so
   the control is only ever as wide as that word rather than as wide as
   the longest option. Each renders a leading placeholder `<option>` with
@@ -128,11 +128,11 @@ disagree, the Svelte side wins and the others are patched.
 
 ### Added
 
-- `lily-design-system-svelte-theme-chooser` v0.1.0 — runtime-loading
+- `lily-design-system-svelte-theme-picker` v0.1.0 — runtime-loading
   theme select with `data-theme` swap, managed `<link>`-based
   stylesheet injection, `localStorage` persistence, and a `children`
   snippet for custom rendering. 13 acceptance criteria covered.
-- `lily-design-system-svelte-locale-chooser` v0.1.0 — BCP 47 locale
+- `lily-design-system-svelte-locale-picker` v0.1.0 — BCP 47 locale
   select that writes `lang` and `dir` on the document root, with
   optional `localStorage` persistence and `navigator.languages`
   detection. Built-in 436-row locale-name table, RTL detection set,
@@ -184,16 +184,16 @@ mechanical.
 
 ### Differences carried into the ports
 
-| Concept                 | Svelte canonical                       | Vue / React / Angular port                                  |
-| ----------------------- | -------------------------------------- | ----------------------------------------------------------- |
-| Two-way binding         | `bind:value`                           | `v-model:value` / `value`+`onChange` / `[(value)]`          |
-| Reactive state          | `$state`, `$bindable`                  | `ref` / `useState` / signal                                 |
-| Reactive side-effects   | `$effect`                              | `watch`+`onMounted` / `useEffect` / `effect()`              |
-| Render props / slots    | Snippet (`{#snippet children(...)}`)   | Scoped slot / render prop / `*ngTemplateOutlet`             |
-| Stylesheet head         | `<svelte:head>` or imperative          | `<Teleport to="head">` / portal / `Head` component          |
+| Concept                 | Svelte canonical                         | Vue / React / Angular port                                 |
+| ----------------------- | ---------------------------------------- | ---------------------------------------------------------- |
+| Two-way binding         | `bind:value`                             | `v-model:value` / `value`+`onChange` / `[(value)]`         |
+| Reactive state          | `$state`, `$bindable`                    | `ref` / `useState` / signal                                |
+| Reactive side-effects   | `$effect`                                | `watch`+`onMounted` / `useEffect` / `effect()`             |
+| Render props / slots    | Snippet (`{#snippet children(...)}`)     | Scoped slot / render prop / `*ngTemplateOutlet`            |
+| Stylesheet head         | `<svelte:head>` or imperative            | `<Teleport to="head">` / portal / `Head` component         |
 | Cookie / SSR            | `hooks.server.ts` + `transformPageChunk` | Nuxt server middleware / Next.js middleware / Analog hooks |
-| Storybook integration   | `*.stories.svelte`                     | `*.stories.ts`                                              |
-| File ext for components | `.svelte`                              | `.vue` / `.tsx` / `.component.ts`                           |
+| Storybook integration   | `*.stories.svelte`                       | `*.stories.ts`                                             |
+| File ext for components | `.svelte`                                | `.vue` / `.tsx` / `.component.ts`                          |
 
 The DOM contract and behaviour are otherwise identical; the tests
 match clause-for-clause across all seven framework catalogs.

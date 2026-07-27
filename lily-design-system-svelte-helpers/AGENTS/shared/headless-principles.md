@@ -76,7 +76,7 @@ decision.
 - `data-*` attributes are used for state that the consumer's CSS or
   JS may want to observe — e.g. `data-visible`, `data-active`,
   `data-step-index`, `data-currency-code`, `data-width`,
-  `data-remaining-seconds`, `data-theme`, `data-lily-theme-chooser`.
+  `data-remaining-seconds`, `data-theme`, `data-lily-theme-picker`.
   Use `data-*` rather than inventing new ARIA attributes when a
   state is for the consumer, not assistive technology.
 
