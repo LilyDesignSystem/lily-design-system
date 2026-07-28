@@ -1,0 +1,89 @@
+<!doctype html>
+<!--
+    Example 5 — Driving the control from your own UI.
+
+    Sometimes you want bigger, more discoverable affordances than a
+    dropdown — an A- / A+ preset row on a settings page, say. Every
+    observed attribute mirrors a JS property, so your own buttons can
+    drive the exact same lifecycle the listbox does just by writing
+    `el.value`:
+
+        picker.value = "large"   // triggers apply: sets data-text-size,
+                                  // writes storage-key, fires
+                                  // textsizechange — same as choosing
+                                  // "Large" from the listbox.
+
+    `sizeName` is exported for exactly this reason: your own UI can
+    render labels that match the listbox without duplicating the
+    title-casing rule.
+
+    Note the `aria-pressed` on each preset button — these are toggles,
+    and the state must be readable by assistive technology, not just
+    visible as a highlight (WCAG 1.4.1: no colour-only meaning).
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>text-size-picker — external buttons</title>
+    <script type="module" src="/dist/text-size-picker.js"></script>
+    <style>
+        [role="group"] button[aria-pressed="true"] {
+            font-weight: bold;
+            outline: 2px solid currentColor;
+        }
+    </style>
+</head>
+<body>
+    <h1>Text size picker — external buttons</h1>
+
+    <text-size-picker
+        id="picker"
+        label="Text size"
+        sizes="small,medium,large,x-large"
+        storage-key="lily-text-size"
+    ></text-size-picker>
+
+    <div role="group" aria-label="Text size presets" id="presets"></div>
+
+    <p class="text-size-picker-status" aria-live="polite">Text size: Medium</p>
+
+    <script type="module">
+        import { sizeName } from "/dist/text-size-picker.js";
+
+        await customElements.whenDefined("text-size-picker");
+
+        const picker = document.querySelector("#picker");
+        const presets = document.querySelector("#presets");
+        const status = document.querySelector(".text-size-picker-status");
+
+        for (const slug of picker.sizes) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.textContent = sizeName(slug);
+            button.dataset.slug = slug;
+            button.setAttribute("aria-pressed", String(slug === picker.value));
+            button.addEventListener("click", () => {
+                // Write from outside via the JS property — the picker
+                // applies the size exactly as if the option had been
+                // chosen from its own listbox.
+                picker.value = slug;
+            });
+            presets.appendChild(button);
+        }
+
+        // Read every change via the CustomEvent, and keep the preset
+        // row's aria-pressed states and the status line in sync,
+        // regardless of whether the change came from a preset button
+        // or from the listbox itself.
+        picker.addEventListener("textsizechange", (e) => {
+            status.textContent = `Text size: ${picker.labelFor(e.detail.size)}`;
+            for (const button of presets.children) {
+                button.setAttribute(
+                    "aria-pressed",
+                    String(button.dataset.slug === e.detail.size),
+                );
+            }
+        });
+    </script>
+</body>
+</html>

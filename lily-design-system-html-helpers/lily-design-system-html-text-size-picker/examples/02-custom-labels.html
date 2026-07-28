@@ -1,0 +1,49 @@
+<!doctype html>
+<!--
+    Example 2 — Custom labels.
+
+    Default labels title-case the slug ("x-large" → "X Large"). Pass
+    `size-labels` (JSON-encoded object) to override per-slug — useful
+    for i18n, or for slugs that don't gracefully title-case.
+
+    The JS property `el.sizeLabels` accepts a native object; use
+    whichever form fits.
+
+    `label` matters most here: the button is icon-only and the glyph is
+    `aria-hidden`, so `label` is the control's ENTIRE accessible name.
+    An untranslated `label` leaves the control announced in the wrong
+    language; an empty one leaves it announced as just "button".
+-->
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>text-size-picker — étiquettes personnalisées</title>
+    <script type="module" src="/dist/text-size-picker.js"></script>
+</head>
+<body>
+    <h1>Taille du texte — étiquettes personnalisées</h1>
+
+    <text-size-picker
+        label="Taille du texte"
+        sizes="small,medium,large,x-large"
+        size-labels='{"small":"Petit","medium":"Moyen","large":"Grand","x-large":"Très grand"}'
+    ></text-size-picker>
+
+    <p class="text-size-picker-status" aria-live="polite">Taille du texte : Moyen</p>
+
+    <p>Ou définissez les étiquettes via la propriété JS :</p>
+    <script type="module">
+        await customElements.whenDefined("text-size-picker");
+
+        const picker = document.querySelector("text-size-picker");
+        const status = document.querySelector(".text-size-picker-status");
+
+        // Equivalent assignment (overwrites the attribute):
+        // picker.sizeLabels = { small: "Petit", medium: "Moyen", large: "Grand", "x-large": "Très grand" };
+
+        picker.addEventListener("textsizechange", (e) => {
+            status.textContent = `Taille du texte : ${picker.labelFor(e.detail.size)}`;
+        });
+    </script>
+</body>
+</html>

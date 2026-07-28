@@ -1,0 +1,48 @@
+<!doctype html>
+<!--
+    Example 4 — localStorage persistence.
+
+    Pass `storage-key` to make the picker remember the user's choice
+    across reloads. On a fresh mount the picker reads the stored slug
+    and re-applies it before the user interacts. The resolution order
+    is:
+
+        value attribute > localStorage[storage-key] > default-value
+            > "medium" (if present in sizes) > sizes[0]
+
+    so a returning visitor's stored choice always wins over
+    `default-value`. Quota / private-mode errors are silently
+    swallowed.
+
+    Note what is deliberately absent: there is no `detect-from-system`
+    attribute here, unlike theme-picker and locale-picker. Browsers
+    expose no "preferred text size" signal — there is no media query
+    equivalent to `prefers-color-scheme`, and no `navigator.languages`
+    analogue — so this helper has no detection step (see spec §2).
+    Users who scale text at the OS level are already served by browser
+    zoom and the browser's own minimum-font-size setting, which this
+    helper must not fight.
+
+    To clear the stored choice from the console:
+        localStorage.removeItem("lily-text-size")
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>text-size-picker — persistence</title>
+    <script type="module" src="/dist/text-size-picker.js"></script>
+</head>
+<body>
+    <h1>Text size picker — persistence</h1>
+
+    <text-size-picker
+        label="Text size"
+        sizes="small,medium,large,x-large,xx-large"
+        storage-key="lily-text-size"
+        default-value="medium"
+    ></text-size-picker>
+
+    <p>Try selecting a size, reloading the page, and observing that
+       your choice is restored.</p>
+</body>
+</html>

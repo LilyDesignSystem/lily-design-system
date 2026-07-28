@@ -1,0 +1,68 @@
+<!doctype html>
+<!--
+    Example 3 — Multiple pickers in one page.
+
+    Each control gets a distinct `name`. The `name` plays one role
+    here: it is the hidden <input>'s `name`, so the two controls submit
+    as distinct form fields and don't share state.
+
+    Option and list ids are unique per instance automatically — they
+    come from a module-level counter (nextTextSizePickerId()), so two
+    controls on one page never collide on aria-controls or
+    aria-activedescendant.
+
+    Setting `target` on each instance scopes `data-text-size` to that
+    element instead of <html>, so the two regions resize independently.
+    Without it, whichever picker fires last would win the shared
+    document.documentElement attribute.
+
+    This is useful for: a "reading pane" size independent of the rest
+    of the chrome, or a settings page that lets a user compare two
+    sizes side-by-side before committing to one globally.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>text-size-picker — multiple</title>
+    <script type="module" src="/dist/text-size-picker.js"></script>
+    <style>
+        [data-text-size="small"] { font-size: 87.5%; }
+        [data-text-size="medium"] { font-size: 100%; }
+        [data-text-size="large"] { font-size: 125%; }
+        [data-text-size="x-large"] { font-size: 150%; }
+    </style>
+</head>
+<body>
+    <h1>Multiple pickers</h1>
+
+    <section id="region-a" data-region="a">
+        <h2>Sidebar</h2>
+        <text-size-picker
+            label="Sidebar text size"
+            name="sidebar-text-size"
+            sizes="small,medium,large"
+        ></text-size-picker>
+        <p>Sidebar body copy scales with the picker above, and only
+           this section.</p>
+    </section>
+
+    <section id="region-b" data-region="b">
+        <h2>Article</h2>
+        <text-size-picker
+            label="Article text size"
+            name="article-text-size"
+            sizes="medium,large,x-large"
+        ></text-size-picker>
+        <p>Article body copy scales independently, driven by its own
+           picker and its own `target`.</p>
+    </section>
+
+    <script type="module">
+        await customElements.whenDefined("text-size-picker");
+        const a = document.querySelector("#region-a");
+        const b = document.querySelector("#region-b");
+        a.querySelector("text-size-picker").target = a;
+        b.querySelector("text-size-picker").target = b;
+    </script>
+</body>
+</html>

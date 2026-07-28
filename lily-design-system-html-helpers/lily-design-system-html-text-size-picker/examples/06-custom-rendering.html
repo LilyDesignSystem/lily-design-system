@@ -1,0 +1,209 @@
+<!doctype html>
+<!--
+    Example 6 — Custom rendering via renderButtonContent().
+
+    The HTML helpers don't have Vue scoped slots or Svelte snippets:
+    <slot> is a Shadow DOM mechanism and these helpers commit to light
+    DOM. The equivalent of the other frameworks' `children` is a public,
+    overridable method — renderButtonContent(). Whatever Node it returns
+    is placed inside the button, replacing the default
+    <span class="text-size-picker-icon"> "A" glyph.
+
+    Inside the hook you have the same information the other frameworks
+    pass as ChildArgs:
+
+      this.value          → ChildArgs.value
+      this.open            → ChildArgs.open
+      this.labelFor(slug)  → ChildArgs.labelFor
+
+    The base class still builds the button and the listbox, so every
+    aria attribute and the entire keyboard contract keep working. This
+    is the recommended customisation path — the only one that cannot
+    break accessibility.
+
+    Two subclasses below:
+
+      <svg-text-size-picker>   replaces the default "A" glyph with an
+                               inline SVG. The default glyph is a font
+                               character, so it inherits the page's
+                               typeface and — being a text-size control —
+                               scales with the very setting it adjusts;
+                               an SVG sized in pixels stays put. See
+                               docs/accessibility.md tradeoff 3.
+
+      <text-text-size-picker>  renders the glyph AND the active size's
+                               name, which also fixes the icon-only
+                               control's WCAG 2.5.3 Label in Name
+                               failure.
+
+    Note that <text-text-size-picker> needs no change listener. A
+    `value` change syncs state in place rather than rebuilding the
+    whole tree (so that changing the size while the list is open
+    doesn't destroy focus), but the button's content is re-rendered as
+    part of that sync — so renderButtonContent() output that reads
+    this.value or this.open stays current on its own, exactly like the
+    reactive `children` snippet in the Svelte / React / Vue helpers.
+    Just return a fresh Node each call; never cache one.
+
+    Keep `label` set on every subclass. renderButtonContent() changes
+    what is DRAWN; the accessible name still comes from the button's
+    aria-label alone.
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>text-size-picker — custom button rendering</title>
+        <script type="module" src="/dist/text-size-picker.js"></script>
+        <style>
+            /* Shared dropdown positioning. The package ships no CSS, so
+           without this the list renders in flow. */
+            .text-size-picker {
+                position: relative;
+                display: inline-block;
+            }
+
+            .text-size-picker-button {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                padding: 0.35rem 0.6rem;
+                border: 1px solid currentColor;
+                border-radius: 0.25rem;
+                background: transparent;
+                color: inherit;
+                cursor: pointer;
+                line-height: 1;
+            }
+
+            .text-size-picker-button:focus-visible,
+            .text-size-picker-list:focus-visible {
+                outline: 2px solid currentColor;
+                outline-offset: 2px;
+            }
+
+            .text-size-picker-list {
+                position: absolute;
+                inset-block-start: calc(100% + 0.25rem);
+                inset-inline-start: 0;
+                z-index: 10;
+                min-inline-size: 8rem;
+                margin: 0;
+                padding: 0.25rem 0;
+                list-style: none;
+                border: 1px solid currentColor;
+                border-radius: 0.25rem;
+                background: Canvas;
+            }
+
+            /* Re-assert the UA rule that the class selector above beats. */
+            .text-size-picker-list[hidden] {
+                display: none;
+            }
+
+            .text-size-picker-option {
+                padding: 0.35rem 0.75rem;
+                cursor: pointer;
+            }
+
+            .text-size-picker-option[data-active] {
+                background: Highlight;
+                color: HighlightText;
+            }
+
+            .text-size-picker-option[aria-selected="true"]::after {
+                content: " ✓";
+            }
+
+            /* Rotate the caret on the text variant when the list opens.
+           Drive this from aria-expanded, which the base class keeps in
+           sync, rather than from this.open at render time. */
+            .text-size-picker-button[aria-expanded="true"] .text-size-picker-caret {
+                transform: rotate(180deg);
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Text size picker — custom button rendering</h1>
+
+        <h2>Inline SVG icon</h2>
+        <svg-text-size-picker
+            label="Text size"
+            sizes="small,medium,large,x-large"
+        ></svg-text-size-picker>
+
+        <h2>Glyph plus visible size name</h2>
+        <text-text-size-picker
+            label="Text size"
+            sizes="small,medium,large,x-large"
+            name="text-text-size"
+        ></text-text-size-picker>
+
+        <script type="module">
+            import { TextSizePicker } from "/dist/text-size-picker.js";
+
+            // ---- Tier 1a: swap the glyph for an inline SVG ----
+
+            class SvgTextSizePicker extends TextSizePicker {
+                renderButtonContent() {
+                    const ns = "http://www.w3.org/2000/svg";
+                    const svg = document.createElementNS(ns, "svg");
+                    svg.setAttribute("class", "text-size-picker-icon");
+                    // Keep it out of the accessible name and the tab order;
+                    // the button's aria-label is the name.
+                    svg.setAttribute("aria-hidden", "true");
+                    svg.setAttribute("focusable", "false");
+                    svg.setAttribute("viewBox", "0 0 24 24");
+                    svg.setAttribute("width", "18");
+                    svg.setAttribute("height", "18");
+
+                    // A capital "A" glyph rendered as strokes, matching
+                    // the default character but immune to font metrics.
+                    const path = document.createElementNS(ns, "path");
+                    path.setAttribute(
+                        "d",
+                        "M4 20 L10 4 L16 20 M6.5 14 H13.5",
+                    );
+                    path.setAttribute("fill", "none");
+                    path.setAttribute("stroke", "currentColor");
+                    path.setAttribute("stroke-width", "2");
+                    svg.appendChild(path);
+
+                    return svg;
+                }
+            }
+
+            customElements.define("svg-text-size-picker", SvgTextSizePicker);
+
+            // ---- Tier 1b: glyph plus the active size's name ----
+
+            class TextTextSizePicker extends TextSizePicker {
+                renderButtonContent() {
+                    const fragment = document.createDocumentFragment();
+
+                    const icon = document.createElement("span");
+                    icon.className = "text-size-picker-icon";
+                    icon.setAttribute("aria-hidden", "true");
+                    icon.textContent = "A";
+                    fragment.appendChild(icon);
+
+                    // Visible text that matches the accessible name pattern,
+                    // so speech-input users have a word to say (WCAG 2.5.3).
+                    const text = document.createElement("span");
+                    text.className = "text-size-picker-button-text";
+                    text.textContent = this.labelFor(this.value);
+                    fragment.appendChild(text);
+
+                    const caret = document.createElement("span");
+                    caret.className = "text-size-picker-caret";
+                    caret.setAttribute("aria-hidden", "true");
+                    caret.textContent = "▾";
+                    fragment.appendChild(caret);
+
+                    return fragment;
+                }
+            }
+
+            customElements.define("text-text-size-picker", TextTextSizePicker);
+        </script>
+    </body>
+</html>

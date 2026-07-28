@@ -2102,7 +2102,8 @@
         .theme-picker-icon,
         .locale-picker-icon,
         .text-size-picker-icon,
-        .share-picker-icon
+        .share-picker-icon,
+        .date-time-picker-icon
     ) {
         display: inline-flex;
         align-items: center;
@@ -2132,6 +2133,21 @@
        0.633 and took 1.331.) */
     :where(.share-picker-icon) {
         --lily-picker-icon-scale: 1.268;
+    }
+
+    /* U+1F4C5 calendar takes the SAME correction as U+1F310 globe, and
+       that is an identity rather than a coincidence: a colour-emoji font
+       paints every one of its glyphs into one identical em square. On the
+       reference stack, globe, calendar, rocket and heart all measure an
+       ink box of 1.015 x 1.015 with an advance of 1.000 — indistinguishable.
+       So any emoji helper icon carries the globe's factor, and any new one
+       should too, without re-measuring.
+
+       (Measuring also confirms the U+FE0E text-presentation selector is
+       ignored here: the bare and VS-15 forms are metrically identical. It
+       stays in the source as a hint to the platforms that do honour it.) */
+    :where(.date-time-picker-icon) {
+        --lily-picker-icon-scale: 0.845;
     }
 
     /* The share list holds real links and a button rather than options,
